@@ -123,6 +123,49 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6A8EA9422759081A00BF97A7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				6AF825782758F3D50025FB0B /* ImagePicker.swift */,
+				6AF8257A2758F3D50025FB0B /* NotificationManager.swift */,
+				6AF825792758F3D50025FB0B /* Rational.swift */,
+				6AF8255D2758F3A70025FB0B /* RecipeTags.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		6A8EA9432759084A00BF97A7 /* CoreDataFiles */ = {
+			isa = PBXGroup;
+			children = (
+				6AF825482758F3730025FB0B /* Component+CoreDataClass.swift */,
+				6AF825422758F3730025FB0B /* Component+CoreDataProperties.swift */,
+				6AF825492758F3730025FB0B /* Ingredient+CoreDataClass.swift */,
+				6AF825472758F3730025FB0B /* Ingredient+CoreDataProperties.swift */,
+				6AF825462758F3730025FB0B /* Instruction+CoreDataClass.swift */,
+				6AF825412758F3730025FB0B /* Instruction+CoreDataProperties.swift */,
+				6AF825442758F3730025FB0B /* Item+CoreDataClass.swift */,
+				6AF8254A2758F3730025FB0B /* Item+CoreDataProperties.swift */,
+				6AF825432758F3730025FB0B /* Recipe+CoreDataClass.swift */,
+				6AF825452758F3730025FB0B /* Recipe+CoreDataProperties.swift */,
+			);
+			path = CoreDataFiles;
+			sourceTree = "<group>";
+		};
+		6A8EA9442759086B00BF97A7 /* DataFiles */ = {
+			isa = PBXGroup;
+			children = (
+				6AF825822758F4220025FB0B /* DataService.swift */,
+				6AF825842758F4220025FB0B /* GlobalVariables.swift */,
+				6AF825882758F4230025FB0B /* Persistence.swift */,
+				6AF825852758F4220025FB0B /* RecipeFB.swift */,
+				6AF825892758F4230025FB0B /* RecipeFBModel.swift */,
+				6AF825832758F4220025FB0B /* RecipeModel.swift */,
+				6AF825872758F4230025FB0B /* Recipes_empty.json */,
+				6AF825862758F4220025FB0B /* Recipes.json */,
+			);
+			path = DataFiles;
+			sourceTree = "<group>";
+		};
 		6AF825222758F3480025FB0B = {
 			isa = PBXGroup;
 			children = (
@@ -144,49 +187,15 @@
 		6AF8252D2758F3480025FB0B /* BackPlaner */ = {
 			isa = PBXGroup;
 			children = (
-				6AF825952758F61C0025FB0B /* GoogleService-Info.plist */,
-				6AF825822758F4220025FB0B /* DataService.swift */,
-				6AF825842758F4220025FB0B /* GlobalVariables.swift */,
-				6AF825882758F4230025FB0B /* Persistence.swift */,
-				6AF825852758F4220025FB0B /* RecipeFB.swift */,
-				6AF825892758F4230025FB0B /* RecipeFBModel.swift */,
-				6AF825832758F4220025FB0B /* RecipeModel.swift */,
-				6AF825872758F4230025FB0B /* Recipes_empty.json */,
-				6AF825862758F4220025FB0B /* Recipes.json */,
-				6AF8257E2758F3E40025FB0B /* BackPlaner2.xcdatamodeld */,
-				6AF825782758F3D50025FB0B /* ImagePicker.swift */,
-				6AF8257A2758F3D50025FB0B /* NotificationManager.swift */,
-				6AF825792758F3D50025FB0B /* Rational.swift */,
-				6AF825762758F3CC0025FB0B /* changeDurationsView.swift */,
-				6AF8256D2758F3C20025FB0B /* AddCommentsView.swift */,
-				6AF8256B2758F3C10025FB0B /* AddComponentData.swift */,
-				6AF8256A2758F3C10025FB0B /* AddIngredientData.swift */,
-				6AF825692758F3C10025FB0B /* AddInstructionData.swift */,
-				6AF8256C2758F3C10025FB0B /* AddListData.swift */,
-				6AF8256E2758F3C20025FB0B /* AddMetaData.swift */,
-				6AF825682758F3C10025FB0B /* AddRecipeView.swift */,
-				6AF825652758F3B70025FB0B /* InstructionsFBListView.swift */,
-				6AF825642758F3B70025FB0B /* InstructionsFBView.swift */,
-				6AF825612758F3AF0025FB0B /* RecipeFBListView.swift */,
-				6AF825602758F3AF0025FB0B /* SearchBarView.swift */,
-				6AF8255C2758F3A70025FB0B /* RecipeFBFeaturedView.swift */,
-				6AF8255D2758F3A70025FB0B /* RecipeTags.swift */,
 				6AF825562758F39A0025FB0B /* ContentView.swift */,
-				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
-				6AF825582758F39A0025FB0B /* TabsView.swift */,
+				6AF825952758F61C0025FB0B /* GoogleService-Info.plist */,
+				6AF8257E2758F3E40025FB0B /* BackPlaner2.xcdatamodeld */,
 				6AF825552758F3850025FB0B /* Views */,
-				6AF825482758F3730025FB0B /* Component+CoreDataClass.swift */,
-				6AF825422758F3730025FB0B /* Component+CoreDataProperties.swift */,
-				6AF825492758F3730025FB0B /* Ingredient+CoreDataClass.swift */,
-				6AF825472758F3730025FB0B /* Ingredient+CoreDataProperties.swift */,
-				6AF825462758F3730025FB0B /* Instruction+CoreDataClass.swift */,
-				6AF825412758F3730025FB0B /* Instruction+CoreDataProperties.swift */,
-				6AF825442758F3730025FB0B /* Item+CoreDataClass.swift */,
-				6AF8254A2758F3730025FB0B /* Item+CoreDataProperties.swift */,
-				6AF825432758F3730025FB0B /* Recipe+CoreDataClass.swift */,
-				6AF825452758F3730025FB0B /* Recipe+CoreDataProperties.swift */,
 				6AF8252E2758F3480025FB0B /* BackPlanerApp.swift */,
 				6AF825322758F3490025FB0B /* Assets.xcassets */,
+				6A8EA9422759081A00BF97A7 /* Utilities */,
+				6A8EA9442759086B00BF97A7 /* DataFiles */,
+				6A8EA9432759084A00BF97A7 /* CoreDataFiles */,
 				6AF825342758F3490025FB0B /* Preview Content */,
 			);
 			path = BackPlaner;
@@ -203,6 +212,21 @@
 		6AF825552758F3850025FB0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6AF825762758F3CC0025FB0B /* changeDurationsView.swift */,
+				6AF8256D2758F3C20025FB0B /* AddCommentsView.swift */,
+				6AF8256B2758F3C10025FB0B /* AddComponentData.swift */,
+				6AF8256A2758F3C10025FB0B /* AddIngredientData.swift */,
+				6AF825692758F3C10025FB0B /* AddInstructionData.swift */,
+				6AF8256C2758F3C10025FB0B /* AddListData.swift */,
+				6AF8256E2758F3C20025FB0B /* AddMetaData.swift */,
+				6AF825682758F3C10025FB0B /* AddRecipeView.swift */,
+				6AF825652758F3B70025FB0B /* InstructionsFBListView.swift */,
+				6AF825642758F3B70025FB0B /* InstructionsFBView.swift */,
+				6AF825612758F3AF0025FB0B /* RecipeFBListView.swift */,
+				6AF825602758F3AF0025FB0B /* SearchBarView.swift */,
+				6AF8255C2758F3A70025FB0B /* RecipeFBFeaturedView.swift */,
+				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
+				6AF825582758F39A0025FB0B /* TabsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
