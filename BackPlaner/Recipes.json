@@ -1,0 +1,95 @@
+[
+    { "name":"Thomas Sonnenstern-Brot",
+      "image":"Brot 1",
+      "summary":"Ein unheimlich wasserreiches Brot mit festem Teig. Ein Kursteilnehmer hat dieses Brot spontan entwickelt, nachdem noch eine Tüte mit Supermarktmehl Type 405 auf der Alm herumstand. Es ist sehr mild und saftig. Es gewinnt an Aroma, wenn es 1-2 Tage ruhen darf. Dann im Toaster angewärmt oder in etwas Butter angebraten ist es ein Hochgenuss. Das Rezept ist für 2 Brote mit ca. 750 g Teigeinwaage berechnet. Wer mutig ist, kann auch noch 5-10% mehr Wasser im Hauptteig unterbringen.",
+      "urlLink": "https://www.ploetzblog.de/2021/10/02/thomas-sonnenstern-brot/",
+      "prepTime": 1200,
+      "servings": 1,
+      "components":
+      [
+          { "name":"Autolyseteig",
+            "ingredients":
+            [
+                {   "name":"Weizenmehl 405", "weight": 630, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Wasser (35°C)", "weight": 420, "unit": "Gramm", "num": 1, "denom": 1 }
+            ],
+            "step": 1
+          },
+          {
+            "name":"Hauptteig",
+            "ingredients":
+            [
+                {   "name":"gesamter Autolyseteig" },
+                {   "name":"Roggenmehl 610 (alternativ 997/1150)", "weight": 70, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Wasser (35°C)", "weight": 210, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Sauerteigpulver", "weight": 70, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Röstbrot", "weight": 70, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Flüssigmalz", "weight": 14, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Salz", "weight": 14, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Butter", "weight": 14, "unit": "Gramm", "num": 1, "denom": 1 },
+                {   "name":"Frischhefe", "weight": 5, "unit": "Gramm", "num": 1, "denom": 1 }
+            ],
+            "step": 2
+       }
+      ],
+      "instructions":
+      [
+          { "step":1, "instruction":"Mehl und Wasser mischen und 1 Stunde ruhen lassen (Autolyse).", "duration":60 },
+          { "step":2, "instruction":"Alle Zutaten 5 Minuten auf niedrigster Stufe und weitere 8-10 Minuten auf zweiter Stufe zu einem festen Teig kneten (Teigtemperatur ca. 27°C).", "duration":18},
+          { "step":3, "instruction":"Den Teig zugedeckt für ca. eine Stunde bei Raumtemperatur (ca. 20°C) ruhen lassen, dabei nach 30 Minuten dehnen und falten. Anschließend 16-20 Stunden bei 5-6°C ruhen lassen.", "duration":960 },
+          { "step":4, "instruction":"Den Teig zu zwei länglichen, straffen Laiben formen und mit Schluss nach oben 2,5 Stunden bei Raumtemperatur im Leinentuch reifen lassen.", "duration":10 },
+          { "step":5, "instruction":"Die Teiglinge mit Schluss nach unten auf Backpapier setzen, mit einer Rasierklinge einschneiden und mit viel Dampf bei 250°C fallend auf 220°C 50 Minuten backen.", "duration":50 }
+      ],
+      "tags": ["Brot", "Mischbrot", "Sauerteig"]
+    },
+    {   "name":"Rustikales Mischbrot",
+        "image":"Brot 2",
+        "summary":"Um meine Almkurs-Teilnehmer mit Brot begrüßen zu können, hatte ich am Vorabend ihrer Ankunft „blind“ einen Roggensauerteig und einen Vorteig angesetzt, um daraus dann am nächsten Tag „irgendetwas“ zu backen. Am Morgen stand mir dann der Sinn nach einem leichten Brot zum Abendessen, also ein Mischbrot je zur Hälfte aus Roggen und Weizen in den klassischen Typen 1150 und 1050. Das Ergebnis war umwerfend. Ein lockeres, mildes und helles Brot mit kräftig-würziger Kruste. Das Rezept ist für einen großen Laib von ca. 1,7 kg Teig ausgelegt. Der Teigling passt noch in ein 1 kg-Gärkörbchen.",
+        "urlLink": "https://www.ploetzblog.de/2021/02/20/rustikales-mischbrot/",
+        "prepTime": 960,
+        "servings": 1,
+        "components":
+        [
+            { "name":"Sauerteig",
+              "ingredients":
+              [
+                  {   "name":"Roggenmehl 1150", "weight": 400, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Wasser (50°C)", "weight": 400, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Anstellgut", "weight": 80, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Salz", "weight": 8, "unit": "Gramm", "num": 1, "denom": 1 }
+              ],
+              "step": 1
+            },
+            { "name":"Vorteig",
+              "ingredients":
+              [
+                  {   "name":"Dinkelvollkornmehl", "weight": 100, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Wasser (kalt)", "weight": 50, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Frischhefe", "weight": 1, "unit": "Gramm", "num": 1, "denom": 1 }
+              ],
+              "step": 1
+           },
+            { "name":"Hauptteig",
+              "ingredients":
+              [
+                  {   "name":"gesamter Sauerteig", "weight": 0, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"gesamter Vorteig", "weight": 0, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Weizenmehl 1050", "weight": 460, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Wasser (35°C)", "weight": 200, "unit": "Gramm", "num": 1, "denom": 1 },
+                  {   "name":"Salz", "weight": 13, "unit": "Gramm", "num": 1, "denom": 1 }
+              ],
+              "step": 2
+           }
+        ],
+        "instructions":
+        [
+            { "step":1, "instruction":"Die Sauerteig- und Vorteigzutaten mischen und 12-16 Stunden bei Raumtemperatur reifen lassen.", "duration":720 },
+            { "step":2, "instruction":"Alle Zutaten 5 Minuten auf niedrigster Stufe und 6-8 Minuten auf zweiter Stufe zu einem glatten, klebrigen Teig kneten (Teigtemperatur ca. 26-27°C).", "duration":20 },
+            { "step":3, "instruction":"Den Teig 60-70 Minuten bei Raumtemperatur (ca. 20°C) ruhen lassen. Nach 30 Minuten dehnen und falten.", "duration":65 },
+            { "step":4, "instruction":"Den Teig straff rundwirken und mit offenem Schluss nach unten in einen bemehlten Gärkorb setzen. 75 Minuten bei Raumtemperatur reifen lassen.", "duration":75 },
+            { "step":5, "instruction":"Mit Schluss nach oben bei 270°C (250°C) fallend auf 210°C 75-80 Minuten mit Dampf backen.",  "duration":75 }
+        ],
+        "tags": ["Brot", "Mischbrot", "Sauerteig", "Vorteig"]
+    }
+]
+ 

@@ -1,0 +1,6 @@
+framework module Pods_BackPlaner {
+  umbrella header "Pods-BackPlaner-umbrella.h"
+
+  export *
+  module * { export * }
+}
