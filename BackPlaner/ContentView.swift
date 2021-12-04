@@ -11,7 +11,10 @@ import CoreData
 struct ContentView: View {
     
     @State private var tabSelection = 0
+    
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var modelFB: RecipeFBModel
+    
     var manager:LocalNotificationManager = LocalNotificationManager()
     
     init() {
@@ -57,11 +60,30 @@ struct ContentView: View {
                     }
                 }
                 .padding()
+                
+                NavigationLink(
+                    destination: ScheduledTasksView(tabSelection: $tabSelection)
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
+
+                        Text("Nächste Schritte")
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
+
             }.navigationTitle("Back Planer")
                 .navigationBarTitleDisplayMode(.large)
         }
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
+        .environmentObject(LocalNotificationManager())
     }
         
     struct ContentView_Previews: PreviewProvider {

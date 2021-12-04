@@ -21,9 +21,13 @@ struct DateCalculation {
     }
 }
 
-class LocalNotificationManager {
+class LocalNotificationManager: ObservableObject {
     
-    var notifications = [Notification]()
+    @Published var notifications = [Notification]()
+    
+    init() {
+        listScheduledNotifications()
+    }
     
     func setNotification(_ id:String, _ instruction: String, _ step: String, _ startTime: Int, _ date: Date, _ scheduleNotificationsFlag: Bool) -> Date {
         
@@ -42,7 +46,7 @@ class LocalNotificationManager {
 
         notifications.append(Notification(id: "Recipe-\(id)-\(step)", title: instruction, datetime: DateComponents(calendar: Calendar.current, year: year, month: month, day: day, hour: hour, minute: minute)))
         
-        print("Recipe-", id, "-", step, instruction, "year: ", year, "month: ", month, "day: ", day, "hour: ", hour, "minute: ", minute)
+//        print("Recipe-", id, "-", step, instruction, "year: ", year, "month: ", month, "day: ", day, "hour: ", hour, "minute: ", minute)
         
         if scheduleNotificationsFlag {
             scheduleNotifications()
@@ -72,8 +76,9 @@ class LocalNotificationManager {
         }
     }
     
-    private func listScheduledNotifications() {
+    func listScheduledNotifications() {
         
+        print("Anfrage der pending Notifications")
         UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
             
             for notification in notifications {

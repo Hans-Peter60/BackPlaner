@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeFBListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-    @ObservedObject var modelFB = RecipeFBModel()
+    @EnvironmentObject var modelFB: RecipeFBModel
 
     @State private var filterBy = ""
     

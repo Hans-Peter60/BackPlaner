@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A8EA962275A405100BF97A7 /* ScheduledTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */; };
 		6AF8252F2758F3480025FB0B /* BackPlanerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8252E2758F3480025FB0B /* BackPlanerApp.swift */; };
 		6AF825332758F3490025FB0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF825322758F3490025FB0B /* Assets.xcassets */; };
 		6AF825362758F3490025FB0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF825352758F3490025FB0B /* Preview Assets.xcassets */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		4C783BE18641F6E73D672EBE /* Pods-BackPlaner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BackPlaner.debug.xcconfig"; path = "Target Support Files/Pods-BackPlaner/Pods-BackPlaner.debug.xcconfig"; sourceTree = "<group>"; };
 		632EDFA81C94DA9CBA203B33 /* Pods_BackPlaner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BackPlaner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledTasksView.swift; sourceTree = "<group>"; };
 		6AF8252B2758F3480025FB0B /* BackPlaner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackPlaner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF8252E2758F3480025FB0B /* BackPlanerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackPlanerApp.swift; sourceTree = "<group>"; };
 		6AF825322758F3490025FB0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 		6A8EA9442759086B00BF97A7 /* DataFiles */ = {
 			isa = PBXGroup;
 			children = (
+				6AF8257E2758F3E40025FB0B /* BackPlaner2.xcdatamodeld */,
 				6AF825822758F4220025FB0B /* DataService.swift */,
 				6AF825842758F4220025FB0B /* GlobalVariables.swift */,
 				6AF825882758F4230025FB0B /* Persistence.swift */,
@@ -164,6 +167,29 @@
 				6AF825862758F4220025FB0B /* Recipes.json */,
 			);
 			path = DataFiles;
+			sourceTree = "<group>";
+		};
+		6A8EA963275A5A6B00BF97A7 /* AddRecipesViews */ = {
+			isa = PBXGroup;
+			children = (
+				6AF8256B2758F3C10025FB0B /* AddComponentData.swift */,
+				6AF8256A2758F3C10025FB0B /* AddIngredientData.swift */,
+				6AF825692758F3C10025FB0B /* AddInstructionData.swift */,
+				6AF8256C2758F3C10025FB0B /* AddListData.swift */,
+				6AF8256E2758F3C20025FB0B /* AddMetaData.swift */,
+				6AF825682758F3C10025FB0B /* AddRecipeView.swift */,
+			);
+			path = AddRecipesViews;
+			sourceTree = "<group>";
+		};
+		6A8EA964275A5A9D00BF97A7 /* InstructionViews */ = {
+			isa = PBXGroup;
+			children = (
+				6AF825652758F3B70025FB0B /* InstructionsFBListView.swift */,
+				6AF825642758F3B70025FB0B /* InstructionsFBView.swift */,
+				6AF8256D2758F3C20025FB0B /* AddCommentsView.swift */,
+			);
+			path = InstructionViews;
 			sourceTree = "<group>";
 		};
 		6AF825222758F3480025FB0B = {
@@ -188,15 +214,14 @@
 			isa = PBXGroup;
 			children = (
 				6AF825562758F39A0025FB0B /* ContentView.swift */,
-				6AF825952758F61C0025FB0B /* GoogleService-Info.plist */,
-				6AF8257E2758F3E40025FB0B /* BackPlaner2.xcdatamodeld */,
 				6AF825552758F3850025FB0B /* Views */,
-				6AF8252E2758F3480025FB0B /* BackPlanerApp.swift */,
-				6AF825322758F3490025FB0B /* Assets.xcassets */,
 				6A8EA9422759081A00BF97A7 /* Utilities */,
 				6A8EA9442759086B00BF97A7 /* DataFiles */,
 				6A8EA9432759084A00BF97A7 /* CoreDataFiles */,
 				6AF825342758F3490025FB0B /* Preview Content */,
+				6AF825952758F61C0025FB0B /* GoogleService-Info.plist */,
+				6AF8252E2758F3480025FB0B /* BackPlanerApp.swift */,
+				6AF825322758F3490025FB0B /* Assets.xcassets */,
 			);
 			path = BackPlaner;
 			sourceTree = "<group>";
@@ -212,21 +237,15 @@
 		6AF825552758F3850025FB0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6AF825762758F3CC0025FB0B /* changeDurationsView.swift */,
-				6AF8256D2758F3C20025FB0B /* AddCommentsView.swift */,
-				6AF8256B2758F3C10025FB0B /* AddComponentData.swift */,
-				6AF8256A2758F3C10025FB0B /* AddIngredientData.swift */,
-				6AF825692758F3C10025FB0B /* AddInstructionData.swift */,
-				6AF8256C2758F3C10025FB0B /* AddListData.swift */,
-				6AF8256E2758F3C20025FB0B /* AddMetaData.swift */,
-				6AF825682758F3C10025FB0B /* AddRecipeView.swift */,
-				6AF825652758F3B70025FB0B /* InstructionsFBListView.swift */,
-				6AF825642758F3B70025FB0B /* InstructionsFBView.swift */,
+				6AF825582758F39A0025FB0B /* TabsView.swift */,
+				6A8EA964275A5A9D00BF97A7 /* InstructionViews */,
+				6A8EA963275A5A6B00BF97A7 /* AddRecipesViews */,
 				6AF825612758F3AF0025FB0B /* RecipeFBListView.swift */,
 				6AF825602758F3AF0025FB0B /* SearchBarView.swift */,
 				6AF8255C2758F3A70025FB0B /* RecipeFBFeaturedView.swift */,
 				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
-				6AF825582758F39A0025FB0B /* TabsView.swift */,
+				6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */,
+				6AF825762758F3CC0025FB0B /* changeDurationsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -372,6 +391,7 @@
 				6AF8254F2758F3730025FB0B /* Recipe+CoreDataProperties.swift in Sources */,
 				6AF825502758F3730025FB0B /* Instruction+CoreDataClass.swift in Sources */,
 				6AF825912758F4230025FB0B /* Persistence.swift in Sources */,
+				6A8EA962275A405100BF97A7 /* ScheduledTasksView.swift in Sources */,
 				6AF8255B2758F39A0025FB0B /* TabsView.swift in Sources */,
 				6AF825662758F3B70025FB0B /* InstructionsFBView.swift in Sources */,
 				6AF825922758F4230025FB0B /* RecipeFBModel.swift in Sources */,

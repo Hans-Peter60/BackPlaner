@@ -10,9 +10,8 @@ import SwiftUI
 struct AddRecipeView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-    
-    @ObservedObject var modelFB = RecipeFBModel()
-    
+    @EnvironmentObject var modelFB: RecipeFBModel
+
     // Tab selection
     @Binding var tabSelection: Int
     

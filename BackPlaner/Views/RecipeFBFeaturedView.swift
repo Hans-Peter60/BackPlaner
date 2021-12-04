@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeFBFeaturedView: View {
     
-    @ObservedObject var modelFB = RecipeFBModel()
+    @EnvironmentObject var modelFB: RecipeFBModel
     
     @State var isDetailViewShowing = false
     @State var tabSelectionIndex = 0

@@ -36,8 +36,6 @@ class RecipeFBModel: ObservableObject {
         let data = i.jpegData(compressionQuality: 0.5) ?? Data()
         let filePath = "images/" + (r.image) + ".jpg"
         
-        print(filePath)
-        
         let imageRef = storageRef.child(filePath)
         
         let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in guard let metadata = metadata else  {

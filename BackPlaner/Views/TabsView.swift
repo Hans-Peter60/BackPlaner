@@ -10,9 +10,10 @@ import CoreData
 
 struct TabsView: View {
     
-    @State private var tabSelection = 0
+    @State private var tabSelection = 1
     
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var modelFB: RecipeFBModel
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
@@ -50,8 +51,6 @@ struct TabsView: View {
                 }
                 .tag(GlobalVariables.bakeListTab)
         }
-        .environmentObject(RecipeFBModel())
-        .environmentObject(RecipeModel())
     }
 
     struct TabsView_Previews: PreviewProvider {

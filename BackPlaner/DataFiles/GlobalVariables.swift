@@ -16,7 +16,7 @@ struct GlobalVariables {
     static var listTab = 0
     static var bakeListTab = 1
     static var addRecipeTab = 2
-    
+
     static var detailView = true
     
     static var schritt = 1
@@ -29,7 +29,7 @@ struct GlobalVariables {
     static var month = dateComponents.month
     static var day = dateComponents.day
     
-    static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.fixed(60), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
-    static var gridItemLayoutComponents = [GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading)]
+    static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
+    static var gridItemLayoutComponents = [GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.flexible(minimum: 10), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
 
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeFBDetailView: View {
     
     var recipeFB:RecipeFB
-    @ObservedObject var modelFB = RecipeFBModel()
+    @EnvironmentObject var modelFB: RecipeFBModel
     
     @State private var instructions: [Int: String] = [:]
     

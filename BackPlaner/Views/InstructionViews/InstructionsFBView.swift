@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct InstructionsFBView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     
+    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var modelFB: RecipeFBModel
+
     var recipeFB: RecipeFB
-    @EnvironmentObject var modelFB:RecipeFBModel
     
     @State private var dateTime = GlobalVariables.dateTimePicker
     @State private var dateTimeStartSelection = 0
