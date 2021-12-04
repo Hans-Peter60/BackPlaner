@@ -71,7 +71,7 @@ struct ContentView: View {
                             .shadow(radius: 5)
                             .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
 
-                        Text("Nächste Schritte")
+                        Text("Geplante Schritte")
                             .bold()
                             .foregroundColor(.black)
                     }
@@ -83,7 +83,6 @@ struct ContentView: View {
         }
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
-        .environmentObject(LocalNotificationManager())
     }
         
     struct ContentView_Previews: PreviewProvider {

@@ -54,8 +54,9 @@ class InstructionFB: Identifiable, Decodable {
     
     var id:String? = ""
     var step:Double = 0
-    var instruction: String = ""
+    var instruction:String = ""
     var duration:Int = 0
+    var durationString:String = ""
     var startTime:Int?
     var date:Date?
 }

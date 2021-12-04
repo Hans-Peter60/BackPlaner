@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct InstructionsFBListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     
+    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB:RecipeFBModel
     
     @State private var filterBy = ""

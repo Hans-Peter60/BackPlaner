@@ -19,12 +19,10 @@ struct InstructionsFBView: View {
     @State var selectedServingSize = 2
     @State private var showingNotificationMessage = false
     @State private var instructions = [InstructionFB]()
-    
-    //    let durations: KeyValuePairs <String, Int> = {
-    //        for (recipeFB.instructions) { i in
-    //            durations(i.step) = i.duration
-    //        }
-    //    }
+    @State private var changeDurationsFlag = false
+    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+
+    var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
     
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -95,7 +93,7 @@ struct InstructionsFBView: View {
                                 
                                 VStack(alignment: .leading) {
                                     Text(item.name)
-                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                        .font(Font.custom("Avenir Heavy", size: 16))
                                         .padding([.bottom, .top], 5)
                                     
                                     VStack(alignment: .leading) {
@@ -114,14 +112,23 @@ struct InstructionsFBView: View {
                     
                     Divider()
  
-                    HStack {
-                        Spacer()
-                        
+                    // MARK: Selections
+                    LazyVGrid (columns: gridItemLayoutSelection, spacing: 6) {
+
                         Picker("", selection: $dateTimeStartSelection) {
                             Text("Starten ab").tag(0)
                             Text("Fertig bis").tag(1)
                         }
                         .pickerStyle(.segmented)
+                        .font(Font.custom("Avenir", size: 15))
+                        
+                        Toggle(isOn: $changeDurationsFlag) {
+                            Image(systemName: "hourglass")
+                            Text("Dauer ändern")
+                        }
+                        .font(Font.custom("Avenir Heavy", size: 15))
+                        .padding()
+                        .frame(width: 220)
                         
                         DatePicker(
                             "",
@@ -129,55 +136,76 @@ struct InstructionsFBView: View {
                             in: dateRange,
                             displayedComponents: [.date, .hourAndMinute]
                         )
-                            .padding()
-                            .environment(\.locale, Locale.init(identifier: "de"))
+                        .padding()
+                        .environment(\.locale, Locale.init(identifier: "de"))
+                        .font(Font.custom("Avenir", size: 16))
                         
                         let _ = setGlobaldateTime(dateTime)
                     }
                     
+
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
                         Text("Dauer").bold()
-                        Text("Beginn").bold()
                         
-                        ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
+                        if changeDurationsFlag {
                             
-                            let step = Rational.decimalPlace(i.step, 10)
-                            
-                            Text(step)
-                            Text(i.instruction)
-                            Text(Rational.displayHoursMinutes(i.duration))
-                            
-                            //                        TextField(Rational.displayHoursMinutes(i.duration), text: $duration)
-                            //                        let cleanedDuration = duration.trimmingCharacters(in: .whitespacesAndNewlines)
-                            //                        if Int(cleanedDuration) > 0 { i.duration = Int(cleanedDuration) }
-                            
-                            if dateTimeStartSelection == 0 {
-                                let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
-                                Text(dateCalculation.calculateDateTime(dT: date))
+                            Text("Dauer [Min]").bold()
+
+                            ForEach(recipeFB.instructions.indices) { index in
+                                
+                                let step = Rational.decimalPlace(recipeFB.instructions[index].step, 10)
+                                
+                                Text(step)
+                                Text(recipeFB.instructions[index].instruction)
+                                Text(Rational.displayHoursMinutes(recipeFB.instructions[index].duration))
+                                TextField(String(recipeFB.instructions[index].duration), text: $durations[index])
+                               
                             }
-                            else {
-                                let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, -recipeFB.prepTime + (i.startTime ?? 0), dateTime, false)
-                                Text(dateCalculation.calculateDateTime(dT: date))
-                            }
+                            .font(Font.custom("Avenir", size: 15))
                         }
-                        .font(Font.custom("Avenir", size: 15))
-                        
-                        Group {
-                            Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
-                            Text("Fertig")
-                            Text("")
-                            if dateTimeStartSelection == 0 {
-                                let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!
-                                Text(dateCalculation.calculateDateTime(dT: date))
+                        else {
+                            
+                            Text("Beginn").bold()
+
+                            ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
+                                
+                                let step = Rational.decimalPlace(i.step, 10)
+                                
+                                Text(step)
+                                Text(i.instruction)
+                                Text(Rational.displayHoursMinutes(i.duration))
+                                
+                                //                        TextField(Rational.displayHoursMinutes(i.duration), text: $duration)
+                                //                        let cleanedDuration = duration.trimmingCharacters(in: .whitespacesAndNewlines)
+                                //                        if Int(cleanedDuration) > 0 { i.duration = Int(cleanedDuration) }
+                                
+                                if dateTimeStartSelection == 0 {
+                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
+                                    Text(dateCalculation.calculateDateTime(dT: date))
+                                }
+                                else {
+                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, -recipeFB.prepTime + (i.startTime ?? 0), dateTime, false)
+                                    Text(dateCalculation.calculateDateTime(dT: date))
+                                }
                             }
-                            else {
-                                Text(dateCalculation.calculateDateTime(dT: dateTime))
+                            .font(Font.custom("Avenir", size: 15))
+                            
+                            Group {
+                                Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
+                                Text("Fertig")
+                                Text("")
+                                if dateTimeStartSelection == 0 {
+                                    let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!
+                                    Text(dateCalculation.calculateDateTime(dT: date))
+                                }
+                                else {
+                                    Text(dateCalculation.calculateDateTime(dT: dateTime))
+                                }
                             }
+                            .font(Font.custom("Avenir", size: 15))
                         }
-                        .font(Font.custom("Avenir", size: 15))
-                        
                     }
                     .padding(.leading)
                     
@@ -204,24 +232,25 @@ struct InstructionsFBView: View {
                             
                             let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "99", bakeStartTime, dateTime, true)
                             
-                        }.padding()
+                        }
+                        .padding()
+                        .foregroundColor(.gray)
+                        .buttonStyle(.bordered)
+                        
+                        if changeDurationsFlag {
+                            
+                            Button(" Dauer übernehmen ") {
+                                
+                                for i in 0..<recipeFB.instructions.count {
+                                    
+                                    let cleanedDuration = durations[i].trimmingCharacters(in: .whitespacesAndNewlines)
+                                    if Int(cleanedDuration) ?? 0 > 0 { recipeFB.instructions[i].duration = Int(cleanedDuration) ?? 0}
+                                }
+                            }
+                            .padding()
                             .foregroundColor(.gray)
                             .buttonStyle(.bordered)
-                        //                        .alert("Benachrichtigungen eingerichtet", isPresented: $showingNotificationMessage) { Button("OK") { } }
-                        
-                        //                    Button(" Dauer anpassen ") {
-                        //                        for i in 0..<recipeFB.instructions.count {
-                        //                            let inst = recipeFB.instructions[i]
-                        //                            instructions.append(inst)
-                        //                        }
-                        //                        changeDurationsView(instructions: $instructions)
-                        //                        if instructions.count > 0 {
-                        //                            for i in 0..<instructions.count {
-                        //                                let inst = recipeFB.instructions[i]
-                        //                                recipeFB.instructions[i] = instructions[i]
-                        //                            }
-                        //                        }
-                        //                    }
+                        }
                     }
                 }.padding()
             }
@@ -230,6 +259,29 @@ struct InstructionsFBView: View {
     
     func setGlobaldateTime(_ date: Date) {
         GlobalVariables.dateTimePicker = date
+    }
+    
+    struct CheckboxStyle: ToggleStyle {
+     
+        func makeBody(configuration: Self.Configuration) -> some View {
+     
+            return HStack {
+     
+                configuration.label
+     
+                Spacer()
+     
+                Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(configuration.isOn ? .purple : .gray)
+                    .font(.system(size: 20, weight: .bold, design: .default))
+                    .onTapGesture {
+                        configuration.isOn.toggle()
+                    }
+            }
+     
+        }
     }
 }
 

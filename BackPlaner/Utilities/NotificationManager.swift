@@ -25,10 +25,6 @@ class LocalNotificationManager: ObservableObject {
     
     @Published var notifications = [Notification]()
     
-    init() {
-        listScheduledNotifications()
-    }
-    
     func setNotification(_ id:String, _ instruction: String, _ step: String, _ startTime: Int, _ date: Date, _ scheduleNotificationsFlag: Bool) -> Date {
         
         var calcDate = date

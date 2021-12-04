@@ -238,13 +238,13 @@
 			isa = PBXGroup;
 			children = (
 				6AF825582758F39A0025FB0B /* TabsView.swift */,
+				6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */,
 				6A8EA964275A5A9D00BF97A7 /* InstructionViews */,
 				6A8EA963275A5A6B00BF97A7 /* AddRecipesViews */,
 				6AF825612758F3AF0025FB0B /* RecipeFBListView.swift */,
 				6AF825602758F3AF0025FB0B /* SearchBarView.swift */,
 				6AF8255C2758F3A70025FB0B /* RecipeFBFeaturedView.swift */,
 				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
-				6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */,
 				6AF825762758F3CC0025FB0B /* changeDurationsView.swift */,
 			);
 			path = Views;
