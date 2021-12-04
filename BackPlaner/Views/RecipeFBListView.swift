@@ -60,14 +60,14 @@ struct RecipeFBListView: View {
                                         
                                         VStack (alignment: .leading) {
                                             Text(r.name)
-                                                .foregroundColor(.black)
                                                 .font(Font.custom("Avenir Heavy", size: 16))
                                             
                                             RecipeTags(tags: r.tags)
-                                                .foregroundColor(.black)
+                                                .font(Font.custom("Avenir", size: 12))
                                         }
                                     }
-                                })
+                                }
+                            )
                         }
                     }
                 }
