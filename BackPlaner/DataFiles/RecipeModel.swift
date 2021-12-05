@@ -17,6 +17,7 @@ class RecipeModel: ObservableObject {
     let managedObjectContext = PersistenceController.shared.container.viewContext
     
     @Published var recipes = [Recipe]()
+    @Published var nextSteps = [NextSteps]()
     
     init() {
         
@@ -113,6 +114,17 @@ class RecipeModel: ObservableObject {
             
             r.addToComponents(c)
         }
+        // Save to core data
+        do {
+            // Save the recipe to core data
+            try managedObjectContext.save()
+            
+            // Switch the view to list view
+        }
+        catch {
+            // Couldn't save the recipe
+        }
+
     }
     
     static func getPortion(ingredient:Ingredient, recipeServings:Int, targetServings:Int) -> String {

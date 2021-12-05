@@ -56,8 +56,17 @@ class InstructionFB: Identifiable, Decodable {
     var step:Double = 0
     var instruction:String = ""
     var duration:Int = 0
-    var durationString:String = ""
     var startTime:Int?
     var date:Date?
 }
 
+class nextStepsFB: Identifiable, Decodable {
+    
+    var id:String? = ""
+    var date:Date?
+    var recipeName:String? = ""
+    var step:Double = 0
+    var instruction:String = ""
+    var duration:Int = 0
+    var startTime:Int?
+}

@@ -56,7 +56,8 @@ class LocalNotificationManager: ObservableObject {
         for notification in notifications {
             
             let content      = UNMutableNotificationContent()
-            content.title    = notification.title
+            content.title    = "Backhinweis"
+            content.body     = notification.title
             content.sound    = .default
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: notification.datetime, repeats: false)

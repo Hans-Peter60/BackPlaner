@@ -18,9 +18,9 @@ struct InstructionsFBView: View {
     @State private var dateTimeStartSelection = 0
     @State var selectedServingSize = 2
     @State private var showingNotificationMessage = false
-    @State private var instructions = [InstructionFB]()
+//    @State private var instructions = [InstructionFB]()
     @State private var changeDurationsFlag = false
-    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
     
@@ -176,11 +176,7 @@ struct InstructionsFBView: View {
                                 Text(step)
                                 Text(i.instruction)
                                 Text(Rational.displayHoursMinutes(i.duration))
-                                
-                                //                        TextField(Rational.displayHoursMinutes(i.duration), text: $duration)
-                                //                        let cleanedDuration = duration.trimmingCharacters(in: .whitespacesAndNewlines)
-                                //                        if Int(cleanedDuration) > 0 { i.duration = Int(cleanedDuration) }
-                                
+                               
                                 if dateTimeStartSelection == 0 {
                                     let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
@@ -231,7 +227,16 @@ struct InstructionsFBView: View {
                             showingNotificationMessage = true
                             
                             let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "99", bakeStartTime, dateTime, true)
+                            let i = InstructionFB()
                             
+                            i.id          = UUID().uuidString
+                            i.instruction = "Backofen anstellen"
+                            i.step        = 99
+                            i.startTime   = bakeStartTime
+                            i.duration    = GlobalVariables.vorheizZeit
+                            recipeFB.instructions.append(i)
+                            
+                            uploadNextSteps(recipeFB: recipeFB, date: dateTime)
                         }
                         .padding()
                         .foregroundColor(.gray)
@@ -257,6 +262,31 @@ struct InstructionsFBView: View {
         }
     }
     
+    func uploadNextSteps(recipeFB: RecipeFB, date: Date) {
+    
+        for iFB in recipeFB.instructions {
+            
+            let n = NextSteps(context: viewContext)
+                    
+            n.id = UUID()
+            n.recipeName = recipeFB.name
+            n.instruction = iFB.instruction
+            n.step = iFB.step
+            n.duration = iFB.duration
+            n.startTime = iFB.startTime ?? 0
+            n.date = Calendar.current.date(byAdding: .minute, value: iFB.startTime ?? 0, to: date)!
+        
+            // Save to core data
+            do {
+                // Save the recipe to core data
+                try viewContext.save()
+            }
+            catch {
+                // Couldn't save the recipe
+            }
+        }
+    }
+
     func setGlobaldateTime(_ date: Date) {
         GlobalVariables.dateTimePicker = date
     }

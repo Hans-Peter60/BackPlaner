@@ -9,10 +9,14 @@ import SwiftUI
 
 struct ScheduledTasksView: View {
     
-    @EnvironmentObject var manager:LocalNotificationManager
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
+    var nextSteps: FetchedResults<NextSteps>
    
     // Tab selection
     @Binding var tabSelection: Int
+    var gridItemLayout = [GridItem(.fixed(110), alignment: .leading), GridItem(.fixed(90), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
+    var dateCalculation:DateCalculation = DateCalculation()
+    @State private var name = ""
     
     var body: some View {
 
@@ -22,17 +26,54 @@ struct ScheduledTasksView: View {
                 .bold()
             
             Divider()
-            
-            ForEach(manager.notifications) { n in
+ 
+            LazyVGrid(columns: gridItemLayout, spacing: 6) {
                 
-                Text("-> ")
-                Text(n.id)
-                Text(n.title)
-                HStack {
-//                    Text(n.datetime.day + "." + n.datetime.month + "." + n.datetime.year)
-//                    Text("   " + n.datetime.hour + ":" + n.datetime.minute)
+                Text("Beginn").bold()
+                Text("Schritt").bold()
+                Text("Beschreibung").bold()
+                Text("Dauer").bold()
+                Text("")
+
+                ForEach(0..<nextSteps.count) { index in
+                    
+                    if nextSteps[index].date ?? Date() > Date() {
+                        
+                        if index > 0 {
+                            if index == 0 || nextSteps[index].recipeName != nextSteps[index - 1].recipeName {
+
+                                Text("")
+                                Text("")
+                                Text(nextSteps[index].recipeName ?? "")
+                                    .font(Font.custom("Avenir Heavy", size: 16))
+                                Text("")
+                                Text("")
+                            }
+                        }
+
+                        let step = Rational.decimalPlace(nextSteps[index].step, 10)
+                    
+                        Text(dateCalculation.calculateDateTime(dT: nextSteps[index].date ?? Date()))
+                            .font(Font.custom("Avenir Heavy", size: 14))
+                        Text(step)
+                            .font(Font.custom("Avenir", size: 14))
+                        Text(nextSteps[index].instruction ?? "")
+                            .font(Font.custom("Avenir", size: 14))
+                        Text(Rational.displayHoursMinutes(nextSteps[index].duration))
+                            .font(Font.custom("Avenir", size: 14))
+                        
+                        Button("Erledigt") {
+                            
+                            // ergänzen
+                        }
+                        .font(Font.custom("Avenir", size: 15))
+                        .padding()
+                        .foregroundColor(.gray)
+                        .buttonStyle(.bordered)
+                    }
                 }
             }
+            .padding()
         }
     }
 }
