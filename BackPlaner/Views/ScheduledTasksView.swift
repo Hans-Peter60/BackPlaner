@@ -22,7 +22,7 @@ struct ScheduledTasksView: View {
     
     var body: some View {
         
-        Text("Liste der nächsten Schritte:")
+        Text("Liste der nächsten Schritte")
             .bold()
         
         List {
@@ -71,3 +71,4 @@ struct ScheduledTasksView: View {
             
         }
     }
+}

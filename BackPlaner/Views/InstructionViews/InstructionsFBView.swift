@@ -230,7 +230,7 @@ struct InstructionsFBView: View {
                             let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "98", bakeStartTime, dateTime, true)
                             i.id          = UUID().uuidString
                             i.instruction = "Backofen anstellen"
-                            i.step        = 98
+                            i.step        = 0
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
                             recipeFB.instructions.append(i)
@@ -239,7 +239,7 @@ struct InstructionsFBView: View {
                             let _ = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
                             i2.id          = UUID().uuidString
                             i2.instruction = "Backvorgang ist beendet"
-                            i2.step        = 99
+                            i2.step        = 0
                             i2.startTime   = recipeFB.prepTime
                             i2.duration    = 0
                             recipeFB.instructions.append(i2)
