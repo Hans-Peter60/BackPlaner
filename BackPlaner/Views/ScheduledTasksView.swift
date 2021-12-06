@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ScheduledTasksView: View {
     
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     var nextSteps: FetchedResults<NextSteps>
-   
+    
     // Tab selection
     @Binding var tabSelection: Int
     var gridItemLayout = [GridItem(.fixed(110), alignment: .leading), GridItem(.fixed(90), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
@@ -19,13 +21,11 @@ struct ScheduledTasksView: View {
     @State private var name = ""
     
     var body: some View {
-
-        ScrollView {
-            
-            Text("Liste der nächsten Schritte:")
-                .bold()
-            
-            Divider()
+        
+        Text("Liste der nächsten Schritte:")
+            .bold()
+        
+        List {
  
             LazyVGrid(columns: gridItemLayout, spacing: 6) {
                 
@@ -34,37 +34,31 @@ struct ScheduledTasksView: View {
                 Text("Beschreibung").bold()
                 Text("Dauer").bold()
                 Text("")
-
-                ForEach(0..<nextSteps.count) { index in
+                
+                ForEach(nextSteps, id: \.self) { nextStep in
                     
-                    if nextSteps[index].date ?? Date() > Date() {
+                    if nextStep.date ?? Date() > Date() {
                         
-                        if index > 0 {
-                            if index == 0 || nextSteps[index].recipeName != nextSteps[index - 1].recipeName {
-
-                                Text("")
-                                Text("")
-                                Text(nextSteps[index].recipeName ?? "")
-                                    .font(Font.custom("Avenir Heavy", size: 16))
-                                Text("")
-                                Text("")
-                            }
-                        }
-
-                        let step = Rational.decimalPlace(nextSteps[index].step, 10)
-                    
-                        Text(dateCalculation.calculateDateTime(dT: nextSteps[index].date ?? Date()))
+                        let step = Rational.decimalPlace(nextStep.step, 10)
+                        
+                        Text(dateCalculation.calculateDateTime(dT: nextStep.date ?? Date()))
                             .font(Font.custom("Avenir Heavy", size: 14))
                         Text(step)
                             .font(Font.custom("Avenir", size: 14))
-                        Text(nextSteps[index].instruction ?? "")
+                        Text(nextStep.instruction ?? "")
                             .font(Font.custom("Avenir", size: 14))
-                        Text(Rational.displayHoursMinutes(nextSteps[index].duration))
+                        Text(Rational.displayHoursMinutes(nextStep.duration))
                             .font(Font.custom("Avenir", size: 14))
                         
                         Button("Erledigt") {
+
+                            managedObjectContext.delete(nextStep)
                             
-                            // ergänzen
+                            do {
+                                try managedObjectContext.save()
+                            } catch {
+                                // handle the Core Data error
+                            }
                         }
                         .font(Font.custom("Avenir", size: 15))
                         .padding()
@@ -74,13 +68,6 @@ struct ScheduledTasksView: View {
                 }
             }
             .padding()
+            
         }
     }
-}
-
-//struct ScheduledTasksView_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-//        ScheduledTasksView()
-//    }
-//}

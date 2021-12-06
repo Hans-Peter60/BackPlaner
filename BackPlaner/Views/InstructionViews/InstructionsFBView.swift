@@ -226,15 +226,23 @@ struct InstructionsFBView: View {
                             }
                             showingNotificationMessage = true
                             
-                            let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "99", bakeStartTime, dateTime, true)
                             let i = InstructionFB()
-                            
+                            let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "98", bakeStartTime, dateTime, true)
                             i.id          = UUID().uuidString
                             i.instruction = "Backofen anstellen"
-                            i.step        = 99
+                            i.step        = 98
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
                             recipeFB.instructions.append(i)
+
+                            let i2 = InstructionFB()
+                            let _ = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
+                            i2.id          = UUID().uuidString
+                            i2.instruction = "Backvorgang ist beendet"
+                            i2.step        = 99
+                            i2.startTime   = recipeFB.prepTime
+                            i2.duration    = 0
+                            recipeFB.instructions.append(i2)
                             
                             uploadNextSteps(recipeFB: recipeFB, date: dateTime)
                         }
@@ -314,9 +322,3 @@ struct InstructionsFBView: View {
         }
     }
 }
-
-//struct InstructionsFBView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        InstructionsFBView()
-//    }
-//}
