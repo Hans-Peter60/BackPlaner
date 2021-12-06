@@ -35,7 +35,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
                         
                         Text("Liste der Rezepte")
                             .bold()
@@ -52,7 +52,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
 
                         Text("Neues Rezept anlegen")
                             .bold()
@@ -69,9 +69,43 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
 
                         Text("Geplante Schritte")
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
+
+                NavigationLink(
+                    destination: ListCoreDataRecipesView()
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+
+                        Text("CoreData Rezepte")
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
+
+                NavigationLink(
+                    destination: BakeHistoriesListView()
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+
+                        Text("Backhistorie")
                             .bold()
                             .foregroundColor(.black)
                     }

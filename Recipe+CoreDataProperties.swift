@@ -1,8 +1,8 @@
 //
 //  Recipe+CoreDataProperties.swift
-//  BackPlaner2
+//  BackPlaner
 //
-//  Created by Hans-Peter Müller on 19.11.21.
+//  Created by Hans-Peter Müller on 06.12.21.
 //
 //
 
@@ -28,6 +28,7 @@ extension Recipe {
     @NSManaged public var urlLink: String?
     @NSManaged public var components: NSSet
     @NSManaged public var instructions: NSSet
+    @NSManaged public var bakeHistories: NSSet
 
 }
 
@@ -62,6 +63,23 @@ extension Recipe {
 
     @objc(removeInstructions:)
     @NSManaged public func removeFromInstructions(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for bakeHistories
+extension Recipe {
+
+    @objc(addBakeHistoriesObject:)
+    @NSManaged public func addToBakeHistories(_ value: BakeHistory)
+
+    @objc(removeBakeHistoriesObject:)
+    @NSManaged public func removeFromBakeHistories(_ value: BakeHistory)
+
+    @objc(addBakeHistories:)
+    @NSManaged public func addToBakeHistories(_ values: NSSet)
+
+    @objc(removeBakeHistories:)
+    @NSManaged public func removeFromBakeHistories(_ values: NSSet)
 
 }
 

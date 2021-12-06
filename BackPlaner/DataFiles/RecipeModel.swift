@@ -46,7 +46,7 @@ class RecipeModel: ObservableObject {
         // If it's false, then we should parse the local json and preload into Core Data
 //        if status == false {
             deleteAllCoreDataRecords()
-            preloadLocalData()
+//            preloadLocalData()
 //        }
     }
     
@@ -114,6 +114,22 @@ class RecipeModel: ObservableObject {
             
             r.addToComponents(c)
         }
+        
+        for bH in recipeFB.bakeHistories {
+            let h = BakeHistory(context: managedObjectContext)
+            
+            h.id      = UUID()
+            h.date    = bH.date
+            h.comment = bH.comment
+            
+            for i in bH.images ?? [""] {
+                
+                let bHI = UIImage(named: i)?.jpegData(compressionQuality: 1.0) ?? Data()
+                h.images.append(bHI)
+            }
+            r.addToBakeHistories(h)
+        }
+        
         // Save to core data
         do {
             // Save the recipe to core data

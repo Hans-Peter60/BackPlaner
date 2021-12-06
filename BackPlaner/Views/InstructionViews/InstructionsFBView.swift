@@ -11,15 +11,19 @@ struct InstructionsFBView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model: RecipeModel
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
+    private var recipes: FetchedResults<Recipe>
 
     var recipeFB: RecipeFB
     
     @State private var dateTime = GlobalVariables.dateTimePicker
     @State private var dateTimeStartSelection = 0
-    @State var selectedServingSize = 2
+    @State var         selectedServingSize = 2
     @State private var showingNotificationMessage = false
-//    @State private var instructions = [InstructionFB]()
     @State private var changeDurationsFlag = false
+//    @State private var bakeHistory = BakeHistory()
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
@@ -236,7 +240,7 @@ struct InstructionsFBView: View {
                             recipeFB.instructions.append(i)
 
                             let i2 = InstructionFB()
-                            let _ = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
+                            let endDate = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
                             i2.id          = UUID().uuidString
                             i2.instruction = "Backvorgang ist beendet"
                             i2.step        = 0
@@ -245,6 +249,22 @@ struct InstructionsFBView: View {
                             recipeFB.instructions.append(i2)
                             
                             uploadNextSteps(recipeFB: recipeFB, date: dateTime)
+                            
+                            let bakeHistoryFB     = BakeHistoryFB()
+                            bakeHistoryFB.date    = endDate
+                            bakeHistoryFB.comment = "kein Kommentar erfasst"
+                            bakeHistoryFB.images  = ["no-image-icon-23494"]
+                            recipeFB.bakeHistories.append(bakeHistoryFB)
+                            
+                            model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
+                            
+//                            let recipe = recipes {
+//                                recipes.value(forKey: "id") ?? "" {
+//                                    model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
+//                                }
+//                            }
+                            
+                           
                         }
                         .padding()
                         .foregroundColor(.gray)

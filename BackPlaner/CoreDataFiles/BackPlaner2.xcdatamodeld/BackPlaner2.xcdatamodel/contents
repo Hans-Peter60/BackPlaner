@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="20G224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BakeHistory" representedClassName="BakeHistory" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" customClassName="[Data]"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="bakeHistories" inverseEntity="Recipe"/>
+    </entity>
     <entity name="Component" representedClassName="Component" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -47,15 +54,17 @@
         <attribute name="summary" optional="YES" attributeType="String"/>
         <attribute name="tags" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="urlLink" optional="YES" attributeType="String"/>
+        <relationship name="bakeHistories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BakeHistory" inverseName="recipe" inverseEntity="BakeHistory"/>
         <relationship name="components" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Component" inverseName="recipe" inverseEntity="Component"/>
         <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Instruction" inverseName="recipe" inverseEntity="Instruction"/>
     </entity>
     <elements>
+        <element name="BakeHistory" positionX="-18" positionY="144" width="128" height="104"/>
         <element name="Component" positionX="-36" positionY="54" width="128" height="89"/>
         <element name="Ingredient" positionX="-54" positionY="0" width="128" height="134"/>
         <element name="Instruction" positionX="-18" positionY="63" width="128" height="134"/>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
         <element name="NextSteps" positionX="-27" positionY="135" width="128" height="134"/>
-        <element name="Recipe" positionX="0" positionY="99" width="128" height="209"/>
+        <element name="Recipe" positionX="0" positionY="99" width="128" height="224"/>
     </elements>
 </model>

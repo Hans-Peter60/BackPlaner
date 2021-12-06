@@ -1,8 +1,8 @@
 //
 //  Ingredient+CoreDataProperties.swift
-//  BackPlaner2
+//  BackPlaner
 //
-//  Created by Hans-Peter Müller on 19.11.21.
+//  Created by Hans-Peter Müller on 06.12.21.
 //
 //
 

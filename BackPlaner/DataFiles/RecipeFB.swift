@@ -30,6 +30,7 @@ class RecipeFB: Identifiable, Decodable {
     var components: [ComponentFB] = [ComponentFB]()
     var instructions: [InstructionFB] = [InstructionFB]()
     var tags: [String] = [String]()
+    var bakeHistories: [BakeHistoryFB] = [BakeHistoryFB]()
 }
 
 class ComponentFB: Identifiable, Decodable {
@@ -60,7 +61,7 @@ class InstructionFB: Identifiable, Decodable {
     var date:Date?
 }
 
-class nextStepsFB: Identifiable, Decodable {
+class NextStepsFB: Identifiable, Decodable {
     
     var id:String? = ""
     var date:Date?
@@ -69,4 +70,12 @@ class nextStepsFB: Identifiable, Decodable {
     var instruction:String = ""
     var duration:Int = 0
     var startTime:Int?
+}
+
+class BakeHistoryFB: Identifiable, Decodable {
+    
+    var id:String? = ""
+    var date:Date?
+    var comment:String = ""
+    var images:[String]? = [String]()
 }

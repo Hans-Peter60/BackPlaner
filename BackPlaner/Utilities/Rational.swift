@@ -25,6 +25,8 @@ struct Rational {
         if Double(numberInt) == numberDouble {
             numberString = String(numberInt)
         }
+        if numberString == "0" { numberString = "" }
+        
         return numberString
     }
     
