@@ -95,3 +95,16 @@ struct Rational {
         return instructions
     }
 }
+
+struct DateFormat {
+    
+    let formatter = DateFormatter()
+    
+    func calculateDate(dT: Date) -> String {
+        
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "de_DE")
+        return formatter.string(from: dT)
+    }
+}

@@ -26,7 +26,7 @@ struct ScheduledTasksView: View {
             .bold()
         
         List {
- 
+            
             LazyVGrid(columns: gridItemLayout, spacing: 6) {
                 
                 Text("Beginn").bold()
@@ -35,17 +35,26 @@ struct ScheduledTasksView: View {
                 Text("Dauer").bold()
                 Text("")
                 
-                ForEach(nextSteps, id: \.self) { nextStep in
+                ForEach(nextSteps) { nextStep in
                     
-                    if nextStep.date ?? Date() > Date() {
+                    if nextStep.date > Date() {
+                        
+                    Group {
+                        Text("")
+                        Text("")
+                        Text(nextStep.recipeName)
+                            .font(Font.custom("Avenir Heavy", size: 14))
+                        Text("")
+                        Text("")
+                    }
                         
                         let step = Rational.decimalPlace(nextStep.step, 10)
                         
-                        Text(dateCalculation.calculateDateTime(dT: nextStep.date ?? Date()))
+                        Text(dateCalculation.calculateDateTime(dT: nextStep.date))
                             .font(Font.custom("Avenir Heavy", size: 14))
                         Text(step)
                             .font(Font.custom("Avenir", size: 14))
-                        Text(nextStep.instruction ?? "")
+                        Text(nextStep.instruction)
                             .font(Font.custom("Avenir", size: 14))
                         Text(Rational.displayHoursMinutes(nextStep.duration))
                             .font(Font.custom("Avenir", size: 14))
@@ -53,7 +62,7 @@ struct ScheduledTasksView: View {
                         Button("Erledigt") {
 
                             managedObjectContext.delete(nextStep)
-                            
+
                             do {
                                 try managedObjectContext.save()
                             } catch {
@@ -68,7 +77,6 @@ struct ScheduledTasksView: View {
                 }
             }
             .padding()
-            
         }
     }
 }

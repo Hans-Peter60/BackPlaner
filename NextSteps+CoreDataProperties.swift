@@ -16,7 +16,7 @@ extension NextSteps {
         return NSFetchRequest<NextSteps>(entityName: "NextSteps")
     }
 
-    @NSManaged public var date: Date?
+    @NSManaged public var date: Date
     @NSManaged public var duration: Int
     @NSManaged public var id: UUID?
     @NSManaged public var instruction: String

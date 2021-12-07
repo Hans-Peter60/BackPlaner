@@ -45,7 +45,7 @@ class RecipeModel: ObservableObject {
         
         // If it's false, then we should parse the local json and preload into Core Data
 //        if status == false {
-            deleteAllCoreDataRecords()
+//            deleteAllCoreDataRecords()
 //            preloadLocalData()
 //        }
     }
@@ -57,7 +57,7 @@ class RecipeModel: ObservableObject {
         
         // Create firebase collections
         for r in localRecipes {
-            uploadRecipeIntoCoreData(recipeFB: r)
+//            uploadRecipeIntoCoreData(recipeFB: r)
 //            uploadRecipeToFirestore(r: r)
         }
     }

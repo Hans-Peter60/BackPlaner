@@ -31,9 +31,9 @@ struct BakeHistoriesListView: View {
         //        }
     }
     
-    var gridItemLayout = [GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(160), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
+    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(160), alignment: .leading)]
     
-    var dateCalculation:DateCalculation = DateCalculation()
+    var dateFormat:DateFormat = DateFormat()
     
     var body: some View {
         
@@ -56,11 +56,11 @@ struct BakeHistoriesListView: View {
                         
                         ForEach(recipe.bakeHistories.allObjects as! [BakeHistory]) { bakeHistory in
                             
-                            Text(dateCalculation.calculateDateTime(dT: bakeHistory.date ?? Date()))
+                            Text(dateFormat.calculateDate(dT: bakeHistory.date ?? Date()))
                                 .font(Font.custom("Avenir Heavy", size: 14))
                             Text(recipe.name)
                                 .font(Font.custom("Avenir", size: 14))
-                            Text(bakeHistory.comment ?? "")
+                            Text(bakeHistory.comment)
                                 .font(Font.custom("Avenir", size: 14))
                             
                             HStack {
@@ -104,13 +104,13 @@ struct BakeHistoriesListView: View {
                         .buttonStyle(.bordered)
                     }
                 }
-                .padding()
+//                .padding()
             }
         }
         .padding()
     }
 }
-    
+
 struct BakeHistoriesListView_Previews: PreviewProvider {
     static var previews: some View {
         BakeHistoriesListView()
