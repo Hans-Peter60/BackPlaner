@@ -1,6 +1,6 @@
 //
 //  AddCommentsView.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 02.12.21.
 //
@@ -13,8 +13,8 @@ struct AddCommentsView: View {
     }
 }
 
-struct AddCommentsView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddCommentsView()
-    }
-}
+//struct AddCommentsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddCommentsView()
+//    }
+//}

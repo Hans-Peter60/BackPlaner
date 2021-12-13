@@ -1,6 +1,6 @@
 //
 //  InstructionsFBView.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 24.11.21.
 //
@@ -341,4 +341,42 @@ struct InstructionsFBView: View {
      
         }
     }
+}
+
+struct UpdateBakeHistory {
+    
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model: RecipeModel
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)], predicate: NSPredicate(format: "universe == 'Star Wars'"))
+    private var recipes: FetchedResults<Recipe>
+
+    var recipeFB: RecipeFB
+    
+    func updateBakeHistory(recipeFB: RecipeFB) {
+        
+    }
+
+//    private func fetchRecordsForEntity(_ entity: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [NSManagedObject] {
+//        // Create Fetch Request
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+//
+//        // Helpers
+//        var result = [NSManagedObject]()
+//
+//        do {
+//            // Execute Fetch Request
+//            let records = try managedObjectContext.fetch(fetchRequest)
+//
+//            if let records = records as? [NSManagedObject] {
+//                result = records
+//            }
+//
+//        } catch {
+//            print("Unable to fetch managed objects for entity \(entity).")
+//        }
+//
+//        return result
+//    }
 }

@@ -11,6 +11,7 @@ struct AddRecipeView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model: RecipeModel
 
     // Tab selection
     @Binding var tabSelection: Int
@@ -52,7 +53,7 @@ struct AddRecipeView: View {
             VStack {
                 // HStack with the form controls
                 HStack {
-                    Button("Clear") {
+                    Button("Inhalte löschen") {
                         
                         // Clear the form
                         clear()
@@ -61,10 +62,10 @@ struct AddRecipeView: View {
                     
                     Spacer()
                     
-                    Button("Add Rezept") {
+                    Button("Public Rezept speichern") {
                         
-                        // Add the recipe to core data
-                        addRecipe()
+                        // Add the recipe to firestore or core data
+                        addRecipe(fireStore: true)
                         
                         // Clear the form
                         clear()
@@ -73,7 +74,21 @@ struct AddRecipeView: View {
                         tabSelection = GlobalVariables.listTab
                     }
                     .buttonStyle(.bordered)
-                }
+                    
+                    Spacer()
+                    
+                    Button("Privates Rezept speichern") {
+                        
+                        // Add the recipe to firestore or core data
+                        addRecipe(fireStore: false)
+                        
+                        // Clear the form
+                        clear()
+                        
+                        // Navigate to the list
+                        tabSelection = GlobalVariables.listTab
+                    }
+                    .buttonStyle(.bordered)                }
                 .padding(.horizontal)
                 
                 NavigationView {
@@ -147,25 +162,25 @@ struct AddRecipeView: View {
     
     func clear() {
         // Clear all the form fields
-        name = ""
-        summary = ""
-        urlLink = ""
-        tags = [String]()
+        name         = ""
+        summary      = ""
+        urlLink      = ""
+        tags         = [String]()
         instructions = [InstructionFB]()
-        components = [ComponentFB]()
-        ingredients = [IngredientFB]()
+        components   = [ComponentFB]()
+        ingredients  = [IngredientFB]()
         
-        placeHolderImage = Image("noImageAvailable")
+        placeHolderImage = Image("no-image-icon-23494")
     }
     
-    func addRecipe() {
+    func addRecipe(fireStore: Bool) {
         
-        // Add the recipe into Core Data
-        let recipe = RecipeFB()
-        recipe.id = ""
-        recipe.name = name
-        recipe.summary = summary
-        recipe.urlLink = urlLink
+        // Add the recipe into Firestore
+        let recipe      = RecipeFB()
+        recipe.id       = ""
+        recipe.name     = name
+        recipe.summary  = summary
+        recipe.urlLink  = urlLink
         recipe.servings = 1
         recipe.tags = tags
         
@@ -173,9 +188,9 @@ struct AddRecipeView: View {
             let instruction = InstructionFB()
             
             instruction.instruction = i.instruction
-            instruction.step = i.step
-            instruction.duration = i.duration
-            instruction.startTime = 0
+            instruction.step        = i.step
+            instruction.duration    = i.duration
+            instruction.startTime   = 0
             
             // Add this instruction to the recipe
             recipe.instructions.append(instruction)
@@ -195,12 +210,17 @@ struct AddRecipeView: View {
             recipe.components.append(c)
         }
         
-        modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
+        if fireStore {
+            modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
+        }
+        else {
+            model.uploadRecipeIntoCoreData(recipeFB: recipe)
+        }
     }
 }
 
-struct AddRecipeView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddRecipeView(tabSelection: Binding.constant(GlobalVariables.addRecipeTab))
-    }
-}
+//struct AddRecipeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddRecipeView(tabSelection: Binding.constant(GlobalVariables.addRecipeTab))
+//    }
+//}

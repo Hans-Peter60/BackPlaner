@@ -1,6 +1,6 @@
 //
 //  RecipeFBModel.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 22.11.21.
 //
@@ -11,14 +11,12 @@ import FirebaseStorage
 
 class RecipeFBModel: ObservableObject {
     
-
-    
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
-    @Published var recipesFB = [RecipeFB]()
+    @Published var recipesFB    = [RecipeFB]()
     @Published var recipesImage = [String : UIImage]()
-    @Published var storedID = ""
+    @Published var storedID     = ""
     
     init() {
         // Check if we have preloaded the data into core data
@@ -33,10 +31,10 @@ class RecipeFBModel: ObservableObject {
         
         // MARK: Upload image into cloud storage
         let storageRef = storage.reference()
-        let data = i.jpegData(compressionQuality: 0.5) ?? Data()
-        let filePath = "images/" + (r.image) + ".jpg"
+        let data       = i.jpegData(compressionQuality: 0.5) ?? Data()
+        let filePath   = "images/" + (r.image) + ".jpg"
         
-        let imageRef = storageRef.child(filePath)
+        let imageRef   = storageRef.child(filePath)
         
         let uploadTask = imageRef.putData(data, metadata: nil) { (metadata, error) in guard let metadata = metadata else  {
             // Uh-oh, an error occurred!
@@ -55,13 +53,13 @@ class RecipeFBModel: ObservableObject {
 
         // Create a Firebase document
         let cloudRecipe = cloudRecipes.addDocument(data: [
-            "name": r.name,
+            "name":     r.name,
             "prepTime": GlobalVariables.totalDuration,
             "servings": r.servings,
-            "summary": r.summary,
-            "urlLink": r.urlLink,
-            "image": r.image,
-            "tags": r.tags
+            "summary":  r.summary,
+            "urlLink":  r.urlLink,
+            "image":    r.image,
+            "tags":     r.tags
         ])
         
         
@@ -69,10 +67,10 @@ class RecipeFBModel: ObservableObject {
             
             let cloudComponent = cloudRecipe.collection("instructions").addDocument(data: [
                 "instruction": i.instruction,
-                "step": i.step,
-                "duration": i.duration,
-                "startTime": i.startTime ?? 0,
-                "date": i.date ?? 0
+                "step":        i.step,
+                "duration":    i.duration,
+                "startTime":   i.startTime ?? 0,
+                "date":        i.date ?? 0
             ])
         }
         
@@ -86,13 +84,13 @@ class RecipeFBModel: ObservableObject {
                 // Create a ingredient document
                 let cloudIngredient = cloudComponent.collection("ingredients").addDocument(data: [
                     "name": i.name,
-                    "id": i.id
+                    "id":   i.id
                 ])
                 cloudIngredient.updateData([
-                    "unit": i.unit ?? "",
-                    "weight": i.weight,
-                    "num": i.num ?? 1,
-                    "denom": i.denom ?? 1,
+                    "unit":      i.unit ?? "",
+                    "weight":    i.weight,
+                    "num":       i.num ?? 1,
+                    "denom":     i.denom ?? 1,
                     "component": i.component ?? 1
                 ])
             }
@@ -112,13 +110,13 @@ class RecipeFBModel: ObservableObject {
                 for doc in snapshot!.documents {
                     let r = RecipeFB()
                     
-                    r.id = doc.documentID
-                    r.name = doc["name"] as? String ?? ""
-                    r.image = doc["image"] as? String ?? ""
-                    r.summary = doc["summary"] as? String ?? ""
-                    r.urlLink = doc["urlLink"] as? String ?? ""
+                    r.id       = doc.documentID
+                    r.name     = doc["name"] as? String ?? ""
+                    r.image    = doc["image"] as? String ?? ""
+                    r.summary  = doc["summary"] as? String ?? ""
+                    r.urlLink  = doc["urlLink"] as? String ?? ""
                     r.prepTime = doc["prepTime"] as? Int ?? 0
-                    r.tags = doc["tags"] as? [String] ?? [String]()
+                    r.tags     = doc["tags"] as? [String] ?? [String]()
                     r.servings = doc["servings"] as? Int ?? 1
                     
                     if GlobalVariables.detailView {
@@ -160,11 +158,11 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = InstructionFB()
                     
-                    i.id = doc.documentID
+                    i.id          = doc.documentID
                     i.instruction = doc["instruction"] as? String ?? ""
-                    i.duration = doc["duration"] as? Int ?? 0
-                    i.startTime = doc["startTime"] as? Int ?? 0
-                    i.step = doc["step"] as? Double ?? 1
+                    i.duration    = doc["duration"] as? Int ?? 0
+                    i.startTime   = doc["startTime"] as? Int ?? 0
+                    i.step        = doc["step"] as? Double ?? 1
 
                     r.instructions.append(i)
                 }
@@ -185,7 +183,7 @@ class RecipeFBModel: ObservableObject {
                     
                     let c = ComponentFB()
                     
-                    c.id = doc.documentID
+                    c.id   = doc.documentID
                     c.name = doc["name"] as? String ?? ""
                     
                     self.getIngredientsFB(c, recipeDocID, c.id!)
@@ -208,12 +206,12 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = IngredientFB()
                     
-                    i.id = doc.documentID
-                    i.name = doc["name"] as? String ?? ""
-                    i.unit = doc["unit"] as? String ?? ""
+                    i.id     = doc.documentID
+                    i.name   = doc["name"] as? String ?? ""
+                    i.unit   = doc["unit"] as? String ?? ""
                     i.weight = doc["weight"] as? Double ?? 0
-                    i.num = doc["num"] as? Int ?? 0
-                    i.denom = doc["denom"] as? Int ?? 0
+                    i.num    = doc["num"] as? Int ?? 0
+                    i.denom  = doc["denom"] as? Int ?? 0
                     
                     c.ingredients.append(i)
                 }
@@ -230,12 +228,12 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = IngredientFB()
                     
-                    i.id = doc.documentID
-                    i.name = doc["name"] as? String ?? ""
-                    i.unit = doc["unit"] as? String ?? ""
+                    i.id     = doc.documentID
+                    i.name   = doc["name"] as? String ?? ""
+                    i.unit   = doc["unit"] as? String ?? ""
                     i.weight = doc["weight"] as? Double ?? 0
-                    i.num = doc["num"] as? Int ?? 0
-                    i.denom = doc["denom"] as? Int ?? 0
+                    i.num    = doc["num"] as? Int ?? 0
+                    i.denom  = doc["denom"] as? Int ?? 0
                     
                     c.ingredients.append(i)
                 }
@@ -246,11 +244,11 @@ class RecipeFBModel: ObservableObject {
     
     static func getPortion(ingredient:IngredientFB, recipeServings:Int, targetServings:Int) -> String {
         
-        var portion = ""
-        var numerator = ingredient.num ?? 1
-        var denominator = ingredient.denom ?? 1
-        var wholePortions = 0
-        let compTargetServings: Double = Double(targetServings) / 2
+        var portion            = ""
+        var numerator          = ingredient.num ?? 1
+        var denominator        = ingredient.denom ?? 1
+        var wholePortions      = 0
+        let compTargetServings = Double(targetServings) / 2
         
         if (ingredient.weight == nil || ingredient.weight == 0) && (ingredient.num == 0 || (ingredient.num == ingredient.denom)) {
             return "" }

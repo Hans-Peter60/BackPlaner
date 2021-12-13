@@ -1,23 +1,22 @@
 //
-//  InstructionsFBListView.swift
-//  BackPlaner2
+//  RecipeFBListView.swift
+//  BackPlaner
 //
-//  Created by Hans-Peter Müller on 24.11.21.
+//  Created by Hans-Peter Müller on 23.11.21.
 //
 
 import SwiftUI
 
-struct InstructionsFBListView: View {
+struct RecipeFBListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var modelFB:RecipeFBModel
-    
-    @State private var filterBy = ""
+    @EnvironmentObject var modelFB: RecipeFBModel
 
+    @State private var filterBy = ""
+    
     private var filteredFBRecipes: [RecipeFB] {
         
         var fR: [RecipeFB] = [RecipeFB]()
-        
         if filterBy == "" {
             return modelFB.recipesFB
         }
@@ -34,7 +33,7 @@ struct InstructionsFBListView: View {
         NavigationView {
             
             VStack (alignment: .leading) {
-                Text("Backauswahl")
+                Text("Alle Rezepte")
                     .bold()
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
@@ -44,13 +43,14 @@ struct InstructionsFBListView: View {
                 
                 ScrollView {
                     LazyVStack (alignment: .leading) {
-                        ForEach(filteredFBRecipes) { r in
+                        ForEach (filteredFBRecipes) { r in
                             NavigationLink(
-                                destination: InstructionsFBView(recipeFB: r),
+                                destination: RecipeFBDetailView(recipeFB:r),
                                 label: {
                                     
                                     // MARK: Row item
                                     HStack(spacing: 20.0) {
+                                        
                                         Image(uiImage: modelFB.recipesImage[r.id ?? ""] ?? UIImage())
                                             .resizable()
                                             .scaledToFill()
@@ -81,3 +81,10 @@ struct InstructionsFBListView: View {
         }
     }
 }
+
+//struct RecipeFBListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeFBListView()
+//            .environmentObject(RecipeFBModel())
+//    }
+//}

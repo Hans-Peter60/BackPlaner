@@ -2,7 +2,7 @@
 //  Instruction+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 06.12.21.
+//  Created by Hans-Peter Müller on 12.12.21.
 //
 //
 
@@ -16,12 +16,12 @@ extension Instruction {
         return NSFetchRequest<Instruction>(entityName: "Instruction")
     }
 
-    @NSManaged public var date: Date?
-    @NSManaged public var duration: Int
-    @NSManaged public var id: UUID?
-    @NSManaged public var instruction: String
-    @NSManaged public var startTime: Int
     @NSManaged public var step: Double
+    @NSManaged public var startTime: Int
+    @NSManaged public var instruction: String
+    @NSManaged public var id: UUID?
+    @NSManaged public var duration: Int
+    @NSManaged public var date: Date?
     @NSManaged public var recipe: Recipe?
 
 }

@@ -2,7 +2,7 @@
 //  Recipe+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 06.12.21.
+//  Created by Hans-Peter Müller on 12.12.21.
 //
 //
 
@@ -16,19 +16,44 @@ extension Recipe {
         return NSFetchRequest<Recipe>(entityName: "Recipe")
     }
 
-    @NSManaged public var comments: [String]?
-    @NSManaged public var featured: Bool
-    @NSManaged public var id: UUID?
-    @NSManaged public var image: Data
-    @NSManaged public var name: String
-    @NSManaged public var prepTime: Int
-    @NSManaged public var servings: Int
-    @NSManaged public var summary: String
-    @NSManaged public var tags: [String]
     @NSManaged public var urlLink: String?
+    @NSManaged public var tags: [String]
+    @NSManaged public var summary: String
+    @NSManaged public var servings: Int
+    @NSManaged public var prepTime: Int
+    @NSManaged public var name: String
+    @NSManaged public var image: Data
+    @NSManaged public var id: UUID?
+    @NSManaged public var firestoreId: String?
+    @NSManaged public var featured: Bool
+    @NSManaged public var comments: [String]?
     @NSManaged public var components: NSSet
     @NSManaged public var instructions: NSSet
     @NSManaged public var bakeHistories: NSSet
+    
+    public var instructionsArray: [Instruction] {
+        let set = instructions as? Set<Instruction> ?? []
+        return set.sorted {
+            $0.step < $1.step
+        }
+    }
+
+}
+
+// MARK: Generated accessors for bakeHistories
+extension Recipe {
+
+    @objc(addBakeHistoriesObject:)
+    @NSManaged public func addToBakeHistories(_ value: BakeHistory)
+
+    @objc(removeBakeHistoriesObject:)
+    @NSManaged public func removeFromBakeHistories(_ value: BakeHistory)
+
+    @objc(addBakeHistories:)
+    @NSManaged public func addToBakeHistories(_ values: NSSet)
+
+    @objc(removeBakeHistories:)
+    @NSManaged public func removeFromBakeHistories(_ values: NSSet)
 
 }
 
@@ -63,23 +88,6 @@ extension Recipe {
 
     @objc(removeInstructions:)
     @NSManaged public func removeFromInstructions(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for bakeHistories
-extension Recipe {
-
-    @objc(addBakeHistoriesObject:)
-    @NSManaged public func addToBakeHistories(_ value: BakeHistory)
-
-    @objc(removeBakeHistoriesObject:)
-    @NSManaged public func removeFromBakeHistories(_ value: BakeHistory)
-
-    @objc(addBakeHistories:)
-    @NSManaged public func addToBakeHistories(_ values: NSSet)
-
-    @objc(removeBakeHistories:)
-    @NSManaged public func removeFromBakeHistories(_ values: NSSet)
 
 }
 

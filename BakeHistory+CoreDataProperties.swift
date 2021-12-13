@@ -2,7 +2,7 @@
 //  BakeHistory+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 06.12.21.
+//  Created by Hans-Peter Müller on 12.12.21.
 //
 //
 
@@ -16,10 +16,10 @@ extension BakeHistory {
         return NSFetchRequest<BakeHistory>(entityName: "BakeHistory")
     }
 
+    @NSManaged public var images: [Data]
     @NSManaged public var id: UUID?
     @NSManaged public var date: Date?
     @NSManaged public var comment: String
-    @NSManaged public var images: [Data]
     @NSManaged public var recipe: Recipe?
 
 }

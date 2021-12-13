@@ -32,8 +32,8 @@ struct RecipeTags: View {
     }
 }
 
-struct RecipeTags_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeTags(tags: ["test", "test2", "test3"])
-    }
-}
+//struct RecipeTags_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeTags(tags: ["test", "test2", "test3"])
+//    }
+//}

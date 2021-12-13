@@ -1,6 +1,6 @@
 //
 //  RecipeFBFeaturedView.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 25.11.21.
 //
@@ -104,9 +104,9 @@ struct RecipeFBFeaturedView: View {
 //    }
 }
 
-struct RecipeFBFeaturedView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeFBFeaturedView()
-            .environmentObject(RecipeFBModel())
-    }
-}
+//struct RecipeFBFeaturedView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeFBFeaturedView()
+//            .environmentObject(RecipeFBModel())
+//    }
+//}

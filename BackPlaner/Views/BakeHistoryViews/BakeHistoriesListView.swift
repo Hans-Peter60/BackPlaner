@@ -111,9 +111,9 @@ struct BakeHistoriesListView: View {
     }
 }
 
-struct BakeHistoriesListView_Previews: PreviewProvider {
-    static var previews: some View {
-        BakeHistoriesListView()
-            .environmentObject(RecipeModel())
-    }
-}
+//struct BakeHistoriesListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BakeHistoriesListView()
+//            .environmentObject(RecipeModel())
+//    }
+//}

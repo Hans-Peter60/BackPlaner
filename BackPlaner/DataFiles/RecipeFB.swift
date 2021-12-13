@@ -19,6 +19,7 @@ class RecipeFB: Identifiable, Decodable {
     
     // The id property is for the Identifiable protocol which we need to display these instances in a SwiftUI List
     var id:String? = ""
+    var firestoreId: String? = ""
     
     // These properties map to the properties in the JSON file
     var name:String = ""

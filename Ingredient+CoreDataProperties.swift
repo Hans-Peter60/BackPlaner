@@ -2,7 +2,7 @@
 //  Ingredient+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 06.12.21.
+//  Created by Hans-Peter Müller on 12.12.21.
 //
 //
 
@@ -16,12 +16,12 @@ extension Ingredient {
         return NSFetchRequest<Ingredient>(entityName: "Ingredient")
     }
 
-    @NSManaged public var denom: Int
-    @NSManaged public var id: UUID?
-    @NSManaged public var name: String
-    @NSManaged public var num: Int
-    @NSManaged public var unit: String?
     @NSManaged public var weight: Double
+    @NSManaged public var unit: String?
+    @NSManaged public var num: Int
+    @NSManaged public var name: String
+    @NSManaged public var id: UUID?
+    @NSManaged public var denom: Int
     @NSManaged public var component: Component?
 
 }

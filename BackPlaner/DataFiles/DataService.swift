@@ -42,9 +42,8 @@ class DataService {
                     // Add unique IDs to recipe components
                     for c in r.components {
                         c.id = UUID().uuidString
-                      }
+                    }
                 }
-
                 // Return the recipes
                 return recipeData
             }
@@ -57,8 +56,6 @@ class DataService {
             // error with getting data
             print(error)
         }
-
         return [RecipeFB]()
     }
-    
 }

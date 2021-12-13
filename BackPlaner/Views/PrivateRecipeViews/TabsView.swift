@@ -1,0 +1,55 @@
+//
+//  TabsView.swift
+//  BackPlaner
+//
+//  Created by Hans-Peter Müller on 05.11.21.
+//
+
+import SwiftUI
+import CoreData
+
+struct TabsView: View {
+    
+    @State private var tabSelection = 0
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var modelFB: RecipeFBModel
+    
+    var body: some View {
+        TabView (selection: $tabSelection) {
+            
+             RecipeListView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "list.bullet.rectangle")
+                        Text("Eigene Rezeptliste")
+                    }
+                }
+                .tag(GlobalVariables.listTab)
+            
+            RecipeFeaturedView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "star.fill")
+                        Text("Markierte Rezepte")
+                    }
+                }
+                .tag(GlobalVariables.featuredTab)
+
+            InstructionsListView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "dial.max.fill")
+                        Text("Eigenes Rezept backen")
+                    }
+                }
+                .tag(GlobalVariables.bakeListTab)
+        }
+    }
+
+//    struct TabsView_Previews: PreviewProvider {
+//        static var previews: some View {
+//            TabsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        }
+//    }
+}

@@ -11,18 +11,21 @@ import Firebase
 @main
 struct BackPlanerApp: App {
     
+    @StateObject private var dataController = DataController()
+    
     init() {
         FirebaseApp.configure()
         
         let recipeDb = Firestore.firestore()
     }
     
-    let persistenceController = PersistenceController.shared
+//    let dataController = DataController.shared
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

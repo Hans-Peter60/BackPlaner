@@ -1,6 +1,6 @@
 //
 //  RecipeFBDetailView.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 23.11.21.
 //
@@ -103,7 +103,7 @@ struct RecipeFBDetailView: View {
                 // MARK: Divider
                 Divider()
                 
-                // MARK: Directions
+                // MARK: Instructions
                 VStack(alignment: .leading) {
                     Text("Verarbeitungsschritte:")
                         .font(Font.custom("Avenir Heavy", size: 16))
@@ -132,12 +132,12 @@ struct RecipeFBDetailView: View {
     }
 }
 
-struct RecipeFBDetailView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        let modelFB = RecipeFBModel()
-        
-        RecipeFBDetailView(recipeFB: modelFB.recipesFB[0])
-    }
-}
+//struct RecipeFBDetailView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        
+//        let modelFB = RecipeFBModel()
+//        
+//        RecipeFBDetailView(recipeFB: modelFB.recipesFB[0])
+//    }
+//}

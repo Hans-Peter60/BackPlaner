@@ -40,8 +40,8 @@ struct SearchBarView: View {
     }
 }
 
-struct SearchBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchBarView(filterBy: Binding.constant(""))
-    }
-}
+//struct SearchBarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchBarView(filterBy: Binding.constant(""))
+//    }
+//}

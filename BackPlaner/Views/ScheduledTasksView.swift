@@ -16,8 +16,11 @@ struct ScheduledTasksView: View {
     
     // Tab selection
     @Binding var tabSelection: Int
+    
     var gridItemLayout = [GridItem(.fixed(110), alignment: .leading), GridItem(.fixed(90), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
+    
     var dateCalculation:DateCalculation = DateCalculation()
+    
     @State private var name = ""
     
     var body: some View {

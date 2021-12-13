@@ -1,25 +1,19 @@
 //
-//  TabsView.swift
+//  TabsFBView.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 05.11.21.
+//  Created by Hans-Peter Müller on 08.12.21.
 //
 
 import SwiftUI
 import CoreData
 
-struct TabsView: View {
+struct TabsFBView: View {
     
     @State private var tabSelection = 1
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    
-    private var items: FetchedResults<Item>
     
     var body: some View {
         TabView (selection: $tabSelection) {
@@ -28,7 +22,7 @@ struct TabsView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "list.bullet.rectangle")
-                        Text("Liste FB")
+                        Text("Rezeptliste")
                     }
                 }
                 .tag(GlobalVariables.listTab)
@@ -46,16 +40,16 @@ struct TabsView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "dial.max.fill")
-                        Text("Backen")
+                        Text("Rezept backen")
                     }
                 }
                 .tag(GlobalVariables.bakeListTab)
         }
     }
 
-    struct TabsView_Previews: PreviewProvider {
-        static var previews: some View {
-            TabsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        }
-    }
+//    struct TabsFBView_Previews: PreviewProvider {
+//        static var previews: some View {
+//            TabsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        }
+//    }
 }

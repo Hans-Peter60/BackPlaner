@@ -2,7 +2,7 @@
 //  Component+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 06.12.21.
+//  Created by Hans-Peter Müller on 12.12.21.
 //
 //
 
@@ -16,10 +16,10 @@ extension Component {
         return NSFetchRequest<Component>(entityName: "Component")
     }
 
-    @NSManaged public var id: UUID?
     @NSManaged public var name: String
-    @NSManaged public var ingredients: NSSet
+    @NSManaged public var id: UUID?
     @NSManaged public var recipe: Recipe?
+    @NSManaged public var ingredients: NSSet
 
 }
 

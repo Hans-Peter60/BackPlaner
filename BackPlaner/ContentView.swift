@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  BackPlaner2
+//  BackPlaner
 //
 //  Created by Hans-Peter Müller on 24.11.21.
 //
@@ -10,10 +10,10 @@ import CoreData
 
 struct ContentView: View {
     
-    @State private var tabSelection = 0
+    @State       private var tabSelection = 0
     
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var modelFB: RecipeFBModel
+//    @EnvironmentObject var modelFB: RecipeFBModel
     
     var manager:LocalNotificationManager = LocalNotificationManager()
     
@@ -28,7 +28,7 @@ struct ContentView: View {
             VStack {
 
                 NavigationLink(
-                    destination: TabsView()
+                    destination: TabsFBView()
                 ) {
                     ZStack {
                         Rectangle()
@@ -37,13 +37,29 @@ struct ContentView: View {
                             .shadow(radius: 5)
                             .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
                         
-                        Text("Liste der Rezepte")
+                        Text("Public Rezepte")
                             .bold()
                             .foregroundColor(.black)
                     }
                 }
                 .padding()
                 
+                NavigationLink(
+                    destination: TabsView()
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+
+                        Text("Private Rezepte")
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
                 NavigationLink(
                     destination: AddRecipeView(tabSelection: $tabSelection)
                 ) {
@@ -78,22 +94,6 @@ struct ContentView: View {
                 }
                 .padding()
 
-                NavigationLink(
-                    destination: ListCoreDataRecipesView()
-                ) {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
-
-                        Text("CoreData Rezepte")
-                            .bold()
-                            .foregroundColor(.black)
-                    }
-                }
-                .padding()
 
                 NavigationLink(
                     destination: BakeHistoriesListView()
@@ -119,9 +119,9 @@ struct ContentView: View {
         .environmentObject(RecipeFBModel())
     }
         
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        }
-    }
+//    struct ContentView_Previews: PreviewProvider {
+//        static var previews: some View {
+//            ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        }
+//    }
 }
