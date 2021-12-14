@@ -289,11 +289,30 @@ struct InstructionsView: View {
 
                             Button(" Dauer übernehmen ") {
 
+                                var instructionsFB = [InstructionFB]()
+                                
                                 for i in 0..<recipe.instructionsArray.count {
 
                                     let cleanedDuration = durations[i].trimmingCharacters(in: .whitespacesAndNewlines)
                                     if Int(cleanedDuration) ?? 0 > 0 { recipe.instructionsArray[i].duration = Int(cleanedDuration) ?? 0}
+                                    
+                                    let instruction = InstructionFB()
+                                    instruction.instruction = recipe.instructionsArray[i].instruction
+                                    instruction.step        = recipe.instructionsArray[i].step
+                                    instruction.startTime   = recipe.instructionsArray[i].startTime
+                                    instruction.duration    = recipe.instructionsArray[i].duration
+                                    instructionsFB.append(instruction)
+
                                 }
+                                instructionsFB = Rational.calculateStartTimes(instructionsFB, dateTime)
+                                
+                                for i in 0..<recipe.instructionsArray.count {
+                                    recipe.instructionsArray[i].instruction = instructionsFB[i].instruction
+                                    recipe.instructionsArray[i].step        = instructionsFB[i].step
+                                    recipe.instructionsArray[i].startTime   = instructionsFB[i].startTime ?? 0
+                                    recipe.instructionsArray[i].duration    = instructionsFB[i].duration
+                                }
+                                changeDurationsFlag = false
                             }
                             .padding()
                             .foregroundColor(.gray)

@@ -275,6 +275,9 @@ struct InstructionsFBView: View {
                                     let cleanedDuration = durations[i].trimmingCharacters(in: .whitespacesAndNewlines)
                                     if Int(cleanedDuration) ?? 0 > 0 { recipeFB.instructions[i].duration = Int(cleanedDuration) ?? 0}
                                 }
+                                recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, dateTime)
+                                
+                                changeDurationsFlag = false
                             }
                             .padding()
                             .foregroundColor(.gray)
