@@ -180,10 +180,10 @@
 		6A8EA9442759086B00BF97A7 /* DataFiles */ = {
 			isa = PBXGroup;
 			children = (
+				6AF825892758F4230025FB0B /* RecipeFBModel.swift */,
 				6AF825822758F4220025FB0B /* DataService.swift */,
 				6AF825842758F4220025FB0B /* GlobalVariables.swift */,
 				6AF825852758F4220025FB0B /* RecipeFB.swift */,
-				6AF825892758F4230025FB0B /* RecipeFBModel.swift */,
 				6AF825872758F4230025FB0B /* Recipes_empty.json */,
 				6AF825862758F4220025FB0B /* Recipes.json */,
 			);

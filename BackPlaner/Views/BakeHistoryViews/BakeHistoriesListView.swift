@@ -41,7 +41,7 @@ struct BakeHistoriesListView: View {
             .bold()
         
         SearchBarView(filterBy: $filterBy)
-            .padding([.trailing, .bottom])
+            .padding([.leading, .trailing, .bottom])
         
         ScrollView {
             
@@ -62,7 +62,7 @@ struct BakeHistoriesListView: View {
                             Text(dateFormat.calculateDate(dT: bakeHistory.date ?? Date()))
                                 .font(Font.custom("Avenir Heavy", size: 14))
                             Text(recipe.name)
-                                .font(Font.custom("Avenir", size: 14))
+                                .font(Font.custom("Avenir Heavy", size: 14))
                             Text(bakeHistory.comment)
                                 .font(Font.custom("Avenir", size: 14))
                             
@@ -89,22 +89,22 @@ struct BakeHistoriesListView: View {
                                         .cornerRadius(5)
                                 }
                             }
+
+                            Button("Löschen") {
+                                
+                                viewContext.delete(bakeHistory)
+
+                                do {
+                                    try viewContext.save()
+                                } catch {
+                                    // handle the Core Data error
+                                }
+                            }
+                            .font(Font.custom("Avenir", size: 15))
+                            .padding()
+                            .foregroundColor(.gray)
+                            .buttonStyle(.bordered)
                         }
-                        
-                        Button("Löschen") {
-                            
-//                            managedObjectContext.delete(bakeHistory)
-//
-//                            do {
-//                                try managedObjectContext.save()
-//                            } catch {
-//                                // handle the Core Data error
-//                            }
-                        }
-                        .font(Font.custom("Avenir", size: 15))
-                        .padding()
-                        .foregroundColor(.gray)
-                        .buttonStyle(.bordered)
                     }
                 }
 //                .padding()

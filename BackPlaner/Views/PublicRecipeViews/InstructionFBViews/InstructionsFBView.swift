@@ -12,20 +12,17 @@ struct InstructionsFBView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model: RecipeModel
-    
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
-//    private var recipes: FetchedResults<Recipe>
 
     var recipeFB: RecipeFB
     
     @State private var dateTime = GlobalVariables.dateTimePicker
-    @State private var dateTimeStartSelection = 0
-    @State var         selectedServingSize = 2
+    @State private var dateTimeStartSelection     = 0
+    @State var         selectedServingSize        = 2
     @State private var showingNotificationMessage = false
-    @State private var changeDurationsFlag = false
+    @State private var changeDurationsFlag        = false
 //  @State private var bakeHistory = BakeHistory()
     
-    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
     
@@ -232,23 +229,23 @@ struct InstructionsFBView: View {
                             showingNotificationMessage = true
                             
                             let i = InstructionFB()
-                            let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "98", bakeStartTime, dateTime, true)
                             i.id          = UUID().uuidString
-                            i.instruction = "Backofen anstellen"
+                            i.instruction = GlobalVariables.startHeating
                             for index in 0..<recipeFB.instructions.count {
                                 if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
                                     
                                     i.step = recipeFB.instructions[index].step - 0.1
                                 }
                             }
+                            let _ = manager.setNotification(recipeFB.id ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
                             recipeFB.instructions.append(i)
 
                             let i2 = InstructionFB()
-                            let endDate = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
+                            let endDate = manager.setNotification(recipeFB.id ?? "", GlobalVariables.bakeEnd, "99", recipeFB.prepTime, dateTime, true)
                             i2.id          = UUID().uuidString
-                            i2.instruction = "Backvorgang ist beendet"
+                            i2.instruction = GlobalVariables.bakeEnd
                             i2.step        = 99
                             i2.startTime   = recipeFB.prepTime
                             i2.duration    = 0
@@ -302,12 +299,12 @@ struct InstructionsFBView: View {
             
             let n = NextSteps(context: viewContext)
                     
-            n.id = UUID()
-            n.recipeName = recipeFB.name
+            n.id          = UUID()
+            n.recipeName  = recipeFB.name
             n.instruction = iFB.instruction
-            n.step = iFB.step
-            n.duration = iFB.duration
-            n.startTime = iFB.startTime ?? 0
+            n.step        = iFB.step
+            n.duration    = iFB.duration
+            n.startTime   = iFB.startTime ?? 0
             n.date = Calendar.current.date(byAdding: .minute, value: iFB.startTime ?? 0, to: date)!
         
             // Save to core data
@@ -363,26 +360,4 @@ struct UpdateBakeHistory {
     func updateBakeHistory(recipeFB: RecipeFB) {
         
     }
-
-//    private func fetchRecordsForEntity(_ entity: String, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> [NSManagedObject] {
-//        // Create Fetch Request
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-//
-//        // Helpers
-//        var result = [NSManagedObject]()
-//
-//        do {
-//            // Execute Fetch Request
-//            let records = try managedObjectContext.fetch(fetchRequest)
-//
-//            if let records = records as? [NSManagedObject] {
-//                result = records
-//            }
-//
-//        } catch {
-//            print("Unable to fetch managed objects for entity \(entity).")
-//        }
-//
-//        return result
-//    }
 }

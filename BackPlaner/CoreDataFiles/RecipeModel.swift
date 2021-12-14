@@ -49,7 +49,7 @@ class RecipeModel: ObservableObject {
         
         // If it's false, then we should parse the local json and preload into Core Data
         if status == false {
-            deleteAllCoreDataRecords()
+//            deleteAllCoreDataRecords()
             preloadLocalData()
         }
     }
@@ -130,14 +130,14 @@ class RecipeModel: ObservableObject {
             let h = BakeHistory(context: managedObjectContext)
             
             h.id      = UUID()
-            h.date    = bH.date ?? Date()
+            h.date    = bH.date
             h.comment = bH.comment
             
             if bH.images.count < 1 {
                 
             }
             else {
-                for i in bH.images ?? [""] {
+                for i in bH.images {
                     
                     let bHI = UIImage(named: i)?.jpegData(compressionQuality: 1.0) ?? Data()
                     h.images.append(bHI)
@@ -161,17 +161,18 @@ class RecipeModel: ObservableObject {
     
     static func getPortion(ingredient:Ingredient, recipeServings:Int, targetServings:Int) -> String {
         
-        var portion       = ""
-        var numerator     = ingredient.num
-        var denominator   = ingredient.denom
-        var wholePortions = 0
+        var portion            = ""
+        var numerator          = ingredient.num
+        var denominator        = ingredient.denom
+        var wholePortions      = 0
+        let compTargetServings = Double(targetServings) / 2
         
-        if (ingredient.weight == nil || ingredient.weight == 0) && (ingredient.num == 0 || (ingredient.num == ingredient.denom)) {
+        if ingredient.weight == 0 && (ingredient.num == 0 || (ingredient.num == ingredient.denom)) {
             return "" }
         else {
-            if ingredient.weight == nil || ingredient.weight == 0 {
+            if ingredient.weight == 0 {
                 // Get a single serving size by multiplying denominator by the recipe servings
-                denominator *= recipeServings
+                denominator *= (recipeServings * 2)
                 
                 // Get target portion by multiplying numerator by target servings
                 numerator *= targetServings
@@ -202,7 +203,7 @@ class RecipeModel: ObservableObject {
                     portion += "\(numerator)/\(denominator)"
                 }
             } else {
-                portion = String(Double(ingredient.weight / Double(recipeServings * targetServings)))
+                portion = Rational.decimalPlace((Double(ingredient.weight) / (Double(recipeServings)) * compTargetServings), 1000)
             }
             
             if var unit = ingredient.unit {
@@ -227,7 +228,7 @@ class RecipeModel: ObservableObject {
                 
                 return portion + unit
             }
-            
+
             return portion
         }
     }

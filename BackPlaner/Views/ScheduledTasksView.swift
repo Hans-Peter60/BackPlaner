@@ -28,7 +28,7 @@ struct ScheduledTasksView: View {
         Text("Liste der nächsten Schritte")
             .bold()
         
-        List {
+        ScrollView {
             
             LazyVGrid(columns: gridItemLayout, spacing: 6) {
                 
@@ -40,17 +40,17 @@ struct ScheduledTasksView: View {
                 
                 ForEach(nextSteps) { nextStep in
                     
-                    if nextStep.date > Date() {
+                    if nextStep.date > Date() - 60 {
                         
-                    Group {
-                        Text("")
-                        Text("")
-                        Text(nextStep.recipeName)
-                            .font(Font.custom("Avenir Heavy", size: 14))
-                        Text("")
-                        Text("")
-                    }
-                        
+                        Group {
+                            Text("")
+                            Text("")
+                            Text(nextStep.recipeName)
+                                .font(Font.custom("Avenir Heavy", size: 14))
+                            Text("")
+                            Text("")
+                        }
+                    
                         let step = Rational.decimalPlace(nextStep.step, 10)
                         
                         Text(dateCalculation.calculateDateTime(dT: nextStep.date))
