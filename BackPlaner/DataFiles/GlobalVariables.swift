@@ -12,6 +12,8 @@ struct GlobalVariables {
     
     static var isDataPreloaded = "isDataPreloaded"
     
+    static var recipesImage = [String : UIImage]()
+
 //    static var featuredTab = 0
     static var listTab      = 0
     static var featuredTab  = 1

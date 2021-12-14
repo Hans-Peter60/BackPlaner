@@ -46,7 +46,7 @@ struct InstructionsFBView: View {
                 
                 VStack (alignment: .leading) {
                     
-                    Image(uiImage: modelFB.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                    Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
@@ -261,13 +261,6 @@ struct InstructionsFBView: View {
                             
                             model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
                             
-//                            let recipe = recipes {
-//                                recipes.value(forKey: "id") ?? "" {
-//                                    model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
-//                                }
-//                            }
-                            
-                           
                         }
                         .padding()
                         .foregroundColor(.gray)

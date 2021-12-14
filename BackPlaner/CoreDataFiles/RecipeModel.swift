@@ -14,8 +14,6 @@ import FirebaseStorage
 
 class RecipeModel: ObservableObject {
     
-//    @FetchRequest(sortDescriptors: []) private var recipesCD: FetchedResults<Recipe>
-    
     // Reference to the managed object context
     let managedObjectContext = PersistenceController.shared.container.viewContext
     
@@ -76,7 +74,8 @@ class RecipeModel: ObservableObject {
         r.firestoreId = recipeFB.id
         r.name        = recipeFB.name
         r.summary     = recipeFB.summary
-        r.image       = UIImage(named: recipeFB.image)?.jpegData(compressionQuality: 1.0) ?? Data()
+        let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
+        r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
         r.urlLink     = recipeFB.urlLink
         r.featured    = true
         r.servings    = recipeFB.servings

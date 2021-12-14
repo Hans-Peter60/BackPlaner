@@ -174,9 +174,9 @@ struct InstructionsView: View {
                             .font(Font.custom("Avenir", size: 15))
                         }
                         else {
-                            //
-                            //                            Text("Beginn").bold()
-                            //
+                            
+                            Text("Beginn").bold()
+                            
                             ForEach(recipe.instructionsArray.indices) { index in
 
                                 let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)

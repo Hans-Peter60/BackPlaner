@@ -15,7 +15,6 @@ class RecipeFBModel: ObservableObject {
     let storage = Storage.storage()
     
     @Published var recipesFB    = [RecipeFB]()
-    @Published var recipesImage = [String : UIImage]()
     @Published var storedID     = ""
     
     init() {
@@ -125,7 +124,7 @@ class RecipeFBModel: ObservableObject {
                     }
                     self.recipesFB.append(r)
                     
-                    let t = "images/" + (r.image ?? "") + ".jpg"
+                    let t = "images/" + r.image + ".jpg"
                     let imageRef = storageRef.child(t)
                     
                     // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
@@ -135,10 +134,10 @@ class RecipeFBModel: ObservableObject {
                             print("Error - no image found")
                         } else {
                             // Data is returned
-                            self.recipesImage[r.id ?? ""] = UIImage(data: data!) ?? UIImage()
+                            GlobalVariables.recipesImage[r.id ?? ""] = UIImage(data: data!) ?? UIImage()
                         }
                     }
-                    print("r.name:", r.name, "t: ", t, "r.id: ", r.id, "recipesImage[r.id]", self.recipesImage[r.id ?? ""])
+                    print("r.name:", r.name, "t: ", t, "r.id: ", r.id, "recipesImage[r.id]", GlobalVariables.recipesImage[r.id ?? ""])
                     
                 }
             }

@@ -54,7 +54,7 @@ struct ScheduledTasksView: View {
                         let step = Rational.decimalPlace(nextStep.step, 10)
                         
                         Text(dateCalculation.calculateDateTime(dT: nextStep.date))
-                            .font(Font.custom("Avenir Heavy", size: 14))
+                            .font(Font.custom("Avenir Heavy", size: 16))
                         Text(step)
                             .font(Font.custom("Avenir", size: 14))
                         Text(nextStep.instruction)
@@ -73,7 +73,7 @@ struct ScheduledTasksView: View {
                             }
                         }
                         .font(Font.custom("Avenir", size: 15))
-                        .padding()
+                        .padding(.trailing)
                         .foregroundColor(.gray)
                         .buttonStyle(.bordered)
                     }
