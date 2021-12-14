@@ -13,15 +13,17 @@ struct GlobalVariables {
     static var isDataPreloaded = "isDataPreloaded"
     
 //    static var featuredTab = 0
-    static var listTab = 0
-    static var featuredTab = 1
-    static var bakeListTab = 2
+    static var listTab      = 0
+    static var featuredTab  = 1
+    static var bakeListTab  = 2
     static var addRecipeTab = 3
 
     static var detailView = true
     
-    static var schritt = 1
-    static var vorheizZeit = 45
+    static var schritt      = 1
+    static var vorheizZeit  = 45
+    static var startHeating = "Backofen anstellen"
+    static var bakeEnd      = "Backvorgang ist beendet"
     
     static var totalDuration = 0
     static var dateTimePicker = Date()

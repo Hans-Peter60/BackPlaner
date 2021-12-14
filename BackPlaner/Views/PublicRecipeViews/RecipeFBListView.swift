@@ -61,9 +61,11 @@ struct RecipeFBListView: View {
                                         VStack (alignment: .leading) {
                                             Text(r.name)
                                                 .font(Font.custom("Avenir Heavy", size: 16))
+                                                .multilineTextAlignment(.leading)
                                             
                                             RecipeTags(tags: r.tags)
                                                 .font(Font.custom("Avenir", size: 12))
+                                                .multilineTextAlignment(.leading)
                                         }
                                     }
                                 }

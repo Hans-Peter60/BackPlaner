@@ -5,19 +5,19 @@
 //  Created by Hans-Peter Müller on 04.11.21.
 //
 
+import CoreData
 import SwiftUI
 import Foundation
 import UIKit
 import Firebase
 import FirebaseStorage
-import CoreData
 
 class RecipeModel: ObservableObject {
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
-    private var recipesCD: FetchedResults<Recipe>
+//    @FetchRequest(sortDescriptors: []) private var recipesCD: FetchedResults<Recipe>
     
-    @Environment(\.managedObjectContext) var moc
+    // Reference to the managed object context
+    let managedObjectContext = PersistenceController.shared.container.viewContext
     
     @Published var recipes   = [Recipe]()
     @Published var recipesFB = [RecipeFB]()
@@ -35,8 +35,8 @@ class RecipeModel: ObservableObject {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
         
         do {
-            try moc.execute(deleteRequest)
-            try moc.save()
+            try managedObjectContext.execute(deleteRequest)
+            try managedObjectContext.save()
         } catch {
             print ("There was an error")
         }
@@ -45,30 +45,30 @@ class RecipeModel: ObservableObject {
     func checkLoadedData() {
         
         // Check local storage for the flag
-        //let status = UserDefaults.standard.bool(forKey: GlobalVariables.isDataPreloaded)
+        let status = UserDefaults.standard.bool(forKey: GlobalVariables.isDataPreloaded)
         
         // If it's false, then we should parse the local json and preload into Core Data
-//        if status == false {
-//            deleteAllCoreDataRecords()
-//            preloadLocalData()
-//        }
+        if status == false {
+            deleteAllCoreDataRecords()
+            preloadLocalData()
+        }
     }
     
     func preloadLocalData() {
         
         // Parse the local JSON file
-//        let localRecipes = DataService.getLocalData()
+        let localRecipes = DataService.getLocalData()
         
         // Create firebase collections
-//        for r in localRecipes {
-//            uploadRecipeIntoCoreData(recipeFB: r)
-//            uploadRecipeToFirestore(r: r)
-//        }
+        for r in localRecipes {
+            uploadRecipeIntoCoreData(recipeFB: r)
+//            uploadRecipeToFirestore(r: r, i: UIImage(named: r.image))
+        }
     }
     
     func uploadRecipeIntoCoreData(recipeFB: RecipeFB) {
         
-        let r = Recipe(context: moc)
+        let r = Recipe(context: managedObjectContext)
         
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
         
@@ -85,28 +85,32 @@ class RecipeModel: ObservableObject {
         // Set the instructions
         recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, Date())
         r.prepTime = GlobalVariables.totalDuration
-        
+
         for iFB in recipeFB.instructions {
-            let i = Instruction(context: moc)
             
-            i.id          = UUID()
-            i.instruction = iFB.instruction
-            i.step        = iFB.step
-            i.duration    = iFB.duration
-            i.startTime   = iFB.startTime ?? 0
-            
-            r.addToInstructions(i)
+            if iFB.instruction != GlobalVariables.startHeating && iFB.instruction != GlobalVariables.bakeEnd {
+                
+                let i = Instruction(context: managedObjectContext)
+
+                i.id          = UUID()
+                i.instruction = iFB.instruction
+                i.step        = iFB.step
+                i.duration    = iFB.duration
+                i.startTime   = iFB.startTime ?? 0
+                
+                r.addToInstructions(i)
+            }
         }
 
         // Set the components
         for cFB in recipeFB.components {
-            let c = Component(context: moc)
+            let c = Component(context: managedObjectContext)
             
             c.id = UUID()
             c.name = cFB.name
             
             for iFB in cFB.ingredients {
-                let i = Ingredient(context: moc)
+                let i = Ingredient(context: managedObjectContext)
                 
                 // Set the ingredient
                 i.id     = UUID()
@@ -123,16 +127,21 @@ class RecipeModel: ObservableObject {
         }
         
         for bH in recipeFB.bakeHistories {
-            let h = BakeHistory(context: moc)
+            let h = BakeHistory(context: managedObjectContext)
             
             h.id      = UUID()
-            h.date    = bH.date
+            h.date    = bH.date ?? Date()
             h.comment = bH.comment
             
-            for i in bH.images ?? [""] {
+            if bH.images.count < 1 {
                 
-                let bHI = UIImage(named: i)?.jpegData(compressionQuality: 1.0) ?? Data()
-                h.images.append(bHI)
+            }
+            else {
+                for i in bH.images ?? [""] {
+                    
+                    let bHI = UIImage(named: i)?.jpegData(compressionQuality: 1.0) ?? Data()
+                    h.images.append(bHI)
+                }
             }
             r.addToBakeHistories(h)
         }
@@ -140,14 +149,14 @@ class RecipeModel: ObservableObject {
         // Save to core data
         do {
             // Save the recipe to core data
-            try moc.save()
+            try managedObjectContext.save()
             
             // Switch the view to list view
         }
         catch {
             // Couldn't save the recipe
+            print("Couldn't save the recipe")
         }
-
     }
     
     static func getPortion(ingredient:Ingredient, recipeServings:Int, targetServings:Int) -> String {

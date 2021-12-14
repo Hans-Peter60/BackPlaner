@@ -18,17 +18,17 @@ struct BakeHistoriesListView: View {
     
     private var filteredRecipes: [Recipe] {
         
-        //        if filterBy.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-        // No filter text, so return all recipes
-        return Array(recipes)
-        //        }
-        //        else {
-        // Filter by the search term and return
-        // a subset of recipes which contain the search term in the name
-        //            return recipes.filter { r in
-        //                return r.bakeHistories.contains(filterBy)
-        //            }
-        //        }
+        if filterBy.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            // No filter text, so return all recipes
+            return Array(recipes)
+        }
+        else {
+            // Filter by the search term and return
+            // a subset of recipes which contain the search term in the name
+            return recipes.filter { r in
+                return r.bakeHistories.contains(filterBy)
+            }
+        }
     }
     
     var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(160), alignment: .leading)]
@@ -39,6 +39,9 @@ struct BakeHistoriesListView: View {
         
         Text("Backhistorie")
             .bold()
+        
+        SearchBarView(filterBy: $filterBy)
+            .padding([.trailing, .bottom])
         
         ScrollView {
             

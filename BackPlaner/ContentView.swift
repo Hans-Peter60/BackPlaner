@@ -10,10 +10,9 @@ import CoreData
 
 struct ContentView: View {
     
-    @State       private var tabSelection = 0
+    @State private var tabSelection = 0
     
     @Environment(\.managedObjectContext) private var viewContext
-//    @EnvironmentObject var modelFB: RecipeFBModel
     
     var manager:LocalNotificationManager = LocalNotificationManager()
     
@@ -35,7 +34,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
                         
                         Text("Public Rezepte")
                             .bold()
@@ -52,7 +51,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
 
                         Text("Private Rezepte")
                             .bold()
@@ -68,7 +67,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
 
                         Text("Neues Rezept anlegen")
                             .bold()
@@ -85,7 +84,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
 
                         Text("Geplante Schritte")
                             .bold()
@@ -103,7 +102,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 150), contentMode: .fit)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
 
                         Text("Backhistorie")
                             .bold()
@@ -112,16 +111,10 @@ struct ContentView: View {
                 }
                 .padding()
 
-            }.navigationTitle("Back Planer")
+          }.navigationTitle("Back Planer")
                 .navigationBarTitleDisplayMode(.large)
         }
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
     }
-        
-//    struct ContentView_Previews: PreviewProvider {
-//        static var previews: some View {
-//            ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//        }
-//    }
 }

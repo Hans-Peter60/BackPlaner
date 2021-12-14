@@ -73,7 +73,7 @@ struct RecipeDetailView: View {
 
                                     ForEach (component.ingredients.allObjects as! [Ingredient]) { item in
 
-                                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize) + " " + item.name.lowercased())
+                                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize) + " " + item.name)
                                             .font(Font.custom("Avenir", size: 15))
                                     }
                                 }
@@ -97,7 +97,7 @@ struct RecipeDetailView: View {
                         Text("Beschreibung").bold()
                         Text("Dauer").bold()
                       
-                        ForEach(recipe.instructions.allObjects as! [Instruction]) { i in
+                        ForEach(recipe.instructionsArray, id: \.self) { i in
                             
                             let step = Rational.decimalPlace(i.step, 10)
                             Text(step)

@@ -28,9 +28,9 @@ class RecipeFB: Identifiable, Decodable {
     var urlLink:String = ""
     var prepTime:Int = 0
     var servings:Int = 1
+    var tags: [String] = [String]()
     var components: [ComponentFB] = [ComponentFB]()
     var instructions: [InstructionFB] = [InstructionFB]()
-    var tags: [String] = [String]()
     var bakeHistories: [BakeHistoryFB] = [BakeHistoryFB]()
 }
 
@@ -76,7 +76,7 @@ class NextStepsFB: Identifiable, Decodable {
 class BakeHistoryFB: Identifiable, Decodable {
     
     var id:String? = ""
-    var date:Date?
+    var date:Date = Date()
     var comment:String = ""
-    var images:[String]? = [String]()
+    var images:[String] = [String]()
 }

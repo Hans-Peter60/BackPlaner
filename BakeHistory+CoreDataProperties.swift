@@ -18,7 +18,7 @@ extension BakeHistory {
 
     @NSManaged public var images: [Data]
     @NSManaged public var id: UUID?
-    @NSManaged public var date: Date?
+    @NSManaged public var date: Date
     @NSManaged public var comment: String
     @NSManaged public var recipe: Recipe?
 

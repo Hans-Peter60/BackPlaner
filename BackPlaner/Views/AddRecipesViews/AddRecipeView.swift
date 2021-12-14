@@ -210,6 +210,8 @@ struct AddRecipeView: View {
             recipe.components.append(c)
         }
         
+        modelFB.recipesFB.append(recipe)
+        
         if fireStore {
             modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
         }

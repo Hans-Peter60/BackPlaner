@@ -13,8 +13,8 @@ struct InstructionsFBView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model: RecipeModel
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
-    private var recipes: FetchedResults<Recipe>
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
+//    private var recipes: FetchedResults<Recipe>
 
     var recipeFB: RecipeFB
     
@@ -23,7 +23,8 @@ struct InstructionsFBView: View {
     @State var         selectedServingSize = 2
     @State private var showingNotificationMessage = false
     @State private var changeDurationsFlag = false
-//    @State private var bakeHistory = BakeHistory()
+//  @State private var bakeHistory = BakeHistory()
+    
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
@@ -234,7 +235,12 @@ struct InstructionsFBView: View {
                             let _ = manager.setNotification(recipeFB.id ?? "", "Backofen anstellen", "98", bakeStartTime, dateTime, true)
                             i.id          = UUID().uuidString
                             i.instruction = "Backofen anstellen"
-                            i.step        = 0
+                            for index in 0..<recipeFB.instructions.count {
+                                if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
+                                    
+                                    i.step = recipeFB.instructions[index].step - 0.1
+                                }
+                            }
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
                             recipeFB.instructions.append(i)
@@ -243,7 +249,7 @@ struct InstructionsFBView: View {
                             let endDate = manager.setNotification(recipeFB.id ?? "", "Backvorgang ist beendet", "99", recipeFB.prepTime, dateTime, true)
                             i2.id          = UUID().uuidString
                             i2.instruction = "Backvorgang ist beendet"
-                            i2.step        = 0
+                            i2.step        = 99
                             i2.startTime   = recipeFB.prepTime
                             i2.duration    = 0
                             recipeFB.instructions.append(i2)

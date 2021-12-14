@@ -39,9 +39,3 @@ struct SearchBarView: View {
         .foregroundColor(.gray)
     }
 }
-
-//struct SearchBarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SearchBarView(filterBy: Binding.constant(""))
-//    }
-//}

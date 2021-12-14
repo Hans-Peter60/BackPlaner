@@ -26,18 +26,16 @@ extension Recipe {
     @NSManaged public var id: UUID?
     @NSManaged public var firestoreId: String?
     @NSManaged public var featured: Bool
-    @NSManaged public var comments: [String]?
     @NSManaged public var components: NSSet
-    @NSManaged public var instructions: NSSet
     @NSManaged public var bakeHistories: NSSet
-    
+    @NSManaged public var instructions: NSSet
+
     public var instructionsArray: [Instruction] {
         let set = instructions as? Set<Instruction> ?? []
         return set.sorted {
             $0.step < $1.step
         }
     }
-
 }
 
 // MARK: Generated accessors for bakeHistories
