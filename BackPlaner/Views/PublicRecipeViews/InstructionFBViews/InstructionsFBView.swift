@@ -210,7 +210,7 @@ struct InstructionsFBView: View {
                     Divider()
                     
                     HStack {
-                        Button(" Mitteilungen senden ") {
+                        Button(" Reminder setzen ") {
                             
                             var bakeStartTime = 0
                             
@@ -253,12 +253,13 @@ struct InstructionsFBView: View {
                             
                             uploadNextSteps(recipeFB: recipeFB, date: dateTime)
                             
-                            let bakeHistoryFB     = BakeHistoryFB()
-                            bakeHistoryFB.date    = endDate
-                            bakeHistoryFB.comment = "kein Kommentar erfasst"
-                            bakeHistoryFB.images  = ["no-image-icon-23494"]
+                            let bakeHistoryFB        = BakeHistoryFB()
+                            bakeHistoryFB.date       = endDate
+                            bakeHistoryFB.comment    = "kein Kommentar erfasst"
+                            bakeHistoryFB.images     = ["no-image-icon-23494"]
                             recipeFB.bakeHistories.append(bakeHistoryFB)
-                            
+                            recipeFB.bakeHistoryFlag = true
+
                             model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
                             
                         }

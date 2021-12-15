@@ -31,19 +31,17 @@ struct AddInstructionData: View {
                     Text("").bold()
                     
                     TextField("1", text: $schritt)
-                    // .frame(width:20)
                     
                     TextField("Sauerteigzutaten vermengen", text: $instruction)
                     
                     TextField("10 [Minuten]", text: $duration)
-                    // .frame(width:20)
                     
                     Button("Add") {
                         
                         // Make sure that the fields are populated
-                        let cleanedSchritt = schritt.trimmingCharacters(in: .whitespacesAndNewlines)
+                        let cleanedSchritt     = schritt.trimmingCharacters(in: .whitespacesAndNewlines)
                         let cleanedInstruction = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
-                        let cleanedDuration = duration.trimmingCharacters(in: .whitespacesAndNewlines)
+                        let cleanedDuration    = duration.trimmingCharacters(in: .whitespacesAndNewlines)
                         
                         // Check that all the fields are filled in
                         if cleanedSchritt == "" || cleanedInstruction == "" {
@@ -52,11 +50,11 @@ struct AddInstructionData: View {
                         
                         // Create an InstructionFB object and set its properties
                         
-                        let iFB = InstructionFB()
-                        iFB.id = UUID().uuidString
-                        iFB.step = Double(cleanedSchritt) ?? 0
+                        let iFB         = InstructionFB()
+                        iFB.id          = UUID().uuidString
+                        iFB.step        = Double(cleanedSchritt) ?? 0
                         iFB.instruction = cleanedInstruction
-                        iFB.duration = Int(cleanedDuration) ?? 0
+                        iFB.duration    = Int(cleanedDuration) ?? 0
                         instructions.append(iFB)
                         
                         // Clear text fields

@@ -74,6 +74,7 @@ struct InstructionsFBListView: View {
                 }
             }
             .navigationBarHidden(true)
+            .font(.title2)
             .padding(.leading)
             .onTapGesture {
                 // Resign first responder

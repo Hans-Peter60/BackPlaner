@@ -38,7 +38,28 @@ class RecipeModel: ObservableObject {
         } catch {
             print ("There was an error")
         }
-    }
+        
+        let deleteFetch2 = NSFetchRequest<NSFetchRequestResult>(entityName: "BakeHistory")
+        let deleteRequest2 = NSBatchDeleteRequest(fetchRequest: deleteFetch2)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest2)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+
+        let deleteFetch3 = NSFetchRequest<NSFetchRequestResult>(entityName: "NextSteps")
+        let deleteRequest3 = NSBatchDeleteRequest(fetchRequest: deleteFetch3)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest3)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+
+   }
     
     func checkLoadedData() {
         
@@ -70,16 +91,17 @@ class RecipeModel: ObservableObject {
         
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
         
-        r.id          = UUID()
-        r.firestoreId = recipeFB.id
-        r.name        = recipeFB.name
-        r.summary     = recipeFB.summary
-        let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
-        r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
-        r.urlLink     = recipeFB.urlLink
-        r.featured    = true
-        r.servings    = recipeFB.servings
-        r.tags        = recipeFB.tags
+        r.id              = UUID()
+        r.firestoreId     = recipeFB.id
+        r.name            = recipeFB.name
+        r.summary         = recipeFB.summary
+        let image         = GlobalVariables.recipesImage[recipeFB.id ?? ""]
+        r.image           = image!.jpegData(compressionQuality: 1.0) ?? Data()
+        r.urlLink         = recipeFB.urlLink
+        r.featured        = recipeFB.featured
+        r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
+        r.servings        = recipeFB.servings
+        r.tags            = recipeFB.tags
 
         // Set the instructions
         recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, Date())

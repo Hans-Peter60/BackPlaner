@@ -29,7 +29,7 @@ struct AddComponentData: View {
                         
                         TextField("1", text: $componentId)
                         
-                        TextField("Sauerteigkomponente", text: $componentName)
+                        TextField("Sauerteig", text: $componentName)
                         
                         Button("Add") {
                             
@@ -40,8 +40,8 @@ struct AddComponentData: View {
                             if cleanedName == "" { return }
                             
                             // Create an ComponentFB object and set its properties
-                            let c = ComponentFB()
-                            c.id = componentId
+                            let c  = ComponentFB()
+                            c.id   = componentId
                             c.name = cleanedName
                             components.append(c)
                             

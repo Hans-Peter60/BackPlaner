@@ -176,13 +176,15 @@ struct AddRecipeView: View {
     func addRecipe(fireStore: Bool) {
         
         // Add the recipe into Firestore
-        let recipe      = RecipeFB()
-        recipe.id       = ""
-        recipe.name     = name
-        recipe.summary  = summary
-        recipe.urlLink  = urlLink
-        recipe.servings = 1
-        recipe.tags = tags
+        let recipe             = RecipeFB()
+        recipe.id              = ""
+        recipe.name            = name
+        recipe.summary         = summary
+        recipe.urlLink         = urlLink
+        recipe.servings        = 1
+        recipe.featured        = false
+        recipe.bakeHistoryFlag = false
+        recipe.tags            = tags
         
         for i in instructions {
             let instruction = InstructionFB()

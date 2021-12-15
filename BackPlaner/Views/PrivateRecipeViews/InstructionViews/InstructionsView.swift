@@ -220,7 +220,7 @@ struct InstructionsView: View {
                     Divider()
 
                     HStack {
-                        Button(" Mitteilungen senden ") {
+                        Button(" Reminder setzen ") {
 
                             var bakeStartTime = 0
 
