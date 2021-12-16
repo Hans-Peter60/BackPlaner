@@ -95,7 +95,7 @@ struct ContentView: View {
 
 
                 NavigationLink(
-                    destination: BakeHistoryListView() // BakeHistoriesListView()
+                    destination: BakeHistoriesListView() // BakeHistoriesListView()
                 ) {
                     ZStack {
                         Rectangle()

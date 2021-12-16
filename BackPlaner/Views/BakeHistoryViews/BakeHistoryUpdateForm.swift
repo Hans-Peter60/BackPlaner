@@ -14,22 +14,23 @@ struct BakeHistoryUpdateForm: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var model: RecipeModel
-
-    // Recipe Image
-    @State private var recipeImage: UIImage?
-
+    
     // Image Picker
     @State private var isShowingImagePicker = false
-    @State private var selectedImageSource = UIImagePickerController.SourceType.photoLibrary
-    @State private var placeHolderImage = Image("no-image-icon-23494")
+    @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
+    @State private var placeHolderImage     = Image("no-image-icon-23494")
     
-    @State private var comment = ""
-    
+    // BakeHistory Images
+    @State private var recipeImage:   UIImage?
+    @State private var comment      = ""
+    @State private var recipeImages = [UIImage?]()
+    @State private var images       = [Data]()
+
     var body: some View {
         Text(recipe.name)
             .font(Font.custom("Avenir Heavy", size: 20))
 
-        
+        ScrollView {
         VStack {
             
             VStack {
@@ -47,11 +48,9 @@ struct BakeHistoryUpdateForm: View {
             
             VStack {
                 // Recipe bakeHistory images
-                
-                ForEach(0..<bakeHistory.images.count) { index in
+                ForEach(0..<recipeImages.count) { index in
                     
-                    let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
-                    Image(uiImage: image)
+                    Image(uiImage: recipeImages[index] ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50, alignment: .center)
@@ -80,14 +79,17 @@ struct BakeHistoryUpdateForm: View {
                 }
             }
             .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
-//                bakeHistoryImages.append(recipeImage?.jpegData(compressionQuality: 1.0) ?? Data())
+                ImageArrayPicker(selectedSource: selectedImageSource, recipeImages: $recipeImages)
             }
             
             Button("Speichern") {
 
                 bakeHistory.setValue(comment, forKey: "comment")
-                bakeHistory.setValue([recipeImage?.jpegData(compressionQuality: 1.0) ?? Data()], forKey: "images")
+                
+                for index in 0..<recipeImages.count {
+                    images.append(recipeImages[index]!.jpegData(compressionQuality: 1.0) ?? Data())
+                }
+                bakeHistory.setValue(images, forKey: "images")
 
                 do {
                     try viewContext.save()
@@ -101,6 +103,14 @@ struct BakeHistoryUpdateForm: View {
             .buttonStyle(.bordered)
         }
         .navigationTitle("Backanmerkungen- / hinweise")
+        }
+        .onAppear {
+            comment = self.bakeHistory.comment
+            images  = self.bakeHistory.images
+            for index in 0..<images.count {
+                recipeImages.append(UIImage(data: images[index]) ?? UIImage())
+            }
+        }
     }
 
     func loadImage() {
