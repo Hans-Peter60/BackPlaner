@@ -342,19 +342,3 @@ struct InstructionsFBView: View {
         }
     }
 }
-
-struct UpdateBakeHistory {
-    
-    @Environment(\.managedObjectContext) private var managedObjectContext
-    @EnvironmentObject var modelFB: RecipeFBModel
-    @EnvironmentObject var model: RecipeModel
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)], predicate: NSPredicate(format: "universe == 'Star Wars'"))
-    private var recipes: FetchedResults<Recipe>
-
-    var recipeFB: RecipeFB
-    
-    func updateBakeHistory(recipeFB: RecipeFB) {
-        
-    }
-}
