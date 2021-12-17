@@ -105,7 +105,8 @@ struct BakeHistoriesListView: View {
                                             ForEach(bakeHistory.images!, id: \.self) { image in
                                                 
                                                 NavigationLink(
-                                                    destination: ShowBigImageView(image: image)
+//                                                    destination: ShowBigImageView(image: image)
+                                                    destination: ShowBigImagesView(images: bakeHistory.images!, index: 0)
                                                 )
                                                 {
                                                     let i = UIImage(data: image) ?? UIImage()
