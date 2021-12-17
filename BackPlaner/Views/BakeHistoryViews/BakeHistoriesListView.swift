@@ -97,11 +97,11 @@ struct BakeHistoriesListView: View {
                                     Text(" ")
                                     Text(" ")
                                     HStack {
-                                        if bakeHistory.images.count > 0 {
+                                        if bakeHistory.images != nil {
                                             // MARK: History Images
-                                            ForEach(0..<bakeHistory.images.count) { index in
+                                            ForEach(0..<bakeHistory.images!.count) { index in
 
-                                                let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
+                                                let image = UIImage(data: bakeHistory.images![index]) ?? UIImage()
                                                 Image(uiImage: image)
                                                     .resizable()
                                                     .scaledToFill()

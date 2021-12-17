@@ -248,8 +248,8 @@ struct InstructionsView: View {
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
 
-                            let i2 = Instruction(context: viewContext)
-                            let endDate = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
+                            let i2         = Instruction(context: viewContext)
+                            let endDate    = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
                             i2.id          = UUID()
                             i2.instruction = GlobalVariables.bakeEnd
                             i2.step        = 99
@@ -261,7 +261,7 @@ struct InstructionsView: View {
                             let bakeHistory     = BakeHistory(context: viewContext)
                             bakeHistory.date    = endDate
                             bakeHistory.comment = "kein Kommentar erfasst"
-                            bakeHistory.images  = [UIImage(named: "no-image-icon-23494")?.jpegData(compressionQuality: 1.0) ?? Data()]
+//                            bakeHistory.images  = [UIImage(named: "no-image-icon-23494")?.jpegData(compressionQuality: 1.0) ?? Data()]
                             recipe.addToBakeHistories(bakeHistory)
 
                             // Save to core data

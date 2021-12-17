@@ -64,6 +64,10 @@ struct BakeHistoryUpdateForm: View {
                     selectedImageSource = .photoLibrary
                     isShowingImagePicker = true
                 }
+                .font(Font.custom("Avenir", size: 15))
+                .padding(.trailing)
+                .foregroundColor(.gray)
+                .buttonStyle(.bordered)
                 
                 Text(" | ")
                 
@@ -71,6 +75,10 @@ struct BakeHistoryUpdateForm: View {
                     selectedImageSource = .camera
                     isShowingImagePicker = true
                 }
+                .font(Font.custom("Avenir", size: 15))
+                .padding(.trailing)
+                .foregroundColor(.gray)
+                .buttonStyle(.bordered)
             }
             .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
                 ImageArrayPicker(selectedSource: selectedImageSource, recipeImages: $recipeImages)
@@ -101,7 +109,7 @@ struct BakeHistoryUpdateForm: View {
         }
         .onAppear {
             comment = self.bakeHistory.comment
-            images  = self.bakeHistory.images
+            images  = self.bakeHistory.images ?? [Data]()
             recipeImages = [UIImage]()
             
             for index in 0..<images.count {

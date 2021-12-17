@@ -154,14 +154,15 @@ class RecipeModel: ObservableObject {
             h.date    = bH.date
             h.comment = bH.comment
             
-            if bH.images.count < 1 {
-                
+            if bH.images.count == 1 && bH.images[0] == "no-image-icon-23494" {
+                // do nothing
             }
             else {
+                h.images = [Data]()
                 for i in bH.images {
                     
                     let bHI = UIImage(named: i)?.jpegData(compressionQuality: 1.0) ?? Data()
-                    h.images.append(bHI)
+                    h.images!.append(bHI)
                 }
             }
             r.addToBakeHistories(h)
