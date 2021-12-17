@@ -196,7 +196,7 @@ struct InstructionsView: View {
                                         .font(Font.custom("Avenir", size: 15))
                                 }
                                 else {
-                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, -recipe.prepTime + (recipe.instructionsArray[index].startTime), dateTime, false)
+                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
                                         .font(Font.custom("Avenir", size: 15))
                                 }
@@ -227,10 +227,20 @@ struct InstructionsView: View {
                             var bakeStartTime = 0
 
                             for i in 0..<recipe.instructionsArray.count {
-                                let _ = manager.setNotification(recipe.firestoreId ?? "",
-                                                                recipe.instructionsArray[i].instruction,
-                                                                Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                recipe.instructionsArray[i].startTime, dateTime, true)
+                                
+                                if dateTimeStartSelection == 0 {
+                                    
+                                    let _ = manager.setNotification(recipe.firestoreId ?? "",
+                                                                    recipe.instructionsArray[i].instruction,
+                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                                    recipe.instructionsArray[i].startTime, dateTime, true)
+                                }
+                                else {
+                                    let _ = manager.setNotification(recipe.firestoreId ?? "",
+                                                                    recipe.instructionsArray[i].instruction,
+                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true)
+                                }
 
                                 // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
                                 if i == recipe.instructions.count - 1 {
@@ -243,15 +253,17 @@ struct InstructionsView: View {
                             let i         = Instruction(context: viewContext)
                             i.id          = UUID()
                             i.instruction = GlobalVariables.startHeating
+                            
                             for index in 0..<recipe.instructionsArray.count {
                                 if bakeStartTime < recipe.instructionsArray[index].startTime {
 
-                                    i.step = recipe.instructionsArray[index].step - 0.1
+                                    i.step = recipe.instructionsArray[index].step - 1.1
                                 }
                             }
-                            let _ = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
-                            i.startTime   = bakeStartTime
-                            i.duration    = GlobalVariables.vorheizZeit
+                            
+                            let _          = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
+                            i.startTime    = bakeStartTime
+                            i.duration     = GlobalVariables.vorheizZeit
 
                             let i2         = Instruction(context: viewContext)
                             let endDate    = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
@@ -266,7 +278,7 @@ struct InstructionsView: View {
                             let bakeHistory     = BakeHistory(context: viewContext)
                             bakeHistory.date    = endDate
                             bakeHistory.comment = "kein Kommentar erfasst"
-//                            bakeHistory.images  = [UIImage(named: "no-image-icon-23494")?.jpegData(compressionQuality: 1.0) ?? Data()]
+                            
                             recipe.addToBakeHistories(bakeHistory)
 
                             // Save to core data
@@ -348,37 +360,9 @@ struct InstructionsView: View {
             }
         }
     }
-    
-    //struct CopyInstructions {
-    //
-    //    @Environment(\.managedObjectContext) private var viewContext
-    //
-    //    @EnvironmentObject var model: RecipeModel
-    //
-    //    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
-    //    private var instructionsCD: FetchedResults<Instruction>
-    //
-    //    var recipe: Recipe
-    //
-    //    @State private var instructions = [Instruction]()
-    //
-    //    func copyInstructions(id: UUID) {
-    //
-    //        NSManagedObjectContext *context = [[CBICoreDataController sharedInstance] masterManagedObjectContext];
-    //        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    //        NSEntityDescription *entity = [NSEntityDescription entityForName:@"UnsyncedOrders"
-    //                                                  inManagedObjectContext:context];
-    //        NSError *error = nil;
-    //        [fetchRequest setEntity:entity];
-    //        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-    //        for (UnsyncedOrders *info in fetchedObjects) {
-    //            [mutableArray addObject:info.items];
-    //        }
-    //
-    //    }
-    //}
-    
+        
     func setGlobaldateTime(_ date: Date) {
+        
         GlobalVariables.dateTimePicker = date
     }
 

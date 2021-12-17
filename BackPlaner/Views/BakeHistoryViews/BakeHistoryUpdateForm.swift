@@ -40,10 +40,9 @@ struct BakeHistoryUpdateForm: View {
 
                 TextEditor(text: $comment)
                     .multilineTextAlignment(.leading)
-                    .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    .border(Color.gray, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
                     .padding(.leading)
-                    .cornerRadius(/*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
             }
             
             HStack {
@@ -51,7 +50,7 @@ struct BakeHistoryUpdateForm: View {
                 ForEach(recipeImages, id: \.self) { rI in
                     
                     NavigationLink(
-                        destination: ShowBigImagesView(images: images, index: 0)
+                        destination: ShowBigImageView(image: rI!.jpegData(compressionQuality: 1.0) ?? Data())
                     )
                     {
                         Image(uiImage: rI ?? UIImage())
@@ -74,9 +73,9 @@ struct BakeHistoryUpdateForm: View {
                 .foregroundColor(.gray)
                 .buttonStyle(.bordered)
                 
-                Text(" | ")
+                Text("|   ")
                 
-                Button("Camera") {
+                Button("   Camera    ") {
                     selectedImageSource = .camera
                     isShowingImagePicker = true
                 }
@@ -85,6 +84,7 @@ struct BakeHistoryUpdateForm: View {
                 .foregroundColor(.gray)
                 .buttonStyle(.bordered)
             }
+            .padding()
             .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
                 ImageArrayPicker(selectedSource: selectedImageSource, recipeImages: $recipeImages)
             }

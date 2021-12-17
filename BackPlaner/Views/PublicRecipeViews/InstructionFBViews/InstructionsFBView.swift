@@ -185,11 +185,12 @@ struct InstructionsFBView: View {
                                 Text(Rational.displayHoursMinutes(i.duration))
                                
                                 if dateTimeStartSelection == 0 {
+                                    
                                     let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
                                 }
                                 else {
-                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, -recipeFB.prepTime + (i.startTime ?? 0), dateTime, false)
+                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, (i.startTime ?? 0) - recipeFB.prepTime, dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
                                 }
                             }
@@ -220,10 +221,20 @@ struct InstructionsFBView: View {
                             var bakeStartTime = 0
                             
                             for i in 0..<recipeFB.instructions.count {
-                                let _ = manager.setNotification(recipeFB.id ?? "",
-                                                                   recipeFB.instructions[i].instruction,
-                                                                   Rational.decimalPlace(recipeFB.instructions[i].step, 10),
-                                                                   recipeFB.instructions[i].startTime ?? 0, dateTime, true)
+                                
+                                if dateTimeStartSelection == 0 {
+                                    
+                                    let _ = manager.setNotification(recipeFB.id ?? "",
+                                                                       recipeFB.instructions[i].instruction,
+                                                                       Rational.decimalPlace(recipeFB.instructions[i].step, 10),
+                                                                       recipeFB.instructions[i].startTime ?? 0, dateTime, true)
+                                }
+                                else {
+                                    let _ = manager.setNotification(recipeFB.id ?? "",
+                                                                       recipeFB.instructions[i].instruction,
+                                                                       Rational.decimalPlace(recipeFB.instructions[i].step, 10),
+                                                                       (recipeFB.instructions[i].startTime ?? 0) - recipeFB.prepTime, dateTime, true)
+                                }
                                 
                                 // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
                                 if i == recipeFB.instructions.count - 1 {
@@ -239,7 +250,7 @@ struct InstructionsFBView: View {
                             for index in 0..<recipeFB.instructions.count {
                                 if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
                                     
-                                    i.step = recipeFB.instructions[index].step - 0.1
+                                    i.step = recipeFB.instructions[index].step - 1.1
                                 }
                             }
                             let _ = manager.setNotification(recipeFB.id ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
