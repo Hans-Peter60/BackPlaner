@@ -50,12 +50,17 @@ struct BakeHistoryUpdateForm: View {
                 // Recipe bakeHistory images
                 ForEach(recipeImages, id: \.self) { rI in
                     
-                    Image(uiImage: rI ?? UIImage())
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .clipped()
-                        .cornerRadius(5)
+                    NavigationLink(
+                        destination: ShowBigImagesView(images: images, index: 0)
+                    )
+                    {
+                        Image(uiImage: rI ?? UIImage())
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50, alignment: .center)
+                            .clipped()
+                            .cornerRadius(5)
+                    }
                 }
             }
             

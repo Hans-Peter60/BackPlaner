@@ -53,13 +53,18 @@ struct InstructionsListView: View {
                                     
                                     // MARK: Row item
                                     HStack(spacing: 20.0) {
-                                        let image = UIImage(data: r.image ?? Data()) ?? UIImage()
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50, alignment: .center)
-                                            .clipped()
-                                            .cornerRadius(5)
+                                        NavigationLink(
+                                            destination: ShowBigImageView(image: r.image)
+                                        )
+                                        {
+                                            let image = UIImage(data: r.image) ?? UIImage()
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                                .clipped()
+                                                .cornerRadius(5)
+                                        }
                                         
                                         VStack (alignment: .leading) {
                                             Text(r.name)

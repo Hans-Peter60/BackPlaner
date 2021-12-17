@@ -22,12 +22,17 @@ struct RecipeDetailView: View {
             VStack (alignment: .leading) {
                 
                 // MARK: Recipe Image
-                let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                    .cornerRadius(5)
+                NavigationLink(
+                    destination: ShowBigImageView(image: recipe.image)
+                )
+                {
+                    let image = UIImage(data: recipe.image) ?? UIImage()
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                        .cornerRadius(5)
+                }
                 
                 // MARK: Recipe title
                 Text(recipe.name)

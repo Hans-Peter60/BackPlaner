@@ -48,12 +48,17 @@ struct InstructionsView: View {
 
                 VStack (alignment: .leading) {
 
-                    let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                        .cornerRadius(5)
+                    NavigationLink(
+                        destination: ShowBigImageView(image: recipe.image)
+                    )
+                    {
+                        let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                            .cornerRadius(5)
+                    }
 
                     Text("Backanleitung für " + recipe.name)
                         .font(.largeTitle)

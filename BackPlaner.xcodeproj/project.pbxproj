@@ -246,7 +246,6 @@
 			children = (
 				6A097FCD275E098F00780F96 /* BakeHistoriesListView.swift */,
 				6AB72B062768DC27009CC3CE /* BakeHistoryUpdateForm.swift */,
-				6A9C1EC1276C804000FF3D9F /* ShowBigImageView.swift */,
 			);
 			path = BakeHistoryViews;
 			sourceTree = "<group>";
@@ -307,6 +306,7 @@
 			children = (
 				6A8EA961275A405100BF97A7 /* ScheduledTasksView.swift */,
 				6AF825602758F3AF0025FB0B /* SearchBarView.swift */,
+				6A9C1EC1276C804000FF3D9F /* ShowBigImageView.swift */,
 				6AF1D8292760C10100A969BF /* BakeHistoryViews */,
 				6AF1D8282760C0BF00A969BF /* PublicRecipeViews */,
 				6AF1D81D2760B5AE00A969BF /* PrivateRecipeViews */,

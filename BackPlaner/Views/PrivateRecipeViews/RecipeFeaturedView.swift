@@ -50,7 +50,7 @@ struct RecipeFeaturedView: View {
                                 
                                 
                                 VStack(spacing: 0) {
-                                    let image = UIImage(data: recipes[index].image ?? Data()) ?? UIImage()
+                                    let image = UIImage(data: recipes[index].image) ?? UIImage()
                                     Image(uiImage: image)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)

@@ -25,11 +25,16 @@ struct RecipeFBDetailView: View {
             VStack (alignment: .leading) {
                 
                 // MARK: Recipe image
-                Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
-                    .resizable()
-                    .scaledToFill()
-                    .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                    .cornerRadius(5)
+                NavigationLink(
+                    destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
+                )
+                {
+                    Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                        .cornerRadius(5)
+                }
                 
                 // MARK: Recipe title
                 Text(recipeFB.name)

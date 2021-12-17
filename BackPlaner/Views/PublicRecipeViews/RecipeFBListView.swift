@@ -51,12 +51,17 @@ struct RecipeFBListView: View {
                                     // MARK: Row item
                                     HStack(spacing: 20.0) {
                                         
-                                        Image(uiImage: GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage())
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50, alignment: .center)
-                                            .clipped()
-                                            .cornerRadius(5)
+                                        NavigationLink(
+                                            destination: ShowBigImageView(image: (GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
+                                        )
+                                        {
+                                            Image(uiImage: GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage())
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                                .clipped()
+                                                .cornerRadius(5)
+                                        }
                                         
                                         VStack (alignment: .leading) {
                                             Text(r.name)
