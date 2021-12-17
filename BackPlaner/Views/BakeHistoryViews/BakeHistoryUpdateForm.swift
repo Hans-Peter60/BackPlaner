@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BakeHistoryUpdateForm: View {
     
-    var recipe: Recipe
+    var recipeName: String
     var bakeHistory: BakeHistory
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -27,17 +27,17 @@ struct BakeHistoryUpdateForm: View {
     @State private var images       = [Data]()
 
     var body: some View {
-        Text(recipe.name)
+        Text(recipeName)
             .font(Font.custom("Avenir Heavy", size: 20))
 
         ScrollView {
         VStack {
             
             VStack {
-                Text("Kommentar: ")
+                Text("Kommentar: " + String(recipeImages.count))
                     .bold()
                     .padding([.leading, .trailing])
-                
+
                 TextEditor(text: $comment)
                     .multilineTextAlignment(.leading)
                     .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
@@ -46,11 +46,11 @@ struct BakeHistoryUpdateForm: View {
                     .cornerRadius(/*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
             }
             
-            VStack {
+            HStack {
                 // Recipe bakeHistory images
-                ForEach(0..<recipeImages.count) { index in
+                ForEach(recipeImages, id: \.self) { rI in
                     
-                    Image(uiImage: recipeImages[index] ?? UIImage())
+                    Image(uiImage: rI ?? UIImage())
                         .resizable()
                         .scaledToFill()
                         .frame(width: 50, height: 50, alignment: .center)
@@ -58,12 +58,6 @@ struct BakeHistoryUpdateForm: View {
                         .cornerRadius(5)
                 }
             }
-            
-            // Recipe image
-            placeHolderImage
-                .resizable()
-                .scaledToFit()
-                .frame(minWidth: 100, idealWidth: 200, maxWidth: 200, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
             
             HStack {
                 Button("Photo Library") {
@@ -86,6 +80,7 @@ struct BakeHistoryUpdateForm: View {
 
                 bakeHistory.setValue(comment, forKey: "comment")
                 
+                images = [Data]()
                 for index in 0..<recipeImages.count {
                     images.append(recipeImages[index]!.jpegData(compressionQuality: 1.0) ?? Data())
                 }
@@ -107,6 +102,8 @@ struct BakeHistoryUpdateForm: View {
         .onAppear {
             comment = self.bakeHistory.comment
             images  = self.bakeHistory.images
+            recipeImages = [UIImage]()
+            
             for index in 0..<images.count {
                 recipeImages.append(UIImage(data: images[index]) ?? UIImage())
             }

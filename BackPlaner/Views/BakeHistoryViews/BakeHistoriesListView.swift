@@ -34,8 +34,9 @@ struct BakeHistoriesListView: View {
         }
     }
     
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
-    
+    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
+    var gridItemLayoutImages = [GridItem(.fixed(54), alignment: .leading), GridItem(.fixed(54), alignment: .leading)]
+
     var dateFormat:DateFormat = DateFormat()
     
     var body: some View {
@@ -64,56 +65,62 @@ struct BakeHistoriesListView: View {
                 ForEach(recipe.bakeHistories.allObjects as! [BakeHistory]) { bakeHistory in
                     
                     NavigationLink(
-                        destination: BakeHistoryUpdateForm(recipe: recipe, bakeHistory: bakeHistory),
+                        destination: BakeHistoryUpdateForm(recipeName: recipe.name, bakeHistory: bakeHistory)
+                            .environment(\.managedObjectContext, self.viewContext),
                         label: {
                             
-                            LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                                
-                                Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                                    .font(Font.custom("Avenir Heavy", size: 14))
-                                Text(recipe.name)
-                                    .font(Font.custom("Avenir Heavy", size: 14))
-                                Text(bakeHistory.comment)
-                                    .font(Font.custom("Avenir", size: 14))
-                                
-                                HStack {
-                                    if bakeHistory.images.count > 0 {
-                                        // MARK: History Images
-                                        ForEach(0..<bakeHistory.images.count) { index in
-                                            
-                                            let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
-                                            Image(uiImage: image)
+                            VStack {
+                                LazyVGrid(columns: gridItemLayout, spacing: 6) {
+                                    
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                    Text(recipe.name)
+                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                    Text(bakeHistory.comment)
+                                        .font(Font.custom("Avenir", size: 14))
+                                    
+                                    Button("Löschen") {
+                                        
+                                        viewContext.delete(bakeHistory)
+                                        
+                                        do {
+                                            try viewContext.save()
+                                        } catch {
+                                            // handle the Core Data error
+                                        }
+                                    }
+                                    .font(Font.custom("Avenir", size: 15))
+                                    .padding()
+                                    .foregroundColor(.gray)
+                                    .buttonStyle(.bordered)
+//
+                                    Text(" ")
+                                    Text(" ")
+                                    HStack {
+                                        if bakeHistory.images.count > 0 {
+                                            // MARK: History Images
+                                            ForEach(0..<bakeHistory.images.count) { index in
+
+                                                let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
+                                                Image(uiImage: image)
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 50, height: 50, alignment: .center)
+                                                    .clipped()
+                                                    .cornerRadius(5)
+                                            }
+                                        }
+                                        else {
+                                            Image("no-image-icon-23494")
                                                 .resizable()
                                                 .scaledToFill()
                                                 .frame(width: 50, height: 50, alignment: .center)
                                                 .clipped()
                                                 .cornerRadius(5)
                                         }
-                                    }
-                                    else {
-                                        Image("no-image-icon-23494")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50, alignment: .center)
-                                            .clipped()
-                                            .cornerRadius(5)
+                                        Text(" ")
                                     }
                                 }
-                                
-                                Button("Löschen") {
-                                    
-                                    viewContext.delete(bakeHistory)
-                                    
-                                    do {
-                                        try viewContext.save()
-                                    } catch {
-                                        // handle the Core Data error
-                                    }
-                                }
-                                .font(Font.custom("Avenir", size: 15))
-                                .padding()
-                                .foregroundColor(.gray)
-                                .buttonStyle(.bordered)
                             }
                         })
                 }

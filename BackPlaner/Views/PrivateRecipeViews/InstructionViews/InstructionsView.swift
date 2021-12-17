@@ -14,10 +14,7 @@ struct InstructionsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @EnvironmentObject var model: RecipeModel
-    
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)])
-//    private var recipes: FetchedResults<Recipe>
-    
+   
     var recipe: Recipe
     
     @State private var dateTime = GlobalVariables.dateTimePicker
@@ -189,12 +186,12 @@ struct InstructionsView: View {
                                     .font(Font.custom("Avenir", size: 15))
 
                                 if dateTimeStartSelection == 0 {
-                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime ?? 0, dateTime, false)
+                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
                                         .font(Font.custom("Avenir", size: 15))
                                 }
                                 else {
-                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, -recipe.prepTime + (recipe.instructionsArray[index].startTime ?? 0), dateTime, false)
+                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, -recipe.prepTime + (recipe.instructionsArray[index].startTime), dateTime, false)
                                     Text(dateCalculation.calculateDateTime(dT: date))
                                         .font(Font.custom("Avenir", size: 15))
                                 }
@@ -250,7 +247,6 @@ struct InstructionsView: View {
                             let _ = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
-                            recipe.addToInstructions(i)
 
                             let i2 = Instruction(context: viewContext)
                             let endDate = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
@@ -259,7 +255,6 @@ struct InstructionsView: View {
                             i2.step        = 99
                             i2.startTime   = recipe.prepTime
                             i2.duration    = 0
-                            recipe.addToInstructions(i2)
 
                             uploadNextSteps(recipe: recipe, date: dateTime)
 

@@ -93,7 +93,6 @@ struct ContentView: View {
                 }
                 .padding()
 
-
                 NavigationLink(
                     destination: BakeHistoriesListView() // BakeHistoriesListView()
                 ) {
