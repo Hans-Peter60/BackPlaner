@@ -34,7 +34,7 @@ struct GlobalVariables {
     static var month = dateComponents.month
     static var day = dateComponents.day
     
-    static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
+    static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(100), alignment: .leading), GridItem(.fixed(120), alignment: .trailing)]
 
     static var gridItemLayoutComponents = [GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.flexible(minimum: 10), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
 

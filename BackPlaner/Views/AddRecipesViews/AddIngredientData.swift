@@ -25,13 +25,12 @@ struct AddIngredientData: View {
     
     var body: some View {
         
-        VStack (alignment: .leading) {
+        ScrollView {
             
-            ScrollView {
-                
+            VStack (alignment: .leading) {
+            
                 Text("Zutaten:")
                     .bold()
-//                    .padding(.leading, 5)
                 
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
                     Text("Komp.")
@@ -51,7 +50,7 @@ struct AddIngredientData: View {
                         
                         TextField("Menge/Gewicht", text: $weight)
                         
-                        TextField("Gramm", text: $unit)
+                        TextField("g", text: $unit)
                         
                         TextField("Zucker", text: $name)
                         

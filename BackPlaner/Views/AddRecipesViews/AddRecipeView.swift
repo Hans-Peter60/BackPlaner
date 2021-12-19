@@ -45,10 +45,10 @@ struct AddRecipeView: View {
     
     var body: some View {
         ZStack {
-            Text("")
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .background(Color.white)
-                .edgesIgnoringSafeArea(.all)
+//            Text("")
+//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+//                .background(Color.white)
+//                .edgesIgnoringSafeArea(.all)
             
             VStack {
                 // HStack with the form controls
@@ -102,7 +102,7 @@ struct AddRecipeView: View {
                                 placeHolderImage
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(minWidth: 100, idealWidth: 200, maxWidth: 200, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
+                                    .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
                                 
                                 HStack {
                                     Button("Photo Library") {
@@ -147,6 +147,7 @@ struct AddRecipeView: View {
                 }
                 .padding(.horizontal)
                 .navigationViewStyle(StackNavigationViewStyle()) // full screen mode aktivieren
+                .navigationTitle("Neues Rezept erfassen")
             }
         }
     }

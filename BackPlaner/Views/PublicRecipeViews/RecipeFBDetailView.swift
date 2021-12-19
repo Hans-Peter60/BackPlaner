@@ -36,13 +36,6 @@ struct RecipeFBDetailView: View {
                         .cornerRadius(5)
                 }
                 
-                // MARK: Recipe title
-                Text(recipeFB.name)
-                    .bold()
-                    .padding(.top, 10)
-                    .padding(.leading)
-                    .font(Font.custom("Avenir Heavy", size: 24))
-                
                 // MARK: Recipe summary
                 Text(recipeFB.summary)
                     .padding(.top, 2)
@@ -134,6 +127,14 @@ struct RecipeFBDetailView: View {
             }
             .padding()
         }
+        .navigationTitle(recipeFB.name)
+            // MARK: Recipe title
+//            Text()
+//                .bold()
+//                .padding(.top, 10)
+//                .padding(.leading)
+//                .font(Font.custom("Avenir Heavy", size: 24))
+
     }
 }
 

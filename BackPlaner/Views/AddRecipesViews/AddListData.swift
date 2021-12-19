@@ -15,35 +15,31 @@ struct AddListData: View {
     var title: String
     var placeholderText: String
     
+    var gridItemLayout = [GridItem(.fixed(120), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
+    
     var body: some View {
         
-        VStack (alignment: .leading) {
+        LazyVGrid(columns: gridItemLayout, spacing: 2) {
             
-            HStack {
-                Text("\(title):")
-                    .bold()
-                
-                TextField(placeholderText, text: $item)
-                
-                Button("Add") {
+            Text("\(title):")
+                .bold()
+            
+            TextField(placeholderText, text: $item)
+            
+            Button("Add") {
+                // Add the item to the list
+                if item.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                    
                     // Add the item to the list
-                    if item.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                        
-                        // Add the item to the list
-                        list.append(item.trimmingCharacters(in: .whitespacesAndNewlines))
-                        
-                        // Clear the text field
-                        item = ""
-                    }
+                    list.append(item.trimmingCharacters(in: .whitespacesAndNewlines))
+                    
+                    // Clear the text field
+                    item = ""
                 }
-                .buttonStyle(.bordered)
             }
+            .buttonStyle(.bordered)
             
-            // List out the items added so far
-//            ForEach(list, id: \.self) { item in
-//                Text(item)
-//            }
-            RecipeTags(tags: list)
         }
+        RecipeTags(tags: list)
     }
 }

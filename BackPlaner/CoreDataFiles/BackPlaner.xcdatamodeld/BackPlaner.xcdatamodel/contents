@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G314" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BakeHistory" representedClassName="BakeHistory" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" customClassName="[Data]"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="bakeHistories" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="Component" representedClassName="Component" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="component" inverseEntity="Ingredient"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="components" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
+        <attribute name="denom" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="num" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="unit" optional="YES" attributeType="String"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="component" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Component" inverseName="ingredients" inverseEntity="Component"/>
+    </entity>
+    <entity name="Instruction" representedClassName="Instruction" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="instruction" optional="YES" attributeType="String"/>
+        <attribute name="startTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="step" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="instructions" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="NextSteps" representedClassName="NextSteps" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="instruction" optional="YES" attributeType="String"/>
+        <attribute name="recipeName" optional="YES" attributeType="String"/>
+        <attribute name="startTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="step" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Recipe" representedClassName=".Recipe" syncable="YES">
+        <attribute name="bakeHistoryFlag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="featured" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="firestoreId" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="prepTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="servings" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="urlLink" optional="YES" attributeType="String"/>
+        <relationship name="bakeHistories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BakeHistory" inverseName="recipe" inverseEntity="BakeHistory"/>
+        <relationship name="components" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Component" inverseName="recipe" inverseEntity="Component"/>
+        <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Instruction" inverseName="recipe" inverseEntity="Instruction"/>
+    </entity>
+    <elements>
+        <element name="BakeHistory" positionX="-54" positionY="72" width="128" height="104"/>
+        <element name="Component" positionX="-36" positionY="81" width="128" height="89"/>
+        <element name="Ingredient" positionX="-18" positionY="90" width="128" height="134"/>
+        <element name="Instruction" positionX="0" positionY="135" width="128" height="134"/>
+        <element name="NextSteps" positionX="18" positionY="162" width="128" height="134"/>
+        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="239"/>
+    </elements>
+</model>
