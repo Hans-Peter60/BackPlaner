@@ -11,12 +11,14 @@ struct RecipeFBListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model:   RecipeModel
 
-    @State private var filterBy = ""
-    
+    @State private var filterBy    = ""
+
     private var filteredFBRecipes: [RecipeFB] {
         
         var fR: [RecipeFB] = [RecipeFB]()
+        
         if filterBy == "" {
             return modelFB.recipesFB
         }
@@ -33,7 +35,7 @@ struct RecipeFBListView: View {
         NavigationView {
             
             VStack (alignment: .leading) {
-                Text("Alle Rezepte")
+                Text("Rezept-Datenbank")
                     .bold()
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))

@@ -34,14 +34,6 @@ struct RecipeDetailView: View {
                         .cornerRadius(5)
                 }
                 
-                // MARK: Recipe title
-                Text(recipe.name)
-                    .bold()
-                    .padding(.top, 20)
-                    .padding(.leading)
-                    .font(Font.custom("Avenir Heavy", size: 24))
-                
-                
                 // MARK: Serving size picker
                 VStack (alignment: .leading) {
                     Text("Select your serving size:")
@@ -93,10 +85,18 @@ struct RecipeDetailView: View {
                 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
-                    Text("Verarbeitungsschritte:")
-                        .font(Font.custom("Avenir Heavy", size: 16))
-                        .padding([.bottom, .top], 5)
-                    
+                    HStack {
+                        Text("Verarbeitungsschritte:")
+                            .font(Font.custom("Avenir Heavy", size: 16))
+                            .padding([.bottom, .top], 5)
+                        
+                        Spacer()
+                        
+                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
+                            .font(Font.custom("Avenir", size: 16))
+                            .padding([.trailing], 5)
+                    }
+ 
                     LazyVGrid(columns: gridItemLayout, spacing: 5) {
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
@@ -117,6 +117,7 @@ struct RecipeDetailView: View {
             }
             .padding()
         }
+        .navigationBarTitle(recipe.name)
     }
 }
 

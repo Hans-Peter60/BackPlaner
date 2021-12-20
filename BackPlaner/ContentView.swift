@@ -36,7 +36,7 @@ struct ContentView: View {
                             .shadow(radius: 5)
                             .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
                         
-                        Text("Public Rezepte")
+                        Text("Rezept-Datenbank")
                             .bold()
                             .foregroundColor(.black)
                     }
@@ -53,7 +53,7 @@ struct ContentView: View {
                             .shadow(radius: 5)
                             .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
 
-                        Text("Private Rezepte")
+                        Text("Eigene Rezepte")
                             .bold()
                             .foregroundColor(.black)
                     }

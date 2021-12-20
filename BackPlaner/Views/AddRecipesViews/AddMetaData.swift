@@ -20,7 +20,7 @@ struct AddMetaData: View {
             
             Text("Name: ")
                 .bold()
-            TextField("Tuna Casserole", text: $name)
+            TextField("Roggenbrot", text: $name)
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, alignment: .leading)
         
             Text("Beschreibung: ")

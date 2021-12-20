@@ -107,7 +107,8 @@ class RecipeFBModel: ObservableObject {
                 
                 // Loop through the documents returned
                 for doc in snapshot!.documents {
-                    let r = RecipeFB()
+                    
+                    let r      = RecipeFB()
                     
                     r.id       = doc.documentID
                     r.name     = doc["name"] as? String ?? ""
@@ -137,7 +138,7 @@ class RecipeFBModel: ObservableObject {
                             GlobalVariables.recipesImage[r.id ?? ""] = UIImage(data: data!) ?? UIImage()
                         }
                     }
-                    print("r.name:", r.name, "t: ", t, "r.id: ", r.id, "recipesImage[r.id]", GlobalVariables.recipesImage[r.id ?? ""])
+//                    print("r.name:", r.name, "t: ", t, "r.id: ", r.id, "recipesImage[r.id]", GlobalVariables.recipesImage[r.id ?? ""])
                     
                 }
             }

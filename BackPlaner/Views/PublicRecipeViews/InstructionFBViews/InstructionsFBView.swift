@@ -20,7 +20,8 @@ struct InstructionsFBView: View {
     @State var         selectedServingSize        = 2
     @State private var showingNotificationMessage = false
     @State private var changeDurationsFlag        = false
-//  @State private var bakeHistory = BakeHistory()
+    
+    var startDates = [Double:Date]()
     
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
@@ -150,7 +151,19 @@ struct InstructionsFBView: View {
                         let _ = setGlobaldateTime(dateTime)
                     }
                     
-
+                    HStack {
+                        Text("Verarbeitungsschritte:")
+                            .font(Font.custom("Avenir Heavy", size: 16))
+                            .padding([.bottom, .top], 5)
+                        
+                        Spacer()
+                        
+                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipeFB.prepTime))
+                            .font(Font.custom("Avenir", size: 16))
+                            .padding([.trailing], 5)
+                    }
+ 
+                    // MARK: Instructions
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
@@ -198,7 +211,7 @@ struct InstructionsFBView: View {
                             
                             Group {
                                 Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
-                                Text("Fertig")
+                                Text("Fertig - Zubereitungszeit [Minuten] = " + String(recipeFB.prepTime))
                                 Text("")
                                 if dateTimeStartSelection == 0 {
                                     let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!
@@ -215,6 +228,7 @@ struct InstructionsFBView: View {
                     
                     Divider()
                     
+                    // MARK: Reminder setzen
                     HStack {
                         Button(" Reminder setzen ") {
                             
@@ -230,10 +244,11 @@ struct InstructionsFBView: View {
                                                                        recipeFB.instructions[i].startTime ?? 0, dateTime, true)
                                 }
                                 else {
+                                    let z = (recipeFB.instructions[i].startTime ?? 0) - recipeFB.prepTime
                                     let _ = manager.setNotification(recipeFB.id ?? "",
                                                                        recipeFB.instructions[i].instruction,
                                                                        Rational.decimalPlace(recipeFB.instructions[i].step, 10),
-                                                                       (recipeFB.instructions[i].startTime ?? 0) - recipeFB.prepTime, dateTime, true)
+                                                                       z, dateTime, true)
                                 }
                                 
                                 // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
@@ -244,16 +259,18 @@ struct InstructionsFBView: View {
                             }
                             showingNotificationMessage = true
                             
-                            let i = InstructionFB()
-                            i.id          = UUID().uuidString
-                            i.instruction = GlobalVariables.startHeating
+                            let i          = InstructionFB()
+                            i.id           = UUID().uuidString
+                            i.instruction  = GlobalVariables.startHeating
+                            
                             for index in 0..<recipeFB.instructions.count {
+                                
                                 if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
                                     
-                                    i.step = recipeFB.instructions[index].step - 1.1
+                                    i.step = recipeFB.instructions[index].step - 0.1
                                 }
                             }
-                            let _ = manager.setNotification(recipeFB.id ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
+                            let _         = manager.setNotification(recipeFB.id ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
                             i.startTime   = bakeStartTime
                             i.duration    = GlobalVariables.vorheizZeit
                             recipeFB.instructions.append(i)
@@ -267,8 +284,19 @@ struct InstructionsFBView: View {
                             i2.duration    = 0
                             recipeFB.instructions.append(i2)
                             
-                            uploadNextSteps(recipeFB: recipeFB, date: dateTime)
+                            if dateTimeStartSelection == 0 {
+                                uploadNextSteps(recipeFB: recipeFB, date: dateTime)
+                            }
+                            else {
+                                dateTime = Calendar.current.date(byAdding: .minute, value: -recipeFB.prepTime, to: dateTime)!
+                                uploadNextSteps(recipeFB: recipeFB, date: dateTime)
+                            }
                             
+                            let ix  = recipeFB.instructions.firstIndex(where: { $0.instruction == GlobalVariables.startHeating } )
+                            recipeFB.instructions.remove(at: ix!)
+                            let i2x = recipeFB.instructions.firstIndex(where: { $0.instruction == GlobalVariables.bakeEnd } )
+                            recipeFB.instructions.remove(at: i2x!)
+
                             let bakeHistoryFB        = BakeHistoryFB()
                             bakeHistoryFB.date       = endDate
                             bakeHistoryFB.comment    = "kein Kommentar erfasst"
@@ -293,6 +321,8 @@ struct InstructionsFBView: View {
                                     if Int(cleanedDuration) ?? 0 > 0 { recipeFB.instructions[i].duration = Int(cleanedDuration) ?? 0}
                                 }
                                 recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, dateTime)
+                                
+                                recipeFB.prepTime = (recipeFB.instructions[recipeFB.instructions.count - 1].startTime ?? 0) + recipeFB.instructions[recipeFB.instructions.count - 1].duration
                                 
                                 changeDurationsFlag = false
                             }

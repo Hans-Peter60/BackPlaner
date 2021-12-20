@@ -103,9 +103,17 @@ struct RecipeFBDetailView: View {
                 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
-                    Text("Verarbeitungsschritte:")
-                        .font(Font.custom("Avenir Heavy", size: 16))
-                        .padding([.bottom, .top], 5)
+                    HStack {
+                        Text("Verarbeitungsschritte:")
+                            .font(Font.custom("Avenir Heavy", size: 16))
+                            .padding([.bottom, .top], 5)
+                        
+                        Spacer()
+                        
+                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipeFB.prepTime))
+                            .font(Font.custom("Avenir", size: 16))
+                            .padding([.trailing], 5)
+                    }
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 5) {
                         Text("Schritt").bold()

@@ -153,7 +153,18 @@ struct InstructionsView: View {
                         let _ = setGlobaldateTime(dateTime)
                     }
 
-
+                    HStack {
+                        Text("Verarbeitungsschritte:")
+                            .font(Font.custom("Avenir Heavy", size: 16))
+                            .padding([.bottom, .top], 5)
+                        
+                        Spacer()
+                        
+                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
+                            .font(Font.custom("Avenir", size: 16))
+                            .padding([.trailing], 5)
+                    }
+ 
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
@@ -272,8 +283,25 @@ struct InstructionsView: View {
                             i2.step        = 99
                             i2.startTime   = recipe.prepTime
                             i2.duration    = 0
+                            // Save to core data
+                            do {
+                                // Save the recipe to core data
+                                try viewContext.save()
 
-                            uploadNextSteps(recipe: recipe, date: dateTime)
+                                // Switch the view to list view
+                            }
+                            catch {
+                                // Couldn't save the recipe
+                                print("Couldn't save the recipe")
+                            }
+
+                            if dateTimeStartSelection == 0 {
+                                uploadNextSteps(recipe: recipe, date: dateTime)
+                            }
+                            else {
+                                dateTime = Calendar.current.date(byAdding: .minute, value: -recipe.prepTime, to: dateTime)!
+                                uploadNextSteps(recipe: recipe, date: dateTime)
+                            }
 
                             let bakeHistory     = BakeHistory(context: viewContext)
                             bakeHistory.date    = endDate
@@ -292,6 +320,9 @@ struct InstructionsView: View {
                                 // Couldn't save the recipe
                                 print("Couldn't save the recipe")
                             }
+
+                            viewContext.delete(i)
+                            viewContext.delete(i2)
                         }
                         .padding()
                         .foregroundColor(.gray)
@@ -324,6 +355,8 @@ struct InstructionsView: View {
                                     recipe.instructionsArray[i].startTime   = instructionsFB[i].startTime ?? 0
                                     recipe.instructionsArray[i].duration    = instructionsFB[i].duration
                                 }
+                                recipe.prepTime = recipe.instructionsArray[recipe.instructionsArray.count - 1].startTime + recipe.instructionsArray[recipe.instructionsArray.count - 1].duration
+                                
                                 changeDurationsFlag = false
                             }
                             .padding()

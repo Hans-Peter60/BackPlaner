@@ -50,7 +50,7 @@ struct ScheduledTasksView: View {
                             Text("")
                             Text("")
                         }
-                    
+
                         let step = Rational.decimalPlace(nextStep.step, 10)
                         
                         Text(dateCalculation.calculateDateTime(dT: nextStep.date))
@@ -81,5 +81,6 @@ struct ScheduledTasksView: View {
             }
             .padding()
         }
+//        .onAppear(perform: { name = nextSteps[0].recipeName})
     }
 }
