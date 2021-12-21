@@ -82,15 +82,16 @@ class RecipeFBModel: ObservableObject {
                 
                 // Create a ingredient document
                 let cloudIngredient = cloudComponent.collection("ingredients").addDocument(data: [
-                    "name": i.name,
-                    "id":   i.id
+                    "name":   i.name,
+                    "number": i.number,
                 ])
                 cloudIngredient.updateData([
                     "unit":      i.unit ?? "",
                     "weight":    i.weight,
                     "num":       i.num ?? 1,
                     "denom":     i.denom ?? 1,
-                    "component": i.component ?? 1
+                    "component": i.componentNr,
+                    "number":    i.number
                 ])
             }
         }
@@ -183,8 +184,9 @@ class RecipeFBModel: ObservableObject {
                     
                     let c = ComponentFB()
                     
-                    c.id   = doc.documentID
-                    c.name = doc["name"] as? String ?? ""
+                    c.id     = doc.documentID
+                    c.name   = doc["name"] as? String ?? ""
+                    c.number = doc["number"] as? Int ?? 0
                     
                     self.getIngredientsFB(c, recipeDocID, c.id!)
                     r.components.append(c)
@@ -206,40 +208,19 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = IngredientFB()
                     
-                    i.id     = doc.documentID
-                    i.name   = doc["name"] as? String ?? ""
-                    i.unit   = doc["unit"] as? String ?? ""
-                    i.weight = doc["weight"] as? Double ?? 0
-                    i.num    = doc["num"] as? Int ?? 0
-                    i.denom  = doc["denom"] as? Int ?? 0
+                    i.id          = doc.documentID
+                    i.name        = doc["name"] as? String ?? ""
+                    i.number      = doc["number"] as? Int ?? 0
+                    i.componentNr = doc["component"] as? Int ?? 0
+                    i.unit        = doc["unit"] as? String ?? ""
+                    i.weight      = doc["weight"] as? Double ?? 0
+                    i.num         = doc["num"] as? Int ?? 0
+                    i.denom       = doc["denom"] as? Int ?? 0
                     
                     c.ingredients.append(i)
                 }
             }
         }
-        let collection2 = db.collection("Recipe").document(recipeDocID).collection("components").document(componentDocID).collection("incredients")
-        
-        collection2.getDocuments  { snapshot, error in
-            
-            if error == nil && snapshot != nil {
-                
-                // Loop through the documents returned
-                for doc in snapshot!.documents {
-                    
-                    let i = IngredientFB()
-                    
-                    i.id     = doc.documentID
-                    i.name   = doc["name"] as? String ?? ""
-                    i.unit   = doc["unit"] as? String ?? ""
-                    i.weight = doc["weight"] as? Double ?? 0
-                    i.num    = doc["num"] as? Int ?? 0
-                    i.denom  = doc["denom"] as? Int ?? 0
-                    
-                    c.ingredients.append(i)
-                }
-            }
-        }
-
     }
     
     static func getPortion(ingredient:IngredientFB, recipeServings:Int, targetServings:Int) -> String {

@@ -17,9 +17,17 @@ extension Component {
     }
 
     @NSManaged public var name: String
+    @NSManaged public var number: Int
     @NSManaged public var id: UUID?
     @NSManaged public var recipe: Recipe?
     @NSManaged public var ingredients: NSSet
+
+    public var ingredientsArray: [Ingredient] {
+        let set = ingredients as? Set<Ingredient> ?? []
+        return set.sorted {
+            $0.number < $1.number
+        }
+    }
 
 }
 

@@ -39,6 +39,7 @@ class RecipeFB: Identifiable, Decodable {
 class ComponentFB: Identifiable, Decodable {
     
     var id:String? = ""
+    var number:Int = 0
     var name:String = ""
     var ingredients:[IngredientFB] = [IngredientFB]()
 }
@@ -46,7 +47,8 @@ class ComponentFB: Identifiable, Decodable {
 class IngredientFB: Identifiable, Decodable {
     
     var id:String? = ""
-    var component:String? = ""
+    var componentNr:Int = 0
+    var number:Int = 0
     var name:String = ""
     var weight:Double?
     var unit:String?

@@ -18,7 +18,7 @@ struct BakeHistoryUpdateForm: View {
     // Image Picker
     @State private var isShowingImagePicker = false
     @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
-    @State private var placeHolderImage     = Image("no-image-icon-23494")
+    @State private var placeHolderImage     = Image(GlobalVariables.noImage)
     
     // BakeHistory Images
     @State private var recipeImage:   UIImage?

@@ -31,6 +31,13 @@ extension Recipe {
     @NSManaged public var bakeHistories: NSSet
     @NSManaged public var instructions: NSSet
 
+    public var componentsArray: [Component] {
+        let set = components as? Set<Component> ?? []
+        return set.sorted {
+            $0.number < $1.number
+        }
+    }
+
     public var instructionsArray: [Instruction] {
         let set = instructions as? Set<Instruction> ?? []
         return set.sorted {

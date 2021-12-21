@@ -13,6 +13,7 @@ struct AddIngredientData: View {
     
     @State private var component = ""
     @State private var name      = ""
+    @State private var number    = ""
     @State private var unit      = ""
     @State private var num       = ""
     @State private var denom     = ""
@@ -74,19 +75,21 @@ struct AddIngredientData: View {
                             }
                             
                             // Set the IngredientFB instance properties
-                            let i       = IngredientFB()
-                            i.id        = UUID().uuidString
-                            i.name      = cleanedName
-                            i.component = cleanedComponent
-                            i.num       = Int(cleanedNum)
-                            i.denom     = Int(cleanedDenom)
-                            i.weight    = cleanedWeight
-                            i.unit      = cleanedUnit
+                            let i         = IngredientFB()
+                            i.id          = UUID().uuidString
+                            i.name        = cleanedName
+                            i.componentNr = Int(cleanedComponent) ?? 0
+                            i.number      = ingredients.count
+                            i.num         = Int(cleanedNum)
+                            i.denom       = Int(cleanedDenom)
+                            i.weight      = cleanedWeight
+                            i.unit        = cleanedUnit
                             
                             // Add this ingredient to the list
                             ingredients.append(i)
                             
                             // Clear text fields
+                            number    = ""
                             component = ""
                             name      = ""
                             num       = ""
@@ -99,8 +102,8 @@ struct AddIngredientData: View {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        ForEach(ingredients) { ingredient in
-                            if ingredient.component != nil { Text(String(ingredient.component!)) } else { Text(" ") }
+                        ForEach(ingredients.sorted(by: { $0.number < $1.number })) { ingredient in
+                            Text(String(ingredient.componentNr))
                             if ingredient.weight    != nil { Text(Rational.decimalPlace(ingredient.weight!, 1000)) } else { Text(" ") }
                             if ingredient.unit      != nil { Text(String(ingredient.unit!)) } else { Text(" ") }
                             Text(ingredient.name)

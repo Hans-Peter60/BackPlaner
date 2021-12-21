@@ -119,7 +119,7 @@ struct BakeHistoriesListView: View {
                                             }
                                         }
                                         else {
-                                            Image("no-image-icon-23494")
+                                            Image(GlobalVariables.noImage)
                                                 .resizable()
                                                 .scaledToFill()
                                                 .frame(width: 50, height: 50, alignment: .center)
@@ -216,30 +216,8 @@ struct EditBakeHistoryView: View {
                             .font(Font.custom("Avenir Heavy", size: 14))
                         Text(bakeHistory.comment)
                             .font(Font.custom("Avenir", size: 14))
+                        
                         if bakeHistory.objectID == nil { Text("objectID = nil") } else { Text("objectID != nil") }
-                        //                        HStack {
-                        //                            if bakeHistory.images.count > 0 {
-                        //                                // MARK: History Images
-                        //                                ForEach(0..<bakeHistory.images.count) { index in
-                        //
-                        //                                    let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
-                        //                                    Image(uiImage: image)
-                        //                                        .resizable()
-                        //                                        .scaledToFill()
-                        //                                        .frame(width: 50, height: 50, alignment: .center)
-                        //                                        .clipped()
-                        //                                        .cornerRadius(5)
-                        //                                }
-                        //                            }
-                        //                            else {
-                        //                                Image("no-image-icon-23494")
-                        //                                    .resizable()
-                        //                                    .scaledToFill()
-                        //                                    .frame(width: 50, height: 50, alignment: .center)
-                        //                                    .clipped()
-                        //                                    .cornerRadius(5)
-                        //                            }
-                        //                        }
                     }
                 }
             }

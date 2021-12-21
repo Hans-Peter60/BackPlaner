@@ -1,29 +1,29 @@
 //
-//  AddRecipeView.swift
+//  EditRecipeView.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 09.11.21.
+//  Created by Hans-Peter Müller on 21.12.21.
 //
 
 import SwiftUI
 import CoreData
 
-struct AddRecipeView: View {
+struct EditRecipeView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
+    
     @EnvironmentObject var modelFB: RecipeFBModel
-    @EnvironmentObject var model: RecipeModel
-
-    // Tab selection
-    @Binding var tabSelection: Int
+    @EnvironmentObject var model:   RecipeModel
+    
+    var recipeId: NSManagedObjectID?
     
     // Properties for recipe meta data
-    @State private var name = ""
-    @State private var summary = ""
-    @State private var urlLink = ""
-    @State private var prepTime = ""
-    @State private var bakeTime = ""
-    @State private var servings = ""
+    @State private var name     = ""
+    @State private var summary  = ""
+    @State private var urlLink  = ""
+    @State private var prepTime = 0
+    @State private var featured = false
+    @State private var servings = 1
     
     // List type recipe meta data
     @State private var tags = [String]()
@@ -53,7 +53,7 @@ struct AddRecipeView: View {
                     Button("Inhalte löschen") {
                         
                         // Clear the form
-                        clear()
+//                        clear()
                     }
                     .buttonStyle(.bordered)
                     
@@ -65,10 +65,7 @@ struct AddRecipeView: View {
                         addRecipe(fireStore: true)
                         
                         // Clear the form
-                        clear()
-                        
-                        // Navigate to the list
-                        tabSelection = GlobalVariables.listTab
+//                        clear()
                     }
                     .buttonStyle(.bordered)
                     
@@ -80,12 +77,10 @@ struct AddRecipeView: View {
                         addRecipe(fireStore: false)
                         
                         // Clear the form
-                        clear()
-                        
-                        // Navigate to the list
-                        tabSelection = GlobalVariables.listTab
+//                        clear()
                     }
-                    .buttonStyle(.bordered)                }
+                    .buttonStyle(.bordered)
+                }
                 .padding(.horizontal)
                 
                 NavigationView {
@@ -129,7 +124,7 @@ struct AddRecipeView: View {
                                 Divider()
                                 
                                 AddComponentData(components: $components)
-
+                                
                                 Divider()
                                 
                                 AddIngredientData(ingredients: $ingredients)
@@ -144,11 +139,71 @@ struct AddRecipeView: View {
                 }
                 .padding(.horizontal)
                 .navigationViewStyle(StackNavigationViewStyle()) // full screen mode aktivieren
-                .navigationTitle("Neues Rezept erfassen")
+                .navigationTitle("Rezept bearbeiten")
+                .onAppear {
+                    guard
+                        let objectId = recipeId,
+                        let recipe   = model.fetchRecipe(for: objectId, context: viewContext)
+                    else {
+                        return
+                    }
+                    
+                    name     = recipe.name
+                    summary  = recipe.summary
+                    urlLink  = recipe.urlLink ?? ""
+                    servings = recipe.servings
+                    featured = recipe.featured
+                    tags     = recipe.tags
+                    
+                    for i in recipe.instructionsArray {
+                        let instruction = InstructionFB()
+                        
+                        instruction.id          = UUID().uuidString
+                        instruction.instruction = i.instruction
+                        instruction.step        = i.step
+                        instruction.duration    = i.duration
+                        instruction.startTime   = i.startTime
+                        
+                        // Add this instruction to the recipe
+                        instructions.append(instruction)
+                    }
+
+                    prepTime = recipe.prepTime
+                    
+                    var componentNumber = 1
+                    
+                    for comp in recipe.components {
+                        let c   = comp as! Component
+                        let cFB = ComponentFB()
+                        
+                        cFB.id     = UUID().uuidString
+                        cFB.name   = c.name
+                        cFB.number = c.number
+                        
+                        // Add the ingredients
+                        for ingred in c.ingredients {
+                            let i   = ingred as! Ingredient
+                            let iFB = IngredientFB()
+                            
+                            iFB.id          = UUID().uuidString
+                            iFB.componentNr = componentNumber
+                            iFB.number      = i.number
+                            iFB.name        = i.name
+                            iFB.denom       = i.denom
+                            iFB.num         = i.num
+                            iFB.unit        = i.unit
+                            iFB.weight      = i.weight
+                            
+                            ingredients.append(iFB)
+                        }
+                        components.append(cFB)
+                        componentNumber += 1
+                    }
+                }
             }
         }
     }
-       
+    
     func loadImage() {
         
         // Check if an image was selected from the library
@@ -167,7 +222,7 @@ struct AddRecipeView: View {
         instructions = [InstructionFB]()
         components   = [ComponentFB]()
         ingredients  = [IngredientFB]()
-        
+
         placeHolderImage = Image(GlobalVariables.noImage)
     }
     
@@ -203,7 +258,7 @@ struct AddRecipeView: View {
             // Add the ingredients
             for i in ingredients {
                 if i.componentNr == c.number {
-
+                    
                     c.ingredients.append(i)
                 }
             }
@@ -216,13 +271,8 @@ struct AddRecipeView: View {
             modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
         }
         else {
-            model.uploadRecipeIntoCoreData(recipeId: NSManagedObjectID(), recipeFB: recipe, context: viewContext)
+            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipe, context: viewContext)
         }
     }
 }
 
-//struct AddRecipeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddRecipeView(tabSelection: Binding.constant(GlobalVariables.addRecipeTab))
-//    }
-//}

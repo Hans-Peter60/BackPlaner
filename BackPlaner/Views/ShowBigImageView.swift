@@ -42,6 +42,7 @@ struct ShowBigImageView: View {
 }
 
 struct ShowBigImagesView: View {
+    @Environment(\.presentationMode) var presentation
     
     var images: [Data]
     var index:  Int

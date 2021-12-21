@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RecipeFBListView: View {
     
@@ -15,6 +16,8 @@ struct RecipeFBListView: View {
 
     @State private var filterBy    = ""
 
+    var recipeId: NSManagedObjectID?
+    
     private var filteredFBRecipes: [RecipeFB] {
         
         var fR: [RecipeFB] = [RecipeFB]()
@@ -47,7 +50,7 @@ struct RecipeFBListView: View {
                     LazyVStack (alignment: .leading) {
                         ForEach (filteredFBRecipes) { r in
                             NavigationLink(
-                                destination: RecipeFBDetailView(recipeFB:r),
+                                destination: RecipeFBDetailView(recipeFB: r),
                                 label: {
                                     
                                     // MARK: Row item

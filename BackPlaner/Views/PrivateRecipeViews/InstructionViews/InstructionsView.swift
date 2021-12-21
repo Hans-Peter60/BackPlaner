@@ -99,7 +99,7 @@ struct InstructionsView: View {
 
                         LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
-                            ForEach (recipe.components.allObjects as! [Component]) { item in
+                            ForEach (recipe.componentsArray.sorted(by: { $0.number < $1.number })) { item in
 
                                 VStack(alignment: .leading) {
                                     Text(item.name)
@@ -107,7 +107,7 @@ struct InstructionsView: View {
                                         .padding([.bottom, .top], 5)
 
                                     VStack(alignment: .leading) {
-                                        ForEach (item.ingredients.allObjects as! [Ingredient]) { ingred in
+                                        ForEach (item.ingredientsArray.sorted(by: { $0.number < $1.number })) { ingred in
 
                                             let t = "• " + RecipeModel.getPortion(ingredient: ingred, recipeServings: recipe.servings, targetServings: selectedServingSize) + " "
                                             Text(t + ingred.name)

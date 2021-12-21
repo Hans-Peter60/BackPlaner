@@ -20,7 +20,8 @@ struct GlobalVariables {
     static var bakeListTab  = 2
     static var addRecipeTab = 3
 
-    static var detailView = true
+    static var noImage      = "no-image-icon-23494"
+    static var detailView   = true
     
     static var schritt      = 1
     static var vorheizZeit  = 45

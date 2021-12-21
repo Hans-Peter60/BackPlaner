@@ -16,13 +16,14 @@ extension Ingredient {
         return NSFetchRequest<Ingredient>(entityName: "Ingredient")
     }
 
+    @NSManaged public var number: Int
     @NSManaged public var weight: Double
     @NSManaged public var unit: String?
     @NSManaged public var num: Int
     @NSManaged public var name: String
     @NSManaged public var id: UUID?
     @NSManaged public var denom: Int
-    @NSManaged public var component: Component?
+    @NSManaged public var componentNr: Component?
 
 }
 

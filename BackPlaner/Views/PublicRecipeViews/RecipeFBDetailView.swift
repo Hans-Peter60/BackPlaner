@@ -77,7 +77,7 @@ struct RecipeFBDetailView: View {
                     
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
-                        ForEach (recipeFB.components.sorted(by: { $0.id < $1.id })) { item in
+                        ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
                             
                             VStack(alignment: .leading) {
 
@@ -86,7 +86,7 @@ struct RecipeFBDetailView: View {
                                 .padding([.bottom, .top], 5)
                             
                             VStack(alignment: .leading) {
-                                ForEach (item.ingredients) { ingred in
+                                ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                     
                                     let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
                                     Text(t + ingred.name)

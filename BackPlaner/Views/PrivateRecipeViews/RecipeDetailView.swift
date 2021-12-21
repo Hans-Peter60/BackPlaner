@@ -58,7 +58,7 @@ struct RecipeDetailView: View {
 
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
-                        ForEach (recipe.components.allObjects as! [Component]) { component in
+                        ForEach (recipe.componentsArray.sorted(by: { $0.number < $1.number })) { component in
                             
                             VStack(alignment: .leading) {
                                 
@@ -68,7 +68,7 @@ struct RecipeDetailView: View {
                                 
                                 VStack(alignment: .leading) {
 
-                                    ForEach (component.ingredients.allObjects as! [Ingredient]) { item in
+                                    ForEach (component.ingredientsArray.sorted(by: { $0.number < $1.number })) { item in
 
                                         Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize) + " " + item.name)
                                             .font(Font.custom("Avenir", size: 15))
@@ -118,6 +118,7 @@ struct RecipeDetailView: View {
             .padding()
         }
         .navigationBarTitle(recipe.name)
+//        .onAppear(perform: deleteAddedInstructions())
     }
 }
 

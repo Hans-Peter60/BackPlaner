@@ -12,7 +12,7 @@ struct AddComponentData: View {
     @Binding var components: [ComponentFB]
     
     @State private var componentName = ""
-    @State private var componentId = ""
+    @State private var componentNumber = ""
     
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.fixed(80), alignment: .trailing)]
     
@@ -27,7 +27,7 @@ struct AddComponentData: View {
                 Group {
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        TextField("1", text: $componentId)
+                        TextField("1", text: $componentNumber)
                         
                         TextField("Sauerteig", text: $componentName)
                         
@@ -40,12 +40,13 @@ struct AddComponentData: View {
                             if cleanedName == "" { return }
                             
                             // Create an ComponentFB object and set its properties
-                            let c  = ComponentFB()
-                            c.id   = componentId
-                            c.name = cleanedName
+                            let c      = ComponentFB()
+                            c.id       = UUID().uuidString
+                            c.number   = Int(componentNumber) ?? 0
+                            c.name     = cleanedName
                             components.append(c)
                             
-                            componentId = String((Int(componentId) ?? 0) + 1)
+                            componentNumber = String((Int(componentNumber) ?? 0) + 1)
                             componentName = ""
                         }
                         .buttonStyle(.bordered)
@@ -53,10 +54,10 @@ struct AddComponentData: View {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        ForEach(components.sorted(by: { $0.id < $1.id })) { component in
-                            Text(component.id ?? "")
+                        ForEach(components.sorted(by: { $0.number < $1.number })) { component in
+                            Text(String(component.number))
                             Text(component.name)
-                            Text("")
+                            Text(" ")
                         }
                     }
                 }

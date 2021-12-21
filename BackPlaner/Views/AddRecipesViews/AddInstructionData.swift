@@ -28,9 +28,9 @@ struct AddInstructionData: View {
                     Text("Schritt").bold()
                     Text("Beschreibung").bold()
                     Text("Dauer").bold()
-                    Text("").bold()
+                    Text(" ").bold()
                     
-                    TextField("1", text: $schritt)
+                    TextField(String(instructions.count), text: $schritt)
                     
                     TextField("Sauerteigzutaten vermengen", text: $instruction)
                     
@@ -58,9 +58,9 @@ struct AddInstructionData: View {
                         instructions.append(iFB)
                         
                         // Clear text fields
-                        schritt = String((Int(cleanedSchritt) ?? 0) + 1)
+                        schritt     = String((Int(cleanedSchritt) ?? 0) + 1)
                         instruction = ""
-                        duration = ""
+                        duration    = ""
                     }
                     .buttonStyle(.bordered)
                 }
@@ -71,7 +71,7 @@ struct AddInstructionData: View {
                         Text(step)
                         Text(i.instruction)
                         Text(Rational.displayHoursMinutes(i.duration)) // + Rational.displayHoursMinutes(i.startTime ?? 0))
-                        Text("")
+                        Text(" ")
                     }
                 }
             }

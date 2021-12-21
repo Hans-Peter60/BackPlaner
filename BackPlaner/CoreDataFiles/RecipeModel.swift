@@ -27,6 +27,13 @@ class RecipeModel: ObservableObject {
         checkLoadedData()
     }
     
+    func fetchRecipe(for objectId: NSManagedObjectID, context: NSManagedObjectContext) -> Recipe? {
+      guard let recipe = context.object(with: objectId) as? Recipe else {
+        return nil
+      }
+      return recipe
+    }
+
     func deleteAllCoreDataRecords() {
         
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Recipe")
@@ -68,7 +75,7 @@ class RecipeModel: ObservableObject {
         
         // If it's false, then we should parse the local json and preload into Core Data
         if status == false {
-//            deleteAllCoreDataRecords()
+            deleteAllCoreDataRecords()
             preloadLocalData()
         }
     }
@@ -80,15 +87,26 @@ class RecipeModel: ObservableObject {
         
         // Create firebase collections
         for r in localRecipes {
-            uploadRecipeIntoCoreData(recipeFB: r)
+            uploadRecipeIntoCoreData(recipeId: NSManagedObjectID(), recipeFB: r, context: managedObjectContext)
 //            uploadRecipeToFirestore(r: r, i: UIImage(named: r.image))
         }
     }
     
-    func uploadRecipeIntoCoreData(recipeFB: RecipeFB) {
+    func uploadRecipeIntoCoreData(
+        recipeId: NSManagedObjectID?,
+        recipeFB: RecipeFB,
+        context:  NSManagedObjectContext
+    ) {
+        let r: Recipe
+        if let objectId = recipeId,
+           let fetchedRecipe = fetchRecipe(for: objectId, context: context) {
+            r = fetchedRecipe
+        } else {
+            r = Recipe(context: context)
+        }
         
-        let r = Recipe(context: managedObjectContext)
-        
+//        let r = Recipe(context: context)
+    
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
         
         r.id              = UUID()
@@ -111,7 +129,7 @@ class RecipeModel: ObservableObject {
             
             if iFB.instruction != GlobalVariables.startHeating && iFB.instruction != GlobalVariables.bakeEnd {
                 
-                let i = Instruction(context: managedObjectContext)
+                let i = Instruction(context: context)
 
                 i.id          = UUID()
                 i.instruction = iFB.instruction
@@ -125,21 +143,24 @@ class RecipeModel: ObservableObject {
 
         // Set the components
         for cFB in recipeFB.components {
-            let c = Component(context: managedObjectContext)
             
-            c.id = UUID()
-            c.name = cFB.name
-            
+            let c    = Component(context: context)
+            c.id     = UUID()
+            c.name   = cFB.name
+            c.number = cFB.number
+
+            // Set the ingredient
             for iFB in cFB.ingredients {
-                let i = Ingredient(context: managedObjectContext)
                 
-                // Set the ingredient
-                i.id     = UUID()
-                i.name   = iFB.name
-                i.unit   = iFB.unit ?? ""
-                i.weight = iFB.weight ?? 0
-                i.num    = iFB.num ?? 1
-                i.denom  = iFB.denom ?? 1
+                let i       = Ingredient(context: context)
+                
+                i.id        = UUID()
+                i.name      = iFB.name
+                i.number    = iFB.number
+                i.unit      = iFB.unit ?? ""
+                i.weight    = iFB.weight ?? 0
+                i.num       = iFB.num ?? 1
+                i.denom     = iFB.denom ?? 1
                 
                 c.addToIngredients(i)
             }
@@ -148,13 +169,13 @@ class RecipeModel: ObservableObject {
         }
         
         for bH in recipeFB.bakeHistories {
-            let h = BakeHistory(context: managedObjectContext)
+            let h = BakeHistory(context: context)
             
             h.id      = UUID()
             h.date    = bH.date
             h.comment = bH.comment
             
-            if bH.images.count == 1 && bH.images[0] == "no-image-icon-23494" {
+            if bH.images.count == 1 && bH.images[0] == GlobalVariables.noImage {
                 // do nothing
             }
             else {
@@ -171,7 +192,7 @@ class RecipeModel: ObservableObject {
         // Save to core data
         do {
             // Save the recipe to core data
-            try managedObjectContext.save()
+            try context.save()
             
             // Switch the view to list view
         }

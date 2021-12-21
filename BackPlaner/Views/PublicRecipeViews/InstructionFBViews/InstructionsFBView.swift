@@ -6,14 +6,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct InstructionsFBView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
-    @EnvironmentObject var model: RecipeModel
+    @EnvironmentObject var model:   RecipeModel
 
     var recipeFB: RecipeFB
+    var recipeId: NSManagedObjectID?
     
     @State private var dateTime = GlobalVariables.dateTimePicker
     @State private var dateTimeStartSelection     = 0
@@ -37,7 +39,7 @@ struct InstructionsFBView: View {
     }()
     
     var manager:LocalNotificationManager = LocalNotificationManager()
-    var dateCalculation:DateCalculation = DateCalculation()
+    var dateCalculation:DateCalculation  = DateCalculation()
     
     var body: some View {
         
@@ -57,10 +59,6 @@ struct InstructionsFBView: View {
                             .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
                             .cornerRadius(5)
                     }
-                    
-                    Text("Backanleitung für " + recipeFB.name)
-                        .font(.largeTitle)
-                        .padding(.leading)
                     
                     HStack {
                         // MARK: Serving size picker
@@ -97,7 +95,7 @@ struct InstructionsFBView: View {
                         
                         LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
                             
-                            ForEach (recipeFB.components) { item in
+                            ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
                                 
                                 VStack(alignment: .leading) {
                                     Text(item.name)
@@ -105,7 +103,7 @@ struct InstructionsFBView: View {
                                         .padding([.bottom, .top], 5)
                                     
                                     VStack(alignment: .leading) {
-                                        ForEach (item.ingredients) { ingred in
+                                        ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                             
                                             let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
                                             Text(t + ingred.name)
@@ -300,12 +298,11 @@ struct InstructionsFBView: View {
                             let bakeHistoryFB        = BakeHistoryFB()
                             bakeHistoryFB.date       = endDate
                             bakeHistoryFB.comment    = "kein Kommentar erfasst"
-                            bakeHistoryFB.images     = ["no-image-icon-23494"]
+                            bakeHistoryFB.images     = [GlobalVariables.noImage]
                             recipeFB.bakeHistories.append(bakeHistoryFB)
                             recipeFB.bakeHistoryFlag = true
 
-                            model.uploadRecipeIntoCoreData(recipeFB: recipeFB)
-                            
+                            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext)
                         }
                         .padding()
                         .foregroundColor(.gray)
@@ -333,6 +330,7 @@ struct InstructionsFBView: View {
                     }
                 }.padding()
             }
+            .navigationBarTitle("Backanleitung für " + recipeFB.name)
         }
     }
     
