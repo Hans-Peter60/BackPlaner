@@ -44,6 +44,13 @@ extension Recipe {
             $0.step < $1.step
         }
     }
+    
+    public var bakeHistoriesArray: [BakeHistory] {
+        let set = bakeHistories as? Set<BakeHistory> ?? []
+        return set.sorted {
+            $0.date > $1.date
+        }
+    }
 }
 
 // MARK: Generated accessors for bakeHistories

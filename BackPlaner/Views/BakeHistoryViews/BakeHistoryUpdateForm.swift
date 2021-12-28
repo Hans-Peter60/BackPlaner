@@ -15,6 +15,8 @@ struct BakeHistoryUpdateForm: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var model: RecipeModel
     
+    var dateFormat:DateFormat = DateFormat()
+    
     // Image Picker
     @State private var isShowingImagePicker = false
     @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary

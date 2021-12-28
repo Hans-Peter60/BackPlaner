@@ -27,6 +27,7 @@ struct InstructionsView: View {
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
+    var gridItemLayoutHistories = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 400), alignment: .leading)]
     
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -38,7 +39,8 @@ struct InstructionsView: View {
     }()
     
     var manager:LocalNotificationManager = LocalNotificationManager()
-    var dateCalculation:DateCalculation = DateCalculation()
+    var dateCalculation:DateCalculation  = DateCalculation()
+    var dateFormat:DateFormat            = DateFormat()
     
     var body: some View {
         
@@ -52,18 +54,14 @@ struct InstructionsView: View {
                         destination: ShowBigImageView(image: recipe.image)
                     )
                     {
-                        let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
+                        let image = UIImage(data: recipe.image) ?? UIImage()
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
                             .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
                             .cornerRadius(5)
                     }
-
-                    Text("Backanleitung für " + recipe.name)
-                        .font(.largeTitle)
-                        .padding(.leading)
-
+                    
                     HStack {
                         // MARK: Serving size picker
                         HStack {
@@ -92,161 +90,181 @@ struct InstructionsView: View {
                     }
 
                     // MARK: Components
-                    VStack(alignment: .leading) {
-                        Text("Komponenten:")
-                            .font(Font.custom("Avenir Heavy", size: 16))
-                            .padding([.bottom, .top], 5)
+                    Group {
+                        VStack(alignment: .leading) {
+                            Text("Komponenten:")
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                                .padding([.bottom, .top], 5)
 
-                        LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
+                            LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
-                            ForEach (recipe.componentsArray.sorted(by: { $0.number < $1.number })) { item in
-
-                                VStack(alignment: .leading) {
-                                    Text(item.name)
-                                        .font(Font.custom("Avenir Heavy", size: 16))
-                                        .padding([.bottom, .top], 5)
+                                ForEach (recipe.componentsArray.sorted(by: { $0.number < $1.number })) { item in
 
                                     VStack(alignment: .leading) {
-                                        ForEach (item.ingredientsArray.sorted(by: { $0.number < $1.number })) { ingred in
+                                        Text(item.name)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
+                                            .padding([.bottom, .top], 5)
 
-                                            let t = "• " + RecipeModel.getPortion(ingredient: ingred, recipeServings: recipe.servings, targetServings: selectedServingSize) + " "
-                                            Text(t + ingred.name)
-                                                .font(Font.custom("Avenir", size: 15))
+                                        VStack(alignment: .leading) {
+                                            ForEach (item.ingredientsArray.sorted(by: { $0.number < $1.number })) { ingred in
+
+                                                let t = "• " + RecipeModel.getPortion(ingredient: ingred, recipeServings: recipe.servings, targetServings: selectedServingSize) + " "
+                                                Text(t + ingred.name)
+                                                    .font(Font.custom("Avenir", size: 15))
+                                            }
                                         }
                                     }
                                 }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                    }
 
-                    Divider()
+                        Divider()
+                    }
 
                     // MARK: Selections
-                    LazyVGrid (columns: gridItemLayoutSelection, spacing: 6) {
+                    Group {
+                        LazyVGrid (columns: gridItemLayoutSelection, spacing: 6) {
 
-                        Picker("", selection: $dateTimeStartSelection) {
-                            Text("Starten ab").tag(0)
-                            Text("Fertig bis").tag(1)
-                        }
-                        .pickerStyle(.segmented)
-                        .font(Font.custom("Avenir", size: 15))
-
-                        Toggle(isOn: $changeDurationsFlag) {
-                            Image(systemName: "hourglass")
-                            Text("Dauer ändern")
-                        }
-                        .font(Font.custom("Avenir Heavy", size: 15))
-                        .padding()
-                        .frame(width: 220)
-
-                        DatePicker(
-                            "",
-                            selection: $dateTime,
-                            in: dateRange,
-                            displayedComponents: [.date, .hourAndMinute]
-                        )
-                            .padding()
-                            .environment(\.locale, Locale.init(identifier: "de"))
-                            .font(Font.custom("Avenir", size: 16))
-
-                        let _ = setGlobaldateTime(dateTime)
-                    }
-
-                    HStack {
-                        Text("Verarbeitungsschritte:")
-                            .font(Font.custom("Avenir Heavy", size: 16))
-                            .padding([.bottom, .top], 5)
-                        
-                        Spacer()
-                        
-                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
-                            .font(Font.custom("Avenir", size: 16))
-                            .padding([.trailing], 5)
-                    }
- 
-                    LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
-                        
-                        Text("Schritt").bold()
-                        Text("Beschreibung").bold()
-                        Text("Dauer").bold()
-                        
-                        Group {
-
-                            if changeDurationsFlag {
-
-                                Text("Dauer [Min]").bold()
-
-                                ForEach(recipe.instructionsArray.indices) { index in
-
-                                    let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
-
-                                    Text(step)
-                                    Text(recipe.instructionsArray[index].instruction)
-                                    Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
-                                    TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
-
-                                }
-                                .font(Font.custom("Avenir", size: 15))
+                            Picker("", selection: $dateTimeStartSelection) {
+                                Text("Starten ab").tag(0)
+                                Text("Fertig bis").tag(1)
                             }
+                            .pickerStyle(.segmented)
+                            .font(Font.custom("Avenir", size: 15))
+
+                            Toggle(isOn: $changeDurationsFlag) {
+                                Image(systemName: "hourglass")
+                                Text("Dauer ändern")
+                            }
+                            .font(Font.custom("Avenir Heavy", size: 15))
+                            .padding()
+                            .frame(width: 220)
+
+                            DatePicker(
+                                "",
+                                selection: $dateTime,
+                                in: dateRange,
+                                displayedComponents: [.date, .hourAndMinute]
+                            )
+                                .padding()
+                                .environment(\.locale, Locale.init(identifier: "de"))
+                                .font(Font.custom("Avenir", size: 16))
+
+                            let _ = setGlobaldateTime(dateTime)
+                        }
+                    }
                         
-                            else {
+                    // MARK: Instructions
+                    Group {
+                        HStack {
+                            Text("Verarbeitungsschritte:")
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                                .padding([.bottom, .top], 5)
+                            
+                            Spacer()
+                            
+                            Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
+                                .font(Font.custom("Avenir", size: 16))
+                                .padding([.trailing], 5)
+                        }
+     
+                        LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
+                            
+                            Text("Schritt").bold()
+                            Text("Beschreibung").bold()
+                            Text("Dauer").bold()
+                            
+                            Group {
 
-                                Text("Beginn").bold()
-                                
-                                ForEach(recipe.instructionsArray.indices) { index in
+                                if changeDurationsFlag {
 
-                                    let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+                                    Text("Dauer [Min]").bold()
 
-                                    Text(step)
-                                        .font(Font.custom("Avenir", size: 15))
-                                    Text(recipe.instructionsArray[index].instruction)
-                                        .font(Font.custom("Avenir", size: 15))
-                                    Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
-                                        .font(Font.custom("Avenir", size: 15))
+                                    ForEach(recipe.instructionsArray.indices) { index in
 
-                                    if dateTimeStartSelection == 0 {
-                                        let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
-                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                        let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+
+                                        Text(step)
+                                        Text(recipe.instructionsArray[index].instruction)
+                                        Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
+                                        TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
+
+                                    }
+                                    .font(Font.custom("Avenir", size: 15))
+                                }
+                            
+                                else {
+
+                                    Text("Beginn").bold()
+                                    
+                                    ForEach(recipe.instructionsArray.indices) { index in
+
+                                        let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+
+                                        Text(step)
                                             .font(Font.custom("Avenir", size: 15))
+                                        Text(recipe.instructionsArray[index].instruction)
+                                            .font(Font.custom("Avenir", size: 15))
+                                        Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
+                                            .font(Font.custom("Avenir", size: 15))
+
+                                        if dateTimeStartSelection == 0 {
+                                            let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
+                                            Text(dateCalculation.calculateDateTime(dT: date))
+                                                .font(Font.custom("Avenir", size: 15))
+                                        }
+                                        else {
+                                            let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
+                                            Text(dateCalculation.calculateDateTime(dT: date))
+                                                .font(Font.custom("Avenir", size: 15))
+                                        }
+                                    }
+
+                                    Text(String(Int(recipe.instructionsArray[recipe.instructionsArray.count - 1].step + 1)))
+                                    Text("Fertig")
+                                    Text("")
+                                    if dateTimeStartSelection == 0 {
+                                        let date = Calendar.current.date(byAdding: .minute, value: recipe.prepTime, to: dateTime)!
+                                        Text(dateCalculation.calculateDateTime(dT: date))
                                     }
                                     else {
-                                        let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
-                                        Text(dateCalculation.calculateDateTime(dT: date))
-                                            .font(Font.custom("Avenir", size: 15))
+                                        Text(dateCalculation.calculateDateTime(dT: dateTime))
                                     }
-                                }
-
-                                Text(String(Int(recipe.instructionsArray[recipe.instructionsArray.count - 1].step + 1)))
-                                Text("Fertig")
-                                Text("")
-                                if dateTimeStartSelection == 0 {
-                                    let date = Calendar.current.date(byAdding: .minute, value: recipe.prepTime, to: dateTime)!
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                }
-                                else {
-                                    Text(dateCalculation.calculateDateTime(dT: dateTime))
                                 }
                             }
                         }
+                        .font(Font.custom("Avenir", size: 15))
+                        .padding(.leading)
+
+                        Divider()
+                    }
+                    
+                    // MARK: Histories
+                    
+                    Group {
+                        
+                        Text("Back-Kommentare")
+                            .font(Font.custom("Avenir Heavy", size: 16))
+                        
+                        LazyVGrid(columns: gridItemLayoutHistories, spacing: 6) {
+                            
+                            Text("Dauer").bold()
+                            Text("Kommentar").bold()
+                            
+                            ForEach(recipe.bakeHistoriesArray) { bakeHistory in
+
+                                Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                Text(bakeHistory.comment)
+                            }
+                        }
+
+                        Divider()
                     }
                     .font(Font.custom("Avenir", size: 15))
                     .padding(.leading)
 
-                    Divider()
-                    
-//                    ForEach(recipe.bakeHistories.allObjects as! [BakeHistory]) { bakeHistory in
-//
-//                        HStack {
-//                            Text(dateCalculation.calculateDateTime(dT: bakeHistory.date))
-//                            Text(bakeHistory.comment)
-//                        }
-//                        .font(Font.custom("Avenir", size: 15))
-//                        .padding(.leading)
-//                    }
-//
-//                    Divider()
-
+                    // MARK: Reminder setzen
                     HStack {
                         Button(" Reminder setzen ") {
 
@@ -377,6 +395,7 @@ struct InstructionsView: View {
                     }
                 }.padding()
             }
+            .navigationBarTitle("Backanleitung für " + recipe.name)
         }
     }
     

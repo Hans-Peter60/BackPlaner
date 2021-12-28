@@ -60,171 +60,179 @@ struct InstructionsFBView: View {
                             .cornerRadius(5)
                     }
                     
-                    HStack {
-                        // MARK: Serving size picker
+                    Group {
                         HStack {
-                            Text("Wähle die Portionsgröße:")
+                            // MARK: Serving size picker
+                            HStack {
+                                Text("Wähle die Portionsgröße:")
+                                    .font(Font.custom("Avenir", size: 15))
+                                Picker("", selection: $selectedServingSize) {
+                                    Text("0,5").tag(1)
+                                    Text("1,0").tag(2)
+                                    Text("1,5").tag(3)
+                                    Text("2,0").tag(4)
+                                }
                                 .font(Font.custom("Avenir", size: 15))
-                            Picker("", selection: $selectedServingSize) {
-                                Text("0,5").tag(1)
-                                Text("1,0").tag(2)
-                                Text("1,5").tag(3)
-                                Text("2,0").tag(4)
+                                .pickerStyle(SegmentedPickerStyle())
+                                .frame(width:160)
                             }
-                            .font(Font.custom("Avenir", size: 15))
-                            .pickerStyle(SegmentedPickerStyle())
-                            .frame(width:160)
+                            .padding()
+                            
+                            Spacer()
+                            
+                            // MARK: Url-Link
+                            Link("Link zum Rezept",
+                                 destination: URL(string: recipeFB.urlLink)!)
+                                .padding(.top, 2)
+                                .padding(.leading)
+                                .font(Font.custom("Avenir Heavy", size: 15))
                         }
-                        .padding()
-                        
-                        Spacer()
-                        
-                        // MARK: Url-Link
-                        Link("Link zum Rezept",
-                             destination: URL(string: recipeFB.urlLink)!)
-                            .padding(.top, 2)
-                            .padding(.leading)
-                            .font(Font.custom("Avenir Heavy", size: 15))
                     }
                     
                     // MARK: Components
-                    VStack(alignment: .leading) {
-                        Text("Komponenten:")
-                            .font(Font.custom("Avenir Heavy", size: 16))
-                            .padding([.bottom, .top], 5)
-                        
-                        LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
+                    Group {
+                        VStack(alignment: .leading) {
+                            Text("Komponenten:")
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                                .padding([.bottom, .top], 5)
                             
-                            ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
+                            LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
                                 
-                                VStack(alignment: .leading) {
-                                    Text(item.name)
-                                        .font(Font.custom("Avenir Heavy", size: 16))
-                                        .padding([.bottom, .top], 5)
+                                ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
                                     
                                     VStack(alignment: .leading) {
-                                        ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
-                                            
-                                            let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
-                                            Text(t + ingred.name)
-                                                .font(Font.custom("Avenir", size: 15))
+                                        Text(item.name)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
+                                            .padding([.bottom, .top], 5)
+                                        
+                                        VStack(alignment: .leading) {
+                                            ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
+                                                
+                                                let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
+                                                Text(t + ingred.name)
+                                                    .font(Font.custom("Avenir", size: 15))
+                                            }
                                         }
                                     }
                                 }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
+                        
+                        Divider()
                     }
-                    
-                    Divider()
  
                     // MARK: Selections
-                    LazyVGrid (columns: gridItemLayoutSelection, spacing: 6) {
+                    Group {
+                        LazyVGrid (columns: gridItemLayoutSelection, spacing: 6) {
 
-                        Picker("", selection: $dateTimeStartSelection) {
-                            Text("Starten ab").tag(0)
-                            Text("Fertig bis").tag(1)
-                        }
-                        .pickerStyle(.segmented)
-                        .font(Font.custom("Avenir", size: 15))
-                        
-                        Toggle(isOn: $changeDurationsFlag) {
-                            Image(systemName: "hourglass")
-                            Text("Dauer ändern")
-                        }
-                        .font(Font.custom("Avenir Heavy", size: 15))
-                        .padding()
-                        .frame(width: 220)
-                        
-                        DatePicker(
-                            "",
-                            selection: $dateTime,
-                            in: dateRange,
-                            displayedComponents: [.date, .hourAndMinute]
-                        )
-                        .padding()
-                        .environment(\.locale, Locale.init(identifier: "de"))
-                        .font(Font.custom("Avenir", size: 16))
-                        
-                        let _ = setGlobaldateTime(dateTime)
-                    }
-                    
-                    HStack {
-                        Text("Verarbeitungsschritte:")
-                            .font(Font.custom("Avenir Heavy", size: 16))
-                            .padding([.bottom, .top], 5)
-                        
-                        Spacer()
-                        
-                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipeFB.prepTime))
+                            Picker("", selection: $dateTimeStartSelection) {
+                                Text("Starten ab").tag(0)
+                                Text("Fertig bis").tag(1)
+                            }
+                            .pickerStyle(.segmented)
+                            .font(Font.custom("Avenir", size: 15))
+                            
+                            Toggle(isOn: $changeDurationsFlag) {
+                                Image(systemName: "hourglass")
+                                Text("Dauer ändern")
+                            }
+                            .font(Font.custom("Avenir Heavy", size: 15))
+                            .padding()
+                            .frame(width: 220)
+                            
+                            DatePicker(
+                                "",
+                                selection: $dateTime,
+                                in: dateRange,
+                                displayedComponents: [.date, .hourAndMinute]
+                            )
+                            .padding()
+                            .environment(\.locale, Locale.init(identifier: "de"))
                             .font(Font.custom("Avenir", size: 16))
-                            .padding([.trailing], 5)
-                    }
- 
-                    // MARK: Instructions
-                    LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
-                        Text("Schritt").bold()
-                        Text("Beschreibung").bold()
-                        Text("Dauer").bold()
-                        
-                        if changeDurationsFlag {
                             
-                            Text("Dauer [Min]").bold()
-
-                            ForEach(recipeFB.instructions.indices) { index in
-                                
-                                let step = Rational.decimalPlace(recipeFB.instructions[index].step, 10)
-                                
-                                Text(step)
-                                Text(recipeFB.instructions[index].instruction)
-                                Text(Rational.displayHoursMinutes(recipeFB.instructions[index].duration))
-                                TextField(String(recipeFB.instructions[index].duration), text: $durations[index])
-                               
-                            }
-                            .font(Font.custom("Avenir", size: 15))
-                        }
-                        else {
-                            
-                            Text("Beginn").bold()
-
-                            ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
-                                
-                                let step = Rational.decimalPlace(i.step, 10)
-                                
-                                Text(step)
-                                Text(i.instruction)
-                                Text(Rational.displayHoursMinutes(i.duration))
-                               
-                                if dateTimeStartSelection == 0 {
-                                    
-                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                }
-                                else {
-                                    let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, (i.startTime ?? 0) - recipeFB.prepTime, dateTime, false)
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                }
-                            }
-                            .font(Font.custom("Avenir", size: 15))
-                            
-                            Group {
-                                Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
-                                Text("Fertig - Zubereitungszeit [Minuten] = " + String(recipeFB.prepTime))
-                                Text("")
-                                if dateTimeStartSelection == 0 {
-                                    let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                }
-                                else {
-                                    Text(dateCalculation.calculateDateTime(dT: dateTime))
-                                }
-                            }
-                            .font(Font.custom("Avenir", size: 15))
+                            let _ = setGlobaldateTime(dateTime)
                         }
                     }
-                    .padding(.leading)
                     
-                    Divider()
+                    // MARK: Instructions
+                    Group {
+                        HStack {
+                            Text("Verarbeitungsschritte:")
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                                .padding([.bottom, .top], 5)
+                            
+                            Spacer()
+                            
+                            Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipeFB.prepTime))
+                                .font(Font.custom("Avenir", size: 16))
+                                .padding([.trailing], 5)
+                        }
+     
+                        LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
+                            Text("Schritt").bold()
+                            Text("Beschreibung").bold()
+                            Text("Dauer").bold()
+                            
+                            if changeDurationsFlag {
+                                
+                                Text("Dauer [Min]").bold()
+
+                                ForEach(recipeFB.instructions.indices) { index in
+                                    
+                                    let step = Rational.decimalPlace(recipeFB.instructions[index].step, 10)
+                                    
+                                    Text(step)
+                                    Text(recipeFB.instructions[index].instruction)
+                                    Text(Rational.displayHoursMinutes(recipeFB.instructions[index].duration))
+                                    TextField(String(recipeFB.instructions[index].duration), text: $durations[index])
+                                   
+                                }
+                                .font(Font.custom("Avenir", size: 15))
+                            }
+                            else {
+                                
+                                Text("Beginn").bold()
+
+                                ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
+                                    
+                                    let step = Rational.decimalPlace(i.step, 10)
+                                    
+                                    Text(step)
+                                    Text(i.instruction)
+                                    Text(Rational.displayHoursMinutes(i.duration))
+                                   
+                                    if dateTimeStartSelection == 0 {
+                                        
+                                        let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, i.startTime ?? 0, dateTime, false)
+                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                    }
+                                    else {
+                                        let date = manager.setNotification(recipeFB.id ?? "", i.instruction, step, (i.startTime ?? 0) - recipeFB.prepTime, dateTime, false)
+                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                    }
+                                }
+                                .font(Font.custom("Avenir", size: 15))
+                                
+                                Group {
+                                    Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
+                                    Text("Fertig - Zubereitungszeit [Minuten] = " + String(recipeFB.prepTime))
+                                    Text("")
+                                    if dateTimeStartSelection == 0 {
+                                        let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!
+                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                    }
+                                    else {
+                                        Text(dateCalculation.calculateDateTime(dT: dateTime))
+                                    }
+                                }
+                                .font(Font.custom("Avenir", size: 15))
+                            }
+                        }
+                        .padding(.leading)
+                        
+                        Divider()
+                    }
                     
                     // MARK: Reminder setzen
                     HStack {
