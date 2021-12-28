@@ -14,7 +14,8 @@ struct RecipeFBListView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
 
-    @State private var filterBy    = ""
+    @State private var filterBy  = ""
+    @State var selectedSelection = 1
 
     var recipeId: NSManagedObjectID?
     
@@ -26,8 +27,15 @@ struct RecipeFBListView: View {
             return modelFB.recipesFB
         }
         else {
-            for i in 0..<modelFB.recipesFB.count {
-                if modelFB.recipesFB[i].name.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+            if selectedSelection == 1 {
+                for i in 0..<modelFB.recipesFB.count {
+                    if modelFB.recipesFB[i].name.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+                }
+            }
+            else {
+                for i in 0..<modelFB.recipesFB.count {
+                    if modelFB.recipesFB[i].tags.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+                }
             }
         }
         return fR
@@ -45,6 +53,18 @@ struct RecipeFBListView: View {
                 
                 SearchBarView(filterBy: $filterBy)
                     .padding([.trailing, .bottom])
+                
+                HStack {
+                    Text("Selektion nach:")
+                        .font(Font.custom("Avenir", size: 15))
+                    Picker("", selection: $selectedSelection) {
+                        Text("Name").tag(1)
+                        Text("Tags").tag(2)
+                    }
+                    .font(Font.custom("Avenir", size: 15))
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(width:160)
+                }
                 
                 ScrollView {
                     LazyVStack (alignment: .leading) {
