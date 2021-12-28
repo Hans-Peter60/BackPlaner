@@ -12,7 +12,7 @@ struct AddRecipeView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
-    @EnvironmentObject var model: RecipeModel
+    @EnvironmentObject var model:   RecipeModel
 
     // Tab selection
     @Binding var tabSelection: Int
@@ -59,7 +59,7 @@ struct AddRecipeView: View {
                     
                     Spacer()
                     
-                    Button("Public Rezept speichern") {
+                    Button("In Rezeptdatenbank speichern") {
                         
                         // Add the recipe to firestore or core data
                         addRecipe(fireStore: true)
@@ -132,7 +132,7 @@ struct AddRecipeView: View {
 
                                 Divider()
                                 
-                                AddIngredientData(ingredients: $ingredients)
+                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
                                 
                                 Divider()
                                 
@@ -172,6 +172,8 @@ struct AddRecipeView: View {
     }
     
     func addRecipe(fireStore: Bool) {
+        
+        var recipeId: NSManagedObjectID?
         
         // Add the recipe into Firestore
         let recipe             = RecipeFB()
@@ -216,7 +218,7 @@ struct AddRecipeView: View {
             modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
         }
         else {
-            model.uploadRecipeIntoCoreData(recipeId: NSManagedObjectID(), recipeFB: recipe, context: viewContext)
+            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipe, context: viewContext, recipeImage: recipeImage ?? UIImage())
         }
     }
 }

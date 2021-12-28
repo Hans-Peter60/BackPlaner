@@ -75,7 +75,7 @@ class RecipeModel: ObservableObject {
         
         // If it's false, then we should parse the local json and preload into Core Data
         if status == false {
-            deleteAllCoreDataRecords()
+//            deleteAllCoreDataRecords()
             preloadLocalData()
         }
     }
@@ -87,7 +87,7 @@ class RecipeModel: ObservableObject {
         
         // Create firebase collections
         for r in localRecipes {
-            uploadRecipeIntoCoreData(recipeId: NSManagedObjectID(), recipeFB: r, context: managedObjectContext)
+            uploadRecipeIntoCoreData(recipeId: NSManagedObjectID(), recipeFB: r, context: managedObjectContext, recipeImage: UIImage())
 //            uploadRecipeToFirestore(r: r, i: UIImage(named: r.image))
         }
     }
@@ -95,7 +95,8 @@ class RecipeModel: ObservableObject {
     func uploadRecipeIntoCoreData(
         recipeId: NSManagedObjectID?,
         recipeFB: RecipeFB,
-        context:  NSManagedObjectContext
+        context:  NSManagedObjectContext,
+        recipeImage: UIImage
     ) {
         let r: Recipe
         if let objectId = recipeId,
@@ -108,15 +109,21 @@ class RecipeModel: ObservableObject {
 //        let r = Recipe(context: context)
     
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
-        
+  
+        if let objectId   = recipeId {
+            r.image       = recipeImage.jpegData(compressionQuality: 1.0) ?? Data()
+        }
+        else {
+            let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
+            r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
+        }
+
         r.id              = UUID()
         r.firestoreId     = recipeFB.id
         r.name            = recipeFB.name
         r.summary         = recipeFB.summary
-        let image         = GlobalVariables.recipesImage[recipeFB.id ?? ""]
-        r.image           = image!.jpegData(compressionQuality: 1.0) ?? Data()
         r.urlLink         = recipeFB.urlLink
-        r.featured        = recipeFB.featured
+        r.featured        = recipeFB.featured ?? false
         r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
         r.servings        = recipeFB.servings
         r.tags            = recipeFB.tags

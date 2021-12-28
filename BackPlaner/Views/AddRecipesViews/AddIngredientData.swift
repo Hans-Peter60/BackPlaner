@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AddIngredientData: View {
     
     @Binding var ingredients: [IngredientFB]
+    var componentsCount: Int
     
     @State private var component = ""
     @State private var name      = ""
@@ -48,16 +50,46 @@ struct AddIngredientData: View {
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
                         TextField("1", text: $component)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(component)) { newValue in
+                                let filtered = newValue.filter { "0123456789".contains($0) }
+                                if filtered != newValue {
+                                    self.component = filtered
+                                }
+                            }
                         
                         TextField("Menge/Gewicht", text: $weight)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(weight)) { newValue in
+                                let filtered = newValue.filter { "0123456789.".contains($0) }
+                                if filtered != newValue {
+                                    self.weight = filtered
+                                }
+                            }
                         
                         TextField("g", text: $unit)
                         
                         TextField("Zucker", text: $name)
                         
                         TextField("1", text: $num)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(num)) { newValue in
+                                let filtered = newValue.filter { "0123456789".contains($0) }
+                                if filtered != newValue {
+                                    self.num = filtered
+                                }
+                            }
+                        
                         Text("/")
+                        
                         TextField("1", text: $denom)
+                            .keyboardType(.numberPad)
+                            .onReceive(Just(denom)) { newValue in
+                                let filtered = newValue.filter { "0123456789".contains($0) }
+                                if filtered != newValue {
+                                    self.denom = filtered
+                                }
+                            }
                         
                         Button("Add") {
                             
@@ -70,7 +102,7 @@ struct AddIngredientData: View {
                             let cleanedUnit      = unit.trimmingCharacters(in: .whitespacesAndNewlines)
                             
                             // Check that all the fields are filled in
-                            if cleanedName == "" {
+                            if cleanedName == "" || Int(cleanedComponent) ?? 0 < 1 || Int(cleanedComponent) ?? 0 > componentsCount {
                                 return
                             }
                             
@@ -102,15 +134,27 @@ struct AddIngredientData: View {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        ForEach(ingredients.sorted(by: { $0.number < $1.number })) { ingredient in
+                        ForEach(ingredients.sorted(by: { ($0.componentNr, $0.number) < ($1.componentNr, $1.number) })) { ingredient in
+                            
                             Text(String(ingredient.componentNr))
                             if ingredient.weight    != nil { Text(Rational.decimalPlace(ingredient.weight!, 1000)) } else { Text(" ") }
                             if ingredient.unit      != nil { Text(String(ingredient.unit!)) } else { Text(" ") }
                             Text(ingredient.name)
-                            if ingredient.num       != nil { Text(String(ingredient.num!)) } else { Text(" ") }
-                            Text("/")
-                            if ingredient.denom     != nil { Text(String(ingredient.denom!)) } else { Text(" ") }
-                            Text("")
+                            
+                            if ingredient.num != ingredient.denom {
+                                
+                                if ingredient.num       != nil { Text(String(ingredient.num!)) } else { Text(" ") }
+                                    Text("/")
+                                    if ingredient.denom     != nil { Text(String(ingredient.denom!)) } else { Text(" ") }
+                                    Text("")
+                                }
+                                else {
+                                    Text(" ")
+                                    Text(" ")
+                                    Text(" ")
+                                    Text(" ")
+                                }
+                            
                         }
                     }
                 }

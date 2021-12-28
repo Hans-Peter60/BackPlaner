@@ -311,19 +311,15 @@ struct InstructionsView: View {
 
                             // Save to core data
                             do {
-                                // Save the recipe to core data
                                 try viewContext.save()
-
-                                // Switch the view to list view
                             }
                             catch {
-                                // Couldn't save the recipe
                                 print("Couldn't save the recipe")
                             }
 
                             viewContext.delete(i)
                             viewContext.delete(i2)
-                        }
+                       }
                         .padding()
                         .foregroundColor(.gray)
                         .buttonStyle(.bordered)

@@ -33,8 +33,6 @@ struct RecipeFeaturedView: View {
                     // Loop through each recipe
                     ForEach (0..<recipes.count) { index in
                         
-                        
-                        
                         // Recipe card button
                         Button(action: {
                             
@@ -47,7 +45,6 @@ struct RecipeFeaturedView: View {
                             ZStack {
                                 Rectangle()
                                     .foregroundColor(.white)
-                                
                                 
                                 VStack(spacing: 0) {
                                     let image = UIImage(data: recipes[index].image) ?? UIImage()

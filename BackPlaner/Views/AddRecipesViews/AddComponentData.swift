@@ -12,7 +12,7 @@ struct AddComponentData: View {
     @Binding var components: [ComponentFB]
     
     @State private var componentName = ""
-    @State private var componentNumber = ""
+    @State private var componentNumber = "1"
     
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.fixed(80), alignment: .trailing)]
     
@@ -27,7 +27,7 @@ struct AddComponentData: View {
                 Group {
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        TextField("1", text: $componentNumber)
+                        Text(componentNumber)
                         
                         TextField("Sauerteig", text: $componentName)
                         
@@ -46,7 +46,7 @@ struct AddComponentData: View {
                             c.name     = cleanedName
                             components.append(c)
                             
-                            componentNumber = String((Int(componentNumber) ?? 0) + 1)
+                            componentNumber = String(components.count + 1)
                             componentName = ""
                         }
                         .buttonStyle(.bordered)

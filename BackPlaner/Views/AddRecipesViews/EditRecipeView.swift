@@ -53,7 +53,7 @@ struct EditRecipeView: View {
                     Button("Inhalte löschen") {
                         
                         // Clear the form
-//                        clear()
+                        clear()
                     }
                     .buttonStyle(.bordered)
                     
@@ -65,7 +65,7 @@ struct EditRecipeView: View {
                         addRecipe(fireStore: true)
                         
                         // Clear the form
-//                        clear()
+                        clear()
                     }
                     .buttonStyle(.bordered)
                     
@@ -77,7 +77,7 @@ struct EditRecipeView: View {
                         addRecipe(fireStore: false)
                         
                         // Clear the form
-//                        clear()
+                        clear()
                     }
                     .buttonStyle(.bordered)
                 }
@@ -127,7 +127,7 @@ struct EditRecipeView: View {
                                 
                                 Divider()
                                 
-                                AddIngredientData(ingredients: $ingredients)
+                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
                                 
                                 Divider()
                                 
@@ -148,12 +148,15 @@ struct EditRecipeView: View {
                         return
                     }
                     
-                    name     = recipe.name
-                    summary  = recipe.summary
-                    urlLink  = recipe.urlLink ?? ""
-                    servings = recipe.servings
-                    featured = recipe.featured
-                    tags     = recipe.tags
+                    clear()
+                    
+                    name        = recipe.name
+                    summary     = recipe.summary
+                    urlLink     = recipe.urlLink ?? ""
+                    servings    = recipe.servings
+                    featured    = recipe.featured
+                    tags        = recipe.tags
+                    recipeImage = UIImage(data: recipe.image) ?? UIImage()
                     
                     for i in recipe.instructionsArray {
                         let instruction = InstructionFB()
@@ -170,8 +173,6 @@ struct EditRecipeView: View {
 
                     prepTime = recipe.prepTime
                     
-                    var componentNumber = 1
-                    
                     for comp in recipe.components {
                         let c   = comp as! Component
                         let cFB = ComponentFB()
@@ -186,7 +187,7 @@ struct EditRecipeView: View {
                             let iFB = IngredientFB()
                             
                             iFB.id          = UUID().uuidString
-                            iFB.componentNr = componentNumber
+                            iFB.componentNr = i.componentNr
                             iFB.number      = i.number
                             iFB.name        = i.name
                             iFB.denom       = i.denom
@@ -197,7 +198,6 @@ struct EditRecipeView: View {
                             ingredients.append(iFB)
                         }
                         components.append(cFB)
-                        componentNumber += 1
                     }
                 }
             }
@@ -215,20 +215,20 @@ struct EditRecipeView: View {
     
     func clear() {
         // Clear all the form fields
-        name         = ""
-        summary      = ""
-        urlLink      = ""
-        tags         = [String]()
-        instructions = [InstructionFB]()
-        components   = [ComponentFB]()
-        ingredients  = [IngredientFB]()
+        name             = ""
+        summary          = ""
+        urlLink          = ""
+        tags             = [String]()
+        instructions     = [InstructionFB]()
+        components       = [ComponentFB]()
+        ingredients      = [IngredientFB]()
 
         placeHolderImage = Image(GlobalVariables.noImage)
     }
     
     func addRecipe(fireStore: Bool) {
-        
-        // Add the recipe into Firestore
+
+        // Add the recipe into Firestore or CoreData
         let recipe             = RecipeFB()
         recipe.id              = ""
         recipe.name            = name
@@ -238,40 +238,41 @@ struct EditRecipeView: View {
         recipe.featured        = false
         recipe.bakeHistoryFlag = false
         recipe.tags            = tags
-        
+
         for i in instructions {
             let instruction = InstructionFB()
-            
+
             instruction.instruction = i.instruction
             instruction.step        = i.step
             instruction.duration    = i.duration
             instruction.startTime   = 0
-            
+
             // Add this instruction to the recipe
             recipe.instructions.append(instruction)
         }
         recipe.instructions = Rational.calculateStartTimes(recipe.instructions, Date())
         recipe.prepTime = GlobalVariables.totalDuration
-        
+
         for c in components {
-            
+
             // Add the ingredients
             for i in ingredients {
+                
                 if i.componentNr == c.number {
-                    
+
                     c.ingredients.append(i)
                 }
             }
             recipe.components.append(c)
         }
-        
+
         modelFB.recipesFB.append(recipe)
-        
+
         if fireStore {
             modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
         }
         else {
-            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipe, context: viewContext)
+            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipe, context: viewContext, recipeImage: recipeImage ?? UIImage())
         }
     }
 }

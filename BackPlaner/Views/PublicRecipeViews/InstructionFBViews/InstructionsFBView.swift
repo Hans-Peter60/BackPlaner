@@ -302,7 +302,7 @@ struct InstructionsFBView: View {
                             recipeFB.bakeHistories.append(bakeHistoryFB)
                             recipeFB.bakeHistoryFlag = true
 
-                            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext)
+                            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: UIImage())
                         }
                         .padding()
                         .foregroundColor(.gray)

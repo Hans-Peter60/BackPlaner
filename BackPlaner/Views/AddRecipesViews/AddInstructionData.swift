@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AddInstructionData: View {
     
@@ -31,10 +32,24 @@ struct AddInstructionData: View {
                     Text(" ").bold()
                     
                     TextField(String(instructions.count), text: $schritt)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(schritt)) { newValue in
+                            let filtered = newValue.filter { "0123456789.".contains($0) }
+                            if filtered != newValue {
+                                self.schritt = filtered
+                            }
+                        }
                     
                     TextField("Sauerteigzutaten vermengen", text: $instruction)
                     
                     TextField("10 [Minuten]", text: $duration)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(duration)) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.duration = filtered
+                            }
+                        }
                     
                     Button("Add") {
                         

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     var recipe:Recipe
     
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .leading)]
@@ -118,16 +120,5 @@ struct RecipeDetailView: View {
             .padding()
         }
         .navigationBarTitle(recipe.name)
-//        .onAppear(perform: deleteAddedInstructions())
     }
 }
-
-//struct RecipeDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        
-//        // Create a dummy recipe and pass it into the detail view so that we can see a preview
-//        let model = RecipeModel()
-//        
-//        RecipeDetailView(recipe: model.recipes[0])
-//    }
-//}
