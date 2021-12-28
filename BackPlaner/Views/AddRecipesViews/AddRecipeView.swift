@@ -18,9 +18,9 @@ struct AddRecipeView: View {
     @Binding var tabSelection: Int
     
     // Properties for recipe meta data
-    @State private var name = ""
-    @State private var summary = ""
-    @State private var urlLink = ""
+    @State private var name     = ""
+    @State private var summary  = ""
+    @State private var urlLink  = "https://"
     @State private var prepTime = ""
     @State private var bakeTime = ""
     @State private var servings = ""

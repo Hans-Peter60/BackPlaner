@@ -21,9 +21,9 @@ struct AddIngredientData: View {
     @State private var denom     = ""
     @State private var weight    = ""
     
-    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading),  GridItem(.fixed(120), alignment: .leading),
+    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading),  GridItem(.fixed(120), alignment: .trailing),
                           GridItem(.fixed(120), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading),
-                          GridItem(.fixed(40), alignment: .leading),  GridItem(.fixed(10), alignment: .leading),
+                          GridItem(.fixed(40), alignment: .leading),  GridItem(.fixed(10), alignment: .trailing),
                           GridItem(.fixed(40), alignment: .leading),  GridItem(.fixed(80), alignment: .trailing)]
     
     var body: some View {

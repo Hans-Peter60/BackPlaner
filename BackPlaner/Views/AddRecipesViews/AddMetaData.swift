@@ -8,7 +8,7 @@ import SwiftUI
 
 struct AddMetaData: View {
     
-    @Binding var name: String
+    @Binding var name:    String
     @Binding var summary: String
     @Binding var urlLink: String
     

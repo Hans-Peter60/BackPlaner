@@ -159,15 +159,16 @@ class RecipeModel: ObservableObject {
             // Set the ingredient
             for iFB in cFB.ingredients {
                 
-                let i       = Ingredient(context: context)
+                let i         = Ingredient(context: context)
                 
-                i.id        = UUID()
-                i.name      = iFB.name
-                i.number    = iFB.number
-                i.unit      = iFB.unit ?? ""
-                i.weight    = iFB.weight ?? 0
-                i.num       = iFB.num ?? 1
-                i.denom     = iFB.denom ?? 1
+                i.id          = UUID()
+                i.name        = iFB.name
+                i.componentNr = iFB.componentNr
+                i.number      = iFB.number
+                i.unit        = iFB.unit ?? ""
+                i.weight      = iFB.weight ?? 0
+                i.num         = iFB.num ?? 1
+                i.denom       = iFB.denom ?? 1
                 
                 c.addToIngredients(i)
             }
