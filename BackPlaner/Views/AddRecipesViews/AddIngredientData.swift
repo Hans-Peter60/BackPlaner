@@ -68,6 +68,7 @@ struct AddIngredientData: View {
                             }
                         
                         TextField("g", text: $unit)
+                            .autocapitalization(.none)
                         
                         TextField("Zucker", text: $name)
                         

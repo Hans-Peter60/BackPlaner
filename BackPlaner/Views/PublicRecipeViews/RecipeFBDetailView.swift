@@ -127,7 +127,6 @@ struct RecipeFBDetailView: View {
                             Text(i.instruction)
                             Text(Rational.displayHoursMinutes(i.duration))
                         }
-                        .padding(.horizontal)
                     }
                     .font(Font.custom("Avenir", size: 16))
                         .padding([.bottom, .top], 5)

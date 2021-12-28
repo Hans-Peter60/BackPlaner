@@ -166,54 +166,57 @@ struct InstructionsView: View {
                     }
  
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
+                        
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
                         Text("Dauer").bold()
+                        
+                        Group {
 
-                        if changeDurationsFlag {
+                            if changeDurationsFlag {
 
-                            Text("Dauer [Min]").bold()
+                                Text("Dauer [Min]").bold()
 
-                            ForEach(recipe.instructionsArray.indices) { index in
+                                ForEach(recipe.instructionsArray.indices) { index in
 
-                                let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+                                    let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
 
-                                Text(step)
-                                Text(recipe.instructionsArray[index].instruction)
-                                Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
-                                TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
+                                    Text(step)
+                                    Text(recipe.instructionsArray[index].instruction)
+                                    Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
+                                    TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
 
-                            }
-                            .font(Font.custom("Avenir", size: 15))
-                        }
-                        else {
-                            
-                            Text("Beginn").bold()
-                            
-                            ForEach(recipe.instructionsArray.indices) { index in
-
-                                let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
-
-                                Text(step)
-                                    .font(Font.custom("Avenir", size: 15))
-                                Text(recipe.instructionsArray[index].instruction)
-                                    .font(Font.custom("Avenir", size: 15))
-                                Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
-                                    .font(Font.custom("Avenir", size: 15))
-
-                                if dateTimeStartSelection == 0 {
-                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                        .font(Font.custom("Avenir", size: 15))
                                 }
-                                else {
-                                    let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
-                                    Text(dateCalculation.calculateDateTime(dT: date))
-                                        .font(Font.custom("Avenir", size: 15))
-                                }
+                                .font(Font.custom("Avenir", size: 15))
                             }
+                        
+                            else {
 
-                            Group {
+                                Text("Beginn").bold()
+                                
+                                ForEach(recipe.instructionsArray.indices) { index in
+
+                                    let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+
+                                    Text(step)
+                                        .font(Font.custom("Avenir", size: 15))
+                                    Text(recipe.instructionsArray[index].instruction)
+                                        .font(Font.custom("Avenir", size: 15))
+                                    Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
+                                        .font(Font.custom("Avenir", size: 15))
+
+                                    if dateTimeStartSelection == 0 {
+                                        let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
+                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                            .font(Font.custom("Avenir", size: 15))
+                                    }
+                                    else {
+                                        let date = manager.setNotification(recipe.firestoreId ?? "", recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
+                                        Text(dateCalculation.calculateDateTime(dT: date))
+                                            .font(Font.custom("Avenir", size: 15))
+                                    }
+                                }
+
                                 Text(String(Int(recipe.instructionsArray[recipe.instructionsArray.count - 1].step + 1)))
                                 Text("Fertig")
                                 Text("")
@@ -225,12 +228,24 @@ struct InstructionsView: View {
                                     Text(dateCalculation.calculateDateTime(dT: dateTime))
                                 }
                             }
-                            .font(Font.custom("Avenir", size: 15))
                         }
                     }
+                    .font(Font.custom("Avenir", size: 15))
                     .padding(.leading)
 
                     Divider()
+                    
+//                    ForEach(recipe.bakeHistories.allObjects as! [BakeHistory]) { bakeHistory in
+//
+//                        HStack {
+//                            Text(dateCalculation.calculateDateTime(dT: bakeHistory.date))
+//                            Text(bakeHistory.comment)
+//                        }
+//                        .font(Font.custom("Avenir", size: 15))
+//                        .padding(.leading)
+//                    }
+//
+//                    Divider()
 
                     HStack {
                         Button(" Reminder setzen ") {

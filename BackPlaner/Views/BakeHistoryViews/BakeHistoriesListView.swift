@@ -54,7 +54,7 @@ struct BakeHistoriesListView: View {
             Text("Datum").bold()
             Text("Rezept").bold()
             Text("Kommentar").bold()
-            Text("Bilder").bold()
+            Text(" ").bold()
             Text("")
             Text("")
         }
