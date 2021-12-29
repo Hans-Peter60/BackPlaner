@@ -31,11 +31,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "PBP-Icon 120x120.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "PBP-Icon 180x180.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -76,16 +78,19 @@
       "size" : "76x76"
     },
     {
+      "filename" : "PBP 152x152.jpg",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "PBP 167x167.jpg",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "PBP-Icon 1024x1024.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
