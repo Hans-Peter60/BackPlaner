@@ -23,34 +23,58 @@ struct RecipeDetailView: View {
         
             VStack (alignment: .leading) {
                 
-                // MARK: Recipe Image
-                NavigationLink(
-                    destination: ShowBigImageView(image: recipe.image)
-                )
-                {
-                    let image = UIImage(data: recipe.image) ?? UIImage()
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                        .cornerRadius(5)
-                }
-                
-                // MARK: Serving size picker
-                VStack (alignment: .leading) {
-                    Text("Select your serving size:")
-                        .font(Font.custom("Avenir", size: 15))
-                    Picker("", selection: $selectedServingSize) {
-                        Text("0.5").tag(1)
-                        Text("1.0").tag(2)
-                        Text("1.5").tag(3)
-                        Text("2.0").tag(4)
+                HStack {
+                    // MARK: Recipe Image
+                    NavigationLink(
+                        destination: ShowBigImageView(image: recipe.image)
+                    )
+                    {
+                        let image = UIImage(data: recipe.image) ?? UIImage()
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                            .cornerRadius(5)
                     }
-                    .font(Font.custom("Avenir", size: 15))
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width:160)
+                    
+                    Spacer()
+                    
+                    // MARK: Rating Stars
+                    RatingStarsView(rating: recipe.rating)
+                        .padding(.trailing)
                 }
-                .padding()
+
+                
+                // MARK: Recipe summary
+                Text(recipe.summary)
+                    .padding(.top, 2)
+                    .font(Font.custom("Avenir", size: 15))
+                    
+                HStack {
+                   // MARK: Serving size picker
+                    HStack {
+                        Text("Wähle die Portionsgröße:")
+                            .font(Font.custom("Avenir", size: 15))
+                        Picker("", selection: $selectedServingSize) {
+                            Text("0,5").tag(1)
+                            Text("1,0").tag(2)
+                            Text("1,5").tag(3)
+                            Text("2,0").tag(4)
+                        }
+                        .font(Font.custom("Avenir", size: 15))
+                        .pickerStyle(SegmentedPickerStyle())
+                        .frame(width:160)
+                    }
+                    
+                    Spacer()
+
+                    // MARK: Recipe urlLink
+                    Link("Link zum Rezept",
+                         destination: URL(string: recipe.urlLink ?? "https://")!)
+                        .padding(.top, 2)
+                        .padding(.leading)
+                        .font(Font.custom("Avenir Heavy", size: 15))
+                }
                 
                 // MARK: Components
                 VStack(alignment: .leading) {
@@ -80,8 +104,6 @@ struct RecipeDetailView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
-                
 
                 Divider()
                 

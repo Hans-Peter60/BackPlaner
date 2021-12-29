@@ -27,15 +27,6 @@ struct TabsFBView: View {
                 }
                 .tag(GlobalVariables.listTab)
             
-//            RecipeFBFeaturedView()
-//                .tabItem {
-//                    VStack {
-//                        Image(systemName: "star.fill")
-//                        Text("Featured")
-//                    }
-//                }
-//                .tag(GlobalVariables.featuredTab)
-//
             InstructionsFBListView()
                 .tabItem {
                     VStack {

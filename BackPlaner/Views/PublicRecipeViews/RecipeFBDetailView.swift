@@ -24,22 +24,28 @@ struct RecipeFBDetailView: View {
             
             VStack (alignment: .leading) {
                 
+                HStack {
                 // MARK: Recipe image
-                NavigationLink(
-                    destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
-                )
-                {
-                    Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
-                        .resizable()
-                        .scaledToFill()
-                        .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                        .cornerRadius(5)
+                    NavigationLink(
+                        destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
+                    )
+                    {
+                        Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                            .cornerRadius(5)
+                    }
+                    
+                    Spacer()
+                    
+                    RatingStarsView(rating: recipeFB.rating ?? 0)
+                        .padding(.trailing)
                 }
                 
                 // MARK: Recipe summary
                 Text(recipeFB.summary)
                     .padding(.top, 2)
-                    .padding(.leading)
                     .font(Font.custom("Avenir", size: 15))
                 
                 HStack {
@@ -57,7 +63,6 @@ struct RecipeFBDetailView: View {
                         .pickerStyle(SegmentedPickerStyle())
                         .frame(width:160)
                     }
-                    .padding()
                     
                     Spacer()
                     
@@ -70,33 +75,36 @@ struct RecipeFBDetailView: View {
                 }
                 
                // MARK: Components
-                VStack(alignment: .leading) {
-                    Text("Komponenten:")
-                        .font(Font.custom("Avenir Heavy", size: 16))
-                        .padding([.bottom, .top], 2)
-                    
-                    LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
+                Section {
+                    VStack(alignment: .leading) {
+//                        Text("Komponenten:")
+//                            .font(Font.custom("Avenir Heavy", size: 16))
+//                            .padding([.bottom, .top], 2)
+                        
+                        LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
-                        ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
-                            
-                            VStack(alignment: .leading) {
+                            ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
+                                
+                                VStack(alignment: .leading) {
 
-                            Text(item.name)
-                                .font(Font.custom("Avenir Heavy", size: 14))
-                                .padding([.bottom, .top], 5)
-                            
-                            VStack(alignment: .leading) {
-                                ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
-                                    
-                                    let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
-                                    Text(t + ingred.name)
-                                        .font(Font.custom("Avenir", size: 15))
-                                }
-                            }                            }
+                                Text(item.name)
+                                    .font(Font.custom("Avenir Heavy", size: 14))
+                                    .padding([.bottom, .top], 5)
+                                
+                                VStack(alignment: .leading) {
+                                    ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
+                                        
+                                        let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
+                                        Text(t + ingred.name)
+                                            .font(Font.custom("Avenir", size: 15))
+                                    }
+                                }                            }
+                            }
                         }
                     }
+                } header: {
+                    Text("Komponenten:")
                 }
-                .padding(.horizontal)
                 
                 // MARK: Divider
                 Divider()

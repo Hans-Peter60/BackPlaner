@@ -177,6 +177,7 @@ struct InstructionsView: View {
                             
                             Group {
 
+                                // MARK: Change Durations
                                 if changeDurationsFlag {
 
                                     Text("Dauer [Min]").bold()
@@ -270,16 +271,18 @@ struct InstructionsView: View {
 
                             var bakeStartTime = 0
 
+                            // MARK: Notifications einsetzen
                             for i in 0..<recipe.instructionsArray.count {
                                 
                                 if dateTimeStartSelection == 0 {
-                                    
+                                    // Start
                                     let _ = manager.setNotification(recipe.firestoreId ?? "",
                                                                     recipe.instructionsArray[i].instruction,
                                                                     Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
                                                                     recipe.instructionsArray[i].startTime, dateTime, true)
                                 }
                                 else {
+                                    // Ende
                                     let _ = manager.setNotification(recipe.firestoreId ?? "",
                                                                     recipe.instructionsArray[i].instruction,
                                                                     Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
@@ -294,21 +297,23 @@ struct InstructionsView: View {
                             }
                             showingNotificationMessage = true
 
+                            // MARK: Step und Notification für das Einschalten des Backofens einstellen
                             let i         = Instruction(context: viewContext)
                             i.id          = UUID()
                             i.instruction = GlobalVariables.startHeating
-                            
+                            // Berechnung der Step-Nummer
                             for index in 0..<recipe.instructionsArray.count {
                                 if bakeStartTime < recipe.instructionsArray[index].startTime {
 
                                     i.step = recipe.instructionsArray[index].step - 1.1
                                 }
                             }
-                            
+                            // Notification einstellen
                             let _          = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
                             i.startTime    = bakeStartTime
                             i.duration     = GlobalVariables.vorheizZeit
 
+                            // MARK: Step und Notification für das Ende des Backens einstellen
                             let i2         = Instruction(context: viewContext)
                             let endDate    = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
                             i2.id          = UUID()
@@ -316,6 +321,7 @@ struct InstructionsView: View {
                             i2.step        = 99
                             i2.startTime   = recipe.prepTime
                             i2.duration    = 0
+                            
                             // Save to core data
                             do {
                                 // Save the recipe to core data
@@ -328,6 +334,7 @@ struct InstructionsView: View {
                                 print("Couldn't save the recipe")
                             }
 
+                            // MARK: NextSteps sichern
                             if dateTimeStartSelection == 0 {
                                 uploadNextSteps(recipe: recipe, date: dateTime)
                             }
@@ -336,6 +343,7 @@ struct InstructionsView: View {
                                 uploadNextSteps(recipe: recipe, date: dateTime)
                             }
 
+                            // MARK: BakeHistory sichern
                             let bakeHistory     = BakeHistory(context: viewContext)
                             bakeHistory.date    = endDate
                             bakeHistory.comment = "kein Kommentar erfasst"
@@ -357,6 +365,7 @@ struct InstructionsView: View {
                         .foregroundColor(.gray)
                         .buttonStyle(.bordered)
 
+                        // MARK: Change Duration Flag bearbeiten
                         if changeDurationsFlag {
 
                             Button(" Dauer übernehmen ") {
@@ -399,6 +408,7 @@ struct InstructionsView: View {
         }
     }
     
+    // MARK: uploadNextSteps
     func uploadNextSteps(recipe: Recipe, date: Date) {
 
         for i in recipe.instructionsArray {
@@ -429,6 +439,7 @@ struct InstructionsView: View {
         GlobalVariables.dateTimePicker = date
     }
 
+    // MARK: CheckBoxStyle
     struct CheckboxStyle: ToggleStyle {
 
         func makeBody(configuration: Self.Configuration) -> some View {

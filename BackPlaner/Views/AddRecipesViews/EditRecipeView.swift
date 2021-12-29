@@ -18,12 +18,14 @@ struct EditRecipeView: View {
     var recipeId: NSManagedObjectID?
     
     // Properties for recipe meta data
-    @State private var name     = ""
-    @State private var summary  = ""
-    @State private var urlLink  = ""
-    @State private var prepTime = 0
-    @State private var featured = false
-    @State private var servings = 1
+    @State private var name            = ""
+    @State private var summary         = ""
+    @State private var urlLink         = ""
+    @State private var prepTime        = 0
+    @State private var featured        = false
+    @State private var rating          = 0
+    @State private var bakeHistoryFlag = false
+    @State private var servings        = 1
     
     // List type recipe meta data
     @State private var tags = [String]()
@@ -62,7 +64,7 @@ struct EditRecipeView: View {
                     Button("Public Rezept speichern") {
                         
                         // Add the recipe to firestore or core data
-                        addRecipe(fireStore: true)
+                        updateRecipe(fireStore: true)
                         
                         // Clear the form
                         clear()
@@ -74,7 +76,7 @@ struct EditRecipeView: View {
                     Button("Privates Rezept speichern") {
                         
                         // Add the recipe to firestore or core data
-                        addRecipe(fireStore: false)
+                        updateRecipe(fireStore: false)
                         
                         // Clear the form
                         clear()
@@ -90,31 +92,42 @@ struct EditRecipeView: View {
                         
                         VStack {
                             Group {
-                                // Recipe image
-                                placeHolderImage
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
                                 
                                 HStack {
-                                    Button("Photo Library") {
-                                        selectedImageSource = .photoLibrary
-                                        isShowingImagePicker = true
+                                    VStack {
+                                
+                                        // Recipe image
+                                        placeHolderImage
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
+                                        
+                                        HStack {
+                                            Button("Photo Library") {
+                                                selectedImageSource = .photoLibrary
+                                                isShowingImagePicker = true
+                                            }
+                                            
+                                            Text(" | ")
+                                            
+                                            Button("Camera") {
+                                                selectedImageSource = .camera
+                                                isShowingImagePicker = true
+                                            }
+                                        }
+                                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                                            ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                                        }
                                     }
                                     
-                                    Text(" | ")
+                                    Spacer()
                                     
-                                    Button("Camera") {
-                                        selectedImageSource = .camera
-                                        isShowingImagePicker = true
-                                    }
-                                }
-                                .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                                    ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                                    RatingStarsUpdateView(rating: $rating)
+                                        .padding(.trailing)
                                 }
                                 
                                 // The recipe meta data
-                                AddMetaData(name: $name,
+                                AddMetaData(name:    $name,
                                             summary: $summary,
                                             urlLink: $urlLink)
                                 
@@ -150,18 +163,20 @@ struct EditRecipeView: View {
                     
                     clear()
                     
-                    name        = recipe.name
-                    summary     = recipe.summary
-                    urlLink     = recipe.urlLink ?? ""
-                    servings    = recipe.servings
-                    featured    = recipe.featured
-                    tags        = recipe.tags
-                    recipeImage = UIImage(data: recipe.image) ?? UIImage()
+                    name            = recipe.name
+                    summary         = recipe.summary
+                    urlLink         = recipe.urlLink ?? ""
+                    servings        = recipe.servings
+                    featured        = recipe.featured
+                    rating          = recipe.rating
+                    bakeHistoryFlag = recipe.bakeHistoryFlag
+                    tags            = recipe.tags
+                    recipeImage     = UIImage(data: recipe.image) ?? UIImage()
                     
                     for i in recipe.instructionsArray {
                         let instruction = InstructionFB()
                         
-                        instruction.id          = UUID().uuidString
+                        instruction.id          = "old" + UUID().uuidString
                         instruction.instruction = i.instruction
                         instruction.step        = i.step
                         instruction.duration    = i.duration
@@ -177,7 +192,7 @@ struct EditRecipeView: View {
                         let c   = comp as! Component
                         let cFB = ComponentFB()
                         
-                        cFB.id     = UUID().uuidString
+                        cFB.id     = "old" + UUID().uuidString
                         cFB.name   = c.name
                         cFB.number = c.number
                         
@@ -186,7 +201,7 @@ struct EditRecipeView: View {
                             let i   = ingred as! Ingredient
                             let iFB = IngredientFB()
                             
-                            iFB.id          = UUID().uuidString
+                            iFB.id          = "old" + UUID().uuidString
                             iFB.componentNr = i.componentNr
                             iFB.number      = i.number
                             iFB.name        = i.name
@@ -226,7 +241,7 @@ struct EditRecipeView: View {
         placeHolderImage = Image(GlobalVariables.noImage)
     }
     
-    func addRecipe(fireStore: Bool) {
+    func updateRecipe(fireStore: Bool) {
 
         // Add the recipe into Firestore or CoreData
         let recipe             = RecipeFB()
@@ -236,34 +251,49 @@ struct EditRecipeView: View {
         recipe.urlLink         = urlLink
         recipe.servings        = 1
         recipe.featured        = false
-        recipe.bakeHistoryFlag = false
+        recipe.rating          = rating
+        recipe.bakeHistoryFlag = bakeHistoryFlag
         recipe.tags            = tags
 
         for i in instructions {
-            let instruction = InstructionFB()
+            
+            if i.id!.contains("old") {
+            }
+            else {
+                let instruction = InstructionFB()
 
-            instruction.instruction = i.instruction
-            instruction.step        = i.step
-            instruction.duration    = i.duration
-            instruction.startTime   = 0
+                instruction.instruction = i.instruction
+                instruction.step        = i.step
+                instruction.duration    = i.duration
+                instruction.startTime   = 0
 
-            // Add this instruction to the recipe
-            recipe.instructions.append(instruction)
+                // Add this instruction to the recipe
+                recipe.instructions.append(instruction)
+            }
         }
         recipe.instructions = Rational.calculateStartTimes(recipe.instructions, Date())
         recipe.prepTime = GlobalVariables.totalDuration
 
         for c in components {
 
-            // Add the ingredients
-            for i in ingredients {
-                
-                if i.componentNr == c.number {
-
-                    c.ingredients.append(i)
-                }
+            if c.id!.contains("old") {
             }
-            recipe.components.append(c)
+            else {
+                // Add the ingredients
+                for i in ingredients {
+                    
+                    if i.id!.contains("old") {
+                    }
+                    else {
+
+                        if i.componentNr == c.number {
+
+                            c.ingredients.append(i)
+                        }
+                    }
+                }
+                recipe.components.append(c)
+            }
         }
 
         modelFB.recipesFB.append(recipe)

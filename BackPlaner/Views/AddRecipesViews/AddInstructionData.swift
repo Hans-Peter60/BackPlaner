@@ -81,15 +81,24 @@ struct AddInstructionData: View {
                 }
                 
                 LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
-                    ForEach(instructions.sorted(by: { $0.step > $1.step })) { i in
+                    ForEach(instructions.sorted(by: { $0.step < $1.step } )) { i in
                         let step = Rational.decimalPlace(i.step, 10)
                         Text(step)
                         Text(i.instruction)
-                        Text(Rational.displayHoursMinutes(i.duration)) // + Rational.displayHoursMinutes(i.startTime ?? 0))
+                        Text(Rational.displayHoursMinutes(i.duration))
                         Text(" ")
                     }
+                    .onDelete(perform: deleteInstruction)
                 }
             }
         }
+        .toolbar {
+            EditButton()
+        }
     }
+
+    func deleteInstruction(at offsets: IndexSet) {
+        instructions.remove(atOffsets: offsets)
+    }
+
 }

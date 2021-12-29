@@ -16,6 +16,7 @@ struct RecipeFBListView: View {
 
     @State private var filterBy  = ""
     @State var selectedSelection = 1
+    @State var rating            = 0
 
     var recipeId: NSManagedObjectID?
     
@@ -23,18 +24,22 @@ struct RecipeFBListView: View {
         
         var fR: [RecipeFB] = [RecipeFB]()
         
-        if filterBy == "" {
+        if filterBy == "" && rating == 0 {
             return modelFB.recipesFB
         }
         else {
             if selectedSelection == 1 {
                 for i in 0..<modelFB.recipesFB.count {
-                    if modelFB.recipesFB[i].name.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+                    if modelFB.recipesFB[i].name.contains(filterBy) {
+                        if modelFB.recipesFB[i].rating ?? 0 >= rating { fR.append(modelFB.recipesFB[i]) }
+                    }
                 }
             }
             else {
                 for i in 0..<modelFB.recipesFB.count {
-                    if modelFB.recipesFB[i].tags.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+                    if modelFB.recipesFB[i].tags.contains(filterBy) {
+                        if modelFB.recipesFB[i].rating ?? 0 >= rating { fR.append(modelFB.recipesFB[i]) }
+                    }
                 }
             }
         }
@@ -65,6 +70,8 @@ struct RecipeFBListView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .frame(width:160)
                 }
+                
+                RatingStarsUpdateView(rating: $rating)
                 
                 ScrollView {
                     LazyVStack (alignment: .leading) {

@@ -124,6 +124,7 @@ class RecipeModel: ObservableObject {
         r.summary         = recipeFB.summary
         r.urlLink         = recipeFB.urlLink
         r.featured        = recipeFB.featured ?? false
+        r.rating          = recipeFB.rating ?? 0
         r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
         r.servings        = recipeFB.servings
         r.tags            = recipeFB.tags

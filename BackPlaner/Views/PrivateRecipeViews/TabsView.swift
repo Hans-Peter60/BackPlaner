@@ -27,15 +27,6 @@ struct TabsView: View {
                 }
                 .tag(GlobalVariables.listTab)
             
-            RecipeFeaturedView()
-                .tabItem {
-                    VStack {
-                        Image(systemName: "star.fill")
-                        Text("Markierte Rezepte")
-                    }
-                }
-                .tag(GlobalVariables.featuredTab)
-
             InstructionsListView()
                 .tabItem {
                     VStack {
