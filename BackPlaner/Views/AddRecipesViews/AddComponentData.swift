@@ -53,13 +53,21 @@ struct AddComponentData: View {
                         .buttonStyle(.bordered)
                     }
                     
-                    LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                        
-                        ForEach(components.sorted(by: { $0.number < $1.number })) { component in
-                            Text(String(component.number))
-                            Text(component.name)
+                    ForEach(components.indices, id: \.self) { i in
+
+                        LazyVGrid(columns: gridItemLayout, spacing: 6) {
+                            
+                            TextField("", value: $components[i].number, formatter: GlobalVariables.formatter)
+                                .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
+                            TextField("", text: $components[i].name)
+                                .textFieldStyle(.roundedBorder)
                             Text(" ")
                         }
+                        
+                        Divider()
+                        
+                        AddIngredientData(ingredients: $components[i].ingredients, componentsCount: components.count)
                     }
                 }
             }

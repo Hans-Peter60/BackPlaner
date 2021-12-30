@@ -139,9 +139,9 @@ struct EditRecipeView: View {
                                 
                                 AddComponentData(components: $components)
                                 
-                                Divider()
-                                
-                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
+//                                Divider()
+//                                
+//                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
                                 
                                 Divider()
                                 
@@ -208,10 +208,10 @@ struct EditRecipeView: View {
                             iFB.name        = i.name
                             iFB.denom       = i.denom
                             iFB.num         = i.num
-                            iFB.unit        = i.unit
+                            iFB.unit        = i.unit ?? ""
                             iFB.weight      = i.weight
                             
-                            ingredients.append(iFB)
+                            cFB.ingredients.append(iFB)
                         }
                         components.append(cFB)
                     }

@@ -25,6 +25,7 @@ struct AddListData: View {
                 .bold()
             
             TextField(placeholderText, text: $item)
+                .textFieldStyle(.roundedBorder)
             
             Button("Add") {
                 // Add the item to the list

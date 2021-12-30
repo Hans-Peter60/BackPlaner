@@ -16,18 +16,6 @@ struct EditInstructionData: View {
     @State private var instruction = ""
     @State private var duration = ""
     
-    let decimalFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
-    
-    let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
-    
     var body: some View {
         
         VStack (alignment: .leading) {
@@ -99,14 +87,14 @@ struct EditInstructionData: View {
                     
                     ForEach(instructions.indices, id: \.self) { i in
                         
-                        TextField("", value: $instructions[i].step, formatter: decimalFormatter)
+                        TextField("", value: $instructions[i].step, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
                         
                         TextField("", text: $instructions[i].instruction)
                             .textFieldStyle(.roundedBorder)
                         
-                        TextField("", value: $instructions[i].duration, formatter: numberFormatter)
+                        TextField("", value: $instructions[i].duration, formatter: GlobalVariables.formatter)
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
 

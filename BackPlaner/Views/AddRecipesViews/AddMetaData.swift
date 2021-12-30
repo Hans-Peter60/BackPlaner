@@ -21,13 +21,14 @@ struct AddMetaData: View {
             Text("Name: ")
                 .bold()
             TextField("Roggenbrot", text: $name)
+                .textFieldStyle(.roundedBorder)
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, alignment: .leading)
         
             Text("Beschreibung: ")
                 .bold()
             TextEditor(text: $summary)
+                .textFieldStyle(.roundedBorder)
                 .multilineTextAlignment(.leading)
-                .border(Color.blue, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .leading)
                 .padding([.top, .bottom])
       
@@ -35,6 +36,7 @@ struct AddMetaData: View {
                 .bold()
                 
             TextField("https://", text: $urlLink)
+                .textFieldStyle(.roundedBorder)
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, alignment: .leading)
         }
         .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)

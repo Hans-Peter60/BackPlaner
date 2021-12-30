@@ -51,6 +51,7 @@ struct AddIngredientData: View {
                         
                         TextField("1", text: $component)
                             .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
                             .onReceive(Just(component)) { newValue in
                                 let filtered = newValue.filter { "0123456789".contains($0) }
                                 if filtered != newValue {
@@ -60,6 +61,7 @@ struct AddIngredientData: View {
                         
                         TextField("Menge/Gewicht", text: $weight)
                             .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
                             .onReceive(Just(weight)) { newValue in
                                 let filtered = newValue.filter { "0123456789.".contains($0) }
                                 if filtered != newValue {
@@ -69,11 +71,14 @@ struct AddIngredientData: View {
                         
                         TextField("g", text: $unit)
                             .autocapitalization(.none)
+                            .textFieldStyle(.roundedBorder)
                         
                         TextField("Zucker", text: $name)
+                            .textFieldStyle(.roundedBorder)
                         
                         TextField("1", text: $num)
                             .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
                             .onReceive(Just(num)) { newValue in
                                 let filtered = newValue.filter { "0123456789".contains($0) }
                                 if filtered != newValue {
@@ -85,6 +90,7 @@ struct AddIngredientData: View {
                         
                         TextField("1", text: $denom)
                             .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
                             .onReceive(Just(denom)) { newValue in
                                 let filtered = newValue.filter { "0123456789".contains($0) }
                                 if filtered != newValue {
@@ -135,27 +141,33 @@ struct AddIngredientData: View {
                     
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        ForEach(ingredients.sorted(by: { ($0.componentNr, $0.number) < ($1.componentNr, $1.number) })) { ingredient in
+                        ForEach(ingredients.indices, id: \.self) { i in
                             
-                            Text(String(ingredient.componentNr))
-                            if ingredient.weight    != nil { Text(Rational.decimalPlace(ingredient.weight!, 1000)) } else { Text(" ") }
-                            if ingredient.unit      != nil { Text(String(ingredient.unit!)) } else { Text(" ") }
-                            Text(ingredient.name)
+                            TextField("", value: $ingredients[i].componentNr, formatter: GlobalVariables.formatter)
+                                .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
+                            TextField("", value: $ingredients[i].weight, formatter: GlobalVariables.formatter)
+                                .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
+                            TextField("", text:  $ingredients[i].unit)
+                                .textFieldStyle(.roundedBorder)
+                            TextField("", text:  $ingredients[i].name)
+                                .textFieldStyle(.roundedBorder)
                             
-                            if ingredient.num != ingredient.denom {
-                                
-                                if ingredient.num       != nil { Text(String(ingredient.num!)) } else { Text(" ") }
-                                    Text("/")
-                                    if ingredient.denom     != nil { Text(String(ingredient.denom!)) } else { Text(" ") }
-                                    Text("")
-                                }
-                                else {
-                                    Text(" ")
-                                    Text(" ")
-                                    Text(" ")
-                                    Text(" ")
-                                }
+                            TextField("", value: $ingredients[i].num, formatter: GlobalVariables.formatter)
+                                .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
                             
+                            Text("/")
+                            
+                            TextField("", value: $ingredients[i].denom, formatter: GlobalVariables.formatter)
+                                .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
+                            
+                            Button("Del") {
+                                ingredients.remove(at: i)
+                            }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }

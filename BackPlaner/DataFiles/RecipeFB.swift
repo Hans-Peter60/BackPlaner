@@ -52,7 +52,7 @@ class IngredientFB: Identifiable, Decodable {
     var number:Int = 0
     var name:String = ""
     var weight:Double?
-    var unit:String?
+    var unit:String = ""
     var num:Int?
     var denom:Int?
 }

@@ -270,7 +270,9 @@ class RecipeFBModel: ObservableObject {
                 portion = Rational.decimalPlace((Double(ingredient.weight ?? 0) / (Double(recipeServings)) * compTargetServings), 1000)
             }
             
-            if var unit = ingredient.unit {
+            if ingredient.unit > "" {
+                
+                var unit = ingredient.unit
                 
                 // If we need to pluralize
                 if wholePortions > 1 {
