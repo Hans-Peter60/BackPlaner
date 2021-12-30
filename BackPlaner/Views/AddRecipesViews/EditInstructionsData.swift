@@ -1,20 +1,32 @@
 //
-//  AddInstructionData.swift
+//  EditInstructionsData.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 07.11.21.
+//  Created by Hans-Peter Müller on 30.12.21.
 //
 
 import SwiftUI
 import Combine
 
-struct AddInstructionData: View {
+struct EditInstructionData: View {
     
     @Binding var instructions: [InstructionFB]
     
     @State private var schritt = ""
     @State private var instruction = ""
     @State private var duration = ""
+    
+    let decimalFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+    
+    let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
     
     var body: some View {
         
@@ -33,6 +45,7 @@ struct AddInstructionData: View {
                     
                     TextField(String(instructions.count), text: $schritt)
                         .keyboardType(.numberPad)
+                        .textFieldStyle(.roundedBorder)
                         .onReceive(Just(schritt)) { newValue in
                             let filtered = newValue.filter { "0123456789.".contains($0) }
                             if filtered != newValue {
@@ -41,9 +54,11 @@ struct AddInstructionData: View {
                         }
                     
                     TextField("Sauerteigzutaten vermengen", text: $instruction)
+                        .textFieldStyle(.roundedBorder)
                     
                     TextField("10 [Minuten]", text: $duration)
                         .keyboardType(.numberPad)
+                        .textFieldStyle(.roundedBorder)
                         .onReceive(Just(duration)) { newValue in
                             let filtered = newValue.filter { "0123456789".contains($0) }
                             if filtered != newValue {
@@ -81,14 +96,25 @@ struct AddInstructionData: View {
                 }
                 
                 LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
-                    ForEach(instructions.sorted(by: { $0.step < $1.step } )) { i in 
-                        let step = Rational.decimalPlace(i.step, 10)
-                        Text(step)
-                        Text(i.instruction)
-                        Text(Rational.displayHoursMinutes(i.duration))
-                        Text(" ")
+                    
+                    ForEach(instructions.indices, id: \.self) { i in
+                        
+                        TextField("", value: $instructions[i].step, formatter: decimalFormatter)
+                            .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        TextField("", text: $instructions[i].instruction)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        TextField("", value: $instructions[i].duration, formatter: numberFormatter)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
+
+                        Button("Del") {
+                            instructions.remove(at: i)
+                        }
+                        .buttonStyle(.bordered)
                     }
-                    .onDelete(perform: deleteInstruction)
                 }
             }
         }

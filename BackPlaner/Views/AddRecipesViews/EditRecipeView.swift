@@ -97,10 +97,11 @@ struct EditRecipeView: View {
                                     VStack {
                                 
                                         // Recipe image
-                                        placeHolderImage
+                                        Image(uiImage: recipeImage ?? UIImage())
                                             .resizable()
-                                            .scaledToFit()
-                                            .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
+                                            .scaledToFill()
+                                            .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
+                                            .cornerRadius(5)
                                         
                                         HStack {
                                             Button("Photo Library") {
@@ -145,7 +146,7 @@ struct EditRecipeView: View {
                                 Divider()
                                 
                                 // Instruction Data
-                                AddInstructionData(instructions: $instructions)
+                                EditInstructionData(instructions: $instructions)
                             }
                         }
                     }
@@ -296,9 +297,9 @@ struct EditRecipeView: View {
             }
         }
 
-        modelFB.recipesFB.append(recipe)
-
         if fireStore {
+            
+            modelFB.recipesFB.append(recipe)
             modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
         }
         else {

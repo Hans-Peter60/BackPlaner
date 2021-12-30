@@ -16,7 +16,7 @@ struct RecipeFBDetailView: View {
     
     @State var selectedServingSize = 2
 
-    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .leading)]
+    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
   
     var body: some View {
         

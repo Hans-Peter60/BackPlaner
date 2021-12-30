@@ -28,7 +28,7 @@ struct RecipeTags: View {
     
     var body: some View {
         Text(allTags)
-            .font(Font.custom("Avenir", size: 15))
+            .font(Font.custom("Avenir", size: 16))
     }
 }
 

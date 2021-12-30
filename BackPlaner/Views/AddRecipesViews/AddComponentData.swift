@@ -30,6 +30,7 @@ struct AddComponentData: View {
                         Text(componentNumber)
                         
                         TextField("Sauerteig", text: $componentName)
+                            .textFieldStyle(.roundedBorder)
                         
                         Button("Add") {
                             

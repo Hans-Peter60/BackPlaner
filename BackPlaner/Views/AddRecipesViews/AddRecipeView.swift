@@ -24,6 +24,7 @@ struct AddRecipeView: View {
     @State private var prepTime = ""
     @State private var bakeTime = ""
     @State private var servings = ""
+    @State private var rating   = 0
     
     // List type recipe meta data
     @State private var tags = [String]()
@@ -95,28 +96,38 @@ struct AddRecipeView: View {
                         
                         VStack {
                             Group {
-                                // Recipe image
-                                placeHolderImage
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
-                                
                                 HStack {
-                                    Button("Photo Library") {
-                                        selectedImageSource = .photoLibrary
-                                        isShowingImagePicker = true
+                                    VStack {
+                                        // Recipe image
+                                        placeHolderImage
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
+                                        
+                                        HStack {
+                                            Button("Photo Library") {
+                                                selectedImageSource = .photoLibrary
+                                                isShowingImagePicker = true
+                                            }
+                                            
+                                            Text(" | ")
+                                            
+                                            Button("Camera") {
+                                                selectedImageSource = .camera
+                                                isShowingImagePicker = true
+                                            }
+                                        }
+                                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                                            ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                                        }
                                     }
                                     
-                                    Text(" | ")
+                                    Spacer()
                                     
-                                    Button("Camera") {
-                                        selectedImageSource = .camera
-                                        isShowingImagePicker = true
-                                    }
+                                    RatingStarsUpdateView(rating: $rating)
+                                        .padding(.trailing)
                                 }
-                                .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                                    ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
-                                }
+
                                 
                                 // The recipe meta data
                                 AddMetaData(name: $name,
@@ -163,6 +174,7 @@ struct AddRecipeView: View {
         name         = ""
         summary      = ""
         urlLink      = ""
+        rating       = 0
         tags         = [String]()
         instructions = [InstructionFB]()
         components   = [ComponentFB]()
@@ -183,7 +195,7 @@ struct AddRecipeView: View {
         recipe.urlLink         = urlLink
         recipe.servings        = 1
         recipe.featured        = false
-        recipe.rating          = 0
+        recipe.rating          = rating
         recipe.bakeHistoryFlag = false
         recipe.tags            = tags
         

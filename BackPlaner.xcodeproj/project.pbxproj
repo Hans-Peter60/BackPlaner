@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6A097FCE275E098F00780F96 /* BakeHistoriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A097FCD275E098F00780F96 /* BakeHistoriesListView.swift */; };
 		6A476C55277C96CB00391C3B /* RatingStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A476C54277C96CB00391C3B /* RatingStarsView.swift */; };
+		6A48D7DC277DE7C40006AFF2 /* EditInstructionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A48D7DB277DE7C40006AFF2 /* EditInstructionsData.swift */; };
 		6A76105D2768891E00C4872D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A76105C2768891D00C4872D /* Persistence.swift */; };
 		6A8C283B27622FC800D6F125 /* BackPlaner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C283927622FC800D6F125 /* BackPlaner.xcdatamodeld */; };
 		6A8C283D276230D100D6F125 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C283C276230D100D6F125 /* DataController.swift */; };
@@ -70,6 +71,7 @@
 		632EDFA81C94DA9CBA203B33 /* Pods_BackPlaner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BackPlaner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A097FCD275E098F00780F96 /* BakeHistoriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeHistoriesListView.swift; sourceTree = "<group>"; };
 		6A476C54277C96CB00391C3B /* RatingStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarsView.swift; sourceTree = "<group>"; };
+		6A48D7DB277DE7C40006AFF2 /* EditInstructionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInstructionsData.swift; sourceTree = "<group>"; };
 		6A76105C2768891D00C4872D /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6A8C283A27622FC800D6F125 /* BackPlaner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BackPlaner.xcdatamodel; sourceTree = "<group>"; };
 		6A8C283C276230D100D6F125 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				6AF8256E2758F3C20025FB0B /* AddMetaData.swift */,
 				6AF825682758F3C10025FB0B /* AddRecipeView.swift */,
 				6AFA89852771D2A500427DA3 /* EditRecipeView.swift */,
+				6A48D7DB277DE7C40006AFF2 /* EditInstructionsData.swift */,
 			);
 			path = AddRecipesViews;
 			sourceTree = "<group>";
@@ -234,8 +237,8 @@
 			children = (
 				6A8EA964275A5A9D00BF97A7 /* InstructionFBViews */,
 				6AF1D82A2760C18100A969BF /* TabsFBView.swift */,
-				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
 				6AF825612758F3AF0025FB0B /* RecipeFBListView.swift */,
+				6AF825572758F39A0025FB0B /* RecipeFBDetailView.swift */,
 			);
 			path = PublicRecipeViews;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				6AC9022A27663B2800E29524 /* NextSteps+CoreDataProperties.swift in Sources */,
 				6AC9022227663B2800E29524 /* BakeHistory+CoreDataProperties.swift in Sources */,
 				6AC9022427663B2800E29524 /* Component+CoreDataProperties.swift in Sources */,
+				6A48D7DC277DE7C40006AFF2 /* EditInstructionsData.swift in Sources */,
 				6AF825632758F3AF0025FB0B /* RecipeFBListView.swift in Sources */,
 				6A8C283D276230D100D6F125 /* DataController.swift in Sources */,
 				6AF8258D2758F4230025FB0B /* GlobalVariables.swift in Sources */,

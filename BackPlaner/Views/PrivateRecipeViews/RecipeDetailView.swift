@@ -13,7 +13,7 @@ struct RecipeDetailView: View {
     
     var recipe:Recipe
     
-    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .leading)]
+    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
 
     @State var selectedServingSize = 2
     
