@@ -23,6 +23,7 @@ struct NewEditRecipeView: View {
     @State private var recipeImage: UIImage?
     @State private var rating        = 0
     @State private var componentName = ""
+    @State private var tags          = [String]()
     
     @State private var showingSheet = false
     @State private var selectedComponentId:   NSManagedObjectID?
@@ -67,8 +68,45 @@ struct NewEditRecipeView: View {
                     
                     Button("Privates Rezept speichern") {
                         
-                        // Add the recipe to firestore or core data
-                        updateRecipe(fireStore: false)
+                        let r: Recipe
+                        if let objectId = recipeId,
+                           let fetchedRecipe = model.fetchRecipe(for: objectId, context: viewContext) {
+                            r = fetchedRecipe
+                        } else {
+                            r = Recipe(context: viewContext)
+                        }
+                  
+                        // MARK: Image
+                        if let objectId = recipeId {
+                            r.image       = recipeImage!.jpegData(compressionQuality: 1.0) ?? Data()
+                        }
+                        else {
+                            if recipeFB.id ?? "" > "" {
+                                let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
+                                r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
+                            }
+                            else {
+                                r.image       = recipeImage!.jpegData(compressionQuality: 1.0) ?? Data()
+                            }
+                        }
+
+                        r.name    = recipeFB.name
+                        r.summary = recipeFB.summary
+                        r.urlLink = recipeFB.urlLink
+                        r.rating  = recipeFB.rating ?? 0
+                        r.tags    = recipeFB.tags
+                        
+                        // Save to core data
+                        do {
+                            // Save the recipe to core data
+                            try viewContext.save()
+                            
+                            // Switch the view to list view
+                        }
+                        catch {
+                            // Couldn't save the recipe
+                            print("Couldn't save the recipe")
+                        }
                         
                         // Clear the form
                         clear()
@@ -136,6 +174,9 @@ struct NewEditRecipeView: View {
                                     summary: $recipeFB.summary,
                                     urlLink: $recipeFB.urlLink)
                     
+                        // Tag data
+                        AddListData(list: $tags, title: "Tags", placeholderText: "...")
+                        
                         // MARK: Components
                         VStack(alignment: .leading) {
                             
@@ -178,7 +219,6 @@ struct NewEditRecipeView: View {
                                     .buttonStyle(.bordered)
                                 }
                         
-                            // MARK: Komponenten
                             EditComponentDataView(recipeId: recipeId)
                                 
 

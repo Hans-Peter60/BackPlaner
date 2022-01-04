@@ -135,7 +135,7 @@ struct AddRecipeView: View {
                                             urlLink: $urlLink)
                                 
                                 // Tag data
-                                AddListData(list: $tags, title: "Tags", placeholderText: "Sauerteig")
+                                AddListData(list: $tags, title: "Tags", placeholderText: "...")
                                 
                                 Divider()
                                 

@@ -56,7 +56,7 @@ struct EditComponentDataView: View {
             // MARK: Components
             VStack(alignment: .leading) {
                 
-                ForEach (filteredComponents, id: \.self) { component in
+                ForEach (filteredComponents.sorted(by: { $0.number < $1.number }), id: \.self) { component in
                     
                     Section {
                         

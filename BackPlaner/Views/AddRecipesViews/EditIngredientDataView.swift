@@ -61,7 +61,7 @@ struct EditIngredientDataView: View {
                     Text("")
                 }
                 
-                ForEach (filteredIngredients, id: \.self) { ingredient in
+                ForEach (filteredIngredients.sorted(by: { $0.number < $1.number }), id: \.self) { ingredient in
                     
                     Section {
                         
