@@ -94,7 +94,7 @@ struct RecipeFBDetailView: View {
                                 VStack(alignment: .leading) {
                                     ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                         
-                                        let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: recipeFB.servings, targetServings: selectedServingSize) + " "
+                                        let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: 1, targetServings: selectedServingSize) + " "
                                         Text(t + ingred.name)
                                             .font(Font.custom("Avenir", size: 15))
                                     }

@@ -24,10 +24,9 @@ struct EditRecipeView: View {
     @State private var summary         = ""
     @State private var urlLink         = ""
     @State private var prepTime        = 0
-    @State private var featured        = false
     @State private var rating          = 0
     @State private var bakeHistoryFlag = false
-    @State private var servings        = 1
+
     
     // List type recipe meta data
     @State private var tags = [String]()
@@ -167,8 +166,6 @@ struct EditRecipeView: View {
                     recipe.name            = recipeCD.name
                     recipe.summary         = recipeCD.summary
                     recipe.urlLink         = recipeCD.urlLink ?? ""
-                    recipe.servings        = recipeCD.servings
-                    recipe.featured        = recipeCD.featured
                     recipe.rating          = recipeCD.rating
                     recipe.bakeHistoryFlag = recipeCD.bakeHistoryFlag
                     recipe.tags            = recipeCD.tags
@@ -241,8 +238,6 @@ struct EditRecipeView: View {
 //        recipe.name            = name
 //        recipe.summary         = summary
 //        recipe.urlLink         = urlLink
-//        recipe.servings        = 1
-//        recipe.featured        = false
 //        recipe.rating          = rating
 //        recipe.bakeHistoryFlag = bakeHistoryFlag
 //        recipe.tags            = tags

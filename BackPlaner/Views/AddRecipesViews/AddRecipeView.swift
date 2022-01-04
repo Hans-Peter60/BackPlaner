@@ -193,8 +193,6 @@ struct AddRecipeView: View {
         recipe.name            = name
         recipe.summary         = summary
         recipe.urlLink         = urlLink
-        recipe.servings        = 1
-        recipe.featured        = false
         recipe.rating          = rating
         recipe.bakeHistoryFlag = false
         recipe.tags            = tags

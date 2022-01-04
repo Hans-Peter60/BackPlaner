@@ -19,13 +19,11 @@ extension Recipe {
     @NSManaged public var urlLink: String?
     @NSManaged public var tags: [String]
     @NSManaged public var summary: String
-    @NSManaged public var servings: Int
     @NSManaged public var prepTime: Int
     @NSManaged public var name: String
     @NSManaged public var image: Data
     @NSManaged public var id: UUID?
     @NSManaged public var firestoreId: String?
-    @NSManaged public var featured: Bool
     @NSManaged public var bakeHistoryFlag: Bool
     @NSManaged public var rating: Int
     @NSManaged public var components: NSSet

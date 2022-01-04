@@ -54,7 +54,6 @@ class RecipeFBModel: ObservableObject {
         let cloudRecipe = cloudRecipes.addDocument(data: [
             "name":     r.name,
             "prepTime": GlobalVariables.totalDuration,
-            "servings": r.servings,
             "summary":  r.summary,
             "urlLink":  r.urlLink,
             "image":    r.image,
@@ -118,7 +117,6 @@ class RecipeFBModel: ObservableObject {
                     r.urlLink  = doc["urlLink"] as? String ?? ""
                     r.prepTime = doc["prepTime"] as? Int ?? 0
                     r.tags     = doc["tags"] as? [String] ?? [String]()
-                    r.servings = doc["servings"] as? Int ?? 1
                     
                     if GlobalVariables.detailView {
                         self.getInstructionsFB(r, r.id!)

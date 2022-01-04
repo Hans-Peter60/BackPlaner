@@ -27,9 +27,7 @@ class RecipeFB: Identifiable, Decodable {
     var summary:String = ""
     var urlLink:String = ""
     var prepTime:Int = 0
-    var servings:Int = 1
     var tags: [String] = [String]()
-    var featured:Bool? = false
     var bakeHistoryFlag = false
     var rating:Int? = 0
     var components: [ComponentFB] = [ComponentFB]()

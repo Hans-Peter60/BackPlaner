@@ -107,7 +107,7 @@ struct InstructionsView: View {
                                         VStack(alignment: .leading) {
                                             ForEach (item.ingredientsArray.sorted(by: { $0.number < $1.number })) { ingred in
 
-                                                let t = "• " + RecipeModel.getPortion(ingredient: ingred, recipeServings: recipe.servings, targetServings: selectedServingSize) + " "
+                                                let t = "• " + RecipeModel.getPortion(ingredient: ingred, recipeServings: 1, targetServings: selectedServingSize) + " "
                                                 Text(t + ingred.name)
                                                     .font(Font.custom("Avenir", size: 15))
                                             }

@@ -165,10 +165,8 @@ class RecipeModel: ObservableObject {
         r.name            = recipeFB.name
         r.summary         = recipeFB.summary
         r.urlLink         = recipeFB.urlLink
-        r.featured        = recipeFB.featured ?? false
         r.rating          = recipeFB.rating ?? 0
         r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
-        r.servings        = recipeFB.servings
         r.tags            = recipeFB.tags
 
         // Set the instructions
@@ -207,7 +205,7 @@ class RecipeModel: ObservableObject {
                 i.id          = UUID()
                 i.name        = iFB.name
                 i.number      = iFB.number
-                i.unit        = iFB.unit ?? ""
+                i.unit        = iFB.unit
                 i.weight      = iFB.weight ?? 0
                 i.num         = iFB.num ?? 1
                 i.denom       = iFB.denom ?? 1
