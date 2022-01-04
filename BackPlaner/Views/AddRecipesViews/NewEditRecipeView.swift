@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 struct NewEditRecipeView: View {
     @Environment(\.managedObjectContext) var viewContext
@@ -21,14 +22,19 @@ struct NewEditRecipeView: View {
     
     // Recipe Image
     @State private var recipeImage: UIImage?
-    @State private var rating        = 0
-    @State private var componentName = ""
-    @State private var tags          = [String]()
+    @State private var rating          = 0
+    @State private var componentName   = ""
+    @State private var componentNumber = ""
+    @State private var tags            = [String]()
     
     @State private var showingSheet = false
     @State private var selectedComponentId:   NSManagedObjectID?
     @State private var selectedIngredientId:  NSManagedObjectID?
     @State private var selectedInstructionId: NSManagedObjectID?
+
+    @State private var instruction  = ""
+    @State private var step         = 0.0
+    @State private var duration     = 0
 
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
 
@@ -93,7 +99,7 @@ struct NewEditRecipeView: View {
                         r.name    = recipeFB.name
                         r.summary = recipeFB.summary
                         r.urlLink = recipeFB.urlLink
-                        r.rating  = recipeFB.rating ?? 0
+                        r.rating  = rating
                         r.tags    = recipeFB.tags
                         
                         // Save to core data
@@ -177,6 +183,8 @@ struct NewEditRecipeView: View {
                         // Tag data
                         AddListData(list: $tags, title: "Tags", placeholderText: "...")
                         
+                        RecipeTags(tags: tags)
+                        
                         // MARK: Components
                         VStack(alignment: .leading) {
                             
@@ -185,75 +193,98 @@ struct NewEditRecipeView: View {
                                 .padding([.bottom, .top], 5)
                             
                             HStack {
+                                TextField(".", value: $componentNumber, formatter: GlobalVariables.formatter)
+                                    .keyboardType(.decimalPad)
+                                    .textFieldStyle(.roundedBorder)
                                 TextField("...", text: $componentName)
                                     .textFieldStyle(.roundedBorder)
                                 
-                                    Button("Add") {
-                                        
-                                        // Make sure that the fields are populated
-                                        let cleanedName = componentName.trimmingCharacters(in: .whitespacesAndNewlines)
-                                        
-                                        // Check that all the fields are filled in
-                                        if cleanedName == "" { return }
-                                        
-                                        // Create an ComponentFB object and set its properties
-                                        
-                                        let recipeCD: Recipe
-                                        if let objectId = recipeId,
-                                           let fetchedRecipe = model.fetchRecipe(for: objectId, context: viewContext) {
-                                            recipeCD = fetchedRecipe
-                                        } else {
-                                            recipeCD = Recipe(context: viewContext)
-                                            return
-                                        }
-
-                                        let c      = Component(context: viewContext)
-                                        c.id       = UUID()
-                                        c.name     = cleanedName
-                                        c.number   = recipeCD.components.count
-                                        
-                                        recipeCD.addToComponents(c)
-                                        
-                                        componentName = ""
+                                Button("Add") {
+                                    
+                                    // Make sure that the fields are populated
+                                    let cleanedName = componentName.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    
+                                    // Check that all the fields are filled in
+                                    if cleanedName == "" { return }
+                                    
+                                    // Create an ComponentFB object and set its properties
+                                    
+                                    let recipeCD: Recipe
+                                    if let objectId = recipeId,
+                                       let fetchedRecipe = model.fetchRecipe(for: objectId, context: viewContext) {
+                                        recipeCD = fetchedRecipe
+                                    } else {
+                                        recipeCD = Recipe(context: viewContext)
+                                        return
                                     }
-                                    .buttonStyle(.bordered)
-                                }
-                        
-                            EditComponentDataView(recipeId: recipeId)
-                                
 
-//                // MARK: Instructions
-//                VStack(alignment: .leading) {
-//                    HStack {
-//                        Text("Verarbeitungsschritte:")
-//                            .font(Font.custom("Avenir Heavy", size: 16))
-//                            .padding([.bottom, .top], 5)
-//
-//                        Spacer()
-//
-//                        Text("Bearbeitungdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
-//                            .font(Font.custom("Avenir", size: 16))
-//                            .padding([.trailing], 5)
-//                    }
-//
-//                    LazyVGrid(columns: gridItemLayout, spacing: 5) {
-//                        Text("Schritt").bold()
-//                        Text("Beschreibung").bold()
-//                        Text("Dauer").bold()
-//
-//                        ForEach(recipe.instructionsArray, id: \.self) { i in
-//
-//                            let step = Rational.decimalPlace(i.step, 10)
-//                            Text(step)
-//                            Text(i.instruction)
-//                            Text(Rational.displayHoursMinutes(i.duration))
-//                        }
-//                        .padding(.horizontal)
-//                    }
-//                    .font(Font.custom("Avenir", size: 16))
-//                        .padding([.bottom, .top], 5)
-//                }
-                
+                                    let c      = Component(context: viewContext)
+                                    c.id       = UUID()
+                                    c.name     = cleanedName
+                                    c.number   = Int(componentNumber) ?? recipeCD.components.count
+                                    
+                                    recipeCD.addToComponents(c)
+                                    
+                                    componentName = ""
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                                
+                            EditComponentDataView(recipeId: recipeId)
+                      
+                            Divider()
+                            
+                            // MARK: Instructions
+                            Text("Verarbeitungsschritte")
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                                .padding([.bottom, .top], 5)
+                            
+                            LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
+                                Text("Schritt").bold()
+                                Text("Beschreibung").bold()
+                                Text("Dauer").bold()
+                                Text(" ").bold()
+                                
+                                TextField("", value: $step, formatter: GlobalVariables.formatter)
+                                    .keyboardType(.decimalPad)
+                                    .textFieldStyle(.roundedBorder)
+                                TextField("...", text: $instruction)
+                                    .textFieldStyle(.roundedBorder)
+                                TextField("", value: $duration, formatter: GlobalVariables.formatter)
+                                    .keyboardType(.decimalPad)
+                                    .textFieldStyle(.roundedBorder)
+                                
+                                Button("Add") {
+                                    
+                                    // Make sure that the fields are populated
+                                    let cleanedInstruction = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    
+                                    // Check that all the fields are filled in
+                                    if cleanedInstruction == "" { return }
+                                    
+                                    // Create an ComponentFB object and set its properties
+                                    
+                                    let recipeCD: Recipe
+                                    if let objectId = recipeId,
+                                       let fetchedRecipe = model.fetchRecipe(for: objectId, context: viewContext) {
+                                        recipeCD = fetchedRecipe
+                                    } else {
+                                        recipeCD = Recipe(context: viewContext)
+                                        return
+                                    }
+
+                                    let i         = Instruction(context: viewContext)
+                                    i.id          = UUID()
+                                    i.instruction = cleanedInstruction
+                                    i.step        = step
+                                    i.duration    = duration
+                                    
+                                    recipeCD.addToInstructions(i)
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                            
+                            EditInstructionDataView(recipeId: recipeId)
                         }
                     }
                     .padding()
@@ -264,7 +295,7 @@ struct NewEditRecipeView: View {
             .onAppear {
                 guard
                     let objectId = recipeId,
-                    let recipe = model.fetchRecipe(for: objectId, context: viewContext)
+                    let recipe   = model.fetchRecipe(for: objectId, context: viewContext)
                 else {
                     return
                 }

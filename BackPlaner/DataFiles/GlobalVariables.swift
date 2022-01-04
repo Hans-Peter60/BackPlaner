@@ -41,10 +41,10 @@ struct GlobalVariables {
 
     static var gridItemLayoutComponents = [GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.flexible(minimum: 10), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
 
-    static var gridItemLayoutIngredients = [GridItem(.fixed(60),  alignment: .leading),  GridItem(.fixed(120), alignment: .trailing),
-                          GridItem(.fixed(120), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
+    static var gridItemLayoutIngredients = [GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80), alignment: .trailing),
+                          GridItem(.fixed(80), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
                           GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(10),              alignment: .trailing),
-                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80),              alignment: .trailing)]
+                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(60),              alignment: .trailing)]
  
     static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()

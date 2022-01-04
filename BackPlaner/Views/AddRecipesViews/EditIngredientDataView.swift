@@ -36,12 +36,12 @@ struct EditIngredientDataView: View {
         }
     }
     
-    @State private var name      = ""
-    @State private var number    = ""
-    @State private var unit      = ""
-    @State private var num       = ""
-    @State private var denom     = ""
-    @State private var weight    = ""
+    @State private var name   = ""
+    @State private var number = ""
+    @State private var unit   = ""
+    @State private var num    = ""
+    @State private var denom  = ""
+    @State private var weight = ""
     
     var body: some View {
         
@@ -107,12 +107,12 @@ struct EditIngredientView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var viewContext
     
-    @State private var name      = ""
-    @State private var number    = ""
-    @State private var unit      = ""
-    @State private var num       = ""
-    @State private var denom     = ""
-    @State private var weight    = ""
+    @State private var name   = ""
+    @State private var number = 0
+    @State private var unit   = ""
+    @State private var num    = 0
+    @State private var denom  = 0
+    @State private var weight = 0.0
     
     var ingredient: Ingredient {
         viewContext.object(with: ingredientId) as! Ingredient
@@ -124,54 +124,24 @@ struct EditIngredientView: View {
                 Section {
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6) {
                         
-                        TextField("1", text: $number)
-                            .keyboardType(.numberPad)
+                        TextField("", value: $number, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                            .onReceive(Just(number)) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.number = filtered
-                                }
-                            }
-                        
-                        TextField("Menge/Gewicht", text: $weight)
-                            .keyboardType(.numberPad)
+                        TextField("", value: $weight, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                            .onReceive(Just(weight)) { newValue in
-                                let filtered = newValue.filter { "0123456789.".contains($0) }
-                                if filtered != newValue {
-                                    self.weight = filtered
-                                }
-                            }
-                        
-                        TextField("g", text: $unit)
+                        TextField("", text:  $unit)
                             .autocapitalization(.none)
                             .textFieldStyle(.roundedBorder)
-                        
-                        TextField("Zucker", text: $name)
+                        TextField("", text:  $name)
                             .textFieldStyle(.roundedBorder)
-                        
-                        TextField("1", text: $num)
-                            .keyboardType(.numberPad)
+                        TextField("", value: $num, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                            .onReceive(Just(num)) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.num = filtered
-                                }
-                            }
-                        
                         Text("/")
-                        
-                        TextField("1", text: $denom)
-                            .keyboardType(.numberPad)
+                        TextField("", value: $denom, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                            .onReceive(Just(denom)) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.denom = filtered
-                                }
-                            }
                     }
                 }
             }
@@ -182,11 +152,11 @@ struct EditIngredientView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 
                 self.ingredient.name   = self.name
-                self.ingredient.weight = Double(self.weight) ?? 0
+                self.ingredient.weight = self.weight
                 self.ingredient.unit   = self.unit
-                self.ingredient.number = Int(self.number) ?? 0
-                self.ingredient.num    = Int(self.num) ?? 0
-                self.ingredient.denom  = Int(self.denom) ?? 0
+                self.ingredient.number = self.number
+                self.ingredient.num    = self.num
+                self.ingredient.denom  = self.denom
                 
                 try? self.viewContext.save()
             }
@@ -194,11 +164,11 @@ struct EditIngredientView: View {
         }
         .onAppear {
             self.name   = self.ingredient.name
-            self.weight = String(self.ingredient.weight)
+            self.weight = self.ingredient.weight
             self.unit   = self.ingredient.unit ?? ""
-            self.number = String(self.ingredient.number)
-            self.num    = String(self.ingredient.num)
-            self.denom  = String(self.ingredient.denom)
+            self.number = self.ingredient.number
+            self.num    = self.ingredient.num
+            self.denom  = self.ingredient.denom
         }
     }
 }

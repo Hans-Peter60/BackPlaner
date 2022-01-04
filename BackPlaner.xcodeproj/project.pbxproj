@@ -13,6 +13,7 @@
 		6A51914A2782F1CA00A7685F /* EditComponentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5191492782F1CA00A7685F /* EditComponentDataView.swift */; };
 		6A54BC132780905C0082820B /* NewEditRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A54BC122780905C0082820B /* NewEditRecipeView.swift */; };
 		6A5D57AE278437E6005C5FC5 /* EditIngredientDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D57AD278437E6005C5FC5 /* EditIngredientDataView.swift */; };
+		6A5D57B027848345005C5FC5 /* EditInstructionDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D57AF27848345005C5FC5 /* EditInstructionDataView.swift */; };
 		6A76105D2768891E00C4872D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A76105C2768891D00C4872D /* Persistence.swift */; };
 		6A8C283B27622FC800D6F125 /* BackPlaner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C283927622FC800D6F125 /* BackPlaner.xcdatamodeld */; };
 		6A8C283D276230D100D6F125 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C283C276230D100D6F125 /* DataController.swift */; };
@@ -78,6 +79,7 @@
 		6A5191492782F1CA00A7685F /* EditComponentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComponentDataView.swift; sourceTree = "<group>"; };
 		6A54BC122780905C0082820B /* NewEditRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEditRecipeView.swift; sourceTree = "<group>"; };
 		6A5D57AD278437E6005C5FC5 /* EditIngredientDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIngredientDataView.swift; sourceTree = "<group>"; };
+		6A5D57AF27848345005C5FC5 /* EditInstructionDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditInstructionDataView.swift; sourceTree = "<group>"; };
 		6A76105C2768891D00C4872D /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6A8C283A27622FC800D6F125 /* BackPlaner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BackPlaner.xcdatamodel; sourceTree = "<group>"; };
 		6A8C283C276230D100D6F125 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				6A54BC122780905C0082820B /* NewEditRecipeView.swift */,
 				6A5191492782F1CA00A7685F /* EditComponentDataView.swift */,
 				6A5D57AD278437E6005C5FC5 /* EditIngredientDataView.swift */,
+				6A5D57AF27848345005C5FC5 /* EditInstructionDataView.swift */,
 			);
 			path = AddRecipesViews;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				6AB72B072768DC27009CC3CE /* BakeHistoryUpdateForm.swift in Sources */,
 				6A5D57AE278437E6005C5FC5 /* EditIngredientDataView.swift in Sources */,
 				6AF8252F2758F3480025FB0B /* BackPlanerApp.swift in Sources */,
+				6A5D57B027848345005C5FC5 /* EditInstructionDataView.swift in Sources */,
 				6AC9022627663B2800E29524 /* Recipe+CoreDataProperties.swift in Sources */,
 				6AF825672758F3B70025FB0B /* InstructionsFBListView.swift in Sources */,
 				6A54BC132780905C0082820B /* NewEditRecipeView.swift in Sources */,
