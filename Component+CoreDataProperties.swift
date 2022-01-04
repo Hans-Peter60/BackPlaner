@@ -20,7 +20,7 @@ extension Component {
     @NSManaged public var number: Int
     @NSManaged public var id: UUID?
     @NSManaged public var recipe: Recipe?
-    @NSManaged public var ingredients: NSSet
+    @NSManaged public var ingredients: NSSet?
 
     public var ingredientsArray: [Ingredient] {
         let set = ingredients as? Set<Ingredient> ?? []

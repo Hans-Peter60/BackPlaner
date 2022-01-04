@@ -11,7 +11,7 @@ struct RatingStarsView: View {
     
     var rating: Int
 
-    var label = "Bewertung:"
+    var label = "Bewertung:   "
 
     var maximumRating = 5
 

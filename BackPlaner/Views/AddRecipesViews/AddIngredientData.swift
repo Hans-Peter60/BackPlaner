@@ -32,11 +32,11 @@ struct AddIngredientData: View {
             
             VStack (alignment: .leading) {
             
-                Text("Zutaten:")
-                    .bold()
-                
+//                Text("Zutaten:")
+//                    .bold()
+//
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                    Text("Komp.")
+                    Text("")
                     Text("Gewicht")
                     Text("Einheit")
                     Text("Zutat")
@@ -49,15 +49,16 @@ struct AddIngredientData: View {
                 Group {
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        TextField("1", text: $component)
-                            .keyboardType(.numberPad)
-                            .textFieldStyle(.roundedBorder)
-                            .onReceive(Just(component)) { newValue in
-                                let filtered = newValue.filter { "0123456789".contains($0) }
-                                if filtered != newValue {
-                                    self.component = filtered
-                                }
-                            }
+                        Text("")
+//                        TextField("1", text: $component)
+//                            .keyboardType(.numberPad)
+//                            .textFieldStyle(.roundedBorder)
+//                            .onReceive(Just(component)) { newValue in
+//                                let filtered = newValue.filter { "0123456789".contains($0) }
+//                                if filtered != newValue {
+//                                    self.component = filtered
+//                                }
+//                            }
                         
                         TextField("Menge/Gewicht", text: $weight)
                             .keyboardType(.numberPad)
@@ -109,7 +110,8 @@ struct AddIngredientData: View {
                             let cleanedUnit      = unit.trimmingCharacters(in: .whitespacesAndNewlines)
                             
                             // Check that all the fields are filled in
-                            if cleanedName == "" || Int(cleanedComponent) ?? 0 < 1 || Int(cleanedComponent) ?? 0 > componentsCount {
+//                            if cleanedName == "" || Int(cleanedComponent) ?? 0 < 1 || Int(cleanedComponent) ?? 0 > componentsCount {
+                            if cleanedName == "" {
                                 return
                             }
                             
@@ -143,13 +145,15 @@ struct AddIngredientData: View {
                         
                         ForEach(ingredients.indices, id: \.self) { i in
                             
-                            TextField("", value: $ingredients[i].componentNr, formatter: GlobalVariables.formatter)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(.roundedBorder)
+//                            TextField("", value: $ingredients[i].componentNr, formatter: GlobalVariables.formatter)
+//                                .keyboardType(.decimalPad)
+//                                .textFieldStyle(.roundedBorder)
+                            Text("")
                             TextField("", value: $ingredients[i].weight, formatter: GlobalVariables.formatter)
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(.roundedBorder)
                             TextField("", text:  $ingredients[i].unit)
+                                .autocapitalization(.none)
                                 .textFieldStyle(.roundedBorder)
                             TextField("", text:  $ingredients[i].name)
                                 .textFieldStyle(.roundedBorder)

@@ -23,7 +23,7 @@ extension Ingredient {
     @NSManaged public var name: String
     @NSManaged public var id: UUID?
     @NSManaged public var denom: Int
-    @NSManaged public var componentNr: Int
+    @NSManaged public var component: Component?
 
 }
 

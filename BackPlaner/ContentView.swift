@@ -16,6 +16,8 @@ struct ContentView: View {
     
     var manager:LocalNotificationManager = LocalNotificationManager()
     
+    var recipeId: NSManagedObjectID?
+    
     init() {
         manager.requestAuthorization()
     }
@@ -60,7 +62,7 @@ struct ContentView: View {
                 }
                 .padding()
                 NavigationLink(
-                    destination: AddRecipeView(tabSelection: $tabSelection)
+                    destination: EditRecipeView(recipeId: recipeId)
                 ) {
                     ZStack {
                         Rectangle()

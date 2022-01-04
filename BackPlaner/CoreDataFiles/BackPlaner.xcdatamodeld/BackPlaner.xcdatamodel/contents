@@ -15,7 +15,6 @@
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="components" inverseEntity="Recipe"/>
     </entity>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
-        <attribute name="componentNr" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="denom" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -63,7 +62,7 @@
     <elements>
         <element name="BakeHistory" positionX="-54" positionY="72" width="128" height="104"/>
         <element name="Component" positionX="-36" positionY="81" width="128" height="104"/>
-        <element name="Ingredient" positionX="-18" positionY="90" width="128" height="164"/>
+        <element name="Ingredient" positionX="-18" positionY="90" width="128" height="149"/>
         <element name="Instruction" positionX="0" positionY="135" width="128" height="134"/>
         <element name="NextSteps" positionX="18" positionY="162" width="128" height="134"/>
         <element name="Recipe" positionX="-63" positionY="-18" width="128" height="254"/>

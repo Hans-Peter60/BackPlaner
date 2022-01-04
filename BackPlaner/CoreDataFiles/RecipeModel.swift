@@ -8,7 +8,6 @@
 import CoreData
 import SwiftUI
 import Foundation
-import UIKit
 import Firebase
 import FirebaseStorage
 
@@ -32,6 +31,13 @@ class RecipeModel: ObservableObject {
         return nil
       }
       return recipe
+    }
+
+    func fetchComponent(for objectId: NSManagedObjectID, context: NSManagedObjectContext) -> Component? {
+      guard let component = context.object(with: objectId) as? Component else {
+        return nil
+      }
+      return component
     }
 
     func deleteAllCoreDataRecords() {
@@ -66,7 +72,36 @@ class RecipeModel: ObservableObject {
             print ("There was an error")
         }
 
-   }
+        let deleteFetch4 = NSFetchRequest<NSFetchRequestResult>(entityName: "Instruction")
+        let deleteRequest4 = NSBatchDeleteRequest(fetchRequest: deleteFetch4)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest4)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+
+        let deleteFetch5 = NSFetchRequest<NSFetchRequestResult>(entityName: "Ingredient")
+        let deleteRequest5 = NSBatchDeleteRequest(fetchRequest: deleteFetch5)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest5)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+        
+        let deleteFetch6 = NSFetchRequest<NSFetchRequestResult>(entityName: "Component")
+        let deleteRequest6 = NSBatchDeleteRequest(fetchRequest: deleteFetch6)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest6)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+  }
     
     func checkLoadedData() {
         
@@ -93,9 +128,9 @@ class RecipeModel: ObservableObject {
     }
     
     func uploadRecipeIntoCoreData(
-        recipeId: NSManagedObjectID?,
-        recipeFB: RecipeFB,
-        context:  NSManagedObjectContext,
+        recipeId:    NSManagedObjectID?,
+        recipeFB:    RecipeFB,
+        context:     NSManagedObjectContext,
         recipeImage: UIImage
     ) {
         let r: Recipe
@@ -110,14 +145,21 @@ class RecipeModel: ObservableObject {
     
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
   
-        if let objectId   = recipeId {
+        // MARK: Image
+        if let objectId = recipeId {
             r.image       = recipeImage.jpegData(compressionQuality: 1.0) ?? Data()
         }
         else {
-            let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
-            r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
+            if recipeFB.id ?? "" > "" {
+                let image     = GlobalVariables.recipesImage[recipeFB.id ?? ""]
+                r.image       = image!.jpegData(compressionQuality: 1.0) ?? Data()
+            }
+            else {
+                r.image       = recipeImage.jpegData(compressionQuality: 1.0) ?? Data()
+            }
         }
 
+        
         r.id              = UUID()
         r.firestoreId     = recipeFB.id
         r.name            = recipeFB.name
@@ -164,7 +206,6 @@ class RecipeModel: ObservableObject {
                 
                 i.id          = UUID()
                 i.name        = iFB.name
-                i.componentNr = iFB.componentNr
                 i.number      = iFB.number
                 i.unit        = iFB.unit ?? ""
                 i.weight      = iFB.weight ?? 0

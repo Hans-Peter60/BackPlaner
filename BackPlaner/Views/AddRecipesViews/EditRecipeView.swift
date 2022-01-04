@@ -18,6 +18,8 @@ struct EditRecipeView: View {
     var recipeId: NSManagedObjectID?
     
     // Properties for recipe meta data
+    @State private var recipe = RecipeFB()
+    
     @State private var name            = ""
     @State private var summary         = ""
     @State private var urlLink         = ""
@@ -82,6 +84,7 @@ struct EditRecipeView: View {
                         clear()
                     }
                     .buttonStyle(.bordered)
+
                 }
                 .padding(.horizontal)
                 
@@ -128,25 +131,22 @@ struct EditRecipeView: View {
                                 }
                                 
                                 // The recipe meta data
-                                AddMetaData(name:    $name,
-                                            summary: $summary,
-                                            urlLink: $urlLink)
+                                AddMetaData(name:    $recipe.name,
+                                            summary: $recipe.summary,
+                                            urlLink: $recipe.urlLink)
                                 
                                 // Tag data
-                                AddListData(list: $tags, title: "Tags", placeholderText: "Sauerteig")
+                                AddListData(list: $recipe.tags, title: "Tags", placeholderText: "Sauerteig")
                                 
                                 Divider()
                                 
-                                AddComponentData(components: $components)
-                                
-//                                Divider()
-//                                
-//                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
+                                // Component & Ingredient Data
+                                AddComponentData(components: $recipe.components)
                                 
                                 Divider()
                                 
                                 // Instruction Data
-                                EditInstructionData(instructions: $instructions)
+                                EditInstructionData(instructions: $recipe.instructions)
                             }
                         }
                     }
@@ -157,24 +157,25 @@ struct EditRecipeView: View {
                 .onAppear {
                     guard
                         let objectId = recipeId,
-                        let recipe   = model.fetchRecipe(for: objectId, context: viewContext)
+                        let recipeCD = model.fetchRecipe(for: objectId, context: viewContext)
                     else {
                         return
                     }
                     
                     clear()
                     
-                    name            = recipe.name
-                    summary         = recipe.summary
-                    urlLink         = recipe.urlLink ?? ""
-                    servings        = recipe.servings
-                    featured        = recipe.featured
-                    rating          = recipe.rating
-                    bakeHistoryFlag = recipe.bakeHistoryFlag
-                    tags            = recipe.tags
-                    recipeImage     = UIImage(data: recipe.image) ?? UIImage()
+                    recipe.name            = recipeCD.name
+                    recipe.summary         = recipeCD.summary
+                    recipe.urlLink         = recipeCD.urlLink ?? ""
+                    recipe.servings        = recipeCD.servings
+                    recipe.featured        = recipeCD.featured
+                    recipe.rating          = recipeCD.rating
+                    recipe.bakeHistoryFlag = recipeCD.bakeHistoryFlag
+                    recipe.tags            = recipeCD.tags
+                    recipeImage            = UIImage(data: recipeCD.image) ?? UIImage()
+                    recipe.prepTime        = recipeCD.prepTime
                     
-                    for i in recipe.instructionsArray {
+                    for i in recipeCD.instructionsArray {
                         let instruction = InstructionFB()
                         
                         instruction.id          = "old" + UUID().uuidString
@@ -184,36 +185,32 @@ struct EditRecipeView: View {
                         instruction.startTime   = i.startTime
                         
                         // Add this instruction to the recipe
-                        instructions.append(instruction)
+                        recipe.instructions.append(instruction)
                     }
 
-                    prepTime = recipe.prepTime
-                    
-                    for comp in recipe.components {
-                        let c   = comp as! Component
+                    for comp in recipeCD.componentsArray {
                         let cFB = ComponentFB()
                         
                         cFB.id     = "old" + UUID().uuidString
-                        cFB.name   = c.name
-                        cFB.number = c.number
+                        cFB.name   = comp.name
+                        cFB.number = comp.number
                         
                         // Add the ingredients
-                        for ingred in c.ingredients {
-                            let i   = ingred as! Ingredient
+                        for ingred in comp.ingredientsArray {
+            
                             let iFB = IngredientFB()
                             
                             iFB.id          = "old" + UUID().uuidString
-                            iFB.componentNr = i.componentNr
-                            iFB.number      = i.number
-                            iFB.name        = i.name
-                            iFB.denom       = i.denom
-                            iFB.num         = i.num
-                            iFB.unit        = i.unit ?? ""
-                            iFB.weight      = i.weight
+                            iFB.number      = ingred.number
+                            iFB.name        = ingred.name
+                            iFB.denom       = ingred.denom
+                            iFB.num         = ingred.num
+                            iFB.unit        = ingred.unit ?? ""
+                            iFB.weight      = ingred.weight
                             
                             cFB.ingredients.append(iFB)
                         }
-                        components.append(cFB)
+                        recipe.components.append(cFB)
                     }
                 }
             }
@@ -230,72 +227,66 @@ struct EditRecipeView: View {
     }
     
     func clear() {
-        // Clear all the form fields
-        name             = ""
-        summary          = ""
-        urlLink          = ""
-        tags             = [String]()
-        instructions     = [InstructionFB]()
-        components       = [ComponentFB]()
-        ingredients      = [IngredientFB]()
+        
+        recipe = RecipeFB()
 
         placeHolderImage = Image(GlobalVariables.noImage)
     }
     
     func updateRecipe(fireStore: Bool) {
 
-        // Add the recipe into Firestore or CoreData
-        let recipe             = RecipeFB()
-        recipe.id              = ""
-        recipe.name            = name
-        recipe.summary         = summary
-        recipe.urlLink         = urlLink
-        recipe.servings        = 1
-        recipe.featured        = false
-        recipe.rating          = rating
-        recipe.bakeHistoryFlag = bakeHistoryFlag
-        recipe.tags            = tags
-
-        for i in instructions {
-            
-            if i.id!.contains("old") {
-            }
-            else {
-                let instruction = InstructionFB()
-
-                instruction.instruction = i.instruction
-                instruction.step        = i.step
-                instruction.duration    = i.duration
-                instruction.startTime   = 0
-
-                // Add this instruction to the recipe
-                recipe.instructions.append(instruction)
-            }
-        }
-        recipe.instructions = Rational.calculateStartTimes(recipe.instructions, Date())
-        recipe.prepTime = GlobalVariables.totalDuration
-
-        for c in components {
-
-            if c.id!.contains("old") {
-            }
-            else {
-                // Add the ingredients
-                for i in ingredients {
-                    
-                    if i.id!.contains("old") {
-                    }
-                    else {
-
-                        if i.componentNr == c.number {
-
-                            c.ingredients.append(i)
-                        }
-                    }
-                }
-                recipe.components.append(c)
-            }
-        }
+//        // Add the recipe into Firestore or CoreData
+//        let recipe             = RecipeFB()
+//        recipe.id              = ""
+//        recipe.name            = name
+//        recipe.summary         = summary
+//        recipe.urlLink         = urlLink
+//        recipe.servings        = 1
+//        recipe.featured        = false
+//        recipe.rating          = rating
+//        recipe.bakeHistoryFlag = bakeHistoryFlag
+//        recipe.tags            = tags
+//
+//        for i in instructions {
+//
+//            if i.id!.contains("old") {
+//            }
+//            else {
+//                let instruction = InstructionFB()
+//
+//                instruction.instruction = i.instruction
+//                instruction.step        = i.step
+//                instruction.duration    = i.duration
+//                instruction.startTime   = 0
+//
+//                // Add this instruction to the recipe
+//                recipe.instructions.append(instruction)
+//            }
+//        }
+//        recipe.instructions = Rational.calculateStartTimes(recipe.instructions, Date())
+//        recipe.prepTime = GlobalVariables.totalDuration
+//
+//        for c in components {
+//
+//            if c.id!.contains("old") {
+//            }
+//            else {
+//                // Add the ingredients
+//                for i in ingredients {
+//
+//                    if i.id!.contains("old") {
+//                    }
+//                    else {
+//
+//                        if i.componentNr == c.number {
+//
+//                            c.ingredients.append(i)
+//                        }
+//                    }
+//                }
+//                recipe.components.append(c)
+//            }
+//        }
 
         if fireStore {
             

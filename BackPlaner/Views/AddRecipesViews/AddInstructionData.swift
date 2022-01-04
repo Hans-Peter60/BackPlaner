@@ -92,9 +92,6 @@ struct AddInstructionData: View {
                 }
             }
         }
-        .toolbar {
-            EditButton()
-        }
     }
 
     func deleteInstruction(at offsets: IndexSet) {
