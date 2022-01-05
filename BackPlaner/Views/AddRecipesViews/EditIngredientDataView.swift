@@ -20,7 +20,7 @@ struct EditIngredientDataView: View {
     @State private var showingSheet  = false
     @State private var selectedIngredientId: NSManagedObjectID?
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "component", ascending: true)])
     private var ingredients: FetchedResults<Ingredient>
     
     private var filteredIngredients: [Ingredient] {
@@ -49,51 +49,45 @@ struct EditIngredientDataView: View {
             
             // MARK: Ingredients
             VStack(alignment: .leading) {
+            
+                Text("Anzahl Zutaten: " + String(filteredIngredients.count))
                 
                 LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6) {
-                    Text("Nr.")
-                    Text("Gewicht")
-                    Text("Einheit")
-                    Text("Zutat")
-                    Text("Z")
-                    Text("/")
-                    Text("N")
-                    Text("")
-                }
-                
-                ForEach (filteredIngredients.sorted(by: { $0.number < $1.number }), id: \.self) { ingredient in
                     
-                    Section {
+                    ForEach(filteredIngredients.sorted(by: { $0.number < $1.number }), id: \.self) { ingredient in
                         
-                        HStack {
-                            IngredientRowView(ingredient: ingredient)
-                                .onTapGesture {
-                                    self.selectedIngredientId = ingredient.objectID
-                                    self.showingSheet        = true
-                                }
+                        Section {
                             
-                            Button("Del") {
-                                viewContext.delete(ingredient)
+                            HStack {
+                                IngredientRowView(ingredient: ingredient)
+                                    .onTapGesture {
+                                        self.selectedIngredientId = ingredient.objectID
+                                        self.showingSheet         = true
+                                    }
                                 
-                                do {
-                                    try viewContext.save()
-                                } catch {
-                                    // handle the Core Data error
+                                Button("Del") {
+                                    viewContext.delete(ingredient)
+                                    
+                                    do {
+                                        try viewContext.save()
+                                    } catch {
+                                        // handle the Core Data error
+                                    }
                                 }
+                                .font(Font.custom("Avenir", size: 15))
+                                .padding()
+                                .foregroundColor(.gray)
+                                .buttonStyle(.bordered)
+                                
                             }
-                            .font(Font.custom("Avenir", size: 15))
-                            .padding()
-                            .foregroundColor(.gray)
-                            .buttonStyle(.bordered)
-                            
                         }
                     }
                 }
-                .sheet(isPresented: $showingSheet ) {
-                    if selectedIngredientId != nil {
-                        EditIngredientView(ingredientId: self.selectedIngredientId!)
-                            .environment(\.managedObjectContext, self.viewContext)
-                    }
+            }
+            .sheet(isPresented: $showingSheet ) {
+                if selectedIngredientId != nil {
+                    EditIngredientView(ingredientId: self.selectedIngredientId!)
+                        .environment(\.managedObjectContext, self.viewContext)
                 }
             }
         }
@@ -162,6 +156,7 @@ struct EditIngredientView: View {
             }
             )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             self.name   = self.ingredient.name
             self.weight = self.ingredient.weight
@@ -170,6 +165,7 @@ struct EditIngredientView: View {
             self.num    = self.ingredient.num
             self.denom  = self.ingredient.denom
         }
+
     }
 }
 

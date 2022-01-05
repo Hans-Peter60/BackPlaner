@@ -109,7 +109,7 @@ struct EditInstructionView: View {
         NavigationView {
             Form {
                 Section {
-                    HStack {
+                    LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
                         TextField("", value: $step, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
@@ -139,6 +139,7 @@ struct EditInstructionView: View {
                 self.step        = self.instructions.step
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
     

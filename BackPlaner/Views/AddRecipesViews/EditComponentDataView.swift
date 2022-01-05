@@ -22,7 +22,7 @@ struct EditComponentDataView: View {
     @State private var showingSheet  = false
     @State private var selectedComponentId: NSManagedObjectID?
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "number", ascending: true)])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "recipe", ascending: true)])
     private var components: FetchedResults<Component>
     
     private var filteredComponents: [Component] {
@@ -130,6 +130,17 @@ struct EditComponentView: View {
                     
                     LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6) {
                         
+                        Group {
+                            Text("Nr.")
+                            Text("Gewicht")
+                            Text("Einheit")
+                            Text("Zutat")
+                            Text("Z")
+                            Text("/")
+                            Text("N")
+                            Text("")
+                        }
+                        
                         TextField("", value: $number, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
@@ -201,6 +212,7 @@ struct EditComponentView: View {
                 self.componentNumber = self.component.number
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
     
