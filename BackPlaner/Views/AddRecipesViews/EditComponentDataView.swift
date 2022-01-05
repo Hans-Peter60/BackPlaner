@@ -110,8 +110,6 @@ struct EditComponentView: View {
                         Text("Nr.")
                             .frame(width: 40)
                         Text("Komponente")
-                    }
-                    HStack {
                         TextField("Nr.", value: $componentNumber, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)

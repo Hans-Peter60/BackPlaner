@@ -12,9 +12,9 @@ struct AddInstructionData: View {
     
     @Binding var instructions: [InstructionFB]
     
-    @State private var schritt = ""
+    @State private var schritt     = 1.1
     @State private var instruction = ""
-    @State private var duration = ""
+    @State private var duration    = 0
     
     var body: some View {
         
@@ -31,35 +31,27 @@ struct AddInstructionData: View {
                     Text("Dauer").bold()
                     Text(" ").bold()
                     
-                    TextField(String(instructions.count), text: $schritt)
-                        .keyboardType(.numberPad)
-                        .onReceive(Just(schritt)) { newValue in
-                            let filtered = newValue.filter { "0123456789.".contains($0) }
-                            if filtered != newValue {
-                                self.schritt = filtered
-                            }
-                        }
+                    TextField("", value: $schritt, formatter: GlobalVariables.formatter)
+                        .keyboardType(.decimalPad)
+                        .textFieldStyle(.roundedBorder)
                     
-                    TextField("Sauerteigzutaten vermengen", text: $instruction)
+                    TextField("", text:  $instruction)
+                        .autocapitalization(.none)
+                        .textFieldStyle(.roundedBorder)
                     
-                    TextField("10 [Minuten]", text: $duration)
-                        .keyboardType(.numberPad)
-                        .onReceive(Just(duration)) { newValue in
-                            let filtered = newValue.filter { "0123456789".contains($0) }
-                            if filtered != newValue {
-                                self.duration = filtered
-                            }
-                        }
+                    TextField("", value: $duration, formatter: GlobalVariables.formatter)
+                        .keyboardType(.decimalPad)
+                        .textFieldStyle(.roundedBorder)
                     
                     Button("Add") {
                         
                         // Make sure that the fields are populated
-                        let cleanedSchritt     = schritt.trimmingCharacters(in: .whitespacesAndNewlines)
+ 
                         let cleanedInstruction = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
-                        let cleanedDuration    = duration.trimmingCharacters(in: .whitespacesAndNewlines)
+
                         
                         // Check that all the fields are filled in
-                        if cleanedSchritt == "" || cleanedInstruction == "" {
+                        if schritt == 0.0 || cleanedInstruction == "" {
                             return
                         }
                         
@@ -67,25 +59,33 @@ struct AddInstructionData: View {
                         
                         let iFB         = InstructionFB()
                         iFB.id          = UUID().uuidString
-                        iFB.step        = Double(cleanedSchritt) ?? 0
+                        iFB.step        = schritt
                         iFB.instruction = cleanedInstruction
-                        iFB.duration    = Int(cleanedDuration) ?? 0
+                        iFB.duration    = duration
                         instructions.append(iFB)
                         
                         // Clear text fields
-                        schritt     = String((Int(cleanedSchritt) ?? 0) + 1)
+                        schritt    += 1
                         instruction = ""
-                        duration    = ""
+                        duration    = 0
                     }
                     .buttonStyle(.bordered)
                 }
                 
                 LazyVGrid(columns: GlobalVariables.gridItemLayoutInstructions, spacing: 6) {
-                    ForEach(instructions.sorted(by: { $0.step < $1.step } )) { i in 
-                        let step = Rational.decimalPlace(i.step, 10)
-                        Text(step)
-                        Text(i.instruction)
-                        Text(Rational.displayHoursMinutes(i.duration))
+                    
+                    ForEach(instructions.indices, id: \.self) { i in
+                        
+//                        let step = Rational.decimalPlace(i.step, 10)
+                        TextField("", value: $instructions[i].step, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
+                        TextField("", text:  $instructions[i].instruction)
+                            .autocapitalization(.none)
+                            .textFieldStyle(.roundedBorder)
+                        TextField("", value: $instructions[i].duration, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
                         Text(" ")
                     }
                     .onDelete(perform: deleteInstruction)

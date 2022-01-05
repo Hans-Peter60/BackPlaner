@@ -114,7 +114,7 @@ struct RecipeListView: View {
                                         
                                         NavigationLink(
 //                                            destination: EditComponentDataView(recipeId: r.objectID)
-                                            destination: NewEditRecipeView(recipeId: r.objectID, recipe: r)
+                                            destination: NewEditRecipeView(recipeId: r.objectID) //, recipe: r)
                                         )
                                         {
                                             Image(systemName: "pencil.circle")
@@ -134,6 +134,7 @@ struct RecipeListView: View {
                     }
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarHidden(true)
             .padding(.leading)
             .onTapGesture {

@@ -111,6 +111,7 @@ struct RecipeFBListView: View {
                     }
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarHidden(true)
             .padding(.leading)
             .onTapGesture {

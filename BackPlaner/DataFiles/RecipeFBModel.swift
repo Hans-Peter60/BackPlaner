@@ -89,7 +89,6 @@ class RecipeFBModel: ObservableObject {
                     "weight":    i.weight,
                     "num":       i.num ?? 1,
                     "denom":     i.denom ?? 1,
-                    "component": i.componentNr,
                     "number":    i.number
                 ])
             }
@@ -209,7 +208,6 @@ class RecipeFBModel: ObservableObject {
                     i.id          = doc.documentID
                     i.name        = doc["name"] as? String ?? ""
                     i.number      = doc["number"] as? Int ?? 0
-                    i.componentNr = doc["component"] as? Int ?? 0
                     i.unit        = doc["unit"] as? String ?? ""
                     i.weight      = doc["weight"] as? Double ?? 0
                     i.num         = doc["num"] as? Int ?? 0

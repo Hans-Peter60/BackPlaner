@@ -13,8 +13,16 @@ struct EditInstructionDataView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    var recipeId: NSManagedObjectID?
+    var recipeId: NSManagedObjectID
     
+    var instructionsRequest: FetchRequest<Instruction>
+    var instructions: FetchedResults<Instruction> { instructionsRequest.wrappedValue }
+    
+    init(recipeId: NSManagedObjectID) {
+        self.recipeId = recipeId
+        self.instructionsRequest = FetchRequest(entity: Instruction.entity(), sortDescriptors: [], predicate: NSPredicate(format: "recipe == %@", recipeId))
+    }
+
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
     
@@ -24,23 +32,7 @@ struct EditInstructionDataView: View {
     @State private var showingSheet = false
     
     @State private var selectedInstructionId: NSManagedObjectID?
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "step", ascending: true)])
-    private var instructions: FetchedResults<Instruction>
-    
-    private var filteredInstructions: [Instruction] {
         
-        if recipeId != nil {
-            // No filter text, so return all recipes
-            return instructions.filter { c in
-                return c.recipe!.objectID == recipeId
-            }
-        }
-        else {
-            return [Instruction]()
-        }
-    }
-    
     var body: some View {
         
         ScrollView {
@@ -48,7 +40,7 @@ struct EditInstructionDataView: View {
             // MARK: Components
             VStack(alignment: .leading) {
                 
-                ForEach (filteredInstructions.sorted(by: { $0.step < $1.step }), id: \.self) { instruction in
+                ForEach (instructions.sorted(by: { $0.step < $1.step }), id: \.self) { instruction in
                     
                     Section {
                         

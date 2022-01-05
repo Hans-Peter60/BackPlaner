@@ -11,8 +11,8 @@ struct AddComponentData: View {
     
     @Binding var components: [ComponentFB]
     
-    @State private var componentName = ""
-    @State private var componentNumber = "1"
+    @State private var componentName   = ""
+    @State private var componentNumber = 1
     
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 150), alignment: .leading), GridItem(.fixed(80), alignment: .trailing)]
     
@@ -25,9 +25,12 @@ struct AddComponentData: View {
                     .bold()
                 
                 Group {
+                    
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
                         
-                        Text(componentNumber)
+                        TextField("", value: $componentNumber, formatter: GlobalVariables.formatter)
+                            .keyboardType(.decimalPad)
+                            .textFieldStyle(.roundedBorder)
                         
                         TextField("Sauerteig", text: $componentName)
                             .textFieldStyle(.roundedBorder)
@@ -43,12 +46,11 @@ struct AddComponentData: View {
                             // Create an ComponentFB object and set its properties
                             let c      = ComponentFB()
                             c.id       = UUID().uuidString
-                            c.number   = Int(componentNumber) ?? 0
                             c.name     = cleanedName
                             components.append(c)
                             
-                            componentNumber = String(components.count + 1)
-                            componentName = ""
+                            componentName   = ""
+                            componentNumber = components.count + 1
                         }
                         .buttonStyle(.bordered)
                     }
@@ -62,13 +64,13 @@ struct AddComponentData: View {
                                 .textFieldStyle(.roundedBorder)
                             TextField("", text: $components[i].name)
                                 .textFieldStyle(.roundedBorder)
-                            Text(" ")
+                            Text("")
                         }
                         
-                        Divider()
+                        AddIngredientData(ingredients: $components[i].ingredients)
                         
-                        AddIngredientData(ingredients: $components[i].ingredients, componentsCount: components.count)
-                    }
+                        Divider()
+                   }
                 }
             }
         }

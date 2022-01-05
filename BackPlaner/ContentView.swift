@@ -62,7 +62,7 @@ struct ContentView: View {
                 }
                 .padding()
                 NavigationLink(
-                    destination: EditRecipeView(recipeId: recipeId)
+                    destination: AddRecipeView() // EditRecipeView(recipeId: recipeId)
                 ) {
                     ZStack {
                         Rectangle()
@@ -79,7 +79,7 @@ struct ContentView: View {
                 .padding()
                 
                 NavigationLink(
-                    destination: ScheduledTasksView(tabSelection: $tabSelection)
+                    destination: ScheduledTasksView()
                 ) {
                     ZStack {
                         Rectangle()
@@ -96,7 +96,7 @@ struct ContentView: View {
                 .padding()
 
                 NavigationLink(
-                    destination: BakeHistoriesListView() // BakeHistoriesListView()
+                    destination: BakeHistoriesListView()
                 ) {
                     ZStack {
                         Rectangle()
@@ -115,6 +115,7 @@ struct ContentView: View {
           }.navigationTitle("Back Planer")
                 .navigationBarTitleDisplayMode(.large)
         }
+//        .navigationViewStyle(StackNavigationViewStyle())
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
     }

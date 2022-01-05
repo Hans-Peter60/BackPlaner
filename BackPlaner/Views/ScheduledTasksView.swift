@@ -11,18 +11,20 @@ struct ScheduledTasksView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
-    var nextSteps: FetchedResults<NextSteps>
+    let date = Date() - 60
     
-    // Tab selection
-    @Binding var tabSelection: Int
+    var nextStepsRequest: FetchRequest<NextSteps>
+    var nextSteps: FetchedResults<NextSteps> { nextStepsRequest.wrappedValue }
+    @State private var name = ""
+    
+    init() {
+        self.nextStepsRequest = FetchRequest(entity: NextSteps.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)]) //, predicate: NSPredicate(format: "date >= %@", date))
+    }
     
     var gridItemLayout = [GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(90), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .trailing), GridItem(.fixed(120), alignment: .trailing)]
     
     var dateCalculation:DateCalculation = DateCalculation()
-    
-    @State private var name = ""
-    
+        
     var body: some View {
         
         Text("Liste der nächsten Schritte")
@@ -38,33 +40,51 @@ struct ScheduledTasksView: View {
                 Text("Dauer").bold()
                 Text("")
                 
-                ForEach(nextSteps) { nextStep in
+                if nextSteps.count > 0 {
+                    Group {
+                        Text("")
+                        Text("")
+                        Text(nextSteps[0].recipeName)
+                            .font(Font.custom("Avenir Heavy", size: 14))
+                        Text("")
+                        Text("")
+                    }
+                }
+
+                ForEach(nextSteps.indices) { i in
                     
-                    if nextStep.date > Date() - 60 {
+                    if nextSteps[i].date > Date() - 60 {
                         
-                        Group {
-                            Text("")
-                            Text("")
-                            Text(nextStep.recipeName)
-                                .font(Font.custom("Avenir Heavy", size: 14))
-                            Text("")
-                            Text("")
+                        if i > 0 && i < nextSteps.count - 1 {
+                            
+                            if nextSteps[i].recipeName != nextSteps[i - 1].recipeName {
+                                
+                                Group {
+                                    
+                                    Text("")
+                                    Text("")
+                                    Text(nextSteps[i].recipeName)
+                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                    Text("")
+                                    Text("")
+                                }
+                            }
                         }
 
-                        let step = Rational.decimalPlace(nextStep.step, 10)
+                        let step = Rational.decimalPlace(nextSteps[i].step, 10)
                         
-                        Text(dateCalculation.calculateDateTime(dT: nextStep.date))
+                        Text(dateCalculation.calculateDateTime(dT: nextSteps[i].date))
                             .font(Font.custom("Avenir Heavy", size: 16))
                         Text(step)
                             .font(Font.custom("Avenir", size: 14))
-                        Text(nextStep.instruction)
+                        Text(nextSteps[i].instruction)
                             .font(Font.custom("Avenir", size: 14))
-                        Text(Rational.displayHoursMinutes(nextStep.duration))
+                        Text(Rational.displayHoursMinutes(nextSteps[i].duration))
                             .font(Font.custom("Avenir", size: 14))
                         
                         Button("Erledigt") {
 
-                            managedObjectContext.delete(nextStep)
+                            managedObjectContext.delete(nextSteps[i])
 
                             do {
                                 try managedObjectContext.save()
@@ -81,6 +101,6 @@ struct ScheduledTasksView: View {
             }
             .padding()
         }
-//        .onAppear(perform: { name = nextSteps[0].recipeName})
+        .onAppear(perform: { self.name = "" } )
     }
 }

@@ -159,7 +159,6 @@ class RecipeModel: ObservableObject {
             }
         }
 
-        
         r.id              = UUID()
         r.firestoreId     = recipeFB.id
         r.name            = recipeFB.name

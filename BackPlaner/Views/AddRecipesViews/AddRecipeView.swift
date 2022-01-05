@@ -14,28 +14,7 @@ struct AddRecipeView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
 
-    // Tab selection
-    @Binding var tabSelection: Int
-    
-    // Properties for recipe meta data
-    @State private var name     = ""
-    @State private var summary  = ""
-    @State private var urlLink  = "https://"
-    @State private var prepTime = ""
-    @State private var bakeTime = ""
-    @State private var servings = ""
-    @State private var rating   = 0
-    
-    // List type recipe meta data
-    @State private var tags = [String]()
-    
-    @State private var instructions = [InstructionFB]()
-    
-    // Component & Ingredient data
-    @State private var componentId = "1"
-    @State private var components = [ComponentFB]()
-    @State private var componentName = ""
-    @State private var ingredients = [IngredientFB]()
+    @State private var recipeFB = RecipeFB()
     
     // Recipe Image
     @State private var recipeImage: UIImage?
@@ -49,6 +28,7 @@ struct AddRecipeView: View {
         ZStack {
             
             VStack {
+                
                 // HStack with the form controls
                 HStack {
                     Button("Inhalte löschen") {
@@ -67,9 +47,6 @@ struct AddRecipeView: View {
                         
                         // Clear the form
                         clear()
-                        
-                        // Navigate to the list
-                        tabSelection = GlobalVariables.listTab
                     }
                     .buttonStyle(.bordered)
                     
@@ -82,9 +59,6 @@ struct AddRecipeView: View {
                         
                         // Clear the form
                         clear()
-                        
-                        // Navigate to the list
-                        tabSelection = GlobalVariables.listTab
                     }
                     .buttonStyle(.bordered)                }
                 .padding(.horizontal)
@@ -121,34 +95,28 @@ struct AddRecipeView: View {
                                             ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
                                         }
                                     }
-                                    
                                     Spacer()
                                     
-                                    RatingStarsUpdateView(rating: $rating)
+                                    RatingStarsUpdateView(rating: $recipeFB.rating)
                                         .padding(.trailing)
                                 }
-
                                 
                                 // The recipe meta data
-                                AddMetaData(name: $name,
-                                            summary: $summary,
-                                            urlLink: $urlLink)
+                                AddMetaData(name:    $recipeFB.name,
+                                            summary: $recipeFB.summary,
+                                            urlLink: $recipeFB.urlLink)
                                 
                                 // Tag data
-                                AddListData(list: $tags, title: "Tags", placeholderText: "...")
+                                AddListData(list: $recipeFB.tags, title: "Tags", placeholderText: "...")
                                 
                                 Divider()
                                 
-                                AddComponentData(components: $components)
-
-                                Divider()
-                                
-                                AddIngredientData(ingredients: $ingredients, componentsCount: components.count)
+                                AddComponentData(components: $recipeFB.components)
                                 
                                 Divider()
                                 
                                 // Instruction Data
-                                AddInstructionData(instructions: $instructions)
+                                AddInstructionData(instructions: $recipeFB.instructions)
                             }
                         }
                     }
@@ -170,15 +138,8 @@ struct AddRecipeView: View {
     }
     
     func clear() {
-        // Clear all the form fields
-        name         = ""
-        summary      = ""
-        urlLink      = ""
-        rating       = 0
-        tags         = [String]()
-        instructions = [InstructionFB]()
-        components   = [ComponentFB]()
-        ingredients  = [IngredientFB]()
+        
+        recipeFB = RecipeFB()
         
         placeHolderImage = Image(GlobalVariables.noImage)
     }
@@ -187,55 +148,12 @@ struct AddRecipeView: View {
         
         var recipeId: NSManagedObjectID?
         
-        // Add the recipe into Firestore
-        let recipe             = RecipeFB()
-        recipe.id              = ""
-        recipe.name            = name
-        recipe.summary         = summary
-        recipe.urlLink         = urlLink
-        recipe.rating          = rating
-        recipe.bakeHistoryFlag = false
-        recipe.tags            = tags
-        
-        for i in instructions {
-            let instruction = InstructionFB()
-            
-            instruction.instruction = i.instruction
-            instruction.step        = i.step
-            instruction.duration    = i.duration
-            instruction.startTime   = 0
-            
-            // Add this instruction to the recipe
-            recipe.instructions.append(instruction)
-        }
-        recipe.instructions = Rational.calculateStartTimes(recipe.instructions, Date())
-        recipe.prepTime = GlobalVariables.totalDuration
-        
-        for c in components {
-            
-            // Add the ingredients
-            for i in ingredients {
-                if i.componentNr == c.number {
-
-                    c.ingredients.append(i)
-                }
-            }
-            recipe.components.append(c)
-        }
-        
-        modelFB.recipesFB.append(recipe)
-        
         if fireStore {
-            modelFB.uploadRecipeToFirestore(r: recipe, i: recipeImage ?? UIImage())
+            modelFB.uploadRecipeToFirestore(r: recipeFB, i: recipeImage ?? UIImage())
         }
         else {
-            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipe, context: viewContext, recipeImage: recipeImage ?? UIImage())
+            model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: recipeImage ?? UIImage())
         }
     }
 }
 
-//struct AddRecipeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddRecipeView(tabSelection: Binding.constant(GlobalVariables.addRecipeTab))
-//    }
-//}

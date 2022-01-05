@@ -13,7 +13,7 @@ struct NewEditRecipeView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     var recipeId: NSManagedObjectID?
-    var recipe:   Recipe
+//    var recipe:   Recipe
     
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
@@ -81,10 +81,12 @@ struct NewEditRecipeView: View {
                         } else {
                             r = Recipe(context: viewContext)
                         }
+                        
+//                        model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: recipeImage ?? UIImage())
                   
                         // MARK: Image
                         if let objectId = recipeId {
-                            r.image       = recipeImage!.jpegData(compressionQuality: 1.0) ?? Data()
+                            r.image = recipeImage!.jpegData(compressionQuality: 1.0) ?? Data()
                         }
                         else {
                             if recipeFB.id ?? "" > "" {
@@ -124,6 +126,7 @@ struct NewEditRecipeView: View {
                     Button("Rezept löschen") {
                         
                         // Delete the recipe on core data
+                        
 //                        deleteRecipe(fireStore: false)
                         
                         // Clear the form
@@ -183,7 +186,7 @@ struct NewEditRecipeView: View {
                         // Tag data
                         AddListData(list: $tags, title: "Tags", placeholderText: "...")
                         
-                        RecipeTags(tags: tags)
+                        RecipeTags(tags: recipeFB.tags)
                         
                         // MARK: Components
                         VStack(alignment: .leading) {
@@ -193,9 +196,15 @@ struct NewEditRecipeView: View {
                                 .padding([.bottom, .top], 5)
                             
                             HStack {
+                                Text("Nr.")
+                                    .frame(width: 40)
+                                Text("Komponente")
+                            }
+                            HStack {
                                 TextField(".", value: $componentNumber, formatter: GlobalVariables.formatter)
                                     .keyboardType(.decimalPad)
                                     .textFieldStyle(.roundedBorder)
+                                    .frame(width: 40)
                                 TextField("...", text: $componentName)
                                     .textFieldStyle(.roundedBorder)
                                 
@@ -286,7 +295,7 @@ struct NewEditRecipeView: View {
                                 .buttonStyle(.bordered)
                             }
                             
-                            EditInstructionDataView(recipeId: recipeId)
+                            if recipeId != nil { EditInstructionDataView(recipeId: recipeId!) }
                         }
                     }
                     .padding()
@@ -315,7 +324,7 @@ struct NewEditRecipeView: View {
         
     }
     
-    // MARK: load image
+    // MARK: Load image
     func loadImage() {
         
         // Check if an image was selected from the library
@@ -325,7 +334,7 @@ struct NewEditRecipeView: View {
         }
     }
     
-    // MARK: clear
+    // MARK: Clear
     func clear() {
         // Clear all the form fields
 
@@ -334,6 +343,7 @@ struct NewEditRecipeView: View {
         placeHolderImage = Image(GlobalVariables.noImage)
     }
     
+    // MARK: UpdateRecipe
     func updateRecipe(fireStore: Bool) {
 
         if fireStore {
