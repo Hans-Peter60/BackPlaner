@@ -13,28 +13,20 @@ struct EditIngredientDataView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    var componentId: NSManagedObjectID?
+    var componentId: NSManagedObjectID
+    
+    var ingredientsRequest: FetchRequest<Ingredient>
+    var ingredients: FetchedResults<Ingredient> { ingredientsRequest.wrappedValue }
+    
+    init(componentId: NSManagedObjectID) {
+        self.componentId = componentId
+        self.ingredientsRequest = FetchRequest(entity: Ingredient.entity(), sortDescriptors: [], predicate: NSPredicate(format: "component == %@", componentId))
+    }
     
     @EnvironmentObject var model:   RecipeModel
     
     @State private var showingSheet  = false
     @State private var selectedIngredientId: NSManagedObjectID?
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "component", ascending: true)])
-    private var ingredients: FetchedResults<Ingredient>
-    
-    private var filteredIngredients: [Ingredient] {
-        
-        if componentId != nil {
-            // return all ingredients for selected component
-            return ingredients.filter { i in
-                return i.component!.objectID == componentId
-            }
-        }
-        else {
-            return [Ingredient]()
-        }
-    }
     
     @State private var name   = ""
     @State private var number = ""
@@ -44,44 +36,33 @@ struct EditIngredientDataView: View {
     @State private var weight = ""
     
     var body: some View {
-        
-        ScrollView {
             
-            // MARK: Ingredients
-            VStack(alignment: .leading) {
+        // MARK: Ingredients
+        Section {
             
-                Text("Anzahl Zutaten: " + String(filteredIngredients.count))
+            LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6)  {
                 
-                LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6) {
+                ForEach(ingredients.sorted(by: { $0.number < $1.number }), id: \.self) { ingredient in
+
+                    IngredientRowView(ingredient: ingredient)
+                        .onTapGesture {
+                            self.selectedIngredientId = ingredient.objectID
+                            self.showingSheet         = true
+                        }
                     
-                    ForEach(filteredIngredients.sorted(by: { $0.number < $1.number }), id: \.self) { ingredient in
+                    Button("Del") {
+                        viewContext.delete(ingredient)
                         
-                        Section {
-                            
-                            HStack {
-                                IngredientRowView(ingredient: ingredient)
-                                    .onTapGesture {
-                                        self.selectedIngredientId = ingredient.objectID
-                                        self.showingSheet         = true
-                                    }
-                                
-                                Button("Del") {
-                                    viewContext.delete(ingredient)
-                                    
-                                    do {
-                                        try viewContext.save()
-                                    } catch {
-                                        // handle the Core Data error
-                                    }
-                                }
-                                .font(Font.custom("Avenir", size: 15))
-                                .padding()
-                                .foregroundColor(.gray)
-                                .buttonStyle(.bordered)
-                                
-                            }
+                        do {
+                            try viewContext.save()
+                        } catch {
+                            // handle the Core Data error
                         }
                     }
+                    .font(Font.custom("Avenir", size: 15))
+                    .padding()
+                    .foregroundColor(.gray)
+                    .buttonStyle(.bordered)
                 }
             }
             .sheet(isPresented: $showingSheet ) {
@@ -165,7 +146,7 @@ struct EditIngredientView: View {
             self.num    = self.ingredient.num
             self.denom  = self.ingredient.denom
         }
-
+        
     }
 }
 
@@ -173,22 +154,26 @@ struct IngredientRowView: View {
     @ObservedObject var ingredient: Ingredient
     
     var body: some View {
-        
-        LazyVGrid(columns: GlobalVariables.gridItemLayoutIngredients, spacing: 6) {
+            
+        Group {
             
             Text(String(ingredient.number))
             Text(String(ingredient.weight))
             Text(ingredient.unit ?? "")
             Text(ingredient.name)
-            Text(String(ingredient.num))
-            Text("")
+            
+            if ingredient.num == ingredient.denom {
+            
+                Text("")
+                Text("")
+                Text("")
+            }
+            else {
+                Text(String(ingredient.num))
+                Text("")
+                Text(String(ingredient.denom))
+            }
         }
         .font(Font.custom("Avenir", size: 15))
-    }
-}
-
-struct EditIngredientDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditIngredientDataView()
     }
 }

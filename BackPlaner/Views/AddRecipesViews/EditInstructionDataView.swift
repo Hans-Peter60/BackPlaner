@@ -154,9 +154,3 @@ struct InstructionRowView: View {
         Text(Rational.displayHoursMinutes(instruction.duration))
     }
 }
-
-struct EditInstructionDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditComponentDataView()
-    }
-}

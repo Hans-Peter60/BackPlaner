@@ -13,30 +13,22 @@ struct EditComponentDataView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    var recipeId: NSManagedObjectID?
+    var recipeId: NSManagedObjectID
     
+    var componentsRequest: FetchRequest<Component>
+    var components: FetchedResults<Component> { componentsRequest.wrappedValue }
+    
+    init(recipeId: NSManagedObjectID) {
+        self.recipeId = recipeId
+        self.componentsRequest = FetchRequest(entity: Component.entity(), sortDescriptors: [], predicate: NSPredicate(format: "recipe == %@", recipeId))
+    }
+
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
     
     @State private var componentName = ""
     @State private var showingSheet  = false
     @State private var selectedComponentId: NSManagedObjectID?
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "recipe", ascending: true)])
-    private var components: FetchedResults<Component>
-    
-    private var filteredComponents: [Component] {
-        
-        if recipeId != nil {
-            // No filter text, so return all recipes
-            return components.filter { c in
-                return c.recipe!.objectID == recipeId
-            }
-        }
-        else {
-            return [Component]()
-        }
-    }
     
     var body: some View {
         
@@ -45,7 +37,7 @@ struct EditComponentDataView: View {
             // MARK: Components
             VStack(alignment: .leading) {
                 
-                ForEach (filteredComponents.sorted(by: { $0.number < $1.number }), id: \.self) { component in
+                ForEach (components.sorted(by: { $0.number < $1.number }), id: \.self) { component in
                     
                     Section {
                         
@@ -85,7 +77,6 @@ struct EditComponentDataView: View {
     }
 }
 
-
 struct EditComponentView: View {
     
     var componentId: NSManagedObjectID?
@@ -110,13 +101,21 @@ struct EditComponentView: View {
     }
     
     var body: some View {
+        
         NavigationView {
+        
             Form {
                 Section {
+                    HStack {
+                        Text("Nr.")
+                            .frame(width: 40)
+                        Text("Komponente")
+                    }
                     HStack {
                         TextField("Nr.", value: $componentNumber, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .frame(width: 40)
                         TextField("...", text: $componentName)
                             .textFieldStyle(.roundedBorder)
                     }
@@ -191,9 +190,8 @@ struct EditComponentView: View {
                             componentName = ""
                         }
                         .buttonStyle(.bordered)
-                        
-                        EditIngredientDataView(componentId: componentId)
                     }
+                    
                 }
                 .navigationBarTitle(Text("Komponente ändern"), displayMode: .inline)
                 .navigationBarItems(leading: Button("Cancel") {
@@ -206,6 +204,7 @@ struct EditComponentView: View {
                     try? self.viewContext.save()
                 }
                 )
+                if componentId != nil { EditIngredientDataView(componentId: componentId!) }
             }
             .onAppear {
                 self.componentName   = self.component.name
@@ -224,11 +223,5 @@ struct ComponentRowView: View {
             Text(String(component.number))
             Text(component.name)
         }
-    }
-}
-
-struct EditComponentDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditComponentDataView()
     }
 }

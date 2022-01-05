@@ -230,7 +230,9 @@ struct NewEditRecipeView: View {
                                 .buttonStyle(.bordered)
                             }
                                 
-                            EditComponentDataView(recipeId: recipeId)
+                            if recipeId != nil {
+                                EditComponentDataView(recipeId: recipeId!)
+                            }
                       
                             Divider()
                             

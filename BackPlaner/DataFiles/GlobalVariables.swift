@@ -44,7 +44,7 @@ struct GlobalVariables {
     static var gridItemLayoutIngredients = [GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80), alignment: .trailing),
                           GridItem(.fixed(80), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
                           GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(10),              alignment: .trailing),
-                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(60),              alignment: .trailing)]
+                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80),              alignment: .trailing)]
  
     static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
