@@ -107,7 +107,7 @@ struct AddRecipeView: View {
                                             urlLink: $recipeFB.urlLink)
                                 
                                 // Tag data
-                                AddListData(list: $recipeFB.tags, title: "Tags", placeholderText: "...")
+                                AddTagsData(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
                                 
                                 Divider()
                                 

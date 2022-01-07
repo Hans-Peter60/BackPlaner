@@ -9,23 +9,93 @@ import Foundation
 
 struct Rational {
     
+    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
+        
+        var portion            = ""
+        var numerator          = num
+        var denominator        = denom
+        var wholePortions      = 0
+        let compTargetServings = Double(targetServings) / 2
+        let recipeServings     = 1
+        
+        if weight == 0 && (num == 0 || num == denom) {
+            return "" }
+        else {
+            if weight == 0 {
+                // Get a single serving size by multiplying denominator by the recipe servings
+                denominator *= (recipeServings * 2)
+                
+                // Get target portion by multiplying numerator by target servings
+                numerator *= targetServings
+                
+                // Reduce fraction by greatest common divisor
+                let divisor = Rational.greatestCommonDivisor(numerator, denominator)
+                numerator /= divisor
+                denominator /= divisor
+                
+                // Get the whole portion if numerator > denominator
+                if numerator >= denominator {
+                    
+                    // Calculated whole portions
+                    wholePortions = numerator / denominator
+                    
+                    // Calculate the remainder
+                    numerator = numerator % denominator
+                    
+                    // Assign to portion string
+                    portion += String(wholePortions)
+                }
+                
+                // Express the remainder as a fraction
+                if numerator > 0 {
+                    
+                    // Assign remainder as fraction to the portion string
+                    portion += wholePortions > 0 ? " " : ""
+                    portion += "\(numerator)/\(denominator)"
+                }
+            } else {
+                portion = Rational.decimalPlace((Double(weight) / (Double(recipeServings)) * compTargetServings), 1000)
+            }
+            
+            if unit > "" {
+                
+                var u = unit
+                // If we need to pluralize
+                if wholePortions > 1 {
+                    
+                    // Calculate appropriate suffix
+                    if u == "Tasse" || u == "Messerspitze" || u == "Prise" || u == "Scheibe" {
+                        
+                        u += "n"
+                    }
+                }
+                return portion + " " + u + " "
+            }
+            return portion + " "
+        }
+    }
+
     static func decimalPlace(_ nDouble:Double, _ decimalPlace:Int) -> String {
         
         var numberString = ""
         var numberDouble = nDouble
-        var numberInt = 1
-        let factor = Double(decimalPlace)
+        var numberInt    = 1
+        let factor       = Double(decimalPlace)
 
         numberDouble *= factor
-        numberInt = Int(numberDouble)
-        numberDouble = Double(numberInt) / factor
-        numberString = String(numberDouble)
-        numberInt = Int(numberDouble)
+        numberInt     = Int(numberDouble)
+        numberDouble  = Double(numberInt) / factor
+        numberString  = String(numberDouble)
+        numberInt     = Int(numberDouble)
 
         if Double(numberInt) == numberDouble {
+            
             numberString = String(numberInt)
         }
-        if numberString == "0" { numberString = "" }
+        if numberString == "0" {
+            
+            numberString = ""
+        }
         
         return numberString
     }

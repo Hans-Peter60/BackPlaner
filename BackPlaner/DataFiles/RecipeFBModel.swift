@@ -205,93 +205,17 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = IngredientFB()
                     
-                    i.id          = doc.documentID
-                    i.name        = doc["name"] as? String ?? ""
-                    i.number      = doc["number"] as? Int ?? 0
-                    i.unit        = doc["unit"] as? String ?? ""
-                    i.weight      = doc["weight"] as? Double ?? 0
-                    i.num         = doc["num"] as? Int ?? 0
-                    i.denom       = doc["denom"] as? Int ?? 0
+                    i.id     = doc.documentID
+                    i.name   = doc["name"]   as? String ?? ""
+                    i.number = doc["number"] as? Int ?? 0
+                    i.unit   = doc["unit"]   as? String ?? ""
+                    i.weight = doc["weight"] as? Double ?? 0
+                    i.num    = doc["num"]    as? Int ?? 0
+                    i.denom  = doc["denom"]  as? Int ?? 0
                     
                     c.ingredients.append(i)
                 }
             }
-        }
-    }
-    
-    static func getPortion(ingredient:IngredientFB, recipeServings:Int, targetServings:Int) -> String {
-        
-        var portion            = ""
-        var numerator          = ingredient.num ?? 1
-        var denominator        = ingredient.denom ?? 1
-        var wholePortions      = 0
-        let compTargetServings = Double(targetServings) / 2
-        
-        if (ingredient.weight == nil || ingredient.weight == 0) && (ingredient.num == 0 || (ingredient.num == ingredient.denom)) {
-            return "" }
-        else {
-            if ingredient.weight == nil || ingredient.weight == 0 {
-                // Get a single serving size by multiplying denominator by the recipe servings
-                denominator *= (recipeServings * 2)
-                
-                // Get target portion by multiplying numerator by target servings
-                numerator *= targetServings
-                
-                // Reduce fraction by greatest common divisor
-                let divisor = Rational.greatestCommonDivisor(numerator, denominator)
-                numerator /= divisor
-                denominator /= divisor
-                
-                // Get the whole portion if numerator > denominator
-                if numerator >= denominator {
-                    
-                    // Calculated whole portions
-                    wholePortions = numerator / denominator
-                    
-                    // Calculate the remainder
-                    numerator = numerator % denominator
-                    
-                    // Assign to portion string
-                    portion += String(wholePortions)
-                }
-                
-                // Express the remainder as a fraction
-                if numerator > 0 {
-                    
-                    // Assign remainder as fraction to the portion string
-                    portion += wholePortions > 0 ? " " : ""
-                    portion += "\(numerator)/\(denominator)"
-                }
-            } else {
-                portion = Rational.decimalPlace((Double(ingredient.weight ?? 0) / (Double(recipeServings)) * compTargetServings), 1000)
-            }
-            
-            if ingredient.unit > "" {
-                
-                var unit = ingredient.unit
-                
-                // If we need to pluralize
-                if wholePortions > 1 {
-                    
-                    // Calculate appropriate suffix
-                    if unit.suffix(2) == "ch" {
-                        unit += "es"
-                    }
-                    else if unit.suffix(1) == "f" {
-                        unit = String(unit.dropLast())
-                        unit += "ves"
-                    }
-                    else {
-                        unit += "s"
-                    }
-                }
-                
-                portion += ingredient.num == nil && ingredient.denom == nil ? "" : " "
-                
-                return portion + unit
-            }
-
-            return portion
         }
     }
 }

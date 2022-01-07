@@ -41,9 +41,7 @@ class LocalNotificationManager: ObservableObject {
         let minute = dateComponents.minute
 
         notifications.append(Notification(id: "Recipe-\(id)-\(step)", title: instruction, datetime: DateComponents(calendar: Calendar.current, year: year, month: month, day: day, hour: hour, minute: minute)))
-        
-//        print("Recipe-", id, "-", step, instruction, "year: ", year, "month: ", month, "day: ", day, "hour: ", hour, "minute: ", minute)
-        
+               
         if scheduleNotificationsFlag {
             scheduleNotifications()
         }

@@ -37,10 +37,4 @@ struct TabsFBView: View {
                 .tag(GlobalVariables.bakeListTab)
         }
     }
-
-//    struct TabsFBView_Previews: PreviewProvider {
-//        static var previews: some View {
-//            TabsView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//        }
-//    }
 }

@@ -96,7 +96,7 @@ struct RecipeDetailView: View {
 
                                     ForEach (component.ingredientsArray.sorted(by: { $0.number < $1.number })) { item in
 
-                                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: 1, targetServings: selectedServingSize) + " " + item.name)
+                                        Text("• " + Rational.getPortion(unit:item.unit ?? "", weight:item.weight, num:item.num, denom:item.denom, targetServings: selectedServingSize) + item.name)
                                             .font(Font.custom("Avenir", size: 15))
                                     }
                                 }

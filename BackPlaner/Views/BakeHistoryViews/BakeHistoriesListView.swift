@@ -36,7 +36,7 @@ struct BakeHistoriesListView: View {
         }
     }
     
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
+    var gridItemLayout       = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
     var gridItemLayoutImages = [GridItem(.fixed(54), alignment: .leading), GridItem(.fixed(54), alignment: .leading)]
     
     var dateFormat:DateFormat = DateFormat()
@@ -54,7 +54,7 @@ struct BakeHistoriesListView: View {
             Text("Datum").bold()
             Text("Rezept").bold()
             Text("Kommentar").bold()
-            Text(" ").bold()
+            Text("")
             Text("")
             Text("")
         }
@@ -139,53 +139,6 @@ struct BakeHistoriesListView: View {
     }
 }
 
-//struct BakeHistoriesListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BakeHistoriesListView()
-//            .environmentObject(RecipeModel())
-//    }
-//}
-
-struct BakeHistoryListView: View {
-    
-    @State private var showingSheet = false
-    @State private var selectedBakeHistoryId: NSManagedObjectID?
-    
-    @Environment(\.managedObjectContext) var moc
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
-    private var bakeHistories: FetchedResults<BakeHistory>
-    
-    @State private var filterBy           = ""
-    @State private var bakeHistoryComment = ""
-    @State private var bakeHistoryImages  = [Data]()
-    
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
-    
-    var dateFormat:DateFormat = DateFormat()
-    
-    var body: some View {
-        VStack {
-            Form {
-                ForEach(bakeHistories, id: \.self) { bakeHistory in
-                    Section {
-                        BakeHistoryRowView(bakeHistory: bakeHistory)
-                            .onTapGesture {
-                                self.selectedBakeHistoryId = bakeHistory.objectID
-                                self.showingSheet          = true
-                            }
-                    }
-                }
-            }
-        }
-        .navigationBarTitle("Backhistorie").sheet(isPresented: $showingSheet ) {
-            EditBakeHistoryView(bakeHistoryId: self.selectedBakeHistoryId!)
-                .environment(\.managedObjectContext, self.moc)
-        }
-    }
-}
-
-
 struct EditBakeHistoryView: View {
     
     var bakeHistoryId: NSManagedObjectID
@@ -241,56 +194,3 @@ struct EditBakeHistoryView: View {
         }
     }
 }
-
-struct BakeHistoryRowView: View {
-    @ObservedObject var bakeHistory: BakeHistory
-    
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
-    
-    var dateFormat:DateFormat = DateFormat()
-    
-    var body: some View {
-        HStack {
-            LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                
-                Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                    .font(Font.custom("Avenir Heavy", size: 14))
-                if bakeHistory.recipe != nil {
-                    Text(bakeHistory.recipe!.name)
-                        .font(Font.custom("Avenir Heavy", size: 14))
-                } else { Text("") }
-                Text(bakeHistory.comment)
-                    .font(Font.custom("Avenir", size: 14))
-                
-                if bakeHistory.objectID == nil { Text("objectID = nil") } else { Text("objectID != nil") }
-                
-                //                HStack {
-                //                    if bakeHistory.images.count > 0 {
-                //                        // MARK: History Images
-                //                        ForEach(0..<bakeHistory.images.count) { index in
-                //
-                //                            let image = UIImage(data: bakeHistory.images[index]) ?? UIImage()
-                //                            Image(uiImage: image)
-                //                                .resizable()
-                //                                .scaledToFill()
-                //                                .frame(width: 50, height: 50, alignment: .center)
-                //                                .clipped()
-                //                                .cornerRadius(5)
-                //                        }
-                //                    }
-                //                    else {
-                //                        Image("no-image-icon-23494")
-                //                            .resizable()
-                //                            .scaledToFill()
-                //                            .frame(width: 50, height: 50, alignment: .center)
-                //                            .clipped()
-                //                            .cornerRadius(5)
-                //                    }
-                //                }
-            }
-            
-            //           Text(asset.assetDescription)
-        }
-    }
-}
-

@@ -31,9 +31,3 @@ struct RecipeTags: View {
             .font(Font.custom("Avenir", size: 16))
     }
 }
-
-//struct RecipeTags_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecipeTags(tags: ["test", "test2", "test3"])
-//    }
-//}

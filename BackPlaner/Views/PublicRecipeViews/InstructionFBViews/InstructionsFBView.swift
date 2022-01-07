@@ -108,7 +108,7 @@ struct InstructionsFBView: View {
                                         VStack(alignment: .leading) {
                                             ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                                 
-                                                let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: 1, targetServings: selectedServingSize) + " "
+                                                let t = "• " + Rational.getPortion(unit:ingred.unit, weight:ingred.weight, num:ingred.num, denom:ingred.denom, targetServings: selectedServingSize)
                                                 Text(t + ingred.name)
                                                     .font(Font.custom("Avenir", size: 15))
                                             }
@@ -390,7 +390,6 @@ struct InstructionsFBView: View {
                         configuration.isOn.toggle()
                     }
             }
-     
         }
     }
 }

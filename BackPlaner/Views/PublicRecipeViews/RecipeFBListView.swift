@@ -31,14 +31,14 @@ struct RecipeFBListView: View {
             if selectedSelection == 1 {
                 for i in 0..<modelFB.recipesFB.count {
                     if modelFB.recipesFB[i].name.contains(filterBy) {
-                        if modelFB.recipesFB[i].rating ?? 0 >= rating { fR.append(modelFB.recipesFB[i]) }
+                        if modelFB.recipesFB[i].rating >= rating { fR.append(modelFB.recipesFB[i]) }
                     }
                 }
             }
             else {
                 for i in 0..<modelFB.recipesFB.count {
                     if modelFB.recipesFB[i].tags.contains(filterBy) {
-                        if modelFB.recipesFB[i].rating ?? 0 >= rating { fR.append(modelFB.recipesFB[i]) }
+                        if modelFB.recipesFB[i].rating >= rating { fR.append(modelFB.recipesFB[i]) }
                     }
                 }
             }
@@ -121,10 +121,3 @@ struct RecipeFBListView: View {
         }
     }
 }
-
-//struct RecipeFBListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecipeFBListView()
-//            .environmentObject(RecipeFBModel())
-//    }
-//}

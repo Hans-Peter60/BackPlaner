@@ -39,7 +39,7 @@ struct RecipeFBDetailView: View {
                     
                     Spacer()
                     
-                    RatingStarsView(rating: recipeFB.rating ?? 0)
+                    RatingStarsView(rating: recipeFB.rating)
                         .padding(.trailing)
                 }
                 
@@ -77,9 +77,6 @@ struct RecipeFBDetailView: View {
                // MARK: Components
                 Section {
                     VStack(alignment: .leading) {
-//                        Text("Komponenten:")
-//                            .font(Font.custom("Avenir Heavy", size: 16))
-//                            .padding([.bottom, .top], 2)
                         
                         LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
 
@@ -94,7 +91,7 @@ struct RecipeFBDetailView: View {
                                 VStack(alignment: .leading) {
                                     ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                         
-                                        let t = "• " + RecipeFBModel.getPortion(ingredient: ingred, recipeServings: 1, targetServings: selectedServingSize) + " "
+                                        let t = "• " + Rational.getPortion(unit:ingred.unit, weight:ingred.weight, num:ingred.num, denom:ingred.denom, targetServings: selectedServingSize)
                                         Text(t + ingred.name)
                                             .font(Font.custom("Avenir", size: 15))
                                     }
@@ -143,22 +140,5 @@ struct RecipeFBDetailView: View {
             .padding()
         }
         .navigationTitle(recipeFB.name)
-            // MARK: Recipe title
-//            Text()
-//                .bold()
-//                .padding(.top, 10)
-//                .padding(.leading)
-//                .font(Font.custom("Avenir Heavy", size: 24))
-
     }
 }
-
-//struct RecipeFBDetailView_Previews: PreviewProvider {
-//    
-//    static var previews: some View {
-//        
-//        let modelFB = RecipeFBModel()
-//        
-//        RecipeFBDetailView(recipeFB: modelFB.recipesFB[0])
-//    }
-//}

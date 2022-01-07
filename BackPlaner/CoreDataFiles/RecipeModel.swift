@@ -140,8 +140,6 @@ class RecipeModel: ObservableObject {
         } else {
             r = Recipe(context: context)
         }
-        
-//        let r = Recipe(context: context)
     
         print("uploadRecipeIntoCoreData: recipeFB.id:", recipeFB.id)
   
@@ -164,7 +162,7 @@ class RecipeModel: ObservableObject {
         r.name            = recipeFB.name
         r.summary         = recipeFB.summary
         r.urlLink         = recipeFB.urlLink
-        r.rating          = recipeFB.rating ?? 0
+        r.rating          = recipeFB.rating
         r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
         r.tags            = recipeFB.tags
 
@@ -205,9 +203,9 @@ class RecipeModel: ObservableObject {
                 i.name        = iFB.name
                 i.number      = iFB.number
                 i.unit        = iFB.unit
-                i.weight      = iFB.weight ?? 0
-                i.num         = iFB.num ?? 1
-                i.denom       = iFB.denom ?? 1
+                i.weight      = iFB.weight
+                i.num         = iFB.num
+                i.denom       = iFB.denom
                 
                 c.addToIngredients(i)
             }
@@ -248,79 +246,4 @@ class RecipeModel: ObservableObject {
             print("Couldn't save the recipe")
         }
     }
-    
-    static func getPortion(ingredient:Ingredient, recipeServings:Int, targetServings:Int) -> String {
-        
-        var portion            = ""
-        var numerator          = ingredient.num
-        var denominator        = ingredient.denom
-        var wholePortions      = 0
-        let compTargetServings = Double(targetServings) / 2
-        
-        if ingredient.weight == 0 && (ingredient.num == 0 || (ingredient.num == ingredient.denom)) {
-            return "" }
-        else {
-            if ingredient.weight == 0 {
-                // Get a single serving size by multiplying denominator by the recipe servings
-                denominator *= (recipeServings * 2)
-                
-                // Get target portion by multiplying numerator by target servings
-                numerator *= targetServings
-                
-                // Reduce fraction by greatest common divisor
-                let divisor = Rational.greatestCommonDivisor(numerator, denominator)
-                numerator /= divisor
-                denominator /= divisor
-                
-                // Get the whole portion if numerator > denominator
-                if numerator >= denominator {
-                    
-                    // Calculated whole portions
-                    wholePortions = numerator / denominator
-                    
-                    // Calculate the remainder
-                    numerator = numerator % denominator
-                    
-                    // Assign to portion string
-                    portion += String(wholePortions)
-                }
-                
-                // Express the remainder as a fraction
-                if numerator > 0 {
-                    
-                    // Assign remainder as fraction to the portion string
-                    portion += wholePortions > 0 ? " " : ""
-                    portion += "\(numerator)/\(denominator)"
-                }
-            } else {
-                portion = Rational.decimalPlace((Double(ingredient.weight) / (Double(recipeServings)) * compTargetServings), 1000)
-            }
-            
-            if var unit = ingredient.unit {
-                
-                // If we need to pluralize
-                if wholePortions > 1 {
-                    
-                    // Calculate appropriate suffix
-                    if unit.suffix(2) == "ch" {
-                        unit += "es"
-                    }
-                    else if unit.suffix(1) == "f" {
-                        unit = String(unit.dropLast())
-                        unit += "ves"
-                    }
-                    else {
-                        unit += "s"
-                    }
-                }
-                
-                portion += ingredient.num == nil && ingredient.denom == nil ? "" : " "
-                
-                return portion + unit
-            }
-
-            return portion
-        }
-    }
 }
-

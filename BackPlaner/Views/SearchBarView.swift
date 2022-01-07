@@ -23,7 +23,7 @@ struct SearchBarView: View {
                 
                 Image(systemName: "magnifyingglass")
                 
-                TextField("Filter by...", text: $filterBy)
+                TextField("Filtern nach...", text: $filterBy)
                 
                 Button {
                     // Clear the text field
@@ -35,7 +35,7 @@ struct SearchBarView: View {
             }
             .padding()
         }
-        .frame(height: 48)
+        .frame(height: 42)
         .foregroundColor(.gray)
     }
 }

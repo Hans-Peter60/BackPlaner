@@ -24,7 +24,7 @@ struct NewEditRecipeView: View {
     @State private var recipeImage: UIImage?
     @State private var rating          = 0
     @State private var componentName   = ""
-    @State private var componentNumber = ""
+    @State private var componentNumber = 0
     @State private var tags            = [String]()
     
     @State private var showingSheet = false
@@ -184,7 +184,7 @@ struct NewEditRecipeView: View {
                                     urlLink: $recipeFB.urlLink)
                     
                         // Tag data
-                        AddListData(list: $tags, title: "Tags", placeholderText: "...")
+                        AddTagsData(tags: $tags, title: "Tags", placeholderText: "...")
                         
                         RecipeTags(tags: recipeFB.tags)
                         
@@ -230,7 +230,12 @@ struct NewEditRecipeView: View {
                                     let c      = Component(context: viewContext)
                                     c.id       = UUID()
                                     c.name     = cleanedName
-                                    c.number   = Int(componentNumber) ?? recipeCD.components.count
+                                    if componentNumber == 0 {
+                                        c.number = recipeCD.components.count
+                                    }
+                                    else {
+                                        c.number = componentNumber
+                                    }
                                     
                                     recipeCD.addToComponents(c)
                                     

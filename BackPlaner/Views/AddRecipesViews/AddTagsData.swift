@@ -1,18 +1,18 @@
 //
-//  AddListData.swift
+//  AddTagsData.swift
 //  BackPlaner
 //
 //  Created by Hans-Peter Müller on 09.11.21.//
 
 import SwiftUI
 
-struct AddListData: View {
+struct AddTagsData: View {
     
-    @Binding var list: [String]
+    @Binding var tags: [String]
     
-    @State private var item: String = ""
+    @State private var tag: String = ""
     
-    var title: String
+    var title:           String
     var placeholderText: String
     
     var gridItemLayout = [GridItem(.fixed(120), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
@@ -24,23 +24,23 @@ struct AddListData: View {
             Text("\(title):")
                 .bold()
             
-            TextField(placeholderText, text: $item)
+            TextField(placeholderText, text: $tag)
                 .textFieldStyle(.roundedBorder)
             
             Button("Add") {
                 // Add the item to the list
-                if item.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                if tag.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
                     
                     // Add the item to the list
-                    list.append(item.trimmingCharacters(in: .whitespacesAndNewlines))
+                    tags.append(tag.trimmingCharacters(in: .whitespacesAndNewlines))
                     
                     // Clear the text field
-                    item = ""
+                    tag = ""
                 }
             }
             .buttonStyle(.bordered)
             
         }
-        RecipeTags(tags: list)
+        RecipeTags(tags: tags)
     }
 }

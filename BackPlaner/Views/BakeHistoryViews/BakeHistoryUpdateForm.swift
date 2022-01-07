@@ -134,9 +134,3 @@ struct BakeHistoryUpdateForm: View {
         }
     }
 }
-
-//struct BakeHistoryUpdateForm_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BakeHistoryUpdateForm()
-//    }
-//}
