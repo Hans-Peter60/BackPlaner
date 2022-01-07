@@ -11,18 +11,31 @@ struct InstructionsFBListView: View {
     
     @EnvironmentObject var modelFB:RecipeFBModel
     
-    @State private var filterBy = ""
+    @State private var filterBy  = ""
+    @State private var nameOrTag = 1
+    @State private var rating    = 0
 
     private var filteredFBRecipes: [RecipeFB] {
         
         var fR: [RecipeFB] = [RecipeFB]()
         
-        if filterBy == "" {
+        if filterBy == "" && rating == 0 {
             return modelFB.recipesFB
         }
         else {
-            for i in 0..<modelFB.recipesFB.count {
-                if modelFB.recipesFB[i].name.contains(filterBy) { fR.append(modelFB.recipesFB[i]) }
+            if nameOrTag == 1 {
+                for i in 0..<modelFB.recipesFB.count {
+                    if modelFB.recipesFB[i].name.contains(filterBy) {
+                        if modelFB.recipesFB[i].rating >= rating { fR.append(modelFB.recipesFB[i]) }
+                    }
+                }
+            }
+            else {
+                for i in 0..<modelFB.recipesFB.count {
+                    if modelFB.recipesFB[i].tags.contains(filterBy) {
+                        if modelFB.recipesFB[i].rating >= rating { fR.append(modelFB.recipesFB[i]) }
+                    }
+                }
             }
         }
         return fR
@@ -38,7 +51,7 @@ struct InstructionsFBListView: View {
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
-                SearchBarView(filterBy: $filterBy)
+                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
                     .padding([.trailing, .bottom])
                 
                 ScrollView {

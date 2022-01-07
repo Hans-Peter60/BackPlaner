@@ -20,9 +20,9 @@ struct RecipeListView: View {
     private var recipes: FetchedResults<Recipe>
     
     @State private var filterBy  = ""
+    @State private var nameOrTag = 1
     @State private var rating    = 0
-    @State var selectedSelection = 1
-    
+
     var recipeId: NSManagedObjectID?
     
     private var filteredRecipes: [Recipe] {
@@ -36,7 +36,7 @@ struct RecipeListView: View {
         else {
             // Filter by the search term and return
             // a subset of recipes which contain the search term in the name
-            if selectedSelection == 1 {
+            if nameOrTag == 1 {
                 return recipes.filter { r in
                     return r.name.contains(filterBy)
                 }
@@ -60,22 +60,8 @@ struct RecipeListView: View {
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
-                SearchBarView(filterBy: $filterBy)
+                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
                     .padding([.trailing, .bottom])
-                
-                HStack {
-                    Text("Selektion nach:")
-                        .font(Font.custom("Avenir", size: 15))
-                    Picker("", selection: $selectedSelection) {
-                        Text("Name").tag(1)
-                        Text("Tags").tag(2)
-                    }
-                    .font(Font.custom("Avenir", size: 15))
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width:160)
-                }
-                
-                RatingStarsUpdateView(rating: $rating)
 
                 ScrollView {
                     LazyVStack (alignment: .leading) {

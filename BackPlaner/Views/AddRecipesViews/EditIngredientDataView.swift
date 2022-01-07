@@ -120,6 +120,7 @@ struct EditIngredientView: View {
                     }
                 }
             }
+            .frame(height: 120)
             .navigationBarTitle(Text("Zutat ändern"), displayMode: .inline)
             .navigationBarItems(leading: Button("Cancel") {
                 self.presentationMode.wrappedValue.dismiss()
@@ -158,7 +159,7 @@ struct IngredientRowView: View {
         Group {
             
             Text(String(ingredient.number))
-            Text(String(ingredient.weight))
+            if ingredient.weight > 0 { Text(String(ingredient.weight)) } else { Text("") }
             Text(ingredient.unit ?? "")
             Text(ingredient.name)
             

@@ -49,7 +49,7 @@ struct EditInstructionDataView: View {
                             InstructionRowView(instruction: instruction)
                                 .onTapGesture {
                                     self.selectedInstructionId = instruction.objectID
-                                    self.showingSheet        = true
+                                    self.showingSheet          = true
                                 }
                             
                             Button("Del") {
@@ -125,6 +125,7 @@ struct EditInstructionView: View {
                 }
                 )
             }
+            .frame(height: 120)
             .onAppear {
                 self.instruction = self.instructions.instruction
                 self.duration    = self.instructions.duration

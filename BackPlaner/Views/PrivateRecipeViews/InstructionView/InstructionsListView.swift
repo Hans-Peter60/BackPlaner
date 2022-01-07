@@ -14,19 +14,30 @@ struct InstructionsListView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var recipes: FetchedResults<Recipe>
     
-    @State private var filterBy = ""
+    @State private var filterBy  = ""
+    @State private var nameOrTag = 1
+    @State private var rating    = 0
 
     private var filteredRecipes: [Recipe] {
         
         if filterBy.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             // No filter text, so return all recipes
-            return Array(recipes)
+            return recipes.filter { r in
+                return r.rating >= rating
+            }
         }
         else {
             // Filter by the search term and return
             // a subset of recipes which contain the search term in the name
-            return recipes.filter { r in
-                return r.name.contains(filterBy)
+            if nameOrTag == 1 {
+                return recipes.filter { r in
+                    return r.name.contains(filterBy)
+                }
+            }
+            else {
+                return recipes.filter { r in
+                    return r.tags.contains(filterBy)
+                }
             }
         }
     }
@@ -41,7 +52,7 @@ struct InstructionsListView: View {
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
-                SearchBarView(filterBy: $filterBy)
+                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
                     .padding([.trailing, .bottom])
                 
                 ScrollView {

@@ -16,6 +16,8 @@ struct BakeHistoriesListView: View {
     private var recipes: FetchedResults<Recipe>
     
     @State private var filterBy           = ""
+    @State private var nameOrTag          = 1
+    @State private var rating             = 0
     @State private var bakeHistoryComment = ""
     @State private var bakeHistoryImages  = [Data]()
     
@@ -25,15 +27,25 @@ struct BakeHistoriesListView: View {
         
         if filterBy.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             // No filter text, so return all recipes
-            return Array(recipes)
+            return recipes.filter { r in
+                return r.rating >= rating
+            }
         }
         else {
             // Filter by the search term and return
             // a subset of recipes which contain the search term in the name
-            return recipes.filter { r in
-                return r.bakeHistories.contains(filterBy)
+            if nameOrTag == 1 {
+                return recipes.filter { r in
+                    return r.bakeHistories.contains(filterBy)
+                }
+            }
+            else {
+                return recipes.filter { r in
+                    return r.bakeHistories.contains(filterBy)
+                }
             }
         }
+
     }
     
     var gridItemLayout       = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
@@ -46,7 +58,7 @@ struct BakeHistoriesListView: View {
         Text("Backhistorie")
             .font(Font.custom("Avenir Heavy", size: 16))
         
-        SearchBarView(filterBy: $filterBy)
+        SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
             .padding([.leading, .trailing, .bottom])
         
         LazyVGrid(columns: gridItemLayout, spacing: 6) {
