@@ -14,12 +14,19 @@ class RecipeFBModel: ObservableObject {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     
-    @Published var recipesFB    = [RecipeFB]()
-    @Published var storedID     = ""
+    @Published var recipesFB = [RecipeFB]()
+    @Published var storedID  = ""
+    @Published var unitSets  = [UnitSets]()
     
     init() {
         // Check if we have preloaded the data into core data
         getRecipesFB()
+        
+        unitSets = DataService.getUnitSets()
+        
+        for unitSet in unitSets {
+            print(unitSet.name, " ", unitSet.abkuerzung)
+        }
     }
     
     func uploadRecipeToFirestore(r: RecipeFB, i: UIImage) {
@@ -110,12 +117,12 @@ class RecipeFBModel: ObservableObject {
                     let r      = RecipeFB()
                     
                     r.id       = doc.documentID
-                    r.name     = doc["name"] as? String ?? ""
-                    r.image    = doc["image"] as? String ?? ""
-                    r.summary  = doc["summary"] as? String ?? ""
-                    r.urlLink  = doc["urlLink"] as? String ?? ""
-                    r.prepTime = doc["prepTime"] as? Int ?? 0
-                    r.tags     = doc["tags"] as? [String] ?? [String]()
+                    r.name     = doc["name"]     as? String ?? ""
+                    r.image    = doc["image"]    as? String ?? ""
+                    r.summary  = doc["summary"]  as? String ?? ""
+                    r.urlLink  = doc["urlLink"]  as? String ?? ""
+                    r.prepTime = doc["prepTime"] as? Int    ?? 0
+                    r.tags     = doc["tags"]     as? [String] ?? [String]()
                     
                     if GlobalVariables.detailView {
                         self.getInstructionsFB(r, r.id!)
@@ -136,8 +143,6 @@ class RecipeFBModel: ObservableObject {
                             GlobalVariables.recipesImage[r.id ?? ""] = UIImage(data: data!) ?? UIImage()
                         }
                     }
-//                    print("r.name:", r.name, "t: ", t, "r.id: ", r.id, "recipesImage[r.id]", GlobalVariables.recipesImage[r.id ?? ""])
-                    
                 }
             }
         }

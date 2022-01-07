@@ -82,3 +82,11 @@ class BakeHistoryFB: Identifiable, Decodable {
     var comment:String  = ""
     var images:[String] = [String]()
 }
+
+class UnitSets: Identifiable, Decodable {
+    var id:        String?
+    var name:      String = ""
+    var abkuerzung:String = ""
+    var factor:    Double = 0.0
+    var baseUnit:  String = ""
+}

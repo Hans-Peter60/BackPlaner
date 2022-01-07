@@ -58,4 +58,49 @@ class DataService {
         }
         return [RecipeFB]()
     }
+    
+    static func getUnitSets() -> [UnitSets] {
+        
+        // Parse local json file
+
+        // Get a url path to the json file
+        let pathString = Bundle.main.path(forResource: "UnitSets", ofType: "json")
+
+        // Check if pathString is not nil, otherwise...
+        guard pathString != nil else {
+            return [UnitSets]()
+        }
+
+        // Create a url object
+        let url = URL(fileURLWithPath: pathString!)
+
+        do {
+            // Create a data object
+            let data = try Data(contentsOf: url)
+
+            // Decode the data with a JSON decoder
+            let decoder = JSONDecoder()
+
+            do {
+
+                let unitSetsData = try decoder.decode([UnitSets].self, from: data)
+
+                // Add the unique IDs
+                for unitSet in unitSetsData {
+                    unitSet.id = UUID().uuidString
+                }
+                // Return the recipes
+                return unitSetsData
+            }
+            catch {
+                // error with parsing json
+                print(error)
+            }
+        }
+        catch {
+            // error with getting data
+            print(error)
+        }
+        return [UnitSets]()
+    }
 }

@@ -9,6 +9,10 @@ import Foundation
 
 struct Rational {
     
+    static func calcWeight() {
+        
+    }
+    
     static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
         
         var portion            = ""

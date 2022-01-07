@@ -13,6 +13,7 @@
 		6A4485042785B235008F602A /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4485032785B235008F602A /* TabsView.swift */; };
 		6A4485072785B256008F602A /* InstructionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4485062785B256008F602A /* InstructionsListView.swift */; };
 		6A4485092785B25F008F602A /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4485082785B25F008F602A /* InstructionsView.swift */; };
+		6A45A82A27887746001C95B3 /* UnitSets.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A45A82927887746001C95B3 /* UnitSets.json */; };
 		6A476C55277C96CB00391C3B /* RatingStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A476C54277C96CB00391C3B /* RatingStarsView.swift */; };
 		6A51914A2782F1CA00A7685F /* EditComponentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5191492782F1CA00A7685F /* EditComponentDataView.swift */; };
 		6A54BC132780905C0082820B /* NewEditRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A54BC122780905C0082820B /* NewEditRecipeView.swift */; };
@@ -76,6 +77,7 @@
 		6A4485032785B235008F602A /* TabsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		6A4485062785B256008F602A /* InstructionsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsListView.swift; sourceTree = "<group>"; };
 		6A4485082785B25F008F602A /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
+		6A45A82927887746001C95B3 /* UnitSets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = UnitSets.json; sourceTree = "<group>"; };
 		6A476C54277C96CB00391C3B /* RatingStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarsView.swift; sourceTree = "<group>"; };
 		6A5191492782F1CA00A7685F /* EditComponentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComponentDataView.swift; sourceTree = "<group>"; };
 		6A54BC122780905C0082820B /* NewEditRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEditRecipeView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				6AF825852758F4220025FB0B /* RecipeFB.swift */,
 				6AF825872758F4230025FB0B /* Recipes_empty.json */,
 				6AF825862758F4220025FB0B /* Recipes.json */,
+				6A45A82927887746001C95B3 /* UnitSets.json */,
 			);
 			path = DataFiles;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				6AF825902758F4230025FB0B /* Recipes_empty.json in Resources */,
 				6AF825362758F3490025FB0B /* Preview Assets.xcassets in Resources */,
 				6AF825332758F3490025FB0B /* Assets.xcassets in Resources */,
+				6A45A82A27887746001C95B3 /* UnitSets.json in Resources */,
 				6AF8258F2758F4230025FB0B /* Recipes.json in Resources */,
 				6AF825962758F61C0025FB0B /* GoogleService-Info.plist in Resources */,
 			);
