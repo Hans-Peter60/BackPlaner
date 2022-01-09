@@ -59,7 +59,7 @@ class DataService {
         return [RecipeFB]()
     }
     
-    static func getUnitSets() -> [UnitSets] {
+    static func getUnitSets() -> [UnitSet] {
         
         // Parse local json file
 
@@ -68,7 +68,7 @@ class DataService {
 
         // Check if pathString is not nil, otherwise...
         guard pathString != nil else {
-            return [UnitSets]()
+            return [UnitSet]()
         }
 
         // Create a url object
@@ -83,7 +83,7 @@ class DataService {
 
             do {
 
-                let unitSetsData = try decoder.decode([UnitSets].self, from: data)
+                let unitSetsData = try decoder.decode([UnitSet].self, from: data)
 
                 // Add the unique IDs
                 for unitSet in unitSetsData {
@@ -101,6 +101,6 @@ class DataService {
             // error with getting data
             print(error)
         }
-        return [UnitSets]()
+        return [UnitSet]()
     }
 }

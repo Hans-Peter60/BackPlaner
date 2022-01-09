@@ -16,7 +16,7 @@ struct EditComponentDataView: View {
     var recipeId: NSManagedObjectID
     
     var componentsRequest: FetchRequest<Component>
-    var components: FetchedResults<Component> { componentsRequest.wrappedValue }
+    var components:        FetchedResults<Component> { componentsRequest.wrappedValue }
     
     init(recipeId: NSManagedObjectID) {
         self.recipeId = recipeId

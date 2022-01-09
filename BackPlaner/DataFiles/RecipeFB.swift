@@ -8,13 +8,6 @@
 import Foundation
 import SwiftUI
 
-//class RecipesImage: Identifiable {
-//
-//    // The id property is for the Identifiable protocol which we need to display these instances in a SwiftUI List
-//    var id:String? = ""
-//    var imageBinary:UIImage = UIImage()
-//}
-
 class RecipeFB: Identifiable, Decodable {
     
     // The id property is for the Identifiable protocol which we need to display these instances in a SwiftUI List
@@ -57,9 +50,9 @@ class IngredientFB: Identifiable, Decodable {
 class InstructionFB: Identifiable, Decodable {
     
     var id:         String?
-    var step:       Double  = 0
-    var instruction:String  = ""
-    var duration:   Int     = 0
+    var step:       Double = 0
+    var instruction:String = ""
+    var duration:   Int    = 0
     var startTime:  Int?
     var date:       Date?
 }
@@ -69,9 +62,9 @@ class NextStepsFB: Identifiable, Decodable {
     var id:         String?
     var date:       Date?
     var recipeName: String?
-    var step:       Double  = 0
-    var instruction:String  = ""
-    var duration:   Int     = 0
+    var step:       Double = 0
+    var instruction:String = ""
+    var duration:   Int    = 0
     var startTime:  Int?
 }
 
@@ -83,7 +76,7 @@ class BakeHistoryFB: Identifiable, Decodable {
     var images:[String] = [String]()
 }
 
-class UnitSets: Identifiable, Decodable {
+class UnitSet: Identifiable, Decodable {
     var id:        String?
     var name:      String = ""
     var abkuerzung:String = ""

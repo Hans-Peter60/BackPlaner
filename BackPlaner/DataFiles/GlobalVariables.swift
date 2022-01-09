@@ -14,7 +14,6 @@ struct GlobalVariables {
     
     static var recipesImage = [String : UIImage]()
 
-//  static var featuredTab  = 0
     static var listTab      = 0
     static var featuredTab  = 1
     static var bakeListTab  = 2
@@ -35,7 +34,7 @@ struct GlobalVariables {
     static var month          = dateComponents.month
     static var day            = dateComponents.day
     
-    static var spezifischeGewichte = ["Wasser":1.0, "Öl":0.9, "Mehl":0.66, "Zucker":1.0, "Honig":1.25, "Puderzucker":0.66]
+    static var spezWeights    = ["mehl":0.66, "wasser":1.0, "öl":0.8, "oel":0.8, "honig":1.3, "kakao":0.6, "konfitüre":1.33, "konfituere":1.33, "stärke":0.6, "staerke":0.6, "zucker":1.0, "puderzucker":0.6, "nüsse":0.5, "nuesse":0.5, "mandeln":0.5, "saft":1.0, "milch":1.0, "butter":1.0, "griess":0.5 ]
 
     static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(100), alignment: .trailing), GridItem(.fixed(120), alignment: .trailing)]
 
@@ -43,8 +42,8 @@ struct GlobalVariables {
 
     static var gridItemLayoutIngredients = [GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80), alignment: .trailing),
                           GridItem(.fixed(80), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
-                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(10),              alignment: .trailing),
-                          GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80),              alignment: .trailing)]
+                          GridItem(.fixed(40),  alignment: .leading), GridItem(.fixed(10),              alignment: .trailing),
+                          GridItem(.fixed(40),  alignment: .leading), GridItem(.fixed(80),              alignment: .trailing)]
  
     static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()

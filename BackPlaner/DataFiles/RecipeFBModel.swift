@@ -11,22 +11,18 @@ import FirebaseStorage
 
 class RecipeFBModel: ObservableObject {
     
-    let db = Firestore.firestore()
+    let db      = Firestore.firestore()
     let storage = Storage.storage()
     
     @Published var recipesFB = [RecipeFB]()
+    @Published var unitSets  = [UnitSet]()
     @Published var storedID  = ""
-    @Published var unitSets  = [UnitSets]()
-    
+
     init() {
-        // Check if we have preloaded the data into core data
+        // Auslesen der Rezepte aus der Firestore Datenbank
         getRecipesFB()
         
         unitSets = DataService.getUnitSets()
-        
-        for unitSet in unitSets {
-            print(unitSet.name, " ", unitSet.abkuerzung)
-        }
     }
     
     func uploadRecipeToFirestore(r: RecipeFB, i: UIImage) {

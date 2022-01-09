@@ -216,7 +216,7 @@ struct InstructionsFBView: View {
                                 
                                 Group {
                                     Text(String(Int(recipeFB.instructions[recipeFB.instructions.count - 1].step + 1)))
-                                    Text("Fertig - Zubereitungszeit [Minuten] = " + String(recipeFB.prepTime))
+                                    Text("Fertig")
                                     Text("")
                                     if dateTimeStartSelection == 0 {
                                         let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime)!

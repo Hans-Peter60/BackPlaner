@@ -6,12 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Rational {
+class Rational {
     
-    static func calcWeight() {
-        
-    }
+    @EnvironmentObject var modelFB: RecipeFBModel
     
     static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
         

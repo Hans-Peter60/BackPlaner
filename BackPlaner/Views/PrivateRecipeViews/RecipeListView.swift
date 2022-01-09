@@ -60,7 +60,7 @@ struct RecipeListView: View {
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
-                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
+                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: true)
                     .padding([.trailing, .bottom])
 
                 ScrollView {

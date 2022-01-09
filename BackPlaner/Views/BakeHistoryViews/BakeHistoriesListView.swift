@@ -58,7 +58,7 @@ struct BakeHistoriesListView: View {
         Text("Backhistorie")
             .font(Font.custom("Avenir Heavy", size: 16))
         
-        SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
+        SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: true)
             .padding([.leading, .trailing, .bottom])
         
         LazyVGrid(columns: gridItemLayout, spacing: 6) {

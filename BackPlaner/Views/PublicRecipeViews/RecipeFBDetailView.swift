@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct RecipeFBDetailView: View {
-    
+
     var recipeFB:RecipeFB
+
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @EnvironmentObject var modelFB: RecipeFBModel
-    
-    @State private var instructions: [Int: String] = [:]
-    
+        
     @State var selectedServingSize = 2
 
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
@@ -88,6 +89,7 @@ struct RecipeFBDetailView: View {
                                     .font(Font.custom("Avenir Heavy", size: 14))
                                     .padding([.bottom, .top], 5)
                                 
+                                // MARK: Ingredients
                                 VStack(alignment: .leading) {
                                     ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
                                         
@@ -102,8 +104,7 @@ struct RecipeFBDetailView: View {
                 } header: {
                     Text("Komponenten:")
                 }
-                
-                // MARK: Divider
+
                 Divider()
                 
                 // MARK: Instructions
@@ -140,5 +141,31 @@ struct RecipeFBDetailView: View {
             .padding()
         }
         .navigationTitle(recipeFB.name)
+    }
+    
+    // MARK: CalcIngredientsWeight
+    static func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
+        
+        var calcWeight:Double
+        
+        if num != denom { calcWeight = Double(num / denom) } else { calcWeight = weight }
+
+        for i in modelFB.unitSets {
+
+            if unit.localizedLowercase.contains(i.name) || unit == i.abkuerzung  {
+
+                calcWeight = weight * i.factor
+
+                for (ingredient, factor) in GlobalVariables.spezWeights {
+
+                    if name.localizedLowercase.contains(ingredient) {
+                        calcWeight *= factor
+
+                        return calcWeight
+                    }
+                }
+            }
+        }
+        return calcWeight
     }
 }

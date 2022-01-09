@@ -12,6 +12,7 @@ struct SearchBarView: View {
     @Binding var filterBy:  String
     @Binding var nameOrTag: Int
     @Binding var rating:    Int
+    var          showRating:Bool
 
     var body: some View {
         
@@ -52,9 +53,10 @@ struct SearchBarView: View {
             }
             .frame(width: 264, height: 36)
             .foregroundColor(.gray)
-//            .padding(.bottom)
             
-            RatingStarsUpdateView(rating: $rating)
+            if showRating {
+                RatingStarsUpdateView(rating: $rating)
+            }
         }
     }
 }

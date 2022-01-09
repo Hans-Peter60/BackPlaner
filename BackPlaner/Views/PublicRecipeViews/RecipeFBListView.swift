@@ -16,7 +16,7 @@ struct RecipeFBListView: View {
 
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
-    @State private var rating    = 0
+    @State private var rating    = 0  // Ratingselektion NICHT anzeigen
 
     var recipeId: NSManagedObjectID?
     
@@ -56,7 +56,7 @@ struct RecipeFBListView: View {
                     .padding(.top, 40)
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
-                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating)
+                SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: false)
                     .padding([.trailing, .bottom])
                 
                 ScrollView {
