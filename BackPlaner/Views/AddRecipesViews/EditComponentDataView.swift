@@ -129,7 +129,7 @@ struct EditComponentView: View {
                         
                         Group {
                             Text("Nr.")
-                            Text("Gewicht")
+                            Text("Menge/Gewicht")
                             Text("Einheit")
                             Text("Zutat")
                             Text("Z")
@@ -184,8 +184,6 @@ struct EditComponentView: View {
                             i.unit        = unit
                             
                             componentCD.addToIngredients(i)
-                            
-                            componentName = ""
                         }
                         .buttonStyle(.bordered)
                     }

@@ -67,7 +67,12 @@ struct RecipeDetailView: View {
                     }
                     
                     Spacer()
-
+                    
+                    Text("Gewicht: " + String(Int(recipe.totalWeight * Double(selectedServingSize) / 2.0)) + "g")
+                            .font(Font.custom("Avenir", size: 15))
+                    
+                    Spacer()
+                    
                     // MARK: Recipe urlLink
                     Link("Link zum Rezept",
                          destination: URL(string: recipe.urlLink ?? "https://")!)

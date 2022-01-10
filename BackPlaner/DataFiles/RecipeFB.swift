@@ -20,6 +20,7 @@ class RecipeFB: Identifiable, Decodable {
     var summary:        String  = ""
     var urlLink:        String  = ""
     var prepTime:       Int     = 0
+    var totalWeight:    Double? = 0.0
     var tags:          [String] = [String]()
     var bakeHistoryFlag:Bool    = false
     var rating:         Int     = 0
@@ -38,13 +39,14 @@ class ComponentFB: Identifiable, Decodable {
 
 class IngredientFB: Identifiable, Decodable {
     
-    var id:    String?
-    var number:Int     = 0
-    var name:  String  = ""
-    var weight:Double  = 0.0
-    var unit:  String  = ""
-    var num:   Int     = 0
-    var denom: Int     = 0
+    var id:        String?
+    var number:    Int    = 0
+    var name:      String = ""
+    var weight:    Double = 0.0
+    var normWeight:Double = 0.0
+    var unit:      String = ""
+    var num:       Int    = 0
+    var denom:     Int    = 0
 }
 
 class InstructionFB: Identifiable, Decodable {

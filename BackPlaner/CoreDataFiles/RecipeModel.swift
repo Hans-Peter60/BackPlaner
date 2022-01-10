@@ -20,6 +20,8 @@ class RecipeModel: ObservableObject {
     @Published var recipesFB = [RecipeFB]()
     @Published var nextSteps = [NextSteps]()
     
+    var calcWeight:CalcIngredientWeight = CalcIngredientWeight()
+    
     init() {
         
         // Check if we have preloaded the data into core data
@@ -163,6 +165,7 @@ class RecipeModel: ObservableObject {
         r.summary         = recipeFB.summary
         r.urlLink         = recipeFB.urlLink
         r.rating          = recipeFB.rating
+        r.totalWeight     = 0                       // Berechnung erfolgt bei den Ingredients
         r.bakeHistoryFlag = recipeFB.bakeHistoryFlag
         r.tags            = recipeFB.tags
 
@@ -204,8 +207,17 @@ class RecipeModel: ObservableObject {
                 i.number      = iFB.number
                 i.unit        = iFB.unit
                 i.weight      = iFB.weight
+                i.normWeight  = iFB.normWeight
                 i.num         = iFB.num
                 i.denom       = iFB.denom
+                
+                if i.unit == "g" || i.unit == "Gramm" {
+                    i.normWeight = i.weight
+                }
+                else {
+                    i.normWeight = calcWeight.calcIngredientWeight(weight: i.weight, unit: i.unit ?? "", name: i.name, num: i.num, denom: i.denom)
+                }
+                r.totalWeight += i.normWeight
                 
                 c.addToIngredients(i)
             }

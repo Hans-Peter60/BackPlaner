@@ -60,6 +60,7 @@ struct NewEditRecipeView: View {
                     
                     Spacer()
                     
+                    //MARK: Public Rezept speichern
                     Button("Public Rezept speichern") {
                         
                         // Add the recipe to firestore or core data
@@ -72,6 +73,7 @@ struct NewEditRecipeView: View {
                     
                     Spacer()
                     
+                    //MARK: Privates Rezept speichern
                     Button("Privates Rezept speichern") {
                         
                         let r: Recipe
@@ -104,6 +106,13 @@ struct NewEditRecipeView: View {
                         r.rating  = rating
                         r.tags    = recipeFB.tags
                         
+                        r.totalWeight = 0
+                        for c in r.componentsArray {
+                            for i in c.ingredientsArray {
+                                r.totalWeight += i.normWeight
+                            }
+                        }
+                        
                         // Save to core data
                         do {
                             // Save the recipe to core data
@@ -123,11 +132,32 @@ struct NewEditRecipeView: View {
                     
                     Spacer()
                     
+                    //MARK: Rezept löschen
                     Button("Rezept löschen") {
                         
                         // Delete the recipe on core data
                         
-//                        deleteRecipe(fireStore: false)
+                        let r: Recipe
+                        if let objectId = recipeId,
+                           let fetchedRecipe = model.fetchRecipe(for: objectId, context: viewContext) {
+                            r = fetchedRecipe
+                        } else {
+                            r = Recipe(context: viewContext)
+                        }
+                        
+                        viewContext.delete(r)
+                        
+                        // Save to core data
+                        do {
+                            // Save the recipe to core data
+                            try viewContext.save()
+                            
+                            // Switch the view to list view
+                        }
+                        catch {
+                            // Couldn't save the recipe
+                            print("Couldn't save the recipe")
+                        }
                         
                         // Clear the form
                         clear()
@@ -343,7 +373,8 @@ struct NewEditRecipeView: View {
     func clear() {
         // Clear all the form fields
 
-        recipeFB = RecipeFB()
+        recipeFB    = RecipeFB()
+        recipeImage = UIImage()
 
         placeHolderImage = Image(GlobalVariables.noImage)
     }

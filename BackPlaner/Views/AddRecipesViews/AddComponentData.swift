@@ -47,6 +47,7 @@ struct AddComponentData: View {
                             let c      = ComponentFB()
                             c.id       = UUID().uuidString
                             c.name     = cleanedName
+                            c.number   = componentNumber
                             components.append(c)
                             
                             componentName   = ""

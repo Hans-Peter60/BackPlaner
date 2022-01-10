@@ -80,7 +80,12 @@ struct InstructionsFBView: View {
                             
                             Spacer()
                             
-                            // MARK: Url-Link
+                            Text("Gewicht: " + String(Int((recipeFB.totalWeight ?? 0) * Double(selectedServingSize) / 2.0)) + "g")
+                                    .font(Font.custom("Avenir", size: 15))
+                            
+                            Spacer()
+                            
+                           // MARK: Url-Link
                             Link("Link zum Rezept",
                                  destination: URL(string: recipeFB.urlLink)!)
                                 .padding(.top, 2)

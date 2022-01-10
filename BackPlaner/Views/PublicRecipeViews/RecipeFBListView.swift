@@ -16,7 +16,7 @@ struct RecipeFBListView: View {
 
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
-    @State private var rating    = 0  // Ratingselektion NICHT anzeigen
+    @State private var rating    = 0
 
     var recipeId: NSManagedObjectID?
     

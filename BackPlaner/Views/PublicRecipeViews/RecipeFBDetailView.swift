@@ -15,6 +15,7 @@ struct RecipeFBDetailView: View {
     
     @EnvironmentObject var modelFB: RecipeFBModel
         
+    @State private var totalWeight = 0.0
     @State var selectedServingSize = 2
 
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
@@ -64,6 +65,11 @@ struct RecipeFBDetailView: View {
                         .pickerStyle(SegmentedPickerStyle())
                         .frame(width:160)
                     }
+                    
+                    Spacer()
+                    
+                    Text("Gewicht: " + String(Int((recipeFB.totalWeight ?? 0) * Double(selectedServingSize) / 2.0)) + "g")
+                            .font(Font.custom("Avenir", size: 15))
                     
                     Spacer()
                     
@@ -141,31 +147,5 @@ struct RecipeFBDetailView: View {
             .padding()
         }
         .navigationTitle(recipeFB.name)
-    }
-    
-    // MARK: CalcIngredientsWeight
-    static func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
-        
-        var calcWeight:Double
-        
-        if num != denom { calcWeight = Double(num / denom) } else { calcWeight = weight }
-
-        for i in modelFB.unitSets {
-
-            if unit.localizedLowercase.contains(i.name) || unit == i.abkuerzung  {
-
-                calcWeight = weight * i.factor
-
-                for (ingredient, factor) in GlobalVariables.spezWeights {
-
-                    if name.localizedLowercase.contains(ingredient) {
-                        calcWeight *= factor
-
-                        return calcWeight
-                    }
-                }
-            }
-        }
-        return calcWeight
     }
 }

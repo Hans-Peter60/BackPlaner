@@ -12,12 +12,16 @@ struct AddIngredientData: View {
     
     @Binding var ingredients: [IngredientFB]
     
-    @State private var name      = ""
-    @State private var number    = 1
-    @State private var unit      = ""
-    @State private var num       = 0
-    @State private var denom     = 0
-    @State private var weight    = 0.0
+    @State private var name       = ""
+    @State private var number     = 1
+    @State private var unit       = ""
+    @State private var num        = 0
+    @State private var denom      = 0
+    @State private var weight     = 0.0
+    @State private var normWeight = 0.0
+
+    var calcWeight:CalcIngredientWeight = CalcIngredientWeight()
+
     
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading),  GridItem(.fixed(120), alignment: .trailing),
                           GridItem(.fixed(120), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading),
@@ -31,8 +35,8 @@ struct AddIngredientData: View {
             VStack (alignment: .leading) {
             
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                    Text("")
-                    Text("Gewicht")
+                    Text("Nr.")
+                    Text("Menge/Gewicht")
                     Text("Einheit")
                     Text("Zutat")
                     Text("Z")
@@ -76,25 +80,27 @@ struct AddIngredientData: View {
                             }
                             
                             // Set the IngredientFB instance properties
-                            let i         = IngredientFB()
-                            i.id          = UUID().uuidString
-                            i.name        = cleanedName
-                            i.number      = ingredients.count
-                            i.num         = num
-                            i.denom       = denom
-                            i.weight      = weight
-                            i.unit        = cleanedUnit
-                            
+                            let i        = IngredientFB()
+                            i.id         = UUID().uuidString
+                            i.name       = cleanedName
+                            i.number     = number
+                            i.num        = num
+                            i.denom      = denom
+                            i.weight     = weight
+                            i.unit       = cleanedUnit
+                            i.normWeight = calcWeight.calcIngredientWeight(weight: i.weight, unit: i.unit, name: i.name, num: i.num, denom: i.denom)
+
                             // Add this ingredient to the list
                             ingredients.append(i)
                             
                             // Clear text fields
-                            number    = ingredients.count + 1
-                            name      = ""
-                            num       = 0
-                            denom     = 0
-                            unit      = ""
-                            weight    = 0
+                            number     = ingredients.count + 1
+                            name       = ""
+                            num        = 0
+                            denom      = 0
+                            unit       = ""
+                            weight     = 0
+                            normWeight = 0
                         }
                         .buttonStyle(.bordered)
                     }

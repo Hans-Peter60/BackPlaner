@@ -16,10 +16,10 @@ extension Component {
         return NSFetchRequest<Component>(entityName: "Component")
     }
 
-    @NSManaged public var name: String
-    @NSManaged public var number: Int
-    @NSManaged public var id: UUID?
-    @NSManaged public var recipe: Recipe?
+    @NSManaged public var id:          UUID?
+    @NSManaged public var name:        String
+    @NSManaged public var number:      Int
+    @NSManaged public var recipe:      Recipe?
     @NSManaged public var ingredients: NSSet?
 
     public var ingredientsArray: [Ingredient] {

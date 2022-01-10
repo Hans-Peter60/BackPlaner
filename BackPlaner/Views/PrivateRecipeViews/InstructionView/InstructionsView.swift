@@ -79,7 +79,12 @@ struct InstructionsView: View {
                         .padding()
 
                         Spacer()
-
+                        
+                        Text("Gewicht: " + String(Int(recipe.totalWeight * Double(selectedServingSize) / 2.0)) + "g")
+                                .font(Font.custom("Avenir", size: 15))
+                        
+                        Spacer()
+                        
                         // MARK: Url-Link
                         Link("Link zum Rezept",
                              destination: URL(string: (recipe.urlLink ?? "")) ?? URL(string: "https://")!)

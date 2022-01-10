@@ -15,14 +15,17 @@ class RecipeFBModel: ObservableObject {
     let storage = Storage.storage()
     
     @Published var recipesFB = [RecipeFB]()
-    @Published var unitSets  = [UnitSet]()
     @Published var storedID  = ""
 
     init() {
         // Auslesen der Rezepte aus der Firestore Datenbank
         getRecipesFB()
         
-        unitSets = DataService.getUnitSets()
+//        GlobalVariables.unitSets = DataService.getUnitSets()
+//
+//        for unitSet in GlobalVariables.unitSets {
+//            print(unitSet.name, unitSet.factor)
+//        }
     }
     
     func uploadRecipeToFirestore(r: RecipeFB, i: UIImage) {
@@ -55,12 +58,13 @@ class RecipeFBModel: ObservableObject {
 
         // Create a Firebase document
         let cloudRecipe = cloudRecipes.addDocument(data: [
-            "name":     r.name,
-            "prepTime": GlobalVariables.totalDuration,
-            "summary":  r.summary,
-            "urlLink":  r.urlLink,
-            "image":    r.image,
-            "tags":     r.tags
+            "name":       r.name,
+            "prepTime":   GlobalVariables.totalDuration,
+            "totalWeight":r.totalWeight,
+            "summary":    r.summary,
+            "urlLink":    r.urlLink,
+            "image":      r.image,
+            "tags":       r.tags
         ])
         
         
@@ -90,6 +94,7 @@ class RecipeFBModel: ObservableObject {
                 cloudIngredient.updateData([
                     "unit":      i.unit ?? "",
                     "weight":    i.weight,
+                    "normWeight":i.normWeight,
                     "num":       i.num ?? 1,
                     "denom":     i.denom ?? 1,
                     "number":    i.number
@@ -112,13 +117,14 @@ class RecipeFBModel: ObservableObject {
                     
                     let r      = RecipeFB()
                     
-                    r.id       = doc.documentID
-                    r.name     = doc["name"]     as? String ?? ""
-                    r.image    = doc["image"]    as? String ?? ""
-                    r.summary  = doc["summary"]  as? String ?? ""
-                    r.urlLink  = doc["urlLink"]  as? String ?? ""
-                    r.prepTime = doc["prepTime"] as? Int    ?? 0
-                    r.tags     = doc["tags"]     as? [String] ?? [String]()
+                    r.id          = doc.documentID
+                    r.name        = doc["name"]        as? String ?? ""
+                    r.image       = doc["image"]       as? String ?? ""
+                    r.summary     = doc["summary"]     as? String ?? ""
+                    r.urlLink     = doc["urlLink"]     as? String ?? ""
+                    r.prepTime    = doc["prepTime"]    as? Int    ?? 0
+                    r.totalWeight = doc["totalWeight"] as? Double ?? 0
+                    r.tags        = doc["tags"]        as? [String] ?? [String]()
                     
                     if GlobalVariables.detailView {
                         self.getInstructionsFB(r, r.id!)
@@ -206,13 +212,14 @@ class RecipeFBModel: ObservableObject {
                     
                     let i = IngredientFB()
                     
-                    i.id     = doc.documentID
-                    i.name   = doc["name"]   as? String ?? ""
-                    i.number = doc["number"] as? Int ?? 0
-                    i.unit   = doc["unit"]   as? String ?? ""
-                    i.weight = doc["weight"] as? Double ?? 0
-                    i.num    = doc["num"]    as? Int ?? 0
-                    i.denom  = doc["denom"]  as? Int ?? 0
+                    i.id         = doc.documentID
+                    i.name       = doc["name"]       as? String ?? ""
+                    i.number     = doc["number"]     as? Int ?? 0
+                    i.unit       = doc["unit"]       as? String ?? ""
+                    i.weight     = doc["weight"]     as? Double ?? 0
+                    i.normWeight = doc["normWeight"] as? Double ?? i.weight
+                    i.num        = doc["num"]        as? Int ?? 0
+                    i.denom      = doc["denom"]      as? Int ?? 0
                     
                     c.ingredients.append(i)
                 }

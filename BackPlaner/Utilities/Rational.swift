@@ -8,10 +8,39 @@
 import Foundation
 import SwiftUI
 
+
+struct CalcIngredientWeight {
+    
+    // MARK: CalcIngredientsWeight
+    func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
+        
+        var calcWeight:Double
+        
+        if num != denom { calcWeight = Double(num / denom) } else { calcWeight = weight }
+
+        for i in GlobalVariables.unitSets {
+
+            if unit.localizedLowercase.contains(i.name) || unit == i.abkuerzung  {
+
+                calcWeight = weight * i.factor
+
+                for (ingredient, factor) in GlobalVariables.spezWeights {
+
+                    if name.localizedLowercase.contains(ingredient) {
+                        calcWeight *= factor
+
+                        return calcWeight
+                    }
+                }
+            }
+        }
+        return calcWeight
+    }
+}
+
 class Rational {
-    
-    @EnvironmentObject var modelFB: RecipeFBModel
-    
+
+    // MARK: GetPortion
     static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
         
         var portion            = ""
@@ -63,14 +92,12 @@ class Rational {
             if unit > "" {
                 
                 var u = unit
+                
                 // If we need to pluralize
                 if wholePortions > 1 {
                     
                     // Calculate appropriate suffix
-                    if u == "Tasse" || u == "Messerspitze" || u == "Prise" || u == "Scheibe" {
-                        
-                        u += "n"
-                    }
+                    if u == "Tasse" || u == "Messerspitze" || u == "Prise" || u == "Scheibe" { u += "n" }
                 }
                 return portion + " " + u + " "
             }
@@ -78,6 +105,7 @@ class Rational {
         }
     }
 
+    // MARK: DecimalPlace
     static func decimalPlace(_ nDouble:Double, _ decimalPlace:Int) -> String {
         
         var numberString = ""
@@ -103,6 +131,7 @@ class Rational {
         return numberString
     }
     
+    // MARK: GreatestCommonDivisor
     static func greatestCommonDivisor(_ a: Int, _ b: Int) -> Int {
         
         // GCD(0, b) = b
@@ -115,6 +144,7 @@ class Rational {
         return greatestCommonDivisor(b, a % b)
     }
     
+    // MARK: DisplayHoursMinutes
     static func displayHoursMinutes(_ d:Int) -> String {
         var m = d
         if m == 0 {
@@ -134,6 +164,7 @@ class Rational {
         }
     }
     
+    // MARK: CalculateStartTimes
     static func calculateStartTimes(_ instructions: [InstructionFB], _ startDate: Date) -> [InstructionFB] {
         
         var times: [Int: Int] = [0:0]
@@ -169,6 +200,7 @@ class Rational {
     }
 }
 
+// MARK: DateFormat
 struct DateFormat {
     
     let formatter = DateFormatter()

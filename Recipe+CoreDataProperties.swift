@@ -16,19 +16,20 @@ extension Recipe {
         return NSFetchRequest<Recipe>(entityName: "Recipe")
     }
 
-    @NSManaged public var urlLink: String?
-    @NSManaged public var tags: [String]
-    @NSManaged public var summary: String
-    @NSManaged public var prepTime: Int
-    @NSManaged public var name: String
-    @NSManaged public var image: Data
-    @NSManaged public var id: UUID?
-    @NSManaged public var firestoreId: String?
-    @NSManaged public var bakeHistoryFlag: Bool
-    @NSManaged public var rating: Int
-    @NSManaged public var components: NSSet
-    @NSManaged public var bakeHistories: NSSet
-    @NSManaged public var instructions: NSSet
+    @NSManaged public var id:             UUID?
+    @NSManaged public var urlLink:        String?
+    @NSManaged public var tags:           [String]
+    @NSManaged public var summary:        String
+    @NSManaged public var prepTime:       Int
+    @NSManaged public var totalWeight:    Double
+    @NSManaged public var name:           String
+    @NSManaged public var image:          Data
+    @NSManaged public var firestoreId:    String?
+    @NSManaged public var bakeHistoryFlag:Bool
+    @NSManaged public var rating:         Int
+    @NSManaged public var components:     NSSet
+    @NSManaged public var bakeHistories:  NSSet
+    @NSManaged public var instructions:   NSSet
 
     public var componentsArray: [Component] {
         let set = components as? Set<Component> ?? []

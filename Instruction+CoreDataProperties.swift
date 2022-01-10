@@ -16,13 +16,13 @@ extension Instruction {
         return NSFetchRequest<Instruction>(entityName: "Instruction")
     }
 
-    @NSManaged public var step: Double
-    @NSManaged public var startTime: Int
-    @NSManaged public var instruction: String
-    @NSManaged public var id: UUID?
-    @NSManaged public var duration: Int
-    @NSManaged public var date: Date?
-    @NSManaged public var recipe: Recipe?
+    @NSManaged public var id:         UUID?
+    @NSManaged public var step:       Double
+    @NSManaged public var startTime:  Int
+    @NSManaged public var instruction:String
+    @NSManaged public var duration:   Int
+    @NSManaged public var date:       Date?
+    @NSManaged public var recipe:     Recipe?
 
 }
 

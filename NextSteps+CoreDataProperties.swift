@@ -16,13 +16,13 @@ extension NextSteps {
         return NSFetchRequest<NextSteps>(entityName: "NextSteps")
     }
 
-    @NSManaged public var step: Double
-    @NSManaged public var startTime: Int
+    @NSManaged public var id:         UUID?
+    @NSManaged public var step:       Double
+    @NSManaged public var startTime:  Int
     @NSManaged public var recipeName: String
-    @NSManaged public var instruction: String
-    @NSManaged public var id: UUID?
-    @NSManaged public var duration: Int
-    @NSManaged public var date: Date
+    @NSManaged public var instruction:String
+    @NSManaged public var duration:   Int
+    @NSManaged public var date:       Date
 
 }
 

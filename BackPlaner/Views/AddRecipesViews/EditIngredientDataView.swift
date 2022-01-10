@@ -89,6 +89,8 @@ struct EditIngredientView: View {
     @State private var denom  = 0
     @State private var weight = 0.0
     
+    var calcWeight:CalcIngredientWeight = CalcIngredientWeight()
+    
     var ingredient: Ingredient {
         viewContext.object(with: ingredientId) as! Ingredient
     }
@@ -127,13 +129,14 @@ struct EditIngredientView: View {
             }, trailing: Button("Done") {
                 self.presentationMode.wrappedValue.dismiss()
                 
-                self.ingredient.name   = self.name
-                self.ingredient.weight = self.weight
-                self.ingredient.unit   = self.unit
-                self.ingredient.number = self.number
-                self.ingredient.num    = self.num
-                self.ingredient.denom  = self.denom
-                
+                self.ingredient.name       = self.name
+                self.ingredient.weight     = self.weight
+                self.ingredient.unit       = self.unit
+                self.ingredient.number     = self.number
+                self.ingredient.num        = self.num
+                self.ingredient.denom      = self.denom
+                self.ingredient.normWeight = calcWeight.calcIngredientWeight(weight: self.weight, unit: self.unit, name: self.name, num: self.num, denom: self.denom)
+
                 try? self.viewContext.save()
             }
             )
