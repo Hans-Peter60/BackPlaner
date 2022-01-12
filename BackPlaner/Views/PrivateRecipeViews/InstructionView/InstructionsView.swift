@@ -151,6 +151,7 @@ struct InstructionsView: View {
                                 in: dateRange,
                                 displayedComponents: [.date, .hourAndMinute]
                             )
+                                .onTapGesture { setShowingNotificationMessage() }
                                 .padding()
                                 .environment(\.locale, Locale.init(identifier: "de"))
                                 .font(Font.custom("Avenir", size: 16))
@@ -273,100 +274,104 @@ struct InstructionsView: View {
                     HStack {
                         Button(" Reminder setzen ") {
 
-                            var bakeStartTime = 0
+                            if showingNotificationMessage {
+                                var bakeStartTime = 0
 
-                            // MARK: Notifications einsetzen
-                            for i in 0..<recipe.instructionsArray.count {
+                                // MARK: Notifications einsetzen
+                                for i in 0..<recipe.instructionsArray.count {
+                                    
+                                    if dateTimeStartSelection == 0 {
+                                        // Start
+                                        let _ = manager.setNotification(recipe.firestoreId ?? "",
+                                                                        recipe.instructionsArray[i].instruction,
+                                                                        Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                                        recipe.instructionsArray[i].startTime, dateTime, true)
+                                    }
+                                    else {
+                                        // Ende
+                                        let _ = manager.setNotification(recipe.firestoreId ?? "",
+                                                                        recipe.instructionsArray[i].instruction,
+                                                                        Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                                        recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true)
+                                    }
+
+                                    // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
+                                    if i == recipe.instructions.count - 1 {
+
+                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - GlobalVariables.vorheizZeit
+                                    }
+                                }
+                                showingNotificationMessage = true
+
+                                // MARK: Step und Notification für das Einschalten des Backofens einstellen
+                                let i         = Instruction(context: viewContext)
+                                i.id          = UUID()
+                                i.instruction = GlobalVariables.startHeating
+                                // Berechnung der Step-Nummer
+                                for index in 0..<recipe.instructionsArray.count {
+                                    if bakeStartTime < recipe.instructionsArray[index].startTime {
+
+                                        i.step = recipe.instructionsArray[index].step - 1.1
+                                    }
+                                }
+                                // Notification einstellen
+                                let _          = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
+                                i.startTime    = bakeStartTime
+                                i.duration     = GlobalVariables.vorheizZeit
+
+                                // MARK: Step und Notification für das Ende des Backens einstellen
+                                let i2         = Instruction(context: viewContext)
+                                let endDate    = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
+                                i2.id          = UUID()
+                                i2.instruction = GlobalVariables.bakeEnd
+                                i2.step        = 99
+                                i2.startTime   = recipe.prepTime
+                                i2.duration    = 0
                                 
+                                // Save to core data
+                                do {
+                                    // Save the recipe to core data
+                                    try viewContext.save()
+
+                                    // Switch the view to list view
+                                }
+                                catch {
+                                    // Couldn't save the recipe
+                                    print("Couldn't save the recipe")
+                                }
+
+                                // MARK: NextSteps sichern
                                 if dateTimeStartSelection == 0 {
-                                    // Start
-                                    let _ = manager.setNotification(recipe.firestoreId ?? "",
-                                                                    recipe.instructionsArray[i].instruction,
-                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime, dateTime, true)
+                                    uploadNextSteps(recipe: recipe, date: dateTime)
                                 }
                                 else {
-                                    // Ende
-                                    let _ = manager.setNotification(recipe.firestoreId ?? "",
-                                                                    recipe.instructionsArray[i].instruction,
-                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true)
+                                    dateTime = Calendar.current.date(byAdding: .minute, value: -recipe.prepTime, to: dateTime)!
+                                    uploadNextSteps(recipe: recipe, date: dateTime)
                                 }
 
-                                // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
-                                if i == recipe.instructions.count - 1 {
+                                // MARK: BakeHistory sichern
+                                let bakeHistory     = BakeHistory(context: viewContext)
+                                bakeHistory.date    = endDate
+                                bakeHistory.comment = "kein Kommentar erfasst"
+                                
+                                recipe.addToBakeHistories(bakeHistory)
 
-                                    bakeStartTime = (recipe.instructionsArray[i].startTime) - GlobalVariables.vorheizZeit
+                                // Save to core data
+                                do {
+                                    try viewContext.save()
                                 }
-                            }
-                            showingNotificationMessage = true
-
-                            // MARK: Step und Notification für das Einschalten des Backofens einstellen
-                            let i         = Instruction(context: viewContext)
-                            i.id          = UUID()
-                            i.instruction = GlobalVariables.startHeating
-                            // Berechnung der Step-Nummer
-                            for index in 0..<recipe.instructionsArray.count {
-                                if bakeStartTime < recipe.instructionsArray[index].startTime {
-
-                                    i.step = recipe.instructionsArray[index].step - 1.1
+                                catch {
+                                    print("Couldn't save the recipe")
                                 }
-                            }
-                            // Notification einstellen
-                            let _          = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.startHeating, String(i.step), bakeStartTime, dateTime, true)
-                            i.startTime    = bakeStartTime
-                            i.duration     = GlobalVariables.vorheizZeit
 
-                            // MARK: Step und Notification für das Ende des Backens einstellen
-                            let i2         = Instruction(context: viewContext)
-                            let endDate    = manager.setNotification(recipe.firestoreId ?? "", GlobalVariables.bakeEnd, "99", recipe.prepTime, dateTime, true)
-                            i2.id          = UUID()
-                            i2.instruction = GlobalVariables.bakeEnd
-                            i2.step        = 99
-                            i2.startTime   = recipe.prepTime
-                            i2.duration    = 0
-                            
-                            // Save to core data
-                            do {
-                                // Save the recipe to core data
-                                try viewContext.save()
-
-                                // Switch the view to list view
+                                viewContext.delete(i)
+                                viewContext.delete(i2)
+                                
+                                showingNotificationMessage = false
                             }
-                            catch {
-                                // Couldn't save the recipe
-                                print("Couldn't save the recipe")
-                            }
-
-                            // MARK: NextSteps sichern
-                            if dateTimeStartSelection == 0 {
-                                uploadNextSteps(recipe: recipe, date: dateTime)
-                            }
-                            else {
-                                dateTime = Calendar.current.date(byAdding: .minute, value: -recipe.prepTime, to: dateTime)!
-                                uploadNextSteps(recipe: recipe, date: dateTime)
-                            }
-
-                            // MARK: BakeHistory sichern
-                            let bakeHistory     = BakeHistory(context: viewContext)
-                            bakeHistory.date    = endDate
-                            bakeHistory.comment = "kein Kommentar erfasst"
-                            
-                            recipe.addToBakeHistories(bakeHistory)
-
-                            // Save to core data
-                            do {
-                                try viewContext.save()
-                            }
-                            catch {
-                                print("Couldn't save the recipe")
-                            }
-
-                            viewContext.delete(i)
-                            viewContext.delete(i2)
-                       }
+                        }
                         .padding()
-                        .foregroundColor(.gray)
+                        .foregroundColor(showingNotificationMessage ? Color.blue : Color.gray)
                         .buttonStyle(.bordered)
 
                         // MARK: Change Duration Flag bearbeiten
@@ -402,7 +407,7 @@ struct InstructionsView: View {
                                 changeDurationsFlag = false
                             }
                             .padding()
-                            .foregroundColor(.gray)
+                            .foregroundColor(.blue)
                             .buttonStyle(.bordered)
                         }
                     }
@@ -443,28 +448,33 @@ struct InstructionsView: View {
         GlobalVariables.dateTimePicker = date
     }
 
-    // MARK: CheckBoxStyle
-    struct CheckboxStyle: ToggleStyle {
+    func setShowingNotificationMessage() {
+        showingNotificationMessage = true
+    }
+}
 
-        func makeBody(configuration: Self.Configuration) -> some View {
+// MARK: CheckBoxStyle
+struct CheckboxStyle: ToggleStyle {
 
-            return HStack {
+    func makeBody(configuration: Self.Configuration) -> some View {
 
-                configuration.label
+        return HStack {
 
-                Spacer()
+            configuration.label
 
-                Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(configuration.isOn ? .purple : .gray)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                    .onTapGesture {
-                        configuration.isOn.toggle()
-                    }
-            }
+            Spacer()
+
+            Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundColor(configuration.isOn ? .purple : .gray)
+                .font(.system(size: 20, weight: .bold, design: .default))
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
         }
     }
 }
+
 
 

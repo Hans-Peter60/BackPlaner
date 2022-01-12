@@ -311,12 +311,13 @@ struct InstructionsFBView: View {
                                 let i2x = recipeFB.instructions.firstIndex(where: { $0.instruction == GlobalVariables.bakeEnd } )
                                 recipeFB.instructions.remove(at: i2x!)
                                 
-                                let bakeHistoryFB        = BakeHistoryFB()
-                                bakeHistoryFB.date       = dateTime
-                                bakeHistoryFB.comment    = "<kein Kommentar erfasst>"
-                                bakeHistoryFB.images     = [GlobalVariables.noImage]
+                                let bakeHistoryFB     = BakeHistoryFB()
+                                bakeHistoryFB.date    = dateTime
+                                bakeHistoryFB.comment = "<kein Kommentar erfasst>"
+                                bakeHistoryFB.images  = [GlobalVariables.noImage]
                                 recipeFB.bakeHistories.append(bakeHistoryFB)
-                                recipeFB.bakeHistoryFlag = true
+                                
+                                recipeFB.bakeHistoryFlag   = true
                                 
                                 model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: UIImage())
                                 
@@ -386,26 +387,3 @@ struct InstructionsFBView: View {
         GlobalVariables.dateTimePicker = date
     }
 }
-
-struct CheckboxStyle: ToggleStyle {
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        
-        return HStack {
-            
-            configuration.label
-            
-            Spacer()
-            
-            Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .foregroundColor(configuration.isOn ? .purple : .gray)
-                .font(.system(size: 20, weight: .bold, design: .default))
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
-        }
-    }
-}
-
