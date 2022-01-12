@@ -80,7 +80,7 @@ struct AddRecipeView: View {
                                         
                                         HStack {
                                             Button("Photo Library") {
-                                                selectedImageSource = .photoLibrary
+                                                selectedImageSource  = .photoLibrary
                                                 isShowingImagePicker = true
                                             }
                                             

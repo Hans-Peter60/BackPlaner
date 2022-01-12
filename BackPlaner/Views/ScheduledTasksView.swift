@@ -45,7 +45,7 @@ struct ScheduledTasksView: View {
                         Text("")
                         Text("")
                         Text(nextSteps[0].recipeName)
-                            .font(Font.custom("Avenir Heavy", size: 14))
+                            .font(Font.custom("Avenir Heavy", size: 16))
                         Text("")
                         Text("")
                     }

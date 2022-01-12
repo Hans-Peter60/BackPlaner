@@ -190,19 +190,17 @@ struct EditBakeHistoryView: View {
             .navigationBarItems(leading: Button("Cancel") {
                 self.presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Speichern") {
-                self.bakeHistory.objectWillChange.send()             // << here !!
+                self.bakeHistory.objectWillChange.send()
                 self.bakeHistory.comment = self.comment
-                //    self.asset.assetDescription = self.description
+
                 try? self.moc.save()
                 
-                // better do this at the end of activity
                 self.presentationMode.wrappedValue.dismiss()
             }
             )
         }
         .onAppear {
             self.comment = self.bakeHistory.comment
-            //            self.description = self.asset.assetDescription
         }
     }
 }
