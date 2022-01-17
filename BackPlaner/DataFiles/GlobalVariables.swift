@@ -14,9 +14,9 @@ struct GlobalVariables {
     
     static var recipesImage = [String : UIImage]()
 
-    static var listTab      = 0
+    static var listTab      = 2
     static var featuredTab  = 1
-    static var bakeListTab  = 2
+    static var bakeListTab  = 0
     static var addRecipeTab = 3
 
     static var unitSets     = DataService.getUnitSets()

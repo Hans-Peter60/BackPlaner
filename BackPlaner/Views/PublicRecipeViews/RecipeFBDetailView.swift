@@ -68,7 +68,7 @@ struct RecipeFBDetailView: View {
                     
                     Spacer()
                     
-                    Text("Gewicht: " + String(Int((recipeFB.totalWeight ?? 0) * Double(selectedServingSize) / 2.0)) + "g")
+                    Text("Gewicht: " + String(Int((recipeFB.totalWeight) * Double(selectedServingSize) / 2.0)) + "g")
                             .font(Font.custom("Avenir", size: 15))
                     
                     Spacer()

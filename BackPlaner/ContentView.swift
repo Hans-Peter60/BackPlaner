@@ -112,6 +112,23 @@ struct ContentView: View {
                 }
                 .padding()
 
+                NavigationLink(
+                    destination: ShoppingCartsView()
+                ) {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .aspectRatio(CGSize(width: 335, height: 50), contentMode: .fit)
+
+                        Text("Einkaufsliste")
+                            .bold()
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
+
           }.navigationTitle("Back Planer")
                 .navigationBarTitleDisplayMode(.large)
         }

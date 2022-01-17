@@ -20,7 +20,7 @@ class RecipeFB: Identifiable, Decodable {
     var summary:        String  = ""
     var urlLink:        String  = ""
     var prepTime:       Int     = 0
-    var totalWeight:    Double? = 0.0
+    var totalWeight:    Double = 0.0
     var tags:          [String] = [String]()
     var bakeHistoryFlag:Bool    = false
     var rating:         Int     = 0

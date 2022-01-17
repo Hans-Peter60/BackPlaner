@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct InstructionsFBListView: View {
     
     @EnvironmentObject var modelFB:RecipeFBModel
+    @EnvironmentObject var model:RecipeModel
     
+    @Environment(\.managedObjectContext) private var viewContext
+
+    var recipeId: NSManagedObjectID?
+
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
     @State private var rating    = 0
@@ -84,6 +90,19 @@ struct InstructionsFBListView: View {
                                                 .font(Font.custom("Avenir", size: 12))
                                                 .multilineTextAlignment(.leading)
                                         }
+                                        .frame(width: 190, alignment: .leading)
+                                        
+                                        NavigationLink(
+                                            destination: ShoppingCartSelectFormView(recipe: model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: r, context: viewContext, recipeImage: GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage()))
+                                        )
+                                        {
+                                            Image(systemName: "list.bullet.rectangle")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 35, height: 25, alignment: .trailing)
+                                                .clipped()
+                                        }
+                                        .padding(.top)
                                     }
                                 }
                             )

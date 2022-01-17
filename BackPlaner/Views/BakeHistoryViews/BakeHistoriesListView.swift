@@ -55,8 +55,8 @@ struct BakeHistoriesListView: View {
     
     var body: some View {
         
-        Text("Backhistorie")
-            .font(Font.custom("Avenir Heavy", size: 16))
+//        Text("Backhistorie")
+//            .font(Font.custom("Avenir Heavy", size: 16))
         
         SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: true)
             .padding([.leading, .trailing, .bottom])
@@ -148,6 +148,7 @@ struct BakeHistoriesListView: View {
             }
         }
         .padding()
+        .navigationTitle("Backhistorie")
     }
 }
 

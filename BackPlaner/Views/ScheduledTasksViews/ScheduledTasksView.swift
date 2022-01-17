@@ -18,7 +18,7 @@ struct ScheduledTasksView: View {
     @State private var name = ""
     
     init() {
-        self.nextStepsRequest = FetchRequest(entity: NextSteps.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)]) //, predicate: NSPredicate(format: "date >= %@", date))
+        self.nextStepsRequest = FetchRequest(entity: NextSteps.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     }
     
     var gridItemLayout = [GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(90), alignment: .center), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(80), alignment: .trailing), GridItem(.fixed(120), alignment: .trailing)]
@@ -26,9 +26,6 @@ struct ScheduledTasksView: View {
     var dateCalculation:DateCalculation = DateCalculation()
         
     var body: some View {
-        
-        Text("Liste der nächsten Schritte")
-            .bold()
         
         ScrollView {
             
@@ -100,6 +97,7 @@ struct ScheduledTasksView: View {
                 }
             }
             .padding()
+            .navigationTitle("Liste der nächsten Schritte")
         }
         .onAppear(perform: { self.name = "" } )
     }

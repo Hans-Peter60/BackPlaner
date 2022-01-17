@@ -13,7 +13,6 @@ struct NewEditRecipeView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     var recipeId: NSManagedObjectID?
-//    var recipe:   Recipe
     
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel

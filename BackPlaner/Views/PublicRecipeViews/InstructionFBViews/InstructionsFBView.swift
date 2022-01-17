@@ -11,8 +11,8 @@ import CoreData
 struct InstructionsFBView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var modelFB: RecipeFBModel
-    @EnvironmentObject var model:   RecipeModel
+    @EnvironmentObject var modelFB:      RecipeFBModel
+    @EnvironmentObject var model:        RecipeModel
     
     var recipeFB: RecipeFB
     var recipeId: NSManagedObjectID?
@@ -24,7 +24,14 @@ struct InstructionsFBView: View {
     @State private var changeDurationsFlag        = false
     
     var startDates = [Double:Date]()
+
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
+    private var shoppingCarts: FetchedResults<ShoppingCart>
     
+    @State private var oldName       = ""
+    @State private var ingredientsFB = [IngredientFB]()
+    @State private var index         = -1
+
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     
     var gridItemLayoutSelection = [GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .center), GridItem(.fixed(180), alignment: .trailing)]
@@ -80,7 +87,7 @@ struct InstructionsFBView: View {
                             
                             Spacer()
                             
-                            Text("Gewicht: " + String(Int((recipeFB.totalWeight ?? 0) * Double(selectedServingSize) / 2.0)) + "g")
+                            Text("Gewicht: " + String(Int((recipeFB.totalWeight) * Double(selectedServingSize) / 2.0)) + "g")
                                 .font(Font.custom("Avenir", size: 15))
                             
                             Spacer()

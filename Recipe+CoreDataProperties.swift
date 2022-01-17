@@ -2,7 +2,7 @@
 //  Recipe+CoreDataProperties.swift
 //  BackPlaner
 //
-//  Created by Hans-Peter Müller on 12.12.21.
+//  Created by Hans-Peter Müller on 12.01.22.
 //
 //
 
@@ -30,6 +30,7 @@ extension Recipe {
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet
+    @NSManaged public var shoppingCarts:   NSSet?
 
     public var componentsArray: [Component] {
         let set = components as? Set<Component> ?? []
@@ -101,6 +102,23 @@ extension Recipe {
 
     @objc(removeInstructions:)
     @NSManaged public func removeFromInstructions(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for shoppingCart
+extension Recipe {
+
+    @objc(addShoppingCartsObject:)
+    @NSManaged public func addToShoppingCarts(_ value: ShoppingCart)
+
+    @objc(removeShoppingCartsObject:)
+    @NSManaged public func removeFromShoppingCarts(_ value: ShoppingCart)
+
+    @objc(addShoppingCarts:)
+    @NSManaged public func addToShoppingCarts(_ values: NSSet)
+
+    @objc(removeShoppingCarts:)
+    @NSManaged public func removeFromShoppingCarts(_ values: NSSet)
 
 }
 

@@ -41,7 +41,44 @@ class RecipeModel: ObservableObject {
       }
       return component
     }
+    
+    func fetchIngredient(for objectId: NSManagedObjectID, context: NSManagedObjectContext) -> Ingredient? {
+      guard let ingredient = context.object(with: objectId) as? Ingredient else {
+        return nil
+      }
+      return ingredient
+    }
 
+    func fetchShoppingCartIngredient(for objectId: NSManagedObjectID, name: String, context: NSManagedObjectContext) -> Ingredient? {
+      guard let ingredient = context.object(with: objectId) as? Ingredient else {
+        return nil
+      }
+      return ingredient
+    }
+
+    func searchShoppingCartIngredientData(for objectId: NSManagedObjectID, name: String) -> NSManagedObjectID? {
+        
+        var ingredientsRequest: FetchRequest<Ingredient>
+        var ingredients: FetchedResults<Ingredient> { ingredientsRequest.wrappedValue }
+        
+        ingredientsRequest = FetchRequest(entity: Ingredient.entity(), sortDescriptors: [], predicate: NSPredicate(format: "shoppingCarts == %@ AND name CONTAINS[c] %@", objectId, name.lowercased()))
+        
+        if ingredients.count > 0 {
+            
+            return ingredients[0].objectID
+        }
+        else {
+            return nil
+        }
+    }
+
+    func fetchShoppingCart(for objectId: NSManagedObjectID, context: NSManagedObjectContext) -> ShoppingCart? {
+      guard let shoppingCart = context.object(with: objectId) as? ShoppingCart else {
+        return nil
+      }
+      return shoppingCart
+    }
+    
     func deleteAllCoreDataRecords() {
         
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Recipe")
@@ -103,13 +140,24 @@ class RecipeModel: ObservableObject {
         } catch {
             print ("There was an error")
         }
+        
+        let deleteFetch7 = NSFetchRequest<NSFetchRequestResult>(entityName: "ShoppingCart")
+        let deleteRequest7 = NSBatchDeleteRequest(fetchRequest: deleteFetch7)
+        
+        do {
+            try managedObjectContext.execute(deleteRequest7)
+            try managedObjectContext.save()
+        } catch {
+            print ("There was an error")
+        }
+
   }
     
     func checkLoadedData() {
         
         // Check local storage for the flag
         let status = UserDefaults.standard.bool(forKey: GlobalVariables.isDataPreloaded)
-        
+
         // If it's false, then we should parse the local json and preload into Core Data
         if status == false {
 //            deleteAllCoreDataRecords()
@@ -134,7 +182,8 @@ class RecipeModel: ObservableObject {
         recipeFB:    RecipeFB,
         context:     NSManagedObjectContext,
         recipeImage: UIImage
-    ) {
+    ) -> Recipe {
+        
         let r: Recipe
         if let objectId = recipeId,
            let fetchedRecipe = fetchRecipe(for: objectId, context: context) {
@@ -257,5 +306,7 @@ class RecipeModel: ObservableObject {
             // Couldn't save the recipe
             print("Couldn't save the recipe")
         }
+        
+        return r
     }
 }

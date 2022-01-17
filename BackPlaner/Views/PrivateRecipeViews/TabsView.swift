@@ -18,15 +18,6 @@ struct TabsView: View {
     var body: some View {
         TabView (selection: $tabSelection) {
             
-             RecipeListView()
-                .tabItem {
-                    VStack {
-                        Image(systemName: "list.bullet.rectangle")
-                        Text("Eigene Rezeptliste")
-                    }
-                }
-                .tag(GlobalVariables.listTab)
-            
             InstructionsListView()
                 .tabItem {
                     VStack {
@@ -35,6 +26,15 @@ struct TabsView: View {
                     }
                 }
                 .tag(GlobalVariables.bakeListTab)
+            
+             RecipeListView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "list.bullet.rectangle")
+                        Text("Eigene Rezeptliste")
+                    }
+                }
+                .tag(GlobalVariables.listTab)
         }
     }
 }

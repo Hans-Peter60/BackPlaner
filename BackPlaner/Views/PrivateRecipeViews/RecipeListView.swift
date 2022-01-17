@@ -98,16 +98,29 @@ struct RecipeListView: View {
                                         }
                                         .frame(width: 190, alignment: .leading)
                                         
-                                        NavigationLink(
-//                                            destination: EditComponentDataView(recipeId: r.objectID)
-                                            destination: NewEditRecipeView(recipeId: r.objectID) //, recipe: r)
-                                        )
-                                        {
-                                            Image(systemName: "pencil.circle")
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 20, height: 20, alignment: .trailing)
-                                                .clipped()
+                                        VStack {
+                                            NavigationLink(
+                                                destination: NewEditRecipeView(recipeId: r.objectID)
+                                            )
+                                            {
+                                                Image(systemName: "pencil.circle")
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 25, height: 25, alignment: .trailing)
+                                                    .clipped()
+                                            }
+
+                                            NavigationLink(
+                                                destination: ShoppingCartSelectFormView(recipe: r)
+                                            )
+                                            {
+                                                Image(systemName: "list.bullet.rectangle")
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 35, height: 25, alignment: .trailing)
+                                                    .clipped()
+                                            }
+                                            .padding(.top)
                                         }
                                     }
                                 })

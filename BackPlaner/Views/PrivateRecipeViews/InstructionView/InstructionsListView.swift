@@ -63,7 +63,7 @@ struct InstructionsListView: View {
                                 label: {
                                     
                                     // MARK: Row item
-                                    HStack(spacing: 20.0) {
+                                    HStack(spacing: 10.0) {
                                         NavigationLink(
                                             destination: ShowBigImageView(image: r.image)
                                         )
@@ -85,6 +85,32 @@ struct InstructionsListView: View {
                                             RecipeTags(tags: r.tags)
                                                 .font(Font.custom("Avenir", size: 12))
                                                 .multilineTextAlignment(.leading)
+                                        }
+                                        .frame(width: 190, alignment: .leading)
+                                        
+                                        VStack {
+                                            NavigationLink(
+                                                destination: NewEditRecipeView(recipeId: r.objectID)
+                                            )
+                                            {
+                                                Image(systemName: "pencil.circle")
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 25, height: 25, alignment: .trailing)
+                                                    .clipped()
+                                            }
+
+                                            NavigationLink(
+                                                destination: ShoppingCartSelectFormView(recipe: r)
+                                            )
+                                            {
+                                                Image(systemName: "list.bullet.rectangle")
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 35, height: 25, alignment: .trailing)
+                                                    .clipped()
+                                            }
+                                            .padding(.top)
                                         }
                                     }
                                 }

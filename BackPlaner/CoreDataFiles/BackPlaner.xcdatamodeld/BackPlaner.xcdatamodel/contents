@@ -24,6 +24,7 @@
         <attribute name="unit" optional="YES" attributeType="String"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="component" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Component" inverseName="ingredients" inverseEntity="Component"/>
+        <relationship name="shoppingCarts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingCart" inverseName="ingredients" inverseEntity="ShoppingCart"/>
     </entity>
     <entity name="Instruction" representedClassName="Instruction" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -58,13 +59,21 @@
         <relationship name="bakeHistories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BakeHistory" inverseName="recipe" inverseEntity="BakeHistory"/>
         <relationship name="components" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Component" inverseName="recipe" inverseEntity="Component"/>
         <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Instruction" inverseName="recipe" inverseEntity="Instruction"/>
+        <relationship name="shoppingCarts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingCart" inverseName="recipes" inverseEntity="ShoppingCart"/>
+    </entity>
+    <entity name="ShoppingCart" representedClassName="ShoppingCart" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="shoppingCarts" inverseEntity="Ingredient"/>
+        <relationship name="recipes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="shoppingCarts" inverseEntity="Recipe"/>
     </entity>
     <elements>
         <element name="BakeHistory" positionX="-54" positionY="72" width="128" height="104"/>
         <element name="Component" positionX="-36" positionY="81" width="128" height="104"/>
-        <element name="Ingredient" positionX="-18" positionY="90" width="128" height="164"/>
+        <element name="Ingredient" positionX="-18" positionY="90" width="128" height="179"/>
         <element name="Instruction" positionX="0" positionY="135" width="128" height="134"/>
         <element name="NextSteps" positionX="18" positionY="162" width="128" height="134"/>
-        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="239"/>
+        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="254"/>
+        <element name="ShoppingCart" positionX="-18" positionY="126" width="128" height="89"/>
     </elements>
 </model>
