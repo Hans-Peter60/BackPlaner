@@ -47,6 +47,8 @@ struct ShoppingCartSelectFormView: View {
     @State private var date            = Date()
     @State private var disableDateFlag = true
     @State private var showingSheet    = false
+    @State private var unitSetSc       = UnitSet()
+    @State private var unitSetNew      = UnitSet()
     
     var body: some View {
         
@@ -100,8 +102,7 @@ struct ShoppingCartSelectFormView: View {
                                  
                                  for i in c.ingredientsArray {
                                      
-                                     if i.name.contains("Wasser") || i.name.contains("Salz") || i.name.contains("Anstellgut") || i.name.contains("Sauerteig") || i.normWeight == 0 {
-
+                                     if i.name.contains("Wasser") || i.name.contains("Salz") || i.name.contains("Anstellgut") || i.name.contains("Sauerteig") || i.normWeight == 0 || i.unit == "" || i.unit == nil {
                                          // do nothing
                                      }
                                      else {
@@ -112,7 +113,7 @@ struct ShoppingCartSelectFormView: View {
                                                      
                                              if ingredient!.unit == i.unit {
 
-                                                 ingredient!.setValue(ingredient!.weight + i.weight, forKey: "weight")
+                                                 ingredient!.setValue(ingredient!.weight     + i.weight,     forKey: "weight")
                                                  ingredient!.setValue(ingredient!.normWeight + i.normWeight, forKey: "normWeight")
                                                  
                                                  if ingredient!.num != i.denom {
@@ -124,13 +125,44 @@ struct ShoppingCartSelectFormView: View {
                                                      ingredient!.setValue(num   / gcd, forKey: "num")
                                                      ingredient!.setValue(denom / gcd, forKey: "denom")
                                                  }
+
+                                             }
+                                             else {
                                                  
-                                                 do {
-                                                     try viewContext.save()
+                                                 unitSetSc  = UnitSet()
+                                                 unitSetNew = UnitSet()
+                                                 
+                                                 if ingredient?.unit ?? "" > " " {
+
+                                                     for u in GlobalVariables.unitSets {
+                                                         
+                                                         if i.unit!.localizedLowercase.contains(u.name)           || i.unit!           == u.abkuerzung  { unitSetNew = u }
+                                                         if ingredient!.unit!.localizedLowercase.contains(u.name) || ingredient!.unit! == u.abkuerzung  { unitSetSc  = u }
+                                                     }
+                                                     
+                                                     if unitSetSc.baseUnit == unitSetNew.baseUnit {
+                                                         
+                                                         ingredient!.setValue(ingredient!.weight     + (i.weight     / unitSetSc.factor * unitSetNew.factor), forKey: "weight")
+                                                         ingredient!.setValue(ingredient!.normWeight + (i.normWeight / unitSetSc.factor * unitSetNew.factor), forKey: "normWeight")
+                                                         
+                                                         if ingredient!.num != i.denom {
+                                                             
+                                                             let num   = Int((Double(ingredient!.num   * i.denom) * unitSetSc.factor) + (Double(i.num * ingredient!.denom) * unitSetNew.factor))
+                                                             let denom =  ingredient!.denom * i.denom
+                                                             let gcd   = Rational.greatestCommonDivisor(num, denom)
+                                                             
+                                                             ingredient!.setValue(num   / gcd, forKey: "num")
+                                                             ingredient!.setValue(denom / gcd, forKey: "denom")
+                                                         }
+                                                     }
                                                  }
-                                                 catch {
-                                                     // handle the Core Data error
-                                                 }
+                                             }
+                                             
+                                             do {
+                                                 try viewContext.save()
+                                             }
+                                             catch {
+                                                 // handle the Core Data error
                                              }
                                          }
                                          else {

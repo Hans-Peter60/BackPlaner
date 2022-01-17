@@ -18,7 +18,6 @@
 		6A46682C278EDDA1009FACAF /* ShoppingCartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46682B278EDDA1009FACAF /* ShoppingCartsView.swift */; };
 		6A466830278EDFE2009FACAF /* ShoppingCart+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46682D278EDFE2009FACAF /* ShoppingCart+CoreDataClass.swift */; };
 		6A466832278EDFE2009FACAF /* Recipe+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46682F278EDFE2009FACAF /* Recipe+CoreDataProperties.swift */; };
-		6A466834278EE0C2009FACAF /* AddToShoppingCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A466833278EE0C2009FACAF /* AddToShoppingCart.swift */; };
 		6A473B51278AFB1C001ED72E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A473B50278AFB1B001ED72E /* DataController.swift */; };
 		6A476C55277C96CB00391C3B /* RatingStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A476C54277C96CB00391C3B /* RatingStarsView.swift */; };
 		6A51914A2782F1CA00A7685F /* EditComponentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5191492782F1CA00A7685F /* EditComponentDataView.swift */; };
@@ -90,7 +89,6 @@
 		6A46682B278EDDA1009FACAF /* ShoppingCartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartsView.swift; sourceTree = "<group>"; };
 		6A46682D278EDFE2009FACAF /* ShoppingCart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingCart+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		6A46682F278EDFE2009FACAF /* Recipe+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		6A466833278EE0C2009FACAF /* AddToShoppingCart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShoppingCart.swift; sourceTree = "<group>"; };
 		6A473B50278AFB1B001ED72E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		6A476C54277C96CB00391C3B /* RatingStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingStarsView.swift; sourceTree = "<group>"; };
 		6A5191492782F1CA00A7685F /* EditComponentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComponentDataView.swift; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 				6AF8257A2758F3D50025FB0B /* NotificationManager.swift */,
 				6AF825792758F3D50025FB0B /* Rational.swift */,
 				6AF8255D2758F3A70025FB0B /* RecipeTags.swift */,
-				6A466833278EE0C2009FACAF /* AddToShoppingCart.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -538,7 +535,6 @@
 				6AF825622758F3AF0025FB0B /* SearchBarView.swift in Sources */,
 				6A5BC05227902C1000FCFE3D /* ShoppingCartSelectFormView.swift in Sources */,
 				6AF8258E2758F4230025FB0B /* RecipeFB.swift in Sources */,
-				6A466834278EE0C2009FACAF /* AddToShoppingCart.swift in Sources */,
 				6AF8258B2758F4230025FB0B /* DataService.swift in Sources */,
 				6A473B51278AFB1C001ED72E /* DataController.swift in Sources */,
 				6AB72B072768DC27009CC3CE /* BakeHistoryUpdateForm.swift in Sources */,

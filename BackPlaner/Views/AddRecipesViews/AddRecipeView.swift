@@ -13,7 +13,7 @@ struct AddRecipeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
-
+    
     @State private var recipeFB = RecipeFB()
     
     // Recipe Image
@@ -24,10 +24,15 @@ struct AddRecipeView: View {
     @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
     @State private var placeHolderImage     = Image(GlobalVariables.noImage)
     
+    init() {
+       UITableView.appearance().sectionFooterHeight = 0
+    }
+    
     var body: some View {
-        ZStack {
+        
+        Form {
             
-            VStack {
+            Section {
                 
                 // HStack with the form controls
                 HStack {
@@ -60,74 +65,71 @@ struct AddRecipeView: View {
                         // Clear the form
                         clear()
                     }
-                    .buttonStyle(.bordered)                }
-                .padding(.horizontal)
-                
-                NavigationView {
+                    .buttonStyle(.bordered)
                     
-                    // Scrollview
-                    ScrollView (showsIndicators: false) {
+                }
+            }
+            .padding(.horizontal)
+                
+
+            Section {
+                
+                HStack {
+                    VStack {
+                        // Recipe image
+                        placeHolderImage
+                            .resizable()
+                            .scaledToFit()
+                            .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
                         
-                        VStack {
-                            Group {
-                                HStack {
-                                    VStack {
-                                        // Recipe image
-                                        placeHolderImage
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
-                                        
-                                        HStack {
-                                            Button("Photo Library") {
-                                                selectedImageSource  = .photoLibrary
-                                                isShowingImagePicker = true
-                                            }
-                                            
-                                            Text(" | ")
-                                            
-                                            Button("Camera") {
-                                                selectedImageSource = .camera
-                                                isShowingImagePicker = true
-                                            }
-                                        }
-                                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                                            ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
-                                        }
-                                    }
-                                    Spacer()
-                                    
-                                    RatingStarsUpdateView(rating: $recipeFB.rating)
-                                        .padding(.trailing)
-                                }
-                                
-                                // The recipe meta data
-                                AddMetaData(name:    $recipeFB.name,
-                                            summary: $recipeFB.summary,
-                                            urlLink: $recipeFB.urlLink)
-                                
-                                // Tag data
-                                AddTagsData(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
-                                
-                                Divider()
-                                
-                                AddComponentData(components: $recipeFB.components)
-                                
-                                Divider()
-                                
-                                // Instruction Data
-                                AddInstructionData(instructions: $recipeFB.instructions)
+                        HStack {
+                            Button("Photo Library") {
+                                selectedImageSource  = .photoLibrary
+                                isShowingImagePicker = true
+                            }
+                            
+                            Text(" | ")
+                            
+                            Button("Camera") {
+                                selectedImageSource = .camera
+                                isShowingImagePicker = true
                             }
                         }
+                        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                            ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                        }
                     }
+                    Spacer()
+                    
+                    RatingStarsUpdateView(rating: $recipeFB.rating)
+                        .padding(.trailing)
                 }
-                .padding(.horizontal)
-                .navigationViewStyle(StackNavigationViewStyle()) // full screen mode aktivieren
-                .navigationTitle("Neues Rezept erfassen")
+            }
+                        
+            Section {
+                // The recipe meta data
+                AddMetaData(name:    $recipeFB.name,
+                            summary: $recipeFB.summary,
+                            urlLink: $recipeFB.urlLink)
+                
+                AddTagsData(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
+            }
+            
+            Section {
+                
+                AddComponentData(components: $recipeFB.components)
+            }
+            
+            Section {
+                // Instruction Data
+                AddInstructionData(instructions: $recipeFB.instructions)
             }
         }
+        .padding(.horizontal)
+        .navigationViewStyle(StackNavigationViewStyle()) // full screen mode aktivieren
+        .navigationTitle("Neues Rezept erfassen")
     }
-       
+    
     func loadImage() {
         
         // Check if an image was selected from the library

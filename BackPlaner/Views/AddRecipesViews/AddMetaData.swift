@@ -33,14 +33,13 @@ struct AddMetaData: View {
                 .padding([.top, .bottom])
       
             Text("Url Link: ")
-                .bold()
+                .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, alignment: .leading)
                 
             TextField("https://", text: $urlLink)
                 .autocapitalization(.none)
                 .textFieldStyle(.roundedBorder)
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, alignment: .leading)
         }
-        .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
     }
 }
 
