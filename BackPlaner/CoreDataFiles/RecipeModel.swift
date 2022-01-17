@@ -189,6 +189,7 @@ class RecipeModel: ObservableObject {
            let fetchedRecipe = fetchRecipe(for: objectId, context: context) {
             r = fetchedRecipe
         } else {
+            
             r = Recipe(context: context)
         }
     
