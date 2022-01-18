@@ -27,72 +27,68 @@ struct BakeHistoryUpdateForm: View {
     @State private var comment      = ""
     @State private var recipeImages = [UIImage?]()
     @State private var images       = [Data]()
-
+    
     var body: some View {
-        Text(recipeName)
-            .font(Font.custom("Avenir Heavy", size: 20))
+        
+        Form {
+                  
+            Text(recipeName)
+                .font(Font.custom("Avenir Heavy", size: 18))
 
-        ScrollView {
-        VStack {
-            
-            VStack {
-                Text("Kommentar: " + String(recipeImages.count))
-                    .bold()
-                    .padding([.leading, .trailing])
-
-                TextEditor(text: $comment)
-                    .multilineTextAlignment(.leading)
-                    .border(Color.gray, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
-                    .padding(.leading)
-            }
-            
-            HStack {
-                // Recipe bakeHistory images
-                ForEach(recipeImages, id: \.self) { rI in
-                    
-                    NavigationLink(
-                        destination: ShowBigImageView(image: rI!.jpegData(compressionQuality: 1.0) ?? Data())
-                    )
-                    {
-                        Image(uiImage: rI ?? UIImage())
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .clipped()
-                            .cornerRadius(5)
+            TextEditor(text: $comment)
+                .multilineTextAlignment(.leading)
+                .border(Color.gray, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                .font(Font.custom("Avenir", size: 16))
+                .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
+                
+            Section {
+                
+                HStack {
+                    // Recipe bakeHistory images
+                    ForEach(recipeImages, id: \.self) { rI in
+                        
+                        NavigationLink(
+                            destination: ShowBigImageView(image: rI!.jpegData(compressionQuality: 1.0) ?? Data())
+                        )
+                        {
+                            Image(uiImage: rI ?? UIImage())
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50, alignment: .center)
+                                .clipped()
+                                .cornerRadius(5)
+                        }
                     }
                 }
-            }
-            
-            HStack {
-                Button("Photo Library") {
-                    selectedImageSource = .photoLibrary
-                    isShowingImagePicker = true
-                }
-                .font(Font.custom("Avenir", size: 15))
-                .padding(.trailing)
-                .foregroundColor(.gray)
-                .buttonStyle(.bordered)
                 
-                Text("|   ")
-                
-                Button("   Camera    ") {
-                    selectedImageSource = .camera
-                    isShowingImagePicker = true
+                HStack {
+                    Button("Photo Library") {
+                        selectedImageSource = .photoLibrary
+                        isShowingImagePicker = true
+                    }
+                    .font(Font.custom("Avenir", size: 15))
+                    .padding(.trailing)
+                    .foregroundColor(.blue)
+                    .buttonStyle(.bordered)
+                    
+                    Text("|    ")
+                    
+                    Button("   Camera      ") {
+                        selectedImageSource = .camera
+                        isShowingImagePicker = true
+                    }
+                    .font(Font.custom("Avenir", size: 15))
+                    .padding(.trailing)
+                    .foregroundColor(.blue)
+                    .buttonStyle(.bordered)
                 }
-                .font(Font.custom("Avenir", size: 15))
-                .padding(.trailing)
-                .foregroundColor(.gray)
-                .buttonStyle(.bordered)
+                .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                    ImageArrayPicker(selectedSource: selectedImageSource, recipeImages: $recipeImages)
+                }
             }
-            .padding()
-            .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                ImageArrayPicker(selectedSource: selectedImageSource, recipeImages: $recipeImages)
-            }
-            
+                
             Button("Speichern") {
-
+                
                 bakeHistory.setValue(comment, forKey: "comment")
                 
                 images = [Data]()
@@ -100,7 +96,7 @@ struct BakeHistoryUpdateForm: View {
                     images.append(recipeImages[index]!.jpegData(compressionQuality: 1.0) ?? Data())
                 }
                 bakeHistory.setValue(images, forKey: "images")
-
+                
                 do {
                     try viewContext.save()
                 } catch {
@@ -109,11 +105,10 @@ struct BakeHistoryUpdateForm: View {
             }
             .font(Font.custom("Avenir", size: 15))
             .padding(.trailing)
-            .foregroundColor(.gray)
+            .foregroundColor(.blue)
             .buttonStyle(.bordered)
         }
         .navigationTitle("Backanmerkungen- / hinweise")
-        }
         .onAppear {
             comment = self.bakeHistory.comment
             images  = self.bakeHistory.images ?? [Data]()
@@ -124,7 +119,7 @@ struct BakeHistoryUpdateForm: View {
             }
         }
     }
-
+    
     func loadImage() {
         
         // Check if an image was selected from the library

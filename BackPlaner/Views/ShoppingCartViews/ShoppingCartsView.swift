@@ -27,28 +27,7 @@ struct ShoppingCartsView: View {
         calendar.date(from:endComponents)!
     }()
     
-    @State private var deleteFlag = false
-    
     var body: some View {
-        
-//        if shoppingCarts.count > 0 { deleteFlag = true } else { deleteFlag = false }
-        
-        Button("Einkaufsliste löschen") {
-            
-            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ShoppingCart")
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-            
-            do {
-                try viewContext.execute(deleteRequest)
-                try viewContext.save()
-            } catch {
-                print ("There was an error")
-            }
-            deleteFlag = false
-        }
-        .padding()
-        .foregroundColor(deleteFlag ? Color.blue : Color.gray)
-        .buttonStyle(.bordered)
         
         ScrollView {
                 
@@ -56,17 +35,35 @@ struct ShoppingCartsView: View {
                 
                 HStack {
                     Text("Einkaufsliste vom " + dateFormat.calculateDate(dT: shoppingCart.date))
-                        .font(Font.custom("Avenir Heavy", size: 16))
+                        .font(Font.custom("Avenir Heavy", size: 20))
+                    
                     Spacer()
+                    
+                    Button("Löschen") {
+                        
+                        viewContext.delete(shoppingCart)
+                        
+                        do {
+                            try viewContext.save()
+                        } catch {
+                            print ("There was an error")
+                        }
+                    }
+                    .padding(.trailing)
+                    .foregroundColor(.blue)
+                    .buttonStyle(.bordered)
                 }
                 
-                ForEach(shoppingCart.recipes.allObjects as! [Recipe]) { recipe in
-                    HStack {
-                        Text(recipe.name)
-                            .font(Font.custom("Avenir", size: 15))
-                        Spacer()
+                VStack {
+                    ForEach(shoppingCart.recipes.allObjects as! [Recipe]) { recipe in
+                        HStack {
+                            Text("- " + recipe.name)
+                                .font(Font.custom("Avenir Heavy", size: 16))
+                            Spacer()
+                        }
                     }
                 }
+                .padding(.bottom, 2)
                     
                 ForEach(shoppingCart.ingredientsArray.sorted(by: { $0.name < $1.name })) { ingredient in
                     HStack {
@@ -80,9 +77,6 @@ struct ShoppingCartsView: View {
             }
         }
         .padding(.leading)
-        .navigationTitle("Einkaufsliste")
-        .onAppear {
-            if shoppingCarts.count > 0 { deleteFlag = true }
-        }
+        .navigationTitle("Einkaufslisten")
     }
 }

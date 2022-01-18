@@ -1,5 +1,5 @@
 //
-//  NewEditRecipeView.swift
+//  EditRecipeView.swift
 //  BackPlaner
 //
 //  Created by Hans-Peter Müller on 01.01.22.
@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 import Combine
 
-struct NewEditRecipeView: View {
+struct EditRecipeView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     var recipeId: NSManagedObjectID?

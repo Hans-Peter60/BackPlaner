@@ -45,7 +45,6 @@ struct BakeHistoriesListView: View {
                 }
             }
         }
-
     }
     
     var gridItemLayout       = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
@@ -63,14 +62,15 @@ struct BakeHistoriesListView: View {
         
         LazyVGrid(columns: gridItemLayout, spacing: 6) {
             
-            Text("Datum").bold()
-            Text("Rezept").bold()
-            Text("Kommentar").bold()
+            Text("Datum")     //.font(Font.custom("Avenir Heavy", size: 18))
+            Text("Rezept")    //.font(Font.custom("Avenir Heavy", size: 18))
+            Text("Kommentar") //.font(Font.custom("Avenir Heavy", size: 18))
             Text("")
             Text("")
             Text("")
         }
         .padding(.leading)
+        .font(Font.custom("Avenir Heavy", size: 18))
         
         ScrollView {
             
@@ -87,11 +87,11 @@ struct BakeHistoriesListView: View {
                                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
                                     
                                     Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                        .font(Font.custom("Avenir Heavy", size: 16))
                                     Text(recipe.name)
-                                        .font(Font.custom("Avenir Heavy", size: 14))
+                                        .font(Font.custom("Avenir Heavy", size: 16))
                                     Text(bakeHistory.comment)
-                                        .font(Font.custom("Avenir", size: 14))
+                                        .font(Font.custom("Avenir", size: 16))
                                     
                                     Button("Löschen") {
                                         
@@ -105,7 +105,7 @@ struct BakeHistoriesListView: View {
                                     }
                                     .font(Font.custom("Avenir", size: 15))
                                     .padding()
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.blue)
                                     .buttonStyle(.bordered)
                                     
                                     Text(" ")
@@ -149,59 +149,5 @@ struct BakeHistoriesListView: View {
         }
         .padding()
         .navigationTitle("Backhistorie")
-    }
-}
-
-struct EditBakeHistoryView: View {
-    
-    var bakeHistoryId: NSManagedObjectID
-    
-    @Environment(\.presentationMode) var presentationMode
-    @State private var comment = ""
-    @State private var description = ""
-    @Environment(\.managedObjectContext) var moc
-    
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading), GridItem(.fixed(120), alignment: .leading), GridItem(.fixed(120), alignment: .leading)]
-    
-    var dateFormat:DateFormat = DateFormat()
-    
-    var bakeHistory: BakeHistory {
-        moc.object(with: bakeHistoryId) as! BakeHistory
-    }
-    
-    var body: some View {
-        
-        NavigationView {
-            Form {
-                Section {
-                    LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                        
-                        Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                            .font(Font.custom("Avenir Heavy", size: 14))
-                        Text(bakeHistory.recipe!.name)
-                            .font(Font.custom("Avenir Heavy", size: 14))
-                        Text(bakeHistory.comment)
-                            .font(Font.custom("Avenir", size: 14))
-                        
-                        if bakeHistory.objectID == nil { Text("objectID = nil") } else { Text("objectID != nil") }
-                    }
-                }
-            }
-            .navigationBarTitle(Text("Editieren"), displayMode: .inline)
-            .navigationBarItems(leading: Button("Cancel") {
-                self.presentationMode.wrappedValue.dismiss()
-            }, trailing: Button("Speichern") {
-                self.bakeHistory.objectWillChange.send()
-                self.bakeHistory.comment = self.comment
-
-                try? self.moc.save()
-                
-                self.presentationMode.wrappedValue.dismiss()
-            }
-            )
-        }
-        .onAppear {
-            self.comment = self.bakeHistory.comment
-        }
     }
 }

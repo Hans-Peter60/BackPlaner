@@ -90,7 +90,7 @@ struct InstructionsListView: View {
                                         
                                         VStack {
                                             NavigationLink(
-                                                destination: NewEditRecipeView(recipeId: r.objectID)
+                                                destination: EditRecipeView(recipeId: r.objectID)
                                             )
                                             {
                                                 Image(systemName: "pencil.circle")

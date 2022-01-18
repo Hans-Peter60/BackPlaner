@@ -70,7 +70,7 @@ class RecipeFBModel: ObservableObject {
         
         for i in calculatedInstructions {
             
-            let cloudComponent = cloudRecipe.collection("instructions").addDocument(data: [
+            let _ = cloudRecipe.collection("instructions").addDocument(data: [
                 "instruction": i.instruction,
                 "step":        i.step,
                 "duration":    i.duration,
@@ -92,11 +92,11 @@ class RecipeFBModel: ObservableObject {
                     "number": i.number,
                 ])
                 cloudIngredient.updateData([
-                    "unit":      i.unit ?? "",
+                    "unit":      i.unit,
                     "weight":    i.weight,
                     "normWeight":i.normWeight,
-                    "num":       i.num ?? 1,
-                    "denom":     i.denom ?? 1,
+                    "num":       i.num,
+                    "denom":     i.denom,
                     "number":    i.number
                 ])
             }

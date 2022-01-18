@@ -197,7 +197,7 @@ class RecipeModel: ObservableObject {
   
         // MARK: Image
         if let objectId = recipeId {
-            r.image       = recipeImage.jpegData(compressionQuality: 1.0) ?? Data()
+            r.image = recipeImage.jpegData(compressionQuality: 1.0) ?? Data()
         }
         else {
             if recipeFB.id ?? "" > "" {
