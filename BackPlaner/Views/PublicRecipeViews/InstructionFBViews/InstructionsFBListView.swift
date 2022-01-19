@@ -68,7 +68,7 @@ struct InstructionsFBListView: View {
                                 label: {
                                     
                                     // MARK: Row item
-                                    HStack(spacing: 10.0) {
+                                    HStack(spacing: 8.0) {
                                         NavigationLink(
                                             destination: ShowBigImageView(image: (GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
                                         )

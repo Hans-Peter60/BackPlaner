@@ -25,9 +25,13 @@ struct RecipeFBDetailView: View {
         ScrollView {
             
             VStack (alignment: .leading) {
-                
+          
+                Text(recipeFB.name)
+                    .font(Font.custom("Avenir Heavy", size: 24))
+
                 HStack {
-                // MARK: Recipe image
+
+                    // MARK: Recipe image
                     NavigationLink(
                         destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
                     )
@@ -39,16 +43,11 @@ struct RecipeFBDetailView: View {
                             .cornerRadius(5)
                     }
                     
-                    Spacer()
-                    
-                    RatingStarsView(rating: recipeFB.rating)
-                        .padding(.trailing)
+                    // MARK: Recipe summary
+                    Text(recipeFB.summary)
+                        .font(Font.custom("Avenir", size: 15))
+                        .padding(.leading, 4)
                 }
-                
-                // MARK: Recipe summary
-                Text(recipeFB.summary)
-                    .padding(.top, 2)
-                    .font(Font.custom("Avenir", size: 15))
                 
                 HStack {
                     // MARK: Serving size picker
@@ -146,6 +145,7 @@ struct RecipeFBDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(recipeFB.name)
+        .hiddenNavigationBarStyle()
+//        .navigationBarTitle(Text(recipeFB.name), displayMode: .inline)
     }
 }

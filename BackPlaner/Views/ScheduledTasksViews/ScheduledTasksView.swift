@@ -48,7 +48,7 @@ struct ScheduledTasksView: View {
                     }
                 }
 
-                ForEach(nextSteps.indices) { i in
+                ForEach(nextSteps.indices, id:\.self) { i in
                     
                     if nextSteps[i].date > Date() - 60 {
                         
@@ -91,7 +91,7 @@ struct ScheduledTasksView: View {
                         }
                         .font(Font.custom("Avenir", size: 15))
                         .padding(.trailing)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.blue)
                         .buttonStyle(.bordered)
                     }
                 }

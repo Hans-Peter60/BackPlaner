@@ -378,25 +378,28 @@ struct InstructionsView: View {
                     .foregroundColor(showingNotificationMessage ? Color.blue : Color.gray)
                     .buttonStyle(.bordered)
 
-                    // MARK: Button Einkausliste
-                    Button(" Auf Einkaufsliste setzen ") {
-                        
-                        if shoppingCarts.count == 0 {
+                    // MARK: Button Einkaufsliste
+                    NavigationLink(
+                        destination: ShoppingCartSelectFormView(recipe: recipe)
+                    )
+                    {
+                        Button(" Auf Einkaufsliste setzen ") {
                             
-                            let shoppingCart  = ShoppingCart(context: viewContext)
-                            shoppingCart.id   = UUID()
-                            shoppingCart.date = Date()
-                            
-//                            shoppingCart.addToRecipes(recipe)
-                            
-                            do {
-                                try viewContext.save()
-                            } catch {
-                                // handle the Core Data error
+                            if shoppingCarts.count == 0 {
+                                
+                                let shoppingCart  = ShoppingCart(context: viewContext)
+                                shoppingCart.id   = UUID()
+                                shoppingCart.date = Date()
+                                
+    //                            shoppingCart.addToRecipes(recipe)
+                                
+                                do {
+                                    try viewContext.save()
+                                } catch {
+                                    // handle the Core Data error
+                                }
                             }
                         }
-                        
-                        ShoppingCartSelectFormView(recipe: recipe)
                     }
                     .padding()
                     .foregroundColor(.blue)
@@ -443,7 +446,6 @@ struct InstructionsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarTitle("Backanleitung für " + recipe.name)
-        
     }
     
     // MARK: uploadNextSteps

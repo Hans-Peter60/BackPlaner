@@ -22,7 +22,7 @@ struct RecipeListView: View {
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
     @State private var rating    = 0
-
+    
     var recipeId: NSManagedObjectID?
     
     private var filteredRecipes: [Recipe] {
@@ -49,6 +49,8 @@ struct RecipeListView: View {
         }
     }
     
+    @State private var confirmationShown = false
+    
     var body: some View {
         
         NavigationView {
@@ -61,85 +63,72 @@ struct RecipeListView: View {
                     .font(Font.custom("Avenir Heavy", size: 24))
                 
                 SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: true)
-                    .padding([.trailing, .bottom])
-
-                ScrollView {
-                    LazyVStack (alignment: .leading) {
-                        ForEach(filteredRecipes) { r in
-                            
-                            NavigationLink(
-                                destination: RecipeDetailView(recipe: r),
-                                label: {
+                    .padding([.leading, .trailing, .bottom])
+                
+                List {
+                    
+                    ForEach(filteredRecipes, id: \.self) { r in
+                        
+                        NavigationLink(
+                            destination: RecipeDetailView(recipe: r),
+                            label: {
+                                
+                                HStack(spacing: 8.0) {
                                     
-                                    // MARK: Row item
-                                    HStack(spacing: 10.0) {
+                                    let image = UIImage(data: r.image) ?? UIImage()
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(5)
+                                    
+                                    VStack (alignment: .leading) {
+                                        Text(r.name)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
+                                            .multilineTextAlignment(.leading)
                                         
-                                        NavigationLink(
-                                            destination: ShowBigImageView(image: r.image)
-                                        )
-                                        {
-                                            let image = UIImage(data: r.image) ?? UIImage()
-                                            Image(uiImage: image)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                                .clipped()
-                                                .cornerRadius(5)
-                                        }
-                                        
-                                        VStack (alignment: .leading) {
-                                            Text(r.name)
-                                                .font(Font.custom("Avenir Heavy", size: 16))
-                                                .multilineTextAlignment(.leading)
-                                            
-                                            RecipeTags(tags: r.tags)
-                                                .font(Font.custom("Avenir", size: 12))
-                                                .multilineTextAlignment(.leading)
-                                        }
-                                        .frame(width: 190, alignment: .leading)
-                                        
-                                        VStack {
-                                            NavigationLink(
-                                                destination: EditRecipeView(recipeId: r.objectID)
-                                            )
-                                            {
-                                                Image(systemName: "pencil.circle")
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(width: 25, height: 25, alignment: .trailing)
-                                                    .clipped()
-                                            }
-
-                                            NavigationLink(
-                                                destination: ShoppingCartSelectFormView(recipe: r)
-                                            )
-                                            {
-                                                Image(systemName: "list.bullet.rectangle")
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(width: 35, height: 25, alignment: .trailing)
-                                                    .clipped()
-                                            }
-                                            .padding(.top)
-                                        }
+                                        RecipeTags(tags: r.tags)
+                                            .font(Font.custom("Avenir", size: 12))
+                                            .multilineTextAlignment(.leading)
                                     }
-                                })
-                        }
-                        .onDelete { indexSet in
-                            withAnimation {
-                                //
+                                }
+                            })
+                            .swipeActions(allowsFullSwipe: false) {
+                                
+                                Button(
+                                    role: .destructive,
+                                    action: { confirmationShown = true }
+                                ) {
+                                    Image(systemName: "trash")
+                                }
                             }
-                        }
+                            .confirmationDialog(
+                                "Bist Du sicher?",
+                                isPresented: $confirmationShown,
+                                titleVisibility: .visible,
+                                presenting: r.name
+                            ) { message in
+                                Button("Ja, lösche: \(r.name)") {
+                                    withAnimation {
+                                        viewContext.delete(r)
+                                    }
+                                } .keyboardShortcut(.defaultAction)
+                                
+                                Button("Nein", role: .cancel) {}
+                            } message: { message in
+                                Text(message)
+                            }
                     }
                 }
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .navigationBarHidden(true)
-            .padding(.leading)
-            .onTapGesture {
-                // Resign first responder
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
+            .hiddenNavigationBarStyle()
+//            .navigationViewStyle(StackNavigationViewStyle())
+//            .padding(.leading)
+//            .onTapGesture {
+//                // Resign first responder
+//                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//            }
         }
-     }
+    }
 }

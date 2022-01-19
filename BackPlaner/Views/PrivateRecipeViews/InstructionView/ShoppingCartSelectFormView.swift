@@ -11,6 +11,7 @@ import CoreData
 struct ShoppingCartSelectFormView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    
     @Environment(\.managedObjectContext) var viewContext
     
     var recipe: Recipe
@@ -202,6 +203,7 @@ struct ShoppingCartSelectFormView: View {
                     .buttonStyle(.bordered)
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarTitle(Text("Bitte die Einkaufsliste auswählen"), displayMode: .inline)
             .navigationBarItems(leading: Button("Zurück") {
                 self.presentationMode.wrappedValue.dismiss()
@@ -209,6 +211,5 @@ struct ShoppingCartSelectFormView: View {
             )
         }
         .padding()
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }

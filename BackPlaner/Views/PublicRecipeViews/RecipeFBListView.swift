@@ -13,11 +13,11 @@ struct RecipeFBListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
-
+    
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
     @State private var rating    = 0
-
+    
     var recipeId: NSManagedObjectID?
     
     private var filteredFBRecipes: [RecipeFB] {
@@ -59,51 +59,38 @@ struct RecipeFBListView: View {
                 SearchBarView(filterBy: $filterBy, nameOrTag: $nameOrTag, rating: $rating, showRating: false)
                     .padding([.trailing, .bottom])
                 
-                ScrollView {
-                    LazyVStack (alignment: .leading) {
-                        ForEach (filteredFBRecipes) { r in
-                            NavigationLink(
-                                destination: RecipeFBDetailView(recipeFB: r),
-                                label: {
+                List {
+                    ForEach (filteredFBRecipes) { r in
+                        NavigationLink(
+                            destination: RecipeFBDetailView(recipeFB: r),
+                            label: {
+                                
+                                HStack(spacing: 8.0) {
                                     
-                                    // MARK: Row item
-                                    HStack(spacing: 20.0) {
+                                    Image(uiImage: GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage())
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(5)
+                                    
+                                    VStack (alignment: .leading) {
+                                        Text(r.name)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
+                                            .multilineTextAlignment(.leading)
                                         
-                                        NavigationLink(
-                                            destination: ShowBigImageView(image: (GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
-                                        )
-                                        {
-                                            Image(uiImage: GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage())
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                                .clipped()
-                                                .cornerRadius(5)
-                                        }
-                                        
-                                        VStack (alignment: .leading) {
-                                            Text(r.name)
-                                                .font(Font.custom("Avenir Heavy", size: 16))
-                                                .multilineTextAlignment(.leading)
-                                            
-                                            RecipeTags(tags: r.tags)
-                                                .font(Font.custom("Avenir", size: 12))
-                                                .multilineTextAlignment(.leading)
-                                        }
+                                        RecipeTags(tags: r.tags)
+                                            .font(Font.custom("Avenir", size: 12))
+                                            .multilineTextAlignment(.leading)
                                     }
                                 }
-                            )
-                        }
+                            }
+                        )
                     }
                 }
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .navigationBarHidden(true)
+            .hiddenNavigationBarStyle()
             .padding(.leading)
-            .onTapGesture {
-                // Resign first responder
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
         }
     }
 }

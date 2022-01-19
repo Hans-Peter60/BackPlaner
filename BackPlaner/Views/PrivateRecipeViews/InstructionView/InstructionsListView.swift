@@ -63,7 +63,7 @@ struct InstructionsListView: View {
                                 label: {
                                     
                                     // MARK: Row item
-                                    HStack(spacing: 10.0) {
+                                    HStack(spacing: 8.0) {
                                         NavigationLink(
                                             destination: ShowBigImageView(image: r.image)
                                         )
@@ -119,7 +119,7 @@ struct InstructionsListView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
+            .hiddenNavigationBarStyle()
             .padding(.leading)
             .onTapGesture {
                 // Resign first responder

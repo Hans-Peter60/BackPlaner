@@ -12,7 +12,7 @@ struct ShoppingCartsView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     private var shoppingCarts: FetchedResults<ShoppingCart>
 
     var gridItemLayout = [GridItem(.fixed(80), alignment: .trailing), GridItem(.fixed(80), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading)]
@@ -27,6 +27,8 @@ struct ShoppingCartsView: View {
         calendar.date(from:endComponents)!
     }()
     
+    @State private var confirmationShown = false
+    
     var body: some View {
         
         ScrollView {
@@ -40,9 +42,9 @@ struct ShoppingCartsView: View {
                     Spacer()
                     
                     Button("Löschen") {
-                        
+
                         viewContext.delete(shoppingCart)
-                        
+
                         do {
                             try viewContext.save()
                         } catch {

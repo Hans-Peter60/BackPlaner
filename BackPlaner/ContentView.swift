@@ -24,10 +24,13 @@ struct ContentView: View {
     
     var body: some View {
         
-
         NavigationView {
+            
             VStack {
 
+                Text(" qetersBackplaner ")
+                    .font(Font.custom("Avenir Heavy", size: 28))
+                
                 NavigationLink(
                     destination: TabsFBView()
                 ) {
@@ -129,11 +132,29 @@ struct ContentView: View {
                 }
                 .padding()
 
-          }.navigationTitle("Back Planer")
-                .navigationBarTitleDisplayMode(.large)
+          }
+            .hiddenNavigationBarStyle()
+//            .navigationTitle("Back Planer")
+//            .navigationBarTitleDisplayMode(.large)
         }
 //        .navigationViewStyle(StackNavigationViewStyle())
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
+    }
+}
+
+//ViewModifiers.swift
+
+struct HiddenNavigationBar: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarHidden(true)
+    }
+}
+
+extension View {
+    func hiddenNavigationBarStyle() -> some View {
+        modifier( HiddenNavigationBar() )
     }
 }

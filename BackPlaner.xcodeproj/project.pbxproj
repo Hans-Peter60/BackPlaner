@@ -364,14 +364,14 @@
 		6AF825552758F3850025FB0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6A45321C2796C66400258E31 /* EditRecipeViews */,
 				6AF1D8282760C0BF00A969BF /* PublicRecipeViews */,
 				6AF1D81D2760B5AE00A969BF /* PrivateRecipeViews */,
+				6A45321C2796C66400258E31 /* EditRecipeViews */,
 				6A8EA963275A5A6B00BF97A7 /* AddRecipesViews */,
 				6A466836278F14D9009FACAF /* ScheduledTasksViews */,
 				6AF1D8292760C10100A969BF /* BakeHistoryViews */,
-				6A466835278F14A7009FACAF /* UtilityViews */,
 				6A46682A278EDD66009FACAF /* ShoppingCartViews */,
+				6A466835278F14A7009FACAF /* UtilityViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
     
     var recipe:Recipe
     
@@ -147,5 +147,6 @@ struct RecipeDetailView: View {
             .padding()
         }
         .navigationBarTitle(recipe.name)
+
     }
 }
