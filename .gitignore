@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Xcode – nutzerspezifischer Zustand (Fensterlayout, Breakpoints, Schema-Auswahl).
+# xcshareddata bleibt bewusst getrackt, dort liegt u. a. Package.resolved.
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.perspectivev3
+
+# Build-Ergebnisse
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Firebase-Werkzeuge
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Lokale Arbeitsstände zum App-Icon – Backups, kein Quellcode.
+# Bei Bedarf mit "git add -f" trotzdem aufnehmen.
+Design Previews/
+Icon Backups/
