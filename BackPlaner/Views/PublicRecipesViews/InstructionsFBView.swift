@@ -509,16 +509,21 @@ struct InstructionsFBView: View {
         return steps
     }
 
-    /// The oven phase of the plan: the last processing step puts the dough into
-    /// the oven, the plan ends when baking is finished.
+    /// The oven phase of the plan: the step that puts the dough into the oven
+    /// starts it, the plan ends when baking is finished. Recognising that step
+    /// by its wording — the same way ``BakePlanValidator`` does for the plans
+    /// already scheduled — keeps the check symmetric for recipes whose last
+    /// step is a cool-down rather than the bake.
     private func plannedBakeWindow() -> BakeWindow? {
 
-        guard let lastInstruction = recipeFB.instructions.last else { return nil }
+        guard let bakingInstruction = recipeFB.instructions.first(where: {
+            BakePlanValidator.isBakingStartInstruction($0.instruction)
+        }) ?? recipeFB.instructions.last else { return nil }
 
         let calendar = Calendar.current
         let base     = planBaseDate
 
-        guard let start = calendar.date(byAdding: .minute, value: lastInstruction.startTime ?? 0, to: base),
+        guard let start = calendar.date(byAdding: .minute, value: bakingInstruction.startTime ?? 0, to: base),
               let end   = calendar.date(byAdding: .minute, value: recipeFB.prepTime, to: base),
               end >= start else {
             return nil

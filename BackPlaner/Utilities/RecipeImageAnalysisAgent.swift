@@ -1176,6 +1176,7 @@ private struct GeneralRecipeParser {
                 instruction.step = analyzed.step
                 instruction.instruction = condensedIngredientLists(in: analyzed.text)
                 instruction.duration = analyzed.duration
+                instruction.componentName = analyzed.componentName
                 return instruction
             }
         } else {
@@ -1390,14 +1391,12 @@ private struct GeneralRecipeParser {
     private func scheduleInstructions(_ recipe: RecipeFB) {
         let ordered = recipe.instructions.sorted { $0.step < $1.step }
 
-        // A preparation step names its component; `componentPreparationText`
-        // phrases it as "… die Komponente <name> …".
+        // A preparation step carries the component it prepares, so the plan does
+        // not depend on the step's wording.
         var pending: [(instruction: InstructionFB, component: ComponentFB)] = ordered.compactMap {
             instruction in
-            guard instruction.step < 2,
-                  let component = recipe.components.first(where: {
-                      instruction.instruction.localizedCaseInsensitiveContains("Komponente \($0.name)")
-                  }) else {
+            guard let name = instruction.componentName,
+                  let component = recipe.components.first(where: { $0.name == name }) else {
                 return nil
             }
             return (instruction, component)
@@ -2727,6 +2726,9 @@ private struct GeneralRecipeParser {
         let step: Double
         let text: String
         let duration: Int
+        /// Set for the steps that prepare one component, so the plan can
+        /// schedule them in dependency order without reading their wording.
+        var componentName: String? = nil
     }
 
     /// Builds a dependency-aware plan from component headings. Components prepared
@@ -2760,8 +2762,9 @@ private struct GeneralRecipeParser {
             let step = useParallelNumbers ? 1 + Double(index + 1) / 10 : 1
             result.append(AnalyzedRecipeStep(
                 step: step,
-                text: componentPreparationText(component: "die Komponente \(block.name)", source: block.text),
-                duration: estimatedDuration(in: block.text)
+                text: componentPreparationText(component: block.name, source: block.text),
+                duration: estimatedDuration(in: block.text),
+                componentName: block.name
             ))
         }
 
@@ -2915,11 +2918,20 @@ private struct GeneralRecipeParser {
         )
     }
 
+    /// The step text for preparing one component.
+    ///
+    /// The second form splices the recipe's own sentence at its verb and can
+    /// therefore only ever produce German — it is chosen exactly when the source
+    /// contains the German "verrühren". The first form only prefixes the
+    /// recipe's text and is therefore built in the app's language.
     private func componentPreparationText(component: String, source: String) -> String {
         guard let verbRange = source.range(of: "verrühren", options: .caseInsensitive) else {
-            return "\(component.localizedCapitalized) herstellen: " + cleanedLine(source)
+            return String(
+                format: AppSettings.generatedRecipeTexts().componentPreparationFormat,
+                component
+            ) + cleanedLine(source)
         }
-        return "Alle Zutaten für \(component) " + source[verbRange.lowerBound...]
+        return "Alle Zutaten für die Komponente \(component) " + source[verbRange.lowerBound...]
     }
 
     private func sentenceParts(_ text: String) -> [String] {

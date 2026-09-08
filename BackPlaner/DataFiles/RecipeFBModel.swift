@@ -133,7 +133,11 @@ class RecipeFBModel: ObservableObject {
             group.leave()
         }
 
-        let calculatedInstructions = Rational.calculateStartTimes(r.instructions, Date())
+        let calculatedInstructions = Rational.calculateStartTimes(
+            r.instructions,
+            Date(),
+            dependencies: Rational.ComponentDependency.from(r.components)
+        )
 
         // Create a Firebase document
         var recipeData: [String: Any] = [
@@ -211,6 +215,9 @@ class RecipeFBModel: ObservableObject {
                 "startTime":   i.startTime ?? 0,
                 "date":        i.date ?? 0
             ]
+            if let componentName = i.componentName {
+                instructionData["componentName"] = componentName
+            }
             let instructionTranslations = i.firestoreTranslationsData
             if !instructionTranslations.isEmpty {
                 instructionData["translations"] = instructionTranslations
@@ -306,10 +313,17 @@ class RecipeFBModel: ObservableObject {
 
                 // Loop through the documents returned
                 for doc in snapshot.documents {
-                    
+
+                    // A reported recipe is withheld from every user right away
+                    // (App Store Guideline 1.2). Only admins still receive it,
+                    // so they can review it and either release or delete it.
+                    let isHidden = doc["hidden"] as? Bool ?? false
+                    if isHidden && !self.isAdmin { continue }
+
                     let r      = RecipeFB()
-                    
+
                     r.id          = doc.documentID
+                    r.hidden      = isHidden
                     r.authorId    = doc["authorId"]    as? String ?? ""
                     r.name        = doc["name"]        as? String ?? ""
                     r.image       = doc["image"]       as? String ?? ""
@@ -348,17 +362,68 @@ class RecipeFBModel: ObservableObject {
         }
     }
 
-    /// Files a moderation report for a public recipe (App Store Guideline 1.2).
-    /// Reports land in a `reports` collection for manual review in the Firebase
-    /// console; the app additionally hides the recipe locally right away.
+    /// Files a moderation report for a public recipe (App Store Guideline 1.2)
+    /// and takes the recipe down for EVERY user in the same step, so offensive
+    /// content disappears immediately instead of within some review window. An
+    /// admin reviews it afterwards and either deletes it or releases it again
+    /// via `setRecipeHidden(_:hidden:)`.
+    ///
+    /// The report id is `{recipeId}_{uid}`, so each user can report a given
+    /// recipe only once: the security rules allow `create` but never `update`,
+    /// which makes a second attempt fail on the server.
     func reportRecipe(_ recipe: RecipeFB, reason: String) {
-        db.collection("reports").addDocument(data: [
-            "recipeId":   recipe.id ?? "",
+        guard let recipeId = recipe.id, !recipeId.isEmpty else { return }
+        let reporter = ModerationStore.shared.authorId
+
+        db.collection("reports").document("\(recipeId)_\(reporter)").setData([
+            "recipeId":   recipeId,
             "authorId":   recipe.authorId ?? "",
             "reason":     reason,
-            "reportedBy": ModerationStore.shared.authorId,
+            "reportedBy": reporter,
+            "status":     "open",
             "createdAt":  FieldValue.serverTimestamp()
-        ])
+        ]) { error in
+            if let error {
+                AppLog.firebase.error("Report could not be filed: \(error.localizedDescription)")
+            }
+        }
+
+        // Only `hidden` is written here, deliberately: the security rule has to
+        // match the changed keys exactly, and Firestore sentinels (serverTimestamp,
+        // increment) make that condition impossible to verify in the Rules
+        // Playground. Timestamps and the report count live in `reports` anyway.
+        db.collection("Recipe").document(recipeId).updateData([
+            "hidden": true
+        ]) { error in
+            if let error {
+                AppLog.firebase.error("Reported recipe could not be hidden: \(error.localizedDescription)")
+            } else {
+                recipe.hidden = true
+            }
+        }
+    }
+
+    /// Withholds a reported recipe from all users, or releases it again after
+    /// review. Admins only — the security rules enforce the same restriction.
+    func setRecipeHidden(_ recipe: RecipeFB, hidden: Bool, completion: ((Result<Void, Error>) -> Void)? = nil) {
+        guard isAdmin, let recipeId = recipe.id, !recipeId.isEmpty else {
+            completion?(.success(()))
+            return
+        }
+
+        db.collection("Recipe").document(recipeId).updateData([
+            "hidden": hidden
+        ]) { error in
+            DispatchQueue.main.async {
+                if let error {
+                    AppLog.firebase.error("Visibility could not be changed: \(error.localizedDescription)")
+                    completion?(.failure(error))
+                } else {
+                    recipe.hidden = hidden
+                    completion?(.success(()))
+                }
+            }
+        }
     }
 
     /// Deletes a public recipe the current device authored (App Store Guideline
@@ -406,7 +471,14 @@ class RecipeFBModel: ObservableObject {
             }
             let result = snapshot?.exists == true
             AppLog.firebase.debug("Admin check: uid=\(uid) isAdmin=\(result)")
-            self?.isAdmin = result
+            guard let self else { return }
+            // The launch fetch in init() runs BEFORE this check completes, so at
+            // that point isAdmin is still false and hidden (reported) recipes are
+            // skipped even for a moderator. Reload the list whenever the admin
+            // state actually changes, so admins see what they need to review.
+            let changed = self.isAdmin != result
+            self.isAdmin = result
+            if changed { self.getRecipesFB() }
         }
     }
 
@@ -442,6 +514,10 @@ class RecipeFBModel: ObservableObject {
                 AppLog.firebase.error("Anonymous re-sign-in failed: \(error.localizedDescription)")
             }
             self?.checkAdminStatus()
+            // isAdmin was cleared above, so checkAdminStatus() sees no change and
+            // won't reload. Fetch explicitly, otherwise hidden recipes loaded as
+            // an admin would stay visible to the now anonymous user.
+            self?.getRecipesFB()
             completion?()
         }
     }
@@ -541,6 +617,7 @@ class RecipeFBModel: ObservableObject {
                     i.duration    = doc["duration"] as? Int ?? 0
                     i.startTime   = doc["startTime"] as? Int ?? 0
                     i.step        = doc["step"] as? Double ?? 1
+                    i.componentName = doc["componentName"] as? String
                     if let translations = doc["translations"] as? [String: Any] {
                         i.translations = translations.mapValues { InstructionTextFB(firestoreData: $0) }
                     }

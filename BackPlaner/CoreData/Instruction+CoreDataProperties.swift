@@ -23,6 +23,10 @@ extension Instruction {
     @NSManaged public var duration:   Int
     @NSManaged public var date:       Date?
     @NSManaged public var bakeFlag:   Bool
+    /// The component this step prepares, for steps the recipe import generates
+    /// per component. The bake plan schedules those in dependency order, and
+    /// reads the dependency from here instead of from the step's wording.
+    @NSManaged public var componentName: String?
     @NSManaged public var recipe:     Recipe?
     
 }

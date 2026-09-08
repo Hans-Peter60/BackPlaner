@@ -103,7 +103,10 @@ class RecipeFB: Identifiable, Decodable {
     var firestoreId: String?
     // Anonymous id of the device that uploaded this public recipe (UGC moderation)
     var authorId:    String?
-    
+    // Set by the first report that comes in: the recipe is then withheld from
+    // every user until an admin either deletes it or releases it again.
+    var hidden:      Bool = false
+
     // These properties map to the properties in the JSON file
     var name:           String  = ""
     var image:          String  = ""
@@ -125,7 +128,7 @@ class RecipeFB: Identifiable, Decodable {
     // Decode resiliently: keys missing from the JSON fall back to the declared defaults
     // instead of throwing keyNotFound (e.g. bakeHistoryFlag, rating, bakeHistories).
     private enum CodingKeys: String, CodingKey {
-        case id, firestoreId, authorId, name, image, summary, urlLink, prepTime, totalWeight
+        case id, firestoreId, authorId, hidden, name, image, summary, urlLink, prepTime, totalWeight
         case tags, bakeHistoryFlag, rating, sourceLanguage, translations, components, instructions, bakeHistories
     }
 
@@ -134,6 +137,7 @@ class RecipeFB: Identifiable, Decodable {
         id              = try c.decodeIfPresent(String.self,           forKey: .id)
         firestoreId     = try c.decodeIfPresent(String.self,           forKey: .firestoreId)
         authorId        = try c.decodeIfPresent(String.self,           forKey: .authorId)
+        hidden          = try c.decodeIfPresent(Bool.self,             forKey: .hidden)          ?? false
         name            = try c.decodeIfPresent(String.self,           forKey: .name)            ?? ""
         image           = try c.decodeIfPresent(String.self,           forKey: .image)           ?? ""
         summary         = try c.decodeIfPresent(String.self,           forKey: .summary)         ?? ""
@@ -220,24 +224,30 @@ class InstructionFB: Identifiable, Decodable {
     var startTime:  Int?
     var date:       Date?
     var bakeFlag:   Bool?
+    /// The component this step prepares, for steps the recipe import generates
+    /// per component. The bake plan schedules those in dependency order, and
+    /// reads the dependency from here instead of from the step's wording.
+    var componentName: String?
     var translations: [String: InstructionTextFB] = [:]
 
     init() {}
 
     private enum CodingKeys: String, CodingKey {
-        case id, step, instruction, duration, startTime, date, bakeFlag, translations
+        case id, step, instruction, duration, startTime, date, bakeFlag
+        case componentName, translations
     }
 
     required init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        id           = try c.decodeIfPresent(String.self, forKey: .id)
-        step         = try c.decodeIfPresent(Double.self, forKey: .step) ?? 0
-        instruction  = try c.decodeIfPresent(String.self, forKey: .instruction) ?? ""
-        duration     = try c.decodeIfPresent(Int.self, forKey: .duration) ?? 0
-        startTime    = try c.decodeIfPresent(Int.self, forKey: .startTime)
-        date         = try c.decodeIfPresent(Date.self, forKey: .date)
-        bakeFlag     = try c.decodeIfPresent(Bool.self, forKey: .bakeFlag)
-        translations = try c.decodeIfPresent([String: InstructionTextFB].self, forKey: .translations) ?? [:]
+        id            = try c.decodeIfPresent(String.self, forKey: .id)
+        step          = try c.decodeIfPresent(Double.self, forKey: .step) ?? 0
+        instruction   = try c.decodeIfPresent(String.self, forKey: .instruction) ?? ""
+        duration      = try c.decodeIfPresent(Int.self, forKey: .duration) ?? 0
+        startTime     = try c.decodeIfPresent(Int.self, forKey: .startTime)
+        date          = try c.decodeIfPresent(Date.self, forKey: .date)
+        bakeFlag      = try c.decodeIfPresent(Bool.self, forKey: .bakeFlag)
+        componentName = try c.decodeIfPresent(String.self, forKey: .componentName)
+        translations  = try c.decodeIfPresent([String: InstructionTextFB].self, forKey: .translations) ?? [:]
     }
 }
 

@@ -19,10 +19,11 @@ struct InstructionSchedulingControlsView: View {
     var body: some View {
         HStack(spacing: isPhonePortrait ? 6 : 12) {
             Toggle(isOn: $changeDurations) {
-                VStack(alignment: .leading, spacing: -2) {
-                    Text("Dauer")
-                    Text("ändern")
-                }
+                // One string with its own line break: as two separate Text
+                // views the words could not be reordered, and no language
+                // other than German read correctly.
+                Text("Dauer\nändern")
+                    .multilineTextAlignment(.leading)
             }
                 .font(Theme.bodyFont(isPhonePortrait ? 13 : 15))
                 .controlSize(isPhonePortrait ? .mini : .regular)

@@ -323,7 +323,8 @@ class RecipeModel: ObservableObject {
                 i.step        = iFB.step
                 i.duration    = iFB.duration
                 i.startTime   = iFB.startTime ?? 0
-                
+                i.componentName = iFB.componentName
+
                 r.addToInstructions(i)
             }
         }

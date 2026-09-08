@@ -506,6 +506,7 @@ struct InstructionsView: View {
                                 instruction.step        = recipe.instructionsArray[i].step
                                 instruction.startTime   = recipe.instructionsArray[i].startTime
                                 instruction.duration    = recipe.instructionsArray[i].duration
+                                instruction.componentName = recipe.instructionsArray[i].componentName
                                 instructionsFB.append(instruction)
 
                             }
@@ -629,26 +630,14 @@ struct InstructionsView: View {
         return BakeWindow(recipeName: recipe.name, start: start, end: end)
     }
 
+    // Both live in BakePlanValidator, so the plan check and the reminders agree
+    // on which step puts the dough into the oven.
     private func isExplicitPreheatInstruction(_ instruction: String) -> Bool {
-        let text = instruction.folding(
-            options: [.caseInsensitive, .diacriticInsensitive],
-            locale: Locale(identifier: "de_DE")
-        )
-        return text.contains("vorheiz") || text.contains("prechauff")
+        BakePlanValidator.isPreheatInstruction(instruction)
     }
 
     private func isBakingStartInstruction(_ instruction: String) -> Bool {
-        let text = instruction.folding(
-            options: [.caseInsensitive, .diacriticInsensitive],
-            locale: Locale(identifier: "de_DE")
-        )
-        guard !text.contains("vorheiz"), !text.contains("prechauff") else { return false }
-        return text.contains("backen")
-            || text.contains("backofen")
-            || text.contains("ofen stellen")
-            || text.contains("ofen geben")
-            || text.contains("cuire")
-            || text.contains("mettre au four")
+        BakePlanValidator.isBakingStartInstruction(instruction)
     }
 
     private func ovenStartText(

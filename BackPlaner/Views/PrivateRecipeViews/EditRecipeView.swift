@@ -360,6 +360,7 @@ struct EditRecipeView: View {
             instructionFB.step        = instruction.step
             instructionFB.startTime   = instruction.startTime
             instructionFB.duration    = instruction.duration
+            instructionFB.componentName = instruction.componentName
             return instructionFB
         }
 
@@ -530,6 +531,7 @@ struct EditRecipeView: View {
             instructionFB.startTime   = instruction.startTime
             instructionFB.date        = instruction.date
             instructionFB.bakeFlag    = instruction.bakeFlag
+            instructionFB.componentName = instruction.componentName
             return instructionFB
         }
 

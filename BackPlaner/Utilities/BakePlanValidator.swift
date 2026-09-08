@@ -222,13 +222,22 @@ enum BakePlanValidator {
             .filter { $0.end > now }
     }
 
-    /// Derives the oven phase of a plan: the last processing step starts the
-    /// bake, the generated finish step ends it.
+    /// Derives the oven phase of a plan: the step that puts the dough into the
+    /// oven starts the bake, the generated finish step ends it.
+    ///
+    /// The oven step is recognised by its wording, not by its position. Taking
+    /// the last processing step instead understates the phase for every recipe
+    /// that cools down, rests or glazes afterwards — an already scheduled bake
+    /// then looked shorter than it is, and a second bake placed inside its real
+    /// oven time was reported as a short pause instead of an overlap.
     static func bakeWindow(recipeName: String, steps: [PlannedStep]) -> BakeWindow? {
 
         let processingSteps = steps.filter { $0.step < finishStepNumber }
+        let ovenStep = processingSteps
+            .filter { isBakingStartInstruction($0.instruction) }
+            .min { $0.step < $1.step }
 
-        guard let start = processingSteps.max(by: { $0.step < $1.step })?.date,
+        guard let start = (ovenStep ?? processingSteps.max { $0.step < $1.step })?.date,
               let end = steps.first(where: { $0.step >= finishStepNumber })?.date
                         ?? steps.map(\.date).max(),
               end >= start else {
@@ -236,6 +245,40 @@ enum BakePlanValidator {
         }
 
         return BakeWindow(recipeName: recipeName, start: start, end: end)
+    }
+
+    /// Whether a step puts the dough into the oven. Preheating does not count —
+    /// it names a temperature as well, but the oven is still empty.
+    static func isBakingStartInstruction(_ instruction: String) -> Bool {
+
+        let text = instruction.folding(
+            options: [.caseInsensitive, .diacriticInsensitive],
+            locale: Locale(identifier: "de_DE")
+        )
+
+        guard !isPreheatInstruction(text) else { return false }
+
+        return ["backen", "backofen", "ofen stellen", "ofen geben",
+                "bake", "into the oven", "on stone",
+                "cuire", "mettre au four"]
+            .contains(where: text.contains)
+    }
+
+    /// Whether a step only heats the oven up. Besides an explicit preheating
+    /// step of the recipe this covers the step the app generates itself
+    /// ("Backofen anstellen" / "Turn on the oven" / "Allumer le four") in every
+    /// language it can be stored in — it names the oven, but the dough is not
+    /// in it yet.
+    static func isPreheatInstruction(_ instruction: String) -> Bool {
+
+        let text = instruction.folding(
+            options: [.caseInsensitive, .diacriticInsensitive],
+            locale: Locale(identifier: "de_DE")
+        )
+
+        return ["vorheiz", "preheat", "prechauff",
+                "ofen anstellen", "turn on the oven", "allumer le four"]
+            .contains(where: text.contains)
     }
 
     // MARK: - Formatting
@@ -253,7 +296,10 @@ enum BakePlanValidator {
         String(format: "%02d:00", hour)
     }
 
+    /// Full minutes of a gap. Rounding up would let a gap of 9:42 read as
+    /// "only 10 minutes" against a pause of 10 minutes, which contradicts
+    /// itself.
     private static func minutes(_ interval: TimeInterval) -> Int {
-        max(0, Int((interval / 60).rounded()))
+        max(0, Int(interval / 60))
     }
 }

@@ -267,13 +267,14 @@ class Rational {
             let groupStart = calcDauer
 
             // Which of these steps prepares a component, and in which order can
-            // they run?
+            // they run? A preparation step names its component itself, so the
+            // plan does not depend on the step's wording — and stays correct
+            // when the app language differs from the one it was imported in.
             var preparations: [(instruction: InstructionFB, dependency: ComponentDependency)] = []
             var parallel: [InstructionFB] = []
             for instruction in group {
-                if let dependency = dependencies.first(where: {
-                    instruction.instruction.localizedCaseInsensitiveContains("Komponente \($0.name)")
-                }) {
+                if let name = instruction.componentName,
+                   let dependency = dependencies.first(where: { $0.name == name }) {
                     preparations.append((instruction, dependency))
                 } else {
                     parallel.append(instruction)

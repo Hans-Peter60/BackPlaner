@@ -166,6 +166,7 @@ struct EditInstructionView: View {
             instructionFB.step        = instruction.step
             instructionFB.startTime   = instruction.startTime
             instructionFB.duration    = instruction.duration
+            instructionFB.componentName = instruction.componentName
             return instructionFB
         }
 

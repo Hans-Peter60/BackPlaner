@@ -4,7 +4,7 @@
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="images" optional="YES" attributeType="Transformable"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="bakeHistories" inverseEntity="Recipe"/>
     </entity>
     <entity name="Component" representedClassName="Component" syncable="YES">
@@ -28,6 +28,7 @@
     </entity>
     <entity name="Instruction" representedClassName="Instruction" syncable="YES">
         <attribute name="bakeFlag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="componentName" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="duration" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -57,7 +58,7 @@
         <attribute name="prepTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rating" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="summary" optional="YES" attributeType="String"/>
-        <attribute name="tags" optional="YES" attributeType="Transformable"/>
+        <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="totalWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="urlLink" optional="YES" attributeType="String"/>
         <relationship name="bakeHistories" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BakeHistory" inverseName="recipe" inverseEntity="BakeHistory"/>

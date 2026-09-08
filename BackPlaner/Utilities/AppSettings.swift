@@ -85,6 +85,7 @@ struct AppSettings {
     static func generatedRecipeTexts(languageCode: String = locale.identifier) -> (
         importedRecipe: String,
         componentFormat: String,
+        componentPreparationFormat: String,
         bakeTemperatureFormat: String,
         fallingBakeTemperatureFormat: String,
         steamFormat: String,
@@ -95,6 +96,7 @@ struct AppSettings {
             return (
                 "Imported recipe",
                 "Component %lld",
+                "Prepare component %@: ",
                 "Bake at %@.",
                 "Bake at %1$@ °C, falling to %2$@ °C.",
                 "Steam: %@.",
@@ -104,6 +106,7 @@ struct AppSettings {
             return (
                 "Recette importée",
                 "Composant %lld",
+                "Préparer le composant %@ : ",
                 "Cuire à %@.",
                 "Cuire à %1$@ °C en descendant à %2$@ °C.",
                 "Buée : %@.",
@@ -113,6 +116,7 @@ struct AppSettings {
             return (
                 "Importiertes Rezept",
                 "Komponente %lld",
+                "Die Komponente %@ herstellen: ",
                 "Bei %@ backen.",
                 "Bei %1$@ °C fallend auf %2$@ °C backen.",
                 "Schwaden: %@.",
