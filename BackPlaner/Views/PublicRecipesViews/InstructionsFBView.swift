@@ -253,9 +253,9 @@ struct InstructionsFBView: View {
                                 .font(Theme.bodyFont(15))
                                 
                                 Group {
-                                    Text("99")
+                                    Text(verbatim: "99")
                                     Text("Fertig")
-                                    Text("")
+                                    Text(verbatim: "")
                                     if dateTimeStartSelection == 0 {
                                         let date = Calendar.current.date(byAdding: .minute, value: recipeFB.prepTime, to: dateTime) ?? dateTime
                                         StackedDateTime(date: date, alignment: .trailing)
@@ -389,7 +389,7 @@ struct InstructionsFBView: View {
                                 
                                 let bakeHistoryFB     = BakeHistoryFB()
                                 bakeHistoryFB.date    = planBaseDate
-                                bakeHistoryFB.comment = "<kein Kommentar erfasst>"
+                                bakeHistoryFB.comment = AppSettings.generatedRecipeTexts().missingComment
                                 bakeHistoryFB.images  = [GlobalVariables.noImage]
                                 recipeFB.bakeHistories.append(bakeHistoryFB)
                                 

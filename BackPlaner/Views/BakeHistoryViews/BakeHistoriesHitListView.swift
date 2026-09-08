@@ -56,12 +56,12 @@ struct BakeHistoriesHitListView: View {
 
         LazyVGrid(columns: gridItemLayout, spacing: 6) {
             
-            Text("")
+            Text(verbatim: "")
             Text("Rezept")
             Text("Anzahl")
-            Text("")
-            Text("")
-            Text("")
+            Text(verbatim: "")
+            Text(verbatim: "")
+            Text(verbatim: "")
         }
         .padding(.leading, 28)
         .font(Theme.brandFont(18))
@@ -76,7 +76,7 @@ struct BakeHistoriesHitListView: View {
                         
                         LazyVGrid(columns: gridItemLayout, spacing: 6) {
                             
-                            Text("")
+                            Text(verbatim: "")
                             Text(recipe.name)
                                 .font(Theme.brandFont(16))
                             Text(String(recipe.bakeHistories.count))
@@ -107,7 +107,7 @@ struct BakeHistoriesHitListView: View {
                     }
                 }
                 else {
-                    Text("")
+                    Text(verbatim: "")
                 }
             }
             .listRowBackground(Color.clear)

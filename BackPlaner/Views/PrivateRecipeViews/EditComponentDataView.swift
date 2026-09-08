@@ -100,6 +100,10 @@ struct EditComponentView: View {
 
     private let calcWeight = CalcIngredientWeight()
 
+    /// A purely visual placeholder. Passing a `String` instead of a
+    /// `LocalizedStringKey` keeps it out of the String Catalog.
+    private let namePlaceholder = "..."
+
     private let ingredientGridLayout = [
         GridItem(.fixed(30), spacing: 4, alignment: .leading),
         GridItem(.fixed(64), spacing: 4, alignment: .trailing),
@@ -140,7 +144,7 @@ struct EditComponentView: View {
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 40)
-                            TextField("...", text: $componentName)
+                            TextField(namePlaceholder, text: $componentName)
                                 .textFieldStyle(.roundedBorder)
                         }
                     }
@@ -166,9 +170,9 @@ struct EditComponentView: View {
                                 .fixedSize(horizontal: true, vertical: false)
                             Text("Zutat")
                             Text("Z")
-                            Text("/")
+                            Text(verbatim: "/")
                             Text("N")
-                            Text("")
+                            Text(verbatim: "")
                         }
                         
                         TextField("", value: $number, formatter: GlobalVariables.formatter)
@@ -183,7 +187,7 @@ struct EditComponentView: View {
                         TextField("", value: $num, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                        Text("/")
+                        Text(verbatim: "/")
                         TextField("", value: $denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)

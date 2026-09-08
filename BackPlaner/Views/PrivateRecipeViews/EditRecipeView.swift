@@ -26,7 +26,12 @@ struct EditRecipeView: View {
     @State private var componentName   = ""
     @State private var componentNumber = 0
     @State private var tags            = [String]()
-    
+
+    /// Purely visual placeholders. Passing a `String` instead of a
+    /// `LocalizedStringKey` keeps them out of the String Catalog.
+    private let numberPlaceholder = "."
+    private let namePlaceholder   = "..."
+
     @State private var showingAlert = false
     @State private var showingSheet = false
     @State private var activatePublicSaveButton = true
@@ -130,11 +135,11 @@ struct EditRecipeView: View {
                         Text("Komponente")
                     }
                     HStack {
-                        TextField(".", value: $componentNumber, formatter: GlobalVariables.formatter)
+                        TextField(numberPlaceholder, value: $componentNumber, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 40)
-                        TextField("...", text: $componentName)
+                        TextField(namePlaceholder, text: $componentName)
                             .textFieldStyle(.roundedBorder)
                         
                         IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Komponente hinzufügen", controlSize: .regular) {
@@ -185,12 +190,12 @@ struct EditRecipeView: View {
                         Text("Schritt").bold()
                         Text("Beschreibung").bold()
                         Text("Dauer").bold()
-                        Text(" ").bold()
+                        Text(verbatim: " ").bold()
                         
                         TextField("", value: $step, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                        TextField("...", text: $instruction)
+                        TextField(namePlaceholder, text: $instruction)
                             .textFieldStyle(.roundedBorder)
                         TextField("", value: $duration, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)

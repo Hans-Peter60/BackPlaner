@@ -67,7 +67,7 @@ struct AddComponentDataView: View {
                             .textFieldStyle(.roundedBorder)
                         TextField("", text: $components[i].name)
                             .textFieldStyle(.roundedBorder)
-                        Text("")
+                        Text(verbatim: "")
                     }
 
                     AddIngredientDataView(ingredients: $components[i].ingredients)

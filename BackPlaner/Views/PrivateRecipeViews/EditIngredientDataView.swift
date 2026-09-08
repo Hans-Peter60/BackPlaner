@@ -134,7 +134,7 @@ struct EditIngredientView: View {
                         TextField("", value: $num, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                        Text("/")
+                        Text(verbatim: "/")
                         TextField("", value: $denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
@@ -178,19 +178,19 @@ struct IngredientRowView: View {
         Group {
             
             Text(String(ingredient.number))
-            if ingredient.weight > 0 { Text(String(ingredient.weight)) } else { Text("") }
+            if ingredient.weight > 0 { Text(String(ingredient.weight)) } else { Text(verbatim: "") }
             Text(ingredient.unit ?? "")
             Text(ingredient.name)
             
             if ingredient.num == ingredient.denom {
             
-                Text("")
-                Text("")
-                Text("")
+                Text(verbatim: "")
+                Text(verbatim: "")
+                Text(verbatim: "")
             }
             else {
                 Text(String(ingredient.num))
-                Text("")
+                Text(verbatim: "")
                 Text(String(ingredient.denom))
             }
         }

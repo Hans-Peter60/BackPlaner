@@ -70,9 +70,9 @@ struct BakeHistoriesListView: View {
             Text("Datum")
             Text("Rezept")
             Text("Kommentar")
-            Text("")
-            Text("")
-            Text("")
+            Text(verbatim: "")
+            Text(verbatim: "")
+            Text(verbatim: "")
         }
         .padding(.horizontal, 16)
         .font(Theme.brandFont(18))

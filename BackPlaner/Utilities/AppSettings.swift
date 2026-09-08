@@ -63,13 +63,7 @@ struct AppSettings {
     }
 
     static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String) {
-        let baseLanguage = languageCode
-            .replacingOccurrences(of: "-", with: "_")
-            .split(separator: "_")
-            .first
-            .map(String.init) ?? "de"
-
-        switch baseLanguage {
+        switch baseLanguage(of: languageCode) {
         case "en":
             return ("Turn on the oven", "Baking is finished")
         case "fr":
@@ -77,6 +71,62 @@ struct AppSettings {
         default:
             return ("Backofen anstellen", "Backvorgang ist beendet")
         }
+    }
+
+    /// Texts the app writes into a recipe itself — a step sentence, a fallback
+    /// name, a placeholder comment. They become part of the stored data, so they
+    /// have to be produced in the app's language at the moment they are created;
+    /// a String Catalog entry could no longer translate them afterwards, the way
+    /// it does for texts that are only displayed.
+    ///
+    /// `bakeTemperature` and `fallingBakeTemperature` must keep the higher
+    /// temperature in front of the lower one: the preheating reminder reads the
+    /// oven temperature from the first number of the baking step.
+    static func generatedRecipeTexts(languageCode: String = locale.identifier) -> (
+        importedRecipe: String,
+        componentFormat: String,
+        bakeTemperatureFormat: String,
+        fallingBakeTemperatureFormat: String,
+        steamFormat: String,
+        missingComment: String
+    ) {
+        switch baseLanguage(of: languageCode) {
+        case "en":
+            return (
+                "Imported recipe",
+                "Component %lld",
+                "Bake at %@.",
+                "Bake at %1$@ °C, falling to %2$@ °C.",
+                "Steam: %@.",
+                "no comment recorded"
+            )
+        case "fr":
+            return (
+                "Recette importée",
+                "Composant %lld",
+                "Cuire à %@.",
+                "Cuire à %1$@ °C en descendant à %2$@ °C.",
+                "Buée : %@.",
+                "aucun commentaire"
+            )
+        default:
+            return (
+                "Importiertes Rezept",
+                "Komponente %lld",
+                "Bei %@ backen.",
+                "Bei %1$@ °C fallend auf %2$@ °C backen.",
+                "Schwaden: %@.",
+                "kein Kommentar erfasst"
+            )
+        }
+    }
+
+    private static func baseLanguage(of languageCode: String) -> String {
+        languageCode
+            .replacingOccurrences(of: "-", with: "_")
+            .split(separator: "_")
+            .first
+            .map(String.init) ?? "de"
     }
 
     static func localeIdentifier(for selectedLanguage: String = storedLanguage) -> String {

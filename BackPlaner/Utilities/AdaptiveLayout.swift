@@ -72,7 +72,7 @@ struct StackedDateTime: View {
                 }
             } else {
                 // Landscape / iPad: single line, as before.
-                Text("\(day), \(time)")
+                Text(verbatim: "\(day), \(time)")
             }
         }
         .font(font)

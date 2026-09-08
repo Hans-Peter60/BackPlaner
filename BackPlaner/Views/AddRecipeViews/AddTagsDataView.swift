@@ -21,7 +21,7 @@ struct AddTagsDataView: View {
         
         LazyVGrid(columns: gridItemLayout, spacing: 2) {
             
-            Text("\(title):")
+            Text(verbatim: "\(title):")
                 .font(Theme.brandFont(15))
             
             TextField(placeholderText, text: $tag)

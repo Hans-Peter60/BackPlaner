@@ -246,7 +246,7 @@ struct InstructionsView: View {
                                 if let lastInstruction = recipe.instructionsArray.last {
                                     Text(String(Int(lastInstruction.step + 1)))
                                     Text("Fertig")
-                                    Text("")
+                                    Text(verbatim: "")
                                     if dateTimeStartSelection == 0 {
                                         let date = Calendar.current.date(byAdding: .minute, value: recipe.prepTime, to: dateTime) ?? dateTime
                                         StackedDateTime(date: date, alignment: .trailing)
@@ -446,7 +446,7 @@ struct InstructionsView: View {
                             // MARK: BakeHistory sichern
                             let bakeHistory     = BakeHistory(context: viewContext)
                             bakeHistory.date    = endDate
-                            bakeHistory.comment = "kein Kommentar erfasst"
+                            bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
                             
                             recipe.addToBakeHistories(bakeHistory)
 
@@ -655,7 +655,9 @@ struct InstructionsView: View {
         baseText: String,
         bakingInstruction: String
     ) -> String {
-        let pattern = #"(?:bei|auf|à|a)\s+(\d{2,3})\s*(?:°\s*C|Grad)?"#
+        // "at" covers the English baking step the import writes; without it the
+        // preheating reminder would name no temperature at all in English.
+        let pattern = #"(?:bei|auf|at|à|a)\s+(\d{2,3})\s*(?:°\s*C|Grad)?"#
         guard let expression = try? NSRegularExpression(
             pattern: pattern,
             options: [.caseInsensitive]

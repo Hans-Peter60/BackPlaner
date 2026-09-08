@@ -52,9 +52,9 @@ struct AddIngredientDataView: View {
                     .fixedSize(horizontal: true, vertical: false)
                 Text("Zutat")
                 Text("Z")
-                Text("/")
+                Text(verbatim: "/")
                 Text("N")
-                Text("")
+                Text(verbatim: "")
             }
 
             Group {
@@ -72,7 +72,7 @@ struct AddIngredientDataView: View {
                     TextField("", value: $num, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
-                    Text("/")
+                    Text(verbatim: "/")
                     TextField("", value: $denom, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
@@ -130,7 +130,7 @@ struct AddIngredientDataView: View {
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
 
-                        Text("/")
+                        Text(verbatim: "/")
 
                         TextField("", value: $ingredients[i].denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)

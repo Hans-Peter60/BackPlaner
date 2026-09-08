@@ -33,7 +33,7 @@ struct AddInstructionDataView: View {
                     Text("Schritt").bold()
                     Text("Beschreibung").bold()
                     Text("Dauer").bold()
-                    Text(" ").bold()
+                    Text(verbatim: " ").bold()
                     
                     TextField("", value: $step, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
@@ -90,7 +90,7 @@ struct AddInstructionDataView: View {
                         TextField("", value: $instructions[i].duration, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
-                        Text(" ")
+                        Text(verbatim: " ")
                     }
                     .onDelete(perform: deleteInstruction)
                 }

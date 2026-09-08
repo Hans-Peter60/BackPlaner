@@ -503,7 +503,7 @@ private struct TwoColumnRecipeParser {
         }
 
         let recipe = RecipeFB()
-        recipe.name = recipeName() ?? "Importiertes Rezept"
+        recipe.name = recipeName() ?? AppSettings.generatedRecipeTexts().importedRecipe
         recipe.summary = recipeSummary(title: recipe.name)
         recipe.sourceLanguage = "de"
         recipe.tags = inferredTags(from: recipe.name)
@@ -608,7 +608,10 @@ private struct TwoColumnRecipeParser {
     ) -> ComponentFB {
         let component = ComponentFB()
         component.id = UUID().uuidString
-        component.name = name ?? "Komponente \(number)"
+        component.name = name ?? String(
+            format: AppSettings.generatedRecipeTexts().componentFormat,
+            number
+        )
         component.number = number
 
         let ingredientRows = groupedRows(lines.filter { $0.x < 0.48 })
@@ -1136,7 +1139,7 @@ private struct GeneralRecipeParser {
         let recipe = RecipeFB()
         recipe.name = detectedMultilineTitle()
             ?? titleCandidates.first
-            ?? "Importiertes Rezept"
+            ?? AppSettings.generatedRecipeTexts().importedRecipe
         recipe.summary = usedSpatialComponentAssignment
             ? (detectedDescriptionUnderTitle() ?? detectedSummary(in: textLines))
             : detectedSummary(in: textLines)
@@ -1303,12 +1306,13 @@ private struct GeneralRecipeParser {
                 baking.duration = minutes
             }
 
+            let texts = AppSettings.generatedRecipeTexts()
             var additions: [String] = []
             if !baking.instruction.contains("°C"), let temperature = box.bakeTemperature {
                 additions.append(bakeTemperatureSentence(temperature))
             }
             if let steam = box.steam {
-                additions.append("Schwaden: \(steam).")
+                additions.append(String(format: texts.steamFormat, steam))
             }
             if !additions.isEmpty {
                 baking.instruction = ([baking.instruction] + additions).joined(separator: " ")
@@ -1365,15 +1369,16 @@ private struct GeneralRecipeParser {
         return 100 + water / flour * 100
     }
 
-    /// "250 °C auf 210 °C" as a step sentence. The higher value has to come
-    /// first: the app reads the oven temperature for its preheating reminder
-    /// from the first number of the baking step.
+    /// "250 °C auf 210 °C" as a step sentence, in the app's language. The higher
+    /// value has to come first: the app reads the oven temperature for its
+    /// preheating reminder from the first number of the baking step.
     private func bakeTemperatureSentence(_ value: String) -> String {
+        let texts = AppSettings.generatedRecipeTexts()
         if let values = captures(#"(\d{2,3})\s*°\s*C\s*auf\s*(\d{2,3})\s*°\s*C"#, in: value),
            values.count == 2 {
-            return "Bei \(values[0]) °C fallend auf \(values[1]) °C backen."
+            return String(format: texts.fallingBakeTemperatureFormat, values[0], values[1])
         }
-        return "Bei \(value) backen."
+        return String(format: texts.bakeTemperatureFormat, value)
     }
 
     /// Places every step on the timeline, as minutes after the start the user
