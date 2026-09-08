@@ -7,6 +7,20 @@ private struct SelectedRecipeImage: Identifiable {
     let image: UIImage
 }
 
+private enum RecipeImportLayout: String, CaseIterable, Identifiable {
+    case general
+    case ploetzblog
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .general: "Allgemeine Rezeptvorlage"
+        case .ploetzblog: "Ploetzblog (zweispaltig)"
+        }
+    }
+}
+
 struct RecipeImageImportView: View {
     @State private var selectedPhotoItems: [PhotosPickerItem] = []
     @State private var selectedImages: [SelectedRecipeImage] = []
@@ -18,6 +32,7 @@ struct RecipeImageImportView: View {
     @State private var analysisResult: RecipeImageAnalysisResult?
     @State private var errorMessage: String?
     @State private var showRecipeReview = false
+    @State private var importLayout = RecipeImportLayout.general
 
     private let analysisAgent = RecipeImageAnalysisAgent()
 
@@ -39,7 +54,8 @@ struct RecipeImageImportView: View {
             if let analysisResult {
                 AddNewRecipeDataView(
                     recipe: analysisResult.recipe,
-                    recipeImage: selectedImages.first?.image
+                    recipeImage: analysisResult.recipeImage
+                        ?? selectedImages.first?.image
                 )
             }
         }
@@ -67,6 +83,19 @@ struct RecipeImageImportView: View {
                     systemImage: "doc.viewfinder",
                     description: Text("Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis.")
                 )
+
+                Picker("Vorlagenart", selection: $importLayout) {
+                    ForEach(RecipeImportLayout.allCases) { layout in
+                        Text(layout.title).tag(layout)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                Text(importLayout == .general
+                     ? "Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen."
+                     : "Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
 
                 HStack(spacing: 12) {
                     PhotosPicker(
@@ -178,8 +207,16 @@ struct RecipeImageImportView: View {
 
         analysisTask = Task {
             do {
-                let result = try await analysisAgent.analyze(images: images) { current, total in
-                    analysisProgress = "Bild \(current) von \(total) wird gelesen …"
+                let result: RecipeImageAnalysisResult
+                switch importLayout {
+                case .general:
+                    result = try await analysisAgent.analyzeGeneralRecipe(images: images) { current, total in
+                        analysisProgress = "Bild \(current) von \(total) wird gelesen …"
+                    }
+                case .ploetzblog:
+                    result = try await analysisAgent.analyze(images: images) { current, total in
+                        analysisProgress = "Bild \(current) von \(total) wird gelesen …"
+                    }
                 }
                 await MainActor.run {
                     analysisResult = result
@@ -241,6 +278,15 @@ private struct RecipeImportConfirmationView: View {
                         Text(durationDescription(instruction.duration))
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            if !result.warnings.isEmpty {
+                Section("Bitte besonders prüfen") {
+                    ForEach(result.warnings, id: \.self) { warning in
+                        Label(warning, systemImage: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
                     }
                 }
             }
