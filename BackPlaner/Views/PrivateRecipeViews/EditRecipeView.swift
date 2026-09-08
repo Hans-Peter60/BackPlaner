@@ -358,7 +358,11 @@ struct EditRecipeView: View {
             return instructionFB
         }
 
-        instructionsFB = Rational.calculateStartTimes(instructionsFB, Date())
+        instructionsFB = Rational.calculateStartTimes(
+            instructionsFB,
+            Date(),
+            dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
+        )
 
         for (instruction, instructionFB) in zip(recipe.instructionsArray, instructionsFB) {
             instruction.startTime = instructionFB.startTime ?? 0

@@ -305,7 +305,11 @@ class RecipeModel: ObservableObject {
         r.tags            = recipeFB.tags
 
         // Set the instructions
-        recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, Date())
+        recipeFB.instructions = Rational.calculateStartTimes(
+            recipeFB.instructions,
+            Date(),
+            dependencies: Rational.ComponentDependency.from(recipeFB.components)
+        )
         r.prepTime = GlobalVariables.totalDuration
 
         for iFB in recipeFB.instructions {

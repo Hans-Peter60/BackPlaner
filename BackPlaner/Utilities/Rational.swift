@@ -179,38 +179,155 @@ class Rational {
         }
     }
     
-    // MARK: CalculateStartTimes
-    static func calculateStartTimes(_ instructions: [InstructionFB], _ startDate: Date) -> [InstructionFB] {
-        
-        var times: [Int: Int] = [0:0]
-        
-        for i in instructions {
-            // check if main step
-            if i.step == Double(Int(i.step)) {
-                times[Int(i.step)] = i.duration
-            }
-            else {
-                if i.duration > (times[Int(i.step)] ?? 0) {
-                    times[Int(i.step)] = i.duration
+    // MARK: ComponentDependency
+    /// A component and the components it uses up, as far as the scheduling of
+    /// parallel preparation steps needs to know. A row without a weight whose
+    /// name begins with "gesamte" ("gesamte Sauerteigstufe 1") is such a use.
+    struct ComponentDependency {
+        let name: String
+        let requires: [String]
+
+        private static func requirements(
+            of ingredientNames: [String],
+            componentNames: [String],
+            excluding ownName: String
+        ) -> [String] {
+            ingredientNames.compactMap { ingredientName in
+                let value = ingredientName.folding(
+                    options: [.caseInsensitive, .diacriticInsensitive],
+                    locale: Locale(identifier: "de_DE")
+                )
+                guard value.hasPrefix("gesamte") else { return nil }
+                return componentNames.first { candidate in
+                    candidate != ownName && value.contains(candidate.folding(
+                        options: [.caseInsensitive, .diacriticInsensitive],
+                        locale: Locale(identifier: "de_DE")
+                    ))
                 }
             }
         }
 
-        var i = 0
+        static func from(_ components: [ComponentFB]) -> [ComponentDependency] {
+            let names = components.map { $0.name }
+            return components.map { component in
+                ComponentDependency(
+                    name: component.name,
+                    requires: requirements(
+                        of: component.ingredients.filter { $0.weight == 0 }.map { $0.name },
+                        componentNames: names,
+                        excluding: component.name
+                    )
+                )
+            }
+        }
+
+        static func from(_ components: [Component]) -> [ComponentDependency] {
+            let names = components.map { $0.name }
+            return components.map { component in
+                ComponentDependency(
+                    name: component.name,
+                    requires: requirements(
+                        of: component.ingredientsArray.filter { $0.weight == 0 }.map { $0.name },
+                        componentNames: names,
+                        excluding: component.name
+                    )
+                )
+            }
+        }
+    }
+
+    // MARK: CalculateStartTimes
+    /// Places every step on the timeline and returns the instructions with their
+    /// `startTime` in minutes after `startDate`.
+    ///
+    /// Steps that share a main step number run in parallel. Two kinds of them
+    /// are scheduled differently:
+    ///
+    /// - A **component preparation** ("… die Komponente Sauerteigstufe 2 …")
+    ///   begins as early as it can — at the start of its group, or, when it uses
+    ///   up another component, the moment that component is finished. So the
+    ///   first step starts exactly at the chosen start, a second sourdough stage
+    ///   waits for the first one, and a soaker is always ready before the main
+    ///   dough needs it.
+    /// - Every other parallel step keeps ending together with its group, which
+    ///   is what a folding intervention inside a resting step needs.
+    ///
+    /// Passing no `dependencies` keeps the previous behaviour for every step.
+    static func calculateStartTimes(
+        _ instructions: [InstructionFB],
+        _ startDate: Date,
+        dependencies: [ComponentDependency] = []
+    ) -> [InstructionFB] {
+
+        let groups = Dictionary(grouping: instructions) { Int($0.step) }
         var calcDauer = 0
 
-        for instruction in instructions {
-            // check for change to next main step
-            if Int(instruction.step) > i {
-                i += 1
-                calcDauer += times[Int(instruction.step)] ?? 0
+        for stepNumber in groups.keys.sorted() {
+            let group = (groups[stepNumber] ?? []).sorted { $0.step < $1.step }
+            let groupStart = calcDauer
+
+            // Which of these steps prepares a component, and in which order can
+            // they run?
+            var preparations: [(instruction: InstructionFB, dependency: ComponentDependency)] = []
+            var parallel: [InstructionFB] = []
+            for instruction in group {
+                if let dependency = dependencies.first(where: {
+                    instruction.instruction.localizedCaseInsensitiveContains("Komponente \($0.name)")
+                }) {
+                    preparations.append((instruction, dependency))
+                } else {
+                    parallel.append(instruction)
+                }
             }
-            instruction.startTime = calcDauer - instruction.duration
-            instruction.date = Calendar.current.date(byAdding: .minute, value: instruction.startTime ?? 0, to: startDate) ?? startDate
+
+            var endByComponent: [String: Int] = [:]
+            let preparedNames = Set(preparations.map { $0.dependency.name })
+            var pending = preparations
+            while !pending.isEmpty {
+                var deferred: [(instruction: InstructionFB, dependency: ComponentDependency)] = []
+                for entry in pending {
+                    // Only components prepared in this group can be waited for.
+                    let required = entry.dependency.requires.filter { preparedNames.contains($0) }
+                    guard required.allSatisfy({ endByComponent[$0] != nil }) else {
+                        deferred.append(entry)
+                        continue
+                    }
+                    let start = required.compactMap { endByComponent[$0] }.max() ?? groupStart
+                    entry.instruction.startTime = start
+                    endByComponent[entry.dependency.name] = start + entry.instruction.duration
+                }
+                // A circular reference must not stall the plan.
+                if deferred.count == pending.count {
+                    for entry in deferred {
+                        entry.instruction.startTime = groupStart
+                        endByComponent[entry.dependency.name] = groupStart + entry.instruction.duration
+                    }
+                    break
+                }
+                pending = deferred
+            }
+
+            let preparationEnd = endByComponent.values.max() ?? groupStart
+            let parallelEnd = groupStart + (parallel.map { $0.duration }.max() ?? 0)
+            let groupEnd = max(preparationEnd, parallelEnd)
+
+            for instruction in parallel {
+                instruction.startTime = groupEnd - instruction.duration
+            }
+
+            calcDauer = groupEnd
         }
-        
+
+        for instruction in instructions {
+            instruction.date = Calendar.current.date(
+                byAdding: .minute,
+                value: instruction.startTime ?? 0,
+                to: startDate
+            ) ?? startDate
+        }
+
         GlobalVariables.totalDuration = calcDauer
-        
+
         return instructions
     }
 }
