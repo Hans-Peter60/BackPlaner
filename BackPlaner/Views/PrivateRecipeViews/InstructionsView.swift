@@ -29,6 +29,11 @@ struct InstructionsView: View {
     @State private var reminderOvenOnText         = ""
     @State private var reminderFinishText         = ""
     @State private var instructions = [Instruction]()
+    // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
+    @State private var planIssues                 = [BakePlanIssue]()
+    @State private var showingPlanError           = false
+    @State private var planErrorMessage           = ""
+    @State private var reminderHintText           = ""
     
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
@@ -97,7 +102,7 @@ struct InstructionsView: View {
                         .frame(width:160)
                     }
                     
-                    Text("Gewicht: \(Int(recipe.totalWeight * Double(selectedServingSize) / 2.0), format: .number) g")
+                    Text("Gewicht: \(scaledRecipeWeight) g")
                             .font(Theme.bodyFont(15))
                     
                     // MARK: Url-Link
@@ -162,7 +167,13 @@ struct InstructionsView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
-                    
+                .onChange(of: dateTimeStartSelection) { _, _ in
+                    refreshPlanIssues()
+                }
+
+                BakePlanIssuesView(issues: planIssues)
+
+
                 // MARK: Instructions
                 VStack(alignment: .leading) {
                     HStack {
@@ -281,12 +292,42 @@ struct InstructionsView: View {
                 HStack {
                     IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
 
+                        // Check the plan before anything is generated. Overlapping
+                        // bakes are an error and stop the scheduling; the remaining
+                        // findings are hints and travel with the summary alert.
+                            let issues = currentPlanIssues()
+                            planIssues = issues
+
+                            let planErrors = issues.filter { $0.severity == .error }
+                            if !planErrors.isEmpty {
+                                planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
+                                showingPlanError = true
+                                return
+                            }
+
+                            reminderHintText = issues
+                                .filter { $0.severity == .hint }
+                                .map(\.message)
+                                .joined(separator: "\n\n")
+
                         // Reminders are set whenever the button is pressed
                             let originalStepCount = recipe.instructionsArray.count
 
                             recipe.bakeHistoryFlag = true
 
                             var bakeStartTime = 0
+                            let explicitPreheatInstruction = recipe.instructionsArray.first {
+                                isExplicitPreheatInstruction($0.instruction)
+                            }
+                            let bakingInstructionIndex = recipe.instructionsArray.firstIndex {
+                                isBakingStartInstruction($0.instruction)
+                            } ?? max(recipe.instructionsArray.count - 1, 0)
+                            let bakingInstructionText = recipe.instructionsArray.indices.contains(bakingInstructionIndex)
+                                ? recipe.instructionsArray[bakingInstructionIndex].instruction
+                                : ""
+                            let preheatDuration = explicitPreheatInstruction == nil
+                                ? effectivePreheatTime(for: bakingInstructionText)
+                                : 0
 
                             // MARK: Notifications einsetzen
                             for i in 0..<recipe.instructionsArray.count {
@@ -306,45 +347,65 @@ struct InstructionsView: View {
                                                                     recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true)
                                 }
 
-                                // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
-                                if i == recipe.instructions.count - 1 {
+                                // Baking may have multiple phases (for example, covered and
+                                // uncovered). The first actual oven step defines its start.
+                                if i == bakingInstructionIndex {
                                     
                                     if dateTimeStartSelection == 0 {
 
-                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - GlobalVariables.preheatTime
+                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration
                                     }
                                     else {
-                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - GlobalVariables.preheatTime - recipe.prepTime
+                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration - recipe.prepTime
                                     }
                                 }
                             }
                             showingNotificationMessage = true
 
                             let generatedStepTexts = AppSettings.generatedStepTexts(languageCode: locale.identifier)
-                            let startHeatingText = generatedStepTexts.startHeating
+                            let startHeatingText = ovenStartText(
+                                baseText: generatedStepTexts.startHeating,
+                                bakingInstruction: bakingInstructionText
+                            )
                             let bakeEndText = generatedStepTexts.bakeEnd
 
                             // MARK: Step und Notification für das Einschalten des Backofens einstellen
-                            let i         = Instruction(context: viewContext)
-                            i.id          = UUID()
-                            i.instruction = startHeatingText
-                            // Berechnung der Step-Nummer
-                            for index in 0..<recipe.instructionsArray.count {
-                                if bakeStartTime < recipe.instructionsArray[index].startTime {
-
-                                    i.step = recipe.instructionsArray[index].step - 0.1
+                            let generatedOvenInstruction: Instruction?
+                            let ovenOnDate: Date
+                            if let explicitPreheatInstruction {
+                                generatedOvenInstruction = nil
+                                let offset = dateTimeStartSelection == 0
+                                    ? explicitPreheatInstruction.startTime
+                                    : explicitPreheatInstruction.startTime - recipe.prepTime
+                                ovenOnDate = Calendar.current.date(
+                                    byAdding: .minute,
+                                    value: offset,
+                                    to: dateTime
+                                ) ?? dateTime
+                            } else {
+                                let ovenInstruction = Instruction(context: viewContext)
+                                ovenInstruction.id = UUID()
+                                ovenInstruction.instruction = startHeatingText
+                                for index in 0..<recipe.instructionsArray.count {
+                                    if bakeStartTime < recipe.instructionsArray[index].startTime {
+                                        ovenInstruction.step = recipe.instructionsArray[index].step - 0.1
+                                    }
                                 }
+
+                                ovenOnDate = manager.setNotification(
+                                    recipe.reminderId,
+                                    startHeatingText,
+                                    String(ovenInstruction.step),
+                                    bakeStartTime,
+                                    dateTime,
+                                    true
+                                )
+                                ovenInstruction.startTime = dateTimeStartSelection == 0
+                                    ? bakeStartTime
+                                    : bakeStartTime + recipe.prepTime
+                                ovenInstruction.duration = preheatDuration
+                                generatedOvenInstruction = ovenInstruction
                             }
-                            
-                            // Notification einstellen
-                            let ovenOnDate = manager.setNotification(recipe.reminderId, startHeatingText, String(i.step), bakeStartTime, dateTime, true)
-                            if dateTimeStartSelection == 0 {
-                                i.startTime   = bakeStartTime
-                            }
-                            else {
-                                i.startTime   = bakeStartTime + recipe.prepTime
-                            }
-                            i.duration     = GlobalVariables.preheatTime
 
                             // MARK: Step und Notification für das Ende des Backens einstellen
                             let i2         = Instruction(context: viewContext)
@@ -365,7 +426,9 @@ struct InstructionsView: View {
                             let bakeEndOffset = dateTimeStartSelection == 0 ? recipe.prepTime : 0
                             endDate = manager.setNotification(recipe.reminderId, bakeEndText, "99", bakeEndOffset, dateTime, true)
 
-                            recipe.addToInstructions(i)
+                            if let generatedOvenInstruction {
+                                recipe.addToInstructions(generatedOvenInstruction)
+                            }
                             recipe.addToInstructions(i2)
 
                             // Save to core data
@@ -375,13 +438,10 @@ struct InstructionsView: View {
                             }
 
                             // MARK: NextSteps sichern
-                            if dateTimeStartSelection == 0 {
-                                uploadNextSteps(recipe: recipe, date: dateTime)
-                            }
-                            else {
-                                dateTime = Calendar.current.date(byAdding: .minute, value: -recipe.prepTime, to: dateTime) ?? dateTime
-                                uploadNextSteps(recipe: recipe, date: dateTime)
-                            }
+                            // planBaseDate already moves "Fertig bis" back by
+                            // prepTime, so the picker keeps showing the date the
+                            // user chose and the plan check stays in sync with it.
+                            uploadNextSteps(recipe: recipe, date: planBaseDate)
 
                             // MARK: BakeHistory sichern
                             let bakeHistory     = BakeHistory(context: viewContext)
@@ -396,13 +456,16 @@ struct InstructionsView: View {
                                 try? viewContext.save()
                             }
 
-                            viewContext.delete(i)
+                            if let generatedOvenInstruction {
+                                viewContext.delete(generatedOvenInstruction)
+                            }
                             viewContext.delete(i2)
                             try? viewContext.save()
 
                             // Build a human-readable summary of what was scheduled.
                             let timeFormatter  = TimeCalculation()
-                            reminderCount      = originalStepCount + 2
+                            reminderCount = originalStepCount
+                                + (generatedOvenInstruction == nil ? 1 : 2)
                             reminderOvenOnText = timeFormatter.calculateTime(t: ovenOnDate)
                             reminderFinishText = timeFormatter.calculateTime(t: endDate)
                             showingAlert       = true
@@ -413,9 +476,19 @@ struct InstructionsView: View {
                     .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
                         Button("OK", role: .cancel) { }
                     } message: {
-                        Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
+                        if reminderHintText.isEmpty {
+                            Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
+                        }
+                        else {
+                            Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.\n\n\(reminderHintText)")
+                        }
                     }
-                    
+                    .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text(planErrorMessage)
+                    }
+
                     // MARK: Change Duration Flag bearbeiten
                     if changeDurationsFlag {
 
@@ -436,7 +509,11 @@ struct InstructionsView: View {
                                 instructionsFB.append(instruction)
 
                             }
-                            instructionsFB = Rational.calculateStartTimes(instructionsFB, dateTime)
+                            instructionsFB = Rational.calculateStartTimes(
+                                instructionsFB,
+                                dateTime,
+                                dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
+                            )
                             
                             for i in 0..<recipe.instructionsArray.count {
                                 recipe.instructionsArray[i].instruction = instructionsFB[i].instruction
@@ -450,6 +527,7 @@ struct InstructionsView: View {
                             
                             changeDurationsFlag = false
                             try? viewContext.save()
+                            refreshPlanIssues()
                         }
                         .padding()
                     }
@@ -458,8 +536,171 @@ struct InstructionsView: View {
         }
         .warmBackground()
         .navigationTitle("Backanleitung für " + recipe.name)
+        .onAppear {
+            refreshPlanIssues()
+        }
     }
-    
+
+    private var scaledRecipeWeight: Int {
+        Int(recipe.totalWeight * Double(selectedServingSize) / 2.0)
+    }
+
+    // MARK: - Backplanung prüfen
+
+    /// The plan's base date. The picker holds the start in "Starten ab" mode and
+    /// the finish in "Fertig bis" mode, where the plan starts `prepTime` earlier.
+    private var planBaseDate: Date {
+        dateTimeStartSelection == 0
+            ? dateTime
+            : Calendar.current.date(byAdding: .minute, value: -recipe.prepTime, to: dateTime) ?? dateTime
+    }
+
+    /// Every step the reminder button would generate, including the two steps the
+    /// app adds itself: switching the oven on and the end of the bake.
+    private func plannedSteps() -> [PlannedStep] {
+
+        let calendar     = Calendar.current
+        let base         = planBaseDate
+        let instructions = recipe.instructionsArray
+
+        var steps = instructions.map { instruction in
+            PlannedStep(
+                instruction: instruction.instruction,
+                step: instruction.step,
+                date: calendar.date(byAdding: .minute, value: instruction.startTime, to: base) ?? base
+            )
+        }
+
+        guard let bakingInstruction = instructions.first(where: {
+            isBakingStartInstruction($0.instruction)
+        }) ?? instructions.last else { return steps }
+
+        let generatedStepTexts = AppSettings.generatedStepTexts(languageCode: locale.identifier)
+
+        let hasExplicitPreheatStep = instructions.contains {
+            isExplicitPreheatInstruction($0.instruction)
+        }
+        if !hasExplicitPreheatStep {
+            steps.append(
+                PlannedStep(
+                    instruction: ovenStartText(
+                        baseText: generatedStepTexts.startHeating,
+                        bakingInstruction: bakingInstruction.instruction
+                    ),
+                    step: bakingInstruction.step - 0.1,
+                    date: calendar.date(
+                        byAdding: .minute,
+                        value: bakingInstruction.startTime
+                            - effectivePreheatTime(for: bakingInstruction.instruction),
+                        to: base
+                    ) ?? base
+                )
+            )
+        }
+
+        steps.append(
+            PlannedStep(
+                instruction: generatedStepTexts.bakeEnd,
+                step: 99,
+                date: calendar.date(byAdding: .minute, value: recipe.prepTime, to: base) ?? base
+            )
+        )
+
+        return steps
+    }
+
+    /// The oven phase of the plan: the last processing step puts the dough into
+    /// the oven, the plan ends when baking is finished.
+    private func plannedBakeWindow() -> BakeWindow? {
+
+        guard let bakingInstruction = recipe.instructionsArray.first(where: {
+            isBakingStartInstruction($0.instruction)
+        }) ?? recipe.instructionsArray.last else { return nil }
+
+        let calendar = Calendar.current
+        let base     = planBaseDate
+
+        guard let start = calendar.date(byAdding: .minute, value: bakingInstruction.startTime, to: base),
+              let end   = calendar.date(byAdding: .minute, value: recipe.prepTime, to: base),
+              end >= start else {
+            return nil
+        }
+
+        return BakeWindow(recipeName: recipe.name, start: start, end: end)
+    }
+
+    private func isExplicitPreheatInstruction(_ instruction: String) -> Bool {
+        let text = instruction.folding(
+            options: [.caseInsensitive, .diacriticInsensitive],
+            locale: Locale(identifier: "de_DE")
+        )
+        return text.contains("vorheiz") || text.contains("prechauff")
+    }
+
+    private func isBakingStartInstruction(_ instruction: String) -> Bool {
+        let text = instruction.folding(
+            options: [.caseInsensitive, .diacriticInsensitive],
+            locale: Locale(identifier: "de_DE")
+        )
+        guard !text.contains("vorheiz"), !text.contains("prechauff") else { return false }
+        return text.contains("backen")
+            || text.contains("backofen")
+            || text.contains("ofen stellen")
+            || text.contains("ofen geben")
+            || text.contains("cuire")
+            || text.contains("mettre au four")
+    }
+
+    private func ovenStartText(
+        baseText: String,
+        bakingInstruction: String
+    ) -> String {
+        let pattern = #"(?:bei|auf|à|a)\s+(\d{2,3})\s*(?:°\s*C|Grad)?"#
+        guard let expression = try? NSRegularExpression(
+            pattern: pattern,
+            options: [.caseInsensitive]
+        ),
+        let match = expression.firstMatch(
+            in: bakingInstruction,
+            range: NSRange(bakingInstruction.startIndex..., in: bakingInstruction)
+        ),
+        let temperatureRange = Range(match.range(at: 1), in: bakingInstruction) else {
+            return baseText
+        }
+
+        return "\(baseText) (\(bakingInstruction[temperatureRange]) °C)"
+    }
+
+    private func effectivePreheatTime(for bakingInstruction: String) -> Int {
+        let text = bakingInstruction.folding(
+            options: [.caseInsensitive, .diacriticInsensitive],
+            locale: Locale(identifier: "de_DE")
+        )
+        let coldOvenPhrases = [
+            "kalten backofen", "kalten ofen", "nicht vorheizen",
+            "ohne vorheizen", "ohne vorzuheizen"
+        ]
+        return coldOvenPhrases.contains(where: text.contains)
+            ? 0
+            : GlobalVariables.preheatTime
+    }
+
+    private func currentPlanIssues() -> [BakePlanIssue] {
+        BakePlanValidator.issues(
+            for: plannedSteps(),
+            bakeWindow: plannedBakeWindow(),
+            existingWindows: BakePlanValidator.scheduledBakeWindows(
+                excluding: recipe.name,
+                in: viewContext
+            )
+        )
+    }
+
+    private func refreshPlanIssues() {
+        planIssues = currentPlanIssues()
+    }
+
+
     // MARK: uploadNextSteps
     func uploadNextSteps(recipe: Recipe, date: Date) {
 
@@ -510,6 +751,7 @@ struct InstructionsView: View {
     func setGlobalDateTime(_ date: Date) {
 
         GlobalVariables.dateTimePicker = date
+        refreshPlanIssues()
     }
 
     func showNotificationMessage() {

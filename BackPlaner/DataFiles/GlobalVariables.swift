@@ -17,6 +17,7 @@ enum AppLog {
     static let data          = Logger(subsystem: subsystem, category: "data")
     static let firebase      = Logger(subsystem: subsystem, category: "firebase")
     static let notifications = Logger(subsystem: subsystem, category: "notifications")
+    static let planning      = Logger(subsystem: subsystem, category: "planning")
     static let persistence   = Logger(subsystem: subsystem, category: "persistence")
     static let shoppingCart  = Logger(subsystem: subsystem, category: "shoppingCart")
 }

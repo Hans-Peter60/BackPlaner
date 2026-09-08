@@ -29,6 +29,11 @@ struct InstructionsFBView: View {
     @State private var reminderCount              = 0
     @State private var reminderOvenOnText         = ""
     @State private var reminderFinishText         = ""
+    // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
+    @State private var planIssues                 = [BakePlanIssue]()
+    @State private var showingPlanError           = false
+    @State private var planErrorMessage           = ""
+    @State private var reminderHintText           = ""
 
     var startDates = [Double:Date]()
 
@@ -176,7 +181,13 @@ struct InstructionsFBView: View {
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
-                    
+                    .onChange(of: dateTimeStartSelection) { _, _ in
+                        refreshPlanIssues()
+                    }
+
+                    BakePlanIssuesView(issues: planIssues)
+
+
                     // MARK: Instructions
                     VStack(alignment: .leading) {
                         HStack {
@@ -265,6 +276,24 @@ struct InstructionsFBView: View {
                         
                         IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
                             
+                            // Check the plan before anything is generated. Overlapping
+                            // bakes are an error and stop the scheduling; the remaining
+                            // findings are hints and travel with the summary alert.
+                                let issues = currentPlanIssues()
+                                planIssues = issues
+
+                                let planErrors = issues.filter { $0.severity == .error }
+                                if !planErrors.isEmpty {
+                                    planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
+                                    showingPlanError = true
+                                    return
+                                }
+
+                                reminderHintText = issues
+                                    .filter { $0.severity == .hint }
+                                    .map(\.message)
+                                    .joined(separator: "\n\n")
+
                             // Reminders are set whenever the button is pressed
                                 let originalStepCount = recipeFB.instructions.count
 
@@ -346,13 +375,10 @@ struct InstructionsFBView: View {
                                 i2.duration    = 0
                                 recipeFB.instructions.append(i2)
                                 
-                                if dateTimeStartSelection == 0 {
-                                    uploadNextSteps(recipeFB: recipeFB, date: dateTime)
-                                }
-                                else {
-                                    dateTime = Calendar.current.date(byAdding: .minute, value: -recipeFB.prepTime, to: dateTime) ?? dateTime
-                                    uploadNextSteps(recipeFB: recipeFB, date: dateTime)
-                                }
+                                // planBaseDate already moves "Fertig bis" back by
+                                // prepTime, so the picker keeps showing the date the
+                                // user chose and the plan check stays in sync with it.
+                                uploadNextSteps(recipeFB: recipeFB, date: planBaseDate)
                                 
                                 if let ix = recipeFB.instructions.firstIndex(where: { $0.instruction == startHeatingText }) {
                                     recipeFB.instructions.remove(at: ix)
@@ -362,7 +388,7 @@ struct InstructionsFBView: View {
                                 }
                                 
                                 let bakeHistoryFB     = BakeHistoryFB()
-                                bakeHistoryFB.date    = dateTime
+                                bakeHistoryFB.date    = planBaseDate
                                 bakeHistoryFB.comment = "<kein Kommentar erfasst>"
                                 bakeHistoryFB.images  = [GlobalVariables.noImage]
                                 recipeFB.bakeHistories.append(bakeHistoryFB)
@@ -384,7 +410,17 @@ struct InstructionsFBView: View {
                         .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         } message: {
-                            Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
+                            if reminderHintText.isEmpty {
+                                Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
+                            }
+                            else {
+                                Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.\n\n\(reminderHintText)")
+                            }
+                        }
+                        .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
+                            Button("OK", role: .cancel) { }
+                        } message: {
+                            Text(planErrorMessage)
                         }
 
                         if changeDurationsFlag {
@@ -396,13 +432,18 @@ struct InstructionsFBView: View {
                                     let cleanedDuration = durations[i].trimmingCharacters(in: .whitespacesAndNewlines)
                                     if Int(cleanedDuration) ?? 0 > 0 { recipeFB.instructions[i].duration = Int(cleanedDuration) ?? 0}
                                 }
-                                recipeFB.instructions = Rational.calculateStartTimes(recipeFB.instructions, dateTime)
+                                recipeFB.instructions = Rational.calculateStartTimes(
+                                    recipeFB.instructions,
+                                    dateTime,
+                                    dependencies: Rational.ComponentDependency.from(recipeFB.components)
+                                )
                                 
                                 if let lastInstruction = recipeFB.instructions.last {
                                     recipeFB.prepTime = (lastInstruction.startTime ?? 0) + lastInstruction.duration
                                 }
                                 
                                 changeDurationsFlag = false
+                                refreshPlanIssues()
                             }
                             .padding()
                         }
@@ -411,9 +452,97 @@ struct InstructionsFBView: View {
             }
             .warmBackground()
             .navigationTitle(recipeFB.name)
+            .onAppear {
+                refreshPlanIssues()
+            }
         }
     }
-    
+
+    // MARK: - Backplanung prüfen
+
+    /// The plan's base date. The picker holds the start in "Starten ab" mode and
+    /// the finish in "Fertig bis" mode, where the plan starts `prepTime` earlier.
+    private var planBaseDate: Date {
+        dateTimeStartSelection == 0
+            ? dateTime
+            : Calendar.current.date(byAdding: .minute, value: -recipeFB.prepTime, to: dateTime) ?? dateTime
+    }
+
+    /// Every step the reminder button would generate, including the two steps the
+    /// app adds itself: switching the oven on and the end of the bake.
+    private func plannedSteps() -> [PlannedStep] {
+
+        let calendar = Calendar.current
+        let base     = planBaseDate
+
+        var steps = recipeFB.instructions.map { instruction in
+            PlannedStep(
+                instruction: instruction.instruction,
+                step: instruction.step,
+                date: calendar.date(byAdding: .minute, value: instruction.startTime ?? 0, to: base) ?? base
+            )
+        }
+
+        guard let lastInstruction = recipeFB.instructions.last else { return steps }
+
+        let activeLanguageCode = languageCode.isEmpty ? locale.identifier : languageCode
+        let generatedStepTexts = AppSettings.generatedStepTexts(languageCode: activeLanguageCode)
+
+        steps.append(
+            PlannedStep(
+                instruction: generatedStepTexts.startHeating,
+                step: lastInstruction.step - 0.1,
+                date: calendar.date(byAdding: .minute,
+                                    value: (lastInstruction.startTime ?? 0) - GlobalVariables.preheatTime,
+                                    to: base) ?? base
+            )
+        )
+
+        steps.append(
+            PlannedStep(
+                instruction: generatedStepTexts.bakeEnd,
+                step: 99,
+                date: calendar.date(byAdding: .minute, value: recipeFB.prepTime, to: base) ?? base
+            )
+        )
+
+        return steps
+    }
+
+    /// The oven phase of the plan: the last processing step puts the dough into
+    /// the oven, the plan ends when baking is finished.
+    private func plannedBakeWindow() -> BakeWindow? {
+
+        guard let lastInstruction = recipeFB.instructions.last else { return nil }
+
+        let calendar = Calendar.current
+        let base     = planBaseDate
+
+        guard let start = calendar.date(byAdding: .minute, value: lastInstruction.startTime ?? 0, to: base),
+              let end   = calendar.date(byAdding: .minute, value: recipeFB.prepTime, to: base),
+              end >= start else {
+            return nil
+        }
+
+        return BakeWindow(recipeName: recipeFB.name, start: start, end: end)
+    }
+
+    private func currentPlanIssues() -> [BakePlanIssue] {
+        BakePlanValidator.issues(
+            for: plannedSteps(),
+            bakeWindow: plannedBakeWindow(),
+            existingWindows: BakePlanValidator.scheduledBakeWindows(
+                excluding: recipeFB.name,
+                in: viewContext
+            )
+        )
+    }
+
+    private func refreshPlanIssues() {
+        planIssues = currentPlanIssues()
+    }
+
+
     func uploadNextSteps(recipeFB: RecipeFB, date: Date) {
 
         // Same as in InstructionsView: reminders are replaced per recipe and
@@ -464,5 +593,6 @@ struct InstructionsFBView: View {
     
     func setGlobalDateTime(_ date: Date) {
         GlobalVariables.dateTimePicker = date
+        refreshPlanIssues()
     }
 }
