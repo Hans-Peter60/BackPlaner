@@ -25,9 +25,17 @@ private enum RecipeImageUploadError: LocalizedError {
 /// uid. Only a permanent account (Sign in with Apple) provides one.
 enum PrivateRecipeError: LocalizedError {
     case accountRequired
+    /// Whether a cloud copy still exists cannot be decided while signed out,
+    /// because the author-only collection is unreadable for anonymous users.
+    case ownershipUnknown
 
     var errorDescription: String? {
-        "Für private Cloud-Rezepte ist eine Anmeldung mit Apple erforderlich. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar."
+        switch self {
+        case .accountRequired:
+            return "Für private Cloud-Rezepte ist eine Anmeldung mit Apple erforderlich. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar."
+        case .ownershipUnknown:
+            return "Ob dieses Rezept noch in der Cloud liegt, lässt sich nur mit angemeldetem Konto feststellen."
+        }
     }
 }
 
@@ -535,12 +543,27 @@ class RecipeFBModel: ObservableObject {
     /// lets the local recipe be uploaded again after its cloud copy was deleted
     /// elsewhere.
     func cloudRecipeExists(id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        // Only a permanent account can own author-only recipes, so an anonymous
-        // user never has to look there.
-        var collections = [RecipeVisibility.everyone]
-        if let user = Auth.auth().currentUser, !user.isAnonymous {
-            collections.append(.authorOnly)
+        // An anonymous user cannot read the author-only collection at all. A
+        // "not found" would then be a guess, and acting on it would re-enable
+        // the upload buttons for a recipe that does exist privately — an
+        // accidental duplicate in the cloud. Report that nothing is known
+        // instead, which leaves the buttons as they are.
+        guard let user = Auth.auth().currentUser, !user.isAnonymous else {
+            db.collection(RecipeVisibility.everyone.collectionName).document(id).getDocument { snapshot, error in
+                DispatchQueue.main.async {
+                    if let error {
+                        completion(.failure(error))
+                    } else if snapshot?.exists == true {
+                        completion(.success(true))
+                    } else {
+                        completion(.failure(PrivateRecipeError.ownershipUnknown))
+                    }
+                }
+            }
+            return
         }
+
+        let collections = RecipeVisibility.allCases
 
         let group = DispatchGroup()
         var exists = false

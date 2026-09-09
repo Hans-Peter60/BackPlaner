@@ -36,6 +36,12 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 
+# Wartungsskripte: der Dienstkonto-Schlüssel ist ein Vollzugriff auf das
+# Firebase-Projekt und die Backups enthalten Rezeptdaten – beides nichts
+# fürs Repository.
+scripts/*.json
+scripts/node_modules/
+
 # Lokale Arbeitsstände zum App-Icon – Backups, kein Quellcode.
 # Bei Bedarf mit "git add -f" trotzdem aufnehmen.
 Design Previews/
