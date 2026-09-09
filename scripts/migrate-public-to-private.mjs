@@ -59,7 +59,9 @@ const onlyIds        = typeof args.get('only') === 'string'
     ? args.get('only').split(',').map(s => s.trim()).filter(Boolean)
     : null
 
-if (!keyPath || (!targetUid && !targetEmail)) {
+const listUsers = args.get('list-users') === true
+
+if (!keyPath || (!listUsers && !targetUid && !targetEmail)) {
     console.error(`
 Fehlende Angaben.
 
@@ -103,6 +105,31 @@ async function resolveUid() {
     const { getAuth } = await import('firebase-admin/auth')
     const user = await getAuth().getUserByEmail(targetEmail)
     return user.uid
+}
+
+/// Prints the accounts of the project so the right uid can be picked without
+/// hunting through the console. Anonymous accounts are marked: they are exactly
+/// the ones that must NOT be used as a migration target.
+async function printUsers() {
+    const { getAuth } = await import('firebase-admin/auth')
+    const { users } = await getAuth().listUsers(1000)
+
+    if (users.length === 0) {
+        console.log('Keine Konten vorhanden — melde Dich in der App einmal mit Apple an.')
+        return
+    }
+
+    console.log(`${users.length} Konten:\n`)
+    for (const user of users) {
+        const providers = user.providerData.map(p => p.providerId)
+        const kind = providers.length === 0 ? 'ANONYM' : providers.join(', ')
+        console.log(`  uid  ${user.uid}`)
+        console.log(`       ${kind}${user.email ? `  ${user.email}` : ''}`)
+        console.log(`       angelegt ${new Date(user.metadata.creationTime).toLocaleString('de-DE')}`
+            + `, zuletzt angemeldet ${user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleString('de-DE') : '—'}`)
+        console.log()
+    }
+    console.log('Für die Migration die uid mit apple.com verwenden (nicht ANONYM).')
 }
 
 // ---------------------------------------------------------------- helpers
@@ -235,6 +262,11 @@ async function deletePublicRecipe(bucket, recipe) {
 }
 
 // ---------------------------------------------------------------- main
+
+if (listUsers) {
+    await printUsers()
+    process.exit(0)
+}
 
 const uid = await resolveUid()
 const bucket = await resolveBucket()
