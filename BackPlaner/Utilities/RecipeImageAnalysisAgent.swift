@@ -908,7 +908,15 @@ private struct TwoColumnRecipeParser {
         // page it was printed. The geometric search below assumes the right-hand
         // column, which is where ploetzblog prints it but not a book page.
         var planningSteps = planningStepsFromTables()
-        if planningSteps.count < 2 {
+        // The laid-out table is only trusted where its rows read like a
+        // schedule. On a web page the document request lays out the ingredient
+        // column and the planning column as one table, and since the action is
+        // taken as the longest cell of a row, "Weizenmehl 550" wins against
+        // "Vorformen". The geometric reading of the planning column, which
+        // cannot reach the other column at all, is then the better source.
+        let readsLikeSchedule = planningSteps.count { isPlanningAction($0.action) } * 2
+            >= planningSteps.count
+        if planningSteps.count < 2 || !readsLikeSchedule {
             let firstComponentOnPlanningPage = componentHeadings
                 .filter { $0.page == planningHeading.page }
                 .max(by: { $0.y < $1.y })
@@ -927,6 +935,11 @@ private struct TwoColumnRecipeParser {
             planningSteps: planningSteps,
             details: detailedInstructions
         )
+
+        // The steps of this layout run one after another, so the schedule ends
+        // where the last one does. Without this the recipe claimed a
+        // preparation time of zero, although the page states its own total.
+        recipe.prepTime = recipe.instructions.reduce(0) { $0 + $1.duration }
         return recipe
     }
 
@@ -1236,6 +1249,21 @@ private struct TwoColumnRecipeParser {
         return steps
     }
 
+    /// Whether a line of a planning example names work. The example is written
+    /// in the small, fixed vocabulary of a bakery, which is what separates its
+    /// rows from an ingredient row that ended up in the same laid-out table.
+    private func isPlanningAction(_ text: String) -> Bool {
+        let value = normalized(text)
+        let terms: [String] = [
+            "herstellen", "ansetzen", "mischen", "kneten", "verruhren",
+            "portionieren", "vorformen", "formen", "wirken", "tourieren",
+            "schneiden", "backen", "vorheizen", "reifen", "ruhen", "dehnen",
+            "falten", "abstechen", "aufrollen", "teilen", "quellen",
+            "einschiessen", "fertig"
+        ]
+        return terms.contains { value.contains($0) }
+    }
+
     private func parsePlanningSteps(from lines: [RecognizedRecipeLine]) -> [ParsedPlanningStep] {
         let rows = groupedRows(lines)
         var currentDay = 1
@@ -1520,7 +1548,10 @@ private struct TwoColumnRecipeParser {
     }
 
     private func ingredientName(_ name: String, temperature: String) -> String {
-        let cleanedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        // The vertical rule between the name column and the temperature column
+        // is read as a pipe and would stay in the name.
+        let cleanedName = name
+            .trimmingCharacters(in: CharacterSet(charactersIn: "|¦ \t\n"))
         let cleanedTemperature = temperature.trimmingCharacters(in: .whitespacesAndNewlines)
         return cleanedTemperature.isEmpty ? cleanedName : "\(cleanedName) (\(cleanedTemperature))"
     }
@@ -1695,7 +1726,7 @@ private struct GeneralRecipeParser {
             ?? titleCandidates.first
             ?? AppSettings.generatedRecipeTexts().importedRecipe
         recipe.summary = usedSpatialComponentAssignment
-            ? (detectedDescriptionUnderTitle() ?? detectedSummary(in: textLines))
+            ? (detectedDescriptionUnderTitle(title: recipe.name) ?? detectedSummary(in: textLines))
             : detectedSummary(in: textLines)
         recipe.sourceLanguage = detectedLanguage(in: textLines)
         recipe.tags = inferredGeneralTags(from: recipe.name)
@@ -2474,18 +2505,27 @@ private struct GeneralRecipeParser {
             .filter { isUsefulInstruction($0) }
     }
 
-    private func detectedDescriptionUnderTitle() -> String? {
+    /// The recipe's own introduction: what a book page prints between its title
+    /// and its first table.
+    ///
+    /// The boundary is taken from the title that has already been read, not from
+    /// the size of the type. Measuring type size cannot work here, because the
+    /// recognition contributes whole paragraphs alongside the printed lines, and
+    /// a paragraph's box is as tall as the block it covers — the tallest thing
+    /// on the page was a step of the method, so the search for the heading came
+    /// up empty and every book page kept the placeholder description.
+    private func detectedDescriptionUnderTitle(title: String) -> String? {
         guard let firstPage = lines.map(\.page).min() else { return nil }
         let pageLines = lines.filter { $0.page == firstPage }
-        guard let maximumHeight = pageLines.map(\.boundingBox.height).max() else { return nil }
 
-        let largeLines = pageLines.filter {
-            $0.boundingBox.height >= maximumHeight * 0.72
-                && isPlausibleTitle($0.text)
+        let titleValue = normalized(title)
+        guard !titleValue.isEmpty,
+              let titleBottomY = pageLines.filter({ line in
+                  let value = normalized(line.text)
+                  return value.count >= 4 && titleValue.contains(value)
+              }).map(\.boundingBox.minY).min() else {
+            return nil
         }
-        guard let titleTopY = largeLines.map(\.y).max() else { return nil }
-        let titleBand = largeLines.filter { $0.y >= titleTopY - 0.10 }
-        guard let titleBottomY = titleBand.map(\.boundingBox.minY).min() else { return nil }
 
         let componentNames: Set<String> = [
             "sauerteig", "hauptteig", "vorteig", "bruhstuck", "quellstuck",
@@ -2500,14 +2540,21 @@ private struct GeneralRecipeParser {
             line.boundingBox.maxY < titleBottomY - 0.015
                 && line.boundingBox.minY > structureY + 0.025
                 && line.text.count > 8
-                && !line.text.contains("%")
                 && !containsClockTime(line.text)
+                // A baker's percentage belongs to a table row, but a sentence
+                // may well carry one: "Ein Dinkelmischbrot mit 30 %
+                // Kartoffelanteil" is the description, not an ingredient.
+                && parseIngredient(line.text) == nil
+                && !isPercentageOnly(line.text)
         }.sorted {
             if abs($0.y - $1.y) > 0.008 { return $0.y > $1.y }
             return $0.x < $1.x
         }.map(\.text)
 
-        let description = descriptionLines.joined(separator: " ")
+        // The printed lines and the paragraph made of them both arrive here, so
+        // the description would otherwise carry every sentence twice.
+        let description = deduplicatedParagraphs(descriptionLines)
+            .joined(separator: " ")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         return description.isEmpty ? nil : description
     }
@@ -2850,6 +2897,14 @@ private struct GeneralRecipeParser {
         let value = text
             .replacingOccurrences(of: #"\.{2,}"#, with: " ", options: .regularExpression)
             .replacingOccurrences(of: #"^\s*\.+"#, with: "", options: .regularExpression)
+            // The dotted rule that leads from the amount column to the name is
+            // read as a period stuck to the unit — "127 g. Roggenvollkornmehl".
+            // Left there, it hides the unit and becomes part of the name.
+            .replacingOccurrences(
+                of: #"^(\d+(?:[.,]\d+)?\s*(?:kg|g|mg|l|dl|cl|ml|EL|TL))\.+"#,
+                with: "$1 ",
+                options: [.regularExpression, .caseInsensitive]
+            )
             .replacingOccurrences(of: #"(?<=\s)\.(?=\S)"#, with: "", options: .regularExpression)
             .replacingOccurrences(of: #"\s\.(?=\s|$)"#, with: "", options: .regularExpression)
             .replacingOccurrences(of: #"\s{2,}"#, with: " ", options: .regularExpression)
@@ -3120,7 +3175,11 @@ private struct GeneralRecipeParser {
                     continue
                 }
 
-                if let dependencyName = componentDependencyName(from: line.text) {
+                if let dependencyName = referencedComponentName(
+                    from: line.text,
+                    within: heading.name,
+                    among: headings.map(\.name)
+                ) {
                     ingredientRows.append((
                         heading.name,
                         ParsedIngredient(amount: 0, unit: "", name: dependencyName)
@@ -3408,6 +3467,40 @@ private struct GeneralRecipeParser {
         if value.contains("bruhstuck") { return "gesamtes Brühstück" }
         if value.contains("vorteig") { return "gesamter Vorteig" }
         return nil
+    }
+
+    /// The component a "gesamte …" row refers to. Its small print is often cut
+    /// short — Vision returned "gesamte Sauerte" for "gesamte Sauerteigstufe 1"
+    /// — and the remaining letters cannot tell the two sourdough stages apart.
+    /// The fragment is therefore resolved against the component headings the
+    /// page actually has, excluding the component the row stands in; only an
+    /// unambiguous match counts. Without it the second stage looked independent
+    /// and the plan started both stages at the same time.
+    private func referencedComponentName(
+        from line: String,
+        within component: String,
+        among componentNames: [String]
+    ) -> String? {
+        if let name = componentDependencyName(from: line) {
+            return name
+        }
+
+        let value = normalized(line)
+        guard let prefixRange = value.range(
+            of: #"^gesamte[rs]?\s+"#,
+            options: .regularExpression
+        ) else {
+            return nil
+        }
+        let fragment = String(value[prefixRange.upperBound...])
+        guard fragment.count >= 5 else { return nil }
+
+        let candidates = componentNames.filter { candidate in
+            normalized(candidate) != normalized(component)
+                && normalized(candidate).hasPrefix(fragment)
+        }
+        guard candidates.count == 1 else { return nil }
+        return "gesamte " + candidates[0]
     }
 
     private func recipeComponentHeading(_ line: String) -> String? {
