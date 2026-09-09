@@ -14,7 +14,7 @@ struct AddComponentDataView: View {
     @State private var componentName   = ""
     @State private var componentNumber = 1
     
-    var gridItemLayout = [GridItem(.fixed(46), alignment: .leading), GridItem(.flexible(minimum: 120), alignment: .leading), GridItem(.fixed(60), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(46), alignment: .leading), GridItem(.flexible(minimum: 120), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing)]
     
     var body: some View {
 
@@ -35,9 +35,12 @@ struct AddComponentDataView: View {
                     TextField("", value: $componentNumber, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Nummer")
 
                     TextField("Sauerteig", text: $componentName)
                         .textFieldStyle(.roundedBorder)
+                        // "Sauerteig" is an example value, not the field's name.
+                        .accessibilityLabel("Komponente")
 
                     IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Komponente hinzufügen", controlSize: .regular) {
                         // Make sure that the fields are populated
@@ -57,6 +60,7 @@ struct AddComponentDataView: View {
                         componentNumber = components.count + 1
                     }
                 }
+                .scrollsSidewaysAtLargeText()
 
                 ForEach(components.indices, id: \.self) { i in
 
@@ -65,10 +69,13 @@ struct AddComponentDataView: View {
                         TextField("", value: $components[i].number, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nummer")
                         TextField("", text: $components[i].name)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Komponente")
                         Text(verbatim: "")
                     }
+                    .scrollsSidewaysAtLargeText()
 
                     AddIngredientDataView(ingredients: $components[i].ingredients)
 

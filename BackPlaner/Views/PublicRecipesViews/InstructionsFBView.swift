@@ -47,7 +47,7 @@ struct InstructionsFBView: View {
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
-    var gridItemLayoutInstructions = [GridItem(.fixed(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .trailing), GridItem(.fixed(90), alignment: .trailing)]
+    var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
 
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -78,6 +78,9 @@ struct InstructionsFBView: View {
                                 .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
                                 .cornerRadius(5)
                         }
+                        // The image is the link's only content, so without this the
+                        // link would be announced with no name at all.
+                        .accessibilityLabel("Rezeptbild vergrößern")
 
                         VStack(alignment: .leading, spacing: 10) {
                             Text(recipeFB.name)
@@ -100,17 +103,10 @@ struct InstructionsFBView: View {
                             PortraitAdaptiveStack(spacing: 6) {
                                 Text("Portionsgröße")
                                     .font(Theme.bodyFont(15))
-                                    .lineLimit(1)
-                                    .fixedSize(horizontal: true, vertical: false)
-                                Picker("", selection: $selectedServingSize) {
-                                    Text(0.5, format: .number.precision(.fractionLength(1))).tag(1)
-                                    Text(1.0, format: .number.precision(.fractionLength(1))).tag(2)
-                                    Text(1.5, format: .number.precision(.fractionLength(1))).tag(3)
-                                    Text(2.0, format: .number.precision(.fractionLength(1))).tag(4)
-                                }
-                                .font(Theme.bodyFont(15))
-                                .pickerStyle(SegmentedPickerStyle())
-                                .frame(width:160)
+                                    // No lineLimit/fixedSize: at accessibility sizes
+                                    // a forced single line pushes the row off screen.
+                                    .fixedSize(horizontal: false, vertical: true)
+                                ServingSizePicker(selection: $selectedServingSize)
                             }
                             
                             Text("Gewicht: \(Int((recipeFB.totalWeight) * Double(selectedServingSize) / 2.0), format: .number) g")
@@ -166,6 +162,7 @@ struct InstructionsFBView: View {
                                     }
                                 }
                             }
+                            .scrollsSidewaysAtLargeText()
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
@@ -224,6 +221,10 @@ struct InstructionsFBView: View {
                                         Text(recipeFB.instructions[index].instruction)
                                         Text(Rational.displayHoursMinutes(recipeFB.instructions[index].duration))
                                         TextField(String(recipeFB.instructions[index].duration), text: $durations[index])
+                                            // The placeholder is the current number
+                                            // of minutes, which says nothing on its
+                                            // own when read aloud.
+                                            .accessibilityLabel("Dauer in Minuten")
                                     }
                                 }
                                 .font(Theme.bodyFont(15))
@@ -267,6 +268,7 @@ struct InstructionsFBView: View {
                                 .font(Theme.bodyFont(15))
                             }
                         }
+                        .scrollsSidewaysAtLargeText()
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()

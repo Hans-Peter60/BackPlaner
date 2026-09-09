@@ -1,6 +1,4 @@
 import SwiftUI
-import AuthenticationServices
-import CryptoKit
 
 struct SettingsView: View {
     @AppStorage(AppSettingsKeys.selectedLanguage) private var selectedLanguage = AppLanguage.system.rawValue
@@ -13,13 +11,6 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
 
     @EnvironmentObject private var modelFB: RecipeFBModel
-
-    // Admin (Sign in with Apple) sign-in state.
-    @State private var adminLoginError: String?
-    @State private var isSigningIn = false
-    /// Raw nonce generated for the current Apple request; its SHA256 is sent to
-    /// Apple, and the raw value is used to build the Firebase credential.
-    @State private var currentNonce: String?
 
     var body: some View {
         Form {
@@ -80,95 +71,39 @@ struct SettingsView: View {
                 }
             }
 
-            adminSection
+            accountSection
         }
         .clearScrollBackground()
         .warmBackground()
         .navigationTitle("Einstellungen")
     }
 
-    /// Admin sign-in: a real email/password account gives a stable uid that can
-    /// be listed in the Firestore `admins` collection (unlike anonymous uids).
+    /// The account section serves two purposes: it is where an author signs in
+    /// so his private cloud recipes are tied to a uid that survives a reinstall,
+    /// and it is where a moderator signs in — a moderator is simply an account
+    /// whose uid is listed in the Firestore `admins` collection.
     @ViewBuilder
-    private var adminSection: some View {
-        Section("Administrator") {
-            if modelFB.isAdmin {
-                LabeledContent("Angemeldet als", value: modelFB.adminEmail ?? "Administrator")
+    private var accountSection: some View {
+        Section {
+            if modelFB.isSignedInWithAccount {
+                LabeledContent("Angemeldet als", value: modelFB.accountEmail ?? String(localized: "Apple-Konto"))
+
+                if modelFB.isAdmin {
+                    Label("Administrator", systemImage: "checkmark.seal")
+                        .foregroundColor(Theme.subtitle)
+                }
+
                 Button("Abmelden", role: .destructive) {
-                    modelFB.signOutAdmin()
-                    adminLoginError = nil
+                    modelFB.signOutAccount()
                 }
             } else {
-                SignInWithAppleButton(.signIn) { request in
-                    let nonce = Self.randomNonceString()
-                    currentNonce = nonce
-                    // No name/email scopes are requested: the admin check only needs the
-                    // stable Apple uid, so no personal data is collected or stored.
-                    request.nonce = Self.sha256(nonce)
-                } onCompletion: { result in
-                    handleAppleCompletion(result)
-                }
-                .signInWithAppleButtonStyle(.black)
-                .frame(height: 44)
-                .disabled(isSigningIn)
-
-                if let adminLoginError {
-                    Text(adminLoginError)
-                        .font(.footnote)
-                        .foregroundColor(.red)
-                }
+                AppleSignInView()
             }
+        } header: {
+            Text("Konto")
+        } footer: {
+            Text("Die Anmeldung wird für private Cloud-Rezepte benötigt: nur so bleiben sie nach einer Neuinstallation erreichbar. Administratoren verwalten damit gemeldete Rezepte.")
         }
-    }
-
-    /// Handles the Apple authorization result and forwards the token to Firebase.
-    private func handleAppleCompletion(_ result: Result<ASAuthorization, Error>) {
-        adminLoginError = nil
-        switch result {
-        case .failure(let error):
-            adminLoginError = error.localizedDescription
-        case .success(let authorization):
-            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
-                  let tokenData = credential.identityToken,
-                  let idToken = String(data: tokenData, encoding: .utf8),
-                  let nonce = currentNonce else {
-                adminLoginError = String(localized: "Apple-Login lieferte kein gültiges Token.")
-                return
-            }
-            isSigningIn = true
-            modelFB.signInAsAdminWithApple(idTokenString: idToken, rawNonce: nonce) { result in
-                isSigningIn = false
-                if case .failure(let error) = result {
-                    adminLoginError = error.localizedDescription
-                }
-            }
-        }
-    }
-
-    /// A cryptographically random nonce string (Apple-recommended implementation).
-    private static func randomNonceString(length: Int = 32) -> String {
-        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remaining = length
-        while remaining > 0 {
-            var randoms = [UInt8](repeating: 0, count: 16)
-            let status = SecRandomCopyBytes(kSecRandomDefault, randoms.count, &randoms)
-            guard status == errSecSuccess else { continue }
-            for random in randoms where remaining > 0 {
-                if random < 63 {
-                    result.append(charset[Int(random) % charset.count])
-                    remaining -= 1
-                }
-            }
-        }
-        return result
-    }
-
-    /// SHA256 hex digest, as required for the Apple sign-in nonce.
-    private static func sha256(_ input: String) -> String {
-        SHA256.hash(data: Data(input.utf8))
-            .map { String(format: "%02x", $0) }
-            .joined()
     }
 
     private func formattedHour(_ hour: Int) -> String {

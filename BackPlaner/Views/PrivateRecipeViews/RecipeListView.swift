@@ -82,6 +82,7 @@ struct RecipeListView: View {
                                         .frame(width: 50, height: 50, alignment: .center)
                                         .clipped()
                                         .cornerRadius(8)
+                                        .accessibilityHidden(true)
 
                                     VStack (alignment: .leading, spacing: 3) {
                                         Text(r.name)
@@ -98,6 +99,11 @@ struct RecipeListView: View {
                                     Spacer(minLength: 0)
                                 }
                                 .cardStyle()
+                                .accessibilityElement(children: .combine)
+                                // The row draws no stars, so the label is the only
+                                // place the rating is announced — with its scale,
+                                // because a bare number says nothing.
+                                .accessibilityLabel(Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
                             })
                     }
                     .onDelete { indexSet in

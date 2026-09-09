@@ -17,7 +17,7 @@ struct AddInstructionDataView: View {
     @State private var duration    = 0
 
     // Local layout sized so the four columns fit iPhone portrait without clipping.
-    private let gridItemLayout = [GridItem(.fixed(50), alignment: .leading), GridItem(.flexible(minimum: 110), alignment: .leading), GridItem(.fixed(56), alignment: .trailing), GridItem(.fixed(44), alignment: .trailing)]
+    private let gridItemLayout = [GridItem(scaledColumnSize(50), alignment: .leading), GridItem(.flexible(minimum: 110), alignment: .leading), GridItem(scaledColumnSize(56), alignment: .trailing), GridItem(scaledColumnSize(44), alignment: .trailing)]
 
     var body: some View {
         
@@ -35,17 +35,22 @@ struct AddInstructionDataView: View {
                     Text("Dauer").bold()
                     Text(verbatim: " ").bold()
                     
+                    // The grid header above names each column visually, but a
+                    // header cell is not a label — every field needs its own.
                     TextField("", value: $step, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Schritt")
                     
                     TextField("", text:  $instruction)
                         .autocapitalization(.none)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Beschreibung")
                     
                     TextField("", value: $duration, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Dauer in Minuten")
                     
                     IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Verarbeitungsschritt hinzufügen", controlSize: .regular) {
                         // Make sure that the fields are populated
@@ -75,6 +80,7 @@ struct AddInstructionDataView: View {
                         duration    = 0
                     }
                 }
+                .scrollsSidewaysAtLargeText()
                 
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
                     
@@ -84,16 +90,20 @@ struct AddInstructionDataView: View {
                         TextField("", value: $instructions[i].step, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Schritt")
                         TextField("", text:  $instructions[i].instruction)
                             .autocapitalization(.none)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Beschreibung")
                         TextField("", value: $instructions[i].duration, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Dauer in Minuten")
                         Text(verbatim: " ")
                     }
                     .onDelete(perform: deleteInstruction)
                 }
+                .scrollsSidewaysAtLargeText()
             }
         }
     }

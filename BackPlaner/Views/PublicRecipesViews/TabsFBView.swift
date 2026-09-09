@@ -63,7 +63,9 @@ struct TabsFBView: View {
                 }
                 .tag(1)
         }
-        .tint(Theme.accentBottom)
+        // accentText, not accentBottom: the tab bar keeps the system's own
+        // background, so the tint has to be light in dark mode, not dark.
+        .tint(Theme.accentText)
         .task {
             // Load this recipe's components and steps on demand, so both the
             // baking and the details tab work even when the global "Detailansicht"
@@ -101,6 +103,7 @@ struct TabsFBView: View {
                     }
                 }
                 .disabled(isTranslating)
+                .accessibilityLabel(isTranslating ? "Übersetzt …" : "Sprache wählen")
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -128,6 +131,7 @@ struct TabsFBView: View {
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
+                .accessibilityLabel("Weitere Aktionen")
             }
         }
         .confirmationDialog("Rezept melden", isPresented: $showReportDialog, titleVisibility: .visible) {
@@ -153,7 +157,9 @@ struct TabsFBView: View {
             }
             Button("Abbrechen", role: .cancel) { }
         } message: {
-            Text("Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+            Text(recipeFB.visibility == .authorOnly
+                 ? "Das Rezept wird endgültig aus Deiner privaten Ablage in der Rezept-Datenbank entfernt."
+                 : "Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
         }
         .alert("Löschen fehlgeschlagen",
                isPresented: Binding(get: { deleteErrorMessage != nil },

@@ -24,9 +24,14 @@ struct AddRecipeView: View {
     @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
     @State private var placeHolderImage: Image
     @State private var showingAlert         = false
-    @State private var savePublic           = AppSettings.defaultSavePublic
+    @State private var storage              = AppSettings.defaultStoragePreference
     @State private var showEULA             = false
     @State private var showPublicSaveWarning = false
+    @State private var showPrivateCloudSaveWarning = false
+    /// A private cloud recipe needs a permanent account; ask for it when the
+    /// user chose that option while still being anonymous.
+    @State private var showSignInRequest    = false
+    @State private var pendingPrivateCloudSave = false
     // Public-upload feedback: a spinner while the recipe is being sent and an
     // error message if it fails, so the save is no longer silent "fire and forget".
     @State private var isUploading          = false
@@ -37,7 +42,9 @@ struct AddRecipeView: View {
         _recipeFB = State(initialValue: initialRecipe ?? RecipeFB())
         _recipeImage = State(initialValue: initialImage)
         _placeHolderImage = State(initialValue: initialImage.map(Image.init(uiImage:)) ?? Image(systemName: "photo"))
-        _savePublic = State(initialValue: initialRecipe == nil ? AppSettings.defaultSavePublic : false)
+        // An imported recipe comes from someone else's page, so it must not
+        // default to being published — it starts out local.
+        _storage = State(initialValue: initialRecipe == nil ? AppSettings.defaultStoragePreference : .privateRecipe)
         UITableView.appearance().sectionFooterHeight = 0
     }
 
@@ -53,6 +60,57 @@ struct AddRecipeView: View {
     }
 
     var body: some View {
+        // The alerts and sheets hang off a separate property: as one single
+        // expression, body grew beyond what the type checker resolves in
+        // reasonable time.
+        styledForm
+            .alert("Upload fehlgeschlagen", isPresented: uploadErrorPresented) {
+                Button("OK", role: .cancel) { uploadErrorMessage = nil }
+            } message: {
+                Text(uploadErrorMessage ?? "")
+            }
+            .alert("Bild erforderlich", isPresented: $showMissingImageAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu.")
+            }
+            .alert("Öffentliches Rezept kann nicht geändert werden", isPresented: $showPublicSaveWarning) {
+                Button("Abbrechen", role: .cancel) { }
+                Button("Öffentlich speichern") {
+                    continuePublicSaveAfterWarning()
+                }
+            } message: {
+                Text("Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.")
+            }
+            // Presenting the warning from the sheet's callback would race with
+            // the sheet's own dismissal, so it waits until the sheet is gone.
+            .sheet(isPresented: $showSignInRequest, onDismiss: {
+                guard pendingPrivateCloudSave else { return }
+                pendingPrivateCloudSave = false
+                showPrivateCloudSaveWarning = true
+            }) {
+                PrivateCloudSignInSheet {
+                    pendingPrivateCloudSave = true
+                }
+            }
+            .alert("Cloud-Rezept kann nicht geändert werden", isPresented: $showPrivateCloudSaveWarning) {
+                Button("Abbrechen", role: .cancel) { }
+                Button("Privat speichern") {
+                    addRecipe(to: .privateCloudRecipe)
+                }
+            } message: {
+                Text("Ein Rezept in der Rezept-Datenbank kann nach dem Speichern nicht mehr geändert werden. Es ist nur für Dich sichtbar.")
+            }
+            .navigationTitle("Neues Rezept erfassen")
+    }
+
+    /// True while an upload error is waiting to be acknowledged.
+    private var uploadErrorPresented: Binding<Bool> {
+        Binding(get: { uploadErrorMessage != nil },
+                set: { if !$0 { uploadErrorMessage = nil } })
+    }
+
+    private var styledForm: some View {
         
         Form {
             Section {
@@ -66,11 +124,16 @@ struct AddRecipeView: View {
             }
             
             Section("Speichern") {
-                Picker("Ablage", selection: $savePublic) {
-                    Text("Privat").tag(false)
-                    Text("Öffentlich").tag(true)
+                Picker("Ablage", selection: $storage) {
+                    ForEach(RecipeStoragePreference.allCases) { preference in
+                        Text(preference.shortTitle).tag(preference)
+                    }
                 }
                 .pickerStyle(.segmented)
+
+                Text(storage.explanation)
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
 
                 HStack {
                     IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Inhalte löschen", title: "Inhalte löschen", controlSize: .regular) {
@@ -79,7 +142,7 @@ struct AddRecipeView: View {
 
                     Spacer()
 
-                    IconActionButton(systemImage: savePublic ? "tray.and.arrow.up" : "lock", style: .primary, accessibilityLabel: "Rezept speichern", title: "Rezept speichern", controlSize: .regular) {
+                    IconActionButton(systemImage: storage.symbolName, style: .primary, accessibilityLabel: "Rezept speichern", title: "Rezept speichern", controlSize: .regular) {
                         requestSave()
                     }
                     // Prevent saving an unnamed (effectively empty) recipe, or
@@ -90,7 +153,7 @@ struct AddRecipeView: View {
                     }
                     .sheet(isPresented: $showEULA) {
                         EULAView {
-                            addRecipe(fireStore: true)
+                            addRecipe(to: .publicRecipe)
                         }
                     }
                 }
@@ -102,6 +165,7 @@ struct AddRecipeView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(minWidth: 50, idealWidth: 100, maxWidth: 150, minHeight: 50, idealHeight: 100, maxHeight: 150, alignment: .center)
+                    .accessibilityLabel(hasRecipeImage ? "Rezeptbild" : "Noch kein Rezeptbild")
                 
                 HStack {
                     IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .regular) {
@@ -160,31 +224,50 @@ struct AddRecipeView: View {
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
             }
         }
-        // … and report a real error instead of a false "saved" confirmation.
-        .alert("Upload fehlgeschlagen", isPresented: Binding(
-            get: { uploadErrorMessage != nil },
-            set: { if !$0 { uploadErrorMessage = nil } }
-        )) {
-            Button("OK", role: .cancel) { uploadErrorMessage = nil }
-        } message: {
-            Text(uploadErrorMessage ?? "")
-        }
-        .alert("Bild erforderlich", isPresented: $showMissingImageAlert) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu.")
-        }
-        .alert("Öffentliches Rezept kann nicht geändert werden", isPresented: $showPublicSaveWarning) {
-            Button("Abbrechen", role: .cancel) { }
-            Button("Öffentlich speichern") {
-                continuePublicSaveAfterWarning()
-            }
-        } message: {
-            Text("Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.")
-        }
-        .navigationTitle("Neues Rezept erfassen")
     }
     
+    /// Where the recipe is stored, and the button that saves it. Its own
+    /// property, so the type checker does not have to resolve it as part of the
+    /// (very large) body expression.
+    @ViewBuilder
+    private var saveSection: some View {
+        Section("Speichern") {
+            Picker("Ablage", selection: $storage) {
+                ForEach(RecipeStoragePreference.allCases) { preference in
+                    Text(preference.shortTitle).tag(preference)
+                }
+            }
+            .pickerStyle(.segmented)
+
+            Text(storage.explanation)
+                .font(Theme.bodyFont(13))
+                .foregroundColor(Theme.subtitle)
+
+            HStack {
+                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Inhalte löschen", title: "Inhalte löschen", controlSize: .regular) {
+                    clear()
+                }
+
+                Spacer()
+
+                IconActionButton(systemImage: storage.symbolName, style: .primary, accessibilityLabel: "Rezept speichern", title: "Rezept speichern", controlSize: .regular) {
+                    requestSave()
+                }
+                // Prevent saving an unnamed (effectively empty) recipe, or
+                // starting a second upload while one is still in flight.
+                .disabled(!canSave || isUploading)
+                .alert("Rezept wurde gespeichert", isPresented: $showingAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .sheet(isPresented: $showEULA) {
+                    EULAView {
+                        addRecipe(to: .publicRecipe)
+                    }
+                }
+            }
+        }
+    }
+
     func loadImage() {
         
         // Check if an image was selected from the library
@@ -198,7 +281,7 @@ struct AddRecipeView: View {
         
         recipeFB = RecipeFB()
         recipeImage = nil
-        savePublic = AppSettings.defaultSavePublic
+        storage = AppSettings.defaultStoragePreference
         
         placeHolderImage = Image(systemName: "photo")
     }
@@ -209,10 +292,19 @@ struct AddRecipeView: View {
             return
         }
 
-        if savePublic {
+        switch storage {
+        case .privateRecipe:
+            addRecipe(to: .privateRecipe)
+        case .privateCloudRecipe:
+            // The recipe is tied to the author's uid, so it needs an identity
+            // that outlives this installation.
+            if modelFB.isSignedInWithAccount {
+                showPrivateCloudSaveWarning = true
+            } else {
+                showSignInRequest = true
+            }
+        case .publicRecipe:
             showPublicSaveWarning = true
-        } else {
-            addRecipe(fireStore: false)
         }
     }
 
@@ -221,17 +313,17 @@ struct AddRecipeView: View {
         if !ModerationStore.shared.hasAcceptedEULA {
             showEULA = true
         } else {
-            addRecipe(fireStore: true)
+            addRecipe(to: .publicRecipe)
         }
     }
     
-    func addRecipe(fireStore: Bool) {
+    func addRecipe(to target: RecipeStoragePreference) {
 
-        if fireStore {
-            // Public upload is asynchronous: show a spinner, then confirm on
+        if let visibility = target.cloudVisibility {
+            // The upload is asynchronous: show a spinner, then confirm on
             // success or surface the error on failure.
             isUploading = true
-            modelFB.uploadRecipeToFirestore(r: recipeFB, i: recipeImage ?? UIImage()) { result in
+            modelFB.uploadRecipeToFirestore(r: recipeFB, i: recipeImage ?? UIImage(), visibility: visibility) { result in
                 isUploading = false
                 switch result {
                 case .success:

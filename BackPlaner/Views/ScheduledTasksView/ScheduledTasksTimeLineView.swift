@@ -127,6 +127,8 @@ struct ScheduledTasksTimeLineView: View {
             .frame(width: 30, height: 30, alignment: .center)
             .clipped()
             .cornerRadius(5)
+            // Decorative: the recipe name is right next to it.
+            .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(item.recipeName)
@@ -136,6 +138,8 @@ struct ScheduledTasksTimeLineView: View {
                 Text(item.instruction)
                     .font(Theme.bodyFont(15))
             }
+            // Recipe and step describe one entry on the timeline.
+            .accessibilityElement(children: .combine)
         }
     }
 
@@ -169,7 +173,9 @@ struct ScheduledTasksTimeLineView: View {
             .foregroundColor(Theme.subtitle)
             .frame(width: ScheduledTasksTimeLineView.lineWidth)
         let dot = Circle()
-            .fill(Theme.accentBottom)
+            // accentText: this line sits on the warm background, so it has to
+            // stay light in dark mode rather than following the gradient accent.
+            .fill(Theme.accentText)
             .frame(width: ScheduledTasksTimeLineView.dotDiameter,
                    height: ScheduledTasksTimeLineView.dotDiameter)
         let halfHeight    = height / 2

@@ -4,22 +4,42 @@ rules_version = '2';
 //
 // Like the Firestore rules, these require Firebase Anonymous Authentication so
 // that only genuine app users can read/write, and cap upload size and type.
-// Per-object author ownership is not tracked in Storage, so any signed-in user
-// may delete an image path; the authoritative record is the Firestore recipe.
+// Ownership is expressed through the path: an image lives under the uid of the
+// user who uploaded it, so the rules can restrict writes to its author. Images
+// of author-only recipes additionally restrict READING to that same user.
 
 service firebase.storage {
   match /b/{bucket}/o {
 
-    // Recipe images live under images/<uuid>.jpg
+    function isImageUpload() {
+      return request.resource.size < 5 * 1024 * 1024
+          && request.resource.contentType.matches('image/.*');
+    }
+
+    // Images of public recipes. Legacy objects live directly under
+    // images/<uuid>.jpg, current uploads under images/<uid>/<uuid>.jpg — the
+    // owner segment lets the rules below restrict writes to the author.
     match /images/{imageId} {
       allow read: if request.auth != null;
-
-      // Uploads must be reasonably sized images.
-      allow write: if request.auth != null
-                   && request.resource.size < 5 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
-
+      allow write: if request.auth != null && isImageUpload();
       allow delete: if request.auth != null;
+    }
+
+    match /images/{ownerUid}/{imageId} {
+      // Public recipes are visible to everyone, so their images are too.
+      allow read: if request.auth != null;
+
+      // Only the author may add or remove his own images.
+      allow write:  if request.auth != null && request.auth.uid == ownerUid && isImageUpload();
+      allow delete: if request.auth != null && request.auth.uid == ownerUid;
+    }
+
+    // Images of author-only recipes. A separate folder because Storage rules
+    // cannot read Firestore: the path itself has to carry who may see the image.
+    match /privateImages/{ownerUid}/{imageId} {
+      allow read:   if request.auth != null && request.auth.uid == ownerUid;
+      allow write:  if request.auth != null && request.auth.uid == ownerUid && isImageUpload();
+      allow delete: if request.auth != null && request.auth.uid == ownerUid;
     }
 
     // Deny everything outside the images folder.

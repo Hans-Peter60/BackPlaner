@@ -117,12 +117,14 @@ struct ScheduledTasksView: View {
                             Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.subtitle)
                         }
                     }
                     .frame(width: 52, height: 52, alignment: .center)
                     .clipped()
                     .cornerRadius(8)
+                    // Decorative: the recipe name is right next to it.
+                    .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 6) {
 
@@ -140,7 +142,7 @@ struct ScheduledTasksView: View {
                             } label: {
                                 Image(systemName: "clock.arrow.circlepath")
                                     .font(.system(size: 15, weight: .semibold))
-                                    .foregroundColor(Theme.accentBottom)
+                                    .foregroundColor(Theme.accentText)
                                     .frame(width: 32, height: 32)
                                     .background(.thinMaterial, in: Circle())
                             }
@@ -155,11 +157,13 @@ struct ScheduledTasksView: View {
                                 Image(systemName: "clock.fill")
                             }
                             .font(Theme.brandFont(15))
-                            .foregroundColor(Theme.accentBottom)
+                            // The foreground accent, not the gradient one: this
+                            // text also has to clear 4.5:1 against its own tint.
+                            .foregroundColor(Theme.accentText)
                             .lineLimit(1)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
-                            .background(Theme.accentBottom.opacity(0.12), in: Capsule())
+                            .background(Theme.accentText.opacity(0.12), in: Capsule())
                             .layoutPriority(1)
 
                             Text(shortDate(nextStep.date))
@@ -192,6 +196,9 @@ struct ScheduledTasksView: View {
                         destination: ScheduledTaskDetailView(index: index(for: nextStep))
                     )
                     .opacity(0)
+                    // The link carries no title of its own, so VoiceOver would
+                    // otherwise announce an unnamed link behind every card.
+                    .accessibilityLabel("Details zu \(nextStep.recipeName)")
                 )
             }
             // The index set refers to the visible (possibly filtered) rows, not
@@ -498,7 +505,7 @@ private struct ScheduledStepShiftSheet: View {
                     Text(recipeName)
                         .font(.headline)
                     Text(instruction)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Theme.subtitle)
                 }
 
                 Section("Zeitverschiebung") {

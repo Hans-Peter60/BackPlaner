@@ -62,14 +62,17 @@ struct GlobalVariables {
                                    "Dinkelmehl 630", "Dinkelmehl 815", "Dinkelmehl 1050", "Dinkelvollkornmehl", "Dinkelschrot",
                                    "Emmervollkornmehl" ]
     
-    static var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(100), alignment: .trailing), GridItem(.fixed(120), alignment: .trailing)]
+    // These three are computed, not stored: `scaledLayoutValue` reads the
+    // current text size, and a stored `static var` would freeze whatever it
+    // was on first access and never grow with the user's setting.
+    static var gridItemLayoutInstructions: [GridItem] { [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing), GridItem(scaledColumnSize(120), alignment: .trailing)] }
 
-    static var gridItemLayoutComponents = [GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.flexible(minimum: 10), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
+    static var gridItemLayoutComponents: [GridItem] { [GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.flexible(minimum: 10), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)] }
 
-    static var gridItemLayoutIngredients = [GridItem(.fixed(40),  alignment: .leading),  GridItem(.fixed(80), alignment: .trailing),
-                          GridItem(.fixed(80), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
-                          GridItem(.fixed(40),  alignment: .leading), GridItem(.fixed(10),              alignment: .trailing),
-                          GridItem(.fixed(40),  alignment: .leading), GridItem(.fixed(80),              alignment: .trailing)]
+    static var gridItemLayoutIngredients: [GridItem] { [GridItem(scaledColumnSize(40),  alignment: .leading),  GridItem(scaledColumnSize(80), alignment: .trailing),
+                          GridItem(scaledColumnSize(80), alignment: .leading),  GridItem(.flexible(minimum: 200), alignment: .leading),
+                          GridItem(scaledColumnSize(40),  alignment: .leading), GridItem(scaledColumnSize(10),              alignment: .trailing),
+                          GridItem(scaledColumnSize(40),  alignment: .leading), GridItem(scaledColumnSize(80),              alignment: .trailing)] }
  
     static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()

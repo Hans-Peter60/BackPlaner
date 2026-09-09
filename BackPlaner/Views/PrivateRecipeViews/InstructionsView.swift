@@ -38,8 +38,8 @@ struct InstructionsView: View {
     @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
-    var gridItemLayoutInstructions = [GridItem(.fixed(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .trailing), GridItem(.fixed(90), alignment: .trailing)]
-    var gridItemLayoutHistories = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
+    var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
+    var gridItemLayoutHistories = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
     
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -76,6 +76,9 @@ struct InstructionsView: View {
                             .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
                             .cornerRadius(5)
                     }
+                    // The image is the link's only content, so without this the
+                    // link would be announced with no name at all.
+                    .accessibilityLabel("Rezeptbild vergrößern")
 
                     Text(recipe.name)
                         .font(Theme.brandFont(18))
@@ -89,17 +92,10 @@ struct InstructionsView: View {
                     PortraitAdaptiveStack(spacing: 6) {
                         Text("Portionsgröße")
                             .font(Theme.bodyFont(15))
-                            .lineLimit(1)
-                            .fixedSize(horizontal: true, vertical: false)
-                        Picker("", selection: $selectedServingSize) {
-                            Text(0.5, format: .number.precision(.fractionLength(1))).tag(1)
-                            Text(1.0, format: .number.precision(.fractionLength(1))).tag(2)
-                            Text(1.5, format: .number.precision(.fractionLength(1))).tag(3)
-                            Text(2.0, format: .number.precision(.fractionLength(1))).tag(4)
-                        }
-                        .font(Theme.bodyFont(15))
-                        .pickerStyle(SegmentedPickerStyle())
-                        .frame(width:160)
+                            // No lineLimit/fixedSize: at accessibility sizes a
+                            // forced single line pushes the whole row off screen.
+                            .fixedSize(horizontal: false, vertical: true)
+                        ServingSizePicker(selection: $selectedServingSize)
                     }
                     
                     Text("Gewicht: \(scaledRecipeWeight) g")
@@ -153,6 +149,7 @@ struct InstructionsView: View {
                                 }
                             }
                         }
+                        .scrollsSidewaysAtLargeText()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
@@ -211,6 +208,10 @@ struct InstructionsView: View {
                                     Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
                                     if index < durations.count {
                                         TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
+                                            // The placeholder is the current number
+                                            // of minutes, which says nothing on its
+                                            // own when read aloud.
+                                            .accessibilityLabel("Dauer in Minuten")
                                     }
 
                                 }
@@ -258,6 +259,7 @@ struct InstructionsView: View {
                             }
                         }
                     }
+                    .scrollsSidewaysAtLargeText()
                     .font(Theme.bodyFont(15))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -282,6 +284,7 @@ struct InstructionsView: View {
                             Text(bakeHistory.comment)
                         }
                     }
+                    .scrollsSidewaysAtLargeText()
 
                 }
                 .font(Theme.bodyFont(15))
@@ -769,6 +772,19 @@ struct CheckboxStyle: ToggleStyle {
                 .onTapGesture {
                     configuration.isOn.toggle()
                 }
+        }
+        // The tick is drawn by hand and toggled with a tap gesture, so it has
+        // none of the semantics a real Toggle would have. Expose the whole row
+        // as one switch: the step text names it, the tick is its value, and the
+        // action lets VoiceOver activate it without aiming at the icon.
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isToggle)
+        // Distinct keys on purpose: the bare "Erledigt" key is already the title
+        // of the notification action ("Mark as Done"), which is an instruction,
+        // not a state.
+        .accessibilityValue(configuration.isOn ? "Schritt erledigt" : "Schritt offen")
+        .accessibilityAction {
+            configuration.isOn.toggle()
         }
     }
 }

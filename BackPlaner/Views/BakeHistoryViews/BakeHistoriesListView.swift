@@ -51,11 +51,11 @@ struct BakeHistoriesListView: View {
     }
     
     var gridItemLayout = [
-        GridItem(.fixed(76), alignment: .leading),
+        GridItem(scaledColumnSize(76), alignment: .leading),
         GridItem(.flexible(minimum: 80), alignment: .leading),
         GridItem(.flexible(minimum: 80), alignment: .leading)
     ]
-    var gridItemLayoutImages = [GridItem(.fixed(54), alignment: .leading), GridItem(.fixed(54), alignment: .leading)]
+    var gridItemLayoutImages = [GridItem(scaledColumnSize(54), alignment: .leading), GridItem(scaledColumnSize(54), alignment: .leading)]
     
     var dateFormat:DateFormat = DateFormat()
     
@@ -74,6 +74,7 @@ struct BakeHistoriesListView: View {
             Text(verbatim: "")
             Text(verbatim: "")
         }
+        .scrollsSidewaysAtLargeText()
         .padding(.horizontal, 16)
         .font(Theme.brandFont(18))
         
@@ -96,6 +97,7 @@ struct BakeHistoriesListView: View {
                                 Text(bakeHistory.comment)
                                     .font(Theme.bodyFont(16))
                             }
+                            .scrollsSidewaysAtLargeText()
                             HStack {
                                 
                                 if bakeHistory.images != nil {
@@ -115,6 +117,8 @@ struct BakeHistoriesListView: View {
                                                 .clipped()
                                                 .cornerRadius(5)
                                         }
+                                        // The photo is the link's only content.
+                                        .accessibilityLabel("Backfoto anzeigen")
                                     }
                                 }
                                 else {
@@ -124,6 +128,8 @@ struct BakeHistoriesListView: View {
                                         .frame(width: 50, height: 50, alignment: .center)
                                         .clipped()
                                         .cornerRadius(5)
+                                        // Placeholder for "no photo": nothing to announce.
+                                        .accessibilityHidden(true)
                                 }
                             }
                             .frame(maxWidth: .infinity, alignment: .trailing)

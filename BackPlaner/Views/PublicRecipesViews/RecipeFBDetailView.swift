@@ -27,7 +27,7 @@ struct RecipeFBDetailView: View {
     // Error message shown when releasing a reported recipe fails.
     @State private var releaseErrorMessage: String?
 
-    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
     
     var body: some View {
         
@@ -50,6 +50,9 @@ struct RecipeFBDetailView: View {
                                 .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
                                 .cornerRadius(5)
                         }
+                        // The image is the link's only content, so without this the
+                        // link would be announced with no name at all.
+                        .accessibilityLabel("Rezeptbild vergrößern")
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text(recipeFB.name)
@@ -70,15 +73,7 @@ struct RecipeFBDetailView: View {
                         PortraitAdaptiveStack(spacing: 6) {
                             Text("Portionsgröße")
                                 .font(Theme.bodyFont(15))
-                            Picker("", selection: $selectedServingSize) {
-                                Text(0.5, format: .number.precision(.fractionLength(1))).tag(1)
-                                Text(1.0, format: .number.precision(.fractionLength(1))).tag(2)
-                                Text(1.5, format: .number.precision(.fractionLength(1))).tag(3)
-                                Text(2.0, format: .number.precision(.fractionLength(1))).tag(4)
-                            }
-                            .font(Theme.bodyFont(15))
-                            .pickerStyle(SegmentedPickerStyle())
-                            .frame(width:160)
+                            ServingSizePicker(selection: $selectedServingSize)
                         }
                         
                         Spacer()
@@ -136,6 +131,7 @@ struct RecipeFBDetailView: View {
                                         }                            }
                                 }
                             }
+                            .scrollsSidewaysAtLargeText()
                         }
                     } header: {
                         Text("Komponenten:")
@@ -176,6 +172,7 @@ struct RecipeFBDetailView: View {
                                 Text(Rational.displayHoursMinutes(i.duration))
                             }
                         }
+                        .scrollsSidewaysAtLargeText()
                         .font(Theme.bodyFont(16))
                         .padding([.bottom, .top], 5)
                     }
@@ -188,7 +185,7 @@ struct RecipeFBDetailView: View {
                         if recipeFB.hidden {
                             Text("Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.")
                                 .font(.footnote)
-                                .foregroundColor(.red)
+                                .foregroundColor(Theme.danger)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top)
 

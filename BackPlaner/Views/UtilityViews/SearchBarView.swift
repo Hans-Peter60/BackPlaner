@@ -26,7 +26,8 @@ struct SearchBarView: View {
                 }
                 .font(Theme.bodyFont(15))
                 .pickerStyle(SegmentedPickerStyle())
-                .frame(width:160)
+                .frame(maxWidth: scaledLayoutValue(160))
+                .accessibilityLabel("Selektion nach")
             }
 
             ZStack {
@@ -34,13 +35,15 @@ struct SearchBarView: View {
                     .foregroundColor(Theme.card)
                     .cornerRadius(5)
                     .shadow(radius: 4)
-                    .frame(height: 36)
+                    .frame(height: scaledLayoutValue(36))
                 
                 HStack {
                     
                     Image(systemName: "magnifyingglass")
+                        .accessibilityHidden(true)
                     
                     TextField("Filtern nach...", text: $filterBy)
+                        .accessibilityAddTraits(.isSearchField)
                     
                     Button {
                         // Clear the text field
@@ -48,11 +51,13 @@ struct SearchBarView: View {
                     } label: {
                         Image(systemName: "multiply.circle.fill")
                     }
+                    .accessibilityLabel("Filter löschen")
                 }
                 .padding()
             }
-            .frame(width: 264, height: 36)
-            .foregroundColor(.gray)
+            .frame(maxWidth: scaledLayoutValue(264), minHeight: scaledLayoutValue(36))
+            // This tints the field's own text too, and .gray only reaches 3.3:1.
+            .foregroundColor(Theme.subtitle)
             
             if showRating {
                 RatingStarsUpdateView(rating: $rating)

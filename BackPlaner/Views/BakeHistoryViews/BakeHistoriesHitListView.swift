@@ -43,8 +43,8 @@ struct BakeHistoriesHitListView: View {
         }
     }
     
-    var gridItemLayout       = [GridItem(.fixed(80), alignment: .leading), GridItem(.fixed(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading)]
-    var gridItemLayoutImages = [GridItem(.fixed(54), alignment: .leading), GridItem(.fixed(54), alignment: .leading)]
+    var gridItemLayout       = [GridItem(scaledColumnSize(80), alignment: .leading), GridItem(scaledColumnSize(200), alignment: .leading), GridItem(.flexible(minimum: 180), alignment: .leading)]
+    var gridItemLayoutImages = [GridItem(scaledColumnSize(54), alignment: .leading), GridItem(scaledColumnSize(54), alignment: .leading)]
     
     var dateFormat:DateFormat = DateFormat()
     
@@ -63,6 +63,7 @@ struct BakeHistoriesHitListView: View {
             Text(verbatim: "")
             Text(verbatim: "")
         }
+        .scrollsSidewaysAtLargeText()
         .padding(.leading, 28)
         .font(Theme.brandFont(18))
         
@@ -82,6 +83,7 @@ struct BakeHistoriesHitListView: View {
                             Text(String(recipe.bakeHistories.count))
                                 .font(Theme.bodyFont(16))
                         }
+                        .scrollsSidewaysAtLargeText()
                         
                         HStack {
                             
@@ -99,6 +101,9 @@ struct BakeHistoriesHitListView: View {
                                             .frame(width: 50, height: 50, alignment: .center)
                                             .clipped()
                                             .cornerRadius(5)
+                                            // Thumbnails of past bakes: the row's
+                                            // text already names the recipe.
+                                            .accessibilityHidden(true)
                                     }
                                 }
                             }

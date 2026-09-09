@@ -85,9 +85,18 @@ struct MenuItem {
 struct MenuCard: View {
     
     let item: MenuItem
-    
+
+    // At the accessibility text sizes the badge, the two lines of text and the
+    // chevron no longer fit on one line — the title wraps around the badge and
+    // the card clips. Stack everything instead.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
-        HStack(spacing: 16) {
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 10))
+            : AnyLayout(HStackLayout(spacing: 16))
+
+        return layout {
 
             // Icon badge.
             IconBadge(systemImage: item.systemImage)
@@ -99,15 +108,21 @@ struct MenuCard: View {
 
                 Text(item.subtitle)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    // .secondary only reaches 3.4:1 on the white card.
+                    .foregroundColor(Theme.subtitle)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer(minLength: 0)
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.secondary)
+            if !dynamicTypeSize.isAccessibilitySize {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Theme.subtitle)
+                    .accessibilityHidden(true)
+            }
         }
         .cardStyle()
+        // Title and subtitle describe one destination: announce the card as
+        // a single link rather than as two separate texts.
+        .accessibilityElement(children: .combine)
     }
 }

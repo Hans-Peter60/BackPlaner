@@ -35,6 +35,6 @@ struct ScheduledTasksTabsView: View {
                 }
                 .tag(1)
         }
-        .tint(Theme.accentBottom)
+        .tint(Theme.accentText)
     }
 }

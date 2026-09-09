@@ -101,7 +101,9 @@ struct ShoppingCartSelectFormView: View {
                                 Button(role: .destructive) {
                                     confirmationShown = true
                                 } label: {
-                                    Image(systemName: "trash")
+                                    // A swipe action reached by VoiceOver's actions
+                                    // rotor needs a name; the icon alone gives none.
+                                    Label("Einkaufsliste löschen", systemImage: "trash")
                                 }
                             }
                             .confirmationDialog("Bist Du sicher?", isPresented: $confirmationShown) {

@@ -26,10 +26,10 @@ struct AddIngredientDataView: View {
     // recipe card in landscape. If the fixed columns are too wide, the flexible
     // "Zutat" column can't shrink past its minimum and the whole row overflows the
     // card, pushing the trailing +/trash buttons off the right edge.
-    var gridItemLayout = [GridItem(.fixed(30), spacing: 4, alignment: .leading), GridItem(.fixed(64), spacing: 4, alignment: .trailing),
-                          GridItem(.fixed(54), spacing: 4, alignment: .leading), GridItem(.flexible(minimum: 50), spacing: 4, alignment: .leading),
-                          GridItem(.fixed(26), spacing: 4, alignment: .leading), GridItem(.fixed(8), spacing: 4, alignment: .center),
-                          GridItem(.fixed(26), spacing: 4, alignment: .leading), GridItem(.fixed(40), spacing: 0, alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(30), spacing: 4, alignment: .leading), GridItem(scaledColumnSize(64), spacing: 4, alignment: .trailing),
+                          GridItem(scaledColumnSize(54), spacing: 4, alignment: .leading), GridItem(.flexible(minimum: 50), spacing: 4, alignment: .leading),
+                          GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading), GridItem(scaledColumnSize(8), spacing: 4, alignment: .center),
+                          GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading), GridItem(scaledColumnSize(40), spacing: 0, alignment: .trailing)]
     
     var body: some View {
 
@@ -56,26 +56,35 @@ struct AddIngredientDataView: View {
                 Text("N")
                 Text(verbatim: "")
             }
+            .scrollsSidewaysAtLargeText()
 
             Group {
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
 
+                    // The grid header above names each column visually, but a
+                    // header cell is not a label — every field needs its own.
                     TextField("", value: $number, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Nummer")
                     TextField("", value: $weight, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Gewicht")
                     UnitSelectionView(unit: $unit)
                     TextField("", text:  $name)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Zutat")
                     TextField("", value: $num, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Zähler")
                     Text(verbatim: "/")
+                        .accessibilityHidden(true)
                     TextField("", value: $denom, formatter: GlobalVariables.formatter)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityLabel("Nenner")
 
                     IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Zutat hinzufügen", controlSize: .regular) {
                         // Make sure that the fields are populated
@@ -111,6 +120,7 @@ struct AddIngredientDataView: View {
                         normWeight = 0
                     }
                 }
+                .scrollsSidewaysAtLargeText()
 
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
 
@@ -119,28 +129,35 @@ struct AddIngredientDataView: View {
                         TextField("", value: $ingredients[i].number, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nummer")
                         TextField("", value: $ingredients[i].weight, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Gewicht")
                         UnitSelectionView(unit: $ingredients[i].unit)
                         TextField("", text:  $ingredients[i].name)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zutat")
 
                         TextField("", value: $ingredients[i].num, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zähler")
 
                         Text(verbatim: "/")
+                            .accessibilityHidden(true)
 
                         TextField("", value: $ingredients[i].denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nenner")
 
                         IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Zutat löschen", controlSize: .regular) {
                             ingredients.remove(at: i)
                         }
                     }
                 }
+                .scrollsSidewaysAtLargeText()
             }
         }
     }

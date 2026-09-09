@@ -31,20 +31,65 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     }
 }
 
+/// Where a newly entered recipe is stored. The raw values are persisted in
+/// UserDefaults, so the two original cases keep their names.
 enum RecipeStoragePreference: String, CaseIterable, Identifiable {
+    /// Core Data only. Syncs with the user's own iCloud, never with the recipe database.
     case privateRecipe
+    /// Recipe database, readable by its author alone — for recipes whose
+    /// copyright does not allow publishing them.
+    case privateCloudRecipe
+    /// Recipe database, readable by every user.
     case publicRecipe
 
     var id: String { rawValue }
 
     var title: LocalizedStringKey {
         switch self {
-        case .privateRecipe: return "Privat"
-        case .publicRecipe: return "Öffentlich"
+        case .privateRecipe:      return "Nur auf dem Gerät"
+        case .privateCloudRecipe: return "Privat in der Cloud"
+        case .publicRecipe:       return "Öffentlich für alle"
         }
     }
 
-    var savePublic: Bool { self == .publicRecipe }
+    /// Short form for the segmented picker in the recipe forms.
+    var shortTitle: LocalizedStringKey {
+        switch self {
+        case .privateRecipe:      return "Lokal"
+        case .privateCloudRecipe: return "Privat"
+        case .publicRecipe:       return "Öffentlich"
+        }
+    }
+
+    /// Explains the consequences of the choice below the picker.
+    var explanation: LocalizedStringKey {
+        switch self {
+        case .privateRecipe:
+            return "Das Rezept bleibt auf dem Gerät und wird über Deine iCloud gesichert."
+        case .privateCloudRecipe:
+            return "Das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Geeignet für Rezepte, die Du nicht veröffentlichen darfst. Dazu ist eine Anmeldung mit Apple nötig."
+        case .publicRecipe:
+            return "Das Rezept wird für alle Nutzer sichtbar. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen."
+        }
+    }
+
+    /// Icon shown on the save button for this choice.
+    var symbolName: String {
+        switch self {
+        case .privateRecipe:      return "iphone"
+        case .privateCloudRecipe: return "lock.icloud"
+        case .publicRecipe:       return "tray.and.arrow.up"
+        }
+    }
+
+    /// Visibility of the cloud copy, or nil when the recipe stays on the device.
+    var cloudVisibility: RecipeVisibility? {
+        switch self {
+        case .privateRecipe:      return nil
+        case .privateCloudRecipe: return .authorOnly
+        case .publicRecipe:       return .everyone
+        }
+    }
 }
 
 struct AppSettings {
@@ -145,9 +190,9 @@ struct AppSettings {
         UserDefaults.standard.string(forKey: AppSettingsKeys.selectedLanguage) ?? AppLanguage.system.rawValue
     }
 
-    static var defaultSavePublic: Bool {
+    static var defaultStoragePreference: RecipeStoragePreference {
         let rawValue = UserDefaults.standard.string(forKey: AppSettingsKeys.defaultRecipeStorage) ?? defaultRecipeStorage
-        return RecipeStoragePreference(rawValue: rawValue)?.savePublic ?? false
+        return RecipeStoragePreference(rawValue: rawValue) ?? .privateRecipe
     }
 
     static var storedServingSize: Int {

@@ -69,6 +69,8 @@ struct BakeHistoryAddView: View {
                             .stroke(Color.gray).opacity(0.3))
                     .font(Theme.bodyFont(16))
                     .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
+                    // A TextEditor has no placeholder to fall back on.
+                    .accessibilityLabel("Kommentar")
                 
                 Spacer()
             }
@@ -90,6 +92,8 @@ struct BakeHistoryAddView: View {
                                 .clipped()
                                 .cornerRadius(5)
                         }
+                        // The photo is the link's only content.
+                        .accessibilityLabel("Backfoto anzeigen")
                     }
                 }
                 

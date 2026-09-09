@@ -31,7 +31,7 @@ struct EditInstructionDataView: View {
     @State private var duration     = 0
     @State private var selectedInstruction: Instruction?
 
-    private let instructionGridLayout = [GridItem(.fixed(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .trailing), GridItem(.fixed(44), alignment: .trailing)]
+    private let instructionGridLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(44), alignment: .trailing)]
         
     var body: some View {
         
@@ -50,6 +50,12 @@ struct EditInstructionDataView: View {
                                 .onTapGesture {
                                     selectedInstruction = instruction
                                 }
+                                // A tap gesture alone carries no semantics: without
+                                // the button trait VoiceOver announces the row as
+                                // plain text and never offers to activate it.
+                                .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint("Verarbeitungsschritt bearbeiten")
                             
                             IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Verarbeitungsschritt löschen", controlSize: .regular) {
                                 viewContext.delete(instruction)
@@ -61,6 +67,7 @@ struct EditInstructionDataView: View {
                                 }
                             }
                         }
+                        .scrollsSidewaysAtLargeText()
                     }
                 }
             }
@@ -93,7 +100,7 @@ struct EditInstructionView: View {
         _duration = State(initialValue: instruction.duration)
     }
     
-    var gridItemLayoutInstructions = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(80), alignment: .leading)]
+    var gridItemLayoutInstructions = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .leading)]
     
     var body: some View {
         NavigationStack {
@@ -110,6 +117,7 @@ struct EditInstructionView: View {
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
+                                .accessibilityLabel("Schritt")
                             
                             Spacer()
                         }
@@ -121,16 +129,19 @@ struct EditInstructionView: View {
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 200, idealWidth: 500, maxWidth: 600, minHeight: 200, idealHeight: 200, maxHeight: 200, alignment: .leading)
                             .padding(.top, 5)
+                            .accessibilityLabel("Beschreibung")
                         
                         VStack {
                             TextField("", value: $duration, formatter: GlobalVariables.formatter)
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
+                                .accessibilityLabel("Dauer in Minuten")
                             
                             Spacer()
                         }
                     }
+                    .scrollsSidewaysAtLargeText()
                 }
                 .navigationTitle(Text("Verarbeitungsschritt ändern"))
                 .navigationBarTitleDisplayMode(.inline)

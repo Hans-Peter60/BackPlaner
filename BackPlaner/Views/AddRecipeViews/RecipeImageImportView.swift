@@ -109,7 +109,8 @@ struct RecipeImageImportView: View {
 
                 Text(importLayout.explanation)
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    // .secondary is only 2.9:1 on the warm background.
+                    .foregroundStyle(Theme.subtitle)
 
                 HStack(spacing: 12) {
                     PhotosPicker(
@@ -283,7 +284,7 @@ private struct RecipeImportConfirmationView: View {
                         Text(component.name).font(.headline)
                         ForEach(component.ingredients) { ingredient in
                             Text(ingredientDescription(ingredient))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.subtitle)
                         }
                     }
                 }
@@ -295,7 +296,7 @@ private struct RecipeImportConfirmationView: View {
                         Text(instruction.instruction)
                         Text(durationDescription(instruction.duration))
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.subtitle)
                     }
                 }
             }
@@ -304,7 +305,9 @@ private struct RecipeImportConfirmationView: View {
                 Section("Bitte besonders prüfen") {
                     ForEach(result.warnings, id: \.self) { warning in
                         Label(warning, systemImage: "exclamationmark.triangle.fill")
-                            .foregroundStyle(.orange)
+                            // This is warning TEXT, not just an icon: system
+                            // .orange is 2.2:1 on white, well under the 4.5 needed.
+                            .foregroundStyle(Theme.warning)
                     }
                 }
             }

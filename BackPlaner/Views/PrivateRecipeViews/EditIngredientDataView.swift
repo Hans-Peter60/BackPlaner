@@ -35,14 +35,14 @@ struct EditIngredientDataView: View {
     @State private var weight = ""
 
     private let ingredientGridLayout = [
-        GridItem(.fixed(30), alignment: .leading),
-        GridItem(.fixed(50), alignment: .trailing),
-        GridItem(.fixed(44), alignment: .leading),
+        GridItem(scaledColumnSize(30), alignment: .leading),
+        GridItem(scaledColumnSize(50), alignment: .trailing),
+        GridItem(scaledColumnSize(44), alignment: .leading),
         GridItem(.flexible(minimum: 56), alignment: .leading),
-        GridItem(.fixed(26), alignment: .leading),
-        GridItem(.fixed(8), alignment: .center),
-        GridItem(.fixed(26), alignment: .leading),
-        GridItem(.fixed(40), alignment: .trailing)
+        GridItem(scaledColumnSize(26), alignment: .leading),
+        GridItem(scaledColumnSize(8), alignment: .center),
+        GridItem(scaledColumnSize(26), alignment: .leading),
+        GridItem(scaledColumnSize(40), alignment: .trailing)
     ]
     
     var body: some View {
@@ -58,6 +58,12 @@ struct EditIngredientDataView: View {
                         .onTapGesture {
                             selectedIngredient = ingredient
                         }
+                        // A tap gesture alone carries no semantics: without the
+                        // button trait VoiceOver announces the row as plain text
+                        // and never offers to activate it.
+                        .accessibilityElement(children: .combine)
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityHint("Zutat bearbeiten")
                     
                     IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Zutat löschen", controlSize: .regular) {
                         let recipe = ingredient.component?.recipe
@@ -71,6 +77,7 @@ struct EditIngredientDataView: View {
                     }
                 }
             }
+            .scrollsSidewaysAtLargeText()
             .sheet(item: $selectedIngredient) { ingredient in
                 EditIngredientView(ingredient: ingredient)
                     .environment(\.managedObjectContext, self.viewContext)
@@ -97,13 +104,13 @@ struct EditIngredientView: View {
 
     // 7-column layout sized for iPhone portrait so the edit fields aren't clipped left/right.
     private let ingredientGridLayout = [
-        GridItem(.fixed(30), alignment: .leading),
-        GridItem(.fixed(50), alignment: .trailing),
-        GridItem(.fixed(44), alignment: .leading),
+        GridItem(scaledColumnSize(30), alignment: .leading),
+        GridItem(scaledColumnSize(50), alignment: .trailing),
+        GridItem(scaledColumnSize(44), alignment: .leading),
         GridItem(.flexible(minimum: 56), alignment: .leading),
-        GridItem(.fixed(26), alignment: .leading),
-        GridItem(.fixed(8), alignment: .center),
-        GridItem(.fixed(26), alignment: .leading)
+        GridItem(scaledColumnSize(26), alignment: .leading),
+        GridItem(scaledColumnSize(8), alignment: .center),
+        GridItem(scaledColumnSize(26), alignment: .leading)
     ]
 
     init(ingredient: Ingredient) {
@@ -125,20 +132,27 @@ struct EditIngredientView: View {
                         TextField("", value: $number, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nummer")
                         TextField("", value: $weight, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Gewicht")
                         UnitSelectionView(unit: $unit)
                         TextField("", text:  $name)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zutat")
                         TextField("", value: $num, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zähler")
                         Text(verbatim: "/")
+                            .accessibilityHidden(true)
                         TextField("", value: $denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nenner")
                     }
+                    .scrollsSidewaysAtLargeText()
                 }
             }
             .navigationTitle(Text("Zutat ändern"))

@@ -37,8 +37,9 @@ struct BakePlanIssuesView: View {
 
     private func color(for severity: BakePlanIssueSeverity) -> Color {
         switch severity {
-        case .error: .red
-        case .hint:  .orange
+        // System .red/.orange only reach 3.6:1 and 2.2:1 on the white card.
+        case .error: Theme.danger
+        case .hint:  Theme.warning
         }
     }
 }

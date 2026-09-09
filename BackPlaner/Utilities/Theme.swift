@@ -30,12 +30,27 @@ enum Theme {
                                           dark:  Color(red: 0.09, green: 0.07, blue: 0.05))
 
     // Accent / icon-badge gradient (topLeading → bottomTrailing).
-    // The warm accent reads well on both backgrounds; brighten it a touch in
-    // dark mode so the badges keep their pop.
-    static let accentTop    = dynamic(light: Color(red: 0.80, green: 0.53, blue: 0.28),
-                                      dark:  Color(red: 0.85, green: 0.58, blue: 0.32))
-    static let accentBottom = dynamic(light: Color(red: 0.62, green: 0.38, blue: 0.18),
-                                      dark:  Color(red: 0.70, green: 0.45, blue: 0.24))
+    // This gradient is only ever a BACKGROUND for white content (icon badges,
+    // the selected filter chip), so its lightest point — `accentTop` — has to
+    // stay dark enough for white text to clear 4.5:1. That is why it is a good
+    // deal deeper than the accent used as a foreground (`accentText` below).
+    static let accentTop    = dynamic(light: Color(red: 0.62, green: 0.41, blue: 0.21),
+                                      dark:  Color(red: 0.61, green: 0.41, blue: 0.22))
+    static let accentBottom = dynamic(light: Color(red: 0.49, green: 0.29, blue: 0.14),
+                                      dark:  Color(red: 0.48, green: 0.29, blue: 0.15))
+
+    /// The accent used as a FOREGROUND on a card — the mirror image of the
+    /// gradient above, so it has to go the other way in dark mode. Also passes
+    /// on its own 12 % tint (the time capsule in the scheduled-steps list).
+    static let accentText = dynamic(light: Color(red: 0.58, green: 0.355, blue: 0.16),
+                                    dark:  Color(red: 0.89, green: 0.575, blue: 0.31))
+
+    /// Status colors. The system `.orange` and `.red` are far too light on a
+    /// white card (2.2:1 and 3.6:1), so the app carries its own.
+    static let warning = dynamic(light: Color(red: 0.655, green: 0.383, blue: 0.00),
+                                 dark:  Color(red: 1.00,  green: 0.624, blue: 0.039))
+    static let danger  = dynamic(light: Color(red: 0.87, green: 0.20, blue: 0.16),
+                                 dark:  Color(red: 1.00, green: 0.34, blue: 0.27))
 
     // Card surface used behind `cardStyle` content (white → warm dark surface).
     static let card = dynamic(light: .white,
@@ -117,16 +132,22 @@ struct IconBadge: View {
     var size: CGFloat     = 52
     var iconSize: CGFloat = 22
 
+    // The badge sits next to text, so it has to grow with it — otherwise it
+    // shrinks into a dot beside accessibility-size titles.
+    @ScaledMetric(relativeTo: .body) private var scale: CGFloat = 1
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(Theme.accent)
-                .frame(width: size, height: size)
+                .frame(width: size * scale, height: size * scale)
 
             Image(systemName: systemImage)
-                .font(.system(size: iconSize, weight: .semibold))
+                .font(.system(size: iconSize * scale, weight: .semibold))
                 .foregroundColor(.white)
         }
+        // Purely decorative: the badge repeats what the adjacent title says.
+        .accessibilityHidden(true)
     }
 }
 
@@ -186,6 +207,7 @@ struct ScreenHeader: View {
             Text(title)
                 .font(Theme.brandFont(34))
                 .foregroundColor(Theme.title)
+                .accessibilityAddTraits(.isHeader)
 
             if let subtitle {
                 Text(subtitle)

@@ -32,7 +32,7 @@ struct EditComponentDataView: View {
 
     private let componentGridLayout = [
         GridItem(.flexible(minimum: 80), alignment: .leading),
-        GridItem(.fixed(44), alignment: .trailing)
+        GridItem(scaledColumnSize(44), alignment: .trailing)
     ]
 
     
@@ -52,6 +52,12 @@ struct EditComponentDataView: View {
                                 .onTapGesture {
                                     self.selectedComponent = component
                                 }
+                                // A tap gesture alone carries no semantics: without
+                                // the button trait VoiceOver announces the row as
+                                // plain text and never offers to activate it.
+                                .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint("Komponente bearbeiten")
 
                             IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Komponente löschen", controlSize: .regular) {
                                 let recipe = component.recipe
@@ -64,6 +70,7 @@ struct EditComponentDataView: View {
                                 }
                             }
                         }
+                        .scrollsSidewaysAtLargeText()
                     }
                 }
             }
@@ -105,14 +112,14 @@ struct EditComponentView: View {
     private let namePlaceholder = "..."
 
     private let ingredientGridLayout = [
-        GridItem(.fixed(30), spacing: 4, alignment: .leading),
-        GridItem(.fixed(64), spacing: 4, alignment: .trailing),
-        GridItem(.fixed(54), spacing: 4, alignment: .leading),
+        GridItem(scaledColumnSize(30), spacing: 4, alignment: .leading),
+        GridItem(scaledColumnSize(64), spacing: 4, alignment: .trailing),
+        GridItem(scaledColumnSize(54), spacing: 4, alignment: .leading),
         GridItem(.flexible(minimum: 50), spacing: 4, alignment: .leading),
-        GridItem(.fixed(26), spacing: 4, alignment: .leading),
-        GridItem(.fixed(8), spacing: 4, alignment: .center),
-        GridItem(.fixed(26), spacing: 4, alignment: .leading),
-        GridItem(.fixed(40), spacing: 0, alignment: .trailing)
+        GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading),
+        GridItem(scaledColumnSize(8), spacing: 4, alignment: .center),
+        GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading),
+        GridItem(scaledColumnSize(40), spacing: 0, alignment: .trailing)
     ]
     
     init(componentId: NSManagedObjectID) {
@@ -144,8 +151,12 @@ struct EditComponentView: View {
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(width: 40)
+                                .accessibilityLabel("Nummer")
                             TextField(namePlaceholder, text: $componentName)
                                 .textFieldStyle(.roundedBorder)
+                                // The placeholder is an example name, not the
+                                // field's own name.
+                                .accessibilityLabel("Komponente")
                         }
                     }
                 }
@@ -178,19 +189,25 @@ struct EditComponentView: View {
                         TextField("", value: $number, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nummer")
                         TextField("", value: $weight, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Gewicht")
                         UnitSelectionView(unit: $unit)
                         TextField("", text:  $name)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zutat")
                         TextField("", value: $num, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Zähler")
                         Text(verbatim: "/")
+                            .accessibilityHidden(true)
                         TextField("", value: $denom, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Nenner")
                         
                         // MARK: Add Button
                         IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Zutat hinzufügen", controlSize: .regular) {
@@ -223,6 +240,7 @@ struct EditComponentView: View {
                             weight = 0.0
                         }
                     }
+                    .scrollsSidewaysAtLargeText()
                     
                 }
                 .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))

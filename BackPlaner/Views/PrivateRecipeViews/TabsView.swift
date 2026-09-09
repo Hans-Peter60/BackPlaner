@@ -65,6 +65,8 @@ struct TabsView: View {
                }
                .tag(4)
         }
-        .tint(Theme.accentBottom)
+        // accentText, not accentBottom: the tab bar keeps the system's own
+        // background, so the tint has to be light in dark mode, not dark.
+        .tint(Theme.accentText)
     }
 }

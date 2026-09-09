@@ -61,6 +61,42 @@ Granting admin rights (per admin):
 The rules restrict the `admins` collection to **console-only writes**; a client
 may read only its *own* admin document.
 
+## Private (author-only) recipes
+
+There are two kinds of cloud recipes:
+
+- **Public** — collection `Recipe`, images under `images/<uid>/…`, readable by
+  every user. Only for recipes that infringe no copyright.
+- **Author-only** — collection `PrivateRecipe`, images under
+  `privateImages/<uid>/…`, readable **only** by the author. For a recipe the user
+  may not publish but still wants stored somewhere other than the device.
+
+Both carry a `visibility` field (`"public"` / `"private"`); a recipe without one
+counts as public, so no existing document needs a backfill.
+
+Why two collections instead of one collection plus a filter: a Firestore query
+must be provably allowed for *every* document it may return. With a mixed
+collection every listing would depend on document data, and each of the existing
+recipes would have to be backfilled with `visibility` before it could be found
+again. Separate collections leave the public database untouched.
+
+**A permanent account is required.** Ownership is `authorId == request.auth.uid`,
+and an anonymous uid is gone once the app is deleted — the author would be locked
+out of his own recipes for good. The rules therefore reject `create` in
+`PrivateRecipe` for anonymous users (`sign_in_provider != 'anonymous'`), and the
+app asks for **Sign in with Apple** before saving one (Einstellungen → Konto, or
+the sheet that appears when saving). The anonymous identity is *linked* rather
+than replaced, so the uid — and ownership of everything published before —
+survives the sign-in.
+
+Consequences worth knowing:
+- Private recipes are **not** subject to moderation: they cannot be reported, and
+  admins have no access (nothing is shared, so there is nothing to review).
+- Signing out returns to an anonymous identity; the private recipes stay in the
+  cloud and reappear after signing in with the same Apple account.
+- Like a public one, a cloud recipe cannot be edited afterwards — to change it,
+  delete it and upload again.
+
 ## Deploy
 
 **Console (quickest):**
@@ -121,5 +157,10 @@ not match that query.
   its own admin document, never write.
 - **reports**: clients may only *create* reports (stamped with their uid); no
   client can read/modify them — moderation happens in the console.
-- **Storage images**: read/write/delete for signed-in app users; uploads capped
-  at 5 MB and must be an image type.
+- **PrivateRecipe**: read/update/delete only by the author (`authorId ==
+  auth.uid`), create only with a **permanent** (non-anonymous) account, same for
+  the subcollections. No admin branch — private content is not moderated.
+- **Storage images**: uploads capped at 5 MB and must be an image type.
+  `images/<uid>/…` is readable by every signed-in user but writable only by its
+  owner; `privateImages/<uid>/…` is readable **only** by its owner. The legacy
+  flat path `images/<uuid>.jpg` stays readable and writable for signed-in users.

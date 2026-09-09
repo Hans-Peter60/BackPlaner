@@ -16,7 +16,7 @@ struct ShoppingCartsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     private var shoppingCarts: FetchedResults<ShoppingCart>
 
-    var gridItemLayout = [GridItem(.fixed(80), alignment: .trailing), GridItem(.fixed(80), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading)]
+    var gridItemLayout = [GridItem(scaledColumnSize(80), alignment: .trailing), GridItem(scaledColumnSize(80), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading)]
 
     var dateFormat:DateFormat = DateFormat()
     

@@ -18,8 +18,10 @@ struct RatingStarsView: View {
     var offImage = Image(systemName: "star")
     var onImage  = Image(systemName: "star.fill")
 
-    var offColor = Color.gray
-    var onColor  = Color.blue
+    // System gray/blue only reach 2.1:1 and 2.6:1 on the warm background these
+    // stars are drawn on; the theme colors clear the 3:1 needed for meaningful UI.
+    var offColor = Theme.subtitle
+    var onColor  = Theme.accentText
     
     var body: some View {
         
@@ -33,6 +35,11 @@ struct RatingStarsView: View {
                     .foregroundColor(number > rating ? offColor : onColor)
             }
         }
+        // The row of stars is one piece of information, not five images:
+        // read it as a single value instead of announcing every star.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Bewertung")
+        .accessibilityValue("\(rating) von \(maximumRating) Sternen")
     }
     
     func image(for number: Int) -> Image {
@@ -55,8 +62,8 @@ struct RatingStarsUpdateView: View {
     var offImage = Image(systemName: "star")
     var onImage  = Image(systemName: "star.fill")
 
-    var offColor = Color.gray
-    var onColor  = Color.blue
+    var offColor = Theme.subtitle
+    var onColor  = Theme.accentText
     
     var body: some View {
         
@@ -75,6 +82,19 @@ struct RatingStarsUpdateView: View {
                             rating = number
                         }
                     }
+            }
+        }
+        // Tapping a single star is a pointing gesture VoiceOver cannot aim.
+        // Expose the whole row as one adjustable control instead, so the
+        // rating can be swiped up/down like a slider.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Bewertung")
+        .accessibilityValue("\(rating) von \(maximumRating) Sternen")
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: if rating < maximumRating { rating += 1 }
+            case .decrement: if rating > 0 { rating -= 1 }
+            @unknown default: break
             }
         }
     }

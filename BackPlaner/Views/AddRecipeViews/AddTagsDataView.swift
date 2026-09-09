@@ -15,7 +15,7 @@ struct AddTagsDataView: View {
     var title:           String
     var placeholderText: String
     
-    var gridItemLayout = [GridItem(.fixed(110), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(44), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(110), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(44), alignment: .trailing)]
     
     var body: some View {
         
@@ -26,6 +26,9 @@ struct AddTagsDataView: View {
             
             TextField(placeholderText, text: $tag)
                 .textFieldStyle(.roundedBorder)
+                // The placeholder is an example tag, and the caption sits in a
+                // neighbouring grid cell rather than in the control.
+                .accessibilityLabel(title)
             
             IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Tag hinzufügen", controlSize: .regular) {
                 // Add the item to the list
@@ -40,6 +43,7 @@ struct AddTagsDataView: View {
             }
             
         }
+        .scrollsSidewaysAtLargeText()
         RecipeTagsView(tags: tags)
             .font(Theme.bodyFont(18))
             .padding(.leading, 112)

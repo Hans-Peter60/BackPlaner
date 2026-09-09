@@ -30,6 +30,7 @@ struct ShowBigImageView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .clipped()
+                            .accessibilityLabel("Rezeptbild")
                     }
                 }
                 .frame(width: geo.size.width - 100, height: geo.size.height - 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -71,6 +72,7 @@ struct ShowBigImagesView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .clipped()
+                                    .accessibilityLabel("Rezeptbild")
                             }
                         }
                         .frame(width: geo.size.width - 100, height: geo.size.height - 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)

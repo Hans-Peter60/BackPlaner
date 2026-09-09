@@ -34,9 +34,14 @@ struct EditRecipeView: View {
 
     @State private var showingAlert = false
     @State private var showingSheet = false
-    @State private var activatePublicSaveButton = true
+    /// False once this recipe has a copy in the recipe database — public or
+    /// private. A cloud recipe cannot be updated, so it may only be uploaded once.
+    @State private var activateCloudSaveButtons = true
     @State private var showEULA = false
     @State private var showPublicSaveWarning = false
+    @State private var showPrivateCloudSaveWarning = false
+    @State private var showSignInRequest = false
+    @State private var pendingPrivateCloudSave = false
     @State private var isUploading = false
     @State private var uploadErrorMessage: String?
     @State private var showMissingImageAlert = false
@@ -48,8 +53,8 @@ struct EditRecipeView: View {
     @State private var step         = 0.0
     @State private var duration     = 0
 
-    var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
-    private let instructionGridLayout = [GridItem(.fixed(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(.fixed(60), alignment: .trailing), GridItem(.fixed(44), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
+    private let instructionGridLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(44), alignment: .trailing)]
 
     private var canSave: Bool {
         !recipeFB.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -77,6 +82,7 @@ struct EditRecipeView: View {
                             .frame(width: 96, height: 96)
                             .clipped()
                             .cornerRadius(5)
+                            .accessibilityLabel("Rezeptbild")
 
                         IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .small) {
                             selectedImageSource  = .photoLibrary
@@ -101,25 +107,7 @@ struct EditRecipeView: View {
                 // Tag data
                 AddTagsDataView(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Speichern")
-                        .font(Theme.brandFont(16))
-                        .foregroundColor(Theme.title)
-
-                    HStack(spacing: 12) {
-                        IconActionButton(systemImage: "lock", style: .primary, accessibilityLabel: "Privat speichern", title: "Privat speichern", controlSize: .regular) {
-                            savePrivateRecipe()
-                        }
-                        .disabled(!canSave || isUploading)
-
-                        IconActionButton(systemImage: "tray.and.arrow.up", style: .primary, accessibilityLabel: "Öffentlich speichern", title: "Öffentlich speichern", controlSize: .regular) {
-                            showPublicSaveWarning = true
-                        }
-                        .disabled(!activatePublicSaveButton || !canSave || isUploading)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 6)
+                saveSection
                 
                 // MARK: Components
                 VStack(alignment: .leading) {
@@ -139,8 +127,11 @@ struct EditRecipeView: View {
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 40)
+                            .accessibilityLabel("Nummer")
                         TextField(namePlaceholder, text: $componentName)
                             .textFieldStyle(.roundedBorder)
+                            // The placeholders are example values, not names.
+                            .accessibilityLabel("Komponente")
                         
                         IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Komponente hinzufügen", controlSize: .regular) {
                             // Make sure that the fields are populated
@@ -195,11 +186,14 @@ struct EditRecipeView: View {
                         TextField("", value: $step, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Schritt")
                         TextField(namePlaceholder, text: $instruction)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Beschreibung")
                         TextField("", value: $duration, formatter: GlobalVariables.formatter)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Dauer in Minuten")
                         
                         IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Schritt hinzufügen", controlSize: .regular) {
                             // Make sure that the fields are populated
@@ -236,6 +230,7 @@ struct EditRecipeView: View {
                             duration    = 0
                         }
                     }
+                    .scrollsSidewaysAtLargeText()
                     
                     if recipeId != nil { EditInstructionDataView(recipeId: recipeId!) }
                 }
@@ -255,15 +250,33 @@ struct EditRecipeView: View {
                 }
             }
 
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                IconActionButton(systemImage: "tray.and.arrow.up", style: .primary, accessibilityLabel: "Öffentlich speichern", title: "Öffentlich", controlSize: .regular) {
-                    showPublicSaveWarning = true
-                }
-                .disabled(!activatePublicSaveButton || !canSave || isUploading)
+            // A menu instead of one button per target: with three places to
+            // save to, separate buttons no longer fit into the navigation bar.
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button {
+                        savePrivateRecipe()
+                    } label: {
+                        Label(RecipeStoragePreference.privateRecipe.title, systemImage: RecipeStoragePreference.privateRecipe.symbolName)
+                    }
 
-                IconActionButton(systemImage: "lock", style: .primary, accessibilityLabel: "Privat speichern", title: "Privat", controlSize: .regular) {
-                    savePrivateRecipe()
+                    Button {
+                        requestPrivateCloudSave()
+                    } label: {
+                        Label(RecipeStoragePreference.privateCloudRecipe.title, systemImage: RecipeStoragePreference.privateCloudRecipe.symbolName)
+                    }
+                    .disabled(!activateCloudSaveButtons)
+
+                    Button {
+                        showPublicSaveWarning = true
+                    } label: {
+                        Label(RecipeStoragePreference.publicRecipe.title, systemImage: RecipeStoragePreference.publicRecipe.symbolName)
+                    }
+                    .disabled(!activateCloudSaveButtons)
+                } label: {
+                    Image(systemName: "square.and.arrow.down")
                 }
+                .accessibilityLabel("Rezept speichern")
                 .disabled(!canSave || isUploading)
             }
         }
@@ -272,7 +285,18 @@ struct EditRecipeView: View {
         }
         .sheet(isPresented: $showEULA) {
             EULAView {
-                savePublicRecipe()
+                saveCloudRecipe(visibility: .everyone)
+            }
+        }
+        // Presenting the warning from the sheet's callback would race with the
+        // sheet's own dismissal, so it waits until the sheet is really gone.
+        .sheet(isPresented: $showSignInRequest, onDismiss: {
+            guard pendingPrivateCloudSave else { return }
+            pendingPrivateCloudSave = false
+            showPrivateCloudSaveWarning = true
+        }) {
+            PrivateCloudSignInSheet {
+                pendingPrivateCloudSave = true
             }
         }
         .alert("Upload fehlgeschlagen", isPresented: Binding(
@@ -295,6 +319,14 @@ struct EditRecipeView: View {
             }
         } message: {
             Text("Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.")
+        }
+        .alert("Cloud-Rezept kann nicht geändert werden", isPresented: $showPrivateCloudSaveWarning) {
+            Button("Abbrechen", role: .cancel) { }
+            Button("Privat speichern") {
+                saveCloudRecipe(visibility: .authorOnly)
+            }
+        } message: {
+            Text("Ein Rezept in der Rezept-Datenbank kann nach dem Speichern nicht mehr geändert werden. Es ist nur für Dich sichtbar.")
         }
         .overlay {
             if isUploading {
@@ -329,20 +361,20 @@ struct EditRecipeView: View {
             recipeImage              = UIImage(data: recipe.image) ?? UIImage()
             
             if let firestoreId = recipe.firestoreId, !firestoreId.isEmpty {
-                activatePublicSaveButton = false
-                modelFB.publicRecipeExists(id: firestoreId) { result in
+                activateCloudSaveButtons = false
+                modelFB.cloudRecipeExists(id: firestoreId) { result in
                     guard case .success(false) = result else { return }
 
                     recipe.firestoreId = nil
-                    activatePublicSaveButton = true
+                    activateCloudSaveButtons = true
                     do {
                         try viewContext.save()
                     } catch {
-                        AppLog.persistence.error("Could not clear deleted public recipe link: \(error)")
+                        AppLog.persistence.error("Could not clear deleted cloud recipe link: \(error)")
                     }
                 }
             } else {
-                activatePublicSaveButton = true
+                activateCloudSaveButtons = true
             }
         }
         .onDisappear {
@@ -351,6 +383,59 @@ struct EditRecipeView: View {
         }
         .warmBackground()
 
+    }
+
+    /// Where the recipe is saved to. Its own property, so the type checker does
+    /// not have to resolve it as part of the (very large) body expression.
+    @ViewBuilder
+    private var saveSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Speichern")
+                .font(Theme.brandFont(16))
+                .foregroundColor(Theme.title)
+
+            // Three buttons rarely fit next to each other at larger text
+            // sizes, so fall back to stacking them.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 12) { saveButtons }
+                VStack(alignment: .leading, spacing: 8) { saveButtons }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 6)
+    }
+
+    /// The three places a recipe can be saved to. The titles stay short so the
+    /// row fits; the full meaning is in the accessibility labels.
+    @ViewBuilder
+    private var saveButtons: some View {
+        IconActionButton(systemImage: RecipeStoragePreference.privateRecipe.symbolName,
+                         style: .primary,
+                         accessibilityLabel: "Nur auf dem Gerät speichern",
+                         title: RecipeStoragePreference.privateRecipe.shortTitle,
+                         controlSize: .regular) {
+            savePrivateRecipe()
+        }
+        .disabled(!canSave || isUploading)
+
+        // Author-only cloud copy, for recipes the user may not publish.
+        IconActionButton(systemImage: RecipeStoragePreference.privateCloudRecipe.symbolName,
+                         style: .primary,
+                         accessibilityLabel: "Privat in der Cloud speichern",
+                         title: RecipeStoragePreference.privateCloudRecipe.shortTitle,
+                         controlSize: .regular) {
+            requestPrivateCloudSave()
+        }
+        .disabled(!activateCloudSaveButtons || !canSave || isUploading)
+
+        IconActionButton(systemImage: RecipeStoragePreference.publicRecipe.symbolName,
+                         style: .primary,
+                         accessibilityLabel: "Öffentlich speichern",
+                         title: RecipeStoragePreference.publicRecipe.shortTitle,
+                         controlSize: .regular) {
+            showPublicSaveWarning = true
+        }
+        .disabled(!activateCloudSaveButtons || !canSave || isUploading)
     }
 
     private func recalculateInstructionTimes(for recipe: Recipe) {
@@ -460,12 +545,23 @@ struct EditRecipeView: View {
         if !ModerationStore.shared.hasAcceptedEULA {
             showEULA = true
         } else {
-            savePublicRecipe()
+            saveCloudRecipe(visibility: .everyone)
         }
     }
 
-    // MARK: Save public recipe
-    private func savePublicRecipe() {
+    /// A private cloud recipe belongs to its author's uid, so it needs an
+    /// account that outlives this installation. No content agreement is asked
+    /// for: nothing is published.
+    private func requestPrivateCloudSave() {
+        if modelFB.isSignedInWithAccount {
+            showPrivateCloudSaveWarning = true
+        } else {
+            showSignInRequest = true
+        }
+    }
+
+    // MARK: Save recipe to the cloud
+    private func saveCloudRecipe(visibility: RecipeVisibility) {
         guard
             let objectId = recipeId,
             let recipe = model.fetchRecipe(for: objectId, context: viewContext)
@@ -476,16 +572,16 @@ struct EditRecipeView: View {
         autosaveTask?.cancel()
         saveEditableRecipeFields(includeImage: true, recalculateWeight: true)
 
-        let publicRecipe = recipeFB(from: recipe)
-        let publicImage = recipeImage ?? UIImage(data: recipe.image) ?? UIImage()
+        let cloudRecipe = recipeFB(from: recipe)
+        let cloudImage = recipeImage ?? UIImage(data: recipe.image) ?? UIImage()
 
         isUploading = true
-        modelFB.uploadRecipeToFirestore(r: publicRecipe, i: publicImage) { result in
+        modelFB.uploadRecipeToFirestore(r: cloudRecipe, i: cloudImage, visibility: visibility) { result in
             isUploading = false
             switch result {
             case .success:
-                recipe.firestoreId = publicRecipe.id
-                activatePublicSaveButton = false
+                recipe.firestoreId = cloudRecipe.id
+                activateCloudSaveButtons = false
                 try? viewContext.save()
                 showingAlert = true
             case .failure(let error):
