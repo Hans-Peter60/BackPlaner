@@ -2072,9 +2072,11 @@ private struct GeneralRecipeParser {
     /// Values the steps already carry stay untouched — on the pages seen so far
     /// they agree with the INFO column anyway.
     private func applyInfoBox(_ box: RecipeInfoBox, to recipe: RecipeFB) -> [String] {
-        if recipe.totalWeight == 0, let weight = box.doughWeight {
-            recipe.totalWeight = weight
-        }
+        // The total weight is the sum of ALL ingredients. The dough weight a
+        // page prints is not: it leaves out what is worked in later — the
+        // butter of a brioche, the butter a croissant is laminated with — so it
+        // only serves as the plausibility check at the end of this method.
+        recipe.totalWeight = normalisedIngredientWeight(of: recipe)
 
         if let baking = recipe.instructions
             .filter({ isBakingInstruction($0.instruction) })
@@ -2098,6 +2100,26 @@ private struct GeneralRecipeParser {
         }
 
         return implausibilityWarnings(for: recipe, against: box)
+    }
+
+    /// Sum of every ingredient, converted to grams the same way the two save
+    /// paths do, so an imported recipe already carries the weight it will be
+    /// stored with instead of a figure taken off the page.
+    private func normalisedIngredientWeight(of recipe: RecipeFB) -> Double {
+        let calculator = CalcIngredientWeight()
+
+        return recipe.components.flatMap { $0.ingredients }.reduce(0.0) { total, ingredient in
+            if ingredient.unit == "g" || ingredient.unit == "Gramm" {
+                return total + ingredient.weight
+            }
+            return total + calculator.calcIngredientWeight(
+                weight: ingredient.weight,
+                unit: ingredient.unit,
+                name: ingredient.name,
+                num: ingredient.num,
+                denom: ingredient.denom
+            )
+        }
     }
 
     /// The printed dough weight and dough yield depend on every single amount,
