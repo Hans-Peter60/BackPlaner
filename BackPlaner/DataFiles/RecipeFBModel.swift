@@ -238,7 +238,19 @@ class RecipeFBModel: ObservableObject {
             let cloudComponent = cloudRecipe.collection("components").addDocument(data: componentData)
             
             for i in c.ingredients {
-                
+
+                // Normalise BEFORE writing the document. The other way round the
+                // ingredient kept whatever normWeight it happened to carry while
+                // the recipe total was summed from the fresh value — so the
+                // stored ingredients disagreed with the stored total.
+                if i.unit == "g" || i.unit == "Gramm" {
+                    i.normWeight = i.weight
+                }
+                else {
+                    i.normWeight = calcWeight.calcIngredientWeight(weight: i.weight, unit: i.unit, name: i.name, num: i.num, denom: i.denom)
+                }
+                r.totalWeight += i.normWeight
+
                 // Create an ingredient document
                 var ingredientData: [String: Any] = [
                     "name":       i.name,
@@ -254,14 +266,6 @@ class RecipeFBModel: ObservableObject {
                     ingredientData["translations"] = ingredientTranslations
                 }
                 let _ = cloudComponent.collection("ingredients").addDocument(data: ingredientData)
-                
-                if i.unit == "g" || i.unit == "Gramm" {
-                    i.normWeight = i.weight
-                }
-                else {
-                    i.normWeight = calcWeight.calcIngredientWeight(weight: i.weight, unit: i.unit, name: i.name, num: i.num, denom: i.denom)
-                }
-                r.totalWeight += i.normWeight
             }
         }
         
