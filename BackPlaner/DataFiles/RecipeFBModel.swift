@@ -217,6 +217,12 @@ class RecipeFBModel: ObservableObject {
             group.leave()
         }
 
+        // The loop below adds up every ingredient, so the counter has to start
+        // at zero. Uploading a recipe that already carried a total — one coming
+        // from Core Data or from the image import — would otherwise store twice
+        // its actual weight.
+        r.totalWeight = 0
+
         // Set the components
         for c in r.components {
             

@@ -393,6 +393,65 @@ extension RecipeFB {
         visibility.imageFolder + "/" + image + ".jpg"
     }
 
+    /// An independent copy of the recipe, ready to be uploaded as a new document.
+    ///
+    /// The upload stamps the recipe it is handed with the new document id, image
+    /// path and visibility. Passing the object a screen is currently showing
+    /// would therefore repoint that screen — and its entry in the recipe list —
+    /// at the new document, so publishing has to work on a copy.
+    ///
+    /// Identifiers are deliberately not carried over: the new document and its
+    /// subdocuments get their own. `totalWeight` starts at zero because the
+    /// upload recalculates it from the ingredients.
+    func copyForUpload() -> RecipeFB {
+        let copy = RecipeFB()
+
+        copy.name            = name
+        copy.summary         = summary
+        copy.urlLink         = urlLink
+        copy.prepTime        = prepTime
+        copy.tags            = tags
+        copy.rating          = rating
+        copy.bakeHistoryFlag = bakeHistoryFlag
+        copy.sourceLanguage  = sourceLanguage
+        copy.translations    = translations
+
+        copy.components = components.map { component in
+            let componentCopy = ComponentFB()
+            componentCopy.name         = component.name
+            componentCopy.number       = component.number
+            componentCopy.translations = component.translations
+            componentCopy.ingredients  = component.ingredients.map { ingredient in
+                let ingredientCopy = IngredientFB()
+                ingredientCopy.name         = ingredient.name
+                ingredientCopy.number       = ingredient.number
+                ingredientCopy.unit         = ingredient.unit
+                ingredientCopy.weight       = ingredient.weight
+                ingredientCopy.normWeight   = ingredient.normWeight
+                ingredientCopy.num          = ingredient.num
+                ingredientCopy.denom        = ingredient.denom
+                ingredientCopy.translations = ingredient.translations
+                return ingredientCopy
+            }
+            return componentCopy
+        }
+
+        copy.instructions = instructions.map { instruction in
+            let instructionCopy = InstructionFB()
+            instructionCopy.instruction   = instruction.instruction
+            instructionCopy.step          = instruction.step
+            instructionCopy.duration      = instruction.duration
+            instructionCopy.startTime     = instruction.startTime
+            instructionCopy.date          = instruction.date
+            instructionCopy.bakeFlag      = instruction.bakeFlag
+            instructionCopy.componentName = instruction.componentName
+            instructionCopy.translations   = instruction.translations
+            return instructionCopy
+        }
+
+        return copy
+    }
+
     static var preferredLanguageCode: String {
         baseLanguageCode(from: AppSettings.localeIdentifier())
     }

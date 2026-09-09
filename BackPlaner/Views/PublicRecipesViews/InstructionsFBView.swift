@@ -34,6 +34,12 @@ struct InstructionsFBView: View {
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var reminderHintText           = ""
+    // Publishing a so-far private recipe into the shared database.
+    @State private var showPublishWarning         = false
+    @State private var showPublishEULA            = false
+    @State private var isPublishing               = false
+    @State private var publishErrorMessage: String?
+    @State private var showPublishedConfirmation  = false
 
     var startDates = [Double:Date]()
 
@@ -91,6 +97,16 @@ struct InstructionsFBView: View {
 
                             IconActionButton(systemImage: "square.and.arrow.down", style: .primary, accessibilityLabel: "Als eigenes Rezept speichern", title: "Als eigenes Rezept speichern", controlSize: .regular) {
                                 _ = model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                            }
+
+                            // Publishing is only offered for a recipe that is
+                            // private so far — a public one would just be
+                            // duplicated.
+                            if recipeFB.visibility == .authorOnly {
+                                IconActionButton(systemImage: RecipeStoragePreference.publicRecipe.symbolName, style: .primary, accessibilityLabel: "Als öffentliches Rezept speichern", title: "Als öffentliches Rezept speichern", controlSize: .regular) {
+                                    showPublishWarning = true
+                                }
+                                .disabled(isPublishing)
                             }
                         }
 
@@ -477,8 +493,70 @@ struct InstructionsFBView: View {
             }
             .warmBackground()
             .navigationTitle(recipeFB.name)
+            .overlay {
+                if isPublishing {
+                    ProgressView("Rezept wird veröffentlicht …")
+                        .padding(24)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .alert("Rezept veröffentlichen?", isPresented: $showPublishWarning) {
+                Button("Abbrechen", role: .cancel) { }
+                Button("Veröffentlichen") { continuePublishAfterWarning() }
+            } message: {
+                Text("Das Rezept wird für alle Nutzer sichtbar und kann danach nicht mehr geändert werden. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten.")
+            }
+            .sheet(isPresented: $showPublishEULA) {
+                EULAView {
+                    publishRecipe()
+                }
+            }
+            .alert("Rezept wurde veröffentlicht", isPresented: $showPublishedConfirmation) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Das Rezept steht jetzt allen Nutzern zur Verfügung. Deine private Fassung ist unverändert — Du kannst sie über „Weitere Aktionen“ löschen, wenn Du sie nicht doppelt behalten willst.")
+            }
+            .alert("Veröffentlichen fehlgeschlagen", isPresented: Binding(
+                get: { publishErrorMessage != nil },
+                set: { if !$0 { publishErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { publishErrorMessage = nil }
+            } message: {
+                Text(publishErrorMessage ?? "")
+            }
             .onAppear {
                 refreshPlanIssues()
+            }
+        }
+    }
+
+    // MARK: - Veröffentlichen
+
+    /// Publishing into the shared database requires accepting the content
+    /// agreement first — the same gate as the other two publish paths.
+    private func continuePublishAfterWarning() {
+        if ModerationStore.shared.hasAcceptedEULA {
+            publishRecipe()
+        } else {
+            showPublishEULA = true
+        }
+    }
+
+    /// Uploads a copy of this private recipe as a public one. The private
+    /// original stays untouched, so a failed upload costs nothing and the
+    /// author keeps his own version.
+    private func publishRecipe() {
+        let publicCopy = recipeFB.copyForUpload()
+        let image = GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()
+
+        isPublishing = true
+        modelFB.uploadRecipeToFirestore(r: publicCopy, i: image, visibility: .everyone) { result in
+            isPublishing = false
+            switch result {
+            case .success:
+                showPublishedConfirmation = true
+            case .failure(let error):
+                publishErrorMessage = error.localizedDescription
             }
         }
     }
