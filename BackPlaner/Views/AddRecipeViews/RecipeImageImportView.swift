@@ -97,7 +97,7 @@ struct RecipeImageImportView: View {
                 ContentUnavailableView(
                     "Rezeptbilder auswählen",
                     systemImage: "doc.viewfinder",
-                    description: Text("Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis.")
+                    description: Text("Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. Beschneide die Bilder so, dass Logos, Kopf- und Fußzeilen möglichst wegfallen.")
                 )
 
                 Picker("Vorlagenart", selection: $importLayout) {

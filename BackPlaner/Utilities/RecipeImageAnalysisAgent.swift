@@ -189,7 +189,7 @@ final class RecipeImageAnalysisAgent {
                 let result: RecipeImageAnalysisResult
                 switch layout {
                 case .ploetzblogTwoColumn:
-                    result = try readPloetzblogRecipe(from: pages)
+                    result = try readPloetzblogRecipe(from: pages, firstImage: images.first)
                 case .general:
                     result = try readGeneralRecipe(from: pages, firstImage: images.first)
                 }
@@ -345,51 +345,238 @@ final class RecipeImageAnalysisAgent {
         return RecipeImageAnalysisResult(
             recipe: parsed.recipe,
             recognizedText: orderedLines.map(\.text).joined(separator: "\n"),
-            recipeImage: firstImage.flatMap(extractSalientRecipePhoto),
+            recipeImage: extractRecipePhoto(from: firstImage, pages: pages),
             warnings: parsed.warnings,
             layout: .general
         )
     }
 
-    private func extractSalientRecipePhoto(from image: UIImage) -> UIImage? {
-        guard let cgImage = image.cgImage else { return nil }
+    /// Cuts the picture of the bake out of a recipe page.
+    ///
+    /// Saliency was the obvious tool for this and does not work: on a page that
+    /// consists mostly of text, Vision reports no salient object at all —
+    /// neither in the simulator nor on the device. What does locate the picture
+    /// is the text itself. The recognition tells us where every line sits, so
+    /// the picture is the largest rectangle of the page that holds no line, and
+    /// whether that rectangle is a picture or just empty paper is decided by
+    /// how much its brightness varies.
+    private func extractRecipePhoto(
+        from image: UIImage?,
+        pages: RecognizedPages
+    ) -> UIImage? {
 
-        let request = VNGenerateObjectnessBasedSaliencyImageRequest()
-        let handler = VNImageRequestHandler(cgImage: cgImage)
-        guard (try? handler.perform([request])) != nil,
-              let observation = request.results?.first as? VNSaliencyImageObservation,
-              let salientObject = observation.salientObjects?.max(by: {
-                  $0.boundingBox.width * $0.boundingBox.height
-                      < $1.boundingBox.width * $1.boundingBox.height
-              }) else {
+        guard let image,
+              let firstPage = pages.classicLines.map(\.page).min() else { return nil }
+        let textBoxes = pages.classicLines
+            .filter { $0.page == firstPage }
+            .map(\.boundingBox)
+        guard !textBoxes.isEmpty else { return nil }
+
+        // The page is measured on a grid, because a rectangle is only free of
+        // text down to the resolution the lines are known at anyway.
+        let resolution = 64
+        let cell = 1.0 / CGFloat(resolution)
+        var occupied = [[Bool]](
+            repeating: [Bool](repeating: false, count: resolution),
+            count: resolution
+        )
+        for box in textBoxes {
+            // Vision counts from the bottom, the grid from the top. The box is
+            // widened by one cell so the rectangle keeps its distance from the
+            // type instead of touching it.
+            let top = max(0, Int(((1 - box.maxY) / cell).rounded(.down)) - 1)
+            let bottom = min(resolution - 1, Int(((1 - box.minY) / cell).rounded(.up)) + 1)
+            let left = max(0, Int((box.minX / cell).rounded(.down)) - 1)
+            let right = min(resolution - 1, Int((box.maxX / cell).rounded(.up)) + 1)
+            guard top <= bottom, left <= right else { continue }
+            for row in top...bottom {
+                for column in left...right {
+                    occupied[row][column] = true
+                }
+            }
+        }
+
+        guard let free = largestFreeRectangle(in: occupied),
+              free.width * free.height >= Int(0.06 * Double(resolution * resolution)),
+              let cgImage = uprightImage(image).cgImage else {
             return nil
         }
 
-        let box = salientObject.boundingBox
-        guard box.width * box.height >= 0.08 else { return nil }
-
-        let padding: CGFloat = 0.12
-        let expandedBox = CGRect(
-            x: max(0, box.minX - box.width * padding),
-            y: max(0, box.minY - box.height * padding),
-            width: min(1, box.maxX + box.width * padding)
-                - max(0, box.minX - box.width * padding),
-            height: min(1, box.maxY + box.height * padding)
-                - max(0, box.minY - box.height * padding)
-        )
+        let width = CGFloat(cgImage.width)
+        let height = CGFloat(cgImage.height)
+        let inset = cell * 0.4
         let cropRect = CGRect(
-            x: expandedBox.minX * CGFloat(cgImage.width),
-            y: (1 - expandedBox.maxY) * CGFloat(cgImage.height),
-            width: expandedBox.width * CGFloat(cgImage.width),
-            height: expandedBox.height * CGFloat(cgImage.height)
+            x: (CGFloat(free.x) * cell + inset) * width,
+            y: (CGFloat(free.y) * cell + inset) * height,
+            width: (CGFloat(free.width) * cell - 2 * inset) * width,
+            height: (CGFloat(free.height) * cell - 2 * inset) * height
         ).integral
 
-        guard cropRect.width >= 300,
-              cropRect.height >= 300,
-              let croppedImage = cgImage.cropping(to: cropRect) else {
+        let aspect = cropRect.width / max(1, cropRect.height)
+        guard cropRect.width >= 220,
+              cropRect.height >= 220,
+              aspect >= 0.3, aspect <= 3.5,
+              let croppedImage = cgImage.cropping(to: cropRect),
+              hasPictureContent(croppedImage) else {
             return nil
         }
-        return UIImage(cgImage: croppedImage, scale: image.scale, orientation: .up)
+
+        // The free rectangle reaches into the white paper around the picture,
+        // because paper carries no text either.
+        guard let content = contentBounds(of: croppedImage),
+              let trimmedImage = croppedImage.cropping(to: CGRect(
+                  x: content.minX * cropRect.width,
+                  y: content.minY * cropRect.height,
+                  width: content.width * cropRect.width,
+                  height: content.height * cropRect.height
+              ).integral),
+              trimmedImage.width >= 220,
+              trimmedImage.height >= 220 else {
+            return UIImage(cgImage: croppedImage, scale: image.scale, orientation: .up)
+        }
+        return UIImage(cgImage: trimmedImage, scale: image.scale, orientation: .up)
+    }
+
+    /// The part of a cut-out region that carries the picture, as a fraction of
+    /// it: the rows and columns at its edges whose brightness barely varies are
+    /// the paper around the photo.
+    private func contentBounds(of cgImage: CGImage) -> CGRect? {
+        let side = 48
+        var pixels = [UInt8](repeating: 0, count: side * side)
+        let drawn = pixels.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(
+                data: buffer.baseAddress,
+                width: side,
+                height: side,
+                bitsPerComponent: 8,
+                bytesPerRow: side,
+                space: CGColorSpaceCreateDeviceGray(),
+                bitmapInfo: CGImageAlphaInfo.none.rawValue
+            ) else {
+                return false
+            }
+            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: side, height: side))
+            return true
+        }
+        guard drawn else { return nil }
+
+        func deviation(_ values: [Double]) -> Double {
+            guard !values.isEmpty else { return 0 }
+            let mean = values.reduce(0, +) / Double(values.count)
+            let variance = values.reduce(0) { $0 + ($1 - mean) * ($1 - mean) }
+                / Double(values.count)
+            return variance.squareRoot()
+        }
+
+        let rowDeviations = (0..<side).map { row in
+            deviation((0..<side).map { Double(pixels[row * side + $0]) / 255 })
+        }
+        let columnDeviations = (0..<side).map { column in
+            deviation((0..<side).map { Double(pixels[$0 * side + column]) / 255 })
+        }
+        let rowLimit = max(0.02, (rowDeviations.max() ?? 0) * 0.25)
+        let columnLimit = max(0.02, (columnDeviations.max() ?? 0) * 0.25)
+
+        guard let firstRow = rowDeviations.firstIndex(where: { $0 >= rowLimit }),
+              let lastRow = rowDeviations.lastIndex(where: { $0 >= rowLimit }),
+              let firstColumn = columnDeviations.firstIndex(where: { $0 >= columnLimit }),
+              let lastColumn = columnDeviations.lastIndex(where: { $0 >= columnLimit }) else {
+            return nil
+        }
+
+        // Both the bitmap buffer and a cropping rectangle start at the top row,
+        // so the rows map over directly.
+        let cell = 1.0 / CGFloat(side)
+        return CGRect(
+            x: CGFloat(firstColumn) * cell,
+            y: CGFloat(firstRow) * cell,
+            width: CGFloat(lastColumn - firstColumn + 1) * cell,
+            height: CGFloat(lastRow - firstRow + 1) * cell
+        )
+    }
+
+    /// The largest rectangle of the grid that holds no marked cell, found per
+    /// row as the largest rectangle in the histogram of free cells above it.
+    private func largestFreeRectangle(
+        in occupied: [[Bool]]
+    ) -> (x: Int, y: Int, width: Int, height: Int)? {
+
+        guard let columns = occupied.first?.count, columns > 0 else { return nil }
+        var heights = [Int](repeating: 0, count: columns)
+        var best: (x: Int, y: Int, width: Int, height: Int)?
+        var bestArea = 0
+
+        for (rowIndex, row) in occupied.enumerated() {
+            for column in 0..<columns {
+                heights[column] = row[column] ? 0 : heights[column] + 1
+            }
+
+            var stack: [(column: Int, height: Int)] = []
+            for column in 0...columns {
+                let height = column < columns ? heights[column] : 0
+                var start = column
+                while let last = stack.last, last.height >= height {
+                    let area = last.height * (column - last.column)
+                    if area > bestArea {
+                        bestArea = area
+                        best = (
+                            x: last.column,
+                            y: rowIndex - last.height + 1,
+                            width: column - last.column,
+                            height: last.height
+                        )
+                    }
+                    start = last.column
+                    stack.removeLast()
+                }
+                if height > 0 {
+                    stack.append((column: start, height: height))
+                }
+            }
+        }
+        return bestArea > 0 ? best : nil
+    }
+
+    /// Whether a cut-out region carries a picture rather than empty paper,
+    /// measured as the spread of its brightness.
+    private func hasPictureContent(_ cgImage: CGImage) -> Bool {
+        let side = 24
+        var pixels = [UInt8](repeating: 0, count: side * side)
+        let drawn = pixels.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(
+                data: buffer.baseAddress,
+                width: side,
+                height: side,
+                bitsPerComponent: 8,
+                bytesPerRow: side,
+                space: CGColorSpaceCreateDeviceGray(),
+                bitmapInfo: CGImageAlphaInfo.none.rawValue
+            ) else {
+                return false
+            }
+            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: side, height: side))
+            return true
+        }
+        guard drawn else { return false }
+
+        let values = pixels.map { Double($0) / 255 }
+        let mean = values.reduce(0, +) / Double(values.count)
+        let variance = values.reduce(0) { $0 + ($1 - mean) * ($1 - mean) } / Double(values.count)
+        return variance.squareRoot() >= 0.08
+    }
+
+    /// The image with its orientation applied, so that the recognized text
+    /// boxes and the pixels are measured in the same frame.
+    private func uprightImage(_ image: UIImage) -> UIImage {
+        guard image.imageOrientation != .up else { return image }
+        // The renderer would otherwise draw at the screen's scale and multiply
+        // the pixel count, which the crop rectangle is measured in.
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = image.scale
+        format.opaque = true
+        return UIGraphicsImageRenderer(size: image.size, format: format).image { _ in
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+        }
     }
 
     func analyzePloetzblogRecipe(
@@ -397,14 +584,15 @@ final class RecipeImageAnalysisAgent {
         progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
     ) async throws -> RecipeImageAnalysisResult {
         let pages = try await recognizePages(images: images, progress: progress)
-        return try readPloetzblogRecipe(from: pages)
+        return try readPloetzblogRecipe(from: pages, firstImage: images.first)
     }
 
     /// Reads a recipe from recognized pages with the two-column rules of a
     /// ploetzblog page: a planning example, ingredients left of the gutter and
     /// numbered work steps to its right.
     private func readPloetzblogRecipe(
-        from pages: RecognizedPages
+        from pages: RecognizedPages,
+        firstImage: UIImage?
     ) throws -> RecipeImageAnalysisResult {
 
         guard !pages.classicLines.isEmpty else {
@@ -424,6 +612,10 @@ final class RecipeImageAnalysisAgent {
         return RecipeImageAnalysisResult(
             recipe: recipe,
             recognizedText: recognizedText,
+            // The picture of the bake sits on the first page of this layout as
+            // well, so it is worth cutting out here too — otherwise the import
+            // offers the whole page as the recipe's image.
+            recipeImage: extractRecipePhoto(from: firstImage, pages: pages),
             layout: .ploetzblogTwoColumn
         )
     }

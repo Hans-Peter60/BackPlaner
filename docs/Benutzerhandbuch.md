@@ -282,7 +282,11 @@ Ganz oben: **„Rezept aus Bildern importieren“**. Damit lässt sich ein gedru
 4. Danach zeigt die App eine **Zusammenfassung**: erkannter Name, Anzahl Komponenten, Zutaten und Arbeitsschritte, dazu die erkannten Komponenten mit Zutaten sowie die erkannte Zeitplanung.
 5. **„Daten im Rezeptformular prüfen“** übernimmt alles ins normale Rezeptformular. **„Andere Bilder auswählen“** startet neu.
 
-Die Erkennung ist auf ein **zweispaltiges Rezeptlayout mit Planungsbeispiel** ausgelegt und liefert bei geraden, gut lesbaren Fotos die besten Ergebnisse. Prüfe anschließend unbedingt **Mengen, Einheiten, Temperaturen und Zeiten** – gespeichert wird erst, wenn Du im Formular „Rezept speichern“ wählst.
+Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt; über **Vorlagenart** kannst Du eine Vorlage auch fest vorgeben. Gerade, gut lesbare Fotos liefern die besten Ergebnisse.
+
+**Achte auf den Bildausschnitt.** Schneide alles weg, was nicht zum Rezept gehört: Logos, Kopf- und Fußzeilen, Seitenzahlen, Web-Adressen und Textreste benachbarter Artikel. Ein Logo über der Überschrift wird sonst leicht als Rezeptname gelesen. **Handschriftliche Rezepte** kann die Texterkennung nicht zuverlässig lesen.
+
+Prüfe anschließend unbedingt **Mengen, Einheiten, Temperaturen und Zeiten** – gespeichert wird erst, wenn Du im Formular „Rezept speichern“ wählst.
 
 ### Ablage: privat oder öffentlich
 
