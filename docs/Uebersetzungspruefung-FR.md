@@ -1,0 +1,284 @@
+# Übersetzungsprüfung Französisch
+
+Alle 271 Texte der App-Oberfläche, deutsche Quelle neben der französischen Übersetzung.
+
+**Beim Korrigieren bitte beachten:**
+
+- `%@`, `%lld`, `%1$@` sind Platzhalter, die die App zur Laufzeit füllt (Namen, Zahlen, Uhrzeiten). Sie müssen erhalten bleiben; ihre Reihenfolge darf sich ändern, wenn die Nummer mitgeht (`%1$@`, `%2$@`).
+- `⏎` steht für einen Zeilenumbruch im Text.
+- Bei `Pluralformen` gibt es je Zahl eine eigene Fassung; sie sind mit `one:` und `other:` gekennzeichnet.
+- Die Spalte **Anmerkung** ist zum Ausfüllen: entweder die bessere Formulierung oder ein Hinweis, was daran nicht stimmt.
+
+| # | Deutsch | Französisch | Hinweis | Anmerkung |
+|---|---|---|---|---|
+| 1 | %@, Bewertung %lld | %1$@, note %2$lld | Platzhalter | |
+| 2 | %lld Bild(er) analysieren | one: Analyser %lld image \| other: Analyser %lld images \| zero: Analyser %lld image | Platzhalter, Pluralformen | |
+| 3 | %lld Erinnerungen gesetzt. ⏎ Backofen anstellen um %@ Uhr. ⏎ Fertig um %@ Uhr. | %1$lld rappels définis. ⏎ Allumer le four à %2$@. ⏎ Terminé à %3$@. | Platzhalter, Zeilenumbruch | |
+| 4 | %lld Erinnerungen gesetzt. ⏎ Backofen anstellen um %@ Uhr. ⏎ Fertig um %@ Uhr. ⏎  ⏎ %@ | %1$lld rappels définis. ⏎ Allumer le four à %2$@. ⏎ Terminé à %3$@. ⏎  ⏎ %4$@ | Platzhalter, Zeilenumbruch | |
+| 5 | %lld Sterne und mehr | %lld étoiles et plus | Platzhalter | |
+| 6 | %lld Zutaten | %lld ingrédients | Platzhalter | |
+| 7 | + Historie | + Historique |  | |
+| 8 | Ab | À |  | |
+| 9 | Abbrechen | Annuler |  | |
+| 10 | Ablage | Emplacement |  | |
+| 11 | Ablehnen | Refuser |  | |
+| 12 | Abmelden | Se déconnecter |  | |
+| 13 | Administrator | Administrateur |  | |
+| 14 | Akzeptieren | Accepter |  | |
+| 15 | Alle | Toutes |  | |
+| 16 | Alle Bewertungen | Toutes les notes |  | |
+| 17 | Alle löschen | Tout supprimer |  | |
+| 18 | Alle nachfolgenden | Toutes les suivantes |  | |
+| 19 | Allgemein | Général |  | |
+| 20 | Als eigenes Rezept speichern | Enregistrer comme ma recette |  | |
+| 21 | Als Liste oder Timeline | Sous forme de liste ou de Timeline |  | |
+| 22 | Analyse nicht möglich | Analyse impossible |  | |
+| 23 | Andere Bilder auswählen | Sélectionner d’autres images |  | |
+| 24 | Angemeldet als | Connecté en tant que |  | |
+| 25 | Anzahl | Quantité |  | |
+| 26 | Apple-Login lieferte kein gültiges Token. | La connexion avec Apple n’a pas fourni de jeton valide. |  | |
+| 27 | Arbeitsschritte | Étapes |  | |
+| 28 | Auf den Bildern wurde kein ausreichend lesbarer Text erkannt. | Aucun texte suffisamment lisible n’a été détecté sur les images. |  | |
+| 29 | Aufnehmen | Prendre une photo |  | |
+| 30 | Ausgewählte Seiten | Pages sélectionnées |  | |
+| 31 | Autor blockieren | Bloquer l'auteur |  | |
+| 32 | Back Hit-Liste | Palmarès de cuisson |  | |
+| 33 | Back-Kommentare | Commentaires de cuisson |  | |
+| 34 | Backanmerkungen- / hinweise | Notes de cuisson |  | |
+| 35 | Backdatum | Date de cuisson |  | |
+| 36 | Backen | Cuire |  | |
+| 37 | Backhinweis | Rappel de cuisson |  | |
+| 38 | Backhistorie | Historique de cuisson |  | |
+| 39 | Backpause | Pause de cuisson |  | |
+| 40 | Backplaner | Planificateur de cuisson |  | |
+| 41 | Backplanung | Planification de cuisson |  | |
+| 42 | Backzeiten überschneiden sich | Chevauchement des temps de cuisson |  | |
+| 43 | Beginn | Début |  | |
+| 44 | Beschreibung | Description |  | |
+| 45 | Beschreibung:  | Description :  |  | |
+| 46 | Bestehende Einkaufslisten | Listes de courses existantes |  | |
+| 47 | Bestehende Liste | Liste existante |  | |
+| 48 | Betroffene Schritte | Étapes concernées |  | |
+| 49 | Bevor Du teilst | Avant de partager |  | |
+| 50 | Bewertung | Note |  | |
+| 51 | Bild erforderlich | Image requise |  | |
+| 52 | Bilder auswählen | Sélectionner des images |  | |
+| 53 | Bis | Pour |  | |
+| 54 | Bist Du sicher? | Êtes-vous sûr ? |  | |
+| 55 | Bitte besonders prüfen | À vérifier attentivement |  | |
+| 56 | Bitte prüfe Mengen, Einheiten, Temperaturen und Zeiten im nächsten Schritt. Das Rezept wird erst gespeichert, wenn du dort „Rezept speichern“ auswählst. | Vérifiez les quantités, les unités, les températures et les durées à l’étape suivante. La recette n’est enregistrée que lorsque vous y sélectionnez « Enregistrer la recette ». |  | |
+| 57 | Das Backende (%@) liegt nur %lld Minuten vor dem Backbeginn von „%@“. Die Backpause beträgt %lld Minuten. | La fin de la cuisson (%1$@) n’a lieu que %2$lld minutes avant le début de la cuisson de « %3$@ ». La pause entre deux cuissons est de %4$lld minutes. | Platzhalter | |
+| 58 | Das erwartete zweispaltige Rezeptlayout mit Planungsbeispiel wurde nicht erkannt. | La mise en page attendue de la recette sur deux colonnes avec exemple de planification n’a pas été détectée. |  | |
+| 59 | Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu. | La recette ne peut pas être enregistrée. Ajoutez d’abord une image de recette. |  | |
+| 60 | Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt. | La recette sera supprimée définitivement de la base de données publique. |  | |
+| 61 | Daten im Rezeptformular prüfen | Vérifier les données dans le formulaire de recette |  | |
+| 62 | Datum | Date |  | |
+| 63 | Datum und Uhrzeit | Date et heure |  | |
+| 64 | Dauer | Durée |  | |
+| 65 | Dauer ⏎ ändern | Modifier ⏎ la durée | Zeilenumbruch | |
+| 66 | Dauer [Min] | Durée [min] |  | |
+| 67 | Dauer übernehmen | Appliquer la durée |  | |
+| 68 | Deine besten Rezepte | Vos meilleures recettes |  | |
+| 69 | Deine gespeicherten Rezepte | Vos recettes enregistrées |  | |
+| 70 | Der Backbeginn (%@) liegt nur %lld Minuten nach dem Backende von „%@“. Die Backpause beträgt %lld Minuten. | Le début de la cuisson (%1$@) n’a lieu que %2$lld minutes après la fin de la cuisson de « %3$@ ». La pause entre deux cuissons est de %4$lld minutes. | Platzhalter | |
+| 71 | Der geplante Schritt ist nicht mehr vorhanden. | L’étape planifiée n’existe plus. |  | |
+| 72 | Der verschobene Zeitpunkt muss in der Zukunft liegen. | L’heure décalée doit se situer dans le futur. |  | |
+| 73 | Der zugehörige Reminder wurde nicht gefunden. | Le rappel associé est introuvable. |  | |
+| 74 | Detailansicht verwenden | Utiliser la vue détaillée |  | |
+| 75 | Details | Détails |  | |
+| 76 | Deutsch | Allemand |  | |
+| 77 | Die Backzeit (%@) überschneidet sich mit der Backzeit von „%@“ (%@). | Le temps de cuisson (%1$@) chevauche le temps de cuisson de « %2$@ » (%3$@). | Platzhalter | |
+| 78 | Die berechnete Teigausbeute (%lld) weicht von der angegebenen (%lld) ab. | Le rendement de la pâte calculé (%1$lld) diffère de celui indiqué (%2$lld). | Platzhalter | |
+| 79 | Die Rezeptdatenbank hat noch keine Einträge geladen. | La base de recettes n’a pas encore chargé d’entrées. |  | |
+| 80 | Die Summe der erkannten Zutaten (%lld g) weicht von der angegebenen Teigmenge (%lld g) ab. | La somme des ingrédients détectés (%1$lld g) diffère du poids de pâte indiqué (%2$lld g). | Platzhalter | |
+| 81 | Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen. | Cela supprime toutes les étapes planifiées et leurs rappels associés. |  | |
+| 82 | Dieses Rezept wird als Administrator endgültig aus der öffentlichen Datenbank entfernt. | Cette recette sera supprimée définitivement de la base de données publique en tant qu'administrateur. |  | |
+| 83 | Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet. | Cette recette a été signalée et est masquée pour tous les autres utilisateurs. |  | |
+| 84 | Eigene Rezepte | Mes recettes |  | |
+| 85 | Ein Rezept von Grund auf erstellen | Créer une recette de zéro |  | |
+| 86 | Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden. | Une recette publique ne peut plus être modifiée après son enregistrement. |  | |
+| 87 | Einheit | Unité |  | |
+| 88 | Einheit auswählen | Sélectionner une unité |  | |
+| 89 | Einkaufsliste | Liste de courses |  | |
+| 90 | Einkaufsliste erstellen | Créer une liste de courses |  | |
+| 91 | Einkaufsliste löschen | Supprimer la liste de courses |  | |
+| 92 | Einkaufslisten | Listes de courses |  | |
+| 93 | Einkaufslisten anzeigen | Afficher les listes de courses |  | |
+| 94 | Einstellungen | Réglages |  | |
+| 95 | Englisch | Anglais |  | |
+| 96 | Entferne nur die geplanten Schritte von „%@“ samt Erinnerungen – oder alle geplanten Schritte. | Supprimez uniquement les étapes planifiées de « %@ » et leurs rappels – ou toutes les étapes planifiées. | Platzhalter | |
+| 97 | Erkannte Zeitplanung | Planification détectée |  | |
+| 98 | Erkanntes Rezept | Recette détectée |  | |
+| 99 | Erledigt | Marquer comme terminé |  | |
+| 100 | Erstelle eine Einkaufsliste direkt aus einem Rezept. | Créez une liste de courses directement depuis une recette. |  | |
+| 101 | Erstelle zuerst eine neue Liste. | Créez d’abord une nouvelle liste. |  | |
+| 102 | Erstellen | Créer |  | |
+| 103 | Es konnten keine eindeutigen Zutaten oder Zubereitungsschritte erkannt werden. Bitte verwende ein gerades, gut lesbares Bild. | Aucun ingrédient ni étape de préparation n’a pu être détecté clairement. Utilisez une image droite et bien lisible. |  | |
+| 104 | Fertig | Terminé |  | |
+| 105 | Fertig bis | Terminé pour |  | |
+| 106 | Filter aufheben | Réinitialiser le filtre |  | |
+| 107 | Filtern nach... | Filtrer par... |  | |
+| 108 | Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. | Photographiez toutes les pages ou sélectionnez-les dans le bon ordre. Des images droites et bien lisibles donnent les meilleurs résultats. |  | |
+| 109 | Fotomediathek | Photothèque |  | |
+| 110 | Fotomediathek öffnen | Ouvrir la photothèque |  | |
+| 111 | Französisch | Français |  | |
+| 112 | Freigeben fehlgeschlagen | Échec du réaffichage |  | |
+| 113 | Früher | Plus tôt |  | |
+| 114 | Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen. | Pour les livres de cuisine, les magazines, les documents imprimés et autres sources de recettes. |  | |
+| 115 | Gedrückt halten für Erledigt oder Verschieben | Maintenez appuyé pour marquer comme terminé ou décaler |  | |
+| 116 | Geplante nächste Schritte | Prochaines étapes planifiées |  | |
+| 117 | Geplante Schritte | Étapes planifiées |  | |
+| 118 | Geplante Schritte löschen | Supprimer les étapes planifiées |  | |
+| 119 | Geplante Schritte löschen? | Supprimer les étapes planifiées ? |  | |
+| 120 | Gesamtzutaten | Total des ingrédients |  | |
+| 121 | Gewicht | Poids |  | |
+| 122 | Gewicht: %@ g | Poids : %@ g | Platzhalter | |
+| 123 | Gewicht: %lld g | Poids : %lld g | Platzhalter | |
+| 124 | Hinweis | Remarque |  | |
+| 125 | Historie speichern | Enregistrer l’historique |  | |
+| 126 | Historie wurde gespeichert | L’historique a été enregistré |  | |
+| 127 | https:// | https:// |  | |
+| 128 | Inhalte löschen | Supprimer le contenu |  | |
+| 129 | Ja, löschen | Oui, supprimer |  | |
+| 130 | Kamera | Appareil photo |  | |
+| 131 | Kamera öffnen | Ouvrir l'appareil photo |  | |
+| 132 | Keine eigenen Rezepte | Aucune recette personnelle |  | |
+| 133 | Keine Einheit | Aucune unité |  | |
+| 134 | Keine Einkaufsliste vorhanden | Aucune liste de courses disponible |  | |
+| 135 | Keine Einkaufslisten | Aucune liste de courses |  | |
+| 136 | Keine geplanten Schritte | Aucune étape planifiée |  | |
+| 137 | Keine passenden Rezepte | Aucune recette correspondante |  | |
+| 138 | Keine Rezepte geladen | Aucune recette chargée |  | |
+| 139 | Keine Schritte für dieses Rezept | Aucune étape pour cette recette |  | |
+| 140 | Kommentar | Commentaire |  | |
+| 141 | Komponente | Composant |  | |
+| 142 | Komponente hinzufügen | Ajouter un composant |  | |
+| 143 | Komponente löschen | Supprimer le composant |  | |
+| 144 | Komponente ändern | Modifier le composant |  | |
+| 145 | Komponenten | Composants |  | |
+| 146 | Komponenten und Zutaten | Composants et ingrédients |  | |
+| 147 | Komponenten: | Composants : |  | |
+| 148 | Lade Rezepte … | Chargement des recettes... |  | |
+| 149 | Lege ein neues Rezept an, um es hier zu sehen. | Créez une nouvelle recette pour la voir ici. |  | |
+| 150 | Link zum Rezept | Lien vers la recette |  | |
+| 151 | Liste der nächsten Schritte | Liste des prochaines étapes |  | |
+| 152 | Löschen | Supprimer |  | |
+| 153 | Löschen fehlgeschlagen | Échec de la suppression |  | |
+| 154 | Mehrere Seiten können gemeinsam analysiert und anschließend bearbeitet werden. | Vous pouvez analyser plusieurs pages ensemble, puis modifier le résultat. |  | |
+| 155 | Mein Rezept löschen | Supprimer ma recette |  | |
+| 156 | Mein Rezept löschen? | Supprimer ma recette ? |  | |
+| 157 | Menge / | Quantité / |  | |
+| 158 | Mindestbewertung | Note minimale |  | |
+| 159 | Mindestens eines der ausgewählten Bilder konnte nicht gelesen werden. | Au moins une des images sélectionnées n’a pas pu être lue. |  | |
+| 160 | Minuten | Minutes |  | |
+| 161 | N | N |  | |
+| 162 | Nach Bewertung filtern | Filtrer par note |  | |
+| 163 | Name | Nom |  | |
+| 164 | Name:  | Nom :  |  | |
+| 165 | Nein | Non |  | |
+| 166 | Neue Liste | Nouvelle liste |  | |
+| 167 | Neues Rezept anlegen | Créer une nouvelle recette |  | |
+| 168 | Neues Rezept erfassen | Saisir une nouvelle recette |  | |
+| 169 | Noch keine Zutaten | Aucun ingrédient pour le moment |  | |
+| 170 | Nr. | N° |  | |
+| 171 | Nur diesen Schritt | Uniquement cette étape |  | |
+| 172 | Nur dieser Schritt | Uniquement cette étape |  | |
+| 173 | Nur „%@“ löschen | Supprimer uniquement « %@ » | Platzhalter | |
+| 174 | Nutzungsbedingungen für öffentliche Rezepte | Conditions d'utilisation des recettes publiques |  | |
+| 175 | Nächster Schritt | Prochaine étape |  | |
+| 176 | OK | OK |  | |
+| 177 | Passe Suche, Tags oder Bewertung an. | Ajustez la recherche, les tags ou la note. |  | |
+| 178 | Plane und backe dein perfektes Brot | Planifiez et cuisez votre pain parfait |  | |
+| 179 | Portionsgröße | Taille de portion |  | |
+| 180 | Privat | Privé |  | |
+| 181 | Privat speichern | Enregistrer en privé |  | |
+| 182 | Reminder setzen | Définir un rappel |  | |
+| 183 | Reminder verschieben | Décaler le rappel |  | |
+| 184 | Reminder wurden gesetzt | Les rappels ont été définis |  | |
+| 185 | Rezept | Recette |  | |
+| 186 | Rezept aus Bildern | Recette à partir d’images |  | |
+| 187 | Rezept aus Bildern importieren | Importer une recette à partir d’images |  | |
+| 188 | Rezept backen | Cuire la recette |  | |
+| 189 | Rezept bearbeiten | Modifier la recette |  | |
+| 190 | Rezept löschen (Admin) | Supprimer la recette (admin) |  | |
+| 191 | Rezept löschen? | Supprimer la recette ? |  | |
+| 192 | Rezept melden | Signaler la recette |  | |
+| 193 | Rezept speichern | Enregistrer la recette |  | |
+| 194 | Rezept suchen | Rechercher une recette |  | |
+| 195 | Rezept wieder freigeben | Réafficher la recette |  | |
+| 196 | Rezept wird hochgeladen … | La recette est en cours de téléversement... |  | |
+| 197 | Rezept wurde gespeichert | La recette a été enregistrée |  | |
+| 198 | Rezept zur Einkaufsliste hinzufügen | Ajouter la recette à la liste de courses |  | |
+| 199 | Rezept-Datenbank | Base de recettes |  | |
+| 200 | Rezeptbilder auswählen | Sélectionner des images de recette |  | |
+| 201 | Rezepte | Recettes |  | |
+| 202 | Rezeptinhalte löschen | Supprimer le contenu de la recette |  | |
+| 203 | Rezeptseite %lld | Page de recette %lld | Platzhalter | |
+| 204 | Richtung | Direction |  | |
+| 205 | Roggenbrot | Pain de seigle |  | |
+| 206 | S. | Ét. |  | |
+| 207 | Sauerteig | Levain |  | |
+| 208 | Schritt | Étape |  | |
+| 209 | Schritt hinzufügen | Ajouter une étape |  | |
+| 210 | Schritt nicht gefunden | Étape introuvable |  | |
+| 211 | Schritt verschieben | Décaler l’étape |  | |
+| 212 | Schritt zeitlich verschieben | Décaler l’étape dans le temps |  | |
+| 213 | Seite %lld | Page %lld | Platzhalter | |
+| 214 | Seite %lld entfernen | Retirer la page %lld | Platzhalter | |
+| 215 | Selektion nach: | Sélection par : |  | |
+| 216 | Setze einen Reminder in der Backanleitung eines Rezepts. | Définissez un rappel dans les instructions de cuisson d’une recette. |  | |
+| 217 | Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden? | Voulez-vous également décaler toutes les étapes suivantes de cette recette ? |  | |
+| 218 | Speichern | Enregistrer |  | |
+| 219 | Sprache | Langue |  | |
+| 220 | Sprache und App-Defaults | Langue et réglages par défaut |  | |
+| 221 | Später | Plus tard |  | |
+| 222 | Standard-Ablage | Emplacement par défaut |  | |
+| 223 | Standard-Portionsgröße | Taille de portion par défaut |  | |
+| 224 | Starten ab | Commencer à |  | |
+| 225 | Starten ab oder fertig bis | Commencer à ou terminé pour |  | |
+| 226 | Startzeit | Heure de début |  | |
+| 227 | Systemsprache | Langue du système |  | |
+| 228 | Tag hinzufügen | Ajouter un tag |  | |
+| 229 | Tagesbeginn | Début de journée |  | |
+| 230 | Tagesende | Fin de journée |  | |
+| 231 | Tags | Tags |  | |
+| 232 | Timeline | Timeline |  | |
+| 233 | Umfang | Portée |  | |
+| 234 | Upload fehlgeschlagen | Échec du téléversement |  | |
+| 235 | Url Link:  | Lien URL :  |  | |
+| 236 | Verarbeitungsschritt hinzufügen | Ajouter une étape de préparation |  | |
+| 237 | Verarbeitungsschritt löschen | Supprimer l’étape de préparation |  | |
+| 238 | Verarbeitungsschritt ändern | Modifier l’étape de préparation |  | |
+| 239 | Verarbeitungsschritte | Étapes de préparation |  | |
+| 240 | Verarbeitungsschritte: | Étapes de préparation : |  | |
+| 241 | Vergangene Backvorgänge | Cuissons passées |  | |
+| 242 | Verschieben | Décaler |  | |
+| 243 | Verschieben nicht möglich | Décalage impossible |  | |
+| 244 | Verschieben um … | Décaler de… |  | |
+| 245 | Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel. | Utilise toujours l’analyse spécifique des ingrédients, des étapes et de l’exemple de planification. |  | |
+| 246 | Vorheizzeit | Temps de préchauffage |  | |
+| 247 | Vorlagenart | Type de source |  | |
+| 248 | Warum meldest Du dieses Rezept? Es wird sofort für alle Nutzer ausgeblendet und anschließend geprüft. | Pourquoi signalez-vous cette recette ? Elle sera immédiatement masquée pour tous les utilisateurs, puis examinée. |  | |
+| 249 | Wenn Du ein Rezept öffentlich teilst, wird es für alle Nutzer der Rezept-Datenbank sichtbar. ⏎  ⏎ Es gilt eine Null-Toleranz-Politik gegenüber anstößigen, beleidigenden, rechtswidrigen oder urheberrechtsverletzenden Inhalten. Du bist allein verantwortlich für die von Dir geteilten Inhalte. ⏎  ⏎ Gemeldete Inhalte werden geprüft und innerhalb von 24 Stunden entfernt. Autoren, die wiederholt gegen diese Regeln verstoßen, können ausgeschlossen werden. ⏎  ⏎ Mit „Akzeptieren“ bestätigst Du, dass Du diese Bedingungen einhältst. | Lorsque vous partagez une recette publiquement, elle devient visible par tous les utilisateurs de la base de données de recettes. ⏎  ⏎ Une politique de tolérance zéro s'applique aux contenus offensants, insultants, illégaux ou portant atteinte aux droits d'auteur. Vous êtes seul responsable des contenus que vous partagez. ⏎  ⏎ Les contenus signalés seront examinés et supprimés dans un délai de 24 heures. Les auteurs qui enfreignent ces règles de manière répétée peuvent être exclus. ⏎  ⏎ En touchant « Accepter », vous confirmez que vous respecterez ces conditions. | Zeilenumbruch | |
+| 250 | Wähle „Alle“, um alle geplanten Schritte zu sehen. | Sélectionnez « Toutes » pour afficher toutes les étapes planifiées. |  | |
+| 251 | Z | D |  | |
+| 252 | Zeitverschiebung | Décalage |  | |
+| 253 | Ziel | Destination |  | |
+| 254 | Zutat | Ingrédient |  | |
+| 255 | Zutat hinzufügen | Ajouter un ingrédient |  | |
+| 256 | Zutat löschen | Supprimer l’ingrédient |  | |
+| 257 | Zutat ändern | Modifier l’ingrédient |  | |
+| 258 | Zutaten | Ingrédients |  | |
+| 259 | Zutaten wurden auf die Einkaufsliste gesetzt | Les ingrédients ont été ajoutés à la liste de courses |  | |
+| 260 | Zutaten zum Einkaufen | Ingrédients à acheter |  | |
+| 261 | Ändern | Modifier |  | |
+| 262 | Öffentlich | Public |  | |
+| 263 | Öffentlich speichern | Enregistrer publiquement |  | |
+| 264 | Öffentliche Rezepte durchsuchen | Parcourir les recettes publiques |  | |
+| 265 | Öffentliches Rezept kann nicht geändert werden | La recette publique ne peut pas être modifiée |  | |
+| 266 | Öffentliches Rezept löschen? | Supprimer la recette publique ? |  | |
+| 267 | Übernehmen | Appliquer |  | |
+| 268 | Übersetzung fehlgeschlagen | Échec de la traduction |  | |
+| 269 | „%@“ beginnt am %@ und damit nach dem Tagesende (%@ Uhr). | « %1$@ » commence le %2$@, soit après la fin de journée (%3$@). | Platzhalter | |
+| 270 | „%@“ beginnt am %@ und damit vor dem Tagesbeginn (%@ Uhr). | « %1$@ » commence le %2$@, soit avant le début de journée (%3$@). | Platzhalter | |
+| 271 | „%@“ wird dauerhaft gelöscht. | « %@ » sera supprimé définitivement. | Platzhalter | |

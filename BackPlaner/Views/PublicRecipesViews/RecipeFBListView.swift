@@ -94,7 +94,7 @@ struct RecipeFBListView: View {
                                 }
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
-                                .accessibilityLabel(Text("\(r.name), rating \(r.rating)"))
+                                .accessibilityLabel(Text("\(r.name), Bewertung \(r.rating)"))
                             }
                         )
                     }
