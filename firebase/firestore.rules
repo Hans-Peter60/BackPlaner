@@ -38,6 +38,20 @@ service cloud.firestore {
           && data.authorId == request.auth.uid;
     }
 
+    // A report taking a recipe down: any signed-in user may set `hidden`, but
+    // ONLY to true (never to unhide) and without touching any other field. That
+    // makes a takedown immediate for everyone; releasing the recipe again is an
+    // admin-only operation via the isAdmin() branch.
+    //
+    // Keep this to the single field: the app writes exactly `{hidden: true}` and
+    // no Firestore sentinels, so this condition can be reproduced 1:1 in the
+    // Rules Playground.
+    function isReportHideUpdate() {
+      return request.resource.data.diff(resource.data)
+                 .affectedKeys().hasOnly(['hidden'])
+          && request.resource.data.hidden == true;
+    }
+
     // ---- Public recipe database ----------------------------------------
 
     match /Recipe/{recipeId} {
@@ -48,12 +62,18 @@ service cloud.firestore {
       // Only signed-in devices may publish, stamping their own uid.
       allow create: if isSignedIn() && isValidRecipe(request.resource.data);
 
-      // Only the original author may modify their recipe, and may not hand it
-      // to a different author. `.get()` avoids erroring on legacy recipes that
-      // have no authorId field.
+      // Three ways a recipe may be updated. isAdmin() is checked FIRST for the
+      // same reason as in delete below (a legacy recipe without authorId would
+      // otherwise error out the whole rule). `.get()` makes the author
+      // comparison safe for the same reason.
+      //   1. an admin, who reviews reported recipes and can release them again
+      //   2. any reporter, but only to hide the recipe (see isReportHideUpdate)
+      //   3. the original author, who may not hand the recipe to someone else
       allow update: if isSignedIn()
-                    && resource.data.get('authorId', '') == request.auth.uid
-                    && request.resource.data.authorId == request.auth.uid;
+                    && (isAdmin()
+                        || isReportHideUpdate()
+                        || (resource.data.get('authorId', '') == request.auth.uid
+                            && request.resource.data.authorId == request.auth.uid));
 
       // The original author or an admin may delete a recipe. Check isAdmin()
       // FIRST so admins are never blocked by a legacy recipe whose authorId
@@ -100,6 +120,9 @@ service cloud.firestore {
 
     // ---- Moderation reports (App Store Guideline 1.2) -------------------
 
+    // The app writes these with the deterministic id `{recipeId}_{uid}`. Since
+    // only `create` is allowed, a user can report a given recipe exactly once:
+    // a second attempt hits an existing document and is denied as an update.
     match /reports/{reportId} {
       // Users may file reports; they carry their own uid as reporter.
       allow create: if isSignedIn()
@@ -107,6 +130,8 @@ service cloud.firestore {
                     && request.resource.data.reportedBy == request.auth.uid;
 
       // Reports are reviewed only in the Firebase console, never from clients.
+      // (The takedown itself does not depend on this: reporting already sets
+      // `hidden` on the recipe, so the content is gone for everyone at once.)
       allow read, update, delete: if false;
     }
   }

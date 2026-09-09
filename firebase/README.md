@@ -82,9 +82,38 @@ firebase deploy --only firestore:rules,storage:rules
 > `firestore.rules` above and confirm the current admin's Apple **uid** has a
 > document in the `admins` collection.
 
+## Moderation workflow (App Store Guideline 1.2)
+
+Reported content is taken down **immediately**, not within a review window — so
+the 24-hour expectation is met by the system, not by how fast a human reacts.
+
+1. A user reports a recipe (recipe screen → ⋯ → *Rezept melden*).
+2. The app writes `reports/{recipeId}_{uid}` **and** sets `hidden: true` on the
+   recipe document — exactly that one field, no Firestore sentinels, so the rule
+   condition can be reproduced in the Rules Playground. From that moment the
+   recipe is gone for every user, including its author — `getRecipesFB` skips
+   hidden documents for everyone except admins.
+3. Each user can report a given recipe only once (deterministic report id +
+   create-only rule), and a reporter can only ever *hide*, never unhide.
+4. An admin opens the recipe (admins still see hidden ones) and either
+   - deletes it permanently — *Rezept löschen (Admin)*, or
+   - releases it again — *Rezept wieder freigeben* (`setRecipeHidden`).
+5. Open reports are reviewed in the Firebase console
+   (Firestore → `reports`, `status: "open"`). Keep handled reports as a record
+   of the decision; do not delete them.
+
+Known limitation: a hidden recipe is filtered out on the client, and the
+document itself is still readable through the raw API until an admin deletes it.
+Making that airtight requires `allow read` to check `hidden` plus a
+`whereField("hidden", isEqualTo: false)` query — which additionally needs every
+existing recipe backfilled with `hidden: false`, because a missing field does
+not match that query.
+
 ## What the rules do
 - **Recipe**: read for signed-in app users; create only with a valid name and
-  the caller's own `authorId`; update/delete only by that author. Subcollections
+  the caller's own `authorId`; update/delete only by that author — plus an admin,
+  who may also release a hidden recipe, and any reporter, who may set *only*
+  `hidden` and only to `true`. Subcollections
   (`components`/`ingredients`/`instructions`) writable only by the recipe's
   author. **Admins** (uid present in `admins`) may additionally delete any recipe
   and its subcollections.

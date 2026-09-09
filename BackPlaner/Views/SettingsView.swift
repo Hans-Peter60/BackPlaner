@@ -67,6 +67,13 @@ struct SettingsView: View {
                 Stepper(value: $dayStart, in: 0...23) {
                     LabeledContent("Tagesbeginn", value: formattedHour(dayStart))
                 }
+                // The day window flags work steps that fall outside it, so the
+                // end has to stay after the beginning.
+                .onChange(of: dayStart) { _, newValue in
+                    if dayEnd <= newValue {
+                        dayEnd = min(newValue + 1, 23)
+                    }
+                }
 
                 Stepper(value: $dayEnd, in: dayStart...23) {
                     LabeledContent("Tagesende", value: formattedHour(dayEnd))
@@ -95,7 +102,8 @@ struct SettingsView: View {
                 SignInWithAppleButton(.signIn) { request in
                     let nonce = Self.randomNonceString()
                     currentNonce = nonce
-                    request.requestedScopes = [.fullName, .email]
+                    // No name/email scopes are requested: the admin check only needs the
+                    // stable Apple uid, so no personal data is collected or stored.
                     request.nonce = Self.sha256(nonce)
                 } onCompletion: { result in
                     handleAppleCompletion(result)

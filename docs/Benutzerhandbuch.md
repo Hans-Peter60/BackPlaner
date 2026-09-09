@@ -97,6 +97,10 @@ Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht 
 
 Nach dem Start erscheint das Hauptmenü mit acht Karten:
 
+![Hauptmenü von BackPlaner mit den acht Funktionsbereichen](images/hauptmenue.png)
+
+*Das Hauptmenü ist der Ausgangspunkt für Rezepte, Planung, Historie und Einstellungen.*
+
 | Karte | Zweck |
 |-------|-------|
 | **Rezept-Datenbank** | Öffentliche, von allen Nutzern geteilte Rezepte durchsuchen |
@@ -115,6 +119,10 @@ Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmen
 ## 5. Rezept-Datenbank (öffentliche Rezepte)
 
 Die Rezept-Datenbank ist die gemeinsame Sammlung: Rezepte, die Du oder andere Nutzer öffentlich gespeichert haben.
+
+![Liste der öffentlichen Rezepte mit Suche und Filter](images/oeffentliche-rezepte.png)
+
+*In der Rezept-Datenbank kannst Du öffentliche Rezepte suchen und öffnen.*
 
 ### Suchen und filtern
 
@@ -197,6 +205,10 @@ Im Tab **Details** kannst Du das Rezeptbild antippen, um es groß anzuzeigen.
 
 Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten gleich.
 
+![Backansicht eines Rezepts mit Verarbeitungsschritten, Dauer und berechnetem Beginn](images/rezept-backansicht-zeitplanung.png)
+
+*Die Backansicht stellt Dauer und berechneten Beginn jedes Verarbeitungsschritts gegenüber.*
+
 ### Von oben nach unten
 
 1. **Bild und Name** – Bild antippen zeigt es groß.
@@ -255,6 +267,10 @@ Die Texte „Backofen anstellen“ und „Backvorgang ist beendet“ erscheinen 
 ## 8. Neues Rezept anlegen
 
 Über **Hauptmenü → Neues Rezept anlegen**. Das Formular ist von oben nach unten aufgebaut.
+
+![Formular zum Anlegen eines neuen Rezepts](images/neues-rezept.png)
+
+*Im Rezeptformular kannst Du Bilder importieren oder alle Angaben manuell erfassen.*
 
 ### Rezept aus Bildern importieren
 
@@ -362,6 +378,10 @@ Wurde die öffentliche Kopie später gelöscht (durch Dich oder die Moderation),
 
 **Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Reminder gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
 
+![Leere Listenansicht der geplanten Schritte](images/geplante-schritte-liste.png)
+
+*Die Listenansicht zeigt im Leerzustand zugleich, wo neue Planungen angelegt werden.*
+
 ### Ansicht „Geplante Schritte“ (Liste)
 
 Jeder Schritt ist eine Karte mit Rezeptbild, Rezeptname, Startzeit, Datum, Dauer und Anweisung. Antippen öffnet die Detailansicht mit Rezept, Beginn, Schrittnummer, Dauer und vollständiger Beschreibung.
@@ -383,6 +403,10 @@ Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Z
 ### Ansicht „Timeline“
 
 Dieselben Schritte als senkrechte Zeitachse. Links steht der Zeitstempel – beim ersten Schritt eines Tages mit Wochentag und Datum, bei den folgenden nur die Uhrzeit. Punkte und Verbindungslinien machen sichtbar, welche Schritte zusammen an einem Tag liegen und wo größere Pausen sind. Praktisch für den Überblick über eine mehrtägige Teigführung.
+
+![Leere Timeline-Ansicht der geplanten Schritte](images/geplante-schritte-timeline.png)
+
+*Über den unteren Tab wechselst Du zwischen Liste und Timeline.*
 
 Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schritte – Setze einen Reminder in der Backanleitung eines Rezepts.“
 
@@ -454,6 +478,10 @@ Die App filtert bewusst:
 ## 14. Einstellungen
 
 **Hauptmenü → Einstellungen.**
+
+![Einstellungen von BackPlaner mit den Bereichen Allgemein, Rezepte und Backplanung](images/einstellungen.png)
+
+*Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung.*
 
 ### Allgemein
 

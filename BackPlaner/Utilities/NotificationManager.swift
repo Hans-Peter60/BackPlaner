@@ -494,6 +494,38 @@ enum NotificationActions {
         }
     }
 
+    /// Cancels the pending reminders of several scheduled steps in a single
+    /// pass, used when all steps of one recipe are removed from the plan.
+    ///
+    /// Matching works exactly like `cancelPendingNotification(for:)`. The step
+    /// properties are read synchronously, so the objects may be deleted right
+    /// after the call returns.
+    static func cancelPendingNotifications(for steps: [NextStep]) {
+        let matches = steps.map { step in
+            ScheduledNotificationMatch(instruction: step.instruction, date: step.date)
+        }
+        guard !matches.isEmpty else { return }
+
+        let center = UNUserNotificationCenter.current()
+
+        center.getPendingNotificationRequests { requests in
+            let identifiers = requests.filter { request in
+                guard let requestInstruction = request.content.userInfo[instructionKey] as? String,
+                      let requestDate = dateValue(request.content.userInfo[scheduledDateKey]) else {
+                    return false
+                }
+                return matches.contains { match in
+                    requestInstruction == match.instruction
+                        && abs(requestDate.timeIntervalSince(match.date)) <= 60
+                }
+            }
+            .map(\.identifier)
+
+            guard !identifiers.isEmpty else { return }
+            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+    }
+
     static func shiftScheduledStep(
         _ step: NextStep,
         byMinutes minutes: Int,

@@ -47,6 +47,25 @@ struct ScheduledTasksView: View {
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
 
+    /// The recipe the list is narrowed down to; `nil` shows every planned step.
+    @State private var recipeFilter: String?
+
+    /// The distinct recipes that currently have planned steps — the choices of
+    /// the filter bar.
+    private var plannedRecipeNames: [String] {
+        var seen = Set<String>()
+        return nextSteps
+            .compactMap { seen.insert($0.recipeName).inserted ? $0.recipeName : nil }
+            .sorted()
+    }
+
+    /// The steps shown in the list: all of them, or only those of the recipe
+    /// selected in the filter bar.
+    private var visibleSteps: [NextStep] {
+        guard let recipeFilter else { return Array(nextSteps) }
+        return nextSteps.filter { $0.recipeName == recipeFilter }
+    }
+
     var body: some View {
  
         VStack(spacing: 0) {
@@ -60,9 +79,25 @@ struct ScheduledTasksView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
 
+            // Only worth showing once more than one recipe is planned.
+            if plannedRecipeNames.count > 1 {
+                recipeFilterBar
+            }
+
+            if visibleSteps.isEmpty {
+                ContentUnavailableView {
+                    Label("Keine Schritte für dieses Rezept", systemImage: "line.3.horizontal.decrease.circle")
+                } description: {
+                    Text("Wähle „Alle“, um alle geplanten Schritte zu sehen.")
+                } actions: {
+                    Button("Filter aufheben") { recipeFilter = nil }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+
             List {
 
-            ForEach(Array(nextSteps), id: \.objectID) { nextStep in
+            ForEach(visibleSteps, id: \.objectID) { nextStep in
 
                 // Each step is a card: the start time and duration share the top
                 // line, and the full instruction wraps freely underneath. This
@@ -159,13 +194,15 @@ struct ScheduledTasksView: View {
                     .opacity(0)
                 )
             }
+            // The index set refers to the visible (possibly filtered) rows, not
+            // to the full fetch result.
             .onDelete { indexSet in
-                guard let index = indexSet.first, nextSteps.indices.contains(index) else { return }
-                let deleteNextStep = self.nextSteps[index]
+                guard let index = indexSet.first, visibleSteps.indices.contains(index) else { return }
+                let deleteNextStep = visibleSteps[index]
 
                 // Cancel the matching reminder first, so it cannot fire for a step
-                // that no longer exists. "Alle löschen" below does the same for
-                // every step at once.
+                // that no longer exists. The delete dialog below does the same for
+                // a whole recipe or for every step at once.
                 NotificationActions.cancelPendingNotification(for: deleteNextStep)
 
                 self.managedObjectContext.delete(deleteNextStep)
@@ -174,7 +211,8 @@ struct ScheduledTasksView: View {
                     try managedObjectContext.save()
                 }
                 catch {
-                    // handle the Core Data error
+                    managedObjectContext.rollback()
+                    AppLog.persistence.error("Could not delete next step")
                 }
             }
             .listRowBackground(Color.clear)
@@ -184,20 +222,32 @@ struct ScheduledTasksView: View {
         .clearScrollBackground()
         // Compact, floating delete button so it takes no layout space of its own.
         .overlay(alignment: .bottomTrailing) {
-            IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Alle nächsten Schritte löschen", controlSize: .large) {
+            IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Geplante Schritte löschen", controlSize: .large) {
                 confirmationShown = true
             }
             .background(.thinMaterial, in: Circle())
             .padding()
-            .confirmationDialog("Alle nächsten Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
+            .confirmationDialog("Geplante Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
+                // With an active filter the user can restrict the deletion to
+                // the selected recipe instead of clearing the whole plan.
+                if let recipeFilter {
+                    Button("Nur „\(recipeFilter)“ löschen", role: .destructive) {
+                        deleteNextSteps(ofRecipe: recipeFilter)
+                    }
+                }
                 Button("Alle löschen", role: .destructive) {
-                    deleteNextSteps()
+                    deleteNextSteps(ofRecipe: nil)
                 }
                 Button("Abbrechen", role: .cancel) { }
             } message: {
-                Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
+                if let recipeFilter {
+                    Text("Entferne nur die geplanten Schritte von „\(recipeFilter)“ samt Erinnerungen – oder alle geplanten Schritte.")
+                } else {
+                    Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
+                }
             }
             .sensoryFeedback(.success, trigger: deleteHaptic)
+        }
         }
         }
         }
@@ -223,9 +273,54 @@ struct ScheduledTasksView: View {
         } message: {
             Text(shiftErrorMessage)
         }
+        // Once the filtered recipe has no planned steps left, fall back to
+        // showing everything instead of an empty list.
+        .onChange(of: plannedRecipeNames) { _, names in
+            if let recipeFilter, !names.contains(recipeFilter) {
+                self.recipeFilter = nil
+            }
+        }
         .onAppear() {  }
     }
-    
+
+    /// Horizontal chips to narrow the list down to a single planned recipe.
+    /// Deliberately part of the view instead of the navigation bar: this screen
+    /// lives inside a `TabView`, where toolbars of the tab children stay hidden.
+    private var recipeFilterBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+
+                filterChip(Text("Alle"), recipeName: nil)
+
+                ForEach(plannedRecipeNames, id: \.self) { name in
+                    filterChip(Text(verbatim: name), recipeName: name)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+        }
+    }
+
+    private func filterChip(_ label: Text, recipeName: String?) -> some View {
+        let isSelected = recipeFilter == recipeName
+
+        return Button {
+            recipeFilter = recipeName
+        } label: {
+            label
+                .font(Theme.bodyFont(14))
+                .lineLimit(1)
+                .foregroundColor(isSelected ? .white : Theme.subtitle)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(
+                    Capsule().fill(isSelected ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.card))
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : [.isButton])
+    }
+
     private func shortDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = locale
@@ -278,8 +373,18 @@ struct ScheduledTasksView: View {
         }
     }
 
-    func deleteNextSteps() {
-        let stepsToDelete = Array(nextSteps)
+    /// Deletes the planned steps of a single recipe, or all of them when
+    /// `recipeName` is `nil`, together with their pending reminders.
+    func deleteNextSteps(ofRecipe recipeName: String?) {
+        let stepsToDelete = recipeName == nil
+            ? Array(nextSteps)
+            : nextSteps.filter { $0.recipeName == recipeName }
+
+        guard !stepsToDelete.isEmpty else { return }
+
+        // Reminders are matched by instruction and date, so this has to run
+        // while the steps still exist.
+        NotificationActions.cancelPendingNotifications(for: stepsToDelete)
 
         do {
             for nextStep in stepsToDelete {
@@ -290,14 +395,21 @@ struct ScheduledTasksView: View {
         } catch {
             managedObjectContext.rollback()
             AppLog.persistence.error("Could not delete next steps")
+            return
         }
 
-        UNUserNotificationCenter.current().getPendingNotificationRequests { notificationRequests in
-            let identifiers = notificationRequests
-                .map(\.identifier)
-                .filter { $0.contains("Recipe-") }
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        if recipeName == nil {
+            // Clearing the whole plan also drops reminders whose step was
+            // already gone — those cannot be matched individually any more.
+            UNUserNotificationCenter.current().getPendingNotificationRequests { notificationRequests in
+                let identifiers = notificationRequests
+                    .map(\.identifier)
+                    .filter { $0.contains("Recipe-") }
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+            }
         }
+
+        recipeFilter = nil
     }
 
     func fetchRecipeImage(name: String) -> Data? {

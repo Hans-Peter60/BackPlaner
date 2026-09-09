@@ -138,7 +138,7 @@ struct TabsFBView: View {
             }
             Button("Abbrechen", role: .cancel) { }
         } message: {
-            Text("Warum meldest Du dieses Rezept? Es wird geprüft und bei Verstoß entfernt.")
+            Text("Warum meldest Du dieses Rezept? Es wird sofort für alle Nutzer ausgeblendet und anschließend geprüft.")
         }
         .confirmationDialog("Mein Rezept löschen?", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
             Button("Löschen", role: .destructive) {
@@ -215,7 +215,9 @@ struct TabsFBView: View {
         ["Anstößig oder beleidigend", "Spam", "Urheberrechtsverletzung", "Sonstiges"]
     }
 
-    /// Files the report, hides the recipe locally right away, and returns to the list.
+    /// Files the report — which withholds the recipe from every user server-side —
+    /// hides it locally as well in case that write fails offline, and returns to
+    /// the list.
     private func report(reason: String) {
         modelFB.reportRecipe(recipeFB, reason: reason)
         moderation.hide(recipeId: recipeFB.id)

@@ -318,7 +318,7 @@ struct InstructionsFBView: View {
                                     
                                     // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
                                     if i == recipeFB.instructions.count - 1 {
-                                        
+
                                         if dateTimeStartSelection == 0 {
 
                                             bakeStartTime = (recipeFB.instructions[i].startTime ?? 0) - GlobalVariables.preheatTime
@@ -327,6 +327,7 @@ struct InstructionsFBView: View {
                                             bakeStartTime = (recipeFB.instructions[i].startTime ?? 0) - GlobalVariables.preheatTime - recipeFB.prepTime
                                         }
                                     }
+
                                 }
                                 showingNotificationMessage = true
 
@@ -336,29 +337,51 @@ struct InstructionsFBView: View {
                                 let bakeEndText = generatedStepTexts.bakeEnd
                                 
                                 // MARK: Step und Notification für das Einschalten des Backofens einstellen
-                                let i          = InstructionFB()
-                                i.id           = UUID().uuidString
-                                i.instruction  = startHeatingText
-                                // Berechnung der Step-Nummer
-                                for index in 0..<recipeFB.instructions.count {
-                                    
-                                    if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
-                                        
-                                        i.step = recipeFB.instructions[index].step - 0.1
-                                    }
+                                // A recipe that names its own preheating step — an import
+                                // from a planning example does — keeps it: its duration is
+                                // the recipe's, not the app's setting, and the loop above
+                                // already scheduled its reminder. Only a recipe without one
+                                // gets a step generated here.
+                                let explicitPreheatInstruction = recipeFB.instructions.first {
+                                    BakePlanValidator.isPreheatInstruction($0.instruction)
                                 }
 
-                                // Notification einstellen
-                                let ovenOnDate = manager.setNotification(recipeFB.id ?? "", startHeatingText, String(i.step), bakeStartTime, dateTime, true)
-                                if dateTimeStartSelection == 0 {
-                                    i.startTime   = bakeStartTime
+                                let ovenOnDate: Date
+                                if let explicitPreheatInstruction {
+                                    let offset = dateTimeStartSelection == 0
+                                        ? (explicitPreheatInstruction.startTime ?? 0)
+                                        : (explicitPreheatInstruction.startTime ?? 0) - recipeFB.prepTime
+                                    ovenOnDate = Calendar.current.date(
+                                        byAdding: .minute,
+                                        value: offset,
+                                        to: dateTime
+                                    ) ?? dateTime
                                 }
                                 else {
-                                    i.startTime   = bakeStartTime + recipeFB.prepTime
+                                    let i          = InstructionFB()
+                                    i.id           = UUID().uuidString
+                                    i.instruction  = startHeatingText
+                                    // Berechnung der Step-Nummer
+                                    for index in 0..<recipeFB.instructions.count {
+
+                                        if bakeStartTime < recipeFB.instructions[index].startTime ?? 0 {
+
+                                            i.step = recipeFB.instructions[index].step - 0.1
+                                        }
+                                    }
+
+                                    // Notification einstellen
+                                    ovenOnDate = manager.setNotification(recipeFB.id ?? "", startHeatingText, String(i.step), bakeStartTime, dateTime, true)
+                                    if dateTimeStartSelection == 0 {
+                                        i.startTime   = bakeStartTime
+                                    }
+                                    else {
+                                        i.startTime   = bakeStartTime + recipeFB.prepTime
+                                    }
+                                    i.duration    = GlobalVariables.preheatTime
+                                    recipeFB.instructions.append(i)
                                 }
-                                i.duration    = GlobalVariables.preheatTime
-                                recipeFB.instructions.append(i)
-                                
+
                                 let i2 = InstructionFB()
                                 var finishDate = dateTime
                                 if dateTimeStartSelection == 0 {

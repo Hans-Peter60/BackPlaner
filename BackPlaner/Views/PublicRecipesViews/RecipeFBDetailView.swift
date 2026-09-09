@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RecipeFBDetailView: View {
 
@@ -23,6 +24,8 @@ struct RecipeFBDetailView: View {
     // Error message shown when a delete fails (e.g. Firestore rules deny it), so
     // the screen no longer silently dismisses as if it had worked.
     @State private var deleteErrorMessage: String?
+    // Error message shown when releasing a reported recipe fails.
+    @State private var releaseErrorMessage: String?
 
     var gridItemLayout = [GridItem(.fixed(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(.fixed(100), alignment: .trailing)]
     
@@ -179,8 +182,26 @@ struct RecipeFBDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
 
-                    // MARK: Admin/owner moderation — delete ANY public recipe.
+                    // MARK: Admin/owner moderation — review reported recipes and
+                    // delete ANY public recipe.
                     if modelFB.isAdmin {
+                        if recipeFB.hidden {
+                            Text("Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.")
+                                .font(.footnote)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top)
+
+                            IconActionButton(systemImage: "eye", style: .primary, accessibilityLabel: "Rezept wieder freigeben", title: "Rezept wieder freigeben", controlSize: .regular) {
+                                modelFB.setRecipeHidden(recipeFB, hidden: false) { result in
+                                    if case .failure(let error) = result {
+                                        releaseErrorMessage = error.localizedDescription
+                                    }
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+
                         IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Rezept löschen (Admin)", title: "Rezept löschen (Admin)", controlSize: .regular) {
                             showAdminDeleteConfirm = true
                         }
@@ -214,6 +235,14 @@ struct RecipeFBDetailView: View {
                 Button("OK", role: .cancel) { deleteErrorMessage = nil }
             } message: {
                 Text(deleteErrorMessage ?? "")
+            }
+            .alert("Freigeben fehlgeschlagen", isPresented: Binding(
+                get: { releaseErrorMessage != nil },
+                set: { if !$0 { releaseErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { releaseErrorMessage = nil }
+            } message: {
+                Text(releaseErrorMessage ?? "")
             }
         }
     }
