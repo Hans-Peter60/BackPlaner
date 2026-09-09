@@ -2,6 +2,24 @@ import Foundation
 import UIKit
 @preconcurrency import Vision
 
+/// A way of reading a recipe from photographed pages. The import tries all of
+/// them and keeps the best result, so a new template only needs a new case here
+/// and a reader for it.
+enum RecipeLayout: String, CaseIterable, Sendable {
+    /// Two columns with a planning example and numbered work steps, as printed
+    /// by ploetzblog.
+    case ploetzblogTwoColumn
+    /// Cookbooks, magazines, printouts: headings, ingredient blocks and prose.
+    case general
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .ploetzblogTwoColumn: "Ploetzblog (zweispaltig)"
+        case .general: "Allgemeine Rezeptvorlage"
+        }
+    }
+}
+
 struct RecipeImageAnalysisResult {
     let recipe: RecipeFB
     let recognizedText: String
@@ -9,17 +27,21 @@ struct RecipeImageAnalysisResult {
     /// Values that the recipe contradicts, for example a dough weight that does
     /// not match the sum of the recognized ingredients.
     let warnings: [String]
+    /// The layout this result was read with.
+    let layout: RecipeLayout
 
     init(
         recipe: RecipeFB,
         recognizedText: String,
         recipeImage: UIImage? = nil,
-        warnings: [String] = []
+        warnings: [String] = [],
+        layout: RecipeLayout = .general
     ) {
         self.recipe = recipe
         self.recognizedText = recognizedText
         self.recipeImage = recipeImage
         self.warnings = warnings
+        self.layout = layout
     }
 
     var componentCount: Int { recipe.components.count }
@@ -56,6 +78,49 @@ private struct RecognizedRecipeLine: Sendable {
 
     var x: CGFloat { boundingBox.minX }
     var y: CGFloat { boundingBox.midY }
+}
+
+/// What the document request understood about a page beyond its plain lines: the
+/// tables it laid out, which lines continue on the next one, and the heading it
+/// considers the page title. Reading a recipe from these is independent of where
+/// on the page a block happens to sit.
+private struct RecognizedPageStructure {
+
+    struct Table {
+        let rows: [[String]]
+        /// The rectangle of each row, in the same order as ``rows``.
+        let rowBoxes: [CGRect]
+        let boundingBox: CGRect
+
+        var transcript: String {
+            rows.flatMap { $0 }.joined(separator: " ")
+        }
+    }
+
+    /// A number the data detector resolved to a physical quantity, at the place
+    /// it was printed. Grams and degrees are told apart here rather than in the
+    /// text, because the OCR loses a unit far more often than a digit.
+    struct DetectedAmount {
+        let value: Double
+        let isMass: Bool
+        let isTemperature: Bool
+        let boundingBox: CGRect
+    }
+
+    /// A block of prose the document request kept together, even where the
+    /// print breaks it across several lines.
+    struct Paragraph {
+        let text: String
+        let boundingBox: CGRect
+    }
+
+    let page: Int
+    let tables: [Table]
+    let paragraphs: [Paragraph]
+    let amounts: [DetectedAmount]
+    /// Transcripts of lines whose text continues on the following line.
+    let wrappingLines: Set<String>
+    let title: String?
 }
 
 private struct ParsedPlanningStep {
@@ -100,53 +165,189 @@ final class RecipeImageAnalysisAgent {
         "Feigen", "Planungsbeispiel"
     ]
 
+    /// Reads the pages with every known layout and returns the best result.
+    ///
+    /// The decision is made on the readings, not on guesses about the template:
+    /// a page states its own dough weight or total preparation time, and a
+    /// reading that contradicts those — or that repeats ingredients because it
+    /// mistook a summary list for a component — scores lower. That way a new
+    /// template needs no switch in the interface, only a reader.
+    func analyze(
+        images: [UIImage],
+        progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
+    ) async throws -> RecipeImageAnalysisResult {
+
+        // Text recognition is by far the most expensive part, so it runs once
+        // and every reader works from the same recognized pages.
+        let pages = try await recognizePages(images: images, progress: progress)
+
+        var readings: [(result: RecipeImageAnalysisResult, quality: Double)] = []
+        var failure: Error?
+
+        for layout in RecipeLayout.allCases {
+            do {
+                let result: RecipeImageAnalysisResult
+                switch layout {
+                case .ploetzblogTwoColumn:
+                    result = try readPloetzblogRecipe(from: pages)
+                case .general:
+                    result = try readGeneralRecipe(from: pages, firstImage: images.first)
+                }
+                readings.append((result, readingQuality(of: result)))
+            } catch {
+                failure = failure ?? error
+            }
+        }
+
+        guard let best = readings.max(by: { $0.quality < $1.quality })?.result else {
+            throw failure ?? RecipeImageAnalysisError.unsupportedLayout
+        }
+
+        AppLog.data.debug(
+            "Recipe import: chose \(best.layout.rawValue) out of \(readings.count) readings"
+        )
+        return best
+    }
+
+    /// How well a reading fits the pages it came from. Only measurable
+    /// properties count: values the page declares itself, and whether the
+    /// reading is internally consistent.
+    private func readingQuality(of result: RecipeImageAnalysisResult) -> Double {
+
+        let ingredients = result.recipe.components.flatMap { $0.ingredients }
+        guard !ingredients.isEmpty, !result.recipe.instructions.isEmpty else { return 0 }
+
+        var score = 1.0
+        let weighed = ingredients.filter { $0.weight > 0 }
+        let sum = weighed.reduce(0) { $0 + $1.weight }
+
+        // The page's own dough weight is the strongest evidence: it depends on
+        // every single amount.
+        if let declared = declaredDoughWeight(in: result.recognizedText), declared > 0, sum > 0 {
+            let deviation = abs(sum - declared) / declared
+            score += deviation <= 0.03 ? 4 : (deviation >= 0.25 ? -4 : 0)
+        }
+
+        // A declared total preparation time checks the step durations the same way.
+        let durations = result.recipe.instructions.reduce(0) { $0 + $1.duration }
+        if let declared = declaredTotalMinutes(in: result.recognizedText), declared > 0, durations > 0 {
+            let deviation = abs(Double(durations - declared)) / Double(declared)
+            score += deviation <= 0.05 ? 2 : (deviation >= 0.5 ? -2 : 0)
+        }
+
+        // A summary list read as a component shows up as the same ingredient
+        // appearing twice inside one component.
+        for component in result.recipe.components {
+            let names = component.ingredients.map { normalizedName($0.name) }
+            score -= 0.5 * Double(names.count - Set(names).count)
+            if component.ingredients.isEmpty { score -= 1 }
+        }
+
+        // Names that begin with a digit or carry a percentage are leftovers of a
+        // mis-read row.
+        score -= 0.5 * Double(ingredients.count { ingredient in
+            ingredient.name.contains("%") || (ingredient.name.first?.isNumber ?? false)
+        })
+
+        score -= 0.5 * Double(result.warnings.count)
+        return score
+    }
+
+    private func normalizedName(_ text: String) -> String {
+        text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "de_DE"))
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+    }
+
+    /// The dough weight a page states itself: the INFO column of a book prints
+    /// it directly, ploetzblog states a piece count and a weight per piece.
+    private func declaredDoughWeight(in text: String) -> Double? {
+        if let values = Self.captures(#"(?i)Teig(?:menge|einwaage)\s*:?\s*(\d+(?:[.,]\d+)?)\s*g"#, in: text),
+           let weight = Double(values[0].replacingOccurrences(of: ",", with: ".")) {
+            return weight
+        }
+        if let values = Self.captures(#"(?i)für\s+(\d+)\s+Stück\s+zu\s*\(?je\)?\s*(?:ca\.)?\s*(\d+(?:[.,]\d+)?)\s*g"#, in: text),
+           values.count == 2,
+           let pieces = Double(values[0]),
+           let each = Double(values[1].replacingOccurrences(of: ",", with: ".")) {
+            return pieces * each
+        }
+        return nil
+    }
+
+    /// The total preparation time a page states itself, in minutes.
+    private func declaredTotalMinutes(in text: String) -> Int? {
+        if let values = Self.captures(
+            #"(?i)Gesamtzubereitungszeit\s*:?\s*(?:ca\.\s*)?(\d+)\s*Stunden?(?:\s*(\d+)\s*Minuten?)?"#,
+            in: text
+        ), let hours = Int(values[0]) {
+            return hours * 60 + (values.count > 1 ? Int(values[1]) ?? 0 : 0)
+        }
+
+        // A book's INFO column splits it into the day before and the baking day.
+        let parts = Self.allCaptures(
+            #"(?i)Zubereitungszeit[^:]*:\s*(?:ca\.\s*)?(\d+)\s*Std"#,
+            in: text
+        ).compactMap { Int($0) }
+        guard !parts.isEmpty else { return nil }
+        return parts.reduce(0, +) * 60
+    }
+
+    static func captures(_ pattern: String, in text: String) -> [String]? {
+        guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]),
+              let match = expression.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) else {
+            return nil
+        }
+        return (1..<match.numberOfRanges).compactMap { index in
+            guard let range = Range(match.range(at: index), in: text) else { return nil }
+            return String(text[range])
+        }
+    }
+
+    static func allCaptures(_ pattern: String, in text: String) -> [String] {
+        guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
+            return []
+        }
+        return expression.matches(in: text, range: NSRange(text.startIndex..., in: text))
+            .compactMap { match in
+                guard let range = Range(match.range(at: 1), in: text) else { return nil }
+                return String(text[range])
+            }
+    }
+
     /// Analyzes common recipe layouts without applying the Ploetzblog-specific
     /// column and planning rules used by the existing analysis method.
     func analyzeGeneralRecipe(
         images: [UIImage],
         progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
     ) async throws -> RecipeImageAnalysisResult {
-        var allLines: [RecognizedRecipeLine] = []
+        let pages = try await recognizePages(images: images, progress: progress)
+        return try readGeneralRecipe(from: pages, firstImage: images.first)
+    }
 
-        for (index, image) in images.enumerated() {
-            try Task.checkCancellation()
-            await progress(index + 1, images.count)
-            let orientation = Self.visionOrientation(for: image.imageOrientation)
-            do {
-                let documentLines = try await recognizeDocumentLines(
-                    in: image,
-                    page: index,
-                    orientation: orientation
-                )
-                guard !documentLines.isEmpty else {
-                    throw RecipeImageAnalysisError.noTextRecognized
-                }
-                allLines.append(contentsOf: documentLines)
-            } catch {
-                // Preserve the existing general OCR as a defensive fallback.
-                allLines.append(
-                    contentsOf: try await recognizeLines(
-                        in: image,
-                        page: index,
-                        orientation: orientation
-                    )
-                )
-            }
-        }
+    /// Reads a recipe from recognized pages with the general rules: headings,
+    /// ingredient blocks and prose.
+    private func readGeneralRecipe(
+        from pages: RecognizedPages,
+        firstImage: UIImage?
+    ) throws -> RecipeImageAnalysisResult {
 
-        guard !allLines.isEmpty else {
+        let orderedLines = pages.documentLines.sorted(by: Self.readingOrder)
+        guard !orderedLines.isEmpty else {
             throw RecipeImageAnalysisError.noTextRecognized
         }
 
-        let orderedLines = allLines.sorted(by: Self.readingOrder)
-        let parsed = try GeneralRecipeParser(lines: orderedLines).parse()
-        let recognizedText = orderedLines.map(\.text).joined(separator: "\n")
-        let recipeImage = images.first.flatMap(extractSalientRecipePhoto)
+        let parsed = try GeneralRecipeParser(
+            lines: orderedLines,
+            structures: pages.structures
+        ).parse()
         return RecipeImageAnalysisResult(
             recipe: parsed.recipe,
-            recognizedText: recognizedText,
-            recipeImage: recipeImage,
-            warnings: parsed.warnings
+            recognizedText: orderedLines.map(\.text).joined(separator: "\n"),
+            recipeImage: firstImage.flatMap(extractSalientRecipePhoto),
+            warnings: parsed.warnings,
+            layout: .general
         )
     }
 
@@ -191,47 +392,159 @@ final class RecipeImageAnalysisAgent {
         return UIImage(cgImage: croppedImage, scale: image.scale, orientation: .up)
     }
 
-    func analyze(
+    func analyzePloetzblogRecipe(
         images: [UIImage],
         progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
     ) async throws -> RecipeImageAnalysisResult {
-        var allLines: [RecognizedRecipeLine] = []
+        let pages = try await recognizePages(images: images, progress: progress)
+        return try readPloetzblogRecipe(from: pages)
+    }
 
-        for (index, image) in images.enumerated() {
-            try Task.checkCancellation()
-            await progress(index + 1, images.count)
-            var pageLines = try await recognizeLines(in: image, page: index)
-            if pageLines.contains(where: { $0.text.localizedCaseInsensitiveContains("PLANUNGSBEISPIEL") }) {
-                let planningLines = try await recognizePlanningLines(in: image, page: index)
-                pageLines.removeAll { $0.x >= 0.48 && $0.y >= 0.70 }
-                pageLines.append(contentsOf: planningLines)
-            }
-            allLines.append(contentsOf: pageLines)
-        }
+    /// Reads a recipe from recognized pages with the two-column rules of a
+    /// ploetzblog page: a planning example, ingredients left of the gutter and
+    /// numbered work steps to its right.
+    private func readPloetzblogRecipe(
+        from pages: RecognizedPages
+    ) throws -> RecipeImageAnalysisResult {
 
-        guard !allLines.isEmpty else {
+        guard !pages.classicLines.isEmpty else {
             throw RecipeImageAnalysisError.noTextRecognized
         }
 
-        let parser = TwoColumnRecipeParser(lines: allLines)
+        let parser = TwoColumnRecipeParser(
+            lines: pages.classicLines,
+            structures: pages.structures
+        )
         let recipe = try parser.parse()
-        let recognizedText = allLines
+        let recognizedText = pages.classicLines
             .sorted(by: Self.readingOrder)
             .map { "[Seite \($0.page + 1), x:\(format($0.x)), y:\(format($0.y))] \($0.text)" }
             .joined(separator: "\n")
 
-        return RecipeImageAnalysisResult(recipe: recipe, recognizedText: recognizedText)
+        return RecipeImageAnalysisResult(
+            recipe: recipe,
+            recognizedText: recognizedText,
+            layout: .ploetzblogTwoColumn
+        )
     }
 
-    private func recognizeDocumentLines(
+    /// Runs the document request and keeps what it understood about the page's
+    /// structure. Both analysis paths use this: the layout of a table does not
+    /// depend on which column of the page it was printed in.
+    private func recognizeDocumentStructure(
         in image: UIImage,
         page: Int,
         orientation: CGImagePropertyOrientation
-    ) async throws -> [RecognizedRecipeLine] {
+    ) async throws -> RecognizedPageStructure {
+
         guard let cgImage = image.cgImage else {
             throw RecipeImageAnalysisError.invalidImage
         }
 
+        let observations = try await Self.documentRequest().perform(
+            on: cgImage,
+            orientation: orientation
+        )
+        guard let document = observations.first?.document else {
+            throw RecipeImageAnalysisError.noTextRecognized
+        }
+
+        let tables = document.tables.map { table in
+            RecognizedPageStructure.Table(
+                rows: table.rows.map { row in
+                    row.map {
+                        $0.content.text.transcript
+                            .trimmingCharacters(in: .whitespacesAndNewlines)
+                    }
+                },
+                rowBoxes: table.rows.map { row in
+                    row.reduce(CGRect.null) {
+                        $0.union($1.content.text.boundingRegion.boundingBox.cgRect)
+                    }
+                },
+                boundingBox: table.boundingRegion.boundingBox.cgRect
+            )
+        }
+
+        let amounts = document.text.detectedData.compactMap { item -> RecognizedPageStructure.DetectedAmount? in
+            guard case .measurement(let measurement) = item.match.details,
+                  let range = item.match.range,
+                  let region = document.text.boundingRegion(for: range) else {
+                return nil
+            }
+            let dimension = measurement.possibleDimensions.first
+            return RecognizedPageStructure.DetectedAmount(
+                value: measurement.value,
+                isMass: dimension is UnitMass,
+                isTemperature: dimension is UnitTemperature,
+                boundingBox: region.boundingBox.cgRect
+            )
+        }
+
+        let lines = document.text.lines
+
+        // The heading, joined across the lines it wraps into. The wrap flag is
+        // what separates a title running over two lines — "Roggenvollkornbrot"
+        // + "mit Walnuss und Feige" — from a subtitle printed underneath one
+        // that ends on its own line. No font-size rule can tell those apart.
+        var titleParts: [String] = []
+        if let titleIndex = lines.firstIndex(where: { $0.isTitle }) {
+            for line in lines[titleIndex...] {
+                titleParts.append(
+                    line.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
+                )
+                guard line.shouldWrapToNextLine == true else { break }
+            }
+        }
+
+        return RecognizedPageStructure(
+            page: page,
+            tables: tables,
+            paragraphs: document.paragraphs.map {
+                RecognizedPageStructure.Paragraph(
+                    text: $0.transcript.trimmingCharacters(in: .whitespacesAndNewlines),
+                    boundingBox: $0.boundingRegion.boundingBox.cgRect
+                )
+            },
+            amounts: amounts,
+            wrappingLines: Set(
+                lines
+                    .filter { $0.shouldWrapToNextLine == true }
+                    .map { $0.transcript.trimmingCharacters(in: .whitespacesAndNewlines) }
+            ),
+            title: titleParts.isEmpty
+                ? nil
+                : titleParts.joined(separator: " ")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+        )
+    }
+
+    /// Whether a laid-out table is a planning example: several of its rows carry
+    /// a clock time. A temperature or percentage column does not match, so the
+    /// ingredient tables are not mistaken for one.
+    private func isPlanningTable(_ table: RecognizedPageStructure.Table) -> Bool {
+        table.rows.count { row in
+            Self.clockTime(in: row.joined(separator: " ")) != nil
+        } >= 2
+    }
+
+    static func clockTime(in text: String) -> (hour: Int, minute: Int)? {
+        guard let expression = try? NSRegularExpression(pattern: #"\b(\d{1,2})[:.](\d{2})\b"#),
+              let match = expression.firstMatch(
+                  in: text,
+                  range: NSRange(text.startIndex..., in: text)
+              ),
+              let hourRange = Range(match.range(at: 1), in: text),
+              let minuteRange = Range(match.range(at: 2), in: text),
+              let hour = Int(text[hourRange]),
+              let minute = Int(text[minuteRange]),
+              hour < 24, minute < 60 else {
+            return nil
+        }
+        return (hour, minute)
+    }
+
+    private static func documentRequest() -> RecognizeDocumentsRequest {
         var request = RecognizeDocumentsRequest()
         request.textRecognitionOptions.recognitionLanguages = [
             Locale.Language(identifier: "de-DE"),
@@ -240,25 +553,94 @@ final class RecipeImageAnalysisAgent {
         ]
         request.textRecognitionOptions.automaticallyDetectLanguage = true
         request.textRecognitionOptions.useLanguageCorrection = true
-        request.textRecognitionOptions.customWords = Self.bakingVocabulary
+        request.textRecognitionOptions.customWords = bakingVocabulary
+        return request
+    }
 
-        let observations = try await request.perform(on: cgImage, orientation: orientation)
-        guard let document = observations.first?.document else {
-            throw RecipeImageAnalysisError.noTextRecognized
+    /// Everything the recognition produced for a set of pages. Both readers work
+    /// from this, so an image passes through text recognition only once, no
+    /// matter how many layouts are tried on it.
+    private struct RecognizedPages {
+        /// Classic recognition: the finest line granularity, which the
+        /// individual ingredient rows and numbered work steps need.
+        var classicLines: [RecognizedRecipeLine] = []
+        /// The same pages with document paragraphs merged in, which keeps
+        /// sentences together that the print breaks across lines.
+        var documentLines: [RecognizedRecipeLine] = []
+        /// What the document request understood about each page's layout.
+        var structures: [RecognizedPageStructure] = []
+    }
+
+    private func recognizePages(
+        images: [UIImage],
+        progress: @escaping @MainActor (Int, Int) -> Void
+    ) async throws -> RecognizedPages {
+
+        var pages = RecognizedPages()
+
+        for (index, image) in images.enumerated() {
+            try Task.checkCancellation()
+            await progress(index + 1, images.count)
+
+            let orientation = Self.visionOrientation(for: image.imageOrientation)
+            var classicLines = try await recognizeLines(
+                in: image,
+                page: index,
+                orientation: orientation
+            )
+            let structure = try? await recognizeDocumentStructure(
+                in: image,
+                page: index,
+                orientation: orientation
+            )
+
+            // The cropped second pass only exists to read a planning table that
+            // classic recognition garbles. When the document request laid that
+            // table out for us, the crop is unnecessary — and its assumption
+            // about where the table sits is wrong for book pages.
+            let hasPlanningTable = structure?.tables.contains(where: isPlanningTable) ?? false
+            if !hasPlanningTable,
+               classicLines.contains(where: { $0.text.localizedCaseInsensitiveContains("PLANUNGSBEISPIEL") }) {
+                let planningLines = try await recognizePlanningLines(in: image, page: index)
+                classicLines.removeAll { $0.x >= 0.48 && $0.y >= 0.70 }
+                classicLines.append(contentsOf: planningLines)
+            }
+
+            pages.classicLines.append(contentsOf: classicLines)
+            if let structure {
+                pages.structures.append(structure)
+                pages.documentLines.append(
+                    contentsOf: documentLines(from: structure, classicLines: classicLines)
+                )
+            } else {
+                // Without a document reading the classic lines are all there is.
+                pages.documentLines.append(contentsOf: classicLines)
+            }
         }
 
-        let planningTables = document.tables.filter { table in
-            let transcript = table.rows.flatMap { row in
-                row.map { $0.content.text.transcript }
-            }.joined(separator: " ")
-            let value = transcript.folding(
+        guard !pages.classicLines.isEmpty else {
+            throw RecipeImageAnalysisError.noTextRecognized
+        }
+        return pages
+    }
+
+    /// Combines a page's classic lines with what the document request
+    /// understood: the planning table masks out the lines printed inside it,
+    /// and whole paragraphs are added for the instruction prose.
+    private func documentLines(
+        from structure: RecognizedPageStructure,
+        classicLines: [RecognizedRecipeLine]
+    ) -> [RecognizedRecipeLine] {
+
+        let page = structure.page
+        let planningBoxes = structure.tables.filter { table in
+            let value = table.transcript.folding(
                 options: [.diacriticInsensitive, .caseInsensitive],
                 locale: Locale(identifier: "de_DE")
             )
             return value.contains("planungsbeispiel")
                 || (value.contains(" uhr") && (value.contains(" fr ") || value.contains(" sa ")))
-        }
-        let planningBoxes = planningTables.map { $0.boundingRegion.boundingBox.cgRect }
+        }.map(\.boundingBox)
 
         func isInsidePlanningTable(_ box: CGRect) -> Bool {
             planningBoxes.contains { tableBox in
@@ -272,12 +654,7 @@ final class RecipeImageAnalysisAgent {
         // The document request supplies reliable structural masks. The classic
         // text request supplies finer line granularity inside those regions,
         // which is required for individual ingredients and preparation steps.
-        let textLines = try await recognizeLines(
-            in: image,
-            page: page,
-            orientation: orientation
-        )
-        var filteredLines = textLines.filter { line in
+        var filteredLines = classicLines.filter { line in
             let value = line.text.folding(
                 options: [.diacriticInsensitive, .caseInsensitive],
                 locale: Locale(identifier: "de_DE")
@@ -327,28 +704,26 @@ final class RecipeImageAnalysisAgent {
             "misch", "verruhr", "knet", "reifen", "ruhen", "lassen", "back",
             "einarbeit", "zugeben", "abtrennen", "formen", "rundwirk", "quell"
         ]
-        let actionParagraphs = document.paragraphs.compactMap { paragraph -> RecognizedRecipeLine? in
-            let transcript = paragraph.transcript
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            let value = transcript.folding(
+        // Paragraphs complement the classic OCR. They must not remove the
+        // original lines because compact component paragraphs are sometimes
+        // assigned a broader or neighboring layout region by Vision.
+        filteredLines.append(contentsOf: structure.paragraphs.compactMap { paragraph in
+            let value = paragraph.text.folding(
                 options: [.diacriticInsensitive, .caseInsensitive],
                 locale: Locale(identifier: "de_DE")
             )
-            let box = paragraph.boundingRegion.boundingBox.cgRect
-            guard transcript.count >= 20,
+            guard paragraph.text.count >= 20,
                   actionTerms.contains(where: value.contains),
-                  !isInsidePlanningTable(box) else {
+                  !isInsidePlanningTable(paragraph.boundingBox) else {
                 return nil
             }
-            return RecognizedRecipeLine(page: page, text: transcript, boundingBox: box)
-        }
+            return RecognizedRecipeLine(
+                page: page,
+                text: paragraph.text,
+                boundingBox: paragraph.boundingBox
+            )
+        })
 
-        if !actionParagraphs.isEmpty {
-            // Paragraphs complement the classic OCR. They must not remove the
-            // original lines because compact component paragraphs are sometimes
-            // assigned a broader or neighboring layout region by Vision.
-            filteredLines.append(contentsOf: actionParagraphs)
-        }
         return filteredLines
     }
 
@@ -492,13 +867,17 @@ final class RecipeImageAnalysisAgent {
 
 private struct TwoColumnRecipeParser {
     let lines: [RecognizedRecipeLine]
+    /// What the document request laid out per page. Empty when it failed, in
+    /// which case every step falls back to the geometric reading.
+    var structures: [RecognizedPageStructure] = []
 
     func parse() throws -> RecipeFB {
         let componentHeadings = findComponentHeadings()
         guard !componentHeadings.isEmpty,
               let planningHeading = lines.first(where: {
                   normalized($0.text).contains("planungsbeispiel")
-              }) else {
+              }),
+              hasNumberedDetailSteps else {
             throw RecipeImageAnalysisError.unsupportedLayout
         }
 
@@ -524,16 +903,23 @@ private struct TwoColumnRecipeParser {
             )
         }
 
-        let firstComponentOnPlanningPage = componentHeadings
-            .filter { $0.page == planningHeading.page }
-            .max(by: { $0.y < $1.y })
-        let planningLines = lines.filter { line in
-            line.page == planningHeading.page
-                && line.x >= 0.48
-                && line.y < planningHeading.y
-                && line.y > (firstComponentOnPlanningPage?.y ?? 0)
+        // Prefer the table the document request laid out: it carries the whole
+        // planning example with day and time in their own cells, wherever on the
+        // page it was printed. The geometric search below assumes the right-hand
+        // column, which is where ploetzblog prints it but not a book page.
+        var planningSteps = planningStepsFromTables()
+        if planningSteps.count < 2 {
+            let firstComponentOnPlanningPage = componentHeadings
+                .filter { $0.page == planningHeading.page }
+                .max(by: { $0.y < $1.y })
+            let planningLines = lines.filter { line in
+                line.page == planningHeading.page
+                    && line.x >= 0.48
+                    && line.y < planningHeading.y
+                    && line.y > (firstComponentOnPlanningPage?.y ?? 0)
+            }
+            planningSteps = parsePlanningSteps(from: planningLines)
         }
-        let planningSteps = parsePlanningSteps(from: planningLines)
         guard planningSteps.count >= 2 else {
             throw RecipeImageAnalysisError.unsupportedLayout
         }
@@ -615,17 +1001,83 @@ private struct TwoColumnRecipeParser {
         component.number = number
 
         let ingredientRows = groupedRows(lines.filter { $0.x < 0.48 })
-        component.ingredients = ingredientRows.compactMap(parseIngredientRow)
-            .enumerated().map { index, parsed in
-                let ingredient = IngredientFB()
-                ingredient.id = UUID().uuidString
-                ingredient.number = index + 1
-                ingredient.name = parsed.name
-                ingredient.weight = parsed.amount
-                ingredient.unit = parsed.unit
-                return ingredient
-            }
+        var parsedRows = ingredientRows.compactMap(parseIngredientRow)
+        parsedRows.append(contentsOf: amountlessTableIngredients(
+            in: lines,
+            excluding: parsedRows
+        ))
+        component.ingredients = parsedRows.enumerated().map { index, parsed in
+            let ingredient = IngredientFB()
+            ingredient.id = UUID().uuidString
+            ingredient.number = index + 1
+            ingredient.name = parsed.name
+            ingredient.weight = parsed.amount
+            ingredient.unit = parsed.unit
+            return ingredient
+        }
         return component
+    }
+
+    /// Ingredient rows without an amount that only the laid-out table proves to
+    /// be ingredients at all.
+    ///
+    /// "Ei (verrührt, zum Abstreichen)" belongs to the dough as much as the
+    /// flour does, but it carries no weight, so by position alone it is
+    /// indistinguishable from a caption. Rows that do carry an amount are left
+    /// to the line path, whose finer granularity reads them better.
+    private func amountlessTableIngredients(
+        in sectionLines: [RecognizedRecipeLine],
+        excluding parsed: [(name: String, amount: Double, unit: String)]
+    ) -> [(name: String, amount: Double, unit: String)] {
+
+        let column = sectionLines.filter { $0.x < 0.48 }
+        guard let page = column.first?.page,
+              let lowestY = column.map(\.y).min(),
+              let highestY = column.map(\.y).max() else {
+            return []
+        }
+
+        return structures.filter { $0.page == page }.flatMap { structure in
+            structure.tables.filter { table in
+                // The planning example is a table too, and its rows are times.
+                table.rows.count { row in
+                    RecipeImageAnalysisAgent.clockTime(in: row.joined(separator: " ")) != nil
+                } < 2
+            }.flatMap { table in
+                zip(table.rows, table.rowBoxes).compactMap { row, box -> (name: String, amount: Double, unit: String)? in
+                    guard !box.isNull,
+                          box.midX < 0.48,
+                          box.midY >= lowestY,
+                          box.midY <= highestY else {
+                        return nil
+                    }
+
+                    var text = row.filter { !$0.isEmpty }
+                        .joined(separator: " ")
+                        .replacingOccurrences(of: "\n", with: " ")
+                    let temperature = capture(#"\b\d+(?:[\.,]\d+)?\s*°\s*C\b"#, in: text) ?? ""
+                    if !temperature.isEmpty {
+                        text = text.replacingOccurrences(
+                            of: temperature,
+                            with: "",
+                            options: .caseInsensitive
+                        )
+                    }
+
+                    let baseName = text
+                        .replacingOccurrences(of: #"\s{2,}"#, with: " ", options: .regularExpression)
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                    let value = normalized(baseName)
+                    guard value.count >= 4,
+                          baseName.range(of: #"^\s*\d"#, options: .regularExpression) == nil,
+                          isPlausibleIngredient(baseName),
+                          !parsed.contains(where: { normalized($0.name).contains(value) }) else {
+                        return nil
+                    }
+                    return (ingredientName(baseName, temperature: temperature), 0, "")
+                }
+            }
+        }
     }
 
     private func parseIngredientRow(_ row: [RecognizedRecipeLine]) -> (name: String, amount: Double, unit: String)? {
@@ -699,6 +1151,91 @@ private struct TwoColumnRecipeParser {
         return results
     }
 
+    /// The signature of this layout: work steps numbered in the right-hand
+    /// column. Everything else this parser assumes — ingredients left of the
+    /// gutter, component headings in the page margin — only holds for pages
+    /// built that way. A book page whose right column is running prose has to be
+    /// rejected here, so the caller can offer the general reading instead of a
+    /// recipe assembled from the wrong halves of the page.
+    private var hasNumberedDetailSteps: Bool {
+        lines.count { line in
+            line.x >= 0.48
+                && line.x < 0.54
+                && captures(#"^\s*\d{1,2}\s+\S.*$"#, in: line.text) != nil
+        } >= 3
+    }
+
+    /// Reads the planning example out of a laid-out table. Each row carries the
+    /// action, the day and the time in separate cells; which cell is which is
+    /// decided by content, so both column orders work.
+    ///
+    /// The day is given either as "Tag 1" or as a weekday abbreviation. In the
+    /// latter case each new label starts the next day, which is what "FR, FR,
+    /// SA, SA" means on a book page.
+    private func planningStepsFromTables() -> [ParsedPlanningStep] {
+
+        let tables = structures.flatMap { structure in
+            structure.tables.filter { table in
+                table.rows.count { row in
+                    RecipeImageAnalysisAgent.clockTime(in: row.joined(separator: " ")) != nil
+                } >= 2
+            }
+        }
+        guard let table = tables.first else { return [] }
+
+        var dayByLabel: [String: Int] = [:]
+        var currentDay = 1
+        var steps: [ParsedPlanningStep] = []
+
+        for row in table.rows {
+            let cells = row.filter { !$0.isEmpty }
+            guard let timeCell = cells.first(where: {
+                      RecipeImageAnalysisAgent.clockTime(in: $0) != nil
+                  }),
+                  let time = RecipeImageAnalysisAgent.clockTime(in: timeCell) else {
+                continue
+            }
+
+            let remaining = cells.filter { $0 != timeCell }
+            if let dayText = capture(#"(?i)tag\s*(\d)"#, group: 1, in: cells.joined(separator: " ")),
+               let day = Int(dayText) {
+                currentDay = day
+            } else if let label = remaining.first(where: {
+                $0.count <= 3 && $0.rangeOfCharacter(from: .letters) != nil
+            }) {
+                let key = normalized(label)
+                if let known = dayByLabel[key] {
+                    currentDay = known
+                } else {
+                    currentDay = (dayByLabel.values.max() ?? 0) + 1
+                    dayByLabel[key] = currentDay
+                }
+            }
+
+            guard let action = remaining
+                .filter({ $0.count > 3 })
+                .max(by: { $0.count < $1.count })?
+                .replacingOccurrences(
+                    of: #"(?i)^\s*tag\s*\d\s*"#,
+                    with: "",
+                    options: .regularExpression
+                )
+                .trimmingCharacters(in: .whitespacesAndNewlines),
+                  !action.isEmpty else {
+                continue
+            }
+
+            steps.append(ParsedPlanningStep(
+                day: currentDay,
+                hour: time.hour,
+                minute: time.minute,
+                action: action,
+                isEndMarker: isGeneratedCompletionStep(action)
+            ))
+        }
+        return steps
+    }
+
     private func parsePlanningSteps(from lines: [RecognizedRecipeLine]) -> [ParsedPlanningStep] {
         let rows = groupedRows(lines)
         var currentDay = 1
@@ -742,10 +1279,14 @@ private struct TwoColumnRecipeParser {
         planningSteps: [ParsedPlanningStep],
         details: [ParsedDetailedInstruction]
     ) -> [InstructionFB] {
+        // The oven-on step of the planning example is kept: it carries the
+        // recipe's own preheating time, which takes precedence over the app's
+        // setting. The instruction views recognise it as an explicit preheating
+        // step and then generate none of their own. Only the closing "ca. fertig
+        // gebacken" marker is dropped, because the app appends that itself.
         return planningSteps.indices.compactMap { index in
             let step = planningSteps[index]
             guard !step.isEndMarker,
-                  !isGeneratedOvenStartStep(step.action),
                   index + 1 < planningSteps.count else { return nil }
             let instruction = InstructionFB()
             instruction.id = UUID().uuidString
@@ -911,15 +1452,6 @@ private struct TwoColumnRecipeParser {
         terms.contains(where: text.contains)
     }
 
-    private func isGeneratedOvenStartStep(_ action: String) -> Bool {
-        let text = normalized(action)
-        return containsAny(text, [
-            "backofen anstellen", "ofen anstellen",
-            "backofen einschalten", "ofen einschalten",
-            "backofen vorheizen", "ofen vorheizen"
-        ])
-    }
-
     private func isGeneratedCompletionStep(_ action: String) -> Bool {
         let text = normalized(action)
         return containsAny(text, [
@@ -1029,6 +1561,9 @@ private struct GeneralRecipeParser {
     }
 
     let lines: [RecognizedRecipeLine]
+    /// What the document request laid out per page. Empty when it failed, in
+    /// which case every step falls back to the geometric reading.
+    var structures: [RecognizedPageStructure] = []
 
     func parse() throws -> (recipe: RecipeFB, warnings: [String]) {
         let textLines = lines.map(\.text)
@@ -1137,7 +1672,8 @@ private struct GeneralRecipeParser {
         }
 
         let recipe = RecipeFB()
-        recipe.name = detectedMultilineTitle()
+        recipe.name = structureTitle()
+            ?? detectedMultilineTitle()
             ?? titleCandidates.first
             ?? AppSettings.generatedRecipeTexts().importedRecipe
         recipe.summary = usedSpatialComponentAssignment
@@ -1878,6 +2414,18 @@ private struct GeneralRecipeParser {
         }
     }
 
+    /// The heading the document request marked as the page title, already
+    /// joined across the lines it wraps into.
+    private func structureTitle() -> String? {
+        guard let page = lines.map(\.page).min(),
+              let title = structures.first(where: { $0.page == page })?.title,
+              title.count >= 3,
+              isPlausibleTitle(title) else {
+            return nil
+        }
+        return title
+    }
+
     private func detectedMultilineTitle() -> String? {
         guard let firstPage = lines.map(\.page).min() else { return nil }
         let pageLines = lines.filter { $0.page == firstPage }
@@ -2196,9 +2744,37 @@ private struct GeneralRecipeParser {
     /// digit — the mis-read gram sign — restores it. Amounts whose ratio already
     /// agrees, and amounts that dropping a digit does not reconcile, stay as
     /// they are.
+    /// Whether the data detector resolved a mass of this value somewhere on the
+    /// row. It reads the glyphs independently of the amount pattern, so this is
+    /// evidence about the amount that the text alone cannot give.
+    private func detectedMass(_ value: Double, on row: RecognizedRecipeLine) -> Bool {
+        structures.first { $0.page == row.page }?.amounts.contains { amount in
+            amount.isMass
+                && abs(amount.value - value) < 0.01
+                && amount.boundingBox.midY >= row.boundingBox.minY - 0.004
+                && amount.boundingBox.midY <= row.boundingBox.maxY + 0.004
+        } ?? false
+    }
+
+    /// Whether the number at the start of the row is a temperature rather than
+    /// an amount — "50 °C Wasser" instead of "50 g Wasser". Only the detector
+    /// knows, because a degree sign lost to the OCR leaves a bare number. A
+    /// temperature printed at the end of the row, as recipes usually do, is
+    /// outside the leading column and does not count.
+    private func isLeadingTemperature(_ value: Double, on row: RecognizedRecipeLine) -> Bool {
+        guard !detectedMass(value, on: row) else { return false }
+        return structures.first { $0.page == row.page }?.amounts.contains { amount in
+            amount.isTemperature
+                && abs(amount.value - value) < 0.01
+                && amount.boundingBox.midY >= row.boundingBox.minY - 0.004
+                && amount.boundingBox.midY <= row.boundingBox.maxY + 0.004
+                && amount.boundingBox.minX <= row.boundingBox.minX + 0.05
+        } ?? false
+    }
+
     private func repairImplausibleAmounts(
         in rows: inout [(String, ParsedIngredient)],
-        percentages: [(index: Int, percentage: Double)]
+        percentages: [(index: Int, percentage: Double, row: RecognizedRecipeLine)]
     ) {
         let ratios = percentages.compactMap { entry -> Double? in
             guard rows.indices.contains(entry.index), entry.percentage > 0 else { return nil }
@@ -2212,6 +2788,9 @@ private struct GeneralRecipeParser {
         for entry in percentages {
             guard rows.indices.contains(entry.index), entry.percentage > 0 else { continue }
             let ingredient = rows[entry.index].1
+            // Where the detector confirms this very amount as a mass, the
+            // amount is sound and it is the percentage that was mis-read.
+            guard !detectedMass(ingredient.amount, on: entry.row) else { continue }
             let ratio = ingredient.amount / entry.percentage
             guard abs(ratio - reference) > reference * 0.25 else { continue }
 
@@ -2316,7 +2895,7 @@ private struct GeneralRecipeParser {
         )
         var ingredientRows: [(String, ParsedIngredient)] = []
         var instructionRows: [String] = []
-        var rowPercentages: [(index: Int, percentage: Double)] = []
+        var rowPercentages: [(index: Int, percentage: Double, row: RecognizedRecipeLine)] = []
         let lowestLeftHeading = headings
             .filter { $0.line.x < columnDivider }
             .min { $0.line.y < $1.line.y }
@@ -2356,7 +2935,9 @@ private struct GeneralRecipeParser {
                     with: "",
                     options: .regularExpression
                 )
-                let proseIngredients = tableIngredients(in: ingredientText)
+                let proseIngredients = tableIngredients(in: ingredientText).filter { ingredient in
+                    !isLeadingTemperature(ingredient.amount, on: line)
+                }
                 if !proseIngredients.isEmpty {
                     if proseIngredients.count == 1,
                        let percentage = percentageValue(
@@ -2365,7 +2946,7 @@ private struct GeneralRecipeParser {
                            columnDivider: columnDivider,
                            in: bandLines
                        ) {
-                        rowPercentages.append((ingredientRows.count, percentage))
+                        rowPercentages.append((ingredientRows.count, percentage, line))
                     }
                     ingredientRows.append(contentsOf: proseIngredients.map { (heading.name, $0) })
                     lastIngredientY = line.y

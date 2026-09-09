@@ -7,16 +7,32 @@ private struct SelectedRecipeImage: Identifiable {
     let image: UIImage
 }
 
+/// Which reading the import should use. Recognising the template is the app's
+/// job, so this only exists to override the choice when the recognition picks
+/// the wrong one.
 private enum RecipeImportLayout: String, CaseIterable, Identifiable {
+    case automatic
     case general
     case ploetzblog
 
     var id: Self { self }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
-        case .general: "Allgemeine Rezeptvorlage"
-        case .ploetzblog: "Ploetzblog (zweispaltig)"
+        case .automatic: "Automatisch"
+        case .general: "Allgemein"
+        case .ploetzblog: "Ploetzblog"
+        }
+    }
+
+    var explanation: LocalizedStringResource {
+        switch self {
+        case .automatic:
+            "Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt."
+        case .general:
+            "Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen."
+        case .ploetzblog:
+            "Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel."
         }
     }
 }
@@ -32,7 +48,7 @@ struct RecipeImageImportView: View {
     @State private var analysisResult: RecipeImageAnalysisResult?
     @State private var errorMessage: String?
     @State private var showRecipeReview = false
-    @State private var importLayout = RecipeImportLayout.general
+    @State private var importLayout = RecipeImportLayout.automatic
 
     private let analysisAgent = RecipeImageAnalysisAgent()
 
@@ -91,9 +107,7 @@ struct RecipeImageImportView: View {
                 }
                 .pickerStyle(.segmented)
 
-                Text(importLayout == .general
-                     ? "Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen."
-                     : "Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel.")
+                Text(importLayout.explanation)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
@@ -207,16 +221,17 @@ struct RecipeImageImportView: View {
 
         analysisTask = Task {
             do {
+                let progress: @MainActor (Int, Int) -> Void = { current, total in
+                    analysisProgress = "Bild \(current) von \(total) wird gelesen …"
+                }
                 let result: RecipeImageAnalysisResult
                 switch importLayout {
+                case .automatic:
+                    result = try await analysisAgent.analyze(images: images, progress: progress)
                 case .general:
-                    result = try await analysisAgent.analyzeGeneralRecipe(images: images) { current, total in
-                        analysisProgress = "Bild \(current) von \(total) wird gelesen …"
-                    }
+                    result = try await analysisAgent.analyzeGeneralRecipe(images: images, progress: progress)
                 case .ploetzblog:
-                    result = try await analysisAgent.analyze(images: images) { current, total in
-                        analysisProgress = "Bild \(current) von \(total) wird gelesen …"
-                    }
+                    result = try await analysisAgent.analyzePloetzblogRecipe(images: images, progress: progress)
                 }
                 await MainActor.run {
                     analysisResult = result
@@ -254,6 +269,9 @@ private struct RecipeImportConfirmationView: View {
         List {
             Section("Erkanntes Rezept") {
                 LabeledContent("Name", value: result.recipe.name)
+                LabeledContent("Erkannte Vorlage") {
+                    Text(result.layout.title)
+                }
                 LabeledContent("Komponenten", value: result.componentCount.formatted())
                 LabeledContent("Zutaten", value: result.ingredientCount.formatted())
                 LabeledContent("Arbeitsschritte", value: result.instructionCount.formatted())
