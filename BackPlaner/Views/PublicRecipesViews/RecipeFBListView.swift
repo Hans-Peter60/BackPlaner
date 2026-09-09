@@ -94,7 +94,10 @@ struct RecipeFBListView: View {
                                 }
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
-                                .accessibilityLabel(Text("\(r.name), Bewertung \(r.rating)"))
+                                // The row draws no stars, so the label is the only
+                                // place the rating is announced — with its scale,
+                                // because a bare number says nothing.
+                                .accessibilityLabel(Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
                             }
                         )
                     }

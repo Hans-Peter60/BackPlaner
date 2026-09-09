@@ -11,7 +11,7 @@ Alle 271 Texte der App-Oberfläche, deutsche Quelle neben der französischen Üb
 
 | # | Deutsch | Französisch | Hinweis | Anmerkung |
 |---|---|---|---|---|
-| 1 | %@, Bewertung %lld | %1$@, note %2$lld | Platzhalter | |
+| 1 | %@, Bewertung %lld von 5 Sternen | %1$@, note %2$lld sur 5 étoiles | Platzhalter | |
 | 2 | %lld Bild(er) analysieren | one: Analyser %lld image \| other: Analyser %lld images \| zero: Analyser %lld image | Platzhalter, Pluralformen | |
 | 3 | %lld Erinnerungen gesetzt. ⏎ Backofen anstellen um %@ Uhr. ⏎ Fertig um %@ Uhr. | %1$lld rappels définis. ⏎ Allumer le four à %2$@. ⏎ Terminé à %3$@. | Platzhalter, Zeilenumbruch | |
 | 4 | %lld Erinnerungen gesetzt. ⏎ Backofen anstellen um %@ Uhr. ⏎ Fertig um %@ Uhr. ⏎  ⏎ %@ | %1$lld rappels définis. ⏎ Allumer le four à %2$@. ⏎ Terminé à %3$@. ⏎  ⏎ %4$@ | Platzhalter, Zeilenumbruch | |
