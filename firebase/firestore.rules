@@ -127,9 +127,17 @@ service cloud.firestore {
             && resource.data.get('authorId', '') == request.auth.uid;
       }
 
+      // A permanent account, checked two ways on purpose. After an anonymous
+      // account is LINKED to Apple (the app's normal path), it is not
+      // guaranteed that `sign_in_provider` switches from 'anonymous' to
+      // 'apple.com' — the identities map is the reliable evidence that a real
+      // provider is attached. For a genuinely anonymous caller the second
+      // operand may error on the missing map, which denies as well: the
+      // intended outcome either way.
       function hasPermanentAccount() {
         return isSignedIn()
-            && request.auth.token.firebase.sign_in_provider != 'anonymous';
+            && (request.auth.token.firebase.sign_in_provider != 'anonymous'
+                || request.auth.token.firebase.identities.keys().hasAny(['apple.com']));
       }
 
       // Reading (single document and listing) is restricted to the owner. The
