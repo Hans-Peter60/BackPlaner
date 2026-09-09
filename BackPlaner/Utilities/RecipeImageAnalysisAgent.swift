@@ -1566,9 +1566,17 @@ private struct GeneralRecipeParser {
     var structures: [RecognizedPageStructure] = []
 
     func parse() throws -> (recipe: RecipeFB, warnings: [String]) {
-        let textLines = lines.map(\.text)
-            .map(cleanedLine)
-            .filter { !$0.isEmpty }
+        // The recognition contributes both the printed lines and the paragraphs
+        // Vision joined from them, so every sentence of a prose recipe arrives
+        // twice. Reading it once is what keeps one printed sentence from
+        // becoming two steps — and its amounts from becoming two ingredients.
+        let equipment = equipmentColumnLines()
+        let textLines = deduplicatedParagraphs(
+            lines.filter { !equipment.contains($0.text) }
+                .map(\.text)
+                .map(withoutPageFurniture)
+                .filter { !$0.isEmpty }
+        )
 
         var titleCandidates: [String] = []
         var componentRows: [(String, ParsedIngredient)] = []
@@ -1591,13 +1599,11 @@ private struct GeneralRecipeParser {
         } else if let spatialSections = spatialSectionLines() {
             titleCandidates = spatialSections.introduction.filter(isPlausibleTitle)
             componentRows = parseIngredientSection(spatialSections.ingredients)
-            instructionRows = deduplicatedParagraphs(
-                spatialSections.instructions.filter {
-                    isUsefulInstruction($0)
-                        || recipeComponentHeading($0) != nil
-                        || isStepNumberMarker($0)
-                }
-            )
+            instructionRows = spatialSections.instructions.filter {
+                isUsefulInstruction($0)
+                    || recipeComponentHeading($0) != nil
+                    || isStepNumberMarker($0)
+            }
         } else {
             var section = Section.introduction
             var componentName = "Zutaten"
@@ -1623,6 +1629,14 @@ private struct GeneralRecipeParser {
                         componentRows.append((componentName, ingredient))
                     } else if isComponentHeading(line) {
                         componentName = line.trimmingCharacters(in: CharacterSet(charactersIn: ": "))
+                    } else if isActionInstruction(line) {
+                        // The method begins where the ingredient list ends, even
+                        // on a page that prints no heading above it. Without
+                        // this the steps were collected from the whole page
+                        // afterwards, introduction included, and lost their
+                        // order.
+                        section = .instructions
+                        instructionRows.append(line)
                     }
                 case .instructions:
                     if isUsefulInstruction(line)
@@ -1632,8 +1646,12 @@ private struct GeneralRecipeParser {
                     }
                 }
             }
-            instructionRows = deduplicatedParagraphs(instructionRows)
         }
+
+        // A sentence that reached the steps both as a printed line and as the
+        // paragraph containing it would otherwise be scheduled twice, no matter
+        // which reading above produced it.
+        instructionRows = deduplicatedParagraphs(instructionRows)
 
         if componentRows.isEmpty {
             componentRows = textLines.flatMap { line in
@@ -2190,7 +2208,13 @@ private struct GeneralRecipeParser {
             let name = String(text[nameRange]).trimmingCharacters(in: .whitespacesAndNewlines)
             let body = cleanedLine(String(text[start..<end]))
             guard !body.isEmpty else { continue }
-            components.append(ProseComponent(name: name, text: body))
+            // The next label's match consumes the full stop that ended this
+            // component's last sentence. Without it, baking the base and
+            // blending the filling were read as one step.
+            let isSentenceEnd = [".", "!", "?", ":"].contains { body.hasSuffix($0) }
+            components.append(
+                ProseComponent(name: name, text: isSentenceEnd ? body : body + ".")
+            )
         }
         guard !components.isEmpty else { return nil }
 
@@ -2202,6 +2226,63 @@ private struct GeneralRecipeParser {
             introduction = nil
         }
         return (components, introduction)
+    }
+
+    /// Strips the furniture a printed web page carries: the page counter, the
+    /// URL and the date of the print. Only the furniture is removed, not the
+    /// whole line — Vision merges the counter of a page onto its first
+    /// sentence, and dropping the line would cost that step. A line that
+    /// carried nothing else comes back empty and is discarded by the caller.
+    private func withoutPageFurniture(_ text: String) -> String {
+        let patterns: [String] = [
+            #"https?://\S+"#,
+            #"\bwww\.\S+"#,
+            #"\b(?:seite|page)\s+\d+\s+(?:von|of|sur|de)\s+\d+\b"#,
+            #"\b\d{1,2}[./]\d{1,2}[./]\d{2,4}\b"#,
+            #"^\s*\d{2}[./]\d{4}\b"#
+        ]
+        var value = text
+        for pattern in patterns {
+            value = value.replacingOccurrences(
+                of: pattern,
+                with: " ",
+                options: [.regularExpression, .caseInsensitive]
+            )
+        }
+        return cleanedLine(value)
+    }
+
+    /// The lines of an equipment column, which a printed recipe likes to set
+    /// beside its ingredient list. Its rows are formed exactly like an
+    /// ingredient — "1 moule à tarte", "1 Saladier" — so nothing in the text
+    /// tells them apart; only the heading above them does. Left in, the tart
+    /// tin and the whisk end up in the shopping list. The column ends at the
+    /// first vertical gap, so the method printed below it is kept.
+    private func equipmentColumnLines() -> Set<String> {
+        let headingNames = [
+            "material", "materiel", "utensilien", "zubehor", "werkzeug",
+            "equipment", "ustensiles", "geratschaften"
+        ]
+        let headings = lines.filter { headingNames.contains(normalized($0.text)) }
+        guard !headings.isEmpty else { return [] }
+
+        var masked: Set<String> = []
+        for heading in headings {
+            masked.insert(heading.text)
+            let column = lines.filter {
+                $0.page == heading.page
+                    && $0.x >= heading.x - 0.03
+                    && $0.y < heading.y - 0.005
+            }.sorted { $0.y > $1.y }
+
+            var previousY = heading.y
+            for line in column {
+                guard previousY - line.y <= 0.045 else { break }
+                masked.insert(line.text)
+                previousY = line.y
+            }
+        }
+        return masked
     }
 
     private func isRecipeComponentName(_ normalizedName: String) -> Bool {
@@ -2236,8 +2317,47 @@ private struct GeneralRecipeParser {
             with: ", ",
             options: [.regularExpression, .caseInsensitive]
         )
-        return splitOutsideParentheses(separated).compactMap { phrase in
+        let listed = splitOutsideParentheses(separated).compactMap { phrase in
             parseProseIngredient(phrase)
+        }
+
+        // A prose recipe does not necessarily name all of its ingredients
+        // before the first action: "mit 420 g geräuchertem Lachs verrühren und
+        // 3 frische Frühlingszwiebeln unterheben" carries two more.
+        let remainder = ingredientPrefix.count < text.count
+            ? String(text.dropFirst(ingredientPrefix.count))
+            : ""
+        var known = Set(listed.map { normalized($0.name) })
+        return listed + trailingProseIngredients(remainder).filter { ingredient in
+            known.insert(normalized(ingredient.name)).inserted
+        }
+    }
+
+    /// The amounts a component still names after its first action verb. Only a
+    /// mass or volume unit, or a name that a recipe counts by the piece,
+    /// qualifies — that is what keeps "30 Min." and "200 Grad" out of the
+    /// ingredient list, since they are printed exactly like an amount.
+    private func trailingProseIngredients(_ text: String) -> [ParsedIngredient] {
+        let pattern = #"(?:^|[\s(])(\d+(?:[.,]\d+)?|[½¼¾⅓⅔])\s*(kg|g|mg|l|dl|cl|ml|EL|TL|Prise|Bund|Päckchen|Packung)?\s+((?:[\p{Ll}][\p{L}]*,?\s+){0,3}[\p{Lu}][\p{L}]*(?:-[\p{L}]+)*)"#
+        guard let expression = try? NSRegularExpression(pattern: pattern) else { return [] }
+
+        return expression.matches(
+            in: text,
+            range: NSRange(text.startIndex..., in: text)
+        ).compactMap { match in
+            let parts = (1...3).map { index -> String in
+                guard let range = Range(match.range(at: index), in: text) else { return "" }
+                return String(text[range])
+            }
+            guard let ingredient = parseProseIngredient(
+                parts.joined(separator: " ")
+            ) else {
+                return nil
+            }
+            let isCounted = isCountedIngredient(ingredient.name)
+                || ["ei", "eier", "oeuf", "oeufs"].contains(normalized(ingredient.name))
+            guard !ingredient.unit.isEmpty || isCounted else { return nil }
+            return ingredient
         }
     }
 
@@ -2273,12 +2393,13 @@ private struct GeneralRecipeParser {
             return nil
         }
         let value = phrase.trimmingCharacters(in: .whitespacesAndNewlines)
-        let quantifiedPattern = #"(?:^|\s)(\d+(?:[.,]\d+)?|[½¼¾⅓⅔])\s*(kg|g|mg|l|Liter|dl|cl|ml|EL|TL|cuillère à café|cuillère à soupe|cs|c\.?\s*à\.?\s*c\.?|c\.?\s*à\.?\s*s\.?|Teelöffel|Esslöffel|Stück|Stk\.?|Würfel|Prise|pinc[eé]e|Bund|Päckchen|Packung|sachet|Tasse|Rolle)?\s+(.+?)\s*$"#
+        let quantifiedPattern = #"(?:^|\s)(\d+(?:[.,]\d+)?|[½¼¾⅓⅔])\s*(kg|grammes?|g|mg|l|Liter|dl|cl|ml|EL|TL|cuillère à café|cuillère à soupe|cs|c\.?\s*à\.?\s*c\.?|c\.?\s*à\.?\s*s\.?|Teelöffel|Esslöffel|Stück|Stk\.?|Würfel|Prise|pinc[eé]e|Bund|Päckchen|Packung|sachet|Tasse|Rolle)?\s+(.+?)\s*$"#
         if let values = captures(quantifiedPattern, in: value), values.count == 3 {
-            let rawName = cleanedIngredientName(values[2])
+            let rawName = cleanedIngredientName(proseIngredientName(values[2]))
             let unit: String
             let name: String
-            if values[1].isEmpty, ["eier", "ei", "oeufs", "oeuf"].contains(normalized(rawName)) {
+            let headWord = normalized(rawName).split(separator: " ").last.map(String.init) ?? ""
+            if values[1].isEmpty, ["eier", "ei", "oeufs", "oeuf"].contains(headWord) {
                 unit = "ei"
                 name = rawName
             } else if values[1].isEmpty, isCountedIngredient(rawName) {
@@ -2294,7 +2415,30 @@ private struct GeneralRecipeParser {
 
         let wordAmountPattern = #"(?:^|\s)(?:ein(?:e|en)?)\s+(Prise|pinc[eé]e|Bund|Päckchen|Packung|sachet|Rolle)\s+(.+?)\s*$"#
         guard let values = captures(wordAmountPattern, in: value), values.count == 2 else { return nil }
-        return ParsedIngredient(amount: 1, unit: canonicalUnit(values[0]), name: cleanedIngredientName(values[1]))
+        return ParsedIngredient(
+            amount: 1,
+            unit: canonicalUnit(values[0]),
+            name: cleanedIngredientName(proseIngredientName(values[1]))
+        )
+    }
+
+    /// Where a German ingredient phrase stops being the ingredient: "eine Prise
+    /// Salz miteinander" names Salz, "3 leicht geschlagene Eier in einen Mixer"
+    /// names the eggs. German capitalizes its nouns, so the phrase ends with the
+    /// first run of capitalized words — together with the grade number or the
+    /// parenthesis that may follow it — while the method behind it is dropped.
+    /// The qualifiers in front of the noun are kept, because "brauner Zucker" is
+    /// a different ingredient from Zucker. A phrase with no capitalized word, as
+    /// in French, is left as it is.
+    private func proseIngredientName(_ phrase: String) -> String {
+        // The temperature is kept even where the OCR lost the opening
+        // parenthesis of "Wasser (40 °C)", because the bare "Wasser 40" would
+        // read as a second amount.
+        let pattern = #"[\p{Lu}][\p{L}]*(?:-[\p{L}]+)*(?:\s+[\p{Lu}][\p{L}]*(?:-[\p{L}]+)*)*(?:\s+\d+(?:\s*°\s*[CF]\)?)?)?(?:\s*\([^)]*\))?"#
+        guard let range = phrase.range(of: pattern, options: .regularExpression) else {
+            return phrase
+        }
+        return String(phrase[..<range.upperBound])
     }
 
     private func isCountedIngredient(_ name: String) -> Bool {
@@ -2484,6 +2628,21 @@ private struct GeneralRecipeParser {
             // inside the recognized steps.
             guard last.text.count < 45, line.text.count < 45 else {
                 rows.append(line)
+                continue
+            }
+
+            // A short paragraph consists of a single printed line and shares its
+            // baseline, so the two arrive as one sentence twice. Only the longer
+            // wording is kept — merging them wrote "Backofen auf Stein backen."
+            // into the same step twice. Numbers are exempt: an amount is a
+            // substring of the percentage printed beside it.
+            let lastValue = normalized(last.text)
+            let lineValue = normalized(line.text)
+            if last.text.count >= 12, line.text.count >= 12,
+               lastValue.contains(lineValue) || lineValue.contains(lastValue) {
+                if line.text.count > last.text.count {
+                    rows[rows.count - 1] = line
+                }
                 continue
             }
 
@@ -3162,15 +3321,27 @@ private struct GeneralRecipeParser {
             for (index, row) in ingredients.enumerated() where !assignedIndices.contains(index) {
                 let ingredientName = normalizedNames[index]
                 let sameNameCount = normalizedNames.filter { $0 == ingredientName }.count
-                let nameWords = ingredientName.split(separator: " ")
+                // A German compound carries its head last, and only the head
+                // identifies the ingredient: matching any word of "3 leicht
+                // geschlagene Eier" put the eggs of the filling into the dough,
+                // whose prose happens to say "leicht" as well.
+                let headWord = ingredientName.split(separator: " ")
                     .map(String.init)
-                    .filter { $0.count >= 4 }
-                let containsName = nameWords.contains(where: blockText.contains)
+                    .last { $0.count >= 4 } ?? ingredientName
+                let containsName = blockText.contains(headWord)
                 let amountText = row.1.amount.formatted(
                     .number.locale(Locale(identifier: "de_DE"))
                         .precision(.fractionLength(0...2))
                 )
-                let containsAmount = blockText.contains(normalized(amountText))
+                // The amount has to stand on its own. Searched as a substring,
+                // the 80 g of the filling was found inside the "180 Grad" of
+                // the dough and moved with it.
+                let containsAmount = blockText.range(
+                    of: #"(?<!\d)"#
+                        + NSRegularExpression.escapedPattern(for: normalized(amountText))
+                        + #"(?!\d)"#,
+                    options: .regularExpression
+                ) != nil
 
                 if containsName && (containsAmount || sameNameCount == 1) {
                     result.append((
@@ -3269,7 +3440,7 @@ private struct GeneralRecipeParser {
             return nil
         }
 
-        let pattern = #"^\s*[•·\-–—]?\s*(\d+(?:[.,]\d+)?|[½¼¾⅓⅔])\s*(kg|g|mg|l|Liter|dl|cl|ml|EL|TL|cuillère à café|cuillère à soupe|cs|c\.?\s*à\.?\s*[cs]\.?|Teelöffel|Esslöffel|Stück|Stk\.?|Würfel|Prise|pinc[eé]e|Bund|Päckchen|Packung|sachet|Tasse|Tassen)?\s+(.+?)\s*$"#
+        let pattern = #"^\s*[•·\-–—]?\s*(\d+(?:[.,]\d+)?|[½¼¾⅓⅔])\s*(kg|grammes?|gr\.?|g|mg|l|Liter|dl|cl|ml|EL|TL|cuillère à café|cuillère à soupe|cs|c\.?\s*à\.?\s*[cs]\.?|Teelöffel|Esslöffel|Stück|Stk\.?|Würfel|Prise|pinc[eé]e|Bund|Päckchen|Packung|sachet|Tasse|Tassen)?\s+(.+?)\s*$"#
         guard let values = captures(pattern, in: line), values.count == 3 else { return nil }
         let rawName = cleanedIngredientName(values[2])
         var unit = canonicalUnit(values[1])
@@ -3284,7 +3455,11 @@ private struct GeneralRecipeParser {
         let normalizedName = normalized(name)
         guard name.count > 1, !isNutrition(name) else { return nil }
 
-        if unit.isEmpty, ["eier", "ei", "oeufs", "oeuf"].contains(normalizedName) {
+        let eggWords = ["eier", "ei", "oeufs", "oeuf", "œufs", "œuf"]
+        if unit.isEmpty, normalizedName.split(separator: " ").contains(where: {
+            eggWords.contains(String($0))
+        }) {
+            // "3 œufs entiers" counts eggs just as "3 Eier" does.
             unit = "ei"
         } else if unit.isEmpty, isCountedIngredient(name) {
             unit = "Stück"
@@ -3515,8 +3690,24 @@ private struct GeneralRecipeParser {
         return "Alle Zutaten für die Komponente \(component) " + source[verbRange.lowerBound...]
     }
 
+    /// Splits prose into sentences. The abbreviations a recipe abbreviates with
+    /// are excluded, because "20 Min. kaltstellen" and "bei 180 Grad ca. 15 Min.
+    /// backen" would otherwise each become two steps — and the one carrying the
+    /// duration would lose the action it belongs to.
     private func sentenceParts(_ text: String) -> [String] {
-        let expression = try? NSRegularExpression(pattern: #"(?<=[.!?])\s+"#)
+        let abbreviations: [String] = [
+            "min", "mín", "std", "stdn", "ca", "bzw", "evtl", "ggf", "usw",
+            "z", "b", "el", "tl", "pck", "gr", "kl", "abb", "nr", "vgl"
+        ]
+        var pattern = #"(?<=[.!?])"#
+        for abbreviation in abbreviations {
+            pattern += #"(?<!\b"# + abbreviation + #"\.)"#
+        }
+        pattern += #"\s+"#
+        let expression = try? NSRegularExpression(
+            pattern: pattern,
+            options: [.caseInsensitive]
+        )
         let markedText = expression?.stringByReplacingMatches(
             in: text,
             range: NSRange(text.startIndex..., in: text),
@@ -3564,9 +3755,20 @@ private struct GeneralRecipeParser {
             || value.contains("ofen") && value.range(of: #"\b\d{2,3}\b"#, options: .regularExpression) != nil
     }
 
+    /// Whether a line is the heading of an ingredient list. The article in front
+    /// of it is ignored: a page printing "Les ingrédients :" means the same
+    /// section as one printing the bare word, and without this the whole page
+    /// fell through to the last reading, which collects amounts from every
+    /// sentence — the page count "Seite 1 von 2" among them.
     private func isIngredientHeading(_ value: String) -> Bool {
-        ["zutaten", "zutatenliste", "ingredients"].contains(value)
-            || value.hasPrefix("zutaten fur ")
+        let articles = ["les", "la", "le", "die", "der", "das"]
+        var words = value.split(separator: " ").map(String.init)
+        if let first = words.first, articles.contains(first) {
+            words.removeFirst()
+        }
+        let heading = words.joined(separator: " ")
+        return ["zutaten", "zutatenliste", "ingredients", "ingredienten"].contains(heading)
+            || heading.hasPrefix("zutaten fur ")
     }
 
     private func isInstructionHeading(_ value: String) -> Bool {
@@ -3672,22 +3874,35 @@ private struct GeneralRecipeParser {
         case "prise", "pincee": return "Pr"
         case "packchen", "packung", "sachet": return "Pck"
         case "liter": return "l"
+        case "gramme", "grammes", "gr": return "g"
         default: return unit
         }
     }
 
     private func cleanedIngredientName(_ text: String) -> String {
+        // A written-out article has to end at a word boundary: "de la" also
+        // matches the first letters of "de lardons fumés", and stripping it
+        // left "rdons". The elided "d'" is the exception — it is written
+        // against its noun, as in "d'emmental râpé".
         let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(
-                of: #"^(?:de la|du|des|de|d['’])\s*"#,
+                of: #"^(?:(?:de la|du|des|de)(?![\p{L}])\s*|d['’]\s*)"#,
                 with: "",
                 options: [.regularExpression, .caseInsensitive]
             )
 
+        // A closing parenthesis whose opening one the OCR lost — "Wasser 40 °C)"
+        // for "Wasser (40 °C)" — only adds a stray character to the name.
+        let closed = value.filter { $0 == ")" }.count
+        let opened = value.filter { $0 == "(" }.count
+        if closed > opened, value.hasSuffix(")") {
+            return String(value.dropLast()).trimmingCharacters(in: .whitespaces)
+        }
+
         // A parenthesis that never closes means its remainder wrapped onto a
         // line the OCR returned separately. The bare name reads better than a
         // dangling fragment such as "Walnüsse (geröstet".
-        guard value.filter({ $0 == "(" }).count > value.filter({ $0 == ")" }).count,
+        guard opened > closed,
               let openIndex = value.lastIndex(of: "(") else {
             return value
         }
