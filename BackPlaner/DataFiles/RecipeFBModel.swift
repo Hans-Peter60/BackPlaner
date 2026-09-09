@@ -23,6 +23,23 @@ private enum RecipeImageUploadError: LocalizedError {
 /// A recipe that only its author may see needs an identity that survives a
 /// reinstall, otherwise the recipe would be locked away with the next anonymous
 /// uid. Only a permanent account (Sign in with Apple) provides one.
+/// Why deleting the account could not be carried out.
+enum AccountDeletionError: LocalizedError {
+    /// Firebase refuses to delete a user whose sign-in is no longer recent.
+    /// The caller has to reauthenticate and try again.
+    case requiresRecentLogin
+    case notSignedIn
+
+    var errorDescription: String? {
+        switch self {
+        case .requiresRecentLogin:
+            return "Zur Sicherheit ist eine erneute Anmeldung nötig, bevor das Konto gelöscht werden kann."
+        case .notSignedIn:
+            return "Es ist kein Konto angemeldet, das gelöscht werden könnte."
+        }
+    }
+}
+
 enum PrivateRecipeError: LocalizedError {
     case accountRequired
     /// Whether a cloud copy still exists cannot be decided while signed out,
@@ -693,6 +710,143 @@ class RecipeFBModel: ObservableObject {
     private func finishSignIn() {
         checkAdminStatus()
         getRecipesFB()
+    }
+
+    /// Deletes the signed-in account for good (App Store Guideline 5.1.1(v)
+    /// requires this wherever an app lets people create one).
+    ///
+    /// Removed are the author-only recipes with their subcollections and their
+    /// images, then the account itself. PUBLISHED recipes deliberately stay:
+    /// they are shared content other users may already be baking from. Their
+    /// `authorId` then points at an account that no longer exists, so only an
+    /// admin can take them down afterwards.
+    ///
+    /// Recipes stored on the device are untouched — they belong to the device
+    /// and its iCloud, not to this account.
+    func deleteAccount(completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser, !user.isAnonymous else {
+            completion(.failure(AccountDeletionError.notSignedIn))
+            return
+        }
+        let uid = user.uid
+
+        deletePrivateRecipes(of: uid) { [weak self] in
+            guard let self else { return }
+
+            // Sweep the whole image folder afterwards, so an upload that failed
+            // halfway does not leave a private picture behind.
+            self.deletePrivateImages(of: uid) {
+                user.delete { error in
+                    DispatchQueue.main.async {
+                        if let error = error as NSError? {
+                            if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                                completion(.failure(AccountDeletionError.requiresRecentLogin))
+                            } else {
+                                AppLog.firebase.error("Account could not be deleted: \(error.localizedDescription)")
+                                completion(.failure(error))
+                            }
+                            return
+                        }
+
+                        // The account is gone; carry on anonymously so browsing
+                        // and publishing keep working.
+                        self.isAdmin = false
+                        Auth.auth().signInAnonymously { _, signInError in
+                            if let signInError {
+                                AppLog.firebase.error("Anonymous re-sign-in after deletion failed: \(signInError.localizedDescription)")
+                            }
+                            self.getRecipesFB()
+                            completion(.success(()))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// Deletes every author-only recipe of `uid`, each with its subcollections
+    /// and its image, and takes them out of the in-memory list.
+    private func deletePrivateRecipes(of uid: String, completion: @escaping () -> Void) {
+        db.collection(RecipeVisibility.authorOnly.collectionName)
+            .whereField("authorId", isEqualTo: uid)
+            .getDocuments { [weak self] snapshot, error in
+                guard let self else { return }
+
+                if let error {
+                    AppLog.firebase.error("Private recipes could not be listed for deletion: \(error.localizedDescription)")
+                }
+
+                let documents = snapshot?.documents ?? []
+                guard !documents.isEmpty else {
+                    completion()
+                    return
+                }
+
+                let group = DispatchGroup()
+                for document in documents {
+                    // A stand-in carrying just what performDelete needs, so the
+                    // deletion does not depend on the list having been loaded.
+                    let recipe = RecipeFB()
+                    recipe.id         = document.documentID
+                    recipe.authorId   = uid
+                    recipe.visibility = .authorOnly
+                    recipe.image      = document["image"] as? String ?? ""
+
+                    group.enter()
+                    self.performDelete(recipe) { _ in group.leave() }
+                }
+                group.notify(queue: .main) { completion() }
+            }
+    }
+
+    /// Empties the account's private image folder. Best effort: a leftover
+    /// object must not stop the account from being deleted.
+    private func deletePrivateImages(of uid: String, completion: @escaping () -> Void) {
+        let folder = storage.reference().child("\(RecipeVisibility.authorOnly.imageFolder)/\(uid)")
+
+        folder.listAll { result, error in
+            if let error {
+                AppLog.firebase.error("Private images could not be listed: \(error.localizedDescription)")
+                completion()
+                return
+            }
+
+            let items = result?.items ?? []
+            guard !items.isEmpty else {
+                completion()
+                return
+            }
+
+            let group = DispatchGroup()
+            for item in items {
+                group.enter()
+                item.delete { _ in group.leave() }
+            }
+            group.notify(queue: .main) { completion() }
+        }
+    }
+
+    /// Confirms the identity again with a fresh Apple credential, which is what
+    /// Firebase demands before deleting an account that signed in a while ago.
+    func reauthenticateWithApple(idTokenString: String, rawNonce: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else {
+            completion(.failure(AccountDeletionError.notSignedIn))
+            return
+        }
+
+        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                       rawNonce: rawNonce,
+                                                       fullName: nil)
+        user.reauthenticate(with: credential) { _, error in
+            DispatchQueue.main.async {
+                if let error {
+                    AppLog.firebase.error("Reauthentication failed: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
     }
 
     /// Signs the account out and returns to an anonymous identity so browsing

@@ -15,7 +15,17 @@ import CryptoKit
 /// the nonce handling exists exactly once.
 struct AppleSignInView: View {
 
+    /// What the Apple credential is used for. Deleting an account needs a
+    /// FRESH credential for the account that is already signed in, which is a
+    /// different Firebase call than signing in.
+    enum Purpose {
+        case signIn
+        case reauthenticate
+    }
+
     @EnvironmentObject private var modelFB: RecipeFBModel
+
+    var purpose: Purpose = .signIn
 
     /// Called after a successful sign-in, e.g. to continue a pending save.
     var onSignedIn: (() -> Void)?
@@ -68,7 +78,7 @@ struct AppleSignInView: View {
                 return
             }
             isSigningIn = true
-            modelFB.signInWithApple(idTokenString: idToken, rawNonce: nonce) { result in
+            let finish: (Result<Void, Error>) -> Void = { result in
                 isSigningIn = false
                 switch result {
                 case .success:
@@ -76,6 +86,13 @@ struct AppleSignInView: View {
                 case .failure(let error):
                     errorMessage = error.localizedDescription
                 }
+            }
+
+            switch purpose {
+            case .signIn:
+                modelFB.signInWithApple(idTokenString: idToken, rawNonce: nonce, completion: finish)
+            case .reauthenticate:
+                modelFB.reauthenticateWithApple(idTokenString: idToken, rawNonce: nonce, completion: finish)
             }
         }
     }

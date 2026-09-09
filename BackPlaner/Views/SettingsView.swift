@@ -12,6 +12,13 @@ struct SettingsView: View {
 
     @EnvironmentObject private var modelFB: RecipeFBModel
 
+    // Account deletion (App Store Guideline 5.1.1(v)).
+    @State private var showDeleteAccountConfirm = false
+    @State private var showReauthentication     = false
+    @State private var isDeletingAccount        = false
+    @State private var deleteErrorMessage: String?
+    @State private var showDeletedConfirmation  = false
+
     var body: some View {
         Form {
             Section("Allgemein") {
@@ -76,6 +83,76 @@ struct SettingsView: View {
         .clearScrollBackground()
         .warmBackground()
         .navigationTitle("Einstellungen")
+        .overlay {
+            if isDeletingAccount {
+                ProgressView("Konto wird gelöscht …")
+                    .padding(24)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+            }
+        }
+        .confirmationDialog("Konto endgültig löschen?", isPresented: $showDeleteAccountConfirm, titleVisibility: .visible) {
+            Button("Konto löschen", role: .destructive) { deleteAccount() }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Deine privaten Rezepte in der Rezept-Datenbank werden mit ihren Bildern gelöscht und die Anmeldung wird aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen.")
+        }
+        // Firebase refuses to delete an account whose sign-in is not recent, so
+        // the identity is confirmed once more and the deletion then continues.
+        .sheet(isPresented: $showReauthentication) {
+            NavigationStack {
+                Form {
+                    Section {
+                        Text("Zur Sicherheit musst Du Dich noch einmal anmelden, bevor das Konto gelöscht wird.")
+                            .font(Theme.bodyFont(15))
+
+                        AppleSignInView(purpose: .reauthenticate) {
+                            showReauthentication = false
+                            deleteAccount()
+                        }
+                    }
+                }
+                .clearScrollBackground()
+                .warmBackground()
+                .navigationTitle("Erneut anmelden")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Abbrechen") { showReauthentication = false }
+                    }
+                }
+            }
+        }
+        .alert("Konto wurde gelöscht", isPresented: $showDeletedConfirmation) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Deine privaten Rezepte und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden.")
+        }
+        .alert("Löschen fehlgeschlagen", isPresented: Binding(
+            get: { deleteErrorMessage != nil },
+            set: { if !$0 { deleteErrorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { deleteErrorMessage = nil }
+        } message: {
+            Text(deleteErrorMessage ?? "")
+        }
+    }
+
+    /// Deletes the account, asking for a fresh sign-in when Firebase considers
+    /// the current one too old.
+    private func deleteAccount() {
+        isDeletingAccount = true
+        modelFB.deleteAccount { result in
+            isDeletingAccount = false
+            switch result {
+            case .success:
+                showDeletedConfirmation = true
+            case .failure(let error):
+                if case AccountDeletionError.requiresRecentLogin = error {
+                    showReauthentication = true
+                } else {
+                    deleteErrorMessage = error.localizedDescription
+                }
+            }
+        }
     }
 
     /// The account section serves two purposes: it is where an author signs in
@@ -96,6 +173,11 @@ struct SettingsView: View {
                 Button("Abmelden", role: .destructive) {
                     modelFB.signOutAccount()
                 }
+
+                Button("Konto löschen", role: .destructive) {
+                    showDeleteAccountConfirm = true
+                }
+                .disabled(isDeletingAccount)
             } else {
                 AppleSignInView()
             }
