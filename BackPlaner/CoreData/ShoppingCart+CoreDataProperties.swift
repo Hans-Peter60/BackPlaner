@@ -20,7 +20,32 @@ extension ShoppingCart {
     @NSManaged public var date:       Date
     @NSManaged public var ingredients:NSSet
     @NSManaged public var recipes:    NSSet
-    
+    /// Names of the cloud recipes whose ingredients are on this list, one per
+    /// line. A cloud recipe has no Core Data object to relate to, so its name
+    /// is kept here — otherwise the list would show ingredients with no clue
+    /// where they came from.
+    @NSManaged public var cloudRecipeNames: String?
+
+    /// The cloud recipe names as a list, empty when none were added.
+    public var cloudRecipeNamesArray: [String] {
+        (cloudRecipeNames ?? "")
+            .split(separator: "\n")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+    }
+
+    /// Records that a cloud recipe was put on this list, without duplicates.
+    public func addCloudRecipeName(_ name: String) {
+        let cleanedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !cleanedName.isEmpty else { return }
+
+        var names = cloudRecipeNamesArray
+        guard !names.contains(cleanedName) else { return }
+
+        names.append(cleanedName)
+        cloudRecipeNames = names.joined(separator: "\n")
+    }
+
     public var ingredientsArray: [Ingredient] {
         let set = ingredients as? Set<Ingredient> ?? []
         return set.sorted {

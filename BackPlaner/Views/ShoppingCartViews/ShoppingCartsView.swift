@@ -54,10 +54,13 @@ struct ShoppingCartsView: View {
                             }
                             
                             let recipes = (shoppingCart.recipes as? Set<Recipe> ?? []).sorted { $0.name < $1.name }
-                            if !recipes.isEmpty {
+                            // Recipes from the cloud have no Core Data object,
+                            // so their names are listed from the stored names.
+                            let recipeNames = recipes.map(\.name) + shoppingCart.cloudRecipeNamesArray
+                            if !recipeNames.isEmpty {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    ForEach(recipes) { recipe in
-                                        Text("- " + recipe.name)
+                                    ForEach(recipeNames.sorted(), id: \.self) { recipeName in
+                                        Text("- " + recipeName)
                                             .font(Theme.brandFont(16))
                                     }
                                 }
@@ -70,25 +73,11 @@ struct ShoppingCartsView: View {
                                     .foregroundColor(Theme.subtitle)
                             } else {
                                 ForEach(shoppingCart.ingredientsArray.sorted(by: { $0.name < $1.name })) { ingredient in
-                                    HStack {
-                                        Text("• " + Rational.getPortion(unit:ingredient.unit ?? "", weight:ingredient.weight, num:ingredient.num, denom:ingredient.denom, targetServings: 2) + ingredient.name)
-                                            .font(Theme.bodyFont(15))
-                                            .onTapGesture {
-                                                selectedIngredient = ingredient
-                                            }
-                                            // A tap gesture alone carries no semantics: without the
-                                            // button trait VoiceOver announces the row as plain text
-                                            // and never offers to activate it.
-                                            .accessibilityAddTraits(.isButton)
-                                            .accessibilityHint("Menge ändern")
-
-                                        Spacer()
-
-                                        IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Zutat von der Einkaufsliste entfernen", controlSize: .small) {
-                                            remove(ingredient)
-                                        }
-                                        .padding(.trailing)
-                                    }
+                                    ShoppingCartIngredientRow(
+                                        ingredient: ingredient,
+                                        onEdit: { selectedIngredient = ingredient },
+                                        onRemove: { remove(ingredient) }
+                                    )
                                 }
                             }
                         }
@@ -145,6 +134,39 @@ struct ShoppingCartsView: View {
             try viewContext.save()
         } catch {
             AppLog.shoppingCart.error("\(message): \(error)")
+        }
+    }
+}
+
+/// One line of a shopping list.
+///
+/// Its own view with an `@ObservedObject`: as a plain `Text` inside the loop
+/// the row was built from a value SwiftUI does not watch, so a changed amount
+/// only showed up after leaving and reopening the screen.
+private struct ShoppingCartIngredientRow: View {
+
+    @ObservedObject var ingredient: Ingredient
+
+    var onEdit: () -> Void
+    var onRemove: () -> Void
+
+    var body: some View {
+        HStack {
+            Text("• " + Rational.getPortion(unit: ingredient.unit ?? "", weight: ingredient.weight, num: ingredient.num, denom: ingredient.denom, targetServings: 2) + ingredient.name)
+                .font(Theme.bodyFont(15))
+                .onTapGesture { onEdit() }
+                // A tap gesture alone carries no semantics: without the button
+                // trait VoiceOver announces the row as plain text and never
+                // offers to activate it.
+                .accessibilityAddTraits(.isButton)
+                .accessibilityHint("Menge ändern")
+
+            Spacer()
+
+            IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Zutat von der Einkaufsliste entfernen", controlSize: .small) {
+                onRemove()
+            }
+            .padding(.trailing)
         }
     }
 }

@@ -62,6 +62,19 @@ struct TabsFBView: View {
                     }
                 }
                 .tag(1)
+
+            // Same place as for a recipe of one's own, so the shopping list is
+            // where people look for it.
+            NavigationStack {
+                ShoppingCartSelectFormView(recipeFB: recipeFB)
+            }
+                .tabItem {
+                    VStack {
+                        Image(systemName: "cart")
+                        Text("Einkaufsliste")
+                    }
+                }
+                .tag(2)
         }
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.

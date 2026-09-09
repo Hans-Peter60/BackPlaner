@@ -11,7 +11,7 @@
     { "name":"Rolle",        "abbreviation":"Rolle",  "factor":275.0,  "baseUnit":"g" },
     { "name":"Päckchen",     "abbreviation":"Pck",    "factor":11.0,   "baseUnit":"g" },
     { "name":"Handvoll",     "abbreviation":"Handvoll", "factor":25.0, "baseUnit":"g" },
-    { "name":"Stückchen",    "abbreviation":"Stückchen", "factor":10.0, "baseUnit":"g" },
+    { "name":"Stück",        "abbreviation":"St",     "factor":1.0,    "baseUnit":"St" },
     { "name":"Ei(s)",        "abbreviation":"ei(s)",  "factor":50,     "baseUnit":"g" },
     { "name":"Ei(m)",        "abbreviation":"ei(m)",  "factor":60,     "baseUnit":"g" },
     { "name":"Ei(l)",        "abbreviation":"ei(l)",  "factor":70,     "baseUnit":"g" },
