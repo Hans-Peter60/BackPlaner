@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -99,7 +99,18 @@
 		6AF9FF6B304997EA00FC72FA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6AF9FF6A304997EA00FC72FA /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6A02A0A3305268C00031651D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF754D12B75018E00EADD84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AF754D82B75018E00EADD84;
+			remoteInfo = BackPlaner;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBDetailView.swift; sourceTree = "<group>"; };
 		6A1131F02B7CF93200CDF054 /* RecipeFBListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBListView.swift; sourceTree = "<group>"; };
 		6A1131F12B7CF93300CDF054 /* InstructionsFBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsFBView.swift; sourceTree = "<group>"; };
@@ -191,7 +202,18 @@
 		6AF9268A3045772B0081227C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6A02A0A0305268C00031651D /* BackPlanerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BackPlanerTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		6A02A09C305268C00031651D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF754D62B75018E00EADD84 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,6 +399,7 @@
 			isa = PBXGroup;
 			children = (
 				6AF754DB2B75018E00EADD84 /* BackPlaner */,
+				6A02A0A0305268C00031651D /* BackPlanerTests */,
 				6AF754DA2B75018E00EADD84 /* Products */,
 				57CEA1CA35D3B82DCCF4096B /* Frameworks */,
 				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
@@ -387,6 +410,7 @@
 			isa = PBXGroup;
 			children = (
 				6AF754D92B75018E00EADD84 /* BackPlaner.app */,
+				6A02A09F305268C00031651D /* BackPlanerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -424,6 +448,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6A02A09E305268C00031651D /* BackPlanerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A02A0A7305268C00031651D /* Build configuration list for PBXNativeTarget "BackPlanerTests" */;
+			buildPhases = (
+				6A02A09B305268C00031651D /* Sources */,
+				6A02A09C305268C00031651D /* Frameworks */,
+				6A02A09D305268C00031651D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A02A0A4305268C00031651D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6A02A0A0305268C00031651D /* BackPlanerTests */,
+			);
+			name = BackPlanerTests;
+			packageProductDependencies = (
+			);
+			productName = BackPlanerTests;
+			productReference = 6A02A09F305268C00031651D /* BackPlanerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6AF754D82B75018E00EADD84 /* BackPlaner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6AF754EC2B75018F00EADD84 /* Build configuration list for PBXNativeTarget "BackPlaner" */;
@@ -454,9 +501,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
+					6A02A09E305268C00031651D = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 6AF754D82B75018E00EADD84;
+					};
 					6AF754D82B75018E00EADD84 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -481,11 +532,19 @@
 			projectRoot = "";
 			targets = (
 				6AF754D82B75018E00EADD84 /* BackPlaner */,
+				6A02A09E305268C00031651D /* BackPlanerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6A02A09D305268C00031651D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF754D72B75018E00EADD84 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,6 +564,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6A02A09B305268C00031651D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF754D52B75018E00EADD84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -591,7 +657,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6A02A0A4305268C00031651D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AF754D82B75018E00EADD84 /* BackPlaner */;
+			targetProxy = 6A02A0A3305268C00031651D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6A02A0A5305268C00031651D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hpm64625.BackPlaner.BackPlanerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BackPlaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BackPlaner";
+				XROS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Debug;
+		};
+		6A02A0A6305268C00031651D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hpm64625.BackPlaner.BackPlanerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BackPlaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BackPlaner";
+				XROS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Release;
+		};
 		6AF754EA2B75018F00EADD84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -790,6 +914,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6A02A0A7305268C00031651D /* Build configuration list for PBXNativeTarget "BackPlanerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A02A0A5305268C00031651D /* Debug */,
+				6A02A0A6305268C00031651D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6AF754D42B75018E00EADD84 /* Build configuration list for PBXProject "BackPlaner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
