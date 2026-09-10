@@ -13,7 +13,7 @@ private struct SelectedRecipeImage: Identifiable {
 private enum RecipeImportLayout: String, CaseIterable, Identifiable {
     case automatic
     case general
-    case ploetzblog
+    case special
 
     var id: Self { self }
 
@@ -21,7 +21,7 @@ private enum RecipeImportLayout: String, CaseIterable, Identifiable {
         switch self {
         case .automatic: "Automatisch"
         case .general: "Allgemein"
-        case .ploetzblog: "Ploetzblog"
+        case .special: "Spezial"
         }
     }
 
@@ -31,7 +31,7 @@ private enum RecipeImportLayout: String, CaseIterable, Identifiable {
             "Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt."
         case .general:
             "Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen."
-        case .ploetzblog:
+        case .special:
             "Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel."
         }
     }
@@ -234,8 +234,8 @@ struct RecipeImageImportView: View {
                     result = try await analysisAgent.analyze(images: images, progress: progress)
                 case .general:
                     result = try await analysisAgent.analyzeGeneralRecipe(images: images, progress: progress)
-                case .ploetzblog:
-                    result = try await analysisAgent.analyzePloetzblogRecipe(images: images, progress: progress)
+                case .special:
+                    result = try await analysisAgent.analyzeSpecialRecipe(images: images, progress: progress)
                 }
                 await MainActor.run {
                     analysisResult = result

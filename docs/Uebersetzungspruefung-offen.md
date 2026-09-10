@@ -68,23 +68,23 @@ Die bereits geprüften 269 Texte stehen in `Uebersetzungspruefung-FR.md` und sin
 | 52 | Nur auf dem Gerät | On this device only | Uniquement sur l’appareil | en=machine_translated / fr=machine_translated |  |  |  |
 | 53 | Nur auf dem Gerät speichern | Save on this device only | Enregistrer uniquement sur l’appareil | en=machine_translated / fr=machine_translated |  |  |  |
 | 54 | Nur meine | Mine only | Les miennes | en=machine_translated / fr=machine_translated |  |  |  |
-| 55 | Ploetzblog | Ploetzblog | Ploetzblog | en=machine_translated / fr=machine_translated |  |  |  |
-| 56 | Ploetzblog (zweispaltig) | Ploetzblog (two-column) | Ploetzblog (deux colonnes) | en=machine_translated / fr=machine_translated |  |  |  |
-| 57 | Privat in der Cloud | Private in the cloud | Privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
-| 58 | Privat in der Cloud speichern | Save privately in the cloud | Enregistrer en privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
-| 59 | Private Rezepte in der Rezept-Datenbank gehören zu Deinem Apple-Konto. Ohne Anmeldung wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar. | Private recipes in the recipe database belong to your Apple Account. Without signing in, the recipe would no longer be accessible after you reinstall the app. | Les recettes privées dans la base de recettes sont liées à votre compte Apple. Sans connexion, la recette ne serait plus accessible après une réinstallation. | en=machine_translated / fr=machine_translated | langer Text |  |  |
-| 60 | Rezept veröffentlichen? | Publish recipe? | Publier la recette ? | en=machine_translated / fr=machine_translated |  |  |  |
-| 61 | Rezept wird veröffentlicht … | Publishing recipe… | La recette est en cours de publication… | en=machine_translated / fr=machine_translated |  |  |  |
-| 62 | Rezept wurde veröffentlicht | Recipe was published | La recette a été publiée | en=machine_translated / fr=machine_translated |  |  |  |
-| 63 | Rezeptbild | Recipe image | Image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
-| 64 | Rezeptbild vergrößern | Enlarge recipe image | Agrandir l’image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
-| 65 | Rezepte filtern | Filter recipes | Filtrer les recettes | en=machine_translated / fr=machine_translated |  |  |  |
-| 66 | Rezeptname | Recipe name | Nom de la recette | en=machine_translated / fr=machine_translated |  |  |  |
-| 67 | Schritt erledigt | Step done | Étape terminée | en=machine_translated / fr=machine_translated |  |  |  |
-| 68 | Schritt offen | Step not done | Étape non terminée | en=machine_translated / fr=machine_translated |  |  |  |
-| 69 | Seite | Page | Page | en=machine_translated / fr=machine_translated |  |  |  |
-| 70 | Seite nicht verfügbar | Page not available | Page indisponible | en=machine_translated / fr=machine_translated |  |  |  |
-| 71 | Selektion nach | Selection by | Sélection par | en=machine_translated / fr=machine_translated |  |  |  |
+| 55 | Privat in der Cloud | Private in the cloud | Privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
+| 56 | Privat in der Cloud speichern | Save privately in the cloud | Enregistrer en privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
+| 57 | Private Rezepte in der Rezept-Datenbank gehören zu Deinem Apple-Konto. Ohne Anmeldung wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar. | Private recipes in the recipe database belong to your Apple Account. Without signing in, the recipe would no longer be accessible after you reinstall the app. | Les recettes privées dans la base de recettes sont liées à votre compte Apple. Sans connexion, la recette ne serait plus accessible après une réinstallation. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 58 | Rezept veröffentlichen? | Publish recipe? | Publier la recette ? | en=machine_translated / fr=machine_translated |  |  |  |
+| 59 | Rezept wird veröffentlicht … | Publishing recipe… | La recette est en cours de publication… | en=machine_translated / fr=machine_translated |  |  |  |
+| 60 | Rezept wurde veröffentlicht | Recipe was published | La recette a été publiée | en=machine_translated / fr=machine_translated |  |  |  |
+| 61 | Rezeptbild | Recipe image | Image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 62 | Rezeptbild vergrößern | Enlarge recipe image | Agrandir l’image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 63 | Rezepte filtern | Filter recipes | Filtrer les recettes | en=machine_translated / fr=machine_translated |  |  |  |
+| 64 | Rezeptname | Recipe name | Nom de la recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 65 | Schritt erledigt | Step done | Étape terminée | en=machine_translated / fr=machine_translated |  |  |  |
+| 66 | Schritt offen | Step not done | Étape non terminée | en=machine_translated / fr=machine_translated |  |  |  |
+| 67 | Seite | Page | Page | en=machine_translated / fr=machine_translated |  |  |  |
+| 68 | Seite nicht verfügbar | Page not available | Page indisponible | en=machine_translated / fr=machine_translated |  |  |  |
+| 69 | Selektion nach | Selection by | Sélection par | en=machine_translated / fr=machine_translated |  |  |  |
+| 70 | Spezial | Special | Spécial | en=machine_translated / fr=machine_translated |  |  |  |
+| 71 | Spezial (zweispaltig) | Special (two-column) | Spécial (deux colonnes) | en=machine_translated / fr=machine_translated |  |  |  |
 | 72 | Sprache wählen | Choose language | Choisir la langue | en=machine_translated / fr=machine_translated |  |  |  |
 | 73 | Stimmt der Name nicht, tippe ihn oben an — dann kannst du die richtige Zeile direkt auf der Seite auswählen. | If the name is wrong, tap it above — you can then pick the right line directly on the page. | Si le nom est incorrect, appuyez dessus ci-dessus : vous pourrez alors choisir la bonne ligne directement sur la page. | en=machine_translated / fr=machine_translated |  |  |  |
 | 74 | Tippe den Namen unten ein. | Type the name below. | Saisissez le nom ci-dessous. | en=machine_translated / fr=machine_translated |  |  |  |

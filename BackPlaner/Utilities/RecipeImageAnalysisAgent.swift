@@ -6,15 +6,15 @@ import UIKit
 /// them and keeps the best result, so a new template only needs a new case here
 /// and a reader for it.
 enum RecipeLayout: String, CaseIterable, Sendable {
-    /// Two columns with a planning example and numbered work steps, as printed
-    /// by ploetzblog.
-    case ploetzblogTwoColumn
+    /// Two columns with a planning example and numbered work steps, as some
+    /// baking blogs print them.
+    case specialTwoColumn
     /// Cookbooks, magazines, printouts: headings, ingredient blocks and prose.
     case general
 
     var title: LocalizedStringResource {
         switch self {
-        case .ploetzblogTwoColumn: "Ploetzblog (zweispaltig)"
+        case .specialTwoColumn: "Spezial (zweispaltig)"
         case .general: "Allgemeine Rezeptvorlage"
         }
     }
@@ -230,8 +230,8 @@ final class RecipeImageAnalysisAgent {
             do {
                 let result: RecipeImageAnalysisResult
                 switch layout {
-                case .ploetzblogTwoColumn:
-                    result = try readPloetzblogRecipe(from: pages, firstImage: images.first)
+                case .specialTwoColumn:
+                    result = try readSpecialRecipe(from: pages, firstImage: images.first)
                 case .general:
                     result = try readGeneralRecipe(from: pages, firstImage: images.first)
                 }
@@ -303,7 +303,8 @@ final class RecipeImageAnalysisAgent {
     }
 
     /// The dough weight a page states itself: the INFO column of a book prints
-    /// it directly, ploetzblog states a piece count and a weight per piece.
+    /// it directly, the two-column layout states a piece count and a weight
+    /// per piece.
     private func declaredDoughWeight(in text: String) -> Double? {
         if let values = Self.captures(#"(?i)Teig(?:menge|einwaage)\s*:?\s*(\d+(?:[.,]\d+)?)\s*g"#, in: text),
            let weight = Double(values[0].replacingOccurrences(of: ",", with: ".")) {
@@ -358,8 +359,8 @@ final class RecipeImageAnalysisAgent {
             }
     }
 
-    /// Analyzes common recipe layouts without applying the Ploetzblog-specific
-    /// column and planning rules used by the existing analysis method.
+    /// Analyzes common recipe layouts without applying the column and planning
+    /// rules of the two-column template.
     func analyzeGeneralRecipe(
         images: [UIImage],
         progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
@@ -623,18 +624,18 @@ final class RecipeImageAnalysisAgent {
         }
     }
 
-    func analyzePloetzblogRecipe(
+    func analyzeSpecialRecipe(
         images: [UIImage],
         progress: @escaping @MainActor (Int, Int) -> Void = { _, _ in }
     ) async throws -> RecipeImageAnalysisResult {
         let pages = try await recognizePages(images: images, progress: progress)
-        return try readPloetzblogRecipe(from: pages, firstImage: images.first)
+        return try readSpecialRecipe(from: pages, firstImage: images.first)
     }
 
-    /// Reads a recipe from recognized pages with the two-column rules of a
-    /// ploetzblog page: a planning example, ingredients left of the gutter and
-    /// numbered work steps to its right.
-    private func readPloetzblogRecipe(
+    /// Reads a recipe from recognized pages with the two-column rules: a
+    /// planning example, ingredients left of the gutter and numbered work
+    /// steps to its right.
+    private func readSpecialRecipe(
         from pages: RecognizedPages,
         firstImage: UIImage?
     ) throws -> RecipeImageAnalysisResult {
@@ -660,7 +661,7 @@ final class RecipeImageAnalysisAgent {
             // well, so it is worth cutting out here too — otherwise the import
             // offers the whole page as the recipe's image.
             recipeImage: extractRecipePhoto(from: firstImage, pages: pages),
-            layout: .ploetzblogTwoColumn,
+            layout: .specialTwoColumn,
             titleOptions: titleRegions(in: pages, chosen: recipe.name)
         )
     }
@@ -1222,7 +1223,8 @@ private struct TwoColumnRecipeParser {
         // Prefer the table the document request laid out: it carries the whole
         // planning example with day and time in their own cells, wherever on the
         // page it was printed. The geometric search below assumes the right-hand
-        // column, which is where ploetzblog prints it but not a book page.
+        // column, which is where the two-column template prints it but a book
+        // page does not.
         var planningSteps = planningStepsFromTables()
         // The laid-out table is only trusted where its rows read like a
         // schedule. On a web page the document request lays out the ingredient
