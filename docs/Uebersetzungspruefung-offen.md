@@ -1,0 +1,103 @@
+# Übersetzungsprüfung – offene Texte
+
+Stand: 10.09.2026 · 87 Texte, die noch nicht geprüft sind.
+
+Die bereits geprüften 271 Texte stehen in `Uebersetzungspruefung-FR.md` und sind hier **nicht** enthalten.
+
+**Beim Korrigieren bitte beachten:**
+
+- `%@`, `%lld`, `%1$@` sind Platzhalter, die die App zur Laufzeit füllt. Sie müssen erhalten bleiben; ihre Reihenfolge darf sich ändern, wenn die Nummer mitgeht (`%1$@`, `%2$@`).
+- `⏎` steht für einen Zeilenumbruch im Text.
+- Bei Pluralformen gibt es je Zahl eine eigene Fassung, gekennzeichnet mit `one:` und `other:`.
+- **`fehlt`** in der Statusspalte heißt: Es gibt gar keine Übersetzung, der Nutzer sieht Deutsch.
+- Die Spalten **Anmerkung EN / FR** sind zum Ausfüllen.
+
+| # | Deutsch | Englisch | Französisch | Status | Hinweis | Anmerkung EN | Anmerkung FR |
+|---|---|---|---|---|---|---|---|
+| 1 | %@, privates Rezept, Bewertung %lld von 5 Sternen | %1$@, private recipe, rating %2$lld out of 5 stars | %1$@, recette privée, note %2$lld sur 5 étoiles | en=machine_translated / fr=machine_translated | Platzhalter |  |  |
+| 2 | %lld von %lld Sternen | %1$lld out of %2$lld stars | %1$lld sur %2$lld étoiles | en=machine_translated / fr=machine_translated | Platzhalter |  |  |
+| 3 | Alle Rezepte | All recipes | Toutes les recettes | en=machine_translated / fr=machine_translated |  |  |  |
+| 4 | Allgemeine Rezeptvorlage | General recipe source | Source de recette générale | en=machine_translated / fr=machine_translated |  |  |  |
+| 5 | Als Rezeptnamen übernehmen |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 6 | Als öffentliches Rezept speichern | Save as a public recipe | Enregistrer comme recette publique | en=machine_translated / fr=machine_translated |  |  |  |
+| 7 | Anmeldung erforderlich | Sign-in required | Connexion requise | en=machine_translated / fr=machine_translated |  |  |  |
+| 8 | Apple-Konto | Apple Account | Compte Apple | en=machine_translated / fr=machine_translated |  |  |  |
+| 9 | Auswahl | Selection | Sélection | en=machine_translated / fr=machine_translated |  |  |  |
+| 10 | Automatisch | Automatic | Automatique | en=machine_translated / fr=machine_translated |  |  |  |
+| 11 | Backfoto anzeigen | Show baking photo | Afficher la photo de cuisson | en=machine_translated / fr=machine_translated |  |  |  |
+| 12 | Bruch | Fraction | Fraction | en=machine_translated / fr=machine_translated |  |  |  |
+| 13 | Cloud-Rezept kann nicht geändert werden | Cloud recipe cannot be changed | La recette dans le cloud ne peut pas être modifiée | en=machine_translated / fr=machine_translated |  |  |  |
+| 14 | Das Rezept bleibt auf dem Gerät und wird über Deine iCloud gesichert. | The recipe stays on the device and is backed up through your iCloud. | La recette reste sur l’appareil et est sauvegardée dans votre iCloud. | en=machine_translated / fr=machine_translated |  |  |  |
+| 15 | Das Rezept steht jetzt allen Nutzern zur Verfügung. Deine private Fassung ist unverändert — Du kannst sie über „Weitere Aktionen“ löschen, wenn Du sie nicht doppelt behalten willst. | The recipe is now available to all users. Your private version is unchanged—you can delete it from “More actions” if you don’t want to keep two copies of it. | La recette est désormais disponible pour tous les utilisateurs. Votre version privée est inchangée — vous pouvez la supprimer via « Plus d’actions » si vous ne souhaitez pas la conserver en double. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 16 | Das Rezept wird endgültig aus Deiner privaten Ablage in der Rezept-Datenbank entfernt. | The recipe will be permanently removed from your private storage in the recipe database. | La recette sera supprimée définitivement de votre emplacement privé dans la base de recettes. | en=machine_translated / fr=machine_translated |  |  |  |
+| 17 | Das Rezept wird für alle Nutzer sichtbar und kann danach nicht mehr geändert werden. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten. | The recipe becomes visible to all users and can no longer be changed afterward. Only publish recipes that don’t infringe copyright. Your private version is kept. | La recette devient visible par tous les utilisateurs et ne pourra plus être modifiée ensuite. Ne publiez que des recettes qui ne portent atteinte à aucun droit d’auteur. Votre version privée est conservée. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 18 | Das Rezept wird für alle Nutzer sichtbar. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. | The recipe becomes visible to all users. Only publish recipes that don’t infringe copyright. | La recette devient visible par tous les utilisateurs. Ne publiez que des recettes qui ne portent atteinte à aucun droit d’auteur. | en=machine_translated / fr=machine_translated |  |  |  |
+| 19 | Das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Geeignet für Rezepte, die Du nicht veröffentlichen darfst. Dazu ist eine Anmeldung mit Apple nötig. | The recipe is saved in the recipe database, but is visible only to you. Suitable for recipes you aren’t allowed to publish. This requires Sign in with Apple. | La recette est enregistrée dans la base de recettes, mais elle n’est visible que par vous. Convient aux recettes que vous n’avez pas le droit de publier. Pour cela, vous devez vous connecter avec Apple. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 20 | Dauer in Minuten | Duration in minutes | Durée en minutes | en=machine_translated / fr=machine_translated |  |  |  |
+| 21 | Deine privaten Rezepte in der Rezept-Datenbank werden mit ihren Bildern gelöscht und die Anmeldung wird aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen. | Your private recipes in the recipe database are deleted along with their images, and your Apple Account is unlinked. Recipes you’ve published stay visible to all users. Recipes on this device are kept. This can’t be undone. | Vos recettes privées dans la base de recettes sont supprimées avec leurs images et votre compte Apple est dissocié. Les recettes que vous avez publiées restent visibles par tous les utilisateurs. Les recettes présentes sur cet appareil sont conservées. Cette action est irréversible. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 22 | Deine privaten Rezepte und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden. | Your private recipes and your sign-in have been removed. You can keep using the app and sign in again at any time. | Vos recettes privées et votre connexion ont été supprimées. Vous pouvez continuer à utiliser l’app et vous reconnecter à tout moment. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 23 | Details zu %@ | Details for %@ | Détails de %@ | en=machine_translated / fr=machine_translated | Platzhalter |  |  |
+| 24 | Die Anmeldung wird für private Cloud-Rezepte benötigt: nur so bleiben sie nach einer Neuinstallation erreichbar. Administratoren verwalten damit gemeldete Rezepte. | Signing in is required for private cloud recipes: It’s the only way they stay accessible after you reinstall the app. Administrators use it to manage reported recipes. | La connexion est nécessaire pour les recettes privées dans le cloud : c’est le seul moyen de les garder accessibles après une réinstallation. Les administrateurs s’en servent pour gérer les recettes signalées. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 25 | Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt. | The app reads the images with every known source type and keeps the result that matches the details on the page. | L’app lit les images avec chaque type de source connu et conserve le résultat qui correspond aux indications de la page. | en=machine_translated / fr=machine_translated |  |  |  |
+| 26 | Die Menge gilt für diese Einkaufsliste. Das Rezept bleibt unverändert. | The amount applies to this shopping list. The recipe stays unchanged. | La quantité s’applique à cette liste de courses. La recette reste inchangée. | en=machine_translated / fr=machine_translated |  |  |  |
+| 27 | Ein Rezept in der Rezept-Datenbank kann nach dem Speichern nicht mehr geändert werden. Es ist nur für Dich sichtbar. | A recipe in the recipe database can no longer be changed after it has been saved. It’s visible only to you. | Une recette dans la base de recettes ne peut plus être modifiée après son enregistrement. Elle n’est visible que par vous. | en=machine_translated / fr=machine_translated |  |  |  |
+| 28 | Erkannte Vorlage | Detected source | Source détectée | en=machine_translated / fr=machine_translated |  |  |  |
+| 29 | Erneut anmelden | Sign in again | Se reconnecter | en=machine_translated / fr=machine_translated |  |  |  |
+| 30 | Es werden weder Name noch E-Mail-Adresse abgefragt. | You’re not asked for your name or email address. | Ni votre nom ni votre adresse e-mail ne sont demandés. | en=machine_translated / fr=machine_translated |  |  |  |
+| 31 | Filter löschen | Clear filter | Effacer le filtre | en=machine_translated / fr=machine_translated |  |  |  |
+| 32 | Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. Beschneide die Bilder so, dass Logos, Kopf- und Fußzeilen möglichst wegfallen. | Take a photo of every page or select the pages in the correct order. Straight, clearly readable images give the best results. Crop the images so that logos, headers and footers are left out. | Photographiez toutes les pages ou sélectionnez-les dans le bon ordre. Des images droites et bien lisibles donnent les meilleurs résultats. Recadrez les images afin d’écarter autant que possible les logos, en-têtes et pieds de page. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 33 | Für Angaben wie ½ Würfel Hefe. Leer lassen, wenn Du mit der Menge oben arbeitest. | For amounts like ½ cube of yeast. Leave these empty if you use the amount above. | Pour des indications comme ½ cube de levure. Laissez ces champs vides si vous utilisez la quantité ci-dessus. | en=machine_translated / fr=machine_translated |  |  |  |
+| 34 | Für dieses Rezept sind keine Zutaten hinterlegt, die auf eine Einkaufsliste passen. | This recipe doesn’t have any ingredients that can be added to a shopping list. | Cette recette ne contient aucun ingrédient pouvant être ajouté à une liste de courses. | en=machine_translated / fr=machine_translated |  |  |  |
+| 35 | Keine Zutaten vorhanden | No ingredients available | Aucun ingrédient disponible | en=machine_translated / fr=machine_translated |  |  |  |
+| 36 | Komponente bearbeiten | Edit component | Modifier le composant | en=machine_translated / fr=machine_translated |  |  |  |
+| 37 | Konto | Account | Compte | en=machine_translated / fr=machine_translated |  |  |  |
+| 38 | Konto endgültig löschen? | Permanently delete account? | Supprimer définitivement le compte ? | en=machine_translated / fr=machine_translated |  |  |  |
+| 39 | Konto löschen | Delete account | Supprimer le compte | en=machine_translated / fr=machine_translated |  |  |  |
+| 40 | Konto wird gelöscht … | Deleting account… | Le compte est en cours de suppression… | en=machine_translated / fr=machine_translated |  |  |  |
+| 41 | Konto wurde gelöscht | Account was deleted | Le compte a été supprimé | en=machine_translated / fr=machine_translated |  |  |  |
+| 42 | Lokal | Local | Local | en=machine_translated / fr=machine_translated |  |  |  |
+| 43 | Menge | Amount | Quantité | en=machine_translated / fr=machine_translated |  |  |  |
+| 44 | Menge ändern | Change amount | Modifier la quantité | en=machine_translated / fr=machine_translated |  |  |  |
+| 45 | Mit Apple anmelden | Sign in with Apple | Se connecter avec Apple | en=machine_translated / fr=machine_translated |  |  |  |
+| 46 | Name wählen |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 47 | Name: %@ |  |  | en=fehlt / fr=fehlt | Platzhalter |  |  |
+| 48 | Namen auf der Seite auswählen |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 49 | Nenner | Denominator | Dénominateur | en=machine_translated / fr=machine_translated |  |  |  |
+| 50 | Noch kein Rezeptbild | No recipe image yet | Pas encore d’image de recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 51 | Nummer | Number | Numéro | en=machine_translated / fr=machine_translated |  |  |  |
+| 52 | Nur auf dem Gerät | On this device only | Uniquement sur l’appareil | en=machine_translated / fr=machine_translated |  |  |  |
+| 53 | Nur auf dem Gerät speichern | Save on this device only | Enregistrer uniquement sur l’appareil | en=machine_translated / fr=machine_translated |  |  |  |
+| 54 | Nur meine | Mine only | Les miennes | en=machine_translated / fr=machine_translated |  |  |  |
+| 55 | Ploetzblog | Ploetzblog | Ploetzblog | en=machine_translated / fr=machine_translated |  |  |  |
+| 56 | Ploetzblog (zweispaltig) | Ploetzblog (two-column) | Ploetzblog (deux colonnes) | en=machine_translated / fr=machine_translated |  |  |  |
+| 57 | Privat in der Cloud | Private in the cloud | Privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
+| 58 | Privat in der Cloud speichern | Save privately in the cloud | Enregistrer en privé dans le cloud | en=machine_translated / fr=machine_translated |  |  |  |
+| 59 | Private Rezepte in der Rezept-Datenbank gehören zu Deinem Apple-Konto. Ohne Anmeldung wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar. | Private recipes in the recipe database belong to your Apple Account. Without signing in, the recipe would no longer be accessible after you reinstall the app. | Les recettes privées dans la base de recettes sont liées à votre compte Apple. Sans connexion, la recette ne serait plus accessible après une réinstallation. | en=machine_translated / fr=machine_translated | langer Text |  |  |
+| 60 | Rezept veröffentlichen? | Publish recipe? | Publier la recette ? | en=machine_translated / fr=machine_translated |  |  |  |
+| 61 | Rezept wird veröffentlicht … | Publishing recipe… | La recette est en cours de publication… | en=machine_translated / fr=machine_translated |  |  |  |
+| 62 | Rezept wurde veröffentlicht | Recipe was published | La recette a été publiée | en=machine_translated / fr=machine_translated |  |  |  |
+| 63 | Rezeptbild | Recipe image | Image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 64 | Rezeptbild vergrößern | Enlarge recipe image | Agrandir l’image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
+| 65 | Rezepte filtern | Filter recipes | Filtrer les recettes | en=machine_translated / fr=machine_translated |  |  |  |
+| 66 | Rezeptname |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 67 | Schritt erledigt | Step done | Étape terminée | en=machine_translated / fr=machine_translated |  |  |  |
+| 68 | Schritt offen | Step not done | Étape non terminée | en=machine_translated / fr=machine_translated |  |  |  |
+| 69 | Seite |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 70 | Seite nicht verfügbar |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 71 | Selektion nach | Selection by | Sélection par | en=machine_translated / fr=machine_translated |  |  |  |
+| 72 | Sprache wählen | Choose language | Choisir la langue | en=machine_translated / fr=machine_translated |  |  |  |
+| 73 | Stimmt der Name nicht, tippe ihn oben an — dann kannst du die richtige Zeile direkt auf der Seite auswählen. |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 74 | Tippe den Namen unten ein. |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 75 | Tippe die Zeile an, die der Rezeptname sein soll. Steht der Name nicht auf der Seite, kannst du ihn unten eintippen. |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 76 | Url Link | URL link | Lien URL | en=machine_translated / fr=machine_translated |  |  |  |
+| 77 | Verarbeitungsschritt bearbeiten | Edit processing step | Modifier l’étape de préparation | en=machine_translated / fr=machine_translated |  |  |  |
+| 78 | Veröffentlichen | Publish | Publier | en=machine_translated / fr=machine_translated |  |  |  |
+| 79 | Veröffentlichen fehlgeschlagen | Publishing failed | Échec de la publication | en=machine_translated / fr=machine_translated |  |  |  |
+| 80 | Weitere Aktionen | More actions | Plus d’actions | en=machine_translated / fr=machine_translated |  |  |  |
+| 81 | Zur Sicherheit musst Du Dich noch einmal anmelden, bevor das Konto gelöscht wird. | For security, you need to sign in once more before the account is deleted. | Par mesure de sécurité, vous devez vous reconnecter avant la suppression du compte. | en=machine_translated / fr=machine_translated |  |  |  |
+| 82 | Zutat bearbeiten | Edit ingredient | Modifier l’ingrédient | en=machine_translated / fr=machine_translated |  |  |  |
+| 83 | Zutat entfernen | Remove ingredient | Retirer l’ingrédient | en=machine_translated / fr=machine_translated |  |  |  |
+| 84 | Zutat von der Einkaufsliste entfernen | Remove ingredient from shopping list | Retirer l’ingrédient de la liste de courses | en=machine_translated / fr=machine_translated |  |  |  |
+| 85 | Zähler | Numerator | Numérateur | en=machine_translated / fr=machine_translated |  |  |  |
+| 86 | Öffentlich für alle | Public for everyone | Public pour tous | en=machine_translated / fr=machine_translated |  |  |  |
+| 87 | Übersetzt … | Translating … | Traduction en cours … | en=machine_translated / fr=machine_translated |  |  |  |
