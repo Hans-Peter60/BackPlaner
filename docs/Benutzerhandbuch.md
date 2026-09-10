@@ -200,6 +200,8 @@ Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), er
 
 Hier liegen alle Rezepte, die lokal auf dem Gerät gespeichert sind: selbst angelegte und aus der Datenbank übernommene.
 
+![Liste der eigenen Rezepte mit Bild, Name und Tags](images/eigene-rezepte.png)
+
 ### Suchen und filtern
 
 - **Suchfeld** mit Umschaltung **Name / Tags**.
@@ -427,7 +429,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 **Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Reminder gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
 
-![Leere Listenansicht der geplanten Schritte](images/geplante-schritte-liste.png)
+![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext](images/geplante-schritte-liste.png)
 
 *Die Listenansicht zeigt im Leerzustand zugleich, wo neue Planungen angelegt werden.*
 
@@ -453,7 +455,7 @@ Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Z
 
 Dieselben Schritte als senkrechte Zeitachse. Links steht der Zeitstempel – beim ersten Schritt eines Tages mit Wochentag und Datum, bei den folgenden nur die Uhrzeit. Punkte und Verbindungslinien machen sichtbar, welche Schritte zusammen an einem Tag liegen und wo größere Pausen sind. Praktisch für den Überblick über eine mehrtägige Teigführung.
 
-![Leere Timeline-Ansicht der geplanten Schritte](images/geplante-schritte-timeline.png)
+![Geplante Schritte als Timeline: Startzeiten auf einer senkrechten Achse, nach Tagen gruppiert](images/geplante-schritte-timeline.png)
 
 *Über den unteren Tab wechselst Du zwischen Liste und Timeline.*
 
