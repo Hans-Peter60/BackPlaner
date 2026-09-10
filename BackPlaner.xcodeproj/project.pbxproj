@@ -856,10 +856,11 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BackPlaner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BakePlanner;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
-				INFOPLIST_KEY_NSCameraUsageDescription = "BackPlaner uses the camera to take photos of your recipes and finished bakes.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BackPlaner accesses your photo library so you can add pictures of your recipes and bakes.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "BakePlanner uses the camera to take photos of your recipes and finished bakes.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -892,10 +893,11 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BackPlaner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BakePlanner;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
-				INFOPLIST_KEY_NSCameraUsageDescription = "BackPlaner uses the camera to take photos of your recipes and finished bakes.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BackPlaner accesses your photo library so you can add pictures of your recipes and bakes.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "BakePlanner uses the camera to take photos of your recipes and finished bakes.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

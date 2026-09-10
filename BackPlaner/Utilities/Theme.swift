@@ -199,12 +199,27 @@ struct EULAView: View {
 /// A branded header shown at the top of a screen.
 struct ScreenHeader: View {
 
-    let title: LocalizedStringKey
+    private let titleText: Text
     var subtitle: LocalizedStringKey? = nil
+
+    init(title: LocalizedStringKey, subtitle: LocalizedStringKey? = nil) {
+        titleText = Text(title)
+        self.subtitle = subtitle
+    }
+
+    /// A title that reads the same in every language — the app's own name.
+    ///
+    /// Passed through the translation it became "Bake Planner" in English and
+    /// "Planificateur de cuisson" in French, so the app introduced itself
+    /// under three names.
+    init(brand: String, subtitle: LocalizedStringKey? = nil) {
+        titleText = Text(verbatim: brand)
+        self.subtitle = subtitle
+    }
 
     var body: some View {
         VStack(spacing: 8) {
-            Text(title)
+            titleText
                 .font(Theme.brandFont(34))
                 .foregroundColor(Theme.title)
                 .accessibilityAddTraits(.isHeader)

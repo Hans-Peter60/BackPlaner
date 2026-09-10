@@ -1,25 +1,49 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "BakePlanner"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BakePlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "BakePlanner"
+          }
+        }
+      }
+    },
     "CFBundleName" : {
       "comment" : "Bundle name",
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner"
+            "state" : "needs_review",
+            "value" : "BakePlanner"
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner"
+            "state" : "machine_translated",
+            "value" : "BakePlanner"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner"
+            "state" : "needs_review",
+            "value" : "BakePlanner"
           }
         }
       }
@@ -29,20 +53,20 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner verwendet die Kamera, um Fotos deiner Rezepte und fertigen Backwaren aufzunehmen."
+            "state" : "needs_review",
+            "value" : "BakePlanner verwendet die Kamera, um Fotos deiner Rezepte und fertigen Backwaren aufzunehmen."
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner uses the camera to take photos of your recipes and finished bakes."
+            "state" : "machine_translated",
+            "value" : "BakePlanner uses the camera to take photos of your recipes and finished bakes."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner utilise l’appareil photo pour prendre des photos de vos recettes et de vos préparations terminées."
+            "state" : "needs_review",
+            "value" : "BakePlanner utilise l’appareil photo pour prendre des photos de vos recettes et de vos préparations terminées."
           }
         }
       }
@@ -52,20 +76,20 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner greift auf deine Fotomediathek zu, damit du Bilder deiner Rezepte und Backwaren hinzufügen kannst."
+            "state" : "needs_review",
+            "value" : "BakePlanner greift auf deine Fotomediathek zu, damit du Bilder deiner Rezepte und Backwaren hinzufügen kannst."
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner accesses your photo library so you can add pictures of your recipes and bakes."
+            "state" : "machine_translated",
+            "value" : "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner accède à votre photothèque afin que vous puissiez ajouter des images de vos recettes et de vos préparations."
+            "state" : "needs_review",
+            "value" : "BakePlanner accède à votre photothèque afin que vous puissiez ajouter des images de vos recettes et de vos préparations."
           }
         }
       }

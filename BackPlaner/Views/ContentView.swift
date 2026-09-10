@@ -68,7 +68,7 @@ struct ContentView: View {
     
     // A branded header shown above the menu cards.
     private var header: some View {
-        ScreenHeader(title: "Backplaner",
+        ScreenHeader(brand: "BakePlanner",
                      subtitle: "Plane und backe dein perfektes Brot")
     }
 }
