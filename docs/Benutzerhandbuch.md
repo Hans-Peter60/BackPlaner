@@ -1,4 +1,4 @@
-# BackPlaner – Benutzerhandbuch
+# BakePlanner – Benutzerhandbuch
 
 Stand: 09.09.2026 · App-Version 1.0
 
@@ -6,7 +6,7 @@ Stand: 09.09.2026 · App-Version 1.0
 
 ## Inhalt
 
-1. [Was BackPlaner macht](#1-was-backplaner-macht)
+1. [Was BakePlanner macht](#1-was-bakeplanner-macht)
 2. [Systemvoraussetzungen](#2-systemvoraussetzungen)
 3. [Grundbegriffe](#3-grundbegriffe)
 4. [Das Hauptmenü](#4-das-hauptmenü)
@@ -27,9 +27,9 @@ Stand: 09.09.2026 · App-Version 1.0
 
 ---
 
-## 1. Was BackPlaner macht
+## 1. Was BakePlanner macht
 
-BackPlaner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unterscheidet sich von einer reinen Rezept-Sammlung dadurch, dass sie **die Zeitplanung übernimmt**:
+BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unterscheidet sich von einer reinen Rezept-Sammlung dadurch, dass sie **die Zeitplanung übernimmt**:
 
 - Ein Rezept besteht nicht nur aus Zutaten, sondern aus **Verarbeitungsschritten mit Dauern**.
 - Aus diesen Dauern berechnet die App die **Startzeit jedes einzelnen Schritts**.
@@ -46,7 +46,7 @@ Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf d
 4. Prüfe die berechneten Beginnzeiten und tippe auf **Reminder setzen**.
 5. Öffne **Geplante Schritte**, um alle Termine als Liste oder Timeline zu kontrollieren.
 
-Für Erinnerungen muss BackPlaner Mitteilungen senden dürfen. Die ausführlichen Erklärungen findest Du in [Kapitel 7](#7-backanleitung-und-reminder), [Kapitel 10](#10-geplante-schritte-liste-und-timeline) und [Kapitel 17](#17-häufige-fragen-und-fehlerbehebung).
+Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlichen Erklärungen findest Du in [Kapitel 7](#7-backanleitung-und-reminder), [Kapitel 10](#10-geplante-schritte-liste-und-timeline) und [Kapitel 17](#17-häufige-fragen-und-fehlerbehebung).
 
 ---
 
@@ -76,7 +76,7 @@ Diese sechs Begriffe tauchen überall in der App auf:
 Die oberste Einheit: Name, Beschreibung, Bild, Bewertung, Tags, optionaler Link zur Quelle, Gesamtgewicht und Bearbeitungsdauer.
 
 **Komponente**
-Ein Teilansatz innerhalb eines Rezepts – zum Beispiel „Sauerteig“, „Vorteig“, „Hauptteig“, „Brühstück“. Jede Komponente hat eine Nummer (Sortierreihenfolge) und ihre eigene Zutatenliste. Das ist der Kern des Datenmodells: BackPlaner ist für mehrstufige Teigführungen gebaut.
+Ein Teilansatz innerhalb eines Rezepts – zum Beispiel „Sauerteig“, „Vorteig“, „Hauptteig“, „Brühstück“. Jede Komponente hat eine Nummer (Sortierreihenfolge) und ihre eigene Zutatenliste. Das ist der Kern des Datenmodells: BakePlanner ist für mehrstufige Teigführungen gebaut.
 
 **Zutat**
 Gehört immer zu einer Komponente. Besteht aus Nummer, Menge, Einheit, Name und optional einem Bruch (Zähler/Nenner, in der App als **Z / N** bezeichnet).
@@ -109,7 +109,7 @@ Wo ein Rezept liegt. Es gibt drei Möglichkeiten, und die Wahl entscheidet, wer 
 
 Nach dem Start erscheint das Hauptmenü mit acht Karten:
 
-![Hauptmenü von BackPlaner mit den acht Funktionsbereichen](images/hauptmenue.png)
+![Hauptmenü von BakePlanner mit den acht Funktionsbereichen](images/hauptmenue.png)
 
 *Das Hauptmenü ist der Ausgangspunkt für Rezepte, Planung, Historie und Einstellungen.*
 
@@ -163,7 +163,8 @@ Hinweise:
 - **Einheiten werden absichtlich nicht übersetzt**, damit die Mengenberechnung weiter funktioniert.
 - Die erste Übersetzung einer Sprache dauert einen Moment (Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
 - Beim ersten Öffnen zeigt die App das Rezept automatisch in Deiner Sprache, wenn dafür schon eine Übersetzung vorliegt.
-- Das deutsche Original wird nie überschrieben.
+- **Das Original wird nie überschrieben.** Als Original gilt die Sprache, in der das Rezept geschrieben ist – nicht die Sprache, auf die Deine App eingestellt war. Die App liest das am Rezepttext ab, sodass ein französisches Rezept auch dann als französisches Original geführt wird, wenn es jemand in einer deutschsprachigen App eingegeben hat.
+- Der Haken zeigt Dir im Menü, welche Sprache gerade angezeigt wird. Wähle sie erneut, kommst Du ohne Umweg zum Original zurück.
 
 ### Ein Rezept übernehmen
 
@@ -287,6 +288,10 @@ Die Texte „Backofen anstellen“ und „Backvorgang ist beendet“ erscheinen 
 
 > **Ein Rezept hat immer genau einen Plan.** Tippst Du erneut auf „Reminder setzen“ – etwa weil Du das Brot auf einen anderen Tag verschieben willst –, ersetzt der neue Plan den alten vollständig: die alten Schritte verschwinden aus „Geplante Schritte“, und die alten Erinnerungen werden durch die neuen ersetzt. Es entstehen also keine Dubletten. Umgekehrt heißt das: dasselbe Rezept lässt sich nicht zweimal parallel für zwei verschiedene Termine einplanen.
 
+> **Für die Apple Watch: setze die Reminder auf dem iPhone.** Die Erinnerungen werden auf dem Gerät erzeugt, auf dem Du „Reminder setzen“ tippst, und bleiben auch dort. Nur ein iPhone gibt seine Mitteilungen an eine gekoppelte Apple Watch weiter – ein iPad ist mit der Uhr nicht gekoppelt und kann das nicht. Planst Du also auf dem iPad, erscheinen die Backhinweise ausschließlich auf dem iPad, selbst wenn Du eine Apple Watch trägst.
+>
+> Ein bereits gesetzter Plan lässt sich nicht nachträglich auf ein anderes Gerät umziehen – setz die Reminder in diesem Fall einfach noch einmal auf dem iPhone. Das Rezept selbst liegt über iCloud ohnehin auf beiden Geräten.
+
 ---
 
 ## 8. Neues Rezept anlegen
@@ -309,7 +314,16 @@ Ganz oben: **„Rezept aus Bildern importieren“**. Damit lässt sich ein gedru
 
 Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt; über **Vorlagenart** kannst Du eine Vorlage auch fest vorgeben. Gerade, gut lesbare Fotos liefern die besten Ergebnisse.
 
-**Achte auf den Bildausschnitt.** Schneide alles weg, was nicht zum Rezept gehört: Logos, Kopf- und Fußzeilen, Seitenzahlen, Web-Adressen und Textreste benachbarter Artikel. Ein Logo über der Überschrift wird sonst leicht als Rezeptname gelesen. **Handschriftliche Rezepte** kann die Texterkennung nicht zuverlässig lesen.
+#### Den Namen selbst auswählen
+
+Welche Zeile die Überschrift ist, lässt sich einer Seite nicht immer ansehen: Ein Logo, eine Druck-Kopfzeile und eine Spaltenüberschrift sehen alle aus wie ein Titel. Stimmt der erkannte Name nicht, **tippe in der Zusammenfassung auf die Zeile „Name“**. Die Seite erscheint dann so, wie Du sie fotografiert hast, mit einem Rahmen um jede erkannte Zeile:
+
+- **Antippen** wählt eine Zeile als Rezeptnamen.
+- **Aufziehen mit zwei Fingern** vergrößert die Seite bis auf das Sechsfache, falls die Zeilen eng stehen.
+- Bei mehrseitigen Rezepten schaltet eine Leiste oben zwischen den **Seiten** um.
+- Steht der Name gar nicht auf der Seite, tippe ihn unten ins Feld **Rezeptname** ein.
+
+**Achte auf den Bildausschnitt.** Schneide alles weg, was nicht zum Rezept gehört: Logos, Kopf- und Fußzeilen, Seitenzahlen, Web-Adressen und Textreste benachbarter Artikel. Das erspart Dir die Korrektur von vornherein. **Handschriftliche Rezepte** kann die Texterkennung nicht zuverlässig lesen.
 
 Prüfe anschließend unbedingt **Mengen, Einheiten, Temperaturen und Zeiten** – gespeichert wird erst, wenn Du im Formular „Rezept speichern“ wählst.
 
@@ -460,6 +474,8 @@ Beim Verschieben wird immer ab **jetzt** gerechnet: „30 Minuten“ heißt „i
 
 Mitteilungen werden auch angezeigt, während die App im Vordergrund läuft.
 
+**Apple Watch.** Die Backhinweise erscheinen auf der Uhr, wenn Du die Reminder auf dem **iPhone** gesetzt hast – Mitteilungen des iPhones werden an die gekoppelte Uhr weitergereicht. Auf dem iPad gesetzte Reminder bleiben auf dem iPad. Mehr dazu in [Kapitel 7](#7-backanleitung-und-reminder).
+
 ---
 
 ## 12. Backhistorie und Back Hit-Liste
@@ -514,7 +530,7 @@ Die App filtert bewusst:
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BackPlaner mit den Bereichen Allgemein, Rezepte und Backplanung](images/einstellungen.png)
+![Einstellungen von BakePlanner mit den Bereichen Allgemein, Rezepte und Backplanung](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung.*
 
@@ -658,7 +674,10 @@ Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt im Formular und kann
 ## 17. Häufige Fragen und Fehlerbehebung
 
 **Es kommen keine Erinnerungen.**
-Prüfe in *Einstellungen → Mitteilungen → BackPlaner*, ob Mitteilungen erlaubt sind. Prüfe außerdem, ob unter „Geplante Schritte“ überhaupt Schritte stehen – nur ein Tippen auf „Reminder setzen“ erzeugt Erinnerungen. Und: Erinnerungen für Zeitpunkte in der Vergangenheit werden nicht ausgelöst.
+Prüfe in *Einstellungen → Mitteilungen → BakePlanner*, ob Mitteilungen erlaubt sind. Prüfe außerdem, ob unter „Geplante Schritte“ überhaupt Schritte stehen – nur ein Tippen auf „Reminder setzen“ erzeugt Erinnerungen. Und: Erinnerungen für Zeitpunkte in der Vergangenheit werden nicht ausgelöst.
+
+**Auf der Apple Watch kommt nichts an.**
+Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr weitergereicht werden nur Mitteilungen des gekoppelten **iPhones** – hast Du auf dem iPad geplant, erscheinen die Backhinweise ausschließlich dort. Setz die Reminder in diesem Fall noch einmal auf dem iPhone.
 
 **Die Rezept-Datenbank ist leer („Keine Rezepte geladen“).**
 Beim Start bestand keine Internetverbindung. Zieh die Liste nach unten, um erneut zu laden.
@@ -708,7 +727,8 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Ein Rezept kann nur einen Plan haben.** Erneutes „Reminder setzen“ ersetzt den vorherigen Plan; zwei Termine für dasselbe Rezept gleichzeitig sind nicht möglich.
 - **Änderst Du ein Rezept nach dem Planen** (Schritte, Dauern), bleibt der bereits gesetzte Plan unverändert stehen – geplante Schritte sind eine Momentaufnahme. Setz die Reminder neu, damit die Änderung wirkt.
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
-- **Der Import aus Bildern** ist auf ein zweispaltiges Rezeptlayout mit Planungsbeispiel ausgelegt; andere Layouts liefern unvollständige Ergebnisse.
+- **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Reminder setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
+- **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Ploetzblog-Seiten. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
 - **Übersetzt werden Texte, keine Einheiten** – das ist beabsichtigt, damit die Mengenberechnung erhalten bleibt.
 - **Es gibt keinen Export.** Eigene Rezepte synchronisieren zwar über iCloud (siehe [Kapitel 2](#2-systemvoraussetzungen)), lassen sich aber nicht als Datei sichern oder an andere weitergeben. Als Sicherung über die iCloud hinaus bleibt nur der Weg in die Rezept-Datenbank – privat, wenn Du nicht teilen willst.
 - **Blockierte Autoren und gemeldete Rezepte** werden nur auf dem jeweiligen Gerät ausgeblendet.
