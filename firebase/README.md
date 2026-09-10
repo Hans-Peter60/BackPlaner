@@ -108,9 +108,36 @@ Consequences worth knowing:
 `firebase.json` (repo root) and `.firebaserc` (project `back-planer`) are already
 wired to these files, so from the repo root just run:
 ```
-firebase deploy --only firestore:rules,storage:rules
+firebase deploy --only firestore:rules,storage
 ```
-(Requires `firebase-tools`: `npm i -g firebase-tools` and a one-time `firebase login`.)
+Note `storage` without `:rules` — Storage targets are buckets, so
+`--only storage:rules` fails with *"Could not find rules for the following
+storage targets: rules"*.
+
+`firebase-tools` (v15.30.0) is installed and logged in as
+`hp60.mueller@gmail.com`. Both rule files were deployed from here on
+10.09.2026, 17:24, so the published rules match this repo as of `93d0798`.
+
+The CLI has **no** command to read the *deployed* rules back, so "which version
+is live" can only be answered in the console (Firestore → Rules → history) or
+by deploying again — which is idempotent and therefore the cheaper answer.
+
+It does **not** run on this Mac's default Node. `/usr/local/bin/node` is a
+standalone v16.14 installation from 2022, and the CLI requires >= 20. Rather
+than replace it — other projects may depend on that version — Node 22 sits
+beside it as the Homebrew formula `node@22`, deliberately left *unlinked* so
+`node` on the PATH stays v16. `/opt/homebrew/bin/firebase` is therefore not the
+usual symlink but a wrapper that pins the interpreter:
+
+```sh
+exec /opt/homebrew/opt/node@22/bin/node \
+     /opt/homebrew/lib/node_modules/firebase-tools/lib/bin/firebase.js "$@"
+```
+
+The `opt` path survives `brew unlink`, so the wrapper keeps working. If a
+`brew upgrade` ever bumps node@22 to a new major, adjust the two paths above.
+Symptom of a broken pin: *"Firebase CLI v15 is incompatible with Node.js
+v16.14.0"*.
 
 > If the **"Rezept löschen (Admin)"** button appears but deleting fails with
 > *"Missing or insufficient permissions"*, the deployed `Recipe` delete rule is an
