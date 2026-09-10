@@ -20,6 +20,10 @@ enum AppLog {
     static let planning      = Logger(subsystem: subsystem, category: "planning")
     static let persistence   = Logger(subsystem: subsystem, category: "persistence")
     static let shoppingCart  = Logger(subsystem: subsystem, category: "shoppingCart")
+    /// Reading recipes from photographed pages. What Vision returns differs
+    /// between the simulator and a device for the same image, so a defect that
+    /// only shows on the phone can only be measured through the phone's log.
+    static let recipeImport  = Logger(subsystem: subsystem, category: "recipeImport")
 }
 
 struct GlobalVariables {

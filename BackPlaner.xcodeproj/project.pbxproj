@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */; };
 		6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */; };
 		6A1131F42B7CF93300CDF054 /* RecipeFBListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131F02B7CF93200CDF054 /* RecipeFBListView.swift */; };
 		6A1131F52B7CF93300CDF054 /* InstructionsFBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131F12B7CF93300CDF054 /* InstructionsFBView.swift */; };
@@ -111,6 +112,7 @@
 
 /* Begin PBXFileReference section */
 		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitleRegionPickerView.swift; sourceTree = "<group>"; };
 		6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBDetailView.swift; sourceTree = "<group>"; };
 		6A1131F02B7CF93200CDF054 /* RecipeFBListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBListView.swift; sourceTree = "<group>"; };
 		6A1131F12B7CF93300CDF054 /* InstructionsFBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsFBView.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				6A1132082B7CF95900CDF054 /* AddRecipeView.swift */,
 				6A1132092B7CF95900CDF054 /* AddTagsDataView.swift */,
 				6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */,
+				6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */,
 			);
 			path = AddRecipeViews;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				6A1132102B7CF95A00CDF054 /* AddComponentDataView.swift in Sources */,
 				6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */,
 				6AF6397B2B7A51340070CDC1 /* GlobalVariables.swift in Sources */,
+				6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */,
 				6AF639492B7A4ED90070CDC1 /* NextStep+CoreDataClass.swift in Sources */,
 				6A1132172B7CF96900CDF054 /* ScheduledTaskEditView.swift in Sources */,
 				6AF6394F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift in Sources */,

@@ -55,7 +55,10 @@ struct RecipeImageImportView: View {
     var body: some View {
         Group {
             if let analysisResult {
-                RecipeImportConfirmationView(result: analysisResult) {
+                RecipeImportConfirmationView(
+                    result: analysisResult,
+                    pageImages: selectedImages.map(\.image)
+                ) {
                     showRecipeReview = true
                 } onStartOver: {
                     self.analysisResult = nil
@@ -263,13 +266,52 @@ struct RecipeImageImportView: View {
 
 private struct RecipeImportConfirmationView: View {
     let result: RecipeImageAnalysisResult
+    /// The pages as they were selected, so the name can be corrected by
+    /// pointing at the page instead of retyping it.
+    let pageImages: [UIImage]
     let onConfirm: () -> Void
     let onStartOver: () -> Void
+
+    @State private var isChoosingTitle = false
+    /// Mirrors the recipe's name so the row refreshes after a correction:
+    /// RecipeFB is observable, but the name is read once while the list builds.
+    @State private var recipeName = ""
+
+    /// Whether the name can be corrected by pointing at a page.
+    private var canPickTitle: Bool {
+        !pageImages.isEmpty && result.titleOptions.contains { pageImages.indices.contains($0.page) }
+    }
 
     var body: some View {
         List {
             Section("Erkanntes Rezept") {
-                LabeledContent("Name", value: result.recipe.name)
+                if canPickTitle {
+                    Button {
+                        isChoosingTitle = true
+                    } label: {
+                        LabeledContent("Name") {
+                            HStack(spacing: 6) {
+                                Text(recipeName)
+                                Image(systemName: "square.dashed.inset.filled")
+                            }
+                        }
+                    }
+                    .tint(Theme.accentText)
+                    .accessibilityLabel("Name: \(recipeName)")
+                    .accessibilityHint("Namen auf der Seite auswählen")
+                    .sheet(isPresented: $isChoosingTitle) {
+                        RecipeTitleRegionPickerView(
+                            pageImages: pageImages,
+                            regions: result.titleOptions,
+                            currentTitle: recipeName
+                        ) { chosen in
+                            result.recipe.name = chosen
+                            recipeName = chosen
+                        }
+                    }
+                } else {
+                    LabeledContent("Name", value: recipeName)
+                }
                 LabeledContent("Erkannte Vorlage") {
                     Text(result.layout.title)
                 }
@@ -314,6 +356,9 @@ private struct RecipeImportConfirmationView: View {
 
             Section("Hinweis") {
                 Text("Bitte prüfe Mengen, Einheiten, Temperaturen und Zeiten im nächsten Schritt. Das Rezept wird erst gespeichert, wenn du dort „Rezept speichern“ auswählst.")
+                if canPickTitle {
+                    Text("Stimmt der Name nicht, tippe ihn oben an — dann kannst du die richtige Zeile direkt auf der Seite auswählen.")
+                }
             }
 
             Section {
@@ -321,6 +366,9 @@ private struct RecipeImportConfirmationView: View {
                     .buttonStyle(.borderedProminent)
                 Button("Andere Bilder auswählen", action: onStartOver)
             }
+        }
+        .onAppear {
+            if recipeName.isEmpty { recipeName = result.recipe.name }
         }
     }
 

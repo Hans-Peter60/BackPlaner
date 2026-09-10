@@ -20,6 +20,18 @@ enum RecipeLayout: String, CaseIterable, Sendable {
     }
 }
 
+/// A recognized line together with where it was printed, so the import can put
+/// it back on the page for the user to point at.
+struct RecipeTextRegion: Identifiable, Sendable {
+    let id = UUID()
+    /// Index into the images that were analysed.
+    let page: Int
+    let text: String
+    /// Vision's normalized rectangle: the origin is the bottom-left corner and
+    /// both axes run 0…1, so it has to be flipped for SwiftUI.
+    let boundingBox: CGRect
+}
+
 struct RecipeImageAnalysisResult {
     let recipe: RecipeFB
     let recognizedText: String
@@ -29,19 +41,25 @@ struct RecipeImageAnalysisResult {
     let warnings: [String]
     /// The layout this result was read with.
     let layout: RecipeLayout
+    /// The headings the page offers as a name, best guess first. A page carries
+    /// logos, print headers and column captions that read like a title, so the
+    /// choice is offered rather than only guessed.
+    let titleOptions: [RecipeTextRegion]
 
     init(
         recipe: RecipeFB,
         recognizedText: String,
         recipeImage: UIImage? = nil,
         warnings: [String] = [],
-        layout: RecipeLayout = .general
+        layout: RecipeLayout = .general,
+        titleOptions: [RecipeTextRegion] = []
     ) {
         self.recipe = recipe
         self.recognizedText = recognizedText
         self.recipeImage = recipeImage
         self.warnings = warnings
         self.layout = layout
+        self.titleOptions = titleOptions
     }
 
     var componentCount: Int { recipe.components.count }
@@ -78,6 +96,30 @@ private struct RecognizedRecipeLine: Sendable {
 
     var x: CGFloat { boundingBox.minX }
     var y: CGFloat { boundingBox.midY }
+}
+
+/// Whether a line belongs to the page rather than to the recipe: a browser's
+/// print header, a page count, or a piece of a logo.
+///
+/// The name is otherwise taken from the topmost heading-like line, and these sit
+/// above the real heading — so a "750 grammes" logo caught in the frame became
+/// the recipe's name, while the same recipe photographed a little wider read
+/// correctly. This judges a whole line; `withoutPageFurniture` strips such
+/// fragments out of a line that is otherwise wanted.
+private func isPageFurnitureLine(_ line: String) -> Bool {
+    let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+    let patterns = [
+        // A web address, with or without a scheme: "quiche-lorraine.com …".
+        #"[\p{L}\d][\p{L}\d\-]*\.(?:com|de|fr|net|org|eu|ch|at|be|it|es)\b"#,
+        // "Seite 1 von 2", "Page 1 sur 2", "Page 1 of 2".
+        #"^\s*(?:seite|page)\s+\d+\s*(?:von|sur|of|/)?\s*\d*\s*$"#,
+        // What is left of a logo: "~ 750", "750 g", "grammes".
+        #"^\s*[~¥≈\-–—]?\s*\d+(?:[.,]\d+)?\s*(?:g|gr|kg|ml|cl|dl|l)?\.?\s*$"#,
+        #"^\s*(?:gramm|gramme|grammes|gramms|gr)\.?\s*$"#
+    ]
+    return patterns.contains {
+        trimmed.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil
+    }
 }
 
 /// What the document request understood about a page beyond its plain lines: the
@@ -338,6 +380,7 @@ final class RecipeImageAnalysisAgent {
             throw RecipeImageAnalysisError.noTextRecognized
         }
 
+
         let parsed = try GeneralRecipeParser(
             lines: orderedLines,
             structures: pages.structures
@@ -347,7 +390,8 @@ final class RecipeImageAnalysisAgent {
             recognizedText: orderedLines.map(\.text).joined(separator: "\n"),
             recipeImage: extractRecipePhoto(from: firstImage, pages: pages),
             warnings: parsed.warnings,
-            layout: .general
+            layout: .general,
+            titleOptions: titleRegions(in: pages, chosen: parsed.recipe.name)
         )
     }
 
@@ -616,7 +660,8 @@ final class RecipeImageAnalysisAgent {
             // well, so it is worth cutting out here too — otherwise the import
             // offers the whole page as the recipe's image.
             recipeImage: extractRecipePhoto(from: firstImage, pages: pages),
-            layout: .ploetzblogTwoColumn
+            layout: .ploetzblogTwoColumn,
+            titleOptions: titleRegions(in: pages, chosen: recipe.name)
         )
     }
 
@@ -763,6 +808,68 @@ final class RecipeImageAnalysisAgent {
         var structures: [RecognizedPageStructure] = []
     }
 
+    /// Every recognized line, with where it sits, so the import can let the user
+    /// point at the recipe's name.
+    ///
+    /// Deliberately unfiltered, by position and by content alike. Any rule that
+    /// narrows this repeats the very guess the picker exists to override: a
+    /// title can sit below a photo, halfway down a book page or on the second
+    /// sheet, and `isPageFurnitureLine` — right for the automatic choice —
+    /// throws away every line carrying a web address, which on a printout from
+    /// quiche-lorraine.com is the heading itself. Ranking still puts the likely
+    /// headings first, but nothing printed is withheld.
+    private func titleRegions(
+        in pages: RecognizedPages,
+        chosen: String
+    ) -> [RecipeTextRegion] {
+        // Both recognitions contribute: the document request joins wrapped
+        // headings, classic recognition catches lines it dropped.
+        let candidates = (pages.documentLines + pages.classicLines).filter { line in
+            let trimmed = line.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmed.count >= 2 && trimmed.count <= 120
+        }
+        guard !candidates.isEmpty else { return [] }
+
+        let chosenValue = chosen.trimmingCharacters(in: .whitespacesAndNewlines)
+        let ordered = candidates.sorted { left, right in
+            if left.text == chosenValue { return true }
+            if right.text == chosenValue { return false }
+            if left.page != right.page { return left.page < right.page }
+            if abs(left.boundingBox.height - right.boundingBox.height) > 0.002 {
+                return left.boundingBox.height > right.boundingBox.height
+            }
+            return left.boundingBox.midY > right.boundingBox.midY
+        }
+
+        var seen = Set<String>()
+        var regions = ordered.compactMap { line -> RecipeTextRegion? in
+            guard seen.insert("\(line.page)|\(line.text)").inserted else { return nil }
+            return RecipeTextRegion(
+                page: line.page,
+                text: line.text,
+                boundingBox: line.boundingBox
+            )
+        }
+
+        // A heading that wraps arrives as one line per printed row, so the name
+        // the reading assembled matches none of them. Offered as fragments the
+        // picker could only ever shorten a correct title, so the assembled name
+        // is put back over the rows it came from.
+        if !chosenValue.isEmpty, !regions.contains(where: { $0.text == chosenValue }),
+           let page = candidates.first(where: { chosenValue.contains($0.text) })?.page {
+            let parts = candidates.filter { $0.page == page && chosenValue.contains($0.text) }
+            let box = parts.reduce(CGRect.null) { $0.union($1.boundingBox) }
+            if !box.isNull {
+                regions.insert(
+                    RecipeTextRegion(page: page, text: chosenValue, boundingBox: box),
+                    at: 0
+                )
+            }
+        }
+
+        return regions
+    }
+
     private func recognizePages(
         images: [UIImage],
         progress: @escaping @MainActor (Int, Int) -> Void
@@ -773,6 +880,15 @@ final class RecipeImageAnalysisAgent {
         for (index, image) in images.enumerated() {
             try Task.checkCancellation()
             await progress(index + 1, images.count)
+
+            // What the picker actually handed over. With iCloud Photos set to
+            // optimise storage, the copy on the device is smaller than the
+            // original, and small print stops being legible to the OCR.
+            AppLog.recipeImport.debug("""
+                Bild \(index + 1): \
+                \(Int(image.size.width * image.scale))×\(Int(image.size.height * image.scale)) px \
+                (scale \(image.scale), Ausrichtung \(image.imageOrientation.rawValue))
+                """)
 
             let orientation = Self.visionOrientation(for: image.imageOrientation)
             var classicLines = try await recognizeLines(
@@ -797,6 +913,17 @@ final class RecipeImageAnalysisAgent {
                 classicLines.removeAll { $0.x >= 0.48 && $0.y >= 0.70 }
                 classicLines.append(contentsOf: planningLines)
             }
+
+            // Worth keeping: text recognition returns markedly fewer lines on a
+            // device than in the simulator for the same file, and more
+            // paragraphs than lines is the sign of it. Neither a second pass at
+            // twice the size nor one without the language model recovered any
+            // of them, so when this shows up the text is simply not there.
+            AppLog.recipeImport.debug("""
+                Seite \(index + 1): zeilen=\(classicLines.count) \
+                absätze=\(structure?.paragraphs.count ?? -1) \
+                tabellen=\(structure?.tables.count ?? -1)
+                """)
 
             pages.classicLines.append(contentsOf: classicLines)
             if let structure {
@@ -890,22 +1017,19 @@ final class RecipeImageAnalysisAgent {
         }
 
         // Document paragraphs preserve paragraph boundaries and words split
-        // across printed line breaks. Prefer them for instruction prose while
-        // retaining classic OCR for the fine-grained ingredient rows.
-        let actionTerms: [String] = [
-            "misch", "verruhr", "knet", "reifen", "ruhen", "lassen", "back",
-            "einarbeit", "zugeben", "abtrennen", "formen", "rundwirk", "quell"
-        ]
-        // Paragraphs complement the classic OCR. They must not remove the
-        // original lines because compact component paragraphs are sometimes
-        // assigned a broader or neighboring layout region by Vision.
+        // across printed line breaks. They complement the classic OCR and must
+        // not remove its lines, because Vision sometimes assigns a compact
+        // component paragraph a broader or neighbouring layout region.
+        //
+        // Every paragraph is kept, not only those carrying a baking verb. The
+        // two recognitions do not agree on what they read: on one device the
+        // printed line "Zuerst die Hefe im lauwarmen Wasser auflösen…" was not
+        // returned at all — Vision read the step's number badge on that
+        // baseline instead — so the paragraph was the only copy of the text,
+        // and a keyword filter threw it away. Duplicates are cheap; the
+        // readers deduplicate paragraphs against their lines anyway.
         filteredLines.append(contentsOf: structure.paragraphs.compactMap { paragraph in
-            let value = paragraph.text.folding(
-                options: [.diacriticInsensitive, .caseInsensitive],
-                locale: Locale(identifier: "de_DE")
-            )
             guard paragraph.text.count >= 20,
-                  actionTerms.contains(where: value.contains),
                   !isInsidePlanningTable(paragraph.boundingBox) else {
                 return nil
             }
@@ -1913,15 +2037,16 @@ private struct GeneralRecipeParser {
         }
 
         let recipe = RecipeFB()
-        recipe.name = structureTitle()
-            ?? detectedMultilineTitle()
+        recipe.name = wholeHeading(structureTitle(), detectedMultilineTitle())
             ?? titleCandidates.first
             ?? AppSettings.generatedRecipeTexts().importedRecipe
         recipe.summary = usedSpatialComponentAssignment
             ? (detectedDescriptionUnderTitle(title: recipe.name) ?? detectedSummary(in: textLines))
-            : detectedSummary(in: textLines)
+            : (subtitleUnderTitle(recipe.name) ?? detectedSummary(in: textLines))
         recipe.sourceLanguage = detectedLanguage(in: textLines)
         recipe.tags = inferredGeneralTags(from: recipe.name)
+
+        componentRows = componentRows.filter { !isMetadataRow($0.1) }
 
         let groupedComponents = Dictionary(grouping: componentRows, by: \.0)
         var seenComponentNames: [String] = []
@@ -1945,8 +2070,19 @@ private struct GeneralRecipeParser {
             return component
         }
 
-        if let analyzedSteps = analyzedNumberedSteps(instructionRows)
-            ?? analyzedComponentSteps(instructionRows) {
+        let numbered = analyzedNumberedSteps(instructionRows)
+        let component = numbered == nil ? analyzedComponentSteps(instructionRows) : nil
+        let grouped = (numbered ?? component) == nil
+            ? paragraphGroupedInstructions(instructionRows)
+            : nil
+        AppLog.recipeImport.debug("""
+            Reader-Pfad: nummeriert=\(numbered?.count ?? -1) \
+            komponenten=\(component?.count ?? -1) \
+            absätze=\(grouped?.count ?? -1) \
+            zeilen=\(self.lines.count) rows=\(instructionRows.count)
+            """)
+
+        if let analyzedSteps = numbered ?? component ?? grouped {
             recipe.instructions = analyzedSteps.map { analyzed in
                 let instruction = InstructionFB()
                 instruction.id = UUID().uuidString
@@ -2417,6 +2553,35 @@ private struct GeneralRecipeParser {
         let name: String
     }
 
+    /// Whether a row read as an ingredient is really the page's own metadata.
+    ///
+    /// A star rating, a portion box and a time box are each a number beside a
+    /// word, so they parse exactly like "350 g Wasser" — a web recipe yielded
+    /// "45 Kommentare", "4 Portionen" and "240 °C" among its ingredients, and
+    /// from there they travel to the shopping list.
+    private func isMetadataRow(_ ingredient: ParsedIngredient) -> Bool {
+        let name = ingredient.name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else { return true }
+
+        // "(62)" beside the stars: a name without a single letter.
+        guard name.contains(where: \.isLetter) else { return true }
+
+        let patterns = [
+            // A bare temperature or duration: "°C", "240 °C", "1 Std", "25 Min".
+            #"^\d*\s*°?\s*[cf]$"#,
+            #"^\d*\s*(std|stdn|stunden?|min|minuten?|h|sek|sekunden?)\.?$"#,
+            // Ratings and counts.
+            #"^\d*\s*(kommentare?|bewertungen?|stimmen?|votes?|avis)$"#,
+            // Yield, which is a heading rather than something to buy.
+            #"^(für\s+)?\d*\s*(portionen?|personen?|stück\s+zu)$"#,
+            // The labels of a time box.
+            #"^(gesamtzeit|arbeitszeit|ruhezeit|backzeit|kochzeit|koch-?/?backzeit|zubereitungszeit)$"#
+        ]
+        return patterns.contains {
+            name.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil
+        }
+    }
+
     private struct ProseComponent {
         let name: String
         let text: String
@@ -2728,6 +2893,21 @@ private struct GeneralRecipeParser {
     /// a paragraph's box is as tall as the block it covers — the tallest thing
     /// on the page was a step of the method, so the search for the heading came
     /// up empty and every book page kept the placeholder description.
+    /// The subtitle a web recipe prints under its heading — "Mischbrot, bleibt
+    /// einige Tage frisch".
+    ///
+    /// Only a short line counts. On a page that sets its method directly under
+    /// the heading everything below qualifies as "under the title", and the
+    /// summary would swallow the whole recipe; the yield line `detectedSummary`
+    /// settles for is the lesser evil there.
+    private func subtitleUnderTitle(_ title: String) -> String? {
+        guard let description = detectedDescriptionUnderTitle(title: title),
+              description.count <= 120 else {
+            return nil
+        }
+        return description
+    }
+
     private func detectedDescriptionUnderTitle(title: String) -> String? {
         guard let firstPage = lines.map(\.page).min() else { return nil }
         let pageLines = lines.filter { $0.page == firstPage }
@@ -2760,6 +2940,12 @@ private struct GeneralRecipeParser {
                 // Kartoffelanteil" is the description, not an ingredient.
                 && parseIngredient(line.text) == nil
                 && !isPercentageOnly(line.text)
+                // "1 / 32 DolceVita4456" is printed on the photo, and "5/5" is
+                // a rating — both sit under the heading like a subtitle does.
+                && line.text.range(
+                    of: #"^\s*\d+\s*/\s*\d+\b"#,
+                    options: .regularExpression
+                ) == nil
         }.sorted {
             if abs($0.y - $1.y) > 0.008 { return $0.y > $1.y }
             return $0.x < $1.x
@@ -2821,6 +3007,24 @@ private struct GeneralRecipeParser {
 
     /// The heading the document request marked as the page title, already
     /// joined across the lines it wraps into.
+    /// The complete heading, given what the document structure named as the
+    /// page title and what joining the large lines at its top produced.
+    ///
+    /// The structure is trusted first — it knows a heading from a caption — but
+    /// for a heading printed over two rows it reports only the first of them,
+    /// so "Knusprige und saftige Bauernkruste" arrived as "Knusprige und
+    /// saftige". A joined reading that begins with the structure's answer is
+    /// therefore the same heading, seen whole.
+    private func wholeHeading(_ structure: String?, _ multiline: String?) -> String? {
+        guard let structure else { return multiline }
+        guard let multiline,
+              multiline.count > structure.count,
+              normalized(multiline).hasPrefix(normalized(structure)) else {
+            return structure
+        }
+        return multiline
+    }
+
     private func structureTitle() -> String? {
         guard let page = lines.map(\.page).min(),
               let title = structures.first(where: { $0.page == page })?.title,
@@ -2857,7 +3061,14 @@ private struct GeneralRecipeParser {
             return $0.x < $1.x
         }
 
-        let title = titleLines.map(\.text).joined(separator: " ")
+        // The recognition contributes each printed row and the paragraph block
+        // it belongs to, so a one-row heading arrives twice and joining would
+        // write "Knusprige und saftige Knusprige und saftige Bauernkruste".
+        var seen = Set<String>()
+        let title = titleLines
+            .map(\.text)
+            .filter { seen.insert(normalized($0)).inserted }
+            .joined(separator: " ")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         return title.count >= 3 ? title : nil
     }
@@ -3884,6 +4095,134 @@ private struct GeneralRecipeParser {
         return 0
     }
 
+    /// The work steps as they are printed, grouped by the space between them.
+    ///
+    /// A web recipe sets its step numbers as pale badges beside the text, and
+    /// Vision does not read those digits at all — so `analyzedNumberedSteps`
+    /// finds nothing to group by, and splitting the remaining prose by sentence
+    /// turned five printed steps into sixteen. What does survive the photograph
+    /// is the typography: on such a page the gap between two steps is about
+    /// half again the line spacing inside one, which is enough to put the
+    /// paragraphs back together.
+    private func paragraphGroupedInstructions(_ source: [String]) -> [AnalyzedRecipeStep]? {
+        let wanted = source.map(normalized).filter { $0.count >= 12 }
+        guard wanted.count >= 4 else { return nil }
+
+        // Only the printed lines that carry a work step. Measuring the whole
+        // page instead put the gap between the heading and the body into the
+        // threshold, after which nothing inside the body separated any more.
+        //
+        // The rows arrive already joined into paragraphs, so a printed line is
+        // a fragment of one rather than equal to it.
+        var stepLines = lines.filter { line in
+            let value = normalized(line.text)
+            guard value.count >= 8 else { return false }
+            return wanted.contains { $0.contains(value) }
+        }
+        // The paragraph blocks match their own text and would sit on top of the
+        // lines they are made of, closing every gap between them.
+        let heights = stepLines.map(\.boundingBox.height).sorted()
+        guard !heights.isEmpty else { return nil }
+        let medianHeight = heights[heights.count / 2]
+        stepLines = stepLines.filter { $0.boundingBox.height < medianHeight * 1.8 }
+        guard stepLines.count >= 4 else { return nil }
+
+        var paragraphs: [(page: Int, y: CGFloat, text: String)] = []
+
+        for page in Set(stepLines.map(\.page)).sorted() {
+            let printed = stepLines
+                .filter { $0.page == page }
+                .sorted { $0.boundingBox.midY > $1.boundingBox.midY }
+            guard printed.count >= 2 else { continue }
+
+            let gaps = zip(printed, printed.dropFirst()).map {
+                $0.boundingBox.minY - $1.boundingBox.maxY
+            }
+            let sorted = gaps.sorted()
+            let medianGap = sorted[sorted.count / 2]
+            // Evenly spaced lines carry no paragraph break to find, and any
+            // threshold would then cut the text at an arbitrary place.
+            // A multiple of the typical spacing, not the midpoint to the widest
+            // gap: one outlier — a figure, a page break — otherwise lifts the
+            // threshold above every real paragraph break.
+            guard let widest = sorted.last, widest > medianGap * 1.8, medianGap > 0 else { continue }
+            let breakAt = medianGap * 2
+
+            var current: [RecognizedRecipeLine] = []
+            func flush() {
+                guard let first = current.first else { return }
+                // A paragraph block and the lines it is made of both land in
+                // the same group, so each sentence would otherwise be written
+                // into the step twice.
+                let text = cleanedLine(
+                    deduplicatedParagraphs(current.map(\.text)).joined(separator: " ")
+                )
+                if !text.isEmpty { paragraphs.append((page, first.boundingBox.midY, text)) }
+                current = []
+            }
+            for (index, line) in printed.enumerated() {
+                if index > 0, gaps[index - 1] > breakAt { flush() }
+                current.append(line)
+            }
+            flush()
+        }
+
+        // The time box above the steps is grouped like any other paragraph.
+        paragraphs = paragraphs.filter { isUsefulInstruction($0.text) }
+
+        // Fewer paragraphs than lines means the grouping actually joined
+        // something; the same count means every line stayed on its own and the
+        // sentence split does the job just as well.
+        guard paragraphs.count >= 3, paragraphs.count < stepLines.count else { return nil }
+
+        // On a magazine page, where a text box sits over a photograph, the
+        // spacing carries no paragraph structure at all: grouping by it cut
+        // the method into pieces and put them in the wrong order. A step that
+        // begins in the middle of a word is the giveaway — every printed one
+        // starts with a capital or a number.
+        let startsCleanly = paragraphs.allSatisfy { paragraph in
+            guard let first = paragraph.text.first else { return false }
+            return first.isUppercase || first.isNumber
+        }
+        guard startsCleanly else { return nil }
+
+        let groupedLength = paragraphs.reduce(0) { $0 + $1.text.count }
+        let printedLength = Set(wanted).reduce(0) { $0 + $1.count }
+        guard Double(groupedLength) >= Double(printedLength) * 0.8 else { return nil }
+
+        var steps: [AnalyzedRecipeStep] = []
+        for paragraph in paragraphs {
+            let text = condensedIngredientLists(in: removingListMarker(from: paragraph.text))
+            // Baking under a lid and browning without it are one printed step
+            // but two waits, and read together the shorter of the two wins —
+            // an hour in the oven came out as twelve minutes.
+            if normalized(text).contains("deckel abnehmen"),
+               let lidRange = text.range(of: "Dann den Deckel", options: .caseInsensitive) {
+                let covered = String(text[..<lidRange.lowerBound])
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                let uncovered = String(text[lidRange.lowerBound...])
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                steps.append(AnalyzedRecipeStep(
+                    step: Double(steps.count + 1),
+                    text: covered,
+                    duration: estimatedDuration(in: covered)
+                ))
+                steps.append(AnalyzedRecipeStep(
+                    step: Double(steps.count + 1),
+                    text: uncovered,
+                    duration: averageMinuteRange(in: uncovered) ?? duration(in: uncovered)
+                ))
+                continue
+            }
+            steps.append(AnalyzedRecipeStep(
+                step: Double(steps.count + 1),
+                text: text,
+                duration: estimatedDuration(in: paragraph.text)
+            ))
+        }
+        return steps
+    }
+
     private func analyzedNumberedSteps(_ source: [String]) -> [AnalyzedRecipeStep]? {
         var groupedSteps: [(number: Int, text: String)] = []
         var currentIndex: Int?
@@ -3905,6 +4244,17 @@ private struct GeneralRecipeParser {
         }
 
         guard groupedSteps.count >= 3 else { return nil }
+
+        // The numbers have to run 1, 2, 3 … without a hole. A page whose step
+        // badges are set in pale grey is read unevenly — one device returned
+        // 1, 2, 4, 5 and, with the missing badge, the text of two steps landed
+        // under one number. Grouping by an incomplete numbering is worse than
+        // not grouping by number at all.
+        let numbers = groupedSteps.map(\.number)
+        guard numbers.first == 1,
+              numbers == Array(1...numbers.count) else {
+            return nil
+        }
 
         var results: [AnalyzedRecipeStep] = []
         for grouped in groupedSteps {
@@ -4097,6 +4447,12 @@ private struct GeneralRecipeParser {
             && !value.contains("portionen")
             && !value.contains("personen")
             && !value.contains("www ")
+            && !isPageFurnitureLine(line)
+            // "Zutaten" and "Zubereitung" are set as large as the recipe's name
+            // on a two-column web page, and on one that is cropped below its
+            // heading they would become the name.
+            && !isIngredientHeading(value)
+            && !isInstructionHeading(value)
     }
 
     private func isActionInstruction(_ line: String) -> Bool {
@@ -4117,8 +4473,12 @@ private struct GeneralRecipeParser {
             "vorbereitungszeit", "portionen", "fur 1 portion"
         ]
         guard line.count > 12, !metadata.contains(where: value.hasPrefix) else { return false }
+        // "1 Std. 25 Min." separates its two values with nothing but a space,
+        // so the separator has to be optional — otherwise a time box reads as
+        // a work step. "Sta." is not a typo: that is how the OCR returns the
+        // abbreviation on a screenshot often enough to matter.
         let isOnlyTimeValue = line.range(
-            of: #"^\s*\d+(?:[.,]\d+)?\s*(?:Std\.?|Stunden?|Min(?:ute)?n?|h)(?:\s*[,/]\s*\d+\s*Min(?:ute)?n?\.?)?\s*$"#,
+            of: #"^\s*\d+(?:[.,]\d+)?\s*(?:Std\.?|Sta\.?|Stunden?|Min(?:ute)?n?\.?|h)(?:\s*[,/]?\s*\d+\s*Min(?:ute)?n?\.?)?\s*$"#,
             options: [.regularExpression, .caseInsensitive]
         ) != nil
         guard !isOnlyTimeValue else { return false }
