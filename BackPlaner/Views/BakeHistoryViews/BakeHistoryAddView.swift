@@ -66,7 +66,7 @@ struct BakeHistoryAddView: View {
                     .multilineTextAlignment(.leading)
                     .padding(4)
                         .overlay(RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray).opacity(0.3))
+                            .stroke(Theme.fieldBorder))
                     .font(Theme.bodyFont(16))
                     .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
                     // A TextEditor has no placeholder to fall back on.

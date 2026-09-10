@@ -40,7 +40,7 @@ struct AddMetaDataView: View {
                 )
                 .overlay {
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray.opacity(0.3))
+                        .stroke(Theme.fieldBorder)
                 }
                 .multilineTextAlignment(.leading)
                 .frame(minWidth: 150, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .leading)

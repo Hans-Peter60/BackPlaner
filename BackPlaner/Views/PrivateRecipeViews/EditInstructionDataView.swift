@@ -125,7 +125,7 @@ struct EditInstructionView: View {
                         TextEditor(text: $instruction)
                             .padding(4)
                                 .overlay(RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray).opacity(0.3))
+                                    .stroke(Theme.fieldBorder))
                             .multilineTextAlignment(.leading)
                             .frame(minWidth: 200, idealWidth: 500, maxWidth: 600, minHeight: 200, idealHeight: 200, maxHeight: 200, alignment: .leading)
                             .padding(.top, 5)

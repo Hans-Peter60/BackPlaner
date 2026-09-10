@@ -767,7 +767,11 @@ struct CheckboxStyle: ToggleStyle {
             Image(systemName: configuration.isOn ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .frame(width: 24, height: 24)
-                .foregroundColor(configuration.isOn ? .purple : .gray)
+                // The tick carries the step's state on its own, so it is a
+                // control and not decoration. System .gray managed 3.3:1 on a
+                // white card — just over the 3:1 line, and off the app's
+                // palette besides, which made the purple read as a leftover.
+                .foregroundColor(configuration.isOn ? Theme.accentText : Theme.subtitle)
                 .font(.system(size: 20, weight: .bold, design: .default))
                 .onTapGesture {
                     configuration.isOn.toggle()

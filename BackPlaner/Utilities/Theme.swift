@@ -56,6 +56,15 @@ enum Theme {
     static let card = dynamic(light: .white,
                               dark:  Color(red: 0.20, green: 0.16, blue: 0.13))
 
+    /// Outline of a text editor or of the unit menu. Unlike the card's shadow
+    /// this border is not decoration: it is the only thing marking where the
+    /// control begins and ends, which makes it a user interface component under
+    /// WCAG 1.4.11 and puts it at a 3:1 minimum. The `.gray.opacity(0.3)` used
+    /// before managed 1.4:1 on a white card and 1.6:1 on the dark one — a
+    /// hairline that was essentially invisible. `subtitle` at 70 % reaches
+    /// 3.6:1 and 4.5:1 while still reading as a quiet hairline.
+    static let fieldBorder = subtitle.opacity(0.7)
+
     // Text colors (dark brown on cream in light mode, warm cream in dark mode).
     static let title     = dynamic(light: Color(red: 0.35, green: 0.20, blue: 0.08),
                                    dark:  Color(red: 0.96, green: 0.90, blue: 0.80))
