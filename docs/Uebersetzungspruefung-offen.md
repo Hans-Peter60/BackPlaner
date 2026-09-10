@@ -2,14 +2,14 @@
 
 Stand: 10.09.2026 · 87 Texte, die noch nicht geprüft sind.
 
-Die bereits geprüften 271 Texte stehen in `Uebersetzungspruefung-FR.md` und sind hier **nicht** enthalten.
+Die bereits geprüften 269 Texte stehen in `Uebersetzungspruefung-FR.md` und sind hier **nicht** enthalten.
 
 **Beim Korrigieren bitte beachten:**
 
 - `%@`, `%lld`, `%1$@` sind Platzhalter, die die App zur Laufzeit füllt. Sie müssen erhalten bleiben; ihre Reihenfolge darf sich ändern, wenn die Nummer mitgeht (`%1$@`, `%2$@`).
 - `⏎` steht für einen Zeilenumbruch im Text.
 - Bei Pluralformen gibt es je Zahl eine eigene Fassung, gekennzeichnet mit `one:` und `other:`.
-- **`fehlt`** in der Statusspalte heißt: Es gibt gar keine Übersetzung, der Nutzer sieht Deutsch.
+- Alle Einträge haben eine Übersetzung, aber keine ist von einem Menschen bestätigt.
 - Die Spalten **Anmerkung EN / FR** sind zum Ausfüllen.
 
 | # | Deutsch | Englisch | Französisch | Status | Hinweis | Anmerkung EN | Anmerkung FR |
@@ -18,7 +18,7 @@ Die bereits geprüften 271 Texte stehen in `Uebersetzungspruefung-FR.md` und sin
 | 2 | %lld von %lld Sternen | %1$lld out of %2$lld stars | %1$lld sur %2$lld étoiles | en=machine_translated / fr=machine_translated | Platzhalter |  |  |
 | 3 | Alle Rezepte | All recipes | Toutes les recettes | en=machine_translated / fr=machine_translated |  |  |  |
 | 4 | Allgemeine Rezeptvorlage | General recipe source | Source de recette générale | en=machine_translated / fr=machine_translated |  |  |  |
-| 5 | Als Rezeptnamen übernehmen |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 5 | Als Rezeptnamen übernehmen | Use as the recipe name | Utiliser comme nom de la recette | en=machine_translated / fr=machine_translated |  |  |  |
 | 6 | Als öffentliches Rezept speichern | Save as a public recipe | Enregistrer comme recette publique | en=machine_translated / fr=machine_translated |  |  |  |
 | 7 | Anmeldung erforderlich | Sign-in required | Connexion requise | en=machine_translated / fr=machine_translated |  |  |  |
 | 8 | Apple-Konto | Apple Account | Compte Apple | en=machine_translated / fr=machine_translated |  |  |  |
@@ -59,9 +59,9 @@ Die bereits geprüften 271 Texte stehen in `Uebersetzungspruefung-FR.md` und sin
 | 43 | Menge | Amount | Quantité | en=machine_translated / fr=machine_translated |  |  |  |
 | 44 | Menge ändern | Change amount | Modifier la quantité | en=machine_translated / fr=machine_translated |  |  |  |
 | 45 | Mit Apple anmelden | Sign in with Apple | Se connecter avec Apple | en=machine_translated / fr=machine_translated |  |  |  |
-| 46 | Name wählen |  |  | en=fehlt / fr=fehlt |  |  |  |
-| 47 | Name: %@ |  |  | en=fehlt / fr=fehlt | Platzhalter |  |  |
-| 48 | Namen auf der Seite auswählen |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 46 | Name wählen | Choose name | Choisir le nom | en=machine_translated / fr=machine_translated |  |  |  |
+| 47 | Name: %@ | Name: %@ | Nom : %@ | en=machine_translated / fr=machine_translated | Platzhalter |  |  |
+| 48 | Namen auf der Seite auswählen | Choose the name on the page | Choisir le nom sur la page | en=machine_translated / fr=machine_translated |  |  |  |
 | 49 | Nenner | Denominator | Dénominateur | en=machine_translated / fr=machine_translated |  |  |  |
 | 50 | Noch kein Rezeptbild | No recipe image yet | Pas encore d’image de recette | en=machine_translated / fr=machine_translated |  |  |  |
 | 51 | Nummer | Number | Numéro | en=machine_translated / fr=machine_translated |  |  |  |
@@ -79,16 +79,16 @@ Die bereits geprüften 271 Texte stehen in `Uebersetzungspruefung-FR.md` und sin
 | 63 | Rezeptbild | Recipe image | Image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
 | 64 | Rezeptbild vergrößern | Enlarge recipe image | Agrandir l’image de la recette | en=machine_translated / fr=machine_translated |  |  |  |
 | 65 | Rezepte filtern | Filter recipes | Filtrer les recettes | en=machine_translated / fr=machine_translated |  |  |  |
-| 66 | Rezeptname |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 66 | Rezeptname | Recipe name | Nom de la recette | en=machine_translated / fr=machine_translated |  |  |  |
 | 67 | Schritt erledigt | Step done | Étape terminée | en=machine_translated / fr=machine_translated |  |  |  |
 | 68 | Schritt offen | Step not done | Étape non terminée | en=machine_translated / fr=machine_translated |  |  |  |
-| 69 | Seite |  |  | en=fehlt / fr=fehlt |  |  |  |
-| 70 | Seite nicht verfügbar |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 69 | Seite | Page | Page | en=machine_translated / fr=machine_translated |  |  |  |
+| 70 | Seite nicht verfügbar | Page not available | Page indisponible | en=machine_translated / fr=machine_translated |  |  |  |
 | 71 | Selektion nach | Selection by | Sélection par | en=machine_translated / fr=machine_translated |  |  |  |
 | 72 | Sprache wählen | Choose language | Choisir la langue | en=machine_translated / fr=machine_translated |  |  |  |
-| 73 | Stimmt der Name nicht, tippe ihn oben an — dann kannst du die richtige Zeile direkt auf der Seite auswählen. |  |  | en=fehlt / fr=fehlt |  |  |  |
-| 74 | Tippe den Namen unten ein. |  |  | en=fehlt / fr=fehlt |  |  |  |
-| 75 | Tippe die Zeile an, die der Rezeptname sein soll. Steht der Name nicht auf der Seite, kannst du ihn unten eintippen. |  |  | en=fehlt / fr=fehlt |  |  |  |
+| 73 | Stimmt der Name nicht, tippe ihn oben an — dann kannst du die richtige Zeile direkt auf der Seite auswählen. | If the name is wrong, tap it above — you can then pick the right line directly on the page. | Si le nom est incorrect, appuyez dessus ci-dessus : vous pourrez alors choisir la bonne ligne directement sur la page. | en=machine_translated / fr=machine_translated |  |  |  |
+| 74 | Tippe den Namen unten ein. | Type the name below. | Saisissez le nom ci-dessous. | en=machine_translated / fr=machine_translated |  |  |  |
+| 75 | Tippe die Zeile an, die der Rezeptname sein soll. Steht der Name nicht auf der Seite, kannst du ihn unten eintippen. | Tap the line that should be the recipe name. If the name isn’t on the page, you can type it below. | Appuyez sur la ligne qui doit servir de nom à la recette. Si le nom ne figure pas sur la page, saisissez-le ci-dessous. | en=machine_translated / fr=machine_translated |  |  |  |
 | 76 | Url Link | URL link | Lien URL | en=machine_translated / fr=machine_translated |  |  |  |
 | 77 | Verarbeitungsschritt bearbeiten | Edit processing step | Modifier l’étape de préparation | en=machine_translated / fr=machine_translated |  |  |  |
 | 78 | Veröffentlichen | Publish | Publier | en=machine_translated / fr=machine_translated |  |  |  |
