@@ -343,6 +343,37 @@ extension RecipeFB {
         !((translations[languageCode]?.name ?? "").isEmpty)
     }
 
+    /// Re-files cached text from one language to another, throughout the recipe.
+    ///
+    /// Needed when a recipe turns out to be filed under the wrong language: the
+    /// text in that slot is the original, not a translation of it. Left where it
+    /// is, the app would keep finding an "already translated" version of the
+    /// language it is asked to translate into.
+    func moveCachedTranslation(from oldCode: String, to newCode: String) {
+        guard !oldCode.isEmpty, !newCode.isEmpty, oldCode != newCode else { return }
+
+        if let text = translations.removeValue(forKey: oldCode) {
+            translations[newCode] = text
+        }
+
+        for component in components {
+            if let text = component.translations.removeValue(forKey: oldCode) {
+                component.translations[newCode] = text
+            }
+            for ingredient in component.ingredients {
+                if let text = ingredient.translations.removeValue(forKey: oldCode) {
+                    ingredient.translations[newCode] = text
+                }
+            }
+        }
+
+        for instruction in instructions {
+            if let text = instruction.translations.removeValue(forKey: oldCode) {
+                instruction.translations[newCode] = text
+            }
+        }
+    }
+
     private func applyLocalization(languageCode: String) {
         guard !languageCode.isEmpty else { return }
 

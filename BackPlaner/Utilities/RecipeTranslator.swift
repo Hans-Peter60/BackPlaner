@@ -60,16 +60,62 @@ enum RecipeTranslator {
         return slots
     }
 
-    /// The recipe's original language, falling back to German when unknown.
+    /// The recipe's original language.
+    ///
+    /// Recorded recipes state it themselves. For the older ones, which carry
+    /// nothing, the language is read off their text — assuming German there put
+    /// a French recipe out of reach: its French text counted as the German
+    /// original, so translating it into German had nothing to do, and going via
+    /// English wrote the French text into the German cache for good.
     nonisolated static func sourceLanguageCode(for recipe: RecipeFB) -> String {
         let source = RecipeFB.baseLanguageCode(from: recipe.sourceLanguage)
-        return source.isEmpty ? "de" : source
+
+        guard !source.isEmpty else {
+            return RecipeLanguageDetector.detectedLanguage(of: recipe) ?? "de"
+        }
+
+        // A recorded language can be wrong, too: it used to be the language the
+        // app was set to rather than the recipe's own, so a French recipe
+        // entered in a German app claims to be German — and its French text
+        // sits in the German slot, which no amount of translating can undo.
+        // Only a clear disagreement between the recorded language and the text
+        // actually stored under it overrules the record.
+        if let detected = RecipeLanguageDetector.detectedLanguage(
+            of: recipe,
+            storedUnder: source,
+            minimumConfidence: 0.85
+        ), detected != source {
+            return detected
+        }
+
+        return source
+    }
+
+    /// Corrects a recipe that is filed under the wrong original language, by
+    /// moving its text into the language it is actually written in.
+    ///
+    /// Returns whether anything changed. Running it repeatedly costs nothing:
+    /// once the text sits under the right language, record and text agree.
+    @discardableResult
+    static func repairSourceLanguage(of recipe: RecipeFB) -> Bool {
+        let recorded = RecipeFB.baseLanguageCode(from: recipe.sourceLanguage)
+        let actual = sourceLanguageCode(for: recipe)
+
+        guard !actual.isEmpty, actual != recorded else { return false }
+
+        recipe.moveCachedTranslation(from: recorded, to: actual)
+        recipe.sourceLanguage = actual
+        return true
     }
 
     /// Displays the recipe in `languageCode` from cached text when possible.
     /// Returns `true` when no machine translation is needed (source language or already cached).
     @discardableResult
     static func showCachedIfAvailable(_ recipe: RecipeFB, languageCode: String) -> Bool {
+        // Every path into the translation menu comes through here, so this is
+        // where a mislabelled original is put right.
+        repairSourceLanguage(of: recipe)
+
         let source = sourceLanguageCode(for: recipe)
 
         if languageCode == source {

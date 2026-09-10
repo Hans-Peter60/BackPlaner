@@ -183,8 +183,22 @@ class RecipeFBModel: ObservableObject {
         // Include the authenticated owner in the Storage path. This lets the
         // Storage rules enforce that users only create/delete their own images.
         r.image = currentUser.uid + "/" + UUID().uuidString
-        r.applyPreferredLocalization()
-        r.capturePreferredLocalization()
+
+        // The recipe's language is the language of ITS OWN text, not the one the
+        // app happens to be set to. Stamping the interface language filed a
+        // French recipe entered in a German app as German, and the translation
+        // menu then had no way back into German.
+        let sourceLanguage = r.sourceLanguage.isEmpty
+            ? (RecipeLanguageDetector.detectedLanguage(of: r) ?? RecipeFB.preferredLanguageCode)
+            : RecipeFB.baseLanguageCode(from: r.sourceLanguage)
+
+        // A recipe being published from a private copy may be showing a
+        // translation right now; put the original back before snapshotting it.
+        if r.hasCachedTranslation(languageCode: sourceLanguage) {
+            r.showLocalization(languageCode: sourceLanguage)
+        }
+        r.sourceLanguage = sourceLanguage
+        r.storeLocalization(languageCode: sourceLanguage)
 
         // Report success only once both the image upload and the recipe document
         // have committed; surface the first error so the UI can inform the user.
@@ -337,10 +351,15 @@ class RecipeFBModel: ObservableObject {
 
         let recipeRef = db.collection(recipe.visibility.collectionName).document(recipeId)
 
-        // Recipe-level translations.
+        // Recipe-level translations. The source language travels with them: a
+        // recipe whose language was corrected must not be read back with the
+        // old one, or the correction would have to be repeated on every device.
         let recipeTranslations = recipe.firestoreTranslationsData
         if recipeTranslations[source] != nil {
-            recipeRef.updateData(["translations": recipeTranslations])
+            recipeRef.updateData([
+                "translations": recipeTranslations,
+                "sourceLanguage": source
+            ])
         }
 
         // Components and their ingredients.

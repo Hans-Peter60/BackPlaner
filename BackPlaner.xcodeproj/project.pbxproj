@@ -55,6 +55,7 @@
 		6AA03CE6304F3BC000F60434 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 6AA03CE5304F3BC000F60434 /* FirebaseAppCheck */; };
 		6AA6703930517A4C0074C7E6 /* AppleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */; };
 		6AA6703B30519DDF0074C7E6 /* ShoppingListAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703A30519DDF0074C7E6 /* ShoppingListAmount.swift */; };
+		6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */; };
 		6ABFE3E930483E0700E15C6C /* UnitSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */; };
 		6AD3411C304EA41700BCA4EA /* IngredientNameNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */; };
 		6AD3411E304EF4FE00BCA4EA /* BakePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */; };
@@ -147,6 +148,7 @@
 		6A9DE1C63046B040000581C7 /* IconActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionButton.swift; sourceTree = "<group>"; };
 		6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInView.swift; sourceTree = "<group>"; };
 		6AA6703A30519DDF0074C7E6 /* ShoppingListAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListAmount.swift; sourceTree = "<group>"; };
+		6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLanguageDetector.swift; sourceTree = "<group>"; };
 		6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSelectionView.swift; sourceTree = "<group>"; };
 		6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientNameNormalizer.swift; sourceTree = "<group>"; };
 		6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlanValidator.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */,
 				6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */,
 				6AA6703A30519DDF0074C7E6 /* ShoppingListAmount.swift */,
+				6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				6A5055EC304D60BD00F8E804 /* TotalIngredientsView.swift in Sources */,
 				6AF638C92B7A4A5A0070CDC1 /* RecipeModel.swift in Sources */,
 				6A1132102B7CF95A00CDF054 /* AddComponentDataView.swift in Sources */,
+				6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */,
 				6AF6397B2B7A51340070CDC1 /* GlobalVariables.swift in Sources */,
 				6AF639492B7A4ED90070CDC1 /* NextStep+CoreDataClass.swift in Sources */,
 				6A1132172B7CF96900CDF054 /* ScheduledTaskEditView.swift in Sources */,

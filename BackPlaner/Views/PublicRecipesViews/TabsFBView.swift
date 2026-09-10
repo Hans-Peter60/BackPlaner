@@ -30,6 +30,9 @@ struct TabsFBView: View {
 
     // Translation state: switching language re-writes the shared recipeFB, so both tabs update.
     @State private var selectedLanguage = ""
+    /// Set once the user picks a language, so the automatic choice stops
+    /// interfering with it.
+    @State private var hasChosenLanguage = false
     @State private var pendingLanguage: String?
     @State private var translationConfig: TranslationSession.Configuration?
     @State private var isTranslating = false
@@ -203,17 +206,32 @@ struct TabsFBView: View {
             Text(translationError ?? "")
         }
         .onAppear {
-            if selectedLanguage.isEmpty {
-                selectedLanguage = RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: RecipeFB.preferredLanguageCode)
-                    ? RecipeFB.preferredLanguageCode
-                    : RecipeTranslator.sourceLanguageCode(for: recipeFB)
-            }
+            applyInitialLanguage()
         }
+        // The recipe's language is read off its steps, which arrive a moment
+        // after the screen does. Without this the menu would keep the mark it
+        // guessed from the name alone.
+        .onChange(of: recipeFB.instructions.count) { _, _ in
+            guard !hasChosenLanguage else { return }
+            selectedLanguage = ""
+            applyInitialLanguage()
+        }
+    }
+
+    /// Marks the language the recipe is shown in when the screen opens: the
+    /// user's own if a translation for it exists, otherwise the original.
+    private func applyInitialLanguage() {
+        guard selectedLanguage.isEmpty else { return }
+
+        selectedLanguage = RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: RecipeFB.preferredLanguageCode)
+            ? RecipeFB.preferredLanguageCode
+            : RecipeTranslator.sourceLanguageCode(for: recipeFB)
     }
 
     /// Switches the displayed language for the shared recipe, translating on-device when needed.
     private func select(_ code: String) {
         guard code != selectedLanguage, !isTranslating else { return }
+        hasChosenLanguage = true
 
         if RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: code) {
             selectedLanguage = code
