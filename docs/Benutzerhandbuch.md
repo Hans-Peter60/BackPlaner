@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 09.09.2026 · App-Version 1.0
+Stand: 10.09.2026 · App-Version 1.0
 
 ---
 
@@ -268,6 +268,23 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 3. **Dauer übernehmen** tippen.
 
 Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer neu. Bei eigenen Rezepten werden die neuen Dauern dauerhaft gespeichert; bei öffentlichen Rezepten gelten sie nur für die aktuelle Planung.
+
+### Was die App am Plan bemängelt
+
+Über der Schritttabelle erscheinen Hinweise, sobald der eingestellte Zeitpunkt zu einem unpraktischen Plan führt. Sie aktualisieren sich mit jeder Änderung an Datum, Uhrzeit oder Dauern – noch bevor Du „Reminder setzen“ tippst.
+
+| Zeichen | Bedeutung |
+|---------|-----------|
+| ⚠️ orange | **Hinweis.** Der Plan funktioniert, aber Du solltest ihn kennen. |
+| ⛔️ rot | **Fehler.** Zwei Backvorgänge würden sich im Ofen überschneiden. |
+
+Geprüft wird dreierlei:
+
+- **Schritte außerhalb Deines Tages.** Liegt ein Schritt vor dem **Tagesbeginn** oder nach dem **Tagesende** aus den Einstellungen, wird er benannt: „‚Dehnen und Falten‘ beginnt am 11.09.26, 03:07 und damit vor dem Tagesbeginn (06:00 Uhr).“ Bei langen Teigführungen ist das normal und kein Grund zur Sorge – es zeigt Dir nur, wofür Du nachts aufstehen müsstest.
+- **Überschneidende Backzeiten.** Plant ein anderes Rezept den Ofen im selben Zeitraum, ist das ein Fehler: Zwei Brote passen nicht gleichzeitig bei zwei verschiedenen Temperaturen hinein.
+- **Zu kurze Backpause.** Liegt zwischen zwei Backvorgängen weniger Zeit als die eingestellte **Backpause**, kommt ein Hinweis. Der Ofen braucht die Zeit zum Umheizen.
+
+Die Hinweise verhindern nichts – Du kannst den Plan trotzdem setzen. Sie ersparen Dir nur die Überraschung um drei Uhr morgens.
 
 ### Reminder setzen
 
@@ -555,11 +572,11 @@ Die App filtert bewusst:
 | Einstellung | Beschreibung |
 |-------------|--------------|
 | **Vorheizzeit** | 0–120 Minuten in 5er-Schritten. Wird beim Setzen der Reminder verwendet, um den automatischen Schritt „Backofen anstellen“ vor den letzten Schritt zu legen. Standard: 15 Minuten. |
-| **Backpause** | 0–120 Minuten. Standard: 10 Minuten. |
-| **Tagesbeginn** | 0–23 Uhr. Standard: 6 Uhr. |
+| **Backpause** | 0–120 Minuten. Mindestabstand zwischen zwei Backvorgängen im selben Ofen. Standard: 10 Minuten. |
+| **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
 
-> **Hinweis:** Von diesen vier Werten beeinflusst derzeit nur die **Vorheizzeit** die Berechnung. **Backpause, Tagesbeginn und Tagesende** werden gespeichert, aber noch nicht in die Zeitplanung einbezogen.
+> **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder zwei Backvorgänge kollidieren (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
 
 ### Konto
 
@@ -725,7 +742,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Ein Rezept kann nur einmal hochgeladen werden**, entweder privat oder öffentlich. Ein privates Rezept lässt sich nachträglich veröffentlichen, dabei entsteht aber eine zweite Fassung; die private wird nicht automatisch entfernt.
 - **Private Cloud-Rezepte brauchen eine Anmeldung mit Apple** und sind an dieses Konto gebunden. Ohne Anmeldung sind sie nicht sichtbar, mit einem anderen Apple-Konto ebenfalls nicht.
 - **Beim Löschen des Kontos bleiben veröffentlichte Rezepte in der Datenbank.** Sie gehören danach keinem Konto mehr und können nur noch von einem Administrator entfernt werden.
-- **Backpause, Tagesbeginn und Tagesende** aus den Einstellungen werden gespeichert, wirken aber noch nicht auf die Zeitplanung.
+- **Backpause, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt, rechnet ihn aber nicht um – einen Schritt aus der Nacht in den Morgen zu holen bleibt Deine Aufgabe.
 - **Ein Rezept kann nur einen Plan haben.** Erneutes „Reminder setzen“ ersetzt den vorherigen Plan; zwei Termine für dasselbe Rezept gleichzeitig sind nicht möglich.
 - **Änderst Du ein Rezept nach dem Planen** (Schritte, Dauern), bleibt der bereits gesetzte Plan unverändert stehen – geplante Schritte sind eine Momentaufnahme. Setz die Reminder neu, damit die Änderung wirkt.
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
