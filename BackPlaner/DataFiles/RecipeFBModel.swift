@@ -101,10 +101,6 @@ class RecipeFBModel: ObservableObject {
     /// stored in the cloud and found again after a reinstall.
     @Published var isSignedInWithAccount = false
 
-    /// Email of the permanent account, if Apple shared one (nil for anonymous
-    /// users and for accounts created with a hidden relay address).
-    @Published var accountEmail: String?
-
     /// uid the recipe list was last loaded for. A change of identity means a
     /// different set of author-only recipes, so the list has to be refetched.
     private var loadedForUid: String?
@@ -126,7 +122,10 @@ class RecipeFBModel: ObservableObject {
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self else { return }
             self.isSignedInWithAccount = user != nil && user?.isAnonymous == false
-            self.accountEmail = user?.email
+            // The account's email is deliberately never read. Sign in with
+            // Apple is requested without the email scope, so the app has no
+            // use for it, and not touching it keeps the privacy policy's
+            // promise true of the code as well as of the request.
             self.checkAdminStatus()
             // Reload as soon as the identity actually changes, so the author's
             // own private recipes appear (and a signed-out user's disappear).

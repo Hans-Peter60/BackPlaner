@@ -174,7 +174,11 @@ struct SettingsView: View {
     private var accountSection: some View {
         Section {
             if modelFB.isSignedInWithAccount {
-                LabeledContent("Angemeldet als", value: modelFB.accountEmail ?? String(localized: "Apple-Konto"))
+                // Says "Apple-Konto" rather than the address: the email scope
+                // is never requested, so for anyone signing in now there is no
+                // address to show anyway — and not reading it keeps a piece of
+                // personal data out of the app entirely.
+                LabeledContent("Angemeldet als", value: String(localized: "Apple-Konto"))
 
                 if modelFB.isAdmin {
                     Label("Administrator", systemImage: "checkmark.seal")
