@@ -107,40 +107,8 @@ struct RecipeFBDetailView: View {
                     )
 
                     // MARK: Components
-                    Section {
-                        VStack(alignment: .leading) {
-                            
-                            LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
-                                
-                                ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
-                                    
-                                    VStack(alignment: .leading) {
-                                        
-                                        Text(item.name)
-                                            .font(Theme.brandFont(14))
-                                            .padding([.bottom, .top], 5)
-                                        
-                                        // MARK: Ingredients
-                                        VStack(alignment: .leading) {
-                                            ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
-                                                
-                                                let t = "• " + Rational.getPortion(unit:ingred.unit, weight:ingred.weight, num:ingred.num, denom:ingred.denom, targetServings: selectedServingSize)
-                                                Text(t + ingred.name)
-                                                    .font(Theme.bodyFont(15))
-                                            }
-                                        }                            }
-                                }
-                            }
-                            .scrollsSidewaysAtLargeText()
-                        }
-                    } header: {
-                        Text("Komponenten:")
-                            .font(Theme.brandFont(16))
-                            .foregroundColor(Theme.title)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .cardStyle()
-
+                    ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
+                                         selectedServingSize: selectedServingSize)
 
                     Divider()
                     

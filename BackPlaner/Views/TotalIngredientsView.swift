@@ -98,26 +98,87 @@ struct TotalIngredientsView: View {
     }
 }
 
+/// One component of a recipe: its name and the ingredients listed under it.
+///
+/// Exists so the same card can serve both recipe models — the Firebase
+/// `ComponentFB` of the public database and the Core Data `Component` of the
+/// user's own recipes — without the view knowing either.
+struct ComponentColumn: Identifiable {
+    let id: String
+    let name: String
+    let ingredients: [TotalIngredientData]
+
+    /// The components of a recipe from the public database.
+    static func columns(of components: [ComponentFB]) -> [ComponentColumn] {
+        components
+            .sorted { $0.number < $1.number }
+            .enumerated()
+            .map { index, component in
+                ComponentColumn(
+                    id: component.id ?? "component-\(index)",
+                    name: component.name,
+                    ingredients: component.ingredients
+                        .sorted { $0.number < $1.number }
+                        .map {
+                            TotalIngredientData(name: $0.name,
+                                                unit: $0.unit,
+                                                weight: $0.weight,
+                                                numerator: $0.num,
+                                                denominator: $0.denom)
+                        }
+                )
+            }
+    }
+
+    /// The components of one of the user's own recipes.
+    static func columns(of components: [Component]) -> [ComponentColumn] {
+        components
+            .sorted { $0.number < $1.number }
+            .map { component in
+                ComponentColumn(
+                    id: component.objectID.uriRepresentation().absoluteString,
+                    name: component.name,
+                    // Already sorted by number by the accessor itself.
+                    ingredients: component.ingredientsArray.map {
+                        TotalIngredientData(name: $0.name,
+                                            unit: $0.unit ?? "",
+                                            weight: $0.weight,
+                                            numerator: $0.num,
+                                            denominator: $0.denom)
+                    }
+                )
+            }
+    }
+}
+
 /// The recipe's components, each with its own ingredient list, in up to three
 /// columns — with "Komponenten:" as the heading of that same card.
 ///
-/// Deliberately a `Grid` and not the `LazyVGrid` this used to be. A lazy grid
-/// reports its size only once its cells have been realised, and on iPad that
-/// arrived a layout pass too late: the card had already been sized for its
-/// heading alone (measured: 68 pt), so the heading ended up drawn 80 pt above
-/// the list it introduces — inside the ingredients card above it, between
-/// "268 g Weizenmehl 1050" and "123 g Weizenvollkornmehl". A recipe has a
-/// handful of components, so laziness bought nothing here in the first place.
+/// Deliberately a `Grid` and not the `LazyVGrid` this used to be, for two
+/// measured reasons.
+///
+/// A lazy grid reports its size only once its cells have been realised, and
+/// inside the `GeometryReader` that wraps the public recipe screens that
+/// arrived a layout pass too late: the card had been sized for its heading
+/// alone (68 pt), so the heading ended up drawn 80 pt above the list it
+/// introduces — inside the ingredients card above it. A recipe has a handful of
+/// components, so laziness bought nothing here in the first place.
+///
+/// And `GridItem(alignment: .leading)` aligns leading *horizontally* while
+/// centring vertically, so a two-ingredient column was centred against a
+/// seven-ingredient one and the column titles came out on three different
+/// lines — measured 72 pt apart on a 13-inch iPad. `Grid`'s `.topLeading`
+/// puts them on one line.
 struct ComponentColumnsView: View {
 
-    let components: [ComponentFB]
+    let components: [ComponentColumn]
     let selectedServingSize: Int
 
     private static let columnCount = 3
 
     /// The components chunked into rows, since a `Grid` needs its rows spelled
     /// out where a `LazyVGrid` wrapped them by itself.
-    private var rows: [[ComponentFB]] {
+    private var rows: [[ComponentColumn]] {
         stride(from: 0, to: components.count, by: Self.columnCount).map { start in
             Array(components[start ..< min(start + Self.columnCount, components.count)])
         }
@@ -153,18 +214,18 @@ struct ComponentColumnsView: View {
         .cardStyle()
     }
 
-    private func column(for component: ComponentFB) -> some View {
+    private func column(for component: ComponentColumn) -> some View {
         VStack(alignment: .leading) {
             Text(component.name)
                 .font(Theme.brandFont(16))
                 .padding([.bottom, .top], 5)
 
             VStack(alignment: .leading) {
-                ForEach(component.ingredients.sorted(by: { $0.number < $1.number })) { ingredient in
+                ForEach(Array(component.ingredients.enumerated()), id: \.offset) { _, ingredient in
                     Text("• " + Rational.getPortion(unit: ingredient.unit,
                                                     weight: ingredient.weight,
-                                                    num: ingredient.num,
-                                                    denom: ingredient.denom,
+                                                    num: ingredient.numerator,
+                                                    denom: ingredient.denominator,
                                                     targetServings: selectedServingSize)
                         + ingredient.name)
                         .font(Theme.bodyFont(15))

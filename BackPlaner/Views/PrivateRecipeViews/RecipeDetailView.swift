@@ -106,38 +106,8 @@ struct RecipeDetailView: View {
                 )
 
                 // MARK: Components
-                VStack(alignment: .leading) {
-                    Text("Komponenten")
-                        .font(Theme.brandFont(16))
-                        .foregroundColor(Theme.title)
-                        .padding([.bottom, .top], 5)
-
-                    LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
-
-                        ForEach (recipe.componentsArray.sorted(by: { $0.number < $1.number })) { component in
-                            
-                            VStack(alignment: .leading) {
-                                
-                                Text(component.name)
-                                    .font(Theme.brandFont(14))
-                                    .padding([.bottom, .top], 5)
-                                
-                                VStack(alignment: .leading) {
-
-                                    ForEach (component.ingredientsArray.sorted(by: { $0.number < $1.number })) { item in
-
-                                        Text("• " + Rational.getPortion(unit:item.unit ?? "", weight:item.weight, num:item.num, denom:item.denom, targetServings: selectedServingSize) + item.name)
-                                            .font(Theme.bodyFont(15))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .scrollsSidewaysAtLargeText()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .cardStyle()
-
+                ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
+                                     selectedServingSize: selectedServingSize)
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {

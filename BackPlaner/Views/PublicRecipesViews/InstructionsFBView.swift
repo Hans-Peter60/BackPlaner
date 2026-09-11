@@ -152,7 +152,7 @@ struct InstructionsFBView: View {
                     )
 
                     // MARK: Components
-                    ComponentColumnsView(components: recipeFB.components.sorted(by: { $0.number < $1.number }),
+                    ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
                                          selectedServingSize: selectedServingSize)
 
                     // MARK: Selections
