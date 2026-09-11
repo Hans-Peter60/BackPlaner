@@ -12,6 +12,10 @@ struct SettingsView: View {
 
     @EnvironmentObject private var modelFB: RecipeFBModel
 
+    // Observed, not just read: the row below shows how many units the user has
+    // defined, and coming back from that screen has to update the number.
+    @ObservedObject private var unitStore = CustomUnitStore.shared
+
     // Account deletion (App Store Guideline 5.1.1(v)).
     @State private var showDeleteAccountConfirm = false
     @State private var showReauthentication     = false
@@ -51,6 +55,13 @@ struct SettingsView: View {
                 }
 
                 Toggle("Detailansicht verwenden", isOn: $useDetailView)
+
+                NavigationLink {
+                    CustomUnitsView()
+                } label: {
+                    LabeledContent("Eigene Einheiten",
+                                   value: unitStore.units.count.formatted())
+                }
             }
 
             Section("Backplanung") {
@@ -190,6 +201,121 @@ struct SettingsView: View {
 
     private func formattedHour(_ hour: Int) -> String {
         String(format: "%02d:00", hour)
+    }
+}
+
+/// Lets the user add units the app does not ship with.
+///
+/// The unit menu in the recipe forms offers a fixed list because a unit
+/// carries a conversion factor, not just a name (see ``UnitBase``). Anything
+/// outside that list — "Becher", or the "cups" an English recipe brings in
+/// through the image import — was previously flagged as unknown with no way to
+/// keep it. This is that way.
+struct CustomUnitsView: View {
+
+    @ObservedObject private var store = CustomUnitStore.shared
+
+    @State private var name         = ""
+    @State private var abbreviation = ""
+    @State private var factor: Double?
+    @State private var base         = UnitBase.milliliter
+    @State private var errorMessage: String?
+
+    var body: some View {
+        Form {
+            if store.units.isEmpty {
+                Section {
+                    Text("Du hast noch keine eigene Einheit angelegt. Die mitgelieferten Einheiten stehen in der Auswahlliste immer zur Verfügung.")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.subtitle)
+                }
+            } else {
+                Section("Eigene Einheiten") {
+                    ForEach(store.units) { unit in
+                        LabeledContent {
+                            Text(describe(unit))
+                                .foregroundColor(Theme.subtitle)
+                        } label: {
+                            Text(verbatim: "\(unit.abbreviation) – \(unit.name)")
+                        }
+                        // Two lines that belong to one unit; read as one entry.
+                        .accessibilityElement(children: .combine)
+                    }
+                    .onDelete { store.delete(at: $0) }
+                }
+            }
+
+            Section("Neue Einheit") {
+                TextField("Name", text: $name)
+                    .accessibilityLabel("Name der Einheit")
+
+                TextField("Kürzel", text: $abbreviation)
+                    .accessibilityLabel("Kürzel der Einheit")
+
+                Picker("Gemessen in", selection: $base) {
+                    ForEach(UnitBase.allCases) { unitBase in
+                        Text(unitBase.title).tag(unitBase)
+                    }
+                }
+
+                // A counted unit has no factor to ask for — it is always 1.
+                if base != .piece {
+                    TextField("Umrechnung", value: $factor, format: .number)
+                        .keyboardType(.decimalPad)
+                        .accessibilityLabel("Umrechnung")
+                }
+
+                Text(base.factorExplanation)
+                    .font(.footnote)
+                    .foregroundColor(Theme.subtitle)
+
+                Button("Einheit hinzufügen") { addUnit() }
+            }
+
+            Section {
+                Text("Eine Einheit sagt der App, wie sie eine Menge in ein Gewicht umrechnet. Davon leben die Gesamtzutaten, die Bäckerprozente und die Einkaufsliste. Deshalb braucht auch eine eigene Einheit eine Umrechnung — ohne sie würde „2 Becher Mehl“ als 2 Gramm zählen.")
+                    .font(.footnote)
+                    .foregroundColor(Theme.subtitle)
+            }
+        }
+        .clearScrollBackground()
+        .warmBackground()
+        .navigationTitle("Eigene Einheiten")
+        .toolbar {
+            if !store.units.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) { EditButton() }
+            }
+        }
+        .alert("Einheit nicht angelegt", isPresented: Binding(
+            get: { errorMessage != nil },
+            set: { if !$0 { errorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { errorMessage = nil }
+        } message: {
+            Text(errorMessage ?? "")
+        }
+    }
+
+    /// The conversion in words, e.g. "250 ml" or "gezählt".
+    private func describe(_ unit: CustomUnit) -> String {
+        switch unit.base {
+        case .piece:
+            return String(localized: "gezählt", locale: AppSettings.locale)
+        case .gram, .milliliter:
+            let amount = unit.factor.formatted(.number.precision(.fractionLength(0...2)))
+            return "\(amount) \(unit.baseUnit)"
+        }
+    }
+
+    private func addUnit() {
+        do {
+            try store.add(name: name, abbreviation: abbreviation, factor: factor, base: base)
+            name         = ""
+            abbreviation = ""
+            factor       = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }
 

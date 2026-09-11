@@ -39,7 +39,14 @@ struct GlobalVariables {
     static var historyTab   = 2
     static var addRecipeTab = 3
 
-    static var unitSets     = DataService.getUnitSets()
+    /// The units the app ships with, read once from the bundled UnitSets.json.
+    static let bundledUnitSets = DataService.getUnitSets()
+
+    /// Every unit the app knows: the bundled ones plus whatever the user added
+    /// in the settings. Bundled come first on purpose — units are looked up
+    /// with `first(where:)`, so this guarantees a custom entry can never take
+    /// over "g" or "ml" even if it somehow got past the duplicate check.
+    static var unitSets: [UnitSetFB] { bundledUnitSets + CustomUnitStore.shared.unitSets }
     
     static var noImage      = "no-image-icon-23494"
     static var detailView: Bool { AppSettings.storedUseDetailView }

@@ -86,7 +86,13 @@ enum ShoppingListAmount {
         guard !comparableUnit.isEmpty else { return false }
 
         if comparableUnit == comparable(pieceUnit) || comparableUnit.hasPrefix("stuck") { return true }
-        return comparableUnit == "ei" || comparableUnit.hasPrefix("ei(")
+        if comparableUnit == "ei" || comparableUnit.hasPrefix("ei(") { return true }
+
+        // A unit the user defined as counted rather than weighed. The checks
+        // above only know the bundled spellings, so without this a self-made
+        // piece unit would be weighed and the shopping list would ask for
+        // grams of something you buy by the item.
+        return unitSet(for: unit)?.baseUnit == UnitBase.piece.rawValue
     }
 
     private static func isGramUnit(_ unit: String) -> Bool {
