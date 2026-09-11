@@ -98,6 +98,83 @@ struct TotalIngredientsView: View {
     }
 }
 
+/// The recipe's components, each with its own ingredient list, in up to three
+/// columns — with "Komponenten:" as the heading of that same card.
+///
+/// Deliberately a `Grid` and not the `LazyVGrid` this used to be. A lazy grid
+/// reports its size only once its cells have been realised, and on iPad that
+/// arrived a layout pass too late: the card had already been sized for its
+/// heading alone (measured: 68 pt), so the heading ended up drawn 80 pt above
+/// the list it introduces — inside the ingredients card above it, between
+/// "268 g Weizenmehl 1050" and "123 g Weizenvollkornmehl". A recipe has a
+/// handful of components, so laziness bought nothing here in the first place.
+struct ComponentColumnsView: View {
+
+    let components: [ComponentFB]
+    let selectedServingSize: Int
+
+    private static let columnCount = 3
+
+    /// The components chunked into rows, since a `Grid` needs its rows spelled
+    /// out where a `LazyVGrid` wrapped them by itself.
+    private var rows: [[ComponentFB]] {
+        stride(from: 0, to: components.count, by: Self.columnCount).map { start in
+            Array(components[start ..< min(start + Self.columnCount, components.count)])
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Komponenten:")
+                .font(Theme.brandFont(16))
+                .foregroundColor(Theme.title)
+                .padding([.bottom, .top], 5)
+
+            Grid(alignment: .topLeading, horizontalSpacing: 6, verticalSpacing: 6) {
+                ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                    GridRow {
+                        ForEach(row) { component in
+                            column(for: component)
+                        }
+
+                        // A last row with fewer components keeps the column
+                        // widths of a full one instead of stretching its cells.
+                        if row.count < Self.columnCount {
+                            ForEach(row.count ..< Self.columnCount, id: \.self) { _ in
+                                Color.clear.frame(maxWidth: .infinity, maxHeight: 0)
+                            }
+                        }
+                    }
+                }
+            }
+            .scrollsSidewaysAtLargeText()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func column(for component: ComponentFB) -> some View {
+        VStack(alignment: .leading) {
+            Text(component.name)
+                .font(Theme.brandFont(16))
+                .padding([.bottom, .top], 5)
+
+            VStack(alignment: .leading) {
+                ForEach(component.ingredients.sorted(by: { $0.number < $1.number })) { ingredient in
+                    Text("• " + Rational.getPortion(unit: ingredient.unit,
+                                                    weight: ingredient.weight,
+                                                    num: ingredient.num,
+                                                    denom: ingredient.denom,
+                                                    targetServings: selectedServingSize)
+                        + ingredient.name)
+                        .font(Theme.bodyFont(15))
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 private struct TotalIngredient: Identifiable {
     let id: String
     let name: String

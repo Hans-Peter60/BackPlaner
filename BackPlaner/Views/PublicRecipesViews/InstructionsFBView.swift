@@ -152,37 +152,9 @@ struct InstructionsFBView: View {
                     )
 
                     // MARK: Components
-                    VStack(alignment: .leading) {
-                            Text("Komponenten:")
-                                .font(Theme.brandFont(16))
-                                .foregroundColor(Theme.title)
-                                .padding([.bottom, .top], 5)
-                            
-                            LazyVGrid(columns: GlobalVariables.gridItemLayoutComponents, spacing: 6) {
-                                
-                                ForEach (recipeFB.components.sorted(by: { $0.number < $1.number })) { item in
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(item.name)
-                                            .font(Theme.brandFont(16))
-                                            .padding([.bottom, .top], 5)
-                                        
-                                        VStack(alignment: .leading) {
-                                            ForEach (item.ingredients.sorted(by: { $0.number < $1.number })) { ingred in
-                                                
-                                                let t = "• " + Rational.getPortion(unit:ingred.unit, weight:ingred.weight, num:ingred.num, denom:ingred.denom, targetServings: selectedServingSize)
-                                                Text(t + ingred.name)
-                                                    .font(Theme.bodyFont(15))
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            .scrollsSidewaysAtLargeText()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .cardStyle()
-                    
+                    ComponentColumnsView(components: recipeFB.components.sorted(by: { $0.number < $1.number }),
+                                         selectedServingSize: selectedServingSize)
+
                     // MARK: Selections
                     InstructionSchedulingControlsView(
                         changeDurations: $changeDurationsFlag,
