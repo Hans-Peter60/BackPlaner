@@ -151,8 +151,8 @@ struct ComponentColumn: Identifiable {
     }
 }
 
-/// The recipe's components, each with its own ingredient list, in up to three
-/// columns — with "Komponenten:" as the heading of that same card.
+/// The recipe's components, each with its own ingredient list, side by side —
+/// with "Komponenten:" as the heading of that same card.
 ///
 /// Deliberately a `Grid` and not the `LazyVGrid` this used to be, for two
 /// measured reasons.
@@ -174,13 +174,29 @@ struct ComponentColumnsView: View {
     let components: [ComponentColumn]
     let selectedServingSize: Int
 
-    private static let columnCount = 3
+    @Environment(\.horizontalSizeClass) private var hSize
+    @Environment(\.dynamicTypeSize)     private var dynamicTypeSize
+
+    /// How many components stand side by side.
+    ///
+    /// Three used to be the answer on every device. That is right for an iPad
+    /// and too optimistic for an iPhone: 440 pt across, minus the card's
+    /// padding and the gaps, leaves about 130 pt per column — narrower than
+    /// several real lines. "• 123 g Weizenvollkornmehl" measures 189.5 pt and a
+    /// component named "Weizensauerteig" measures 125 pt, which is why it used
+    /// to break after "Weizensauertei". Two columns give about 200 pt, enough
+    /// for both; at the accessibility text sizes even that is hopeless, so the
+    /// components simply stack.
+    private var columnCount: Int {
+        if dynamicTypeSize.isAccessibilitySize { return 1 }
+        return hSize == .regular ? 3 : 2
+    }
 
     /// The components chunked into rows, since a `Grid` needs its rows spelled
     /// out where a `LazyVGrid` wrapped them by itself.
     private var rows: [[ComponentColumn]] {
-        stride(from: 0, to: components.count, by: Self.columnCount).map { start in
-            Array(components[start ..< min(start + Self.columnCount, components.count)])
+        stride(from: 0, to: components.count, by: columnCount).map { start in
+            Array(components[start ..< min(start + columnCount, components.count)])
         }
     }
 
@@ -200,8 +216,8 @@ struct ComponentColumnsView: View {
 
                         // A last row with fewer components keeps the column
                         // widths of a full one instead of stretching its cells.
-                        if row.count < Self.columnCount {
-                            ForEach(row.count ..< Self.columnCount, id: \.self) { _ in
+                        if row.count < columnCount {
+                            ForEach(row.count ..< columnCount, id: \.self) { _ in
                                 Color.clear.frame(maxWidth: .infinity, maxHeight: 0)
                             }
                         }
