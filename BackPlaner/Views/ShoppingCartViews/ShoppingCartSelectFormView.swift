@@ -179,6 +179,11 @@ struct ShoppingCartSelectFormView: View {
                 }
             }
         }
+        // The one recipe tab that stood out as grey: a Form draws its own
+        // system background, so it needs both of these to let the warm
+        // gradient through, exactly as ShoppingCartsView does.
+        .clearScrollBackground()
+        .warmBackground()
         .alert("Zutaten wurden auf die Einkaufsliste gesetzt", isPresented: $showingAlert) {
             Button("OK", role: .cancel) { }
         }
