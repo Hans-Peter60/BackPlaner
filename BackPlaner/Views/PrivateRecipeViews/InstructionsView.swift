@@ -60,7 +60,12 @@ struct InstructionsView: View {
     private var ingredients: FetchedResults<Ingredient>
     
     var body: some View {
-        
+
+        // Reads the width available so the content below can be pinned to it —
+        // see InstructionsFBView for why a vertical ScrollView otherwise grows
+        // past both screen edges at the large text sizes.
+        GeometryReader { fullView in
+
         ScrollView(.vertical, showsIndicators: false) {
 
             VStack (alignment: .leading) {
@@ -509,12 +514,16 @@ struct InstructionsView: View {
                         .padding()
                     }
                 }
-            }.padding()
+            }
+            .padding()
+            .frame(width: fullView.size.width, alignment: .leading)
         }
         .warmBackground()
         .navigationTitle("Backanleitung für " + recipe.name)
         .onAppear {
             refreshPlanIssues()
+        }
+
         }
     }
 

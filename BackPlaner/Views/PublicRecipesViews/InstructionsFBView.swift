@@ -461,7 +461,18 @@ struct InstructionsFBView: View {
                             .padding()
                         }
                     }
-                }.padding()
+                }
+                .padding()
+                // A vertical ScrollView takes its content's ideal width in the
+                // cross axis, so one over-long label used to stretch this whole
+                // screen to 615 pt on a 402 pt phone and clip it at both edges.
+                // A definite width forces that proposal back down so the labels
+                // wrap; `maxWidth` is not enough — it caps the frame and then
+                // centres the too-wide content inside it, which is exactly how
+                // the content came to hang over both edges. This is what the
+                // GeometryReader above is for: it bound `fullView` and used it
+                // nowhere.
+                .frame(width: fullView.size.width, alignment: .leading)
             }
             .warmBackground()
             .navigationTitle(recipeFB.name)

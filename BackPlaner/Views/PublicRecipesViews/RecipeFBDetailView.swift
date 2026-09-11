@@ -175,6 +175,10 @@ struct RecipeFBDetailView: View {
                     }
                 }
                 .padding()
+                // See InstructionsFBView: a vertical ScrollView adopts its
+                // content's ideal width, so a single long label stretches the
+                // screen past both edges until the width is pinned down.
+                .frame(width: fullView.size.width, alignment: .leading)
             }
             .warmBackground()
             .navigationTitle(Text(recipeFB.name))

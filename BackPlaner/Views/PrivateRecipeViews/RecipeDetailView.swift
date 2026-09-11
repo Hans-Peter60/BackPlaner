@@ -18,12 +18,21 @@ struct RecipeDetailView: View {
     @State var selectedServingSize = AppSettings.storedServingSize
     
     var body: some View {
-        
+
+        // Reads the width available so the content below can be pinned to it —
+        // see InstructionsFBView for why a vertical ScrollView otherwise grows
+        // past both screen edges at the large text sizes.
+        GeometryReader { fullView in
+
         ScrollView {
-        
+
             VStack (alignment: .leading) {
                 
-                HStack {
+                // The other three recipe screens use this for the same header;
+                // a plain HStack left the image's 100 pt minimum beside a row of
+                // five rating stars that grows to 375 pt at the largest text
+                // size, which together overran a 402 pt screen by 183 pt.
+                PortraitAdaptiveStack(spacing: 12) {
                     // MARK: Recipe Image
                     NavigationLink(
                         destination: ShowBigImageView(image: recipe.image)
@@ -146,9 +155,11 @@ struct RecipeDetailView: View {
                 .cardStyle()
             }
             .padding()
+            .frame(width: fullView.size.width, alignment: .leading)
         }
         .warmBackground()
         .navigationTitle(recipe.name)
 
+        }
     }
 }

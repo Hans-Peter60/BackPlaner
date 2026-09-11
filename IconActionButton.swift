@@ -37,10 +37,25 @@ struct IconActionButton: View {
                 if let title = title {
                     Text(title)
                         .foregroundColor(foregroundColor)
+                        // Without this the title reports its whole one-line
+                        // width as the button's minimum — 457 pt for "Als
+                        // eigenes Rezept speichern" at the largest text size.
+                        // A vertical ScrollView adopts its content's minimum
+                        // width, so that one label stretched the entire recipe
+                        // screen to 615 pt on a 402 pt phone and clipped it at
+                        // both edges. Flexible horizontally, the minimum drops
+                        // to the longest single word and the title wraps.
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
                 }
             }
             .accessibilityLabel(Text(accessibilityLabel))
-            .frame(idealWidth: title == nil ? 22 : nil, idealHeight: 22)
+            // Only an icon-only button gets the hand-tuned 22 pt box. With a
+            // title, a fixed ideal height keeps the button at one line's worth
+            // of space while the wrapped text needs four — the label then spills
+            // out of its own button and over whatever sits beside it.
+            .frame(idealWidth:  title == nil ? 22 : nil,
+                   idealHeight: title == nil ? 22 : nil)
             .contentShape(Rectangle())
         }
         .buttonStyle(.bordered)

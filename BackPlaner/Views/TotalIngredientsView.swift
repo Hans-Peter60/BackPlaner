@@ -76,7 +76,7 @@ struct TotalIngredientsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Gesamtzutaten")
+            Text("Gesamtzutaten:")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
 
