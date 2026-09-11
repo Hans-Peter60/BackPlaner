@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner – Hilfe und Kontakt</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  section {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  h2 { color: var(--title); font-size: 1.5rem; margin-top: 0; }
+  h3 { color: var(--title); font-size: 1.1rem; margin: 1.6rem 0 .3rem; }
+  a { color: var(--accent); }
+  .note {
+    border-left: 4px solid var(--accent); padding-left: 1rem;
+    color: var(--subtitle);
+  }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>BakePlanner</h1>
+  <p class="claim">Plane und backe dein perfektes Brot</p>
+</header>
+
+<nav aria-label="Sprache wählen">
+  <a href="#de" lang="de">Deutsch</a>
+  <a href="#en" lang="en">English</a>
+  <a href="#fr" lang="fr">Français</a>
+  <a href="privacy.html">Datenschutz / Privacy</a>
+</nav>
+
+<!-- ===================== DEUTSCH ===================== -->
+<section id="de" lang="de">
+  <h2>Hilfe und Kontakt</h2>
+
+  <p>BakePlanner plant den Zeitablauf eines Backvorgangs: Du legst fest, wann
+  das Brot fertig sein soll, und die App rechnet jeden Arbeitsschritt
+  zurück – Vorteig, Stockgare, Formen, Backen. Auf Wunsch erinnert sie dich
+  zu jedem Schritt.</p>
+
+  <h3>Kontakt</h3>
+  <p>Fragen, Fehlermeldungen und Wünsche gern per E-Mail an:<br>
+  <a href="mailto:mueller.hans-peter@gmx.de">mueller.hans-peter@gmx.de</a></p>
+  <p>Ich antworte in der Regel innerhalb weniger Tage. Bitte schreib dazu,
+  welches Gerät und welche iOS-Version du verwendest – das erspart eine
+  Rückfrage.</p>
+
+  <h3>Reminder erscheinen nicht auf der Apple&nbsp;Watch</h3>
+  <p class="note">Erinnerungen landen nur dann auf der Apple&nbsp;Watch, wenn du
+  sie <strong>am iPhone</strong> gesetzt hast. Über das iPad gesetzte
+  Erinnerungen erreichen die Uhr nicht – die Uhr ist mit dem iPhone
+  gekoppelt, nicht mit dem iPad.</p>
+
+  <h3>Eigene und öffentliche Rezepte</h3>
+  <p>Rezepte, die du selbst anlegst, bleiben auf deinem Gerät und werden über
+  deine iCloud zwischen deinen Geräten abgeglichen. Die
+  <em>Rezept-Datenbank</em> ist davon getrennt: dort liegen Rezepte, die
+  alle Nutzer sehen können.</p>
+  <p>Willst du ein Rezept in der Cloud ablegen, ohne es zu veröffentlichen,
+  brauchst du eine Anmeldung mit Apple – sonst wäre es nach einer
+  Neuinstallation nicht mehr auffindbar.</p>
+
+  <h3>Ein Rezept melden</h3>
+  <p>Öffne das Rezept in der Rezept-Datenbank und tippe oben rechts auf
+  <strong>⋯</strong>. Dort kannst du das Rezept melden oder den Autor
+  blockieren. Ein gemeldetes Rezept wird sofort für alle Nutzer
+  ausgeblendet, nicht erst nach einer Prüfung.</p>
+
+  <h3>Konto löschen</h3>
+  <p><em>Einstellungen → Konto → Konto löschen.</em> Damit werden deine privat
+  in der Cloud gespeicherten Rezepte samt Bildern entfernt und die Anmeldung
+  aufgehoben. Rezepte, die du <strong>veröffentlicht</strong> hast, bleiben
+  bestehen – andere Nutzer backen möglicherweise danach. Rezepte auf dem
+  Gerät bleiben unberührt.</p>
+
+  <h3>Eigene Einheiten</h3>
+  <p>Fehlt eine Einheit, kannst du sie unter <em>Einstellungen → Rezepte →
+  Eigene Einheiten</em> anlegen. Dabei gibst du auch die Umrechnung an –
+  etwa 250 Milliliter für einen Becher. Ohne diese Angabe könnte die App
+  keine Gesamtmengen, Bäckerprozente und Einkaufslisten berechnen.</p>
+
+  <h3>Rezept aus einem Foto einlesen</h3>
+  <p>Die App kann Rezepte von abfotografierten Seiten übernehmen. Die
+  Texterkennung läuft vollständig auf dem Gerät – die Bilder verlassen es
+  dafür nicht. Gut lesbare, gerade ausgerichtete Aufnahmen liefern das beste
+  Ergebnis. Prüfe die erkannten Mengen und Zeiten bitte, bevor du speicherst.</p>
+</section>
+
+<!-- ===================== ENGLISH ===================== -->
+<section id="en" lang="en">
+  <h2>Help and contact</h2>
+
+  <p>BakePlanner works out the timing of a bake: you say when the bread should
+  be ready and the app schedules every step backwards from there — preferment,
+  bulk ferment, shaping, baking. It can remind you at each step.</p>
+
+  <h3>Contact</h3>
+  <p>Questions, bug reports and suggestions are welcome by email:<br>
+  <a href="mailto:mueller.hans-peter@gmx.de">mueller.hans-peter@gmx.de</a></p>
+  <p>I normally reply within a few days. Please mention your device and iOS
+  version — it saves a round trip.</p>
+
+  <h3>Reminders do not appear on Apple&nbsp;Watch</h3>
+  <p class="note">Reminders only reach the Apple&nbsp;Watch when you set them
+  <strong>on the iPhone</strong>. Reminders set on the iPad never arrive: the
+  watch is paired with the iPhone, not with the iPad.</p>
+
+  <h3>Your own recipes and the public database</h3>
+  <p>Recipes you create stay on your device and sync between your own devices
+  through your iCloud. The <em>recipe database</em> is separate: it holds
+  recipes every user can see.</p>
+  <p>To keep a recipe in the cloud without publishing it, you need to sign in
+  with Apple — otherwise it could not be found again after a reinstall.</p>
+
+  <h3>Reporting a recipe</h3>
+  <p>Open the recipe in the recipe database and tap <strong>⋯</strong> at the
+  top right. From there you can report the recipe or block its author. A
+  reported recipe is hidden from every user immediately, not after a review.</p>
+
+  <h3>Deleting your account</h3>
+  <p><em>Settings → Account → Delete account.</em> This removes the recipes you
+  stored privately in the cloud together with their images and signs you out.
+  Recipes you have <strong>published</strong> remain — other people may be
+  baking from them. Recipes on the device are untouched.</p>
+
+  <h3>Custom units</h3>
+  <p>If a unit is missing, add it under <em>Settings → Recipes → Custom
+  units</em>. You also state its conversion — 250 millilitres for a cup, say.
+  Without that the app could not work out total amounts, baker's percentages
+  or the shopping list.</p>
+
+  <h3>Importing a recipe from a photo</h3>
+  <p>The app can read recipes from photographed pages. Text recognition runs
+  entirely on the device; the images are not sent anywhere for it. Straight,
+  legible photos give the best result. Please check the recognised amounts and
+  times before saving.</p>
+</section>
+
+<!-- ===================== FRANÇAIS ===================== -->
+<section id="fr" lang="fr">
+  <h2>Aide et contact</h2>
+
+  <p>BakePlanner calcule le déroulé d’une cuisson : vous indiquez quand le pain
+  doit être prêt et l’app planifie chaque étape à rebours — levain, pointage,
+  façonnage, cuisson. Elle peut vous rappeler chaque étape.</p>
+
+  <h3>Contact</h3>
+  <p>Questions, signalements et suggestions par courriel :<br>
+  <a href="mailto:mueller.hans-peter@gmx.de">mueller.hans-peter@gmx.de</a></p>
+  <p>Je réponds généralement en quelques jours. Merci de préciser votre
+  appareil et votre version d’iOS, cela évite un échange supplémentaire.</p>
+
+  <h3>Les rappels n’apparaissent pas sur l’Apple&nbsp;Watch</h3>
+  <p class="note">Les rappels n’arrivent sur l’Apple&nbsp;Watch que si vous les
+  définissez <strong>sur l’iPhone</strong>. Ceux définis sur l’iPad
+  n’arrivent jamais : la montre est jumelée à l’iPhone, pas à l’iPad.</p>
+
+  <h3>Vos recettes et la base publique</h3>
+  <p>Les recettes que vous créez restent sur votre appareil et se synchronisent
+  entre vos appareils via votre iCloud. La <em>base de recettes</em> est
+  distincte : elle contient les recettes visibles par tous.</p>
+  <p>Pour conserver une recette dans le cloud sans la publier, une connexion
+  avec Apple est nécessaire, sans quoi elle serait introuvable après une
+  réinstallation.</p>
+
+  <h3>Signaler une recette</h3>
+  <p>Ouvrez la recette dans la base et touchez <strong>⋯</strong> en haut à
+  droite. Vous pouvez y signaler la recette ou bloquer son auteur. Une recette
+  signalée est masquée immédiatement pour tous, sans attendre un examen.</p>
+
+  <h3>Supprimer votre compte</h3>
+  <p><em>Réglages → Compte → Supprimer le compte.</em> Cela supprime les
+  recettes que vous avez enregistrées en privé dans le cloud ainsi que leurs
+  images, et vous déconnecte. Les recettes que vous avez
+  <strong>publiées</strong> subsistent : d’autres personnes s’en servent
+  peut-être. Les recettes présentes sur l’appareil ne sont pas touchées.</p>
+
+  <h3>Unités personnalisées</h3>
+  <p>Si une unité manque, ajoutez-la dans <em>Réglages → Recettes → Unités
+  personnalisées</em>. Vous indiquez aussi sa conversion — 250 millilitres
+  pour une tasse, par exemple. Sans cela, l’app ne pourrait calculer ni les
+  quantités totales, ni les pourcentages boulangers, ni la liste de courses.</p>
+
+  <h3>Importer une recette depuis une photo</h3>
+  <p>L’app peut reprendre des recettes photographiées. La reconnaissance de
+  texte se fait entièrement sur l’appareil ; les images ne sont pas envoyées
+  ailleurs. Des photos nettes et bien cadrées donnent le meilleur résultat.
+  Vérifiez les quantités et les durées reconnues avant d’enregistrer.</p>
+</section>
+
+<footer>
+  <p><a href="privacy.html">Datenschutz · Privacy · Confidentialité</a></p>
+</footer>
+
+</main>
+</body>
+</html>
