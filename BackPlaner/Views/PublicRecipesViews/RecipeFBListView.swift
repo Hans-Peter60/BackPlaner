@@ -11,6 +11,7 @@ import CoreData
 struct RecipeFBListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
     @ObservedObject private var moderation = ModerationStore.shared
@@ -96,13 +97,19 @@ struct RecipeFBListView: View {
                                 
                                 HStack(spacing: 12.0) {
                                     
-                                    let uiImage = GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage(systemName: "photo") ?? UIImage()
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                        .clipped()
-                                        .cornerRadius(8)
+                                    // See RecipeListView: at the accessibility
+                                    // text sizes the decorative thumbnail's
+                                    // 50 pt are worth more to the recipe name,
+                                    // which otherwise breaks mid-word.
+                                    if !dynamicTypeSize.isAccessibilitySize {
+                                        let uiImage = GlobalVariables.recipesImage[r.id ?? ""] ?? UIImage(systemName: "photo") ?? UIImage()
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50, alignment: .center)
+                                            .clipped()
+                                            .cornerRadius(8)
+                                    }
 
                                     VStack (alignment: .leading, spacing: 3) {
                                         HStack(spacing: 5) {

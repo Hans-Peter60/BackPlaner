@@ -12,6 +12,14 @@ import os
 struct RecipeListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
+
+    // The row's thumbnail is decorative (it is accessibilityHidden) and stays
+    // 50 pt whatever the text size. At the accessibility sizes those 50 pt plus
+    // the 12 pt gap are the difference between a name that wraps at its word
+    // boundaries and one that breaks mid-word: the name column is 261 pt, and
+    // "Sauerteigbrot" alone wants slightly more, so it came out "Sauerteigbr /
+    // ot". Dropping the decoration there gives the name 323 pt.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
     @EnvironmentObject var model:RecipeModel
     
@@ -75,14 +83,16 @@ struct RecipeListView: View {
                                 
                                 HStack(spacing: 12.0) {
 
-                                    let image = UIImage(data: r.image) ?? UIImage()
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                        .clipped()
-                                        .cornerRadius(8)
-                                        .accessibilityHidden(true)
+                                    if !dynamicTypeSize.isAccessibilitySize {
+                                        let image = UIImage(data: r.image) ?? UIImage()
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50, alignment: .center)
+                                            .clipped()
+                                            .cornerRadius(8)
+                                            .accessibilityHidden(true)
+                                    }
 
                                     VStack (alignment: .leading, spacing: 3) {
                                         Text(r.name)
