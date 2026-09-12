@@ -28,8 +28,6 @@ enum AppLog {
 
 struct GlobalVariables {
     
-    static var isDataPreloaded = "isDataPreloaded"
-    
     static var recipesImage = [String : UIImage]()
 
     static var tabSelection = 0

@@ -23,12 +23,6 @@ class RecipeModel: ObservableObject {
     
     var calcWeight:CalcIngredientWeight = CalcIngredientWeight()
     
-    init() {
-        
-        // Check if we have preloaded the data into core data
-        checkLoadedData()
-    }
-    
     // MARK: fetch functions
     func fetchRecipe(for objectId: NSManagedObjectID, context: NSManagedObjectContext) -> Recipe? {
       guard let recipe = context.object(with: objectId) as? Recipe else {
@@ -206,42 +200,6 @@ class RecipeModel: ObservableObject {
         } catch {
             AppLog.persistence.error("There was an error")
         }
-    }
-    
-    // MARK: load functions
-    func checkLoadedData() {
-        
-        // Check local storage for the flag
-        let status = UserDefaults.standard.bool(forKey: GlobalVariables.isDataPreloaded)
-
-        // If it's false, then we should parse the local json and preload into Core Data
-        if status == false {
-//            deleteAllCoreDataRecords()
-//            deleteBlankRecipes()
-            preloadLocalData()
-        }
-    }
-    
-    func preloadLocalData() {
-
-        // Parse the local JSON file
-        let localRecipes = DataService.getLocalData()
-
-        // Nothing decoded – leave the flag unset so the preload is retried on the next launch
-        guard !localRecipes.isEmpty else { return }
-
-        // Import the bundled recipes into Core Data
-        for r in localRecipes {
-            // Bundled recipes are new (no existing object id) and carry no Firestore id, so
-            // clear it to take the bundled-asset image path rather than the Firebase image cache.
-            r.id = nil
-            let bundledImage = UIImage(named: r.image) ?? UIImage()
-            _ = uploadRecipeIntoCoreData(recipeId: nil, recipeFB: r, context: managedObjectContext, recipeImage: bundledImage)
-//            uploadRecipeToFirestore(r: r, i: UIImage(named: r.image))
-        }
-
-        // Mark the preload as done so we don't re-import (and duplicate) on every launch
-        UserDefaults.standard.set(true, forKey: GlobalVariables.isDataPreloaded)
     }
     
     // MARK: uploadRecipeIntoCoreData

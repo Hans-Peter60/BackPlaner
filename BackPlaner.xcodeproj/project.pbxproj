@@ -83,8 +83,6 @@
 		6AF639792B7A51340070CDC1 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639722B7A51330070CDC1 /* DataService.swift */; };
 		6AF6397A2B7A51340070CDC1 /* RecipeFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639732B7A51330070CDC1 /* RecipeFB.swift */; };
 		6AF6397B2B7A51340070CDC1 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639742B7A51330070CDC1 /* GlobalVariables.swift */; };
-		6AF6397C2B7A51340070CDC1 /* Recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 6AF639752B7A51340070CDC1 /* Recipes.json */; };
-		6AF6397D2B7A51340070CDC1 /* Recipes_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 6AF639762B7A51340070CDC1 /* Recipes_empty.json */; };
 		6AF639822B7A515A0070CDC1 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6397F2B7A51590070CDC1 /* NotificationManager.swift */; };
 		6AF639832B7A515A0070CDC1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639802B7A515A0070CDC1 /* ImagePicker.swift */; };
 		6AF639842B7A515A0070CDC1 /* Rational.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639812B7A515A0070CDC1 /* Rational.swift */; };
@@ -186,8 +184,6 @@
 		6AF639722B7A51330070CDC1 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		6AF639732B7A51330070CDC1 /* RecipeFB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFB.swift; sourceTree = "<group>"; };
 		6AF639742B7A51330070CDC1 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
-		6AF639752B7A51340070CDC1 /* Recipes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Recipes.json; sourceTree = "<group>"; };
-		6AF639762B7A51340070CDC1 /* Recipes_empty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Recipes_empty.json; sourceTree = "<group>"; };
 		6AF6397F2B7A51590070CDC1 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		6AF639802B7A515A0070CDC1 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6AF639812B7A515A0070CDC1 /* Rational.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rational.swift; sourceTree = "<group>"; };
@@ -369,8 +365,6 @@
 				6AF639742B7A51330070CDC1 /* GlobalVariables.swift */,
 				6AF639732B7A51330070CDC1 /* RecipeFB.swift */,
 				6AF639702B7A51330070CDC1 /* RecipeFBModel.swift */,
-				6AF639762B7A51340070CDC1 /* Recipes_empty.json */,
-				6AF639752B7A51340070CDC1 /* Recipes.json */,
 				6AF639712B7A51330070CDC1 /* UnitSets.json */,
 			);
 			path = DataFiles;
@@ -551,9 +545,7 @@
 			files = (
 				6A9181F1304961530045D7CB /* Localizable.xcstrings in Resources */,
 				6A9181F2304961530045D7CB /* InfoPlist.xcstrings in Resources */,
-				6AF6397C2B7A51340070CDC1 /* Recipes.json in Resources */,
 				6AF9268B3045772B0081227C /* PrivacyInfo.xcprivacy in Resources */,
-				6AF6397D2B7A51340070CDC1 /* Recipes_empty.json in Resources */,
 				6AF639782B7A51340070CDC1 /* UnitSets.json in Resources */,
 				6A4816F23041DB3600011A56 /* GoogleService-Info.plist in Resources */,
 				6AF754E42B75018F00EADD84 /* Preview Assets.xcassets in Resources */,
@@ -846,7 +838,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BackPlaner/BackPlaner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BackPlaner/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -883,7 +875,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BackPlaner/BackPlaner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BackPlaner/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
