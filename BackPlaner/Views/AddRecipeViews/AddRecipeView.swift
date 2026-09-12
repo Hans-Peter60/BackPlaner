@@ -335,10 +335,16 @@ struct AddRecipeView: View {
             }
         }
         else {
-            // Local Core Data save is synchronous, so confirm immediately.
-            _ = model.uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB, context: viewContext, recipeImage: recipeImage ?? UIImage())
-            clear()
-            showingAlert = true
+            // Local Core Data save is synchronous, so confirm immediately — but
+            // only when it worked. The error used to be swallowed, so a failed
+            // save was still reported as a success.
+            do {
+                _ = try model.uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB, context: viewContext, recipeImage: recipeImage ?? UIImage())
+                clear()
+                showingAlert = true
+            } catch {
+                uploadErrorMessage = error.localizedDescription
+            }
         }
     }
 }

@@ -41,6 +41,11 @@ struct InstructionsFBView: View {
     @State private var publishErrorMessage: String?
     @State private var showPublishedConfirmation  = false
 
+    // Saving a public recipe onto the device gave no feedback at all, so it
+    // was impossible to tell whether the tap had done anything.
+    @State private var showSavedConfirmation      = false
+    @State private var saveErrorMessage: String?
+
     var startDates = [Double:Date]()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
@@ -96,7 +101,12 @@ struct InstructionsFBView: View {
                                 .fixedSize(horizontal: false, vertical: true)
 
                             IconActionButton(systemImage: "square.and.arrow.down", style: .primary, accessibilityLabel: "Als eigenes Rezept speichern", title: "Als eigenes Rezept speichern", controlSize: .regular) {
-                                _ = model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                                do {
+                                    _ = try model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                                    showSavedConfirmation = true
+                                } catch {
+                                    saveErrorMessage = error.localizedDescription
+                                }
                             }
 
                             // Publishing is only offered for a recipe that is
@@ -408,14 +418,21 @@ struct InstructionsFBView: View {
                                 
                                 recipeFB.bakeHistoryFlag   = true
 
-                                _ = model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: UIImage())
+                                // The reminders themselves are already set; this
+                                // writes the bake-history entry that belongs to
+                                // them. Confirm only if that actually worked.
+                                do {
+                                    _ = try model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: UIImage())
 
-                                // Build a human-readable summary of what was scheduled.
-                                let timeFormatter  = TimeCalculation()
-                                reminderCount      = originalStepCount + 2
-                                reminderOvenOnText = timeFormatter.calculateTime(t: ovenOnDate)
-                                reminderFinishText = timeFormatter.calculateTime(t: finishDate)
-                                showingAlert       = true
+                                    // Build a human-readable summary of what was scheduled.
+                                    let timeFormatter  = TimeCalculation()
+                                    reminderCount      = originalStepCount + 2
+                                    reminderOvenOnText = timeFormatter.calculateTime(t: ovenOnDate)
+                                    reminderFinishText = timeFormatter.calculateTime(t: finishDate)
+                                    showingAlert       = true
+                                } catch {
+                                    saveErrorMessage = error.localizedDescription
+                                }
 
                                 showingNotificationMessage = false
                         }
@@ -493,6 +510,19 @@ struct InstructionsFBView: View {
                 EULAView {
                     publishRecipe()
                 }
+            }
+            .alert("Rezept wurde gespeichert", isPresented: $showSavedConfirmation) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Das Rezept liegt jetzt unter „Eigene Rezepte“ auf diesem Gerät und wird über Deine iCloud gesichert. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern.")
+            }
+            .alert("Speichern fehlgeschlagen", isPresented: Binding(
+                get: { saveErrorMessage != nil },
+                set: { if !$0 { saveErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { saveErrorMessage = nil }
+            } message: {
+                Text(saveErrorMessage ?? "")
             }
             .alert("Rezept wurde veröffentlicht", isPresented: $showPublishedConfirmation) {
                 Button("OK", role: .cancel) { }

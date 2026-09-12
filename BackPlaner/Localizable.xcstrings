@@ -1539,6 +1539,22 @@
         }
       }
     },
+    "Das Rezept liegt jetzt unter „Eigene Rezepte“ auf diesem Gerät und wird über Deine iCloud gesichert. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "The recipe is now in “My recipes” on this device and is backed up through your iCloud. You can edit it there without changing the public recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "La recette se trouve maintenant dans « Mes recettes » sur cet appareil et est sauvegardée dans votre iCloud. Vous pouvez l’y modifier sans toucher à la recette publique."
+          }
+        }
+      }
+    },
     "Das Rezept steht jetzt allen Nutzern zur Verfügung. Deine private Fassung ist unverändert — Du kannst sie über „Weitere Aktionen“ löschen, wenn Du sie nicht doppelt behalten willst." : {
       "localizations" : {
         "en" : {
@@ -5619,6 +5635,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Speichern fehlgeschlagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Saving failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Échec de l’enregistrement"
           }
         }
       }

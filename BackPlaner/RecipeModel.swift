@@ -203,12 +203,18 @@ class RecipeModel: ObservableObject {
     }
     
     // MARK: uploadRecipeIntoCoreData
+    /// Writes a recipe from the cloud model into Core Data and returns the
+    /// managed object.
+    ///
+    /// Throws when the context cannot be saved. It used to swallow that error
+    /// and return the object anyway, so every caller went on to tell the user
+    /// the recipe had been saved — whether it had or not.
     func uploadRecipeIntoCoreData(
         recipeId:    NSManagedObjectID?,
         recipeFB:    RecipeFB,
         context:     NSManagedObjectContext,
         recipeImage: UIImage
-    ) -> Recipe {
+    ) throws -> Recipe {
         
         let r: Recipe
         let isUpdatingExistingRecipe: Bool
@@ -345,16 +351,14 @@ class RecipeModel: ObservableObject {
             r.addToBakeHistories(h)
         }
         
-        // Save to core data
+        // Save to core data. The error is logged and handed on: what to tell
+        // the user is the caller's decision, not this method's.
         do {
-            // Save the recipe to core data
             try context.save()
-            
-            // Switch the view to list view
         }
         catch {
-            // Couldn't save the recipe
-            AppLog.persistence.error("Couldn't save the recipe")
+            AppLog.persistence.error("Couldn't save the recipe: \(error.localizedDescription)")
+            throw error
         }
 
         return r
