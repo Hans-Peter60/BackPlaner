@@ -46,3 +46,8 @@ scripts/node_modules/
 # Bei Bedarf mit "git add -f" trotzdem aufnehmen.
 Design Previews/
 Icon Backups/
+
+# Nachweise für die App-Prüfung (Aufnahmen und Screenshots eines Builds).
+# Zig Megabyte, die nach der Freigabe niemand mehr braucht – die Store-
+# Screenshots unter docs/appstore/<geraet>/ bleiben dagegen getrackt.
+docs/appstore/Build */

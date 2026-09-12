@@ -16,6 +16,10 @@ struct SettingsView: View {
     // defined, and coming back from that screen has to update the number.
     @ObservedObject private var unitStore = CustomUnitStore.shared
 
+    // The moderation section shows how many authors and recipes this device
+    // hides, so it has to follow the store rather than read it once.
+    @ObservedObject private var moderation = ModerationStore.shared
+
     // Account deletion (App Store Guideline 5.1.1(v)).
     @State private var showDeleteAccountConfirm = false
     @State private var showReauthentication     = false
@@ -88,6 +92,8 @@ struct SettingsView: View {
                     LabeledContent("Tagesende", value: formattedHour(dayEnd))
                 }
             }
+
+            moderationSection
 
             accountSection
         }
@@ -163,6 +169,39 @@ struct SettingsView: View {
                     deleteErrorMessage = error.localizedDescription
                 }
             }
+        }
+    }
+
+    /// Lets the user take back what he blocked or reported.
+    ///
+    /// Blocking and reporting were one-way streets until now: both lists live
+    /// in `UserDefaults` and had no counterpart, so a block made by accident
+    /// lasted for as long as the app stayed installed.
+    @ViewBuilder
+    private var moderationSection: some View {
+        Section {
+            LabeledContent("Blockierte Autoren",
+                           value: moderation.blockedAuthors.count.formatted())
+
+            Button("Blockierungen aufheben") {
+                moderation.unblockAllAuthors()
+            }
+            .disabled(moderation.blockedAuthors.isEmpty)
+
+            LabeledContent("Von Dir gemeldete Rezepte",
+                           value: moderation.hiddenRecipes.count.formatted())
+
+            Button("Meldungen auf diesem Gerät zurücknehmen") {
+                moderation.unhideAllRecipes()
+            }
+            .disabled(moderation.hiddenRecipes.isEmpty)
+        } header: {
+            Text("Moderation")
+        } footer: {
+            // Deliberately spells out the asymmetry: unblocking works at once,
+            // un-reporting does not, because the recipe is withheld server-side
+            // until a moderator has looked at it.
+            Text("Blockierte Autoren erscheinen sofort wieder in der Rezept-Datenbank. Ein gemeldetes Rezept bleibt dagegen für alle Nutzer ausgeblendet, bis ein Administrator es geprüft hat — das Zurücknehmen wirkt erst danach.")
         }
     }
 

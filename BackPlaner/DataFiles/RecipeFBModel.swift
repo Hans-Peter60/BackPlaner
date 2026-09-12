@@ -725,7 +725,16 @@ class RecipeFBModel: ObservableObject {
     }
 
     /// Picks up the new identity: moderator rights and the recipes it may see.
+    ///
+    /// `isSignedInWithAccount` is refreshed here rather than left to the auth
+    /// state listener. Linking an Apple credential onto the anonymous user
+    /// keeps the same uid, so `addStateDidChangeListener` never fires — and the
+    /// whole app would go on believing nobody is signed in until the next
+    /// launch: no account section in the settings, and the save flow asking to
+    /// sign in again although it just happened.
     private func finishSignIn() {
+        let user = Auth.auth().currentUser
+        isSignedInWithAccount = user != nil && user?.isAnonymous == false
         checkAdminStatus()
         getRecipesFB()
     }

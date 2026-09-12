@@ -309,6 +309,27 @@ final class ModerationStore: ObservableObject {
         defaults.set(Array(hiddenRecipes), forKey: Keys.hiddenRecipes)
     }
 
+    /// Takes back every block made on this device. Blocking is purely local, so
+    /// this makes the author's recipes appear in the public list again at once.
+    func unblockAllAuthors() {
+        guard !blockedAuthors.isEmpty else { return }
+        blockedAuthors.removeAll()
+        defaults.removeObject(forKey: Keys.blockedAuthors)
+    }
+
+    /// Forgets this device's own hiding of recipes it reported.
+    ///
+    /// Unlike a block this is only half the story: `reportRecipe` also sets
+    /// `hidden` on the Firestore document, and `getRecipesFB` withholds such a
+    /// document from everyone but admins. So a reported recipe stays invisible
+    /// until a moderator releases it — this reset only matters after that has
+    /// happened, when the device would otherwise keep hiding it forever.
+    func unhideAllRecipes() {
+        guard !hiddenRecipes.isEmpty else { return }
+        hiddenRecipes.removeAll()
+        defaults.removeObject(forKey: Keys.hiddenRecipes)
+    }
+
     func acceptEULA() {
         guard !hasAcceptedEULA else { return }
         hasAcceptedEULA = true
