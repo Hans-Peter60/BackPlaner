@@ -879,9 +879,23 @@ class RecipeFBModel: ObservableObject {
     /// Signs the account out and returns to an anonymous identity so browsing
     /// and publishing keep working. The author-only recipes stay in the cloud
     /// and reappear after the next sign-in with the same Apple account.
-    func signOutAccount(completion: (() -> Void)? = nil) {
-        try? Auth.auth().signOut()
+    func signOutAccount(completion: ((Result<Void, Error>) -> Void)? = nil) {
+        // Reports a failure instead of swallowing it: this used to be `try?`,
+        // so a sign-out that did not happen looked exactly like one that did.
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            AppLog.firebase.error("Sign-out failed: \(error.localizedDescription)")
+            completion?(.failure(error))
+            return
+        }
+
+        // Set here rather than waiting for the auth state listener, for the same
+        // reason `finishSignIn` does: the settings must not lag behind the
+        // identity they describe.
+        isSignedInWithAccount = false
         isAdmin = false
+
         Auth.auth().signInAnonymously { [weak self] _, error in
             if let error {
                 AppLog.firebase.error("Anonymous re-sign-in failed: \(error.localizedDescription)")
@@ -892,7 +906,10 @@ class RecipeFBModel: ObservableObject {
             // an admin — or the author-only recipes — would stay visible to the
             // now anonymous user.
             self?.getRecipesFB()
-            completion?()
+            // The sign-out itself succeeded even if the anonymous re-sign-in
+            // did not, so the user is told what he asked about; the log records
+            // the rest.
+            completion?(.success(()))
         }
     }
 

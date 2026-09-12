@@ -27,6 +27,11 @@ struct SettingsView: View {
     @State private var deleteErrorMessage: String?
     @State private var showDeletedConfirmation  = false
 
+    // Signing out only changed the account section back to the sign-in button,
+    // which reads as a demand to sign in again rather than as a confirmation.
+    @State private var showSignedOutConfirmation = false
+    @State private var signOutErrorMessage: String?
+
     var body: some View {
         Form {
             Section("Allgemein") {
@@ -138,6 +143,19 @@ struct SettingsView: View {
                 }
             }
         }
+        .alert("Du bist abgemeldet", isPresented: $showSignedOutConfirmation) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Deine privaten Rezepte in der Rezept-Datenbank sind erst wieder sichtbar, wenn Du Dich erneut anmeldest. Rezepte auf diesem Gerät und von Dir veröffentlichte Rezepte bleiben unberührt.")
+        }
+        .alert("Abmelden fehlgeschlagen", isPresented: Binding(
+            get: { signOutErrorMessage != nil },
+            set: { if !$0 { signOutErrorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { signOutErrorMessage = nil }
+        } message: {
+            Text(signOutErrorMessage ?? "")
+        }
         .alert("Konto wurde gelöscht", isPresented: $showDeletedConfirmation) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -225,7 +243,14 @@ struct SettingsView: View {
                 }
 
                 Button("Abmelden", role: .destructive) {
-                    modelFB.signOutAccount()
+                    modelFB.signOutAccount { result in
+                        switch result {
+                        case .success:
+                            showSignedOutConfirmation = true
+                        case .failure(let error):
+                            signOutErrorMessage = error.localizedDescription
+                        }
+                    }
                 }
 
                 Button("Konto löschen", role: .destructive) {
