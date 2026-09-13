@@ -85,8 +85,8 @@ class LocalNotificationManager: ObservableObject {
         for notification in notifications {
             
             let content      = UNMutableNotificationContent()
-            content.title              = String(localized: "Backhinweis", locale: AppSettings.locale)
-            content.subtitle           = String(localized: "Gedrückt halten für Erledigt oder Verschieben", locale: AppSettings.locale)
+            content.title              = String(localized: "Backhinweis", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+            content.subtitle           = String(localized: "Gedrückt halten für Erledigt oder Verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
             content.body               = notification.title
             content.sound              = .default
             content.categoryIdentifier = NotificationActions.reminderCategory
@@ -176,15 +176,15 @@ enum NotificationActions {
     static func registerCategories() {
         let done = UNNotificationAction(
             identifier: doneAction,
-            title: String(localized: "Erledigt", locale: AppSettings.locale),
+            title: String(localized: "Erledigt", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
             options: []
         )
         let postpone = UNTextInputNotificationAction(
             identifier: postponeAction,
-            title: String(localized: "Verschieben um …", locale: AppSettings.locale),
+            title: String(localized: "Verschieben um …", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
             options: [],
-            textInputButtonTitle: String(localized: "Verschieben", locale: AppSettings.locale),
-            textInputPlaceholder: String(localized: "Minuten", locale: AppSettings.locale)
+            textInputButtonTitle: String(localized: "Verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
+            textInputPlaceholder: String(localized: "Minuten", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         )
         let reminder = UNNotificationCategory(
             identifier: reminderCategory,
@@ -194,12 +194,12 @@ enum NotificationActions {
 
         let postponeOnly = UNNotificationAction(
             identifier: postponeOnlyAction,
-            title: String(localized: "Nur diesen Schritt", locale: AppSettings.locale),
+            title: String(localized: "Nur diesen Schritt", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
             options: []
         )
         let postponeFollowing = UNNotificationAction(
             identifier: postponeFollowingAction,
-            title: String(localized: "Alle nachfolgenden", locale: AppSettings.locale),
+            title: String(localized: "Alle nachfolgenden", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
             options: []
         )
         let confirmation = UNNotificationCategory(
@@ -263,10 +263,10 @@ enum NotificationActions {
         completionHandler: @escaping () -> Void
     ) {
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "Reminder verschieben", locale: AppSettings.locale)
+        content.title = String(localized: "Reminder verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         content.body = String(
             localized: "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?",
-            locale: AppSettings.locale
+            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
         )
         content.sound = .default
         content.categoryIdentifier = postponementCategory
@@ -444,7 +444,7 @@ enum NotificationActions {
         guard let mutableContent = content.mutableCopy() as? UNMutableNotificationContent else {
             return nil
         }
-        mutableContent.title = String(localized: "Backhinweis", locale: AppSettings.locale)
+        mutableContent.title = String(localized: "Backhinweis", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         if let instruction = mutableContent.userInfo[instructionKey] as? String {
             mutableContent.body = instruction
         }
@@ -661,10 +661,10 @@ enum NotificationActions {
         date: Date
     ) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "Backhinweis", locale: AppSettings.locale)
+        content.title = String(localized: "Backhinweis", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         content.subtitle = String(
             localized: "Gedrückt halten für Erledigt oder Verschieben",
-            locale: AppSettings.locale
+            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
         )
         content.body = instruction
         content.sound = .default
@@ -755,12 +755,12 @@ enum ScheduledStepShiftError: LocalizedError {
         case .dateInPast:
             return String(
                 localized: "Der verschobene Zeitpunkt muss in der Zukunft liegen.",
-                locale: AppSettings.locale
+                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             )
         case .notificationNotFound:
             return String(
                 localized: "Der zugehörige Reminder wurde nicht gefunden.",
-                locale: AppSettings.locale
+                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             )
         }
     }

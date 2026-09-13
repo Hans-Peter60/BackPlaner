@@ -78,13 +78,13 @@ enum RecipeImageAnalysisError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidImage:
-            return String(localized: "Mindestens eines der ausgewählten Bilder konnte nicht gelesen werden.")
+            return String(localized: "Mindestens eines der ausgewählten Bilder konnte nicht gelesen werden.", bundle: AppSettings.localizationBundle)
         case .noTextRecognized:
-            return String(localized: "Auf den Bildern wurde kein ausreichend lesbarer Text erkannt.")
+            return String(localized: "Auf den Bildern wurde kein ausreichend lesbarer Text erkannt.", bundle: AppSettings.localizationBundle)
         case .unsupportedLayout:
-            return String(localized: "Das erwartete zweispaltige Rezeptlayout mit Planungsbeispiel wurde nicht erkannt.")
+            return String(localized: "Das erwartete zweispaltige Rezeptlayout mit Planungsbeispiel wurde nicht erkannt.", bundle: AppSettings.localizationBundle)
         case .insufficientRecipeData:
-            return String(localized: "Es konnten keine eindeutigen Zutaten oder Zubereitungsschritte erkannt werden. Bitte verwende ein gerades, gut lesbares Bild.")
+            return String(localized: "Es konnten keine eindeutigen Zutaten oder Zubereitungsschritte erkannt werden. Bitte verwende ein gerades, gut lesbares Bild.", bundle: AppSettings.localizationBundle)
         }
     }
 }
@@ -2273,7 +2273,7 @@ private struct GeneralRecipeParser {
         if let printed = box.doughWeight, sum > 0, abs(sum - printed) > printed * 0.03 {
             warnings.append(String(
                 localized: "Die Summe der erkannten Zutaten (\(Int(sum)) g) weicht von der angegebenen Teigmenge (\(Int(printed)) g) ab.",
-                locale: AppSettings.locale
+                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             ))
         }
 
@@ -2282,7 +2282,7 @@ private struct GeneralRecipeParser {
            abs(computed - printed) > 4 {
             warnings.append(String(
                 localized: "Die berechnete Teigausbeute (\(Int(computed))) weicht von der angegebenen (\(Int(printed))) ab.",
-                locale: AppSettings.locale
+                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             ))
         }
         return warnings

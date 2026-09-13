@@ -26,24 +26,39 @@ struct ScheduledTasksTimeLineView: View {
 
     init() {
         self.nextStepsRequest = FetchRequest(entity: NextStep.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
-        
-        dateFormatter = DateFormatter()
-        // the format of the dates on the timeline
-        dateFormatter.dateFormat   = "EEE dd\nhh:mm"
+
+        // Two formatters instead of one hand-written pattern. The old
+        // "EEE dd\nhh:mm" had two faults: lowercase `hh` is the twelve-hour hour
+        // *without* an am/pm marker, so a step at 14:34 was stamped "02:34" for
+        // everyone, German users included — and no locale was set, so the
+        // weekday came out German however the app language was set.
+        //
+        // `setLocalizedDateFormatFromTemplate` picks the field order and, for
+        // "jm", the twelve- or twenty-four-hour clock the locale actually uses,
+        // including the am/pm marker where one belongs.
+        dayFormatter  = DateFormatter()
+        timeFormatter = DateFormatter()
+        for formatter in [dayFormatter, timeFormatter] {
+            formatter.locale = AppSettings.locale
+        }
+        dayFormatter.setLocalizedDateFormatFromTemplate("EEEd")
+        timeFormatter.setLocalizedDateFormatFromTemplate("jm")
     }
     
     // change these to visually style the timeline
     private static let lineWidth:   CGFloat = 2
     private static let dotDiameter: CGFloat = 8
     
-    private let dateFormatter: DateFormatter
+    private let dayFormatter:  DateFormatter
+    private let timeFormatter: DateFormatter
 
     /// The stacked date/time stamp for the timeline. On iPhone portrait the time
     /// is shown above the date; otherwise the date stays above the time as before.
     private func stampText(for date: Date) -> String {
         let portrait = hSize == .compact && vSize == .regular
-        dateFormatter.dateFormat = portrait ? "hh:mm\nEEE dd" : "EEE dd\nhh:mm"
-        return dateFormatter.string(from: date)
+        let day  = dayFormatter.string(from: date)
+        let time = timeFormatter.string(from: date)
+        return portrait ? "\(time)\n\(day)" : "\(day)\n\(time)"
     }
 
     var body: some View {

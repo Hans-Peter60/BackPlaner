@@ -115,7 +115,7 @@ enum BakePlanValidator {
                     severity: .hint,
                     message: String(
                         localized: "„\(step.instruction)“ beginnt am \(dateTimeText(step.date)) und damit vor dem Tagesbeginn (\(hourText(dayStart)) Uhr).",
-                        locale: AppSettings.locale
+                        bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                     )
                 )
             }
@@ -125,7 +125,7 @@ enum BakePlanValidator {
                     severity: .hint,
                     message: String(
                         localized: "„\(step.instruction)“ beginnt am \(dateTimeText(step.date)) und damit nach dem Tagesende (\(hourText(dayEnd)) Uhr).",
-                        locale: AppSettings.locale
+                        bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                     )
                 )
             }
@@ -154,7 +154,7 @@ enum BakePlanValidator {
                         severity: .error,
                         message: String(
                             localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit der Backzeit von „\(other.recipeName)“ (\(rangeText(other))).",
-                            locale: AppSettings.locale
+                            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                         )
                     )
                 )
@@ -171,7 +171,7 @@ enum BakePlanValidator {
                         severity: .hint,
                         message: String(
                             localized: "Der Backbeginn (\(dateTimeText(window.start))) liegt nur \(minutes(gap)) Minuten nach dem Backende von „\(other.recipeName)“. Die Backpause beträgt \(bakePause) Minuten.",
-                            locale: AppSettings.locale
+                            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                         )
                     )
                 )
@@ -184,7 +184,7 @@ enum BakePlanValidator {
                         severity: .hint,
                         message: String(
                             localized: "Das Backende (\(dateTimeText(window.end))) liegt nur \(minutes(gap)) Minuten vor dem Backbeginn von „\(other.recipeName)“. Die Backpause beträgt \(bakePause) Minuten.",
-                            locale: AppSettings.locale
+                            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                         )
                     )
                 )

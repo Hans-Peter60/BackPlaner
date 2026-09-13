@@ -122,7 +122,7 @@ struct RecipeFBDetailView: View {
                             
                             Spacer()
                             
-                            Text("Bearbeitungsdauer: " + Rational.displayHoursMinutes(recipeFB.prepTime))
+                            Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
                                 .font(Theme.bodyFont(16))
                                 .padding([.trailing], 5)
                         }

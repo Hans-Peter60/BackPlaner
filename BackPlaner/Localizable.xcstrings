@@ -1097,6 +1097,22 @@
         }
       }
     },
+    "Bearbeitungsdauer: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Working time: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Durée de travail : %@"
+          }
+        }
+      }
+    },
     "Beginn" : {
       "localizations" : {
         "en" : {

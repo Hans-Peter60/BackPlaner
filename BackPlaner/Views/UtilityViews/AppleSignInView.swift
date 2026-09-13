@@ -74,7 +74,7 @@ struct AppleSignInView: View {
                   let tokenData = credential.identityToken,
                   let idToken = String(data: tokenData, encoding: .utf8),
                   let nonce = currentNonce else {
-                errorMessage = String(localized: "Apple-Login lieferte kein gültiges Token.")
+                errorMessage = String(localized: "Apple-Login lieferte kein gültiges Token.", bundle: AppSettings.localizationBundle)
                 return
             }
             isSigningIn = true

@@ -128,7 +128,7 @@ struct RecipeDetailView: View {
                         
                         Spacer()
                         
-                        Text("Bearbeitungsdauer: " + Rational.displayHoursMinutes(recipe.prepTime))
+                        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipe.prepTime))")
                             .font(Theme.bodyFont(16))
                             .padding([.trailing], 5)
                     }

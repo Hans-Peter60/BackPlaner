@@ -186,6 +186,28 @@ struct AppSettings {
         Locale(identifier: localeIdentifier())
     }
 
+    /// The bundle holding the language the user picked inside the app.
+    ///
+    /// Needed because the in-app language is applied through
+    /// `.environment(\.locale, …)` on the root view. SwiftUI honours that for
+    /// `Text("…")`, but a *bundle* lookup never sees it — and the `locale:`
+    /// argument of `String(localized:)` only formats the interpolated values,
+    /// it does not choose which translation is used. Without this, every
+    /// `String(localized:)` resolved in the **system** language: a user with a
+    /// German phone who set the app to English still got German plan warnings
+    /// and, worse, German reminders on the lock screen.
+    ///
+    /// Falls back to the main bundle for "system language" and whenever the
+    /// `.lproj` for the chosen language is missing.
+    static var localizationBundle: Bundle {
+        let language = storedLanguage
+        guard !language.isEmpty,
+              let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+              let bundle = Bundle(path: path)
+        else { return .main }
+        return bundle
+    }
+
     static var storedLanguage: String {
         UserDefaults.standard.string(forKey: AppSettingsKeys.selectedLanguage) ?? AppLanguage.system.rawValue
     }
@@ -425,14 +447,14 @@ final class CustomUnitStore: ObservableObject {
         var errorDescription: String? {
             switch self {
             case .missingName:
-                return String(localized: "Bitte einen Namen angeben.", locale: AppSettings.locale)
+                return String(localized: "Bitte einen Namen angeben.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
             case .missingAbbreviation:
-                return String(localized: "Bitte ein Kürzel angeben.", locale: AppSettings.locale)
+                return String(localized: "Bitte ein Kürzel angeben.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
             case .factorNotPositive:
-                return String(localized: "Die Umrechnung muss größer als 0 sein.", locale: AppSettings.locale)
+                return String(localized: "Die Umrechnung muss größer als 0 sein.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
             case .abbreviationTaken(let abbreviation):
                 return String(format: String(localized: "Das Kürzel „%@“ ist schon vergeben.",
-                                             locale: AppSettings.locale),
+                                             bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
                               abbreviation)
             }
         }

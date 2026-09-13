@@ -235,7 +235,7 @@ struct SettingsView: View {
                 // is never requested, so for anyone signing in now there is no
                 // address to show anyway — and not reading it keeps a piece of
                 // personal data out of the app entirely.
-                LabeledContent("Angemeldet als", value: String(localized: "Apple-Konto"))
+                LabeledContent("Angemeldet als", value: String(localized: "Apple-Konto", bundle: AppSettings.localizationBundle))
 
                 if modelFB.isAdmin {
                     Label("Administrator", systemImage: "checkmark.seal")
@@ -368,7 +368,7 @@ struct CustomUnitsView: View {
     private func describe(_ unit: CustomUnit) -> String {
         switch unit.base {
         case .piece:
-            return String(localized: "gezählt", locale: AppSettings.locale)
+            return String(localized: "gezählt", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         case .gram, .milliliter:
             let amount = unit.factor.formatted(.number.precision(.fractionLength(0...2)))
             return "\(amount) \(unit.baseUnit)"
