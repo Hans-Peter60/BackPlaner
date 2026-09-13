@@ -551,7 +551,7 @@ Die App filtert bewusst:
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BakePlanner, oben die Bereiche Allgemein, Rezepte und Backplanung](images/einstellungen.png)
+![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht und Eigene Einheiten, Backplanung mit Vorheizzeit, Backpause, Tagesbeginn und Tagesende; darunter beginnt Moderation](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Moderation und Konto.*
 
