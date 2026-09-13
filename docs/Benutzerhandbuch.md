@@ -170,6 +170,8 @@ Hinweise:
 
 Im Tab **Rezept backen** gibt es die Schaltfläche **„Als eigenes Rezept speichern“**. Damit landet eine vollständige Kopie – samt Bild, Komponenten, Zutaten und Schritten – in „Eigene Rezepte“. Erst diese Kopie kannst Du bearbeiten.
 
+Die App bestätigt das mit **„Rezept wurde gespeichert“** und dem Hinweis, dass Du die Kopie bearbeiten kannst, ohne das öffentliche Rezept zu verändern. Schlägt das Speichern fehl, erscheint stattdessen eine Fehlermeldung – ein stilles Verschwinden gibt es nicht.
+
 ### Ein privates Rezept veröffentlichen
 
 Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass es danach nicht mehr geändert werden kann und nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
@@ -182,13 +184,13 @@ Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
 
 Über das **Menü „…“** oben rechts:
 
-- **Rezept melden** – Du wählst einen Grund (anstößig/beleidigend, Spam, Urheberrechtsverletzung, Sonstiges). Die Meldung geht zur Prüfung an den Betreiber, und das Rezept wird auf Deinem Gerät sofort ausgeblendet.
-- **Autor blockieren** – alle Rezepte dieses Autors verschwinden auf Deinem Gerät aus der Liste.
+- **Rezept melden** – Du wählst einen Grund (anstößig/beleidigend, Spam, Urheberrechtsverletzung, Sonstiges). Die Meldung geht zur Prüfung an den Betreiber, und das Rezept wird **sofort für alle Nutzer** ausgeblendet, nicht erst nach der Prüfung. Sichtbar wird es nur wieder, wenn ein Administrator es freigibt.
+- **Autor blockieren** – alle Rezepte dieses Autors verschwinden aus Deiner Liste. Das wirkt **nur auf Deinem Gerät**; andere Nutzer sehen sie weiter.
 - **Mein Rezept löschen** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen. Das Rezept wird endgültig aus der Datenbank entfernt.
 
 Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Mein Rezept löschen“ steht dort.
 
-Blockierungen und Ausblendungen gelten nur lokal auf Deinem Gerät.
+Die beiden unterscheiden sich also in der Reichweite: **Blockieren wirkt lokal, Melden wirkt für alle.** Beides lässt sich zurücknehmen – unter *Einstellungen → Moderation* (siehe [Kapitel 14](#14-einstellungen)).
 
 ### Administrator-Funktion
 
@@ -549,9 +551,9 @@ Die App filtert bewusst:
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BakePlanner mit den Bereichen Allgemein, Rezepte und Backplanung](images/einstellungen.png)
+![Einstellungen von BakePlanner, oben die Bereiche Allgemein, Rezepte und Backplanung](images/einstellungen.png)
 
-*Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung.*
+*Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Moderation und Konto.*
 
 ### Allgemein
 
@@ -566,6 +568,7 @@ Die App filtert bewusst:
 |-------------|--------------|
 | **Standard-Portionsgröße** | Wert, mit dem Rezepte geöffnet werden: 0,5 / 1,0 / 1,5 / 2,0. Standard: 1,0. |
 | **Detailansicht verwenden** | Ein: Komponenten und Schritte aller öffentlichen Rezepte werden schon beim Laden der Liste mitgeladen – Rezepte öffnen sich schneller, der erste Ladevorgang dauert länger und braucht mehr Daten. Aus: Details werden erst beim Öffnen eines Rezepts geladen. Standard: ein. |
+| **Eigene Einheiten** | Zeigt, wie viele Du angelegt hast, und führt zur Verwaltung. Siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen). |
 
 ### Backplanung
 
@@ -590,7 +593,7 @@ Es werden **weder Name noch E-Mail-Adresse abgefragt** – die App braucht nur d
 | Schaltfläche | Wirkung |
 |--------------|---------|
 | **Mit Apple anmelden** | Erzeugt bzw. verbindet Dein Konto. |
-| **Abmelden** | Zurück zur anonymen Nutzung. Private Cloud-Rezepte verschwinden aus der Liste, bleiben aber gespeichert und sind nach der nächsten Anmeldung wieder da. |
+| **Abmelden** | Zurück zur anonymen Nutzung. Private Cloud-Rezepte verschwinden aus der Liste, bleiben aber gespeichert und sind nach der nächsten Anmeldung wieder da. Die App bestätigt mit **„Du bist abgemeldet“**; eine erneute Anmeldung zur Bestätigung verlangt sie **nicht** – die gehört allein zum Löschen des Kontos. |
 | **Konto löschen** | Entfernt das Konto endgültig (siehe unten). |
 
 **Konto löschen** fragt zuerst nach. Danach passiert Folgendes:
@@ -604,13 +607,30 @@ Das lässt sich nicht widerrufen. Liegt Deine letzte Anmeldung länger zurück, 
 
 Für das normale Backen, die eigenen Rezepte und das Stöbern in der öffentlichen Datenbank ist **keine Anmeldung erforderlich**.
 
+### Moderation
+
+Hier nimmst Du zurück, was Du in der Rezept-Datenbank ausgeblendet hast.
+
+| Eintrag | Wirkung |
+|---------|---------|
+| **Blockierte Autoren** | Anzahl der Autoren, die Du blockiert hast. |
+| **Blockierungen aufheben** | Hebt alle Blockierungen auf. Die Rezepte dieser Autoren erscheinen **sofort** wieder in der Liste. |
+| **Von Dir gemeldete Rezepte** | Anzahl der Rezepte, die Du gemeldet hast. |
+| **Meldungen auf diesem Gerät zurücknehmen** | Entfernt die Ausblendung, die Dein Gerät sich gemerkt hat. |
+
+**Der Unterschied ist wichtig:** Blockieren ist eine reine Geräteeinstellung, deshalb wirkt das Aufheben unmittelbar. Eine Meldung blendet das Rezept dagegen für alle Nutzer aus – zurücknehmen kann das nur ein Administrator. Dein Zurücknehmen hier greift also erst, *nachdem* das Rezept wieder freigegeben wurde; bis dahin bleibt es unsichtbar, auch für Dich.
+
+Beide Listen gelten nur für dieses Gerät und werden nicht über iCloud abgeglichen.
+
 ---
 
 ## 15. Einheiten, Mengen und Portionsgrößen
 
 ### Verfügbare Einheiten
 
-Die Einheit wählst Du über ein Auswahlmenü (Kurzform – Langform). Freitext ist möglich, wird aber rot umrandet, wenn er zu keiner bekannten Einheit passt – dann kann die App nicht umrechnen.
+Die Einheit wählst Du über ein **Auswahlmenü** (Kurzform – Langform). Eintippen kannst Du sie nicht: eine Einheit trägt eine Umrechnung und nicht bloß einen Namen, und die muss die App kennen. Fehlt Dir eine, legst Du sie als **eigene Einheit** an (siehe unten).
+
+Steht in einem importierten oder aus der Datenbank übernommenen Rezept eine Einheit, die die App nicht kennt, zeigt das Feld ein **Warndreieck** und einen roten Rahmen. Dann fehlt die Umrechnung, und diese Zutat geht nicht ins Gesamtgewicht ein.
 
 **Gewichtsbasiert (Basis Gramm)**
 
@@ -642,6 +662,23 @@ Die Einheit wählst Du über ein Auswahlmenü (Kurzform – Langform). Freitext 
 | Ss | Schuss | 10 ml |
 | Sp | Spritzer | 0,27 ml |
 | Tr | Tropfen | 0,067 ml |
+
+### Eigene Einheiten
+
+Fehlt eine Einheit – „Becher“, oder die „cups“, die ein englisches Rezept über den Bildimport mitbringt – legst Du sie selbst an: **Einstellungen → Rezepte → Eigene Einheiten**.
+
+| Feld | Bedeutung |
+|------|-----------|
+| **Name** | Die Langform, etwa „Becher“. |
+| **Kürzel** | Was im Auswahlmenü und in den Zutatenlisten steht, etwa „Be“. Muss noch frei sein. |
+| **Gemessen in** | **Gramm**, **Milliliter** oder **gezählt**. |
+| **Umrechnung** | Wie viel eine Einheit davon enthält – bei einem Becher etwa 250 Milliliter. Bei „gezählt“ entfällt das Feld. |
+
+Warum die Umrechnung Pflicht ist: davon leben die Gesamtzutaten, die Bäckerprozente und die Einkaufsliste. Ohne sie würde „2 Becher Mehl“ als 2 Gramm zählen.
+
+Deine eigenen Einheiten stehen danach im Auswahlmenü neben den mitgelieferten. Zum Entfernen wischst Du den Eintrag nach links oder tippst oben rechts auf **Bearbeiten**. Sie gelten nur auf diesem Gerät und werden nicht über iCloud abgeglichen.
+
+> **Vorsicht beim Löschen:** Rezepte, die eine gelöschte Einheit verwenden, behalten sie als Text – die App kennt sie dann aber nicht mehr und zeigt das Warndreieck. Lege sie in diesem Fall einfach wieder an.
 
 ### Umrechnung in Gewicht
 
@@ -686,7 +723,7 @@ Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt im Formular und kann
 
 ### Was Du gegen unerwünschte Inhalte tun kannst
 
-Über das Menü „…“ in einem öffentlichen Rezept: **Rezept melden** (mit Grund) oder **Autor blockieren**. Beides wirkt sofort auf Deinem Gerät. Details in [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte).
+Über das Menü „…“ in einem öffentlichen Rezept: **Rezept melden** (mit Grund) oder **Autor blockieren**. Beides wirkt sofort – die Meldung blendet das Rezept **für alle Nutzer** aus, die Blockierung nur auf Deinem Gerät. Zurücknehmen kannst Du beides unter *Einstellungen → Moderation*. Details in [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte) und [Kapitel 14](#14-einstellungen).
 
 ---
 
@@ -717,7 +754,7 @@ Das ist unproblematisch: der zweite Plan ersetzt den ersten, Schritte und Erinne
 Das geht nicht – jedes Rezept hat einen Plan, der zweite ersetzt den ersten. Als Umweg kannst Du das Rezept unter einem anderen Namen duplizieren und beide getrennt planen: **privat in der Cloud** speichern, über „Als eigenes Rezept speichern“ zurückholen, umbenennen. So bleibt die Dublette aus der öffentlichen Datenbank heraus.
 
 **Das Gesamtgewicht passt nicht.**
-Meist liegt es an einer Einheit, die die App nicht kennt (im Einheitenfeld rot umrandet) oder an einer Zutat ohne Einheit. Prüfe die Zutaten im Tab „Ändern“ und wähle die Einheit aus dem Menü.
+Meist liegt es an einer Einheit, die die App nicht kennt – das Einheitenfeld zeigt dann ein **Warndreieck** – oder an einer Zutat ohne Einheit. Prüfe die Zutaten im Tab „Ändern“ und wähle die Einheit aus dem Menü. Gibt es sie dort nicht, lege sie unter *Einstellungen → Rezepte → Eigene Einheiten* an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 
 **Eine Zutat fehlt auf der Einkaufsliste.**
 Wasser, Salz, Anstellgut und Sauerteig werden absichtlich weggelassen, ebenso Zutaten ohne Einheit oder ohne Menge. Siehe [Kapitel 13](#13-einkaufsliste).
@@ -750,4 +787,5 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
 - **Übersetzt werden Texte, keine Einheiten** – das ist beabsichtigt, damit die Mengenberechnung erhalten bleibt.
 - **Es gibt keinen Export.** Eigene Rezepte synchronisieren zwar über iCloud (siehe [Kapitel 2](#2-systemvoraussetzungen)), lassen sich aber nicht als Datei sichern oder an andere weitergeben. Als Sicherung über die iCloud hinaus bleibt nur der Weg in die Rezept-Datenbank – privat, wenn Du nicht teilen willst.
-- **Blockierte Autoren und gemeldete Rezepte** werden nur auf dem jeweiligen Gerät ausgeblendet.
+- **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.
+- **Eigene Einheiten gelten nur auf dem Gerät, auf dem Du sie angelegt hast.** Sie werden nicht über iCloud abgeglichen. Ein Rezept, das eine solche Einheit verwendet, zeigt auf einem anderen Gerät das Warndreieck, bis Du sie dort ebenfalls anlegst.
