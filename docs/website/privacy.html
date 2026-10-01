@@ -83,7 +83,7 @@
 <!-- ===================== DEUTSCH ===================== -->
 <section id="de" lang="de">
   <h2>Datenschutzerklärung</h2>
-  <p><strong>Stand: 11. September 2026</strong></p>
+  <p><strong>Stand: 1. Oktober 2026</strong></p>
 
   <h3>Verantwortlich</h3>
   <p>Hans-Peter Mueller<br>
@@ -93,8 +93,11 @@
   <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
 
   <h3>Grundsatz</h3>
-  <p>BakePlanner braucht kein Benutzerkonto und verlangt keine Anmeldung. Die
-  App verfolgt dich nicht, zeigt keine Werbung und enthält keine
+  <p>Die Grundfunktionen von BakePlanner benötigen kein persönliches
+  Benutzerkonto. Zum Schutz der Firebase-Dienste meldet sich die App beim
+  ersten Start anonym bei Firebase an. Für bestimmte private Cloud-Funktionen
+  kannst du dich freiwillig mit Apple anmelden. Die App verfolgt dich nicht,
+  zeigt keine Werbung und enthält keine
   Analyse- oder Absturzberichts-Bausteine. Es findet kein Tracking im Sinne
   des App-Tracking-Transparency-Rahmens statt.</p>
 
@@ -134,9 +137,21 @@
     </tr>
     <tr>
       <td>Fotos aus Kamera oder Mediathek</td>
-      <td>Bleiben auf dem Gerät, sofern du das Rezept nicht
-      veröffentlichst</td>
-      <td>Rezeptbilder und das Einlesen abfotografierter Rezepte.</td>
+      <td>Bleiben bei lokaler Analyse auf dem Gerät. Bei ausdrücklich
+      ausgewählter Cloud-KI werden nur die ausgewählten Rezeptbilder über eine
+      geschützte Firebase Cloud Function an Google Vertex AI übertragen.</td>
+      <td>Rezeptbilder und das Einlesen abfotografierter Rezepte. Eine
+      Cloud-Übertragung erfolgt erst nach deiner ausdrücklichen
+      Einwilligung.</td>
+    </tr>
+    <tr>
+      <td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis,
+      Anfragezeit und Anfrageanzahl</td>
+      <td>Google Firebase; die Cloud Function läuft in
+      <code>europe-west1</code>. Für die Bildanalyse wird Google Vertex AI
+      mit dem Standort <code>EU</code> verwendet.</td>
+      <td>Absicherung des KI-Endpunkts und Begrenzung auf höchstens 20
+      Analyseanfragen pro Stunde.</td>
     </tr>
     <tr>
       <td>Erinnerungen, Einstellungen, Übersetzungsspeicher, blockierte
@@ -150,7 +165,9 @@
   <p>Beim ersten Start meldet sich die App anonym bei Firebase an und erhält
   eine zufällige Kennung. Sie enthält keinen Namen, keine E-Mail-Adresse und
   keine Gerätenummer und lässt sich nicht auf dich zurückführen. Sie wird an
-  veröffentlichte Rezepte und an Meldungen angehängt.</p>
+  veröffentlichte Rezepte und an Meldungen angehängt. Bei einer Cloud-KI-
+  Analyse dient sie außerdem zur Absicherung der Anfrage und zur
+  Nutzungsbegrenzung.</p>
 
   <h3>Anmeldung mit Apple</h3>
   <p>Die Anmeldung ist freiwillig und nur nötig, um ein Rezept privat in der
@@ -160,22 +177,41 @@
   nutzt, entscheidest du bei der Anmeldung – für BakePlanner macht es keinen
   Unterschied, weil die Adresse nicht abgefragt wird.</p>
 
-  <h3>Texterkennung in Fotos</h3>
-  <p>Das Einlesen eines abfotografierten Rezepts geschieht vollständig auf
-  deinem Gerät (Apple Vision). Die Bilder werden dafür nicht übertragen.
-  Dasselbe gilt für die Übersetzung von Rezepten: sie läuft über Apples
+  <h3>Analyse fotografierter Rezepte</h3>
+  <p>Du kannst zwischen lokaler Analyse und geschützter Cloud-KI wählen. Bei
+  der lokalen Analyse bleiben die Bilder auf deinem Gerät. Je nach
+  Verfügbarkeit verwendet die App Apple Intelligence oder Apple Vision.</p>
+  <p>Bei der Cloud-KI werden die von dir ausgewählten Bilder verschlüsselt an
+  eine geschützte Firebase Cloud Function von BakePlanner und von dort an
+  Google Vertex AI (Gemini) übertragen. Die Verarbeitung dient ausschließlich
+  dazu, Zutaten, Mengen, Zeiten und Arbeitsschritte zu erkennen und daraus
+  einen bearbeitbaren Rezeptentwurf zu erstellen. BakePlanner speichert die
+  übertragenen Bilder weder in Firebase Storage noch in der Rezeptdatenbank.
+  Der Entwurf wird erst gespeichert, wenn du ihn prüfst und ausdrücklich
+  speicherst.</p>
+  <p>Die Cloud-Analyse erfolgt nur nach deiner vorherigen ausdrücklichen
+  Einwilligung. Du kannst sie ablehnen und die lokale Analyse verwenden. Eine
+  erteilte Einwilligung kannst du unter <em>Einstellungen → Datenschutz &amp;
+  KI</em> für alle zukünftigen Analysen widerrufen.</p>
+  <p>Die Übersetzung von Rezepten läuft weiterhin über Apples
   Übersetzungsfunktion auf dem Gerät.</p>
 
   <h3>Auftragsverarbeiter</h3>
   <p>Google Ireland Limited bzw. Google LLC für Firebase (Datenbank,
-  Bildspeicher, anonyme Anmeldung, Missbrauchsschutz). Apple Inc. für iCloud,
-  die Anmeldung mit Apple und die Mitteilungszustellung.</p>
+  Bildspeicher, anonyme Anmeldung, Cloud Functions und Missbrauchsschutz)
+  sowie Google Vertex AI (Gemini) für die ausdrücklich ausgewählte
+  Cloud-Analyse von Rezeptbildern. Apple Inc. für iCloud, Apple Intelligence,
+  Vision, die Anmeldung mit Apple und die Mitteilungszustellung.</p>
 
   <h3>Speicherdauer</h3>
   <p>Veröffentlichte Rezepte bleiben, bis sie gelöscht werden – von dir oder
   nach einer Meldung. Privat gespeicherte Rezepte bleiben, bis du sie oder
   dein Konto löschst. Auf dem Gerät gespeicherte Daten verschwinden mit dem
-  Löschen der App.</p>
+  Löschen der App. Die an die Cloud-KI übertragenen Bilder werden von
+  BakePlanner nicht dauerhaft abgelegt. Für die stündliche Nutzungsbegrenzung
+  speichert Firestore zur pseudonymen Nutzerkennung nur den Beginn des
+  aktuellen Zeitfensters und die Anfrageanzahl; ein abgelaufenes Zeitfenster
+  wird bei der nächsten Analyse ersetzt.</p>
 
   <h3>Deine Rechte</h3>
   <p>Du kannst dein Konto in der App löschen: <em>Einstellungen → Konto →
@@ -188,7 +224,9 @@
   <p>Dir stehen die Rechte auf Auskunft, Berichtigung, Löschung,
   Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch zu.
   Wende dich dafür an die oben genannte Adresse. Außerdem kannst du dich bei
-  einer Datenschutz-Aufsichtsbehörde beschweren.</p>
+  einer Datenschutz-Aufsichtsbehörde beschweren. Eine Einwilligung in die
+  Cloud-KI kannst du jederzeit mit Wirkung für die Zukunft in den
+  Einstellungen widerrufen.</p>
 
   <h3>Kinder</h3>
   <p>Die App richtet sich nicht an Kinder und erhebt bewusst keine Daten, die
@@ -198,7 +236,7 @@
 <!-- ===================== ENGLISH ===================== -->
 <section id="en" lang="en">
   <h2>Privacy Policy</h2>
-  <p><strong>Last updated: 11 September 2026</strong></p>
+  <p><strong>Last updated: 1 October 2026</strong></p>
 
   <h3>Controller</h3>
   <p>Hans-Peter Mueller<br>
@@ -208,8 +246,11 @@
   <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
 
   <h3>In short</h3>
-  <p>BakePlanner needs no user account and asks for no sign-in. It does not
-  track you, shows no advertising, and contains no analytics or crash
+  <p>BakePlanner's core features do not require a personal user account. To
+  protect its Firebase services, the app signs in anonymously to Firebase on
+  first launch. You may optionally sign in with Apple for certain private
+  cloud features. The app does not track you, shows no advertising, and
+  contains no analytics or crash
   reporting components. No tracking in the sense of App Tracking Transparency
   takes place.</p>
 
@@ -246,8 +287,20 @@
     </tr>
     <tr>
       <td>Photos from the camera or library</td>
-      <td>Stay on the device unless you publish the recipe</td>
-      <td>Recipe images and reading in photographed recipes.</td>
+      <td>Stay on the device for local analysis. If you explicitly select
+      Cloud AI, only the selected recipe images are sent through a protected
+      Firebase Cloud Function to Google Vertex AI.</td>
+      <td>Recipe images and reading photographed recipes. Cloud transmission
+      only takes place after your explicit consent.</td>
+    </tr>
+    <tr>
+      <td>Pseudonymous Firebase user ID, App Check attestation, request time
+      and request count</td>
+      <td>Google Firebase; the Cloud Function runs in
+      <code>europe-west1</code>. Google Vertex AI is configured with the
+      <code>EU</code> location for image analysis.</td>
+      <td>Protecting the AI endpoint and limiting use to no more than 20
+      analysis requests per hour.</td>
     </tr>
     <tr>
       <td>Reminders, settings, translation cache, blocked authors</td>
@@ -260,7 +313,8 @@
   <p>On first launch the app signs in to Firebase anonymously and receives a
   random id. It contains no name, no email address and no device number, and
   cannot be traced back to you. It is attached to published recipes and to
-  reports.</p>
+  reports. For Cloud AI analysis it is also used to protect the request and
+  enforce the usage limit.</p>
 
   <h3>Sign in with Apple</h3>
   <p>Signing in is optional and only needed to store a recipe privately in the
@@ -269,20 +323,37 @@
   share your real address or use Apple's relay is your choice at sign-in — it
   makes no difference to BakePlanner, which does not ask for it.</p>
 
-  <h3>Text recognition in photos</h3>
-  <p>Reading a photographed recipe happens entirely on your device (Apple
-  Vision). The images are not transmitted for it. The same holds for
-  translating recipes: that uses Apple's on-device translation.</p>
+  <h3>Analysis of photographed recipes</h3>
+  <p>You can choose between local analysis and protected Cloud AI. With local
+  analysis, the images stay on your device. Depending on availability, the
+  app uses Apple Intelligence or Apple Vision.</p>
+  <p>With Cloud AI, your selected images are encrypted in transit to a
+  protected BakePlanner Firebase Cloud Function and from there to Google
+  Vertex AI (Gemini). They are processed solely to recognise ingredients,
+  amounts, times and instructions and create an editable recipe draft.
+  BakePlanner does not store the transmitted images in Firebase Storage or
+  the recipe database. The draft is only stored after you review and
+  explicitly save it.</p>
+  <p>Cloud analysis only takes place after your prior explicit consent. You
+  can decline and use local analysis instead. You can withdraw consent for
+  all future analyses under <em>Settings → Privacy &amp; AI</em>.</p>
+  <p>Recipe translation continues to use Apple's on-device translation.</p>
 
   <h3>Processors</h3>
   <p>Google Ireland Limited / Google LLC for Firebase (database, image storage,
-  anonymous sign-in, abuse protection). Apple Inc. for iCloud, Sign in with
-  Apple and notification delivery.</p>
+  anonymous sign-in, Cloud Functions and abuse protection) and Google Vertex
+  AI (Gemini) for explicitly selected cloud analysis of recipe images. Apple
+  Inc. for iCloud, Apple Intelligence, Vision, Sign in with Apple and
+  notification delivery.</p>
 
   <h3>Retention</h3>
   <p>Published recipes remain until deleted — by you or after a report.
   Privately stored recipes remain until you delete them or your account. Data
-  held on the device goes when you delete the app.</p>
+  held on the device goes when you delete the app. BakePlanner does not retain
+  images sent to Cloud AI as stored image files. For the hourly usage limit,
+  Firestore stores only the start of the current window and the request count
+  against the pseudonymous user ID; an expired window is replaced when the
+  next analysis is made.</p>
 
   <h3>Your rights</h3>
   <p>You can delete your account in the app: <em>Settings → Account → Delete
@@ -293,7 +364,9 @@
   me and I will delete them.</p>
   <p>You have the rights of access, rectification, erasure, restriction of
   processing, data portability and objection. Please use the address above.
-  You may also complain to a data protection supervisory authority.</p>
+  You may also complain to a data protection supervisory authority. You may
+  withdraw consent to Cloud AI at any time with effect for the future in the
+  app's settings.</p>
 
   <h3>Children</h3>
   <p>The app is not directed at children and deliberately collects no data
@@ -303,7 +376,7 @@
 <!-- ===================== FRANÇAIS ===================== -->
 <section id="fr" lang="fr">
   <h2>Politique de confidentialité</h2>
-  <p><strong>Dernière mise à jour : 11 septembre 2026</strong></p>
+  <p><strong>Dernière mise à jour : 1er octobre 2026</strong></p>
 
   <h3>Responsable du traitement</h3>
   <p>Hans-Peter Mueller<br>
@@ -313,8 +386,11 @@
   <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
 
   <h3>En bref</h3>
-  <p>BakePlanner ne nécessite aucun compte et ne demande aucune connexion.
-  L’app ne vous suit pas, n’affiche aucune publicité et ne contient ni
+  <p>Les fonctions principales de BakePlanner ne nécessitent aucun compte
+  personnel. Afin de protéger les services Firebase, l’app se connecte
+  anonymement à Firebase lors du premier lancement. Vous pouvez vous connecter
+  volontairement avec Apple pour certaines fonctions cloud privées. L’app ne
+  vous suit pas, n’affiche aucune publicité et ne contient ni
   composant d’analyse ni rapport de plantage. Aucun suivi au sens du cadre
   App Tracking Transparency n’a lieu.</p>
 
@@ -355,8 +431,21 @@
     </tr>
     <tr>
       <td>Photos de l’appareil photo ou de la photothèque</td>
-      <td>Restent sur l’appareil, sauf si vous publiez la recette</td>
-      <td>Images de recettes et lecture de recettes photographiées.</td>
+      <td>Restent sur l’appareil lors de l’analyse locale. Si vous choisissez
+      expressément l’IA cloud, seules les images de recette sélectionnées sont
+      transmises à Google Vertex AI via une fonction Firebase Cloud
+      protégée.</td>
+      <td>Images de recettes et lecture de recettes photographiées. La
+      transmission au cloud n’a lieu qu’après votre consentement explicite.</td>
+    </tr>
+    <tr>
+      <td>Identifiant utilisateur Firebase pseudonyme, attestation App Check,
+      heure et nombre des requêtes</td>
+      <td>Google Firebase ; la fonction Cloud s’exécute dans
+      <code>europe-west1</code>. Google Vertex AI est configuré avec la zone
+      <code>EU</code> pour l’analyse des images.</td>
+      <td>Protection du point d’accès à l’IA et limitation à 20 requêtes
+      d’analyse au maximum par heure.</td>
     </tr>
     <tr>
       <td>Rappels, réglages, cache de traduction, auteurs bloqués</td>
@@ -369,7 +458,9 @@
   <p>Au premier lancement, l’app se connecte anonymement à Firebase et reçoit
   un identifiant aléatoire. Il ne contient ni nom, ni adresse électronique, ni
   numéro d’appareil, et ne permet pas de vous identifier. Il est joint aux
-  recettes publiées et aux signalements.</p>
+  recettes publiées et aux signalements. Lors d’une analyse par l’IA cloud,
+  il sert également à sécuriser la requête et à appliquer la limite
+  d’utilisation.</p>
 
   <h3>Connexion avec Apple</h3>
   <p>La connexion est facultative et sert uniquement à conserver une recette en
@@ -379,22 +470,41 @@
   choix à la connexion — cela ne change rien pour BakePlanner, qui ne la
   demande pas.</p>
 
-  <h3>Reconnaissance de texte dans les photos</h3>
-  <p>La lecture d’une recette photographiée se fait entièrement sur votre
-  appareil (Apple Vision). Les images ne sont pas transmises pour cela. Il en
-  va de même de la traduction des recettes : elle utilise la traduction
-  d’Apple, sur l’appareil.</p>
+  <h3>Analyse des recettes photographiées</h3>
+  <p>Vous pouvez choisir entre l’analyse locale et l’IA cloud protégée. Lors
+  de l’analyse locale, les images restent sur votre appareil. Selon la
+  disponibilité, l’app utilise Apple Intelligence ou Apple Vision.</p>
+  <p>Avec l’IA cloud, les images sélectionnées sont transmises sous forme
+  chiffrée à une fonction Firebase Cloud protégée de BakePlanner, puis à
+  Google Vertex AI (Gemini). Elles servent exclusivement à reconnaître les
+  ingrédients, quantités, durées et étapes et à créer un projet de recette
+  modifiable. BakePlanner ne stocke pas les images transmises dans Firebase
+  Storage ni dans la base de recettes. Le projet n’est enregistré qu’après
+  votre vérification et votre enregistrement explicite.</p>
+  <p>L’analyse cloud n’a lieu qu’après votre consentement explicite préalable.
+  Vous pouvez la refuser et utiliser l’analyse locale. Vous pouvez retirer
+  votre consentement pour toutes les analyses futures dans <em>Réglages →
+  Confidentialité et IA</em>.</p>
+  <p>La traduction des recettes continue d’utiliser la fonction de traduction
+  d’Apple sur l’appareil.</p>
 
   <h3>Sous-traitants</h3>
   <p>Google Ireland Limited / Google LLC pour Firebase (base de données,
-  stockage d’images, connexion anonyme, protection contre les abus). Apple
-  Inc. pour iCloud, la connexion avec Apple et la remise des notifications.</p>
+  stockage d’images, connexion anonyme, fonctions Cloud et protection contre
+  les abus) ainsi que Google Vertex AI (Gemini) pour l’analyse cloud des
+  images de recettes expressément choisie. Apple Inc. pour iCloud, Apple
+  Intelligence, Vision, la connexion avec Apple et la remise des
+  notifications.</p>
 
   <h3>Durée de conservation</h3>
   <p>Les recettes publiées subsistent jusqu’à leur suppression — par vous ou
   après un signalement. Les recettes privées subsistent jusqu’à ce que vous
   les supprimiez, ou votre compte. Les données présentes sur l’appareil
-  disparaissent avec la suppression de l’app.</p>
+  disparaissent avec la suppression de l’app. BakePlanner ne conserve pas les
+  images transmises à l’IA cloud sous forme de fichiers image. Pour la limite
+  horaire, Firestore stocke uniquement le début de la période en cours et le
+  nombre de requêtes avec l’identifiant pseudonyme ; une période expirée est
+  remplacée lors de l’analyse suivante.</p>
 
   <h3>Vos droits</h3>
   <p>Vous pouvez supprimer votre compte dans l’app : <em>Réglages → Compte →
@@ -407,7 +517,8 @@
   <p>Vous disposez des droits d’accès, de rectification, d’effacement, de
   limitation du traitement, de portabilité et d’opposition. Adressez-vous à
   l’adresse ci-dessus. Vous pouvez également saisir une autorité de contrôle
-  en matière de protection des données.</p>
+  en matière de protection des données. Vous pouvez retirer à tout moment
+  votre consentement à l’IA cloud pour l’avenir dans les réglages de l’app.</p>
 
   <h3>Enfants</h3>
   <p>L’app ne s’adresse pas aux enfants et ne collecte délibérément aucune

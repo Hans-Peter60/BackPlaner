@@ -11,6 +11,8 @@ struct AppSettingsKeys {
     static let bakePause = "settings.bakePause"
     static let dayStart = "settings.dayStart"
     static let dayEnd = "settings.dayEnd"
+    static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
+    static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {

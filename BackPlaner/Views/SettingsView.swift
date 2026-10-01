@@ -9,6 +9,8 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.bakePause) private var bakePause = AppSettings.defaultBakePause
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
+    @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
+    @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
     @EnvironmentObject private var modelFB: RecipeFBModel
 
@@ -98,6 +100,8 @@ struct SettingsView: View {
                 }
             }
 
+            recipeAIPrivacySection
+
             moderationSection
 
             accountSection
@@ -168,6 +172,31 @@ struct SettingsView: View {
             Button("OK", role: .cancel) { deleteErrorMessage = nil }
         } message: {
             Text(deleteErrorMessage ?? "")
+        }
+    }
+
+    @ViewBuilder
+    private var recipeAIPrivacySection: some View {
+        Section {
+            NavigationLink {
+                RecipeAIPrivacyView()
+            } label: {
+                LabeledContent(
+                    "KI-Analyse von Rezeptbildern",
+                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nur lokal"
+                )
+            }
+
+            if cloudRecipeAnalysisConsent {
+                Button("Einwilligung zur Cloud-KI widerrufen", role: .destructive) {
+                    cloudRecipeAnalysisConsent = false
+                    recipeImageAnalysisMode = "localOnly"
+                }
+            }
+        } header: {
+            Text("Datenschutz & KI")
+        } footer: {
+            Text("Die Cloud-KI wird nur nach Deiner ausdrücklichen Einwilligung verwendet. Eine lokale Analyse bleibt immer verfügbar.")
         }
     }
 
@@ -269,6 +298,65 @@ struct SettingsView: View {
 
     private func formattedHour(_ hour: Int) -> String {
         String(format: "%02d:00", hour)
+    }
+}
+
+struct RecipeAIPrivacyView: View {
+    @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
+    @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
+
+    var body: some View {
+        List {
+            Section("Umfang der Verarbeitung") {
+                Text("Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung und der Nachweis von Firebase App Check.")
+                Text("Für die stündliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters und die Anzahl der Anfragen gespeichert.")
+            }
+
+            Section("Zweck und Rechtsgrundlage") {
+                Text("Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung.")
+                Text("Die Bildanalyse in der Cloud erfolgt nur auf Grundlage Deiner vorherigen ausdrücklichen Einwilligung. Ohne Einwilligung wird keine Cloud-Analyse gestartet.")
+            }
+
+            Section("Empfänger und Verarbeitungsort") {
+                Text("Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben.")
+                Text("Google Cloud ist dabei technischer Dienstleister. Eine Weitergabe für Werbung oder Nutzertracking durch BackPlaner findet nicht statt.")
+            }
+
+            Section("Speicherung und Löschung") {
+                Text("BackPlaner speichert die übertragenen Rezeptbilder weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht als Bilddateien dauerhaft abgelegt.")
+                Text("In Firestore verbleibt nur der Datensatz zur stündlichen Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster und Anfragezahl. Bei einer späteren Analyse wird ein abgelaufenes Zeitfenster durch das neue ersetzt.")
+                Text("Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt die von Dir gewählte lokale, private oder öffentliche Ablage.")
+            }
+
+            Section("Lokale Analyse") {
+                Text("Mit „Nur auf diesem Gerät“ werden die Rezeptbilder nicht an Firebase oder Google Vertex AI übertragen. Je nach Verfügbarkeit verwendet die App Apple Intelligence auf dem Gerät oder die lokale Texterkennung.")
+            }
+
+            Section("Einwilligung und Widerruf") {
+                LabeledContent(
+                    "Cloud-KI",
+                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nicht zugelassen"
+                )
+
+                if cloudRecipeAnalysisConsent {
+                    Button("Einwilligung widerrufen", role: .destructive) {
+                        cloudRecipeAnalysisConsent = false
+                        recipeImageAnalysisMode = "localOnly"
+                    }
+                } else {
+                    Text("Eine Einwilligung kannst Du direkt beim Rezeptimport erteilen, nachdem Dir die Datenübertragung erklärt wurde.")
+                        .foregroundStyle(.secondary)
+                }
+
+                Text("Der Widerruf gilt für alle zukünftigen Analysen. Bereits abgeschlossene Verarbeitungen werden dadurch nicht rückwirkend aufgehoben.")
+            }
+
+            Section("Keine automatisierte Entscheidung") {
+                Text("Die KI erstellt lediglich einen bearbeitbaren Rezeptentwurf. Sie trifft keine rechtlich oder vergleichbar erheblich wirkende Entscheidung. Du kannst das Ergebnis vollständig prüfen, ändern oder verwerfen.")
+            }
+        }
+        .navigationTitle("Datenschutz bei KI")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

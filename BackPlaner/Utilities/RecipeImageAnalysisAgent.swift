@@ -20,6 +20,20 @@ enum RecipeLayout: String, CaseIterable, Sendable {
     }
 }
 
+enum RecipeAnalysisSource: Sendable {
+    case localRules
+    case onDeviceAI
+    case cloudAI
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .localRules: "Lokale Analyse"
+        case .onDeviceAI: "Lokale KI-Analyse"
+        case .cloudAI: "Geschützte KI-Analyse"
+        }
+    }
+}
+
 /// A recognized line together with where it was printed, so the import can put
 /// it back on the page for the user to point at.
 struct RecipeTextRegion: Identifiable, Sendable {
@@ -45,6 +59,9 @@ struct RecipeImageAnalysisResult {
     /// logos, print headers and column captions that read like a title, so the
     /// choice is offered rather than only guessed.
     let titleOptions: [RecipeTextRegion]
+    /// How the images were converted into recipe data. Cloud and on-device AI
+    /// both fall back to the rule-based reader when they are unavailable.
+    let analysisSource: RecipeAnalysisSource
 
     init(
         recipe: RecipeFB,
@@ -52,7 +69,8 @@ struct RecipeImageAnalysisResult {
         recipeImage: UIImage? = nil,
         warnings: [String] = [],
         layout: RecipeLayout = .general,
-        titleOptions: [RecipeTextRegion] = []
+        titleOptions: [RecipeTextRegion] = [],
+        analysisSource: RecipeAnalysisSource = .localRules
     ) {
         self.recipe = recipe
         self.recognizedText = recognizedText
@@ -60,6 +78,7 @@ struct RecipeImageAnalysisResult {
         self.warnings = warnings
         self.layout = layout
         self.titleOptions = titleOptions
+        self.analysisSource = analysisSource
     }
 
     var componentCount: Int { recipe.components.count }

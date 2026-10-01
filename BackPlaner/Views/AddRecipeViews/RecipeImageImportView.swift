@@ -7,6 +7,29 @@ private struct SelectedRecipeImage: Identifiable {
     let image: UIImage
 }
 
+private enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
+    case protectedCloud
+    case localOnly
+
+    var id: Self { self }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .protectedCloud: "Geschützte Cloud-KI"
+        case .localOnly: "Nur auf diesem Gerät"
+        }
+    }
+
+    var explanation: LocalizedStringResource {
+        switch self {
+        case .protectedCloud:
+            "Die ausgewählten Bilder werden verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig."
+        case .localOnly:
+            "Die Bilder verlassen das Gerät nicht. Die Erkennung kann weniger genau sein als mit der Cloud-KI."
+        }
+    }
+}
+
 /// Which reading the import should use. Recognising the template is the app's
 /// job, so this only exists to override the choice when the recognition picks
 /// the wrong one.
@@ -43,14 +66,17 @@ struct RecipeImageImportView: View {
     @State private var capturedImage: UIImage?
     @State private var isShowingCamera = false
     @State private var isAnalyzing = false
-    @State private var analysisProgress = "OCR wird ausgeführt …"
+    @State private var analysisProgress = "Rezept wird analysiert …"
     @State private var analysisTask: Task<Void, Never>?
     @State private var analysisResult: RecipeImageAnalysisResult?
     @State private var errorMessage: String?
     @State private var showRecipeReview = false
     @State private var importLayout = RecipeImportLayout.automatic
+    @State private var showCloudConsent = false
+    @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
+    @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var analysisModeRawValue = RecipeImageAnalysisMode.localOnly.rawValue
 
-    private let analysisAgent = RecipeImageAnalysisAgent()
+    private let analysisAgent = HybridRecipeImageAnalysisAgent()
 
     var body: some View {
         Group {
@@ -81,6 +107,17 @@ struct RecipeImageImportView: View {
         .sheet(isPresented: $isShowingCamera, onDismiss: appendCapturedImage) {
             ImagePicker(selectedSource: .camera, recipeImage: $capturedImage)
         }
+        .sheet(isPresented: $showCloudConsent) {
+            CloudRecipeAnalysisConsentView {
+                cloudRecipeAnalysisConsent = true
+                showCloudConsent = false
+                startAnalysis()
+            } onUseLocal: {
+                analysisMode = .localOnly
+                showCloudConsent = false
+                startAnalysis()
+            }
+        }
         .alert("Analyse nicht möglich", isPresented: Binding(
             get: { errorMessage != nil },
             set: { if !$0 { errorMessage = nil } }
@@ -103,17 +140,36 @@ struct RecipeImageImportView: View {
                     description: Text("Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. Beschneide die Bilder so, dass Logos, Kopf- und Fußzeilen möglichst wegfallen.")
                 )
 
-                Picker("Vorlagenart", selection: $importLayout) {
-                    ForEach(RecipeImportLayout.allCases) { layout in
-                        Text(layout.title).tag(layout)
-                    }
-                }
-                .pickerStyle(.segmented)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Analyseart")
+                        .font(.headline)
 
-                Text(importLayout.explanation)
-                    .font(.footnote)
-                    // .secondary is only 2.9:1 on the warm background.
-                    .foregroundStyle(Theme.subtitle)
+                    Picker("Analyseart", selection: analysisModeBinding) {
+                        ForEach(RecipeImageAnalysisMode.allCases) { mode in
+                            Text(mode.title).tag(mode)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+
+                    Text(analysisMode.explanation)
+                        .font(.footnote)
+                        .foregroundStyle(Theme.subtitle)
+                }
+
+                if analysisMode == .localOnly {
+                    Picker("Vorlagenart", selection: $importLayout) {
+                        ForEach(RecipeImportLayout.allCases) { layout in
+                            Text(layout.title).tag(layout)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Text(importLayout.explanation)
+                        .font(.footnote)
+                        // .secondary is only 2.9:1 on the warm background.
+                        .foregroundStyle(Theme.subtitle)
+                }
 
                 HStack(spacing: 12) {
                     PhotosPicker(
@@ -218,10 +274,19 @@ struct RecipeImageImportView: View {
     }
 
     private func analyzeImages() {
+        guard !selectedImages.isEmpty else { return }
+        if analysisMode == .protectedCloud && !cloudRecipeAnalysisConsent {
+            showCloudConsent = true
+            return
+        }
+        startAnalysis()
+    }
+
+    private func startAnalysis() {
         let images = selectedImages.map(\.image)
         guard !images.isEmpty else { return }
         isAnalyzing = true
-        analysisProgress = "OCR wird ausgeführt …"
+        analysisProgress = "Rezept wird analysiert …"
 
         analysisTask = Task {
             do {
@@ -229,12 +294,14 @@ struct RecipeImageImportView: View {
                     analysisProgress = "Bild \(current) von \(total) wird gelesen …"
                 }
                 let result: RecipeImageAnalysisResult
-                switch importLayout {
-                case .automatic:
+                switch (analysisMode, importLayout) {
+                case (.protectedCloud, _):
                     result = try await analysisAgent.analyze(images: images, progress: progress)
-                case .general:
+                case (.localOnly, .automatic):
+                    result = try await analysisAgent.analyzeLocally(images: images, progress: progress)
+                case (.localOnly, .general):
                     result = try await analysisAgent.analyzeGeneralRecipe(images: images, progress: progress)
-                case .special:
+                case (.localOnly, .special):
                     result = try await analysisAgent.analyzeSpecialRecipe(images: images, progress: progress)
                 }
                 await MainActor.run {
@@ -261,6 +328,65 @@ struct RecipeImageImportView: View {
         analysisTask?.cancel()
         analysisTask = nil
         isAnalyzing = false
+    }
+
+    private var analysisMode: RecipeImageAnalysisMode {
+        get { RecipeImageAnalysisMode(rawValue: analysisModeRawValue) ?? .localOnly }
+        nonmutating set { analysisModeRawValue = newValue.rawValue }
+    }
+
+    private var analysisModeBinding: Binding<RecipeImageAnalysisMode> {
+        Binding(
+            get: { analysisMode },
+            set: { analysisMode = $0 }
+        )
+    }
+}
+
+private struct CloudRecipeAnalysisConsentView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    let onAccept: () -> Void
+    let onUseLocal: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    Label("Analyse mit Google Vertex AI (Gemini)", systemImage: "sparkles")
+                        .font(.headline)
+                    Text("Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
+                    Text("Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                } header: {
+                    Text("Vor der ersten Cloud-Analyse")
+                }
+
+                Section("Du hast die Wahl") {
+                    Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlassen die Bilder Dein Gerät nicht.")
+
+                    Button("Zustimmen und mit Cloud-KI analysieren") {
+                        onAccept()
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    Button("Nur lokal analysieren") {
+                        onUseLocal()
+                    }
+                }
+
+                Section {
+                    Text("Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen.")
+                        .font(.footnote)
+                }
+            }
+            .navigationTitle("Cloud-KI erlauben?")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") { dismiss() }
+                }
+            }
+        }
     }
 }
 
@@ -314,6 +440,9 @@ private struct RecipeImportConfirmationView: View {
                 }
                 LabeledContent("Erkannte Vorlage") {
                     Text(result.layout.title)
+                }
+                LabeledContent("Analyse") {
+                    Text(result.analysisSource.title)
                 }
                 LabeledContent("Komponenten", value: result.componentCount.formatted())
                 LabeledContent("Zutaten", value: result.ingredientCount.formatted())
