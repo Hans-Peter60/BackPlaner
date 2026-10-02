@@ -15,6 +15,13 @@ struct TotalIngredientsView: View {
     let scale: Double
 
     private var totalIngredients: [TotalIngredient] {
+        Self.totalIngredients(ingredients: ingredients, componentNames: componentNames)
+    }
+
+    /// The summed ingredients without water and without components used as
+    /// ingredients — the same list the card shows, for other consumers such
+    /// as the PDF export.
+    static func totalIngredients(ingredients: [TotalIngredientData], componentNames: [String]) -> [TotalIngredient] {
         let normalizedComponentNames = componentNames.map(normalizedProductName)
         let rawIngredients = ingredients.filter { ingredient in
             !isWater(ingredient.name)
@@ -23,7 +30,19 @@ struct TotalIngredientsView: View {
         return TotalIngredient.aggregate(rawIngredients)
     }
 
-    private func isWater(_ name: String) -> Bool {
+    /// The summed ingredients as display lines ("• 268 g Weizenmehl 1050").
+    static func aggregatedLines(ingredients: [TotalIngredientData], componentNames: [String], scale: Double) -> [String] {
+        totalIngredients(ingredients: ingredients, componentNames: componentNames).map { ingredient in
+            "• " + Rational.getPortion(unit: ingredient.unit,
+                                       weight: ingredient.weight,
+                                       num: ingredient.numerator,
+                                       denom: ingredient.denominator,
+                                       scale: scale)
+                + ingredient.name
+        }
+    }
+
+    private static func isWater(_ name: String) -> Bool {
         let normalizedName = name
             .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
             .localizedLowercase
@@ -31,7 +50,7 @@ struct TotalIngredientsView: View {
         return normalizedName.contains("wasser") || normalizedName.contains("water")
     }
 
-    private func isComponentProduct(
+    private static func isComponentProduct(
         _ ingredient: TotalIngredientData,
         componentNames: [String]
     ) -> Bool {
@@ -56,7 +75,7 @@ struct TotalIngredientsView: View {
         }
     }
 
-    private func normalizedProductName(_ name: String) -> String {
+    private static func normalizedProductName(_ name: String) -> String {
         var normalizedName = IngredientNameNormalizer.comparisonKey(name)
 
         for prefix in ["gesamter ", "gesamte ", "gesamtes ", "ganzer ", "ganze ", "ganzes "] where normalizedName.hasPrefix(prefix) {
@@ -292,7 +311,7 @@ enum BakersPercentage {
     }
 }
 
-private struct TotalIngredient: Identifiable {
+struct TotalIngredient: Identifiable {
     let id: String
     let name: String
     let unit: String

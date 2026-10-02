@@ -48,6 +48,7 @@
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
+		6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2615B630706A43007644AB /* RecipePDFExporter.swift */; };
 		6A2FC15A304ACE2C0084866D /* RecipeTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */; };
 		6A4816EE3041D48000011A56 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816ED3041D48000011A56 /* FirebaseFirestore */; };
 		6A4816F03041D49900011A56 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816EF3041D49900011A56 /* FirebaseStorage */; };
@@ -184,6 +185,7 @@
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
+		6A2615B630706A43007644AB /* RecipePDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePDFExporter.swift; sourceTree = "<group>"; };
 		6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTranslator.swift; sourceTree = "<group>"; };
 		6A4816F13041DB3600011A56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A481DA83047040500362FFB /* BackPlaner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlaner.entitlements; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				6A26156B306FB085007644AB /* PlanSnapshot.swift */,
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
 				6A261574306FDC01007644AB /* BakeActivityManager.swift */,
+				6A2615B630706A43007644AB /* RecipePDFExporter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				6A85E61F304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
+				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,
 				6AF6395F2B7A4F060070CDC1 /* Ingredient+CoreDataProperties.swift in Sources */,
 				6A99FC0C304B5203008DDA63 /* ScheduledTasksTabsView.swift in Sources */,

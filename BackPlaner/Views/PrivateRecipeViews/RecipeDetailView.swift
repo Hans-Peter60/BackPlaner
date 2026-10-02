@@ -101,6 +101,16 @@ struct RecipeDetailView: View {
                             .padding(.leading)
                             .font(Theme.brandFont(15))
                     }
+
+                    // MARK: Share as PDF, at the serving size shown
+                    ShareLink(
+                        item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
+                        preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+                    ) {
+                        Label("Rezept teilen", systemImage: "square.and.arrow.up")
+                            .font(Theme.brandFont(15))
+                    }
+                    .padding(.leading)
                 }
                 
                 TotalIngredientsView(

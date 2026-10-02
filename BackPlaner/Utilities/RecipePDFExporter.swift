@@ -171,7 +171,8 @@ enum RecipePDFRenderer {
                 page.draw(data.summary, font: .systemFont(ofSize: 12), color: muted, width: textWidth)
                 page.y += 6
             }
-            var facts = [String(format: localized("Gesamtgewicht: %lld g"), data.totalWeight)]
+            let weight = data.totalWeight.formatted(.number.locale(AppSettings.locale))
+            var facts = [String(format: localized("Gesamtgewicht: %@ g"), weight)]
             if !data.prepTime.isEmpty {
                 facts.append(String(format: localized("Bearbeitungsdauer: %@"), data.prepTime))
             }
