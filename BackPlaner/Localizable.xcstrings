@@ -5878,6 +5878,19 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activité en direct sur l’écran verrouillé" } }
       }
     },
+    "„%@“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand." : {
+      "comment" : "Banner above the planned steps when a recipe was edited after its reminders were set. %@ is the recipe name.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” has changed since it was planned. The plan still shows the old state." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "« %@ » a été modifiée depuis la planification. Le plan montre encore l’ancien état." } }
+      }
+    },
+    "Neu planen" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan again" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Replanifier" } }
+      }
+    },
     "Sprachausgabe im Backmodus" : {
       "comment" : "Settings toggle: whether the bake mode offers to read a step aloud.",
       "localizations" : {

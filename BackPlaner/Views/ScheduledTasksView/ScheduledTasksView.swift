@@ -98,6 +98,10 @@ struct ScheduledTasksView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
 
+            ForEach(changedRecipes, id: \.objectID) { recipe in
+                recipeChangedBanner(recipe)
+            }
+
             bakeModeButton
 
             List {
@@ -354,6 +358,63 @@ struct ScheduledTasksView: View {
             }
         }
         .onAppear() {  }
+    }
+
+    /// The user's own recipes whose planned steps no longer match the recipe:
+    /// a step's text or duration was edited, or a step was removed, after the
+    /// reminders were set. Planned steps are a snapshot, so the plan keeps
+    /// the old state until it is set again — this makes that visible instead
+    /// of leaving it to be discovered mid-bake.
+    ///
+    /// A step marked done is simply missing from the plan and does not count;
+    /// a step added to the recipe afterwards is not detected either.
+    private var changedRecipes: [Recipe] {
+        let names = recipeFilter.map { [$0] } ?? plannedRecipeNames
+        return names.compactMap { name in
+            guard let recipe = recipes.first(where: { $0.name == name }) else { return nil }
+            let instructions = recipe.instructionsArray
+            // The oven and finish steps are generated at planning time and
+            // live only in the plan, never in the recipe.
+            let planned = nextSteps.filter {
+                $0.recipeName == name
+                    && $0.step < 99
+                    && !BakePlanValidator.isPreheatInstruction($0.instruction)
+            }
+            let unchanged = planned.allSatisfy { step in
+                instructions.contains {
+                    $0.step == step.step && $0.instruction == step.instruction && $0.duration == step.duration
+                }
+            }
+            return unchanged ? nil : recipe
+        }
+    }
+
+    private func recipeChangedBanner(_ recipe: Recipe) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 20))
+                .foregroundColor(Theme.warning)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("„\(recipe.name)“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand.")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.cardTitle)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                NavigationLink {
+                    TabsView(recipe: recipe)
+                } label: {
+                    Label("Neu planen", systemImage: "arrow.clockwise")
+                        .font(Theme.brandFont(14))
+                        .foregroundColor(Theme.accentText)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .cardStyle(cornerRadius: 14)
+        .padding(.horizontal, 12)
+        .padding(.top, 8)
     }
 
     /// Opens the kitchen view of the plan — one step at a time in large type.
