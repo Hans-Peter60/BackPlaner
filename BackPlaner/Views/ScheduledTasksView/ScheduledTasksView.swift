@@ -43,6 +43,7 @@ struct ScheduledTasksView: View {
     @State private var confirmationShown = false
     @State private var dateTime          = GlobalVariables.dateTimePicker
     @State private var deleteHaptic      = false
+    @State private var doneHaptic        = false
     @State private var shiftSelection: ScheduledStepShiftSelection?
     @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
     @State private var showingShiftError = false
@@ -137,6 +138,24 @@ struct ScheduledTasksView: View {
                                 .fixedSize(horizontal: false, vertical: true)
 
                             Spacer(minLength: 8)
+
+                            // Done, right on the card. Swiping left deletes,
+                            // which reads as discarding; this is the same
+                            // removal, named for what it means mid-bake.
+                            Button {
+                                markDone(nextStep)
+                            } label: {
+                                Image(systemName: "checkmark.circle")
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundColor(Theme.accentText)
+                                    .frame(width: 32, height: 32)
+                                    .background(.thinMaterial, in: Circle())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Schritt als erledigt markieren")
+                            // A checkmark symbol makes VoiceOver call the
+                            // button "selected"; it is an action, not a state.
+                            .accessibilityRemoveTraits(.isSelected)
 
                             // Only a step that prepares a component has
                             // ingredients of its own to show.
@@ -234,33 +253,30 @@ struct ScheduledTasksView: View {
                     // otherwise announce an unnamed link behind every card.
                     .accessibilityLabel("Details zu \(nextStep.recipeName)")
                 )
+                // Swiping right marks the step done, mirroring the reminder's
+                // "Erledigt" action. The tint is the app accent, not green:
+                // the label carries the meaning, not the colour.
+                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    Button {
+                        markDone(nextStep)
+                    } label: {
+                        Label("Erledigt", systemImage: "checkmark")
+                    }
+                    .tint(Theme.accentText)
+                }
             }
             // The index set refers to the visible (possibly filtered) rows, not
             // to the full fetch result.
             .onDelete { indexSet in
                 guard let index = indexSet.first, visibleSteps.indices.contains(index) else { return }
-                let deleteNextStep = visibleSteps[index]
-
-                // Cancel the matching reminder first, so it cannot fire for a step
-                // that no longer exists. The delete dialog below does the same for
-                // a whole recipe or for every step at once.
-                NotificationActions.cancelPendingNotification(for: deleteNextStep)
-
-                self.managedObjectContext.delete(deleteNextStep)
-
-                do {
-                    try managedObjectContext.save()
-                }
-                catch {
-                    managedObjectContext.rollback()
-                    AppLog.persistence.error("Could not delete next step")
-                }
+                remove(visibleSteps[index])
             }
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8))
         }
         .clearScrollBackground()
+        .sensoryFeedback(.success, trigger: doneHaptic)
         // Compact, floating delete button so it takes no layout space of its own.
         .overlay(alignment: .bottomTrailing) {
             IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Geplante Schritte löschen", controlSize: .large) {
@@ -381,6 +397,30 @@ struct ScheduledTasksView: View {
 
     private func index(for step: NextStep) -> Int {
         nextSteps.firstIndex(where: { $0.objectID == step.objectID }) ?? 0
+    }
+
+    /// Done and deleted are the same removal; done just says so and confirms
+    /// with a tap of haptics.
+    private func markDone(_ step: NextStep) {
+        remove(step)
+        doneHaptic.toggle()
+    }
+
+    /// Removes one planned step together with its pending reminder.
+    private func remove(_ step: NextStep) {
+        // Cancel the matching reminder first, so it cannot fire for a step
+        // that no longer exists. The delete dialog does the same for a whole
+        // recipe or for every step at once.
+        NotificationActions.cancelPendingNotification(for: step)
+
+        managedObjectContext.delete(step)
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            managedObjectContext.rollback()
+            AppLog.persistence.error("Could not delete next step")
+        }
     }
 
     /// The component a planned step mixes, with its ingredients — or `nil` for

@@ -5795,6 +5795,23 @@
         }
       }
     },
+    "Schritt als erledigt markieren" : {
+      "comment" : "Accessibility label of the checkmark button on a planned-step card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark step as done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer l’étape comme terminée"
+          }
+        }
+      }
+    },
     "Schritt zeitlich verschieben" : {
       "localizations" : {
         "en" : {

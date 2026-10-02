@@ -474,6 +474,8 @@ L’app reconnaît une telle étape de mélange au fait que le nom d’un compos
 
 Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».
 
+**Cocher une étape comme terminée** — via le **symbole de coche** sur la carte, ou en balayant la ligne vers la **droite** et en touchant « Terminé ». L’étape quitte le plan, son rappel est supprimé avec elle, et la carte « À suivre » du menu principal ainsi que le widget passent à l’étape suivante. C’est la même action que « Terminé » dans la notification, mais directement dans la liste.
+
 **Supprimer :**
 
 - **Une seule étape** : balayez la ligne vers la gauche. Le rappel associé est supprimé avec elle.

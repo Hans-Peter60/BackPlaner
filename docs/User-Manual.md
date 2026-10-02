@@ -474,6 +474,8 @@ The app recognises such a mixing step by the name of a recipe component occurrin
 
 The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".
 
+**Ticking a step off as done** — through the **checkmark symbol** on the card, or by swiping the row to the **right** and tapping "Done". The step leaves the plan, its reminder is removed with it, and the "Up next" card in the main menu and the widget move on to the next step. It is the same action as "Done" in the notification, just right in the list.
+
 **Deleting:**
 
 - **A single step**: swipe the row left. Its reminder is removed with it.

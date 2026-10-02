@@ -471,6 +471,8 @@ Die App erkennt einen solchen Mischschritt daran, dass der Name einer Rezeptkomp
 
 Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Zeitpunkt in der Vergangenheit, lehnt die App das mit „Verschieben nicht möglich“ ab.
 
+**Einen Schritt als erledigt abhaken** – über das **Häkchen-Symbol** auf der Karte oder durch Wischen der Zeile **nach rechts** und Tippen auf „Erledigt“. Der Schritt verschwindet aus dem Plan, seine Erinnerung wird mit entfernt, und die Karte „Als Nächstes“ im Hauptmenü sowie das Widget rücken zum nächsten Schritt weiter. Das ist dieselbe Aktion wie „Erledigt“ in der Mitteilung, nur direkt in der Liste.
+
 **Löschen:**
 
 - **Einzelner Schritt**: Zeile nach links wischen. Die zugehörige Erinnerung wird mit entfernt.
