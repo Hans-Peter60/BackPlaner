@@ -312,20 +312,34 @@ struct InstructionsView: View {
 
                             // MARK: Notifications einsetzen
                             for i in 0..<recipe.instructionsArray.count {
-                                
+
+                                // A step that mixes a component carries that
+                                // component's ingredients in its reminder, in
+                                // the serving size chosen above.
+                                let instruction = recipe.instructionsArray[i]
+                                let ingredientsText = ScheduledStepComponent.column(
+                                    for: recipe,
+                                    instruction: instruction,
+                                    instructionText: instruction.instruction
+                                ).flatMap {
+                                    ScheduledStepComponent.ingredientsText(for: $0, servingSize: selectedServingSize)
+                                }
+
                                 if dateTimeStartSelection == 0 {
                                     // Start
                                     let _ = manager.setNotification(recipe.reminderId,
                                                                     recipe.instructionsArray[i].instruction,
                                                                     Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime, dateTime, true)
+                                                                    recipe.instructionsArray[i].startTime, dateTime, true,
+                                                                    details: ingredientsText)
                                 }
                                 else {
                                     // Ende
                                     let _ = manager.setNotification(recipe.reminderId,
                                                                     recipe.instructionsArray[i].instruction,
                                                                     Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true)
+                                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true,
+                                                                    details: ingredientsText)
                                 }
 
                                 // Baking may have multiple phases (for example, covered and

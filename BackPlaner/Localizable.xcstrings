@@ -7009,6 +7009,55 @@
         }
       }
     },
+    "Zutaten der Komponente anzeigen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the component's ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les ingrédients du composant"
+          }
+        }
+      }
+    },
+    "Zutaten für „%@“" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients for “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients pour « %@ »"
+          }
+        }
+      }
+    },
+    "Zutaten für „%@“:" : {
+      "comment" : "Heading of the ingredient list inside a reminder notification.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients for “%@”:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients pour « %@ » :"
+          }
+        }
+      }
+    },
     "Zutaten wurden auf die Einkaufsliste gesetzt" : {
       "localizations" : {
         "en" : {

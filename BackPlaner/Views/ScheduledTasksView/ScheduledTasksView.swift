@@ -44,6 +44,7 @@ struct ScheduledTasksView: View {
     @State private var dateTime          = GlobalVariables.dateTimePicker
     @State private var deleteHaptic      = false
     @State private var shiftSelection: ScheduledStepShiftSelection?
+    @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
 
@@ -136,6 +137,27 @@ struct ScheduledTasksView: View {
                                 .fixedSize(horizontal: false, vertical: true)
 
                             Spacer(minLength: 8)
+
+                            // Only a step that prepares a component has
+                            // ingredients of its own to show.
+                            if let component = component(for: nextStep) {
+                                Button {
+                                    ingredientsSelection = ScheduledStepIngredientsSelection(
+                                        id: nextStep.objectID,
+                                        recipeName: nextStep.recipeName,
+                                        instruction: nextStep.instruction,
+                                        component: component
+                                    )
+                                } label: {
+                                    Image(systemName: "info.circle")
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(Theme.accentText)
+                                        .frame(width: 32, height: 32)
+                                        .background(.thinMaterial, in: Circle())
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Zutaten der Komponente anzeigen")
+                            }
 
                             Button {
                                 beginShifting(nextStep)
@@ -275,6 +297,14 @@ struct ScheduledTasksView: View {
             }
             .presentationDetents([.medium])
         }
+        .sheet(item: $ingredientsSelection) { selection in
+            ScheduledStepIngredientsSheet(
+                recipeName: selection.recipeName,
+                instruction: selection.instruction,
+                component: selection.component
+            )
+            .presentationDetents([.medium, .large])
+        }
         .alert("Verschieben nicht möglich", isPresented: $showingShiftError) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -339,6 +369,22 @@ struct ScheduledTasksView: View {
 
     private func index(for step: NextStep) -> Int {
         nextSteps.firstIndex(where: { $0.objectID == step.objectID }) ?? 0
+    }
+
+    /// The component a planned step mixes, with its ingredients — or `nil` for
+    /// every other step.
+    ///
+    /// A planned step stores neither its instruction nor its component, only
+    /// the recipe name and the step number. The user's own recipes are tried
+    /// first, then the public ones, since a plan can come from either.
+    private func component(for nextStep: NextStep) -> ComponentColumn? {
+        if let recipe = recipes.first(where: { $0.name == nextStep.recipeName }) {
+            return ScheduledStepComponent.column(for: recipe, step: nextStep.step, instructionText: nextStep.instruction)
+        }
+        if let recipeFB = model.recipesFB.first(where: { $0.name == nextStep.recipeName }) {
+            return ScheduledStepComponent.column(for: recipeFB, step: nextStep.step, instructionText: nextStep.instruction)
+        }
+        return nil
     }
 
     private func beginShifting(_ step: NextStep) {
@@ -444,6 +490,71 @@ private struct ScheduledStepShiftSelection: Identifiable {
     let id: NSManagedObjectID
     let recipeName: String
     let instruction: String
+}
+
+private struct ScheduledStepIngredientsSelection: Identifiable {
+    let id: NSManagedObjectID
+    let recipeName: String
+    let instruction: String
+    let component: ComponentColumn
+}
+
+/// The ingredients of the component a planned mixing step prepares, so they
+/// can be weighed out straight from the plan without opening the recipe.
+private struct ScheduledStepIngredientsSheet: View {
+
+    @Environment(\.dismiss) private var dismiss
+
+    let recipeName: String
+    let instruction: String
+    let component: ComponentColumn
+
+    /// The serving size the recipe screens default to, so the amounts here
+    /// match what the user saw when planning.
+    private let servingSize = AppSettings.storedServingSize
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Text(recipeName)
+                        .font(.headline)
+                    Text(instruction)
+                        .foregroundColor(Theme.subtitle)
+                }
+
+                Section {
+                    if component.ingredients.isEmpty {
+                        Text("Keine Zutaten vorhanden")
+                            .foregroundColor(Theme.subtitle)
+                    } else {
+                        ForEach(Array(component.ingredients.enumerated()), id: \.offset) { _, ingredient in
+                            Text(
+                                Rational.getPortion(unit: ingredient.unit,
+                                                    weight: ingredient.weight,
+                                                    num: ingredient.numerator,
+                                                    denom: ingredient.denominator,
+                                                    targetServings: servingSize)
+                                + ingredient.name
+                            )
+                            .font(Theme.bodyFont(15))
+                        }
+                    }
+                } header: {
+                    Text("Zutaten für „\(component.name)“")
+                }
+            }
+            .navigationTitle(Text(verbatim: component.name))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Fertig") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
 }
 
 private struct ScheduledStepShiftSheet: View {

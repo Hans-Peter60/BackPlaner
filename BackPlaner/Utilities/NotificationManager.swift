@@ -40,8 +40,11 @@ class LocalNotificationManager: ObservableObject {
     
     @Published var notifications = [Notification]()
     
-    func setNotification(_ id:String, _ instruction: String, _ step: String, _ startTime: Int, _ date: Date, _ shouldScheduleNotifications: Bool) -> Date {
-        
+    /// `details` is extra text shown under the instruction — the ingredients of
+    /// the component a mixing step prepares. It never becomes part of the
+    /// stored instruction, which the postpone and cancel paths match on.
+    func setNotification(_ id:String, _ instruction: String, _ step: String, _ startTime: Int, _ date: Date, _ shouldScheduleNotifications: Bool, details: String? = nil) -> Date {
+
         var calcDate = date
         
         notifications = [Notification]()
@@ -61,6 +64,7 @@ class LocalNotificationManager: ObservableObject {
                 recipeID: id,
                 step: step,
                 title: instruction,
+                details: details,
                 date: calcDate,
                 datetime: DateComponents(
                     calendar: Calendar.current,
@@ -87,7 +91,7 @@ class LocalNotificationManager: ObservableObject {
             let content      = UNMutableNotificationContent()
             content.title              = String(localized: "Backhinweis", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
             content.subtitle           = String(localized: "Gedrückt halten für Erledigt oder Verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
-            content.body               = notification.title
+            content.body               = NotificationActions.reminderBody(instruction: notification.title, details: notification.details)
             content.sound              = .default
             content.categoryIdentifier = NotificationActions.reminderCategory
             content.threadIdentifier   = notification.recipeID
@@ -97,6 +101,10 @@ class LocalNotificationManager: ObservableObject {
                 NotificationActions.stepKey: notification.step,
                 NotificationActions.scheduledDateKey: notification.date.timeIntervalSince1970
             ]
+            // Kept apart from the body so a postponed copy can rebuild it.
+            if let details = notification.details {
+                content.userInfo[NotificationActions.detailsKey] = details
+            }
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: notification.datetime, repeats: false)
             
@@ -153,6 +161,8 @@ struct Notification: Identifiable {
     var recipeID: String
     var step: String
     var title: String
+    /// Extra lines under the instruction, such as a component's ingredients.
+    var details: String? = nil
     var date: Date
     var datetime: DateComponents
 }
@@ -172,6 +182,14 @@ enum NotificationActions {
     static let scheduledDateKey = "scheduledDate"
     static let minutesKey = "postponeMinutes"
     static let originalIdentifierKey = "originalIdentifier"
+    static let detailsKey = "details"
+
+    /// The visible text of a reminder: the instruction, and below it the
+    /// details (a component's ingredients) when the step has any.
+    static func reminderBody(instruction: String, details: String?) -> String {
+        guard let details, !details.isEmpty else { return instruction }
+        return instruction + "\n\n" + details
+    }
 
     static func registerCategories() {
         let done = UNNotificationAction(
@@ -275,7 +293,12 @@ enum NotificationActions {
         var userInfo = originalRequest.content.userInfo
         userInfo[minutesKey] = minutes
         userInfo[originalIdentifierKey] = originalRequest.identifier
-        userInfo[instructionKey] = originalRequest.content.body
+        // The body may carry the ingredients under the instruction, so it is
+        // only a fallback: the stored instruction must stay the bare text the
+        // scheduled step is matched on.
+        if userInfo[instructionKey] == nil {
+            userInfo[instructionKey] = originalRequest.content.body
+        }
         content.userInfo = userInfo
 
         let request = UNNotificationRequest(
@@ -446,7 +469,10 @@ enum NotificationActions {
         }
         mutableContent.title = String(localized: "Backhinweis", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         if let instruction = mutableContent.userInfo[instructionKey] as? String {
-            mutableContent.body = instruction
+            mutableContent.body = reminderBody(
+                instruction: instruction,
+                details: mutableContent.userInfo[detailsKey] as? String
+            )
         }
         mutableContent.categoryIdentifier = reminderCategory
         mutableContent.userInfo[scheduledDateKey] = date.timeIntervalSince1970

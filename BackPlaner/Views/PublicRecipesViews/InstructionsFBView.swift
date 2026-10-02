@@ -300,20 +300,34 @@ struct InstructionsFBView: View {
                                 var bakeStartTime = 0
                                 
                                 for i in 0..<recipeFB.instructions.count {
-                                    
+
+                                    // A step that mixes a component carries that
+                                    // component's ingredients in its reminder, in
+                                    // the serving size chosen above.
+                                    let instruction = recipeFB.instructions[i]
+                                    let ingredientsText = ScheduledStepComponent.column(
+                                        for: recipeFB,
+                                        instruction: instruction,
+                                        instructionText: instruction.instruction
+                                    ).flatMap {
+                                        ScheduledStepComponent.ingredientsText(for: $0, servingSize: selectedServingSize)
+                                    }
+
                                     if dateTimeStartSelection == 0 {
-                                        
+
                                         let _ = manager.setNotification(recipeFB.id ?? "",
                                                                         recipeFB.instructions[i].instruction,
                                                                         Rational.decimalPlace(recipeFB.instructions[i].step, 10),
-                                                                        recipeFB.instructions[i].startTime ?? 0, dateTime, true)
+                                                                        recipeFB.instructions[i].startTime ?? 0, dateTime, true,
+                                                                        details: ingredientsText)
                                     }
                                     else {
                                         let z = (recipeFB.instructions[i].startTime ?? 0) - recipeFB.prepTime
                                         let _ = manager.setNotification(recipeFB.id ?? "",
                                                                         recipeFB.instructions[i].instruction,
                                                                         Rational.decimalPlace(recipeFB.instructions[i].step, 10),
-                                                                        z, dateTime, true)
+                                                                        z, dateTime, true,
+                                                                        details: ingredientsText)
                                     }
                                     
                                     // If last step (assuming it is the start for baking) then calculate startTime of baking minus time to heat the oven and set a notification
