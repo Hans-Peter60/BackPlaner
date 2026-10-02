@@ -451,7 +451,7 @@ Si cette copie est supprimée plus tard (par vous ou par la modération), l’ap
 
 **Menu principal → Étapes planifiées.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En bas, vous passez d’une vue à l’autre.
 
-![Étapes planifiées en liste : chaque carte montre l’image de la recette, l’heure de début, la durée et le texte de l’étape](images/fr/geplante-schritte-liste.png)
+![Étapes planifiées en liste : chaque carte montre l’image de la recette, l’heure de début, la durée et le texte de l’étape ; la carte « Weizensauerteig » porte un symbole i pour les ingrédients à côté de l’icône d’horloge](images/fr/geplante-schritte-liste.png)
 
 *Dans son état vide, la vue en liste indique aussi où se créent les nouvelles planifications.*
 

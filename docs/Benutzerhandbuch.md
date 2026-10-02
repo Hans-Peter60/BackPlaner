@@ -448,7 +448,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 **Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Reminder gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
 
-![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext](images/geplante-schritte-liste.png)
+![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext; die Karte „Weizensauerteig“ trägt neben dem Uhr-Symbol ein i-Symbol für die Zutaten](images/geplante-schritte-liste.png)
 
 *Die Listenansicht zeigt im Leerzustand zugleich, wo neue Planungen angelegt werden.*
 
