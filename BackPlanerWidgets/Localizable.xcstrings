@@ -8,6 +8,14 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "À suivre" } }
       }
     },
+    "Danach %@ · %@" : {
+      "comment" : "Live Activity: the step after the shown one; first %@ is its time, second its text.",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Danach %1$@ · %2$@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Then %1$@ · %2$@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ensuite %1$@ · %2$@" } }
+      }
+    },
     "Heute" : {
       "localizations" : {
         "de" : { "stringUnit" : { "state" : "translated", "value" : "Heute" } },

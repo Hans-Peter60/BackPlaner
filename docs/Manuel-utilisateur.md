@@ -542,6 +542,12 @@ Le décalage est toujours compté à partir de **maintenant** : « 30 minutes »
 
 Les notifications s’affichent aussi lorsque l’app est au premier plan.
 
+### Activité en direct
+
+Pendant qu’un plan est en cours, BakePlanner affiche aussi l’étape à venir comme **activité en direct** : en vignette sur l’écran verrouillé, et en haut de l’écran sur les iPhone à Dynamic Island. On y voit le texte de l’étape, le nom de la recette, l’heure, l’étape suivante (« Ensuite 00:36 · Weizensauerteig … ») et un compte à rebours en cours. Quand l’heure est arrivée, la vignette passe à **« À faire maintenant »** et compte le temps écoulé. Un toucher ouvre « Étapes planifiées » ; sur la Dynamic Island, un appui long déplie la vue.
+
+L’activité en direct apparaît dès qu’une étape est à moins de huit heures — iOS met fin aux activités en direct au plus tard après huit heures, d’où cette limite. Elle est mise à jour quand vous ouvrez l’app, marquez une étape comme terminée ou la décalez, et se termine quand plus aucune étape n’est à portée. La première fois, iOS demande si BakePlanner peut afficher des activités en direct. Sous *Réglages → Planification → Activité en direct sur l’écran verrouillé*, elle peut être désactivée complètement.
+
 **Apple Watch.** Les rappels de cuisson apparaissent sur la montre si vous les avez définis sur l’**iPhone** — les notifications de l’iPhone sont transmises à la montre jumelée. Les rappels définis sur l’iPad restent sur l’iPad. Plus de détails au [chapitre 7](#7-instructions-de-cuisson-et-rappels).
 
 ---
@@ -626,6 +632,7 @@ L’app filtre volontairement :
 | **Début de journée** | 0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h. |
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
 | **Lecture vocale en mode cuisson** | Affiche ou masque le bouton « Lire à voix haute » du mode cuisson. Par défaut : activé. |
+| **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 
 > **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si deux cuissons se télescopent (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 

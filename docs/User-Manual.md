@@ -542,6 +542,12 @@ Rescheduling is always counted from **now**: "30 minutes" means "30 minutes from
 
 Notifications are shown while the app is in the foreground too.
 
+### Live Activity
+
+While a plan is running, BakePlanner also shows the upcoming step as a **Live Activity**: as its own tile on the Lock Screen, and at the top of the display on iPhones with a Dynamic Island. It shows the step text, the recipe name, the time, the step after it ("Then 00:36 · Weizensauerteig …") and a running countdown. When the time has come, the tile switches to **"Due now"** and counts the elapsed time up. A tap opens "Scheduled steps"; on the Dynamic Island a long press expands the view.
+
+The Live Activity appears as soon as a step is less than eight hours away — iOS ends Live Activities after eight hours at the latest, so not earlier. It is updated when you open the app, mark a step as done or reschedule it, and it ends when no step is within reach any more. The first time, iOS asks whether BakePlanner may show Live Activities. Under *Settings → Baking plan → Live Activity on the Lock Screen* it can be switched off altogether.
+
 **Apple Watch.** The baking reminders appear on the watch if you set them on the **iPhone** — the iPhone's notifications are passed on to the paired watch. Reminders set on the iPad stay on the iPad. More on this in [chapter 7](#7-baking-instructions-and-reminders).
 
 ---
@@ -626,6 +632,7 @@ The app filters deliberately:
 | **Start of day** | 0–23. From when you're available in the morning. Default: 6. |
 | **End of day** | Between start of day and 23. Default: 23. |
 | **Speech in bake mode** | Shows or hides the "Read aloud" button in bake mode. Default: on. |
+| **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
 
 > **Note:** Only **Preheat time** actually moves steps. **Baking pause, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or two bakes collide (see [chapter 7](#7-baking-instructions-and-reminders)).
 

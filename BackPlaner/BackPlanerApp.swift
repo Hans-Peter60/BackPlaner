@@ -92,6 +92,7 @@ struct BackPlanerApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @AppStorage(AppSettingsKeys.selectedLanguage) private var selectedLanguage = AppLanguage.system.rawValue
+    @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController = PersistenceController.shared
 
@@ -106,6 +107,14 @@ struct BackPlanerApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environment(\.locale, Locale(identifier: AppSettings.localeIdentifier(for: selectedLanguage)))
+        }
+        // Coming to the foreground is the moment a Live Activity can be
+        // started; the pass also catches a plan that moved on while the app
+        // was away.
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                PlanSnapshotPublisher.shared.refresh()
+            }
         }
     }
 }

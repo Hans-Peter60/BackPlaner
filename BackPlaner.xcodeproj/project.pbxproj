@@ -47,6 +47,7 @@
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
+		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
 		6A2FC15A304ACE2C0084866D /* RecipeTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */; };
 		6A4816EE3041D48000011A56 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816ED3041D48000011A56 /* FirebaseFirestore */; };
 		6A4816F03041D49900011A56 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816EF3041D49900011A56 /* FirebaseStorage */; };
@@ -182,6 +183,7 @@
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
+		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
 		6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTranslator.swift; sourceTree = "<group>"; };
 		6A4816F13041DB3600011A56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A481DA83047040500362FFB /* BackPlaner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlaner.entitlements; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				6A26154D306F9534007644AB /* ScheduledStepComponent.swift */,
 				6A26156B306FB085007644AB /* PlanSnapshot.swift */,
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
+				6A261574306FDC01007644AB /* BakeActivityManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				6A261573306FD76B007644AB /* BakeModeView.swift in Sources */,
 				6AF6397A2B7A51340070CDC1 /* RecipeFB.swift in Sources */,
 				6AF639602B7A4F060070CDC1 /* BakeHistory+CoreDataProperties.swift in Sources */,
+				6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */,
 				6AF639612B7A4F060070CDC1 /* NextStep+CoreDataProperties.swift in Sources */,
 				6A1132292B7CF99800CDF054 /* RatingStarsView.swift in Sources */,
 				6A2FC15A304ACE2C0084866D /* RecipeTranslator.swift in Sources */,
@@ -1066,6 +1070,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSCameraUsageDescription = "BakePlanner uses the camera to take photos of your recipes and finished bakes.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1104,6 +1109,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSCameraUsageDescription = "BakePlanner uses the camera to take photos of your recipes and finished bakes.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

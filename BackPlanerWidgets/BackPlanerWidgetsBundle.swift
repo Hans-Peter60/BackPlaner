@@ -12,5 +12,6 @@ import SwiftUI
 struct BackPlanerWidgetsBundle: WidgetBundle {
     var body: some Widget {
         BackPlanerWidgets()
+        BakeActivityWidget()
     }
 }

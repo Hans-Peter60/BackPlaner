@@ -86,8 +86,10 @@ final class PlanSnapshotPublisher {
         }
     }
 
-    /// Rewrites the snapshot from the store and reloads the widgets, unless
-    /// the plan is unchanged.
+    /// Brings the Live Activity up to date and rewrites the snapshot from the
+    /// store, reloading the widgets, when the plan changed. Also called when
+    /// the app returns to the foreground, since that is the only time a Live
+    /// Activity can be started.
     func refresh() {
         guard let container else { return }
 
@@ -109,6 +111,12 @@ final class PlanSnapshotPublisher {
                 },
                 generatedAt: Date()
             )
+
+            // The Live Activity depends on the time as well as the data, so
+            // it is brought up to date on every pass, changed plan or not.
+            DispatchQueue.main.async {
+                BakeActivityManager.shared.refresh(with: snapshot)
+            }
 
             if let existing = PlanSnapshot.load(), existing.steps == snapshot.steps {
                 return

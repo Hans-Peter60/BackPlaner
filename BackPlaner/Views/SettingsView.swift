@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
+    @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
@@ -102,6 +103,13 @@ struct SettingsView: View {
 
                 // Off hides the read-aloud button in the bake mode entirely.
                 Toggle("Sprachausgabe im Backmodus", isOn: $speechInBakeMode)
+
+                // Off ends a running Live Activity right away; on starts one
+                // for the step within reach.
+                Toggle("Live-Aktivität auf dem Sperrbildschirm", isOn: $liveActivity)
+                    .onChange(of: liveActivity) { _, _ in
+                        PlanSnapshotPublisher.shared.refresh()
+                    }
             }
 
             recipeAIPrivacySection

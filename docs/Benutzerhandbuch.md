@@ -539,6 +539,12 @@ Beim Verschieben wird immer ab **jetzt** gerechnet: „30 Minuten“ heißt „i
 
 Mitteilungen werden auch angezeigt, während die App im Vordergrund läuft.
 
+### Live-Aktivität
+
+Läuft ein Plan, zeigt BakePlanner den anstehenden Schritt zusätzlich als **Live-Aktivität**: auf dem Sperrbildschirm als eigene Kachel und auf iPhones mit Dynamic Island oben am Display. Zu sehen sind Schritttext, Rezeptname, Uhrzeit, der nächste Schritt danach („Danach 00:36 · Weizensauerteig …“) und ein laufender Countdown. Ist die Zeit gekommen, wechselt die Kachel auf **„Jetzt fällig“** und zählt die verstrichene Zeit hoch. Ein Tipp öffnet „Geplante Schritte“; auf der Dynamic Island klappt ein langer Druck die Ansicht auf.
+
+Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfernt ist – iOS beendet Live-Aktivitäten spätestens nach acht Stunden, deshalb nicht früher. Sie wird aktualisiert, wenn Du die App öffnest, einen Schritt als erledigt markierst oder verschiebst, und endet, wenn kein Schritt mehr in Reichweite ist. Beim ersten Mal fragt iOS, ob BakePlanner Live-Aktivitäten zeigen darf. Unter *Einstellungen → Backplanung → Live-Aktivität auf dem Sperrbildschirm* lässt sie sich ganz abschalten.
+
 **Apple Watch.** Die Backhinweise erscheinen auf der Uhr, wenn Du die Reminder auf dem **iPhone** gesetzt hast – Mitteilungen des iPhones werden an die gekoppelte Uhr weitergereicht. Auf dem iPad gesetzte Reminder bleiben auf dem iPad. Mehr dazu in [Kapitel 7](#7-backanleitung-und-reminder).
 
 ---
@@ -623,6 +629,7 @@ Die App filtert bewusst:
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
 | **Sprachausgabe im Backmodus** | Blendet die Taste „Vorlesen“ im Backmodus ein oder aus. Standard: an. |
+| **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
 
 > **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder zwei Backvorgänge kollidieren (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
 

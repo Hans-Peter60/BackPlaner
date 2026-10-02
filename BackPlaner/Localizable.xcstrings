@@ -5871,6 +5871,13 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermer" } }
       }
     },
+    "Live-Aktivität auf dem Sperrbildschirm" : {
+      "comment" : "Settings toggle: whether a running plan shows a Live Activity.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Live Activity on the Lock Screen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Activité en direct sur l’écran verrouillé" } }
+      }
+    },
     "Sprachausgabe im Backmodus" : {
       "comment" : "Settings toggle: whether the bake mode offers to read a step aloud.",
       "localizations" : {

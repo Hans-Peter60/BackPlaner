@@ -14,6 +14,7 @@ struct AppSettingsKeys {
     static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
     static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
     static let speechInBakeMode = "settings.speechInBakeMode"
+    static let liveActivity = "settings.liveActivity"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -101,6 +102,12 @@ struct AppSettings {
     static let defaultUseDetailView = true
     /// Whether the bake mode offers to read a step aloud.
     static let defaultSpeechInBakeMode = true
+    /// Whether a running plan shows a Live Activity on the lock screen.
+    static let defaultLiveActivity = true
+
+    static var isLiveActivityEnabled: Bool {
+        UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity
+    }
     static let defaultPreheatTime = 15
     static let defaultBakePause = 10
     static let defaultDayStart = 6
