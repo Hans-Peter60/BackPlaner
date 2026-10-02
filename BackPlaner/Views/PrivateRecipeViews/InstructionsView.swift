@@ -21,6 +21,8 @@ struct InstructionsView: View {
     @State private var dateTimeStartSelection     = 0
     @State private var endDate                    = Date()
     @State var         selectedServingSize        = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
     @State private var showingNotificationMessage = false
     @State private var changeDurationsFlag        = false
     @State private var showingAlert               = false
@@ -29,6 +31,11 @@ struct InstructionsView: View {
     @State private var reminderOvenOnText         = ""
     @State private var reminderFinishText         = ""
     @State private var instructions = [Instruction]()
+
+    /// 1.0 is the recipe as stored.
+    private var servingScale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipe.totalWeight)
+    }
     // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
     @State private var planIssues                 = [BakePlanIssue]()
     @State private var showingPlanError           = false
@@ -92,20 +99,15 @@ struct InstructionsView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 
+                // MARK: Serving size or target dough weight
+                ServingScaleControl(selectedServingSize: $selectedServingSize,
+                                    targetWeight: $targetWeight,
+                                    baseWeight: recipe.totalWeight)
+
                 PortraitAdaptiveStack(spacing: 12) {
-                    // MARK: Serving size picker
-                    PortraitAdaptiveStack(spacing: 6) {
-                        Text("Portionsgröße")
-                            .font(Theme.bodyFont(15))
-                            // No lineLimit/fixedSize: at accessibility sizes a
-                            // forced single line pushes the whole row off screen.
-                            .fixedSize(horizontal: false, vertical: true)
-                        ServingSizePicker(selection: $selectedServingSize)
-                    }
-                    
                     Text("Gewicht: \(scaledRecipeWeight) g")
                             .font(Theme.bodyFont(15))
-                    
+
                     // MARK: Url-Link
                     Link("Link zum Rezept",
                          destination: URL(string: (recipe.urlLink ?? "")) ?? URL(string: "https://")!)
@@ -124,12 +126,12 @@ struct InstructionsView: View {
                         )
                     },
                     componentNames: recipe.componentsArray.map(\.name),
-                    selectedServingSize: selectedServingSize
+                    scale: servingScale
                 )
 
                 // MARK: Components
                 ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
-                                     selectedServingSize: selectedServingSize)
+                                     scale: servingScale)
 
                 // MARK: Selections
                 InstructionSchedulingControlsView(
@@ -322,7 +324,7 @@ struct InstructionsView: View {
                                     instruction: instruction,
                                     instructionText: instruction.instruction
                                 ).flatMap {
-                                    ScheduledStepComponent.ingredientsText(for: $0, servingSize: selectedServingSize)
+                                    ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale)
                                 }
 
                                 if dateTimeStartSelection == 0 {
@@ -542,7 +544,7 @@ struct InstructionsView: View {
     }
 
     private var scaledRecipeWeight: Int {
-        Int(recipe.totalWeight * Double(selectedServingSize) / 2.0)
+        Int((recipe.totalWeight * servingScale).rounded())
     }
 
     // MARK: - Backplanung prüfen

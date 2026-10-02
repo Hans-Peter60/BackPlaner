@@ -19,6 +19,13 @@ struct RecipeFBDetailView: View {
 
     @State private var totalWeight = 0.0
     @State var selectedServingSize = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
+
+    /// 1.0 is the recipe as stored.
+    private var servingScale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipeFB.totalWeight)
+    }
     // Admin/owner moderation: confirm before deleting any public recipe.
     @State private var showAdminDeleteConfirm = false
     // Error message shown when a delete fails (e.g. Firestore rules deny it), so
@@ -68,19 +75,15 @@ struct RecipeFBDetailView: View {
                             .padding(.leading, 4)
                     }
                     
+                    // MARK: Serving size or target dough weight
+                    ServingScaleControl(selectedServingSize: $selectedServingSize,
+                                        targetWeight: $targetWeight,
+                                        baseWeight: recipeFB.totalWeight)
+
                     HStack {
-                        // MARK: Serving size picker
-                        PortraitAdaptiveStack(spacing: 6) {
-                            Text("Portionsgröße")
-                                .font(Theme.bodyFont(15))
-                            ServingSizePicker(selection: $selectedServingSize)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("Gewicht: \(Int((recipeFB.totalWeight) * Double(selectedServingSize) / 2.0), format: .number) g")
+                        Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")
                             .font(Theme.bodyFont(15))
-                        
+
                         Spacer()
                         
                         // MARK: Recipe urlLink
@@ -103,12 +106,12 @@ struct RecipeFBDetailView: View {
                             )
                         },
                         componentNames: recipeFB.components.map(\.name),
-                        selectedServingSize: selectedServingSize
+                        scale: servingScale
                     )
 
                     // MARK: Components
                     ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
-                                         selectedServingSize: selectedServingSize)
+                                         scale: servingScale)
 
                     Divider()
                     

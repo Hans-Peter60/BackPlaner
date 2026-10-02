@@ -56,19 +56,37 @@ struct CalcIngredientWeight {
 class Rational {
 
     // MARK: GetPortion
+    /// The amount at a serving size given in half steps (2 = the recipe as
+    /// stored). Kept for the callers that still think in those steps.
     static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
-        
+        getPortion(unit: unit, weight: weight, num: num, denom: denom, scale: Double(targetServings) / 2)
+    }
+
+    /// The amount at a free scale factor — 1.0 is the recipe as stored, 1.37
+    /// is what a target dough weight of 1,370 g on a 1,000 g recipe yields.
+    ///
+    /// Weights simply multiply. A fraction ("1/2 Würfel") keeps its fraction
+    /// arithmetic as long as the scale is a half step, since "3/4 Würfel"
+    /// reads better than "0.75 Würfel"; at any other scale it becomes a
+    /// decimal, because "1 13/50 Würfel" helps nobody.
+    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double) -> String {
+
         var portion            = ""
         var numerator          = num
         var denominator        = denom
         var wholePortions      = 0
-        let compTargetServings = Double(targetServings) / 2
+        let compTargetServings = scale
         let recipeServings     = 1
-        
+        let halfSteps          = scale * 2
+        let isHalfStep         = abs(halfSteps.rounded() - halfSteps) < 0.0001
+        let targetServings     = Int(halfSteps.rounded())
+
         if weight == 0 && (num == 0 || num == denom) {
             return "" }
         else {
-            if weight == 0 {
+            if weight == 0 && !isHalfStep && denom != 0 {
+                portion = Rational.formattedAmount(Double(num) / Double(denom) * scale)
+            } else if weight == 0 {
                 // Get a single serving size by multiplying denominator by the recipe servings
                 denominator *= (recipeServings * 2)
                 
@@ -101,7 +119,7 @@ class Rational {
                     portion += "\(numerator)/\(denominator)"
                 }
             } else {
-                portion = Rational.decimalPlace((Double(weight) / (Double(recipeServings)) * compTargetServings), 1000)
+                portion = Rational.formattedAmount(Double(weight) / Double(recipeServings) * compTargetServings)
             }
             
             if unit > "" {
@@ -118,6 +136,21 @@ class Rational {
             }
             return portion + " "
         }
+    }
+
+    // MARK: FormattedAmount
+    /// A scaled amount as a baker reads it off the scale: whole grams from
+    /// 10 upwards, one decimal below that ("1,5 EL", "2,5 g Hefe"), with the
+    /// decimal separator of the app's language. Scaling used to produce
+    /// "82.582 g", which nobody can weigh and which wrapped the columns.
+    static func formattedAmount(_ value: Double) -> String {
+        let rounded = value >= 10 ? value.rounded() : (value * 10).rounded() / 10
+        return rounded.formatted(
+            .number
+                .precision(.fractionLength(0...1))
+                .grouping(.never)
+                .locale(AppSettings.locale)
+        )
     }
 
     // MARK: DecimalPlace

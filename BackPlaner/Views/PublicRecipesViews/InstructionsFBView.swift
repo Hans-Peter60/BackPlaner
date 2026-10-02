@@ -22,6 +22,8 @@ struct InstructionsFBView: View {
     @State private var dateTime = GlobalVariables.dateTimePicker
     @State private var dateTimeStartSelection     = 0
     @State var         selectedServingSize        = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
     @State private var showingNotificationMessage = false
     @State private var changeDurationsFlag        = false
     @State private var showingAlert               = false
@@ -29,6 +31,11 @@ struct InstructionsFBView: View {
     @State private var reminderCount              = 0
     @State private var reminderOvenOnText         = ""
     @State private var reminderFinishText         = ""
+
+    /// 1.0 is the recipe as stored.
+    private var servingScale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipeFB.totalWeight)
+    }
     // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
     @State private var planIssues                 = [BakePlanIssue]()
     @State private var showingPlanError           = false
@@ -124,18 +131,13 @@ struct InstructionsFBView: View {
                     }
                     
                     Group {
+                        // MARK: Serving size or target dough weight
+                        ServingScaleControl(selectedServingSize: $selectedServingSize,
+                                            targetWeight: $targetWeight,
+                                            baseWeight: recipeFB.totalWeight)
+
                         PortraitAdaptiveStack(spacing: 12) {
-                            // MARK: Serving size picker
-                            PortraitAdaptiveStack(spacing: 6) {
-                                Text("Portionsgröße")
-                                    .font(Theme.bodyFont(15))
-                                    // No lineLimit/fixedSize: at accessibility sizes
-                                    // a forced single line pushes the row off screen.
-                                    .fixedSize(horizontal: false, vertical: true)
-                                ServingSizePicker(selection: $selectedServingSize)
-                            }
-                            
-                            Text("Gewicht: \(Int((recipeFB.totalWeight) * Double(selectedServingSize) / 2.0), format: .number) g")
+                            Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")
                                 .font(Theme.bodyFont(15))
                             
                             // MARK: Url-Link
@@ -158,12 +160,12 @@ struct InstructionsFBView: View {
                             )
                         },
                         componentNames: recipeFB.components.map(\.name),
-                        selectedServingSize: selectedServingSize
+                        scale: servingScale
                     )
 
                     // MARK: Components
                     ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
-                                         selectedServingSize: selectedServingSize)
+                                         scale: servingScale)
 
                     // MARK: Selections
                     InstructionSchedulingControlsView(
@@ -310,7 +312,7 @@ struct InstructionsFBView: View {
                                         instruction: instruction,
                                         instructionText: instruction.instruction
                                     ).flatMap {
-                                        ScheduledStepComponent.ingredientsText(for: $0, servingSize: selectedServingSize)
+                                        ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale)
                                     }
 
                                     if dateTimeStartSelection == 0 {

@@ -5891,6 +5891,27 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "Replanifier" } }
       }
     },
+    "Teiggewicht" : {
+      "comment" : "Label of the target dough weight field next to the serving-size picker.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dough weight" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Poids de pâte" } }
+      }
+    },
+    "Teiggewicht in Gramm" : {
+      "comment" : "Accessibility label of the target dough weight field.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dough weight in grams" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Poids de pâte en grammes" } }
+      }
+    },
+    "Bäckerprozente anzeigen" : {
+      "comment" : "Settings toggle: show baker's percentages in the component columns.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show baker's percentages" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Afficher les pourcentages boulanger" } }
+      }
+    },
     "Sprachausgabe im Backmodus" : {
       "comment" : "Settings toggle: whether the bake mode offers to read a step aloud.",
       "localizations" : {

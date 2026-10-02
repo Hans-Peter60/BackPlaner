@@ -15,6 +15,7 @@ struct AppSettingsKeys {
     static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
     static let speechInBakeMode = "settings.speechInBakeMode"
     static let liveActivity = "settings.liveActivity"
+    static let bakersPercentages = "settings.bakersPercentages"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -104,6 +105,8 @@ struct AppSettings {
     static let defaultSpeechInBakeMode = true
     /// Whether a running plan shows a Live Activity on the lock screen.
     static let defaultLiveActivity = true
+    /// Whether the component columns add baker's percentages to each weight.
+    static let defaultBakersPercentages = false
 
     static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity

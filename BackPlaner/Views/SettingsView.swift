@@ -11,6 +11,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
+    @AppStorage(AppSettingsKeys.bakersPercentages) private var bakersPercentages = AppSettings.defaultBakersPercentages
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
@@ -68,6 +69,10 @@ struct SettingsView: View {
                 }
 
                 Toggle("Detailansicht verwenden", isOn: $useDetailView)
+
+                // Adds "· 62 %" of the component's flour to every weighed
+                // ingredient in the component columns.
+                Toggle("Bäckerprozente anzeigen", isOn: $bakersPercentages)
 
                 NavigationLink {
                     CustomUnitsView()

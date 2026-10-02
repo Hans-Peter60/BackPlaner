@@ -101,7 +101,7 @@ enum ScheduledStepComponent {
     ///
     /// Uses the in-app language, like every other reminder text, since the
     /// notification is composed outside SwiftUI.
-    static func ingredientsText(for component: ComponentColumn, servingSize: Int) -> String? {
+    static func ingredientsText(for component: ComponentColumn, scale: Double) -> String? {
         guard !component.ingredients.isEmpty else { return nil }
 
         let heading = String(
@@ -113,7 +113,7 @@ enum ScheduledStepComponent {
                                        weight: ingredient.weight,
                                        num: ingredient.numerator,
                                        denom: ingredient.denominator,
-                                       targetServings: servingSize)
+                                       scale: scale)
                 + ingredient.name
         }
         return ([heading] + lines).joined(separator: "\n")

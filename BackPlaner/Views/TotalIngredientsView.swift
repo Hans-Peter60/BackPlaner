@@ -11,7 +11,8 @@ struct TotalIngredientData {
 struct TotalIngredientsView: View {
     let ingredients: [TotalIngredientData]
     let componentNames: [String]
-    let selectedServingSize: Int
+    /// 1.0 is the recipe as stored.
+    let scale: Double
 
     private var totalIngredients: [TotalIngredient] {
         let normalizedComponentNames = componentNames.map(normalizedProductName)
@@ -87,7 +88,7 @@ struct TotalIngredientsView: View {
                         weight: ingredient.weight,
                         num: ingredient.numerator,
                         denom: ingredient.denominator,
-                        targetServings: selectedServingSize
+                        scale: scale
                     ) + ingredient.name
                 )
                 .font(Theme.bodyFont(15))
@@ -172,10 +173,14 @@ struct ComponentColumn: Identifiable {
 struct ComponentColumnsView: View {
 
     let components: [ComponentColumn]
-    let selectedServingSize: Int
+    /// 1.0 is the recipe as stored.
+    let scale: Double
 
     @Environment(\.horizontalSizeClass) private var hSize
     @Environment(\.dynamicTypeSize)     private var dynamicTypeSize
+
+    /// Settings → Rezepte → "Bäckerprozente anzeigen".
+    @AppStorage(AppSettingsKeys.bakersPercentages) private var showBakersPercentages = AppSettings.defaultBakersPercentages
 
     /// How many components stand side by side.
     ///
@@ -231,7 +236,9 @@ struct ComponentColumnsView: View {
     }
 
     private func column(for component: ComponentColumn) -> some View {
-        VStack(alignment: .leading) {
+        let flourWeight = showBakersPercentages ? BakersPercentage.flourWeight(of: component.ingredients) : 0
+
+        return VStack(alignment: .leading) {
             Text(component.name)
                 .font(Theme.brandFont(16))
                 .padding([.bottom, .top], 5)
@@ -242,13 +249,46 @@ struct ComponentColumnsView: View {
                                                     weight: ingredient.weight,
                                                     num: ingredient.numerator,
                                                     denom: ingredient.denominator,
-                                                    targetServings: selectedServingSize)
-                        + ingredient.name)
+                                                    scale: scale)
+                        + ingredient.name.trimmingCharacters(in: .whitespaces)
+                        + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight))
                         .font(Theme.bodyFont(15))
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+/// Baker's percentages: every ingredient of a component as a share of that
+/// component's flour, which is how bakers compare and scale formulas. Flour
+/// is recognised by name; a component without any shows no percentages.
+enum BakersPercentage {
+
+    private static let flourWords = ["mehl", "flour", "farine", "schrot"]
+
+    static func isFlour(_ name: String) -> Bool {
+        let folded = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current).lowercased()
+        return flourWords.contains { folded.contains($0) }
+    }
+
+    /// The summed weight of the flours, independent of the scale shown —
+    /// percentages do not change with the batch size.
+    static func flourWeight(of ingredients: [TotalIngredientData]) -> Double {
+        ingredients.filter { isFlour($0.name) && $0.weight > 0 }.map(\.weight).reduce(0, +)
+    }
+
+    /// " · 62 %" for a weighed ingredient; nothing for pieces, for a whole
+    /// component used as an ingredient ("1 gesamtes Brühstück", no unit), or
+    /// when the component has no flour. Non-breaking spaces keep the
+    /// percentage in one piece when a narrow column wraps the line.
+    static func suffix(for ingredient: TotalIngredientData, flourWeight: Double) -> String {
+        guard flourWeight > 0, ingredient.weight > 0,
+              !ingredient.unit.trimmingCharacters(in: .whitespaces).isEmpty
+        else { return "" }
+        let percent = (ingredient.weight / flourWeight * 100).rounded()
+        guard percent >= 1 else { return "" }
+        return " ·\u{00A0}\(Int(percent))\u{00A0}%"
     }
 }
 

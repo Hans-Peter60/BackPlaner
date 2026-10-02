@@ -16,6 +16,13 @@ struct RecipeDetailView: View {
     var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
 
     @State var selectedServingSize = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
+
+    /// 1.0 is the recipe as stored.
+    private var servingScale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipe.totalWeight)
+    }
     
     var body: some View {
 
@@ -76,21 +83,17 @@ struct RecipeDetailView: View {
                     .padding(.top, 2)
                     .font(Theme.bodyFont(15))
                     
+                // MARK: Serving size or target dough weight
+                ServingScaleControl(selectedServingSize: $selectedServingSize,
+                                    targetWeight: $targetWeight,
+                                    baseWeight: recipe.totalWeight)
+
                 HStack {
-                   // MARK: Serving size picker
-                    PortraitAdaptiveStack(spacing: 6) {
-                        Text("Portionsgröße")
+                    Text("Gewicht: \(Int((recipe.totalWeight * servingScale).rounded()), format: .number) g")
                             .font(Theme.bodyFont(15))
-                        ServingSizePicker(selection: $selectedServingSize)
-                    }
-                    
+
                     Spacer()
-                    
-                    Text("Gewicht: \(Int(recipe.totalWeight * Double(selectedServingSize) / 2.0), format: .number) g")
-                            .font(Theme.bodyFont(15))
-                    
-                    Spacer()
-                    
+
                     // MARK: Recipe urlLink
                     if let url = URL(string: recipe.urlLink ?? "") {
                         Link("Link zum Rezept", destination: url)
@@ -111,12 +114,12 @@ struct RecipeDetailView: View {
                         )
                     },
                     componentNames: recipe.componentsArray.map(\.name),
-                    selectedServingSize: selectedServingSize
+                    scale: servingScale
                 )
 
                 // MARK: Components
                 ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
-                                     selectedServingSize: selectedServingSize)
+                                     scale: servingScale)
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {

@@ -83,9 +83,22 @@ extension View {
 /// which stays compact whatever the text size.
 struct ServingSizePicker: View {
 
-    @Binding var selection: Int
+    /// Half steps (2 = the recipe as stored); `nil` when a target dough
+    /// weight overrides the picker, so no segment is highlighted.
+    @Binding var selection: Int?
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    init(selection: Binding<Int?>) {
+        _selection = selection
+    }
+
+    init(selection: Binding<Int>) {
+        _selection = Binding(
+            get: { Optional(selection.wrappedValue) },
+            set: { if let value = $0 { selection.wrappedValue = value } }
+        )
+    }
 
     var body: some View {
         Group {
@@ -102,10 +115,97 @@ struct ServingSizePicker: View {
 
     private var picker: some View {
         Picker("", selection: $selection) {
-            Text(0.5, format: .number.precision(.fractionLength(1))).tag(1)
-            Text(1.0, format: .number.precision(.fractionLength(1))).tag(2)
-            Text(1.5, format: .number.precision(.fractionLength(1))).tag(3)
-            Text(2.0, format: .number.precision(.fractionLength(1))).tag(4)
+            Text(0.5, format: .number.precision(.fractionLength(1))).tag(Optional(1))
+            Text(1.0, format: .number.precision(.fractionLength(1))).tag(Optional(2))
+            Text(1.5, format: .number.precision(.fractionLength(1))).tag(Optional(3))
+            Text(2.0, format: .number.precision(.fractionLength(1))).tag(Optional(4))
+        }
+    }
+}
+
+/// The scale a recipe is shown at, from either of two inputs.
+enum ServingScale {
+
+    /// A target dough weight wins over the picker; without one the picker's
+    /// half steps apply (2 = 1.0).
+    static func factor(servingSize: Int, targetWeight: Int?, baseWeight: Double) -> Double {
+        if let targetWeight, targetWeight > 0, baseWeight > 0 {
+            return Double(targetWeight) / baseWeight
+        }
+        return Double(servingSize) / 2
+    }
+}
+
+/// Portion factor or target dough weight — two ways to the same scale.
+///
+/// Bakers think in "1,200 g Teigeinlage" or "zwölf Brötchen", not in 0.5 to
+/// 2.0. Typing a weight into the field scales every amount to it and clears
+/// the picker's selection; choosing a factor again clears the weight.
+struct ServingScaleControl: View {
+
+    @Binding var selectedServingSize: Int
+    @Binding var targetWeight: Int?
+    /// The recipe's total weight at factor 1.0.
+    let baseWeight: Double
+
+    @State private var weightText = ""
+    @FocusState private var weightFieldFocused: Bool
+
+    private var scale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: baseWeight)
+    }
+
+    /// `nil` while a weight is typed in, so no factor segment is lit.
+    private var pickerSelection: Binding<Int?> {
+        Binding(
+            get: { targetWeight == nil ? selectedServingSize : nil },
+            set: { value in
+                guard let value else { return }
+                selectedServingSize = value
+                targetWeight = nil
+                weightText = ""
+            }
+        )
+    }
+
+    var body: some View {
+        PortraitAdaptiveStack(spacing: 12) {
+            PortraitAdaptiveStack(spacing: 6) {
+                Text("Portionsgröße")
+                    .font(Theme.bodyFont(15))
+                    .fixedSize(horizontal: false, vertical: true)
+                ServingSizePicker(selection: pickerSelection)
+            }
+
+            HStack(spacing: 6) {
+                Text("Teiggewicht")
+                    .font(Theme.bodyFont(15))
+                TextField(
+                    "\(Int((baseWeight * scale).rounded()))",
+                    text: $weightText
+                )
+                .keyboardType(.numberPad)
+                .multilineTextAlignment(.trailing)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 76)
+                .focused($weightFieldFocused)
+                .font(Theme.bodyFont(15))
+                .accessibilityLabel("Teiggewicht in Gramm")
+                .onChange(of: weightText) { _, text in
+                    let digits = text.filter(\.isNumber)
+                    if digits != text { weightText = digits }
+                    let value = Int(digits) ?? 0
+                    targetWeight = value > 0 ? value : nil
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("Fertig") { weightFieldFocused = false }
+                    }
+                }
+                Text(verbatim: "g")
+                    .font(Theme.bodyFont(15))
+            }
         }
     }
 }
