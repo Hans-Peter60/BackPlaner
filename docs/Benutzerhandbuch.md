@@ -486,6 +486,18 @@ Dieselben Schritte als senkrechte Zeitachse. Links steht der Zeitstempel – bei
 
 Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schritte – Setze einen Reminder in der Backanleitung eines Rezepts.“
 
+### Widget „Nächster Backschritt“
+
+Den nächsten Schritt siehst Du auch ohne die App zu öffnen: BakePlanner bringt ein Widget für den Homescreen und den Sperrbildschirm mit. Es zeigt dieselbe Information wie die Karte „Als Nächstes“ im Hauptmenü – den anstehenden Schritt mit Uhrzeit und einem laufenden Countdown („in 1:42:10“), oder nach Ablauf der Zeit **„Jetzt fällig“** mit der verstrichenen Zeit. Ein Tippen öffnet direkt „Geplante Schritte“.
+
+- **Klein**: Schritttext, Tag und Uhrzeit, Countdown.
+- **Mittel**: zusätzlich der Rezeptname.
+- **Sperrbildschirm**: als rechteckiges Widget mit Schritttext und Countdown oder als einzeilige Anzeige neben der Uhr.
+
+So fügst Du es hinzu: Homescreen lange gedrückt halten → **Bearbeiten** → **Widget hinzufügen** → **BakePlanner** auswählen → Größe wählen → **Widget hinzufügen**. Das Widget aktualisiert sich von selbst, sobald ein Schritt beginnt oder fällig wird, und bei jeder Änderung am Plan in der App. Ohne geplante Schritte zeigt es „Kein Schritt geplant“.
+
+Das Widget verwendet die **Systemsprache** des Geräts, nicht die in den Einstellungen gewählte App-Sprache.
+
 ---
 
 ## 11. Erinnerungen auf dem Sperrbildschirm

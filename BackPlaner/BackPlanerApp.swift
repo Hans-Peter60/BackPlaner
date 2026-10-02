@@ -43,6 +43,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // Core Data model still used Nullify delete rules.
     PersistenceController.shared.cleanUpOrphanedObjectsIfNeeded()
 
+    // Mirror the planned steps into the App Group for the widget, now and
+    // after every change.
+    PlanSnapshotPublisher.shared.start(with: PersistenceController.shared.container)
+
     // Present reminders in the foreground and register their iPhone/Watch actions.
     UNUserNotificationCenter.current().delegate = self
     NotificationActions.registerCategories()

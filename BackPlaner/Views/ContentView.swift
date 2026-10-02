@@ -11,7 +11,11 @@ import CoreData
 struct ContentView: View {
     
     @State private var tabSelection = 0
-    
+
+    /// Pushed programmatically when the widget opens the app; the menu's own
+    /// links keep navigating by view as before.
+    @State private var path = NavigationPath()
+
     @Environment(\.managedObjectContext) private var viewContext
     
     var manager:LocalNotificationManager = LocalNotificationManager()
@@ -56,7 +60,7 @@ struct ContentView: View {
 
     var body: some View {
 
-        NavigationStack {
+        NavigationStack(path: $path) {
 
             GeometryReader { fullView in
 
@@ -113,7 +117,16 @@ struct ContentView: View {
             .warmBackground()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(for: MenuDestination.self) { destination in
+                self.destination(for: destination)
+            }
 
+            }
+        }
+        // The widget's deep link: straight to the planned steps.
+        .onOpenURL { url in
+            if url == PlanSnapshot.scheduledStepsURL {
+                path = NavigationPath([MenuDestination.scheduledSteps])
             }
         }
         .environmentObject(RecipeModel())
@@ -143,7 +156,7 @@ struct ContentView: View {
 
 /// Where a menu entry leads. Named rather than positional so the cards can be
 /// reordered or regrouped without the destinations following along by accident.
-enum MenuDestination {
+enum MenuDestination: Hashable {
     case publicRecipes
     case ownRecipes
     case newRecipe

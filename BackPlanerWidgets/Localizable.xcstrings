@@ -1,0 +1,80 @@
+{
+  "sourceLanguage" : "de",
+  "strings" : {
+    "Als Nächstes" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Als Nächstes" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Up next" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "À suivre" } }
+      }
+    },
+    "Heute" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Heute" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aujourd’hui" } }
+      }
+    },
+    "in %@" : {
+      "comment" : "Countdown; %@ is a running timer such as '41:59'.",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "in %@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "in %@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "dans %@" } }
+      }
+    },
+    "Jetzt fällig" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Jetzt fällig" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Due now" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "À faire maintenant" } }
+      }
+    },
+    "Kein Schritt geplant" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Kein Schritt geplant" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No step planned" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune étape planifiée" } }
+      }
+    },
+    "Morgen" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Morgen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tomorrow" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Demain" } }
+      }
+    },
+    "Nächster Backschritt" : {
+      "comment" : "Display name of the widget in the widget gallery.",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nächster Backschritt" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next baking step" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Prochaine étape de cuisson" } }
+      }
+    },
+    "seit %@" : {
+      "comment" : "Elapsed time once a step is due; %@ is a running timer such as '5:12'.",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "seit %@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%@ ago" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "depuis %@" } }
+      }
+    },
+    "Setze einen Reminder in der Backanleitung eines Rezepts." : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Setze einen Reminder in der Backanleitung eines Rezepts." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set a reminder in a recipe's baking instructions." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Définissez un rappel dans les instructions de cuisson d’une recette." } }
+      }
+    },
+    "Zeigt den nächsten geplanten Schritt deines Backplans." : {
+      "comment" : "Description of the widget in the widget gallery.",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zeigt den nächsten geplanten Schritt deines Backplans." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Shows the next planned step of your baking plan." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Affiche la prochaine étape planifiée de votre plan de cuisson." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

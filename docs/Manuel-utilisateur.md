@@ -489,6 +489,18 @@ Les mêmes étapes sur un axe temporel vertical. L’horodatage figure à gauche
 
 Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape planifiée — Définissez un rappel dans les instructions de cuisson d’une recette. »
 
+### Le widget « Prochaine étape de cuisson »
+
+Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la carte « À suivre » du menu principal — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».
+
+- **Petit** : texte de l’étape, jour et heure, compte à rebours.
+- **Moyen** : en plus, le nom de la recette.
+- **Écran verrouillé** : en widget rectangulaire avec le texte de l’étape et le compte à rebours, ou en affichage sur une ligne à côté de l’horloge.
+
+Pour l’ajouter : maintenez l’écran d’accueil → **Modifier** → **Ajouter un widget** → choisissez **BakePlanner** → choisissez la taille → **Ajouter le widget**. Le widget se met à jour de lui-même dès qu’une étape commence ou devient due, et à chaque modification du plan dans l’app. Sans étape planifiée, il indique « Aucune étape planifiée ».
+
+Le widget utilise la **langue du système** de l’appareil, et non la langue de l’app choisie dans les réglages.
+
 ---
 
 ## 11. Rappels sur l’écran verrouillé

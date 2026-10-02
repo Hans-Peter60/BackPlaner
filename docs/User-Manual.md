@@ -489,6 +489,18 @@ The same steps as a vertical time axis. The timestamp is on the left — with we
 
 With no steps scheduled, both views read: "No scheduled steps — Set a reminder in a recipe's baking instructions."
 
+### The "Next baking step" widget
+
+You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" card in the main menu — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.
+
+- **Small**: step text, day and time, countdown.
+- **Medium**: additionally the recipe name.
+- **Lock Screen**: as a rectangular widget with step text and countdown, or as a one-line display next to the clock.
+
+To add it: press and hold the Home Screen → **Edit** → **Add Widget** → choose **BakePlanner** → pick a size → **Add Widget**. The widget updates by itself whenever a step starts or falls due, and whenever the plan changes in the app. With no planned steps it reads "No step planned".
+
+The widget uses the device's **system language**, not the app language chosen in Settings.
+
 ---
 
 ## 11. Reminders on the Lock Screen

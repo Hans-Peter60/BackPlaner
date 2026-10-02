@@ -4,6 +4,10 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
+	</array>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array>
 		<string>iCloud.de.hpm64625.BackPlaner</string>
@@ -12,9 +16,9 @@
 	<array>
 		<string>CloudKit</string>
 	</array>
-	<key>com.apple.developer.applesignin</key>
+	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>Default</string>
+		<string>group.de.hpm64625.BackPlaner</string>
 	</array>
 </dict>
 </plist>
