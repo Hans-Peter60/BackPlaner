@@ -9,6 +9,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.bakePause) private var bakePause = AppSettings.defaultBakePause
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
+    @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
@@ -98,6 +99,9 @@ struct SettingsView: View {
                 Stepper(value: $dayEnd, in: dayStart...23) {
                     LabeledContent("Tagesende", value: formattedHour(dayEnd))
                 }
+
+                // Off hides the read-aloud button in the bake mode entirely.
+                Toggle("Sprachausgabe im Backmodus", isOn: $speechInBakeMode)
             }
 
             recipeAIPrivacySection

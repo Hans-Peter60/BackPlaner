@@ -13,6 +13,7 @@ struct AppSettingsKeys {
     static let dayEnd = "settings.dayEnd"
     static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
     static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
+    static let speechInBakeMode = "settings.speechInBakeMode"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -98,6 +99,8 @@ struct AppSettings {
     static let defaultRecipeStorage = RecipeStoragePreference.privateRecipe.rawValue
     static let defaultServingSize = 2
     static let defaultUseDetailView = true
+    /// Whether the bake mode offers to read a step aloud.
+    static let defaultSpeechInBakeMode = true
     static let defaultPreheatTime = 15
     static let defaultBakePause = 10
     static let defaultDayStart = 6

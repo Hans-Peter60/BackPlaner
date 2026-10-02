@@ -30,6 +30,9 @@ struct BakeModeView: View {
     @State private var speaker = StepSpeaker()
     @State private var doneHaptic = false
 
+    /// Settings → Backplanung → "Sprachausgabe im Backmodus".
+    @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechEnabled = AppSettings.defaultSpeechInBakeMode
+
     /// Narrowed to one recipe when the list was filtered; otherwise the
     /// whole plan.
     init(recipeFilter: String?) {
@@ -209,16 +212,18 @@ struct BakeModeView: View {
                 }
                 .accessibilityLabel("Vorheriger Schritt")
 
-                bigButton(systemImage: speaker.isSpeaking ? "stop.fill" : "speaker.wave.2.fill",
-                          title: speaker.isSpeaking ? "Stopp" : "Vorlesen",
-                          enabled: true) {
-                    if speaker.isSpeaking {
-                        speaker.stop()
-                    } else {
-                        speaker.speak(Self.spokenText(for: step, component: component))
+                if speechEnabled {
+                    bigButton(systemImage: speaker.isSpeaking ? "stop.fill" : "speaker.wave.2.fill",
+                              title: speaker.isSpeaking ? "Stopp" : "Vorlesen",
+                              enabled: true) {
+                        if speaker.isSpeaking {
+                            speaker.stop()
+                        } else {
+                            speaker.speak(Self.spokenText(for: step, component: component))
+                        }
                     }
+                    .accessibilityLabel(speaker.isSpeaking ? "Vorlesen beenden" : "Schritt vorlesen")
                 }
-                .accessibilityLabel(speaker.isSpeaking ? "Vorlesen beenden" : "Schritt vorlesen")
 
                 bigButton(systemImage: "chevron.right", title: "Weiter", enabled: index + 1 < steps.count) {
                     show(steps[index + 1])

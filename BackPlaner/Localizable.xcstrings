@@ -5871,6 +5871,13 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermer" } }
       }
     },
+    "Sprachausgabe im Backmodus" : {
+      "comment" : "Settings toggle: whether the bake mode offers to read a step aloud.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Speech in bake mode" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Lecture vocale en mode cuisson" } }
+      }
+    },
     "Schritt als erledigt markieren" : {
       "comment" : "Accessibility label of the checkmark button on a planned-step card.",
       "localizations" : {

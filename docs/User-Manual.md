@@ -498,7 +498,7 @@ For working in the kitchen there is a **Start bake mode** button above the list.
 At the bottom sit large buttons that can be hit with flour on your hands:
 
 - **Back** and **Next** page through every step of the plan.
-- **Read aloud** speaks the step and, where present, the ingredients through the speaker in the app language you have set. A second tap (**Stop**) cancels. Speech also plays while the device is muted.
+- **Read aloud** speaks the step and, where present, the ingredients through the speaker in the app language you have set. A second tap (**Stop**) cancels. Speech also plays while the device is muted. If you do not want it, switch off *Settings → Baking plan → Speech in bake mode*; the button then disappears.
 - **Done** removes the step together with its reminder and jumps to the next one.
 
 Bake mode opens on the step that is up right now and respects the list's recipe filter. While it is open, the screen stays on. **Close** at the top right returns to the list.
@@ -625,6 +625,7 @@ The app filters deliberately:
 | **Baking pause** | 0–120 minutes. The minimum gap between two bakes in the same oven. Default: 10 minutes. |
 | **Start of day** | 0–23. From when you're available in the morning. Default: 6. |
 | **End of day** | Between start of day and 23. Default: 23. |
+| **Speech in bake mode** | Shows or hides the "Read aloud" button in bake mode. Default: on. |
 
 > **Note:** Only **Preheat time** actually moves steps. **Baking pause, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or two bakes collide (see [chapter 7](#7-baking-instructions-and-reminders)).
 

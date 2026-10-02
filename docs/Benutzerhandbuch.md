@@ -495,7 +495,7 @@ Für die Arbeit in der Küche gibt es über der Liste die Schaltfläche **Backmo
 Unten liegen große Tasten, die sich auch mit Mehl an den Händen treffen lassen:
 
 - **Zurück** und **Weiter** blättern durch alle Schritte des Plans.
-- **Vorlesen** liest den Schritt und gegebenenfalls die Zutaten über den Lautsprecher vor, in der eingestellten App-Sprache. Ein zweiter Tipp (**Stopp**) bricht ab. Die Sprachausgabe ertönt auch bei stummgeschaltetem Gerät.
+- **Vorlesen** liest den Schritt und gegebenenfalls die Zutaten über den Lautsprecher vor, in der eingestellten App-Sprache. Ein zweiter Tipp (**Stopp**) bricht ab. Die Sprachausgabe ertönt auch bei stummgeschaltetem Gerät. Wer sie nicht möchte, schaltet sie unter *Einstellungen → Backplanung → Sprachausgabe im Backmodus* aus; die Taste verschwindet dann.
 - **Erledigt** entfernt den Schritt samt Erinnerung aus dem Plan und springt zum nächsten.
 
 Der Backmodus öffnet mit dem Schritt, der gerade dran ist, und respektiert den Rezeptfilter der Liste. Solange er geöffnet ist, bleibt der Bildschirm an. **Schließen** oben rechts führt zurück zur Liste.
@@ -622,6 +622,7 @@ Die App filtert bewusst:
 | **Backpause** | 0–120 Minuten. Mindestabstand zwischen zwei Backvorgängen im selben Ofen. Standard: 10 Minuten. |
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
+| **Sprachausgabe im Backmodus** | Blendet die Taste „Vorlesen“ im Backmodus ein oder aus. Standard: an. |
 
 > **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder zwei Backvorgänge kollidieren (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
 
