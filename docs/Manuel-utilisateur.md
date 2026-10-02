@@ -209,6 +209,8 @@ On trouve ici toutes les recettes enregistrées localement sur l’appareil : ce
 
 ![Liste de mes recettes avec image, nom et tags](images/fr/eigene-rezepte.png)
 
+Tant que la liste est vide, elle propose directement les deux chemins vers une première recette : **Ouvrir la base de recettes** et **Créer une nouvelle recette**.
+
 ### Rechercher et filtrer
 
 - **Champ de recherche** avec commutation **Nom / Tags**.
@@ -227,7 +229,7 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 | Onglet | Contenu |
 |--------|---------|
 | **Cuire** | Instructions de cuisson avec planification et « Définir un rappel » |
-| **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes |
+| **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF |
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette à une liste de courses |
 | **+ Historique** | Consigner une cuisson avec date, commentaire et photos |
@@ -247,7 +249,7 @@ C’est le cœur de l’app. La structure est la même pour vos recettes et pour
 ### De haut en bas
 
 1. **Image et nom** — toucher l’image l’affiche en grand.
-2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0), le **poids en grammes** qui en découle et — s’il est renseigné — le **lien vers la recette**.
+2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette** et **Partager la recette** : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ».
 3. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
 4. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie.
 5. **Barre de commande** — voir ci-dessous.
@@ -556,9 +558,9 @@ L’activité en direct apparaît dès qu’une étape est à moins de huit heur
 
 ### Historique de cuisson
 
-**Menu principal → Historique de cuisson.** Une liste chronologique de toutes les cuissons (la plus récente en premier) avec la date, le nom de la recette, le commentaire et les photos.
+**Menu principal → Historique de cuisson.** Toutes les cuissons, la plus récente en premier, au choix en **liste** avec date, nom de la recette, commentaire et photos — ou en **galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. Passez de l’une à l’autre avec le symbole en haut à droite ; le choix est mémorisé. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
 
-- **Toucher une entrée** → les notes de cuisson : modifier le commentaire et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
+- **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
 - **Supprimer une entrée** : balayez la ligne vers la gauche.
 - **Rechercher et filtrer** : le champ de recherche (Nom/Tags) et le filtre de note en haut à droite.
 
@@ -577,6 +579,8 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 ## 13. Liste de courses
 
 ### Mettre des ingrédients sur une liste
+
+S’il n’existe encore aucune liste, l’écran vide sous « Liste de courses » explique la marche à suivre et mène directement aux recettes avec **Ouvrir mes recettes**.
 
 **Mes recettes → recette → onglet « Liste de courses ».**
 

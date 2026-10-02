@@ -209,6 +209,8 @@ This is where every recipe stored locally on the device lives: the ones you crea
 
 ![List of my recipes with image, name, and tags](images/en/eigene-rezepte.png)
 
+While the list is empty, it offers the two ways to a first recipe right there: **Open the recipe database** and **Create new recipe**.
+
 ### Searching and filtering
 
 - **Search field** with a **Name / Tags** switch.
@@ -227,7 +229,7 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 | Tab | Contents |
 |-----|----------|
 | **Bake** | Baking instructions with the schedule and "Set reminder" |
-| **Details** | Rating, description, total ingredients, components, step overview |
+| **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients on a shopping list |
 | **+ History** | Record a bake with date, comment, and photos |
@@ -247,7 +249,7 @@ This is the heart of the app. The layout is the same for your own and for public
 ### From top to bottom
 
 1. **Image and name** — tap the image to enlarge it.
-2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0), the **weight in grams** calculated from it, and — if one is stored — the **Recipe link**.
+2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab.
 3. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
 4. **Components** — sorted by number, each with its ingredients at the chosen serving size.
 5. **Control bar** — see below.
@@ -556,9 +558,9 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 ### Baking history
 
-**Main menu → Baking history.** A chronological list of every bake (newest first) with the date, recipe name, comment, and photos.
+**Main menu → Baking history.** Every bake, newest first, either as a **list** with date, recipe name, comment and photos — or as a **gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. Switch between the two with the symbol at the top right; the choice is remembered. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
-- **Tap an entry** → baking notes: edit the comment and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
+- **Tap an entry** (row or tile) → baking notes: edit the comment and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
 - **Searching and filtering**: the search field (Name/Tags) and the rating filter at the top right.
 
@@ -577,6 +579,8 @@ An entry is also created automatically when you set reminders in the baking inst
 ## 13. Shopping list
 
 ### Putting ingredients on a list
+
+If there is no list yet, the empty screen under "Shopping list" explains the way and leads straight to the recipes with **Open my recipes**.
 
 **My recipes → recipe → "Shopping list" tab.**
 

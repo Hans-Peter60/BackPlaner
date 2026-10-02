@@ -31,11 +31,17 @@ struct ShoppingCartsView: View {
     var body: some View {
         Group {
             if shoppingCarts.isEmpty {
-                ContentUnavailableView(
-                    "Keine Einkaufslisten",
-                    systemImage: "cart",
-                    description: Text("Erstelle eine Einkaufsliste direkt aus einem Rezept.")
-                )
+                ContentUnavailableView {
+                    Label("Keine Einkaufslisten", systemImage: "cart")
+                } description: {
+                    Text("Öffne ein Rezept und wähle den Tab „Einkaufsliste“, um seine Zutaten auf eine Liste zu setzen.")
+                } actions: {
+                    NavigationLink("Eigene Rezepte öffnen") {
+                        RecipeListView()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Theme.accentTop)
+                }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView {

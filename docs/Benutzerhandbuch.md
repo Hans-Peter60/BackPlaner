@@ -206,6 +206,8 @@ Hier liegen alle Rezepte, die lokal auf dem Gerät gespeichert sind: selbst ange
 
 ![Liste der eigenen Rezepte mit Bild, Name und Tags](images/eigene-rezepte.png)
 
+Solange die Liste leer ist, bietet sie die zwei Wege zum ersten Rezept direkt an: **Rezept-Datenbank öffnen** und **Neues Rezept anlegen**.
+
 ### Suchen und filtern
 
 - **Suchfeld** mit Umschaltung **Name / Tags**.
@@ -224,7 +226,7 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 | Tab | Inhalt |
 |-----|--------|
 | **Backen** | Backanleitung mit Zeitplanung und „Reminder setzen“ |
-| **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht |
+| **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts auf eine Einkaufsliste setzen |
 | **+ Historie** | Einen Backvorgang mit Datum, Kommentar und Fotos nachtragen |
@@ -244,7 +246,7 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 ### Von oben nach unten
 
 1. **Bild und Name** – Bild antippen zeigt es groß.
-2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0), das daraus berechnete **Gesamtgewicht in Gramm** und – falls hinterlegt – der **Link zum Rezept**.
+2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“.
 3. **Gesamtzutaten** – alle Zutaten über alle Komponenten hinweg zusammengefasst. Diese Liste ist zum Einkaufen und Abwiegen gedacht. Wasser wird bewusst weggelassen, ebenso Zutaten, die selbst ein Zwischenprodukt einer Komponente sind (z. B. „Sauerteig“ als Zutat des Hauptteigs) – sonst würden Mengen doppelt zählen.
 4. **Komponenten** – nach Nummer sortiert, jede mit ihren Zutaten in der gewählten Portionsgröße.
 5. **Steuerleiste** – siehe unten.
@@ -553,9 +555,9 @@ Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfe
 
 ### Backhistorie
 
-**Hauptmenü → Backhistorie.** Eine chronologische Liste aller Backvorgänge (neueste zuerst) mit Datum, Rezeptname, Kommentar und Fotos.
+**Hauptmenü → Backhistorie.** Alle Backvorgänge, neueste zuerst, wahlweise als **Liste** mit Datum, Rezeptname, Kommentar und Fotos – oder als **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. Zwischen beiden wechselst Du mit dem Symbol oben rechts; die Wahl bleibt gespeichert. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
 
-- **Eintrag antippen** → „Backanmerkungen- / hinweise“: Kommentar bearbeiten und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
+- **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
 - **Eintrag löschen**: Zeile nach links wischen.
 - **Suchen und filtern**: Suchfeld (Name/Tags) und Bewertungsfilter oben rechts.
 
@@ -574,6 +576,8 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Reminde
 ## 13. Einkaufsliste
 
 ### Zutaten auf eine Liste setzen
+
+Gibt es noch keine Liste, erklärt die leere Ansicht unter „Einkaufsliste“ den Weg und führt mit **Eigene Rezepte öffnen** direkt zu den Rezepten.
 
 **Eigene Rezepte → Rezept → Tab „Einkaufsliste“.**
 

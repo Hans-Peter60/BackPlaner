@@ -8,6 +8,14 @@
 import SwiftUI
 import CoreData
 
+/// How the baking history is laid out: the table-like list, or a gallery of
+/// photo tiles. Persisted, since whoever prefers the gallery prefers it
+/// every time.
+enum BakeHistoryLayout: String {
+    case list
+    case gallery
+}
+
 struct BakeHistoriesListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,6 +30,12 @@ struct BakeHistoriesListView: View {
     @State private var bakeHistoryImages  = [Data]()
     
     @State var isBigImageShowing          = false
+
+    @AppStorage(AppSettingsKeys.bakeHistoryLayout) private var layoutRawValue = BakeHistoryLayout.list.rawValue
+
+    private var layout: BakeHistoryLayout {
+        BakeHistoryLayout(rawValue: layoutRawValue) ?? .list
+    }
     
     private var filteredBakeHistories: [BakeHistory] {
         
@@ -50,12 +64,17 @@ struct BakeHistoriesListView: View {
         }
     }
     
+    // 90 pt, not 76: a French or English date ("04/10/2026") did not fit
+    // and wrapped inside its year.
     var gridItemLayout = [
-        GridItem(scaledColumnSize(76), alignment: .leading),
+        GridItem(scaledColumnSize(90), alignment: .leading),
         GridItem(.flexible(minimum: 80), alignment: .leading),
         GridItem(.flexible(minimum: 80), alignment: .leading)
     ]
     var gridItemLayoutImages = [GridItem(scaledColumnSize(54), alignment: .leading), GridItem(scaledColumnSize(54), alignment: .leading)]
+
+    /// Tiles of at least 160 pt: two across on an iPhone, more on an iPad.
+    private let galleryColumns = [GridItem(.adaptive(minimum: 160), spacing: 12, alignment: .top)]
     
     var dateFormat:DateFormat = DateFormat()
     
@@ -63,6 +82,186 @@ struct BakeHistoriesListView: View {
     
     var body: some View {
         
+        Group {
+            if filteredBakeHistories.isEmpty {
+                emptyState
+            } else if layout == .gallery {
+                gallery
+            } else {
+                list
+            }
+        }
+        .warmBackground()
+        .navigationTitle("Backhistorie")
+        .searchable(text: $filterBy, prompt: "Rezept suchen")
+        .searchScopes($nameOrTag) {
+            Text("Name").tag(1)
+            Text("Tags").tag(2)
+        }
+        .autocorrectionDisabled()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    layoutRawValue = (layout == .list ? BakeHistoryLayout.gallery : .list).rawValue
+                } label: {
+                    Label(layout == .list ? "Als Galerie zeigen" : "Als Liste zeigen",
+                          systemImage: layout == .list ? "square.grid.2x2" : "list.bullet")
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Picker("Mindestbewertung", selection: $rating) {
+                        Text("Alle Bewertungen").tag(0)
+                        ForEach(1...5, id: \.self) { stars in
+                            Text("\(stars) Sterne und mehr").tag(stars)
+                        }
+                    }
+                } label: {
+                    Label("Nach Bewertung filtern",
+                          systemImage: rating > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                }
+            }
+        }
+    }
+
+    // MARK: - Empty
+
+    /// Without any history the screen says where entries come from and leads
+    /// there; with a filter that matches nothing it says so instead.
+    @ViewBuilder
+    private var emptyState: some View {
+        if filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && rating == 0 {
+            ContentUnavailableView {
+                Label("Noch keine Backhistorie", systemImage: "clock.arrow.circlepath")
+            } description: {
+                Text("Jeder Backvorgang, für den Du Reminder setzt, landet hier – mit Datum, Kommentar und Fotos.")
+            } actions: {
+                NavigationLink("Eigene Rezepte öffnen") {
+                    RecipeListView()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Theme.accentTop)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            ContentUnavailableView(
+                "Keine passenden Backvorgänge",
+                systemImage: "line.3.horizontal.decrease.circle",
+                description: Text("Passe Suche, Tags oder Bewertung an.")
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    // MARK: - Gallery
+
+    /// The photos are the most personal thing the app holds; here they lead.
+    private var gallery: some View {
+        ScrollView {
+            LazyVGrid(columns: galleryColumns, spacing: 12) {
+                ForEach(filteredBakeHistories, id: \.self) { bakeHistory in
+                    NavigationLink {
+                        BakeHistoryUpdateFormView(recipeName: bakeHistory.recipe?.name ?? "", bakeHistory: bakeHistory)
+                            .environment(\.managedObjectContext, self.viewContext)
+                    } label: {
+                        galleryTile(bakeHistory)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(16)
+        }
+    }
+
+    private func galleryTile(_ bakeHistory: BakeHistory) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ZStack(alignment: .bottomTrailing) {
+                // A square that takes whatever width the column offers: the
+                // picture is only an overlay, so its own pixel size never
+                // reaches the layout. Sizing the image itself made every
+                // tile 232 pt wide and the grid wider than the screen.
+                Color.clear
+                    .aspectRatio(1, contentMode: .fit)
+                    .overlay {
+                        if let data = bakeHistory.images?.first, let image = UIImage(data: data) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                        } else if let recipeImage = bakeHistory.recipe.flatMap({ UIImage(data: $0.image) }) {
+                            // No photo of this bake yet: the recipe's own
+                            // picture keeps the tile from being an empty box.
+                            Image(uiImage: recipeImage)
+                                .resizable()
+                                .scaledToFill()
+                                .opacity(0.6)
+                        } else {
+                            Image(systemName: "photo")
+                                .font(.system(size: 32))
+                                .foregroundColor(Theme.subtitle)
+                        }
+                    }
+                    .background(Theme.accentText.opacity(0.12))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    // Otherwise the overlaid picture's full size leaks into
+                    // the tap area and the accessibility frame.
+                    .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                // Several photos: say so.
+                if let count = bakeHistory.images?.count, count > 1 {
+                    Label("\(count)", systemImage: "photo.on.rectangle")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(.black.opacity(0.55), in: Capsule())
+                        .padding(8)
+                        .accessibilityLabel("\(count) Fotos")
+                }
+            }
+
+            // Everything below the picture must be able to shrink to the
+            // column: a vertical ScrollView adopts its content's minimum
+            // width, and date and five stars side by side wanted 195 pt
+            // where a column on an iPhone has 179 — which pushed the whole
+            // grid past both screen edges.
+            Text(bakeHistory.recipe?.name ?? "")
+                .font(Theme.brandFont(15))
+                .foregroundColor(Theme.cardTitle)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                .font(Theme.bodyFont(13))
+                .foregroundColor(Theme.subtitle)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+
+            RatingStarsView(rating: bakeHistory.recipe?.rating ?? 0, label: "")
+                .font(.caption2)
+
+            if !bakeHistory.comment.isEmpty {
+                Text(bakeHistory.comment)
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Theme.card)
+                .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 3)
+        )
+        .accessibilityElement(children: .combine)
+    }
+
+    // MARK: - List
+
+    private var list: some View {
         VStack(spacing: 0) {
 
         LazyVGrid(columns: gridItemLayout, spacing: 6) {
@@ -155,29 +354,6 @@ struct BakeHistoriesListView: View {
         }
         .listStyle(.plain)
         .clearScrollBackground()
-        }
-        .warmBackground()
-        .navigationTitle("Backhistorie")
-        .searchable(text: $filterBy, prompt: "Rezept suchen")
-        .searchScopes($nameOrTag) {
-            Text("Name").tag(1)
-            Text("Tags").tag(2)
-        }
-        .autocorrectionDisabled()
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Picker("Mindestbewertung", selection: $rating) {
-                        Text("Alle Bewertungen").tag(0)
-                        ForEach(1...5, id: \.self) { stars in
-                            Text("\(stars) Sterne und mehr").tag(stars)
-                        }
-                    }
-                } label: {
-                    Label("Nach Bewertung filtern",
-                          systemImage: rating > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
-                }
-            }
         }
     }
 }

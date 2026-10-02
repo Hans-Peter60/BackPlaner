@@ -66,12 +66,35 @@ struct RecipeListView: View {
             VStack (alignment: .leading) {
 
                 if filteredRecipes.isEmpty {
-                    ContentUnavailableView(
-                        filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Keine eigenen Rezepte" : "Keine passenden Rezepte",
-                        systemImage: "book.closed",
-                        description: Text(filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Lege ein neues Rezept an, um es hier zu sehen." : "Passe Suche, Tags oder Bewertung an.")
-                    )
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && rating == 0 {
+                        // Nothing here yet: offer the two ways a first recipe
+                        // arrives, instead of a dead end.
+                        ContentUnavailableView {
+                            Label("Keine eigenen Rezepte", systemImage: "book.closed")
+                        } description: {
+                            Text("Hol Dir ein Rezept aus der Datenbank oder lege ein eigenes an – mit Komponenten, Zutaten und Schritten, aus denen die App Deinen Backplan rechnet.")
+                        } actions: {
+                            NavigationLink("Rezept-Datenbank öffnen") {
+                                RecipeFBListView()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(Theme.accentTop)
+
+                            NavigationLink("Neues Rezept anlegen") {
+                                AddNewRecipeDataView()
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(Theme.accentText)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        ContentUnavailableView(
+                            "Keine passenden Rezepte",
+                            systemImage: "line.3.horizontal.decrease.circle",
+                            description: Text("Passe Suche, Tags oder Bewertung an.")
+                        )
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                 } else {
                     List {
                         

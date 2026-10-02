@@ -16,6 +16,7 @@ struct AppSettingsKeys {
     static let speechInBakeMode = "settings.speechInBakeMode"
     static let liveActivity = "settings.liveActivity"
     static let bakersPercentages = "settings.bakersPercentages"
+    static let bakeHistoryLayout = "settings.bakeHistoryLayout"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
