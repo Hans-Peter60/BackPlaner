@@ -1,6 +1,6 @@
 # BakePlanner – Manuel de l’utilisateur
 
-Révision : 13 septembre 2026 · version 1.0 de l’app
+Révision : 2 octobre 2026 · version 1.0 de l’app
 
 > Traduit de l’original allemand, `Benutzerhandbuch.md`. En cas de divergence,
 > la version allemande fait foi.
@@ -459,6 +459,10 @@ Si cette copie est supprimée plus tard (par vous ou par la modération), l’ap
 
 Chaque étape est une carte avec l’image de la recette, son nom, l’heure de début, la date, la durée et l’instruction. La toucher ouvre la vue détaillée avec la recette, le début, le numéro d’étape, la durée et la description complète.
 
+**Consulter les ingrédients d’un composant** — via le **symbole i** sur la carte. Il n’apparaît que sur les étapes qui mélangent un composant de la recette, par exemple « Préparer le pré-ferment A » ou « Préparer la pâte finale ». Le toucher ouvre les ingrédients de ce composant précis avec leurs quantités, pour peser directement depuis le plan sans ouvrir la recette. Les quantités se rapportent au nombre de portions par défaut défini dans les réglages.
+
+L’app reconnaît une telle étape de mélange au fait que le nom d’un composant de la recette figure dans le texte de l’étape. Les étapes issues de l’import d’image savent de toute façon à quel composant elles appartiennent. Une étape comme « Rabattre la pâte », sans nom de composant, n’a pas de symbole i.
+
 **Décaler une étape dans le temps** — via l’icône d’horloge sur la carte :
 
 1. Saisissez des minutes (1440 au maximum, soit 24 heures).
@@ -488,6 +492,18 @@ Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape 
 ## 11. Rappels sur l’écran verrouillé
 
 Chaque rappel apparaît comme une notification intitulée **« Rappel de cuisson »**, avec le sous-titre « Maintenez pour Terminé ou Décaler » et le texte de l’étape comme contenu.
+
+**Les ingrédients dans le rappel.** Si l’étape mélange un composant, les ingrédients de ce composant avec leurs quantités suivent sous le texte de l’étape — les mêmes que derrière le symbole i dans « Étapes planifiées » :
+
+> **Rappel de cuisson**
+> Préparer le pré-ferment A
+>
+> Ingrédients pour « Pré-ferment A » :
+> • 200 g de farine de blé T55
+> • 200 g d’eau
+> • 2 g de levure
+
+La bannière ne montre que les premières lignes. Maintenez la notification ou dépliez-la dans le centre de notifications pour voir toute la liste. Les quantités correspondent au nombre de portions choisi dans les instructions de cuisson au moment où les rappels ont été définis.
 
 **Maintenez la notification appuyée** pour obtenir deux actions :
 
@@ -787,6 +803,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.
 - **Une recette ne peut avoir qu’un seul plan.** Définir de nouveau les rappels remplace le plan précédent ; deux dates simultanées pour la même recette sont impossibles.
 - **Si vous modifiez une recette après l’avoir planifiée** (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. Définissez de nouveau les rappels pour que la modification prenne effet.
+- **Les ingrédients d’un rappel** sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.
 - Les étapes planifiées sont rattachées aux recettes par le **nom de la recette**. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.
 - **Les rappels n’atteignent l’Apple Watch que depuis un iPhone.** Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.
 - **L’import depuis des images** lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.

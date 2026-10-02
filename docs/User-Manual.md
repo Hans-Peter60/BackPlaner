@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 13 September 2026 · App version 1.0
+Revised: 2 October 2026 · App version 1.0
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.
@@ -459,6 +459,10 @@ If that copy is later deleted (by you or by moderation), the app notices the nex
 
 Every step is a card with the recipe image, recipe name, start time, date, duration, and instruction. Tapping one opens the detail view with the recipe, the start, the step number, the duration, and the full description.
 
+**Looking up a component's ingredients** — through the **i symbol** on the card. It only appears on steps that mix one of the recipe's components, such as "Make preferment A" or "Make the final dough". Tapping it opens the ingredients of exactly that component with their amounts, so you can weigh out straight from the plan without opening the recipe. The amounts refer to the default serving size set in Settings.
+
+The app recognises such a mixing step by the name of a recipe component occurring in the step text. Steps from the image import know which component they belong to anyway. A step like "Fold the dough" with no component name gets no i symbol.
+
 **Rescheduling a step** — through the clock symbol on the card:
 
 1. Enter minutes (1440 at most, that is 24 hours).
@@ -488,6 +492,18 @@ With no steps scheduled, both views read: "No scheduled steps — Set a reminder
 ## 11. Reminders on the Lock Screen
 
 Every reminder appears as a notification titled **"Baking reminder"**, with the subtitle "Press and hold for Done or Reschedule" and the step text as its content.
+
+**Ingredients in the reminder.** If the step mixes a component, the ingredients of that component with their amounts follow below the step text — the same ones that sit behind the i symbol in "Scheduled steps":
+
+> **Baking reminder**
+> Make preferment A
+>
+> Ingredients for "Preferment A":
+> • 200 g wheat flour 550
+> • 200 g water
+> • 2 g yeast
+
+The banner shows only the first lines. Press and hold the notification, or expand it in Notification Centre, to see the whole list. The amounts match the serving size that was selected in the baking instructions when the reminders were set.
 
 **Press and hold the notification** to get two actions:
 
@@ -787,6 +803,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.
 - **A recipe can only have one plan.** Setting reminders again replaces the previous plan; two dates for the same recipe at once aren't possible.
 - **If you change a recipe after planning it** (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. Set the reminders again to make the change take effect.
+- **The ingredients in a reminder** are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.
 - **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.

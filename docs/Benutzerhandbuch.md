@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 10.09.2026 · App-Version 1.0
+Stand: 02.10.2026 · App-Version 1.0
 
 ---
 
@@ -456,6 +456,10 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 Jeder Schritt ist eine Karte mit Rezeptbild, Rezeptname, Startzeit, Datum, Dauer und Anweisung. Antippen öffnet die Detailansicht mit Rezept, Beginn, Schrittnummer, Dauer und vollständiger Beschreibung.
 
+**Zutaten einer Komponente nachschlagen** – über das **i-Symbol** auf der Karte. Es erscheint nur bei Schritten, die eine Komponente des Rezepts anmischen, etwa „Vorteig A herstellen“ oder „Hauptteig herstellen“. Ein Tippen öffnet die Zutaten genau dieser Komponente mit ihren Mengen, sodass Du direkt aus dem Plan heraus abwiegen kannst, ohne das Rezept zu öffnen. Die Mengen beziehen sich auf die in den Einstellungen hinterlegte Standard-Portionsgröße.
+
+Die App erkennt einen solchen Mischschritt daran, dass der Name einer Rezeptkomponente im Schritttext vorkommt. Bei Rezepten aus dem Bildimport weiß der Schritt ohnehin, zu welcher Komponente er gehört. Ein Schritt wie „Teig falten“ ohne Komponentennamen bekommt kein i-Symbol.
+
 **Einen Schritt zeitlich verschieben** – über das Uhr-Symbol auf der Karte:
 
 1. Minuten eingeben (maximal 1440, also 24 Stunden).
@@ -485,6 +489,18 @@ Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schri
 ## 11. Erinnerungen auf dem Sperrbildschirm
 
 Jede Erinnerung erscheint als Mitteilung mit dem Titel **„Backhinweis“**, dem Untertitel „Gedrückt halten für Erledigt oder Verschieben“ und dem Schritttext als Inhalt.
+
+**Zutaten in der Erinnerung.** Gehört der Schritt zum Anmischen einer Komponente, stehen unter dem Schritttext die Zutaten dieser Komponente mit ihren Mengen – dieselben, die in „Geplante Schritte“ hinter dem i-Symbol liegen:
+
+> **Backhinweis**
+> Vorteig A herstellen
+>
+> Zutaten für „Vorteig A“:
+> • 200 g Weizenmehl 550
+> • 200 g Wasser
+> • 2 g Hefe
+
+Das Banner zeigt nur die ersten Zeilen. Halte die Mitteilung gedrückt oder klappe sie im Mitteilungszentrum auf, um die ganze Liste zu sehen. Die Mengen entsprechen der Portionsgröße, die beim Setzen der Reminder in der Backanleitung gewählt war.
 
 **Halte die Mitteilung gedrückt**, um zwei Aktionen zu erhalten:
 
@@ -782,6 +798,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Backpause, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt, rechnet ihn aber nicht um – einen Schritt aus der Nacht in den Morgen zu holen bleibt Deine Aufgabe.
 - **Ein Rezept kann nur einen Plan haben.** Erneutes „Reminder setzen“ ersetzt den vorherigen Plan; zwei Termine für dasselbe Rezept gleichzeitig sind nicht möglich.
 - **Änderst Du ein Rezept nach dem Planen** (Schritte, Dauern), bleibt der bereits gesetzte Plan unverändert stehen – geplante Schritte sind eine Momentaufnahme. Setz die Reminder neu, damit die Änderung wirkt.
+- **Die Zutaten in einer Erinnerung** werden beim Setzen der Reminder festgeschrieben. Änderst Du danach Zutaten oder Portionsgröße, zeigt die Erinnerung weiterhin die alten Mengen; das i-Symbol in „Geplante Schritte“ liest dagegen immer den aktuellen Stand des Rezepts. Erinnerungen, die vor diesem Update gesetzt wurden, enthalten noch keine Zutaten – einmal neu planen genügt.
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
 - **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Reminder setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
