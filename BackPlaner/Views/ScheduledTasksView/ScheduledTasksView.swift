@@ -172,33 +172,45 @@ struct ScheduledTasksView: View {
                             .accessibilityLabel("Schritt zeitlich verschieben")
                         }
 
+                        // Every part keeps its natural width. These used to be
+                        // `Label`s, which are greedy horizontally: with layout
+                        // priorities the two of them shared the row and the
+                        // date in between was squeezed to "09…" as soon as a
+                        // 12-hour time like "12:34 AM" got wide. Plain stacks
+                        // of icon and text have no such appetite, and
+                        // `fixedSize()` on a `Label` collapses its title
+                        // instead of protecting it.
                         HStack(spacing: 6) {
-                            Label {
-                                Text(nextStep.date, style: .time)
-                            } icon: {
+                            HStack(spacing: 4) {
                                 Image(systemName: "clock.fill")
+                                Text(nextStep.date, style: .time)
+                                    .lineLimit(1)
+                                    .fixedSize()
                             }
                             .font(Theme.brandFont(15))
                             // The foreground accent, not the gradient one: this
                             // text also has to clear 4.5:1 against its own tint.
                             .foregroundColor(Theme.accentText)
-                            .lineLimit(1)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
                             .background(Theme.accentText.opacity(0.12), in: Capsule())
-                            .layoutPriority(1)
 
                             Text(shortDate(nextStep.date))
                                 .font(Theme.bodyFont(15))
                                 .foregroundColor(Theme.subtitle)
                                 .lineLimit(1)
+                                .fixedSize()
 
-                            Label(Rational.displayHoursMinutes(nextStep.duration),
-                                  systemImage: "hourglass")
-                                .font(Theme.bodyFont(13))
-                                .foregroundColor(Theme.subtitle)
-                                .lineLimit(1)
-                                .layoutPriority(1)
+                            HStack(spacing: 4) {
+                                Image(systemName: "hourglass")
+                                Text(Rational.displayHoursMinutes(nextStep.duration))
+                                    .lineLimit(1)
+                                    .fixedSize()
+                            }
+                            .font(Theme.bodyFont(13))
+                            .foregroundColor(Theme.subtitle)
+
+                            Spacer(minLength: 0)
                         }
 
                         Text(nextStep.instruction)
