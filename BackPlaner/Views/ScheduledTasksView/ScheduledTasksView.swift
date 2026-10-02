@@ -44,6 +44,7 @@ struct ScheduledTasksView: View {
     @State private var dateTime          = GlobalVariables.dateTimePicker
     @State private var deleteHaptic      = false
     @State private var doneHaptic        = false
+    @State private var showingBakeMode   = false
     @State private var shiftSelection: ScheduledStepShiftSelection?
     @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
     @State private var showingShiftError = false
@@ -96,6 +97,8 @@ struct ScheduledTasksView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
+
+            bakeModeButton
 
             List {
 
@@ -325,6 +328,11 @@ struct ScheduledTasksView: View {
             }
             .presentationDetents([.medium])
         }
+        .fullScreenCover(isPresented: $showingBakeMode) {
+            BakeModeView(recipeFilter: recipeFilter)
+                .environment(\.managedObjectContext, managedObjectContext)
+                .environmentObject(model)
+        }
         .sheet(item: $ingredientsSelection) { selection in
             ScheduledStepIngredientsSheet(
                 recipeName: selection.recipeName,
@@ -346,6 +354,32 @@ struct ScheduledTasksView: View {
             }
         }
         .onAppear() {  }
+    }
+
+    /// Opens the kitchen view of the plan — one step at a time in large type.
+    /// Respects the recipe filter above it.
+    private var bakeModeButton: some View {
+        Button {
+            showingBakeMode = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "oven.fill")
+                    .font(.system(size: 17, weight: .semibold))
+                Text("Backmodus starten")
+                    .font(Theme.brandFont(16))
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .accessibilityHidden(true)
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Theme.accent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, 12)
+        .padding(.top, 8)
     }
 
     /// Horizontal chips to narrow the list down to a single planned recipe.

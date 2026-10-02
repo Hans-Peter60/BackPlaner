@@ -51,19 +51,10 @@ struct NextStepCardView: View {
         return steps.first(where: { $0.date > now })
     }
 
-    /// "17 Min.", "2 Std., 15 Min." or "1 Tag, 3 Std." — never seconds, which
-    /// `Text(_:style: .relative)` would tick off one by one under an hour and
-    /// make the card restless.
+    /// Never seconds, which `Text(_:style: .relative)` would tick off one by
+    /// one under an hour and make the card restless.
     private func distanceText(from now: Date, to date: Date) -> String {
-        let seconds = max(60, abs(date.timeIntervalSince(now)).rounded(.up))
-        // The in-app language, not the device's: `formatted` does not see the
-        // locale SwiftUI carries in its environment.
-        return Duration.seconds(seconds).formatted(
-            .units(allowed: [.days, .hours, .minutes],
-                   width: .abbreviated,
-                   maximumUnitCount: 2)
-            .locale(AppSettings.locale)
-        )
+        StepTiming.distanceText(from: now, to: date)
     }
 
     private func card(for step: NextStep, now: Date) -> some View {
@@ -128,16 +119,7 @@ struct NextStepCardView: View {
         .accessibilityHint("Öffnet die geplanten Schritte")
     }
 
-    /// "Heute", "Morgen", or the short date for anything further away.
     private func dayLabel(for date: Date, now: Date) -> Text {
-        let calendar = Calendar.current
-        if calendar.isDate(date, inSameDayAs: now) {
-            return Text("Heute")
-        }
-        if let tomorrow = calendar.date(byAdding: .day, value: 1, to: now),
-           calendar.isDate(date, inSameDayAs: tomorrow) {
-            return Text("Morgen")
-        }
-        return Text(date, format: .dateTime.day().month())
+        StepTiming.dayLabel(for: date, now: now)
     }
 }

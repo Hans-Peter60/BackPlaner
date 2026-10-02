@@ -491,6 +491,18 @@ Les mêmes étapes sur un axe temporel vertical. L’horodatage figure à gauche
 
 Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape planifiée — Définissez un rappel dans les instructions de cuisson d’une recette. »
 
+### Mode cuisson
+
+Pour le travail en cuisine, un bouton **Démarrer le mode cuisson** se trouve au-dessus de la liste. Il ouvre l’étape en cours en plein écran et en grands caractères : en haut le nom de la recette et « Étape 3 sur 12 », en dessous l’heure avec un compte à rebours (« dans 42 min ») ou « depuis 5 min » dès que l’étape est due, puis le texte de l’étape. Si l’étape mélange un composant, ses ingrédients et quantités suivent juste en dessous — les mêmes que derrière le symbole i.
+
+En bas se trouvent de grands boutons que l’on atteint même avec de la farine sur les mains :
+
+- **Retour** et **Suivant** parcourent toutes les étapes du plan.
+- **Lire à voix haute** énonce l’étape et, le cas échéant, les ingrédients par le haut-parleur, dans la langue de l’app choisie. Une seconde pression (**Stop**) interrompt. La lecture fonctionne aussi appareil en mode silencieux.
+- **Terminé** retire l’étape et son rappel du plan et passe à la suivante.
+
+Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de recette de la liste. Tant qu’il est ouvert, l’écran reste allumé. **Fermer** en haut à droite ramène à la liste.
+
 ### Le widget « Prochaine étape de cuisson »
 
 Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la carte « À suivre » du menu principal — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».

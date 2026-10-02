@@ -491,6 +491,18 @@ The same steps as a vertical time axis. The timestamp is on the left — with we
 
 With no steps scheduled, both views read: "No scheduled steps — Set a reminder in a recipe's baking instructions."
 
+### Bake mode
+
+For working in the kitchen there is a **Start bake mode** button above the list. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.
+
+At the bottom sit large buttons that can be hit with flour on your hands:
+
+- **Back** and **Next** page through every step of the plan.
+- **Read aloud** speaks the step and, where present, the ingredients through the speaker in the app language you have set. A second tap (**Stop**) cancels. Speech also plays while the device is muted.
+- **Done** removes the step together with its reminder and jumps to the next one.
+
+Bake mode opens on the step that is up right now and respects the list's recipe filter. While it is open, the screen stays on. **Close** at the top right returns to the list.
+
 ### The "Next baking step" widget
 
 You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" card in the main menu — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.

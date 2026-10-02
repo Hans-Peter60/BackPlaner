@@ -5795,6 +5795,82 @@
         }
       }
     },
+    "Backmodus" : {
+      "comment" : "Title of the kitchen view that shows one planned step at a time.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bake mode" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mode cuisson" } }
+      }
+    },
+    "Backmodus starten" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start bake mode" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Démarrer le mode cuisson" } }
+      }
+    },
+    "Schritt %lld von %lld" : {
+      "comment" : "Position of the shown step within the plan, e.g. 'Schritt 3 von 12'.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Step %1$lld of %2$lld" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Étape %1$lld sur %2$lld" } }
+      }
+    },
+    "Zurück" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Back" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Retour" } }
+      }
+    },
+    "Weiter" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Suivant" } }
+      }
+    },
+    "Vorlesen" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Read aloud" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Lire à voix haute" } }
+      }
+    },
+    "Stopp" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stop" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Stop" } }
+      }
+    },
+    "Schritt vorlesen" : {
+      "comment" : "Accessibility label of the read-aloud button in bake mode.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Read the step aloud" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Lire l’étape à voix haute" } }
+      }
+    },
+    "Vorlesen beenden" : {
+      "comment" : "Accessibility label of the read-aloud button while speaking.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stop reading aloud" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Arrêter la lecture" } }
+      }
+    },
+    "Vorheriger Schritt" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Previous step" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Étape précédente" } }
+      }
+    },
+    "Nächster Schritt" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next step" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Étape suivante" } }
+      }
+    },
+    "Schließen" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Fermer" } }
+      }
+    },
     "Schritt als erledigt markieren" : {
       "comment" : "Accessibility label of the checkmark button on a planned-step card.",
       "localizations" : {
