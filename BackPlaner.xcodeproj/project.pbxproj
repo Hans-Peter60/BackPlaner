@@ -39,6 +39,7 @@
 		6A11322B2B7CF99800CDF054 /* ShowBigImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */; };
 		6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1132282B7CF99800CDF054 /* RecipeTagsView.swift */; };
 		6A26154E306F9534007644AB /* ScheduledStepComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26154D306F9534007644AB /* ScheduledStepComponent.swift */; };
+		6A261550306FA8CD007644AB /* NextStepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26154F306FA8CD007644AB /* NextStepCardView.swift */; };
 		6A2FC15A304ACE2C0084866D /* RecipeTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */; };
 		6A4816EE3041D48000011A56 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816ED3041D48000011A56 /* FirebaseFirestore */; };
 		6A4816F03041D49900011A56 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816EF3041D49900011A56 /* FirebaseStorage */; };
@@ -145,6 +146,7 @@
 		6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowBigImageView.swift; sourceTree = "<group>"; };
 		6A1132282B7CF99800CDF054 /* RecipeTagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeTagsView.swift; sourceTree = "<group>"; };
 		6A26154D306F9534007644AB /* ScheduledStepComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledStepComponent.swift; sourceTree = "<group>"; };
+		6A26154F306FA8CD007644AB /* NextStepCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextStepCardView.swift; sourceTree = "<group>"; };
 		6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTranslator.swift; sourceTree = "<group>"; };
 		6A4816F13041DB3600011A56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A481DA83047040500362FFB /* BackPlaner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlaner.entitlements; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				6A5055ED304D684600F8E804 /* InstructionSchedulingControlsView.swift */,
 				6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */,
 				6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */,
+				6A26154F306FA8CD007644AB /* NextStepCardView.swift */,
 			);
 			path = UtilityViews;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				6A1132292B7CF99800CDF054 /* RatingStarsView.swift in Sources */,
 				6A2FC15A304ACE2C0084866D /* RecipeTranslator.swift in Sources */,
 				6A26154E306F9534007644AB /* ScheduledStepComponent.swift in Sources */,
+				6A261550306FA8CD007644AB /* NextStepCardView.swift in Sources */,
 				6A1131F42B7CF93300CDF054 /* RecipeFBListView.swift in Sources */,
 				6A11320E2B7CF95A00CDF054 /* AddRecipeView.swift in Sources */,
 				6A895D19304BC2EA00603AA5 /* AdaptiveLayout.swift in Sources */,

@@ -66,6 +66,10 @@ struct ContentView: View {
 
                     header
 
+                    // Only present while a step is ahead or just due, so the
+                    // menu is unchanged for anyone without a plan.
+                    NextStepCardView()
+
                     // An eager Grid, not a LazyVGrid: a lazy one reports its
                     // size only once its cells exist, which on iPad arrives a
                     // layout pass too late.

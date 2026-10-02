@@ -124,6 +124,8 @@ Nach dem Start erscheint das Hauptmenü mit acht Karten:
 | **Einkaufsliste** | Alle angelegten Einkaufslisten |
 | **Einstellungen** | Sprache, Standardwerte, Backplanung, Konto |
 
+**Die Karte „Als Nächstes“.** Sobald ein Backplan läuft, erscheint über den acht Karten eine zusätzliche Karte mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Ist die Zeit eines Schritts gekommen, wechselt die Karte für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Karte öffnet „Geplante Schritte“. Ohne anstehenden Schritt bleibt die Karte verborgen, und das Menü sieht aus wie oben abgebildet.
+
 Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmenü.
 
 ---

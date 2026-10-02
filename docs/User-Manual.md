@@ -127,6 +127,8 @@ After launch the main menu appears with eight cards:
 | **Shopping list** | All the shopping lists you've created |
 | **Settings** | Language, defaults, baking plan, account |
 
+**The "Up next" card.** As soon as a baking plan is running, an extra card appears above the eight cards with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). When a step's time has come, the card switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the card opens "Scheduled steps". With no step ahead the card stays hidden and the menu looks as pictured above.
+
 The back arrow at the top left returns you to the main menu from anywhere.
 
 ---

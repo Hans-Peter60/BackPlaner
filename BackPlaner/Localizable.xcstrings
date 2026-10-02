@@ -615,6 +615,123 @@
         }
       }
     },
+    "Als Nächstes" : {
+      "comment" : "Eyebrow of the main-menu card showing the next planned step.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up next"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À suivre"
+          }
+        }
+      }
+    },
+    "Jetzt fällig" : {
+      "comment" : "Eyebrow of the main-menu card when the planned step's time has come.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
+    "in %@" : {
+      "comment" : "Countdown on the main-menu card; %@ is a relative duration like '42 min'.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "in %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %@"
+          }
+        }
+      }
+    },
+    "seit %@" : {
+      "comment" : "Elapsed time on the main-menu card once a step is due; %@ is a relative duration like '5 min'.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ago"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "depuis %@"
+          }
+        }
+      }
+    },
+    "Heute" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aujourd’hui"
+          }
+        }
+      }
+    },
+    "Morgen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demain"
+          }
+        }
+      }
+    },
+    "Öffnet die geplanten Schritte" : {
+      "comment" : "Accessibility hint of the main-menu card showing the next planned step.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the scheduled steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les étapes planifiées"
+          }
+        }
+      }
+    },
     "Als öffentliches Rezept speichern" : {
       "localizations" : {
         "en" : {

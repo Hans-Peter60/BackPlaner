@@ -127,6 +127,8 @@ Au lancement, le menu principal apparaît avec huit cartes :
 | **Liste de courses** | Toutes les listes de courses créées |
 | **Réglages** | Langue, valeurs par défaut, planification, compte |
 
+**La carte « À suivre ».** Dès qu’un plan de cuisson est en cours, une carte supplémentaire apparaît au-dessus des huit cartes avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Quand l’heure d’une étape est arrivée, la carte passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la carte ouvre « Étapes planifiées ». Sans étape à venir, la carte reste masquée et le menu ressemble à l’illustration ci-dessus.
+
 La flèche de retour en haut à gauche vous ramène au menu principal depuis n’importe quelle section.
 
 ---
