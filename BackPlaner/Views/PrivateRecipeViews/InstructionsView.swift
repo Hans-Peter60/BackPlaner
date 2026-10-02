@@ -31,6 +31,16 @@ struct InstructionsView: View {
     @State private var reminderOvenOnText         = ""
     @State private var reminderFinishText         = ""
     @State private var instructions = [Instruction]()
+    /// Asks whether a new plan replaces the recipe's existing one or joins it.
+    @State private var showingPlanChoice = false
+
+    /// Whether the recipe already has planned steps.
+    private var hasExistingPlan: Bool {
+        let request = NextStep.fetchRequest()
+        request.predicate = NSPredicate(format: "recipeName == %@", recipe.name)
+        request.fetchLimit = 1
+        return ((try? viewContext.count(for: request)) ?? 0) > 0
+    }
 
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
@@ -274,202 +284,24 @@ struct InstructionsView: View {
                 // MARK: Reminder setzen
                 HStack {
                     IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
-
-                        // Check the plan before anything is generated. Overlapping
-                        // bakes are an error and stop the scheduling; the remaining
-                        // findings are hints and travel with the summary alert.
-                            let issues = currentPlanIssues()
-                            planIssues = issues
-
-                            let planErrors = issues.filter { $0.severity == .error }
-                            if !planErrors.isEmpty {
-                                planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
-                                showingPlanError = true
-                                return
-                            }
-
-                            reminderHintText = issues
-                                .filter { $0.severity == .hint }
-                                .map(\.message)
-                                .joined(separator: "\n\n")
-
-                        // Reminders are set whenever the button is pressed
-                            let originalStepCount = recipe.instructionsArray.count
-
-                            recipe.bakeHistoryFlag = true
-
-                            var bakeStartTime = 0
-                            let explicitPreheatInstruction = recipe.instructionsArray.first {
-                                isExplicitPreheatInstruction($0.instruction)
-                            }
-                            let bakingInstructionIndex = recipe.instructionsArray.firstIndex {
-                                isBakingStartInstruction($0.instruction)
-                            } ?? max(recipe.instructionsArray.count - 1, 0)
-                            let bakingInstructionText = recipe.instructionsArray.indices.contains(bakingInstructionIndex)
-                                ? recipe.instructionsArray[bakingInstructionIndex].instruction
-                                : ""
-                            let preheatDuration = explicitPreheatInstruction == nil
-                                ? effectivePreheatTime(for: bakingInstructionText)
-                                : 0
-
-                            // MARK: Notifications einsetzen
-                            for i in 0..<recipe.instructionsArray.count {
-
-                                // A step that mixes a component carries that
-                                // component's ingredients in its reminder, in
-                                // the serving size chosen above.
-                                let instruction = recipe.instructionsArray[i]
-                                let ingredientsText = ScheduledStepComponent.column(
-                                    for: recipe,
-                                    instruction: instruction,
-                                    instructionText: instruction.instruction
-                                ).flatMap {
-                                    ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale)
-                                }
-
-                                if dateTimeStartSelection == 0 {
-                                    // Start
-                                    let _ = manager.setNotification(recipe.reminderId,
-                                                                    recipe.instructionsArray[i].instruction,
-                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime, dateTime, true,
-                                                                    details: ingredientsText)
-                                }
-                                else {
-                                    // Ende
-                                    let _ = manager.setNotification(recipe.reminderId,
-                                                                    recipe.instructionsArray[i].instruction,
-                                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
-                                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true,
-                                                                    details: ingredientsText)
-                                }
-
-                                // Baking may have multiple phases (for example, covered and
-                                // uncovered). The first actual oven step defines its start.
-                                if i == bakingInstructionIndex {
-                                    
-                                    if dateTimeStartSelection == 0 {
-
-                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration
-                                    }
-                                    else {
-                                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration - recipe.prepTime
-                                    }
-                                }
-                            }
-                            showingNotificationMessage = true
-
-                            let generatedStepTexts = AppSettings.generatedStepTexts(languageCode: locale.identifier)
-                            let startHeatingText = ovenStartText(
-                                baseText: generatedStepTexts.startHeating,
-                                bakingInstruction: bakingInstructionText
-                            )
-                            let bakeEndText = generatedStepTexts.bakeEnd
-
-                            // MARK: Step und Notification für das Einschalten des Backofens einstellen
-                            let generatedOvenInstruction: Instruction?
-                            let ovenOnDate: Date
-                            if let explicitPreheatInstruction {
-                                generatedOvenInstruction = nil
-                                let offset = dateTimeStartSelection == 0
-                                    ? explicitPreheatInstruction.startTime
-                                    : explicitPreheatInstruction.startTime - recipe.prepTime
-                                ovenOnDate = Calendar.current.date(
-                                    byAdding: .minute,
-                                    value: offset,
-                                    to: dateTime
-                                ) ?? dateTime
-                            } else {
-                                let ovenInstruction = Instruction(context: viewContext)
-                                ovenInstruction.id = UUID()
-                                ovenInstruction.instruction = startHeatingText
-                                for index in 0..<recipe.instructionsArray.count {
-                                    if bakeStartTime < recipe.instructionsArray[index].startTime {
-                                        ovenInstruction.step = recipe.instructionsArray[index].step - 0.1
-                                    }
-                                }
-
-                                ovenOnDate = manager.setNotification(
-                                    recipe.reminderId,
-                                    startHeatingText,
-                                    String(ovenInstruction.step),
-                                    bakeStartTime,
-                                    dateTime,
-                                    true
-                                )
-                                ovenInstruction.startTime = dateTimeStartSelection == 0
-                                    ? bakeStartTime
-                                    : bakeStartTime + recipe.prepTime
-                                ovenInstruction.duration = preheatDuration
-                                generatedOvenInstruction = ovenInstruction
-                            }
-
-                            // MARK: Step und Notification für das Ende des Backens einstellen
-                            let i2         = Instruction(context: viewContext)
-                            i2.id          = UUID()
-                            i2.instruction = bakeEndText
-                            i2.step        = 99
-                            i2.duration    = 0
-                            
-                            // The finish step always sits prepTime after the plan's
-                            // start. uploadNextSteps moves the base date back by
-                            // prepTime for "Fertig bis", so this single value gives
-                            // the correct scheduled step in both modes. The reminder
-                            // is relative to the unshifted date and therefore needs
-                            // its own offset — using i2.startTime for both put the
-                            // step prepTime minutes ahead of its own reminder.
-                            i2.startTime = recipe.prepTime
-
-                            let bakeEndOffset = dateTimeStartSelection == 0 ? recipe.prepTime : 0
-                            endDate = manager.setNotification(recipe.reminderId, bakeEndText, "99", bakeEndOffset, dateTime, true)
-
-                            if let generatedOvenInstruction {
-                                recipe.addToInstructions(generatedOvenInstruction)
-                            }
-                            recipe.addToInstructions(i2)
-
-                            // Save to core data
-                            viewContext.performAndWait {
-                                
-                                try? viewContext.save()
-                            }
-
-                            // MARK: NextSteps sichern
-                            // planBaseDate already moves "Fertig bis" back by
-                            // prepTime, so the picker keeps showing the date the
-                            // user chose and the plan check stays in sync with it.
-                            uploadNextSteps(recipe: recipe, date: planBaseDate)
-
-                            // MARK: BakeHistory sichern
-                            let bakeHistory     = BakeHistory(context: viewContext)
-                            bakeHistory.date    = endDate
-                            bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
-                            
-                            recipe.addToBakeHistories(bakeHistory)
-
-                            // Save to core data
-                            viewContext.performAndWait {
-                                
-                                try? viewContext.save()
-                            }
-
-                            if let generatedOvenInstruction {
-                                viewContext.delete(generatedOvenInstruction)
-                            }
-                            viewContext.delete(i2)
-                            try? viewContext.save()
-
-                            // Build a human-readable summary of what was scheduled.
-                            let timeFormatter  = TimeCalculation()
-                            reminderCount = originalStepCount
-                                + (generatedOvenInstruction == nil ? 1 : 2)
-                            reminderOvenOnText = timeFormatter.calculateTime(t: ovenOnDate)
-                            reminderFinishText = timeFormatter.calculateTime(t: endDate)
-                            showingAlert       = true
-
-                            showingNotificationMessage = false
+                        if hasExistingPlan {
+                            showingPlanChoice = true
+                        } else {
+                            scheduleReminders(replaceExisting: true)
+                        }
                     }
                     .padding()
+                    .confirmationDialog("Für dieses Rezept gibt es schon einen Plan", isPresented: $showingPlanChoice, titleVisibility: .visible) {
+                        Button("Bestehenden Plan ersetzen", role: .destructive) {
+                            scheduleReminders(replaceExisting: true)
+                        }
+                        Button("Zusätzlich planen") {
+                            scheduleReminders(replaceExisting: false)
+                        }
+                        Button("Abbrechen", role: .cancel) { }
+                    } message: {
+                        Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
+                    }
                     .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
                         Button("OK", role: .cancel) { }
                     } message: {
@@ -693,21 +525,223 @@ struct InstructionsView: View {
     }
 
 
-    // MARK: uploadNextSteps
-    func uploadNextSteps(recipe: Recipe, date: Date) {
+    /// Sets the reminders and the planned steps for the date chosen above.
+    /// `replaceExisting` drops the recipe's earlier plans first; otherwise
+    /// the new plan stands beside them — Saturday's and Sunday's loaf.
+    private func scheduleReminders(replaceExisting: Bool) {
+        let planID = UUID()
+        // Reminder identifiers carry the plan, so two plans of one recipe
+        // never replace each other's notifications.
+        let planReminderID = "\(recipe.reminderId)-\(planID.uuidString)"
+        if replaceExisting {
+            removeExistingPlans(keeping: planID)
+        }
 
-        // A recipe has one plan at a time: its reminders share the identifier
-        // "Recipe-<recipe>-<step>", so iOS replaces them when the recipe is
-        // planned again. Drop the previous plan's steps as well — otherwise the
-        // list would show the old and the new schedule side by side while only
-        // the new reminders exist.
-        removeNextSteps(recipeName: recipe.name)
+
+        // Check the plan before anything is generated. Overlapping
+        // bakes are an error and stop the scheduling; the remaining
+        // findings are hints and travel with the summary alert.
+            let issues = currentPlanIssues()
+            planIssues = issues
+
+            let planErrors = issues.filter { $0.severity == .error }
+            if !planErrors.isEmpty {
+                planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
+                showingPlanError = true
+                return
+            }
+
+            reminderHintText = issues
+                .filter { $0.severity == .hint }
+                .map(\.message)
+                .joined(separator: "\n\n")
+
+        // Reminders are set whenever the button is pressed
+            let originalStepCount = recipe.instructionsArray.count
+
+            recipe.bakeHistoryFlag = true
+
+            var bakeStartTime = 0
+            let explicitPreheatInstruction = recipe.instructionsArray.first {
+                isExplicitPreheatInstruction($0.instruction)
+            }
+            let bakingInstructionIndex = recipe.instructionsArray.firstIndex {
+                isBakingStartInstruction($0.instruction)
+            } ?? max(recipe.instructionsArray.count - 1, 0)
+            let bakingInstructionText = recipe.instructionsArray.indices.contains(bakingInstructionIndex)
+                ? recipe.instructionsArray[bakingInstructionIndex].instruction
+                : ""
+            let preheatDuration = explicitPreheatInstruction == nil
+                ? effectivePreheatTime(for: bakingInstructionText)
+                : 0
+
+            // MARK: Notifications einsetzen
+            for i in 0..<recipe.instructionsArray.count {
+
+                // A step that mixes a component carries that
+                // component's ingredients in its reminder, in
+                // the serving size chosen above.
+                let instruction = recipe.instructionsArray[i]
+                let ingredientsText = ScheduledStepComponent.column(
+                    for: recipe,
+                    instruction: instruction,
+                    instructionText: instruction.instruction
+                ).flatMap {
+                    ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale)
+                }
+
+                if dateTimeStartSelection == 0 {
+                    // Start
+                    let _ = manager.setNotification(planReminderID,
+                                                    recipe.instructionsArray[i].instruction,
+                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                    recipe.instructionsArray[i].startTime, dateTime, true,
+                                                    details: ingredientsText)
+                }
+                else {
+                    // Ende
+                    let _ = manager.setNotification(planReminderID,
+                                                    recipe.instructionsArray[i].instruction,
+                                                    Rational.decimalPlace(recipe.instructionsArray[i].step, 10),
+                                                    recipe.instructionsArray[i].startTime - recipe.prepTime, dateTime, true,
+                                                    details: ingredientsText)
+                }
+
+                // Baking may have multiple phases (for example, covered and
+                // uncovered). The first actual oven step defines its start.
+                if i == bakingInstructionIndex {
+
+                    if dateTimeStartSelection == 0 {
+
+                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration
+                    }
+                    else {
+                        bakeStartTime = (recipe.instructionsArray[i].startTime) - preheatDuration - recipe.prepTime
+                    }
+                }
+            }
+            showingNotificationMessage = true
+
+            let generatedStepTexts = AppSettings.generatedStepTexts(languageCode: locale.identifier)
+            let startHeatingText = ovenStartText(
+                baseText: generatedStepTexts.startHeating,
+                bakingInstruction: bakingInstructionText
+            )
+            let bakeEndText = generatedStepTexts.bakeEnd
+
+            // MARK: Step und Notification für das Einschalten des Backofens einstellen
+            let generatedOvenInstruction: Instruction?
+            let ovenOnDate: Date
+            if let explicitPreheatInstruction {
+                generatedOvenInstruction = nil
+                let offset = dateTimeStartSelection == 0
+                    ? explicitPreheatInstruction.startTime
+                    : explicitPreheatInstruction.startTime - recipe.prepTime
+                ovenOnDate = Calendar.current.date(
+                    byAdding: .minute,
+                    value: offset,
+                    to: dateTime
+                ) ?? dateTime
+            } else {
+                let ovenInstruction = Instruction(context: viewContext)
+                ovenInstruction.id = UUID()
+                ovenInstruction.instruction = startHeatingText
+                for index in 0..<recipe.instructionsArray.count {
+                    if bakeStartTime < recipe.instructionsArray[index].startTime {
+                        ovenInstruction.step = recipe.instructionsArray[index].step - 0.1
+                    }
+                }
+
+                ovenOnDate = manager.setNotification(
+                    planReminderID,
+                    startHeatingText,
+                    String(ovenInstruction.step),
+                    bakeStartTime,
+                    dateTime,
+                    true
+                )
+                ovenInstruction.startTime = dateTimeStartSelection == 0
+                    ? bakeStartTime
+                    : bakeStartTime + recipe.prepTime
+                ovenInstruction.duration = preheatDuration
+                generatedOvenInstruction = ovenInstruction
+            }
+
+            // MARK: Step und Notification für das Ende des Backens einstellen
+            let i2         = Instruction(context: viewContext)
+            i2.id          = UUID()
+            i2.instruction = bakeEndText
+            i2.step        = 99
+            i2.duration    = 0
+
+            // The finish step always sits prepTime after the plan's
+            // start. uploadNextSteps moves the base date back by
+            // prepTime for "Fertig bis", so this single value gives
+            // the correct scheduled step in both modes. The reminder
+            // is relative to the unshifted date and therefore needs
+            // its own offset — using i2.startTime for both put the
+            // step prepTime minutes ahead of its own reminder.
+            i2.startTime = recipe.prepTime
+
+            let bakeEndOffset = dateTimeStartSelection == 0 ? recipe.prepTime : 0
+            endDate = manager.setNotification(planReminderID, bakeEndText, "99", bakeEndOffset, dateTime, true)
+
+            if let generatedOvenInstruction {
+                recipe.addToInstructions(generatedOvenInstruction)
+            }
+            recipe.addToInstructions(i2)
+
+            // Save to core data
+            viewContext.performAndWait {
+
+                try? viewContext.save()
+            }
+
+            // MARK: NextSteps sichern
+            // planBaseDate already moves "Fertig bis" back by
+            // prepTime, so the picker keeps showing the date the
+            // user chose and the plan check stays in sync with it.
+            uploadNextSteps(recipe: recipe, date: planBaseDate, planID: planID)
+
+            // MARK: BakeHistory sichern
+            let bakeHistory     = BakeHistory(context: viewContext)
+            bakeHistory.date    = endDate
+            bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
+
+            recipe.addToBakeHistories(bakeHistory)
+
+            // Save to core data
+            viewContext.performAndWait {
+
+                try? viewContext.save()
+            }
+
+            if let generatedOvenInstruction {
+                viewContext.delete(generatedOvenInstruction)
+            }
+            viewContext.delete(i2)
+            try? viewContext.save()
+
+            // Build a human-readable summary of what was scheduled.
+            let timeFormatter  = TimeCalculation()
+            reminderCount = originalStepCount
+                + (generatedOvenInstruction == nil ? 1 : 2)
+            reminderOvenOnText = timeFormatter.calculateTime(t: ovenOnDate)
+            reminderFinishText = timeFormatter.calculateTime(t: endDate)
+            showingAlert       = true
+
+            showingNotificationMessage = false
+    }
+
+    // MARK: uploadNextSteps
+    func uploadNextSteps(recipe: Recipe, date: Date, planID: UUID) {
 
         for i in recipe.instructionsArray {
 
             let n = NextStep(context: viewContext)
 
             n.id          = UUID()
+            n.planID      = planID
             n.recipeName  = recipe.name
             n.instruction = i.instruction
             n.step        = i.step
@@ -726,18 +760,27 @@ struct InstructionsView: View {
         }
     }
         
-    /// Deletes the scheduled steps of an earlier plan for the same recipe.
-    /// Steps reference their recipe by name, as everywhere else in the app.
-    func removeNextSteps(recipeName: String) {
+    /// Drops every earlier plan of this recipe — its scheduled steps and their
+    /// reminders — before a replacing plan is written. The reminders are
+    /// matched by identifier prefix, which the new plan's `planID` keeps out
+    /// of: cancelling runs asynchronously and would otherwise catch the
+    /// reminders being created right now.
+    func removeExistingPlans(keeping planID: UUID) {
 
         let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@", recipeName)
+        request.predicate = NSPredicate(format: "recipeName == %@", recipe.name)
 
-        guard let previousSteps = try? viewContext.fetch(request) else { return }
-
-        for step in previousSteps {
-            viewContext.delete(step)
+        if let previousSteps = try? viewContext.fetch(request) {
+            for step in previousSteps {
+                viewContext.delete(step)
+            }
+            try? viewContext.save()
         }
+
+        NotificationActions.cancelPendingNotifications(
+            withIdentifierPrefix: "Recipe-\(recipe.reminderId)-",
+            excludingContaining: planID.uuidString
+        )
     }
 
     func setGlobalDateTime(_ date: Date) {

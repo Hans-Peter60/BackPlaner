@@ -362,10 +362,10 @@ enum NotificationActions {
 
             if includeFollowing, let recipeName {
                 let request = NextStep.fetchRequest()
-                request.predicate = NSPredicate(
-                    format: "recipeName == %@ AND date > %@",
-                    recipeName,
-                    metadata.scheduledDate as NSDate
+                request.predicate = followingStepsPredicate(
+                    recipeName: recipeName,
+                    after: metadata.scheduledDate,
+                    planID: currentStep?.planID
                 )
                 if let followingSteps = try? context.fetch(request) {
                     for step in followingSteps {
@@ -490,6 +490,32 @@ enum NotificationActions {
         )
     }
 
+    /// Cancels every pending reminder whose identifier starts with `prefix`
+    /// — all plans of one recipe — except those carrying `excluded`, the
+    /// plan being created at the same moment.
+    static func cancelPendingNotifications(withIdentifierPrefix prefix: String, excludingContaining excluded: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let identifiers = requests
+                .map(\.identifier)
+                .filter { $0.hasPrefix(prefix) && !$0.contains(excluded) }
+            guard !identifiers.isEmpty else { return }
+            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+    }
+
+    /// The later steps of the same plan. A plan is told apart by `planID`;
+    /// steps planned before that attribute existed have none and count as
+    /// one plan per recipe.
+    private static func followingStepsPredicate(recipeName: String, after date: Date, planID: UUID?) -> NSPredicate {
+        if let planID {
+            return NSPredicate(format: "recipeName == %@ AND date > %@ AND planID == %@",
+                               recipeName, date as NSDate, planID as CVarArg)
+        }
+        return NSPredicate(format: "recipeName == %@ AND date > %@ AND planID == nil",
+                           recipeName, date as NSDate)
+    }
+
     /// Cancels the pending reminder that belongs to a scheduled step, so a
     /// reminder never outlives the step it was created for.
     ///
@@ -561,6 +587,7 @@ enum NotificationActions {
         let timeShift = TimeInterval(minutes * 60)
         let originalDate = step.date
         let recipeName = step.recipeName
+        let planID = step.planID
         let instruction = step.instruction
         let shiftedDate = originalDate.addingTimeInterval(timeShift)
 
@@ -578,10 +605,10 @@ enum NotificationActions {
 
             if includeFollowing, let context {
                 let request = NextStep.fetchRequest()
-                request.predicate = NSPredicate(
-                    format: "recipeName == %@ AND date > %@",
-                    recipeName,
-                    originalDate as NSDate
+                request.predicate = followingStepsPredicate(
+                    recipeName: recipeName,
+                    after: originalDate,
+                    planID: planID
                 )
                 if let followingSteps = try? context.fetch(request) {
                     for followingStep in followingSteps {

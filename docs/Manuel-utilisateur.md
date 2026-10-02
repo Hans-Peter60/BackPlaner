@@ -312,7 +312,7 @@ Une confirmation apparaît ensuite, par exemple :
 
 Les textes « allumer le four » et « la cuisson est terminée » apparaissent dans la langue active (pour les recettes publiques, dans la langue dans laquelle vous consultez la recette).
 
-> **Une recette n’a jamais qu’un seul plan.** Si vous touchez de nouveau « Définir un rappel » — parce que vous voulez décaler le pain d’un jour, par exemple —, le nouveau plan remplace intégralement l’ancien : les anciennes étapes disparaissent de « Étapes planifiées » et les anciens rappels sont remplacés. Aucun doublon n’apparaît donc. En contrepartie : une même recette ne peut pas être planifiée deux fois en parallèle pour deux dates différentes.
+> **Une recette, un plan — ou plusieurs.** Si vous touchez « Définir un rappel » alors qu’un plan est déjà en cours pour cette recette, l’app vous demande : **Remplacer le plan existant** écarte les anciennes étapes et leurs rappels et met le nouveau plan à leur place — la voie à suivre pour décaler le pain à un autre jour. **Planifier en plus** conserve le plan existant et place le nouveau à côté, pour samedi et dimanche par exemple. Dans « Étapes planifiées », chaque plan reçoit alors sa propre puce de filtre avec son heure de début, et « Décaler » comme « Supprimer » n’agissent que sur le plan sélectionné.
 
 > **Pour l’Apple Watch : définissez les rappels sur l’iPhone.** Les rappels sont créés sur l’appareil où vous touchez « Définir un rappel » et y restent. Seul un iPhone transmet ses notifications à une Apple Watch jumelée — un iPad n’est pas jumelé à la montre et ne peut pas le faire. Si vous planifiez sur l’iPad, les rappels de cuisson n’apparaissent donc que sur l’iPad, même si vous portez une Apple Watch.
 >
@@ -819,7 +819,7 @@ Elles n’apparaissent que si vous êtes connecté : *Réglages → Compte → S
 Vous avez choisi « Privé » comme emplacement sans être connecté. Connectez-vous via la feuille qui apparaît, et l’enregistrement se poursuit. Sans compte, la recette serait introuvable après une réinstallation — c’est pourquoi l’app ne procède pas autrement.
 
 **J’ai touché « Définir un rappel » deux fois par erreur.**
-Ce n’est pas un problème : le second plan remplace le premier, et les étapes comme les rappels restent sans ambiguïté. Si vous voulez annuler la planification entièrement, supprimez les étapes de la recette dans « Étapes planifiées » (balayage vers la gauche).
+Au second toucher, l’app demande si le nouveau plan doit remplacer l’existant ou s’ajouter à lui. Si vous avez choisi « Planifier en plus » alors que vous ne vouliez qu’un seul plan, sélectionnez le plan en trop dans « Étapes planifiées » via sa puce et supprimez-le avec la corbeille via « Supprimer seulement “…” ».
 
 **Je veux planifier la même recette pour deux dates différentes.**
 Ce n’est pas possible — chaque recette a un plan, et le second remplace le premier. Comme contournement, vous pouvez dupliquer la recette sous un autre nom et planifier les deux séparément : l’enregistrer **en privé dans le cloud**, la récupérer avec « Enregistrer comme ma recette », la renommer. Le doublon reste ainsi hors de la base publique.
@@ -851,7 +851,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **Les recettes privées dans le cloud exigent une connexion avec Apple** et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.
 - **La suppression du compte laisse les recettes publiées dans la base.** Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.
 - **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.
-- **Une recette ne peut avoir qu’un seul plan.** Définir de nouveau les rappels remplace le plan précédent ; deux dates simultanées pour la même recette sont impossibles.
+- **Les plans définis avant cette mise à jour** ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.
 - **Si vous modifiez une recette après l’avoir planifiée** (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton **Replanifier**, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.
 - **Les ingrédients d’un rappel** sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.
 - Les étapes planifiées sont rattachées aux recettes par le **nom de la recette**. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.

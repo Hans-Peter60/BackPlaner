@@ -309,7 +309,7 @@ Anschließend erscheint eine Bestätigung, zum Beispiel:
 
 Die Texte „Backofen anstellen“ und „Backvorgang ist beendet“ erscheinen in der gerade aktiven Sprache (bei öffentlichen Rezepten in der Sprache, in der Du das Rezept ansiehst).
 
-> **Ein Rezept hat immer genau einen Plan.** Tippst Du erneut auf „Reminder setzen“ – etwa weil Du das Brot auf einen anderen Tag verschieben willst –, ersetzt der neue Plan den alten vollständig: die alten Schritte verschwinden aus „Geplante Schritte“, und die alten Erinnerungen werden durch die neuen ersetzt. Es entstehen also keine Dubletten. Umgekehrt heißt das: dasselbe Rezept lässt sich nicht zweimal parallel für zwei verschiedene Termine einplanen.
+> **Ein Rezept, ein Plan – oder mehrere.** Tippst Du auf „Reminder setzen“, während für dieses Rezept schon ein Plan läuft, fragt die App: **Bestehenden Plan ersetzen** verwirft die alten Schritte samt Erinnerungen und setzt den neuen Plan an ihre Stelle – das ist der Weg, wenn Du das Brot auf einen anderen Tag verschieben willst. **Zusätzlich planen** behält den bestehenden Plan und legt den neuen daneben, etwa für Samstag und Sonntag. In „Geplante Schritte“ bekommt dann jeder Plan einen eigenen Filter-Chip mit seinem Startzeitpunkt, und „Verschieben“ sowie „Löschen“ wirken immer nur auf den gewählten Plan.
 
 > **Für die Apple Watch: setze die Reminder auf dem iPhone.** Die Erinnerungen werden auf dem Gerät erzeugt, auf dem Du „Reminder setzen“ tippst, und bleiben auch dort. Nur ein iPhone gibt seine Mitteilungen an eine gekoppelte Apple Watch weiter – ein iPad ist mit der Uhr nicht gekoppelt und kann das nicht. Planst Du also auf dem iPad, erscheinen die Backhinweise ausschließlich auf dem iPad, selbst wenn Du eine Apple Watch trägst.
 >
@@ -814,7 +814,7 @@ Sie erscheinen nur, wenn Du angemeldet bist: *Einstellungen → Konto → Mit Ap
 Du hast als Ablage „Privat“ gewählt, ohne angemeldet zu sein. Melde Dich über das erscheinende Blatt an, danach wird gespeichert. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar – deshalb lässt die App es nicht anders zu.
 
 **Ich habe versehentlich zweimal „Reminder setzen“ getippt.**
-Das ist unproblematisch: der zweite Plan ersetzt den ersten, Schritte und Erinnerungen bleiben eindeutig. Willst Du die Planung ganz zurücknehmen, lösche die Schritte des Rezepts in „Geplante Schritte“ (nach links wischen).
+Beim zweiten Tippen fragt die App, ob der neue Plan den bestehenden ersetzen oder zusätzlich angelegt werden soll. Hast Du „Zusätzlich planen“ gewählt, obwohl Du nur einen Plan wolltest, wähle in „Geplante Schritte“ den überzähligen Plan über seinen Chip aus und lösche ihn mit dem Papierkorb über „Nur ‚…‘ löschen“.
 
 **Ich will dasselbe Rezept für zwei verschiedene Termine einplanen.**
 Das geht nicht – jedes Rezept hat einen Plan, der zweite ersetzt den ersten. Als Umweg kannst Du das Rezept unter einem anderen Namen duplizieren und beide getrennt planen: **privat in der Cloud** speichern, über „Als eigenes Rezept speichern“ zurückholen, umbenennen. So bleibt die Dublette aus der öffentlichen Datenbank heraus.
@@ -846,7 +846,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Private Cloud-Rezepte brauchen eine Anmeldung mit Apple** und sind an dieses Konto gebunden. Ohne Anmeldung sind sie nicht sichtbar, mit einem anderen Apple-Konto ebenfalls nicht.
 - **Beim Löschen des Kontos bleiben veröffentlichte Rezepte in der Datenbank.** Sie gehören danach keinem Konto mehr und können nur noch von einem Administrator entfernt werden.
 - **Backpause, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt, rechnet ihn aber nicht um – einen Schritt aus der Nacht in den Morgen zu holen bleibt Deine Aufgabe.
-- **Ein Rezept kann nur einen Plan haben.** Erneutes „Reminder setzen“ ersetzt den vorherigen Plan; zwei Termine für dasselbe Rezept gleichzeitig sind nicht möglich.
+- **Pläne, die vor diesem Update gesetzt wurden,** tragen noch keine Plan-Kennung und gelten gemeinsam als ein Plan je Rezept. Beim nächsten „Reminder setzen“ mit „Bestehenden Plan ersetzen“ wird das bereinigt.
 - **Änderst Du ein Rezept nach dem Planen** (Schritte, Dauern), bleibt der bereits gesetzte Plan unverändert stehen – geplante Schritte sind eine Momentaufnahme. „Geplante Schritte“ zeigt dann oben einen Hinweis „… wurde seit der Planung geändert“ mit der Schaltfläche **Neu planen**, die das Rezept öffnet. Nicht erkannt werden nur Schritte, die dem Rezept nachträglich hinzugefügt wurden.
 - **Die Zutaten in einer Erinnerung** werden beim Setzen der Reminder festgeschrieben. Änderst Du danach Zutaten oder Portionsgröße, zeigt die Erinnerung weiterhin die alten Mengen; das i-Symbol in „Geplante Schritte“ liest dagegen immer den aktuellen Stand des Rezepts. Erinnerungen, die vor diesem Update gesetzt wurden, enthalten noch keine Zutaten – einmal neu planen genügt.
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.

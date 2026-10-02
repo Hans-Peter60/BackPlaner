@@ -5912,6 +5912,31 @@
         "fr" : { "stringUnit" : { "state" : "translated", "value" : "Afficher les pourcentages boulanger" } }
       }
     },
+    "Für dieses Rezept gibt es schon einen Plan" : {
+      "comment" : "Title of the dialog when reminders are set for a recipe that already has planned steps.",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This recipe already has a plan" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Cette recette a déjà un plan" } }
+      }
+    },
+    "Bestehenden Plan ersetzen" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace existing plan" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Remplacer le plan existant" } }
+      }
+    },
+    "Zusätzlich planen" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add as a second plan" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Planifier en plus" } }
+      }
+    },
+    "Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You can replace the existing plan or keep both — for two baking days, say." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vous pouvez remplacer le plan existant ou garder les deux — pour deux jours de cuisson, par exemple." } }
+      }
+    },
     "Sprachausgabe im Backmodus" : {
       "comment" : "Settings toggle: whether the bake mode offers to read a step aloud.",
       "localizations" : {

@@ -312,7 +312,7 @@ A confirmation then appears, for example:
 
 The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
 
-> **A recipe always has exactly one plan.** Tap "Set reminder" again — because you want to move the bread to another day, say — and the new plan replaces the old one completely: the old steps disappear from "Scheduled steps", and the old reminders are replaced by the new ones. So no duplicates arise. The flip side: the same recipe can't be scheduled twice in parallel for two different dates.
+> **One recipe, one plan — or several.** Tap "Set reminder" while a plan for this recipe is already running and the app asks: **Replace existing plan** discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. **Add as a second plan** keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.
 
 > **For Apple Watch: set the reminders on the iPhone.** Reminders are created on the device where you tap "Set reminder", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.
 >
@@ -819,7 +819,7 @@ They only appear when you're signed in: *Settings → Account → Sign in with A
 You chose "Private" as the storage without being signed in. Sign in through the sheet that appears, and saving continues. Without an account the recipe would be unreachable after a reinstall — which is why the app doesn't allow it otherwise.
 
 **I tapped "Set reminder" twice by mistake.**
-No harm done: the second plan replaces the first, and steps and reminders stay unambiguous. If you want to withdraw the plan entirely, delete the recipe's steps under "Scheduled steps" (swipe left).
+On the second tap the app asks whether the new plan should replace the existing one or be added beside it. If you chose "Add as a second plan" although you only wanted one, select the surplus plan under "Scheduled steps" via its chip and delete it with the bin button via "Delete only '…'".
 
 **I want to schedule the same recipe for two different dates.**
 That isn't possible — each recipe has one plan, and the second replaces the first. As a workaround you can duplicate the recipe under a different name and plan both separately: save it **privately in the cloud**, fetch it back with "Save as my own recipe", and rename it. That keeps the duplicate out of the public database.
@@ -851,7 +851,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.
 - **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.
-- **A recipe can only have one plan.** Setting reminders again replaces the previous plan; two dates for the same recipe at once aren't possible.
+- **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.
 - **If you change a recipe after planning it** (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a **Plan again** button that opens the recipe. Only steps added to the recipe afterwards go undetected.
 - **The ingredients in a reminder** are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.

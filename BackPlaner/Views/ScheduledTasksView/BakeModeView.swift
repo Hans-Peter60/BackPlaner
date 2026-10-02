@@ -33,13 +33,13 @@ struct BakeModeView: View {
     /// Settings → Backplanung → "Sprachausgabe im Backmodus".
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechEnabled = AppSettings.defaultSpeechInBakeMode
 
-    /// Narrowed to one recipe when the list was filtered; otherwise the
-    /// whole plan.
-    init(recipeFilter: String?) {
+    /// Narrowed to one plan when the list was filtered; otherwise every
+    /// planned step.
+    init(planFilter: PlanKey?) {
         stepsRequest = FetchRequest(
             entity: NextStep.entity(),
             sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)],
-            predicate: recipeFilter.map { NSPredicate(format: "recipeName == %@", $0) }
+            predicate: planFilter?.predicate
         )
     }
 

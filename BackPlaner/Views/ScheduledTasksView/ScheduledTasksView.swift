@@ -50,11 +50,10 @@ struct ScheduledTasksView: View {
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
 
-    /// The recipe the list is narrowed down to; `nil` shows every planned step.
-    @State private var recipeFilter: String?
+    /// The plan the list is narrowed down to; `nil` shows every planned step.
+    @State private var planFilter: PlanKey?
 
-    /// The distinct recipes that currently have planned steps — the choices of
-    /// the filter bar.
+    /// The distinct recipes that currently have planned steps.
     private var plannedRecipeNames: [String] {
         var seen = Set<String>()
         return nextSteps
@@ -62,11 +61,28 @@ struct ScheduledTasksView: View {
             .sorted()
     }
 
-    /// The steps shown in the list: all of them, or only those of the recipe
+    /// The distinct plans — a recipe planned for two days is two of them —
+    /// in the order of their first step, the choices of the filter bar.
+    private var plannedPlans: [PlanKey] {
+        var seen = Set<PlanKey>()
+        return nextSteps
+            .compactMap { seen.insert($0.planKey).inserted ? $0.planKey : nil }
+            .sorted { a, b in
+                a.recipeName == b.recipeName
+                    ? firstDate(of: a) < firstDate(of: b)
+                    : a.recipeName < b.recipeName
+            }
+    }
+
+    private func firstDate(of plan: PlanKey) -> Date {
+        nextSteps.first { $0.planKey == plan }?.date ?? .distantFuture
+    }
+
+    /// The steps shown in the list: all of them, or only those of the plan
     /// selected in the filter bar.
     private var visibleSteps: [NextStep] {
-        guard let recipeFilter else { return Array(nextSteps) }
-        return nextSteps.filter { $0.recipeName == recipeFilter }
+        guard let planFilter else { return Array(nextSteps) }
+        return nextSteps.filter { $0.planKey == planFilter }
     }
 
     var body: some View {
@@ -82,8 +98,8 @@ struct ScheduledTasksView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
 
-            // Only worth showing once more than one recipe is planned.
-            if plannedRecipeNames.count > 1 {
+            // Only worth showing once more than one plan exists.
+            if plannedPlans.count > 1 {
                 recipeFilterBar
             }
 
@@ -93,7 +109,7 @@ struct ScheduledTasksView: View {
                 } description: {
                     Text("Wähle „Alle“, um alle geplanten Schritte zu sehen.")
                 } actions: {
-                    Button("Filter aufheben") { recipeFilter = nil }
+                    Button("Filter aufheben") { planFilter = nil }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
@@ -294,18 +310,18 @@ struct ScheduledTasksView: View {
             .confirmationDialog("Geplante Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
                 // With an active filter the user can restrict the deletion to
                 // the selected recipe instead of clearing the whole plan.
-                if let recipeFilter {
-                    Button("Nur „\(recipeFilter)“ löschen", role: .destructive) {
-                        deleteNextSteps(ofRecipe: recipeFilter)
+                if let planFilter {
+                    Button("Nur „\(planFilter.recipeName)“ löschen", role: .destructive) {
+                        deleteNextSteps(of: planFilter)
                     }
                 }
                 Button("Alle löschen", role: .destructive) {
-                    deleteNextSteps(ofRecipe: nil)
+                    deleteNextSteps(of: nil)
                 }
                 Button("Abbrechen", role: .cancel) { }
             } message: {
-                if let recipeFilter {
-                    Text("Entferne nur die geplanten Schritte von „\(recipeFilter)“ samt Erinnerungen – oder alle geplanten Schritte.")
+                if let planFilter {
+                    Text("Entferne nur die geplanten Schritte von „\(planFilter.recipeName)“ samt Erinnerungen – oder alle geplanten Schritte.")
                 } else {
                     Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
                 }
@@ -333,7 +349,7 @@ struct ScheduledTasksView: View {
             .presentationDetents([.medium])
         }
         .fullScreenCover(isPresented: $showingBakeMode) {
-            BakeModeView(recipeFilter: recipeFilter)
+            BakeModeView(planFilter: planFilter)
                 .environment(\.managedObjectContext, managedObjectContext)
                 .environmentObject(model)
         }
@@ -352,9 +368,9 @@ struct ScheduledTasksView: View {
         }
         // Once the filtered recipe has no planned steps left, fall back to
         // showing everything instead of an empty list.
-        .onChange(of: plannedRecipeNames) { _, names in
-            if let recipeFilter, !names.contains(recipeFilter) {
-                self.recipeFilter = nil
+        .onChange(of: plannedPlans) { _, plans in
+            if let planFilter, !plans.contains(planFilter) {
+                self.planFilter = nil
             }
         }
         .onAppear() {  }
@@ -369,7 +385,7 @@ struct ScheduledTasksView: View {
     /// A step marked done is simply missing from the plan and does not count;
     /// a step added to the recipe afterwards is not detected either.
     private var changedRecipes: [Recipe] {
-        let names = recipeFilter.map { [$0] } ?? plannedRecipeNames
+        let names = planFilter.map { [$0.recipeName] } ?? plannedRecipeNames
         return names.compactMap { name in
             guard let recipe = recipes.first(where: { $0.name == name }) else { return nil }
             let instructions = recipe.instructionsArray
@@ -450,10 +466,10 @@ struct ScheduledTasksView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
 
-                filterChip(Text("Alle"), recipeName: nil)
+                filterChip(Text("Alle"), plan: nil)
 
-                ForEach(plannedRecipeNames, id: \.self) { name in
-                    filterChip(Text(verbatim: name), recipeName: name)
+                ForEach(plannedPlans, id: \.self) { plan in
+                    filterChip(chipLabel(for: plan), plan: plan)
                 }
             }
             .padding(.horizontal, 12)
@@ -461,11 +477,20 @@ struct ScheduledTasksView: View {
         }
     }
 
-    private func filterChip(_ label: Text, recipeName: String?) -> some View {
-        let isSelected = recipeFilter == recipeName
+    /// The recipe name — and, when the recipe is planned more than once, the
+    /// start of this plan to tell them apart.
+    private func chipLabel(for plan: PlanKey) -> Text {
+        let siblings = plannedPlans.filter { $0.recipeName == plan.recipeName }
+        guard siblings.count > 1 else { return Text(verbatim: plan.recipeName) }
+        return Text(verbatim: plan.recipeName + " · ")
+            + Text(firstDate(of: plan), format: .dateTime.day().month().hour().minute())
+    }
+
+    private func filterChip(_ label: Text, plan: PlanKey?) -> some View {
+        let isSelected = planFilter == plan
 
         return Button {
-            recipeFilter = recipeName
+            planFilter = plan
         } label: {
             label
                 .font(Theme.bodyFont(14))
@@ -573,12 +598,12 @@ struct ScheduledTasksView: View {
         }
     }
 
-    /// Deletes the planned steps of a single recipe, or all of them when
-    /// `recipeName` is `nil`, together with their pending reminders.
-    func deleteNextSteps(ofRecipe recipeName: String?) {
-        let stepsToDelete = recipeName == nil
+    /// Deletes the planned steps of a single plan, or all of them when `plan`
+    /// is `nil`, together with their pending reminders.
+    func deleteNextSteps(of plan: PlanKey?) {
+        let stepsToDelete = plan == nil
             ? Array(nextSteps)
-            : nextSteps.filter { $0.recipeName == recipeName }
+            : nextSteps.filter { $0.planKey == plan }
 
         guard !stepsToDelete.isEmpty else { return }
 
@@ -598,7 +623,7 @@ struct ScheduledTasksView: View {
             return
         }
 
-        if recipeName == nil {
+        if plan == nil {
             // Clearing the whole plan also drops reminders whose step was
             // already gone — those cannot be matched individually any more.
             UNUserNotificationCenter.current().getPendingNotificationRequests { notificationRequests in
@@ -609,7 +634,7 @@ struct ScheduledTasksView: View {
             }
         }
 
-        recipeFilter = nil
+        planFilter = nil
     }
 
     func fetchRecipeImage(name: String) -> Data? {
@@ -631,6 +656,25 @@ struct ScheduledTasksView: View {
             return r.name.contains(name)
         }
     }
+}
+
+/// One planning run of one recipe. Steps planned before `planID` existed
+/// have none and form a single plan per recipe.
+struct PlanKey: Hashable {
+    let recipeName: String
+    let planID: UUID?
+
+    /// Matches exactly the steps of this plan.
+    var predicate: NSPredicate {
+        if let planID {
+            return NSPredicate(format: "recipeName == %@ AND planID == %@", recipeName, planID as CVarArg)
+        }
+        return NSPredicate(format: "recipeName == %@ AND planID == nil", recipeName)
+    }
+}
+
+extension NextStep {
+    var planKey: PlanKey { PlanKey(recipeName: recipeName, planID: planID) }
 }
 
 private struct ScheduledStepShiftSelection: Identifiable {

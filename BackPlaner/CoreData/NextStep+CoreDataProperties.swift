@@ -23,6 +23,11 @@ extension NextStep {
     @NSManaged public var instruction:String
     @NSManaged public var duration:   Int
     @NSManaged public var date:       Date
+    /// Groups the steps of one planning run. A recipe can be planned more
+    /// than once — Saturday's and Sunday's loaf — and the plans must be told
+    /// apart when one of them is shifted or deleted. `nil` on steps planned
+    /// before this attribute existed; those count as one plan per recipe.
+    @NSManaged public var planID:     UUID?
 
 }
 
