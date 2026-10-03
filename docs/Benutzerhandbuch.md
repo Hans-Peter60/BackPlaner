@@ -337,7 +337,7 @@ Ganz oben: **„Rezept aus Bildern importieren“**. Damit lässt sich ein gedru
 4. Danach zeigt die App eine **Zusammenfassung**: erkannter Name, Anzahl Komponenten, Zutaten und Arbeitsschritte, dazu die erkannten Komponenten mit Zutaten sowie die erkannte Zeitplanung.
 5. **„Daten im Rezeptformular prüfen“** übernimmt alles ins normale Rezeptformular. **„Andere Bilder auswählen“** startet neu.
 
-Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt; über **Vorlagenart** kannst Du eine Vorlage auch fest vorgeben. Gerade, gut lesbare Fotos liefern die besten Ergebnisse.
+Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt. Gerade, gut lesbare Fotos liefern die besten Ergebnisse.
 
 #### Den Namen selbst auswählen
 

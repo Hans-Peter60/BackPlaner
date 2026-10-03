@@ -30,36 +30,6 @@ private enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
     }
 }
 
-/// Which reading the import should use. Recognising the template is the app's
-/// job, so this only exists to override the choice when the recognition picks
-/// the wrong one.
-private enum RecipeImportLayout: String, CaseIterable, Identifiable {
-    case automatic
-    case general
-    case special
-
-    var id: Self { self }
-
-    var title: LocalizedStringResource {
-        switch self {
-        case .automatic: "Automatisch"
-        case .general: "Allgemein"
-        case .special: "Spezial"
-        }
-    }
-
-    var explanation: LocalizedStringResource {
-        switch self {
-        case .automatic:
-            "Die App liest die Bilder mit jeder bekannten Vorlage und behält das Ergebnis, das zu den Angaben der Seite passt."
-        case .general:
-            "Für Kochbücher, Zeitschriften, Ausdrucke und andere Rezeptvorlagen."
-        case .special:
-            "Verwendet weiterhin die spezielle Auswertung von Zutaten, Arbeitsschritten und Planungsbeispiel."
-        }
-    }
-}
-
 struct RecipeImageImportView: View {
     @State private var selectedPhotoItems: [PhotosPickerItem] = []
     @State private var selectedImages: [SelectedRecipeImage] = []
@@ -71,7 +41,6 @@ struct RecipeImageImportView: View {
     @State private var analysisResult: RecipeImageAnalysisResult?
     @State private var errorMessage: String?
     @State private var showRecipeReview = false
-    @State private var importLayout = RecipeImportLayout.automatic
     @State private var showCloudConsent = false
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var analysisModeRawValue = RecipeImageAnalysisMode.localOnly.rawValue
@@ -154,20 +123,6 @@ struct RecipeImageImportView: View {
 
                     Text(analysisMode.explanation)
                         .font(.footnote)
-                        .foregroundStyle(Theme.subtitle)
-                }
-
-                if analysisMode == .localOnly {
-                    Picker("Vorlagenart", selection: $importLayout) {
-                        ForEach(RecipeImportLayout.allCases) { layout in
-                            Text(layout.title).tag(layout)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-
-                    Text(importLayout.explanation)
-                        .font(.footnote)
-                        // .secondary is only 2.9:1 on the warm background.
                         .foregroundStyle(Theme.subtitle)
                 }
 
@@ -293,16 +248,14 @@ struct RecipeImageImportView: View {
                 let progress: @MainActor (Int, Int) -> Void = { current, total in
                     analysisProgress = "Bild \(current) von \(total) wird gelesen …"
                 }
+                // The template (general vs. special) is always recognised
+                // automatically; the local agent tries every known reading.
                 let result: RecipeImageAnalysisResult
-                switch (analysisMode, importLayout) {
-                case (.protectedCloud, _):
+                switch analysisMode {
+                case .protectedCloud:
                     result = try await analysisAgent.analyze(images: images, progress: progress)
-                case (.localOnly, .automatic):
+                case .localOnly:
                     result = try await analysisAgent.analyzeLocally(images: images, progress: progress)
-                case (.localOnly, .general):
-                    result = try await analysisAgent.analyzeGeneralRecipe(images: images, progress: progress)
-                case (.localOnly, .special):
-                    result = try await analysisAgent.analyzeSpecialRecipe(images: images, progress: progress)
                 }
                 await MainActor.run {
                     analysisResult = result
