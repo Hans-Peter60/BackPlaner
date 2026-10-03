@@ -14,6 +14,13 @@ struct ScheduledTasksView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.locale) private var locale
+    // At the accessibility text sizes the recipe name and its three buttons
+    // no longer share a row, and the time pill, date and duration stack.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    // The round done / ingredients / shift buttons grow with the text, so
+    // their symbols are not left as 15 pt dots inside large-text cards.
+    @ScaledMetric(relativeTo: .subheadline) private var actionButtonSize: CGFloat = 32
     
     @EnvironmentObject var model:RecipeModel
 
@@ -153,15 +160,22 @@ struct ScheduledTasksView: View {
 
                     VStack(alignment: .leading, spacing: 6) {
 
-                        HStack(alignment: .top, spacing: 8) {
+                        let topRowLayout = dynamicTypeSize.isAccessibilitySize
+                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+                            : AnyLayout(HStackLayout(alignment: .top, spacing: 8))
+
+                        topRowLayout {
                             Text(nextStep.recipeName)
                                 .font(Theme.bodyFont(15))
                                 .foregroundColor(Theme.subtitle)
                                 .multilineTextAlignment(.leading)
                                 .fixedSize(horizontal: false, vertical: true)
 
-                            Spacer(minLength: 8)
+                            if !dynamicTypeSize.isAccessibilitySize {
+                                Spacer(minLength: 8)
+                            }
 
+                            HStack(spacing: 8) {
                             // Done, right on the card. Swiping left deletes,
                             // which reads as discarding; this is the same
                             // removal, named for what it means mid-bake.
@@ -169,9 +183,9 @@ struct ScheduledTasksView: View {
                                 markDone(nextStep)
                             } label: {
                                 Image(systemName: "checkmark.circle")
-                                    .font(.system(size: 15, weight: .semibold))
+                                    .font(.subheadline.weight(.semibold))
                                     .foregroundColor(Theme.accentText)
-                                    .frame(width: 32, height: 32)
+                                    .frame(width: actionButtonSize, height: actionButtonSize)
                                     .background(.thinMaterial, in: Circle())
                             }
                             .buttonStyle(.plain)
@@ -192,9 +206,9 @@ struct ScheduledTasksView: View {
                                     )
                                 } label: {
                                     Image(systemName: "info.circle")
-                                        .font(.system(size: 15, weight: .semibold))
+                                        .font(.subheadline.weight(.semibold))
                                         .foregroundColor(Theme.accentText)
-                                        .frame(width: 32, height: 32)
+                                        .frame(width: actionButtonSize, height: actionButtonSize)
                                         .background(.thinMaterial, in: Circle())
                                 }
                                 .buttonStyle(.plain)
@@ -205,13 +219,14 @@ struct ScheduledTasksView: View {
                                 beginShifting(nextStep)
                             } label: {
                                 Image(systemName: "clock.arrow.circlepath")
-                                    .font(.system(size: 15, weight: .semibold))
+                                    .font(.subheadline.weight(.semibold))
                                     .foregroundColor(Theme.accentText)
-                                    .frame(width: 32, height: 32)
+                                    .frame(width: actionButtonSize, height: actionButtonSize)
                                     .background(.thinMaterial, in: Circle())
                             }
                             .buttonStyle(.plain)
                             .accessibilityLabel("Schritt zeitlich verschieben")
+                            }
                         }
 
                         // Every part keeps its natural width. These used to be
@@ -222,7 +237,11 @@ struct ScheduledTasksView: View {
                         // of icon and text have no such appetite, and
                         // `fixedSize()` on a `Label` collapses its title
                         // instead of protecting it.
-                        HStack(spacing: 6) {
+                        let timeRowLayout = dynamicTypeSize.isAccessibilitySize
+                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 6))
+                            : AnyLayout(HStackLayout(spacing: 6))
+
+                        timeRowLayout {
                             HStack(spacing: 4) {
                                 Image(systemName: "clock.fill")
                                 Text(nextStep.date, style: .time)
@@ -252,7 +271,9 @@ struct ScheduledTasksView: View {
                             .font(Theme.bodyFont(13))
                             .foregroundColor(Theme.subtitle)
 
-                            Spacer(minLength: 0)
+                            if !dynamicTypeSize.isAccessibilitySize {
+                                Spacer(minLength: 0)
+                            }
                         }
 
                         Text(nextStep.instruction)

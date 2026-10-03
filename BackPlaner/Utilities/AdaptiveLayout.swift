@@ -151,6 +151,11 @@ struct ServingScaleControl: View {
     @State private var weightText = ""
     @FocusState private var weightFieldFocused: Bool
 
+    // 76 pt holds "1.332" at the default size; at the large sizes the
+    // field kept that width and showed its digits visibly smaller than
+    // the label next to it.
+    @ScaledMetric(relativeTo: .body) private var weightFieldWidth: CGFloat = 76
+
     private var scale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: baseWeight)
     }
@@ -187,7 +192,7 @@ struct ServingScaleControl: View {
                 .keyboardType(.numberPad)
                 .multilineTextAlignment(.trailing)
                 .textFieldStyle(.roundedBorder)
-                .frame(width: 76)
+                .frame(width: weightFieldWidth)
                 .focused($weightFieldFocused)
                 .font(Theme.bodyFont(15))
                 .accessibilityLabel("Teiggewicht in Gramm")
@@ -207,6 +212,70 @@ struct ServingScaleControl: View {
                     .font(Theme.bodyFont(15))
             }
         }
+    }
+}
+
+/// A form picker that stays readable at every text size.
+///
+/// In a `Form` a picker is a menu: label on the left, chosen value on the
+/// right, and once the text is large the value is truncated in the middle
+/// ("Nur auf…m Gerät"). At the accessibility sizes the picker becomes a
+/// navigation link instead, whose row gives label and value a line each.
+struct LargeTextPickerStyle: ViewModifier {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    func body(content: Content) -> some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            content.pickerStyle(.navigationLink)
+        } else {
+            content.pickerStyle(.menu)
+        }
+    }
+}
+
+/// One line of a recipe's "Verarbeitungsschritte" table, already formatted.
+struct InstructionStepRow: Identifiable {
+    let id: Int
+    /// "1.2" — the step number as shown.
+    let step: String
+    let instruction: String
+    /// "10h 00m".
+    let duration: String
+}
+
+/// The processing steps of a recipe at the accessibility text sizes.
+///
+/// The two detail screens show the steps as a three-column table. At those
+/// sizes the columns no longer fit side by side: the description shrank to a
+/// 162 pt column that broke words in half ("Weizensau / erteig") and the
+/// duration column was pushed off the right edge of the screen. Here each
+/// step is a block instead — number and duration on one line, the
+/// description in full width underneath — which is how a table reads once
+/// the text is this large.
+struct InstructionStepsStackedView: View {
+
+    let rows: [InstructionStepRow]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            ForEach(rows) { row in
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        (Text("Schritt") + Text(verbatim: " \(row.step)"))
+                            .bold()
+                        Spacer(minLength: 8)
+                        Text(row.duration)
+                            .foregroundColor(Theme.subtitle)
+                    }
+                    Text(row.instruction)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                // One step, one VoiceOver element: "Schritt 1.2, 10h 00m,
+                // Kartoffeln abkochen" rather than three loose texts.
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

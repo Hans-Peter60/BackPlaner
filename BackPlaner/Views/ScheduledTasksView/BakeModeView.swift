@@ -16,6 +16,9 @@ struct BakeModeView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
+    // Three buttons side by side need their titles on one line each; at the
+    // accessibility text sizes they stack instead.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var model: RecipeModel
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
@@ -160,12 +163,21 @@ struct BakeModeView: View {
                 }
                 .foregroundColor(Theme.subtitle)
 
-                HStack(spacing: 10) {
+                // Capsule and distance side by side, until the accessibility
+                // sizes: there the row squeezed the capsule into two narrow
+                // columns ("He / ute", "06: / 32"), so the two stack and the
+                // capsule keeps its natural width.
+                let timeRowLayout = dynamicTypeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+                    : AnyLayout(HStackLayout(spacing: 10))
+
+                timeRowLayout {
                     HStack(spacing: 4) {
                         Image(systemName: isDue ? "bell.fill" : "clock.fill")
                         StepTiming.dayLabel(for: step.date, now: context.date)
                         Text(step.date, format: .dateTime.hour().minute())
                     }
+                    .fixedSize()
                     .font(Theme.brandFont(17))
                     .foregroundColor(Theme.accentText)
                     .padding(.horizontal, 12)
@@ -181,7 +193,7 @@ struct BakeModeView: View {
                     }
                     .font(Theme.bodyFont(17))
                     .foregroundColor(Theme.subtitle)
-                    .lineLimit(1)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
                 }
             }
         }
@@ -205,8 +217,12 @@ struct BakeModeView: View {
     }
 
     private func controls(for step: NextStep, index: Int, component: ComponentColumn?) -> some View {
-        VStack(spacing: 12) {
-            HStack(spacing: 12) {
+        let rowLayout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: 12))
+            : AnyLayout(HStackLayout(spacing: 12))
+
+        return VStack(spacing: 12) {
+            rowLayout {
                 bigButton(systemImage: "chevron.left", title: "Zurück", enabled: index > 0) {
                     show(steps[index - 1])
                 }
@@ -234,9 +250,19 @@ struct BakeModeView: View {
             Button {
                 markDone(step, at: index)
             } label: {
-                Label("Erledigt", systemImage: "checkmark")
-                    .font(Theme.brandFont(18))
-                    .frame(maxWidth: .infinity, minHeight: 56)
+                // Not a `Label`: inside the prominent button its title kept
+                // to one line and the French "Marquer comme terminé" ended
+                // as "Marquer com…" at the accessibility sizes. A plain
+                // stack lets the title wrap.
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark")
+                    Text("Erledigt")
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .lineLimit(nil)
+                .font(Theme.brandFont(18))
+                .frame(maxWidth: .infinity, minHeight: 56)
             }
             .buttonStyle(.borderedProminent)
             .tint(Theme.accentTop)
@@ -254,9 +280,11 @@ struct BakeModeView: View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Image(systemName: systemImage)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.title3.weight(.semibold))
                 Text(title)
                     .font(Theme.bodyFont(13))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, minHeight: 56)
         }

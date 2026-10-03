@@ -19,6 +19,10 @@ struct NextStepCardView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     private var steps: FetchedResults<NextStep>
 
+    // At the accessibility text sizes the eyebrow and the countdown no
+    // longer fit on one line, so they stack.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     /// How long a step counts as "just due" before the card lets go of it. A
     /// step that is not marked done stays in the plan forever, so without this
     /// an old, finished plan would keep its last step pinned to the menu.
@@ -62,17 +66,29 @@ struct NextStepCardView: View {
 
         return HStack(alignment: .top, spacing: 14) {
 
+            // The badge grows with the text like every other badge in the
+            // menu, but only up to the extra-large size: at the
+            // accessibility sizes it reached 121 pt and left the text a
+            // 161 pt column, which made the card taller than the screen.
+            // It is decorative, so capping it costs nothing.
             IconBadge(systemImage: isDue ? "bell.fill" : "timer")
+                .dynamicTypeSize(...DynamicTypeSize.xLarge)
 
             VStack(alignment: .leading, spacing: 6) {
 
-                HStack(alignment: .firstTextBaseline) {
+                let eyebrowLayout = dynamicTypeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+                    : AnyLayout(HStackLayout(alignment: .firstTextBaseline))
+
+                eyebrowLayout {
                     Text(isDue ? "Jetzt fällig" : "Als Nächstes")
                         .font(.caption.weight(.semibold))
                         .textCase(.uppercase)
                         .foregroundColor(Theme.accentText)
 
-                    Spacer(minLength: 8)
+                    if !dynamicTypeSize.isAccessibilitySize {
+                        Spacer(minLength: 8)
+                    }
 
                     // Countdown in minutes; the surrounding TimelineView
                     // refreshes it once a minute.
@@ -85,13 +101,17 @@ struct NextStepCardView: View {
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundColor(Theme.accentText)
-                    .lineLimit(1)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
 
+                // Two lines keep the card compact. At the accessibility
+                // sizes two lines hold about four words, which left "Den
+                // Teigling…" and cut the time off the recipe line, so there
+                // the text may run as long as it needs.
                 Text(step.instruction)
                     .font(.headline)
                     .foregroundColor(Theme.cardTitle)
-                    .lineLimit(2)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
                     .fixedSize(horizontal: false, vertical: true)
 
                 // One running text, so a long recipe name wraps onto a second
@@ -104,13 +124,13 @@ struct NextStepCardView: View {
                     + Text(step.date, format: .dateTime.hour().minute()))
                     .font(.caption)
                     .foregroundColor(Theme.subtitle)
-                    .lineLimit(2)
+                    .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundColor(Theme.subtitle)
                 .accessibilityHidden(true)
         }

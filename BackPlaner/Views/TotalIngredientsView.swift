@@ -248,7 +248,11 @@ struct ComponentColumnsView: View {
                     }
                 }
             }
-            .scrollsSidewaysAtLargeText()
+            // Deliberately not `.scrollsSidewaysAtLargeText()`: with a single
+            // column at the accessibility sizes there is nothing to scroll
+            // to, and the sideways scroll view stopped the ingredient lines
+            // from wrapping — "• 213 g Weizenmehl 10" was clipped at the
+            // card's edge instead of continuing on the next line.
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
@@ -272,6 +276,7 @@ struct ComponentColumnsView: View {
                         + ingredient.name.trimmingCharacters(in: .whitespaces)
                         + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight))
                         .font(Theme.bodyFont(15))
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

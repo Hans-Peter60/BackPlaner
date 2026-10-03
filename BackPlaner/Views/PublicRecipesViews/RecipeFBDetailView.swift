@@ -35,7 +35,11 @@ struct RecipeFBDetailView: View {
     @State private var releaseErrorMessage: String?
 
     var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
-    
+
+    // At the accessibility text sizes the step table becomes a stacked list
+    // and the "Verarbeitungsschritte" header no longer shares its row.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         
         GeometryReader { fullView in
@@ -131,35 +135,56 @@ struct RecipeFBDetailView: View {
                     
                     // MARK: Instructions
                     VStack(alignment: .leading) {
-                        HStack {
+                        // Side by side the two headers were squeezed into
+                        // "Verarbeit / ungsschri / tte:" at the accessibility
+                        // sizes; there they stack.
+                        let headerLayout = dynamicTypeSize.isAccessibilitySize
+                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+                            : AnyLayout(HStackLayout())
+
+                        headerLayout {
                             Text("Verarbeitungsschritte:")
                                 .font(Theme.brandFont(16))
                                 .foregroundColor(Theme.title)
                                 .padding([.bottom, .top], 5)
-                            
-                            Spacer()
-                            
+
+                            if !dynamicTypeSize.isAccessibilitySize {
+                                Spacer()
+                            }
+
                             Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
                                 .font(Theme.bodyFont(16))
                                 .padding([.trailing], 5)
                         }
-                        
-                        LazyVGrid(columns: gridItemLayout, spacing: 5) {
-                            Text("Schritt").bold()
-                            Text("Beschreibung").bold()
-                            Text("Dauer").bold()
-                            
-                            ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
-                                
-                                let step = Rational.decimalPlace(i.step, 10)
-                                Text(step)
-                                Text(i.instruction)
-                                Text(Rational.displayHoursMinutes(i.duration))
+
+                        let sortedInstructions = recipeFB.instructions.sorted(by: { $0.step < $1.step })
+
+                        if dynamicTypeSize.isAccessibilitySize {
+                            InstructionStepsStackedView(rows: sortedInstructions.enumerated().map { index, i in
+                                InstructionStepRow(id: index,
+                                                   step: Rational.decimalPlace(i.step, 10),
+                                                   instruction: i.instruction,
+                                                   duration: Rational.displayHoursMinutes(i.duration))
+                            })
+                            .font(Theme.bodyFont(16))
+                            .padding([.bottom, .top], 5)
+                        } else {
+                            LazyVGrid(columns: gridItemLayout, spacing: 5) {
+                                Text("Schritt").bold()
+                                Text("Beschreibung").bold()
+                                Text("Dauer").bold()
+
+                                ForEach(sortedInstructions) { i in
+
+                                    let step = Rational.decimalPlace(i.step, 10)
+                                    Text(step)
+                                    Text(i.instruction)
+                                    Text(Rational.displayHoursMinutes(i.duration))
+                                }
                             }
+                            .font(Theme.bodyFont(16))
+                            .padding([.bottom, .top], 5)
                         }
-                        .scrollsSidewaysAtLargeText()
-                        .font(Theme.bodyFont(16))
-                        .padding([.bottom, .top], 5)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()

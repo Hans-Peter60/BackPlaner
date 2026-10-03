@@ -228,9 +228,15 @@ struct ScreenHeader: View {
 
     var body: some View {
         VStack(spacing: 8) {
+            // The brand name is one word and cannot wrap; at the largest
+            // text sizes it broke as "BakePlann / er". Shrinking is the
+            // only honest option for a single word, and this is a logo
+            // line, not text to read.
             titleText
                 .font(Theme.brandFont(34))
                 .foregroundColor(Theme.title)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .accessibilityAddTraits(.isHeader)
 
             if let subtitle {

@@ -33,6 +33,10 @@ struct BakeHistoriesListView: View {
 
     @AppStorage(AppSettingsKeys.bakeHistoryLayout) private var layoutRawValue = BakeHistoryLayout.list.rawValue
 
+    // At the accessibility text sizes the gallery shows one tile per row and
+    // the list stacks date, recipe and comment instead of using columns.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     private var layout: BakeHistoryLayout {
         BakeHistoryLayout(rawValue: layoutRawValue) ?? .list
     }
@@ -74,7 +78,16 @@ struct BakeHistoriesListView: View {
     var gridItemLayoutImages = [GridItem(scaledColumnSize(54), alignment: .leading), GridItem(scaledColumnSize(54), alignment: .leading)]
 
     /// Tiles of at least 160 pt: two across on an iPhone, more on an iPad.
-    private let galleryColumns = [GridItem(.adaptive(minimum: 160), spacing: 12, alignment: .top)]
+    ///
+    /// One per row at the accessibility sizes: five rating stars alone are
+    /// then wider than half an iPhone, so two tiles side by side pushed the
+    /// grid 14 pt past both screen edges.
+    private var galleryColumns: [GridItem] {
+        if dynamicTypeSize.isAccessibilitySize {
+            return [GridItem(.flexible(), spacing: 12, alignment: .top)]
+        }
+        return [GridItem(.adaptive(minimum: 160), spacing: 12, alignment: .top)]
+    }
     
     var dateFormat:DateFormat = DateFormat()
     
@@ -227,7 +240,7 @@ struct BakeHistoriesListView: View {
             Text(bakeHistory.recipe?.name ?? "")
                 .font(Theme.brandFont(15))
                 .foregroundColor(Theme.cardTitle)
-                .lineLimit(2)
+                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -264,19 +277,22 @@ struct BakeHistoriesListView: View {
     private var list: some View {
         VStack(spacing: 0) {
 
-        LazyVGrid(columns: gridItemLayout, spacing: 6) {
-            
-            Text("Datum")
-            Text("Rezept")
-            Text("Kommentar")
-            Text(verbatim: "")
-            Text(verbatim: "")
-            Text(verbatim: "")
+        // The column titles only make sense above columns; the stacked rows
+        // at the accessibility sizes carry their own labels.
+        if !dynamicTypeSize.isAccessibilitySize {
+            LazyVGrid(columns: gridItemLayout, spacing: 6) {
+
+                Text("Datum")
+                Text("Rezept")
+                Text("Kommentar")
+                Text(verbatim: "")
+                Text(verbatim: "")
+                Text(verbatim: "")
+            }
+            .padding(.horizontal, 16)
+            .font(Theme.brandFont(18))
         }
-        .scrollsSidewaysAtLargeText()
-        .padding(.horizontal, 16)
-        .font(Theme.brandFont(18))
-        
+
         List {
             
             ForEach(filteredBakeHistories, id: \.self) { bakeHistory in
@@ -287,16 +303,36 @@ struct BakeHistoriesListView: View {
                     label: {
                         
                         VStack {
-                            LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                                
-                                Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                                    .font(Theme.brandFont(16))
-                                Text(bakeHistory.recipe?.name ?? "")
-                                    .font(Theme.brandFont(16))
-                                Text(bakeHistory.comment)
-                                    .font(Theme.bodyFont(16))
+                            if dynamicTypeSize.isAccessibilitySize {
+                                // Three columns pushed "Kommentar" off the
+                                // screen and cut the recipe name at the
+                                // chevron; stacked, everything is read in
+                                // full.
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Theme.brandFont(16))
+                                        .foregroundColor(Theme.subtitle)
+                                    Text(bakeHistory.recipe?.name ?? "")
+                                        .font(Theme.brandFont(16))
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    if !bakeHistory.comment.isEmpty {
+                                        Text(bakeHistory.comment)
+                                            .font(Theme.bodyFont(16))
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            } else {
+                                LazyVGrid(columns: gridItemLayout, spacing: 6) {
+
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Theme.brandFont(16))
+                                    Text(bakeHistory.recipe?.name ?? "")
+                                        .font(Theme.brandFont(16))
+                                    Text(bakeHistory.comment)
+                                        .font(Theme.bodyFont(16))
+                                }
                             }
-                            .scrollsSidewaysAtLargeText()
                             HStack {
                                 
                                 if bakeHistory.images != nil {

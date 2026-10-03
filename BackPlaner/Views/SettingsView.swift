@@ -40,17 +40,20 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section("Allgemein") {
-                Picker("Sprache", selection: $selectedLanguage) {
-                    ForEach(AppLanguage.allCases) { language in
-                        Text(language.title).tag(language.rawValue)
+                Group {
+                    Picker("Sprache", selection: $selectedLanguage) {
+                        ForEach(AppLanguage.allCases) { language in
+                            Text(language.title).tag(language.rawValue)
+                        }
                     }
-                }
 
-                Picker("Standard-Ablage", selection: $defaultRecipeStorage) {
-                    ForEach(RecipeStoragePreference.allCases) { preference in
-                        Text(preference.title).tag(preference.rawValue)
+                    Picker("Standard-Ablage", selection: $defaultRecipeStorage) {
+                        ForEach(RecipeStoragePreference.allCases) { preference in
+                            Text(preference.title).tag(preference.rawValue)
+                        }
                     }
                 }
+                .modifier(LargeTextPickerStyle())
             }
 
             Section("Rezepte") {

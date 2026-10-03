@@ -12,8 +12,12 @@ struct RecipeDetailView: View {
 //    @Environment(\.presentationMode) var presentationMode
     
     var recipe:Recipe
-    
+
     var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
+
+    // At the accessibility text sizes the step table becomes a stacked list
+    // and the "Verarbeitungsschritte" header no longer shares its row.
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @State var selectedServingSize = AppSettings.storedServingSize
     /// A target dough weight in grams; overrides the serving-size factor.
@@ -133,36 +137,55 @@ struct RecipeDetailView: View {
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
-                    HStack {
+                    // Side by side the two headers were squeezed into
+                    // "Verarbeit / ungsschri / tte:" at the accessibility
+                    // sizes; there they stack.
+                    let headerLayout = dynamicTypeSize.isAccessibilitySize
+                        ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+                        : AnyLayout(HStackLayout())
+
+                    headerLayout {
                         Text("Verarbeitungsschritte:")
                             .font(Theme.brandFont(16))
                             .foregroundColor(Theme.title)
                             .padding([.bottom, .top], 5)
-                        
-                        Spacer()
-                        
+
+                        if !dynamicTypeSize.isAccessibilitySize {
+                            Spacer()
+                        }
+
                         Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipe.prepTime))")
                             .font(Theme.bodyFont(16))
                             .padding([.trailing], 5)
                     }
- 
-                    LazyVGrid(columns: gridItemLayout, spacing: 5) {
-                        Text("Schritt").bold()
-                        Text("Beschreibung").bold()
-                        Text("Dauer").bold()
-                      
-                        ForEach(recipe.instructionsArray, id: \.self) { i in
-                            
-                            let step = Rational.decimalPlace(i.step, 10)
-                            Text(step)
-                            Text(i.instruction)
-                            Text(Rational.displayHoursMinutes(i.duration))
-                        }
-                        .padding(.horizontal)
-                    }
-                    .scrollsSidewaysAtLargeText()
-                    .font(Theme.bodyFont(16))
+
+                    if dynamicTypeSize.isAccessibilitySize {
+                        InstructionStepsStackedView(rows: recipe.instructionsArray.enumerated().map { index, i in
+                            InstructionStepRow(id: index,
+                                               step: Rational.decimalPlace(i.step, 10),
+                                               instruction: i.instruction,
+                                               duration: Rational.displayHoursMinutes(i.duration))
+                        })
+                        .font(Theme.bodyFont(16))
                         .padding([.bottom, .top], 5)
+                    } else {
+                        LazyVGrid(columns: gridItemLayout, spacing: 5) {
+                            Text("Schritt").bold()
+                            Text("Beschreibung").bold()
+                            Text("Dauer").bold()
+
+                            ForEach(recipe.instructionsArray, id: \.self) { i in
+
+                                let step = Rational.decimalPlace(i.step, 10)
+                                Text(step)
+                                Text(i.instruction)
+                                Text(Rational.displayHoursMinutes(i.duration))
+                            }
+                            .padding(.horizontal)
+                        }
+                        .font(Theme.bodyFont(16))
+                        .padding([.bottom, .top], 5)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
