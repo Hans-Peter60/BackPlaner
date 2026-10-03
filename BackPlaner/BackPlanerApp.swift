@@ -51,6 +51,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     UNUserNotificationCenter.current().delegate = self
     NotificationActions.registerCategories()
 
+    // Blur the backdrop photo now, off the main thread, so the first screen
+    // finds it in the cache and shows it at once instead of fading it in.
+    Task.detached(priority: .userInitiated) {
+      BakeryBackdropImageStore.shared.prepare(for: .light)
+      BakeryBackdropImageStore.shared.prepare(for: .dark)
+    }
+
     // Sign in anonymously so each device has a stable, server-verifiable identity
     // (auth.uid) that the Firestore security rules use to enforce author-only
     // edit/delete of public recipes. No login UI — this is invisible.
