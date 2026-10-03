@@ -56,7 +56,8 @@ struct GlobalVariables {
     static var dayStart: Int { AppSettings.storedDayStart }
     static var dayEnd: Int { AppSettings.storedDayEnd }
     static var bakePause: Int { AppSettings.storedBakePause }
-    
+    static var ovenCount: Int { AppSettings.storedOvenCount }
+
     static var totalDuration  = 0
     static var dateTimePicker = Date()
     static var dateComponents = Calendar.current.dateComponents(in: .current, from: Date())

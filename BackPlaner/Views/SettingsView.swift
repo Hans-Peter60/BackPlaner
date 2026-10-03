@@ -7,6 +7,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.useDetailView) private var useDetailView = AppSettings.defaultUseDetailView
     @AppStorage(AppSettingsKeys.preheatTime) private var preheatTime = AppSettings.defaultPreheatTime
     @AppStorage(AppSettingsKeys.bakePause) private var bakePause = AppSettings.defaultBakePause
+    @AppStorage(AppSettingsKeys.ovenCount) private var ovenCount = AppSettings.defaultOvenCount
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
@@ -92,6 +93,12 @@ struct SettingsView: View {
 
                 Stepper(value: $bakePause, in: 0...120, step: 5) {
                     LabeledContent("Backpause", value: "\(bakePause) min")
+                }
+
+                // With more than one oven the plan check lets as many bakes
+                // run side by side; only the one too many is an error.
+                Stepper(value: $ovenCount, in: 1...AppSettings.maximumOvenCount) {
+                    LabeledContent("Backöfen", value: ovenCount.formatted())
                 }
 
                 Stepper(value: $dayStart, in: 0...23) {

@@ -4,7 +4,8 @@
 //
 //  Checks a generated baking plan against the planning settings: the day
 //  window (Tagesbeginn/Tagesende), the oven phases of plans that are already
-//  scheduled, and the minimum pause between two bakes (Backpause).
+//  scheduled against the number of ovens (Backöfen), and the minimum pause
+//  between two bakes in the same oven (Backpause).
 //
 
 import Foundation
@@ -12,7 +13,8 @@ import CoreData
 
 /// How serious a finding of ``BakePlanValidator`` is.
 enum BakePlanIssueSeverity {
-    /// The plan must not be scheduled this way — two bakes would overlap.
+    /// The plan must not be scheduled this way — more bakes would run at the
+    /// same time than there are ovens.
     case error
     /// The plan works, but the user should know about it.
     case hint
@@ -57,17 +59,28 @@ enum BakePlanValidator {
     ///   - bakeWindow: the oven phase of the plan, or `nil` if the recipe has no
     ///     processing steps yet.
     ///   - existingWindows: the oven phases of the plans already scheduled.
+    ///   - ovenCount: how many bakes may run at the same time; defaults to
+    ///     the setting. Overridable so the rules can be tested.
+    ///   - bakePause: the minimum gap in minutes between two bakes that share
+    ///     an oven; defaults to the setting.
     static func issues(
         for steps: [PlannedStep],
         bakeWindow: BakeWindow?,
-        existingWindows: [BakeWindow]
+        existingWindows: [BakeWindow],
+        ovenCount: Int = GlobalVariables.ovenCount,
+        bakePause: Int = GlobalVariables.bakePause
     ) -> [BakePlanIssue] {
 
         var errors = [BakePlanIssue]()
         var hints  = dayWindowIssues(for: steps)
 
         if let bakeWindow {
-            for issue in bakeWindowIssues(for: bakeWindow, existingWindows: existingWindows) {
+            for issue in bakeWindowIssues(
+                for: bakeWindow,
+                existingWindows: existingWindows,
+                ovenCount: ovenCount,
+                bakePause: bakePause
+            ) {
                 switch issue.severity {
                 case .error: errors.append(issue)
                 case .hint:  hints.append(issue)
@@ -76,7 +89,7 @@ enum BakePlanValidator {
         }
 
         AppLog.planning.debug(
-            "Plan checked: \(steps.count) steps, day window \(dayWindow().start)–\(dayWindow().end) h, bake pause \(GlobalVariables.bakePause) min, \(errors.count) errors, \(hints.count) hints"
+            "Plan checked: \(steps.count) steps, day window \(dayWindow().start)–\(dayWindow().end) h, \(ovenCount) ovens, bake pause \(bakePause) min, \(errors.count) errors, \(hints.count) hints"
         )
 
         return errors + hints
@@ -134,38 +147,87 @@ enum BakePlanValidator {
         }
     }
 
-    /// An error for every already scheduled bake this plan overlaps with, plus a
-    /// hint whenever the gap to a neighbouring bake is shorter than `Backpause`.
+    /// Checks the oven phase of the plan against the ovens available.
+    ///
+    /// Every oven takes one bake at a time, so the plan is an error as soon as
+    /// it would need one oven more than there is: with a single oven that is
+    /// any overlap, with two ovens only the moment a third bake joins in. An
+    /// overlap that still fits into a spare oven is reported as a hint, so the
+    /// user knows the second oven is spoken for.
+    ///
+    /// The pause works the same way, per oven: a bake that follows another one
+    /// closer than `Backpause` only matters when no other oven is free for it,
+    /// otherwise it simply goes into the cold one.
     private static func bakeWindowIssues(
         for window: BakeWindow,
-        existingWindows: [BakeWindow]
+        existingWindows: [BakeWindow],
+        ovenCount: Int,
+        bakePause: Int
     ) -> [BakePlanIssue] {
 
-        let bakePause = GlobalVariables.bakePause
-        let pause     = TimeInterval(bakePause * 60)
+        let ovens = max(1, ovenCount)
+        let pause = TimeInterval(max(0, bakePause) * 60)
+
+        let others      = existingWindows.filter { $0.recipeName != window.recipeName }
+        let overlapping = others.filter { overlaps($0, window) }
+        // Bakes that do not overlap, but end or start within the pause.
+        let neighbours  = pause > 0
+            ? others.filter { !overlaps($0, window) && gap(between: $0, and: window) < pause }
+            : []
 
         var issues = [BakePlanIssue]()
 
-        for other in existingWindows where other.recipeName != window.recipeName {
+        // Peak number of ovens the scheduled bakes occupy at one moment of this bake.
+        let busyOvens = peakConcurrency(of: overlapping, within: window, padding: 0)
 
-            if window.start < other.end && other.start < window.end {
+        if busyOvens + 1 > ovens {
+            if ovens == 1 {
+                for other in overlapping {
+                    issues.append(
+                        BakePlanIssue(
+                            severity: .error,
+                            message: String(
+                                localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit der Backzeit von „\(other.recipeName)“ (\(rangeText(other))).",
+                                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
+                            )
+                        )
+                    )
+                }
+            } else {
                 issues.append(
                     BakePlanIssue(
                         severity: .error,
                         message: String(
-                            localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit der Backzeit von „\(other.recipeName)“ (\(rangeText(other))).",
+                            localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit \(namesText(of: overlapping)). Zusammen wären das mehr Backvorgänge, als Du Backöfen hast (\(ovens)).",
                             bundle: AppSettings.localizationBundle, locale: AppSettings.locale
                         )
                     )
                 )
-                continue
             }
+        } else if ovens > 1 {
+            for other in overlapping {
+                issues.append(
+                    BakePlanIssue(
+                        severity: .hint,
+                        message: String(
+                            localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit der Backzeit von „\(other.recipeName)“ (\(rangeText(other))) und braucht deshalb einen weiteren Backofen.",
+                            bundle: AppSettings.localizationBundle, locale: AppSettings.locale
+                        )
+                    )
+                )
+            }
+        }
 
-            guard pause > 0 else { continue }
+        guard !neighbours.isEmpty else { return issues }
 
+        // Widening every scheduled bake by the pause turns "too close" into
+        // "overlapping"; a pause hint is due only when that leaves no oven free.
+        let busyOvensWithPause = peakConcurrency(of: overlapping + neighbours, within: window, padding: pause)
+        guard busyOvensWithPause + 1 > ovens else { return issues }
+
+        for other in neighbours {
             if window.start >= other.end {
                 let gap = window.start.timeIntervalSince(other.end)
-                guard gap < pause else { continue }
                 issues.append(
                     BakePlanIssue(
                         severity: .hint,
@@ -178,7 +240,6 @@ enum BakePlanValidator {
             }
             else {
                 let gap = other.start.timeIntervalSince(window.end)
-                guard gap < pause else { continue }
                 issues.append(
                     BakePlanIssue(
                         severity: .hint,
@@ -192,6 +253,50 @@ enum BakePlanValidator {
         }
 
         return issues
+    }
+
+    private static func overlaps(_ a: BakeWindow, _ b: BakeWindow) -> Bool {
+        a.start < b.end && b.start < a.end
+    }
+
+    /// The time between two bakes that do not overlap.
+    private static func gap(between a: BakeWindow, and b: BakeWindow) -> TimeInterval {
+        b.start >= a.end
+            ? b.start.timeIntervalSince(a.end)
+            : a.start.timeIntervalSince(b.end)
+    }
+
+    /// The largest number of `windows` that occupy an oven at the same instant
+    /// during `window`. Each of them is widened by `padding` on both sides,
+    /// which is how the pause between two bakes is accounted for.
+    static func peakConcurrency(
+        of windows: [BakeWindow],
+        within window: BakeWindow,
+        padding: TimeInterval
+    ) -> Int {
+
+        // +1 when a bake enters the oven, -1 when it leaves; both clipped to
+        // the bake under test, which is all that matters here.
+        var events = [(time: Date, delta: Int)]()
+
+        for other in windows {
+            let start = max(other.start.addingTimeInterval(-padding), window.start)
+            let end   = min(other.end.addingTimeInterval(padding), window.end)
+            guard start < end else { continue }
+            events.append((start, 1))
+            events.append((end, -1))
+        }
+
+        // At the same instant a bake leaving frees the oven for one entering.
+        events.sort { $0.time == $1.time ? $0.delta < $1.delta : $0.time < $1.time }
+
+        var current = 0
+        var peak    = 0
+        for event in events {
+            current += event.delta
+            peak = max(peak, current)
+        }
+        return peak
     }
 
     // MARK: - Bake windows
@@ -294,6 +399,17 @@ enum BakePlanValidator {
 
     private static func hourText(_ hour: Int) -> String {
         String(format: "%02d:00", hour)
+    }
+
+    /// The recipe names in the quotes of the app's language, joined the way
+    /// that language lists things: „Brot“, „Brötchen“ und „Zopf“.
+    private static func namesText(of windows: [BakeWindow]) -> String {
+        windows
+            .map { window in
+                String(localized: "„\(window.recipeName)“",
+                       bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+            }
+            .formatted(.list(type: .and).locale(AppSettings.locale))
     }
 
     /// Full minutes of a gap. Rounding up would let a gap of 9:42 read as

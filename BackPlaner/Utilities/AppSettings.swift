@@ -9,6 +9,7 @@ struct AppSettingsKeys {
     static let useDetailView = "settings.useDetailView"
     static let preheatTime = "settings.preheatTime"
     static let bakePause = "settings.bakePause"
+    static let ovenCount = "settings.ovenCount"
     static let dayStart = "settings.dayStart"
     static let dayEnd = "settings.dayEnd"
     static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
@@ -114,6 +115,10 @@ struct AppSettings {
     }
     static let defaultPreheatTime = 15
     static let defaultBakePause = 10
+    /// How many ovens the user can run at the same time. The plan check
+    /// allows as many overlapping bakes as there are ovens.
+    static let defaultOvenCount = 1
+    static let maximumOvenCount = 6
     static let defaultDayStart = 6
     static let defaultDayEnd = 23
     static var defaultStartHeatingText: String {
@@ -251,6 +256,11 @@ struct AppSettings {
 
     static var storedBakePause: Int {
         storedInt(forKey: AppSettingsKeys.bakePause, defaultValue: defaultBakePause)
+    }
+
+    /// Never below 1: a stored 0 would switch the overlap check off entirely.
+    static var storedOvenCount: Int {
+        max(1, storedInt(forKey: AppSettingsKeys.ovenCount, defaultValue: defaultOvenCount))
     }
 
     static var storedDayStart: Int {
