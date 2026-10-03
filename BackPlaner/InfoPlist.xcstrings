@@ -30,7 +30,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner"
           }
         },
@@ -42,7 +42,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner"
           }
         }
@@ -53,7 +53,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner verwendet die Kamera, um Fotos deiner Rezepte und fertigen Backwaren aufzunehmen."
           }
         },
@@ -65,7 +65,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner utilise l’appareil photo pour prendre des photos de vos recettes et de vos préparations terminées."
           }
         }
@@ -76,7 +76,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner greift auf deine Fotomediathek zu, damit du Bilder deiner Rezepte und Backwaren hinzufügen kannst."
           }
         },
@@ -88,7 +88,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "BakePlanner accède à votre photothèque afin que vous puissiez ajouter des images de vos recettes et de vos préparations."
           }
         }
