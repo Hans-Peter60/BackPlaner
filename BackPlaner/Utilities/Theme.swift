@@ -100,12 +100,14 @@ enum Theme {
 
 // MARK: - View modifiers
 
-/// Places the warm bread-themed gradient behind the content.
+/// Places the warm bread-themed gradient behind the content, with the
+/// soft-focus bakery photo (`BakeryBackdrop`) over it when the asset exists.
 private struct WarmBackground: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             Theme.background
                 .ignoresSafeArea()
+            BakeryBackdrop()
             content
         }
     }
