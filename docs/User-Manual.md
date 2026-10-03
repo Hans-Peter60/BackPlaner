@@ -682,6 +682,10 @@ This is where you take back what you've hidden in the recipe database.
 
 Both lists apply to this device only and aren't synced through iCloud.
 
+### Help
+
+From here you open the **User Manual** (this document) and the **Help and contact** page with the e-mail address for questions and bug reports in your browser. Both pages appear in the language the app is set to.
+
 ---
 
 ## 15. Units, amounts, and serving sizes

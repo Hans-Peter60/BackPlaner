@@ -682,6 +682,10 @@ C’est ici que vous annulez ce que vous avez masqué dans la base de recettes.
 
 Les deux listes ne valent que pour cet appareil et ne sont pas synchronisées via iCloud.
 
+### Aide
+
+D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce document) et la page **Aide et contact** avec l’adresse e-mail pour vos questions et signalements. Les deux pages s’affichent dans la langue réglée dans l’app.
+
 ---
 
 ## 15. Unités, quantités et tailles de portion

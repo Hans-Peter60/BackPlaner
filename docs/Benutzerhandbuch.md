@@ -680,6 +680,10 @@ Hier nimmst Du zurück, was Du in der Rezept-Datenbank ausgeblendet hast.
 
 Beide Listen gelten nur für dieses Gerät und werden nicht über iCloud abgeglichen.
 
+### Hilfe
+
+Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument) und die Seite **Hilfe und Kontakt** mit der E-Mail-Adresse für Fragen und Fehlermeldungen. Beide Seiten erscheinen in der Sprache, die in der App eingestellt ist.
+
 ---
 
 ## 15. Einheiten, Mengen und Portionsgrößen

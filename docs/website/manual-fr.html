@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner – Manuel de l’utilisateur</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>BakePlanner – Manuel de l’utilisateur</h1>
+  <p class="claim">Révision : 2 octobre 2026 · version 1.0 de l’app</p>
+</header>
+
+<nav aria-label="Choisir la langue">
+  <a href="index.html#fr">Aide et contact</a>
+  <a href="manual-de.html" lang="de">Deutsch</a>
+  <a href="manual-en.html" lang="en">English</a>
+  <a href="manual-fr.html" lang="fr" aria-current="page">Français</a>
+  <a href="privacy.html">Confidentialité</a>
+</nav>
+
+<article>
+<blockquote class="note"><p>Traduit de l’original allemand, <code>Benutzerhandbuch.md</code>. En cas de divergence,<br>la version allemande fait foi.</p></blockquote>
+<hr>
+<h2 id="sommaire">Sommaire</h2>
+<ol><li><a href="#1-ce-que-fait-bakeplanner">Ce que fait BakePlanner</a></li><li><a href="#2-configuration-requise">Configuration requise</a></li><li><a href="#3-notions-de-base">Notions de base</a></li><li><a href="#4-le-menu-principal">Le menu principal</a></li><li><a href="#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud">Base de recettes (recettes publiques et privées dans le cloud)</a></li><li><a href="#6-mes-recettes">Mes recettes</a></li><li><a href="#7-instructions-de-cuisson-et-rappels">Instructions de cuisson et rappels</a></li><li><a href="#8-créer-une-nouvelle-recette">Créer une nouvelle recette</a></li><li><a href="#9-modifier-une-recette">Modifier une recette</a></li><li><a href="#10-étapes-planifiées-liste-et-timeline">Étapes planifiées (liste et timeline)</a></li><li><a href="#11-rappels-sur-lécran-verrouillé">Rappels sur l’écran verrouillé</a></li><li><a href="#12-historique-de-cuisson-et-palmarès">Historique de cuisson et palmarès</a></li><li><a href="#13-liste-de-courses">Liste de courses</a></li><li><a href="#14-réglages">Réglages</a></li><li><a href="#15-unités-quantités-et-tailles-de-portion">Unités, quantités et tailles de portion</a></li><li><a href="#16-confidentialité-modération-et-conditions-dutilisation">Confidentialité, modération et conditions d’utilisation</a></li><li><a href="#17-questions-fréquentes-et-dépannage">Questions fréquentes et dépannage</a></li><li><a href="#18-limitations-connues">Limitations connues</a></li></ol>
+<hr>
+<h2 id="1-ce-que-fait-bakeplanner">1. Ce que fait BakePlanner</h2>
+<p>BakePlanner est une app de planification pour le pain, les petits pains et la pâtisserie. Ce qui la distingue d’un simple recueil de recettes, c’est qu’elle <strong>prend en charge le calcul des horaires</strong> :</p>
+<ul><li>Une recette ne se compose pas seulement d’ingrédients, mais d’<strong>étapes de préparation avec des durées</strong>.</li><li>À partir de ces durées, l’app calcule l’<strong>heure de début de chaque étape</strong>.</li><li>Vous pouvez planifier à rebours : « le pain doit être prêt à 18 h » — et l’app vous dit quand lancer le levain.</li><li>Chaque étape reçoit un <strong>rappel local</strong>, y compris les étapes insérées automatiquement « allumer le four » et « la cuisson est terminée ».</li></ul>
+<p>S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, des recettes privées dans le cloud, l’import d’ingrédients depuis des photos, des listes de courses, un historique de cuisson avec photos et notes, ainsi que la traduction des recettes publiques sur l’appareil.</p>
+<h3 id="démarrage-rapide--votre-premier-plan-de-cuisson-en-cinq-étapes">Démarrage rapide : votre premier plan de cuisson en cinq étapes</h3>
+<ol><li>Ouvrez <strong>Base de recettes</strong> et choisissez une recette — ou créez la vôtre sous <strong>Créer une nouvelle recette</strong>.</li><li>Dans la recette, ouvrez l’onglet <strong>Cuire</strong> ou <strong>Cuire la recette</strong>.</li><li>Choisissez <strong>Commencer à</strong> ou <strong>Terminé pour</strong> et réglez la date et l’heure.</li><li>Vérifiez les heures de début calculées, puis touchez <strong>Définir un rappel</strong>.</li><li>Ouvrez <strong>Étapes planifiées</strong> pour contrôler tous les horaires sous forme de liste ou de timeline.</li></ol>
+<p>Les rappels supposent que BakePlanner soit autorisé à envoyer des notifications. Les explications détaillées se trouvent au <a href="#7-instructions-de-cuisson-et-rappels">chapitre 7</a>, au <a href="#10-étapes-planifiées-liste-et-timeline">chapitre 10</a> et au <a href="#17-questions-fréquentes-et-dépannage">chapitre 17</a>.</p>
+<hr>
+<h2 id="2-configuration-requise">2. Configuration requise</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 24ch"></colgroup>
+<thead><tr><th>Élément</th><th>Valeur</th></tr></thead>
+<tbody>
+<tr><td>Appareils</td><td>iPhone et iPad</td></tr>
+<tr><td>Système d’exploitation</td><td>iOS/iPadOS 26.0 ou ultérieur</td></tr>
+<tr><td>Orientation</td><td>iPhone : portrait et paysage · iPad : toutes les orientations</td></tr>
+<tr><td>Langues</td><td>allemand, anglais, français (commutables dans les Réglages)</td></tr>
+<tr><td>Apparence</td><td>mode clair et sombre, tailles de texte dynamiques</td></tr>
+<tr><td>Internet</td><td>Nécessaire pour la base de recettes publique et la synchronisation iCloud. Vos propres recettes, la planification et les rappels fonctionnent entièrement hors ligne ; les modifications se synchronisent plus tard.</td></tr>
+<tr><td>iCloud</td><td>Vos recettes, étapes planifiées, listes de courses et historiques de cuisson se synchronisent via iCloud entre tous les appareils utilisant le même compte Apple, si iCloud est activé. Les rappels eux-mêmes sont locaux à chaque appareil.</td></tr>
+<tr><td>Autorisations</td><td>notifications (pour les rappels), photothèque et appareil photo (pour les images de recettes)</td></tr>
+<tr><td>Connexion</td><td><strong>Pas</strong> nécessaire pour cuisiner, pour vos propres recettes ni pour la base publique. Seul l’enregistrement de recettes <strong>en privé dans le cloud</strong> exige une connexion avec Apple (voir <a href="#14-réglages">chapitre 14</a>).</td></tr>
+</tbody></table></div>
+<p>L’app demande l’autorisation d’envoyer des notifications au premier lancement. Sans elle, les étapes de cuisson sont tout de même calculées et affichées dans « Étapes planifiées », mais <strong>aucun rappel n’apparaît</strong>.</p>
+<hr>
+<h2 id="3-notions-de-base">3. Notions de base</h2>
+<p>Ces six notions reviennent partout dans l’app :</p>
+<p><strong>Recette</strong><br>L’unité de plus haut niveau : nom, description, image, note, tags, lien facultatif vers la source, poids total et durée de travail.</p>
+<p><strong>Composant</strong><br>Une préparation partielle au sein d’une recette — « levain », « poolish », « pâte principale », « ébouillantage », par exemple. Chaque composant possède un numéro (son ordre de tri) et sa propre liste d’ingrédients. C’est le cœur du modèle de données : BakePlanner est conçu pour les pâtes à plusieurs étapes.</p>
+<p><strong>Ingrédient</strong><br>Appartient toujours à un composant. Il comprend un numéro, une quantité, une unité, un nom et éventuellement une fraction (numérateur/dénominateur, notés <strong>Z / N</strong> dans l’app).</p>
+<p><strong>Étape de préparation</strong><br>Une instruction de travail avec un numéro d’étape et une durée en minutes. Le numéro d’étape est un nombre décimal et a une signification particulière :</p>
+<ul><li><strong>Les nombres entiers (1, 2, 3…) sont les étapes principales.</strong> Elles se succèdent dans le temps.</li><li><strong>Les décimales (2.1, 2.2, 2.3) sont des étapes parallèles au sein d’une étape principale.</strong> Elles démarrent toutes en même temps ; seule la durée <em>la plus longue</em> du groupe compte pour la durée totale.</li></ul>
+<p>Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2 h), attribuez-leur les étapes 1.1 et 1.2. L’étape principale suivante, 2, commence après 12 heures et non après 14.</p>
+<p><strong>Taille de portion</strong><br>Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. <strong>1,0 correspond à la recette telle qu’elle est enregistrée.</strong> 2,0 double toutes les quantités et le poids total affiché.</p>
+<p><strong>Emplacement</strong><br>L’endroit où se trouve une recette. Il existe trois possibilités, et ce choix détermine qui peut la voir :</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Emplacement</th><th>Qui la voit ?</th><th>Où se trouve-t-elle ?</th><th>Modifiable ?</th></tr></thead>
+<tbody>
+<tr><td><strong>Uniquement sur l’appareil</strong></td><td>vous seul</td><td>sur l’appareil, sauvegardée via votre iCloud</td><td>oui, à tout moment</td></tr>
+<tr><td><strong>Privé dans le cloud</strong></td><td>vous seul</td><td>dans la base de recettes, verrouillée pour les autres</td><td>non</td></tr>
+<tr><td><strong>Public pour tous</strong></td><td>tous les utilisateurs de l’app</td><td>dans la base de recettes</td><td>non</td></tr>
+</tbody></table></div>
+<p>« Privé dans le cloud » est prévu pour les recettes que vous <strong>n’avez pas le droit de publier</strong> — tirées d’un livre, par exemple — mais que vous ne voulez pas conserver uniquement sur l’appareil. Une connexion avec Apple est alors nécessaire, car la recette est liée à votre compte ; sans compte, elle serait introuvable après une réinstallation.</p>
+<hr>
+<h2 id="4-le-menu-principal">4. Le menu principal</h2>
+<p>Au lancement, le menu principal apparaît avec huit cartes :</p>
+<figure><img class="screenshot" src="images/fr/hauptmenue.png" alt="Menu principal de BakePlanner avec les huit domaines fonctionnels" loading="lazy">
+<figcaption>Le menu principal est le point de départ pour les recettes, la planification, l’historique et les réglages.</figcaption>
+</figure>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 28ch"></colgroup>
+<thead><tr><th>Carte</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td><strong>Base de recettes</strong></td><td>Parcourir les recettes publiques partagées par tous — ainsi que vos recettes privées dans le cloud si vous êtes connecté</td></tr>
+<tr><td><strong>Mes recettes</strong></td><td>Vos recettes enregistrées localement</td></tr>
+<tr><td><strong>Créer une nouvelle recette</strong></td><td>Créer une recette de zéro ou l’importer depuis des photos</td></tr>
+<tr><td><strong>Étapes planifiées</strong></td><td>Toutes les étapes de cuisson programmées, en liste ou en timeline</td></tr>
+<tr><td><strong>Historique de cuisson</strong></td><td>Les cuissons passées avec commentaires et photos</td></tr>
+<tr><td><strong>Palmarès de cuisson</strong></td><td>Les recettes classées par nombre de cuissons</td></tr>
+<tr><td><strong>Liste de courses</strong></td><td>Toutes les listes de courses créées</td></tr>
+<tr><td><strong>Réglages</strong></td><td>Langue, valeurs par défaut, planification, compte</td></tr>
+</tbody></table></div>
+<p><strong>La carte « À suivre ».</strong> Dès qu’un plan de cuisson est en cours, une carte supplémentaire apparaît au-dessus des huit cartes avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Quand l’heure d’une étape est arrivée, la carte passe pendant une heure à <strong>« À faire maintenant »</strong> avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la carte ouvre « Étapes planifiées ». Sans étape à venir, la carte reste masquée et le menu ressemble à l’illustration ci-dessus.</p>
+<p>La flèche de retour en haut à gauche vous ramène au menu principal depuis n’importe quelle section.</p>
+<hr>
+<h2 id="5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud">5. Base de recettes (recettes publiques et privées dans le cloud)</h2>
+<p>La base de recettes est la collection commune : les recettes que vous ou d’autres utilisateurs avez enregistrées publiquement.</p>
+<p>Si vous êtes connecté avec Apple, la même liste contient en plus <strong>vos recettes privées dans le cloud</strong>. Elles sont signalées par un <strong>cadenas</strong> devant le nom et restent invisibles pour les autres. Si vous vous déconnectez, elles disparaissent de la liste — elles ne sont pas supprimées et reviennent à la prochaine connexion avec le même compte Apple.</p>
+<figure><img class="screenshot" src="images/fr/oeffentliche-rezepte.png" alt="Liste des recettes publiques avec recherche et filtre" loading="lazy">
+<figcaption>Dans la base de recettes, vous pouvez rechercher et ouvrir des recettes publiques.</figcaption>
+</figure>
+<h3 id="rechercher-et-filtrer">Rechercher et filtrer</h3>
+<ul><li><strong>Champ de recherche</strong> en haut : recherche dans les noms de recettes.</li><li><strong>Changer le périmètre de recherche</strong> : sous le champ, vous pouvez choisir entre <strong>Nom</strong> et <strong>Tags</strong>. Avec « Tags », la recherche porte sur les mots-clés (« seigle », « complet », « levain », par exemple).</li><li><strong>Icône de filtre</strong> en haut à droite : <strong>Toutes les recettes</strong> ou <strong>Les miennes</strong>. « Les miennes » n’affiche que les recettes provenant de votre compte — vos recettes privées et celles que vous avez publiées. L’icône change lorsque le filtre est actif.</li><li><strong>Tirer vers le bas</strong> actualise la liste depuis le cloud.</li></ul>
+<p>Si « Aucune recette chargée » s’affiche, c’est qu’il n’y avait pas de connexion internet au lancement — tirez la liste vers le bas une fois. Si vous lisez « Aucune recette correspondante », c’est qu’un filtre est actif.</p>
+<h3 id="ouvrir-une-recette-publique">Ouvrir une recette publique</h3>
+<p>Une recette s’ouvre avec deux onglets en bas :</p>
+<ul><li><strong>Cuire la recette</strong> — les instructions de cuisson avec la planification (voir <a href="#7-instructions-de-cuisson-et-rappels">chapitre 7</a>)</li><li><strong>Détails</strong> — un aperçu des ingrédients, des composants et des étapes</li></ul>
+<h3 id="traduire-une-recette">Traduire une recette</h3>
+<p>En haut à droite se trouve l’<strong>icône de globe</strong>. Elle vous permet de choisir Deutsch, English ou Français. La traduction s’effectue <strong>entièrement sur l’appareil</strong> (Traduction Apple) et porte sur le nom de la recette, la description, les tags, les noms de composants et d’ingrédients ainsi que les textes des étapes.</p>
+<p>Remarques :</p>
+<ul><li><strong>Les unités ne sont volontairement pas traduites</strong>, afin que le calcul des quantités continue de fonctionner.</li><li>La première traduction dans une langue prend un instant (un indicateur de progression remplace le globe). Elle est ensuite mise en cache et disponible immédiatement.</li><li>À la première ouverture, l’app affiche automatiquement la recette dans votre langue si une traduction existe déjà.</li><li><strong>L’original n’est jamais écrasé.</strong> L’original est la langue dans laquelle la recette est écrite — et non la langue sur laquelle votre app était réglée. L’app le déduit du texte de la recette : une recette française reste donc un original français même si quelqu’un l’a saisie dans une app en allemand.</li><li>La coche indique dans le menu quelle langue est affichée. Sélectionnez-la de nouveau pour revenir directement à l’original.</li></ul>
+<h3 id="reprendre-une-recette">Reprendre une recette</h3>
+<p>L’onglet <strong>Cuire la recette</strong> propose le bouton <strong>Enregistrer comme ma recette</strong>. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable.</p>
+<p>L’app le confirme par <strong>« La recette a été enregistrée »</strong> et précise que vous pouvez modifier la copie sans toucher à la recette publique. Si l’enregistrement échoue, un message d’erreur apparaît à la place — rien ne disparaît en silence.</p>
+<h3 id="publier-une-recette-privée">Publier une recette privée</h3>
+<p>Pour vos recettes <strong>privées</strong> dans le cloud, l’onglet <strong>Cuire la recette</strong> propose en plus <strong>Enregistrer comme recette publique</strong>. La recette devient alors visible par tous. Une demande de confirmation rappelle d’abord qu’elle ne pourra plus être modifiée et que seules des recettes ne portant pas atteinte au droit d’auteur peuvent être publiées ; la première fois, vous devez également accepter les conditions d’utilisation.</p>
+<p><strong>Votre version privée est conservée</strong> — la recette figure ensuite deux fois dans la liste, dont une avec un cadenas. Si vous ne le souhaitez pas, supprimez ensuite la version privée via « … » → <strong>Supprimer ma recette</strong>.</p>
+<p>Pour les recettes déjà publiques, le bouton n’apparaît pas.</p>
+<h3 id="signaler-bloquer-supprimer">Signaler, bloquer, supprimer</h3>
+<p>Via le <strong>menu « … »</strong> en haut à droite :</p>
+<ul><li><strong>Signaler la recette</strong> — vous choisissez un motif (offensant/insultant, spam, atteinte au droit d’auteur, autre). Le signalement part pour examen chez l’exploitant, et la recette est masquée <strong>immédiatement pour tous les utilisateurs</strong>, et non seulement après l’examen. Elle ne redevient visible que si un administrateur la réaffiche.</li><li><strong>Bloquer l’auteur</strong> — toutes les recettes de cet auteur disparaissent de votre liste. Cela n’agit <strong>que sur votre appareil</strong> ; les autres utilisateurs continuent de les voir.</li><li><strong>Supprimer ma recette</strong> — n’apparaît que pour les recettes provenant de <em>votre</em> compte. La recette est retirée définitivement de la base.</li></ul>
+<p>Pour les recettes <strong>privées</strong>, « Signaler la recette » et « Bloquer l’auteur » sont absents — personne d’autre que vous ne les voit de toute façon. Seul « Supprimer ma recette » y figure.</p>
+<p>Les deux diffèrent donc par leur portée : <strong>bloquer agit localement, signaler agit pour tous.</strong> Les deux peuvent être annulés dans <em>Réglages → Modération</em> (voir <a href="#14-réglages">chapitre 14</a>).</p>
+<h3 id="fonction-dadministrateur">Fonction d’administrateur</h3>
+<p>Si vous êtes connecté en tant qu’administrateur (voir <a href="#14-réglages">chapitre 14</a>), l’onglet <strong>Détails</strong> propose en plus <strong>Supprimer la recette (admin)</strong>. Cela permet de retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Un administrateur n’a aucun accès aux recettes <strong>privées</strong> des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.</p>
+<hr>
+<h2 id="6-mes-recettes">6. Mes recettes</h2>
+<p>On trouve ici toutes les recettes enregistrées localement sur l’appareil : celles que vous avez créées et celles reprises de la base.</p>
+<figure><img class="screenshot" src="images/fr/eigene-rezepte.png" alt="Liste de mes recettes avec image, nom et tags" loading="lazy">
+</figure>
+<p>Tant que la liste est vide, elle propose directement les deux chemins vers une première recette : <strong>Ouvrir la base de recettes</strong> et <strong>Créer une nouvelle recette</strong>.</p>
+<h3 id="rechercher-et-filtrer">Rechercher et filtrer</h3>
+<ul><li><strong>Champ de recherche</strong> avec commutation <strong>Nom / Tags</strong>.</li><li><strong>Icône de filtre</strong> en haut à droite : choisir une note minimale (toutes les notes, 1 à 5 étoiles et plus). Lorsqu’un filtre est actif, l’icône est affichée pleine.</li></ul>
+<p>La recherche ignore les majuscules et trouve aussi des fragments de mots : « seigle » trouve « Pain de seigle », et pour les tags une partie du mot-clé suffit. Les filtres de recherche et de note se combinent.</p>
+<h3 id="supprimer-une-recette">Supprimer une recette</h3>
+<p>Balayez la ligne vers la gauche → <strong>Supprimer</strong>. Une demande de confirmation suit, avec le nom de la recette, afin qu’un balayage involontaire ne détruise rien. Supprimer une recette supprime aussi ses composants, ses ingrédients, ses étapes de préparation et ses entrées d’historique.</p>
+<p>Les étapes déjà planifiées pour cette recette restent toutefois dans « Étapes planifiées » — supprimez-les séparément si vous n’en avez plus besoin.</p>
+<h3 id="les-cinq-onglets-dune-de-vos-recettes">Les cinq onglets d’une de vos recettes</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Onglet</th><th>Contenu</th></tr></thead>
+<tbody>
+<tr><td><strong>Cuire</strong></td><td>Instructions de cuisson avec planification et « Définir un rappel »</td></tr>
+<tr><td><strong>Détails</strong></td><td>Note, description, total des ingrédients, composants, aperçu des étapes, <strong>Partager la recette</strong> en PDF</td></tr>
+<tr><td><strong>Modifier</strong></td><td>Modifier la recette (voir <a href="#9-modifier-une-recette">chapitre 9</a>)</td></tr>
+<tr><td><strong>Liste de courses</strong></td><td>Ajouter les ingrédients de cette recette à une liste de courses</td></tr>
+<tr><td><strong>+ Historique</strong></td><td>Consigner une cuisson avec date, commentaire et photos</td></tr>
+</tbody></table></div>
+<p>Dans l’onglet <strong>Détails</strong>, vous pouvez toucher l’image de la recette pour l’afficher en grand.</p>
+<hr>
+<h2 id="7-instructions-de-cuisson-et-rappels">7. Instructions de cuisson et rappels</h2>
+<p>C’est le cœur de l’app. La structure est la même pour vos recettes et pour les recettes publiques.</p>
+<figure><img class="screenshot" src="images/fr/rezept-backansicht-zeitplanung.png" alt="Vue de cuisson d’une recette avec les étapes, la durée et le début calculé" loading="lazy">
+<figcaption>La vue de cuisson met en regard la durée et le début calculé de chaque étape.</figcaption>
+</figure>
+<h3 id="de-haut-en-bas">De haut en bas</h3>
+<ol><li><strong>Image et nom</strong> — toucher l’image l’affiche en grand.</li><li><strong>Taille de portion</strong> (0,5 / 1,0 / 1,5 / 2,0) ou <strong>poids de pâte</strong>, le <strong>poids en grammes</strong> qui en découle, — s’il est renseigné — le <strong>lien vers la recette</strong> et <strong>Partager la recette</strong> : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ».</li><li><strong>Total des ingrédients</strong> — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.</li><li><strong>Composants</strong> — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie.</li><li><strong>Barre de commande</strong> — voir ci-dessous.</li><li><strong>Étapes de préparation</strong> — un tableau avec l’étape, la description, la durée et le <strong>début</strong> calculé. La dernière ligne indique « Terminé » avec l’heure de fin.</li><li><strong>Commentaires de cuisson</strong> (vos recettes uniquement) — les entrées d’historique antérieures.</li><li><strong>Définir un rappel</strong>.</li></ol>
+<h3 id="la-barre-de-commande">La barre de commande</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 28ch"></colgroup>
+<thead><tr><th>Élément</th><th>Fonction</th></tr></thead>
+<tbody>
+<tr><td><strong>Modifier la durée</strong></td><td>Un commutateur. Actif, il fait apparaître un champ « Durée [min] » pour chaque étape.</td></tr>
+<tr><td><strong>Commencer à / Terminé pour</strong></td><td>Détermine comment la date ci-dessous est interprétée. Abrégé sur iPhone en portrait.</td></tr>
+<tr><td><strong>Date et heure</strong></td><td>Le point de référence de la planification.</td></tr>
+</tbody></table></div>
+<p><strong>Commencer à</strong> signifie : je commence à ce moment — quand aurai-je terminé ?<br><strong>Terminé pour</strong> signifie : je veux avoir terminé à ce moment — quand dois-je commencer ? La colonne « Début » calcule alors à rebours.</p>
+<p>Modifiez l’heure et observez la colonne « Début » s’ajuster immédiatement. Rien n’est encore enregistré.</p>
+<h3 id="ajuster-les-durées">Ajuster les durées</h3>
+<ol><li>Activez <strong>Modifier la durée</strong>.</li><li>Saisissez de nouvelles valeurs en minutes dans les champs de la colonne de droite. Les champs vides et les valeurs inférieures ou égales à 0 sont ignorés, et la valeur précédente est conservée.</li><li>Touchez <strong>Appliquer la durée</strong>.</li></ol>
+<p>L’app recalcule alors toutes les heures de début et la durée de travail totale. Pour vos recettes, les nouvelles durées sont enregistrées durablement ; pour les recettes publiques, elles ne valent que pour la planification en cours.</p>
+<h3 id="ce-que-lapp-reproche-à-un-plan">Ce que l’app reproche à un plan</h3>
+<p>Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure choisie aboutit à un plan peu pratique. Elles se mettent à jour à chaque modification de la date, de l’heure ou des durées — avant même que vous ne touchiez « Définir un rappel ».</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 11ch"></colgroup>
+<thead><tr><th>Signe</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td>⚠️ orange</td><td><strong>Remarque.</strong> Le plan fonctionne, mais vous devriez le savoir.</td></tr>
+<tr><td>⛔️ rouge</td><td><strong>Erreur.</strong> Deux cuissons se chevaucheraient dans le four.</td></tr>
+</tbody></table></div>
+<p>Trois points sont vérifiés :</p>
+<ul><li><strong>Étapes en dehors de votre journée.</strong> Si une étape tombe avant le <strong>début de journée</strong> ou après la <strong>fin de journée</strong> définis dans les Réglages, elle est nommée : « “Rabattre la pâte” commence le 11/09/26 à 03:07, soit avant le début de journée (06:00). » Avec de longues fermentations, c’est normal et il n’y a pas lieu de s’inquiéter — cela vous montre simplement pourquoi il faudrait vous lever la nuit.</li><li><strong>Temps de cuisson qui se chevauchent.</strong> Si une autre recette occupe le four sur la même période, c’est une erreur : deux pains ne tiennent pas en même temps à deux températures différentes.</li><li><strong>Pause de cuisson trop courte.</strong> S’il s’écoule entre deux cuissons moins de temps que la <strong>pause de cuisson</strong> réglée, une remarque apparaît. Le four a besoin de ce temps pour changer de température.</li></ul>
+<p>Les remarques n’empêchent rien — vous pouvez définir le plan quand même. Elles vous épargnent seulement la surprise à trois heures du matin.</p>
+<h3 id="définir-les-rappels">Définir les rappels</h3>
+<p>Toucher <strong>Définir un rappel</strong> déclenche plusieurs choses à la fois :</p>
+<ol><li>Un rappel local est défini pour <strong>chaque étape de préparation</strong>, à l’heure de début calculée.</li><li>L’étape <strong>« allumer le four »</strong> est insérée automatiquement — le <strong>temps de préchauffage</strong> réglé avant la dernière étape (15 minutes par défaut, modifiable dans les Réglages).</li><li><strong>« La cuisson est terminée »</strong> est également planifié pour l’heure de fin.</li><li>Toutes les étapes arrivent dans <strong>Étapes planifiées</strong>.</li><li>Pour vos recettes, une <strong>entrée d’historique</strong> est créée avec la date de fin et le commentaire provisoire « aucun commentaire saisi », que vous pourrez compléter plus tard.</li></ol>
+<p>Une confirmation apparaît ensuite, par exemple :</p>
+<blockquote class="note"><p><strong>Les rappels ont été définis</strong><br>12 rappels définis.<br>Allumer le four à 16:45.<br>Terminé à 18:10.</p></blockquote>
+<p>Les textes « allumer le four » et « la cuisson est terminée » apparaissent dans la langue active (pour les recettes publiques, dans la langue dans laquelle vous consultez la recette).</p>
+<blockquote class="note"><p><strong>Une recette, un plan — ou plusieurs.</strong> Si vous touchez « Définir un rappel » alors qu’un plan est déjà en cours pour cette recette, l’app vous demande : <strong>Remplacer le plan existant</strong> écarte les anciennes étapes et leurs rappels et met le nouveau plan à leur place — la voie à suivre pour décaler le pain à un autre jour. <strong>Planifier en plus</strong> conserve le plan existant et place le nouveau à côté, pour samedi et dimanche par exemple. Dans « Étapes planifiées », chaque plan reçoit alors sa propre puce de filtre avec son heure de début, et « Décaler » comme « Supprimer » n’agissent que sur le plan sélectionné.</p></blockquote>
+<blockquote class="note"><p><strong>Pour l’Apple Watch : définissez les rappels sur l’iPhone.</strong> Les rappels sont créés sur l’appareil où vous touchez « Définir un rappel » et y restent. Seul un iPhone transmet ses notifications à une Apple Watch jumelée — un iPad n’est pas jumelé à la montre et ne peut pas le faire. Si vous planifiez sur l’iPad, les rappels de cuisson n’apparaissent donc que sur l’iPad, même si vous portez une Apple Watch.<br>Un plan déjà défini ne peut pas être transféré vers un autre appareil — dans ce cas, définissez simplement les rappels une nouvelle fois sur l’iPhone. La recette elle-même se trouve de toute façon sur les deux appareils grâce à iCloud.</p></blockquote>
+<hr>
+<h2 id="8-créer-une-nouvelle-recette">8. Créer une nouvelle recette</h2>
+<p>Via <strong>Menu principal → Créer une nouvelle recette</strong>. Le formulaire se parcourt de haut en bas.</p>
+<figure><img class="screenshot" src="images/fr/neues-rezept.png" alt="Formulaire de création d’une nouvelle recette" loading="lazy">
+<figcaption>Dans le formulaire de recette, vous pouvez importer des images ou tout saisir manuellement.</figcaption>
+</figure>
+<h3 id="importer-une-recette-depuis-des-images">Importer une recette depuis des images</h3>
+<p>Tout en haut : <strong>Importer une recette à partir d’images</strong>. Cela permet de lire une recette imprimée ou photographiée.</p>
+<ol><li><strong>Sélectionner des images</strong> (jusqu’à 10 pages ; l’ordre de sélection est conservé) ou <strong>Prendre une photo</strong> pour un nouveau cliché.</li><li>Les pages choisies apparaissent dans la liste « Pages sélectionnées » ; on peut en retirer individuellement avec l’icône de corbeille.</li><li><strong>« Analyser … image(s) »</strong> lance la reconnaissance de texte. Elle s’exécute sur l’appareil, affiche « Lecture de l’image x sur y… » et peut être interrompue à tout moment.</li><li>L’app affiche ensuite un <strong>récapitulatif</strong> : nom reconnu, nombre de composants, d’ingrédients et d’étapes, ainsi que les composants reconnus avec leurs ingrédients et la planification détectée.</li><li><strong>Vérifier les données dans le formulaire de recette</strong> reprend le tout dans le formulaire habituel. <strong>Sélectionner d’autres images</strong> recommence.</li></ol>
+<p>L’app lit les images avec chacun des types de source qu’elle connaît et retient le résultat qui correspond aux indications de la page ; via <strong>Type de source</strong>, vous pouvez aussi en imposer un. Des photos droites et bien lisibles donnent les meilleurs résultats.</p>
+<h4 id="choisir-le-nom-vous-même">Choisir le nom vous-même</h4>
+<p>Quelle ligne constitue le titre ne se devine pas toujours : un logo, un en-tête d’impression et un intertitre ressemblent tous à un titre. Si le nom reconnu est incorrect, <strong>touchez la ligne « Nom » dans le récapitulatif</strong>. La page apparaît alors telle que vous l’avez photographiée, avec un cadre autour de chaque ligne reconnue :</p>
+<ul><li><strong>Toucher</strong> choisit une ligne comme nom de la recette.</li><li><strong>Écarter deux doigts</strong> agrandit la page jusqu’à six fois, si les lignes sont serrées.</li><li>Pour les recettes de plusieurs pages, une barre en haut permet de passer d’une <strong>page</strong> à l’autre.</li><li>Si le nom ne figure pas du tout sur la page, saisissez-le en bas dans le champ <strong>Nom de la recette</strong>.</li></ul>
+<p><strong>Soignez le cadrage.</strong> Coupez tout ce qui ne fait pas partie de la recette : logos, en-têtes et pieds de page, numéros de page, adresses web et fragments de texte d’articles voisins. Cela vous évite la correction d’emblée. Les <strong>recettes manuscrites</strong> ne peuvent pas être lues de façon fiable par la reconnaissance de texte.</p>
+<p>Vérifiez ensuite impérativement <strong>les quantités, les unités, les températures et les durées</strong> — rien n’est enregistré avant que vous ne choisissiez « Enregistrer la recette » dans le formulaire.</p>
+<h3 id="emplacement--local-privé-dans-le-cloud-ou-public">Emplacement : local, privé dans le cloud ou public</h3>
+<p>Dans la section <strong>Enregistrer</strong>, vous choisissez entre les trois emplacements (voir aussi le tableau du <a href="#3-notions-de-base">chapitre 3</a>). Une phrase sous chaque choix explique ce qu’il implique. La valeur par défaut vient des Réglages (Emplacement par défaut).</p>
+<ul><li><strong>Local</strong> — la recette reste sur l’appareil, est sauvegardée via votre iCloud et reste modifiable à tout moment.</li><li><strong>Privé</strong> — la recette est enregistrée dans la base de recettes mais n’est visible que par vous. Cela exige une <strong>connexion avec Apple</strong> ; si vous n’êtes pas connecté, la feuille « Connexion requise » apparaît d’abord, puis l’enregistrement se poursuit. Avant cela, l’app signale qu’une recette dans la base ne pourra plus être modifiée après l’enregistrement.</li><li><strong>Public</strong> — la recette devient visible par tous. Auparavant apparaît l’avertissement : <strong>« Une recette publique ne peut plus être modifiée après son enregistrement. »</strong> La première fois, vous devez en outre accepter les conditions d’utilisation (voir <a href="#16-confidentialité-modération-et-conditions-dutilisation">chapitre 16</a>). Pour les recettes privées, elles ne sont pas exigées — vous ne partagez rien.</li></ul>
+<p>Lors d’un import depuis des images, l’emplacement est toujours réglé sur « Local » au départ. L’icône du bouton « Enregistrer la recette » change avec le choix.</p>
+<h3 id="image-de-la-recette">Image de la recette</h3>
+<p><strong>Photothèque</strong> ou <strong>appareil photo</strong> (le bouton d’appareil photo uniquement sur les appareils qui en ont un).</p>
+<blockquote class="note"><p><strong>Une image est obligatoire.</strong> Sans image de recette, l’enregistrement affiche le message « Image requise ».</p></blockquote>
+<h3 id="données-de-base-et-tags">Données de base et tags</h3>
+<ul><li><strong>Nom</strong> — champ obligatoire. Tant qu’il est vide, « Enregistrer la recette » reste désactivé.</li><li><strong>Description</strong> — champ de texte multiligne.</li><li><strong>Lien URL</strong> — lien facultatif vers la source ; apparaît ensuite sous « Lien vers la recette ».</li><li><strong>Tags</strong> — saisir un mot-clé, toucher <strong>+</strong>. Les tags sont ensuite consultables par la recherche.</li></ul>
+<h3 id="composants-et-ingrédients">Composants et ingrédients</h3>
+<p>D’abord le composant, puis ses ingrédients :</p>
+<ol><li>Saisissez le numéro et le nom du composant (<code>1</code> / <code>Levain</code>, par exemple) et touchez <strong>+</strong>. Le numéro s’incrémente automatiquement.</li><li>Sous chaque composant apparaît la ligne de saisie des ingrédients, avec ces colonnes :</li></ol>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Colonne</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td><strong>N°</strong></td><td>Ordre de tri au sein du composant</td></tr>
+<tr><td><strong>Quantité / Poids</strong></td><td>La valeur numérique de la quantité</td></tr>
+<tr><td><strong>Unité</strong></td><td>Un menu ; voir <a href="#15-unités-quantités-et-tailles-de-portion">chapitre 15</a></td></tr>
+<tr><td><strong>Ingrédient</strong></td><td>Le nom de l’ingrédient</td></tr>
+<tr><td><strong>Z / N</strong></td><td>La fraction — numérateur et dénominateur, 1 / 2 pour « ½ »</td></tr>
+</tbody></table></div>
+<ol><li><strong>+</strong> ajoute l’ingrédient, l’icône de corbeille le retire. Les lignes déjà saisies sont directement modifiables.</li></ol>
+<p>Seul le <strong>nom</strong> est obligatoire — un ingrédient sans quantité ni unité est permis (« sel selon le goût »). Utilisez soit la quantité/le poids, <strong>soit</strong> les champs de fraction, pas les deux pour la même indication.</p>
+<h3 id="étapes-de-préparation">Étapes de préparation</h3>
+<p>Colonnes <strong>Étape</strong>, <strong>Description</strong>, <strong>Durée</strong> (minutes). Après un ajout, le numéro d’étape se poursuit automatiquement : d’un nombre entier au suivant, d’une décimale par pas de 0,1. Vous saisissez ainsi commodément des sous-étapes parallèles en 2.1, 2.2, 2.3.</p>
+<p>Souvenez-vous de la règle du <a href="#3-notions-de-base">chapitre 3</a> : les étapes décimales se déroulent en parallèle, les nombres entiers se succèdent.</p>
+<h3 id="enregistrer">Enregistrer</h3>
+<ul><li><strong>Enregistrer la recette</strong> — enregistre localement ou téléverse dans la base. Lors d’un téléversement, « La recette est en cours de téléversement... » apparaît ; ensuite soit « La recette a été enregistrée », soit un message d’erreur précis.</li><li><strong>Supprimer le contenu</strong> — vide entièrement le formulaire (sans demander confirmation).</li></ul>
+<hr>
+<h2 id="9-modifier-une-recette">9. Modifier une recette</h2>
+<p>Accessible via <strong>Mes recettes → recette → onglet « Modifier »</strong>.</p>
+<h3 id="enregistrement-automatique">Enregistrement automatique</h3>
+<p>Les modifications du <strong>nom, de la description, du lien URL, des tags et de la note</strong> sont enregistrées automatiquement — peu après la saisie et au plus tard en quittant l’écran. Aucun message de confirmation n’apparaît pour cela.</p>
+<p>Une nouvelle <strong>image de recette</strong> est enregistrée dès que vous la choisissez.</p>
+<h3 id="note">Note</h3>
+<p>Touchez les étoiles en haut à droite : de 1 à 5 étoiles. Toucher de nouveau la première étoile remet la note à 0. La note est ce sur quoi s’appuie le filtre de note dans les listes.</p>
+<h3 id="modifier-les-composants">Modifier les composants</h3>
+<ul><li><strong>Ajouter</strong> : saisir un numéro et un nom, <strong>+</strong>.</li><li><strong>Modifier</strong> : toucher la ligne du composant. « Modifier le composant » s’ouvre avec le numéro, le nom et la liste complète des ingrédients. Vous pouvez y ajouter des ingrédients (<strong>+</strong>), les supprimer (corbeille) et en modifier un en le touchant, dans la boîte de dialogue « Modifier l’ingrédient ». <strong>Terminé</strong> applique, <strong>Annuler</strong> abandonne.</li><li><strong>Supprimer</strong> : la corbeille à côté du composant. Le poids total de la recette est ensuite recalculé.</li></ul>
+<h3 id="modifier-les-étapes-de-préparation">Modifier les étapes de préparation</h3>
+<ul><li><strong>Ajouter</strong> : saisir l’étape, la description, la durée, <strong>+</strong>. Les heures de début sont recalculées automatiquement.</li><li><strong>Modifier</strong> : toucher la ligne de l’étape → « Modifier l’étape de préparation ». Après <strong>Terminé</strong>, l’app recalcule toutes les heures de début et la durée de travail.</li><li><strong>Supprimer</strong> : la corbeille à côté de la ligne.</li></ul>
+<h3 id="enregistrer-manuellement">Enregistrer manuellement</h3>
+<p>La section <strong>Enregistrer</strong> comporte trois boutons — les trois mêmes emplacements que lors de la création. Vous les retrouvez également en haut à droite de la barre de navigation, dans le menu derrière l’icône d’enregistrement.</p>
+<ul><li><strong>Local</strong> — enregistre tout, image comprise, recalcule le poids total et confirme par « La recette a été enregistrée ».</li><li><strong>Privé</strong> — dépose la recette en privé dans la base de recettes ; une connexion avec Apple est nécessaire. Visible par vous seul et non modifiable ensuite.</li><li><strong>Public</strong> — téléverse la recette pour la rendre visible par tous. L’avertissement qu’elle ne pourra plus être modifiée apparaît ici aussi.</li><li><strong>Supprimer</strong> (en haut à gauche) — vide le contenu de la recette.</li></ul>
+<p>Après un téléversement réussi, <strong>les deux boutons cloud sont désactivés</strong>, car la recette possède désormais une copie dans la base — une recette ne peut être téléversée qu’une seule fois, en privé <em>ou</em> en public.</p>
+<p>Si cette copie est supprimée plus tard (par vous ou par la modération), l’app le détecte à la prochaine ouverture et réactive les boutons. Cela suppose que vous soyez connecté — déconnecté, l’app ne peut pas vérifier s’il existe encore une copie privée et laisse les boutons verrouillés par précaution.</p>
+<hr>
+<h2 id="10-étapes-planifiées-liste-et-timeline">10. Étapes planifiées (liste et timeline)</h2>
+<p><strong>Menu principal → Étapes planifiées.</strong> On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En bas, vous passez d’une vue à l’autre.</p>
+<figure><img class="screenshot" src="images/fr/geplante-schritte-liste.png" alt="Étapes planifiées en liste : chaque carte montre l’image de la recette, l’heure de début, la durée et le texte de l’étape ; la carte « Weizensauerteig » porte un symbole i pour les ingrédients à côté de l’icône d’horloge" loading="lazy">
+<figcaption>Dans son état vide, la vue en liste indique aussi où se créent les nouvelles planifications.</figcaption>
+</figure>
+<h3 id="la-vue--étapes-planifiées--liste">La vue « Étapes planifiées » (liste)</h3>
+<p>Chaque étape est une carte avec l’image de la recette, son nom, l’heure de début, la date, la durée et l’instruction. La toucher ouvre la vue détaillée avec la recette, le début, le numéro d’étape, la durée et la description complète.</p>
+<p><strong>Consulter les ingrédients d’un composant</strong> — via le <strong>symbole i</strong> sur la carte. Il n’apparaît que sur les étapes qui mélangent un composant de la recette, par exemple « Préparer le pré-ferment A » ou « Préparer la pâte finale ». Le toucher ouvre les ingrédients de ce composant précis avec leurs quantités, pour peser directement depuis le plan sans ouvrir la recette. Les quantités se rapportent au nombre de portions par défaut défini dans les réglages.</p>
+<p>L’app reconnaît une telle étape de mélange au fait que le nom d’un composant de la recette figure dans le texte de l’étape. Les étapes issues de l’import d’image savent de toute façon à quel composant elles appartiennent. Une étape comme « Rabattre la pâte », sans nom de composant, n’a pas de symbole i.</p>
+<p><strong>Décaler une étape dans le temps</strong> — via l’icône d’horloge sur la carte :</p>
+<ol><li>Saisissez des minutes (1440 au maximum, soit 24 heures).</li><li>Choisissez le sens : <strong>Plus tôt</strong> ou <strong>Plus tard</strong>.</li><li>Choisissez la portée : <strong>Uniquement cette étape</strong> ou <strong>Toutes les suivantes</strong> (toutes les étapes ultérieures de la même recette se décalent d’autant).</li><li><strong>Appliquer</strong>.</li></ol>
+<p>Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».</p>
+<p><strong>Cocher une étape comme terminée</strong> — via le <strong>symbole de coche</strong> sur la carte, ou en balayant la ligne vers la <strong>droite</strong> et en touchant « Terminé ». L’étape quitte le plan, son rappel est supprimé avec elle, et la carte « À suivre » du menu principal ainsi que le widget passent à l’étape suivante. C’est la même action que « Terminé » dans la notification, mais directement dans la liste.</p>
+<p><strong>Supprimer :</strong></p>
+<ul><li><strong>Une seule étape</strong> : balayez la ligne vers la gauche. Le rappel associé est supprimé avec elle.</li><li><strong>Toutes les étapes</strong> : le bouton corbeille en bas à droite, puis « Tout supprimer ». Cela retire toutes les étapes planifiées <strong>et</strong> tous les rappels en attente — y compris ceux de recettes que vous ne voulez plus cuire.</li></ul>
+<h3 id="la-vue--timeline-">La vue « Timeline »</h3>
+<p>Les mêmes étapes sur un axe temporel vertical. L’horodatage figure à gauche — avec le jour de la semaine et la date pour la première étape d’une journée, seulement l’heure pour les suivantes. Les points et les traits de liaison rendent visibles les étapes regroupées sur une même journée et les pauses plus longues. Pratique pour avoir une vue d’ensemble d’une fermentation sur plusieurs jours.</p>
+<figure><img class="screenshot" src="images/fr/geplante-schritte-timeline.png" alt="Étapes planifiées en timeline : heures de début sur un axe vertical, regroupées par jour" loading="lazy">
+<figcaption>L’onglet du bas permet de passer de la liste à la timeline.</figcaption>
+</figure>
+<p>Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape planifiée — Définissez un rappel dans les instructions de cuisson d’une recette. »</p>
+<h3 id="mode-cuisson">Mode cuisson</h3>
+<p>Pour le travail en cuisine, un bouton <strong>Démarrer le mode cuisson</strong> se trouve au-dessus de la liste. Il ouvre l’étape en cours en plein écran et en grands caractères : en haut le nom de la recette et « Étape 3 sur 12 », en dessous l’heure avec un compte à rebours (« dans 42 min ») ou « depuis 5 min » dès que l’étape est due, puis le texte de l’étape. Si l’étape mélange un composant, ses ingrédients et quantités suivent juste en dessous — les mêmes que derrière le symbole i.</p>
+<p>En bas se trouvent de grands boutons que l’on atteint même avec de la farine sur les mains :</p>
+<ul><li><strong>Retour</strong> et <strong>Suivant</strong> parcourent toutes les étapes du plan.</li><li><strong>Lire à voix haute</strong> énonce l’étape et, le cas échéant, les ingrédients par le haut-parleur, dans la langue de l’app choisie. Une seconde pression (<strong>Stop</strong>) interrompt. La lecture fonctionne aussi appareil en mode silencieux. Pour s’en passer, désactivez <em>Réglages → Planification → Lecture vocale en mode cuisson</em> ; le bouton disparaît alors.</li><li><strong>Terminé</strong> retire l’étape et son rappel du plan et passe à la suivante.</li></ul>
+<p>Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de recette de la liste. Tant qu’il est ouvert, l’écran reste allumé. <strong>Fermer</strong> en haut à droite ramène à la liste.</p>
+<h3 id="le-widget--prochaine-étape-de-cuisson-">Le widget « Prochaine étape de cuisson »</h3>
+<p>Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la carte « À suivre » du menu principal — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, <strong>« À faire maintenant »</strong> avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».</p>
+<ul><li><strong>Petit</strong> : texte de l’étape, jour et heure, compte à rebours.</li><li><strong>Moyen</strong> : en plus, le nom de la recette.</li><li><strong>Écran verrouillé</strong> : en widget rectangulaire avec le texte de l’étape et le compte à rebours, ou en affichage sur une ligne à côté de l’horloge.</li></ul>
+<p>Pour l’ajouter : maintenez l’écran d’accueil → <strong>Modifier</strong> → <strong>Ajouter un widget</strong> → choisissez <strong>BakePlanner</strong> → choisissez la taille → <strong>Ajouter le widget</strong>. Le widget se met à jour de lui-même dès qu’une étape commence ou devient due, et à chaque modification du plan dans l’app. Sans étape planifiée, il indique « Aucune étape planifiée ».</p>
+<p>Le widget utilise la <strong>langue du système</strong> de l’appareil, et non la langue de l’app choisie dans les réglages.</p>
+<hr>
+<h2 id="11-rappels-sur-lécran-verrouillé">11. Rappels sur l’écran verrouillé</h2>
+<p>Chaque rappel apparaît comme une notification intitulée <strong>« Rappel de cuisson »</strong>, avec le sous-titre « Maintenez pour Terminé ou Décaler » et le texte de l’étape comme contenu.</p>
+<p><strong>Les ingrédients dans le rappel.</strong> Si l’étape mélange un composant, les ingrédients de ce composant avec leurs quantités suivent sous le texte de l’étape — les mêmes que derrière le symbole i dans « Étapes planifiées » :</p>
+<blockquote class="note"><p><strong>Rappel de cuisson</strong><br>Préparer le pré-ferment A<br>Ingrédients pour « Pré-ferment A » :<br>• 200 g de farine de blé T55<br>• 200 g d’eau<br>• 2 g de levure</p></blockquote>
+<p>La bannière ne montre que les premières lignes. Maintenez la notification ou dépliez-la dans le centre de notifications pour voir toute la liste. Les quantités correspondent au nombre de portions choisi dans les instructions de cuisson au moment où les rappels ont été définis.</p>
+<p><strong>Maintenez la notification appuyée</strong> pour obtenir deux actions :</p>
+<ul><li><strong>Marquer comme terminé</strong> — l’étape est retirée de « Étapes planifiées ».</li><li><strong>Décaler de…</strong> — saisissez les minutes directement dans la notification. Une question suit alors : <strong>« Toutes les étapes suivantes de cette recette doivent-elles également être décalées ? »</strong>, avec les options <strong>Uniquement cette étape</strong> et <strong>Toutes les suivantes</strong>.</li></ul>
+<p>Le décalage est toujours compté à partir de <strong>maintenant</strong> : « 30 minutes » signifie « dans 30 minutes ». Avec « Toutes les suivantes », toutes les étapes ultérieures de la même recette se décalent du même écart — une fermentation reste ainsi cohérente, même si vous êtes en retard.</p>
+<p>Les notifications s’affichent aussi lorsque l’app est au premier plan.</p>
+<h3 id="activité-en-direct">Activité en direct</h3>
+<p>Pendant qu’un plan est en cours, BakePlanner affiche aussi l’étape à venir comme <strong>activité en direct</strong> : en vignette sur l’écran verrouillé, et en haut de l’écran sur les iPhone à Dynamic Island. On y voit le texte de l’étape, le nom de la recette, l’heure, l’étape suivante (« Ensuite 00:36 · Weizensauerteig … ») et un compte à rebours en cours. Quand l’heure est arrivée, la vignette passe à <strong>« À faire maintenant »</strong> et compte le temps écoulé. Un toucher ouvre « Étapes planifiées » ; sur la Dynamic Island, un appui long déplie la vue.</p>
+<p>L’activité en direct apparaît dès qu’une étape est à moins de huit heures — iOS met fin aux activités en direct au plus tard après huit heures, d’où cette limite. Elle est mise à jour quand vous ouvrez l’app, marquez une étape comme terminée ou la décalez, et se termine quand plus aucune étape n’est à portée. La première fois, iOS demande si BakePlanner peut afficher des activités en direct. Sous <em>Réglages → Planification → Activité en direct sur l’écran verrouillé</em>, elle peut être désactivée complètement.</p>
+<p><strong>Apple Watch.</strong> Les rappels de cuisson apparaissent sur la montre si vous les avez définis sur l’<strong>iPhone</strong> — les notifications de l’iPhone sont transmises à la montre jumelée. Les rappels définis sur l’iPad restent sur l’iPad. Plus de détails au <a href="#7-instructions-de-cuisson-et-rappels">chapitre 7</a>.</p>
+<hr>
+<h2 id="12-historique-de-cuisson-et-palmarès">12. Historique de cuisson et palmarès</h2>
+<h3 id="historique-de-cuisson">Historique de cuisson</h3>
+<p><strong>Menu principal → Historique de cuisson.</strong> Toutes les cuissons, la plus récente en premier, au choix en <strong>liste</strong> avec date, nom de la recette, commentaire et photos — ou en <strong>galerie</strong> : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. Passez de l’une à l’autre avec le symbole en haut à droite ; le choix est mémorisé. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.</p>
+<ul><li><strong>Toucher une entrée</strong> (ligne ou vignette) → les notes de cuisson : modifier le commentaire et ajouter des photos via la <strong>photothèque</strong>. Les photos se touchent et se parcourent en grand. <strong>Enregistrer</strong> confirme par « L’historique a été enregistré ».</li><li><strong>Supprimer une entrée</strong> : balayez la ligne vers la gauche.</li><li><strong>Rechercher et filtrer</strong> : le champ de recherche (Nom/Tags) et le filtre de note en haut à droite.</li></ul>
+<h3 id="consigner-une-cuisson-après-coup">Consigner une cuisson après coup</h3>
+<p><strong>Mes recettes → recette → onglet « + Historique ».</strong> Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, ajoutez des photos depuis la photothèque, <strong>Enregistrer</strong>.</p>
+<p>Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi », que vous pourrez remplacer plus tard.</p>
+<h3 id="palmarès-de-cuisson">Palmarès de cuisson</h3>
+<p><strong>Menu principal → Palmarès de cuisson.</strong> Affiche toutes les recettes déjà cuites au moins une fois, classées par nombre de cuissons — vos classiques en tête. Pour chaque recette figurent le nom, le nombre et les photos des historiques. La recherche et le filtre de note fonctionnent comme dans les autres listes.</p>
+<hr>
+<h2 id="13-liste-de-courses">13. Liste de courses</h2>
+<h3 id="mettre-des-ingrédients-sur-une-liste">Mettre des ingrédients sur une liste</h3>
+<p>S’il n’existe encore aucune liste, l’écran vide sous « Liste de courses » explique la marche à suivre et mène directement aux recettes avec <strong>Ouvrir mes recettes</strong>.</p>
+<p><strong>Mes recettes → recette → onglet « Liste de courses ».</strong></p>
+<ul><li><strong>Nouvelle liste</strong> : choisissez une date, <strong>Créer</strong>. S’il existe déjà une liste pour cette date, les ingrédients y sont ajoutés.</li><li><strong>Liste existante</strong> : basculez sur « Liste existante » et touchez <strong>+</strong> en face de la liste voulue. Pour en supprimer une, balayez la ligne vers la gauche.</li></ul>
+<p>La confirmation indique « Les ingrédients ont été ajoutés à la liste de courses ». Le renvoi <strong>Afficher les listes de courses</strong> apparaît ensuite.</p>
+<h3 id="ce-qui-arrive-sur-la-liste--et-ce-qui-ny-arrive-pas">Ce qui arrive sur la liste — et ce qui n’y arrive pas</h3>
+<p>L’app filtre volontairement :</p>
+<ul><li><strong>Ne sont pas reprises</strong> les ingrédients dont le nom contient <strong>eau, sel, chef</strong> ou <strong>levain</strong> — on en a chez soi, ou bien c’est un produit intermédiaire.</li><li><strong>Ne sont pas reprises</strong> les ingrédients sans unité ou sans quantité exploitable.</li><li><strong>Les ingrédients identiques sont regroupés.</strong> Les indications de température sont alors retirées du nom : « eau (tiède) », « lait 30 °C » et « lait » comptent pour le même ingrédient. Les majuscules et les trémas n’ont aucune importance.</li><li><strong>Les unités sont converties</strong> lorsqu’elles partagent la même unité de base : 0,5 kg + 200 g s’additionnent, les cuillerées à soupe et les millilitres également. Les grammes et les millilitres restent séparés.</li></ul>
+<h3 id="consulter-les-listes-de-courses">Consulter les listes de courses</h3>
+<p><strong>Menu principal → Liste de courses.</strong> Chaque liste indique sa date, les recettes qu’elle contient et, en dessous, tous les ingrédients avec quantité et unité. <strong>Supprimer</strong> retire la liste après confirmation.</p>
+<hr>
+<h2 id="14-réglages">14. Réglages</h2>
+<p><strong>Menu principal → Réglages.</strong></p>
+<figure><img class="screenshot" src="images/fr/einstellungen.png" alt="Réglages de BakePlanner : Général avec langue et emplacement par défaut, Recettes avec taille de portion par défaut, vue détaillée et unités personnalisées, Planification de cuisson avec temps de préchauffage, pause de cuisson, début et fin de journée ; la Modération commence en dessous" loading="lazy">
+<figcaption>Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Modération et Compte suivent plus bas.</figcaption>
+</figure>
+<h3 id="général">Général</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 24ch"></colgroup>
+<thead><tr><th>Réglage</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Langue</strong></td><td>Langue du système, allemand, anglais ou français. Agit sur l’interface ainsi que sur les formats de date et d’heure.</td></tr>
+<tr><td><strong>Emplacement par défaut</strong></td><td>La valeur par défaut des nouvelles recettes : <strong>Uniquement sur l’appareil</strong>, <strong>Privé dans le cloud</strong> ou <strong>Public pour tous</strong>. Par défaut : uniquement sur l’appareil.</td></tr>
+</tbody></table></div>
+<h3 id="recettes">Recettes</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Réglage</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Taille de portion par défaut</strong></td><td>La valeur avec laquelle les recettes s’ouvrent : 0,5 / 1,0 / 1,5 / 2,0. Par défaut : 1,0.</td></tr>
+<tr><td><strong>Utiliser la vue détaillée</strong></td><td>Activé : les composants et les étapes de toutes les recettes publiques sont chargés avec la liste — les recettes s’ouvrent plus vite, mais le premier chargement est plus long et consomme plus de données. Désactivé : les détails ne sont chargés qu’à l’ouverture d’une recette. Par défaut : activé.</td></tr>
+<tr><td><strong>Afficher les pourcentages boulanger</strong></td><td>Ajoute dans la vue des composants, derrière chaque ingrédient pesé, sa part de la farine du composant (voir <a href="#15-unités-quantités-et-tailles-de-portion">chapitre 15</a>). Par défaut : désactivé.</td></tr>
+<tr><td><strong>Unités personnalisées</strong></td><td>Indique combien vous en avez créées et mène à leur gestion. Voir <a href="#15-unités-quantités-et-tailles-de-portion">chapitre 15</a>.</td></tr>
+</tbody></table></div>
+<h3 id="planification-de-cuisson">Planification de cuisson</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Réglage</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Temps de préchauffage</strong></td><td>0 à 120 minutes par pas de 5. Utilisé lors de la définition des rappels, pour placer l’étape automatique « allumer le four » avant la dernière étape. Par défaut : 15 minutes.</td></tr>
+<tr><td><strong>Pause de cuisson</strong></td><td>0 à 120 minutes. Écart minimal entre deux cuissons dans le même four. Par défaut : 10 minutes.</td></tr>
+<tr><td><strong>Début de journée</strong></td><td>0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h.</td></tr>
+<tr><td><strong>Fin de journée</strong></td><td>Entre le début de journée et 23 h. Par défaut : 23 h.</td></tr>
+<tr><td><strong>Lecture vocale en mode cuisson</strong></td><td>Affiche ou masque le bouton « Lire à voix haute » du mode cuisson. Par défaut : activé.</td></tr>
+<tr><td><strong>Activité en direct sur l’écran verrouillé</strong></td><td>Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé.</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p><strong>Remarque :</strong> seul le <strong>temps de préchauffage</strong> décale réellement des étapes. La <strong>pause de cuisson, le début et la fin de journée</strong> ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si deux cuissons se télescopent (voir <a href="#7-instructions-de-cuisson-et-rappels">chapitre 7</a>).</p></blockquote>
+<h3 id="compte">Compte</h3>
+<p>C’est ici que vous vous connectez avec Apple. La connexion sert à deux choses :</p>
+<ul><li><strong>Les recettes privées dans le cloud.</strong> Elles sont liées à votre compte Apple. C’est le seul moyen qu’elles restent accessibles après une réinstallation ou sur un deuxième appareil — un identifiant anonyme disparaît avec l’app.</li><li><strong>Les droits de modération.</strong> Si votre identifiant y a été autorisé, la mention <strong>Administrateur</strong> apparaît en plus, et les recettes publiques affichent le bouton « Supprimer la recette (admin) ».</li></ul>
+<p><strong>Ni votre nom ni votre adresse e-mail ne sont demandés</strong> — l’app n’a besoin que de l’identifiant lui-même. Si votre utilisation était anonyme jusque-là, elle est conservée à la connexion : les recettes déjà publiées depuis cet appareil vous appartiennent toujours ensuite.</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 25ch"></colgroup>
+<thead><tr><th>Bouton</th><th>Effet</th></tr></thead>
+<tbody>
+<tr><td><strong>Se connecter avec Apple</strong></td><td>Crée ou associe votre compte.</td></tr>
+<tr><td><strong>Se déconnecter</strong></td><td>Retour à l’utilisation anonyme. Les recettes privées dans le cloud disparaissent de la liste, restent enregistrées et réapparaissent à la prochaine connexion. L’app confirme par <strong>« Déconnexion effectuée »</strong> ; elle ne demande <strong>pas</strong> de vous reconnecter pour confirmer — cela ne concerne que la suppression du compte.</td></tr>
+<tr><td><strong>Supprimer le compte</strong></td><td>Supprime le compte définitivement (voir ci-dessous).</td></tr>
+</tbody></table></div>
+<p><strong>Supprimer le compte</strong> demande d’abord confirmation. Ensuite, voici ce qui se passe :</p>
+<ul><li>Vos recettes <strong>privées</strong> dans le cloud sont supprimées avec leurs images.</li><li>La connexion est dissociée ; l’app continue de fonctionner de façon anonyme.</li><li><strong>Les recettes publiées restent</strong> visibles par tous. Elles n’appartiennent plus à aucun compte, vous ne pouvez donc plus les supprimer vous-même — faites-le avant si vous ne voulez pas les laisser dans la base.</li><li><strong>Les recettes présentes sur l’appareil sont conservées.</strong> Elles appartiennent à l’appareil et à votre iCloud, pas au compte.</li></ul>
+<p>Cette action est irréversible. Si votre dernière connexion est ancienne, Apple exige par sécurité une nouvelle connexion — la feuille « Se reconnecter » apparaît, puis la suppression se poursuit d’elle-même.</p>
+<p>Pour cuisiner normalement, pour vos propres recettes et pour parcourir la base publique, <strong>aucune connexion n’est nécessaire</strong>.</p>
+<h3 id="modération">Modération</h3>
+<p>C’est ici que vous annulez ce que vous avez masqué dans la base de recettes.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Entrée</th><th>Effet</th></tr></thead>
+<tbody>
+<tr><td><strong>Auteurs bloqués</strong></td><td>Le nombre d’auteurs que vous avez bloqués.</td></tr>
+<tr><td><strong>Débloquer tous les auteurs</strong></td><td>Lève tous les blocages. Les recettes de ces auteurs réapparaissent <strong>immédiatement</strong> dans la liste.</td></tr>
+<tr><td><strong>Recettes que vous avez signalées</strong></td><td>Le nombre de recettes que vous avez signalées.</td></tr>
+<tr><td><strong>Effacer les signalements sur cet appareil</strong></td><td>Retire le masquage que votre appareil a mémorisé.</td></tr>
+</tbody></table></div>
+<p><strong>La différence est importante :</strong> bloquer est un simple réglage de l’appareil, c’est pourquoi la levée prend effet aussitôt. Un signalement masque en revanche la recette pour tous les utilisateurs — et seul un administrateur peut l’annuler. Votre effacement ici ne prend donc effet qu’<em>après</em> que la recette a été réaffichée ; jusque-là elle reste invisible, pour vous aussi.</p>
+<p>Les deux listes ne valent que pour cet appareil et ne sont pas synchronisées via iCloud.</p>
+<h3 id="aide">Aide</h3>
+<p>D’ici, vous ouvrez dans le navigateur le <strong>Manuel de l’utilisateur</strong> (ce document) et la page <strong>Aide et contact</strong> avec l’adresse e-mail pour vos questions et signalements. Les deux pages s’affichent dans la langue réglée dans l’app.</p>
+<hr>
+<h2 id="15-unités-quantités-et-tailles-de-portion">15. Unités, quantités et tailles de portion</h2>
+<h3 id="taille-de-portion-ou-poids-de-pâte">Taille de portion ou poids de pâte</h3>
+<p>Chaque vue de recette met les quantités à l’échelle de deux façons :</p>
+<ul><li><strong>Taille de portion</strong> — le facteur 0,5 / 1,0 / 1,5 / 2,0 comme avant ; 1,0 est la recette telle qu’enregistrée.</li><li><strong>Poids de pâte</strong> — à côté se trouve un champ qui affiche le poids total actuel en valeur par défaut. Saisissez un poids cible en grammes, par exemple 2000, et l’app recalcule tous les ingrédients pour ce poids de pâte ; le sélecteur de portion n’affiche alors plus de sélection. Toucher un facteur efface le champ.</li></ul>
+<p>Les quantités recalculées sont arrondies comme on les pèse : en grammes entiers à partir de 10 g, à une décimale en dessous (« 2,7 g de levure »). Les fractions comme « 1/2 cube » restent des fractions aux facteurs 0,5 à 2,0 (« 3/4 cube ») et deviennent des décimales avec un poids de pâte libre (« 0,7 cube »). Le poids de pâte s’applique à l’affichage et aux ingrédients des rappels que vous définissez ensuite.</p>
+<h3 id="pourcentages-boulanger">Pourcentages boulanger</h3>
+<p>Sous <em>Réglages → Recettes → Afficher les pourcentages boulanger</em>, la vue des composants ajoute derrière chaque ingrédient pesé sa part de la farine du composant, par exemple « 319 g Wasser · 62 % ». Compte comme farine tout ce qui porte « Mehl », « Schrot », « flour » ou « farine » dans son nom. Un composant sans farine n’affiche pas de pourcentages ; les pièces et les composants entiers utilisés comme ingrédient (« 1 gesamtes Brühstück ») non plus. Les pourcentages ne changent pas avec la taille de portion.</p>
+<h3 id="unités-disponibles">Unités disponibles</h3>
+<p>L’unité se choisit dans un <strong>menu</strong> (abréviation – forme longue). Vous ne pouvez pas la saisir au clavier : une unité porte une conversion et pas seulement un nom, et l’app doit la connaître. S’il vous en manque une, vous la créez comme <strong>unité personnalisée</strong> (voir ci-dessous).</p>
+<p>Si une recette importée ou reprise de la base contient une unité que l’app ne connaît pas, le champ affiche un <strong>triangle d’avertissement</strong> et un cadre rouge. La conversion manque alors, et cet ingrédient n’entre pas dans le poids total.</p>
+<blockquote class="note"><p><strong>Les noms d’unités sont en allemand dans toutes les langues.</strong> Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu affiche donc « TL – Teelöffel » même en français. Les tableaux ci-dessous donnent par conséquent l’abréviation et le nom tels qu’ils apparaissent à l’écran, avec la signification française en regard.</p></blockquote>
+<p><strong>Basé sur le poids (base : gramme)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité à l’écran</th><th>Signification</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>g</td><td>Gramm</td><td>gramme</td><td>1 g</td></tr>
+<tr><td>kg</td><td>Kilogramm</td><td>kilogramme</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>Milligramm</td><td>milligramme</td><td>0,001 g</td></tr>
+<tr><td>pfd</td><td>Pfund</td><td>livre (métrique, 500 g)</td><td>500 g</td></tr>
+<tr><td>Pr</td><td>Prise</td><td>pincée</td><td>1 g</td></tr>
+<tr><td>Msp</td><td>Messerspitze</td><td>pointe de couteau</td><td>0,05 g</td></tr>
+<tr><td>Bd</td><td>Bund</td><td>botte</td><td>10 g</td></tr>
+<tr><td>Sc</td><td>Scheibe</td><td>tranche</td><td>25 g</td></tr>
+<tr><td>ei</td><td>Ei</td><td>œuf</td><td>50 g</td></tr>
+<tr><td>ei(s) / ei(m) / ei(l) / ei(xl)</td><td>Ei (S/M/L/XL)</td><td>œuf, par calibre</td><td>50 / 60 / 70 / 80 g</td></tr>
+</tbody></table></div>
+<p><strong>Basé sur le volume (base : millilitre)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité à l’écran</th><th>Signification</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>ml</td><td>Milliliter</td><td>millilitre</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>Zentiliter</td><td>centilitre</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>Deziliter</td><td>décilitre</td><td>100 ml</td></tr>
+<tr><td>l</td><td>Liter</td><td>litre</td><td>1000 ml</td></tr>
+<tr><td>mass</td><td>Mass</td><td>chope bavaroise d’un litre</td><td>1000 ml</td></tr>
+<tr><td>TL</td><td>Teelöffel</td><td>cuillère à café</td><td>5 ml</td></tr>
+<tr><td>EL</td><td>Esslöffel</td><td>cuillère à soupe</td><td>15 ml</td></tr>
+<tr><td>Tas</td><td>Tasse</td><td>tasse</td><td>200 ml</td></tr>
+<tr><td>Ss</td><td>Schuss</td><td>trait</td><td>10 ml</td></tr>
+<tr><td>Sp</td><td>Spritzer</td><td>giclée</td><td>0,27 ml</td></tr>
+<tr><td>Tr</td><td>Tropfen</td><td>goutte</td><td>0,067 ml</td></tr>
+</tbody></table></div>
+<h3 id="unités-personnalisées">Unités personnalisées</h3>
+<p>S’il vous manque une unité — « Becher », ou les « cups » qu’une recette anglaise apporte via l’import d’images —, vous la créez vous-même : <strong>Réglages → Recettes → Unités personnalisées</strong>.</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 13ch"></colgroup>
+<thead><tr><th>Champ</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td><strong>Nom</strong></td><td>La forme longue, « tasse » par exemple.</td></tr>
+<tr><td><strong>Abréviation</strong></td><td>Ce qui figure dans le menu et dans les listes d’ingrédients, « Tas » par exemple. Elle doit être encore libre.</td></tr>
+<tr><td><strong>Mesurée en</strong></td><td><strong>grammes</strong>, <strong>millilitres</strong> ou <strong>comptée</strong>.</td></tr>
+<tr><td><strong>Conversion</strong></td><td>Ce que contient une unité — environ 250 millilitres pour une tasse. Avec « comptée », le champ disparaît.</td></tr>
+</tbody></table></div>
+<p>Pourquoi la conversion est obligatoire : le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent. Sans elle, « 2 tasses de farine » compterait pour 2 grammes.</p>
+<p>Vos unités personnalisées figurent ensuite dans le menu à côté de celles fournies. Pour en retirer une, balayez l’entrée vers la gauche ou touchez <strong>Modifier</strong> en haut à droite. Elles ne valent que sur cet appareil et ne sont pas synchronisées via iCloud.</p>
+<blockquote class="note"><p><strong>Prudence à la suppression :</strong> les recettes qui utilisent une unité supprimée la conservent sous forme de texte — mais l’app ne la connaît plus et affiche le triangle d’avertissement. Il suffit alors de la recréer.</p></blockquote>
+<h3 id="conversion-en-poids">Conversion en poids</h3>
+<p>Pour le <strong>poids total</strong> de la recette, l’app convertit les volumes en grammes en tenant compte de la densité des ingrédients de boulangerie courants — par exemple farine 0,66, eau 1,0, huile 0,8, miel 1,3, sucre 1,0, sucre glace 0,6, beurre 1,0, cacao 0,6, amidon 0,6, noix et amandes 0,5, semoule 0,5, lait 1,0, jus 1,0, confiture 1,33. Le facteur est reconnu d’après le nom de l’ingrédient : « Weizenmehl 550 » est traité comme de la farine.</p>
+<p>Une tasse de farine compte donc pour 200 ml × 0,66 = 132 g, une tasse d’eau pour 200 g.</p>
+<h3 id="fractions-z--n">Fractions (Z / N)</h3>
+<p>Pour des indications comme « ½ œuf » ou « ¾ de cube de levure », utilisez les champs <strong>Z</strong> (numérateur) et <strong>N</strong> (dénominateur). L’app met les fractions à l’échelle avec la taille de portion et les simplifie automatiquement ; 2/2 devient 1, et le reste s’affiche sous forme de fraction (« 1 1/2 »).</p>
+<h3 id="mise-à-léchelle">Mise à l’échelle</h3>
+<p>La taille de portion agit sur le total des ingrédients, sur les listes d’ingrédients des composants et sur le poids total affiché. Elle n’agit <strong>pas</strong> sur les durées — une pâte ne lève pas plus vite parce qu’on en fait moins.</p>
+<p><strong>1,0 correspond toujours à la recette enregistrée.</strong> La taille de portion est une pure option d’affichage : elle ne modifie pas la recette.</p>
+<hr>
+<h2 id="16-confidentialité-modération-et-conditions-dutilisation">16. Confidentialité, modération et conditions d’utilisation</h2>
+<h3 id="où-se-trouvent-vos-données">Où se trouvent vos données</h3>
+<ul><li><strong>Vos recettes, étapes planifiées, listes de courses et historiques de cuisson</strong> se trouvent sur l’appareil et dans votre base iCloud privée. Ils ne sont visibles que par vous et vos propres appareils, pas par les autres utilisateurs de l’app.</li><li><strong>Les recettes publiques</strong> se trouvent dans la base cloud commune et sont visibles par tous les utilisateurs de l’app.</li><li><strong>Les recettes privées dans le cloud</strong> se trouvent également dans le cloud, mais dans un espace séparé que seul leur auteur peut lire — c’est imposé côté serveur et non simplement masqué dans l’app. Les images sont stockées séparément elles aussi et ne peuvent être récupérées que par vous.</li><li><strong>Les traductions</strong> sont produites sur l’appareil.</li><li>L’app utilise un identifiant anonyme afin que vous puissiez supprimer vos propres recettes publiques et que d’autres utilisateurs puissent bloquer des auteurs. Un compte utilisateur n’est pas nécessaire pour cuisiner. Une connexion avec Apple n’est requise que pour les recettes privées dans le cloud et pour les droits de modération ; ni votre nom ni votre adresse e-mail ne sont demandés à cette occasion.</li><li><strong>Vous pouvez supprimer votre compte vous-même à tout moment</strong> — Réglages → Compte → « Supprimer le compte ». Détails au <a href="#14-réglages">chapitre 14</a>.</li></ul>
+<h3 id="conditions-dutilisation-des-recettes-publiques">Conditions d’utilisation des recettes publiques</h3>
+<p>Avant d’enregistrer une recette publiquement pour la première fois, vous devez accepter les conditions. L’essentiel :</p>
+<ul><li>Une recette partagée publiquement est visible par tous les utilisateurs de la base de recettes.</li><li>Une politique de <strong>tolérance zéro</strong> s’applique aux contenus offensants, insultants, illégaux ou portant atteinte au droit d’auteur.</li><li>Vous êtes seul responsable des contenus que vous partagez.</li><li>Les contenus signalés sont examinés et supprimés <strong>dans un délai de 24 heures</strong>.</li><li>Les auteurs qui enfreignent ces règles de manière répétée peuvent être exclus.</li></ul>
+<p>Avec <strong>Refuser</strong>, rien n’est téléversé ; la recette reste dans le formulaire et peut être enregistrée en privé.</p>
+<h3 id="ce-que-vous-pouvez-faire-contre-les-contenus-indésirables">Ce que vous pouvez faire contre les contenus indésirables</h3>
+<p>Via le menu « … » d’une recette publique : <strong>Signaler la recette</strong> (avec un motif) ou <strong>Bloquer l’auteur</strong>. Les deux prennent effet aussitôt — le signalement masque la recette <strong>pour tous les utilisateurs</strong>, le blocage uniquement sur votre appareil. Vous pouvez annuler les deux dans <em>Réglages → Modération</em>. Détails aux <a href="#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud">chapitre 5</a> et <a href="#14-réglages">chapitre 14</a>.</p>
+<hr>
+<h2 id="17-questions-fréquentes-et-dépannage">17. Questions fréquentes et dépannage</h2>
+<p><strong>Aucun rappel n’arrive.</strong><br>Vérifiez dans <em>Réglages → Notifications → BakePlanner</em> que les notifications sont autorisées. Vérifiez également s’il y a bien des étapes dans « Étapes planifiées » — seul un appui sur « Définir un rappel » crée des rappels. Et notez que les rappels dont l’heure est passée ne se déclenchent pas.</p>
+<p><strong>Rien n’arrive sur l’Apple Watch.</strong><br>Les rappels restent sur l’appareil où vous les avez définis. Seules les notifications de l’<strong>iPhone</strong> jumelé sont transmises à la montre — si vous avez planifié sur l’iPad, les rappels de cuisson n’apparaissent que là. Dans ce cas, définissez de nouveau les rappels sur l’iPhone.</p>
+<p><strong>La base de recettes est vide (« Aucune recette chargée »).</strong><br>Il n’y avait pas de connexion internet au lancement. Tirez la liste vers le bas pour recharger.</p>
+<p><strong>J’ai téléversé ma recette dans la base et je veux la corriger.</strong><br>Ce n’est pas possible — les recettes de la base sont immuables, les privées comme les publiques. Supprimez-la via « … » → <strong>Supprimer ma recette</strong> et téléversez la version corrigée. La version sur l’appareil est conservée et redevient téléversable.</p>
+<p><strong>Mes recettes privées ne sont pas dans la liste.</strong><br>Elles n’apparaissent que si vous êtes connecté : <em>Réglages → Compte → Se connecter avec Apple</em>. Veillez à utiliser le même compte Apple qu’à l’enregistrement — les recettes y sont liées. Tirez ensuite la liste vers le bas une fois.</p>
+<p><strong>« Une connexion avec Apple est nécessaire pour les recettes privées dans le cloud. »</strong><br>Vous avez choisi « Privé » comme emplacement sans être connecté. Connectez-vous via la feuille qui apparaît, et l’enregistrement se poursuit. Sans compte, la recette serait introuvable après une réinstallation — c’est pourquoi l’app ne procède pas autrement.</p>
+<p><strong>J’ai touché « Définir un rappel » deux fois par erreur.</strong><br>Au second toucher, l’app demande si le nouveau plan doit remplacer l’existant ou s’ajouter à lui. Si vous avez choisi « Planifier en plus » alors que vous ne vouliez qu’un seul plan, sélectionnez le plan en trop dans « Étapes planifiées » via sa puce et supprimez-le avec la corbeille via « Supprimer seulement “…” ».</p>
+<p><strong>Je veux planifier la même recette pour deux dates différentes.</strong><br>Ce n’est pas possible — chaque recette a un plan, et le second remplace le premier. Comme contournement, vous pouvez dupliquer la recette sous un autre nom et planifier les deux séparément : l’enregistrer <strong>en privé dans le cloud</strong>, la récupérer avec « Enregistrer comme ma recette », la renommer. Le doublon reste ainsi hors de la base publique.</p>
+<p><strong>Le poids total ne correspond pas.</strong><br>En général, c’est une unité que l’app ne connaît pas — le champ d’unité affiche alors un <strong>triangle d’avertissement</strong> — ou un ingrédient sans unité. Vérifiez les ingrédients dans l’onglet « Modifier » et choisissez l’unité dans le menu. Si elle n’y figure pas, créez-la dans <em>Réglages → Recettes → Unités personnalisées</em> (voir <a href="#15-unités-quantités-et-tailles-de-portion">chapitre 15</a>).</p>
+<p><strong>Un ingrédient manque sur la liste de courses.</strong><br>L’eau, le sel, le chef et le levain sont volontairement omis, de même que les ingrédients sans unité ou sans quantité. Voir <a href="#13-liste-de-courses">chapitre 13</a>.</p>
+<p><strong>Un ingrédient manque dans « Total des ingrédients ».</strong><br>L’eau n’y figure pas, ni les ingrédients qui sont eux-mêmes le produit d’un composant (« levain » comme ingrédient de la pâte principale, par exemple), afin que les quantités ne soient pas comptées deux fois. Ils figurent au complet dans la liste des composants en dessous.</p>
+<p><strong>Une étape commence à un moment invraisemblable.</strong><br>Vérifiez les numéros d’étape : les étapes décimales (2.1, 2.2) se déroulent en parallèle, les nombres entiers se succèdent. Un « 3 » saisi par erreur au lieu de « 2.2 » allonge considérablement la durée totale.</p>
+<p><strong>L’import depuis des images ne reconnaît presque rien.</strong><br>Photographiez droit, avec un bon éclairage, une page par image et sans ombres marquées. La reconnaissance est optimisée pour une mise en page à deux colonnes avec exemple de planification. Avec une source inadaptée, la saisie manuelle est plus rapide.</p>
+<p><strong>La traduction échoue.</strong><br>La traduction utilise la traduction sur appareil d’Apple. La première fois, iOS doit fournir le pack linguistique — une connexion internet peut être nécessaire. Réessayez plus tard ou revenez à la langue d’origine.</p>
+<hr>
+<h2 id="18-limitations-connues">18. Limitations connues</h2>
+<ul><li><strong>Les recettes de la base sont immuables une fois téléversées</strong> — les privées comme les publiques. Toute correction impose de supprimer et de téléverser à nouveau.</li><li><strong>Une recette ne peut être téléversée qu’une seule fois</strong>, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.</li><li><strong>Les recettes privées dans le cloud exigent une connexion avec Apple</strong> et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.</li><li><strong>La suppression du compte laisse les recettes publiées dans la base.</strong> Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.</li><li><strong>La pause de cuisson, le début et la fin de journée</strong> ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.</li><li><strong>Les plans définis avant cette mise à jour</strong> ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.</li><li><strong>Si vous modifiez une recette après l’avoir planifiée</strong> (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton <strong>Replanifier</strong>, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.</li><li><strong>Les ingrédients d’un rappel</strong> sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.</li><li>Les étapes planifiées sont rattachées aux recettes par le <strong>nom de la recette</strong>. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.</li><li><strong>Les rappels n’atteignent l’Apple Watch que depuis un iPhone.</strong> Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.</li><li><strong>L’import depuis des images</strong> lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.</li><li><strong>Ce sont les textes qui sont traduits, pas les unités</strong> — c’est voulu, afin que le calcul des quantités reste valable.</li><li><strong>Les noms d’unités n’existent qu’en allemand.</strong> Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu des unités affiche donc des noms et des abréviations allemands dans toutes les langues.</li><li><strong>Il n’existe pas d’export.</strong> Vos recettes se synchronisent certes via iCloud (voir <a href="#2-configuration-requise">chapitre 2</a>), mais elles ne peuvent pas être sauvegardées sous forme de fichier ni transmises à quelqu’un d’autre. Au-delà d’iCloud, la seule voie de sauvegarde reste la base de recettes — en privé, si vous ne voulez pas partager.</li><li><strong>Les auteurs bloqués</strong> ne sont masqués que sur l’appareil concerné ; sur un deuxième appareil, ils réapparaissent. Une recette <strong>signalée</strong> est en revanche invisible pour tous jusqu’à ce qu’un administrateur la réaffiche — pour vous aussi, et même si vous effacez le signalement dans <em>Réglages → Modération</em>.</li><li><strong>Les unités personnalisées ne valent que sur l’appareil où vous les avez créées.</strong> Elles ne sont pas synchronisées via iCloud. Une recette utilisant une telle unité affiche le triangle d’avertissement sur un autre appareil jusqu’à ce que vous l’y créiez également.</li></ul>
+</article>
+
+<footer>
+  <p><a href="#top">Haut de page</a> · <a href="index.html#fr">Aide et contact</a> · <a href="privacy.html">Confidentialité</a></p>
+</footer>
+
+</main>
+</body>
+</html>

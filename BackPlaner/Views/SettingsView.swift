@@ -132,6 +132,8 @@ struct SettingsView: View {
             moderationSection
 
             accountSection
+
+            helpSection
         }
         .clearScrollBackground()
         .warmBackground()
@@ -323,8 +325,49 @@ struct SettingsView: View {
         }
     }
 
+    /// The user manual and the support page live on the website, not in the
+    /// app, so they can be corrected without an update. Both open in Safari,
+    /// like "Link zum Rezept" — the app deliberately has no web view.
+    @ViewBuilder
+    private var helpSection: some View {
+        Section {
+            Link(destination: HelpLinks.manual) {
+                Label("Benutzerhandbuch", systemImage: "book")
+            }
+            Link(destination: HelpLinks.support) {
+                Label("Hilfe und Kontakt", systemImage: "questionmark.circle")
+            }
+        } header: {
+            Text("Hilfe")
+        } footer: {
+            Text("Öffnet die Seiten im Browser.")
+        }
+    }
+
     private func formattedHour(_ hour: Int) -> String {
         String(format: "%02d:00", hour)
+    }
+}
+
+/// Addresses of the manual and the support page on the BakePlanner website,
+/// in the language the app is running in.
+enum HelpLinks {
+
+    static let site = "https://hans-peter60.github.io/bakeplanner/"
+
+    /// "de", "en" or "fr" — the manual exists in exactly these; anything else
+    /// gets English.
+    static var languageCode: String {
+        let code = AppSettings.locale.language.languageCode?.identifier ?? "en"
+        return ["de", "fr"].contains(code) ? code : "en"
+    }
+
+    static var manual: URL {
+        URL(string: "\(site)manual-\(languageCode).html")!
+    }
+
+    static var support: URL {
+        URL(string: "\(site)index.html#\(languageCode)")!
     }
 }
 

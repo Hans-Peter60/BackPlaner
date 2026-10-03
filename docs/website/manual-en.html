@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner – User Manual</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>BakePlanner – User Manual</h1>
+  <p class="claim">Revised: 2 October 2026 · App version 1.0</p>
+</header>
+
+<nav aria-label="Choose language">
+  <a href="index.html#en">Help and contact</a>
+  <a href="manual-de.html" lang="de">Deutsch</a>
+  <a href="manual-en.html" lang="en" aria-current="page">English</a>
+  <a href="manual-fr.html" lang="fr">Français</a>
+  <a href="privacy.html">Privacy</a>
+</nav>
+
+<article>
+<blockquote class="note"><p>Translated from the German original, <code>Benutzerhandbuch.md</code>. Where the two<br>differ, the German version is authoritative.</p></blockquote>
+<hr>
+<h2 id="contents">Contents</h2>
+<ol><li><a href="#1-what-bakeplanner-does">What BakePlanner does</a></li><li><a href="#2-system-requirements">System requirements</a></li><li><a href="#3-key-concepts">Key concepts</a></li><li><a href="#4-the-main-menu">The main menu</a></li><li><a href="#5-recipe-database-public-and-private-cloud-recipes">Recipe database (public and private cloud recipes)</a></li><li><a href="#6-my-recipes">My recipes</a></li><li><a href="#7-baking-instructions-and-reminders">Baking instructions and reminders</a></li><li><a href="#8-creating-a-new-recipe">Creating a new recipe</a></li><li><a href="#9-editing-a-recipe">Editing a recipe</a></li><li><a href="#10-scheduled-steps-list-and-timeline">Scheduled steps (list and timeline)</a></li><li><a href="#11-reminders-on-the-lock-screen">Reminders on the Lock Screen</a></li><li><a href="#12-baking-history-and-baking-top-list">Baking history and Baking Top List</a></li><li><a href="#13-shopping-list">Shopping list</a></li><li><a href="#14-settings">Settings</a></li><li><a href="#15-units-amounts-and-serving-sizes">Units, amounts, and serving sizes</a></li><li><a href="#16-privacy-moderation-and-terms-of-use">Privacy, moderation, and terms of use</a></li><li><a href="#17-frequently-asked-questions-and-troubleshooting">Frequently asked questions and troubleshooting</a></li><li><a href="#18-known-limitations">Known limitations</a></li></ol>
+<hr>
+<h2 id="1-what-bakeplanner-does">1. What BakePlanner does</h2>
+<p>BakePlanner is a baking scheduler for bread, rolls, and pastry. What sets it apart from a plain recipe collection is that <strong>it works out the timing for you</strong>:</p>
+<ul><li>A recipe isn't just a list of ingredients; it's a series of <strong>processing steps with durations</strong>.</li><li>From those durations the app calculates the <strong>start time of every single step</strong>.</li><li>You can plan backwards: "the bread should be ready at 6:00 p.m." — and the app tells you when to start the sourdough.</li><li>Every step gets a <strong>local reminder</strong>, including the automatically inserted steps "turn on the oven" and "baking is finished".</li></ul>
+<p>On top of that: a shared public recipe database, your own recipes on the device, private recipes in the cloud, ingredient import from photos, shopping lists, a baking history with photos and ratings, and on-device translation of public recipes.</p>
+<h3 id="quick-start-your-first-baking-plan-in-five-steps">Quick start: your first baking plan in five steps</h3>
+<ol><li>Open <strong>Recipe database</strong> and pick a recipe — or create one of your own under <strong>Create new recipe</strong>.</li><li>In the recipe, open the <strong>Bake</strong> or <strong>Bake recipe</strong> tab.</li><li>Choose <strong>Start from</strong> or <strong>Done by</strong> and set the date and time.</li><li>Check the calculated start times and tap <strong>Set reminder</strong>.</li><li>Open <strong>Scheduled steps</strong> to review every appointment as a list or a timeline.</li></ol>
+<p>Reminders require BakePlanner to be allowed to send notifications. The full explanations are in <a href="#7-baking-instructions-and-reminders">chapter 7</a>, <a href="#10-scheduled-steps-list-and-timeline">chapter 10</a>, and <a href="#17-frequently-asked-questions-and-troubleshooting">chapter 17</a>.</p>
+<hr>
+<h2 id="2-system-requirements">2. System requirements</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Item</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Devices</td><td>iPhone and iPad</td></tr>
+<tr><td>Operating system</td><td>iOS/iPadOS 26.0 or later</td></tr>
+<tr><td>Orientation</td><td>iPhone: portrait and landscape · iPad: all orientations</td></tr>
+<tr><td>Languages</td><td>German, English, French (switchable in Settings)</td></tr>
+<tr><td>Appearance</td><td>Light and dark mode, Dynamic Type</td></tr>
+<tr><td>Internet</td><td>Needed for the public recipe database and iCloud sync. Your own recipes, planning, and reminders work entirely offline; changes sync later.</td></tr>
+<tr><td>iCloud</td><td>Your own recipes, scheduled steps, shopping lists, and baking histories sync through iCloud across all devices using the same Apple Account, provided iCloud is on. The reminders themselves are local to each device.</td></tr>
+<tr><td>Permissions</td><td>Notifications (for reminders), photo library and camera (for recipe images)</td></tr>
+<tr><td>Sign-in</td><td><strong>Not</strong> required for baking, for your own recipes, or for the public database. Only storing recipes <strong>privately in the cloud</strong> requires signing in with Apple (see <a href="#14-settings">chapter 14</a>).</td></tr>
+</tbody></table></div>
+<p>The app asks for notification permission on first launch. Without it, baking steps are still calculated and listed under "Scheduled steps", but <strong>no reminders appear</strong>.</p>
+<hr>
+<h2 id="3-key-concepts">3. Key concepts</h2>
+<p>These six terms turn up throughout the app:</p>
+<p><strong>Recipe</strong><br>The top-level unit: name, description, image, rating, tags, an optional link to the source, total weight, and working time.</p>
+<p><strong>Component</strong><br>A sub-preparation within a recipe — "sourdough", "preferment", "main dough", "scald", for instance. Each component has a number (its sort order) and its own ingredient list. This is the heart of the data model: BakePlanner is built for multi-stage doughs.</p>
+<p><strong>Ingredient</strong><br>Always belongs to a component. Consists of a number, an amount, a unit, a name, and optionally a fraction (numerator/denominator, labelled <strong>Z / N</strong> in the app).</p>
+<p><strong>Processing step</strong><br>A work instruction with a step number and a duration in minutes. The step number is a decimal and carries a special meaning:</p>
+<ul><li><strong>Whole numbers (1, 2, 3 …) are main steps.</strong> They run one after another.</li><li><strong>Decimals (2.1, 2.2, 2.3) are parallel steps within a main step.</strong> They all start at the same time, and only the <em>longest</em> duration in the group counts towards the total.</li></ul>
+<p>Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. The next main step, 2, begins after 12 hours — not after 14.</p>
+<p><strong>Serving size</strong><br>A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. <strong>1.0 is the recipe exactly as stored.</strong> 2.0 doubles every amount and the displayed total weight.</p>
+<p><strong>Storage</strong><br>Where a recipe lives. There are three options, and the choice decides who can see it:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Storage</th><th>Who sees it?</th><th>Where does it live?</th><th>Editable?</th></tr></thead>
+<tbody>
+<tr><td><strong>On this device only</strong></td><td>only you</td><td>on the device, backed up through your iCloud</td><td>yes, any time</td></tr>
+<tr><td><strong>Private in the cloud</strong></td><td>only you</td><td>in the recipe database, locked to others</td><td>no</td></tr>
+<tr><td><strong>Public for everyone</strong></td><td>every user of the app</td><td>in the recipe database</td><td>no</td></tr>
+</tbody></table></div>
+<p>"Private in the cloud" is meant for recipes you're <strong>not allowed to publish</strong> — out of a book, say — but that you still don't want to keep only on the device. It requires signing in with Apple, because the recipe is tied to your account; without one it would be unreachable after a reinstall.</p>
+<hr>
+<h2 id="4-the-main-menu">4. The main menu</h2>
+<p>After launch the main menu appears with eight cards:</p>
+<figure><img class="screenshot" src="images/en/hauptmenue.png" alt="BakePlanner&#x27;s main menu with the eight functional areas" loading="lazy">
+<figcaption>The main menu is the starting point for recipes, planning, history, and settings.</figcaption>
+</figure>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 19ch"></colgroup>
+<thead><tr><th>Card</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>Recipe database</strong></td><td>Browse public recipes shared by all users — plus your private cloud recipes when you're signed in</td></tr>
+<tr><td><strong>My recipes</strong></td><td>Your locally stored recipes</td></tr>
+<tr><td><strong>Create new recipe</strong></td><td>Build a recipe from scratch or import one from photos</td></tr>
+<tr><td><strong>Scheduled steps</strong></td><td>Every scheduled baking step as a list or a timeline</td></tr>
+<tr><td><strong>Baking history</strong></td><td>Past bakes with comments and photos</td></tr>
+<tr><td><strong>Baking Top List</strong></td><td>Recipes sorted by how often you've baked them</td></tr>
+<tr><td><strong>Shopping list</strong></td><td>All the shopping lists you've created</td></tr>
+<tr><td><strong>Settings</strong></td><td>Language, defaults, baking plan, account</td></tr>
+</tbody></table></div>
+<p><strong>The "Up next" card.</strong> As soon as a baking plan is running, an extra card appears above the eight cards with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). When a step's time has come, the card switches to <strong>"Due now"</strong> with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the card opens "Scheduled steps". With no step ahead the card stays hidden and the menu looks as pictured above.</p>
+<p>The back arrow at the top left returns you to the main menu from anywhere.</p>
+<hr>
+<h2 id="5-recipe-database-public-and-private-cloud-recipes">5. Recipe database (public and private cloud recipes)</h2>
+<p>The recipe database is the shared collection: recipes that you or other users have saved publicly.</p>
+<p>When you're signed in with Apple, the same list also holds <strong>your private cloud recipes</strong>. They're marked with a <strong>lock symbol</strong> before the name and are invisible to other users. Sign out and they disappear from the list — they're not deleted, and they come back the next time you sign in with the same Apple Account.</p>
+<figure><img class="screenshot" src="images/en/oeffentliche-rezepte.png" alt="List of public recipes with search and filter" loading="lazy">
+<figcaption>In the recipe database you can search for and open public recipes.</figcaption>
+</figure>
+<h3 id="searching-and-filtering">Searching and filtering</h3>
+<ul><li><strong>Search field</strong> at the top: searches recipe names.</li><li><strong>Switch the search scope</strong>: below the search field you can choose between <strong>Name</strong> and <strong>Tags</strong>. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).</li><li><strong>Filter symbol</strong> at the top right: <strong>All recipes</strong> or <strong>Mine only</strong>. "Mine only" shows exclusively recipes that came from your account — your private ones and the ones you've published. The symbol changes while the filter is active.</li><li><strong>Pull down</strong> to refresh the list from the cloud.</li></ul>
+<p>"No recipes loaded" means there was no internet connection at launch — pull the list down once. "No matching recipes" means a filter is active.</p>
+<h3 id="opening-a-public-recipe">Opening a public recipe</h3>
+<p>A recipe opens with two tabs along the bottom:</p>
+<ul><li><strong>Bake recipe</strong> — the baking instructions with the schedule (see <a href="#7-baking-instructions-and-reminders">chapter 7</a>)</li><li><strong>Details</strong> — an overview of ingredients, components, and steps</li></ul>
+<h3 id="translating-a-recipe">Translating a recipe</h3>
+<p>At the top right you'll find the <strong>globe symbol</strong>. Through it you choose Deutsch, English, or Français. The translation runs <strong>entirely on the device</strong> (Apple Translation) and covers the recipe name, description, tags, component and ingredient names, and step texts.</p>
+<p>Notes:</p>
+<ul><li><strong>Units are deliberately not translated</strong>, so that the amount calculations keep working.</li><li>The first translation into a language takes a moment (a progress indicator replaces the globe). After that it's cached and available instantly.</li><li>On first opening, the app shows the recipe in your language automatically if a translation already exists.</li><li><strong>The original is never overwritten.</strong> The original is the language the recipe is written in — not the language your app happened to be set to. The app reads that off the recipe text, so a French recipe is kept as a French original even if someone entered it in a German-language app.</li><li>The checkmark in the menu shows which language is currently displayed. Choose it again to go straight back to the original.</li></ul>
+<h3 id="taking-a-copy-of-a-recipe">Taking a copy of a recipe</h3>
+<p>The <strong>Bake recipe</strong> tab has a <strong>Save as my own recipe</strong> button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited.</p>
+<p>The app confirms with <strong>"Recipe was saved"</strong> and a note that you can edit the copy without changing the public recipe. If saving fails, an error message appears instead — nothing disappears silently.</p>
+<h3 id="publishing-a-private-recipe">Publishing a private recipe</h3>
+<p>For your <strong>private</strong> cloud recipes, the <strong>Bake recipe</strong> tab also offers <strong>Save as a public recipe</strong>. That makes the recipe visible to every user. First you're asked to confirm that it can't be changed afterwards and that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.</p>
+<p><strong>Your private version stays in place</strong> — the recipe then appears twice in the list, once with a lock. If you don't want that, delete the private version afterwards via "…" → <strong>Delete my recipe</strong>.</p>
+<p>For recipes that are already public, the button doesn't appear.</p>
+<h3 id="reporting-blocking-deleting">Reporting, blocking, deleting</h3>
+<p>Through the <strong>"…" menu</strong> at the top right:</p>
+<ul><li><strong>Report recipe</strong> — you choose a reason (objectionable/offensive, spam, copyright infringement, other). The report goes to the operator for review, and the recipe is hidden <strong>from every user immediately</strong>, not only after the review. It becomes visible again only if an administrator releases it.</li><li><strong>Block author</strong> — every recipe by that author disappears from your list. This applies <strong>on your device only</strong>; other users still see them.</li><li><strong>Delete my recipe</strong> — appears only for recipes that came from <em>your</em> account. The recipe is removed from the database for good.</li></ul>
+<p>For <strong>private</strong> recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Delete my recipe" is there.</p>
+<p>So the two differ in reach: <strong>blocking is local, reporting affects everyone.</strong> Both can be undone under <em>Settings → Moderation</em> (see <a href="#14-settings">chapter 14</a>).</p>
+<h3 id="administrator-function">Administrator function</h3>
+<p>If you're signed in as an administrator (see <a href="#14-settings">chapter 14</a>), the <strong>Details</strong> tab also offers <strong>Delete recipe (Admin)</strong>. It removes any public recipe — intended for moderating reported content. An administrator has no access to other users' <strong>private</strong> recipes; they aren't shared, so they aren't a moderation matter either.</p>
+<hr>
+<h2 id="6-my-recipes">6. My recipes</h2>
+<p>This is where every recipe stored locally on the device lives: the ones you created and the ones you copied from the database.</p>
+<figure><img class="screenshot" src="images/en/eigene-rezepte.png" alt="List of my recipes with image, name, and tags" loading="lazy">
+</figure>
+<p>While the list is empty, it offers the two ways to a first recipe right there: <strong>Open the recipe database</strong> and <strong>Create new recipe</strong>.</p>
+<h3 id="searching-and-filtering">Searching and filtering</h3>
+<ul><li><strong>Search field</strong> with a <strong>Name / Tags</strong> switch.</li><li><strong>Filter symbol</strong> at the top right: pick a minimum rating (All ratings, 1–5 stars and up). While a filter is active, the symbol is shown filled.</li></ul>
+<p>The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search and rating filters can be combined.</p>
+<h3 id="deleting-a-recipe">Deleting a recipe</h3>
+<p>Swipe the row left → <strong>Delete</strong>. A confirmation follows, naming the recipe, so that an accidental swipe can't destroy one. Deleting a recipe also deletes its components, ingredients, processing steps, and baking-history entries.</p>
+<p>Steps already scheduled for that recipe do stay in "Scheduled steps", though — delete them separately there if you no longer need them.</p>
+<h3 id="the-five-tabs-of-your-own-recipe">The five tabs of your own recipe</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 15ch"></colgroup>
+<thead><tr><th>Tab</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><strong>Bake</strong></td><td>Baking instructions with the schedule and "Set reminder"</td></tr>
+<tr><td><strong>Details</strong></td><td>Rating, description, total ingredients, components, step overview, <strong>Share recipe</strong> as PDF</td></tr>
+<tr><td><strong>Edit</strong></td><td>Edit the recipe (see <a href="#9-editing-a-recipe">chapter 9</a>)</td></tr>
+<tr><td><strong>Shopping list</strong></td><td>Put this recipe's ingredients on a shopping list</td></tr>
+<tr><td><strong>+ History</strong></td><td>Record a bake with date, comment, and photos</td></tr>
+</tbody></table></div>
+<p>In the <strong>Details</strong> tab you can tap the recipe image to see it full size.</p>
+<hr>
+<h2 id="7-baking-instructions-and-reminders">7. Baking instructions and reminders</h2>
+<p>This is the heart of the app. The layout is the same for your own and for public recipes.</p>
+<figure><img class="screenshot" src="images/en/rezept-backansicht-zeitplanung.png" alt="A recipe&#x27;s baking view with processing steps, duration, and calculated start" loading="lazy">
+<figcaption>The baking view puts each processing step's duration next to its calculated start.</figcaption>
+</figure>
+<h3 id="from-top-to-bottom">From top to bottom</h3>
+<ol><li><strong>Image and name</strong> — tap the image to enlarge it.</li><li><strong>Serving size</strong> (0.5 / 1.0 / 1.5 / 2.0) or <strong>dough weight</strong>, the <strong>weight in grams</strong> calculated from it, — if one is stored — the <strong>Recipe link</strong>, and <strong>Share recipe</strong>: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab.</li><li><strong>Total ingredients</strong> — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.</li><li><strong>Components</strong> — sorted by number, each with its ingredients at the chosen serving size.</li><li><strong>Control bar</strong> — see below.</li><li><strong>Processing steps</strong> — a table of step, description, duration, and calculated <strong>Start</strong>. The last row reads "Done", with the finishing time.</li><li><strong>Baking comments</strong> (your own recipes only) — earlier baking-history entries.</li><li><strong>Set reminder</strong>.</li></ol>
+<h3 id="the-control-bar">The control bar</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 22ch"></colgroup>
+<thead><tr><th>Element</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td><strong>Change duration</strong></td><td>A switch. When active, a "Duration [min]" field appears for each step.</td></tr>
+<tr><td><strong>Start from / Done by</strong></td><td>Decides how the date below is interpreted. Abbreviated on iPhone in portrait.</td></tr>
+<tr><td><strong>Date and time</strong></td><td>The reference point for the plan.</td></tr>
+</tbody></table></div>
+<p><strong>Start from</strong> means: I'm starting at this moment — when will I be done?<br><strong>Done by</strong> means: I want to be finished at this moment — when do I have to start? The "Start" column then counts backwards.</p>
+<p>Change the time and watch the "Start" column adjust immediately. Nothing is saved yet.</p>
+<h3 id="adjusting-durations">Adjusting durations</h3>
+<ol><li>Turn on <strong>Change duration</strong>.</li><li>Enter new minute values in the fields in the right-hand column. Empty fields and values of 0 or less are ignored, and the previous value stays.</li><li>Tap <strong>Apply duration</strong>.</li></ol>
+<p>The app then recalculates every start time and the total working time. For your own recipes the new durations are saved permanently; for public recipes they apply only to the current plan.</p>
+<h3 id="what-the-app-objects-to-in-a-plan">What the app objects to in a plan</h3>
+<p>Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminder".</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 11ch"></colgroup>
+<thead><tr><th>Sign</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>⚠️ orange</td><td><strong>A note.</strong> The plan works, but you should know about it.</td></tr>
+<tr><td>⛔️ red</td><td><strong>An error.</strong> Two bakes would overlap in the oven.</td></tr>
+</tbody></table></div>
+<p>Three things are checked:</p>
+<ul><li><strong>Steps outside your day.</strong> If a step falls before <strong>Start of day</strong> or after <strong>End of day</strong> from Settings, it gets named: "'Stretch and fold' starts on 11/09/26 at 3:07 a.m., which is before the start of day (6:00 a.m.)." With long fermentations that's normal and no cause for concern — it just shows you what you'd have to get up for.</li><li><strong>Overlapping baking times.</strong> If another recipe has the oven booked for the same period, that's an error: two loaves don't fit in at two different temperatures.</li><li><strong>Too short a baking pause.</strong> If less time than the configured <strong>Baking pause</strong> falls between two bakes, you get a note. The oven needs that time to change temperature.</li></ul>
+<p>The notes don't prevent anything — you can still set the plan. They only spare you the surprise at three in the morning.</p>
+<h3 id="setting-reminders">Setting reminders</h3>
+<p>Tapping <strong>Set reminder</strong> does several things at once:</p>
+<ol><li>A local reminder is set for <strong>every processing step</strong> at its calculated start time.</li><li>The step <strong>"turn on the oven"</strong> is inserted automatically — the configured <strong>Preheat time</strong> before the final step (15 minutes by default, adjustable in Settings).</li><li><strong>"Baking is finished"</strong> is likewise scheduled for the finishing time.</li><li>Every step lands in <strong>Scheduled steps</strong>.</li><li>For your own recipes a <strong>baking-history entry</strong> is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.</li></ol>
+<p>A confirmation then appears, for example:</p>
+<blockquote class="note"><p><strong>Reminders were set</strong><br>12 reminders set.<br>Turn on the oven at 4:45 p.m.<br>Done at 6:10 p.m.</p></blockquote>
+<p>The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).</p>
+<blockquote class="note"><p><strong>One recipe, one plan — or several.</strong> Tap "Set reminder" while a plan for this recipe is already running and the app asks: <strong>Replace existing plan</strong> discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. <strong>Add as a second plan</strong> keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.</p></blockquote>
+<blockquote class="note"><p><strong>For Apple Watch: set the reminders on the iPhone.</strong> Reminders are created on the device where you tap "Set reminder", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.<br>A plan that has already been set can't be moved to another device afterwards — in that case simply set the reminders again on the iPhone. The recipe itself is on both devices through iCloud anyway.</p></blockquote>
+<hr>
+<h2 id="8-creating-a-new-recipe">8. Creating a new recipe</h2>
+<p>Through <strong>Main menu → Create new recipe</strong>. The form is laid out from top to bottom.</p>
+<figure><img class="screenshot" src="images/en/neues-rezept.png" alt="The form for creating a new recipe" loading="lazy">
+<figcaption>In the recipe form you can import images or enter everything by hand.</figcaption>
+</figure>
+<h3 id="importing-a-recipe-from-images">Importing a recipe from images</h3>
+<p>Right at the top: <strong>Import recipe from images</strong>. It reads in a printed or photographed recipe.</p>
+<ol><li><strong>Select Images</strong> (up to 10 pages; the order you pick them in is kept) or <strong>Take Photo</strong> for a new shot.</li><li>The chosen pages appear as a list, "Selected Pages"; individual ones can be removed with the bin symbol.</li><li><strong>"Analyse … image(s)"</strong> starts the text recognition. It runs on the device, shows "Reading image x of y …", and can be cancelled at any time.</li><li>The app then shows a <strong>summary</strong>: the recognised name, the number of components, ingredients, and steps, plus the recognised components with their ingredients and the recognised schedule.</li><li><strong>Check data in the recipe form</strong> transfers everything into the normal recipe form. <strong>Select Different Images</strong> starts over.</li></ol>
+<p>The app reads the images with every source type it knows and keeps the result that fits what's on the page; through <strong>Source type</strong> you can also pin a particular one. Straight, legible photos give the best results.</p>
+<h4 id="choosing-the-name-yourself">Choosing the name yourself</h4>
+<p>Which line is the heading isn't always visible from a page: a logo, a printed header, and a column heading all look like a title. If the recognised name is wrong, <strong>tap the "Name" row in the summary</strong>. The page then appears exactly as you photographed it, with a frame around every recognised line:</p>
+<ul><li><strong>Tap</strong> to choose a line as the recipe name.</li><li><strong>Pinch out with two fingers</strong> to magnify the page up to six times, in case the lines are close together.</li><li>For multi-page recipes, a bar at the top switches between <strong>pages</strong>.</li><li>If the name isn't on the page at all, type it into the <strong>Recipe name</strong> field below.</li></ul>
+<p><strong>Mind the crop.</strong> Cut away everything that isn't part of the recipe: logos, headers and footers, page numbers, web addresses, and stray text from neighbouring articles. That saves you the corrections in the first place. <strong>Handwritten recipes</strong> can't be read reliably by text recognition.</p>
+<p>Afterwards be sure to check <strong>amounts, units, temperatures, and times</strong> — nothing is saved until you choose "Save recipe" in the form.</p>
+<h3 id="storage-local-private-in-the-cloud-or-public">Storage: local, private in the cloud, or public</h3>
+<p>In the <strong>Save</strong> section you choose between the three storage options (see also the overview in <a href="#3-key-concepts">chapter 3</a>). A sentence below each choice explains what it means. The default comes from Settings (Default storage).</p>
+<ul><li><strong>Local</strong> — the recipe stays on the device, is backed up through your iCloud, and can be changed at any time.</li><li><strong>Private</strong> — the recipe is stored in the recipe database but visible only to you. That requires <strong>signing in with Apple</strong>; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app points out that a recipe in the database can't be changed once saved.</li><li><strong>Public</strong> — the recipe becomes visible to every user. First comes the note: <strong>"A public recipe can no longer be changed after it has been saved."</strong> The first time round you also have to accept the terms of use (see <a href="#16-privacy-moderation-and-terms-of-use">chapter 16</a>). For private recipes they aren't required — you aren't sharing anything.</li></ul>
+<p>When importing from images, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.</p>
+<h3 id="recipe-image">Recipe image</h3>
+<p><strong>Photo library</strong> or <strong>camera</strong> (the camera button only on devices that have one).</p>
+<blockquote class="note"><p><strong>An image is mandatory.</strong> Without a recipe image, saving produces the message "Image required".</p></blockquote>
+<h3 id="master-data-and-tags">Master data and tags</h3>
+<ul><li><strong>Name</strong> — required. As long as it's empty, "Save recipe" stays disabled.</li><li><strong>Description</strong> — a multi-line text field.</li><li><strong>URL link</strong> — an optional link to the source; appears later as "Recipe link".</li><li><strong>Tags</strong> — type a keyword, tap <strong>+</strong>. Tags are searchable later.</li></ul>
+<h3 id="components-and-ingredients">Components and ingredients</h3>
+<p>The component first, then its ingredients:</p>
+<ol><li>Enter the component's number and name (<code>1</code> / <code>Sourdough</code>, for example) and tap <strong>+</strong>. The number counts up automatically.</li><li>Below each component the ingredient entry row appears, with these columns:</li></ol>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 17ch"></colgroup>
+<thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>No.</strong></td><td>Sort order within the component</td></tr>
+<tr><td><strong>Amount / Weight</strong></td><td>The numeric value of the amount</td></tr>
+<tr><td><strong>Unit</strong></td><td>A menu; see <a href="#15-units-amounts-and-serving-sizes">chapter 15</a></td></tr>
+<tr><td><strong>Ingredient</strong></td><td>The ingredient's name</td></tr>
+<tr><td><strong>Z / N</strong></td><td>The fraction — numerator and denominator, 1 / 2 for "½"</td></tr>
+</tbody></table></div>
+<ol><li><strong>+</strong> adds the ingredient, the bin symbol removes it again. Rows already entered are directly editable.</li></ol>
+<p>Only the <strong>name</strong> is mandatory — an ingredient without an amount and unit is allowed ("salt to taste"). Use either amount/weight <strong>or</strong> the fraction fields, not both for the same figure.</p>
+<h3 id="processing-steps">Processing steps</h3>
+<p>Columns <strong>Step</strong>, <strong>Description</strong>, <strong>Duration</strong> (minutes). After you add one, the step number continues automatically: from a whole number to the next whole number, from a decimal in steps of 0.1. That makes it easy to enter parallel sub-steps as 2.1, 2.2, 2.3.</p>
+<p>Remember the rule from <a href="#3-key-concepts">chapter 3</a>: decimal steps run in parallel, whole numbers one after another.</p>
+<h3 id="saving">Saving</h3>
+<ul><li><strong>Save recipe</strong> — saves locally or uploads to the database. During an upload, "Recipe is uploading ..." appears; then either "Recipe was saved" or a specific error message.</li><li><strong>Delete contents</strong> — clears the whole form (without asking).</li></ul>
+<hr>
+<h2 id="9-editing-a-recipe">9. Editing a recipe</h2>
+<p>Reachable through <strong>My recipes → recipe → "Edit" tab</strong>.</p>
+<h3 id="automatic-saving">Automatic saving</h3>
+<p>Changes to <strong>name, description, URL link, tags, and rating</strong> are saved automatically — shortly after you type and at the latest when you leave the screen. There's no confirmation message for it.</p>
+<p>A new <strong>recipe image</strong> is saved the moment you choose it.</p>
+<h3 id="rating">Rating</h3>
+<p>Tap the stars at the top right: 1 to 5 stars. Tapping the first star again resets the rating to 0. The rating is what the rating filter in the lists works on.</p>
+<h3 id="changing-components">Changing components</h3>
+<ul><li><strong>Adding</strong>: enter a number and name, <strong>+</strong>.</li><li><strong>Editing</strong>: tap the component's row. "Edit component" opens with the number, the name, and the full ingredient list. There you can add ingredients (<strong>+</strong>), delete them (bin), and edit one by tapping it in the "Edit ingredient" dialogue. <strong>Done</strong> applies, <strong>Cancel</strong> discards.</li><li><strong>Deleting</strong>: the bin next to the component. The recipe's total weight is recalculated afterwards.</li></ul>
+<h3 id="changing-processing-steps">Changing processing steps</h3>
+<ul><li><strong>Adding</strong>: enter step, description, duration, <strong>+</strong>. Start times are recalculated automatically.</li><li><strong>Editing</strong>: tap the step's row → "Edit processing step". After <strong>Done</strong> the app recalculates every start time and the working time.</li><li><strong>Deleting</strong>: the bin next to the row.</li></ul>
+<h3 id="saving-manually">Saving manually</h3>
+<p>The <strong>Save</strong> section holds three buttons — the same three storage options as when creating. You'll also find them at the top right of the navigation bar, in the menu behind the save symbol.</p>
+<ul><li><strong>Local</strong> — saves everything including the image, recalculates the total weight, and confirms with "Recipe was saved".</li><li><strong>Private</strong> — stores the recipe privately in the recipe database; that requires signing in with Apple. Visible only to you and not editable afterwards.</li><li><strong>Public</strong> — uploads the recipe so it's visible to every user. The note that it can't be changed afterwards appears here too.</li><li><strong>Delete</strong> (top left) — clears the recipe's contents.</li></ul>
+<p>After a successful upload, <strong>both cloud buttons are disabled</strong>, because the recipe now has a copy in the database — a recipe can only be uploaded once, privately <em>or</em> publicly.</p>
+<p>If that copy is later deleted (by you or by moderation), the app notices the next time you open the recipe and releases the buttons again. This requires you to be signed in — when signed out, the app can't check whether a private copy still exists and leaves the buttons locked to be safe.</p>
+<hr>
+<h2 id="10-scheduled-steps-list-and-timeline">10. Scheduled steps (list and timeline)</h2>
+<p><strong>Main menu → Scheduled steps.</strong> This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. You switch between two views at the bottom.</p>
+<figure><img class="screenshot" src="images/en/geplante-schritte-liste.png" alt="Scheduled steps as a list: each card shows the recipe image, start time, duration, and step text; the &quot;Weizensauerteig&quot; card carries an i symbol for the ingredients next to the clock symbol" loading="lazy">
+<figcaption>In its empty state, the list view also shows where new plans are created.</figcaption>
+</figure>
+<h3 id="the-scheduled-steps-view-list">The "Scheduled steps" view (list)</h3>
+<p>Every step is a card with the recipe image, recipe name, start time, date, duration, and instruction. Tapping one opens the detail view with the recipe, the start, the step number, the duration, and the full description.</p>
+<p><strong>Looking up a component's ingredients</strong> — through the <strong>i symbol</strong> on the card. It only appears on steps that mix one of the recipe's components, such as "Make preferment A" or "Make the final dough". Tapping it opens the ingredients of exactly that component with their amounts, so you can weigh out straight from the plan without opening the recipe. The amounts refer to the default serving size set in Settings.</p>
+<p>The app recognises such a mixing step by the name of a recipe component occurring in the step text. Steps from the image import know which component they belong to anyway. A step like "Fold the dough" with no component name gets no i symbol.</p>
+<p><strong>Rescheduling a step</strong> — through the clock symbol on the card:</p>
+<ol><li>Enter minutes (1440 at most, that is 24 hours).</li><li>Choose a direction: <strong>Earlier</strong> or <strong>Later</strong>.</li><li>Choose a scope: <strong>This step only</strong> or <strong>All Following Steps</strong> (every later step of the same recipe moves by the same amount).</li><li><strong>Apply</strong>.</li></ol>
+<p>The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".</p>
+<p><strong>Ticking a step off as done</strong> — through the <strong>checkmark symbol</strong> on the card, or by swiping the row to the <strong>right</strong> and tapping "Done". The step leaves the plan, its reminder is removed with it, and the "Up next" card in the main menu and the widget move on to the next step. It is the same action as "Done" in the notification, just right in the list.</p>
+<p><strong>Deleting:</strong></p>
+<ul><li><strong>A single step</strong>: swipe the row left. Its reminder is removed with it.</li><li><strong>All steps</strong>: the bin button at the bottom right, then "Delete all". That removes every scheduled step <strong>and</strong> every pending reminder — including those for recipes you no longer want to bake.</li></ul>
+<h3 id="the-timeline-view">The "Timeline" view</h3>
+<p>The same steps as a vertical time axis. The timestamp is on the left — with weekday and date for the first step of a day, only the time for the ones that follow. Dots and connecting lines make it visible which steps fall together on one day and where the longer gaps are. Handy for getting an overview of a multi-day fermentation.</p>
+<figure><img class="screenshot" src="images/en/geplante-schritte-timeline.png" alt="Scheduled steps as a timeline: start times on a vertical axis, grouped by day" loading="lazy">
+<figcaption>The tab at the bottom switches between list and timeline.</figcaption>
+</figure>
+<p>With no steps scheduled, both views read: "No scheduled steps — Set a reminder in a recipe's baking instructions."</p>
+<h3 id="bake-mode">Bake mode</h3>
+<p>For working in the kitchen there is a <strong>Start bake mode</strong> button above the list. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.</p>
+<p>At the bottom sit large buttons that can be hit with flour on your hands:</p>
+<ul><li><strong>Back</strong> and <strong>Next</strong> page through every step of the plan.</li><li><strong>Read aloud</strong> speaks the step and, where present, the ingredients through the speaker in the app language you have set. A second tap (<strong>Stop</strong>) cancels. Speech also plays while the device is muted. If you do not want it, switch off <em>Settings → Baking plan → Speech in bake mode</em>; the button then disappears.</li><li><strong>Done</strong> removes the step together with its reminder and jumps to the next one.</li></ul>
+<p>Bake mode opens on the step that is up right now and respects the list's recipe filter. While it is open, the screen stays on. <strong>Close</strong> at the top right returns to the list.</p>
+<h3 id="the-next-baking-step-widget">The "Next baking step" widget</h3>
+<p>You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" card in the main menu — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, <strong>"Due now"</strong> with the elapsed time. Tapping it opens "Scheduled steps" directly.</p>
+<ul><li><strong>Small</strong>: step text, day and time, countdown.</li><li><strong>Medium</strong>: additionally the recipe name.</li><li><strong>Lock Screen</strong>: as a rectangular widget with step text and countdown, or as a one-line display next to the clock.</li></ul>
+<p>To add it: press and hold the Home Screen → <strong>Edit</strong> → <strong>Add Widget</strong> → choose <strong>BakePlanner</strong> → pick a size → <strong>Add Widget</strong>. The widget updates by itself whenever a step starts or falls due, and whenever the plan changes in the app. With no planned steps it reads "No step planned".</p>
+<p>The widget uses the device's <strong>system language</strong>, not the app language chosen in Settings.</p>
+<hr>
+<h2 id="11-reminders-on-the-lock-screen">11. Reminders on the Lock Screen</h2>
+<p>Every reminder appears as a notification titled <strong>"Baking reminder"</strong>, with the subtitle "Press and hold for Done or Reschedule" and the step text as its content.</p>
+<p><strong>Ingredients in the reminder.</strong> If the step mixes a component, the ingredients of that component with their amounts follow below the step text — the same ones that sit behind the i symbol in "Scheduled steps":</p>
+<blockquote class="note"><p><strong>Baking reminder</strong><br>Make preferment A<br>Ingredients for "Preferment A":<br>• 200 g wheat flour 550<br>• 200 g water<br>• 2 g yeast</p></blockquote>
+<p>The banner shows only the first lines. Press and hold the notification, or expand it in Notification Centre, to see the whole list. The amounts match the serving size that was selected in the baking instructions when the reminders were set.</p>
+<p><strong>Press and hold the notification</strong> to get two actions:</p>
+<ul><li><strong>Mark as Done</strong> — the step is removed from "Scheduled steps".</li><li><strong>Reschedule by …</strong> — enter the minutes directly in the notification. A follow-up question then appears: <strong>"Should all following steps of this recipe be moved as well?"</strong> with the options <strong>Only this step</strong> and <strong>All Following Steps</strong>.</li></ul>
+<p>Rescheduling is always counted from <strong>now</strong>: "30 minutes" means "30 minutes from now". With "All Following Steps", every later step of the same recipe moves by the same difference — so a fermentation stays coherent even when you're running late.</p>
+<p>Notifications are shown while the app is in the foreground too.</p>
+<h3 id="live-activity">Live Activity</h3>
+<p>While a plan is running, BakePlanner also shows the upcoming step as a <strong>Live Activity</strong>: as its own tile on the Lock Screen, and at the top of the display on iPhones with a Dynamic Island. It shows the step text, the recipe name, the time, the step after it ("Then 00:36 · Weizensauerteig …") and a running countdown. When the time has come, the tile switches to <strong>"Due now"</strong> and counts the elapsed time up. A tap opens "Scheduled steps"; on the Dynamic Island a long press expands the view.</p>
+<p>The Live Activity appears as soon as a step is less than eight hours away — iOS ends Live Activities after eight hours at the latest, so not earlier. It is updated when you open the app, mark a step as done or reschedule it, and it ends when no step is within reach any more. The first time, iOS asks whether BakePlanner may show Live Activities. Under <em>Settings → Baking plan → Live Activity on the Lock Screen</em> it can be switched off altogether.</p>
+<p><strong>Apple Watch.</strong> The baking reminders appear on the watch if you set them on the <strong>iPhone</strong> — the iPhone's notifications are passed on to the paired watch. Reminders set on the iPad stay on the iPad. More on this in <a href="#7-baking-instructions-and-reminders">chapter 7</a>.</p>
+<hr>
+<h2 id="12-baking-history-and-baking-top-list">12. Baking history and Baking Top List</h2>
+<h3 id="baking-history">Baking history</h3>
+<p><strong>Main menu → Baking history.</strong> Every bake, newest first, either as a <strong>list</strong> with date, recipe name, comment and photos — or as a <strong>gallery</strong>: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. Switch between the two with the symbol at the top right; the choice is remembered. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.</p>
+<ul><li><strong>Tap an entry</strong> (row or tile) → baking notes: edit the comment and add photos through <strong>Photo library</strong>. Photos can be tapped and browsed full size. <strong>Save</strong> confirms with "History was saved".</li><li><strong>Delete an entry</strong>: swipe the row left.</li><li><strong>Searching and filtering</strong>: the search field (Name/Tags) and the rating filter at the top right.</li></ul>
+<h3 id="recording-a-bake-after-the-fact">Recording a bake after the fact</h3>
+<p><strong>My recipes → recipe → "+ History" tab.</strong> Choose the baking date (up to 10 years back), write a comment, add photos from the library, <strong>Save</strong>.</p>
+<p>An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded", which you can replace later.</p>
+<h3 id="baking-top-list">Baking Top List</h3>
+<p><strong>Main menu → Baking Top List.</strong> Shows every recipe you've baked at least once, sorted by the number of bakes — your classics at the top. Each recipe shows its name, the count, and the photos from the baking histories. Search and rating filters work as they do in the other lists.</p>
+<hr>
+<h2 id="13-shopping-list">13. Shopping list</h2>
+<h3 id="putting-ingredients-on-a-list">Putting ingredients on a list</h3>
+<p>If there is no list yet, the empty screen under "Shopping list" explains the way and leads straight to the recipes with <strong>Open my recipes</strong>.</p>
+<p><strong>My recipes → recipe → "Shopping list" tab.</strong></p>
+<ul><li><strong>New list</strong>: choose a date, <strong>Create</strong>. If a list already exists for that date, the ingredients are added to it.</li><li><strong>Existing list</strong>: switch to "Existing list" and tap <strong>+</strong> next to the list you want. To delete one, swipe the row left.</li></ul>
+<p>The confirmation reads "Ingredients were added to the shopping list". A link to <strong>Show shopping lists</strong> appears afterwards.</p>
+<h3 id="what-makes-it-onto-the-list--and-what-doesnt">What makes it onto the list — and what doesn't</h3>
+<p>The app filters deliberately:</p>
+<ul><li><strong>Left out</strong> are ingredients whose name contains <strong>water, salt, starter,</strong> or <strong>sourdough</strong> — you have those in the house, or they're an intermediate product.</li><li><strong>Left out</strong> are ingredients with no unit or no usable amount.</li><li><strong>Identical ingredients are combined.</strong> Temperature details are stripped from the name in the process: "water (lukewarm)", "milk 30 °C", and "milk" count as the same ingredient. Capitalisation and umlauts make no difference.</li><li><strong>Units are converted</strong> when they share the same base unit: 0.5 kg + 200 g are added together, and so are tablespoons and millilitres. Grams and millilitres stay separate.</li></ul>
+<h3 id="viewing-shopping-lists">Viewing shopping lists</h3>
+<p><strong>Main menu → Shopping list.</strong> Each list shows its date, the recipes it contains, and below them every ingredient with its amount and unit. <strong>Delete</strong> removes the list after a confirmation.</p>
+<hr>
+<h2 id="14-settings">14. Settings</h2>
+<p><strong>Main menu → Settings.</strong></p>
+<figure><img class="screenshot" src="images/en/einstellungen.png" alt="BakePlanner&#x27;s settings: General with language and default storage, Recipes with default serving size, detail view, and custom units, Baking schedule with preheat time, baking pause, start of day, and end of day; Moderation begins below" loading="lazy">
+<figcaption>Settings bring together language, defaults, and the parameters for the baking plan. The Moderation and Account sections follow further down.</figcaption>
+</figure>
+<h3 id="general">General</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 17ch"></colgroup>
+<thead><tr><th>Setting</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Language</strong></td><td>System language, German, English, or French. Affects the interface as well as date and time formats.</td></tr>
+<tr><td><strong>Default storage</strong></td><td>The default for new recipes: <strong>On this device only</strong>, <strong>Private in the cloud</strong>, or <strong>Public for everyone</strong>. Default: on this device only.</td></tr>
+</tbody></table></div>
+<h3 id="recipes">Recipes</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 26ch"></colgroup>
+<thead><tr><th>Setting</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Default serving size</strong></td><td>The value recipes open with: 0.5 / 1.0 / 1.5 / 2.0. Default: 1.0.</td></tr>
+<tr><td><strong>Use detail view</strong></td><td>On: the components and steps of every public recipe are loaded along with the list — recipes open faster, but the first load takes longer and uses more data. Off: details are loaded only when you open a recipe. Default: on.</td></tr>
+<tr><td><strong>Show baker's percentages</strong></td><td>Adds each weighed ingredient's share of the component's flour in the component view (see <a href="#15-units-amounts-and-serving-sizes">chapter 15</a>). Default: off.</td></tr>
+<tr><td><strong>Custom units</strong></td><td>Shows how many you've created and leads to managing them. See <a href="#15-units-amounts-and-serving-sizes">chapter 15</a>.</td></tr>
+</tbody></table></div>
+<h3 id="baking-schedule">Baking schedule</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Setting</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Preheat time</strong></td><td>0–120 minutes in steps of 5. Used when setting reminders, to place the automatic "turn on the oven" step before the final step. Default: 15 minutes.</td></tr>
+<tr><td><strong>Baking pause</strong></td><td>0–120 minutes. The minimum gap between two bakes in the same oven. Default: 10 minutes.</td></tr>
+<tr><td><strong>Start of day</strong></td><td>0–23. From when you're available in the morning. Default: 6.</td></tr>
+<tr><td><strong>End of day</strong></td><td>Between start of day and 23. Default: 23.</td></tr>
+<tr><td><strong>Speech in bake mode</strong></td><td>Shows or hides the "Read aloud" button in bake mode. Default: on.</td></tr>
+<tr><td><strong>Live Activity on the Lock Screen</strong></td><td>Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on.</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p><strong>Note:</strong> Only <strong>Preheat time</strong> actually moves steps. <strong>Baking pause, start of day, and end of day</strong> don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or two bakes collide (see <a href="#7-baking-instructions-and-reminders">chapter 7</a>).</p></blockquote>
+<h3 id="account">Account</h3>
+<p>This is where you sign in with Apple. Signing in serves two purposes:</p>
+<ul><li><strong>Private cloud recipes.</strong> They're tied to your Apple Account. That's the only way they remain reachable after a reinstall or on a second device — an anonymous identifier is lost with the app.</li><li><strong>Moderation rights.</strong> If your identifier has been enabled for it, the label <strong>Administrator</strong> appears as well, and public recipes gain the "Delete recipe (Admin)" button.</li></ul>
+<p><strong>Neither your name nor your email address is requested</strong> — the app only needs the identifier itself. If your use has been anonymous so far, it carries over when you sign in: recipes already published from this device still belong to you afterwards.</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 20ch"></colgroup>
+<thead><tr><th>Button</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td><strong>Sign in with Apple</strong></td><td>Creates or connects your account.</td></tr>
+<tr><td><strong>Sign out</strong></td><td>Back to anonymous use. Private cloud recipes disappear from the list but stay stored and are back after the next sign-in. The app confirms with <strong>"You're signed out"</strong>; it does <strong>not</strong> ask you to sign in again to confirm — that belongs to deleting the account alone.</td></tr>
+<tr><td><strong>Delete account</strong></td><td>Removes the account for good (see below).</td></tr>
+</tbody></table></div>
+<p><strong>Delete account</strong> asks first. Then this happens:</p>
+<ul><li>Your <strong>private</strong> cloud recipes are deleted along with their images.</li><li>The sign-in is undone; the app carries on anonymously.</li><li><strong>Published recipes stay</strong> visible to every user. They no longer belong to any account, so you can't delete them yourself any more — do that beforehand if you don't want to leave them in the database.</li><li><strong>Recipes on the device stay.</strong> They belong to the device and your iCloud, not to the account.</li></ul>
+<p>This can't be undone. If your last sign-in was a while ago, Apple requires you to sign in again for security — the "Sign in again" sheet appears, and the deletion then continues by itself.</p>
+<p>For ordinary baking, for your own recipes, and for browsing the public database, <strong>no sign-in is required</strong>.</p>
+<h3 id="moderation">Moderation</h3>
+<p>This is where you take back what you've hidden in the recipe database.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Entry</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td><strong>Blocked Authors</strong></td><td>How many authors you've blocked.</td></tr>
+<tr><td><strong>Unblock All Authors</strong></td><td>Lifts every block. Those authors' recipes reappear in the list <strong>immediately</strong>.</td></tr>
+<tr><td><strong>Recipes You Reported</strong></td><td>How many recipes you've reported.</td></tr>
+<tr><td><strong>Clear Reports on This Device</strong></td><td>Removes the hiding your device has remembered.</td></tr>
+</tbody></table></div>
+<p><strong>The difference matters:</strong> blocking is purely a device setting, which is why lifting it takes effect at once. A report, on the other hand, hides the recipe from every user — and only an administrator can undo that. So clearing it here only takes effect <em>after</em> the recipe has been released; until then it stays invisible, to you as well.</p>
+<p>Both lists apply to this device only and aren't synced through iCloud.</p>
+<h3 id="help">Help</h3>
+<p>From here you open the <strong>User Manual</strong> (this document) and the <strong>Help and contact</strong> page with the e-mail address for questions and bug reports in your browser. Both pages appear in the language the app is set to.</p>
+<hr>
+<h2 id="15-units-amounts-and-serving-sizes">15. Units, amounts, and serving sizes</h2>
+<h3 id="serving-size-or-dough-weight">Serving size or dough weight</h3>
+<p>Every recipe screen scales the amounts in two ways:</p>
+<ul><li><strong>Serving size</strong> — the factor 0.5 / 1.0 / 1.5 / 2.0 as before; 1.0 is the recipe as stored.</li><li><strong>Dough weight</strong> — next to it sits a field showing the current total weight as a placeholder. Type a target weight in grams, say 2000, and the app scales every ingredient to that dough weight; the serving-size picker then shows no selection. Tapping a factor clears the field again.</li></ul>
+<p>Scaled amounts are rounded the way you weigh them: whole grams from 10 g upwards, one decimal below that ("2.7 g yeast"). Fractions such as "1/2 cube" stay fractions at the factors 0.5 to 2.0 ("3/4 cube") and become decimals at a free dough weight ("0.7 cube"). The dough weight applies to the display and to the ingredients in the reminders you set afterwards.</p>
+<h3 id="bakers-percentages">Baker's percentages</h3>
+<p>Under <em>Settings → Recipes → Show baker's percentages</em> the component view adds each weighed ingredient's share of the component's flour, for instance "319 g water · 62 %". Anything with "Mehl", "Schrot", "flour" or "farine" in its name counts as flour. A component without flour shows no percentages; neither do pieces or whole components used as an ingredient ("1 whole scald"). The percentages do not change with the serving size.</p>
+<h3 id="available-units">Available units</h3>
+<p>You choose the unit from a <strong>menu</strong> (abbreviation – full form). You can't type one in: a unit carries a conversion and not just a name, and the app has to know it. If one is missing, you create it as a <strong>custom unit</strong> (see below).</p>
+<p>If a recipe you imported or copied from the database holds a unit the app doesn't know, the field shows a <strong>warning triangle</strong> and a red border. The conversion is then missing, and that ingredient doesn't count towards the total weight.</p>
+<blockquote class="note"><p><strong>The unit names are German in every language.</strong> They come from a bundled data file rather than from the app's translations, so the menu shows "TL – Teelöffel" even in English. The tables below therefore give the abbreviation and name as they appear on screen, with the English meaning alongside.</p></blockquote>
+<p><strong>Weight-based (base: grams)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit on screen</th><th>Meaning</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>g</td><td>Gramm</td><td>gram</td><td>1 g</td></tr>
+<tr><td>kg</td><td>Kilogramm</td><td>kilogram</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>Milligramm</td><td>milligram</td><td>0.001 g</td></tr>
+<tr><td>pfd</td><td>Pfund</td><td>pound (metric, 500 g)</td><td>500 g</td></tr>
+<tr><td>Pr</td><td>Prise</td><td>pinch</td><td>1 g</td></tr>
+<tr><td>Msp</td><td>Messerspitze</td><td>knife tip</td><td>0.05 g</td></tr>
+<tr><td>Bd</td><td>Bund</td><td>bunch</td><td>10 g</td></tr>
+<tr><td>Sc</td><td>Scheibe</td><td>slice</td><td>25 g</td></tr>
+<tr><td>ei</td><td>Ei</td><td>egg</td><td>50 g</td></tr>
+<tr><td>ei(s) / ei(m) / ei(l) / ei(xl)</td><td>Ei (S/M/L/XL)</td><td>egg, by size</td><td>50 / 60 / 70 / 80 g</td></tr>
+</tbody></table></div>
+<p><strong>Volume-based (base: millilitres)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit on screen</th><th>Meaning</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>ml</td><td>Milliliter</td><td>millilitre</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>Zentiliter</td><td>centilitre</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>Deziliter</td><td>decilitre</td><td>100 ml</td></tr>
+<tr><td>l</td><td>Liter</td><td>litre</td><td>1000 ml</td></tr>
+<tr><td>mass</td><td>Mass</td><td>Bavarian litre mug</td><td>1000 ml</td></tr>
+<tr><td>TL</td><td>Teelöffel</td><td>teaspoon</td><td>5 ml</td></tr>
+<tr><td>EL</td><td>Esslöffel</td><td>tablespoon</td><td>15 ml</td></tr>
+<tr><td>Tas</td><td>Tasse</td><td>cup</td><td>200 ml</td></tr>
+<tr><td>Ss</td><td>Schuss</td><td>dash</td><td>10 ml</td></tr>
+<tr><td>Sp</td><td>Spritzer</td><td>splash</td><td>0.27 ml</td></tr>
+<tr><td>Tr</td><td>Tropfen</td><td>drop</td><td>0.067 ml</td></tr>
+</tbody></table></div>
+<h3 id="custom-units">Custom units</h3>
+<p>If a unit is missing — "Becher", or the "cups" an English recipe brings in through the image import — you create it yourself: <strong>Settings → Recipes → Custom units</strong>.</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 14ch"></colgroup>
+<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Name</strong></td><td>The full form, "cup" for instance.</td></tr>
+<tr><td><strong>Abbreviation</strong></td><td>What appears in the menu and in the ingredient lists, "cp" for instance. It has to be unused.</td></tr>
+<tr><td><strong>Measured in</strong></td><td><strong>grams</strong>, <strong>millilitres</strong>, or <strong>counted</strong>.</td></tr>
+<tr><td><strong>Conversion</strong></td><td>How much one of them holds — around 250 millilitres for a cup. With "counted" the field is dropped.</td></tr>
+</tbody></table></div>
+<p>Why the conversion is mandatory: the total ingredients, the baker's percentages, and the shopping list all depend on it. Without it, "2 cups of flour" would count as 2 grams.</p>
+<p>Your custom units then sit in the menu alongside the bundled ones. To remove one, swipe the entry left or tap <strong>Edit</strong> at the top right. They apply to this device only and aren't synced through iCloud.</p>
+<blockquote class="note"><p><strong>Careful when deleting:</strong> recipes that use a deleted unit keep it as text — but the app no longer knows it and shows the warning triangle. Simply create it again in that case.</p></blockquote>
+<h3 id="conversion-to-weight">Conversion to weight</h3>
+<p>For the recipe's <strong>total weight</strong>, the app converts volume figures into grams and takes the density of common baking ingredients into account — flour 0.66, water 1.0, oil 0.8, honey 1.3, sugar 1.0, icing sugar 0.6, butter 1.0, cocoa 0.6, starch 0.6, nuts and almonds 0.5, semolina 0.5, milk 1.0, juice 1.0, jam 1.33, for example. The factor is recognised from the ingredient's name: "Weizenmehl 550" is treated as flour.</p>
+<p>A cup of flour is therefore counted as 200 ml × 0.66 = 132 g, a cup of water as 200 g.</p>
+<h3 id="fractions-z--n">Fractions (Z / N)</h3>
+<p>For figures like "½ egg" or "¾ cube of yeast", use the <strong>Z</strong> (numerator) and <strong>N</strong> (denominator) fields. The app scales fractions with the serving size and reduces them automatically; 2/2 becomes 1, and the remainder is shown as a fraction ("1 1/2").</p>
+<h3 id="scaling">Scaling</h3>
+<p>The serving size affects the total ingredients, the components' ingredient lists, and the displayed total weight. It does <strong>not</strong> affect durations — dough doesn't rise faster just because you make less of it.</p>
+<p><strong>1.0 is always the recipe as stored.</strong> The serving size is purely a display option: it doesn't change the recipe.</p>
+<hr>
+<h2 id="16-privacy-moderation-and-terms-of-use">16. Privacy, moderation, and terms of use</h2>
+<h3 id="where-your-data-lives">Where your data lives</h3>
+<ul><li><strong>Your own recipes, scheduled steps, shopping lists, and baking histories</strong> live on the device and in your private iCloud database. They're visible only to you and your own devices, not to other users of the app.</li><li><strong>Public recipes</strong> live in the shared cloud database and are visible to every user of the app.</li><li><strong>Private cloud recipes</strong> also live in the cloud, but in a separate area that only their author may read — this is enforced on the server, not merely hidden in the app. The images are stored separately too and retrievable only by you.</li><li><strong>Translations</strong> are produced on the device.</li><li>The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. You only need to sign in with Apple for private cloud recipes and for moderation rights; neither your name nor your email address is requested in the process.</li><li><strong>You can delete your account yourself at any time</strong> — Settings → Account → "Delete account". Details in <a href="#14-settings">chapter 14</a>.</li></ul>
+<h3 id="terms-of-use-for-public-recipes">Terms of use for public recipes</h3>
+<p>Before you save a recipe publicly for the first time, you have to accept the terms. The gist:</p>
+<ul><li>A publicly shared recipe is visible to every user of the recipe database.</li><li>There is <strong>zero tolerance</strong> for objectionable, offensive, unlawful, or copyright-infringing content.</li><li>You are solely responsible for the content you share.</li><li>Reported content is reviewed and removed <strong>within 24 hours</strong>.</li><li>Authors who breach the rules repeatedly can be excluded.</li></ul>
+<p>Choose <strong>Decline</strong> and nothing is uploaded; the recipe stays in the form and can be saved privately.</p>
+<h3 id="what-you-can-do-about-unwanted-content">What you can do about unwanted content</h3>
+<p>Through the "…" menu in a public recipe: <strong>Report recipe</strong> (with a reason) or <strong>Block author</strong>. Both take effect at once — the report hides the recipe <strong>from every user</strong>, the block only on your device. You can undo both under <em>Settings → Moderation</em>. Details in <a href="#5-recipe-database-public-and-private-cloud-recipes">chapter 5</a> and <a href="#14-settings">chapter 14</a>.</p>
+<hr>
+<h2 id="17-frequently-asked-questions-and-troubleshooting">17. Frequently asked questions and troubleshooting</h2>
+<p><strong>No reminders arrive.</strong><br>Check in <em>Settings → Notifications → BakePlanner</em> whether notifications are allowed. Check as well whether there are any steps under "Scheduled steps" at all — only tapping "Set reminder" creates reminders. And note: reminders for times in the past aren't triggered.</p>
+<p><strong>Nothing arrives on the Apple Watch.</strong><br>Reminders stay on the device where you set them. Only a paired <strong>iPhone's</strong> notifications are passed on to the watch — if you planned on the iPad, the baking reminders appear there and nowhere else. Set the reminders again on the iPhone in that case.</p>
+<p><strong>The recipe database is empty ("No recipes loaded").</strong><br>There was no internet connection at launch. Pull the list down to load it again.</p>
+<p><strong>I uploaded my recipe to the database and want to correct it.</strong><br>That isn't possible — recipes in the database are immutable, private ones as much as public ones. Delete it via "…" → <strong>Delete my recipe</strong> and upload the corrected version again. The version on the device stays and is recognised as uploadable again afterwards.</p>
+<p><strong>My private recipes aren't in the list.</strong><br>They only appear when you're signed in: <em>Settings → Account → Sign in with Apple</em>. Make sure to use the same Apple Account you saved them with — the recipes are tied to it. Then pull the list down once.</p>
+<p><strong>"Signing in with Apple is required for private cloud recipes."</strong><br>You chose "Private" as the storage without being signed in. Sign in through the sheet that appears, and saving continues. Without an account the recipe would be unreachable after a reinstall — which is why the app doesn't allow it otherwise.</p>
+<p><strong>I tapped "Set reminder" twice by mistake.</strong><br>On the second tap the app asks whether the new plan should replace the existing one or be added beside it. If you chose "Add as a second plan" although you only wanted one, select the surplus plan under "Scheduled steps" via its chip and delete it with the bin button via "Delete only '…'".</p>
+<p><strong>I want to schedule the same recipe for two different dates.</strong><br>That isn't possible — each recipe has one plan, and the second replaces the first. As a workaround you can duplicate the recipe under a different name and plan both separately: save it <strong>privately in the cloud</strong>, fetch it back with "Save as my own recipe", and rename it. That keeps the duplicate out of the public database.</p>
+<p><strong>The total weight is wrong.</strong><br>Usually it's a unit the app doesn't know — the unit field then shows a <strong>warning triangle</strong> — or an ingredient without a unit. Check the ingredients in the "Edit" tab and choose the unit from the menu. If it isn't there, create it under <em>Settings → Recipes → Custom units</em> (see <a href="#15-units-amounts-and-serving-sizes">chapter 15</a>).</p>
+<p><strong>An ingredient is missing from the shopping list.</strong><br>Water, salt, starter, and sourdough are left out deliberately, as are ingredients without a unit or without an amount. See <a href="#13-shopping-list">chapter 13</a>.</p>
+<p><strong>An ingredient is missing from "Total ingredients".</strong><br>Water isn't listed there, and neither are ingredients that are themselves the product of a component ("sourdough" as an ingredient of the main dough, say), so that amounts aren't counted twice. They appear in full in the component list below.</p>
+<p><strong>A step starts at an implausible time.</strong><br>Check the step numbers: decimal steps (2.1, 2.2) run in parallel, whole numbers one after another. An accidental "3" instead of "2.2" lengthens the total considerably.</p>
+<p><strong>The image import barely recognises anything.</strong><br>Photograph straight, well lit, one page per image, and without strong shadows. Recognition is optimised for a two-column layout with a planning example. With an unsuitable source, entering it by hand is quicker.</p>
+<p><strong>Translation fails.</strong><br>Translation uses Apple's on-device translation. The first time, iOS has to provide the language pack — that may need an internet connection. Try again later or switch back to the original language.</p>
+<hr>
+<h2 id="18-known-limitations">18. Known limitations</h2>
+<ul><li><strong>Recipes in the database are immutable once uploaded</strong> — private ones as much as public ones. Corrections mean deleting and uploading again.</li><li><strong>A recipe can only be uploaded once</strong>, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.</li><li><strong>Private cloud recipes require signing in with Apple</strong> and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.</li><li><strong>Deleting your account leaves published recipes in the database.</strong> They no longer belong to any account and can only be removed by an administrator.</li><li><strong>Baking pause, start of day, and end of day</strong> don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.</li><li><strong>Plans set before this update</strong> carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.</li><li><strong>If you change a recipe after planning it</strong> (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a <strong>Plan again</strong> button that opens the recipe. Only steps added to the recipe afterwards go undetected.</li><li><strong>The ingredients in a reminder</strong> are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.</li><li>Scheduled steps are matched to recipes by <strong>recipe name</strong>. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.</li><li><strong>Reminders only reach the Apple Watch from an iPhone.</strong> They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.</li><li><strong>The image import</strong> reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.</li><li><strong>Texts are translated, units aren't</strong> — deliberately, so that the amount calculations survive.</li><li><strong>The unit names are only available in German.</strong> They come from a bundled data file, not from the app's translations, so the unit menu shows German names and abbreviations in every language.</li><li><strong>There's no export.</strong> Your own recipes do sync through iCloud (see <a href="#2-system-requirements">chapter 2</a>), but they can't be saved as a file or passed on to anyone else. Beyond iCloud, the only backup route is the recipe database — privately, if you don't want to share.</li><li><strong>Blocked authors</strong> are hidden on the device in question only; on a second device they still appear. A <strong>reported</strong> recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under <em>Settings → Moderation</em>.</li><li><strong>Custom units only apply on the device where you created them.</strong> They aren't synced through iCloud. A recipe using such a unit shows the warning triangle on another device until you create it there too.</li></ul>
+</article>
+
+<footer>
+  <p><a href="#top">Back to top</a> · <a href="index.html#en">Help and contact</a> · <a href="privacy.html">Privacy</a></p>
+</footer>
+
+</main>
+</body>
+</html>
