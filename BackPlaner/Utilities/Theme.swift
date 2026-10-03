@@ -39,10 +39,18 @@ enum Theme {
     static let accentBottom = dynamic(light: Color(red: 0.49, green: 0.29, blue: 0.14),
                                       dark:  Color(red: 0.48, green: 0.29, blue: 0.15))
 
-    /// The accent used as a FOREGROUND on a card — the mirror image of the
-    /// gradient above, so it has to go the other way in dark mode. Also passes
-    /// on its own 12 % tint (the time capsule in the scheduled-steps list).
-    static let accentText = dynamic(light: Color(red: 0.58, green: 0.355, blue: 0.16),
+    /// The accent used as a FOREGROUND — the mirror image of the gradient
+    /// above, so it has to go the other way in dark mode.
+    ///
+    /// Sized for the worst place it is used, which is not the white card:
+    /// in bake mode and in the widget it sits directly on the gradient and
+    /// on its own 12 % tint over it, and the bordered bake-mode buttons put
+    /// it on a 17 % tint of itself. The earlier (0.58, 0.355, 0.16) measured
+    /// 3.9:1 on the capsule and 3.8:1 on those buttons, 3.6:1 at the foot of
+    /// the gradient. This shade — the gradient's own `accentBottom` — clears
+    /// 4.5:1 everywhere: 4.7 on the capsule, 4.8 on the buttons, 4.9 at the
+    /// foot of the gradient, 7.4 on a card. The widget copies this value.
+    static let accentText = dynamic(light: Color(red: 0.48, green: 0.29, blue: 0.13),
                                     dark:  Color(red: 0.89, green: 0.575, blue: 0.31))
 
     /// Status colors. The system `.orange` and `.red` are far too light on a

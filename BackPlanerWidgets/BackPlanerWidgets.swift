@@ -79,7 +79,10 @@ enum WidgetTheme {
     static let backgroundBottom = Color(light: Color(red: 0.93, green: 0.80, blue: 0.62), dark: Color(red: 0.09, green: 0.07, blue: 0.05))
     static let title            = Color(light: Color(red: 0.25, green: 0.15, blue: 0.06), dark: Color(red: 0.97, green: 0.92, blue: 0.84))
     static let subtitle         = Color(light: Color(red: 0.45, green: 0.30, blue: 0.16), dark: Color(red: 0.82, green: 0.72, blue: 0.60))
-    static let accent           = Color(light: Color(red: 0.58, green: 0.355, blue: 0.16), dark: Color(red: 0.89, green: 0.575, blue: 0.31))
+    // Same value as `Theme.accentText` in the app; see the note there. The
+    // lighter brown used before fell to 3.6:1 against the foot of the
+    // gradient, where the widget's date line sits.
+    static let accent           = Color(light: Color(red: 0.48, green: 0.29, blue: 0.13), dark: Color(red: 0.89, green: 0.575, blue: 0.31))
 
     static var background: LinearGradient {
         LinearGradient(colors: [backgroundTop, backgroundBottom], startPoint: .top, endPoint: .bottom)
