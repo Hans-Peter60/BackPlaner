@@ -39,16 +39,17 @@ struct BakeryBackdrop: View {
     ///
     ///   light 0.25 → title 5.6, subtitle 3.9, accentText 3.8 (median 4.8)
     ///   light 0.45 → title 6.9, subtitle 4.7, accentText 4.6
-    ///   dark  0.70 → title 8.3, subtitle 5.4, accentText 4.2
-    ///   dark  0.75 → title 9.8, subtitle 6.3, accentText 4.9
+    ///   dark  0.40 → title 8.7, subtitle 5.6, accentText 4.4
+    ///   dark  0.50 → title 10.2, subtitle 6.6, accentText 5.1
     ///
     /// 0.45 was chosen over the lighter 0.25 after comparing both: it is the
     /// lowest value at which subtitle/accentText clear 4.5:1 in the darkest
     /// 5 % of the picture, at the price of the photo reading as a pale wash.
-    /// Dark mode has to be far denser because the photo itself is bright;
-    /// 0.75 is the lowest value that clears 4.5 for all three text colours.
+    /// Dark mode has its own, dimly lit photo in the asset's dark slot; with
+    /// it 0.50 is the lowest value that clears 4.5 for all three text colours
+    /// (the bright light-mode photo under a black veil had needed 0.75).
     static let lightOverlayOpacity: Double = 0.45
-    static let darkOverlayOpacity: Double = 0.75
+    static let darkOverlayOpacity: Double = 0.50
 
     var body: some View {
         // Every screen creates its own BakeryBackdrop, so the first thing to
