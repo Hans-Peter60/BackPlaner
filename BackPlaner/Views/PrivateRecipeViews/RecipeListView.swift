@@ -99,11 +99,14 @@ struct RecipeListView: View {
                     List {
                         
                         ForEach(filteredRecipes, id: \.self) { r in
-                            
-                            NavigationLink(
-                            destination: TabsView(recipe: r),
-                            label: {
-                                
+                            // Invisible link plus an own chevron, see
+                            // RecipeFBListView: the List's disclosure indicator
+                            // would sit outside the white card.
+                            ZStack {
+                                NavigationLink(destination: TabsView(recipe: r)) { EmptyView() }
+                                    .opacity(0)
+                                    .accessibilityHidden(true)
+
                                 HStack(spacing: 12.0) {
 
                                     if !dynamicTypeSize.isAccessibilitySize {
@@ -130,14 +133,21 @@ struct RecipeListView: View {
                                     }
 
                                     Spacer(minLength: 0)
+
+                                    if !dynamicTypeSize.isAccessibilitySize {
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
                                 }
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
                                 // The row draws no stars, so the label is the only
                                 // place the rating is announced — with its scale,
                                 // because a bare number says nothing.
                                 .accessibilityLabel(Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
-                            })
+                            }
                     }
                     .onDelete { indexSet in
                         // Defer the actual deletion until the user confirms, so a

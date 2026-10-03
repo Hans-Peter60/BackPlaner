@@ -91,10 +91,15 @@ struct RecipeFBListView: View {
                 } else {
                     List {
                         ForEach(filteredFBRecipes) { r in
-                            NavigationLink(
-                            destination: TabsFBView(recipeFB: r),
-                            label: {
-                                
+                            // The link is invisible and the card draws its own
+                            // chevron: the List would otherwise place the
+                            // disclosure indicator outside the white card, in
+                            // the row's trailing inset.
+                            ZStack {
+                                NavigationLink(destination: TabsFBView(recipeFB: r)) { EmptyView() }
+                                    .opacity(0)
+                                    .accessibilityHidden(true)
+
                                 HStack(spacing: 12.0) {
                                     
                                     // See RecipeListView: at the accessibility
@@ -133,9 +138,16 @@ struct RecipeFBListView: View {
                                     }
 
                                     Spacer(minLength: 0)
+
+                                    if !dynamicTypeSize.isAccessibilitySize {
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
                                 }
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
                                 // The row draws no stars, so the label is the only
                                 // place the rating is announced — with its scale,
                                 // because a bare number says nothing. The lock
@@ -145,8 +157,7 @@ struct RecipeFBListView: View {
                                                     ? Text("\(r.name), privates Rezept, Bewertung \(r.rating) von 5 Sternen")
                                                     : Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
                             }
-                        )
-                    }
+                        }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
