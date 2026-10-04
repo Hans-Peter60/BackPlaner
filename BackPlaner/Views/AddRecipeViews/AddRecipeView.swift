@@ -37,6 +37,16 @@ struct AddRecipeView: View {
     @State private var isUploading          = false
     @State private var uploadErrorMessage: String?
     @State private var showMissingImageAlert = false
+    /// True while the keyboard is up. The instruction rows are the end of the
+    /// form, so without extra room below them the last one can only ever be
+    /// lifted to the keyboard's edge, where the keypad and its floating
+    /// "Fertig" capsule cut into it; see `keyboardRoom`.
+    @State private var keyboardIsUp = false
+
+    /// Scrollable space added below the form while the keyboard is up: enough
+    /// to centre the tallest row (the instruction entry line) in what remains
+    /// of the screen above the keyboard.
+    private var keyboardRoom: CGFloat { keyboardIsUp ? 240 : 0 }
     
     init(initialRecipe: RecipeFB? = nil, initialImage: UIImage? = nil) {
         _recipeFB = State(initialValue: initialRecipe ?? RecipeFB())
@@ -111,7 +121,16 @@ struct AddRecipeView: View {
     }
 
     private var styledForm: some View {
-        
+
+        // The reader hands the instruction rows a way to scroll themselves
+        // clear of the keyboard; see AddInstructionDataView.
+        ScrollViewReader { proxy in
+            form(scrollProxy: proxy)
+        }
+    }
+
+    private func form(scrollProxy: ScrollViewProxy) -> some View {
+
         Form {
             Section {
                 NavigationLink {
@@ -208,14 +227,36 @@ struct AddRecipeView: View {
             
             Section {
                 // Instruction Data
-                AddInstructionDataView(instructions: $recipeFB.instructions)
+                AddInstructionDataView(instructions: $recipeFB.instructions, scrollProxy: scrollProxy)
             }
         }
         // Match RecipeDetailView: use the Avenir body font throughout instead of
         // the system default. Set on the Form so every label and input field inherits it.
         .font(Theme.bodyFont(15))
         .clearScrollBackground()
+        .contentMargins(.bottom, keyboardRoom, for: .scrollContent)
+        .task {
+            for await _ in NotificationCenter.default.notifications(named: UIResponder.keyboardWillShowNotification) {
+                keyboardIsUp = true
+            }
+        }
+        .task {
+            for await _ in NotificationCenter.default.notifications(named: UIResponder.keyboardWillHideNotification) {
+                keyboardIsUp = false
+            }
+        }
         .warmBackground()
+        // The number pads have no Return key, and in a Form neither a tap beside
+        // the fields nor scrolling closes them. Without this button the keyboard
+        // stays up until the user leaves the screen.
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Fertig") {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
+            }
+        }
         // Show progress while a public upload is running …
         .overlay {
             if isUploading {
