@@ -85,9 +85,9 @@ Gehört immer zu einer Komponente. Besteht aus Nummer, Menge, Einheit, Name und 
 Eine Arbeitsanweisung mit Schrittnummer und Dauer in Minuten. Die Schrittnummer ist eine Dezimalzahl und hat eine besondere Bedeutung:
 
 - **Ganze Zahlen (1, 2, 3 …) sind Hauptschritte.** Sie laufen zeitlich nacheinander.
-- **Nachkommastellen (2.1, 2.2, 2.3) sind Parallelschritte innerhalb eines Hauptschritts.** Sie starten alle zur selben Zeit; für die Gesamtdauer zählt nur die *längste* Dauer der Gruppe.
+- **Nachkommastellen (2.1, 2.2, 2.3) sind Parallelschritte innerhalb eines Hauptschritts.** Sie laufen gleichzeitig; für die Gesamtdauer zählt nur die *längste* Dauer der Gruppe. Schritte, die eine Komponente herstellen (Sauerteig, Vorteig, Quellstück …), starten dabei im Abstand von 5 Minuten nacheinander, in der Reihenfolge ihrer Schrittnummern: Niemand wiegt vier Vorstufen zur selben Minute ab, und die Erinnerungen kommen entsprechend versetzt. Alle anderen Parallelschritte enden gemeinsam mit ihrer Gruppe.
 
-Beispiel: Wenn Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig ansetzt, gib beiden Schritt 1.1 und 1.2. Der nächste Hauptschritt 2 beginnt nach 12 Stunden, nicht nach 14.
+Beispiel: Wenn Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig ansetzt, gib beiden Schritt 1.1 und 1.2. Der nächste Hauptschritt 2 beginnt nach gut 12 Stunden, nicht nach 14.
 
 **Portionsgröße**
 Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht.
@@ -352,6 +352,33 @@ Welche Zeile die Überschrift ist, lässt sich einer Seite nicht immer ansehen: 
 
 Prüfe anschließend unbedingt **Mengen, Einheiten, Temperaturen und Zeiten** – gespeichert wird erst, wenn Du im Formular „Rezept speichern“ wählst.
 
+#### Analyseart: geschützte Cloud-KI oder nur auf diesem Gerät
+
+Über der Bildauswahl wählst Du, wie die Seiten ausgewertet werden:
+
+- **Geschützte Cloud-KI** – die Bilder werden verschlüsselt über den BackPlaner-Server an Google Vertex AI (Gemini) geschickt und dort strukturiert. Das liefert in der Regel die vollständigsten Ergebnisse, auch bei Komponenten wie Vorteig und Sauerteig. Vor der ersten Nutzung erklärt die App die Datenübertragung und bittet um Deine Einwilligung; sie lässt sich unter Einstellungen › Datenschutz & KI widerrufen.
+- **Nur auf diesem Gerät** – nichts verlässt das Gerät. Je nach Verfügbarkeit nutzt die App Apple Intelligence oder die lokale Texterkennung; die Erkennung kann ungenauer sein.
+
+Die Auswahl merkt sich die App für beide Importwege.
+
+### Rezept von einer Internetseite importieren
+
+Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest BakePlanner ein Rezept direkt von einer Rezeptseite im Internet ein, zum Beispiel aus einem Backblog.
+
+1. **Adresse einfügen**: Kopiere die Adresse der Rezeptseite in Safari und füge sie über die Einfügen-Schaltfläche neben dem Feld ein oder tippe sie ein. „https://“ darf fehlen; die App ergänzt es.
+2. **Analyseart** wählen wie beim Bild-Import. Bei „Nur auf diesem Gerät“ wird der Seitentext nicht übertragen; ohne Apple Intelligence übernimmt die App dann nur die strukturierten Rezeptdaten, die die Seite selbst mitliefert.
+3. **„Seite laden und analysieren“** lädt die Seite auf dem Gerät, liest die Rezeptdaten und den sichtbaren Text aus und übergibt sie der gewählten Analyse. Das Rezeptfoto der Seite wird mit übernommen.
+4. Danach erscheint dieselbe **Zusammenfassung** wie beim Bild-Import; statt der erkannten Vorlage steht dort die Quelle (die Internetadresse). **„Andere Seite laden“** startet neu.
+5. **„Daten im Rezeptformular prüfen“** übernimmt alles ins Rezeptformular. Die Adresse der Seite landet automatisch im Feld „Link“ des Rezepts.
+
+**Was gut funktioniert:** Die meisten Rezeptseiten und Backblogs liefern strukturierte Rezeptdaten mit; dann stimmen Zutaten und Schritte fast immer. Die Cloud-KI trennt daraus auch Vorteig, Sauerteig und Hauptteig in eigene Komponenten.
+
+**Schrittnummern:** Komponenten, die in den Hauptteig eingehen (Sauerteig, Vorteige, Quell- und Brühstücke), fasst der Import je zu einem Parallelschritt 1.1, 1.2, 1.3 … zusammen, der Herstellung und Reifung umfasst. Die Schritte des Hauptteigs folgen als 2, 3, 4 …. So dauert ein Rezept mit vier Vorstufen über Nacht zwölf Stunden und nicht zwei Tage. Die Vorstufen werden im Plan im Abstand von fünf Minuten nacheinander angesetzt; die früher angesetzten bekommen entsprechend mehr Dauer, sodass alle zusammen für den Hauptteig fertig sind. Schritte ohne erkannte Dauer erhalten eine Minute.
+
+**Was nicht geht:** Seiten mit Anmeldung, Bezahlschranke oder reinem Cookie-Hinweis liefern keinen lesbaren Text, und manche Seiten sperren den Abruf durch Apps. Dann meldet BakePlanner „Import nicht möglich“ mit dem Grund. In solchen Fällen hilft der Bild-Import über einen Screenshot der Seite.
+
+> **Urheberrecht:** Für den eigenen Gebrauch darfst Du jedes Rezept importieren. Die Ablage steht deshalb zunächst auf „Lokal“. Veröffentliche fremde Rezepte nur mit Erlaubnis der Urheber.
+
 ### Ablage: lokal, privat in der Cloud oder öffentlich
 
 Im Abschnitt **Speichern** wählst Du zwischen drei Ablagen (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Unter der Auswahl steht jeweils ein Satz, was sie bedeutet. Die Vorbelegung kommt aus den Einstellungen (Standard-Ablage).
@@ -360,7 +387,7 @@ Im Abschnitt **Speichern** wählst Du zwischen drei Ablagen (siehe auch die Übe
 - **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher weist die App darauf hin, dass ein Rezept in der Datenbank nach dem Speichern nicht mehr geändert werden kann.
 - **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint der Hinweis: **„Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.“** Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
 
-Beim Import aus Bildern ist die Ablage zunächst immer auf „Lokal“ gesetzt. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Auswahl mit.
+Beim Import aus Bildern oder von einer Internetseite ist die Ablage zunächst immer auf „Lokal“ gesetzt. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Auswahl mit.
 
 ### Rezeptbild
 
@@ -861,6 +888,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
 - **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Reminder setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
+- **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente.
 - **Übersetzt werden Texte, keine Einheiten** – das ist beabsichtigt, damit die Mengenberechnung erhalten bleibt.
 - **Es gibt keinen Export.** Eigene Rezepte synchronisieren zwar über iCloud (siehe [Kapitel 2](#2-systemvoraussetzungen)), lassen sich aber nicht als Datei sichern oder an andere weitergeben. Als Sicherung über die iCloud hinaus bleibt nur der Weg in die Rezept-Datenbank – privat, wenn Du nicht teilen willst.
 - **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.

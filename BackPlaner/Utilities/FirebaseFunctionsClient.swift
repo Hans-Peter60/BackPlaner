@@ -57,20 +57,23 @@ struct CloudRecipe: Decodable, Sendable {
             return component
         }
 
+        let isMultiComponent = recipe.components.count > 1
         recipe.instructions = instructions.enumerated().compactMap { index, source in
             let text = source.text.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !text.isEmpty else { return nil }
 
+            let componentName = source.componentName
+                .trimmingCharacters(in: .whitespacesAndNewlines)
             let instruction = InstructionFB()
             instruction.id = UUID().uuidString
             instruction.step = Double(index + 1)
-            instruction.instruction = text
+            instruction.instruction = RecipeImportStepText.text(
+                text, naming: componentName, inMultiComponentRecipe: isMultiComponent
+            )
             instruction.duration = max(0, source.durationMinutes)
             if instruction.duration == 0, text.describesOvenPreheating {
                 instruction.duration = GlobalVariables.preheatTime
             }
-            let componentName = source.componentName
-                .trimmingCharacters(in: .whitespacesAndNewlines)
             instruction.componentName = componentName.isEmpty ? nil : componentName
             instruction.bakeFlag = source.isBaking
             return instruction
@@ -146,6 +149,27 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
         }
 
         let data = try JSONSerialization.data(withJSONObject: payload)
+        return try JSONDecoder().decode(CloudRecipeAnalysis.self, from: data)
+    }
+
+    /// Structures the text of a recipe web page. The page is fetched by the
+    /// app; only the extracted text and the address leave the device.
+    func analyzeRecipeText(_ text: String, sourceURL: URL?) async throws -> CloudRecipeAnalysis {
+        var payload: [String: Any] = ["text": text]
+        if let sourceURL {
+            payload["sourceURL"] = sourceURL.absoluteString
+        }
+
+        let callable = functions.httpsCallable("analyzeRecipeText")
+        callable.timeoutInterval = 250
+        let result = try await callable.call(payload)
+
+        guard let response = result.data as? [String: Any],
+              JSONSerialization.isValidJSONObject(response) else {
+            throw FirebaseFunctionsClientError.invalidResponse
+        }
+
+        let data = try JSONSerialization.data(withJSONObject: response)
         return try JSONDecoder().decode(CloudRecipeAnalysis.self, from: data)
     }
 }

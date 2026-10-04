@@ -138,8 +138,13 @@ struct AddRecipeView: View {
                 } label: {
                     Label("Rezept aus Bildern importieren", systemImage: "doc.viewfinder")
                 }
+                NavigationLink {
+                    RecipeWebImportView()
+                } label: {
+                    Label("Rezept von einer Internetseite importieren", systemImage: "globe")
+                }
             } footer: {
-                Text("Mehrere Seiten können gemeinsam analysiert und anschließend bearbeitet werden.")
+                Text("Mehrere Seiten können gemeinsam analysiert werden; von einer Internetseite genügt die Adresse. Anschließend lässt sich alles bearbeiten.")
             }
             
             Section("Speichern") {

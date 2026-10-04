@@ -7,7 +7,15 @@ private struct SelectedRecipeImage: Identifiable {
     let image: UIImage
 }
 
-private enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
+/// What the cloud analysis would receive: the photographed pages, or the
+/// text of a recipe web page. The consent and the explanations name it.
+enum CloudAnalysisSubject {
+    case images
+    case webPage
+}
+
+/// Shared by the image and the web import; the choice is persisted once.
+enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
     case protectedCloud
     case localOnly
 
@@ -20,12 +28,16 @@ private enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
         }
     }
 
-    var explanation: LocalizedStringResource {
-        switch self {
-        case .protectedCloud:
+    func explanation(for subject: CloudAnalysisSubject) -> LocalizedStringResource {
+        switch (self, subject) {
+        case (.protectedCloud, .images):
             "Die ausgewählten Bilder werden verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig."
-        case .localOnly:
+        case (.protectedCloud, .webPage):
+            "Der Rezepttext der Seite wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig."
+        case (.localOnly, .images):
             "Die Bilder verlassen das Gerät nicht. Die Erkennung kann weniger genau sein als mit der Cloud-KI."
+        case (.localOnly, .webPage):
+            "Der Seitentext verlässt das Gerät nicht. Ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen."
         }
     }
 }
@@ -77,7 +89,7 @@ struct RecipeImageImportView: View {
             ImagePicker(selectedSource: .camera, recipeImage: $capturedImage)
         }
         .sheet(isPresented: $showCloudConsent) {
-            CloudRecipeAnalysisConsentView {
+            CloudRecipeAnalysisConsentView(subject: .images) {
                 cloudRecipeAnalysisConsent = true
                 showCloudConsent = false
                 startAnalysis()
@@ -121,7 +133,7 @@ struct RecipeImageImportView: View {
                     .pickerStyle(.segmented)
                     .labelsHidden()
 
-                    Text(analysisMode.explanation)
+                    Text(analysisMode.explanation(for: .images))
                         .font(.footnote)
                         .foregroundStyle(Theme.subtitle)
                 }
@@ -296,9 +308,10 @@ struct RecipeImageImportView: View {
     }
 }
 
-private struct CloudRecipeAnalysisConsentView: View {
+struct CloudRecipeAnalysisConsentView: View {
     @Environment(\.dismiss) private var dismiss
 
+    let subject: CloudAnalysisSubject
     let onAccept: () -> Void
     let onUseLocal: () -> Void
 
@@ -308,14 +321,25 @@ private struct CloudRecipeAnalysisConsentView: View {
                 Section {
                     Label("Analyse mit Google Vertex AI (Gemini)", systemImage: "sparkles")
                         .font(.headline)
-                    Text("Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
-                    Text("Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                    switch subject {
+                    case .images:
+                        Text("Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
+                        Text("Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                    case .webPage:
+                        Text("Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
+                        Text("Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                    }
                 } header: {
                     Text("Vor der ersten Cloud-Analyse")
                 }
 
                 Section("Du hast die Wahl") {
-                    Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlassen die Bilder Dein Gerät nicht.")
+                    switch subject {
+                    case .images:
+                        Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlassen die Bilder Dein Gerät nicht.")
+                    case .webPage:
+                        Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht.")
+                    }
 
                     Button("Zustimmen und mit Cloud-KI analysieren") {
                         onAccept()
@@ -343,11 +367,14 @@ private struct CloudRecipeAnalysisConsentView: View {
     }
 }
 
-private struct RecipeImportConfirmationView: View {
+struct RecipeImportConfirmationView: View {
     let result: RecipeImageAnalysisResult
     /// The pages as they were selected, so the name can be corrected by
     /// pointing at the page instead of retyping it.
     let pageImages: [UIImage]
+    /// The web page the recipe came from; shown instead of the page layout.
+    var sourceURL: URL? = nil
+    var startOverTitle: LocalizedStringResource = "Andere Bilder auswählen"
     let onConfirm: () -> Void
     let onStartOver: () -> Void
 
@@ -391,8 +418,12 @@ private struct RecipeImportConfirmationView: View {
                 } else {
                     LabeledContent("Name", value: recipeName)
                 }
-                LabeledContent("Erkannte Vorlage") {
-                    Text(result.layout.title)
+                if let sourceURL {
+                    LabeledContent("Quelle", value: sourceURL.host() ?? sourceURL.absoluteString)
+                } else {
+                    LabeledContent("Erkannte Vorlage") {
+                        Text(result.layout.title)
+                    }
                 }
                 LabeledContent("Analyse") {
                     Text(result.analysisSource.title)
@@ -418,7 +449,9 @@ private struct RecipeImportConfirmationView: View {
                 ForEach(result.recipe.instructions) { instruction in
                     VStack(alignment: .leading, spacing: 3) {
                         Text(instruction.instruction)
-                        Text(durationDescription(instruction.duration))
+                        // The step number shows whether the preparations were
+                        // laid out in parallel (1.1, 1.2 …) before anything is saved.
+                        Text("\(stepDescription(instruction.step)) · \(durationDescription(instruction.duration))")
                             .font(.caption)
                             .foregroundStyle(Theme.subtitle)
                     }
@@ -446,7 +479,7 @@ private struct RecipeImportConfirmationView: View {
             Section {
                 Button("Daten im Rezeptformular prüfen", action: onConfirm)
                     .buttonStyle(.borderedProminent)
-                Button("Andere Bilder auswählen", action: onStartOver)
+                Button(startOverTitle, action: onStartOver)
             }
         }
         .onAppear {
@@ -461,8 +494,20 @@ private struct RecipeImportConfirmationView: View {
             .joined(separator: " ")
     }
 
+    private func stepDescription(_ step: Double) -> String {
+        "Schritt " + step.formatted(.number.precision(.fractionLength(0...2)))
+    }
+
     private func durationDescription(_ duration: Int) -> String {
-        duration > 0 ? "Dauer: \(duration) Minuten" : "Keine Dauer erkannt"
+        switch duration {
+        case ..<1: "Keine Dauer erkannt"
+        case 1: "Dauer: 1 Minute"
+        case ..<60: "Dauer: \(duration) Minuten"
+        default:
+            duration % 60 == 0
+                ? "Dauer: \(duration / 60) Std."
+                : "Dauer: \(duration / 60) Std. \(duration % 60) Min."
+        }
     }
 }
 

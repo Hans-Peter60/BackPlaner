@@ -101,6 +101,52 @@ type RecipeImage = {
   mimeType: "image/jpeg" | "image/png";
 };
 
+/** Extraction rules shared by the image and the web page analysis. */
+const sharedRecipeRules = [
+  "Erfinde keine Zutaten, Mengen, Zeiten, Temperaturen oder Schritte.",
+  "Bewahre die Originalsprache und trenne Sauerteig, Vorteig,",
+  "Brühstück",
+  "und Hauptteig in eigene Komponenten.",
+  "Zutatenzeilen wie 'gesamter Roggensauerteig' oder 'gesamtes Quellstück'",
+  "im Hauptteig sind Zutaten mit amount 0 und bleiben erhalten; die App",
+  "erkennt daran, welche Komponente in welche andere eingeht.",
+  "Für jede Komponente, die später in den Hauptteig eingeht (Sauerteig,",
+  "Vorteig, Poolish, Quellstück, Brühstück, Kochstück …), fasse Herstellung",
+  "und Reifung zu genau einem Arbeitsschritt zusammen: Der Text nennt die",
+  "Zubereitung und die Reifeangabe, durationMinutes ist die Zeit vom",
+  "Ansetzen bis zur Verwendung im Hauptteig. Enthält die Vorlage ein",
+  "Planungsbeispiel mit Uhrzeiten, leite diese Dauer daraus ab (Beginn der",
+  "Komponente bis Beginn des Hauptteigs). Vorlagen wiederholen unter jeder",
+  "Komponente dieselben Sätze (wiegen, mischen, zudecken, reifen); daraus",
+  "wird trotzdem nur ein Schritt je Komponente.",
+  "Für den Hauptteig dagegen erzeuge für jede eigenständige Tätigkeit und",
+  "jede Wartephase einen",
+  "separaten Arbeitsschritt, auch wenn sie in der Vorlage im selben Absatz",
+  "oder Aufzählungspunkt stehen. Zeitlich ausgelöste Zwischenaktionen",
+  "wie 'nach 30 Minuten dehnen und falten' sind immer eigene Schritte.",
+  "Wenn eine Gesamtphase eine Zwischenaktion enthält, teile die",
+  "Wartezeit zeitlich korrekt vor und nach dieser Aktion auf.",
+  "Beispiel:",
+  "'1 Stunde ruhen, nach 30 Minuten falten' ergibt 30 Minuten ruhen,",
+  "falten und weitere 30 Minuten ruhen. Fasse diese Schritte nicht",
+  "wieder zu einem Satz zusammen.",
+  "Ein ausdrücklich genanntes Vorheizen des Ofens ist immer ein",
+  "eigener",
+  "Schritt unmittelbar vor dem ersten Backschritt. Übernimm dabei die",
+  "genannte Temperatur. Wenn keine Vorheizdauer angegeben ist, bleibt",
+  "durationMinutes 0; die App setzt dann ihre konfigurierte",
+  "Vorheizzeit.",
+  "Jeder Arbeitsschritt muss für sich allein verständlich sein, weil die",
+  "App ihn einzeln als Erinnerung anzeigt. Gehört ein Schritt zu einer",
+  "Komponente (Sauerteig, Vorteig, Quellstück, Brühstück, Hauptteig …),",
+  "beginne seinen Text mit dem Komponentennamen und einem Doppelpunkt,",
+  "zum Beispiel 'Roggensauerteig: 12 Stunden bei 20 °C reifen lassen.',",
+  "und trage denselben Namen in componentName ein. Verwende dafür exakt",
+  "die Namen aus components.",
+  "Nutze 0 oder eine leere Zeichenfolge für fehlende Werte und notiere",
+  "unleserliche oder widersprüchliche Stellen in warnings.",
+];
+
 const maxImageCount = 10;
 const maxImageBytes = 3 * 1024 * 1024;
 const maxTotalBytes = 15 * 1024 * 1024;
@@ -126,41 +172,13 @@ export const analyzeRecipeImages = onCall(
     const images = validateImages(request.data?.images);
     await enforceRateLimit(uid);
 
-    const project = process.env.GCLOUD_PROJECT ??
-      process.env.GOOGLE_CLOUD_PROJECT;
-    if (!project) {
-      throw new HttpsError("internal", "Firebase-Projekt nicht verfügbar.");
-    }
-
-    const ai = new GoogleGenAI({vertexai: true, project, location: "eu"});
     const parts = [
       {
         text: [
           "Analysiere alle Bilder gemeinsam als ein vollständiges Backrezept.",
           "Die Seiten stehen in der übermittelten Reihenfolge.",
           "Übernimm ausschließlich lesbare Angaben aus den Bildern.",
-          "Erfinde keine Zutaten, Mengen, Zeiten, Temperaturen oder Schritte.",
-          "Bewahre die Originalsprache und trenne Sauerteig, Vorteig,",
-          "Brühstück",
-          "und Hauptteig in eigene Komponenten.",
-          "Erzeuge für jede eigenständige Tätigkeit und jede Wartephase einen",
-          "separaten Arbeitsschritt, auch wenn sie im Bild im selben Absatz",
-          "oder Aufzählungspunkt stehen. Zeitlich ausgelöste Zwischenaktionen",
-          "wie 'nach 30 Minuten dehnen und falten' sind immer eigene Schritte.",
-          "Wenn eine Gesamtphase eine Zwischenaktion enthält, teile die",
-          "Wartezeit zeitlich korrekt vor und nach dieser Aktion auf.",
-          "Beispiel:",
-          "'1 Stunde ruhen, nach 30 Minuten falten' ergibt 30 Minuten ruhen,",
-          "falten und weitere 30 Minuten ruhen. Fasse diese Schritte nicht",
-          "wieder zu einem Satz zusammen.",
-          "Ein ausdrücklich genanntes Vorheizen des Ofens ist immer ein",
-          "eigener",
-          "Schritt unmittelbar vor dem ersten Backschritt. Übernimm dabei die",
-          "genannte Temperatur. Wenn keine Vorheizdauer gedruckt ist, bleibt",
-          "durationMinutes 0; die App setzt dann ihre konfigurierte",
-          "Vorheizzeit.",
-          "Nutze 0 oder eine leere Zeichenfolge für fehlende Werte und notiere",
-          "unleserliche oder widersprüchliche Stellen in warnings.",
+          ...sharedRecipeRules,
         ].join(" "),
       },
       ...images.map((image) => ({
@@ -168,35 +186,167 @@ export const analyzeRecipeImages = onCall(
       })),
     ];
 
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-3.8-flash",
-        contents: [{role: "user", parts}],
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: recipeSchema,
-          maxOutputTokens: 8192,
-        },
-      });
-      if (!response.text) {
-        throw new Error("Gemini returned no text response.");
-      }
-
-      const recipe = JSON.parse(response.text);
-      console.info("Recipe analysis completed", {
-        imageCount: images.length,
-        durationMilliseconds: Date.now() - startedAt,
-      });
-      return {recipe, model: "gemini-3.8-flash"};
-    } catch (error) {
-      console.error("Recipe analysis failed", error);
-      throw new HttpsError(
-        "internal",
-        "Das Rezept konnte momentan nicht analysiert werden.",
-      );
-    }
+    return generateRecipe(parts, {
+      imageCount: images.length,
+      startedAt,
+    });
   },
 );
+
+/**
+ * Structures the text of a recipe web page, as extracted by the app, into
+ * the same recipe shape as the image analysis. The page itself is fetched
+ * by the app, so the server only ever sees the text the user chose to send.
+ */
+export const analyzeRecipeText = onCall(
+  {
+    enforceAppCheck: true,
+    timeoutSeconds: 240,
+    memory: "1GiB",
+    maxInstances: 2,
+  },
+  async (request) => {
+    const startedAt = Date.now();
+    const uid = request.auth?.uid;
+    if (!uid) {
+      throw new HttpsError(
+        "unauthenticated",
+        "Für die Rezeptanalyse ist eine Anmeldung erforderlich.",
+      );
+    }
+
+    const text = validateText(request.data?.text);
+    const sourceURL = validateSourceURL(request.data?.sourceURL);
+    await enforceRateLimit(uid);
+
+    const parts = [
+      {
+        text: [
+          "Der folgende Text stammt von einer Internetseite mit einem",
+          "Backrezept. Er kann strukturierte Rezeptdaten (schema.org) und den",
+          "sichtbaren Seitentext enthalten; beides beschreibt dasselbe Rezept.",
+          "Ignoriere Navigation, Werbung, Kommentare, Newsletter-Hinweise und",
+          "Verweise auf andere Rezepte. Übernimm ausschließlich Angaben, die",
+          "im Text stehen.",
+          ...sharedRecipeRules,
+          sourceURL ? `Quelle: ${sourceURL}` : "",
+          "\n\nSEITENTEXT:\n",
+          text,
+        ].join(" "),
+      },
+    ];
+
+    return generateRecipe(parts, {
+      textLength: text.length,
+      startedAt,
+    });
+  },
+);
+
+type RecipeAnalysisMetrics = {
+  imageCount?: number;
+  textLength?: number;
+  startedAt: number;
+};
+
+/**
+ * Sends the prepared prompt parts to Gemini and returns the schema-bound
+ * recipe. Shared by the image and the web page analysis.
+ * @param {object[]} parts Prompt parts in Gemini's content format.
+ * @param {RecipeAnalysisMetrics} metrics Values for the completion log.
+ * @return {Promise<object>} The recipe together with the model name.
+ */
+async function generateRecipe(
+  parts: object[],
+  metrics: RecipeAnalysisMetrics,
+): Promise<{recipe: unknown; model: string}> {
+  const project = process.env.GCLOUD_PROJECT ??
+    process.env.GOOGLE_CLOUD_PROJECT;
+  if (!project) {
+    throw new HttpsError("internal", "Firebase-Projekt nicht verfügbar.");
+  }
+
+  const ai = new GoogleGenAI({vertexai: true, project, location: "eu"});
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3.8-flash",
+      contents: [{role: "user", parts}],
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: recipeSchema,
+        maxOutputTokens: 8192,
+      },
+    });
+    if (!response.text) {
+      throw new Error("Gemini returned no text response.");
+    }
+
+    const recipe = JSON.parse(response.text);
+    console.info("Recipe analysis completed", {
+      imageCount: metrics.imageCount,
+      textLength: metrics.textLength,
+      durationMilliseconds: Date.now() - metrics.startedAt,
+    });
+    return {recipe, model: "gemini-3.8-flash"};
+  } catch (error) {
+    console.error("Recipe analysis failed", error);
+    throw new HttpsError(
+      "internal",
+      "Das Rezept konnte momentan nicht analysiert werden.",
+    );
+  }
+}
+
+const maxTextCharacters = 60_000;
+const minTextCharacters = 40;
+
+/**
+ * Bounds the page text before it reaches the paid model.
+ * @param {unknown} value Untrusted callable payload.
+ * @return {string} The validated text.
+ */
+function validateText(value: unknown): string {
+  if (typeof value !== "string") {
+    throw new HttpsError("invalid-argument", "Es wurde kein Text übermittelt.");
+  }
+  const text = value.trim();
+  if (text.length < minTextCharacters) {
+    throw new HttpsError(
+      "invalid-argument",
+      "Der übermittelte Text ist zu kurz für ein Rezept.",
+    );
+  }
+  if (text.length > maxTextCharacters) {
+    throw new HttpsError(
+      "invalid-argument",
+      `Der Text darf höchstens ${maxTextCharacters} Zeichen lang sein.`,
+    );
+  }
+  return text;
+}
+
+/**
+ * Accepts an optional http(s) source address for the prompt and the log.
+ * @param {unknown} value Untrusted callable payload.
+ * @return {string | undefined} The address, or undefined when absent.
+ */
+function validateSourceURL(value: unknown): string | undefined {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+  if (typeof value !== "string" || value.length > 2_048) {
+    throw new HttpsError("invalid-argument", "Ungültige Quelladresse.");
+  }
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      throw new Error("unsupported protocol");
+    }
+    return url.toString();
+  } catch {
+    throw new HttpsError("invalid-argument", "Ungültige Quelladresse.");
+  }
+}
 
 /**
  * Validates and bounds image data before it reaches the paid model.

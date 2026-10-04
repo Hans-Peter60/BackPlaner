@@ -270,6 +270,11 @@ class Rational {
     }
 
     // MARK: CalculateStartTimes
+    /// Minutes between the starts of parallel component preparations that do
+    /// not wait for one another: the handling time for mixing one pre-dough
+    /// before the next.
+    static let preparationStaggerMinutes = 5
+
     /// Places every step on the timeline and returns the instructions with their
     /// `startTime` in minutes after `startDate`.
     ///
@@ -281,7 +286,10 @@ class Rational {
     ///   up another component, the moment that component is finished. So the
     ///   first step starts exactly at the chosen start, a second sourdough stage
     ///   waits for the first one, and a soaker is always ready before the main
-    ///   dough needs it.
+    ///   dough needs it. Preparations that wait for nothing are mixed one after
+    ///   the other, `preparationStaggerMinutes` apart in step order: nobody
+    ///   weighs four pre-doughs at the same minute, and their reminders should
+    ///   not arrive at the same minute either.
     /// - Every other parallel step keeps ending together with its group, which
     ///   is what a folding intervention inside a resting step needs.
     ///
@@ -317,6 +325,7 @@ class Rational {
             var endByComponent: [String: Int] = [:]
             let preparedNames = Set(preparations.map { $0.dependency.name })
             var pending = preparations
+            var independentPreparations = 0
             while !pending.isEmpty {
                 var deferred: [(instruction: InstructionFB, dependency: ComponentDependency)] = []
                 for entry in pending {
@@ -326,7 +335,13 @@ class Rational {
                         deferred.append(entry)
                         continue
                     }
-                    let start = required.compactMap { endByComponent[$0] }.max() ?? groupStart
+                    let start: Int
+                    if let prerequisiteEnd = required.compactMap({ endByComponent[$0] }).max() {
+                        start = prerequisiteEnd
+                    } else {
+                        start = groupStart + independentPreparations * preparationStaggerMinutes
+                        independentPreparations += 1
+                    }
                     entry.instruction.startTime = start
                     endByComponent[entry.dependency.name] = start + entry.instruction.duration
                 }
