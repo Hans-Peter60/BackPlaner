@@ -83,6 +83,22 @@
         }
       }
     },
+    "„%@“ wird als Administrator endgültig aus der öffentlichen Datenbank entfernt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "“%@” will be permanently removed from the public database as an administrator."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "« %@ » sera supprimée définitivement de la base de données publique en tant qu’administrateur."
+          }
+        }
+      }
+    },
     "„%@“ wird dauerhaft gelöscht." : {
       "localizations" : {
         "en" : {

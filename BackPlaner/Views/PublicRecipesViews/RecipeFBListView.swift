@@ -21,6 +21,13 @@ struct RecipeFBListView: View {
     @State private var rating    = 0
     @State private var ownership = OwnershipFilter.all
 
+    // Admin moderation: the public recipe a swipe asked to delete, pending
+    // confirmation — nil while no dialog is up.
+    @State private var adminDeleteCandidate: RecipeFB?
+    // Error message shown when that delete fails (e.g. the rules deny it), so
+    // the row does not silently stay as if nothing had been tried.
+    @State private var deleteErrorMessage: String?
+
     var recipeId: NSManagedObjectID?
 
     /// Restricts the list to the user's own recipes — the ones he published and
@@ -157,6 +164,19 @@ struct RecipeFBListView: View {
                                                     ? Text("\(r.name), privates Rezept, Bewertung \(r.rating) von 5 Sternen")
                                                     : Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
                             }
+                            // Admins may remove any public recipe straight from
+                            // the list. No full swipe: the action is final, so it
+                            // always goes through the confirmation below.
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                if modelFB.isAdmin && r.visibility == .everyone {
+                                    Button(role: .destructive) {
+                                        adminDeleteCandidate = r
+                                    } label: {
+                                        Label("Löschen", systemImage: "trash")
+                                    }
+                                    .accessibilityLabel("Rezept löschen (Admin)")
+                                }
+                            }
                         }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
@@ -166,6 +186,31 @@ struct RecipeFBListView: View {
                 .clearScrollBackground()
                 .refreshable {
                     await modelFB.refresh()
+                }
+                .confirmationDialog("Öffentliches Rezept löschen?",
+                                    isPresented: Binding(get: { adminDeleteCandidate != nil },
+                                                         set: { if !$0 { adminDeleteCandidate = nil } }),
+                                    titleVisibility: .visible,
+                                    presenting: adminDeleteCandidate) { recipe in
+                    Button("Löschen", role: .destructive) {
+                        modelFB.deleteRecipeAsAdmin(recipe) { result in
+                            if case .failure(let error) = result {
+                                deleteErrorMessage = error.localizedDescription
+                            }
+                        }
+                    }
+                    Button("Abbrechen", role: .cancel) { }
+                } message: { recipe in
+                    // Names the recipe: unlike on its own screen, the list gives
+                    // no other clue which one is about to go.
+                    Text("„\(recipe.name)“ wird als Administrator endgültig aus der öffentlichen Datenbank entfernt.")
+                }
+                .alert("Löschen fehlgeschlagen",
+                       isPresented: Binding(get: { deleteErrorMessage != nil },
+                                            set: { if !$0 { deleteErrorMessage = nil } })) {
+                    Button("OK", role: .cancel) { deleteErrorMessage = nil }
+                } message: {
+                    Text(deleteErrorMessage ?? "")
                 }
                 }
             }

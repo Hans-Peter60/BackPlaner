@@ -16,6 +16,19 @@ service firebase.storage {
           && request.resource.contentType.matches('image/.*');
     }
 
+    // A moderator: the caller's uid has a document in the Firestore `admins`
+    // collection — the same registry the Firestore rules use. Storage rules
+    // can consult Firestore through cross-service rules, which is what lets an
+    // admin who deletes a public recipe take its image along instead of
+    // leaving it orphaned. Deploying this needs the Storage service agent to
+    // hold the Firestore read role. The CLI grants it only on an interactive
+    // (or --force) deploy whose rules content actually changed; with
+    // --non-interactive it silently skips the check.
+    function isAdmin() {
+      return request.auth != null
+          && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
+    }
+
     // Images of public recipes. Legacy objects live directly under
     // images/<uuid>.jpg, current uploads under images/<uid>/<uuid>.jpg — the
     // owner segment lets the rules below restrict writes to the author.
@@ -29,13 +42,16 @@ service firebase.storage {
       // Public recipes are visible to everyone, so their images are too.
       allow read: if request.auth != null;
 
-      // Only the author may add or remove his own images.
+      // Only the author may add his own images. Removing one is allowed to the
+      // author or to an admin deleting the recipe. The owner check comes first
+      // so the common case never costs a Firestore lookup.
       allow write:  if request.auth != null && request.auth.uid == ownerUid && isImageUpload();
-      allow delete: if request.auth != null && request.auth.uid == ownerUid;
+      allow delete: if request.auth != null && (request.auth.uid == ownerUid || isAdmin());
     }
 
-    // Images of author-only recipes. A separate folder because Storage rules
-    // cannot read Firestore: the path itself has to carry who may see the image.
+    // Images of author-only recipes. A separate folder so the path itself
+    // carries who may see the image; no admin branch, private content is not
+    // moderated.
     match /privateImages/{ownerUid}/{imageId} {
       allow read:   if request.auth != null && request.auth.uid == ownerUid;
       allow write:  if request.auth != null && request.auth.uid == ownerUid && isImageUpload();

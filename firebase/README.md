@@ -28,9 +28,17 @@ Enable **Anonymous Auth** (invisible, no login screen, compatible with the
 
 ## Admins / moderators (delete any recipe)
 
-Admins may delete **any** public recipe (not just their own) via the "Rezept
-löschen (Admin)" button in the app's public recipe detail view. An admin is any
+Admins may delete **any** public recipe (not just their own). The app offers
+this in three places: the ⋯ menu on the recipe screen ("Rezept löschen
+(Admin)"), the button at the bottom of its Details tab, and a swipe on the row
+in the Rezept-Datenbank list. Each asks for confirmation first. An admin is any
 user whose `auth.uid` has a document in the `admins` collection.
+
+The Storage rules consult that same collection through a cross-service rule
+(`firestore.exists(...)`), so the admin delete also removes the recipe image
+under `images/<uid>/…`. The first deploy of that rule prompts to grant the
+Storage service agent the Firestore read role — accept, otherwise every
+`isAdmin()` evaluation in Storage fails and the image stays behind.
 
 Admins sign in with **Sign in with Apple** (not the anonymous identity) so the
 uid is **stable across reinstalls**. It is native (AuthenticationServices), needs
@@ -189,5 +197,6 @@ not match that query.
   the subcollections. No admin branch — private content is not moderated.
 - **Storage images**: uploads capped at 5 MB and must be an image type.
   `images/<uid>/…` is readable by every signed-in user but writable only by its
-  owner; `privateImages/<uid>/…` is readable **only** by its owner. The legacy
-  flat path `images/<uuid>.jpg` stays readable and writable for signed-in users.
+  owner, and deletable by the owner or an admin; `privateImages/<uid>/…` is
+  readable **only** by its owner. The legacy flat path `images/<uuid>.jpg` stays
+  readable and writable for signed-in users.

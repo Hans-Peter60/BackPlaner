@@ -24,8 +24,10 @@ struct TabsFBView: View {
     // flag content and block abusive authors; deleting own content is recommended).
     @State private var showReportDialog = false
     @State private var showDeleteConfirm = false
-    // Error message shown when deleting the own recipe fails, so the screen no
-    // longer silently dismisses (leaving the recipe in the list) as if it worked.
+    // Admin moderation: confirm before deleting someone else's public recipe.
+    @State private var showAdminDeleteConfirm = false
+    // Error message shown when a delete fails, so the screen no longer
+    // silently dismisses (leaving the recipe in the list) as if it worked.
     @State private var deleteErrorMessage: String?
 
     // Translation state: switching language re-writes the shared recipeFB, so both tabs update.
@@ -43,6 +45,13 @@ struct TabsFBView: View {
     private var isOwnRecipe: Bool {
         guard let author = recipeFB.authorId, !author.isEmpty else { return false }
         return author == moderation.authorId
+    }
+
+    /// True when an admin may delete this recipe here: it is public and not the
+    /// admin's own (the own one already has "Mein Rezept löschen"). Author-only
+    /// recipes are never shared, so they stay out of an admin's reach.
+    private var canDeleteAsAdmin: Bool {
+        modelFB.isAdmin && !isOwnRecipe && recipeFB.visibility == .everyone
     }
 
     var body: some View {
@@ -144,6 +153,16 @@ struct TabsFBView: View {
                             Label("Mein Rezept löschen", systemImage: "trash")
                         }
                     }
+
+                    // The same action also sits at the bottom of the Details
+                    // tab; here it is reachable from every tab.
+                    if canDeleteAsAdmin {
+                        Button(role: .destructive) {
+                            showAdminDeleteConfirm = true
+                        } label: {
+                            Label("Rezept löschen (Admin)", systemImage: "trash")
+                        }
+                    }
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -176,6 +195,21 @@ struct TabsFBView: View {
             Text(recipeFB.visibility == .authorOnly
                  ? "Das Rezept wird endgültig aus Deiner privaten Ablage in der Rezept-Datenbank entfernt."
                  : "Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+        }
+        .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
+            Button("Löschen", role: .destructive) {
+                modelFB.deleteRecipeAsAdmin(recipeFB) { result in
+                    switch result {
+                    case .success:
+                        dismiss()
+                    case .failure(let error):
+                        deleteErrorMessage = error.localizedDescription
+                    }
+                }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Dieses Rezept wird als Administrator endgültig aus der öffentlichen Datenbank entfernt.")
         }
         .alert("Löschen fehlgeschlagen",
                isPresented: Binding(get: { deleteErrorMessage != nil },
