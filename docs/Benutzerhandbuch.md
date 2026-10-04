@@ -366,6 +366,8 @@ Die Auswahl merkt sich die App für beide Importwege.
 Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest BakePlanner ein Rezept direkt von einer Rezeptseite im Internet ein, zum Beispiel aus einem Backblog.
 
 1. **Adresse einfügen**: Kopiere die Adresse der Rezeptseite in Safari und füge sie über die Einfügen-Schaltfläche neben dem Feld ein oder tippe sie ein. „https://“ darf fehlen; die App ergänzt es.
+
+   **Kürzer geht es direkt aus Safari:** Tippe auf der Rezeptseite auf **Teilen** und wähle **BakePlanner**. Ein kleines Blatt zeigt die Seite an; **„Importieren“** wechselt zu BakePlanner, wo die Adresse schon eingetragen ist und die Analyse von selbst startet. Das funktioniert aus jedem Browser und aus jeder App, die eine Internetadresse teilt. Erscheint BakePlanner nicht in der Reihe der Apps, tippe auf **„Mehr“** und schalte BakePlanner dort ein.
 2. **Analyseart** wählen wie beim Bild-Import. Bei „Nur auf diesem Gerät“ wird der Seitentext nicht übertragen; ohne Apple Intelligence übernimmt die App dann nur die strukturierten Rezeptdaten, die die Seite selbst mitliefert.
 3. **„Seite laden und analysieren“** lädt die Seite auf dem Gerät, liest die Rezeptdaten und den sichtbaren Text aus und übergibt sie der gewählten Analyse. Das Rezeptfoto der Seite wird mit übernommen.
 4. Danach erscheint dieselbe **Zusammenfassung** wie beim Bild-Import; statt der erkannten Vorlage steht dort die Quelle (die Internetadresse). **„Andere Seite laden“** startet neu.
