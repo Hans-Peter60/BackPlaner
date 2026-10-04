@@ -99,6 +99,21 @@ final class PlanSnapshotPublisher {
             request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
             let steps = (try? context.fetch(request)) ?? []
 
+            // Reminders are local to the device that planned the recipe, the
+            // steps are not: a plan deleted on another device only reaches
+            // this one as a remote change. Every such change ends up here, so
+            // the reminders that lost their step are dropped in the same pass.
+            // The one-second delay above keeps a plan being created out of it:
+            // its reminders are added before its steps are saved.
+            NotificationActions.removeRemindersWithoutStep(
+                steps.map { step in
+                    NotificationActions.ScheduledNotificationMatch(
+                        instruction: step.instruction,
+                        date: step.date
+                    )
+                }
+            )
+
             let snapshot = PlanSnapshot(
                 steps: steps.map { step in
                     PlanSnapshot.Step(

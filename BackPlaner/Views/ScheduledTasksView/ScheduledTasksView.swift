@@ -647,12 +647,7 @@ struct ScheduledTasksView: View {
         if plan == nil {
             // Clearing the whole plan also drops reminders whose step was
             // already gone — those cannot be matched individually any more.
-            UNUserNotificationCenter.current().getPendingNotificationRequests { notificationRequests in
-                let identifiers = notificationRequests
-                    .map(\.identifier)
-                    .filter { $0.contains("Recipe-") }
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
-            }
+            NotificationActions.cancelAllReminders()
         }
 
         planFilter = nil

@@ -490,17 +490,76 @@ enum NotificationActions {
         )
     }
 
-    /// Cancels every pending reminder whose identifier starts with `prefix`
+    /// Every reminder request the app creates for a planned step starts
+    /// with this; the postponement confirmations do not.
+    static let reminderIdentifierPrefix = "Recipe-"
+
+    /// Removes the reminders that `isMatch` selects — the pending ones, so
+    /// they never fire, and the already delivered ones, so they also leave
+    /// Notification Center. A reminder that was held back by a Focus or the
+    /// scheduled summary is delivered, not pending, and used to survive the
+    /// deletion of its step.
+    private static func removeReminders(where isMatch: @escaping (UNNotificationRequest) -> Bool) {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            let identifiers = requests.filter(isMatch).map(\.identifier)
+            guard !identifiers.isEmpty else { return }
+            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        }
+        center.getDeliveredNotifications { notifications in
+            let identifiers = notifications.map(\.request).filter(isMatch).map(\.identifier)
+            guard !identifiers.isEmpty else { return }
+            center.removeDeliveredNotifications(withIdentifiers: identifiers)
+        }
+    }
+
+    /// Whether a request is a step reminder matching one of `matches` the
+    /// way every cancel path does it: by instruction text and scheduled date.
+    private static func request(_ request: UNNotificationRequest, matchesAnyOf matches: [ScheduledNotificationMatch]) -> Bool {
+        guard let requestInstruction = request.content.userInfo[instructionKey] as? String,
+              let requestDate = dateValue(request.content.userInfo[scheduledDateKey]) else {
+            return false
+        }
+        return matches.contains { match in
+            requestInstruction == match.instruction
+                && abs(requestDate.timeIntervalSince(match.date)) <= 60
+        }
+    }
+
+    /// Cancels every reminder whose identifier starts with `prefix`
     /// — all plans of one recipe — except those carrying `excluded`, the
     /// plan being created at the same moment.
     static func cancelPendingNotifications(withIdentifierPrefix prefix: String, excludingContaining excluded: String) {
-        let center = UNUserNotificationCenter.current()
-        center.getPendingNotificationRequests { requests in
-            let identifiers = requests
-                .map(\.identifier)
-                .filter { $0.hasPrefix(prefix) && !$0.contains(excluded) }
-            guard !identifiers.isEmpty else { return }
-            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        removeReminders { request in
+            request.identifier.hasPrefix(prefix) && !request.identifier.contains(excluded)
+        }
+    }
+
+    /// Cancels every step reminder of every recipe, used when the whole plan
+    /// is cleared: that also catches reminders whose step was already gone
+    /// and cannot be matched individually any more.
+    static func cancelAllReminders() {
+        removeReminders { request in
+            request.identifier.hasPrefix(reminderIdentifierPrefix)
+        }
+    }
+
+    /// Removes every step reminder that no planned step belongs to any more.
+    ///
+    /// Reminders live on the device that planned the recipe, while the steps
+    /// sync through iCloud: deleting a plan on the iPad cannot reach the
+    /// iPhone's notifications. The deletion does arrive there as a remote
+    /// change, and this pass — run after every change of the plan — drops the
+    /// reminders that lost their step. `steps` must be the complete plan of
+    /// the store; a reminder is kept as long as any step matches it.
+    static func removeRemindersWithoutStep(_ steps: [ScheduledNotificationMatch]) {
+        removeReminders { request in
+            guard request.identifier.hasPrefix(reminderIdentifierPrefix),
+                  request.content.userInfo[instructionKey] is String,
+                  dateValue(request.content.userInfo[scheduledDateKey]) != nil else {
+                return false
+            }
+            return !self.request(request, matchesAnyOf: steps)
         }
     }
 
@@ -516,65 +575,30 @@ enum NotificationActions {
                            recipeName, date as NSDate)
     }
 
-    /// Cancels the pending reminder that belongs to a scheduled step, so a
-    /// reminder never outlives the step it was created for.
+    /// Cancels the reminder that belongs to a scheduled step, so a reminder
+    /// never outlives the step it was created for.
     ///
     /// The step does not store its notification identifier, so the request is
     /// matched the same way `shiftPendingNotifications` does it: by instruction
     /// text and scheduled date. Read the step's properties before calling this —
     /// they are captured synchronously, so the object may be deleted right after.
     static func cancelPendingNotification(for step: NextStep) {
-        let match = ScheduledNotificationMatch(
-            instruction: step.instruction,
-            date: step.date
-        )
-        let center = UNUserNotificationCenter.current()
-
-        center.getPendingNotificationRequests { requests in
-            let identifiers = requests.filter { request in
-                guard let requestInstruction = request.content.userInfo[instructionKey] as? String,
-                      let requestDate = dateValue(request.content.userInfo[scheduledDateKey]) else {
-                    return false
-                }
-                return requestInstruction == match.instruction
-                    && abs(requestDate.timeIntervalSince(match.date)) <= 60
-            }
-            .map(\.identifier)
-
-            guard !identifiers.isEmpty else { return }
-            center.removePendingNotificationRequests(withIdentifiers: identifiers)
-        }
+        cancelPendingNotifications(for: [step])
     }
 
-    /// Cancels the pending reminders of several scheduled steps in a single
-    /// pass, used when all steps of one recipe are removed from the plan.
+    /// Cancels the reminders of several scheduled steps in a single pass,
+    /// used when all steps of one recipe are removed from the plan.
     ///
-    /// Matching works exactly like `cancelPendingNotification(for:)`. The step
-    /// properties are read synchronously, so the objects may be deleted right
-    /// after the call returns.
+    /// The step properties are read synchronously, so the objects may be
+    /// deleted right after the call returns.
     static func cancelPendingNotifications(for steps: [NextStep]) {
         let matches = steps.map { step in
             ScheduledNotificationMatch(instruction: step.instruction, date: step.date)
         }
         guard !matches.isEmpty else { return }
 
-        let center = UNUserNotificationCenter.current()
-
-        center.getPendingNotificationRequests { requests in
-            let identifiers = requests.filter { request in
-                guard let requestInstruction = request.content.userInfo[instructionKey] as? String,
-                      let requestDate = dateValue(request.content.userInfo[scheduledDateKey]) else {
-                    return false
-                }
-                return matches.contains { match in
-                    requestInstruction == match.instruction
-                        && abs(requestDate.timeIntervalSince(match.date)) <= 60
-                }
-            }
-            .map(\.identifier)
-
-            guard !identifiers.isEmpty else { return }
-            center.removePendingNotificationRequests(withIdentifiers: identifiers)
+        removeReminders { request in
+            self.request(request, matchesAnyOf: matches)
         }
     }
 
@@ -793,7 +817,9 @@ enum NotificationActions {
         let scheduledDate: Date
     }
 
-    private struct ScheduledNotificationMatch {
+    /// What identifies a step's reminder: a planned step stores no
+    /// notification identifier, so every match goes by these two.
+    struct ScheduledNotificationMatch {
         let instruction: String
         let date: Date
     }
