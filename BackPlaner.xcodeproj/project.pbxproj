@@ -232,15 +232,15 @@
 		6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridRecipeImageAnalysisAgent.swift; sourceTree = "<group>"; };
 		6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsClient.swift; sourceTree = "<group>"; };
 		6AF638C82B7A4A5A0070CDC1 /* RecipeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
-		6AF639372B7A4ED90070CDC1 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF639382B7A4ED90070CDC1 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		6AF639392B7A4ED90070CDC1 /* NextStep+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NextStep+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF6393B2B7A4ED90070CDC1 /* BakeHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BakeHistory+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF6393D2B7A4ED90070CDC1 /* ShoppingCart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingCart+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF6393F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF639412B7A4ED90070CDC1 /* Component+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Component+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF639432B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Instruction+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		6AF639372B7A4ED90070CDC1 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF639382B7A4ED90070CDC1 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6AF639392B7A4ED90070CDC1 /* NextStep+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NextStep+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF6393B2B7A4ED90070CDC1 /* BakeHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BakeHistory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF6393D2B7A4ED90070CDC1 /* ShoppingCart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingCart+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF6393F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF639412B7A4ED90070CDC1 /* Component+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Component+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF639432B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Instruction+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AF639572B7A4F040070CDC1 /* Instruction+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Instruction+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6AF639582B7A4F050070CDC1 /* Ingredient+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6AF639592B7A4F050070CDC1 /* BakeHistory+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BakeHistory+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -391,6 +391,7 @@
 				6A1132282B7CF99800CDF054 /* RecipeTagsView.swift */,
 				6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */,
 				6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */,
+				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
 				6A5055ED304D684600F8E804 /* InstructionSchedulingControlsView.swift */,
 				6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */,
 				6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */,
@@ -516,7 +517,6 @@
 				6ACBBFDCADE72A60FDE4015A /* BackPlanerUITests */,
 				6AF754DA2B75018E00EADD84 /* Products */,
 				57CEA1CA35D3B82DCCF4096B /* Frameworks */,
-				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
 			);
 			sourceTree = "<group>";
 		};
