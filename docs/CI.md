@@ -4,7 +4,7 @@ Jeder Pull Request wird an zwei Stellen geprüft:
 
 | Wo | Was | Wird eingerichtet |
 |---|---|---|
-| **GitHub Actions** (`.github/workflows/checks.yml`) | String-Kataloge vollständig (en/fr), Projektdatei gültig, Handbuch-Webseiten aktuell, Cloud Functions Lint und Build | über das Repository, läuft von selbst |
+| **GitHub Actions** (`.github/workflows/checks.yml`) | String-Kataloge vollständig (en/fr), Projektdatei gültig, Handbuch-Webseiten aktuell, Cloud Functions Lint und Build, Firestore-Regeln im Emulator | über das Repository, läuft von selbst |
 | **Xcode Cloud** | App bauen, Unit-Tests und UI-Tests im Simulator | einmalig in Xcode (siehe unten) |
 
 Die GitHub-Prüfung braucht keinen Mac und kostet praktisch nichts. Alles, was die App selbst betrifft, läuft in Xcode Cloud. Im Apple Developer Program sind 25 Rechenstunden im Monat enthalten; ein Testlauf dauert einige Minuten.
@@ -18,10 +18,14 @@ pip install openstep-parser   # einmalig
 python3 scripts/check-repo.py
 
 cd functions && npm ci && npm run lint && npm run build
+
+cd firebase/tests && npm ci && npm test   # braucht Java
 ```
 
 Schlägt **„User manual“** fehl, wurde ein Handbuch geändert, ohne die Webseiten neu zu erzeugen:
 `python3 docs/build-manual-html.py` ausführen und das Ergebnis mit committen.
+
+Schlägt **„Firestore rules“** fehl, erlauben oder verbieten die Regeln in `firebase/firestore.rules` etwas anderes, als die App erwartet. Die Ausgabe nennt den Fall, etwa „user: get reported refused“. Entweder ist die Regeländerung falsch, oder die App hat sich geändert und der Test in `firebase/tests/rules.test.mjs` muss mit.
 
 Schlägt **„String catalogs“** fehl, hat ein neuer Text keine englische oder französische Übersetzung. Xcode legt neue Texte beim Bauen im Katalog an; die Übersetzungen dazu fehlen dann noch.
 
@@ -50,7 +54,7 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
 7. **Post-Actions:** **„Notify“** hinzufügen, E-Mail bei **Failure**.
 8. **Save**. Beim nächsten Pull Request erscheint unten in der Pull-Request-Seite eine Prüfung von Xcode Cloud.
 
-Optional, aber empfehlenswert: Auf GitHub unter **Settings → Branches → Add branch ruleset** für `main` festlegen, dass die Prüfungen grün sein müssen, bevor gemergt werden kann (**„Require status checks to pass“**: die beiden Jobs von „Checks“ und die Xcode-Cloud-Prüfung).
+Optional, aber empfehlenswert: Auf GitHub unter **Settings → Branches → Add branch ruleset** für `main` festlegen, dass die Prüfungen grün sein müssen, bevor gemergt werden kann (**„Require status checks to pass“**: die drei Jobs von „Checks“ und die Xcode-Cloud-Prüfung).
 
 ### Was in Xcode Cloud anders ist als auf dem eigenen Mac
 

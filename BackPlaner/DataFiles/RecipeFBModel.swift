@@ -239,6 +239,12 @@ class RecipeFBModel: ObservableObject {
         if !recipeTranslations.isEmpty {
             recipeData["translations"] = recipeTranslations
         }
+        // The list query asks for `hidden == false`, and Firestore never
+        // matches a missing field, so a public recipe has to carry it from the
+        // start. The rules refuse a new public recipe without it.
+        if visibility == .everyone {
+            recipeData["hidden"] = false
+        }
 
         group.enter()
         let cloudRecipe = cloudRecipes.document(r.id ?? UUID().uuidString)
@@ -442,6 +448,13 @@ class RecipeFBModel: ObservableObject {
         if let ownerUid {
             query = query.whereField("authorId", isEqualTo: ownerUid)
         }
+        // The rules hand out a reported (hidden) public recipe to admins and
+        // its author only, and a query has to prove it asks for nothing else:
+        // without this filter the whole list would be refused. Admins query
+        // unfiltered so they still see what they have to review.
+        if visibility == .everyone && !isAdmin {
+            query = query.whereField("hidden", isEqualTo: false)
+        }
 
         query.getDocuments { snapshot, error in
 
@@ -461,8 +474,9 @@ class RecipeFBModel: ObservableObject {
             for doc in snapshot.documents {
 
                 // A reported recipe is withheld from every user right away
-                // (App Store Guideline 1.2). Only admins still receive it,
-                // so they can review it and either release or delete it.
+                // (App Store Guideline 1.2). The query already leaves it out
+                // for everyone but admins, and the rules refuse it; this check
+                // only keeps the list right should either ever change.
                 let isHidden = doc["hidden"] as? Bool ?? false
                 if isHidden && !self.isAdmin { continue }
 

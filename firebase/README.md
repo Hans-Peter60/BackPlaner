@@ -7,6 +7,9 @@ enforce the UGC moderation model (App Store Guideline 1.2).
 ## Files
 - `firestore.rules` — recipe database + moderation `reports`
 - `storage.rules` — recipe images
+- `tests/` — checks `firestore.rules` in the Firestore emulator
+  (`cd firebase/tests && npm ci && npm test`, needs Java; runs in the GitHub
+  Action on every pull request)
 
 ## Prerequisite: Anonymous Authentication (required)
 
@@ -183,8 +186,10 @@ the 24-hour expectation is met by the system, not by how fast a human reacts.
 2. The app writes `reports/{recipeId}_{uid}` **and** sets `hidden: true` on the
    recipe document — exactly that one field, no Firestore sentinels, so the rule
    condition can be reproduced in the Rules Playground. From that moment the
-   recipe is gone for every user, including its author — `getRecipesFB` skips
-   hidden documents for everyone except admins.
+   rules hand the recipe and its subcollections only to admins and its author;
+   the app's list query asks for `hidden == false` and so no longer returns it.
+   (The author can still open it by id, e.g. from a local copy, but cannot
+   release it: his update rule keeps `hidden` unchanged.)
 3. Each user can report a given recipe only once (deterministic report id +
    create-only rule), and a reporter can only ever *hide*, never unhide.
 4. An admin opens the recipe (admins still see hidden ones) and either
@@ -194,18 +199,40 @@ the 24-hour expectation is met by the system, not by how fast a human reacts.
    (Firestore → `reports`, `status: "open"`). Keep handled reports as a record
    of the decision; do not delete them.
 
-Known limitation: a hidden recipe is filtered out on the client, and the
-document itself is still readable through the raw API until an admin deletes it.
-Making that airtight requires `allow read` to check `hidden` plus a
-`whereField("hidden", isEqualTo: false)` query — which additionally needs every
-existing recipe backfilled with `hidden: false`, because a missing field does
-not match that query.
+Still readable: the recipe's **image** in Storage. Its path does not contain
+the recipe id, so the Storage rules cannot look up whether the recipe is
+hidden. The path holds two random UUIDs and is listed only in the (withheld)
+recipe document.
+
+### Rolling out the server-side `hidden` check
+
+Before 2026-10, a hidden recipe was only filtered out by the app, and the raw
+API still returned it. The current rules withhold it on the server. That
+requires every public recipe to carry `hidden` — Firestore never matches a
+missing field, so the app's `where hidden == false` would skip such a recipe —
+and it refuses app versions that query without that filter. Hence the order:
+
+1. **Backfill** — before any build with the filter talks to the database
+   (the Xcode build on your own iPhone included):
+   ```
+   node scripts/backfill-hidden.mjs --key=<serviceAccount.json>            # dry run
+   node scripts/backfill-hidden.mjs --key=<serviceAccount.json> --commit
+   ```
+2. **Release** the app version with the filter and wait until users have
+   updated. Until the rules are deployed, an older version may still publish
+   recipes without `hidden`; the new version does not list those.
+3. **Backfill again** (catches those recipes), then **deploy** `firestore.rules`.
+   From then on an older app version can neither list nor publish public
+   recipes (its query lacks the filter, its new recipes lack the field) — it
+   shows an empty recipe database.
 
 ## What the rules do
-- **Recipe**: read for signed-in app users; create only with a valid name and
-  the caller's own `authorId`; update/delete only by that author — plus an admin,
-  who may also release a hidden recipe, and any reporter, who may set *only*
-  `hidden` and only to `true`. Subcollections
+- **Recipe**: read for signed-in app users while `hidden == false`; a hidden
+  (reported) recipe only for admins and its author — the same for its
+  subcollections. Create only with a valid name, the caller's own `authorId`
+  and `hidden: false`; update/delete only by that author, who may not change
+  `hidden` — plus an admin, who may also release a hidden recipe, and any
+  reporter, who may set *only* `hidden` and only to `true`. Subcollections
   (`components`/`ingredients`/`instructions`) writable only by the recipe's
   author. **Admins** (uid present in `admins`) may additionally delete any recipe
   and its subcollections.

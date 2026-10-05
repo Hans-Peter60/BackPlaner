@@ -52,15 +52,37 @@ service cloud.firestore {
           && request.resource.data.hidden == true;
     }
 
+    // Who may see a public recipe: everyone while it is not hidden; once it
+    // has been reported, only admins (who review it) and its own author.
+    // `recipe` is the recipe document's data.
+    //
+    // The first operand reads `hidden` directly, not with .get(): a list query
+    // has to prove it returns only allowed documents, and the app's
+    // `where hidden == false` proves exactly this comparison. Every public
+    // recipe therefore has to carry the field (scripts/backfill-hidden.mjs for
+    // old ones, the create rule below for new ones). On a document without it
+    // the operand errors, and the admin and author checks still decide.
+    function canSeeRecipe(recipe) {
+      return recipe.hidden == false
+          || isAdmin()
+          || recipe.get('authorId', '') == request.auth.uid;
+    }
+
     // ---- Public recipe database ----------------------------------------
 
     match /Recipe/{recipeId} {
 
-      // Anyone using the genuine app (App Check) may browse recipes.
-      allow read: if isSignedIn();
+      // Anyone using the genuine app (App Check) may browse recipes, except
+      // the reported ones (see canSeeRecipe). A listing must therefore filter
+      // on `hidden == false` unless the caller is an admin.
+      allow read: if isSignedIn() && canSeeRecipe(resource.data);
 
-      // Only signed-in devices may publish, stamping their own uid.
-      allow create: if isSignedIn() && isValidRecipe(request.resource.data);
+      // Only signed-in devices may publish, stamping their own uid. A new
+      // recipe starts visible and has to say so, or the listing query, which
+      // never matches a missing field, would not find it.
+      allow create: if isSignedIn()
+                    && isValidRecipe(request.resource.data)
+                    && request.resource.data.hidden == false;
 
       // Three ways a recipe may be updated. isAdmin() is checked FIRST for the
       // same reason as in delete below (a legacy recipe without authorId would
@@ -69,11 +91,14 @@ service cloud.firestore {
       //   1. an admin, who reviews reported recipes and can release them again
       //   2. any reporter, but only to hide the recipe (see isReportHideUpdate)
       //   3. the original author, who may not hand the recipe to someone else
+      //      and may not release his own recipe after it has been reported
       allow update: if isSignedIn()
                     && (isAdmin()
                         || isReportHideUpdate()
                         || (resource.data.get('authorId', '') == request.auth.uid
-                            && request.resource.data.authorId == request.auth.uid));
+                            && request.resource.data.authorId == request.auth.uid
+                            && request.resource.data.get('hidden', false)
+                                   == resource.data.get('hidden', false)));
 
       // The original author or an admin may delete a recipe. Check isAdmin()
       // FIRST so admins are never blocked by a legacy recipe whose authorId
@@ -84,9 +109,16 @@ service cloud.firestore {
                     && (isAdmin()
                         || resource.data.get('authorId', '') == request.auth.uid);
 
-      // Subcollections belong to the recipe: everyone signed in may read,
-      // the recipe's author or an admin may write (needed for admin deletion).
-      // isAdmin() is checked first for the same reason as delete above.
+      // Subcollections belong to the recipe: whoever may see the recipe may
+      // read them, so a reported recipe's ingredients and steps are withheld
+      // too. The recipe's author or an admin may write (needed for admin
+      // deletion). isAdmin() is checked first for the same reason as delete
+      // above.
+      function canReadRecipeChildren() {
+        return isSignedIn()
+            && canSeeRecipe(get(/databases/$(database)/documents/Recipe/$(recipeId)).data);
+      }
+
       function canWriteRecipeChildren() {
         return isAdmin()
             || (isSignedIn()
@@ -94,17 +126,17 @@ service cloud.firestore {
       }
 
       match /components/{componentId} {
-        allow read:  if isSignedIn();
+        allow read:  if canReadRecipeChildren();
         allow write: if canWriteRecipeChildren();
 
         match /ingredients/{ingredientId} {
-          allow read:  if isSignedIn();
+          allow read:  if canReadRecipeChildren();
           allow write: if canWriteRecipeChildren();
         }
       }
 
       match /instructions/{instructionId} {
-        allow read:  if isSignedIn();
+        allow read:  if canReadRecipeChildren();
         allow write: if canWriteRecipeChildren();
       }
     }
@@ -196,7 +228,8 @@ service cloud.firestore {
 
       // Reports are reviewed only in the Firebase console, never from clients.
       // (The takedown itself does not depend on this: reporting already sets
-      // `hidden` on the recipe, so the content is gone for everyone at once.)
+      // `hidden` on the recipe, and the Recipe read rule withholds it from
+      // everyone but admins and its author at once.)
       allow read, update, delete: if false;
     }
   }

@@ -41,6 +41,8 @@ ui-debug.log
 # fürs Repository.
 scripts/*.json
 scripts/node_modules/
+firebase/tests/node_modules/
+*-debug.log
 
 # Lokale Arbeitsstände zum App-Icon – Backups, kein Quellcode.
 # Bei Bedarf mit "git add -f" trotzdem aufnehmen.
