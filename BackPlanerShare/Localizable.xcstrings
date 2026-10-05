@@ -1,0 +1,227 @@
+{
+  "sourceLanguage" : "de",
+  "strings" : {
+    "Abbrechen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "BakePlanner ließ sich von hier aus nicht öffnen. Öffne die App selbst, der Import startet dort von allein." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner ließ sich von hier aus nicht öffnen. Öffne die App selbst, der Import startet dort von allein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner could not be opened from here. Open the app yourself; the import starts there on its own."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’ouvrir BakePlanner d’ici. Ouvrez l’app vous-même, l’import y démarrera tout seul."
+          }
+        }
+      }
+    },
+    "Die Adresse konnte nicht an BakePlanner übergeben werden." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Adresse konnte nicht an BakePlanner übergeben werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The address could not be handed to BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’adresse n’a pas pu être transmise à BakePlanner."
+          }
+        }
+      }
+    },
+    "Die Seite wird an BakePlanner übergeben. Dort liest die App Zutaten und Arbeitsschritte aus und zeigt sie Dir vor dem Speichern." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite wird an BakePlanner übergeben. Dort liest die App Zutaten und Arbeitsschritte aus und zeigt sie Dir vor dem Speichern."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page is handed to BakePlanner. There the app reads out the ingredients and the steps and shows them to you before saving."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page est transmise à BakePlanner. L’app y extrait les ingrédients et les étapes et vous les montre avant l’enregistrement."
+          }
+        }
+      }
+    },
+    "Diese Freigabe enthält keine Internetadresse." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Freigabe enthält keine Internetadresse."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This share does not contain a web address."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce partage ne contient pas d’adresse Internet."
+          }
+        }
+      }
+    },
+    "Fertig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Importieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer"
+          }
+        }
+      }
+    },
+    "Rezept in BakePlanner importieren" : {
+      "comment" : "Title of the share sheet; BakePlanner is the app's name and stays as it is.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rezept in BakePlanner importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe into BakePlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer la recette dans BakePlanner"
+          }
+        }
+      }
+    },
+    "Schließen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        }
+      }
+    },
+    "Seite wird gelesen …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seite wird gelesen …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading the page …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture de la page …"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

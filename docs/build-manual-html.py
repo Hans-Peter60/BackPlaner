@@ -226,16 +226,35 @@ def convert(markdown: str) -> tuple[str, str, str]:
         if ORDERED.match(stripped) or UNORDERED.match(stripped):
             ordered = bool(ORDERED.match(stripped))
             pattern = ORDERED if ordered else UNORDERED
-            items: list[str] = []
+            # Each item is its first line plus any paragraphs indented below
+            # it after a blank line, which stay inside the item instead of
+            # ending the list (and restarting its numbering).
+            items: list[list[str]] = []
             while i < n:
                 s = lines[i].strip()
                 m = pattern.match(s)
-                if not m:
-                    break
-                items.append(m.group(1))
-                i += 1
+                if m:
+                    items.append([m.group(1)])
+                    i += 1
+                    continue
+                if (not s and items and i + 1 < n
+                        and lines[i + 1].startswith("   ") and lines[i + 1].strip()):
+                    i += 1
+                    block: list[str] = []
+                    while i < n and lines[i].startswith("   ") and lines[i].strip():
+                        block.append(lines[i].strip())
+                        i += 1
+                    items[-1].append(" ".join(block))
+                    # A blank line closes the continuation; the list goes on
+                    # only if the next item follows directly.
+                    if i < n and not lines[i].strip() and i + 1 < n and pattern.match(lines[i + 1].strip()):
+                        i += 1
+                    continue
+                break
             tag = "ol" if ordered else "ul"
-            out.append(f"<{tag}>" + "".join(f"<li>{inline(it)}</li>" for it in items) + f"</{tag}>")
+            out.append(f"<{tag}>" + "".join(
+                "<li>" + inline(item[0]) + "".join(f"<p>{inline(p)}</p>" for p in item[1:]) + "</li>"
+                for item in items) + f"</{tag}>")
             continue
 
         # Paragraph: consecutive non-empty lines that start no other block.

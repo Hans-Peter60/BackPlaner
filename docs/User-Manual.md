@@ -371,6 +371,8 @@ The app remembers the choice for both import routes.
 Below that: **Import recipe from a web page**. It reads a recipe straight from a recipe page on the internet, a baking blog for instance.
 
 1. **Paste the address**: copy the address of the recipe page in Safari and paste it with the paste button next to the field, or type it in. "https://" may be left out; the app adds it.
+
+   **It's quicker straight from Safari:** on the recipe page tap **Share** and choose **BakePlanner**. A small sheet shows the page; **Import** switches to BakePlanner, where the address is already filled in and the analysis starts on its own. That works from any browser and from any app that shares a web address. If BakePlanner doesn't appear in the row of apps, tap **More** and switch BakePlanner on there.
 2. Choose the **Analysis Mode** as for the image import. With "On This Device Only" the page text isn't transmitted; without Apple Intelligence the app then takes only the structured recipe data the page itself provides.
 3. **Load and Analyze Page** loads the page on the device, reads out the recipe data and the visible text, and hands them to the chosen analysis. The page's recipe photo comes along.
 4. Then the same **summary** appears as for the image import; instead of the recognised source type it shows the source (the web address). **Load a Different Page** starts over.

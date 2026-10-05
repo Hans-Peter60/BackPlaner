@@ -5,7 +5,10 @@ import UIKit
 /// structured data and text are extracted, and the same analysis stages as
 /// for photographed pages turn them into a recipe draft.
 struct RecipeWebImportView: View {
-    @State private var addressText = ""
+    @State private var addressText: String
+    /// True until the address the share extension handed over has been
+    /// analysed once; afterwards the view behaves like the typed-in case.
+    @State private var startsAutomatically: Bool
     @State private var isAnalyzing = false
     @State private var analysisProgress = "Seite wird geladen …"
     @State private var analysisTask: Task<Void, Never>?
@@ -19,6 +22,13 @@ struct RecipeWebImportView: View {
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var analysisModeRawValue = RecipeImageAnalysisMode.localOnly.rawValue
 
     private let analysisAgent = HybridRecipeImageAnalysisAgent()
+
+    /// With `initialURL` — the page shared from Safari — the analysis starts
+    /// on its own; without it the view waits for an address to be typed.
+    init(initialURL: URL? = nil) {
+        _addressText = State(initialValue: initialURL?.absoluteString ?? "")
+        _startsAutomatically = State(initialValue: initialURL != nil)
+    }
 
     var body: some View {
         Group {
@@ -68,6 +78,11 @@ struct RecipeWebImportView: View {
         }
         .onDisappear {
             analysisTask?.cancel()
+        }
+        .onAppear {
+            guard startsAutomatically else { return }
+            startsAutomatically = false
+            analyzeAddress()
         }
     }
 

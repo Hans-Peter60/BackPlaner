@@ -371,6 +371,8 @@ L’app retient ce choix pour les deux voies d’importation.
 Juste en dessous : **Importer une recette depuis une page web**. BakePlanner lit ainsi une recette directement sur une page de recette en ligne, par exemple un blog de boulangerie.
 
 1. **Coller l’adresse** : copiez l’adresse de la page de recette dans Safari et collez-la avec le bouton Coller à côté du champ, ou saisissez-la. « https:// » peut être omis ; l’app le complète.
+
+   **Plus rapide, directement depuis Safari :** sur la page de recette, touchez **Partager** et choisissez **BakePlanner**. Une petite feuille affiche la page ; **Importer** bascule vers BakePlanner, où l’adresse est déjà renseignée et l’analyse démarre d’elle-même. Cela fonctionne depuis n’importe quel navigateur et depuis toute app qui partage une adresse Internet. Si BakePlanner n’apparaît pas dans la rangée d’apps, touchez **Plus** et activez-y BakePlanner.
 2. Choisissez le **mode d’analyse** comme pour l’import d’images. Avec « Sur cet appareil uniquement », le texte de la page n’est pas transmis ; sans Apple Intelligence, l’app ne reprend alors que les données de recette structurées fournies par la page elle-même.
 3. **Charger et analyser la page** charge la page sur l’appareil, en extrait les données de recette et le texte visible, et les transmet à l’analyse choisie. La photo de la recette est reprise elle aussi.
 4. Le même **récapitulatif** que pour l’import d’images apparaît ensuite ; à la place du type de source reconnu, il indique la source (l’adresse web). **Charger une autre page** recommence.

@@ -17,7 +17,14 @@ struct ContentView: View {
     @State private var path = NavigationPath()
 
     @Environment(\.managedObjectContext) private var viewContext
-    
+    @Environment(\.scenePhase) private var scenePhase
+
+    /// The last page handed over by the share extension and when: its deep
+    /// link and the parked copy of the same address can both arrive within
+    /// one launch, and the second must not start the import again.
+    @State private var lastWebImportURL: URL?
+    @State private var lastWebImportDate = Date.distantPast
+
     var manager:LocalNotificationManager = LocalNotificationManager()
     
     var recipeId: NSManagedObjectID?
@@ -126,14 +133,38 @@ struct ContentView: View {
 
             }
         }
-        // The widget's deep link: straight to the planned steps.
+        // The widget's deep link goes straight to the planned steps; the
+        // share extension's carries a page address for the web import.
         .onOpenURL { url in
             if url == PlanSnapshot.scheduledStepsURL {
                 path = NavigationPath([MenuDestination.scheduledSteps])
+            } else if let pageURL = PendingWebImport.url(fromDeepLink: url) {
+                // The same address is parked in the App Group; take it so it
+                // does not start a second import on the next activation.
+                _ = PendingWebImport.takePending()
+                beginWebImport(of: pageURL)
+            }
+        }
+        // The share extension may have been unable to open the app; the
+        // address it parked is collected when the app comes forward.
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active, let pageURL = PendingWebImport.takePending() {
+                beginWebImport(of: pageURL)
             }
         }
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())
+    }
+
+    /// Opens the web import on `pageURL`, replacing whatever was on screen.
+    /// Sharing the same page again later starts a fresh import; only the
+    /// echo of the same hand-off within a few seconds is dropped.
+    private func beginWebImport(of pageURL: URL) {
+        if pageURL == lastWebImportURL, Date().timeIntervalSince(lastWebImportDate) < 5 { return }
+        lastWebImportURL = pageURL
+        lastWebImportDate = Date()
+        AppLog.recipeImport.info("Web import handed over from the share sheet: \(pageURL.absoluteString, privacy: .private)")
+        path = NavigationPath([MenuDestination.webImport(pageURL, handoff: UUID())])
     }
 
     @ViewBuilder
@@ -147,6 +178,11 @@ struct ContentView: View {
         case .hitList:        BakeHistoriesHitListView()
         case .shoppingList:   ShoppingCartsView()
         case .settings:       SettingsView()
+        case .webImport(let pageURL, let handoff):
+            // Without an explicit identity the stack keeps the previous
+            // import screen's state when one hand-off replaces another, and
+            // the new address is never analysed.
+            RecipeWebImportView(initialURL: pageURL).id(handoff)
         }
     }
     
@@ -168,6 +204,10 @@ enum MenuDestination: Hashable {
     case hitList
     case shoppingList
     case settings
+    /// Not a menu card: reached through the share extension, with the page
+    /// to import. The hand-off id makes every share a new screen, so the
+    /// same page shared twice is analysed twice instead of being ignored.
+    case webImport(URL, handoff: UUID)
 }
 
 // A single navigation entry shown on the main screen.

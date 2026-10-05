@@ -494,19 +494,24 @@ struct RecipeImportConfirmationView: View {
             .joined(separator: " ")
     }
 
+    // Plain string literals in a String-returning function never reach the
+    // catalog, so these went out in German whatever the app language; they
+    // resolve through the app's bundle like the other in-app texts.
     private func stepDescription(_ step: Double) -> String {
-        "Schritt " + step.formatted(.number.precision(.fractionLength(0...2)))
+        let number = step.formatted(.number.precision(.fractionLength(0...2)))
+        return String(localized: "Schritt \(number)", bundle: AppSettings.localizationBundle)
     }
 
     private func durationDescription(_ duration: Int) -> String {
+        let bundle = AppSettings.localizationBundle
         switch duration {
-        case ..<1: "Keine Dauer erkannt"
-        case 1: "Dauer: 1 Minute"
-        case ..<60: "Dauer: \(duration) Minuten"
+        case ..<1: return String(localized: "Keine Dauer erkannt", bundle: bundle)
+        case 1: return String(localized: "Dauer: 1 Minute", bundle: bundle)
+        case ..<60: return String(localized: "Dauer: \(duration) Minuten", bundle: bundle)
         default:
-            duration % 60 == 0
-                ? "Dauer: \(duration / 60) Std."
-                : "Dauer: \(duration / 60) Std. \(duration % 60) Min."
+            return duration % 60 == 0
+                ? String(localized: "Dauer: \(duration / 60) Std.", bundle: bundle)
+                : String(localized: "Dauer: \(duration / 60) Std. \(duration % 60) Min.", bundle: bundle)
         }
     }
 }
