@@ -39,6 +39,17 @@
                ReferencedContainer = "container:BackPlaner.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6A759F6349C5799253EC851C"
+               BuildableName = "BackPlanerUITests.xctest"
+               BlueprintName = "BackPlanerUITests"
+               ReferencedContainer = "container:BackPlaner.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

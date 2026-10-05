@@ -9,7 +9,9 @@ import CoreData
 import CloudKit
 
 struct PersistenceController {
-    static let shared = PersistenceController()
+    /// The app's store. A UI test run gets a fresh in-memory one instead (see
+    /// UITestSupport), so it neither depends on nor touches the real recipes.
+    static let shared = PersistenceController(inMemory: UITestSupport.isActive)
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)

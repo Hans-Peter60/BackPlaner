@@ -43,6 +43,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // Core Data model still used Nullify delete rules.
     PersistenceController.shared.cleanUpOrphanedObjectsIfNeeded()
 
+    if UITestSupport.seedsRecipe {
+      UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)
+    }
+
     // Mirror the planned steps into the App Group for the widget, now and
     // after every change.
     PlanSnapshotPublisher.shared.start(with: PersistenceController.shared.container)

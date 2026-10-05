@@ -90,6 +90,9 @@ struct ContentView: View {
                                         // height and the rows drift apart.
                                         MenuCard(item: item)
                                     }
+                                    // A stable handle for the UI tests, which
+                                    // would otherwise depend on the language.
+                                    .accessibilityIdentifier("menu.\(item.destination)")
                                 }
 
                                 // A short last row keeps the column widths of a
