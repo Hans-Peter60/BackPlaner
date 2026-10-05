@@ -30,6 +30,7 @@ struct InstructionsFBView: View {
     // Summary shown after reminders are scheduled, so the action is no longer opaque.
     @State private var reminderCount              = 0
     @State private var reminderOvenOnText         = ""
+    @State private var reminderOvenTemperature    = ""
     @State private var reminderFinishText         = ""
 
     /// 1.0 is the recipe as stored.
@@ -310,12 +311,9 @@ struct InstructionsFBView: View {
                         .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         } message: {
-                            if reminderHintText.isEmpty {
-                                Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
-                            }
-                            else {
-                                Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.\n\n\(reminderHintText)")
-                            }
+                            ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
+                                                 temperature: reminderOvenTemperature,
+                                                 finish: reminderFinishText, hints: reminderHintText)
                         }
                         .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
                             Button("OK", role: .cancel) { }
@@ -529,6 +527,7 @@ struct InstructionsFBView: View {
             let timeFormatter  = TimeCalculation()
             reminderCount      = result.reminderCount
             reminderOvenOnText = timeFormatter.calculateTime(t: result.ovenOnDate)
+            reminderOvenTemperature = result.ovenTemperature ?? ""
             reminderFinishText = timeFormatter.calculateTime(t: result.finishDate)
             showingAlert       = true
         } catch {

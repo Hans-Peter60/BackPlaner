@@ -28,6 +28,7 @@ struct InstructionsView: View {
     // Summary shown after reminders are scheduled, so the action is no longer opaque.
     @State private var reminderCount              = 0
     @State private var reminderOvenOnText         = ""
+    @State private var reminderOvenTemperature    = ""
     @State private var reminderFinishText         = ""
     @State private var instructions = [Instruction]()
     /// Asks whether a new plan replaces the recipe's existing one or joins it.
@@ -309,12 +310,9 @@ struct InstructionsView: View {
                     .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
                         Button("OK", role: .cancel) { }
                     } message: {
-                        if reminderHintText.isEmpty {
-                            Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.")
-                        }
-                        else {
-                            Text("\(reminderCount) Erinnerungen gesetzt.\nBackofen anstellen um \(reminderOvenOnText) Uhr.\nFertig um \(reminderFinishText) Uhr.\n\n\(reminderHintText)")
-                        }
+                        ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
+                                             temperature: reminderOvenTemperature,
+                                             finish: reminderFinishText, hints: reminderHintText)
                     }
                     .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
                         Button("OK", role: .cancel) { }
@@ -463,6 +461,7 @@ struct InstructionsView: View {
         let timeFormatter  = TimeCalculation()
         reminderCount      = result.reminderCount
         reminderOvenOnText = timeFormatter.calculateTime(t: result.ovenOnDate)
+        reminderOvenTemperature = result.ovenTemperature ?? ""
         reminderFinishText = timeFormatter.calculateTime(t: result.finishDate)
         showingAlert       = true
 
@@ -477,5 +476,23 @@ struct InstructionsView: View {
 
     func showNotificationMessage() {
         showingNotificationMessage = true
+    }
+}
+
+/// The message after reminders were set, shared by both baking views. A
+/// function returning `Text` rather than a view: an alert shows nothing else.
+enum ReminderSummary {
+    static func text(count: Int, ovenOn: String, temperature: String,
+                     finish: String, hints: String) -> Text {
+        switch (temperature.isEmpty, hints.isEmpty) {
+        case (true, true):
+            return Text("\(count) Erinnerungen gesetzt.\nBackofen anstellen um \(ovenOn) Uhr.\nFertig um \(finish) Uhr.")
+        case (true, false):
+            return Text("\(count) Erinnerungen gesetzt.\nBackofen anstellen um \(ovenOn) Uhr.\nFertig um \(finish) Uhr.\n\n\(hints)")
+        case (false, true):
+            return Text("\(count) Erinnerungen gesetzt.\nBackofen anstellen um \(ovenOn) Uhr (\(temperature)).\nFertig um \(finish) Uhr.")
+        case (false, false):
+            return Text("\(count) Erinnerungen gesetzt.\nBackofen anstellen um \(ovenOn) Uhr (\(temperature)).\nFertig um \(finish) Uhr.\n\n\(hints)")
+        }
     }
 }

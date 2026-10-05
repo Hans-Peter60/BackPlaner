@@ -82,6 +82,22 @@ struct BakePlanTests {
         #expect(try #require(neighbour.generatedOvenStep).instruction == "Backofen anstellen (250 °C)")
     }
 
+    @Test("The recipe's own \"Backofen anstellen\" gets the temperature of the bake")
+    func namesTheTemperatureInTheRecipesOwnPreheatStep() {
+        let steps = [
+            PlanStep(instruction: "Teig formen", step: 1, startTime: 0, duration: 20),
+            PlanStep(instruction: "Backofen anstellen", step: 2, startTime: 20, duration: 45),
+            PlanStep(instruction: "Bei 250°C fallend auf 220°C 50-55 Minuten ohne Dampf backen", step: 3, startTime: 65, duration: 55),
+        ]
+        let rauris = plan(steps)
+        #expect(rauris.generatedOvenStep == nil)
+        #expect(rauris.ovenTemperature == "250 °C")
+        #expect(rauris.scheduledSteps[1].instruction == "Backofen anstellen (250 °C)")
+        #expect(rauris.allSteps.contains { $0.instruction == "Backofen anstellen (250 °C)" })
+        // The recipe itself is not touched.
+        #expect(rauris.steps[1].instruction == "Backofen anstellen")
+    }
+
     @Test("Without any temperature the step keeps its plain text")
     func keepsThePlainTextWithoutTemperature() throws {
         let steps = [PlanStep(instruction: "60 Minuten backen", step: 1, startTime: 0, duration: 60)]

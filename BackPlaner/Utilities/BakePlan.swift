@@ -115,9 +115,24 @@ struct BakePlan {
                  duration: 0)
     }
 
+    /// The recipe's steps as they are scheduled. A preheating step of the
+    /// recipe's own that names no temperature ("Backofen anstellen", as
+    /// planning-example imports write it) gets the oven temperature appended,
+    /// like the generated one; the stored recipe is left as it is.
+    var scheduledSteps: [PlanStep] {
+        guard let preheat = explicitPreheatStep,
+              Self.ovenTemperature(in: preheat.instruction) == nil,
+              let temperature = ovenTemperature else { return steps }
+        return steps.map { step in
+            guard step == preheat else { return step }
+            return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature),
+                            step: step.step, startTime: step.startTime, duration: step.duration)
+        }
+    }
+
     /// Every step the plan writes, generated ones included.
     var allSteps: [PlanStep] {
-        steps + [generatedOvenStep].compactMap { $0 } + [endStep]
+        scheduledSteps + [generatedOvenStep].compactMap { $0 } + [endStep]
     }
 
     /// When the oven is switched on, by the recipe's own step or the
@@ -221,13 +236,15 @@ struct BakePlanScheduler {
         let reminderCount: Int
         let ovenOnDate: Date
         let finishDate: Date
+        /// "250 °C", if the recipe states an oven temperature.
+        let ovenTemperature: String?
     }
 
     /// Sets a reminder for every step. `details` gives the extra text of the
     /// recipe step at that index (the ingredients a step mixes); generated
     /// steps have none.
     func scheduleReminders(details: (Int) -> String?) -> Result {
-        for (index, step) in plan.steps.enumerated() {
+        for (index, step) in plan.scheduledSteps.enumerated() {
             _ = manager.setNotification(reminderID, step.instruction,
                                         Rational.decimalPlace(step.step, 10),
                                         plan.reminderOffset(of: step), plan.date, true,
@@ -246,7 +263,8 @@ struct BakePlanScheduler {
 
         return Result(reminderCount: plan.steps.count + (plan.generatedOvenStep == nil ? 1 : 2),
                       ovenOnDate: plan.ovenOnStep.map(plan.date(of:)) ?? plan.baseDate,
-                      finishDate: finishDate)
+                      finishDate: finishDate,
+                      ovenTemperature: plan.ovenTemperature)
     }
 
     /// Writes every step of the plan as a scheduled step.
