@@ -22,10 +22,16 @@ struct PersistenceController {
 
     let container: NSPersistentCloudKitContainer
 
+    /// Why the store on disk could not be opened, if it could not. The app
+    /// then runs on an empty in-memory store and ContentView explains it,
+    /// instead of stopping at launch: a full device or a failed migration
+    /// used to end in a crash with no word to the user.
+    let loadError: NSError?
+
     private static let cloudKitContainerIdentifier = "iCloud.de.hpm64625.BackPlaner"
 
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "BackPlaner")
+        let container = NSPersistentCloudKitContainer(name: "BackPlaner")
 
         guard let storeDescription = container.persistentStoreDescriptions.first else {
             fatalError("Unable to find a persistent store description.")
@@ -44,22 +50,31 @@ struct PersistenceController {
 
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
 
-                /*
-                Typical reasons for an error here include:
-                * The parent directory does not exist, cannot be created, or disallows writing.
-                * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                * The device is out of space.
-                * The store could not be migrated to the current model version.
-                Check the error message to determine what the actual problem was.
-                */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+        // Stores are added synchronously (the default), so the error is known
+        // once this returns. Typical causes: the device is out of space, the
+        // store is locked by data protection, or it could not be migrated.
+        var failure: NSError?
+        container.loadPersistentStores { _, error in
+            if let error = error as NSError? { failure = error }
+        }
+
+        if let failure {
+            AppLog.persistence.error("Store could not be loaded, running in memory: \(failure), \(failure.userInfo)")
+            // The file on disk is left untouched, so the recipes are there
+            // again once the cause is gone and the app is restarted.
+            let fallback = NSPersistentStoreDescription(url: URL(fileURLWithPath: "/dev/null"))
+            fallback.cloudKitContainerOptions = nil
+            container.persistentStoreDescriptions = [fallback]
+            container.loadPersistentStores { _, error in
+                if let error {
+                    AppLog.persistence.error("In-memory fallback store failed too: \(error)")
+                }
             }
-        })
+        }
+
+        self.container = container
+        self.loadError = failure
     }
 }
 
@@ -82,6 +97,9 @@ extension PersistenceController {
     func cleanUpOrphanedObjectsIfNeeded() {
         let defaults = UserDefaults.standard
         guard !defaults.bool(forKey: Self.orphanCleanupKey) else { return }
+        // On the empty fallback store the pass would succeed without touching
+        // the real one, and the flag would keep it from ever running there.
+        guard loadError == nil else { return }
 
         let context = container.newBackgroundContext()
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy

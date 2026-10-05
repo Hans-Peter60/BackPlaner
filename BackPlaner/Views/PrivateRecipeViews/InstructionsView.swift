@@ -52,7 +52,7 @@ struct InstructionsView: View {
     @State private var planErrorMessage           = ""
     @State private var reminderHintText           = ""
     
-    @State private var durations = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    @State private var durations: [String] = []
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
@@ -62,6 +62,23 @@ struct InstructionsView: View {
     
     var manager:LocalNotificationManager = LocalNotificationManager()
     var dateFormat:DateFormat            = DateFormat()
+
+    /// The minutes typed into the duration field of step `index`. The list
+    /// grows with the first entry into a field instead of having a fixed
+    /// length: at 24 (own recipes) and 34 (public ones) entries, longer
+    /// recipes lost their duration fields, and the public screen hid every
+    /// step after the 34th.
+    private func durationBinding(_ index: Int) -> Binding<String> {
+        Binding(
+            get: { index < durations.count ? durations[index] : "" },
+            set: { value in
+                if durations.count <= index {
+                    durations.append(contentsOf: Array(repeating: "", count: index - durations.count + 1))
+                }
+                durations[index] = value
+            }
+        )
+    }
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
     private var shoppingCarts: FetchedResults<ShoppingCart>
@@ -189,13 +206,11 @@ struct InstructionsView: View {
                                     Text(step)
                                     Text(recipe.instructionsArray[index].instruction)
                                     Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
-                                    if index < durations.count {
-                                        TextField(String(recipe.instructionsArray[index].duration), text: $durations[index])
-                                            // The placeholder is the current number
-                                            // of minutes, which says nothing on its
-                                            // own when read aloud.
-                                            .accessibilityLabel("Dauer in Minuten")
-                                    }
+                                    TextField(String(recipe.instructionsArray[index].duration), text: durationBinding(index))
+                                        // The placeholder is the current number
+                                        // of minutes, which says nothing on its
+                                        // own when read aloud.
+                                        .accessibilityLabel("Dauer in Minuten")
 
                                 }
                                 .font(Theme.bodyFont(15))

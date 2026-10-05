@@ -25,6 +25,10 @@ struct ContentView: View {
     @State private var lastWebImportURL: URL?
     @State private var lastWebImportDate = Date.distantPast
 
+    /// Shown once at launch when the store on disk could not be opened and
+    /// the app runs on an empty one (see PersistenceController.loadError).
+    @State private var showStoreError = PersistenceController.shared.loadError != nil
+
     var manager:LocalNotificationManager = LocalNotificationManager()
     
     var recipeId: NSManagedObjectID?
@@ -151,6 +155,11 @@ struct ContentView: View {
             if phase == .active, let pageURL = PendingWebImport.takePending() {
                 beginWebImport(of: pageURL)
             }
+        }
+        .alert("Rezepte konnten nicht geladen werden", isPresented: $showStoreError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("BakePlanner konnte seinen Datenspeicher nicht öffnen und läuft vorübergehend ohne Deine Rezepte, Pläne und Einkaufslisten. Was Du jetzt anlegst, wird nicht gespeichert. Deine Daten bleiben erhalten: Prüfe, ob auf dem Gerät genug Speicher frei ist, und starte die App neu.")
         }
         .environmentObject(RecipeModel())
         .environmentObject(RecipeFBModel())

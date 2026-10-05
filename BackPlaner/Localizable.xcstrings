@@ -17,6 +17,40 @@
         }
       }
     },
+    "BakePlanner konnte seinen Datenspeicher nicht öffnen und läuft vorübergehend ohne Deine Rezepte, Pläne und Einkaufslisten. Was Du jetzt anlegst, wird nicht gespeichert. Deine Daten bleiben erhalten: Prüfe, ob auf dem Gerät genug Speicher frei ist, und starte die App neu." : {
+      "comment" : "Message of the alert shown at launch when the app's data store could not be opened.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner could not open its data store and is running without your recipes, plans, and shopping lists for now. Anything you create now will not be saved. Your data is still there: check that the device has enough free storage, and restart the app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner n’a pas pu ouvrir sa base de données et fonctionne provisoirement sans vos recettes, plans et listes de courses. Ce que vous créez maintenant ne sera pas enregistré. Vos données sont conservées : vérifiez qu’il reste assez d’espace libre sur l’appareil, puis redémarrez l’app."
+          }
+        }
+      }
+    },
+    "Komponente nicht mehr vorhanden" : {
+      "comment" : "Shown when a component opened for editing has been deleted in the meantime.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component No Longer Exists"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce composant n’existe plus"
+          }
+        }
+      }
+    },
     "Nicht zugelassen" : {
       "localizations" : {
         "en" : {
@@ -45,6 +79,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Local uniquement"
+          }
+        }
+      }
+    },
+    "Rezepte konnten nicht geladen werden" : {
+      "comment" : "Title of the alert shown at launch when the app's data store could not be opened.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes Could Not Be Loaded"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les recettes"
+          }
+        }
+      }
+    },
+    "Sie wurde inzwischen gelöscht, vielleicht auf einem anderen Gerät." : {
+      "comment" : "Explains why a component opened for editing no longer exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It has been deleted in the meantime, perhaps on another device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a été supprimé entre-temps, peut-être sur un autre appareil."
           }
         }
       }
