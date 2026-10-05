@@ -197,7 +197,7 @@
 <h3 id="translating-a-recipe">Translating a recipe</h3>
 <p>At the top right you'll find the <strong>globe symbol</strong>. Through it you choose Deutsch, English, or Français. The translation runs <strong>entirely on the device</strong> (Apple Translation) and covers the recipe name, description, tags, component and ingredient names, and step texts.</p>
 <p>Notes:</p>
-<ul><li><strong>Units are deliberately not translated</strong>, so that the amount calculations keep working.</li><li>The first translation into a language takes a moment (a progress indicator replaces the globe). After that it's cached and available instantly.</li><li>On first opening, the app shows the recipe in your language automatically if a translation already exists.</li><li><strong>The original is never overwritten.</strong> The original is the language the recipe is written in — not the language your app happened to be set to. The app reads that off the recipe text, so a French recipe is kept as a French original even if someone entered it in a German-language app.</li><li>The checkmark in the menu shows which language is currently displayed. Choose it again to go straight back to the original.</li></ul>
+<ul><li><strong>Units</strong> aren't touched by the recipe translation. The app shows them in its own language anyway (see <a href="#15-units-amounts-and-serving-sizes">chapter 15</a>).</li><li>The first translation into a language takes a moment (a progress indicator replaces the globe). After that it's cached and available instantly.</li><li>On first opening, the app shows the recipe in your language automatically if a translation already exists.</li><li><strong>The original is never overwritten.</strong> The original is the language the recipe is written in — not the language your app happened to be set to. The app reads that off the recipe text, so a French recipe is kept as a French original even if someone entered it in a German-language app.</li><li>The checkmark in the menu shows which language is currently displayed. Choose it again to go straight back to the original.</li></ul>
 <h3 id="taking-a-copy-of-a-recipe">Taking a copy of a recipe</h3>
 <p>The <strong>Bake recipe</strong> tab has a <strong>Save as my own recipe</strong> button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited.</p>
 <p>The app confirms with <strong>"Recipe was saved"</strong> and a note that you can edit the copy without changing the public recipe. If saving fails, an error message appears instead — nothing disappears silently.</p>
@@ -509,50 +509,63 @@
 <h3 id="available-units">Available units</h3>
 <p>You choose the unit from a <strong>menu</strong> (abbreviation – full form). You can't type one in: a unit carries a conversion and not just a name, and the app has to know it. If one is missing, you create it as a <strong>custom unit</strong> (see below).</p>
 <p>If a recipe you imported or copied from the database holds a unit the app doesn't know, the field shows a <strong>warning triangle</strong> and a red border. The conversion is then missing, and that ingredient doesn't count towards the total weight.</p>
-<blockquote class="note"><p><strong>The unit names are German in every language.</strong> They come from a bundled data file rather than from the app's translations, so the menu shows "TL – Teelöffel" even in English. The tables below therefore give the abbreviation and name as they appear on screen, with the English meaning alongside.</p></blockquote>
+<p><strong>On screen and in the recipe.</strong> A recipe always stores the German abbreviation (the "Stored as" column); the app shows it in its own language, with plurals ("2 cups"). Recipes don't change when you switch the language, so the switch applies to every recipe at once, including public recipes by other authors.</p>
+<p><strong>On import</strong> from images or a web page, the app turns English and French units into its own: "tsp", "teaspoon", and "c. à c." become tsp, "tbsp" and "c. à s." become tbsp, "cup" becomes cup, "pinch" and "pincée" become pinch, and so on. Pounds and ounces (lb, oz) are converted to grams straight away, because the German pound in the table (500 g) isn't the imperial one (454 g). Units it doesn't know are kept as they are; they then carry the warning triangle.</p>
 <p><strong>Weight-based (base: grams)</strong></p>
 <div class="table-wrap"><table class="wide">
-<thead><tr><th>Abbrev.</th><th>Unit on screen</th><th>Meaning</th><th>Equals</th></tr></thead>
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
 <tbody>
-<tr><td>g</td><td>Gramm</td><td>gram</td><td>1 g</td></tr>
-<tr><td>kg</td><td>Kilogramm</td><td>kilogram</td><td>1000 g</td></tr>
-<tr><td>mg</td><td>Milligramm</td><td>milligram</td><td>0.001 g</td></tr>
-<tr><td>pfd</td><td>Pfund</td><td>pound (metric, 500 g)</td><td>500 g</td></tr>
-<tr><td>Pr</td><td>Prise</td><td>pinch</td><td>1 g</td></tr>
-<tr><td>Msp</td><td>Messerspitze</td><td>knife tip</td><td>0.05 g</td></tr>
-<tr><td>Bd</td><td>Bund</td><td>bunch</td><td>10 g</td></tr>
-<tr><td>Sc</td><td>Scheibe</td><td>slice</td><td>25 g</td></tr>
-<tr><td>ei</td><td>Ei</td><td>egg</td><td>50 g</td></tr>
-<tr><td>ei(s) / ei(m) / ei(l) / ei(xl)</td><td>Ei (S/M/L/XL)</td><td>egg, by size</td><td>50 / 60 / 70 / 80 g</td></tr>
+<tr><td>g</td><td>gram</td><td>g</td><td>1 g</td></tr>
+<tr><td>kg</td><td>kilogram</td><td>kg</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>milligram</td><td>mg</td><td>0.001 g</td></tr>
+<tr><td>pfd</td><td>German pound (500 g)</td><td>pfd</td><td>500 g</td></tr>
+<tr><td>pinch</td><td>pinch</td><td>Pr</td><td>1 g</td></tr>
+<tr><td>knife tip</td><td>knife tip</td><td>Msp</td><td>0.05 g</td></tr>
+<tr><td>bunch</td><td>bunch</td><td>Bd</td><td>10 g</td></tr>
+<tr><td>slice</td><td>slice</td><td>Sc</td><td>25 g</td></tr>
+<tr><td>roll</td><td>roll</td><td>Rolle</td><td>275 g</td></tr>
+<tr><td>pkt</td><td>packet</td><td>Pck</td><td>11 g</td></tr>
+<tr><td>handful</td><td>handful</td><td>Handvoll</td><td>25 g</td></tr>
+<tr><td>egg</td><td>egg</td><td>ei</td><td>60 g</td></tr>
+<tr><td>egg (S)</td><td>egg, size S</td><td>ei(s)</td><td>50 g</td></tr>
+<tr><td>egg (M)</td><td>egg, size M</td><td>ei(m)</td><td>60 g</td></tr>
+<tr><td>egg (L)</td><td>egg, size L</td><td>ei(l)</td><td>70 g</td></tr>
+<tr><td>egg (XL)</td><td>egg, size XL</td><td>ei(xl)</td><td>80 g</td></tr>
 </tbody></table></div>
-<p><strong>Volume-based (base: millilitres)</strong></p>
+<p><strong>Volume-based (base: milliliters)</strong></p>
 <div class="table-wrap"><table class="wide">
-<thead><tr><th>Abbrev.</th><th>Unit on screen</th><th>Meaning</th><th>Equals</th></tr></thead>
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
 <tbody>
-<tr><td>ml</td><td>Milliliter</td><td>millilitre</td><td>1 ml</td></tr>
-<tr><td>cl</td><td>Zentiliter</td><td>centilitre</td><td>10 ml</td></tr>
-<tr><td>dl</td><td>Deziliter</td><td>decilitre</td><td>100 ml</td></tr>
-<tr><td>l</td><td>Liter</td><td>litre</td><td>1000 ml</td></tr>
-<tr><td>mass</td><td>Mass</td><td>Bavarian litre mug</td><td>1000 ml</td></tr>
-<tr><td>TL</td><td>Teelöffel</td><td>teaspoon</td><td>5 ml</td></tr>
-<tr><td>EL</td><td>Esslöffel</td><td>tablespoon</td><td>15 ml</td></tr>
-<tr><td>Tas</td><td>Tasse</td><td>cup</td><td>200 ml</td></tr>
-<tr><td>Ss</td><td>Schuss</td><td>dash</td><td>10 ml</td></tr>
-<tr><td>Sp</td><td>Spritzer</td><td>splash</td><td>0.27 ml</td></tr>
-<tr><td>Tr</td><td>Tropfen</td><td>drop</td><td>0.067 ml</td></tr>
+<tr><td>ml</td><td>milliliter</td><td>ml</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>centiliter</td><td>cl</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>deciliter</td><td>dl</td><td>100 ml</td></tr>
+<tr><td>l</td><td>liter</td><td>l</td><td>1000 ml</td></tr>
+<tr><td>Mass</td><td>Mass (1 l)</td><td>mass</td><td>1000 ml</td></tr>
+<tr><td>tsp</td><td>teaspoon</td><td>TL</td><td>5 ml</td></tr>
+<tr><td>tbsp</td><td>tablespoon</td><td>EL</td><td>15 ml</td></tr>
+<tr><td>cup</td><td>cup</td><td>Tas</td><td>200 ml</td></tr>
+<tr><td>splash</td><td>splash</td><td>Ss</td><td>10 ml</td></tr>
+<tr><td>dash</td><td>dash</td><td>Sp</td><td>0.27 ml</td></tr>
+<tr><td>drop</td><td>drop</td><td>Tr</td><td>0.067 ml</td></tr>
+</tbody></table></div>
+<p><strong>Counted</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>pc</td><td>piece</td><td>St</td><td>counted</td></tr>
 </tbody></table></div>
 <h3 id="custom-units">Custom units</h3>
-<p>If a unit is missing — "Becher", or the "cups" an English recipe brings in through the image import — you create it yourself: <strong>Settings → Recipes → Custom units</strong>.</p>
+<p>If a unit is missing — a "mug", say, or a cube of yeast — you create it yourself: <strong>Settings → Recipes → Custom units</strong>.</p>
 <div class="table-wrap"><table class="firm">
 <colgroup><col class="first" style="--w: 14ch"></colgroup>
 <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
 <tbody>
-<tr><td><strong>Name</strong></td><td>The full form, "cup" for instance.</td></tr>
-<tr><td><strong>Abbreviation</strong></td><td>What appears in the menu and in the ingredient lists, "cp" for instance. It has to be unused.</td></tr>
+<tr><td><strong>Name</strong></td><td>The full form, "mug" for instance.</td></tr>
+<tr><td><strong>Abbreviation</strong></td><td>What appears in the menu and in the ingredient lists, "mug" for instance. It has to be unused.</td></tr>
 <tr><td><strong>Measured in</strong></td><td><strong>grams</strong>, <strong>millilitres</strong>, or <strong>counted</strong>.</td></tr>
-<tr><td><strong>Conversion</strong></td><td>How much one of them holds — around 250 millilitres for a cup. With "counted" the field is dropped.</td></tr>
+<tr><td><strong>Conversion</strong></td><td>How much one of them holds — around 250 millilitres for a mug. With "counted" the field is dropped.</td></tr>
 </tbody></table></div>
-<p>Why the conversion is mandatory: the total ingredients, the baker's percentages, and the shopping list all depend on it. Without it, "2 cups of flour" would count as 2 grams.</p>
+<p>Why the conversion is mandatory: the total ingredients, the baker's percentages, and the shopping list all depend on it. Without it, "2 mugs of flour" would count as 2 grams.</p>
 <p>Your custom units then sit in the menu alongside the bundled ones. To remove one, swipe the entry left or tap <strong>Edit</strong> at the top right. They apply to this device only and aren't synced through iCloud.</p>
 <blockquote class="note"><p><strong>Careful when deleting:</strong> recipes that use a deleted unit keep it as text — but the app no longer knows it and shows the warning triangle. Simply create it again in that case.</p></blockquote>
 <h3 id="conversion-to-weight">Conversion to weight</h3>
@@ -591,7 +604,7 @@
 <p><strong>Translation fails.</strong><br>Translation uses Apple's on-device translation. The first time, iOS has to provide the language pack — that may need an internet connection. Try again later or switch back to the original language.</p>
 <hr>
 <h2 id="18-known-limitations">18. Known limitations</h2>
-<ul><li><strong>Recipes in the database are immutable once uploaded</strong> — private ones as much as public ones. Corrections mean deleting and uploading again.</li><li><strong>A recipe can only be uploaded once</strong>, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.</li><li><strong>Private cloud recipes require signing in with Apple</strong> and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.</li><li><strong>Deleting your account leaves published recipes in the database.</strong> They no longer belong to any account and can only be removed by an administrator.</li><li><strong>Baking pause, start of day, and end of day</strong> don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.</li><li><strong>Plans set before this update</strong> carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.</li><li><strong>If you change a recipe after planning it</strong> (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a <strong>Plan again</strong> button that opens the recipe. Only steps added to the recipe afterwards go undetected.</li><li><strong>The ingredients in a reminder</strong> are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.</li><li>Scheduled steps are matched to recipes by <strong>recipe name</strong>. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.</li><li><strong>Reminders only reach the Apple Watch from an iPhone.</strong> They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.</li><li><strong>The image import</strong> reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.</li><li><strong>The web page import</strong> only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.</li><li><strong>Texts are translated, units aren't</strong> — deliberately, so that the amount calculations survive.</li><li><strong>The unit names are only available in German.</strong> They come from a bundled data file, not from the app's translations, so the unit menu shows German names and abbreviations in every language.</li><li><strong>There's no export.</strong> Your own recipes do sync through iCloud (see <a href="#2-system-requirements">chapter 2</a>), but they can't be saved as a file or passed on to anyone else. Beyond iCloud, the only backup route is the recipe database — privately, if you don't want to share.</li><li><strong>Blocked authors</strong> are hidden on the device in question only; on a second device they still appear. A <strong>reported</strong> recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under <em>Settings → Moderation</em>.</li><li><strong>Custom units only apply on the device where you created them.</strong> They aren't synced through iCloud. A recipe using such a unit shows the warning triangle on another device until you create it there too.</li></ul>
+<ul><li><strong>Recipes in the database are immutable once uploaded</strong> — private ones as much as public ones. Corrections mean deleting and uploading again.</li><li><strong>A recipe can only be uploaded once</strong>, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.</li><li><strong>Private cloud recipes require signing in with Apple</strong> and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.</li><li><strong>Deleting your account leaves published recipes in the database.</strong> They no longer belong to any account and can only be removed by an administrator.</li><li><strong>Baking pause, start of day, and end of day</strong> don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.</li><li><strong>Plans set before this update</strong> carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.</li><li><strong>If you change a recipe after planning it</strong> (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a <strong>Plan again</strong> button that opens the recipe. Only steps added to the recipe afterwards go undetected.</li><li><strong>The ingredients in a reminder</strong> are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.</li><li>Scheduled steps are matched to recipes by <strong>recipe name</strong>. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.</li><li><strong>Reminders only reach the Apple Watch from an iPhone.</strong> They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.</li><li><strong>The image import</strong> reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.</li><li><strong>The web page import</strong> only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.</li><li><strong>Custom units appear in every language as you created them.</strong> Only the bundled ones are translated.</li><li><strong>There's no export.</strong> Your own recipes do sync through iCloud (see <a href="#2-system-requirements">chapter 2</a>), but they can't be saved as a file or passed on to anyone else. Beyond iCloud, the only backup route is the recipe database — privately, if you don't want to share.</li><li><strong>Blocked authors</strong> are hidden on the device in question only; on a second device they still appear. A <strong>reported</strong> recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under <em>Settings → Moderation</em>.</li><li><strong>Custom units only apply on the device where you created them.</strong> They aren't synced through iCloud. A recipe using such a unit shows the warning triangle on another device until you create it there too.</li></ul>
 </article>
 
 <footer>

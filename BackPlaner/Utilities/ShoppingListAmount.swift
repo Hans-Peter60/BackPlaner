@@ -114,7 +114,7 @@ enum ShoppingListAmount {
     }
 
     private static func unitSet(for unit: String) -> UnitSetFB? {
-        let comparableUnit = comparable(unit)
+        let comparableUnit = comparable(UnitLocalizer.canonicalAbbreviation(for: unit) ?? unit)
 
         return GlobalVariables.unitSets.first { unitSet in
             comparableUnit == comparable(unitSet.abbreviation) || comparableUnit == comparable(unitSet.name)

@@ -165,7 +165,7 @@ En haut à droite se trouve l’**icône de globe**. Elle vous permet de choisir
 
 Remarques :
 
-- **Les unités ne sont volontairement pas traduites**, afin que le calcul des quantités continue de fonctionner.
+- **Les unités** ne sont pas concernées par la traduction de la recette. L’app les affiche de toute façon dans sa propre langue (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 - La première traduction dans une langue prend un instant (un indicateur de progression remplace le globe). Elle est ensuite mise en cache et disponible immédiatement.
 - À la première ouverture, l’app affiche automatiquement la recette dans votre langue si une traduction existe déjà.
 - **L’original n’est jamais écrasé.** L’original est la langue dans laquelle la recette est écrite — et non la langue sur laquelle votre app était réglée. L’app le déduit du texte de la recette : une recette française reste donc un original français même si quelqu’un l’a saisie dans une app en allemand.
@@ -752,51 +752,65 @@ L’unité se choisit dans un **menu** (abréviation – forme longue). Vous ne 
 
 Si une recette importée ou reprise de la base contient une unité que l’app ne connaît pas, le champ affiche un **triangle d’avertissement** et un cadre rouge. La conversion manque alors, et cet ingrédient n’entre pas dans le poids total.
 
-> **Les noms d’unités sont en allemand dans toutes les langues.** Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu affiche donc « TL – Teelöffel » même en français. Les tableaux ci-dessous donnent par conséquent l’abréviation et le nom tels qu’ils apparaissent à l’écran, avec la signification française en regard.
+**À l’écran et dans la recette.** Une recette enregistre toujours l’abréviation allemande (colonne « Enregistrée comme ») ; l’app l’affiche dans sa propre langue, au pluriel le cas échéant (« 2 pincées »). Les recettes ne changent pas lorsque vous changez de langue : le changement s’applique aussitôt à toutes les recettes, y compris aux recettes publiques d’autres auteurs.
 
-**Basé sur le poids (base : gramme)**
+**À l’importation** depuis des images ou une page web, l’app convertit les unités anglaises et françaises en les siennes : « tsp », « teaspoon » et « c. à c. » deviennent c. à c., « tbsp » et « c. à s. » deviennent c. à s., « cup » devient tasse, « pinch » et « pincée » deviennent pincée, et ainsi de suite. Les livres et onces anglaises (lb, oz) sont converties directement en grammes, car la livre anglaise (454 g) n’est pas la livre de 500 g du tableau. Les unités qu’elle ne connaît pas sont reprises telles quelles ; elles portent alors le triangle d’avertissement.
 
-| Abrév. | Unité à l’écran | Signification | Équivaut à |
-|--------|-----------------|---------------|------------|
-| g | Gramm | gramme | 1 g |
-| kg | Kilogramm | kilogramme | 1000 g |
-| mg | Milligramm | milligramme | 0,001 g |
-| pfd | Pfund | livre (métrique, 500 g) | 500 g |
-| Pr | Prise | pincée | 1 g |
-| Msp | Messerspitze | pointe de couteau | 0,05 g |
-| Bd | Bund | botte | 10 g |
-| Sc | Scheibe | tranche | 25 g |
-| ei | Ei | œuf | 50 g |
-| ei(s) / ei(m) / ei(l) / ei(xl) | Ei (S/M/L/XL) | œuf, par calibre | 50 / 60 / 70 / 80 g |
+**Au poids (base : grammes)**
 
-**Basé sur le volume (base : millilitre)**
+| Abrév. | Unité | Enregistrée comme | Équivaut à |
+|---|---|---|---|
+| g | gramme | g | 1 g |
+| kg | kilogramme | kg | 1000 g |
+| mg | milligramme | mg | 0,001 g |
+| livre | livre (500 g) | pfd | 500 g |
+| pincée | pincée | Pr | 1 g |
+| pointe | pointe de couteau | Msp | 0,05 g |
+| botte | botte | Bd | 10 g |
+| tranche | tranche | Sc | 25 g |
+| rouleau | rouleau | Rolle | 275 g |
+| sachet | sachet | Pck | 11 g |
+| poignée | poignée | Handvoll | 25 g |
+| œuf | œuf | ei | 60 g |
+| œuf (S) | œuf, calibre S | ei(s) | 50 g |
+| œuf (M) | œuf, calibre M | ei(m) | 60 g |
+| œuf (L) | œuf, calibre L | ei(l) | 70 g |
+| œuf (XL) | œuf, calibre XL | ei(xl) | 80 g |
 
-| Abrév. | Unité à l’écran | Signification | Équivaut à |
-|--------|-----------------|---------------|------------|
-| ml | Milliliter | millilitre | 1 ml |
-| cl | Zentiliter | centilitre | 10 ml |
-| dl | Deziliter | décilitre | 100 ml |
-| l | Liter | litre | 1000 ml |
-| mass | Mass | chope bavaroise d’un litre | 1000 ml |
-| TL | Teelöffel | cuillère à café | 5 ml |
-| EL | Esslöffel | cuillère à soupe | 15 ml |
-| Tas | Tasse | tasse | 200 ml |
-| Ss | Schuss | trait | 10 ml |
-| Sp | Spritzer | giclée | 0,27 ml |
-| Tr | Tropfen | goutte | 0,067 ml |
+**Au volume (base : millilitres)**
+
+| Abrév. | Unité | Enregistrée comme | Équivaut à |
+|---|---|---|---|
+| ml | millilitre | ml | 1 ml |
+| cl | centilitre | cl | 10 ml |
+| dl | décilitre | dl | 100 ml |
+| l | litre | l | 1000 ml |
+| Mass | Mass (1 l) | mass | 1000 ml |
+| c. à c. | cuillère à café | TL | 5 ml |
+| c. à s. | cuillère à soupe | EL | 15 ml |
+| tasse | tasse | Tas | 200 ml |
+| giclée | giclée | Ss | 10 ml |
+| trait | trait | Sp | 0,27 ml |
+| goutte | goutte | Tr | 0,067 ml |
+
+**Comptées**
+
+| Abrév. | Unité | Enregistrée comme | Équivaut à |
+|---|---|---|---|
+| pce | pièce | St | compté |
 
 ### Unités personnalisées
 
-S’il vous manque une unité — « Becher », ou les « cups » qu’une recette anglaise apporte via l’import d’images —, vous la créez vous-même : **Réglages → Recettes → Unités personnalisées**.
+S’il vous manque une unité — un « bol », par exemple, ou un cube de levure —, vous la créez vous-même : **Réglages → Recettes → Unités personnalisées**.
 
 | Champ | Signification |
 |-------|---------------|
-| **Nom** | La forme longue, « tasse » par exemple. |
-| **Abréviation** | Ce qui figure dans le menu et dans les listes d’ingrédients, « Tas » par exemple. Elle doit être encore libre. |
+| **Nom** | La forme longue, « bol » par exemple. |
+| **Abréviation** | Ce qui figure dans le menu et dans les listes d’ingrédients, « bol » par exemple. Elle doit être encore libre. |
 | **Mesurée en** | **grammes**, **millilitres** ou **comptée**. |
-| **Conversion** | Ce que contient une unité — environ 250 millilitres pour une tasse. Avec « comptée », le champ disparaît. |
+| **Conversion** | Ce que contient une unité — environ 250 millilitres pour un bol. Avec « comptée », le champ disparaît. |
 
-Pourquoi la conversion est obligatoire : le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent. Sans elle, « 2 tasses de farine » compterait pour 2 grammes.
+Pourquoi la conversion est obligatoire : le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent. Sans elle, « 2 bols de farine » compterait pour 2 grammes.
 
 Vos unités personnalisées figurent ensuite dans le menu à côté de celles fournies. Pour en retirer une, balayez l’entrée vers la gauche ou touchez **Modifier** en haut à droite. Elles ne valent que sur cet appareil et ne sont pas synchronisées via iCloud.
 
@@ -910,8 +924,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **Les rappels n’atteignent l’Apple Watch que depuis un iPhone.** Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.
 - **L’import depuis des images** lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.
 - **L’import depuis une page web** ne lit que ce qu’une page livre à une app sans connexion. Les pages derrière un mur payant, une connexion ou un consentement obligatoire aux cookies, ainsi que les sites qui bloquent la récupération par les apps, ne peuvent pas être lus. Sans l’IA cloud et sans Apple Intelligence, seules les données de recette structurées de la page sont reprises ; pré-pâte et pâte principale se retrouvent alors souvent dans un même composant.
-- **Ce sont les textes qui sont traduits, pas les unités** — c’est voulu, afin que le calcul des quantités reste valable.
-- **Les noms d’unités n’existent qu’en allemand.** Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu des unités affiche donc des noms et des abréviations allemands dans toutes les langues.
+- **Les unités personnalisées apparaissent dans toutes les langues telles que vous les avez créées.** Seules les unités fournies sont traduites.
 - **Il n’existe pas d’export.** Vos recettes se synchronisent certes via iCloud (voir [chapitre 2](#2-configuration-requise)), mais elles ne peuvent pas être sauvegardées sous forme de fichier ni transmises à quelqu’un d’autre. Au-delà d’iCloud, la seule voie de sauvegarde reste la base de recettes — en privé, si vous ne voulez pas partager.
 - **Les auteurs bloqués** ne sont masqués que sur l’appareil concerné ; sur un deuxième appareil, ils réapparaissent. Une recette **signalée** est en revanche invisible pour tous jusqu’à ce qu’un administrateur la réaffiche — pour vous aussi, et même si vous effacez le signalement dans *Réglages → Modération*.
 - **Les unités personnalisées ne valent que sur l’appareil où vous les avez créées.** Elles ne sont pas synchronisées via iCloud. Une recette utilisant une telle unité affiche le triangle d’avertissement sur un autre appareil jusqu’à ce que vous l’y créiez également.

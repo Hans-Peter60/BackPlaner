@@ -13,7 +13,10 @@ struct CalcIngredientWeight {
     
     // MARK: CalcIngredientsWeight
     func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
-        let normalizedUnit = unit.trimmingCharacters(in: .whitespacesAndNewlines).localizedLowercase
+        // "tsp" or "c. à s." from an imported recipe count as the bundled
+        // TL and EL; they used to fall through and be read as grams.
+        let knownUnit = UnitLocalizer.canonicalAbbreviation(for: unit) ?? unit
+        let normalizedUnit = knownUnit.trimmingCharacters(in: .whitespacesAndNewlines).localizedLowercase
         let normalizedName = name.localizedLowercase
         let amount: Double
 
@@ -58,8 +61,10 @@ class Rational {
     // MARK: GetPortion
     /// The amount at a serving size given in half steps (2 = the recipe as
     /// stored). Kept for the callers that still think in those steps.
-    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int) -> String {
-        getPortion(unit: unit, weight: weight, num: num, denom: denom, scale: Double(targetServings) / 2)
+    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int,
+                           unitStyle: UnitLocalizer.Style = .abbreviation) -> String {
+        getPortion(unit: unit, weight: weight, num: num, denom: denom, scale: Double(targetServings) / 2,
+                   unitStyle: unitStyle)
     }
 
     /// The amount at a free scale factor — 1.0 is the recipe as stored, 1.37
@@ -69,7 +74,11 @@ class Rational {
     /// arithmetic as long as the scale is a half step, since "3/4 Würfel"
     /// reads better than "0.75 Würfel"; at any other scale it becomes a
     /// decimal, because "1 13/50 Würfel" helps nobody.
-    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double) -> String {
+    ///
+    /// The unit appears in the app's language (see UnitLocalizer); `.name`
+    /// spells it out, for reading aloud.
+    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double,
+                           unitStyle: UnitLocalizer.Style = .abbreviation) -> String {
 
         var portion            = ""
         var numerator          = num
@@ -123,11 +132,14 @@ class Rational {
             }
             
             if unit > "" {
-                
-                var u = unit
-                
-                // If we need to pluralize
-                if wholePortions > 1 {
+
+                let shownAmount = weight > 0 ? weight * scale
+                    : (denom != 0 ? Double(num) / Double(denom) * scale : 0)
+                var u = UnitLocalizer.display(unit, amount: shownAmount, style: unitStyle)
+
+                // Older recipes store the German name ("Tasse"), which German
+                // shows unchanged; it still needs its plural.
+                if u == unit && wholePortions > 1 {
                     
                     // Calculate appropriate suffix
                     if u == "Tasse" || u == "Messerspitze" || u == "Prise" || u == "Scheibe" { u += "n" }

@@ -408,11 +408,14 @@ struct ShoppingCartSelectFormView: View {
         unitSetSc = UnitSetFB()
         unitSetNew = UnitSetFB()
 
-        guard let existingUnit = existing.unit, !existingUnit.isEmpty else { return false }
+        guard let storedUnit = existing.unit, !storedUnit.isEmpty else { return false }
         guard !entry.unit.isEmpty else { return false }
+        // Imported spellings ("tsp") count as the bundled unit they mean.
+        let existingUnit = UnitLocalizer.canonicalAbbreviation(for: storedUnit) ?? storedUnit
+        let entryUnit = UnitLocalizer.canonicalAbbreviation(for: entry.unit) ?? entry.unit
 
         for unitSet in GlobalVariables.unitSets {
-            if entry.unit.localizedLowercase.contains(unitSet.name) || entry.unit == unitSet.abbreviation {
+            if entryUnit.localizedLowercase.contains(unitSet.name) || entryUnit == unitSet.abbreviation {
                 unitSetNew = unitSet
             }
             if existingUnit.localizedLowercase.contains(unitSet.name) || existingUnit == unitSet.abbreviation {

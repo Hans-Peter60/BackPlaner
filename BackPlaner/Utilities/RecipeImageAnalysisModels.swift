@@ -75,6 +75,9 @@ struct RecipeImageAnalysisResult {
         titleOptions: [RecipeTextRegion] = [],
         analysisSource: RecipeAnalysisSource = .localRules
     ) {
+        // Every import route ends here, so this is where "tsp", "cups" or
+        // "c. à s." become the units the app calculates with.
+        UnitLocalizer.normalizeUnits(in: recipe)
         self.recipe = recipe
         self.recognizedText = recognizedText
         self.recipeImage = recipeImage

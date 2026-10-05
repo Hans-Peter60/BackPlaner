@@ -197,7 +197,7 @@
 <h3 id="traduire-une-recette">Traduire une recette</h3>
 <p>En haut à droite se trouve l’<strong>icône de globe</strong>. Elle vous permet de choisir Deutsch, English ou Français. La traduction s’effectue <strong>entièrement sur l’appareil</strong> (Traduction Apple) et porte sur le nom de la recette, la description, les tags, les noms de composants et d’ingrédients ainsi que les textes des étapes.</p>
 <p>Remarques :</p>
-<ul><li><strong>Les unités ne sont volontairement pas traduites</strong>, afin que le calcul des quantités continue de fonctionner.</li><li>La première traduction dans une langue prend un instant (un indicateur de progression remplace le globe). Elle est ensuite mise en cache et disponible immédiatement.</li><li>À la première ouverture, l’app affiche automatiquement la recette dans votre langue si une traduction existe déjà.</li><li><strong>L’original n’est jamais écrasé.</strong> L’original est la langue dans laquelle la recette est écrite — et non la langue sur laquelle votre app était réglée. L’app le déduit du texte de la recette : une recette française reste donc un original français même si quelqu’un l’a saisie dans une app en allemand.</li><li>La coche indique dans le menu quelle langue est affichée. Sélectionnez-la de nouveau pour revenir directement à l’original.</li></ul>
+<ul><li><strong>Les unités</strong> ne sont pas concernées par la traduction de la recette. L’app les affiche de toute façon dans sa propre langue (voir <a href="#15-unités-quantités-et-tailles-de-portion">chapitre 15</a>).</li><li>La première traduction dans une langue prend un instant (un indicateur de progression remplace le globe). Elle est ensuite mise en cache et disponible immédiatement.</li><li>À la première ouverture, l’app affiche automatiquement la recette dans votre langue si une traduction existe déjà.</li><li><strong>L’original n’est jamais écrasé.</strong> L’original est la langue dans laquelle la recette est écrite — et non la langue sur laquelle votre app était réglée. L’app le déduit du texte de la recette : une recette française reste donc un original français même si quelqu’un l’a saisie dans une app en allemand.</li><li>La coche indique dans le menu quelle langue est affichée. Sélectionnez-la de nouveau pour revenir directement à l’original.</li></ul>
 <h3 id="reprendre-une-recette">Reprendre une recette</h3>
 <p>L’onglet <strong>Cuire la recette</strong> propose le bouton <strong>Enregistrer comme ma recette</strong>. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable.</p>
 <p>L’app le confirme par <strong>« La recette a été enregistrée »</strong> et précise que vous pouvez modifier la copie sans toucher à la recette publique. Si l’enregistrement échoue, un message d’erreur apparaît à la place — rien ne disparaît en silence.</p>
@@ -509,50 +509,63 @@
 <h3 id="unités-disponibles">Unités disponibles</h3>
 <p>L’unité se choisit dans un <strong>menu</strong> (abréviation – forme longue). Vous ne pouvez pas la saisir au clavier : une unité porte une conversion et pas seulement un nom, et l’app doit la connaître. S’il vous en manque une, vous la créez comme <strong>unité personnalisée</strong> (voir ci-dessous).</p>
 <p>Si une recette importée ou reprise de la base contient une unité que l’app ne connaît pas, le champ affiche un <strong>triangle d’avertissement</strong> et un cadre rouge. La conversion manque alors, et cet ingrédient n’entre pas dans le poids total.</p>
-<blockquote class="note"><p><strong>Les noms d’unités sont en allemand dans toutes les langues.</strong> Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu affiche donc « TL – Teelöffel » même en français. Les tableaux ci-dessous donnent par conséquent l’abréviation et le nom tels qu’ils apparaissent à l’écran, avec la signification française en regard.</p></blockquote>
-<p><strong>Basé sur le poids (base : gramme)</strong></p>
+<p><strong>À l’écran et dans la recette.</strong> Une recette enregistre toujours l’abréviation allemande (colonne « Enregistrée comme ») ; l’app l’affiche dans sa propre langue, au pluriel le cas échéant (« 2 pincées »). Les recettes ne changent pas lorsque vous changez de langue : le changement s’applique aussitôt à toutes les recettes, y compris aux recettes publiques d’autres auteurs.</p>
+<p><strong>À l’importation</strong> depuis des images ou une page web, l’app convertit les unités anglaises et françaises en les siennes : « tsp », « teaspoon » et « c. à c. » deviennent c. à c., « tbsp » et « c. à s. » deviennent c. à s., « cup » devient tasse, « pinch » et « pincée » deviennent pincée, et ainsi de suite. Les livres et onces anglaises (lb, oz) sont converties directement en grammes, car la livre anglaise (454 g) n’est pas la livre de 500 g du tableau. Les unités qu’elle ne connaît pas sont reprises telles quelles ; elles portent alors le triangle d’avertissement.</p>
+<p><strong>Au poids (base : grammes)</strong></p>
 <div class="table-wrap"><table class="wide">
-<thead><tr><th>Abrév.</th><th>Unité à l’écran</th><th>Signification</th><th>Équivaut à</th></tr></thead>
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
 <tbody>
-<tr><td>g</td><td>Gramm</td><td>gramme</td><td>1 g</td></tr>
-<tr><td>kg</td><td>Kilogramm</td><td>kilogramme</td><td>1000 g</td></tr>
-<tr><td>mg</td><td>Milligramm</td><td>milligramme</td><td>0,001 g</td></tr>
-<tr><td>pfd</td><td>Pfund</td><td>livre (métrique, 500 g)</td><td>500 g</td></tr>
-<tr><td>Pr</td><td>Prise</td><td>pincée</td><td>1 g</td></tr>
-<tr><td>Msp</td><td>Messerspitze</td><td>pointe de couteau</td><td>0,05 g</td></tr>
-<tr><td>Bd</td><td>Bund</td><td>botte</td><td>10 g</td></tr>
-<tr><td>Sc</td><td>Scheibe</td><td>tranche</td><td>25 g</td></tr>
-<tr><td>ei</td><td>Ei</td><td>œuf</td><td>50 g</td></tr>
-<tr><td>ei(s) / ei(m) / ei(l) / ei(xl)</td><td>Ei (S/M/L/XL)</td><td>œuf, par calibre</td><td>50 / 60 / 70 / 80 g</td></tr>
+<tr><td>g</td><td>gramme</td><td>g</td><td>1 g</td></tr>
+<tr><td>kg</td><td>kilogramme</td><td>kg</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>milligramme</td><td>mg</td><td>0,001 g</td></tr>
+<tr><td>livre</td><td>livre (500 g)</td><td>pfd</td><td>500 g</td></tr>
+<tr><td>pincée</td><td>pincée</td><td>Pr</td><td>1 g</td></tr>
+<tr><td>pointe</td><td>pointe de couteau</td><td>Msp</td><td>0,05 g</td></tr>
+<tr><td>botte</td><td>botte</td><td>Bd</td><td>10 g</td></tr>
+<tr><td>tranche</td><td>tranche</td><td>Sc</td><td>25 g</td></tr>
+<tr><td>rouleau</td><td>rouleau</td><td>Rolle</td><td>275 g</td></tr>
+<tr><td>sachet</td><td>sachet</td><td>Pck</td><td>11 g</td></tr>
+<tr><td>poignée</td><td>poignée</td><td>Handvoll</td><td>25 g</td></tr>
+<tr><td>œuf</td><td>œuf</td><td>ei</td><td>60 g</td></tr>
+<tr><td>œuf (S)</td><td>œuf, calibre S</td><td>ei(s)</td><td>50 g</td></tr>
+<tr><td>œuf (M)</td><td>œuf, calibre M</td><td>ei(m)</td><td>60 g</td></tr>
+<tr><td>œuf (L)</td><td>œuf, calibre L</td><td>ei(l)</td><td>70 g</td></tr>
+<tr><td>œuf (XL)</td><td>œuf, calibre XL</td><td>ei(xl)</td><td>80 g</td></tr>
 </tbody></table></div>
-<p><strong>Basé sur le volume (base : millilitre)</strong></p>
+<p><strong>Au volume (base : millilitres)</strong></p>
 <div class="table-wrap"><table class="wide">
-<thead><tr><th>Abrév.</th><th>Unité à l’écran</th><th>Signification</th><th>Équivaut à</th></tr></thead>
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
 <tbody>
-<tr><td>ml</td><td>Milliliter</td><td>millilitre</td><td>1 ml</td></tr>
-<tr><td>cl</td><td>Zentiliter</td><td>centilitre</td><td>10 ml</td></tr>
-<tr><td>dl</td><td>Deziliter</td><td>décilitre</td><td>100 ml</td></tr>
-<tr><td>l</td><td>Liter</td><td>litre</td><td>1000 ml</td></tr>
-<tr><td>mass</td><td>Mass</td><td>chope bavaroise d’un litre</td><td>1000 ml</td></tr>
-<tr><td>TL</td><td>Teelöffel</td><td>cuillère à café</td><td>5 ml</td></tr>
-<tr><td>EL</td><td>Esslöffel</td><td>cuillère à soupe</td><td>15 ml</td></tr>
-<tr><td>Tas</td><td>Tasse</td><td>tasse</td><td>200 ml</td></tr>
-<tr><td>Ss</td><td>Schuss</td><td>trait</td><td>10 ml</td></tr>
-<tr><td>Sp</td><td>Spritzer</td><td>giclée</td><td>0,27 ml</td></tr>
-<tr><td>Tr</td><td>Tropfen</td><td>goutte</td><td>0,067 ml</td></tr>
+<tr><td>ml</td><td>millilitre</td><td>ml</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>centilitre</td><td>cl</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>décilitre</td><td>dl</td><td>100 ml</td></tr>
+<tr><td>l</td><td>litre</td><td>l</td><td>1000 ml</td></tr>
+<tr><td>Mass</td><td>Mass (1 l)</td><td>mass</td><td>1000 ml</td></tr>
+<tr><td>c. à c.</td><td>cuillère à café</td><td>TL</td><td>5 ml</td></tr>
+<tr><td>c. à s.</td><td>cuillère à soupe</td><td>EL</td><td>15 ml</td></tr>
+<tr><td>tasse</td><td>tasse</td><td>Tas</td><td>200 ml</td></tr>
+<tr><td>giclée</td><td>giclée</td><td>Ss</td><td>10 ml</td></tr>
+<tr><td>trait</td><td>trait</td><td>Sp</td><td>0,27 ml</td></tr>
+<tr><td>goutte</td><td>goutte</td><td>Tr</td><td>0,067 ml</td></tr>
+</tbody></table></div>
+<p><strong>Comptées</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>pce</td><td>pièce</td><td>St</td><td>compté</td></tr>
 </tbody></table></div>
 <h3 id="unités-personnalisées">Unités personnalisées</h3>
-<p>S’il vous manque une unité — « Becher », ou les « cups » qu’une recette anglaise apporte via l’import d’images —, vous la créez vous-même : <strong>Réglages → Recettes → Unités personnalisées</strong>.</p>
+<p>S’il vous manque une unité — un « bol », par exemple, ou un cube de levure —, vous la créez vous-même : <strong>Réglages → Recettes → Unités personnalisées</strong>.</p>
 <div class="table-wrap"><table class="firm">
 <colgroup><col class="first" style="--w: 13ch"></colgroup>
 <thead><tr><th>Champ</th><th>Signification</th></tr></thead>
 <tbody>
-<tr><td><strong>Nom</strong></td><td>La forme longue, « tasse » par exemple.</td></tr>
-<tr><td><strong>Abréviation</strong></td><td>Ce qui figure dans le menu et dans les listes d’ingrédients, « Tas » par exemple. Elle doit être encore libre.</td></tr>
+<tr><td><strong>Nom</strong></td><td>La forme longue, « bol » par exemple.</td></tr>
+<tr><td><strong>Abréviation</strong></td><td>Ce qui figure dans le menu et dans les listes d’ingrédients, « bol » par exemple. Elle doit être encore libre.</td></tr>
 <tr><td><strong>Mesurée en</strong></td><td><strong>grammes</strong>, <strong>millilitres</strong> ou <strong>comptée</strong>.</td></tr>
-<tr><td><strong>Conversion</strong></td><td>Ce que contient une unité — environ 250 millilitres pour une tasse. Avec « comptée », le champ disparaît.</td></tr>
+<tr><td><strong>Conversion</strong></td><td>Ce que contient une unité — environ 250 millilitres pour un bol. Avec « comptée », le champ disparaît.</td></tr>
 </tbody></table></div>
-<p>Pourquoi la conversion est obligatoire : le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent. Sans elle, « 2 tasses de farine » compterait pour 2 grammes.</p>
+<p>Pourquoi la conversion est obligatoire : le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent. Sans elle, « 2 bols de farine » compterait pour 2 grammes.</p>
 <p>Vos unités personnalisées figurent ensuite dans le menu à côté de celles fournies. Pour en retirer une, balayez l’entrée vers la gauche ou touchez <strong>Modifier</strong> en haut à droite. Elles ne valent que sur cet appareil et ne sont pas synchronisées via iCloud.</p>
 <blockquote class="note"><p><strong>Prudence à la suppression :</strong> les recettes qui utilisent une unité supprimée la conservent sous forme de texte — mais l’app ne la connaît plus et affiche le triangle d’avertissement. Il suffit alors de la recréer.</p></blockquote>
 <h3 id="conversion-en-poids">Conversion en poids</h3>
@@ -591,7 +604,7 @@
 <p><strong>La traduction échoue.</strong><br>La traduction utilise la traduction sur appareil d’Apple. La première fois, iOS doit fournir le pack linguistique — une connexion internet peut être nécessaire. Réessayez plus tard ou revenez à la langue d’origine.</p>
 <hr>
 <h2 id="18-limitations-connues">18. Limitations connues</h2>
-<ul><li><strong>Les recettes de la base sont immuables une fois téléversées</strong> — les privées comme les publiques. Toute correction impose de supprimer et de téléverser à nouveau.</li><li><strong>Une recette ne peut être téléversée qu’une seule fois</strong>, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.</li><li><strong>Les recettes privées dans le cloud exigent une connexion avec Apple</strong> et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.</li><li><strong>La suppression du compte laisse les recettes publiées dans la base.</strong> Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.</li><li><strong>La pause de cuisson, le début et la fin de journée</strong> ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.</li><li><strong>Les plans définis avant cette mise à jour</strong> ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.</li><li><strong>Si vous modifiez une recette après l’avoir planifiée</strong> (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton <strong>Replanifier</strong>, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.</li><li><strong>Les ingrédients d’un rappel</strong> sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.</li><li>Les étapes planifiées sont rattachées aux recettes par le <strong>nom de la recette</strong>. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.</li><li><strong>Les rappels n’atteignent l’Apple Watch que depuis un iPhone.</strong> Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.</li><li><strong>L’import depuis des images</strong> lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.</li><li><strong>L’import depuis une page web</strong> ne lit que ce qu’une page livre à une app sans connexion. Les pages derrière un mur payant, une connexion ou un consentement obligatoire aux cookies, ainsi que les sites qui bloquent la récupération par les apps, ne peuvent pas être lus. Sans l’IA cloud et sans Apple Intelligence, seules les données de recette structurées de la page sont reprises ; pré-pâte et pâte principale se retrouvent alors souvent dans un même composant.</li><li><strong>Ce sont les textes qui sont traduits, pas les unités</strong> — c’est voulu, afin que le calcul des quantités reste valable.</li><li><strong>Les noms d’unités n’existent qu’en allemand.</strong> Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu des unités affiche donc des noms et des abréviations allemands dans toutes les langues.</li><li><strong>Il n’existe pas d’export.</strong> Vos recettes se synchronisent certes via iCloud (voir <a href="#2-configuration-requise">chapitre 2</a>), mais elles ne peuvent pas être sauvegardées sous forme de fichier ni transmises à quelqu’un d’autre. Au-delà d’iCloud, la seule voie de sauvegarde reste la base de recettes — en privé, si vous ne voulez pas partager.</li><li><strong>Les auteurs bloqués</strong> ne sont masqués que sur l’appareil concerné ; sur un deuxième appareil, ils réapparaissent. Une recette <strong>signalée</strong> est en revanche invisible pour tous jusqu’à ce qu’un administrateur la réaffiche — pour vous aussi, et même si vous effacez le signalement dans <em>Réglages → Modération</em>.</li><li><strong>Les unités personnalisées ne valent que sur l’appareil où vous les avez créées.</strong> Elles ne sont pas synchronisées via iCloud. Une recette utilisant une telle unité affiche le triangle d’avertissement sur un autre appareil jusqu’à ce que vous l’y créiez également.</li></ul>
+<ul><li><strong>Les recettes de la base sont immuables une fois téléversées</strong> — les privées comme les publiques. Toute correction impose de supprimer et de téléverser à nouveau.</li><li><strong>Une recette ne peut être téléversée qu’une seule fois</strong>, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.</li><li><strong>Les recettes privées dans le cloud exigent une connexion avec Apple</strong> et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.</li><li><strong>La suppression du compte laisse les recettes publiées dans la base.</strong> Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.</li><li><strong>La pause de cuisson, le début et la fin de journée</strong> ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.</li><li><strong>Les plans définis avant cette mise à jour</strong> ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.</li><li><strong>Si vous modifiez une recette après l’avoir planifiée</strong> (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton <strong>Replanifier</strong>, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.</li><li><strong>Les ingrédients d’un rappel</strong> sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.</li><li>Les étapes planifiées sont rattachées aux recettes par le <strong>nom de la recette</strong>. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.</li><li><strong>Les rappels n’atteignent l’Apple Watch que depuis un iPhone.</strong> Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.</li><li><strong>L’import depuis des images</strong> lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.</li><li><strong>L’import depuis une page web</strong> ne lit que ce qu’une page livre à une app sans connexion. Les pages derrière un mur payant, une connexion ou un consentement obligatoire aux cookies, ainsi que les sites qui bloquent la récupération par les apps, ne peuvent pas être lus. Sans l’IA cloud et sans Apple Intelligence, seules les données de recette structurées de la page sont reprises ; pré-pâte et pâte principale se retrouvent alors souvent dans un même composant.</li><li><strong>Les unités personnalisées apparaissent dans toutes les langues telles que vous les avez créées.</strong> Seules les unités fournies sont traduites.</li><li><strong>Il n’existe pas d’export.</strong> Vos recettes se synchronisent certes via iCloud (voir <a href="#2-configuration-requise">chapitre 2</a>), mais elles ne peuvent pas être sauvegardées sous forme de fichier ni transmises à quelqu’un d’autre. Au-delà d’iCloud, la seule voie de sauvegarde reste la base de recettes — en privé, si vous ne voulez pas partager.</li><li><strong>Les auteurs bloqués</strong> ne sont masqués que sur l’appareil concerné ; sur un deuxième appareil, ils réapparaissent. Une recette <strong>signalée</strong> est en revanche invisible pour tous jusqu’à ce qu’un administrateur la réaffiche — pour vous aussi, et même si vous effacez le signalement dans <em>Réglages → Modération</em>.</li><li><strong>Les unités personnalisées ne valent que sur l’appareil où vous les avez créées.</strong> Elles ne sont pas synchronisées via iCloud. Une recette utilisant une telle unité affiche le triangle d’avertissement sur un autre appareil jusqu’à ce que vous l’y créiez également.</li></ul>
 </article>
 
 <footer>
