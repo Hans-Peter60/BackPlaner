@@ -48,6 +48,46 @@ struct BakePlanTests {
         #expect(oven.duration == 15)
     }
 
+    @Test("The oven temperature is found however the step words it",
+          arguments: [
+            ("Bei 250°C fallend auf 200°C 60 Minuten backen", "250 °C"),
+            ("Ober-/Unterhitze 250 °C, 50 Minuten backen", "250 °C"),
+            ("Mit Dampf backen (250 °C)", "250 °C"),
+            ("Backen: 250 Grad fallend", "250 °C"),
+            ("Von 250 °C fallend auf 210 °C backen", "250 °C"),
+            ("Bake at 450°F for 30 minutes", "450 °F"),
+            ("Bake at 230 for 40 minutes", "230 °C"),
+            ("Cuire à 240 °C", "240 °C"),
+          ])
+    func readsOvenTemperatures(text: String, temperature: String) {
+        #expect(BakePlan.ovenTemperature(in: text) == temperature)
+    }
+
+    @Test("Dough and proofing temperatures are no oven temperature")
+    func ignoresDoughTemperatures() {
+        #expect(BakePlan.ovenTemperature(in: "Bei 28 °C 2 Stunden gehen lassen") == nil)
+        #expect(BakePlan.ovenTemperature(in: "Teigtemperatur 26°") == nil)
+        #expect(BakePlan.ovenTemperature(in: "60 Minuten backen") == nil)
+    }
+
+    @Test("A temperature stated next to the baking step is used too")
+    func findsTheTemperatureInANeighbouringStep() throws {
+        let steps = [
+            PlanStep(instruction: "Teig bei 28 °C gehen lassen", step: 1, startTime: 0, duration: 60),
+            PlanStep(instruction: "Brot einschießen, Ofen 250 °C, kräftig schwaden", step: 2, startTime: 60, duration: 1),
+            PlanStep(instruction: "50 Minuten backen", step: 3, startTime: 61, duration: 50),
+        ]
+        let neighbour = plan(steps)
+        #expect(neighbour.bakingStep?.instruction == "50 Minuten backen")
+        #expect(try #require(neighbour.generatedOvenStep).instruction == "Backofen anstellen (250 °C)")
+    }
+
+    @Test("Without any temperature the step keeps its plain text")
+    func keepsThePlainTextWithoutTemperature() throws {
+        let steps = [PlanStep(instruction: "60 Minuten backen", step: 1, startTime: 0, duration: 60)]
+        #expect(try #require(plan(steps).generatedOvenStep).instruction == "Backofen anstellen")
+    }
+
     @Test("The generated steps follow the recipe's language")
     func wordsGeneratedStepsInTheLanguage() throws {
         let english = plan(loaf, language: "en")

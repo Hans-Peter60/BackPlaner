@@ -90,12 +90,21 @@ struct BakePlan {
         guard explicitPreheatStep == nil, let bakingStep else { return nil }
         let text = Self.ovenStartText(
             baseText: AppSettings.generatedStepTexts(languageCode: languageCode).startHeating,
-            bakingInstruction: bakingStep.instruction
+            temperature: ovenTemperature
         )
         return PlanStep(instruction: text,
                         step: bakingStep.step - 0.1,
                         startTime: bakingStep.startTime - preheatDuration,
                         duration: preheatDuration)
+    }
+
+    /// The oven temperature the generated step names: the first one stated in
+    /// the baking step, else in the steps after it (a second baking phase),
+    /// else in those before it ("Brot einschießen, 250 °C").
+    var ovenTemperature: String? {
+        guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
+        let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
+        return ordered.lazy.compactMap { Self.ovenTemperature(in: $0.instruction) }.first
     }
 
     /// "Backvorgang ist beendet", always `prepTime` after the start.
@@ -161,17 +170,40 @@ struct BakePlan {
         return coldOvenPhrases.contains(where: text.contains)
     }
 
-    /// The generated step names the temperature of the baking step, if it
-    /// states one. "at" covers the English baking step the import writes.
-    static func ovenStartText(baseText: String, bakingInstruction: String) -> String {
-        let pattern = #"(?:bei|auf|at|à|a)\s+(\d{2,3})\s*(?:°\s*C|Grad)?"#
-        guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]),
-              let match = expression.firstMatch(in: bakingInstruction,
-                                                range: NSRange(bakingInstruction.startIndex..., in: bakingInstruction)),
-              let temperatureRange = Range(match.range(at: 1), in: bakingInstruction) else {
-            return baseText
+    /// "Backofen anstellen (250 °C)", or the plain text without a temperature.
+    static func ovenStartText(baseText: String, temperature: String?) -> String {
+        guard let temperature else { return baseText }
+        return "\(baseText) (\(temperature))"
+    }
+
+    /// The first oven temperature a step states: "250 °C", "250°", "250 Grad",
+    /// "450 °F", "425 degrees", whatever precedes it ("Ober-/Unterhitze",
+    /// "von", a bracket), or a bare number after "bei", "auf", "at" or "à".
+    /// Only oven heat counts, so a dough or proofing temperature ("bei 28 °C
+    /// gehen lassen") is passed over: Celsius from 100, Fahrenheit from 200.
+    static func ovenTemperature(in text: String) -> String? {
+        let withUnit = #"(?<!\d)(\d{2,3})\s*(?:°\s*([CcFf])?|Grad\b|degrees?\b)"#
+        for match in matches(of: withUnit, in: text) {
+            guard let value = Int(match[0]) else { continue }
+            let fahrenheit = match[1].uppercased() == "F"
+            if fahrenheit, value >= 200 { return "\(value) °F" }
+            if !fahrenheit, value >= 100, value <= 300 { return "\(value) °C" }
         }
-        return "\(baseText) (\(bakingInstruction[temperatureRange]) °C)"
+        let afterPreposition = #"(?:\bbei|\bauf|\bat|à)\s+(\d{3})(?!\d)"#
+        for match in matches(of: afterPreposition, in: text) {
+            if let value = Int(match[0]), value >= 100, value <= 300 { return "\(value) °C" }
+        }
+        return nil
+    }
+
+    /// The capture groups of every match, "" for a group that did not take part.
+    private static func matches(of pattern: String, in text: String) -> [[String]] {
+        guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else { return [] }
+        return expression.matches(in: text, range: NSRange(text.startIndex..., in: text)).map { match in
+            (1..<match.numberOfRanges).map { group in
+                Range(match.range(at: group), in: text).map { String(text[$0]) } ?? ""
+            }
+        }
     }
 }
 
