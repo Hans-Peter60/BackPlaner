@@ -212,7 +212,9 @@ struct SettingsView: View {
             } label: {
                 LabeledContent(
                     "KI-Analyse beim Rezeptimport",
-                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nur lokal"
+                    value: cloudRecipeAnalysisConsent
+                        ? String(localized: "Zugelassen", bundle: AppSettings.localizationBundle)
+                        : String(localized: "Nur lokal", bundle: AppSettings.localizationBundle)
                 )
             }
 
@@ -405,7 +407,9 @@ struct RecipeAIPrivacyView: View {
             Section("Einwilligung und Widerruf") {
                 LabeledContent(
                     "Cloud-KI",
-                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nicht zugelassen"
+                    value: cloudRecipeAnalysisConsent
+                        ? String(localized: "Zugelassen", bundle: AppSettings.localizationBundle)
+                        : String(localized: "Nicht zugelassen", bundle: AppSettings.localizationBundle)
                 )
 
                 if cloudRecipeAnalysisConsent {
