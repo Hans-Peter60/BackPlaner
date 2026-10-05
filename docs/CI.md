@@ -36,10 +36,12 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
 2. Einen neuen Workflow anlegen (**+**) oder den vorhandenen „Default“-Workflow bearbeiten. Name zum Beispiel **„Pull-Request-Tests“**.
 3. **General:** Haken bei **„Restrict Editing“** nach Belieben. Unter **Repository** muss `Hans-Peter60/BackPlaner` stehen. Fragt Xcode nach Zugriff auf GitHub, die Xcode-Cloud-App für das Repository erlauben.
 4. **Environment:** Xcode-Version **„Latest Release“** (sie muss das iOS-27-SDK enthalten), macOS **„Latest“**.
-5. **Start Conditions:** die vorhandene Bedingung „Branch Changes“ entfernen und **„Pull Request Changes“** hinzufügen:
+5. **Start Conditions:** zuerst über das **⊕** neben „Start Conditions“ **„Pull Request Changes“** hinzufügen:
    - Source Branch: **Any Branch**
    - Target Branch: **main**
    - **„Auto-cancel Builds“** einschalten, damit ein neuer Push den alten Lauf abbricht.
+
+   Erst danach die vorgeschlagene Bedingung „Branch Changes“ markieren und mit **⌫** oder Rechtsklick → **Delete** entfernen. Ein Workflow braucht mindestens eine Start-Bedingung, deshalb lässt sich die einzige nicht löschen.
 6. **Actions:** eine **„Archive“**-Aktion entfernen, falls vorhanden. **„Test“** hinzufügen:
    - Scheme: **BackPlaner**
    - Platform: **iOS**
