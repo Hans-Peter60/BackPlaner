@@ -138,6 +138,10 @@ struct SettingsView: View {
         .clearScrollBackground()
         .warmBackground()
         .navigationTitle("Einstellungen")
+        // Picks up an admins document created while the app was running (by
+        // the console or scripts/grant-admin.mjs), so the account section
+        // shows "Administrator" without a restart.
+        .onAppear { modelFB.checkAdminStatus() }
         .overlay {
             if isDeletingAccount {
                 ProgressView("Konto wird gelöscht …")
