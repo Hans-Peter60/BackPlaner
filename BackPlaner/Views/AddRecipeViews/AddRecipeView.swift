@@ -272,48 +272,6 @@ struct AddRecipeView: View {
         }
     }
     
-    /// Where the recipe is stored, and the button that saves it. Its own
-    /// property, so the type checker does not have to resolve it as part of the
-    /// (very large) body expression.
-    @ViewBuilder
-    private var saveSection: some View {
-        Section("Speichern") {
-            Picker("Ablage", selection: $storage) {
-                ForEach(RecipeStoragePreference.allCases) { preference in
-                    Text(preference.shortTitle).tag(preference)
-                }
-            }
-            .pickerStyle(.segmented)
-
-            Text(storage.explanation)
-                .font(Theme.bodyFont(13))
-                .foregroundColor(Theme.subtitle)
-
-            HStack {
-                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Inhalte löschen", title: "Inhalte löschen", controlSize: .regular) {
-                    clear()
-                }
-
-                Spacer()
-
-                IconActionButton(systemImage: storage.symbolName, style: .primary, accessibilityLabel: "Rezept speichern", title: "Rezept speichern", controlSize: .regular) {
-                    requestSave()
-                }
-                // Prevent saving an unnamed (effectively empty) recipe, or
-                // starting a second upload while one is still in flight.
-                .disabled(!canSave || isUploading)
-                .alert("Rezept wurde gespeichert", isPresented: $showingAlert) {
-                    Button("OK", role: .cancel) { }
-                }
-                .sheet(isPresented: $showEULA) {
-                    EULAView {
-                        addRecipe(to: .publicRecipe)
-                    }
-                }
-            }
-        }
-    }
-
     func loadImage() {
         
         // Check if an image was selected from the library

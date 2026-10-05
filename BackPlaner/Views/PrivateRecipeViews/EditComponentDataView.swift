@@ -97,6 +97,11 @@ struct EditComponentView: View {
     
     @State private var componentName: String = ""
     @State private var componentNumber: Int = 0
+
+    /// True when the component was gone by the time the sheet opened, for
+    /// instance deleted on another device and removed here by the iCloud
+    /// sync. The sheet then says so instead of the app stopping.
+    private let isMissing: Bool
     
     @State private var name   = ""
     @State private var number = 0
@@ -125,16 +130,45 @@ struct EditComponentView: View {
     init(componentId: NSManagedObjectID) {
         self.componentId = componentId
         let context = PersistenceController.shared.container.viewContext
-        if let comp = try? context.existingObject(with: componentId) as? Component {
+        if let comp = try? context.existingObject(with: componentId) as? Component, !comp.isDeleted {
             _component = ObservedObject(wrappedValue: comp)
             _componentName = State(initialValue: comp.name)
             _componentNumber = State(initialValue: comp.number)
+            isMissing = false
         } else {
-            fatalError("Component not found")
+            // A stand-in that belongs to no context, so nothing is saved
+            // through it; the body shows the notice below instead.
+            _component = ObservedObject(wrappedValue: Component(entity: Component.entity(), insertInto: nil))
+            isMissing = true
         }
     }
-    
+
     var body: some View {
+        if isMissing {
+            missingComponent
+        } else {
+            editor
+        }
+    }
+
+    private var missingComponent: some View {
+        NavigationStack {
+            ContentUnavailableView(
+                "Komponente nicht mehr vorhanden",
+                systemImage: "exclamationmark.triangle",
+                description: Text("Sie wurde inzwischen gelöscht, vielleicht auf einem anderen Gerät.")
+            )
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Schließen") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private var editor: some View {
         
         NavigationStack {
         
