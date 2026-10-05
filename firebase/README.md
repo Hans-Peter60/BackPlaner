@@ -61,10 +61,31 @@ Granting admin rights (per admin):
 3. That person signs in once via **Einstellungen → Administrator →
    "Mit Apple anmelden"**, so their Apple **User UID** appears in Firebase
    console → **Authentication → Users**.
-4. Firestore → collection **`admins`** → add a document whose **ID is that uid**
-   (contents don't matter; `{ "note": "owner" }` is fine).
-5. Reopen a public recipe → the "Rezept löschen (Admin)" button appears.
-   "Abmelden" returns to the anonymous identity.
+4. Create the document **`admins/<that uid>`** (contents don't matter;
+   `{ "note": "owner" }` is fine) — either in the console (Firestore → collection
+   **`admins`** → add a document whose **ID is that uid**) or with the script,
+   which finds the uid itself and refuses anonymous ones:
+   ```
+   cd scripts && npm install firebase-admin   # once
+   node grant-admin.mjs --key=<serviceAccount.json>                  # list Apple accounts, mark admins
+   node grant-admin.mjs --key=<serviceAccount.json> --apple --commit # make the only Apple account admin
+   node grant-admin.mjs --key=… --uid=<uid> --revoke --commit        # take the rights away again
+   ```
+   The key comes from Firebase console → Project settings → Service accounts →
+   "Generate new private key"; `scripts/*.json` is git-ignored.
+5. Reopen **Einstellungen** → the account section shows "Administrator", and a
+   public recipe offers "Rezept löschen (Admin)". "Abmelden" returns to the
+   anonymous identity.
+
+If "Administrator" does not appear although the document exists, the app is
+signed in under a different uid than the one in `admins`. That happens when the
+Apple account already had a Firebase account of its own (second device,
+reinstall): linking then fails and the app signs into that existing account.
+Run the script without `--uid` to see every Apple account with its last sign-in
+and grant the one that signed in most recently. The log line
+`Admin check: uid=… isAdmin=…` (Console app, category *firebase*, with Action → Include Debug Messages) names the uid the
+app actually checked; `Admin check failed` instead means the read of
+`admins/<uid>` was refused, i.e. the deployed rules are older than this repo.
 
 The rules restrict the `admins` collection to **console-only writes**; a client
 may read only its *own* admin document.

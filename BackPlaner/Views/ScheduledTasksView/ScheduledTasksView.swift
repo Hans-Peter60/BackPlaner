@@ -29,14 +29,7 @@ struct ScheduledTasksView: View {
 
     let date = Date() - 60
     
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let startComponents = DateComponents(year: GlobalVariables.year, month: GlobalVariables.month, day: GlobalVariables.day)
-        let endComponents = DateComponents(year: GlobalVariables.year! + 1, month: GlobalVariables.month, day: GlobalVariables.day)
-        return calendar.date(from:startComponents)!
-        ...
-        calendar.date(from:endComponents)!
-    }()
+    let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
     
     var nextStepsRequest: FetchRequest<NextStep>
     var nextSteps: FetchedResults<NextStep> { nextStepsRequest.wrappedValue }

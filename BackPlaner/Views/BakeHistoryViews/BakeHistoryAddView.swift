@@ -30,14 +30,7 @@ struct BakeHistoryAddView: View {
     @State private var showingAlert = false
     
     var dateFormat:DateFormat = DateFormat()
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let startComponents = DateComponents(year: GlobalVariables.year! - 10, month: GlobalVariables.month, day: GlobalVariables.day)
-        let endComponents   = DateComponents(year: GlobalVariables.year, month: GlobalVariables.month! + 1, day: GlobalVariables.day)
-        return calendar.date(from:startComponents)!
-        ...
-        calendar.date(from:endComponents)!
-    }()
+    let dateRange: ClosedRange<Date> = GlobalVariables.dateRange(from: DateComponents(year: -10), to: DateComponents(month: 1))
     
     var body: some View {
         

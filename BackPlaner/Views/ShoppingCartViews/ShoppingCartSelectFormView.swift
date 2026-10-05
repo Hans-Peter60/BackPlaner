@@ -89,14 +89,7 @@ struct ShoppingCartSelectFormView: View {
 
     private let dateFormat = DateFormat()
     private let calcWeight = CalcIngredientWeight()
-    private let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let startComponents = DateComponents(year: GlobalVariables.year, month: GlobalVariables.month, day: GlobalVariables.day)
-        let endComponents = DateComponents(year: (GlobalVariables.year ?? calendar.component(.year, from: Date())) + 1, month: GlobalVariables.month, day: GlobalVariables.day)
-        let startDate = calendar.date(from:startComponents) ?? Date()
-        let endDate = calendar.date(from:endComponents) ?? calendar.date(byAdding: .year, value: 1, to: startDate) ?? startDate
-        return startDate ... endDate
-    }()
+    private let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
 
     @State private var date = Date()
     @State private var mode = ShoppingCartMode.newList
