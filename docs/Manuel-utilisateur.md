@@ -1,6 +1,6 @@
 # BakePlanner – Manuel de l’utilisateur
 
-Révision : 3 octobre 2026 · version 1.1.1 de l’app
+Révision : 5 octobre 2026 · version 1.2 de l’app
 
 > Traduit de l’original allemand, `Benutzerhandbuch.md`. En cas de divergence,
 > la version allemande fait foi.
@@ -302,7 +302,10 @@ Les remarques n’empêchent rien — vous pouvez définir le plan quand même. 
 Toucher **Définir un rappel** déclenche plusieurs choses à la fois :
 
 1. Un rappel local est défini pour **chaque étape de préparation**, à l’heure de début calculée.
-2. L’étape **« allumer le four »** est insérée automatiquement — le **temps de préchauffage** réglé avant la dernière étape (15 minutes par défaut, modifiable dans les Réglages).
+2. L’étape **« allumer le four »** est insérée automatiquement — le **temps de préchauffage** réglé avant l’**étape de cuisson** (15 minutes par défaut, modifiable dans les Réglages). L’étape de cuisson est celle qui décrit la cuisson, pas forcément la dernière : si « laisser refroidir » suit, le four est quand même préchauffé avant la cuisson.
+   - Si la recette indique une **température de four**, elle est ajoutée, par exemple « Allumer le four (250 °C) ». Avec « cuire à 250 °C puis 220 °C », c’est la première. La température peut aussi figurer dans l’étape précédente (« enfourner, four à 250 °C »).
+   - Si la recette comporte déjà **sa propre étape de préchauffage**, aucune seconde n’est ajoutée. L’étape de la recette sert alors de rappel de préchauffage et reçoit la température si elle ne l’indique pas encore.
+   - Si la cuisson commence dans un **four froid** (« enfourner dans le four froid »), le temps de préchauffage est supprimé.
 3. **« La cuisson est terminée »** est également planifié pour l’heure de fin.
 4. Toutes les étapes arrivent dans **Étapes planifiées**.
 5. Pour vos recettes, une **entrée d’historique** est créée avec la date de fin et le commentaire provisoire « aucun commentaire saisi », que vous pourrez compléter plus tard.
@@ -311,7 +314,7 @@ Une confirmation apparaît ensuite, par exemple :
 
 > **Les rappels ont été définis**
 > 12 rappels définis.
-> Allumer le four à 16:45.
+> Allumer le four à 16:45 (250 °C).
 > Terminé à 18:10.
 
 Les textes « allumer le four » et « la cuisson est terminée » apparaissent dans la langue active (pour les recettes publiques, dans la langue dans laquelle vous consultez la recette).

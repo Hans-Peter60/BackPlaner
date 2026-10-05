@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 3 October 2026 · App version 1.1.1
+Revised: 5 October 2026 · App version 1.2
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.
@@ -302,7 +302,10 @@ The notes don't prevent anything — you can still set the plan. They only spare
 Tapping **Set reminder** does several things at once:
 
 1. A local reminder is set for **every processing step** at its calculated start time.
-2. The step **"turn on the oven"** is inserted automatically — the configured **Preheat time** before the final step (15 minutes by default, adjustable in Settings).
+2. The step **"turn on the oven"** is inserted automatically — the configured **Preheat time** before the **baking step** (15 minutes by default, adjustable in Settings). The baking step is the one that describes the bake, not necessarily the last one: if "let it cool" follows, the oven is still preheated before the bake.
+   - If the recipe names an **oven temperature**, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").
+   - If the recipe already has **its own preheating step**, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.
+   - If the bake starts in a **cold oven** ("place in the cold oven"), there is no preheat time.
 3. **"Baking is finished"** is likewise scheduled for the finishing time.
 4. Every step lands in **Scheduled steps**.
 5. For your own recipes a **baking-history entry** is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.
@@ -311,7 +314,7 @@ A confirmation then appears, for example:
 
 > **Reminders were set**
 > 12 reminders set.
-> Turn on the oven at 4:45 p.m.
+> Turn on the oven at 4:45 p.m. (250 °C).
 > Done at 6:10 p.m.
 
 The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
