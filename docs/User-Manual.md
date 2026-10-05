@@ -88,9 +88,9 @@ Always belongs to a component. Consists of a number, an amount, a unit, a name, 
 A work instruction with a step number and a duration in minutes. The step number is a decimal and carries a special meaning:
 
 - **Whole numbers (1, 2, 3 …) are main steps.** They run one after another.
-- **Decimals (2.1, 2.2, 2.3) are parallel steps within a main step.** They all start at the same time, and only the *longest* duration in the group counts towards the total.
+- **Decimals (2.1, 2.2, 2.3) are parallel steps within a main step.** They run at the same time, and only the *longest* duration in the group counts towards the total. Steps that make a component (sourdough, pre-dough, soaker …) start 5 minutes apart, in the order of their step numbers: nobody weighs out four pre-doughs in the same minute, and the reminders arrive staggered accordingly. All other parallel steps finish together with their group.
 
-Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. The next main step, 2, begins after 12 hours — not after 14.
+Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. The next main step, 2, begins after a little over 12 hours — not after 14.
 
 **Serving size**
 A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight.
@@ -199,7 +199,9 @@ So the two differ in reach: **blocking is local, reporting affects everyone.** B
 
 ### Administrator function
 
-If you're signed in as an administrator (see [chapter 14](#14-settings)), the **Details** tab also offers **Delete recipe (Admin)**. It removes any public recipe — intended for moderating reported content. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
+If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
+
+**Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the **Details** tab it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
 
 ---
 
@@ -263,7 +265,7 @@ This is the heart of the app. The layout is the same for your own and for public
 |---------|----------|
 | **Change duration** | A switch. When active, a "Duration [min]" field appears for each step. |
 | **Start from / Done by** | Decides how the date below is interpreted. Abbreviated on iPhone in portrait. |
-| **Date and time** | The reference point for the plan. |
+| **Date and time** | The reference point for the plan, selectable from today up to one year ahead. |
 
 **Start from** means: I'm starting at this moment — when will I be done?
 **Done by** means: I want to be finished at this moment — when do I have to start? The "Start" column then counts backwards.
@@ -285,13 +287,13 @@ Notes appear above the step table as soon as the time you've set produces an imp
 | Sign | Meaning |
 |------|---------|
 | ⚠️ orange | **A note.** The plan works, but you should know about it. |
-| ⛔️ red | **An error.** Two bakes would overlap in the oven. |
+| ⛔️ red | **An error.** More bakes would run at the same time than you have ovens. |
 
 Three things are checked:
 
 - **Steps outside your day.** If a step falls before **Start of day** or after **End of day** from Settings, it gets named: "'Stretch and fold' starts on 11/09/26 at 3:07 a.m., which is before the start of day (6:00 a.m.)." With long fermentations that's normal and no cause for concern — it just shows you what you'd have to get up for.
-- **Overlapping baking times.** If another recipe has the oven booked for the same period, that's an error: two loaves don't fit in at two different temperatures.
-- **Too short a baking pause.** If less time than the configured **Baking pause** falls between two bakes, you get a note. The oven needs that time to change temperature.
+- **Overlapping baking times.** Each oven takes one bake at a time. With one oven (the default), any overlap with another planned recipe is an error: two loaves don't fit in at two different temperatures. If you've entered several **Ovens** in Settings, that many bakes may run in parallel. An overlap that still fits into a free oven is then only reported as a note ("… and therefore needs another oven"); only the bake for which no oven is left is an error.
+- **Too short a baking pause.** If less time than the configured **Baking pause** falls between two bakes in the same oven, you get a note. The oven needs that time to change temperature. With several ovens the note is dropped as long as another oven is free during that time — the loaf simply goes into the cold one.
 
 The notes don't prevent anything — you can still set the plan. They only spare you the surprise at three in the morning.
 
@@ -340,7 +342,7 @@ Right at the top: **Import recipe from images**. It reads in a printed or photog
 4. The app then shows a **summary**: the recognised name, the number of components, ingredients, and steps, plus the recognised components with their ingredients and the recognised schedule.
 5. **Check data in the recipe form** transfers everything into the normal recipe form. **Select Different Images** starts over.
 
-The app reads the images with every source type it knows and keeps the result that fits what's on the page; through **Source type** you can also pin a particular one. Straight, legible photos give the best results.
+The app reads the images with every source type it knows and keeps the result that fits what's on the page. Straight, legible photos give the best results.
 
 #### Choosing the name yourself
 
@@ -355,6 +357,35 @@ Which line is the heading isn't always visible from a page: a logo, a printed he
 
 Afterwards be sure to check **amounts, units, temperatures, and times** — nothing is saved until you choose "Save recipe" in the form.
 
+#### Analysis mode: protected cloud AI or on this device only
+
+Above the image selection you choose how the pages are evaluated:
+
+- **Protected Cloud AI** — the images are sent in encrypted form through the BackPlaner server to Google Vertex AI (Gemini) and structured there. That usually gives the most complete results, including components such as pre-dough and sourdough. Before the first use the app explains the data transfer and asks for your consent; you can withdraw it under Settings › Privacy & AI.
+- **On This Device Only** — nothing leaves the device. Depending on availability the app uses Apple Intelligence or the on-device text recognition; recognition may be less accurate.
+
+The app remembers the choice for both import routes.
+
+### Importing a recipe from a web page
+
+Below that: **Import recipe from a web page**. It reads a recipe straight from a recipe page on the internet, a baking blog for instance.
+
+1. **Paste the address**: copy the address of the recipe page in Safari and paste it with the paste button next to the field, or type it in. "https://" may be left out; the app adds it.
+
+   **It's quicker straight from Safari:** on the recipe page tap **Share** and choose **BakePlanner**. A small sheet shows the page; **Import** switches to BakePlanner, where the address is already filled in and the analysis starts on its own. That works from any browser and from any app that shares a web address. If BakePlanner doesn't appear in the row of apps, tap **More** and switch BakePlanner on there.
+2. Choose the **Analysis Mode** as for the image import. With "On This Device Only" the page text isn't transmitted; without Apple Intelligence the app then takes only the structured recipe data the page itself provides.
+3. **Load and Analyze Page** loads the page on the device, reads out the recipe data and the visible text, and hands them to the chosen analysis. The page's recipe photo comes along.
+4. Then the same **summary** appears as for the image import; instead of the recognised source type it shows the source (the web address). **Load a Different Page** starts over.
+5. **Check data in the recipe form** transfers everything into the recipe form. The page's address goes into the recipe's "URL link" field automatically.
+
+**What works well:** most recipe pages and baking blogs provide structured recipe data; then ingredients and steps are almost always right. The cloud AI also separates pre-dough, sourdough, and main dough into components of their own.
+
+**Step numbers:** components that go into the main dough (sourdough, pre-doughs, soakers, and scalds) are each combined by the import into one parallel step 1.1, 1.2, 1.3 … covering mixing and maturing. The main dough's steps follow as 2, 3, 4 …. That way a recipe with four overnight pre-doughs takes twelve hours, not two days. The pre-doughs are started five minutes apart in the plan; the earlier ones get correspondingly more duration so that all are ready together for the main dough. Steps without a recognised duration get one minute.
+
+**What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to Import" with the reason. In such cases the image import of a screenshot of the page helps.
+
+> **Copyright:** for your own use you may import any recipe. That's why storage starts out as "Local". Only publish other people's recipes with the author's permission.
+
 ### Storage: local, private in the cloud, or public
 
 In the **Save** section you choose between the three storage options (see also the overview in [chapter 3](#3-key-concepts)). A sentence below each choice explains what it means. The default comes from Settings (Default storage).
@@ -363,7 +394,7 @@ In the **Save** section you choose between the three storage options (see also t
 - **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app points out that a recipe in the database can't be changed once saved.
 - **Public** — the recipe becomes visible to every user. First comes the note: **"A public recipe can no longer be changed after it has been saved."** The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
 
-When importing from images, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.
+When importing from images or a web page, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.
 
 ### Recipe image
 
@@ -610,7 +641,7 @@ The app filters deliberately:
 
 ![BakePlanner's settings: General with language and default storage, Recipes with default serving size, detail view, and custom units, Baking schedule with preheat time, baking pause, start of day, and end of day; Moderation begins below](images/en/einstellungen.png)
 
-*Settings bring together language, defaults, and the parameters for the baking plan. The Moderation and Account sections follow further down.*
+*Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 
 ### General
 
@@ -634,19 +665,31 @@ The app filters deliberately:
 |---------|-------------|
 | **Preheat time** | 0–120 minutes in steps of 5. Used when setting reminders, to place the automatic "turn on the oven" step before the final step. Default: 15 minutes. |
 | **Baking pause** | 0–120 minutes. The minimum gap between two bakes in the same oven. Default: 10 minutes. |
+| **Ovens** | 1–6. How many bakes may run at the same time. The plan check reports an error only when more recipes bake at the same time than there are ovens; the baking pause applies per oven. Default: 1. |
 | **Start of day** | 0–23. From when you're available in the morning. Default: 6. |
 | **End of day** | Between start of day and 23. Default: 23. |
 | **Speech in bake mode** | Shows or hides the "Read aloud" button in bake mode. Default: on. |
 | **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
 
-> **Note:** Only **Preheat time** actually moves steps. **Baking pause, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or two bakes collide (see [chapter 7](#7-baking-instructions-and-reminders)).
+> **Note:** Only **Preheat time** actually moves steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
+
+### Privacy & AI
+
+This shows whether the **protected cloud AI** may be used for recipe imports (see [chapter 8](#8-creating-a-new-recipe)).
+
+| Entry | Effect |
+|-------|--------|
+| **AI Analysis for Recipe Import** | **Allowed** if you've consented to the cloud AI, otherwise **Local only**. Tapping it opens the **AI Privacy** page. |
+| **Withdraw Consent to Cloud AI** | Appears only after you've consented. Withdraws the consent and sets the analysis mode to "On This Device Only". |
+
+The **AI Privacy** page explains which data a cloud analysis transmits, to whom, for what purpose, and what of it remains stored (summary in [chapter 16](#16-privacy-moderation-and-terms-of-use)). You can withdraw your consent there too. It is only ever given during an import itself, after the app has explained the transfer. Withdrawal applies to all future analyses; analyses already completed are unaffected.
 
 ### Account
 
 This is where you sign in with Apple. Signing in serves two purposes:
 
 - **Private cloud recipes.** They're tied to your Apple Account. That's the only way they remain reachable after a reinstall or on a second device — an anonymous identifier is lost with the app.
-- **Moderation rights.** If your identifier has been enabled for it, the label **Administrator** appears as well, and public recipes gain the "Delete recipe (Admin)" button.
+- **Moderation rights.** If your identifier has been enabled for it, the label **Administrator** appears as well, and public recipes can be deleted — through the ⋯ menu, the Details tab, or a swipe in the recipe database.
 
 **Neither your name nor your email address is requested** — the app only needs the identifier itself. If your use has been anonymous so far, it carries over when you sign in: recipes already published from this device still belong to you afterwards.
 
@@ -785,6 +828,7 @@ The serving size affects the total ingredients, the components' ingredient lists
 - **Public recipes** live in the shared cloud database and are visible to every user of the app.
 - **Private cloud recipes** also live in the cloud, but in a separate area that only their author may read — this is enforced on the server, not merely hidden in the app. The images are stored separately too and retrievable only by you.
 - **Translations** are produced on the device.
+- **Recipe import:** with "On This Device Only", images and page text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text and address of a web page, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
 - The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. You only need to sign in with Apple for private cloud recipes and for moderation rights; neither your name nor your email address is requested in the process.
 - **You can delete your account yourself at any time** — Settings → Account → "Delete account". Details in [chapter 14](#14-settings).
 
@@ -865,6 +909,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.
 - **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.
+- **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.
 - **Texts are translated, units aren't** — deliberately, so that the amount calculations survive.
 - **The unit names are only available in German.** They come from a bundled data file, not from the app's translations, so the unit menu shows German names and abbreviations in every language.
 - **There's no export.** Your own recipes do sync through iCloud (see [chapter 2](#2-system-requirements)), but they can't be saved as a file or passed on to anyone else. Beyond iCloud, the only backup route is the recipe database — privately, if you don't want to share.

@@ -83,7 +83,7 @@
 <!-- ===================== DEUTSCH ===================== -->
 <section id="de" lang="de">
   <h2>Datenschutzerklärung</h2>
-  <p><strong>Stand: 1. Oktober 2026</strong></p>
+  <p><strong>Stand: 5. Oktober 2026</strong></p>
 
   <h3>Verantwortlich</h3>
   <p>Hans-Peter Mueller<br>
@@ -145,10 +145,20 @@
       Einwilligung.</td>
     </tr>
     <tr>
+      <td>Adresse und Text einer Rezeptseite, die du importierst</td>
+      <td>Die Seite lädt dein Gerät direkt beim Anbieter der Seite. Bei
+      lokaler Analyse bleibt ihr Text auf dem Gerät. Bei ausdrücklich
+      ausgewählter Cloud-KI werden der Rezepttext der Seite und ihre Adresse
+      über eine geschützte Firebase Cloud Function an Google Vertex AI
+      übertragen.</td>
+      <td>Einlesen von Rezepten aus dem Internet. Eine Cloud-Übertragung
+      erfolgt erst nach deiner ausdrücklichen Einwilligung.</td>
+    </tr>
+    <tr>
       <td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis,
       Anfragezeit und Anfrageanzahl</td>
       <td>Google Firebase; die Cloud Function läuft in
-      <code>europe-west1</code>. Für die Bildanalyse wird Google Vertex AI
+      <code>europe-west1</code>. Für die Analyse wird Google Vertex AI
       mit dem Standort <code>EU</code> verwendet.</td>
       <td>Absicherung des KI-Endpunkts und Begrenzung auf höchstens 20
       Analyseanfragen pro Stunde.</td>
@@ -177,7 +187,7 @@
   nutzt, entscheidest du bei der Anmeldung – für BakePlanner macht es keinen
   Unterschied, weil die Adresse nicht abgefragt wird.</p>
 
-  <h3>Analyse fotografierter Rezepte</h3>
+  <h3>Analyse fotografierter und aus dem Internet importierter Rezepte</h3>
   <p>Du kannst zwischen lokaler Analyse und geschützter Cloud-KI wählen. Bei
   der lokalen Analyse bleiben die Bilder auf deinem Gerät. Je nach
   Verfügbarkeit verwendet die App Apple Intelligence oder Apple Vision.</p>
@@ -189,6 +199,17 @@
   übertragenen Bilder weder in Firebase Storage noch in der Rezeptdatenbank.
   Der Entwurf wird erst gespeichert, wenn du ihn prüfst und ausdrücklich
   speicherst.</p>
+  <p>Beim Import von einer Internetseite gibst du die Adresse einer
+  Rezeptseite an. Dein Gerät ruft diese Seite selbst ab, wie ein Browser; der
+  Betreiber der Seite erhält dabei wie bei jedem Seitenaufruf deine
+  IP-Adresse. Die App liest aus der Seite die strukturierten Rezeptdaten und
+  den sichtbaren Text. Bei lokaler Analyse werden sie auf dem Gerät
+  ausgewertet. Bei der Cloud-KI werden der Rezepttext und die Adresse der
+  Seite verschlüsselt an dieselbe Firebase Cloud Function und von dort an
+  Google Vertex AI (Gemini) übertragen und dort ebenso ausschließlich für den
+  Rezeptentwurf verarbeitet. BakePlanner speichert den übertragenen Text
+  nicht. Die Adresse wird als Quellenlink in den Rezeptentwurf übernommen und
+  nur gespeichert, wenn du das Rezept speicherst.</p>
   <p>Die Cloud-Analyse erfolgt nur nach deiner vorherigen ausdrücklichen
   Einwilligung. Du kannst sie ablehnen und die lokale Analyse verwenden. Eine
   erteilte Einwilligung kannst du unter <em>Einstellungen → Datenschutz &amp;
@@ -200,15 +221,15 @@
   <p>Google Ireland Limited bzw. Google LLC für Firebase (Datenbank,
   Bildspeicher, anonyme Anmeldung, Cloud Functions und Missbrauchsschutz)
   sowie Google Vertex AI (Gemini) für die ausdrücklich ausgewählte
-  Cloud-Analyse von Rezeptbildern. Apple Inc. für iCloud, Apple Intelligence,
+  Cloud-Analyse von Rezeptbildern und Rezepttexten. Apple Inc. für iCloud, Apple Intelligence,
   Vision, die Anmeldung mit Apple und die Mitteilungszustellung.</p>
 
   <h3>Speicherdauer</h3>
   <p>Veröffentlichte Rezepte bleiben, bis sie gelöscht werden – von dir oder
   nach einer Meldung. Privat gespeicherte Rezepte bleiben, bis du sie oder
   dein Konto löschst. Auf dem Gerät gespeicherte Daten verschwinden mit dem
-  Löschen der App. Die an die Cloud-KI übertragenen Bilder werden von
-  BakePlanner nicht dauerhaft abgelegt. Für die stündliche Nutzungsbegrenzung
+  Löschen der App. Die an die Cloud-KI übertragenen Bilder und Seitentexte
+  werden von BakePlanner nicht dauerhaft abgelegt. Für die stündliche Nutzungsbegrenzung
   speichert Firestore zur pseudonymen Nutzerkennung nur den Beginn des
   aktuellen Zeitfensters und die Anfrageanzahl; ein abgelaufenes Zeitfenster
   wird bei der nächsten Analyse ersetzt.</p>
@@ -236,7 +257,7 @@
 <!-- ===================== ENGLISH ===================== -->
 <section id="en" lang="en">
   <h2>Privacy Policy</h2>
-  <p><strong>Last updated: 1 October 2026</strong></p>
+  <p><strong>Last updated: 5 October 2026</strong></p>
 
   <h3>Controller</h3>
   <p>Hans-Peter Mueller<br>
@@ -294,11 +315,20 @@
       only takes place after your explicit consent.</td>
     </tr>
     <tr>
+      <td>Address and text of a recipe page you import</td>
+      <td>Your device loads the page directly from the site that hosts it.
+      With local analysis its text stays on the device. If you explicitly
+      select Cloud AI, the page's recipe text and its address are sent
+      through a protected Firebase Cloud Function to Google Vertex AI.</td>
+      <td>Importing recipes from the web. Cloud transmission only takes
+      place after your explicit consent.</td>
+    </tr>
+    <tr>
       <td>Pseudonymous Firebase user ID, App Check attestation, request time
       and request count</td>
       <td>Google Firebase; the Cloud Function runs in
       <code>europe-west1</code>. Google Vertex AI is configured with the
-      <code>EU</code> location for image analysis.</td>
+      <code>EU</code> location for analysis.</td>
       <td>Protecting the AI endpoint and limiting use to no more than 20
       analysis requests per hour.</td>
     </tr>
@@ -323,7 +353,7 @@
   share your real address or use Apple's relay is your choice at sign-in — it
   makes no difference to BakePlanner, which does not ask for it.</p>
 
-  <h3>Analysis of photographed recipes</h3>
+  <h3>Analysis of photographed and web-imported recipes</h3>
   <p>You can choose between local analysis and protected Cloud AI. With local
   analysis, the images stay on your device. Depending on availability, the
   app uses Apple Intelligence or Apple Vision.</p>
@@ -334,6 +364,16 @@
   BakePlanner does not store the transmitted images in Firebase Storage or
   the recipe database. The draft is only stored after you review and
   explicitly save it.</p>
+  <p>To import from the web, you enter the address of a recipe page. Your
+  device fetches that page itself, as a browser would; like any page visit,
+  this gives the site's operator your IP address. The app reads the page's
+  structured recipe data and visible text. With local analysis they are
+  evaluated on the device. With Cloud AI, the recipe text and the page
+  address are encrypted in transit to the same Firebase Cloud Function and
+  from there to Google Vertex AI (Gemini), where they are likewise processed
+  solely to create the recipe draft. BakePlanner does not store the
+  transmitted text. The address is added to the draft as its source link and is
+  only stored if you save the recipe.</p>
   <p>Cloud analysis only takes place after your prior explicit consent. You
   can decline and use local analysis instead. You can withdraw consent for
   all future analyses under <em>Settings → Privacy &amp; AI</em>.</p>
@@ -342,7 +382,8 @@
   <h3>Processors</h3>
   <p>Google Ireland Limited / Google LLC for Firebase (database, image storage,
   anonymous sign-in, Cloud Functions and abuse protection) and Google Vertex
-  AI (Gemini) for explicitly selected cloud analysis of recipe images. Apple
+  AI (Gemini) for explicitly selected cloud analysis of recipe images and
+  recipe texts. Apple
   Inc. for iCloud, Apple Intelligence, Vision, Sign in with Apple and
   notification delivery.</p>
 
@@ -350,7 +391,7 @@
   <p>Published recipes remain until deleted — by you or after a report.
   Privately stored recipes remain until you delete them or your account. Data
   held on the device goes when you delete the app. BakePlanner does not retain
-  images sent to Cloud AI as stored image files. For the hourly usage limit,
+  images or page texts sent to Cloud AI. For the hourly usage limit,
   Firestore stores only the start of the current window and the request count
   against the pseudonymous user ID; an expired window is replaced when the
   next analysis is made.</p>
@@ -376,7 +417,7 @@
 <!-- ===================== FRANÇAIS ===================== -->
 <section id="fr" lang="fr">
   <h2>Politique de confidentialité</h2>
-  <p><strong>Dernière mise à jour : 1er octobre 2026</strong></p>
+  <p><strong>Dernière mise à jour : 5 octobre 2026</strong></p>
 
   <h3>Responsable du traitement</h3>
   <p>Hans-Peter Mueller<br>
@@ -439,11 +480,21 @@
       transmission au cloud n’a lieu qu’après votre consentement explicite.</td>
     </tr>
     <tr>
+      <td>Adresse et texte d’une page de recette que vous importez</td>
+      <td>Votre appareil charge la page directement auprès du site qui
+      l’héberge. Lors de l’analyse locale, son texte reste sur l’appareil. Si
+      vous choisissez expressément l’IA cloud, le texte de recette de la page
+      et son adresse sont transmis à Google Vertex AI via une fonction
+      Firebase Cloud protégée.</td>
+      <td>Importation de recettes depuis le Web. La transmission au cloud
+      n’a lieu qu’après votre consentement explicite.</td>
+    </tr>
+    <tr>
       <td>Identifiant utilisateur Firebase pseudonyme, attestation App Check,
       heure et nombre des requêtes</td>
       <td>Google Firebase ; la fonction Cloud s’exécute dans
       <code>europe-west1</code>. Google Vertex AI est configuré avec la zone
-      <code>EU</code> pour l’analyse des images.</td>
+      <code>EU</code> pour l’analyse.</td>
       <td>Protection du point d’accès à l’IA et limitation à 20 requêtes
       d’analyse au maximum par heure.</td>
     </tr>
@@ -470,7 +521,7 @@
   choix à la connexion — cela ne change rien pour BakePlanner, qui ne la
   demande pas.</p>
 
-  <h3>Analyse des recettes photographiées</h3>
+  <h3>Analyse des recettes photographiées ou importées depuis le Web</h3>
   <p>Vous pouvez choisir entre l’analyse locale et l’IA cloud protégée. Lors
   de l’analyse locale, les images restent sur votre appareil. Selon la
   disponibilité, l’app utilise Apple Intelligence ou Apple Vision.</p>
@@ -481,6 +532,17 @@
   modifiable. BakePlanner ne stocke pas les images transmises dans Firebase
   Storage ni dans la base de recettes. Le projet n’est enregistré qu’après
   votre vérification et votre enregistrement explicite.</p>
+  <p>Pour importer depuis le Web, vous indiquez l’adresse d’une page de
+  recette. Votre appareil récupère lui-même cette page, comme un navigateur ;
+  comme lors de toute visite, l’exploitant du site reçoit alors votre adresse
+  IP. L’app lit les données de recette structurées et le texte visible de la
+  page. Lors de l’analyse locale, ils sont exploités sur l’appareil. Avec
+  l’IA cloud, le texte de recette et l’adresse de la page sont transmis sous
+  forme chiffrée à la même fonction Firebase Cloud, puis à Google Vertex AI
+  (Gemini), où ils servent de même exclusivement à créer le projet de
+  recette. BakePlanner ne stocke pas le texte transmis. L’adresse est reprise
+  dans le projet comme lien vers la source et n’est enregistrée que si vous
+  enregistrez la recette.</p>
   <p>L’analyse cloud n’a lieu qu’après votre consentement explicite préalable.
   Vous pouvez la refuser et utiliser l’analyse locale. Vous pouvez retirer
   votre consentement pour toutes les analyses futures dans <em>Réglages →
@@ -492,7 +554,7 @@
   <p>Google Ireland Limited / Google LLC pour Firebase (base de données,
   stockage d’images, connexion anonyme, fonctions Cloud et protection contre
   les abus) ainsi que Google Vertex AI (Gemini) pour l’analyse cloud des
-  images de recettes expressément choisie. Apple Inc. pour iCloud, Apple
+  images et des textes de recettes expressément choisie. Apple Inc. pour iCloud, Apple
   Intelligence, Vision, la connexion avec Apple et la remise des
   notifications.</p>
 
@@ -501,7 +563,7 @@
   après un signalement. Les recettes privées subsistent jusqu’à ce que vous
   les supprimiez, ou votre compte. Les données présentes sur l’appareil
   disparaissent avec la suppression de l’app. BakePlanner ne conserve pas les
-  images transmises à l’IA cloud sous forme de fichiers image. Pour la limite
+  images ni les textes de pages transmis à l’IA cloud. Pour la limite
   horaire, Firestore stocke uniquement le début de la période en cours et le
   nombre de requêtes avec l’identifiant pseudonyme ; une période expirée est
   remplacée lors de l’analyse suivante.</p>

@@ -58,14 +58,7 @@ struct InstructionsView: View {
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
     var gridItemLayoutHistories = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
     
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let startComponents = DateComponents(year: GlobalVariables.year, month: GlobalVariables.month, day: GlobalVariables.day)
-        let endComponents = DateComponents(year: GlobalVariables.year! + 1, month: GlobalVariables.month, day: GlobalVariables.day)
-        return calendar.date(from:startComponents)!
-        ...
-        calendar.date(from:endComponents)!
-    }()
+    let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
     
     var manager:LocalNotificationManager = LocalNotificationManager()
     var dateFormat:DateFormat            = DateFormat()

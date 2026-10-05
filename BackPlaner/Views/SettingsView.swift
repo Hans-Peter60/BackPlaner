@@ -138,6 +138,10 @@ struct SettingsView: View {
         .clearScrollBackground()
         .warmBackground()
         .navigationTitle("Einstellungen")
+        // Picks up an admins document created while the app was running (by
+        // the console or scripts/grant-admin.mjs), so the account section
+        // shows "Administrator" without a restart.
+        .onAppear { modelFB.checkAdminStatus() }
         .overlay {
             if isDeletingAccount {
                 ProgressView("Konto wird gelöscht …")
@@ -212,7 +216,9 @@ struct SettingsView: View {
             } label: {
                 LabeledContent(
                     "KI-Analyse beim Rezeptimport",
-                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nur lokal"
+                    value: cloudRecipeAnalysisConsent
+                        ? String(localized: "Zugelassen", bundle: AppSettings.localizationBundle)
+                        : String(localized: "Nur lokal", bundle: AppSettings.localizationBundle)
                 )
             }
 
@@ -405,7 +411,9 @@ struct RecipeAIPrivacyView: View {
             Section("Einwilligung und Widerruf") {
                 LabeledContent(
                     "Cloud-KI",
-                    value: cloudRecipeAnalysisConsent ? "Zugelassen" : "Nicht zugelassen"
+                    value: cloudRecipeAnalysisConsent
+                        ? String(localized: "Zugelassen", bundle: AppSettings.localizationBundle)
+                        : String(localized: "Nicht zugelassen", bundle: AppSettings.localizationBundle)
                 )
 
                 if cloudRecipeAnalysisConsent {

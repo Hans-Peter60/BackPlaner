@@ -198,6 +198,8 @@ Die beiden unterscheiden sich also in der Reichweite: **Blockieren wirkt lokal, 
 
 Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
 
+**Gemeldete Rezepte** bleiben für Administratoren in der Liste sichtbar, während sie für alle anderen ausgeblendet sind. Unten im Tab **Details** steht dann „Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.“ Ist die Meldung berechtigt, löschst Du das Rezept. Ist sie es nicht, macht **„Rezept wieder freigeben“** es sofort wieder für alle sichtbar.
+
 ---
 
 ## 6. Eigene Rezepte
@@ -260,7 +262,7 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 |---------|----------|
 | **Dauer ändern** | Schalter. Aktiv erscheint pro Schritt ein Eingabefeld „Dauer [Min]“. |
 | **Starten ab / Fertig bis** | Legt fest, wie das Datum unten interpretiert wird. Auf dem iPhone im Hochformat abgekürzt als **Ab / Bis**. |
-| **Datum und Uhrzeit** | Der Bezugszeitpunkt der Planung. |
+| **Datum und Uhrzeit** | Der Bezugszeitpunkt der Planung, wählbar von heute bis ein Jahr im Voraus. |
 
 **Starten ab** bedeutet: Ich fange zu diesem Zeitpunkt an – wann bin ich fertig?
 **Fertig bis** bedeutet: Ich will zu diesem Zeitpunkt fertig sein – wann muss ich anfangen? Die Spalte „Beginn“ rechnet dann rückwärts.
@@ -636,7 +638,7 @@ Die App filtert bewusst:
 
 ![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht und Eigene Einheiten, Backplanung mit Vorheizzeit, Backpause, Tagesbeginn und Tagesende; darunter beginnt Moderation](images/einstellungen.png)
 
-*Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Moderation und Konto.*
+*Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 
 ### Allgemein
 
@@ -667,6 +669,17 @@ Die App filtert bewusst:
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
 
 > **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
+
+### Datenschutz & KI
+
+Hier steht, ob die **geschützte Cloud-KI** beim Rezeptimport benutzt werden darf (siehe [Kapitel 8](#8-neues-rezept-anlegen)).
+
+| Eintrag | Wirkung |
+|---------|---------|
+| **KI-Analyse beim Rezeptimport** | **Zugelassen**, wenn Du der Cloud-KI zugestimmt hast, sonst **Nur lokal**. Ein Tippen öffnet die Seite **Datenschutz bei KI**. |
+| **Einwilligung zur Cloud-KI widerrufen** | Erscheint nur nach einer Einwilligung. Nimmt sie zurück und stellt die Analyseart auf „Nur auf diesem Gerät“. |
+
+Die Seite **Datenschutz bei KI** erklärt, welche Daten eine Cloud-Analyse überträgt, an wen, wozu und was davon gespeichert bleibt (Kurzfassung in [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Auch dort lässt sich die Einwilligung widerrufen. Erteilt wird sie nur beim Import selbst, nachdem die App die Übertragung erklärt hat. Ein Widerruf gilt für alle künftigen Analysen; bereits abgeschlossene bleiben davon unberührt.
 
 ### Konto
 
@@ -810,6 +823,7 @@ Die Portionsgröße wirkt auf Gesamtzutaten, Komponenten-Zutatenlisten und das a
 - **Öffentliche Rezepte** liegen in der gemeinsamen Cloud-Datenbank und sind für alle Nutzer der App sichtbar.
 - **Private Cloud-Rezepte** liegen ebenfalls in der Cloud, aber in einem getrennten Bereich, den nur ihr Autor lesen darf – das wird serverseitig erzwungen, nicht bloß in der App ausgeblendet. Auch die Bilder liegen getrennt und sind nur für Dich abrufbar.
 - **Übersetzungen** entstehen auf dem Gerät.
+- **Rezeptimport:** Mit „Nur auf diesem Gerät“ bleiben Bilder und Seitentext auf dem Gerät. Nur wenn Du der **geschützten Cloud-KI** zugestimmt hast, gehen die gewählten Bilder bzw. der Rezepttext und die Adresse einer Internetseite verschlüsselt über eine Firebase-Funktion von BackPlaner (Region europe-west1) an Google Vertex AI (Gemini, Standort EU). Dort werden sie nur für den Rezeptentwurf verarbeitet und nicht gespeichert. Gespeichert bleibt allein ein Zähler für die stündliche Nutzungsbegrenzung mit Deiner pseudonymen Kennung. Widerrufen kannst Du die Einwilligung unter *Einstellungen → Datenschutz & KI*.
 - Die App verwendet eine anonyme Kennung, damit Du eigene öffentliche Rezepte löschen kannst und andere Nutzer Autoren blockieren können. Ein Benutzerkonto ist für das Backen nicht erforderlich. Eine Anmeldung mit Apple brauchst Du nur für private Cloud-Rezepte und für Moderationsrechte; dabei werden weder Name noch E-Mail-Adresse abgefragt.
 - **Dein Konto kannst Du jederzeit selbst löschen** – Einstellungen → Konto → „Konto löschen“. Details in [Kapitel 14](#14-einstellungen).
 

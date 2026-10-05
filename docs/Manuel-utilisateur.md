@@ -88,9 +88,9 @@ Appartient toujours à un composant. Il comprend un numéro, une quantité, une 
 Une instruction de travail avec un numéro d’étape et une durée en minutes. Le numéro d’étape est un nombre décimal et a une signification particulière :
 
 - **Les nombres entiers (1, 2, 3…) sont les étapes principales.** Elles se succèdent dans le temps.
-- **Les décimales (2.1, 2.2, 2.3) sont des étapes parallèles au sein d’une étape principale.** Elles démarrent toutes en même temps ; seule la durée *la plus longue* du groupe compte pour la durée totale.
+- **Les décimales (2.1, 2.2, 2.3) sont des étapes parallèles au sein d’une étape principale.** Elles se déroulent en même temps ; seule la durée *la plus longue* du groupe compte pour la durée totale. Les étapes qui préparent un composant (levain, pré-pâte, trempage …) démarrent à 5 minutes d’intervalle, dans l’ordre de leurs numéros : personne ne pèse quatre pré-pâtes à la même minute, et les rappels arrivent décalés d’autant. Toutes les autres étapes parallèles se terminent en même temps que leur groupe.
 
-Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2 h), attribuez-leur les étapes 1.1 et 1.2. L’étape principale suivante, 2, commence après 12 heures et non après 14.
+Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2 h), attribuez-leur les étapes 1.1 et 1.2. L’étape principale suivante, 2, commence après un peu plus de 12 heures et non après 14.
 
 **Taille de portion**
 Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché.
@@ -199,7 +199,9 @@ Les deux diffèrent donc par leur portée : **bloquer agit localement, signaler 
 
 ### Fonction d’administrateur
 
-Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), l’onglet **Détails** propose en plus **Supprimer la recette (admin)**. Cela permet de retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Un administrateur n’a aucun accès aux recettes **privées** des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
+Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Un administrateur n’a aucun accès aux recettes **privées** des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
+
+**Les recettes signalées** restent visibles dans la liste pour les administrateurs, alors qu’elles sont masquées pour tous les autres. En bas de l’onglet **Détails** apparaît alors « Cette recette a été signalée et est masquée pour tous les autres utilisateurs. » Si le signalement est fondé, supprimez la recette. S’il ne l’est pas, **Réafficher la recette** la rend aussitôt de nouveau visible pour tous.
 
 ---
 
@@ -263,7 +265,7 @@ C’est le cœur de l’app. La structure est la même pour vos recettes et pour
 |---------|----------|
 | **Modifier la durée** | Un commutateur. Actif, il fait apparaître un champ « Durée [min] » pour chaque étape. |
 | **Commencer à / Terminé pour** | Détermine comment la date ci-dessous est interprétée. Abrégé sur iPhone en portrait. |
-| **Date et heure** | Le point de référence de la planification. |
+| **Date et heure** | Le point de référence de la planification, au choix entre aujourd’hui et un an plus tard. |
 
 **Commencer à** signifie : je commence à ce moment — quand aurai-je terminé ?
 **Terminé pour** signifie : je veux avoir terminé à ce moment — quand dois-je commencer ? La colonne « Début » calcule alors à rebours.
@@ -285,13 +287,13 @@ Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure c
 | Signe | Signification |
 |-------|---------------|
 | ⚠️ orange | **Remarque.** Le plan fonctionne, mais vous devriez le savoir. |
-| ⛔️ rouge | **Erreur.** Deux cuissons se chevaucheraient dans le four. |
+| ⛔️ rouge | **Erreur.** Plus de cuissons se dérouleraient en même temps que vous n’avez de fours. |
 
 Trois points sont vérifiés :
 
 - **Étapes en dehors de votre journée.** Si une étape tombe avant le **début de journée** ou après la **fin de journée** définis dans les Réglages, elle est nommée : « “Rabattre la pâte” commence le 11/09/26 à 03:07, soit avant le début de journée (06:00). » Avec de longues fermentations, c’est normal et il n’y a pas lieu de s’inquiéter — cela vous montre simplement pourquoi il faudrait vous lever la nuit.
-- **Temps de cuisson qui se chevauchent.** Si une autre recette occupe le four sur la même période, c’est une erreur : deux pains ne tiennent pas en même temps à deux températures différentes.
-- **Pause de cuisson trop courte.** S’il s’écoule entre deux cuissons moins de temps que la **pause de cuisson** réglée, une remarque apparaît. Le four a besoin de ce temps pour changer de température.
+- **Temps de cuisson qui se chevauchent.** Chaque four accueille une cuisson à la fois. Avec un seul four (par défaut), tout chevauchement avec une autre recette planifiée est une erreur : deux pains ne tiennent pas en même temps à deux températures différentes. Si vous avez indiqué plusieurs **Fours** dans les Réglages, autant de cuissons peuvent se dérouler en parallèle. Un chevauchement qui tient encore dans un four libre n’est alors signalé que comme remarque (« … et nécessite donc un four supplémentaire ») ; seule la cuisson pour laquelle aucun four n’est plus libre est une erreur.
+- **Pause de cuisson trop courte.** S’il s’écoule entre deux cuissons dans le même four moins de temps que la **pause de cuisson** réglée, une remarque apparaît. Le four a besoin de ce temps pour changer de température. Avec plusieurs fours, la remarque disparaît tant qu’un autre four est libre pendant ce temps — le pain va simplement dans le four froid.
 
 Les remarques n’empêchent rien — vous pouvez définir le plan quand même. Elles vous épargnent seulement la surprise à trois heures du matin.
 
@@ -340,7 +342,7 @@ Tout en haut : **Importer une recette à partir d’images**. Cela permet de lir
 4. L’app affiche ensuite un **récapitulatif** : nom reconnu, nombre de composants, d’ingrédients et d’étapes, ainsi que les composants reconnus avec leurs ingrédients et la planification détectée.
 5. **Vérifier les données dans le formulaire de recette** reprend le tout dans le formulaire habituel. **Sélectionner d’autres images** recommence.
 
-L’app lit les images avec chacun des types de source qu’elle connaît et retient le résultat qui correspond aux indications de la page ; via **Type de source**, vous pouvez aussi en imposer un. Des photos droites et bien lisibles donnent les meilleurs résultats.
+L’app lit les images avec chacun des types de source qu’elle connaît et retient le résultat qui correspond aux indications de la page. Des photos droites et bien lisibles donnent les meilleurs résultats.
 
 #### Choisir le nom vous-même
 
@@ -355,6 +357,35 @@ Quelle ligne constitue le titre ne se devine pas toujours : un logo, un en-tête
 
 Vérifiez ensuite impérativement **les quantités, les unités, les températures et les durées** — rien n’est enregistré avant que vous ne choisissiez « Enregistrer la recette » dans le formulaire.
 
+#### Mode d’analyse : IA cloud protégée ou sur cet appareil uniquement
+
+Au-dessus de la sélection d’images, vous choisissez comment les pages sont analysées :
+
+- **IA cloud protégée** — les images sont envoyées de manière chiffrée via le serveur BackPlaner à Google Vertex AI (Gemini), qui les structure. Cela donne en général les résultats les plus complets, y compris pour des composants comme la pré-pâte et le levain. Avant la première utilisation, l’app explique le transfert de données et vous demande votre consentement ; vous pouvez le retirer sous Réglages › Confidentialité et IA.
+- **Sur cet appareil uniquement** — rien ne quitte l’appareil. Selon la disponibilité, l’app utilise Apple Intelligence ou la reconnaissance de texte locale ; la reconnaissance peut être moins précise.
+
+L’app retient ce choix pour les deux voies d’importation.
+
+### Importer une recette depuis une page web
+
+Juste en dessous : **Importer une recette depuis une page web**. BakePlanner lit ainsi une recette directement sur une page de recette en ligne, par exemple un blog de boulangerie.
+
+1. **Coller l’adresse** : copiez l’adresse de la page de recette dans Safari et collez-la avec le bouton Coller à côté du champ, ou saisissez-la. « https:// » peut être omis ; l’app le complète.
+
+   **Plus rapide, directement depuis Safari :** sur la page de recette, touchez **Partager** et choisissez **BakePlanner**. Une petite feuille affiche la page ; **Importer** bascule vers BakePlanner, où l’adresse est déjà renseignée et l’analyse démarre d’elle-même. Cela fonctionne depuis n’importe quel navigateur et depuis toute app qui partage une adresse Internet. Si BakePlanner n’apparaît pas dans la rangée d’apps, touchez **Plus** et activez-y BakePlanner.
+2. Choisissez le **mode d’analyse** comme pour l’import d’images. Avec « Sur cet appareil uniquement », le texte de la page n’est pas transmis ; sans Apple Intelligence, l’app ne reprend alors que les données de recette structurées fournies par la page elle-même.
+3. **Charger et analyser la page** charge la page sur l’appareil, en extrait les données de recette et le texte visible, et les transmet à l’analyse choisie. La photo de la recette est reprise elle aussi.
+4. Le même **récapitulatif** que pour l’import d’images apparaît ensuite ; à la place du type de source reconnu, il indique la source (l’adresse web). **Charger une autre page** recommence.
+5. **Vérifier les données dans le formulaire de recette** reprend le tout dans le formulaire. L’adresse de la page est automatiquement placée dans le champ « Lien URL » de la recette.
+
+**Ce qui fonctionne bien :** la plupart des pages de recettes et des blogs de boulangerie fournissent des données de recette structurées ; les ingrédients et les étapes sont alors presque toujours justes. L’IA cloud sépare aussi pré-pâte, levain et pâte principale en composants distincts.
+
+**Numéros d’étape :** les composants qui entrent dans la pâte principale (levain, pré-pâtes, trempages et ébouillantages) sont regroupés par l’import chacun en une étape parallèle 1.1, 1.2, 1.3 … couvrant la préparation et la maturation. Les étapes de la pâte principale suivent en 2, 3, 4 …. Une recette avec quatre pré-pâtes pour la nuit dure ainsi douze heures et non deux jours. Les pré-pâtes sont lancées à cinq minutes d’intervalle dans le plan ; les premières reçoivent une durée allongée d’autant, afin que toutes soient prêtes ensemble pour la pâte principale. Les étapes sans durée reconnue reçoivent une minute.
+
+**Ce qui ne fonctionne pas :** les pages derrière une connexion, un mur payant ou un simple bandeau de cookies ne livrent pas de texte lisible, et certains sites bloquent la récupération par les apps. BakePlanner affiche alors « Importation impossible » avec le motif. Dans ce cas, l’import d’images à partir d’une capture d’écran de la page aide.
+
+> **Droit d’auteur :** pour votre usage personnel, vous pouvez importer n’importe quelle recette. C’est pourquoi l’emplacement est d’abord réglé sur « Local ». Ne publiez les recettes d’autrui qu’avec l’autorisation de leurs auteurs.
+
 ### Emplacement : local, privé dans le cloud ou public
 
 Dans la section **Enregistrer**, vous choisissez entre les trois emplacements (voir aussi le tableau du [chapitre 3](#3-notions-de-base)). Une phrase sous chaque choix explique ce qu’il implique. La valeur par défaut vient des Réglages (Emplacement par défaut).
@@ -363,7 +394,7 @@ Dans la section **Enregistrer**, vous choisissez entre les trois emplacements (v
 - **Privé** — la recette est enregistrée dans la base de recettes mais n’est visible que par vous. Cela exige une **connexion avec Apple** ; si vous n’êtes pas connecté, la feuille « Connexion requise » apparaît d’abord, puis l’enregistrement se poursuit. Avant cela, l’app signale qu’une recette dans la base ne pourra plus être modifiée après l’enregistrement.
 - **Public** — la recette devient visible par tous. Auparavant apparaît l’avertissement : **« Une recette publique ne peut plus être modifiée après son enregistrement. »** La première fois, vous devez en outre accepter les conditions d’utilisation (voir [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)). Pour les recettes privées, elles ne sont pas exigées — vous ne partagez rien.
 
-Lors d’un import depuis des images, l’emplacement est toujours réglé sur « Local » au départ. L’icône du bouton « Enregistrer la recette » change avec le choix.
+Lors d’un import depuis des images ou une page web, l’emplacement est toujours réglé sur « Local » au départ. L’icône du bouton « Enregistrer la recette » change avec le choix.
 
 ### Image de la recette
 
@@ -610,7 +641,7 @@ L’app filtre volontairement :
 
 ![Réglages de BakePlanner : Général avec langue et emplacement par défaut, Recettes avec taille de portion par défaut, vue détaillée et unités personnalisées, Planification de cuisson avec temps de préchauffage, pause de cuisson, début et fin de journée ; la Modération commence en dessous](images/fr/einstellungen.png)
 
-*Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Modération et Compte suivent plus bas.*
+*Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
 ### Général
 
@@ -634,19 +665,31 @@ L’app filtre volontairement :
 |---------|-------------|
 | **Temps de préchauffage** | 0 à 120 minutes par pas de 5. Utilisé lors de la définition des rappels, pour placer l’étape automatique « allumer le four » avant la dernière étape. Par défaut : 15 minutes. |
 | **Pause de cuisson** | 0 à 120 minutes. Écart minimal entre deux cuissons dans le même four. Par défaut : 10 minutes. |
+| **Fours** | 1 à 6. Nombre de cuissons pouvant se dérouler en même temps. Le contrôle du plan ne signale une erreur que si plus de recettes cuisent en même temps qu’il n’y a de fours ; la pause de cuisson s’applique par four. Par défaut : 1. |
 | **Début de journée** | 0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h. |
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
 | **Lecture vocale en mode cuisson** | Affiche ou masque le bouton « Lire à voix haute » du mode cuisson. Par défaut : activé. |
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 
-> **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si deux cuissons se télescopent (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+> **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+
+### Confidentialité et IA
+
+Ici figure si l’**IA cloud protégée** peut être utilisée lors de l’importation de recettes (voir [chapitre 8](#8-créer-une-nouvelle-recette)).
+
+| Entrée | Effet |
+|--------|-------|
+| **Analyse IA à l’importation de recettes** | **Autorisée** si vous avez consenti à l’IA cloud, sinon **Local uniquement**. Un toucher ouvre la page **Confidentialité de l’IA**. |
+| **Retirer le consentement à l’IA cloud** | N’apparaît qu’après un consentement. Le retire et règle le mode d’analyse sur « Sur cet appareil uniquement ». |
+
+La page **Confidentialité de l’IA** explique quelles données une analyse cloud transmet, à qui, dans quel but et ce qui en reste enregistré (résumé au [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)). Vous pouvez aussi y retirer votre consentement. Celui-ci n’est donné que lors d’une importation, après que l’app a expliqué le transfert. Le retrait vaut pour toutes les analyses futures ; les analyses déjà effectuées ne sont pas concernées.
 
 ### Compte
 
 C’est ici que vous vous connectez avec Apple. La connexion sert à deux choses :
 
 - **Les recettes privées dans le cloud.** Elles sont liées à votre compte Apple. C’est le seul moyen qu’elles restent accessibles après une réinstallation ou sur un deuxième appareil — un identifiant anonyme disparaît avec l’app.
-- **Les droits de modération.** Si votre identifiant y a été autorisé, la mention **Administrateur** apparaît en plus, et les recettes publiques affichent le bouton « Supprimer la recette (admin) ».
+- **Les droits de modération.** Si votre identifiant y a été autorisé, la mention **Administrateur** apparaît en plus, et les recettes publiques peuvent être supprimées — via le menu ⋯, l’onglet Détails ou un balayage dans la base de recettes.
 
 **Ni votre nom ni votre adresse e-mail ne sont demandés** — l’app n’a besoin que de l’identifiant lui-même. Si votre utilisation était anonyme jusque-là, elle est conservée à la connexion : les recettes déjà publiées depuis cet appareil vous appartiennent toujours ensuite.
 
@@ -785,6 +828,7 @@ La taille de portion agit sur le total des ingrédients, sur les listes d’ingr
 - **Les recettes publiques** se trouvent dans la base cloud commune et sont visibles par tous les utilisateurs de l’app.
 - **Les recettes privées dans le cloud** se trouvent également dans le cloud, mais dans un espace séparé que seul leur auteur peut lire — c’est imposé côté serveur et non simplement masqué dans l’app. Les images sont stockées séparément elles aussi et ne peuvent être récupérées que par vous.
 - **Les traductions** sont produites sur l’appareil.
+- **Importation de recettes :** avec « Sur cet appareil uniquement », les images et le texte des pages restent sur l’appareil. Ce n’est que si vous avez consenti à l’**IA cloud protégée** que les images choisies, ou le texte de recette et l’adresse d’une page web, sont envoyés de manière chiffrée via une fonction Firebase de BackPlaner (région europe-west1) à Google Vertex AI (Gemini, site UE). Ils y sont traités uniquement pour créer le brouillon de recette et ne sont pas enregistrés. Seul un compteur servant à la limitation d’utilisation horaire reste enregistré avec votre identifiant pseudonyme. Vous pouvez retirer votre consentement sous *Réglages → Confidentialité et IA*.
 - L’app utilise un identifiant anonyme afin que vous puissiez supprimer vos propres recettes publiques et que d’autres utilisateurs puissent bloquer des auteurs. Un compte utilisateur n’est pas nécessaire pour cuisiner. Une connexion avec Apple n’est requise que pour les recettes privées dans le cloud et pour les droits de modération ; ni votre nom ni votre adresse e-mail ne sont demandés à cette occasion.
 - **Vous pouvez supprimer votre compte vous-même à tout moment** — Réglages → Compte → « Supprimer le compte ». Détails au [chapitre 14](#14-réglages).
 
@@ -865,6 +909,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - Les étapes planifiées sont rattachées aux recettes par le **nom de la recette**. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.
 - **Les rappels n’atteignent l’Apple Watch que depuis un iPhone.** Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.
 - **L’import depuis des images** lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.
+- **L’import depuis une page web** ne lit que ce qu’une page livre à une app sans connexion. Les pages derrière un mur payant, une connexion ou un consentement obligatoire aux cookies, ainsi que les sites qui bloquent la récupération par les apps, ne peuvent pas être lus. Sans l’IA cloud et sans Apple Intelligence, seules les données de recette structurées de la page sont reprises ; pré-pâte et pâte principale se retrouvent alors souvent dans un même composant.
 - **Ce sont les textes qui sont traduits, pas les unités** — c’est voulu, afin que le calcul des quantités reste valable.
 - **Les noms d’unités n’existent qu’en allemand.** Ils proviennent d’un fichier de données fourni avec l’app et non de ses traductions ; le menu des unités affiche donc des noms et des abréviations allemands dans toutes les langues.
 - **Il n’existe pas d’export.** Vos recettes se synchronisent certes via iCloud (voir [chapitre 2](#2-configuration-requise)), mais elles ne peuvent pas être sauvegardées sous forme de fichier ni transmises à quelqu’un d’autre. Au-delà d’iCloud, la seule voie de sauvegarde reste la base de recettes — en privé, si vous ne voulez pas partager.

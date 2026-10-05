@@ -60,10 +60,26 @@ struct GlobalVariables {
 
     static var totalDuration  = 0
     static var dateTimePicker = Date()
-    static var dateComponents = Calendar.current.dateComponents(in: .current, from: Date())
-    static var year           = dateComponents.year
-    static var month          = dateComponents.month
-    static var day            = dateComponents.day
+
+    /// The span a date picker offers, counted from the start of the day `now`
+    /// falls on. Worked out on every call rather than from a date captured at
+    /// launch, so an app left running past midnight does not keep offering
+    /// yesterday. Falls back to the day itself where the calendar cannot add
+    /// the offset, instead of trapping.
+    nonisolated static func dateRange(from start: DateComponents = DateComponents(),
+                                      to end: DateComponents,
+                                      around now: Date = Date(),
+                                      calendar: Calendar = .current) -> ClosedRange<Date> {
+        let today = calendar.startOfDay(for: now)
+        let lower = calendar.date(byAdding: start, to: today) ?? today
+        let upper = calendar.date(byAdding: end, to: today) ?? today
+        return min(lower, upper) ... max(lower, upper)
+    }
+
+    /// Today until the same day next year, the window for planning a bake.
+    nonisolated static func planningDateRange(around now: Date = Date()) -> ClosedRange<Date> {
+        dateRange(to: DateComponents(year: 1), around: now)
+    }
     
     static var specialWeights = ["mehl":0.66, "wasser":1.0, "öl":0.8, "oel":0.8, "honig":1.3, "kakao":0.6, "konfitüre":1.33, "konfituere":1.33, "stärke":0.6, "staerke":0.6, "zucker":1.0, "puderzucker":0.6, "nüsse":0.5, "nuesse":0.5, "mandeln":0.5, "saft":1.0, "milch":1.0, "butter":1.0, "griess":0.5 ]
 
