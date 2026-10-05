@@ -29,7 +29,10 @@ Schlägt **„String catalogs“** fehl, hat ein neuer Text keine englische oder
 
 Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodeproj/xcshareddata/xcodecloud/manifest.json`). Es fehlt nur ein Workflow, der bei Pull Requests testet.
 
-1. In Xcode: **Product → Xcode Cloud → Manage Workflows…**
+1. Die Workflow-Verwaltung öffnen, je nach Xcode-Version an einer dieser Stellen:
+   - Menü **Integrate → Manage Workflows…** (oder **Create Workflow…**, solange es noch keinen gibt),
+   - Report-Navigator (**⌘9**) → Reiter **Cloud** → Rechtsklick auf das Produkt → **Manage Workflows…**,
+   - im Browser: **App Store Connect → Apps → BakePlanner → Xcode Cloud → Manage Workflows**.
 2. Einen neuen Workflow anlegen (**+**) oder den vorhandenen „Default“-Workflow bearbeiten. Name zum Beispiel **„Pull-Request-Tests“**.
 3. **General:** Haken bei **„Restrict Editing“** nach Belieben. Unter **Repository** muss `Hans-Peter60/BackPlaner` stehen. Fragt Xcode nach Zugriff auf GitHub, die Xcode-Cloud-App für das Repository erlauben.
 4. **Environment:** Xcode-Version **„Latest Release“** (sie muss das iOS-27-SDK enthalten), macOS **„Latest“**.
