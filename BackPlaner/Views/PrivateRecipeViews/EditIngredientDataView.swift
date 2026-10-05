@@ -193,7 +193,9 @@ struct IngredientRowView: View {
             
             Text(String(ingredient.number))
             if ingredient.weight > 0 { Text(String(ingredient.weight)) } else { Text(verbatim: "") }
-            Text(ingredient.unit ?? "")
+            Text(UnitLocalizer.display(ingredient.unit ?? "",
+                                       amount: ingredient.weight > 0 ? ingredient.weight
+                                           : (ingredient.denom != 0 ? Double(ingredient.num) / Double(ingredient.denom) : 0)))
             Text(ingredient.name)
             
             if ingredient.num == ingredient.denom {

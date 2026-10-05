@@ -67,6 +67,7 @@
 		6A5549C21D7D7E146EEC2D5B /* TwoColumnRecipeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */; };
 		6A9C917188A1BEC63D808DF4 /* GeneralRecipeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */; };
 		6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */; };
+		6AB1EF22E2EAA77F7EB4D433 /* UnitLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A594020A96F493A2307665F /* UnitLocalizer.swift */; };
 		6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */; };
 		6A895D19304BC2EA00603AA5 /* AdaptiveLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */; };
 		6A9181F1304961530045D7CB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9181F0304961530045D7CB /* Localizable.xcstrings */; };
@@ -230,6 +231,7 @@
 		6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoColumnRecipeParser.swift; sourceTree = "<group>"; };
 		6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralRecipeParser.swift; sourceTree = "<group>"; };
 		6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSupport.swift; sourceTree = "<group>"; };
+		6A594020A96F493A2307665F /* UnitLocalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitLocalizer.swift; sourceTree = "<group>"; };
 		6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageImportView.swift; sourceTree = "<group>"; };
 		6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveLayout.swift; sourceTree = "<group>"; };
 		6A9181EF304961530045D7CB /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */,
 				6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */,
 				6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */,
+				6A594020A96F493A2307665F /* UnitLocalizer.swift */,
 				6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */,
 				6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */,
 				6AA6703A30519DDF0074C7E6 /* ShoppingListAmount.swift */,
@@ -891,6 +894,7 @@
 				6A5549C21D7D7E146EEC2D5B /* TwoColumnRecipeParser.swift in Sources */,
 				6A9C917188A1BEC63D808DF4 /* GeneralRecipeParser.swift in Sources */,
 				6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */,
+				6AB1EF22E2EAA77F7EB4D433 /* UnitLocalizer.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,

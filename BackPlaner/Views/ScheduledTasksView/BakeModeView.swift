@@ -349,11 +349,13 @@ struct BakeModeView: View {
                 component.name
             )
             let lines = component.ingredients.map { ingredient in
+                // Spelled out: "TL" or "tsp" read aloud is just letters.
                 Rational.getPortion(unit: ingredient.unit,
                                     weight: ingredient.weight,
                                     num: ingredient.numerator,
                                     denom: ingredient.denominator,
-                                    targetServings: AppSettings.storedServingSize)
+                                    targetServings: AppSettings.storedServingSize,
+                                    unitStyle: .name)
                     + ingredient.name
             }
             parts.append(heading)

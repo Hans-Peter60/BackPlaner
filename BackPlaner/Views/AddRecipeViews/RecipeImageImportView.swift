@@ -489,7 +489,7 @@ struct RecipeImportConfirmationView: View {
 
     private func ingredientDescription(_ ingredient: IngredientFB) -> String {
         let amount = ingredient.weight.formatted(.number.precision(.fractionLength(0...2)))
-        return [amount, ingredient.unit, ingredient.name]
+        return [amount, UnitLocalizer.display(ingredient.unit, amount: ingredient.weight), ingredient.name]
             .filter { !$0.isEmpty && $0 != "0" }
             .joined(separator: " ")
     }

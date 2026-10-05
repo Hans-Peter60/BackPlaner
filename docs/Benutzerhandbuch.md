@@ -162,7 +162,7 @@ Oben rechts findest Du das **Globus-Symbol**. Darüber wählst Du Deutsch, Engli
 
 Hinweise:
 
-- **Einheiten werden absichtlich nicht übersetzt**, damit die Mengenberechnung weiter funktioniert.
+- **Einheiten** übersetzt die Rezeptübersetzung nicht. Die App zeigt sie ohnehin in der eingestellten Sprache an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 - Die erste Übersetzung einer Sprache dauert einen Moment (Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
 - Beim ersten Öffnen zeigt die App das Rezept automatisch in Deiner Sprache, wenn dafür schon eine Übersetzung vorliegt.
 - **Das Original wird nie überschrieben.** Als Original gilt die Sprache, in der das Rezept geschrieben ist – nicht die Sprache, auf die Deine App eingestellt war. Die App liest das am Rezepttext ab, sodass ein französisches Rezept auch dann als französisches Original geführt wird, wenn es jemand in einer deutschsprachigen App eingegeben hat.
@@ -749,10 +749,14 @@ Die Einheit wählst Du über ein **Auswahlmenü** (Kurzform – Langform). Einti
 
 Steht in einem importierten oder aus der Datenbank übernommenen Rezept eine Einheit, die die App nicht kennt, zeigt das Feld ein **Warndreieck** und einen roten Rahmen. Dann fehlt die Umrechnung, und diese Zutat geht nicht ins Gesamtgewicht ein.
 
+**In anderen Sprachen.** Gespeichert wird immer das deutsche Kürzel aus der Tabelle unten. Auf Englisch und Französisch zeigt die App dafür eigene Kürzel und Namen, etwa „tsp“ und „c. à c.“ für TL, „tbsp“ und „c. à s.“ für EL oder „cup“ und „tasse“ für Tas, mit Plural („2 cups“). Die Rezepte selbst ändern sich dabei nicht: Ein Wechsel der Sprache wirkt sofort auf alle Rezepte, auch auf öffentliche anderer Autoren.
+
+**Beim Import** aus Bildern oder von einer Internetseite stellt die App englische und französische Einheiten auf die eigenen um: „tsp“, „teaspoon“ und „c. à c.“ werden TL, „tbsp“ und „c. à s.“ werden EL, „cup“ wird Tas, „pinch“ und „pincée“ werden Pr und so fort. Pfund- und Unzenangaben (lb, oz) rechnet sie gleich in Gramm um, weil das englische Pfund (454 g) nicht das deutsche (500 g) ist. Einheiten, die sie nicht kennt, übernimmt sie unverändert; sie tragen dann das Warndreieck.
+
 **Gewichtsbasiert (Basis Gramm)**
 
 | Kurz | Einheit | entspricht |
-|------|---------|-----------|
+|---|---|---|
 | g | Gramm | 1 g |
 | kg | Kilogramm | 1000 g |
 | mg | Milligramm | 0,001 g |
@@ -761,13 +765,19 @@ Steht in einem importierten oder aus der Datenbank übernommenen Rezept eine Ein
 | Msp | Messerspitze | 0,05 g |
 | Bd | Bund | 10 g |
 | Sc | Scheibe | 25 g |
-| ei | Ei | 50 g |
-| ei(s) / ei(m) / ei(l) / ei(xl) | Ei (S/M/L/XL) | 50 / 60 / 70 / 80 g |
+| Rolle | Rolle | 275 g |
+| Pck | Päckchen | 11 g |
+| Handvoll | Handvoll | 25 g |
+| ei | Ei | 60 g |
+| ei(s) | Ei, Größe S | 50 g |
+| ei(m) | Ei, Größe M | 60 g |
+| ei(l) | Ei, Größe L | 70 g |
+| ei(xl) | Ei, Größe XL | 80 g |
 
 **Volumenbasiert (Basis Milliliter)**
 
 | Kurz | Einheit | entspricht |
-|------|---------|-----------|
+|---|---|---|
 | ml | Milliliter | 1 ml |
 | cl | Zentiliter | 10 ml |
 | dl | Deziliter | 100 ml |
@@ -780,9 +790,15 @@ Steht in einem importierten oder aus der Datenbank übernommenen Rezept eine Ein
 | Sp | Spritzer | 0,27 ml |
 | Tr | Tropfen | 0,067 ml |
 
+**Gezählt**
+
+| Kurz | Einheit | entspricht |
+|---|---|---|
+| St | Stück | gezählt |
+
 ### Eigene Einheiten
 
-Fehlt eine Einheit – „Becher“, oder die „cups“, die ein englisches Rezept über den Bildimport mitbringt – legst Du sie selbst an: **Einstellungen → Rezepte → Eigene Einheiten**.
+Fehlt eine Einheit – etwa „Becher“ oder „Würfel“ für Hefe – legst Du sie selbst an: **Einstellungen → Rezepte → Eigene Einheiten**.
 
 | Feld | Bedeutung |
 |------|-----------|
@@ -905,7 +921,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Reminder setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
 - **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente.
-- **Übersetzt werden Texte, keine Einheiten** – das ist beabsichtigt, damit die Mengenberechnung erhalten bleibt.
+- **Eigene Einheiten erscheinen in jeder Sprache so, wie Du sie angelegt hast.** Übersetzt werden nur die mitgelieferten.
 - **Es gibt keinen Export.** Eigene Rezepte synchronisieren zwar über iCloud (siehe [Kapitel 2](#2-systemvoraussetzungen)), lassen sich aber nicht als Datei sichern oder an andere weitergeben. Als Sicherung über die iCloud hinaus bleibt nur der Weg in die Rezept-Datenbank – privat, wenn Du nicht teilen willst.
 - **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.
 - **Eigene Einheiten gelten nur auf dem Gerät, auf dem Du sie angelegt hast.** Sie werden nicht über iCloud abgeglichen. Ein Rezept, das eine solche Einheit verwendet, zeigt auf einem anderen Gerät das Warndreieck, bis Du sie dort ebenfalls anlegst.

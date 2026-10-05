@@ -18,7 +18,7 @@ struct UnitSelectionView: View {
 
     private var title: String {
         if let selectedUnit {
-            return selectedUnit.abbreviation
+            return UnitLocalizer.display(selectedUnit.abbreviation)
         }
 
         let cleanedUnit = unit.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -80,12 +80,17 @@ struct UnitSelectionView: View {
     static func matchingUnit(for unit: String) -> UnitSetFB? {
         let cleanedUnit = unit.trimmingCharacters(in: .whitespacesAndNewlines).localizedLowercase
 
-        return GlobalVariables.unitSets.first { unitSet in
+        let direct = GlobalVariables.unitSets.first { unitSet in
             cleanedUnit == unitSet.name.localizedLowercase || cleanedUnit == unitSet.abbreviation.localizedLowercase
         }
+        if let direct { return direct }
+
+        // An English or French spelling an older import stored as it came.
+        guard let abbreviation = UnitLocalizer.canonicalAbbreviation(for: unit) else { return nil }
+        return GlobalVariables.unitSets.first { $0.abbreviation == abbreviation }
     }
 
     private static func displayName(for unitSet: UnitSetFB) -> String {
-        "\(unitSet.abbreviation) - \(unitSet.name)"
+        UnitLocalizer.menuTitle(for: unitSet)
     }
 }

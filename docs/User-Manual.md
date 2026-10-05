@@ -165,7 +165,7 @@ At the top right you'll find the **globe symbol**. Through it you choose Deutsch
 
 Notes:
 
-- **Units are deliberately not translated**, so that the amount calculations keep working.
+- **Units** aren't touched by the recipe translation. The app shows them in its own language anyway (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 - The first translation into a language takes a moment (a progress indicator replaces the globe). After that it's cached and available instantly.
 - On first opening, the app shows the recipe in your language automatically if a translation already exists.
 - **The original is never overwritten.** The original is the language the recipe is written in — not the language your app happened to be set to. The app reads that off the recipe text, so a French recipe is kept as a French original even if someone entered it in a German-language app.
@@ -752,51 +752,65 @@ You choose the unit from a **menu** (abbreviation – full form). You can't type
 
 If a recipe you imported or copied from the database holds a unit the app doesn't know, the field shows a **warning triangle** and a red border. The conversion is then missing, and that ingredient doesn't count towards the total weight.
 
-> **The unit names are German in every language.** They come from a bundled data file rather than from the app's translations, so the menu shows "TL – Teelöffel" even in English. The tables below therefore give the abbreviation and name as they appear on screen, with the English meaning alongside.
+**On screen and in the recipe.** A recipe always stores the German abbreviation (the "Stored as" column); the app shows it in its own language, with plurals ("2 cups"). Recipes don't change when you switch the language, so the switch applies to every recipe at once, including public recipes by other authors.
+
+**On import** from images or a web page, the app turns English and French units into its own: "tsp", "teaspoon", and "c. à c." become tsp, "tbsp" and "c. à s." become tbsp, "cup" becomes cup, "pinch" and "pincée" become pinch, and so on. Pounds and ounces (lb, oz) are converted to grams straight away, because the German pound in the table (500 g) isn't the imperial one (454 g). Units it doesn't know are kept as they are; they then carry the warning triangle.
 
 **Weight-based (base: grams)**
 
-| Abbrev. | Unit on screen | Meaning | Equals |
-|---------|----------------|---------|--------|
-| g | Gramm | gram | 1 g |
-| kg | Kilogramm | kilogram | 1000 g |
-| mg | Milligramm | milligram | 0.001 g |
-| pfd | Pfund | pound (metric, 500 g) | 500 g |
-| Pr | Prise | pinch | 1 g |
-| Msp | Messerspitze | knife tip | 0.05 g |
-| Bd | Bund | bunch | 10 g |
-| Sc | Scheibe | slice | 25 g |
-| ei | Ei | egg | 50 g |
-| ei(s) / ei(m) / ei(l) / ei(xl) | Ei (S/M/L/XL) | egg, by size | 50 / 60 / 70 / 80 g |
+| Abbrev. | Unit | Stored as | Equals |
+|---|---|---|---|
+| g | gram | g | 1 g |
+| kg | kilogram | kg | 1000 g |
+| mg | milligram | mg | 0.001 g |
+| pfd | German pound (500 g) | pfd | 500 g |
+| pinch | pinch | Pr | 1 g |
+| knife tip | knife tip | Msp | 0.05 g |
+| bunch | bunch | Bd | 10 g |
+| slice | slice | Sc | 25 g |
+| roll | roll | Rolle | 275 g |
+| pkt | packet | Pck | 11 g |
+| handful | handful | Handvoll | 25 g |
+| egg | egg | ei | 60 g |
+| egg (S) | egg, size S | ei(s) | 50 g |
+| egg (M) | egg, size M | ei(m) | 60 g |
+| egg (L) | egg, size L | ei(l) | 70 g |
+| egg (XL) | egg, size XL | ei(xl) | 80 g |
 
-**Volume-based (base: millilitres)**
+**Volume-based (base: milliliters)**
 
-| Abbrev. | Unit on screen | Meaning | Equals |
-|---------|----------------|---------|--------|
-| ml | Milliliter | millilitre | 1 ml |
-| cl | Zentiliter | centilitre | 10 ml |
-| dl | Deziliter | decilitre | 100 ml |
-| l | Liter | litre | 1000 ml |
-| mass | Mass | Bavarian litre mug | 1000 ml |
-| TL | Teelöffel | teaspoon | 5 ml |
-| EL | Esslöffel | tablespoon | 15 ml |
-| Tas | Tasse | cup | 200 ml |
-| Ss | Schuss | dash | 10 ml |
-| Sp | Spritzer | splash | 0.27 ml |
-| Tr | Tropfen | drop | 0.067 ml |
+| Abbrev. | Unit | Stored as | Equals |
+|---|---|---|---|
+| ml | milliliter | ml | 1 ml |
+| cl | centiliter | cl | 10 ml |
+| dl | deciliter | dl | 100 ml |
+| l | liter | l | 1000 ml |
+| Mass | Mass (1 l) | mass | 1000 ml |
+| tsp | teaspoon | TL | 5 ml |
+| tbsp | tablespoon | EL | 15 ml |
+| cup | cup | Tas | 200 ml |
+| splash | splash | Ss | 10 ml |
+| dash | dash | Sp | 0.27 ml |
+| drop | drop | Tr | 0.067 ml |
+
+**Counted**
+
+| Abbrev. | Unit | Stored as | Equals |
+|---|---|---|---|
+| pc | piece | St | counted |
 
 ### Custom units
 
-If a unit is missing — "Becher", or the "cups" an English recipe brings in through the image import — you create it yourself: **Settings → Recipes → Custom units**.
+If a unit is missing — a "mug", say, or a cube of yeast — you create it yourself: **Settings → Recipes → Custom units**.
 
 | Field | Meaning |
 |-------|---------|
-| **Name** | The full form, "cup" for instance. |
-| **Abbreviation** | What appears in the menu and in the ingredient lists, "cp" for instance. It has to be unused. |
+| **Name** | The full form, "mug" for instance. |
+| **Abbreviation** | What appears in the menu and in the ingredient lists, "mug" for instance. It has to be unused. |
 | **Measured in** | **grams**, **millilitres**, or **counted**. |
-| **Conversion** | How much one of them holds — around 250 millilitres for a cup. With "counted" the field is dropped. |
+| **Conversion** | How much one of them holds — around 250 millilitres for a mug. With "counted" the field is dropped. |
 
-Why the conversion is mandatory: the total ingredients, the baker's percentages, and the shopping list all depend on it. Without it, "2 cups of flour" would count as 2 grams.
+Why the conversion is mandatory: the total ingredients, the baker's percentages, and the shopping list all depend on it. Without it, "2 mugs of flour" would count as 2 grams.
 
 Your custom units then sit in the menu alongside the bundled ones. To remove one, swipe the entry left or tap **Edit** at the top right. They apply to this device only and aren't synced through iCloud.
 
@@ -910,8 +924,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.
 - **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.
-- **Texts are translated, units aren't** — deliberately, so that the amount calculations survive.
-- **The unit names are only available in German.** They come from a bundled data file, not from the app's translations, so the unit menu shows German names and abbreviations in every language.
+- **Custom units appear in every language as you created them.** Only the bundled ones are translated.
 - **There's no export.** Your own recipes do sync through iCloud (see [chapter 2](#2-system-requirements)), but they can't be saved as a file or passed on to anyone else. Beyond iCloud, the only backup route is the recipe database — privately, if you don't want to share.
 - **Blocked authors** are hidden on the device in question only; on a second device they still appear. A **reported** recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under *Settings → Moderation*.
 - **Custom units only apply on the device where you created them.** They aren't synced through iCloud. A recipe using such a unit shows the warning triangle on another device until you create it there too.

@@ -49,6 +49,2694 @@
         }
       }
     },
+    "unit.Bd" : {
+      "comment" : "Abbreviation of the unit stored as “Bd” (Bund), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bunch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "botte"
+          }
+        }
+      }
+    },
+    "unit.Bd.name" : {
+      "comment" : "Full name of the unit stored as “Bd”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bunch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "botte"
+          }
+        }
+      }
+    },
+    "unit.Bd.name.plural" : {
+      "comment" : "Full name of the unit stored as “Bd”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bunches"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bottes"
+          }
+        }
+      }
+    },
+    "unit.Bd.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Bd” (Bund), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bunches"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bottes"
+          }
+        }
+      }
+    },
+    "unit.cl" : {
+      "comment" : "Abbreviation of the unit stored as “cl” (Zentiliter), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        }
+      }
+    },
+    "unit.cl.name" : {
+      "comment" : "Full name of the unit stored as “cl”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zentiliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "centiliter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "centilitre"
+          }
+        }
+      }
+    },
+    "unit.cl.name.plural" : {
+      "comment" : "Full name of the unit stored as “cl”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zentiliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "centiliters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "centilitres"
+          }
+        }
+      }
+    },
+    "unit.cl.plural" : {
+      "comment" : "Abbreviation of the unit stored as “cl” (Zentiliter), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cl"
+          }
+        }
+      }
+    },
+    "unit.dl" : {
+      "comment" : "Abbreviation of the unit stored as “dl” (Deziliter), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        }
+      }
+    },
+    "unit.dl.name" : {
+      "comment" : "Full name of the unit stored as “dl”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deziliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "deciliter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "décilitre"
+          }
+        }
+      }
+    },
+    "unit.dl.name.plural" : {
+      "comment" : "Full name of the unit stored as “dl”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deziliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "deciliters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "décilitres"
+          }
+        }
+      }
+    },
+    "unit.dl.plural" : {
+      "comment" : "Abbreviation of the unit stored as “dl” (Deziliter), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dl"
+          }
+        }
+      }
+    },
+    "unit.ei" : {
+      "comment" : "Abbreviation of the unit stored as “ei” (Ei), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf"
+          }
+        }
+      }
+    },
+    "unit.ei(l)" : {
+      "comment" : "Abbreviation of the unit stored as “ei(l)” (Ei, Größe L), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(l)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg (L)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf (L)"
+          }
+        }
+      }
+    },
+    "unit.ei(l).name" : {
+      "comment" : "Full name of the unit stored as “ei(l)”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei, Größe L"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg, size L"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf, calibre L"
+          }
+        }
+      }
+    },
+    "unit.ei(l).name.plural" : {
+      "comment" : "Full name of the unit stored as “ei(l)”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eier, Größe L"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs, size L"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs, calibre L"
+          }
+        }
+      }
+    },
+    "unit.ei(l).plural" : {
+      "comment" : "Abbreviation of the unit stored as “ei(l)” (Ei, Größe L), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(l)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs (L)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs (L)"
+          }
+        }
+      }
+    },
+    "unit.ei(m)" : {
+      "comment" : "Abbreviation of the unit stored as “ei(m)” (Ei, Größe M), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(m)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg (M)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf (M)"
+          }
+        }
+      }
+    },
+    "unit.ei(m).name" : {
+      "comment" : "Full name of the unit stored as “ei(m)”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei, Größe M"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg, size M"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf, calibre M"
+          }
+        }
+      }
+    },
+    "unit.ei(m).name.plural" : {
+      "comment" : "Full name of the unit stored as “ei(m)”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eier, Größe M"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs, size M"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs, calibre M"
+          }
+        }
+      }
+    },
+    "unit.ei(m).plural" : {
+      "comment" : "Abbreviation of the unit stored as “ei(m)” (Ei, Größe M), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(m)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs (M)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs (M)"
+          }
+        }
+      }
+    },
+    "unit.ei(s)" : {
+      "comment" : "Abbreviation of the unit stored as “ei(s)” (Ei, Größe S), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(s)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg (S)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf (S)"
+          }
+        }
+      }
+    },
+    "unit.ei(s).name" : {
+      "comment" : "Full name of the unit stored as “ei(s)”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei, Größe S"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg, size S"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf, calibre S"
+          }
+        }
+      }
+    },
+    "unit.ei(s).name.plural" : {
+      "comment" : "Full name of the unit stored as “ei(s)”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eier, Größe S"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs, size S"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs, calibre S"
+          }
+        }
+      }
+    },
+    "unit.ei(s).plural" : {
+      "comment" : "Abbreviation of the unit stored as “ei(s)” (Ei, Größe S), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(s)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs (S)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs (S)"
+          }
+        }
+      }
+    },
+    "unit.ei(xl)" : {
+      "comment" : "Abbreviation of the unit stored as “ei(xl)” (Ei, Größe XL), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(xl)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg (XL)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf (XL)"
+          }
+        }
+      }
+    },
+    "unit.ei(xl).name" : {
+      "comment" : "Full name of the unit stored as “ei(xl)”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei, Größe XL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg, size XL"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf, calibre XL"
+          }
+        }
+      }
+    },
+    "unit.ei(xl).name.plural" : {
+      "comment" : "Full name of the unit stored as “ei(xl)”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eier, Größe XL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs, size XL"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs, calibre XL"
+          }
+        }
+      }
+    },
+    "unit.ei(xl).plural" : {
+      "comment" : "Abbreviation of the unit stored as “ei(xl)” (Ei, Größe XL), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei(xl)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs (XL)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs (XL)"
+          }
+        }
+      }
+    },
+    "unit.ei.name" : {
+      "comment" : "Full name of the unit stored as “ei”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "egg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œuf"
+          }
+        }
+      }
+    },
+    "unit.ei.name.plural" : {
+      "comment" : "Full name of the unit stored as “ei”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eier"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs"
+          }
+        }
+      }
+    },
+    "unit.ei.plural" : {
+      "comment" : "Abbreviation of the unit stored as “ei” (Ei), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ei"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eggs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "œufs"
+          }
+        }
+      }
+    },
+    "unit.EL" : {
+      "comment" : "Abbreviation of the unit stored as “EL” (Esslöffel), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tbsp"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c. à s."
+          }
+        }
+      }
+    },
+    "unit.EL.name" : {
+      "comment" : "Full name of the unit stored as “EL”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esslöffel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tablespoon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuillère à soupe"
+          }
+        }
+      }
+    },
+    "unit.EL.name.plural" : {
+      "comment" : "Full name of the unit stored as “EL”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esslöffel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tablespoons"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuillères à soupe"
+          }
+        }
+      }
+    },
+    "unit.EL.plural" : {
+      "comment" : "Abbreviation of the unit stored as “EL” (Esslöffel), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tbsp"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c. à s."
+          }
+        }
+      }
+    },
+    "unit.g" : {
+      "comment" : "Abbreviation of the unit stored as “g” (Gramm), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        }
+      }
+    },
+    "unit.g.name" : {
+      "comment" : "Full name of the unit stored as “g”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gramme"
+          }
+        }
+      }
+    },
+    "unit.g.name.plural" : {
+      "comment" : "Full name of the unit stored as “g”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "grams"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "grammes"
+          }
+        }
+      }
+    },
+    "unit.g.plural" : {
+      "comment" : "Abbreviation of the unit stored as “g” (Gramm), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "g"
+          }
+        }
+      }
+    },
+    "unit.Handvoll" : {
+      "comment" : "Abbreviation of the unit stored as “Handvoll” (Handvoll), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handvoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "handful"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "poignée"
+          }
+        }
+      }
+    },
+    "unit.Handvoll.name" : {
+      "comment" : "Full name of the unit stored as “Handvoll”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handvoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "handful"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "poignée"
+          }
+        }
+      }
+    },
+    "unit.Handvoll.name.plural" : {
+      "comment" : "Full name of the unit stored as “Handvoll”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handvoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "handfuls"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "poignées"
+          }
+        }
+      }
+    },
+    "unit.Handvoll.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Handvoll” (Handvoll), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handvoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "handfuls"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "poignées"
+          }
+        }
+      }
+    },
+    "unit.kg" : {
+      "comment" : "Abbreviation of the unit stored as “kg” (Kilogramm), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        }
+      }
+    },
+    "unit.kg.name" : {
+      "comment" : "Full name of the unit stored as “kg”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilogramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kilogram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kilogramme"
+          }
+        }
+      }
+    },
+    "unit.kg.name.plural" : {
+      "comment" : "Full name of the unit stored as “kg”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilogramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kilograms"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kilogrammes"
+          }
+        }
+      }
+    },
+    "unit.kg.plural" : {
+      "comment" : "Abbreviation of the unit stored as “kg” (Kilogramm), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kg"
+          }
+        }
+      }
+    },
+    "unit.l" : {
+      "comment" : "Abbreviation of the unit stored as “l” (Liter), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        }
+      }
+    },
+    "unit.l.name" : {
+      "comment" : "Full name of the unit stored as “l”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "liter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "litre"
+          }
+        }
+      }
+    },
+    "unit.l.name.plural" : {
+      "comment" : "Full name of the unit stored as “l”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "liters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "litres"
+          }
+        }
+      }
+    },
+    "unit.l.plural" : {
+      "comment" : "Abbreviation of the unit stored as “l” (Liter), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "l"
+          }
+        }
+      }
+    },
+    "unit.mass" : {
+      "comment" : "Abbreviation of the unit stored as “mass” (Mass), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        }
+      }
+    },
+    "unit.mass.name" : {
+      "comment" : "Full name of the unit stored as “mass”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass (1 l)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass (1 l)"
+          }
+        }
+      }
+    },
+    "unit.mass.name.plural" : {
+      "comment" : "Full name of the unit stored as “mass”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass (1 l)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass (1 l)"
+          }
+        }
+      }
+    },
+    "unit.mass.plural" : {
+      "comment" : "Abbreviation of the unit stored as “mass” (Mass), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mass"
+          }
+        }
+      }
+    },
+    "unit.mg" : {
+      "comment" : "Abbreviation of the unit stored as “mg” (Milligramm), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        }
+      }
+    },
+    "unit.mg.name" : {
+      "comment" : "Full name of the unit stored as “mg”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milligramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milligram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milligramme"
+          }
+        }
+      }
+    },
+    "unit.mg.name.plural" : {
+      "comment" : "Full name of the unit stored as “mg”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milligramm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milligrams"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milligrammes"
+          }
+        }
+      }
+    },
+    "unit.mg.plural" : {
+      "comment" : "Abbreviation of the unit stored as “mg” (Milligramm), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mg"
+          }
+        }
+      }
+    },
+    "unit.ml" : {
+      "comment" : "Abbreviation of the unit stored as “ml” (Milliliter), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        }
+      }
+    },
+    "unit.ml.name" : {
+      "comment" : "Full name of the unit stored as “ml”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milliliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milliliter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "millilitre"
+          }
+        }
+      }
+    },
+    "unit.ml.name.plural" : {
+      "comment" : "Full name of the unit stored as “ml”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milliliter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "milliliters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "millilitres"
+          }
+        }
+      }
+    },
+    "unit.ml.plural" : {
+      "comment" : "Abbreviation of the unit stored as “ml” (Milliliter), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ml"
+          }
+        }
+      }
+    },
+    "unit.Msp" : {
+      "comment" : "Abbreviation of the unit stored as “Msp” (Messerspitze), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Msp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "knife tip"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pointe"
+          }
+        }
+      }
+    },
+    "unit.Msp.name" : {
+      "comment" : "Full name of the unit stored as “Msp”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messerspitze"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "knife tip"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pointe de couteau"
+          }
+        }
+      }
+    },
+    "unit.Msp.name.plural" : {
+      "comment" : "Full name of the unit stored as “Msp”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messerspitzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "knife tips"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pointes de couteau"
+          }
+        }
+      }
+    },
+    "unit.Msp.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Msp” (Messerspitze), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Msp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "knife tips"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pointes"
+          }
+        }
+      }
+    },
+    "unit.Pck" : {
+      "comment" : "Abbreviation of the unit stored as “Pck” (Päckchen), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pck"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pkt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sachet"
+          }
+        }
+      }
+    },
+    "unit.Pck.name" : {
+      "comment" : "Full name of the unit stored as “Pck”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Päckchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "packet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sachet"
+          }
+        }
+      }
+    },
+    "unit.Pck.name.plural" : {
+      "comment" : "Full name of the unit stored as “Pck”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Päckchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "packets"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sachets"
+          }
+        }
+      }
+    },
+    "unit.Pck.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Pck” (Päckchen), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pck"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pkt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sachets"
+          }
+        }
+      }
+    },
+    "unit.pfd" : {
+      "comment" : "Abbreviation of the unit stored as “pfd” (Pfund), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pfd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pfd"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "livre"
+          }
+        }
+      }
+    },
+    "unit.pfd.name" : {
+      "comment" : "Full name of the unit stored as “pfd”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pfund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "German pound (500 g)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "livre (500 g)"
+          }
+        }
+      }
+    },
+    "unit.pfd.name.plural" : {
+      "comment" : "Full name of the unit stored as “pfd”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pfund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "German pounds (500 g)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "livres (500 g)"
+          }
+        }
+      }
+    },
+    "unit.pfd.plural" : {
+      "comment" : "Abbreviation of the unit stored as “pfd” (Pfund), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pfd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pfd"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "livres"
+          }
+        }
+      }
+    },
+    "unit.Pr" : {
+      "comment" : "Abbreviation of the unit stored as “Pr” (Prise), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pinch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pincée"
+          }
+        }
+      }
+    },
+    "unit.Pr.name" : {
+      "comment" : "Full name of the unit stored as “Pr”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prise"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pinch"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pincée"
+          }
+        }
+      }
+    },
+    "unit.Pr.name.plural" : {
+      "comment" : "Full name of the unit stored as “Pr”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prisen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pinches"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pincées"
+          }
+        }
+      }
+    },
+    "unit.Pr.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Pr” (Prise), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pinches"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pincées"
+          }
+        }
+      }
+    },
+    "unit.Rolle" : {
+      "comment" : "Abbreviation of the unit stored as “Rolle” (Rolle), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rolle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "roll"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rouleau"
+          }
+        }
+      }
+    },
+    "unit.Rolle.name" : {
+      "comment" : "Full name of the unit stored as “Rolle”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rolle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "roll"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rouleau"
+          }
+        }
+      }
+    },
+    "unit.Rolle.name.plural" : {
+      "comment" : "Full name of the unit stored as “Rolle”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rollen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rolls"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rouleaux"
+          }
+        }
+      }
+    },
+    "unit.Rolle.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Rolle” (Rolle), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rolle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rolls"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "rouleaux"
+          }
+        }
+      }
+    },
+    "unit.Sc" : {
+      "comment" : "Abbreviation of the unit stored as “Sc” (Scheibe), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sc"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "slice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tranche"
+          }
+        }
+      }
+    },
+    "unit.Sc.name" : {
+      "comment" : "Full name of the unit stored as “Sc”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheibe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "slice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tranche"
+          }
+        }
+      }
+    },
+    "unit.Sc.name.plural" : {
+      "comment" : "Full name of the unit stored as “Sc”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheiben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "slices"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tranches"
+          }
+        }
+      }
+    },
+    "unit.Sc.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Sc” (Scheibe), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sc"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "slices"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tranches"
+          }
+        }
+      }
+    },
+    "unit.Sp" : {
+      "comment" : "Abbreviation of the unit stored as “Sp” (Spritzer), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dash"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "trait"
+          }
+        }
+      }
+    },
+    "unit.Sp.name" : {
+      "comment" : "Full name of the unit stored as “Sp”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spritzer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dash"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "trait"
+          }
+        }
+      }
+    },
+    "unit.Sp.name.plural" : {
+      "comment" : "Full name of the unit stored as “Sp”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spritzer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dashes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "traits"
+          }
+        }
+      }
+    },
+    "unit.Sp.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Sp” (Spritzer), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dashes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "traits"
+          }
+        }
+      }
+    },
+    "unit.Ss" : {
+      "comment" : "Abbreviation of the unit stored as “Ss” (Schuss), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ss"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "splash"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "giclée"
+          }
+        }
+      }
+    },
+    "unit.Ss.name" : {
+      "comment" : "Full name of the unit stored as “Ss”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schuss"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "splash"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "giclée"
+          }
+        }
+      }
+    },
+    "unit.Ss.name.plural" : {
+      "comment" : "Full name of the unit stored as “Ss”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schuss"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "splashes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "giclées"
+          }
+        }
+      }
+    },
+    "unit.Ss.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Ss” (Schuss), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ss"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "splashes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "giclées"
+          }
+        }
+      }
+    },
+    "unit.St" : {
+      "comment" : "Abbreviation of the unit stored as “St” (Stück), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "St"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pc"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pce"
+          }
+        }
+      }
+    },
+    "unit.St.name" : {
+      "comment" : "Full name of the unit stored as “St”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stück"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "piece"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pièce"
+          }
+        }
+      }
+    },
+    "unit.St.name.plural" : {
+      "comment" : "Full name of the unit stored as “St”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stück"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pieces"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pièces"
+          }
+        }
+      }
+    },
+    "unit.St.plural" : {
+      "comment" : "Abbreviation of the unit stored as “St” (Stück), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "St"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pcs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pces"
+          }
+        }
+      }
+    },
+    "unit.Tas" : {
+      "comment" : "Abbreviation of the unit stored as “Tas” (Tasse), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tas"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tasse"
+          }
+        }
+      }
+    },
+    "unit.Tas.name" : {
+      "comment" : "Full name of the unit stored as “Tas”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tasse"
+          }
+        }
+      }
+    },
+    "unit.Tas.name.plural" : {
+      "comment" : "Full name of the unit stored as “Tas”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cups"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tasses"
+          }
+        }
+      }
+    },
+    "unit.Tas.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Tas” (Tasse), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tas"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cups"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tasses"
+          }
+        }
+      }
+    },
+    "unit.TL" : {
+      "comment" : "Abbreviation of the unit stored as “TL” (Teelöffel), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tsp"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c. à c."
+          }
+        }
+      }
+    },
+    "unit.TL.name" : {
+      "comment" : "Full name of the unit stored as “TL”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teelöffel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "teaspoon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuillère à café"
+          }
+        }
+      }
+    },
+    "unit.TL.name.plural" : {
+      "comment" : "Full name of the unit stored as “TL”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teelöffel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "teaspoons"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuillères à café"
+          }
+        }
+      }
+    },
+    "unit.TL.plural" : {
+      "comment" : "Abbreviation of the unit stored as “TL” (Teelöffel), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tsp"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c. à c."
+          }
+        }
+      }
+    },
+    "unit.Tr" : {
+      "comment" : "Abbreviation of the unit stored as “Tr” (Tropfen), shown after an amount of one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "drop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "goutte"
+          }
+        }
+      }
+    },
+    "unit.Tr.name" : {
+      "comment" : "Full name of the unit stored as “Tr”, for the unit picker and for reading aloud.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tropfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "drop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "goutte"
+          }
+        }
+      }
+    },
+    "unit.Tr.name.plural" : {
+      "comment" : "Full name of the unit stored as “Tr”, read aloud after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tropfen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "drops"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gouttes"
+          }
+        }
+      }
+    },
+    "unit.Tr.plural" : {
+      "comment" : "Abbreviation of the unit stored as “Tr” (Tropfen), shown after an amount above one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "drops"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gouttes"
+          }
+        }
+      }
+    },
     "Zugelassen" : {
       "localizations" : {
         "en" : {
