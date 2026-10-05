@@ -17,6 +17,52 @@
         }
       }
     },
+    "%lld Erinnerungen gesetzt.\nBackofen anstellen um %@ Uhr (%@).\nFertig um %@ Uhr." : {
+      "comment" : "Summary after reminders were set: number of reminders, time and oven temperature for switching the oven on, finish time.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Erinnerungen gesetzt.\nBackofen anstellen um %2$@ Uhr (%3$@).\nFertig um %4$@ Uhr."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld reminders set.\nTurn on the oven at %2$@ (%3$@).\nDone at %4$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld rappels définis.\nAllumer le four à %2$@ (%3$@).\nTerminé à %4$@."
+          }
+        }
+      }
+    },
+    "%lld Erinnerungen gesetzt.\nBackofen anstellen um %@ Uhr (%@).\nFertig um %@ Uhr.\n\n%@" : {
+      "comment" : "Summary after reminders were set: number of reminders, time and oven temperature for switching the oven on, finish time, and hints about the plan.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld Erinnerungen gesetzt.\nBackofen anstellen um %2$@ Uhr (%3$@).\nFertig um %4$@ Uhr.\n\n%5$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld reminders set.\nTurn on the oven at %2$@ (%3$@).\nDone at %4$@.\n\n%5$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld rappels définis.\nAllumer le four à %2$@ (%3$@).\nTerminé à %4$@.\n\n%5$@"
+          }
+        }
+      }
+    },
     "BakePlanner konnte seinen Datenspeicher nicht öffnen und läuft vorübergehend ohne Deine Rezepte, Pläne und Einkaufslisten. Was Du jetzt anlegst, wird nicht gespeichert. Deine Daten bleiben erhalten: Prüfe, ob auf dem Gerät genug Speicher frei ist, und starte die App neu." : {
       "comment" : "Message of the alert shown at launch when the app's data store could not be opened.",
       "localizations" : {
