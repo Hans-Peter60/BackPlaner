@@ -75,10 +75,14 @@ final class BackPlanerSmokeTests: XCTestCase {
         let name = app.textFields["Name"]
         scrollUntilHittable(name)
         name.tap()
-        name.typeText("Testbrot")
+        // Return closes the keyboard, so the swipe back up reaches the form.
+        name.typeText("Testbrot\n")
 
-        XCTAssertTrue(app.buttons["Rezept speichern"].isEnabled,
-                      "A named recipe should be savable")
+        // The save section sits above the name; on a small screen it has
+        // scrolled away, and a Form keeps rows out of view out of reach.
+        let save = app.buttons["Rezept speichern"]
+        scrollUntilHittable(save, towards: .top)
+        XCTAssertTrue(save.isEnabled, "A named recipe should be savable")
 
         let duration = app.textFields["Dauer in Minuten"].firstMatch
         scrollUntilHittable(duration)
@@ -118,7 +122,7 @@ final class BackPlanerSmokeTests: XCTestCase {
 
         let setReminders = app.buttons["Reminder setzen"]
         scrollUntilHittable(setReminders)
-        setReminders.tap()
+        tapReliably(setReminders)
         allowSystemAlertIfShown()
 
         let confirmation = app.alerts["Reminder wurden gesetzt"]
@@ -182,16 +186,34 @@ final class BackPlanerSmokeTests: XCTestCase {
             .firstMatch
     }
 
-    /// Swipes the screen up until the element can be tapped. Forms build their
-    /// rows lazily, so an element further down may not exist before that.
-    private func scrollUntilHittable(_ element: XCUIElement, maxSwipes: Int = 8) {
+    private enum ScrollTarget { case top, bottom }
+
+    /// Swipes until the element can be tapped. Forms build their rows lazily,
+    /// so an element out of view may not exist before that. Slow swipes keep
+    /// the list from flinging past it. Only existence is required in the end:
+    /// at the bottom of a screen an element can sit under the floating tab
+    /// bar and count as not hittable although it is there (see tapReliably).
+    private func scrollUntilHittable(_ element: XCUIElement, towards target: ScrollTarget = .bottom,
+                                     maxSwipes: Int = 10) {
         var swipes = 0
         while !(element.exists && element.isHittable) && swipes < maxSwipes {
-            app.swipeUp()
+            switch target {
+            case .bottom: app.swipeUp(velocity: .slow)
+            case .top:    app.swipeDown(velocity: .slow)
+            }
             swipes += 1
         }
-        XCTAssertTrue(element.exists && element.isHittable,
-                      "\(element) did not become reachable")
+        XCTAssertTrue(element.exists, "\(element) did not appear")
+    }
+
+    /// Taps an element even where the floating tab bar covers its centre: then
+    /// its upper edge, which stays clear, takes the tap.
+    private func tapReliably(_ element: XCUIElement) {
+        if element.isHittable {
+            element.tap()
+        } else {
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.15)).tap()
+        }
     }
 
     /// The interruption monitor only fires on the next interaction with the
