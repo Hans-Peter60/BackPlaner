@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 03.10.2026 · App-Version 1.1.1
+Stand: 05.10.2026 · App-Version 1.2
 
 ---
 
@@ -299,7 +299,10 @@ Die Hinweise verhindern nichts – Du kannst den Plan trotzdem setzen. Sie erspa
 Ein Tippen auf **Reminder setzen** löst mehrere Dinge gleichzeitig aus:
 
 1. Für **jeden Verarbeitungsschritt** wird eine lokale Erinnerung zur berechneten Startzeit gesetzt.
-2. Zusätzlich wird automatisch der Schritt **„Backofen anstellen“** eingefügt – und zwar um die eingestellte **Vorheizzeit** vor dem letzten Schritt (Standard 15 Minuten, änderbar in den Einstellungen).
+2. Zusätzlich wird automatisch der Schritt **„Backofen anstellen“** eingefügt – um die eingestellte **Vorheizzeit** vor dem **Backschritt** (Standard 15 Minuten, änderbar in den Einstellungen). Backschritt ist der Schritt, der das Backen beschreibt, nicht unbedingt der letzte: Folgt noch „Auskühlen lassen“, wird trotzdem vor dem Backen vorgeheizt.
+   - Nennt das Rezept eine **Ofentemperatur**, steht sie dabei, etwa „Backofen anstellen (250 °C)“. Bei „Bei 250 °C fallend auf 220 °C backen“ ist es die erste. Die Temperatur darf auch im Schritt davor stehen („Brot einschießen, Ofen 250 °C“).
+   - Hat das Rezept schon einen **eigenen Schritt zum Vorheizen**, fügt die App keinen zweiten ein. Der eigene Schritt erinnert dann an das Vorheizen und bekommt die Temperatur angehängt, wenn sie dort noch fehlt.
+   - Beginnt das Backen im **kalten Ofen** („in den kalten Backofen schieben“), entfällt die Vorheizzeit.
 3. Ebenso wird **„Backvorgang ist beendet“** zum Endzeitpunkt eingeplant.
 4. Alle Schritte landen in **„Geplante Schritte“**.
 5. Bei eigenen Rezepten wird ein **Backhistorien-Eintrag** mit dem Enddatum und dem Platzhalter-Kommentar „kein Kommentar erfasst“ angelegt, den Du später ergänzen kannst.
@@ -308,7 +311,7 @@ Anschließend erscheint eine Bestätigung, zum Beispiel:
 
 > **Reminder wurden gesetzt**
 > 12 Erinnerungen gesetzt.
-> Backofen anstellen um 16:45 Uhr.
+> Backofen anstellen um 16:45 Uhr (250 °C).
 > Fertig um 18:10 Uhr.
 
 Die Texte „Backofen anstellen“ und „Backvorgang ist beendet“ erscheinen in der gerade aktiven Sprache (bei öffentlichen Rezepten in der Sprache, in der Du das Rezept ansiehst).

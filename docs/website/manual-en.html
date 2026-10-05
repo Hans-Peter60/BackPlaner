@@ -100,7 +100,7 @@
 
 <header>
   <h1>BakePlanner – User Manual</h1>
-  <p class="claim">Revised: 3 October 2026 · App version 1.1.1</p>
+  <p class="claim">Revised: 5 October 2026 · App version 1.2</p>
 </header>
 
 <nav aria-label="Choose language">
@@ -273,9 +273,11 @@
 <p>The notes don't prevent anything — you can still set the plan. They only spare you the surprise at three in the morning.</p>
 <h3 id="setting-reminders">Setting reminders</h3>
 <p>Tapping <strong>Set reminder</strong> does several things at once:</p>
-<ol><li>A local reminder is set for <strong>every processing step</strong> at its calculated start time.</li><li>The step <strong>"turn on the oven"</strong> is inserted automatically — the configured <strong>Preheat time</strong> before the final step (15 minutes by default, adjustable in Settings).</li><li><strong>"Baking is finished"</strong> is likewise scheduled for the finishing time.</li><li>Every step lands in <strong>Scheduled steps</strong>.</li><li>For your own recipes a <strong>baking-history entry</strong> is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.</li></ol>
+<ol><li>A local reminder is set for <strong>every processing step</strong> at its calculated start time.</li><li>The step <strong>"turn on the oven"</strong> is inserted automatically — the configured <strong>Preheat time</strong> before the <strong>baking step</strong> (15 minutes by default, adjustable in Settings). The baking step is the one that describes the bake, not necessarily the last one: if "let it cool" follows, the oven is still preheated before the bake.</li></ol>
+<ul><li>If the recipe names an <strong>oven temperature</strong>, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").</li><li>If the recipe already has <strong>its own preheating step</strong>, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.</li><li>If the bake starts in a <strong>cold oven</strong> ("place in the cold oven"), there is no preheat time.</li></ul>
+<ol><li><strong>"Baking is finished"</strong> is likewise scheduled for the finishing time.</li><li>Every step lands in <strong>Scheduled steps</strong>.</li><li>For your own recipes a <strong>baking-history entry</strong> is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.</li></ol>
 <p>A confirmation then appears, for example:</p>
-<blockquote class="note"><p><strong>Reminders were set</strong><br>12 reminders set.<br>Turn on the oven at 4:45 p.m.<br>Done at 6:10 p.m.</p></blockquote>
+<blockquote class="note"><p><strong>Reminders were set</strong><br>12 reminders set.<br>Turn on the oven at 4:45 p.m. (250 °C).<br>Done at 6:10 p.m.</p></blockquote>
 <p>The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).</p>
 <blockquote class="note"><p><strong>One recipe, one plan — or several.</strong> Tap "Set reminder" while a plan for this recipe is already running and the app asks: <strong>Replace existing plan</strong> discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. <strong>Add as a second plan</strong> keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.</p></blockquote>
 <blockquote class="note"><p><strong>For Apple Watch: set the reminders on the iPhone.</strong> Reminders are created on the device where you tap "Set reminder", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.<br>A plan that has already been set can't be moved to another device afterwards — in that case simply set the reminders again on the iPhone. The recipe itself is on both devices through iCloud anyway.</p></blockquote>
