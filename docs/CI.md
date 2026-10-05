@@ -41,7 +41,7 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
    - Target Branch: **main**
    - **„Auto-cancel Builds“** einschalten, damit ein neuer Push den alten Lauf abbricht.
 
-   Erst danach die vorgeschlagene Bedingung „Branch Changes“ markieren und mit **⌫** oder Rechtsklick → **Delete** entfernen. Ein Workflow braucht mindestens eine Start-Bedingung, deshalb lässt sich die einzige nicht löschen.
+   Die vorgeschlagene Bedingung **„Branch Changes“** lässt sich nicht entfernen, und sie braucht mindestens einen Branch, sonst bleibt **Save** gesperrt. Dort **`main`** eintragen: Dann testet Xcode Cloud zusätzlich jeden Stand von `main` nach einem Merge. Das kostet etwas mehr Rechenzeit, liegt aber weit innerhalb der enthaltenen 25 Stunden.
 6. **Actions:** eine **„Archive“**-Aktion entfernen, falls vorhanden. **„Test“** hinzufügen:
    - Scheme: **BackPlaner**
    - Platform: **iOS**
