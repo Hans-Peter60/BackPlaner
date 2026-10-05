@@ -20,7 +20,7 @@ Revised: 3 October 2026 · App version 1.1.1
 9. [Editing a recipe](#9-editing-a-recipe)
 10. [Scheduled steps (list and timeline)](#10-scheduled-steps-list-and-timeline)
 11. [Reminders on the Lock Screen](#11-reminders-on-the-lock-screen)
-12. [Baking history and Baking Top List](#12-baking-history-and-baking-top-list)
+12. [Baking history and Baking top list](#12-baking-history-and-baking-top-list)
 13. [Shopping list](#13-shopping-list)
 14. [Settings](#14-settings)
 15. [Units, amounts, and serving sizes](#15-units-amounts-and-serving-sizes)
@@ -123,7 +123,7 @@ After launch the main menu appears with eight cards:
 | **Create new recipe** | Build a recipe from scratch or import one from photos |
 | **Scheduled steps** | Every scheduled baking step as a list or a timeline |
 | **Baking history** | Past bakes with comments and photos |
-| **Baking Top List** | Recipes sorted by how often you've baked them |
+| **Baking top list** | Recipes sorted by how often you've baked them |
 | **Shopping list** | All the shopping lists you've created |
 | **Settings** | Language, defaults, baking plan, account |
 
@@ -336,11 +336,11 @@ Through **Main menu → Create new recipe**. The form is laid out from top to bo
 
 Right at the top: **Import recipe from images**. It reads in a printed or photographed recipe.
 
-1. **Select Images** (up to 10 pages; the order you pick them in is kept) or **Take Photo** for a new shot.
-2. The chosen pages appear as a list, "Selected Pages"; individual ones can be removed with the bin symbol.
+1. **Select images** (up to 10 pages; the order you pick them in is kept) or **Take photo** for a new shot.
+2. The chosen pages appear as a list, "Selected pages"; individual ones can be removed with the bin symbol.
 3. **"Analyse … image(s)"** starts the text recognition. It runs on the device, shows "Reading image x of y …", and can be cancelled at any time.
 4. The app then shows a **summary**: the recognised name, the number of components, ingredients, and steps, plus the recognised components with their ingredients and the recognised schedule.
-5. **Check data in the recipe form** transfers everything into the normal recipe form. **Select Different Images** starts over.
+5. **Check data in the recipe form** transfers everything into the normal recipe form. **Select different images** starts over.
 
 The app reads the images with every source type it knows and keeps the result that fits what's on the page. Straight, legible photos give the best results.
 
@@ -361,8 +361,8 @@ Afterwards be sure to check **amounts, units, temperatures, and times** — noth
 
 Above the image selection you choose how the pages are evaluated:
 
-- **Protected Cloud AI** — the images are sent in encrypted form through the BackPlaner server to Google Vertex AI (Gemini) and structured there. That usually gives the most complete results, including components such as pre-dough and sourdough. Before the first use the app explains the data transfer and asks for your consent; you can withdraw it under Settings › Privacy & AI.
-- **On This Device Only** — nothing leaves the device. Depending on availability the app uses Apple Intelligence or the on-device text recognition; recognition may be less accurate.
+- **Protected cloud AI** — the images are sent in encrypted form through the BackPlaner server to Google Vertex AI (Gemini) and structured there. That usually gives the most complete results, including components such as pre-dough and sourdough. Before the first use the app explains the data transfer and asks for your consent; you can withdraw it under Settings › Privacy & AI.
+- **On this device only** — nothing leaves the device. Depending on availability the app uses Apple Intelligence or the on-device text recognition; recognition may be less accurate.
 
 The app remembers the choice for both import routes.
 
@@ -373,16 +373,16 @@ Below that: **Import recipe from a web page**. It reads a recipe straight from a
 1. **Paste the address**: copy the address of the recipe page in Safari and paste it with the paste button next to the field, or type it in. "https://" may be left out; the app adds it.
 
    **It's quicker straight from Safari:** on the recipe page tap **Share** and choose **BakePlanner**. A small sheet shows the page; **Import** switches to BakePlanner, where the address is already filled in and the analysis starts on its own. That works from any browser and from any app that shares a web address. If BakePlanner doesn't appear in the row of apps, tap **More** and switch BakePlanner on there.
-2. Choose the **Analysis Mode** as for the image import. With "On This Device Only" the page text isn't transmitted; without Apple Intelligence the app then takes only the structured recipe data the page itself provides.
-3. **Load and Analyze Page** loads the page on the device, reads out the recipe data and the visible text, and hands them to the chosen analysis. The page's recipe photo comes along.
-4. Then the same **summary** appears as for the image import; instead of the recognised source type it shows the source (the web address). **Load a Different Page** starts over.
+2. Choose the **Analysis mode** as for the image import. With "On this device only" the page text isn't transmitted; without Apple Intelligence the app then takes only the structured recipe data the page itself provides.
+3. **Load and analyze page** loads the page on the device, reads out the recipe data and the visible text, and hands them to the chosen analysis. The page's recipe photo comes along.
+4. Then the same **summary** appears as for the image import; instead of the recognised source type it shows the source (the web address). **Load a different page** starts over.
 5. **Check data in the recipe form** transfers everything into the recipe form. The page's address goes into the recipe's "URL link" field automatically.
 
 **What works well:** most recipe pages and baking blogs provide structured recipe data; then ingredients and steps are almost always right. The cloud AI also separates pre-dough, sourdough, and main dough into components of their own.
 
 **Step numbers:** components that go into the main dough (sourdough, pre-doughs, soakers, and scalds) are each combined by the import into one parallel step 1.1, 1.2, 1.3 … covering mixing and maturing. The main dough's steps follow as 2, 3, 4 …. That way a recipe with four overnight pre-doughs takes twelve hours, not two days. The pre-doughs are started five minutes apart in the plan; the earlier ones get correspondingly more duration so that all are ready together for the main dough. Steps without a recognised duration get one minute.
 
-**What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to Import" with the reason. In such cases the image import of a screenshot of the page helps.
+**What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to import" with the reason. In such cases the image import of a screenshot of the page helps.
 
 > **Copyright:** for your own use you may import any recipe. That's why storage starts out as "Local". Only publish other people's recipes with the author's permission.
 
@@ -502,7 +502,7 @@ The app recognises such a mixing step by the name of a recipe component occurrin
 
 1. Enter minutes (1440 at most, that is 24 hours).
 2. Choose a direction: **Earlier** or **Later**.
-3. Choose a scope: **This step only** or **All Following Steps** (every later step of the same recipe moves by the same amount).
+3. Choose a scope: **This step only** or **All following steps** (every later step of the same recipe moves by the same amount).
 4. **Apply**.
 
 The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".
@@ -568,10 +568,10 @@ The banner shows only the first lines. Press and hold the notification, or expan
 
 **Press and hold the notification** to get two actions:
 
-- **Mark as Done** — the step is removed from "Scheduled steps".
-- **Reschedule by …** — enter the minutes directly in the notification. A follow-up question then appears: **"Should all following steps of this recipe be moved as well?"** with the options **Only this step** and **All Following Steps**.
+- **Mark as done** — the step is removed from "Scheduled steps".
+- **Reschedule by …** — enter the minutes directly in the notification. A follow-up question then appears: **"Should all following steps of this recipe be moved as well?"** with the options **Only this step** and **All following steps**.
 
-Rescheduling is always counted from **now**: "30 minutes" means "30 minutes from now". With "All Following Steps", every later step of the same recipe moves by the same difference — so a fermentation stays coherent even when you're running late.
+Rescheduling is always counted from **now**: "30 minutes" means "30 minutes from now". With "All following steps", every later step of the same recipe moves by the same difference — so a fermentation stays coherent even when you're running late.
 
 Notifications are shown while the app is in the foreground too.
 
@@ -585,7 +585,7 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 ---
 
-## 12. Baking history and Baking Top List
+## 12. Baking history and Baking top list
 
 ### Baking history
 
@@ -601,9 +601,9 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded", which you can replace later.
 
-### Baking Top List
+### Baking top list
 
-**Main menu → Baking Top List.** Shows every recipe you've baked at least once, sorted by the number of bakes — your classics at the top. Each recipe shows its name, the count, and the photos from the baking histories. Search and rating filters work as they do in the other lists.
+**Main menu → Baking top list.** Shows every recipe you've baked at least once, sorted by the number of bakes — your classics at the top. Each recipe shows its name, the count, and the photos from the baking histories. Search and rating filters work as they do in the other lists.
 
 ---
 
@@ -679,10 +679,10 @@ This shows whether the **protected cloud AI** may be used for recipe imports (se
 
 | Entry | Effect |
 |-------|--------|
-| **AI Analysis for Recipe Import** | **Allowed** if you've consented to the cloud AI, otherwise **Local only**. Tapping it opens the **AI Privacy** page. |
-| **Withdraw Consent to Cloud AI** | Appears only after you've consented. Withdraws the consent and sets the analysis mode to "On This Device Only". |
+| **AI analysis for recipe import** | **Allowed** if you've consented to the cloud AI, otherwise **Local only**. Tapping it opens the **AI privacy** page. |
+| **Withdraw consent to cloud AI** | Appears only after you've consented. Withdraws the consent and sets the analysis mode to "On this device only". |
 
-The **AI Privacy** page explains which data a cloud analysis transmits, to whom, for what purpose, and what of it remains stored (summary in [chapter 16](#16-privacy-moderation-and-terms-of-use)). You can withdraw your consent there too. It is only ever given during an import itself, after the app has explained the transfer. Withdrawal applies to all future analyses; analyses already completed are unaffected.
+The **AI privacy** page explains which data a cloud analysis transmits, to whom, for what purpose, and what of it remains stored (summary in [chapter 16](#16-privacy-moderation-and-terms-of-use)). You can withdraw your consent there too. It is only ever given during an import itself, after the app has explained the transfer. Withdrawal applies to all future analyses; analyses already completed are unaffected.
 
 ### Account
 
@@ -716,10 +716,10 @@ This is where you take back what you've hidden in the recipe database.
 
 | Entry | Effect |
 |-------|--------|
-| **Blocked Authors** | How many authors you've blocked. |
-| **Unblock All Authors** | Lifts every block. Those authors' recipes reappear in the list **immediately**. |
-| **Recipes You Reported** | How many recipes you've reported. |
-| **Clear Reports on This Device** | Removes the hiding your device has remembered. |
+| **Blocked authors** | How many authors you've blocked. |
+| **Unblock all authors** | Lifts every block. Those authors' recipes reappear in the list **immediately**. |
+| **Recipes you reported** | How many recipes you've reported. |
+| **Clear reports on this device** | Removes the hiding your device has remembered. |
 
 **The difference matters:** blocking is purely a device setting, which is why lifting it takes effect at once. A report, on the other hand, hides the recipe from every user — and only an administrator can undo that. So clearing it here only takes effect *after* the recipe has been released; until then it stays invisible, to you as well.
 
@@ -727,7 +727,7 @@ Both lists apply to this device only and aren't synced through iCloud.
 
 ### Help
 
-From here you open the **User Manual** (this document) and the **Help and contact** page with the e-mail address for questions and bug reports in your browser. Both pages appear in the language the app is set to.
+From here you open the **User manual** (this document) and the **Help and contact** page with the e-mail address for questions and bug reports in your browser. Both pages appear in the language the app is set to.
 
 ---
 
@@ -842,7 +842,7 @@ The serving size affects the total ingredients, the components' ingredient lists
 - **Public recipes** live in the shared cloud database and are visible to every user of the app.
 - **Private cloud recipes** also live in the cloud, but in a separate area that only their author may read — this is enforced on the server, not merely hidden in the app. The images are stored separately too and retrievable only by you.
 - **Translations** are produced on the device.
-- **Recipe import:** with "On This Device Only", images and page text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text and address of a web page, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
+- **Recipe import:** with "On this device only", images and page text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text and address of a web page, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
 - The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. You only need to sign in with Apple for private cloud recipes and for moderation rights; neither your name nor your email address is requested in the process.
 - **You can delete your account yourself at any time** — Settings → Account → "Delete account". Details in [chapter 14](#14-settings).
 

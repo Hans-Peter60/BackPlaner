@@ -13,13 +13,13 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "BakePlanner"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "machine_translated",
+            "state" : "translated",
             "value" : "BakePlanner"
           }
         }
@@ -36,7 +36,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "machine_translated",
+            "state" : "translated",
             "value" : "BakePlanner"
           }
         },
@@ -59,7 +59,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "machine_translated",
+            "state" : "translated",
             "value" : "BakePlanner uses the camera to take photos of your recipes and finished bakes."
           }
         },
@@ -82,7 +82,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "machine_translated",
+            "state" : "translated",
             "value" : "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes."
           }
         },

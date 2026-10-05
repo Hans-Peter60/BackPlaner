@@ -192,29 +192,34 @@ def import_(path: str) -> None:
                     or (row.get("Anmerkung FR") or "").strip()]
 
     catalogs = {relative: load(relative) for relative in CATALOGS}
-    keys = {relative: {german(key, entry): key for key, entry in catalog["strings"].items()}
-            for relative, catalog in catalogs.items()}
+    # The same German text can stand for several keys (CFBundleName and
+    # CFBundleDisplayName); a reviewed row applies to all of them.
+    keys = {relative: {} for relative in catalogs}
+    for relative, catalog in catalogs.items():
+        for key, entry in catalog["strings"].items():
+            keys[relative].setdefault(german(key, entry), []).append(key)
 
     applied, problems = 0, []
     for row in reviewed:
         relative = row.get("Katalog") or CATALOGS[0]
         catalog = catalogs.get(relative)
-        key = keys.get(relative, {}).get(row["Deutsch"])
-        if catalog is None or key is None:
+        matches = keys.get(relative, {}).get(row["Deutsch"])
+        if catalog is None or not matches:
             problems.append(f"Nr {row['Nr']}: „{row['Deutsch'][:50]}“ is no longer in {relative}")
             continue
-        localizations = catalog["strings"][key].setdefault("localizations", OrderedDict())
-        for language, column in (("en", "Anmerkung EN"), ("fr", "Anmerkung FR")):
-            note = (row.get(column) or "").strip()
-            if not note:
-                continue
-            if language not in localizations:
-                localizations[language] = OrderedDict(stringUnit=OrderedDict(state="translated", value=""))
-            if apply_note(localizations[language], note):
-                applied += 1
-            else:
-                problems.append(f"Nr {row['Nr']} {language}: a plural needs every form "
-                                f"({', '.join(v for v, _ in units(localizations[language]))})")
+        for key in matches:
+            localizations = catalog["strings"][key].setdefault("localizations", OrderedDict())
+            for language, column in (("en", "Anmerkung EN"), ("fr", "Anmerkung FR")):
+                note = (row.get(column) or "").strip()
+                if not note:
+                    continue
+                if language not in localizations:
+                    localizations[language] = OrderedDict(stringUnit=OrderedDict(state="translated", value=""))
+                if apply_note(localizations[language], note):
+                    applied += 1
+                else:
+                    problems.append(f"Nr {row['Nr']} {language}: a plural needs every form "
+                                    f"({', '.join(v for v, _ in units(localizations[language]))})")
 
     for relative, catalog in catalogs.items():
         save(relative, catalog)

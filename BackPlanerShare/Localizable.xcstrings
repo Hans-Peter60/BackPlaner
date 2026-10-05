@@ -211,13 +211,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reading the page …"
+            "value" : "Reading the page…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lecture de la page …"
+            "value" : "Lecture de la page…"
           }
         }
       }
