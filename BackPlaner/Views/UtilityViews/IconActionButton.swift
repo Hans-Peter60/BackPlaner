@@ -49,7 +49,6 @@ struct IconActionButton: View {
                         .multilineTextAlignment(.leading)
                 }
             }
-            .accessibilityLabel(Text(accessibilityLabel))
             // Only an icon-only button gets the hand-tuned 22 pt box. With a
             // title, a fixed ideal height keeps the button at one line's worth
             // of space while the wrapped text needs four — the label then spills
@@ -58,6 +57,10 @@ struct IconActionButton: View {
                    idealHeight: title == nil ? 22 : nil)
             .contentShape(Rectangle())
         }
+        // On the button itself, not on its content: set inside, newer iOS
+        // versions join it with the visible title, and the button is announced
+        // (and found by the UI tests) as "Rezept speichern, Rezept speichern".
+        .accessibilityLabel(Text(accessibilityLabel))
         .buttonStyle(.bordered)
         .controlSize(controlSize)
     }
