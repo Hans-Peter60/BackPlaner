@@ -117,11 +117,7 @@ struct NextStepCardView: View {
                 // One running text, so a long recipe name wraps onto a second
                 // line instead of being cut off next to the time. Non-breaking
                 // spaces keep "· Heute 10:57" together when it wraps.
-                (Text(step.recipeName)
-                    + Text(verbatim: " ·\u{00A0}")
-                    + dayLabel(for: step.date, now: now)
-                    + Text(verbatim: "\u{00A0}")
-                    + Text(step.date, format: .dateTime.hour().minute()))
+                Text("\(step.recipeName) ·\u{00A0}\(dayLabel(for: step.date, now: now))\u{00A0}\(step.date, format: .dateTime.hour().minute())")
                     .font(.caption)
                     .foregroundColor(Theme.subtitle)
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 2)

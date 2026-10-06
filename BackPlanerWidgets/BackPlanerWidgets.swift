@@ -157,7 +157,7 @@ struct NextStepWidgetView: View {
         } else {
             day = Text(step.date, format: .dateTime.day().month())
         }
-        return day + Text(verbatim: " ") + Text(step.date, format: .dateTime.hour().minute())
+        return Text("\(day) \(step.date, format: .dateTime.hour().minute())")
     }
 
     // MARK: Families
@@ -246,7 +246,7 @@ struct NextStepWidgetView: View {
     }
 
     private func inlineView(_ step: PlanSnapshot.Step) -> some View {
-        Text(step.date, format: .dateTime.hour().minute()) + Text(verbatim: " ") + Text(step.instruction)
+        Text("\(step.date, format: .dateTime.hour().minute()) \(step.instruction)")
     }
 
     private var emptyView: some View {

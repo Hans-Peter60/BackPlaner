@@ -1,6 +1,10 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%@ %@" : {
+      "comment" : "Two parts side by side: day and time, or time and step. Only placeholders, nothing to translate.",
+      "shouldTranslate" : false
+    },
     "Als Nächstes" : {
       "localizations" : {
         "de" : { "stringUnit" : { "state" : "translated", "value" : "Als Nächstes" } },

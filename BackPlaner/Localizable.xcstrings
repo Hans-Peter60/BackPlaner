@@ -17,6 +17,10 @@
         }
       }
     },
+    "%@ · %@ %@" : {
+      "comment" : "Next step card: recipe name, day (Heute, Morgen or a date) and time. Only placeholders, nothing to translate.",
+      "shouldTranslate" : false
+    },
     "%lld Erinnerungen gesetzt.\nBackofen anstellen um %@ Uhr (%@).\nFertig um %@ Uhr." : {
       "comment" : "Summary after reminders were set: number of reminders, time and oven temperature for switching the oven on, finish time.",
       "localizations" : {
