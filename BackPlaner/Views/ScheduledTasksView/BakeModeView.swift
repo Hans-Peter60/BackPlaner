@@ -403,6 +403,11 @@ enum StepTiming {
 /// Reads a step aloud in the app's language. Plays through the speaker even
 /// with the ring switch muted, since the point is to be heard across the
 /// kitchen, and ducks other audio while it talks.
+///
+/// Main-actor isolated: the view drives it, and AVSpeechSynthesizerDelegate is
+/// Sendable, which a plain class with mutable state cannot be. The delegate
+/// callbacks arrive on the synthesizer's own queue and hop over.
+@MainActor
 @Observable
 final class StepSpeaker: NSObject, AVSpeechSynthesizerDelegate {
 
@@ -445,17 +450,15 @@ final class StepSpeaker: NSObject, AVSpeechSynthesizerDelegate {
     }
 
     private func finished() {
-        DispatchQueue.main.async {
-            self.isSpeaking = false
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-        }
+        isSpeaking = false
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        finished()
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        Task { @MainActor in self.finished() }
     }
 
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        finished()
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        Task { @MainActor in self.finished() }
     }
 }

@@ -496,8 +496,7 @@ struct ScheduledTasksView: View {
     private func chipLabel(for plan: PlanKey) -> Text {
         let siblings = plannedPlans.filter { $0.recipeName == plan.recipeName }
         guard siblings.count > 1 else { return Text(verbatim: plan.recipeName) }
-        return Text(verbatim: plan.recipeName + " · ")
-            + Text(firstDate(of: plan), format: .dateTime.day().month().hour().minute())
+        return Text("\(plan.recipeName) · \(firstDate(of: plan), format: .dateTime.day().month().hour().minute())")
     }
 
     private func filterChip(_ label: Text, plan: PlanKey?) -> some View {

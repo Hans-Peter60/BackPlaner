@@ -261,7 +261,7 @@ struct InstructionStepsStackedView: View {
             ForEach(rows) { row in
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        (Text("Schritt") + Text(verbatim: " \(row.step)"))
+                        Text("Schritt \(row.step)")
                             .bold()
                         Spacer(minLength: 8)
                         Text(row.duration)
