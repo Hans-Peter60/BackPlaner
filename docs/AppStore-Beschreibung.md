@@ -111,3 +111,27 @@ Durch Kommas getrennt, ohne Leerzeichen danach, höchstens 100 Zeichen. Der App-
 | Deutsch | `Backen,Brot,Planung,Sauerteig,Rezepte,Backplan,Teig,Vorteig,Erinnerung,Einkaufsliste,Bäcker,Timer` | 97 |
 | English | `baking,bread,planning,sourdough,recipe,schedule,dough,loaf,timer,reminder,shopping list,baker` | 93 |
 | Français | `cuisson,pain,planification,levain,recette,boulange,pâte,minuteur,rappel,liste de courses,four` | 93 |
+
+## Kopfzeile und Suchergebnisse
+
+Name und Untertitel stehen je Sprache unter **App-Informationen**, höchstens 30 Zeichen. Beide fließen in die Suche ein, und zwar stärker als die Schlüsselwörter. Was dort steht, muss in den Schlüsselwörtern nicht noch einmal auftauchen.
+
+| | Name | Untertitel | Zeichen |
+|---|---|---|---|
+| Deutsch | `BakePlanner` | `Sauerteig & Brotbacken planen` | 29 |
+| English | `BakePlanner` | `Bread & sourdough bake planner` | 30 |
+| Français | `BakePlanner` | `Planificateur pain & levain` | 27 |
+
+**Schlüsselwörter passend dazu**, ohne die Wörter aus Name und Untertitel:
+
+| Sprache | Schlüsselwörter | Zeichen |
+|---|---|---|
+| Deutsch | `Rezepte,Backplan,Teig,Vorteig,Erinnerung,Einkaufsliste,Bäcker,Timer,Hefe,Roggen,Dinkel,Backofen` | 95 |
+| English | `baking,recipe,schedule,dough,loaf,timer,reminder,shopping list,baker,yeast,rye,starter,proof,oven` | 97 |
+| Français | `boulange,recette,pâte,minuteur,rappel,liste de courses,four,boulanger,levure,seigle,baguette,cuisson` | 100 |
+
+**Werbetext** (auf der Versionsseite, höchstens 170 Zeichen). Er steht oben auf der Produktseite, lässt sich jederzeit ohne neue Prüfung ändern und eignet sich für Neuigkeiten. Für die Suche zählt er nicht.
+
+- DE: `Neu in 1.2: Rezepte direkt von Internetseiten importieren – auch aus Safari über „Teilen“. Und „Backofen anstellen“ nennt jetzt die Temperatur.`
+- EN: `New in 1.2: import recipes straight from web pages – even from Safari via Share. And “Turn on the oven” now names the temperature.`
+- FR: `Nouveau dans la 1.2 : importez des recettes depuis une page web, même depuis Safari via « Partager ». Et « Allumer le four » indique la température.`
