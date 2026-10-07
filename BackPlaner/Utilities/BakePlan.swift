@@ -167,6 +167,13 @@ struct BakePlan {
         return BakeWindow(recipeName: recipeName, start: start, end: end)
     }
 
+    /// The same plan for a different date.
+    func moved(to newDate: Date) -> BakePlan {
+        BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
+                 date: newDate, languageCode: languageCode, preheatTime: preheatTime,
+                 calendar: calendar)
+    }
+
     func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
         BakePlanValidator.issues(for: plannedSteps, bakeWindow: bakeWindow, existingWindows: existingWindows)
     }

@@ -297,6 +297,13 @@ Three things are checked:
 
 The notes don't prevent anything — you can still set the plan. They only spare you the surprise at three in the morning.
 
+**Suggestions to keep out of the night.** If a step begins before the start of day or after the end of day, the app looks for the nearest earlier and the nearest later time at which every step falls inside your day, and shows them below the notes, for example:
+
+> **Done by Sat, 10 Oct, 1:45 PM**
+> 1 hr, 45 min later · Starts Fri, 9 Oct, 6:05 PM · done Sat, 10 Oct, 1:45 PM
+
+**Apply** sets the date and time above accordingly; the recipe stays as it is. The search goes in quarter-hour steps up to a day earlier or later, never before now, and never so that the bake would need more ovens than you have. If there is no such time — say, because the dough takes longer than your day — the app tells you so.
+
 ### Setting reminders
 
 Tapping **Set reminder** does several things at once:
@@ -919,7 +926,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **A recipe can only be uploaded once**, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.
 - **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.
-- **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.
+- **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you. If a step falls into the night, it suggests a different time for the whole plan (see [chapter 7](#7-baking-instructions-and-reminders)); it doesn't lengthen or shorten individual steps.
 - **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.
 - **If you change a recipe after planning it** (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a **Plan again** button that opens the recipe. Only steps added to the recipe afterwards go undetected.
 - **The ingredients in a reminder** are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.

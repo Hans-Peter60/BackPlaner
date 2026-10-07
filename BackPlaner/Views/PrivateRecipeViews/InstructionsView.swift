@@ -45,6 +45,9 @@ struct InstructionsView: View {
     }
     // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
     @State private var planIssues                 = [BakePlanIssue]()
+    // Dates at which no step falls into the night (BakePlanAdvisor).
+    @State private var planHasNightSteps          = false
+    @State private var nightFreeDates             = [NightFreeDate]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var reminderHintText           = ""
@@ -165,7 +168,11 @@ struct InstructionsView: View {
                     refreshPlanIssues()
                 }
 
-                BakePlanIssuesView(issues: planIssues)
+                BakePlanIssuesView(issues: planIssues,
+                                   hasNightSteps: planHasNightSteps,
+                                   suggestions: nightFreeDates,
+                                   anchor: PlanAnchor(selection: dateTimeStartSelection),
+                                   onApply: { dateTime = $0 })
 
 
                 // MARK: Instructions
@@ -398,7 +405,10 @@ struct InstructionsView: View {
     }
 
     private func refreshPlanIssues() {
-        planIssues = bakePlan.issues(in: viewContext)
+        let plan = bakePlan
+        planIssues = plan.issues(in: viewContext)
+        planHasNightSteps = BakePlanAdvisor.hasNightSteps(plan)
+        nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

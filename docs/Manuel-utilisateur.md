@@ -297,6 +297,13 @@ Trois points sont vérifiés :
 
 Les remarques n’empêchent rien — vous pouvez définir le plan quand même. Elles vous épargnent seulement la surprise à trois heures du matin.
 
+**Suggestions pour éviter la nuit.** Si une étape commence avant le début ou après la fin de journée, l’app cherche l’horaire le plus proche, plus tôt et plus tard, auquel toutes les étapes tombent dans votre journée, et les affiche sous les remarques, par exemple :
+
+> **Terminé pour sam. 10 oct., 13:45**
+> 1 h et 45 min plus tard · Début ven. 9 oct., 18:05 · fin sam. 10 oct., 13:45
+
+**Appliquer** règle la date et l’heure ci-dessus en conséquence ; la recette reste inchangée. La recherche avance par quarts d’heure jusqu’à un jour plus tôt ou plus tard, jamais avant maintenant, et jamais de sorte que la cuisson demande plus de fours que vous n’en avez. S’il n’existe aucun horaire de ce type — par exemple parce que la pâte demande plus de temps que votre journée —, l’app vous le signale.
+
 ### Définir les rappels
 
 Toucher **Définir un rappel** déclenche plusieurs choses à la fois :
@@ -919,7 +926,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **Une recette ne peut être téléversée qu’une seule fois**, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.
 - **Les recettes privées dans le cloud exigent une connexion avec Apple** et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.
 - **La suppression du compte laisse les recettes publiées dans la base.** Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.
-- **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit, mais ne le recalcule pas — sortir une étape de la nuit pour la placer le matin reste votre travail.
+- **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit. Si une étape tombe la nuit, elle propose un autre horaire pour l’ensemble du plan (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)) ; elle n’allonge ni ne raccourcit les étapes une à une.
 - **Les plans définis avant cette mise à jour** ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.
 - **Si vous modifiez une recette après l’avoir planifiée** (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton **Replanifier**, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.
 - **Les ingrédients d’un rappel** sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.

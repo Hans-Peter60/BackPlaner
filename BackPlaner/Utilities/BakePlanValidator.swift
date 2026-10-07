@@ -97,7 +97,7 @@ enum BakePlanValidator {
 
     /// The day window in hours. A stored end at or before the start would switch
     /// the check off unnoticed, so such a setting falls back to the defaults.
-    private static func dayWindow() -> (start: Int, end: Int) {
+    static func dayWindow() -> (start: Int, end: Int) {
 
         let dayStart = GlobalVariables.dayStart
         let dayEnd   = GlobalVariables.dayEnd
@@ -107,6 +107,20 @@ enum BakePlanValidator {
         }
 
         return (dayStart, dayEnd)
+    }
+
+    /// Minutes since midnight at which `date` falls.
+    private static func minuteOfDay(_ date: Date, calendar: Calendar) -> Int {
+        let components = calendar.dateComponents([.hour, .minute], from: date)
+        return (components.hour ?? 0) * 60 + (components.minute ?? 0)
+    }
+
+    /// Whether a step beginning at `date` lies before `dayStart` or after
+    /// `dayEnd` (both in hours). The same rule as the day-window hints, for
+    /// BakePlanAdvisor to look for a plan without them.
+    static func isOutsideDay(_ date: Date, dayStart: Int, dayEnd: Int, calendar: Calendar = .current) -> Bool {
+        let minute = minuteOfDay(date, calendar: calendar)
+        return minute < dayStart * 60 || minute > dayEnd * 60
     }
 
     /// Hints for steps that fall before `Tagesbeginn` or after `Tagesende`.
@@ -120,8 +134,7 @@ enum BakePlanValidator {
 
         return steps.compactMap { step in
 
-            let components  = calendar.dateComponents([.hour, .minute], from: step.date)
-            let stepMinutes = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+            let stepMinutes = minuteOfDay(step.date, calendar: calendar)
 
             if stepMinutes < startMinutes {
                 return BakePlanIssue(
@@ -253,6 +266,18 @@ enum BakePlanValidator {
         }
 
         return issues
+    }
+
+    /// Whether `window` would need more ovens than there are, given the bakes
+    /// already scheduled: the condition of the overlap error above, without
+    /// its message.
+    static func needsMoreOvens(
+        _ window: BakeWindow,
+        existingWindows: [BakeWindow],
+        ovenCount: Int = GlobalVariables.ovenCount
+    ) -> Bool {
+        let overlapping = existingWindows.filter { $0.recipeName != window.recipeName && overlaps($0, window) }
+        return peakConcurrency(of: overlapping, within: window, padding: 0) + 1 > max(1, ovenCount)
     }
 
     private static func overlaps(_ a: BakeWindow, _ b: BakeWindow) -> Bool {

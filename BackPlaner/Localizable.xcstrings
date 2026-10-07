@@ -17,6 +17,40 @@
         }
       }
     },
+    "%@ früher" : {
+      "comment" : "How much earlier a suggested date is, e.g. “1 Std., 45 Min.”.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ earlier"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ plus tôt"
+          }
+        }
+      }
+    },
+    "%@ später" : {
+      "comment" : "How much later a suggested date is, e.g. “1 Std., 45 Min.”.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ later"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ plus tard"
+          }
+        }
+      }
+    },
     "%@ · %@ %@" : {
       "comment" : "Next step card: recipe name, day (Heute, Morgen or a date) and time. Only placeholders, nothing to translate.",
       "shouldTranslate" : false
@@ -80,6 +114,63 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BakePlanner n’a pas pu ouvrir sa base de données et fonctionne provisoirement sans vos recettes, plans et listes de courses. Ce que vous créez maintenant ne sera pas enregistré. Vos données sont conservées : vérifiez qu’il reste assez d’espace libre sur l’appareil, puis redémarrez l’app."
+          }
+        }
+      }
+    },
+    "Beginn %@ · fertig %@" : {
+      "comment" : "When the first step begins and when the bake is finished with a suggested date.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beginn %1$@ · fertig %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starts %1$@ · done %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %1$@ · fin %2$@"
+          }
+        }
+      }
+    },
+    "Fertig bis %@" : {
+      "comment" : "Suggested date when the plan is read as a finishing time. The argument is weekday, date and time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done by %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé pour %@"
+          }
+        }
+      }
+    },
+    "Innerhalb eines Tages gibt es keinen Zeitpunkt, zu dem alle Schritte in Deinen Tag fallen." : {
+      "comment" : "Shown under the night hints when no date within a day either way keeps every step inside the day window.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Within a day either way, there is no time at which every step falls inside your day."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans un délai d’un jour, aucun horaire ne place toutes les étapes dans votre journée."
           }
         }
       }
@@ -163,6 +254,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il a été supprimé entre-temps, peut-être sur un autre appareil."
+          }
+        }
+      }
+    },
+    "So beginnt kein Schritt in der Nacht:" : {
+      "comment" : "Heading above the suggested dates at which no step begins outside the day window.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So that no step begins at night:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour qu’aucune étape ne commence la nuit :"
+          }
+        }
+      }
+    },
+    "Starten ab %@" : {
+      "comment" : "Suggested date when the plan is read as a start time. The argument is weekday, date and time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start from %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer à %@"
           }
         }
       }
