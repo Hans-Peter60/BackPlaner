@@ -11,7 +11,14 @@ import Translation
 
 struct TabsFBView: View {
 
-    @State private var tabSelection = 0
+    /// Tags of the tabs.
+    private static let bakingTab = 0
+    private static let detailsTab = 1
+
+    /// A recipe opens on its details. The baking tab works out the plan, so
+    /// it is built only once it is chosen, and then kept.
+    @State private var tabSelection = TabsFBView.detailsTab
+    @State private var bakingTabOpened = false
 
     var recipeFB:RecipeFB
 
@@ -55,16 +62,22 @@ struct TabsFBView: View {
     }
 
     var body: some View {
-        TabView (selection: $modelFB.tabSelection) {
+        TabView (selection: $tabSelection) {
 
-            InstructionsFBView(recipeFB: recipeFB, languageCode: selectedLanguage)
+            Group {
+                if bakingTabOpened {
+                    InstructionsFBView(recipeFB: recipeFB, languageCode: selectedLanguage)
+                } else {
+                    Color.clear
+                }
+            }
                 .tabItem {
                     VStack {
                         Image(systemName: "dial.max.fill")
                         Text("Rezept backen")
                     }
                 }
-                .tag(0)
+                .tag(Self.bakingTab)
 
              RecipeFBDetailView(recipeFB: recipeFB)
                 .tabItem {
@@ -73,7 +86,7 @@ struct TabsFBView: View {
                         Text("Details")
                     }
                 }
-                .tag(1)
+                .tag(Self.detailsTab)
 
             // Same place as for a recipe of one's own, so the shopping list is
             // where people look for it.
@@ -91,6 +104,9 @@ struct TabsFBView: View {
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.
         .tint(Theme.accentText)
+        .onChange(of: tabSelection) { _, selection in
+            if selection == Self.bakingTab { bakingTabOpened = true }
+        }
         .task {
             // Load this recipe's components and steps on demand, so both the
             // baking and the details tab work even when the global "Detailansicht"

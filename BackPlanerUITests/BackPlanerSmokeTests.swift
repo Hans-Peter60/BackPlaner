@@ -120,6 +120,11 @@ final class BackPlanerSmokeTests: XCTestCase {
         XCTAssertTrue(row.waitForExistence(timeout: 5), "The seeded recipe is not listed")
         row.tap()
 
+        // A recipe opens on its details; planning happens in "Backen".
+        let bakingTab = app.tabBars.buttons["Backen"]
+        XCTAssertTrue(bakingTab.waitForExistence(timeout: 5), "The recipe has no Backen tab")
+        bakingTab.tap()
+
         let setReminders = app.buttons["Reminder setzen"]
         scrollUntilHittable(setReminders)
         tapReliably(setReminders)

@@ -154,10 +154,11 @@ When you're signed in with Apple, the same list also holds **your private cloud 
 
 ### Opening a public recipe
 
-A recipe opens with two tabs along the bottom:
+A recipe opens on the **Details** tab. Three tabs run along the bottom:
 
-- **Bake recipe** — the baking instructions with the schedule (see [chapter 7](#7-baking-instructions-and-reminders))
+- **Bake recipe** — the baking instructions with the schedule (see [chapter 7](#7-baking-instructions-and-reminders)). The schedule is only worked out once you choose this tab.
 - **Details** — an overview of ingredients, components, and steps
+- **Shopping list** — put the ingredients on a shopping list
 
 ### Translating a recipe
 
@@ -235,6 +236,8 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients on a shopping list |
 | **+ History** | Record a bake with date, comment, and photos |
+
+A recipe opens on the **Details** tab. The schedule in the **Bake** tab is only worked out once you choose it; only **Plan again** in Scheduled steps takes you straight there.
 
 In the **Details** tab you can tap the recipe image to see it full size.
 

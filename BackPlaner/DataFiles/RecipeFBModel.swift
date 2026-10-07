@@ -89,7 +89,6 @@ class RecipeFBModel: ObservableObject {
     @Published var storedID  = ""
     @Published var isLoading = false
 
-    @Published var tabSelection = 0
 
     /// True when the signed-in (anonymous) user is a moderator/owner, i.e. their
     /// uid has a document in the Firestore `admins` collection. Admins may delete

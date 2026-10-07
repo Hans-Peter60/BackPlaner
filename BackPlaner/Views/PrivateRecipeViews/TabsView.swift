@@ -9,25 +9,47 @@ import SwiftUI
 import CoreData
 
 struct TabsView: View {
-    
+
+    /// Tags of the tabs.
+    static let bakingTab = 0
+    static let detailsTab = 1
+
     var recipe:Recipe
-    
-    @State private var tabSelection = 0
-    
+
+    /// A recipe opens on its details. The baking tab works out the plan
+    /// (start times, plan check, suggestions against the night), so it is
+    /// built only once it is chosen, and then kept.
+    @State private var tabSelection: Int
+    @State private var bakingTabOpened: Bool
+
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
-    
+
+    /// `startsInBakingView` for the way in from "Neu planen", where planning
+    /// is the point.
+    init(recipe: Recipe, startsInBakingView: Bool = false) {
+        self.recipe = recipe
+        _tabSelection = State(initialValue: startsInBakingView ? Self.bakingTab : Self.detailsTab)
+        _bakingTabOpened = State(initialValue: startsInBakingView)
+    }
+
     var body: some View {
         TabView (selection: $tabSelection) {
-            
-            InstructionsView(recipe: recipe)
+
+            Group {
+                if bakingTabOpened {
+                    InstructionsView(recipe: recipe)
+                } else {
+                    Color.clear
+                }
+            }
                 .tabItem {
                     VStack {
                         Image(systemName: "dial.max.fill")
                         Text("Backen")
                     }
                 }
-                .tag(0)
+                .tag(Self.bakingTab)
             
              RecipeDetailView(recipe: recipe)
                 .tabItem {
@@ -36,7 +58,7 @@ struct TabsView: View {
                         Text("Details")
                     }
                 }
-                .tag(1)
+                .tag(Self.detailsTab)
             
             EditRecipeView(recipeId: recipe.objectID)
                .tabItem {
@@ -68,5 +90,8 @@ struct TabsView: View {
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.
         .tint(Theme.accentText)
+        .onChange(of: tabSelection) { _, selection in
+            if selection == Self.bakingTab { bakingTabOpened = true }
+        }
     }
 }

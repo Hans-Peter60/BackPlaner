@@ -151,10 +151,11 @@ Steht „Keine Rezepte geladen“, bestand beim Start keine Internetverbindung �
 
 ### Ein öffentliches Rezept öffnen
 
-Ein Rezept öffnet sich mit zwei Tabs am unteren Rand:
+Ein Rezept öffnet sich im Tab **Details**. Am unteren Rand stehen drei Tabs:
 
-- **Rezept backen** – die Backanleitung mit Zeitplanung (siehe [Kapitel 7](#7-backanleitung-und-reminder))
+- **Rezept backen** – die Backanleitung mit Zeitplanung (siehe [Kapitel 7](#7-backanleitung-und-reminder)). Die Zeitplanung wird erst berechnet, wenn Du diesen Tab wählst.
 - **Details** – Übersicht über Zutaten, Komponenten und Schritte
+- **Einkaufsliste** – die Zutaten auf eine Einkaufsliste setzen
 
 ### Rezept übersetzen
 
@@ -232,6 +233,8 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts auf eine Einkaufsliste setzen |
 | **+ Historie** | Einen Backvorgang mit Datum, Kommentar und Fotos nachtragen |
+
+Ein Rezept öffnet sich im Tab **Details**. Die Zeitplanung im Tab **Backen** wird erst berechnet, wenn Du ihn wählst; nur **Neu planen** in „Geplante Schritte“ führt direkt dorthin.
 
 Im Tab **Details** kannst Du das Rezeptbild antippen, um es groß anzuzeigen.
 

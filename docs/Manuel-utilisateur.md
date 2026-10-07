@@ -154,10 +154,11 @@ Si « Aucune recette chargée » s’affiche, c’est qu’il n’y avait pas de
 
 ### Ouvrir une recette publique
 
-Une recette s’ouvre avec deux onglets en bas :
+Une recette s’ouvre sur l’onglet **Détails**. Trois onglets figurent en bas :
 
-- **Cuire la recette** — les instructions de cuisson avec la planification (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels))
+- **Cuire la recette** — les instructions de cuisson avec la planification (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)). La planification n’est calculée que lorsque vous choisissez cet onglet.
 - **Détails** — un aperçu des ingrédients, des composants et des étapes
+- **Liste de courses** — ajouter les ingrédients à une liste de courses
 
 ### Traduire une recette
 
@@ -235,6 +236,8 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette à une liste de courses |
 | **+ Historique** | Consigner une cuisson avec date, commentaire et photos |
+
+Une recette s’ouvre sur l’onglet **Détails**. La planification de l’onglet **Cuire** n’est calculée que lorsque vous le choisissez ; seul **Replanifier** dans « Étapes planifiées » y mène directement.
 
 Dans l’onglet **Détails**, vous pouvez toucher l’image de la recette pour l’afficher en grand.
 
