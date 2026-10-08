@@ -64,7 +64,8 @@ final class AppStoreScreenshots: XCTestCase {
         capture("02-rezept-datenbank")
 
         tapReliably(row)
-        settle(2)
+        acceptTranslationDownloadIfAsked()
+        settle(3) // the recipe is translated into the app's language
         capture("03-rezept-details")
 
         tab(0, titled: ["de": "Rezept backen", "en": "Bake recipe", "fr": "Cuire la recette"]).tap()
@@ -78,14 +79,20 @@ final class AppStoreScreenshots: XCTestCase {
         let setReminders = app.buttons["plan.setReminders"]
         scrollUntilHittable(setReminders)
         tapReliably(setReminders)
-        let replace = app.buttons["plan.replace"]
-        if replace.waitForExistence(timeout: 2) {
+        // From the second run on the recipe already has a plan; replace it.
+        let replaceTitle = ["de": "Bestehenden Plan ersetzen", "en": "Replace existing plan",
+                            "fr": "Remplacer le plan existant"][language] ?? ""
+        let replace = app.descendants(matching: .button)
+            .matching(NSPredicate(format: "identifier == 'plan.replace' OR label == %@", replaceTitle))
+            .firstMatch
+        if replace.waitForExistence(timeout: 3) {
             replace.tap()
         }
         allowSystemAlertIfShown()
         let confirmation = app.alerts.firstMatch
         if confirmation.waitForExistence(timeout: 5) {
-            confirmation.buttons.firstMatch.tap()
+            let ok = confirmation.buttons["OK"]
+            (ok.exists ? ok : confirmation.buttons.firstMatch).tap()
         }
 
         backToMenu()
@@ -112,6 +119,7 @@ final class AppStoreScreenshots: XCTestCase {
         let rowAgain = recipeRow(named: recipeName)
         XCTAssertTrue(rowAgain.waitForExistence(timeout: 20))
         tapReliably(rowAgain)
+        acceptTranslationDownloadIfAsked()
         tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
         settle(2)
         capture("07-einkaufsliste")
@@ -220,6 +228,24 @@ final class AppStoreScreenshots: XCTestCase {
     }
 
     // MARK: - System alerts
+
+    /// A German recipe opened in the English or French app is translated on
+    /// the device. The first time, iOS asks to download the language; that
+    /// sheet would cover everything, so the test accepts it and waits for the
+    /// download.
+    private func acceptTranslationDownloadIfAsked() {
+        let titles = ["Download", "Herunterladen", "Télécharger"]
+        let predicate = NSPredicate(format: "label IN %@", titles)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        for source in [app!, springboard] {
+            let button = source.buttons.matching(predicate).firstMatch
+            guard button.waitForExistence(timeout: 3) else { continue }
+            button.tap()
+            let gone = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: button)
+            _ = XCTWaiter.wait(for: [gone], timeout: 120)
+            return
+        }
+    }
 
     private func allowSystemAlertIfShown() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
