@@ -741,15 +741,15 @@
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 6AF754D82B75018E00EADD84;
 					};
-					6A759F6349C5799253EC851C = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 6AF754D82B75018E00EADD84;
-					};
 					6A261554306FAB78007644AB = {
 						CreatedOnToolsVersion = 27.0;
 					};
 					6A2615FB3072A079007644AB = {
 						CreatedOnToolsVersion = 27.0;
+					};
+					6A759F6349C5799253EC851C = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 6AF754D82B75018E00EADD84;
 					};
 					6AF754D82B75018E00EADD84 = {
 						CreatedOnToolsVersion = 15.2;
