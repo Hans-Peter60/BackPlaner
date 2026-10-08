@@ -93,7 +93,7 @@ struct ScheduledTasksView: View {
             ContentUnavailableView(
                 "Keine geplanten Schritte",
                 systemImage: "calendar",
-                description: Text("Setze einen Reminder in der Backanleitung eines Rezepts.")
+                description: Text("Setze Erinnerungen in der Backanleitung eines Rezepts.")
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
@@ -403,12 +403,13 @@ struct ScheduledTasksView: View {
         return names.compactMap { name in
             guard let recipe = recipes.first(where: { $0.name == name }) else { return nil }
             let instructions = recipe.instructionsArray
-            // The oven and finish steps are generated at planning time and
-            // live only in the plan, never in the recipe.
+            // The oven, turn-down and finish steps are generated at planning
+            // time and live only in the plan, never in the recipe.
             let planned = nextSteps.filter {
                 $0.recipeName == name
                     && $0.step < 99
                     && !BakePlanValidator.isPreheatInstruction($0.instruction)
+                    && !BakePlan.isTurnDownInstruction($0.instruction)
             }
             let unchanged = planned.allSatisfy { step in
                 instructions.contains {

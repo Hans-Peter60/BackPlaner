@@ -167,4 +167,90 @@ struct BakePlanTests {
         #expect(planned.contains { $0.instruction == "Backofen anstellen (250 °C)" && $0.date == time(8, 55) })
         #expect(planned.last?.step == 99)
     }
+
+    // MARK: Falling temperature
+
+    @Test("A falling temperature gets a turn-down step at the minute the bake names")
+    func turnsTheOvenDownWhenTheStepSaysWhen() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C einschießen, kräftig schwaden, nach 10 Minuten auf 220 °C reduzieren, 40 Minuten backen",
+                            step: 3, startTime: 70, duration: 40)
+        let falling = plan(steps)
+        let turnDown = try #require(falling.generatedTurnDownStep)
+
+        #expect(turnDown.instruction == "Backofen auf 220 °C zurückdrehen, Dampf ablassen")
+        #expect(turnDown.startTime == 80)
+        #expect(turnDown.step == 3.1)
+        #expect(turnDown.duration == 0)
+        // The oven itself is still switched on for the first temperature.
+        #expect(falling.generatedOvenStep?.instruction == "Backofen anstellen (250 °C)")
+        #expect(falling.allSteps.count == steps.count + 3)
+    }
+
+    @Test("Without a minute the heat is turned down ten minutes in, and \"ohne Dampf\" releases none")
+    func turnsDownAfterTenMinutesByDefault() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250°C fallend auf 220°C 50-55 Minuten ohne Dampf backen", step: 3, startTime: 70, duration: 55)
+        let turnDown = try #require(plan(steps).generatedTurnDownStep)
+
+        #expect(turnDown.instruction == "Backofen auf 220 °C zurückdrehen")
+        #expect(turnDown.startTime == 80)
+    }
+
+    @Test("The import's own wording of a falling bake is understood")
+    func understandsTheImportersWording() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen. Schwaden: kräftig.", step: 3, startTime: 70, duration: 45)
+        #expect(try #require(plan(steps).generatedTurnDownStep).instruction == "Backofen auf 220 °C zurückdrehen, Dampf ablassen")
+    }
+
+    @Test("A convection figure given alongside is no falling temperature")
+    func convectionIsNoDrop() {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Ober-/Unterhitze 230 °C (Umluft 210 °C), 45 Minuten backen", step: 3, startTime: 70, duration: 45)
+        #expect(plan(steps).generatedTurnDownStep == nil)
+        #expect(BakePlan.temperatureDrop(in: "Bei 250 °C backen") == nil)
+        #expect(BakePlan.temperatureDrop(in: "Bei 220 °C, dann auf 240 °C erhöhen") == nil)
+    }
+
+    @Test("A drop stated in the step before the bake counts from the bake")
+    func dropInTheNeighbouringStep() throws {
+        let steps = [
+            PlanStep(instruction: "Brot einschießen, Ofen 250 °C fallend auf 210 °C, kräftig schwaden", step: 2, startTime: 60, duration: 1),
+            PlanStep(instruction: "50 Minuten backen", step: 3, startTime: 61, duration: 50),
+        ]
+        let turnDown = try #require(plan(steps).generatedTurnDownStep)
+        #expect(turnDown.instruction == "Backofen auf 210 °C zurückdrehen, Dampf ablassen")
+        #expect(turnDown.startTime == 71)
+    }
+
+    @Test("The turn-down step follows the recipe's language and unit")
+    func wordsTheTurnDownInTheLanguage() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bake at 450°F for 15 minutes, then reduce to 400°F and bake 25 minutes more", step: 3, startTime: 70, duration: 40)
+        let english = try #require(plan(steps, language: "en").generatedTurnDownStep)
+        #expect(english.instruction == "Turn the oven down to 400 °F")
+        #expect(english.startTime == 85)
+    }
+
+    @Test("A generated turn-down step is recognised as such, in every language, and is no bake")
+    func recognisesGeneratedTurnDownSteps() {
+        for text in ["Backofen auf 220 °C zurückdrehen",
+                     "Backofen auf 220 °C zurückdrehen, Dampf ablassen",
+                     "Turn the oven down to 400 °F",
+                     "Baisser le four à 220 °C, évacuer la buée"] {
+            #expect(BakePlan.isTurnDownInstruction(text), "\(text)")
+            #expect(!BakePlanValidator.isBakingStartInstruction(text), "\(text)")
+        }
+        // A recipe's own step that happens to mention turning down is not generated.
+        #expect(!BakePlan.isTurnDownInstruction("Nach 10 Minuten den Backofen auf 220 °C zurückdrehen und weiterbacken"))
+        #expect(!BakePlan.isTurnDownInstruction("Bei 250 °C backen"))
+    }
+
+    @Test("A turn-down past the end of the bake is not generated")
+    func noTurnDownAfterTheBake() {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen", step: 3, startTime: 70, duration: 8)
+        #expect(plan(steps).generatedTurnDownStep == nil)
+    }
 }

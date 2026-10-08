@@ -147,7 +147,7 @@ struct BakeHistoriesListView: View {
             ContentUnavailableView {
                 Label("Noch keine Backhistorie", systemImage: "clock.arrow.circlepath")
             } description: {
-                Text("Jeder Backvorgang, für den Du Reminder setzt, landet hier – mit Datum, Kommentar und Fotos.")
+                Text("Jeder Backvorgang, für den Du Erinnerungen setzt, landet hier – mit Datum, Kommentar und Fotos.")
             } actions: {
                 NavigationLink("Eigene Rezepte öffnen") {
                     RecipeListView()

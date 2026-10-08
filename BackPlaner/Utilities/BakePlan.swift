@@ -107,6 +107,48 @@ struct BakePlan {
         return ordered.lazy.compactMap { Self.ovenTemperature(in: $0.instruction) }.first
     }
 
+    /// Minutes into the bake at which the heat is turned down when the recipe
+    /// says that it falls but not when: the ten minutes after which bakers
+    /// release the steam.
+    static let defaultTurnDownMinutes = 10
+
+    /// "Backofen auf 220 °C zurückdrehen, Dampf ablassen", generated when the
+    /// bake states a falling temperature ("250 °C fallend auf 220 °C"). The
+    /// recipe knew the second temperature all along; without this step
+    /// nobody was reminded of it. It falls at the minute the step names,
+    /// else ten minutes into the bake, and only while the bake still runs.
+    var generatedTurnDownStep: PlanStep? {
+        guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
+
+        // The same order the oven temperature is looked for in.
+        let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
+        guard let drop = ordered.lazy.compactMap({ Self.temperatureDrop(in: $0.instruction) }).first else { return nil }
+        guard bakingStep.duration <= 0 || drop.afterMinutes < bakingStep.duration else { return nil }
+
+        let texts = AppSettings.generatedStepTexts(languageCode: languageCode)
+        let format = drop.withSteam ? texts.turnDownWithSteam : texts.turnDown
+        return PlanStep(instruction: String(format: format, drop.temperature),
+                        step: bakingStep.step + 0.1,
+                        startTime: bakingStep.startTime + drop.afterMinutes,
+                        duration: 0)
+    }
+
+    /// Whether a text is a turn-down step the plan generated, in any of the
+    /// languages it can be stored in. Generated steps live only in the plan,
+    /// never in the recipe, so whoever compares the two has to leave them
+    /// out — as "Geplante Schritte" does for the oven and finish steps.
+    static func isTurnDownInstruction(_ instruction: String) -> Bool {
+        for language in ["de", "en", "fr"] {
+            let texts = AppSettings.generatedStepTexts(languageCode: language)
+            for format in [texts.turnDown, texts.turnDownWithSteam] {
+                let parts = format.components(separatedBy: "%@")
+                guard parts.count == 2 else { continue }
+                if instruction.hasPrefix(parts[0]), instruction.hasSuffix(parts[1]) { return true }
+            }
+        }
+        return false
+    }
+
     /// "Backvorgang ist beendet", always `prepTime` after the start.
     var endStep: PlanStep {
         PlanStep(instruction: AppSettings.generatedStepTexts(languageCode: languageCode).bakeEnd,
@@ -132,7 +174,7 @@ struct BakePlan {
 
     /// Every step the plan writes, generated ones included.
     var allSteps: [PlanStep] {
-        scheduledSteps + [generatedOvenStep].compactMap { $0 } + [endStep]
+        scheduledSteps + [generatedOvenStep, generatedTurnDownStep].compactMap { $0 } + [endStep]
     }
 
     /// When the oven is switched on, by the recipe's own step or the
@@ -204,27 +246,98 @@ struct BakePlan {
     /// Only oven heat counts, so a dough or proofing temperature ("bei 28 °C
     /// gehen lassen") is passed over: Celsius from 100, Fahrenheit from 200.
     static func ovenTemperature(in text: String) -> String? {
+        ovenTemperatures(in: text).first?.text
+    }
+
+    /// An oven temperature as a step states it, and where in the text.
+    private struct OvenTemperature {
+        let value: Int
+        let fahrenheit: Bool
+        let location: Int
+        var text: String { "\(value) °\(fahrenheit ? "F" : "C")" }
+    }
+
+    /// Every oven temperature a step states, in reading order. Those with a
+    /// unit come first so the first one wins over a bare number after "bei".
+    private static func ovenTemperatures(in text: String) -> [OvenTemperature] {
+        var found: [OvenTemperature] = []
+
         let withUnit = #"(?<!\d)(\d{2,3})\s*(?:°\s*([CcFf])?|Grad\b|degrees?\b)"#
         for match in matches(of: withUnit, in: text) {
-            guard let value = Int(match[0]) else { continue }
-            let fahrenheit = match[1].uppercased() == "F"
-            if fahrenheit, value >= 200 { return "\(value) °F" }
-            if !fahrenheit, value >= 100, value <= 300 { return "\(value) °C" }
+            guard let value = Int(match.groups[0]) else { continue }
+            let fahrenheit = match.groups[1].uppercased() == "F"
+            if fahrenheit, value >= 200 {
+                found.append(OvenTemperature(value: value, fahrenheit: true, location: match.location))
+            } else if !fahrenheit, value >= 100, value <= 300 {
+                found.append(OvenTemperature(value: value, fahrenheit: false, location: match.location))
+            }
         }
+        guard found.isEmpty else { return found }
+
         let afterPreposition = #"(?:\bbei|\bauf|\bat|à)\s+(\d{3})(?!\d)"#
         for match in matches(of: afterPreposition, in: text) {
-            if let value = Int(match[0]), value >= 100, value <= 300 { return "\(value) °C" }
+            if let value = Int(match.groups[0]), value >= 100, value <= 300 {
+                found.append(OvenTemperature(value: value, fahrenheit: false, location: match.location))
+            }
+        }
+        return found
+    }
+
+    /// A bake whose heat falls: the lower temperature, the minute into the
+    /// bake at which to turn down, and whether steam is released with it.
+    ///
+    /// A second temperature only counts as a drop when it is lower than the
+    /// first and is not the convection figure given alongside ("230 °C
+    /// Ober-/Unterhitze, Umluft 210 °C"). "Ohne Dampf" is no steam.
+    static func temperatureDrop(in text: String) -> (temperature: String, afterMinutes: Int, withSteam: Bool)? {
+        let temperatures = ovenTemperatures(in: text)
+        guard let first = temperatures.first,
+              let lower = temperatures.dropFirst().first(where: { $0.value < first.value && $0.fahrenheit == first.fahrenheit })
+        else { return nil }
+
+        let folded = text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "de_DE"))
+        let leadIn = String(folded.prefix(lower.location).suffix(40))
+        let convectionWords = ["umluft", "heissluft", "heißluft", "fan", "convection", "tournante"]
+        guard !convectionWords.contains(where: leadIn.contains) else { return nil }
+
+        let steamWords = ["dampf", "schwaden", "steam", "buee", "vapeur"]
+        let noSteamPhrases = ["ohne dampf", "ohne schwaden", "without steam", "sans buee", "sans vapeur"]
+        let withSteam = steamWords.contains(where: folded.contains) && !noSteamPhrases.contains(where: folded.contains)
+
+        return (lower.text, minutesBeforeTurningDown(in: folded) ?? defaultTurnDownMinutes, withSteam)
+    }
+
+    /// "nach 10 Minuten", "after 15 min", "après 10 minutes", or "10 Minuten
+    /// anbacken, dann …" / "for 15 minutes, then …": the minute at which the
+    /// heat is turned down, if the step says.
+    private static func minutesBeforeTurningDown(in foldedText: String) -> Int? {
+        let patterns = [
+            #"(?:nach|after|apres)\s+(?:ca\.?\s*|etwa\s+|about\s+|environ\s+)?(\d{1,3})\s*(?:min\b|min\.|minuten|minutes?)"#,
+            #"(\d{1,3})\s*(?:min\b|min\.|minuten|minutes?)\s*(?:anbacken|lang|,)?\s*(?:dann|danach|then|puis|anschliessend)"#
+        ]
+        for pattern in patterns {
+            if let match = matches(of: pattern, in: foldedText).first, let minutes = Int(match.groups[0]), minutes > 0 {
+                return minutes
+            }
         }
         return nil
     }
 
-    /// The capture groups of every match, "" for a group that did not take part.
-    private static func matches(of pattern: String, in text: String) -> [[String]] {
+    private struct Match {
+        /// The capture groups, "" for one that did not take part.
+        let groups: [String]
+        /// Where the whole match begins, as a character offset.
+        let location: Int
+    }
+
+    private static func matches(of pattern: String, in text: String) -> [Match] {
         guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else { return [] }
         return expression.matches(in: text, range: NSRange(text.startIndex..., in: text)).map { match in
-            (1..<match.numberOfRanges).map { group in
+            let groups = (1..<match.numberOfRanges).map { group in
                 Range(match.range(at: group), in: text).map { String(text[$0]) } ?? ""
             }
+            let location = Range(match.range, in: text).map { text.distance(from: text.startIndex, to: $0.lowerBound) } ?? 0
+            return Match(groups: groups, location: location)
         }
     }
 }
@@ -258,17 +371,18 @@ struct BakePlanScheduler {
                                         details: details(index))
         }
 
-        if let ovenStep = plan.generatedOvenStep {
-            _ = manager.setNotification(reminderID, ovenStep.instruction,
-                                        Rational.decimalPlace(ovenStep.step, 10),
-                                        plan.reminderOffset(of: ovenStep), plan.date, true)
+        let generatedSteps = [plan.generatedOvenStep, plan.generatedTurnDownStep].compactMap { $0 }
+        for generated in generatedSteps {
+            _ = manager.setNotification(reminderID, generated.instruction,
+                                        Rational.decimalPlace(generated.step, 10),
+                                        plan.reminderOffset(of: generated), plan.date, true)
         }
 
         let endStep = plan.endStep
         let finishDate = manager.setNotification(reminderID, endStep.instruction, "99",
                                                  plan.reminderOffset(of: endStep), plan.date, true)
 
-        return Result(reminderCount: plan.steps.count + (plan.generatedOvenStep == nil ? 1 : 2),
+        return Result(reminderCount: plan.steps.count + generatedSteps.count + 1,
                       ovenOnDate: plan.ovenOnStep.map(plan.date(of:)) ?? plan.baseDate,
                       finishDate: finishDate,
                       ovenTemperature: plan.ovenTemperature)

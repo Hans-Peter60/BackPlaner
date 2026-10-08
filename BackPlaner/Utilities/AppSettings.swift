@@ -147,14 +147,21 @@ struct AppSettings {
         generatedStepTexts(languageCode: locale.identifier).bakeEnd
     }
 
-    static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String) {
+    /// The steps the plan adds to a recipe. `turnDown` and `turnDownWithSteam`
+    /// are formats taking the lower temperature ("220 °C") of a bake whose
+    /// heat falls.
+    static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String,
+                                                              turnDown: String, turnDownWithSteam: String) {
         switch baseLanguage(of: languageCode) {
         case "en":
-            return ("Turn on the oven", "Baking is finished")
+            return ("Turn on the oven", "Baking is finished",
+                    "Turn the oven down to %@", "Turn the oven down to %@, release the steam")
         case "fr":
-            return ("Allumer le four", "La cuisson est terminée")
+            return ("Allumer le four", "La cuisson est terminée",
+                    "Baisser le four à %@", "Baisser le four à %@, évacuer la buée")
         default:
-            return ("Backofen anstellen", "Backvorgang ist beendet")
+            return ("Backofen anstellen", "Backvorgang ist beendet",
+                    "Backofen auf %@ zurückdrehen", "Backofen auf %@ zurückdrehen, Dampf ablassen")
         }
     }
 

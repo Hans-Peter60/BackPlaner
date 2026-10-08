@@ -281,7 +281,7 @@ enum NotificationActions {
         completionHandler: @escaping () -> Void
     ) {
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "Reminder verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+        content.title = String(localized: "Erinnerung verschieben", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         content.body = String(
             localized: "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?",
             bundle: AppSettings.localizationBundle, locale: AppSettings.locale
@@ -838,7 +838,7 @@ enum ScheduledStepShiftError: LocalizedError {
             )
         case .notificationNotFound:
             return String(
-                localized: "Der zugehörige Reminder wurde nicht gefunden.",
+                localized: "Die zugehörige Erinnerung wurde nicht gefunden.",
                 bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             )
         }

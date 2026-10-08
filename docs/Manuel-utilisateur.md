@@ -46,7 +46,7 @@ S’y ajoutent : une base de recettes publique commune, vos propres recettes sur
 1. Ouvrez **Base de recettes** et choisissez une recette — ou créez la vôtre sous **Créer une nouvelle recette**.
 2. Dans la recette, ouvrez l’onglet **Cuire** ou **Cuire la recette**.
 3. Choisissez **Commencer à** ou **Terminé pour** et réglez la date et l’heure.
-4. Vérifiez les heures de début calculées, puis touchez **Définir un rappel**.
+4. Vérifiez les heures de début calculées, puis touchez **Définir les rappels**.
 5. Ouvrez **Étapes planifiées** pour contrôler tous les horaires sous forme de liste ou de timeline.
 
 Les rappels supposent que BakePlanner soit autorisé à envoyer des notifications. Les explications détaillées se trouvent au [chapitre 7](#7-instructions-de-cuisson-et-rappels), au [chapitre 10](#10-étapes-planifiées-liste-et-timeline) et au [chapitre 17](#17-questions-fréquentes-et-dépannage).
@@ -245,7 +245,7 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 
 | Onglet | Contenu |
 |--------|---------|
-| **Cuire** | Instructions de cuisson avec planification et « Définir un rappel » |
+| **Cuire** | Instructions de cuisson avec planification et « Définir les rappels » |
 | **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF |
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette à une liste de courses |
@@ -275,7 +275,7 @@ C’est le cœur de l’app. La structure est la même pour vos recettes et pour
 6. **Barre de commande** — voir ci-dessous.
 7. **Étapes de préparation** — un tableau avec l’étape, la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
 8. **Cuissons précédentes** (vos recettes uniquement) — toutes les entrées d’historique, la plus récente en premier, chacune avec sa date, les mesures sur une ligne et le commentaire ; une entrée encore à venir est marquée « planifiée ».
-9. **Définir un rappel**.
+9. **Définir les rappels**.
 
 ### La barre de commande
 
@@ -300,7 +300,7 @@ L’app recalcule alors toutes les heures de début et la durée de travail tota
 
 ### Ce que l’app reproche à un plan
 
-Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure choisie aboutit à un plan peu pratique. Elles se mettent à jour à chaque modification de la date, de l’heure ou des durées — avant même que vous ne touchiez « Définir un rappel ».
+Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure choisie aboutit à un plan peu pratique. Elles se mettent à jour à chaque modification de la date, de l’heure ou des durées — avant même que vous ne touchiez « Définir les rappels ».
 
 | Signe | Signification |
 |-------|---------------|
@@ -324,13 +324,14 @@ Les remarques n’empêchent rien — vous pouvez définir le plan quand même. 
 
 ### Définir les rappels
 
-Toucher **Définir un rappel** déclenche plusieurs choses à la fois :
+Toucher **Définir les rappels** déclenche plusieurs choses à la fois :
 
 1. Un rappel local est défini pour **chaque étape de préparation**, à l’heure de début calculée.
 2. L’étape **« allumer le four »** est insérée automatiquement — le **temps de préchauffage** réglé avant l’**étape de cuisson** (15 minutes par défaut, modifiable dans les Réglages). L’étape de cuisson est celle qui décrit la cuisson, pas forcément la dernière : si « laisser refroidir » suit, le four est quand même préchauffé avant la cuisson.
    - Si la recette indique une **température de four**, elle est ajoutée, par exemple « Allumer le four (250 °C) ». Avec « cuire à 250 °C puis 220 °C », c’est la première. La température peut aussi figurer dans l’étape précédente (« enfourner, four à 250 °C »).
    - Si la recette comporte déjà **sa propre étape de préchauffage**, aucune seconde n’est ajoutée. L’étape de la recette sert alors de rappel de préchauffage et reçoit la température si elle ne l’indique pas encore.
    - Si la cuisson commence dans un **four froid** (« enfourner dans le four froid »), le temps de préchauffage est supprimé.
+   - Si l’étape de cuisson indique une **température descendante** (« enfourner à 250 °C, après 10 minutes baisser à 220 °C »), l’app insère en plus **« Baisser le four à 220 °C »** — à la minute indiquée par l’étape, sinon dix minutes après le début de la cuisson. Si l’étape mentionne la buée ou la vapeur, le texte devient « …, évacuer la buée » ; pas avec « sans buée ». Une température de chaleur tournante indiquée à côté (« 230 °C sole/voûte, chaleur tournante 210 °C ») ne compte pas comme une baisse.
 3. **« La cuisson est terminée »** est également planifié pour l’heure de fin.
 4. Toutes les étapes arrivent dans **Étapes planifiées**.
 5. Pour vos recettes, une **entrée d’historique** est créée avec la date de fin et le commentaire provisoire « aucun commentaire saisi », que vous pourrez compléter plus tard.
@@ -342,11 +343,11 @@ Une confirmation apparaît ensuite, par exemple :
 > Allumer le four à 16:45 (250 °C).
 > Terminé à 18:10.
 
-Les textes « allumer le four » et « la cuisson est terminée » apparaissent dans la langue active (pour les recettes publiques, dans la langue dans laquelle vous consultez la recette).
+Les textes « allumer le four », « baisser le four » et « la cuisson est terminée » apparaissent dans la langue active (pour les recettes publiques, dans la langue dans laquelle vous consultez la recette).
 
-> **Une recette, un plan — ou plusieurs.** Si vous touchez « Définir un rappel » alors qu’un plan est déjà en cours pour cette recette, l’app vous demande : **Remplacer le plan existant** écarte les anciennes étapes et leurs rappels et met le nouveau plan à leur place — la voie à suivre pour décaler le pain à un autre jour. **Planifier en plus** conserve le plan existant et place le nouveau à côté, pour samedi et dimanche par exemple. Dans « Étapes planifiées », chaque plan reçoit alors sa propre puce de filtre avec son heure de début, et « Décaler » comme « Supprimer » n’agissent que sur le plan sélectionné.
+> **Une recette, un plan — ou plusieurs.** Si vous touchez « Définir les rappels » alors qu’un plan est déjà en cours pour cette recette, l’app vous demande : **Remplacer le plan existant** écarte les anciennes étapes et leurs rappels et met le nouveau plan à leur place — la voie à suivre pour décaler le pain à un autre jour. **Planifier en plus** conserve le plan existant et place le nouveau à côté, pour samedi et dimanche par exemple. Dans « Étapes planifiées », chaque plan reçoit alors sa propre puce de filtre avec son heure de début, et « Décaler » comme « Supprimer » n’agissent que sur le plan sélectionné.
 
-> **Pour l’Apple Watch : définissez les rappels sur l’iPhone.** Les rappels sont créés sur l’appareil où vous touchez « Définir un rappel » et y restent. Seul un iPhone transmet ses notifications à une Apple Watch jumelée — un iPad n’est pas jumelé à la montre et ne peut pas le faire. Si vous planifiez sur l’iPad, les rappels de cuisson n’apparaissent donc que sur l’iPad, même si vous portez une Apple Watch.
+> **Pour l’Apple Watch : définissez les rappels sur l’iPhone.** Les rappels sont créés sur l’appareil où vous touchez « Définir les rappels » et y restent. Seul un iPhone transmet ses notifications à une Apple Watch jumelée — un iPad n’est pas jumelé à la montre et ne peut pas le faire. Si vous planifiez sur l’iPad, les rappels de cuisson n’apparaissent donc que sur l’iPad, même si vous portez une Apple Watch.
 >
 > Un plan déjà défini ne peut pas être transféré vers un autre appareil — dans ce cas, définissez simplement les rappels une nouvelle fois sur l’iPhone. La recette elle-même se trouve de toute façon sur les deux appareils grâce à iCloud.
 
@@ -928,7 +929,7 @@ Via le menu « … » d’une recette publique : **Signaler la recette** (avec u
 ## 17. Questions fréquentes et dépannage
 
 **Aucun rappel n’arrive.**
-Vérifiez dans *Réglages → Notifications → BakePlanner* que les notifications sont autorisées. Vérifiez également s’il y a bien des étapes dans « Étapes planifiées » — seul un appui sur « Définir un rappel » crée des rappels. Et notez que les rappels dont l’heure est passée ne se déclenchent pas.
+Vérifiez dans *Réglages → Notifications → BakePlanner* que les notifications sont autorisées. Vérifiez également s’il y a bien des étapes dans « Étapes planifiées » — seul un appui sur « Définir les rappels » crée des rappels. Et notez que les rappels dont l’heure est passée ne se déclenchent pas.
 
 **Rien n’arrive sur l’Apple Watch.**
 Les rappels restent sur l’appareil où vous les avez définis. Seules les notifications de l’**iPhone** jumelé sont transmises à la montre — si vous avez planifié sur l’iPad, les rappels de cuisson n’apparaissent que là. Dans ce cas, définissez de nouveau les rappels sur l’iPhone.
@@ -945,7 +946,7 @@ Elles n’apparaissent que si vous êtes connecté : *Réglages → Compte → S
 **« Une connexion avec Apple est nécessaire pour les recettes privées dans le cloud. »**
 Vous avez choisi « Privé » comme emplacement sans être connecté. Connectez-vous via la feuille qui apparaît, et l’enregistrement se poursuit. Sans compte, la recette serait introuvable après une réinstallation — c’est pourquoi l’app ne procède pas autrement.
 
-**J’ai touché « Définir un rappel » deux fois par erreur.**
+**J’ai touché « Définir les rappels » deux fois par erreur.**
 Au second toucher, l’app demande si le nouveau plan doit remplacer l’existant ou s’ajouter à lui. Si vous avez choisi « Planifier en plus » alors que vous ne vouliez qu’un seul plan, sélectionnez le plan en trop dans « Étapes planifiées » via sa puce et supprimez-le avec la corbeille via « Supprimer seulement “…” ».
 
 **Je veux planifier la même recette pour deux dates différentes.**
@@ -978,11 +979,11 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **Les recettes privées dans le cloud exigent une connexion avec Apple** et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.
 - **La suppression du compte laisse les recettes publiées dans la base.** Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.
 - **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit. Si une étape tombe la nuit, elle propose un autre horaire pour l’ensemble du plan (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)) ; elle n’allonge ni ne raccourcit les étapes une à une.
-- **Les plans définis avant cette mise à jour** ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir un rappel » avec « Remplacer le plan existant » remet de l’ordre.
+- **Les plans définis avant cette mise à jour** ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir les rappels » avec « Remplacer le plan existant » remet de l’ordre.
 - **Si vous modifiez une recette après l’avoir planifiée** (étapes, durées), le plan déjà défini reste inchangé — les étapes planifiées sont un instantané. « Étapes planifiées » affiche alors en haut un avis « … a été modifiée depuis la planification » avec le bouton **Replanifier**, qui ouvre la recette. Seules les étapes ajoutées à la recette après coup ne sont pas détectées.
 - **Les ingrédients d’un rappel** sont figés au moment où les rappels sont définis. Si vous modifiez ensuite les ingrédients ou le nombre de portions, le rappel continue d’afficher les anciennes quantités ; le symbole i dans « Étapes planifiées », lui, lit toujours l’état actuel de la recette. Les rappels définis avant cette mise à jour ne contiennent pas encore d’ingrédients — il suffit de planifier une nouvelle fois.
 - Les étapes planifiées sont rattachées aux recettes par le **nom de la recette**. Deux de vos recettes portant un nom identique ou très proche peuvent se mélanger pour l’image et le décalage — donnez-leur des noms distincts.
-- **Les rappels n’atteignent l’Apple Watch que depuis un iPhone.** Ils sont créés sur l’appareil où vous touchez « Définir un rappel », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.
+- **Les rappels n’atteignent l’Apple Watch que depuis un iPhone.** Ils sont créés sur l’appareil où vous touchez « Définir les rappels », et un iPad n’est pas jumelé à la montre. Un plan existant ne peut pas être déplacé vers un autre appareil — il faut le redéfinir sur place.
 - **L’import depuis des images** lit des pages de livres de cuisine, des fiches recettes, des impressions web et des pages de blogs de boulangerie à deux colonnes avec exemple de planification. Ce qui en ressort dépend toutefois de la reconnaissance de texte de l’appareil : le même fichier peut donner moins de lignes sur un iPhone que sur un Mac, et avec les recettes web utilisant des puces numérotées gris clair, des paragraphes entiers manquent parfois. Vérifiez donc toujours les étapes dans le formulaire avant d’enregistrer.
 - **L’import depuis une page web** ne lit que ce qu’une page livre à une app sans connexion. Les pages derrière un mur payant, une connexion ou un consentement obligatoire aux cookies, ainsi que les sites qui bloquent la récupération par les apps, ne peuvent pas être lus. Sans l’IA cloud et sans Apple Intelligence, seules les données de recette structurées de la page sont reprises ; pré-pâte et pâte principale se retrouvent alors souvent dans un même composant.
 - **Les unités personnalisées apparaissent dans toutes les langues telles que vous les avez créées.** Seules les unités fournies sont traduites.

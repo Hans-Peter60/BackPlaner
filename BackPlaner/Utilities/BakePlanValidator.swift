@@ -386,7 +386,8 @@ enum BakePlanValidator {
             locale: Locale(identifier: "de_DE")
         )
 
-        guard !isPreheatInstruction(text) else { return false }
+        // Neither heating the oven up nor turning it down puts dough in.
+        guard !isPreheatInstruction(text), !BakePlan.isTurnDownInstruction(instruction) else { return false }
 
         return ["backen", "backofen", "ofen stellen", "ofen geben",
                 "bake", "into the oven", "on stone",

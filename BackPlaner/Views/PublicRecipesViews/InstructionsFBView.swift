@@ -296,7 +296,7 @@ struct InstructionsFBView: View {
                     // MARK: Reminder setzen
                     HStack {
                         
-                        IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
+                        IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Erinnerungen setzen", title: "Erinnerungen setzen", controlSize: .regular) {
                         if hasExistingPlan {
                             showingPlanChoice = true
                         } else {
@@ -315,7 +315,7 @@ struct InstructionsFBView: View {
                     } message: {
                         Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
                     }
-                        .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
+                        .alert("Erinnerungen wurden gesetzt", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         } message: {
                             ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,

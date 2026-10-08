@@ -80,7 +80,7 @@ struct BakeModeView: View {
                     ContentUnavailableView(
                         "Keine geplanten Schritte",
                         systemImage: "calendar",
-                        description: Text("Setze einen Reminder in der Backanleitung eines Rezepts.")
+                        description: Text("Setze Erinnerungen in der Backanleitung eines Rezepts.")
                     )
                 }
             }

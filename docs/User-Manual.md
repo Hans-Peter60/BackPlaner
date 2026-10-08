@@ -46,7 +46,7 @@ On top of that: a shared public recipe database, your own recipes on the device,
 1. Open **Recipe database** and pick a recipe — or create one of your own under **Create new recipe**.
 2. In the recipe, open the **Bake** or **Bake recipe** tab.
 3. Choose **Start from** or **Done by** and set the date and time.
-4. Check the calculated start times and tap **Set reminder**.
+4. Check the calculated start times and tap **Set reminders**.
 5. Open **Scheduled steps** to review every appointment as a list or a timeline.
 
 Reminders require BakePlanner to be allowed to send notifications. The full explanations are in [chapter 7](#7-baking-instructions-and-reminders), [chapter 10](#10-scheduled-steps-list-and-timeline), and [chapter 17](#17-frequently-asked-questions-and-troubleshooting).
@@ -245,7 +245,7 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 
 | Tab | Contents |
 |-----|----------|
-| **Bake** | Baking instructions with the schedule and "Set reminder" |
+| **Bake** | Baking instructions with the schedule and "Set reminders" |
 | **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients on a shopping list |
@@ -275,7 +275,7 @@ This is the heart of the app. The layout is the same for your own and for public
 6. **Control bar** — see below.
 7. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
 8. **Previous bakes** (your own recipes only) — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
-9. **Set reminder**.
+9. **Set reminders**.
 
 ### The control bar
 
@@ -300,7 +300,7 @@ The app then recalculates every start time and the total working time. For your 
 
 ### What the app objects to in a plan
 
-Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminder".
+Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminders".
 
 | Sign | Meaning |
 |------|---------|
@@ -324,13 +324,14 @@ The notes don't prevent anything — you can still set the plan. They only spare
 
 ### Setting reminders
 
-Tapping **Set reminder** does several things at once:
+Tapping **Set reminders** does several things at once:
 
 1. A local reminder is set for **every processing step** at its calculated start time.
 2. The step **"turn on the oven"** is inserted automatically — the configured **Preheat time** before the **baking step** (15 minutes by default, adjustable in Settings). The baking step is the one that describes the bake, not necessarily the last one: if "let it cool" follows, the oven is still preheated before the bake.
    - If the recipe names an **oven temperature**, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").
    - If the recipe already has **its own preheating step**, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.
    - If the bake starts in a **cold oven** ("place in the cold oven"), there is no preheat time.
+   - If the baking step names a **falling temperature** ("load at 250 °C, after 10 minutes reduce to 220 °C"), the app additionally inserts **"Turn the oven down to 220 °C"** — at the minute the step names, otherwise ten minutes into the bake. If the step mentions steam, it reads "…, release the steam"; not with "without steam". A convection figure given alongside ("230 °C top/bottom heat, fan 210 °C") does not count as a drop.
 3. **"Baking is finished"** is likewise scheduled for the finishing time.
 4. Every step lands in **Scheduled steps**.
 5. For your own recipes a **baking-history entry** is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.
@@ -342,11 +343,11 @@ A confirmation then appears, for example:
 > Turn on the oven at 4:45 p.m. (250 °C).
 > Done at 6:10 p.m.
 
-The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
+The texts "turn on the oven", "turn the oven down" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
 
-> **One recipe, one plan — or several.** Tap "Set reminder" while a plan for this recipe is already running and the app asks: **Replace existing plan** discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. **Add as a second plan** keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.
+> **One recipe, one plan — or several.** Tap "Set reminders" while a plan for this recipe is already running and the app asks: **Replace existing plan** discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. **Add as a second plan** keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.
 
-> **For Apple Watch: set the reminders on the iPhone.** Reminders are created on the device where you tap "Set reminder", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.
+> **For Apple Watch: set the reminders on the iPhone.** Reminders are created on the device where you tap "Set reminders", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.
 >
 > A plan that has already been set can't be moved to another device afterwards — in that case simply set the reminders again on the iPhone. The recipe itself is on both devices through iCloud anyway.
 
@@ -928,7 +929,7 @@ Through the "…" menu in a public recipe: **Report recipe** (with a reason) or 
 ## 17. Frequently asked questions and troubleshooting
 
 **No reminders arrive.**
-Check in *Settings → Notifications → BakePlanner* whether notifications are allowed. Check as well whether there are any steps under "Scheduled steps" at all — only tapping "Set reminder" creates reminders. And note: reminders for times in the past aren't triggered.
+Check in *Settings → Notifications → BakePlanner* whether notifications are allowed. Check as well whether there are any steps under "Scheduled steps" at all — only tapping "Set reminders" creates reminders. And note: reminders for times in the past aren't triggered.
 
 **Nothing arrives on the Apple Watch.**
 Reminders stay on the device where you set them. Only a paired **iPhone's** notifications are passed on to the watch — if you planned on the iPad, the baking reminders appear there and nowhere else. Set the reminders again on the iPhone in that case.
@@ -945,7 +946,7 @@ They only appear when you're signed in: *Settings → Account → Sign in with A
 **"Signing in with Apple is required for private cloud recipes."**
 You chose "Private" as the storage without being signed in. Sign in through the sheet that appears, and saving continues. Without an account the recipe would be unreachable after a reinstall — which is why the app doesn't allow it otherwise.
 
-**I tapped "Set reminder" twice by mistake.**
+**I tapped "Set reminders" twice by mistake.**
 On the second tap the app asks whether the new plan should replace the existing one or be added beside it. If you chose "Add as a second plan" although you only wanted one, select the surplus plan under "Scheduled steps" via its chip and delete it with the bin button via "Delete only '…'".
 
 **I want to schedule the same recipe for two different dates.**
@@ -978,11 +979,11 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.
 - **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you. If a step falls into the night, it suggests a different time for the whole plan (see [chapter 7](#7-baking-instructions-and-reminders)); it doesn't lengthen or shorten individual steps.
-- **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.
+- **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminders" with "Replace existing plan" cleans that up.
 - **If you change a recipe after planning it** (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a **Plan again** button that opens the recipe. Only steps added to the recipe afterwards go undetected.
 - **The ingredients in a reminder** are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.
-- **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
+- **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminders", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.
 - **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.
 - **Custom units appear in every language as you created them.** Only the bundled ones are translated.
