@@ -18,6 +18,8 @@ struct AppSettingsKeys {
     static let liveActivity = "settings.liveActivity"
     static let bakersPercentages = "settings.bakersPercentages"
     static let bakeHistoryLayout = "settings.bakeHistoryLayout"
+    static let starterDoughYield = "settings.starterDoughYield"
+    static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -109,6 +111,23 @@ struct AppSettings {
     static let defaultLiveActivity = true
     /// Whether the component columns add baker's percentages to each weight.
     static let defaultBakersPercentages = false
+    /// Dough yield of the user's sourdough starter (Anstellgut), used to split
+    /// an amount of starter into flour and water when the recipe does not
+    /// state its TA. 200 is the usual soft starter of equal parts.
+    static let defaultStarterDoughYield = 200
+    /// Dough yield of the user's lievito madre; the firm Italian starter is
+    /// kept at TA 150 by convention.
+    static let defaultLievitoMadreDoughYield = 150
+    static let minimumStarterDoughYield = 120
+    static let maximumStarterDoughYield = 300
+
+    static var storedStarterDoughYield: Int {
+        storedInt(forKey: AppSettingsKeys.starterDoughYield, defaultValue: defaultStarterDoughYield)
+    }
+
+    static var storedLievitoMadreDoughYield: Int {
+        storedInt(forKey: AppSettingsKeys.lievitoMadreDoughYield, defaultValue: defaultLievitoMadreDoughYield)
+    }
 
     static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity

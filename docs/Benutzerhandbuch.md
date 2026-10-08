@@ -265,7 +265,7 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 ### Von oben nach unten
 
 1. **Bild und Name** – Bild antippen zeigt es groß.
-2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“.
+2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“. Darunter steht **„TA 172 · Hydration 72 %“**, die Teigausbeute und Hydration über alle Komponenten; ein Tipp öffnet die Aufschlüsselung (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 3. **Gesamtzutaten** – alle Zutaten über alle Komponenten hinweg zusammengefasst. Diese Liste ist zum Einkaufen und Abwiegen gedacht. Wasser wird bewusst weggelassen, ebenso Zutaten, die selbst ein Zwischenprodukt einer Komponente sind (z. B. „Sauerteig“ als Zutat des Hauptteigs) – sonst würden Mengen doppelt zählen.
 4. **Komponenten** – nach Nummer sortiert, jede mit ihren Zutaten in der gewählten Portionsgröße.
 5. **Letztes Mal** (nur eigene Rezepte, erst nach dem ersten Backen) – wie der letzte Backvorgang dieses Rezepts lief: Raum- und Teigtemperatur, tatsächliche Stock- und Stückgare, Mehl, Krume/Ofentrieb und Kommentar aus der Backhistorie, mit Datum. **Ergänzen** öffnet den Eintrag zum Nachtragen; ist noch nichts notiert, fragt die Karte danach und bietet **Jetzt eintragen** an. Gezählt wird nur ein Backvorgang, der schon stattgefunden hat – der beim Reminder-Setzen angelegte Eintrag liegt bis zum Backende in der Zukunft.
@@ -699,6 +699,8 @@ Die App filtert bewusst:
 | **Standard-Portionsgröße** | Wert, mit dem Rezepte geöffnet werden: 0,5 / 1,0 / 1,5 / 2,0. Standard: 1,0. |
 | **Detailansicht verwenden** | Ein: Komponenten und Schritte aller öffentlichen Rezepte werden schon beim Laden der Liste mitgeladen – Rezepte öffnen sich schneller, der erste Ladevorgang dauert länger und braucht mehr Daten. Aus: Details werden erst beim Öffnen eines Rezepts geladen. Standard: ein. |
 | **Bäckerprozente anzeigen** | Ergänzt in der Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)). Standard: aus. |
+| **Anstellgut** | Teigausbeute Deines Anstellguts, mit der die App eine Anstellgut-Menge ohne TA-Angabe im Rezept in Mehl und Wasser aufteilt. 120 bis 300 in Fünferschritten. Standard: TA 200. |
+| **Lievito Madre** | Dasselbe für Lievito Madre. Standard: TA 150. |
 | **Eigene Einheiten** | Zeigt, wie viele Du angelegt hast, und führt zur Verwaltung. Siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen). |
 
 ### Backplanung
@@ -786,7 +788,21 @@ Umgerechnete Mengen werden so gerundet, wie man sie abwiegt: ab 10 g auf ganze G
 
 ### Bäckerprozente
 
-Unter *Einstellungen → Rezepte → Bäckerprozente anzeigen* ergänzt die Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente, etwa „319 g Wasser · 62 %“. Als Mehl zählt, was „Mehl“, „Schrot“, „Flour“ oder „Farine“ im Namen trägt. Eine Komponente ohne Mehl zeigt keine Prozente; Stückangaben und ganze Komponenten als Zutat („1 gesamtes Brühstück“) ebenfalls nicht. Die Prozente ändern sich nicht mit der Portionsgröße.
+Unter *Einstellungen → Rezepte → Bäckerprozente anzeigen* ergänzt die Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente, etwa „319 g Wasser · 62 %“. Als Mehl zählt, was „Mehl“, „Schrot“, „Grieß“, „Dunst“, „Flour“ oder „Farine“ im Namen trägt, außerdem Altbrot und Semmelbrösel (einmal gebackenes Mehl, etwa im Brühstück) – nicht aber Leinsamenschrot, Flocken, Kleie oder Nuss- und Mandelmehle. Eine Komponente ohne Mehl zeigt keine Prozente; Stückangaben und ganze Komponenten als Zutat („1 gesamtes Brühstück“) ebenfalls nicht. Die Prozente ändern sich nicht mit der Portionsgröße.
+
+### Teigausbeute und Hydration
+
+Im Tab **Details** steht unter dem Gewicht die Zeile **„TA 172 · Hydration 72 %“**: die Teigausbeute (TA = Mehl plus Wasser je 100 g Mehl) und die Hydration (Wasser je Mehl) über **alle Komponenten** des Rezepts. Ein Tipp öffnet die Aufschlüsselung mit Mehl und Wasser in Gramm, dem Wert jeder einzelnen Komponente, den Anstellgut-Anteilen und den Zutaten, die nicht mitgezählt wurden.
+
+Gerechnet wird nach der Bäckerkonvention:
+
+- **Mehl** ist, was auch die Bäckerprozente als Mehl zählen (siehe oben).
+- **Schüttflüssigkeit zählt voll**: Wasser, Milch, Buttermilch, Bier, Wein, Molke, Saft und Hefewasser – auch wenn Milch physikalisch nur zu knapp 90 % aus Wasser besteht. So passen die Zahlen zu dem, was Backbücher und Blogs angeben. Milchpulver und Weinstein zählen nicht.
+- **Anstellgut wird aufgeteilt**: 20 g Anstellgut mit TA 200 sind 10 g Mehl und 10 g Wasser, mit TA 150 sind es 13 g Mehl und 7 g Wasser. Die TA nimmt die App aus dem Zutatennamen, wenn dort „TA 200“ oder „100 % Hydration“ steht; sonst aus *Einstellungen → Rezepte → Anstellgut* bzw. *Lievito Madre*. Biga (TA 150), Poolish (TA 200) und Pâte fermentée (TA 165) haben ihre TA per Definition. Die Aufschlüsselung sagt bei jedem Anstellgut, woher die TA stammt.
+- **Saaten, Flocken, Fett, Eier, Zucker und Salz** zählen weder als Mehl noch als Wasser. Schwerere davon stehen in der Aufschlüsselung unter „Nicht gezählt“, damit Du siehst, was die Zahl nicht enthält.
+- **Komponenten zählen genau einmal.** Steht im Hauptteig „gesamter Sauerteig“, geht der Sauerteig über diese Zeile ein, nicht doppelt. Steht dort „200 g Sauerteig“, obwohl die Komponente 300 g ergibt, zählt sie zu zwei Dritteln. Nennt der Hauptteig den Sauerteig gar nicht, werden die Komponenten einfach addiert.
+
+Die Zeile fehlt bei Rezepten ohne erkanntes Mehl. Beim Bild-Import vergleicht die App dieselbe Rechnung mit der im Buch gedruckten Teigausbeute und warnt bei Abweichung.
 
 ### Verfügbare Einheiten
 

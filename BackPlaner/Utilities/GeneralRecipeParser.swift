@@ -388,22 +388,10 @@ struct GeneralRecipeParser {
     }
 
     /// Water per flour, the baker's measure of a dough: a dough yield of 194
-    /// means 94 g of water for every 100 g of flour.
+    /// means 94 g of water for every 100 g of flour. The same calculation the
+    /// recipe screens show, so the warning and the display agree.
     private func computedDoughYield(of recipe: RecipeFB) -> Double? {
-        var flour = 0.0
-        var water = 0.0
-
-        for ingredient in recipe.components.flatMap({ $0.ingredients }) {
-            let value = normalized(ingredient.name)
-            if value.contains("mehl") || value.contains("schrot") || value.contains("griess") {
-                flour += ingredient.weight
-            } else if value.contains("wasser") || value.contains("milch") {
-                water += ingredient.weight
-            }
-        }
-
-        guard flour > 0, water > 0 else { return nil }
-        return 100 + water / flour * 100
+        DoughComposition.compute(DoughComposition.components(of: recipe))?.doughYield
     }
 
     /// "250 °C auf 210 °C" as a step sentence, in the app's language. The higher

@@ -268,7 +268,7 @@ C’est le cœur de l’app. La structure est la même pour vos recettes et pour
 ### De haut en bas
 
 1. **Image et nom** — toucher l’image l’affiche en grand.
-2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette** et **Partager la recette** : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ».
+2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette** et **Partager la recette** : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ». En dessous figure **« TA 172 · hydratation 72 % »**, le rendement de la pâte et l’hydratation sur tous les composants ; un appui ouvre le détail (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 3. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
 4. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie.
 5. **La dernière fois** (vos recettes uniquement, dès que la recette a été cuite une fois) — comment s’est passée la dernière cuisson de cette recette : température ambiante et de la pâte, pointage et apprêt réels, farine, mie/développement au four et commentaire de l’historique, avec la date. **Compléter** ouvre l’entrée ; si rien n’est encore noté, la carte le demande et propose **Noter maintenant**. Seule une cuisson déjà passée compte — l’entrée créée en définissant les rappels reste dans le futur jusqu’à la fin de la cuisson.
@@ -702,6 +702,8 @@ L’app filtre volontairement :
 | **Taille de portion par défaut** | La valeur avec laquelle les recettes s’ouvrent : 0,5 / 1,0 / 1,5 / 2,0. Par défaut : 1,0. |
 | **Utiliser la vue détaillée** | Activé : les composants et les étapes de toutes les recettes publiques sont chargés avec la liste — les recettes s’ouvrent plus vite, mais le premier chargement est plus long et consomme plus de données. Désactivé : les détails ne sont chargés qu’à l’ouverture d’une recette. Par défaut : activé. |
 | **Afficher les pourcentages boulanger** | Ajoute dans la vue des composants, derrière chaque ingrédient pesé, sa part de la farine du composant (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)). Par défaut : désactivé. |
+| **Levain chef** | Rendement de pâte (TA) de votre levain chef, utilisé pour répartir une quantité de levain en farine et en eau quand la recette n’indique pas son TA. De 120 à 300 par pas de cinq. Par défaut : TA 200. |
+| **Lievito madre** | Idem pour le lievito madre. Par défaut : TA 150. |
 | **Unités personnalisées** | Indique combien vous en avez créées et mène à leur gestion. Voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion). |
 
 ### Planification de cuisson
@@ -789,7 +791,21 @@ Les quantités recalculées sont arrondies comme on les pèse : en grammes entie
 
 ### Pourcentages boulanger
 
-Sous *Réglages → Recettes → Afficher les pourcentages boulanger*, la vue des composants ajoute derrière chaque ingrédient pesé sa part de la farine du composant, par exemple « 319 g Wasser · 62 % ». Compte comme farine tout ce qui porte « Mehl », « Schrot », « flour » ou « farine » dans son nom. Un composant sans farine n’affiche pas de pourcentages ; les pièces et les composants entiers utilisés comme ingrédient (« 1 gesamtes Brühstück ») non plus. Les pourcentages ne changent pas avec la taille de portion.
+Sous *Réglages → Recettes → Afficher les pourcentages boulanger*, la vue des composants ajoute derrière chaque ingrédient pesé sa part de la farine du composant, par exemple « 319 g Wasser · 62 % ». Compte comme farine tout ce qui porte « Mehl », « Schrot », « Grieß », « Dunst », « flour » ou « farine » dans son nom, ainsi que le pain rassis et la chapelure (farine déjà cuite une fois, comme dans un Brühstück) — mais pas les graines de lin moulues, les flocons, le son ni les farines de noix ou d’amande. Un composant sans farine n’affiche pas de pourcentages ; les pièces et les composants entiers utilisés comme ingrédient (« 1 gesamtes Brühstück ») non plus. Les pourcentages ne changent pas avec la taille de portion.
+
+### Rendement de la pâte et hydratation
+
+Dans l’onglet **Détails**, sous le poids, figure la ligne **« TA 172 · hydratation 72 % »** : le rendement de la pâte (TA, de l’allemand Teigausbeute : farine plus eau pour 100 g de farine) et l’hydratation (eau par rapport à la farine) sur **tous les composants** de la recette. Un appui ouvre le détail avec la farine et l’eau en grammes, la valeur propre de chaque composant, les parts de levain chef et les ingrédients non comptés.
+
+La convention des boulangers s’applique :
+
+- **La farine** est ce que les pourcentages boulanger comptent comme farine (voir ci-dessus).
+- **Les liquides versés comptent intégralement** : eau, lait, babeurre, bière, vin, petit-lait, jus et eau de levure — même si le lait n’est physiquement composé que d’environ 90 % d’eau. Les chiffres correspondent ainsi à ceux des livres et des blogs. Le lait en poudre et la crème de tartre ne comptent pas.
+- **Le levain chef est réparti** : 20 g de levain à TA 200 font 10 g de farine et 10 g d’eau ; à TA 150, 13 g de farine et 7 g d’eau. L’app lit le TA dans le nom de l’ingrédient s’il indique « TA 200 » ou « 100 % hydratation » ; sinon elle prend *Réglages → Recettes → Levain chef* ou *Lievito madre*. Biga (TA 150), poolish (TA 200) et pâte fermentée (TA 165) ont leur TA par définition. Le détail indique pour chaque levain d’où vient son TA.
+- **Graines, flocons, matières grasses, œufs, sucre et sel** ne comptent ni comme farine ni comme eau. Les plus lourds figurent dans le détail sous « Non comptés », pour que vous voyiez ce que le chiffre ne contient pas.
+- **Chaque composant compte exactement une fois.** Si la pâte finale indique « gesamter Sauerteig » (tout le levain), le levain entre par cette ligne, pas deux fois. Si elle indique « 200 g Sauerteig » alors que le composant en donne 300 g, les deux tiers comptent. Si la pâte finale ne nomme pas du tout le levain, les composants sont simplement additionnés.
+
+La ligne est absente pour les recettes sans farine reconnue. L’import d’images compare le même calcul au rendement imprimé dans le livre et avertit en cas d’écart.
 
 ### Unités disponibles
 

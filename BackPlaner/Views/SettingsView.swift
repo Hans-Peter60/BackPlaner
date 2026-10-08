@@ -13,6 +13,8 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
     @AppStorage(AppSettingsKeys.bakersPercentages) private var bakersPercentages = AppSettings.defaultBakersPercentages
+    @AppStorage(AppSettingsKeys.starterDoughYield) private var starterDoughYield = AppSettings.defaultStarterDoughYield
+    @AppStorage(AppSettingsKeys.lievitoMadreDoughYield) private var lievitoMadreDoughYield = AppSettings.defaultLievitoMadreDoughYield
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
@@ -77,6 +79,20 @@ struct SettingsView: View {
                 // Adds "· 62 %" of the component's flour to every weighed
                 // ingredient in the component columns.
                 Toggle("Bäckerprozente anzeigen", isOn: $bakersPercentages)
+
+                // The dough yield splits an amount of starter into flour and
+                // water by these when the recipe does not state the TA itself.
+                Stepper(value: $starterDoughYield,
+                        in: AppSettings.minimumStarterDoughYield...AppSettings.maximumStarterDoughYield,
+                        step: 5) {
+                    LabeledContent("Anstellgut", value: "TA \(starterDoughYield)")
+                }
+
+                Stepper(value: $lievitoMadreDoughYield,
+                        in: AppSettings.minimumStarterDoughYield...AppSettings.maximumStarterDoughYield,
+                        step: 5) {
+                    LabeledContent("Lievito Madre", value: "TA \(lievitoMadreDoughYield)")
+                }
 
                 NavigationLink {
                     CustomUnitsView()

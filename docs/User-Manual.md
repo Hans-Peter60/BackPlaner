@@ -268,7 +268,7 @@ This is the heart of the app. The layout is the same for your own and for public
 ### From top to bottom
 
 1. **Image and name** — tap the image to enlarge it.
-2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab.
+2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab. Below it stands **"Dough yield 172 · hydration 72 %"**, the dough yield and hydration over all components; a tap opens the breakdown (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 3. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
 4. **Components** — sorted by number, each with its ingredients at the chosen serving size.
 5. **Last time** (your own recipes only, once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
@@ -702,6 +702,8 @@ The app filters deliberately:
 | **Default serving size** | The value recipes open with: 0.5 / 1.0 / 1.5 / 2.0. Default: 1.0. |
 | **Use detail view** | On: the components and steps of every public recipe are loaded along with the list — recipes open faster, but the first load takes longer and uses more data. Off: details are loaded only when you open a recipe. Default: on. |
 | **Show baker's percentages** | Adds each weighed ingredient's share of the component's flour in the component view (see [chapter 15](#15-units-amounts-and-serving-sizes)). Default: off. |
+| **Sourdough starter** | Dough yield of your starter, used to split an amount of starter into flour and water when the recipe does not state its TA. 120 to 300 in steps of five. Default: TA 200. |
+| **Lievito madre** | The same for lievito madre. Default: TA 150. |
 | **Custom units** | Shows how many you've created and leads to managing them. See [chapter 15](#15-units-amounts-and-serving-sizes). |
 
 ### Baking schedule
@@ -789,7 +791,21 @@ Scaled amounts are rounded the way you weigh them: whole grams from 10 g upwards
 
 ### Baker's percentages
 
-Under *Settings → Recipes → Show baker's percentages* the component view adds each weighed ingredient's share of the component's flour, for instance "319 g water · 62 %". Anything with "Mehl", "Schrot", "flour" or "farine" in its name counts as flour. A component without flour shows no percentages; neither do pieces or whole components used as an ingredient ("1 whole scald"). The percentages do not change with the serving size.
+Under *Settings → Recipes → Show baker's percentages* the component view adds each weighed ingredient's share of the component's flour, for instance "319 g water · 62 %". Anything with "Mehl", "Schrot", "Grieß", "Dunst", "flour" or "farine" in its name counts as flour, and so do old bread and breadcrumbs (flour that was baked once, as in a scald) — but not linseed meal, flakes, bran or nut and almond flours. A component without flour shows no percentages; neither do pieces or whole components used as an ingredient ("1 whole scald"). The percentages do not change with the serving size.
+
+### Dough yield and hydration
+
+On the **Details** tab, below the weight, stands the line **"Dough yield 172 · hydration 72 %"**: the dough yield (TA, the German Teigausbeute: flour plus water per 100 g of flour) and the hydration (water per flour) over **all components** of the recipe. A tap opens the breakdown with flour and water in grams, each component's own figure, the starter shares and the ingredients that were not counted.
+
+The baker's convention applies:
+
+- **Flour** is what the baker's percentages count as flour (see above).
+- **Poured liquid counts in full**: water, milk, buttermilk, beer, wine, whey, juice and yeast water — even though milk is physically only about 90 % water. That way the figures match what baking books and blogs print. Milk powder and cream of tartar do not count.
+- **Sourdough starter is split**: 20 g of starter at TA 200 are 10 g flour and 10 g water; at TA 150 they are 13 g flour and 7 g water. The app reads the TA from the ingredient name when it says "TA 200" or "100 % hydration"; otherwise it takes *Settings → Recipes → Sourdough starter* or *Lievito madre*. Biga (TA 150), poolish (TA 200) and pâte fermentée (TA 165) have their TA by definition. The breakdown says for every starter where its TA came from.
+- **Seeds, flakes, fat, eggs, sugar and salt** count neither as flour nor as water. The heavier ones appear in the breakdown under "Not counted", so you can see what the figure leaves out.
+- **Each component counts exactly once.** If the main dough lists "gesamter Sauerteig" (the whole sourdough), the sourdough enters through that row, not twice. If it lists "200 g Sauerteig" while the component makes 300 g, two thirds of it count. If the main dough never names the sourdough, the components are simply added up.
+
+The line is absent for recipes without recognised flour. The image import compares the same calculation with the dough yield printed in the book and warns when they differ.
 
 ### Available units
 

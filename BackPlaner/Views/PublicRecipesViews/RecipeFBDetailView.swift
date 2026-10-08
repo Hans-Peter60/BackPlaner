@@ -112,7 +112,10 @@ struct RecipeFBDetailView: View {
                         }
                         .padding(.leading)
                     }
-                    
+
+                    // MARK: Dough yield and hydration over all components
+                    DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipeFB)))
+
                     TotalIngredientsView(
                         ingredients: recipeFB.components.flatMap(\.ingredients).map {
                             TotalIngredientData(
