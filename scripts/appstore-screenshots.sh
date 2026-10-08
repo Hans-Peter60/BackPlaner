@@ -46,6 +46,29 @@ region() {
     esac
 }
 
+# Copies the screenshots attached to the test result in $1 into the folder
+# $2, named after the attachment: "de-01-startbildschirm" → 01-startbildschirm.png.
+# Works for a failed run too, with the screens taken up to the failure.
+export_screenshots() {
+    local tmp
+    tmp="$(mktemp -d)"
+    if xcrun xcresulttool export attachments --path "$1" --output-path "$tmp" >/dev/null 2>&1; then
+        /usr/bin/python3 - "$tmp" "$2" <<'PY'
+import json, os, re, shutil, sys
+source, target = sys.argv[1], sys.argv[2]
+with open(os.path.join(source, "manifest.json")) as file:
+    manifest = json.load(file)
+for test in manifest:
+    for attachment in test.get("attachments", []):
+        match = re.match(r"^[a-z]{2}-(\d\d-[a-z-]+)", attachment.get("suggestedHumanReadableName", ""))
+        if match:
+            shutil.copy(os.path.join(source, attachment["exportedFileName"]),
+                        os.path.join(target, match.group(1) + ".png"))
+PY
+    fi
+    rm -rf "$tmp"
+}
+
 udid_of() {
     xcrun simctl list devices available \
         | grep -F "    $1 (" \
@@ -95,7 +118,6 @@ for device in "$IPHONE" "$IPAD"; do
 
         bundle="$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult"
         if TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \
-           TEST_RUNNER_SCREENSHOT_DIR="$dir" \
            TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
            xcodebuild test-without-building \
                -project BackPlaner.xcodeproj \
@@ -108,8 +130,10 @@ for device in "$IPHONE" "$IPAD"; do
                -resultBundlePath "$bundle" \
                -quiet >/dev/null 2>&1
         then
+            export_screenshots "$bundle" "$dir"
             ls "$dir" | sed 's/^/      /'
         else
+            export_screenshots "$bundle" "$dir"
             failed+=("$folder/$lang")
             echo "      ✗ failed after: $(ls "$dir" | tr '\n' ' ')"
             # The test's own message, e.g. which screen or button was missing.

@@ -10,9 +10,11 @@
 //  Settings come from the environment (xcodebuild hands TEST_RUNNER_<NAME> to
 //  the test as <NAME>):
 //    SCREENSHOT_LANGUAGE  de, en or fr — required, otherwise the test skips
-//    SCREENSHOT_DIR       where the PNG files go; they are attached to the
-//                         test result as well
 //    SCREENSHOT_RECIPE    the public recipe to show, by the start of its name
+//
+//  The screenshots are attachments of the test result, named
+//  "<language>-<number>-<screen>"; the script exports them from there. The
+//  test runs inside the simulator and may not write to the Mac's folders.
 //
 
 import XCTest
@@ -21,7 +23,6 @@ final class AppStoreScreenshots: XCTestCase {
 
     private var app: XCUIApplication!
     private var language = "de"
-    private var outputDirectory: URL?
 
     override func setUpWithError() throws {
         let environment = ProcessInfo.processInfo.environment
@@ -29,7 +30,6 @@ final class AppStoreScreenshots: XCTestCase {
             throw XCTSkip("Only for scripts/appstore-screenshots.sh (SCREENSHOT_LANGUAGE is not set).")
         }
         self.language = language
-        outputDirectory = environment["SCREENSHOT_DIR"].map { URL(fileURLWithPath: $0, isDirectory: true) }
 
         continueAfterFailure = false
         app = XCUIApplication()
@@ -126,14 +126,6 @@ final class AppStoreScreenshots: XCTestCase {
         attachment.name = "\(language)-\(name)"
         attachment.lifetime = .keepAlways
         add(attachment)
-
-        guard let outputDirectory else { return }
-        do {
-            try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
-            try screenshot.pngRepresentation.write(to: outputDirectory.appendingPathComponent("\(name).png"))
-        } catch {
-            XCTFail("Could not save \(name).png to \(outputDirectory.path): \(error)")
-        }
     }
 
     /// Lets images, animations and the keyboard come to rest.
