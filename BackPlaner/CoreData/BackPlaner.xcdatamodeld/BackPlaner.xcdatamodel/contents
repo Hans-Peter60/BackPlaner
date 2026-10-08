@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23E5191e" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BakeHistory" representedClassName="BakeHistory" syncable="YES">
+        <attribute name="bulkProofMinutes" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="doughTemperature" optional="YES" attributeType="Double" usesScalarValueType="NO"/>
+        <attribute name="finalProofMinutes" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="flour" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="images" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="outcome" optional="YES" attributeType="String"/>
+        <attribute name="roomTemperature" optional="YES" attributeType="Double" usesScalarValueType="NO"/>
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="bakeHistories" inverseEntity="Recipe"/>
     </entity>
     <entity name="Component" representedClassName="Component" syncable="YES">

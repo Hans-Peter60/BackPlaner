@@ -39,6 +39,9 @@ struct InstructionsFBView: View {
     }
     // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
     @State private var planIssues                 = [BakePlanIssue]()
+    // Dates at which no step falls into the night (BakePlanAdvisor).
+    @State private var planHasNightSteps          = false
+    @State private var nightFreeDates             = [NightFreeDate]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var reminderHintText           = ""
@@ -200,7 +203,11 @@ struct InstructionsFBView: View {
                         refreshPlanIssues()
                     }
 
-                    BakePlanIssuesView(issues: planIssues)
+                    BakePlanIssuesView(issues: planIssues,
+                                       hasNightSteps: planHasNightSteps,
+                                       suggestions: nightFreeDates,
+                                       anchor: PlanAnchor(selection: dateTimeStartSelection),
+                                       onApply: { dateTime = $0 })
 
 
                     // MARK: Instructions
@@ -289,7 +296,7 @@ struct InstructionsFBView: View {
                     // MARK: Reminder setzen
                     HStack {
                         
-                        IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
+                        IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Erinnerungen setzen", title: "Erinnerungen setzen", controlSize: .regular) {
                         if hasExistingPlan {
                             showingPlanChoice = true
                         } else {
@@ -308,7 +315,7 @@ struct InstructionsFBView: View {
                     } message: {
                         Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
                     }
-                        .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
+                        .alert("Erinnerungen wurden gesetzt", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         } message: {
                             ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
@@ -372,7 +379,7 @@ struct InstructionsFBView: View {
                 Button("Abbrechen", role: .cancel) { }
                 Button("Veröffentlichen") { continuePublishAfterWarning() }
             } message: {
-                Text("Das Rezept wird für alle Nutzer sichtbar und kann danach nicht mehr geändert werden. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten.")
+                Text("Das Rezept wird für alle Nutzer sichtbar. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten.")
             }
             .sheet(isPresented: $showPublishEULA) {
                 EULAView {
@@ -460,7 +467,10 @@ struct InstructionsFBView: View {
     }
 
     private func refreshPlanIssues() {
-        planIssues = bakePlan.issues(in: viewContext)
+        let plan = bakePlan
+        planIssues = plan.issues(in: viewContext)
+        planHasNightSteps = BakePlanAdvisor.hasNightSteps(plan)
+        nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

@@ -202,15 +202,24 @@ struct ServingScaleControl: View {
                     let value = Int(digits) ?? 0
                     targetWeight = value > 0 ? value : nil
                 }
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button("Fertig") { weightFieldFocused = false }
-                    }
-                }
                 Text(verbatim: "g")
                     .font(Theme.bodyFont(15))
+
+                // The number pad has no Return key, and neither a tap beside
+                // the field nor scrolling closes it. A keyboard toolbar would
+                // be the usual place for "Fertig", but this control only ever
+                // sits in a tab of TabsView/TabsFBView, and there such a
+                // toolbar is never shown — neither declared on the tab nor on
+                // the TabView itself (measured 08.10.2026). So the button is
+                // part of the row, visible only while the weight is typed.
+                if weightFieldFocused {
+                    Button("Fertig") { weightFieldFocused = false }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .font(Theme.bodyFont(15))
+                }
             }
+            .animation(.default, value: weightFieldFocused)
         }
     }
 }

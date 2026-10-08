@@ -116,7 +116,10 @@ struct RecipeDetailView: View {
                     }
                     .padding(.leading)
                 }
-                
+
+                // MARK: Dough yield and hydration over all components
+                DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipe)))
+
                 TotalIngredientsView(
                     ingredients: recipe.componentsArray.flatMap(\.ingredientsArray).map {
                         TotalIngredientData(

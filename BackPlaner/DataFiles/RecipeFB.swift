@@ -483,6 +483,72 @@ extension RecipeFB {
         return copy
     }
 
+    /// A working copy for the editor of a cloud recipe.
+    ///
+    /// Unlike `copyForUpload()` it keeps everything that ties the recipe to
+    /// its cloud document — id, author, visibility, image path, hidden flag —
+    /// because the edit is written back to that very document. The screen
+    /// keeps showing the original until the save has gone through, so a
+    /// cancelled or failed edit changes nothing.
+    func editableCopy() -> RecipeFB {
+        let copy = copyForUpload()
+
+        copy.id          = id
+        copy.firestoreId = firestoreId
+        copy.authorId    = authorId
+        copy.visibility  = visibility
+        copy.hidden      = hidden
+        copy.image       = image
+        copy.totalWeight = totalWeight
+
+        for (component, componentCopy) in zip(components, copy.components) {
+            componentCopy.id = component.id
+            for (ingredient, ingredientCopy) in zip(component.ingredients, componentCopy.ingredients) {
+                ingredientCopy.id = ingredient.id
+            }
+        }
+        for (instruction, instructionCopy) in zip(instructions, copy.instructions) {
+            instructionCopy.id = instruction.id
+        }
+
+        return copy
+    }
+
+    /// Takes over the content of an edited copy once that copy has been
+    /// saved, so the screen shows what the cloud now holds.
+    func adopt(_ edited: RecipeFB) {
+        name           = edited.name
+        summary        = edited.summary
+        urlLink        = edited.urlLink
+        prepTime       = edited.prepTime
+        totalWeight    = edited.totalWeight
+        tags           = edited.tags
+        image          = edited.image
+        sourceLanguage = edited.sourceLanguage
+        translations   = edited.translations
+        components     = edited.components
+        instructions   = edited.instructions
+    }
+
+    /// Drops every cached translation except the one for `languageCode`,
+    /// and refreshes that one from the live text. After an edit the other
+    /// languages describe a recipe that no longer exists; they are
+    /// translated again on demand.
+    func resetTranslations(keeping languageCode: String) {
+        translations = [:]
+        for component in components {
+            component.translations = [:]
+            for ingredient in component.ingredients {
+                ingredient.translations = [:]
+            }
+        }
+        for instruction in instructions {
+            instruction.translations = [:]
+        }
+        sourceLanguage = languageCode
+        storeLocalization(languageCode: languageCode)
+    }
+
     static var preferredLanguageCode: String {
         baseLanguageCode(from: AppSettings.localeIdentifier())
     }

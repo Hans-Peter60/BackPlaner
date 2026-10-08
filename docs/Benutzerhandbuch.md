@@ -12,7 +12,7 @@ Stand: 05.10.2026 · App-Version 1.2
 4. [Das Hauptmenü](#4-das-hauptmenü)
 5. [Rezept-Datenbank (öffentliche und private Cloud-Rezepte)](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)
 6. [Eigene Rezepte](#6-eigene-rezepte)
-7. [Backanleitung und Reminder](#7-backanleitung-und-reminder)
+7. [Backanleitung und Erinnerungen](#7-backanleitung-und-erinnerungen)
 8. [Neues Rezept anlegen](#8-neues-rezept-anlegen)
 9. [Rezept bearbeiten](#9-rezept-bearbeiten)
 10. [Geplante Schritte (Liste und Timeline)](#10-geplante-schritte-liste-und-timeline)
@@ -43,10 +43,10 @@ Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf d
 1. Öffne **Rezept-Datenbank** und wähle ein Rezept – oder lege unter **Neues Rezept anlegen** ein eigenes an.
 2. Öffne im Rezept den Tab **Backen** beziehungsweise **Rezept backen**.
 3. Wähle **Starten ab** oder **Fertig bis** und stelle Datum und Uhrzeit ein.
-4. Prüfe die berechneten Beginnzeiten und tippe auf **Reminder setzen**.
+4. Prüfe die berechneten Beginnzeiten und tippe auf **Erinnerungen setzen**.
 5. Öffne **Geplante Schritte**, um alle Termine als Liste oder Timeline zu kontrollieren.
 
-Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlichen Erklärungen findest Du in [Kapitel 7](#7-backanleitung-und-reminder), [Kapitel 10](#10-geplante-schritte-liste-und-timeline) und [Kapitel 17](#17-häufige-fragen-und-fehlerbehebung).
+Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlichen Erklärungen findest Du in [Kapitel 7](#7-backanleitung-und-erinnerungen), [Kapitel 10](#10-geplante-schritte-liste-und-timeline) und [Kapitel 17](#17-häufige-fragen-und-fehlerbehebung).
 
 ---
 
@@ -151,10 +151,11 @@ Steht „Keine Rezepte geladen“, bestand beim Start keine Internetverbindung �
 
 ### Ein öffentliches Rezept öffnen
 
-Ein Rezept öffnet sich mit zwei Tabs am unteren Rand:
+Ein Rezept öffnet sich im Tab **Details**. Am unteren Rand stehen drei Tabs:
 
-- **Rezept backen** – die Backanleitung mit Zeitplanung (siehe [Kapitel 7](#7-backanleitung-und-reminder))
+- **Rezept backen** – die Backanleitung mit Zeitplanung (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)). Die Zeitplanung wird erst berechnet, wenn Du diesen Tab wählst.
 - **Details** – Übersicht über Zutaten, Komponenten und Schritte
+- **Einkaufsliste** – die Zutaten auf eine Einkaufsliste setzen
 
 ### Rezept übersetzen
 
@@ -176,11 +177,24 @@ Die App bestätigt das mit **„Rezept wurde gespeichert“** und dem Hinweis, d
 
 ### Ein privates Rezept veröffentlichen
 
-Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass es danach nicht mehr geändert werden kann und nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
+Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
 
 **Deine private Fassung bleibt dabei erhalten** – das Rezept liegt danach zweimal in der Liste, einmal mit Schloss. Willst Du das nicht, lösche die private Fassung anschließend über „…“ → **Mein Rezept löschen**.
 
 Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
+
+### Ein eigenes Rezept bearbeiten
+
+Rezepte, die von *Deinem* Konto stammen – private wie öffentliche –, kannst Du direkt in der Rezept-Datenbank ändern: Menü **„…“** oben rechts → **„Rezept bearbeiten“**. Das Formular entspricht dem Erfassen eines Rezepts: Bild, Name, Beschreibung, Link, Tags, Komponenten mit Zutaten und Verarbeitungsschritte. Komponenten, Zutaten, Tags und Schritte lassen sich hinzufügen und löschen. **Speichern** schreibt die Änderungen in die Datenbank, **Abbrechen** verwirft sie; bis dahin bleibt das angezeigte Rezept unverändert.
+
+Dabei gilt:
+
+- Bearbeitet wird immer das **Original** in der Sprache, in der das Rezept geschrieben ist – auch wenn Du es gerade übersetzt ansiehst. Vorhandene Übersetzungen werden verworfen und beim nächsten Sprachwechsel neu erstellt.
+- Startzeiten, Gesamtdauer und Gesamtgewicht berechnet die App beim Speichern neu.
+- Ein neues Bild ersetzt das alte in der Datenbank.
+- Die Fassung in „Eigene Rezepte“ auf dem Gerät ist davon nicht betroffen; sie bleibt ein eigenes Rezept.
+
+Bei Rezepten anderer Autoren erscheint der Eintrag nicht – außer für Administratoren (siehe unten).
 
 ### Melden, blockieren, löschen
 
@@ -188,15 +202,16 @@ Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
 
 - **Rezept melden** – Du wählst einen Grund (anstößig/beleidigend, Spam, Urheberrechtsverletzung, Sonstiges). Die Meldung geht zur Prüfung an den Betreiber, und das Rezept wird **sofort für alle Nutzer** ausgeblendet, nicht erst nach der Prüfung. Sichtbar wird es nur wieder, wenn ein Administrator es freigibt.
 - **Autor blockieren** – alle Rezepte dieses Autors verschwinden aus Deiner Liste. Das wirkt **nur auf Deinem Gerät**; andere Nutzer sehen sie weiter.
-- **Mein Rezept löschen** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen. Das Rezept wird endgültig aus der Datenbank entfernt.
+- **Rezept bearbeiten** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen (siehe oben).
+- **Mein Rezept löschen** – erscheint ebenfalls nur bei Deinen eigenen Rezepten. Das Rezept wird endgültig aus der Datenbank entfernt.
 
-Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Mein Rezept löschen“ steht dort.
+Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Rezept bearbeiten“ und „Mein Rezept löschen“ stehen dort.
 
 Die beiden unterscheiden sich also in der Reichweite: **Blockieren wirkt lokal, Melden wirkt für alle.** Beides lässt sich zurücknehmen – unter *Einstellungen → Moderation* (siehe [Kapitel 14](#14-einstellungen)).
 
 ### Administrator-Funktion
 
-Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
+Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Über **„Rezept bearbeiten“** im selben Menü kannst Du ein öffentliches Rezept auch korrigieren – etwa einen Tippfehler oder eine falsche Mengenangabe –, ohne es zu löschen. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
 
 **Gemeldete Rezepte** bleiben für Administratoren in der Liste sichtbar, während sie für alle anderen ausgeblendet sind. Unten im Tab **Details** steht dann „Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.“ Ist die Meldung berechtigt, löschst Du das Rezept. Ist sie es nicht, macht **„Rezept wieder freigeben“** es sofort wieder für alle sichtbar.
 
@@ -227,17 +242,19 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 
 | Tab | Inhalt |
 |-----|--------|
-| **Backen** | Backanleitung mit Zeitplanung und „Reminder setzen“ |
+| **Backen** | Backanleitung mit Zeitplanung und „Erinnerungen setzen“ |
 | **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts auf eine Einkaufsliste setzen |
-| **+ Historie** | Einen Backvorgang mit Datum, Kommentar und Fotos nachtragen |
+| **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen |
+
+Ein Rezept öffnet sich im Tab **Details**. Die Zeitplanung im Tab **Backen** wird erst berechnet, wenn Du ihn wählst; nur **Neu planen** in „Geplante Schritte“ führt direkt dorthin.
 
 Im Tab **Details** kannst Du das Rezeptbild antippen, um es groß anzuzeigen.
 
 ---
 
-## 7. Backanleitung und Reminder
+## 7. Backanleitung und Erinnerungen
 
 Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten gleich.
 
@@ -248,13 +265,14 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 ### Von oben nach unten
 
 1. **Bild und Name** – Bild antippen zeigt es groß.
-2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“.
+2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“. Darunter steht **„TA 172 · Hydration 72 %“**, die Teigausbeute und Hydration über alle Komponenten; ein Tipp öffnet die Aufschlüsselung (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 3. **Gesamtzutaten** – alle Zutaten über alle Komponenten hinweg zusammengefasst. Diese Liste ist zum Einkaufen und Abwiegen gedacht. Wasser wird bewusst weggelassen, ebenso Zutaten, die selbst ein Zwischenprodukt einer Komponente sind (z. B. „Sauerteig“ als Zutat des Hauptteigs) – sonst würden Mengen doppelt zählen.
 4. **Komponenten** – nach Nummer sortiert, jede mit ihren Zutaten in der gewählten Portionsgröße.
-5. **Steuerleiste** – siehe unten.
-6. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
-7. **Back-Kommentare** (nur eigene Rezepte) – frühere Backhistorien-Einträge.
-8. **Reminder setzen**.
+5. **Letztes Mal** (nur eigene Rezepte, erst nach dem ersten Backen) – wie der letzte Backvorgang dieses Rezepts lief: Raum- und Teigtemperatur, tatsächliche Stock- und Stückgare, Mehl, Krume/Ofentrieb und Kommentar aus der Backhistorie, mit Datum. **Ergänzen** öffnet den Eintrag zum Nachtragen; ist noch nichts notiert, fragt die Karte danach und bietet **Jetzt eintragen** an. Gezählt wird nur ein Backvorgang, der schon stattgefunden hat – der beim Setzen der Erinnerungen angelegte Eintrag liegt bis zum Backende in der Zukunft.
+6. **Steuerleiste** – siehe unten.
+7. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
+8. **Bisherige Backvorgänge** (nur eigene Rezepte) – alle Backhistorien-Einträge, neueste zuerst, je mit Datum, den Messwerten in einer Zeile und dem Kommentar; ein Eintrag in der Zukunft ist als „geplant“ markiert.
+9. **Erinnerungen setzen**.
 
 ### Die Steuerleiste
 
@@ -279,7 +297,7 @@ Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer ne
 
 ### Was die App am Plan bemängelt
 
-Über der Schritttabelle erscheinen Hinweise, sobald der eingestellte Zeitpunkt zu einem unpraktischen Plan führt. Sie aktualisieren sich mit jeder Änderung an Datum, Uhrzeit oder Dauern – noch bevor Du „Reminder setzen“ tippst.
+Über der Schritttabelle erscheinen Hinweise, sobald der eingestellte Zeitpunkt zu einem unpraktischen Plan führt. Sie aktualisieren sich mit jeder Änderung an Datum, Uhrzeit oder Dauern – noch bevor Du „Erinnerungen setzen“ tippst.
 
 | Zeichen | Bedeutung |
 |---------|-----------|
@@ -294,33 +312,41 @@ Geprüft wird dreierlei:
 
 Die Hinweise verhindern nichts – Du kannst den Plan trotzdem setzen. Sie ersparen Dir nur die Überraschung um drei Uhr morgens.
 
-### Reminder setzen
+**Vorschläge gegen die Nacht.** Beginnt ein Schritt vor dem Tagesbeginn oder nach dem Tagesende, sucht die App den nächstfrüheren und den nächstspäteren Zeitpunkt, zu dem alle Schritte in Deinen Tag fallen, und zeigt sie unter den Hinweisen an, zum Beispiel:
 
-Ein Tippen auf **Reminder setzen** löst mehrere Dinge gleichzeitig aus:
+> **Fertig bis Sa., 10.10., 13:45**
+> 1 Std., 45 Min. später · Beginn Fr., 9.10., 18:05 · fertig Sa., 10.10., 13:45
+
+**Übernehmen** stellt Datum und Uhrzeit oben entsprechend ein; das Rezept bleibt, wie es ist. Gesucht wird in Viertelstunden-Schritten bis zu einem Tag früher oder später, nie vor jetzt und nie so, dass der Backvorgang mehr Backöfen bräuchte, als Du hast. Gibt es keinen solchen Zeitpunkt – etwa weil die Teigführung länger dauert als Dein Tag –, sagt die App das.
+
+### Erinnerungen setzen
+
+Ein Tippen auf **Erinnerungen setzen** löst mehrere Dinge gleichzeitig aus:
 
 1. Für **jeden Verarbeitungsschritt** wird eine lokale Erinnerung zur berechneten Startzeit gesetzt.
 2. Zusätzlich wird automatisch der Schritt **„Backofen anstellen“** eingefügt – um die eingestellte **Vorheizzeit** vor dem **Backschritt** (Standard 15 Minuten, änderbar in den Einstellungen). Backschritt ist der Schritt, der das Backen beschreibt, nicht unbedingt der letzte: Folgt noch „Auskühlen lassen“, wird trotzdem vor dem Backen vorgeheizt.
    - Nennt das Rezept eine **Ofentemperatur**, steht sie dabei, etwa „Backofen anstellen (250 °C)“. Bei „Bei 250 °C fallend auf 220 °C backen“ ist es die erste. Die Temperatur darf auch im Schritt davor stehen („Brot einschießen, Ofen 250 °C“).
    - Hat das Rezept schon einen **eigenen Schritt zum Vorheizen**, fügt die App keinen zweiten ein. Der eigene Schritt erinnert dann an das Vorheizen und bekommt die Temperatur angehängt, wenn sie dort noch fehlt.
    - Beginnt das Backen im **kalten Ofen** („in den kalten Backofen schieben“), entfällt die Vorheizzeit.
+   - Nennt der Backschritt eine **fallende Temperatur** („bei 250 °C einschießen, nach 10 Minuten auf 220 °C reduzieren“), fügt die App zusätzlich **„Backofen auf 220 °C zurückdrehen“** ein – zu der Minute, die der Schritt nennt, sonst zehn Minuten nach Backbeginn. Erwähnt der Schritt Dampf oder Schwaden, heißt es „…, Dampf ablassen“; bei „ohne Dampf“ nicht. Eine daneben genannte Umluft-Temperatur („230 °C Ober-/Unterhitze, Umluft 210 °C“) zählt nicht als Absenkung.
 3. Ebenso wird **„Backvorgang ist beendet“** zum Endzeitpunkt eingeplant.
 4. Alle Schritte landen in **„Geplante Schritte“**.
 5. Bei eigenen Rezepten wird ein **Backhistorien-Eintrag** mit dem Enddatum und dem Platzhalter-Kommentar „kein Kommentar erfasst“ angelegt, den Du später ergänzen kannst.
 
 Anschließend erscheint eine Bestätigung, zum Beispiel:
 
-> **Reminder wurden gesetzt**
+> **Erinnerungen wurden gesetzt**
 > 12 Erinnerungen gesetzt.
 > Backofen anstellen um 16:45 Uhr (250 °C).
 > Fertig um 18:10 Uhr.
 
-Die Texte „Backofen anstellen“ und „Backvorgang ist beendet“ erscheinen in der gerade aktiven Sprache (bei öffentlichen Rezepten in der Sprache, in der Du das Rezept ansiehst).
+Die Texte „Backofen anstellen“, „Backofen zurückdrehen“ und „Backvorgang ist beendet“ erscheinen in der gerade aktiven Sprache (bei öffentlichen Rezepten in der Sprache, in der Du das Rezept ansiehst).
 
-> **Ein Rezept, ein Plan – oder mehrere.** Tippst Du auf „Reminder setzen“, während für dieses Rezept schon ein Plan läuft, fragt die App: **Bestehenden Plan ersetzen** verwirft die alten Schritte samt Erinnerungen und setzt den neuen Plan an ihre Stelle – das ist der Weg, wenn Du das Brot auf einen anderen Tag verschieben willst. **Zusätzlich planen** behält den bestehenden Plan und legt den neuen daneben, etwa für Samstag und Sonntag. In „Geplante Schritte“ bekommt dann jeder Plan einen eigenen Filter-Chip mit seinem Startzeitpunkt, und „Verschieben“ sowie „Löschen“ wirken immer nur auf den gewählten Plan.
+> **Ein Rezept, ein Plan – oder mehrere.** Tippst Du auf „Erinnerungen setzen“, während für dieses Rezept schon ein Plan läuft, fragt die App: **Bestehenden Plan ersetzen** verwirft die alten Schritte samt Erinnerungen und setzt den neuen Plan an ihre Stelle – das ist der Weg, wenn Du das Brot auf einen anderen Tag verschieben willst. **Zusätzlich planen** behält den bestehenden Plan und legt den neuen daneben, etwa für Samstag und Sonntag. In „Geplante Schritte“ bekommt dann jeder Plan einen eigenen Filter-Chip mit seinem Startzeitpunkt, und „Verschieben“ sowie „Löschen“ wirken immer nur auf den gewählten Plan.
 
-> **Für die Apple Watch: setze die Reminder auf dem iPhone.** Die Erinnerungen werden auf dem Gerät erzeugt, auf dem Du „Reminder setzen“ tippst, und bleiben auch dort. Nur ein iPhone gibt seine Mitteilungen an eine gekoppelte Apple Watch weiter – ein iPad ist mit der Uhr nicht gekoppelt und kann das nicht. Planst Du also auf dem iPad, erscheinen die Backhinweise ausschließlich auf dem iPad, selbst wenn Du eine Apple Watch trägst.
+> **Für die Apple Watch: setze die Erinnerungen auf dem iPhone.** Die Erinnerungen werden auf dem Gerät erzeugt, auf dem Du „Erinnerungen setzen“ tippst, und bleiben auch dort. Nur ein iPhone gibt seine Mitteilungen an eine gekoppelte Apple Watch weiter – ein iPad ist mit der Uhr nicht gekoppelt und kann das nicht. Planst Du also auf dem iPad, erscheinen die Backhinweise ausschließlich auf dem iPad, selbst wenn Du eine Apple Watch trägst.
 >
-> Ein bereits gesetzter Plan lässt sich nicht nachträglich auf ein anderes Gerät umziehen – setz die Reminder in diesem Fall einfach noch einmal auf dem iPhone. Das Rezept selbst liegt über iCloud ohnehin auf beiden Geräten.
+> Ein bereits gesetzter Plan lässt sich nicht nachträglich auf ein anderes Gerät umziehen – setz die Erinnerungen in diesem Fall einfach noch einmal auf dem iPhone. Das Rezept selbst liegt über iCloud ohnehin auf beiden Geräten.
 
 ---
 
@@ -391,8 +417,8 @@ Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest Bake
 Im Abschnitt **Speichern** wählst Du zwischen drei Ablagen (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Unter der Auswahl steht jeweils ein Satz, was sie bedeutet. Die Vorbelegung kommt aus den Einstellungen (Standard-Ablage).
 
 - **Lokal** – das Rezept bleibt auf dem Gerät, wird über Deine iCloud gesichert und ist jederzeit änderbar.
-- **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher weist die App darauf hin, dass ein Rezept in der Datenbank nach dem Speichern nicht mehr geändert werden kann.
-- **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint der Hinweis: **„Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.“** Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
+- **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher fragt die App „Privat in der Cloud speichern?“ – bearbeiten oder löschen kannst Du das Rezept später in der Rezept-Datenbank.
+- **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint die Rückfrage **„Rezept veröffentlichen?“** mit dem Hinweis, dass Du es als Autor später in der Rezept-Datenbank bearbeiten oder löschen kannst. Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
 
 Beim Import aus Bildern oder von einer Internetseite ist die Ablage zunächst immer auf „Lokal“ gesetzt. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Auswahl mit.
 
@@ -472,8 +498,8 @@ Rechts oben die Sterne antippen: 1 bis 5 Sterne. Nochmaliges Tippen auf den erst
 Im Abschnitt **Speichern** stehen drei Schaltflächen – dieselben drei Ablagen wie beim Anlegen. Oben rechts in der Navigationsleiste findest Du sie außerdem im Menü hinter dem Speichern-Symbol.
 
 - **Lokal** – speichert alles inklusive Bild, berechnet das Gesamtgewicht neu und bestätigt mit „Rezept wurde gespeichert“.
-- **Privat** – legt das Rezept privat in der Rezept-Datenbank ab; nötig ist dafür eine Anmeldung mit Apple. Nur für Dich sichtbar, danach nicht mehr änderbar.
-- **Öffentlich** – lädt das Rezept für alle Nutzer sichtbar hoch. Der Hinweis, dass es danach nicht mehr geändert werden kann, erscheint auch hier.
+- **Privat** – legt das Rezept privat in der Rezept-Datenbank ab; nötig ist dafür eine Anmeldung mit Apple. Nur für Dich sichtbar; bearbeiten kannst Du es später in der Rezept-Datenbank.
+- **Öffentlich** – lädt das Rezept für alle Nutzer sichtbar hoch. Die Rückfrage „Rezept veröffentlichen?“ erscheint auch hier.
 - **Löschen** (oben links) – leert die Rezeptinhalte.
 
 Nach einem erfolgreichen Upload sind **beide Cloud-Schaltflächen deaktiviert**, weil das Rezept jetzt eine Kopie in der Datenbank besitzt – ein Rezept kann nur einmal hochgeladen werden, privat *oder* öffentlich.
@@ -484,7 +510,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 ## 10. Geplante Schritte (Liste und Timeline)
 
-**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Reminder gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
+**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
 
 ![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext; die Karte „Weizensauerteig“ trägt neben dem Uhr-Symbol ein i-Symbol für die Zutaten](images/geplante-schritte-liste.png)
 
@@ -522,7 +548,7 @@ Dieselben Schritte als senkrechte Zeitachse. Links steht der Zeitstempel – bei
 
 *Über den unteren Tab wechselst Du zwischen Liste und Timeline.*
 
-Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schritte – Setze einen Reminder in der Backanleitung eines Rezepts.“
+Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schritte – Setze Erinnerungen in der Backanleitung eines Rezepts.“
 
 ### Backmodus
 
@@ -564,7 +590,7 @@ Jede Erinnerung erscheint als Mitteilung mit dem Titel **„Backhinweis“**, de
 > • 200 g Wasser
 > • 2 g Hefe
 
-Das Banner zeigt nur die ersten Zeilen. Halte die Mitteilung gedrückt oder klappe sie im Mitteilungszentrum auf, um die ganze Liste zu sehen. Die Mengen entsprechen der Portionsgröße, die beim Setzen der Reminder in der Backanleitung gewählt war.
+Das Banner zeigt nur die ersten Zeilen. Halte die Mitteilung gedrückt oder klappe sie im Mitteilungszentrum auf, um die ganze Liste zu sehen. Die Mengen entsprechen der Portionsgröße, die beim Setzen der Erinnerungen in der Backanleitung gewählt war.
 
 **Halte die Mitteilung gedrückt**, um zwei Aktionen zu erhalten:
 
@@ -581,7 +607,7 @@ Läuft ein Plan, zeigt BakePlanner den anstehenden Schritt zusätzlich als **Liv
 
 Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfernt ist – iOS beendet Live-Aktivitäten spätestens nach acht Stunden, deshalb nicht früher. Sie wird aktualisiert, wenn Du die App öffnest, einen Schritt als erledigt markierst oder verschiebst, und endet, wenn kein Schritt mehr in Reichweite ist. Beim ersten Mal fragt iOS, ob BakePlanner Live-Aktivitäten zeigen darf. Unter *Einstellungen → Backplanung → Live-Aktivität auf dem Sperrbildschirm* lässt sie sich ganz abschalten.
 
-**Apple Watch.** Die Backhinweise erscheinen auf der Uhr, wenn Du die Reminder auf dem **iPhone** gesetzt hast – Mitteilungen des iPhones werden an die gekoppelte Uhr weitergereicht. Auf dem iPad gesetzte Reminder bleiben auf dem iPad. Mehr dazu in [Kapitel 7](#7-backanleitung-und-reminder).
+**Apple Watch.** Die Backhinweise erscheinen auf der Uhr, wenn Du die Erinnerungen auf dem **iPhone** gesetzt hast – Mitteilungen des iPhones werden an die gekoppelte Uhr weitergereicht. Auf dem iPad gesetzte Erinnerungen bleiben auf dem iPad. Mehr dazu in [Kapitel 7](#7-backanleitung-und-erinnerungen).
 
 ---
 
@@ -591,15 +617,32 @@ Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfe
 
 **Hauptmenü → Backhistorie.** Alle Backvorgänge, neueste zuerst, wahlweise als **Liste** mit Datum, Rezeptname, Kommentar und Fotos – oder als **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. Zwischen beiden wechselst Du mit dem Symbol oben rechts; die Wahl bleibt gespeichert. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
 
-- **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
+- **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten, **Messwerte und Ergebnis** eintragen (siehe unten) und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
 - **Eintrag löschen**: Zeile nach links wischen.
 - **Suchen und filtern**: Suchfeld (Name/Tags) und Bewertungsfilter oben rechts.
 
+In Liste und Galerie stehen die Messwerte eines Eintrags in einer Zeile unter dem Kommentar, etwa „Raum 22 °C · Teig 25 °C · Stockgare 3h 30m · Stückgare 1h 00m · Weizen 550 · offen, guter Ofentrieb“.
+
+### Messwerte und Ergebnis
+
+Freitext und Sterne allein reichen nicht, um beim nächsten Mal besser zu werden. Jeder Eintrag hat deshalb einen Abschnitt **Messwerte und Ergebnis**:
+
+| Feld | Inhalt |
+|------|--------|
+| **Raumtemperatur**, **Teigtemperatur** | In °C, mit Komma oder Punkt („22,5“). Leer heißt „nicht gemessen“. |
+| **Stockgare**, **Stückgare** | Die tatsächliche Dauer in Minuten; ab 60 Minuten wird darunter die Umrechnung gezeigt („= 3h 30m“). |
+| **Mehl** | Das verwendete Mehl, als Freitext („Weizen 550, Dinkel 630“). |
+| **Krume / Ofentrieb** | Zwei, drei Stichworte, durch Komma getrennt. Darunter stehen Wort-Chips für **Krume** (offen, dicht, saftig, trocken, gleichmäßig, großporig, klitschig) und **Ofentrieb** (guter Ofentrieb, wenig Ofentrieb, eingerissen, flach geblieben); Antippen setzt das Wort ins Feld oder nimmt es wieder heraus, ein gesetztes Wort trägt ein Häkchen. Eigene Worte kannst Du dazuschreiben. |
+
+Die Zahlenfelder haben keine Return-Taste; neben dem gerade bearbeiteten Feld erscheint **Fertig**, um die Tastatur zu schließen.
+
+Diese Angaben zeigt die Backansicht beim nächsten Planen desselben Rezepts als Karte **Letztes Mal** (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
+
 ### Einen Backvorgang nachtragen
 
-**Eigene Rezepte → Rezept → Tab „+ Historie“.** Backdatum wählen (bis zu 10 Jahre zurück), Kommentar schreiben, Fotos aus der Mediathek hinzufügen, **Speichern**.
+**Eigene Rezepte → Rezept → Tab „+ Historie“.** Backdatum wählen (bis zu 10 Jahre zurück), Kommentar schreiben, Messwerte und Ergebnis eintragen, Fotos aus der Mediathek hinzufügen, **Speichern**.
 
-Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Reminder setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“, den Du später ersetzen kannst.
+Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinnerungen setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“ und ohne Messwerte. Nach dem Backen erinnert die Karte „Letztes Mal“ in der Backansicht daran, ihn zu ergänzen.
 
 ### Back Hit-Liste
 
@@ -657,13 +700,15 @@ Die App filtert bewusst:
 | **Standard-Portionsgröße** | Wert, mit dem Rezepte geöffnet werden: 0,5 / 1,0 / 1,5 / 2,0. Standard: 1,0. |
 | **Detailansicht verwenden** | Ein: Komponenten und Schritte aller öffentlichen Rezepte werden schon beim Laden der Liste mitgeladen – Rezepte öffnen sich schneller, der erste Ladevorgang dauert länger und braucht mehr Daten. Aus: Details werden erst beim Öffnen eines Rezepts geladen. Standard: ein. |
 | **Bäckerprozente anzeigen** | Ergänzt in der Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)). Standard: aus. |
+| **Anstellgut** | Teigausbeute Deines Anstellguts, mit der die App eine Anstellgut-Menge ohne TA-Angabe im Rezept in Mehl und Wasser aufteilt. 120 bis 300 in Fünferschritten. Standard: TA 200. |
+| **Lievito Madre** | Dasselbe für Lievito Madre. Standard: TA 150. |
 | **Eigene Einheiten** | Zeigt, wie viele Du angelegt hast, und führt zur Verwaltung. Siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen). |
 
 ### Backplanung
 
 | Einstellung | Beschreibung |
 |-------------|--------------|
-| **Vorheizzeit** | 0–120 Minuten in 5er-Schritten. Wird beim Setzen der Reminder verwendet, um den automatischen Schritt „Backofen anstellen“ vor den letzten Schritt zu legen. Standard: 15 Minuten. |
+| **Vorheizzeit** | 0–120 Minuten in 5er-Schritten. Wird beim Setzen der Erinnerungen verwendet, um den automatischen Schritt „Backofen anstellen“ vor den letzten Schritt zu legen. Standard: 15 Minuten. |
 | **Backpause** | 0–120 Minuten. Mindestabstand zwischen zwei Backvorgängen im selben Ofen. Standard: 10 Minuten. |
 | **Backöfen** | 1–6. Wie viele Backvorgänge gleichzeitig laufen dürfen. Die Planprüfung meldet erst dann einen Fehler, wenn mehr Rezepte zur selben Zeit backen, als Öfen da sind; die Backpause gilt je Ofen. Standard: 1. |
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
@@ -671,7 +716,7 @@ Die App filtert bewusst:
 | **Sprachausgabe im Backmodus** | Blendet die Taste „Vorlesen“ im Backmodus ein oder aus. Standard: an. |
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
 
-> **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
+> **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backansicht, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
 
 ### Datenschutz & KI
 
@@ -744,7 +789,21 @@ Umgerechnete Mengen werden so gerundet, wie man sie abwiegt: ab 10 g auf ganze G
 
 ### Bäckerprozente
 
-Unter *Einstellungen → Rezepte → Bäckerprozente anzeigen* ergänzt die Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente, etwa „319 g Wasser · 62 %“. Als Mehl zählt, was „Mehl“, „Schrot“, „Flour“ oder „Farine“ im Namen trägt. Eine Komponente ohne Mehl zeigt keine Prozente; Stückangaben und ganze Komponenten als Zutat („1 gesamtes Brühstück“) ebenfalls nicht. Die Prozente ändern sich nicht mit der Portionsgröße.
+Unter *Einstellungen → Rezepte → Bäckerprozente anzeigen* ergänzt die Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente, etwa „319 g Wasser · 62 %“. Als Mehl zählt, was „Mehl“, „Schrot“, „Grieß“, „Dunst“, „Flour“ oder „Farine“ im Namen trägt, außerdem Altbrot und Semmelbrösel (einmal gebackenes Mehl, etwa im Brühstück) – nicht aber Leinsamenschrot, Flocken, Kleie oder Nuss- und Mandelmehle. Eine Komponente ohne Mehl zeigt keine Prozente; Stückangaben und ganze Komponenten als Zutat („1 gesamtes Brühstück“) ebenfalls nicht. Die Prozente ändern sich nicht mit der Portionsgröße.
+
+### Teigausbeute und Hydration
+
+Im Tab **Details** steht unter dem Gewicht die Zeile **„TA 172 · Hydration 72 %“**: die Teigausbeute (TA = Mehl plus Wasser je 100 g Mehl) und die Hydration (Wasser je Mehl) über **alle Komponenten** des Rezepts. Ein Tipp öffnet die Aufschlüsselung mit Mehl und Wasser in Gramm, dem Wert jeder einzelnen Komponente, den Anstellgut-Anteilen und den Zutaten, die nicht mitgezählt wurden.
+
+Gerechnet wird nach der Bäckerkonvention:
+
+- **Mehl** ist, was auch die Bäckerprozente als Mehl zählen (siehe oben).
+- **Schüttflüssigkeit zählt voll**: Wasser, Milch, Buttermilch, Bier, Wein, Molke, Saft und Hefewasser – auch wenn Milch physikalisch nur zu knapp 90 % aus Wasser besteht. So passen die Zahlen zu dem, was Backbücher und Blogs angeben. Milchpulver und Weinstein zählen nicht.
+- **Anstellgut wird aufgeteilt**: 20 g Anstellgut mit TA 200 sind 10 g Mehl und 10 g Wasser, mit TA 150 sind es 13 g Mehl und 7 g Wasser. Die TA nimmt die App aus dem Zutatennamen, wenn dort „TA 200“ oder „100 % Hydration“ steht; sonst aus *Einstellungen → Rezepte → Anstellgut* bzw. *Lievito Madre*. Biga (TA 150), Poolish (TA 200) und Pâte fermentée (TA 165) haben ihre TA per Definition. Die Aufschlüsselung sagt bei jedem Anstellgut, woher die TA stammt.
+- **Saaten, Flocken, Fett, Eier, Zucker und Salz** zählen weder als Mehl noch als Wasser. Schwerere davon stehen in der Aufschlüsselung unter „Nicht gezählt“, damit Du siehst, was die Zahl nicht enthält.
+- **Komponenten zählen genau einmal.** Steht im Hauptteig „gesamter Sauerteig“, geht der Sauerteig über diese Zeile ein, nicht doppelt. Steht dort „200 g Sauerteig“, obwohl die Komponente 300 g ergibt, zählt sie zu zwei Dritteln. Nennt der Hauptteig den Sauerteig gar nicht, werden die Komponenten einfach addiert.
+
+Die Zeile fehlt bei Rezepten ohne erkanntes Mehl. Beim Bild-Import vergleicht die App dieselbe Rechnung mit der im Buch gedruckten Teigausbeute und warnt bei Abweichung.
 
 ### Verfügbare Einheiten
 
@@ -867,16 +926,16 @@ Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt im Formular und kann
 ## 17. Häufige Fragen und Fehlerbehebung
 
 **Es kommen keine Erinnerungen.**
-Prüfe in *Einstellungen → Mitteilungen → BakePlanner*, ob Mitteilungen erlaubt sind. Prüfe außerdem, ob unter „Geplante Schritte“ überhaupt Schritte stehen – nur ein Tippen auf „Reminder setzen“ erzeugt Erinnerungen. Und: Erinnerungen für Zeitpunkte in der Vergangenheit werden nicht ausgelöst.
+Prüfe in *Einstellungen → Mitteilungen → BakePlanner*, ob Mitteilungen erlaubt sind. Prüfe außerdem, ob unter „Geplante Schritte“ überhaupt Schritte stehen – nur ein Tippen auf „Erinnerungen setzen“ erzeugt Erinnerungen. Und: Erinnerungen für Zeitpunkte in der Vergangenheit werden nicht ausgelöst.
 
 **Auf der Apple Watch kommt nichts an.**
-Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr weitergereicht werden nur Mitteilungen des gekoppelten **iPhones** – hast Du auf dem iPad geplant, erscheinen die Backhinweise ausschließlich dort. Setz die Reminder in diesem Fall noch einmal auf dem iPhone.
+Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr weitergereicht werden nur Mitteilungen des gekoppelten **iPhones** – hast Du auf dem iPad geplant, erscheinen die Backhinweise ausschließlich dort. Setz die Erinnerungen in diesem Fall noch einmal auf dem iPhone.
 
 **Die Rezept-Datenbank ist leer („Keine Rezepte geladen“).**
 Beim Start bestand keine Internetverbindung. Zieh die Liste nach unten, um erneut zu laden.
 
 **Ich habe mein Rezept in die Datenbank hochgeladen und will es korrigieren.**
-Das ist nicht möglich – Rezepte in der Datenbank sind unveränderlich, private wie öffentliche. Lösche es über „…“ → **Mein Rezept löschen** und lade die korrigierte Fassung neu hoch. Die Fassung auf dem Gerät bleibt dabei erhalten und wird danach wieder als hochladbar erkannt.
+Öffne das Rezept in der Rezept-Datenbank und wähle „…“ → **Rezept bearbeiten** (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Das geht bei allen Rezepten, die von Deinem Konto stammen – privaten wie öffentlichen. Die Fassung auf dem Gerät ändert sich dabei nicht; willst Du sie angleichen, bearbeite sie getrennt unter „Eigene Rezepte“.
 
 **Meine privaten Rezepte sind nicht in der Liste.**
 Sie erscheinen nur, wenn Du angemeldet bist: *Einstellungen → Konto → Mit Apple anmelden*. Achte darauf, dasselbe Apple-Konto zu verwenden wie beim Speichern – die Rezepte hängen daran. Zieh die Liste danach einmal nach unten.
@@ -884,7 +943,7 @@ Sie erscheinen nur, wenn Du angemeldet bist: *Einstellungen → Konto → Mit Ap
 **„Für private Cloud-Rezepte ist eine Anmeldung mit Apple erforderlich.“**
 Du hast als Ablage „Privat“ gewählt, ohne angemeldet zu sein. Melde Dich über das erscheinende Blatt an, danach wird gespeichert. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar – deshalb lässt die App es nicht anders zu.
 
-**Ich habe versehentlich zweimal „Reminder setzen“ getippt.**
+**Ich habe versehentlich zweimal „Erinnerungen setzen“ getippt.**
 Beim zweiten Tippen fragt die App, ob der neue Plan den bestehenden ersetzen oder zusätzlich angelegt werden soll. Hast Du „Zusätzlich planen“ gewählt, obwohl Du nur einen Plan wolltest, wähle in „Geplante Schritte“ den überzähligen Plan über seinen Chip aus und lösche ihn mit dem Papierkorb über „Nur ‚…‘ löschen“.
 
 **Ich will dasselbe Rezept für zwei verschiedene Termine einplanen.**
@@ -912,16 +971,16 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 
 ## 18. Bekannte Einschränkungen
 
-- **Rezepte in der Datenbank sind nach dem Hochladen unveränderlich** – private wie öffentliche. Korrekturen erfordern Löschen und erneutes Hochladen.
+- **Rezepte in der Datenbank bearbeitet nur ihr Autor** (oder ein Administrator). Die Fassung auf dem Gerät und die in der Datenbank sind nach dem Hochladen zwei getrennte Rezepte; Änderungen an der einen übernimmt die andere nicht.
 - **Ein Rezept kann nur einmal hochgeladen werden**, entweder privat oder öffentlich. Ein privates Rezept lässt sich nachträglich veröffentlichen, dabei entsteht aber eine zweite Fassung; die private wird nicht automatisch entfernt.
 - **Private Cloud-Rezepte brauchen eine Anmeldung mit Apple** und sind an dieses Konto gebunden. Ohne Anmeldung sind sie nicht sichtbar, mit einem anderen Apple-Konto ebenfalls nicht.
 - **Beim Löschen des Kontos bleiben veröffentlichte Rezepte in der Datenbank.** Sie gehören danach keinem Konto mehr und können nur noch von einem Administrator entfernt werden.
-- **Backpause, Backöfen, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt, rechnet ihn aber nicht um – einen Schritt aus der Nacht in den Morgen zu holen bleibt Deine Aufgabe.
-- **Pläne, die vor diesem Update gesetzt wurden,** tragen noch keine Plan-Kennung und gelten gemeinsam als ein Plan je Rezept. Beim nächsten „Reminder setzen“ mit „Bestehenden Plan ersetzen“ wird das bereinigt.
+- **Backpause, Backöfen, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt. Fällt ein Schritt in die Nacht, schlägt sie einen anderen Zeitpunkt für den ganzen Plan vor (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)); einzelne Schritte verlängert oder verkürzt sie dabei nicht.
+- **Pläne, die vor diesem Update gesetzt wurden,** tragen noch keine Plan-Kennung und gelten gemeinsam als ein Plan je Rezept. Beim nächsten „Erinnerungen setzen“ mit „Bestehenden Plan ersetzen“ wird das bereinigt.
 - **Änderst Du ein Rezept nach dem Planen** (Schritte, Dauern), bleibt der bereits gesetzte Plan unverändert stehen – geplante Schritte sind eine Momentaufnahme. „Geplante Schritte“ zeigt dann oben einen Hinweis „… wurde seit der Planung geändert“ mit der Schaltfläche **Neu planen**, die das Rezept öffnet. Nicht erkannt werden nur Schritte, die dem Rezept nachträglich hinzugefügt wurden.
-- **Die Zutaten in einer Erinnerung** werden beim Setzen der Reminder festgeschrieben. Änderst Du danach Zutaten oder Portionsgröße, zeigt die Erinnerung weiterhin die alten Mengen; das i-Symbol in „Geplante Schritte“ liest dagegen immer den aktuellen Stand des Rezepts. Erinnerungen, die vor diesem Update gesetzt wurden, enthalten noch keine Zutaten – einmal neu planen genügt.
+- **Die Zutaten in einer Erinnerung** werden beim Setzen der Erinnerungen festgeschrieben. Änderst Du danach Zutaten oder Portionsgröße, zeigt die Erinnerung weiterhin die alten Mengen; das i-Symbol in „Geplante Schritte“ liest dagegen immer den aktuellen Stand des Rezepts. Erinnerungen, die vor diesem Update gesetzt wurden, enthalten noch keine Zutaten – einmal neu planen genügt.
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
-- **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Reminder setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
+- **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Erinnerungen setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
 - **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente.
 - **Eigene Einheiten erscheinen in jeder Sprache so, wie Du sie angelegt hast.** Übersetzt werden nur die mitgelieferten.

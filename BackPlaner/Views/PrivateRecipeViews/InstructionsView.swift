@@ -45,6 +45,9 @@ struct InstructionsView: View {
     }
     // Findings of the bake-plan check (day window, overlapping bakes, bake pause).
     @State private var planIssues                 = [BakePlanIssue]()
+    // Dates at which no step falls into the night (BakePlanAdvisor).
+    @State private var planHasNightSteps          = false
+    @State private var nightFreeDates             = [NightFreeDate]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var reminderHintText           = ""
@@ -53,8 +56,7 @@ struct InstructionsView: View {
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
-    var gridItemLayoutHistories = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
-    
+
     let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
     
     var manager:LocalNotificationManager = LocalNotificationManager()
@@ -150,6 +152,15 @@ struct InstructionsView: View {
                 ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
                                      scale: servingScale)
 
+                // MARK: Last time
+                // How the last bake of this recipe went, right where the
+                // next one is planned. Only a bake that already happened:
+                // setting reminders creates an entry dated at the planned
+                // end, which has nothing to say yet.
+                if let lastBake = recipe.lastCompletedBakeHistory() {
+                    LastBakeCardView(bakeHistory: lastBake, recipeName: recipe.name)
+                }
+
                 // MARK: Selections
                 InstructionSchedulingControlsView(
                     changeDurations: $changeDurationsFlag,
@@ -165,7 +176,11 @@ struct InstructionsView: View {
                     refreshPlanIssues()
                 }
 
-                BakePlanIssuesView(issues: planIssues)
+                BakePlanIssuesView(issues: planIssues,
+                                   hasNightSteps: planHasNightSteps,
+                                   suggestions: nightFreeDates,
+                                   anchor: PlanAnchor(selection: dateTimeStartSelection),
+                                   onApply: { dateTime = $0 })
 
 
                 // MARK: Instructions
@@ -261,34 +276,56 @@ struct InstructionsView: View {
                 .cardStyle()
                 
                 // MARK: Histories
-                
-                VStack(alignment: .leading) {
-                    
-                    Text("Back-Kommentare")
-                        .font(Theme.brandFont(16))
-                        .foregroundColor(Theme.title)
-                    
-                    LazyVGrid(columns: gridItemLayoutHistories, spacing: 6) {
-                        
-                        Text("Dauer").bold()
-                        Text("Kommentar").bold()
-                        
-                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
 
-                            Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                            Text(bakeHistory.comment)
+                // Every bake of this recipe, newest first: the date, the
+                // recorded facts in one line, and the comment. An entry still
+                // ahead is the one just planned and is marked as such.
+                if !recipe.bakeHistoriesArray.isEmpty {
+                    VStack(alignment: .leading, spacing: 10) {
+
+                        Text("Bisherige Backvorgänge")
+                            .font(Theme.brandFont(16))
+                            .foregroundColor(Theme.title)
+
+                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
+                            VStack(alignment: .leading, spacing: 3) {
+                                HStack(spacing: 8) {
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Theme.brandFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                    if bakeHistory.date > Date() {
+                                        Text("geplant")
+                                            .font(Theme.bodyFont(13))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                }
+
+                                BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                                    .font(Theme.bodyFont(14))
+                                    .foregroundColor(Theme.subtitle)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                if !BakeHistoryFacts.isPlaceholderComment(bakeHistory.comment) {
+                                    Text(bakeHistory.comment)
+                                        .font(Theme.bodyFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                } else if !bakeHistory.hasNotes && bakeHistory.date <= Date() {
+                                    Text("Noch nichts notiert")
+                                        .font(Theme.bodyFont(14))
+                                        .foregroundColor(Theme.subtitle)
+                                }
+                            }
+                            .accessibilityElement(children: .combine)
                         }
                     }
-                    .scrollsSidewaysAtLargeText()
-
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .cardStyle()
                 }
-                .font(Theme.bodyFont(15))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .cardStyle()
 
                 // MARK: Reminder setzen
                 HStack {
-                    IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Reminder setzen", title: "Reminder setzen", controlSize: .regular) {
+                    IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Erinnerungen setzen", title: "Erinnerungen setzen", controlSize: .regular) {
                         if hasExistingPlan {
                             showingPlanChoice = true
                         } else {
@@ -307,7 +344,7 @@ struct InstructionsView: View {
                     } message: {
                         Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
                     }
-                    .alert("Reminder wurden gesetzt", isPresented: $showingAlert) {
+                    .alert("Erinnerungen wurden gesetzt", isPresented: $showingAlert) {
                         Button("OK", role: .cancel) { }
                     } message: {
                         ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
@@ -398,7 +435,10 @@ struct InstructionsView: View {
     }
 
     private func refreshPlanIssues() {
-        planIssues = bakePlan.issues(in: viewContext)
+        let plan = bakePlan
+        planIssues = plan.issues(in: viewContext)
+        planHasNightSteps = BakePlanAdvisor.hasNightSteps(plan)
+        nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

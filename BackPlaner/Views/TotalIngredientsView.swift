@@ -22,10 +22,15 @@ struct TotalIngredientsView: View {
     /// ingredients — the same list the card shows, for other consumers such
     /// as the PDF export.
     static func totalIngredients(ingredients: [TotalIngredientData], componentNames: [String]) -> [TotalIngredient] {
-        let normalizedComponentNames = componentNames.map(normalizedProductName)
         let rawIngredients = ingredients.filter { ingredient in
             !isWater(ingredient.name)
-                && !isComponentProduct(ingredient, componentNames: normalizedComponentNames)
+                && ComponentProductMatcher.referencedComponent(
+                    name: ingredient.name,
+                    weight: ingredient.weight,
+                    numerator: ingredient.numerator,
+                    denominator: ingredient.denominator,
+                    componentNames: componentNames
+                ) == nil
         }
         return TotalIngredient.aggregate(rawIngredients)
     }
@@ -48,50 +53,6 @@ struct TotalIngredientsView: View {
             .localizedLowercase
 
         return normalizedName.contains("wasser") || normalizedName.contains("water")
-    }
-
-    private static func isComponentProduct(
-        _ ingredient: TotalIngredientData,
-        componentNames: [String]
-    ) -> Bool {
-        let ingredientName = normalizedProductName(ingredient.name)
-
-        if componentNames.contains(ingredientName) {
-            return true
-        }
-
-        let representsWholeProduct = ingredient.weight == 0
-            && ingredient.denominator != 0
-            && ingredient.numerator == ingredient.denominator
-
-        guard representsWholeProduct else {
-            return false
-        }
-
-        return componentNames.contains { componentName in
-            let shortestNameLength = min(ingredientName.count, componentName.count)
-            return shortestNameLength >= 5
-                && (ingredientName.contains(componentName) || componentName.contains(ingredientName))
-        }
-    }
-
-    private static func normalizedProductName(_ name: String) -> String {
-        var normalizedName = IngredientNameNormalizer.comparisonKey(name)
-
-        for prefix in ["gesamter ", "gesamte ", "gesamtes ", "ganzer ", "ganze ", "ganzes "] where normalizedName.hasPrefix(prefix) {
-            normalizedName.removeFirst(prefix.count)
-            break
-        }
-
-        if let separatorIndex = normalizedName.firstIndex(where: { "/(".contains($0) }) {
-            normalizedName = String(normalizedName[..<separatorIndex])
-        }
-
-        if let stageRange = normalizedName.range(of: " stufe ") {
-            normalizedName = String(normalizedName[..<stageRange.lowerBound])
-        }
-
-        return normalizedName.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     var body: some View {
@@ -289,11 +250,9 @@ struct ComponentColumnsView: View {
 /// is recognised by name; a component without any shows no percentages.
 enum BakersPercentage {
 
-    private static let flourWords = ["mehl", "flour", "farine", "schrot"]
-
+    /// The same flour the dough yield counts, so the two never disagree.
     static func isFlour(_ name: String) -> Bool {
-        let folded = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current).lowercased()
-        return flourWords.contains { folded.contains($0) }
+        DoughComposition.isFlour(name)
     }
 
     /// The summed weight of the flours, independent of the scale shown —

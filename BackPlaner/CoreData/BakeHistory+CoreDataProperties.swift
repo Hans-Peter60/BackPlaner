@@ -22,6 +22,17 @@ extension BakeHistory {
     @NSManaged public var comment:String
     @NSManaged public var recipe: Recipe?
 
+    // What the bake was like, for the next bake of the same recipe. All
+    // optional and `NSNumber`, not scalars: a temperature that was never
+    // measured must stay apart from one of 0 °C. Read and written together
+    // through `facts` (BakeHistoryFacts.swift).
+    @NSManaged public var roomTemperature:   NSNumber?
+    @NSManaged public var doughTemperature:  NSNumber?
+    @NSManaged public var bulkProofMinutes:  NSNumber?
+    @NSManaged public var finalProofMinutes: NSNumber?
+    @NSManaged public var flour:   String?
+    @NSManaged public var outcome: String?
+
 }
 
 extension BakeHistory : Identifiable {

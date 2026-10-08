@@ -75,7 +75,34 @@ struct PersistenceController {
 
         self.container = container
         self.loadError = failure
+
+        #if DEBUG
+        initializeCloudKitSchemaIfRequested()
+        #endif
     }
+
+    #if DEBUG
+    /// Pushes the whole managed object model into the CloudKit **Development**
+    /// schema when the app is launched with `-initializeCloudKitSchema`.
+    ///
+    /// CloudKit only learns a field once a record carrying it has been
+    /// written, so an attribute no user has filled yet does not exist in
+    /// Development and cannot be deployed to Production — new bake-history
+    /// fields would then silently never sync for store users. This creates
+    /// (and removes again) one record of every entity with every attribute
+    /// set, which is what the schema deployment in the CloudKit Console
+    /// needs to see. Debug builds only: they alone talk to Development.
+    private func initializeCloudKitSchemaIfRequested() {
+        guard ProcessInfo.processInfo.arguments.contains("-initializeCloudKitSchema"),
+              loadError == nil else { return }
+        do {
+            try container.initializeCloudKitSchema(options: [.printSchema])
+            AppLog.persistence.info("CloudKit development schema initialized from the managed object model")
+        } catch {
+            AppLog.persistence.error("CloudKit schema initialization failed: \(error)")
+        }
+    }
+    #endif
 }
 
 // MARK: - One-time store maintenance

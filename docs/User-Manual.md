@@ -46,7 +46,7 @@ On top of that: a shared public recipe database, your own recipes on the device,
 1. Open **Recipe database** and pick a recipe — or create one of your own under **Create new recipe**.
 2. In the recipe, open the **Bake** or **Bake recipe** tab.
 3. Choose **Start from** or **Done by** and set the date and time.
-4. Check the calculated start times and tap **Set reminder**.
+4. Check the calculated start times and tap **Set reminders**.
 5. Open **Scheduled steps** to review every appointment as a list or a timeline.
 
 Reminders require BakePlanner to be allowed to send notifications. The full explanations are in [chapter 7](#7-baking-instructions-and-reminders), [chapter 10](#10-scheduled-steps-list-and-timeline), and [chapter 17](#17-frequently-asked-questions-and-troubleshooting).
@@ -154,10 +154,11 @@ When you're signed in with Apple, the same list also holds **your private cloud 
 
 ### Opening a public recipe
 
-A recipe opens with two tabs along the bottom:
+A recipe opens on the **Details** tab. Three tabs run along the bottom:
 
-- **Bake recipe** — the baking instructions with the schedule (see [chapter 7](#7-baking-instructions-and-reminders))
+- **Bake recipe** — the baking instructions with the schedule (see [chapter 7](#7-baking-instructions-and-reminders)). The schedule is only worked out once you choose this tab.
 - **Details** — an overview of ingredients, components, and steps
+- **Shopping list** — put the ingredients on a shopping list
 
 ### Translating a recipe
 
@@ -179,11 +180,24 @@ The app confirms with **"Recipe was saved"** and a note that you can edit the co
 
 ### Publishing a private recipe
 
-For your **private** cloud recipes, the **Bake recipe** tab also offers **Save as a public recipe**. That makes the recipe visible to every user. First you're asked to confirm that it can't be changed afterwards and that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.
+For your **private** cloud recipes, the **Bake recipe** tab also offers **Save as a public recipe**. That makes the recipe visible to every user. First you're asked to confirm that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.
 
 **Your private version stays in place** — the recipe then appears twice in the list, once with a lock. If you don't want that, delete the private version afterwards via "…" → **Delete my recipe**.
 
 For recipes that are already public, the button doesn't appear.
+
+### Editing a recipe of your own
+
+Recipes that came from *your* account — private ones as much as public ones — can be changed right in the recipe database: **"…" menu** at the top right → **Edit recipe**. The form matches the one for entering a recipe: image, name, description, link, tags, components with their ingredients, and steps. Components, ingredients, tags and steps can be added and deleted. **Save** writes the changes to the database, **Cancel** discards them; until then the recipe on screen stays as it was.
+
+Note:
+
+- What you edit is always the **original**, in the language the recipe was written in — even if you're looking at a translation right now. Existing translations are discarded and created anew the next time a language is chosen.
+- Start times, total duration and total weight are recalculated when saving.
+- A new image replaces the old one in the database.
+- The version under "My recipes" on the device is unaffected; it remains a recipe of its own.
+
+For recipes by other authors the entry doesn't appear — except for administrators (see below).
 
 ### Reporting, blocking, deleting
 
@@ -191,15 +205,16 @@ Through the **"…" menu** at the top right:
 
 - **Report recipe** — you choose a reason (objectionable/offensive, spam, copyright infringement, other). The report goes to the operator for review, and the recipe is hidden **from every user immediately**, not only after the review. It becomes visible again only if an administrator releases it.
 - **Block author** — every recipe by that author disappears from your list. This applies **on your device only**; other users still see them.
-- **Delete my recipe** — appears only for recipes that came from *your* account. The recipe is removed from the database for good.
+- **Edit recipe** — appears only for recipes that came from *your* account (see above).
+- **Delete my recipe** — likewise only for your own recipes. The recipe is removed from the database for good.
 
-For **private** recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Delete my recipe" is there.
+For **private** recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Edit recipe" and "Delete my recipe" are there.
 
 So the two differ in reach: **blocking is local, reporting affects everyone.** Both can be undone under *Settings → Moderation* (see [chapter 14](#14-settings)).
 
 ### Administrator function
 
-If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
+If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
 
 **Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the **Details** tab it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
 
@@ -230,11 +245,13 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 
 | Tab | Contents |
 |-----|----------|
-| **Bake** | Baking instructions with the schedule and "Set reminder" |
+| **Bake** | Baking instructions with the schedule and "Set reminders" |
 | **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients on a shopping list |
-| **+ History** | Record a bake with date, comment, and photos |
+| **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb) |
+
+A recipe opens on the **Details** tab. The schedule in the **Bake** tab is only worked out once you choose it; only **Plan again** in Scheduled steps takes you straight there.
 
 In the **Details** tab you can tap the recipe image to see it full size.
 
@@ -251,13 +268,14 @@ This is the heart of the app. The layout is the same for your own and for public
 ### From top to bottom
 
 1. **Image and name** — tap the image to enlarge it.
-2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab.
+2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab. Below it stands **"Dough yield 172 · hydration 72 %"**, the dough yield and hydration over all components; a tap opens the breakdown (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 3. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
 4. **Components** — sorted by number, each with its ingredients at the chosen serving size.
-5. **Control bar** — see below.
-6. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
-7. **Baking comments** (your own recipes only) — earlier baking-history entries.
-8. **Set reminder**.
+5. **Last time** (your own recipes only, once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
+6. **Control bar** — see below.
+7. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
+8. **Previous bakes** (your own recipes only) — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
+9. **Set reminders**.
 
 ### The control bar
 
@@ -282,7 +300,7 @@ The app then recalculates every start time and the total working time. For your 
 
 ### What the app objects to in a plan
 
-Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminder".
+Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminders".
 
 | Sign | Meaning |
 |------|---------|
@@ -297,15 +315,23 @@ Three things are checked:
 
 The notes don't prevent anything — you can still set the plan. They only spare you the surprise at three in the morning.
 
+**Suggestions to keep out of the night.** If a step begins before the start of day or after the end of day, the app looks for the nearest earlier and the nearest later time at which every step falls inside your day, and shows them below the notes, for example:
+
+> **Done by Sat, 10 Oct, 1:45 PM**
+> 1 hr, 45 min later · Starts Fri, 9 Oct, 6:05 PM · done Sat, 10 Oct, 1:45 PM
+
+**Apply** sets the date and time above accordingly; the recipe stays as it is. The search goes in quarter-hour steps up to a day earlier or later, never before now, and never so that the bake would need more ovens than you have. If there is no such time — say, because the dough takes longer than your day — the app tells you so.
+
 ### Setting reminders
 
-Tapping **Set reminder** does several things at once:
+Tapping **Set reminders** does several things at once:
 
 1. A local reminder is set for **every processing step** at its calculated start time.
 2. The step **"turn on the oven"** is inserted automatically — the configured **Preheat time** before the **baking step** (15 minutes by default, adjustable in Settings). The baking step is the one that describes the bake, not necessarily the last one: if "let it cool" follows, the oven is still preheated before the bake.
    - If the recipe names an **oven temperature**, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").
    - If the recipe already has **its own preheating step**, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.
    - If the bake starts in a **cold oven** ("place in the cold oven"), there is no preheat time.
+   - If the baking step names a **falling temperature** ("load at 250 °C, after 10 minutes reduce to 220 °C"), the app additionally inserts **"Turn the oven down to 220 °C"** — at the minute the step names, otherwise ten minutes into the bake. If the step mentions steam, it reads "…, release the steam"; not with "without steam". A convection figure given alongside ("230 °C top/bottom heat, fan 210 °C") does not count as a drop.
 3. **"Baking is finished"** is likewise scheduled for the finishing time.
 4. Every step lands in **Scheduled steps**.
 5. For your own recipes a **baking-history entry** is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.
@@ -317,11 +343,11 @@ A confirmation then appears, for example:
 > Turn on the oven at 4:45 p.m. (250 °C).
 > Done at 6:10 p.m.
 
-The texts "turn on the oven" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
+The texts "turn on the oven", "turn the oven down" and "baking is finished" appear in whichever language is currently active (for public recipes, in the language you're viewing the recipe in).
 
-> **One recipe, one plan — or several.** Tap "Set reminder" while a plan for this recipe is already running and the app asks: **Replace existing plan** discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. **Add as a second plan** keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.
+> **One recipe, one plan — or several.** Tap "Set reminders" while a plan for this recipe is already running and the app asks: **Replace existing plan** discards the old steps together with their reminders and puts the new plan in their place — the way to go when you want to move the bread to another day. **Add as a second plan** keeps the existing plan and sets the new one beside it, for Saturday and Sunday, say. In "Scheduled steps" each plan then gets its own filter chip with its start time, and "Reschedule" and "Delete" only ever act on the selected plan.
 
-> **For Apple Watch: set the reminders on the iPhone.** Reminders are created on the device where you tap "Set reminder", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.
+> **For Apple Watch: set the reminders on the iPhone.** Reminders are created on the device where you tap "Set reminders", and they stay there. Only an iPhone passes its notifications on to a paired Apple Watch — an iPad isn't paired with the watch and can't do it. So if you plan on the iPad, the baking reminders appear on the iPad alone, even if you're wearing an Apple Watch.
 >
 > A plan that has already been set can't be moved to another device afterwards — in that case simply set the reminders again on the iPhone. The recipe itself is on both devices through iCloud anyway.
 
@@ -394,8 +420,8 @@ Below that: **Import recipe from a web page**. It reads a recipe straight from a
 In the **Save** section you choose between the three storage options (see also the overview in [chapter 3](#3-key-concepts)). A sentence below each choice explains what it means. The default comes from Settings (Default storage).
 
 - **Local** — the recipe stays on the device, is backed up through your iCloud, and can be changed at any time.
-- **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app points out that a recipe in the database can't be changed once saved.
-- **Public** — the recipe becomes visible to every user. First comes the note: **"A public recipe can no longer be changed after it has been saved."** The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
+- **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app asks "Save privately in the cloud?" — you can edit or delete the recipe later in the recipe database.
+- **Public** — the recipe becomes visible to every user. First comes the question **"Publish recipe?"**, with the note that as its author you can edit or delete it later in the recipe database. The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
 
 When importing from images or a web page, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.
 
@@ -476,7 +502,7 @@ The **Save** section holds three buttons — the same three storage options as w
 
 - **Local** — saves everything including the image, recalculates the total weight, and confirms with "Recipe was saved".
 - **Private** — stores the recipe privately in the recipe database; that requires signing in with Apple. Visible only to you and not editable afterwards.
-- **Public** — uploads the recipe so it's visible to every user. The note that it can't be changed afterwards appears here too.
+- **Public** — uploads the recipe so it's visible to every user. The "Publish recipe?" question appears here too.
 - **Delete** (top left) — clears the recipe's contents.
 
 After a successful upload, **both cloud buttons are disabled**, because the recipe now has a copy in the database — a recipe can only be uploaded once, privately *or* publicly.
@@ -594,15 +620,32 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 **Main menu → Baking history.** Every bake, newest first, either as a **list** with date, recipe name, comment and photos — or as a **gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. Switch between the two with the symbol at the top right; the choice is remembered. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
-- **Tap an entry** (row or tile) → baking notes: edit the comment and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
+- **Tap an entry** (row or tile) → baking notes: edit the comment, fill in **Measurements and result** (see below) and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
 - **Searching and filtering**: the search field (Name/Tags) and the rating filter at the top right.
 
+In the list and the gallery an entry's measurements appear in one line under the comment, such as "Room 22 °C · Dough 25 °C · Bulk proof 3h 30m · Final proof 1h 00m · Wheat 550 · open, good oven spring".
+
+### Measurements and result
+
+Free text and stars alone are not enough to do better next time. Every entry therefore has a section **Measurements and result**:
+
+| Field | Content |
+|-------|---------|
+| **Room temperature**, **Dough temperature** | In °C, with comma or point ("22.5"). Empty means "not measured". |
+| **Bulk proof**, **Final proof** | The actual duration in minutes; from 60 minutes on the conversion is shown underneath ("= 3h 30m"). |
+| **Flour** | The flour used, as free text ("Wheat 550, spelt 630"). |
+| **Crumb / oven spring** | Two or three keywords, separated by commas. Below the field are word chips for **Crumb** (open, dense, moist, dry, even, large pores, gummy) and **Oven spring** (good oven spring, little oven spring, torn, stayed flat); a tap puts the word into the field or takes it out again, and a chosen word carries a checkmark. You can add words of your own. |
+
+The number fields have no Return key; **Done** appears next to the field being edited to close the keyboard.
+
+The baking view shows these details as the **Last time** card when the same recipe is planned next (see [chapter 7](#7-baking-instructions-and-reminders)).
+
 ### Recording a bake after the fact
 
-**My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, add photos from the library, **Save**.
+**My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, fill in measurements and result, add photos from the library, **Save**.
 
-An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded", which you can replace later.
+An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it.
 
 ### Baking top list
 
@@ -660,6 +703,8 @@ The app filters deliberately:
 | **Default serving size** | The value recipes open with: 0.5 / 1.0 / 1.5 / 2.0. Default: 1.0. |
 | **Use detail view** | On: the components and steps of every public recipe are loaded along with the list — recipes open faster, but the first load takes longer and uses more data. Off: details are loaded only when you open a recipe. Default: on. |
 | **Show baker's percentages** | Adds each weighed ingredient's share of the component's flour in the component view (see [chapter 15](#15-units-amounts-and-serving-sizes)). Default: off. |
+| **Sourdough starter** | Dough yield of your starter, used to split an amount of starter into flour and water when the recipe does not state its TA. 120 to 300 in steps of five. Default: TA 200. |
+| **Lievito madre** | The same for lievito madre. Default: TA 150. |
 | **Custom units** | Shows how many you've created and leads to managing them. See [chapter 15](#15-units-amounts-and-serving-sizes). |
 
 ### Baking schedule
@@ -747,7 +792,21 @@ Scaled amounts are rounded the way you weigh them: whole grams from 10 g upwards
 
 ### Baker's percentages
 
-Under *Settings → Recipes → Show baker's percentages* the component view adds each weighed ingredient's share of the component's flour, for instance "319 g water · 62 %". Anything with "Mehl", "Schrot", "flour" or "farine" in its name counts as flour. A component without flour shows no percentages; neither do pieces or whole components used as an ingredient ("1 whole scald"). The percentages do not change with the serving size.
+Under *Settings → Recipes → Show baker's percentages* the component view adds each weighed ingredient's share of the component's flour, for instance "319 g water · 62 %". Anything with "Mehl", "Schrot", "Grieß", "Dunst", "flour" or "farine" in its name counts as flour, and so do old bread and breadcrumbs (flour that was baked once, as in a scald) — but not linseed meal, flakes, bran or nut and almond flours. A component without flour shows no percentages; neither do pieces or whole components used as an ingredient ("1 whole scald"). The percentages do not change with the serving size.
+
+### Dough yield and hydration
+
+On the **Details** tab, below the weight, stands the line **"Dough yield 172 · hydration 72 %"**: the dough yield (TA, the German Teigausbeute: flour plus water per 100 g of flour) and the hydration (water per flour) over **all components** of the recipe. A tap opens the breakdown with flour and water in grams, each component's own figure, the starter shares and the ingredients that were not counted.
+
+The baker's convention applies:
+
+- **Flour** is what the baker's percentages count as flour (see above).
+- **Poured liquid counts in full**: water, milk, buttermilk, beer, wine, whey, juice and yeast water — even though milk is physically only about 90 % water. That way the figures match what baking books and blogs print. Milk powder and cream of tartar do not count.
+- **Sourdough starter is split**: 20 g of starter at TA 200 are 10 g flour and 10 g water; at TA 150 they are 13 g flour and 7 g water. The app reads the TA from the ingredient name when it says "TA 200" or "100 % hydration"; otherwise it takes *Settings → Recipes → Sourdough starter* or *Lievito madre*. Biga (TA 150), poolish (TA 200) and pâte fermentée (TA 165) have their TA by definition. The breakdown says for every starter where its TA came from.
+- **Seeds, flakes, fat, eggs, sugar and salt** count neither as flour nor as water. The heavier ones appear in the breakdown under "Not counted", so you can see what the figure leaves out.
+- **Each component counts exactly once.** If the main dough lists "gesamter Sauerteig" (the whole sourdough), the sourdough enters through that row, not twice. If it lists "200 g Sauerteig" while the component makes 300 g, two thirds of it count. If the main dough never names the sourdough, the components are simply added up.
+
+The line is absent for recipes without recognised flour. The image import compares the same calculation with the dough yield printed in the book and warns when they differ.
 
 ### Available units
 
@@ -870,7 +929,7 @@ Through the "…" menu in a public recipe: **Report recipe** (with a reason) or 
 ## 17. Frequently asked questions and troubleshooting
 
 **No reminders arrive.**
-Check in *Settings → Notifications → BakePlanner* whether notifications are allowed. Check as well whether there are any steps under "Scheduled steps" at all — only tapping "Set reminder" creates reminders. And note: reminders for times in the past aren't triggered.
+Check in *Settings → Notifications → BakePlanner* whether notifications are allowed. Check as well whether there are any steps under "Scheduled steps" at all — only tapping "Set reminders" creates reminders. And note: reminders for times in the past aren't triggered.
 
 **Nothing arrives on the Apple Watch.**
 Reminders stay on the device where you set them. Only a paired **iPhone's** notifications are passed on to the watch — if you planned on the iPad, the baking reminders appear there and nowhere else. Set the reminders again on the iPhone in that case.
@@ -879,7 +938,7 @@ Reminders stay on the device where you set them. Only a paired **iPhone's** noti
 There was no internet connection at launch. Pull the list down to load it again.
 
 **I uploaded my recipe to the database and want to correct it.**
-That isn't possible — recipes in the database are immutable, private ones as much as public ones. Delete it via "…" → **Delete my recipe** and upload the corrected version again. The version on the device stays and is recognised as uploadable again afterwards.
+Open the recipe in the recipe database and choose "…" → **Edit recipe** (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). That works for every recipe that came from your account — private ones as much as public ones. The version on the device doesn't change; if you want to bring it in line, edit it separately under "My recipes".
 
 **My private recipes aren't in the list.**
 They only appear when you're signed in: *Settings → Account → Sign in with Apple*. Make sure to use the same Apple Account you saved them with — the recipes are tied to it. Then pull the list down once.
@@ -887,7 +946,7 @@ They only appear when you're signed in: *Settings → Account → Sign in with A
 **"Signing in with Apple is required for private cloud recipes."**
 You chose "Private" as the storage without being signed in. Sign in through the sheet that appears, and saving continues. Without an account the recipe would be unreachable after a reinstall — which is why the app doesn't allow it otherwise.
 
-**I tapped "Set reminder" twice by mistake.**
+**I tapped "Set reminders" twice by mistake.**
 On the second tap the app asks whether the new plan should replace the existing one or be added beside it. If you chose "Add as a second plan" although you only wanted one, select the surplus plan under "Scheduled steps" via its chip and delete it with the bin button via "Delete only '…'".
 
 **I want to schedule the same recipe for two different dates.**
@@ -915,16 +974,16 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 
 ## 18. Known limitations
 
-- **Recipes in the database are immutable once uploaded** — private ones as much as public ones. Corrections mean deleting and uploading again.
+- **Recipes in the database can be edited only by their author** (or an administrator). Once uploaded, the version on the device and the one in the database are two separate recipes; changes to one aren't carried over to the other.
 - **A recipe can only be uploaded once**, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.
 - **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.
-- **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you, but doesn't recalculate it — pulling a step out of the night and into the morning stays your job.
-- **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminder" with "Replace existing plan" cleans that up.
+- **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you. If a step falls into the night, it suggests a different time for the whole plan (see [chapter 7](#7-baking-instructions-and-reminders)); it doesn't lengthen or shorten individual steps.
+- **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminders" with "Replace existing plan" cleans that up.
 - **If you change a recipe after planning it** (steps, durations), the plan already set stays as it is — scheduled steps are a snapshot. "Scheduled steps" then shows a notice at the top, "… has changed since it was planned", with a **Plan again** button that opens the recipe. Only steps added to the recipe afterwards go undetected.
 - **The ingredients in a reminder** are fixed when the reminders are set. If you change ingredients or the serving size afterwards, the reminder keeps showing the old amounts; the i symbol in "Scheduled steps", by contrast, always reads the recipe's current state. Reminders set before this update contain no ingredients yet — planning once more is enough.
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.
-- **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminder", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
+- **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminders", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.
 - **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.
 - **Custom units appear in every language as you created them.** Only the bundled ones are translated.

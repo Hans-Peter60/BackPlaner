@@ -56,6 +56,18 @@ enum PrivateRecipeError: LocalizedError {
     }
 }
 
+/// Why an edited cloud recipe could not be written back.
+enum RecipeEditError: LocalizedError {
+    case notSignedIn
+
+    var errorDescription: String? {
+        switch self {
+        case .notSignedIn:
+            return "Das Rezept kann gerade nicht gespeichert werden, weil keine Anmeldung besteht. Bitte versuche es gleich noch einmal."
+        }
+    }
+}
+
 private extension UIImage {
     func scaledDownForUpload(maxPixelDimension: CGFloat) -> UIImage {
         let pixelSize = CGSize(width: size.width * scale, height: size.height * scale)
@@ -89,7 +101,6 @@ class RecipeFBModel: ObservableObject {
     @Published var storedID  = ""
     @Published var isLoading = false
 
-    @Published var tabSelection = 0
 
     /// True when the signed-in (anonymous) user is a moderator/owner, i.e. their
     /// uid has a document in the Firestore `admins` collection. Admins may delete
@@ -261,70 +272,28 @@ class RecipeFBModel: ObservableObject {
 
         // Set the components
         for c in r.components {
-            
-            var componentData: [String: Any] = [
-                "name":   c.name,
-                "number": c.number
-            ]
-            let componentTranslations = c.firestoreTranslationsData
-            if !componentTranslations.isEmpty {
-                componentData["translations"] = componentTranslations
-            }
 
-            let cloudComponent = cloudRecipe.collection("components").addDocument(data: componentData)
-            
+            let cloudComponent = cloudRecipe.collection("components").addDocument(data: componentData(for: c))
+
             for i in c.ingredients {
 
                 // Normalise BEFORE writing the document. The other way round the
                 // ingredient kept whatever normWeight it happened to carry while
                 // the recipe total was summed from the fresh value — so the
                 // stored ingredients disagreed with the stored total.
-                if i.unit == "g" || i.unit == "Gramm" {
-                    i.normWeight = i.weight
-                }
-                else {
-                    i.normWeight = calcWeight.calcIngredientWeight(weight: i.weight, unit: i.unit, name: i.name, num: i.num, denom: i.denom)
-                }
+                normalizeWeight(of: i)
                 r.totalWeight += i.normWeight
 
                 // Create an ingredient document
-                var ingredientData: [String: Any] = [
-                    "name":       i.name,
-                    "number":     i.number,
-                    "unit":       i.unit,
-                    "weight":     i.weight,
-                    "normWeight": i.normWeight,
-                    "num":        i.num,
-                    "denom":      i.denom
-                ]
-                let ingredientTranslations = i.firestoreTranslationsData
-                if !ingredientTranslations.isEmpty {
-                    ingredientData["translations"] = ingredientTranslations
-                }
-                let _ = cloudComponent.collection("ingredients").addDocument(data: ingredientData)
+                let _ = cloudComponent.collection("ingredients").addDocument(data: ingredientData(for: i))
             }
         }
-        
+
         // Set the Instructions
         for i in calculatedInstructions {
-            
-            var instructionData: [String: Any] = [
-                "instruction": i.instruction,
-                "step":        i.step,
-                "duration":    i.duration,
-                "startTime":   i.startTime ?? 0,
-                "date":        i.date ?? 0
-            ]
-            if let componentName = i.componentName {
-                instructionData["componentName"] = componentName
-            }
-            let instructionTranslations = i.firestoreTranslationsData
-            if !instructionTranslations.isEmpty {
-                instructionData["translations"] = instructionTranslations
-            }
-            let _ = cloudRecipe.collection("instructions").addDocument(data: instructionData)
+            let _ = cloudRecipe.collection("instructions").addDocument(data: instructionData(for: i))
         }
-        
+
         // Create a Firebase document
         cloudRecipe.updateData(["totalWeight":r.totalWeight])
 
@@ -394,6 +363,303 @@ class RecipeFBModel: ObservableObject {
             if instructionTranslations[source] != nil {
                 recipeRef.collection("instructions").document(instructionId)
                     .updateData(["translations": instructionTranslations])
+            }
+        }
+    }
+
+    // MARK: - Document shapes
+
+    /// Sets the ingredient's normalised weight from its amount and unit.
+    private func normalizeWeight(of ingredient: IngredientFB) {
+        if ingredient.unit == "g" || ingredient.unit == "Gramm" {
+            ingredient.normWeight = ingredient.weight
+        } else {
+            ingredient.normWeight = calcWeight.calcIngredientWeight(weight: ingredient.weight,
+                                                                    unit: ingredient.unit,
+                                                                    name: ingredient.name,
+                                                                    num: ingredient.num,
+                                                                    denom: ingredient.denom)
+        }
+    }
+
+    private func componentData(for component: ComponentFB) -> [String: Any] {
+        var data: [String: Any] = [
+            "name":   component.name,
+            "number": component.number
+        ]
+        let translations = component.firestoreTranslationsData
+        if !translations.isEmpty {
+            data["translations"] = translations
+        }
+        return data
+    }
+
+    private func ingredientData(for ingredient: IngredientFB) -> [String: Any] {
+        var data: [String: Any] = [
+            "name":       ingredient.name,
+            "number":     ingredient.number,
+            "unit":       ingredient.unit,
+            "weight":     ingredient.weight,
+            "normWeight": ingredient.normWeight,
+            "num":        ingredient.num,
+            "denom":      ingredient.denom
+        ]
+        let translations = ingredient.firestoreTranslationsData
+        if !translations.isEmpty {
+            data["translations"] = translations
+        }
+        return data
+    }
+
+    private func instructionData(for instruction: InstructionFB) -> [String: Any] {
+        var data: [String: Any] = [
+            "instruction": instruction.instruction,
+            "step":        instruction.step,
+            "duration":    instruction.duration,
+            "startTime":   instruction.startTime ?? 0,
+            "date":        instruction.date ?? 0
+        ]
+        if let componentName = instruction.componentName {
+            data["componentName"] = componentName
+        }
+        let translations = instruction.firestoreTranslationsData
+        if !translations.isEmpty {
+            data["translations"] = translations
+        }
+        return data
+    }
+
+    // MARK: - Editing a cloud recipe
+
+    /// Writes an edited recipe back to its cloud document: the author's own
+    /// recipe, or — for a public one — any recipe an admin corrects. The
+    /// security rules allow exactly these two cases server-side.
+    ///
+    /// The recipe document is updated in place. Its components, ingredients
+    /// and steps are replaced wholesale, in one batch: the editor may have
+    /// added, removed and reordered them, and a diff would have to track all
+    /// of that only to arrive at the same documents. The batch also means a
+    /// failure leaves the stored version untouched. A recipe stays far below
+    /// the batch limit of 500 writes.
+    ///
+    /// On success `recipe` takes over the edited content, so the screen that
+    /// shows it — and its entry in the list — update without a reload.
+    func saveEdits(of recipe: RecipeFB, from edited: RecipeFB, newImage: UIImage?, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let recipeId = recipe.id, !recipeId.isEmpty, let currentUser = Auth.auth().currentUser else {
+            completion(.failure(RecipeEditError.notSignedIn))
+            return
+        }
+
+        // The picture first: a document naming a picture that failed to
+        // upload would be worse than keeping the old picture.
+        uploadReplacementImage(newImage, owner: currentUser.uid, visibility: edited.visibility) { [weak self] imageResult in
+            guard let self else { return }
+
+            let newImagePath: String?
+            switch imageResult {
+            case .failure(let error):
+                DispatchQueue.main.async { completion(.failure(error)) }
+                return
+            case .success(let path):
+                newImagePath = path
+            }
+
+            let previousImagePath = edited.image
+            if let newImagePath { edited.image = newImagePath }
+
+            self.replaceRecipeContent(recipeId: recipeId, edited: edited) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(let error):
+                        // The document still names the old picture, so the
+                        // new one would be an orphan.
+                        if let newImagePath {
+                            self.storage.reference()
+                                .child(edited.visibility.imageFolder + "/" + newImagePath + ".jpg")
+                                .delete { _ in }
+                            edited.image = previousImagePath
+                        }
+                        completion(.failure(error))
+
+                    case .success:
+                        if newImagePath != nil, let newImage {
+                            if !previousImagePath.isEmpty {
+                                // Best effort, as when deleting a recipe.
+                                self.storage.reference()
+                                    .child(edited.visibility.imageFolder + "/" + previousImagePath + ".jpg")
+                                    .delete { _ in }
+                            }
+                            GlobalVariables.recipesImage[recipeId] = newImage
+                        }
+                        recipe.adopt(edited)
+                        completion(.success(()))
+                    }
+                }
+            }
+        }
+    }
+
+    /// Stores a replacement picture under the caller's own uid and hands back
+    /// its path, or nil when there is no new picture. A fresh path rather than
+    /// overwriting the old one: an admin may not write into another author's
+    /// folder, and the old picture is only removed once the document names
+    /// the new one.
+    private func uploadReplacementImage(_ image: UIImage?,
+                                        owner uid: String,
+                                        visibility: RecipeVisibility,
+                                        completion: @escaping (Result<String?, Error>) -> Void) {
+        guard let image else {
+            completion(.success(nil))
+            return
+        }
+
+        let uploadImage = image.scaledDownForUpload(maxPixelDimension: 1_024)
+        guard let data = uploadImage.jpegData(compressionQuality: 0.5) else {
+            completion(.failure(RecipeImageUploadError.encodingFailed))
+            return
+        }
+
+        let path     = uid + "/" + UUID().uuidString
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+
+        storage.reference().child(visibility.imageFolder + "/" + path + ".jpg").putData(data, metadata: metadata) { _, error in
+            if let error {
+                AppLog.firebase.error("Replacement image upload failed: \(error.localizedDescription)")
+                completion(.failure(error))
+            } else {
+                completion(.success(path))
+            }
+        }
+    }
+
+    /// Updates the recipe document and swaps its subcollections for the
+    /// edited ones, atomically.
+    private func replaceRecipeContent(recipeId: String, edited: RecipeFB, completion: @escaping (Result<Void, Error>) -> Void) {
+        let recipeRef = db.collection(edited.visibility.collectionName).document(recipeId)
+
+        // The editor shows and changes the original text, so the cached
+        // translations of the other languages are stale now: they translate a
+        // recipe that no longer exists, and left in place they would show
+        // other users the old recipe under the new name. They are translated
+        // again on demand.
+        edited.resetTranslations(keeping: RecipeTranslator.sourceLanguageCode(for: edited))
+
+        // The same bookkeeping as the upload: start times and the total
+        // duration follow from the steps, the total weight from the ingredients.
+        edited.instructions = Rational.calculateStartTimes(
+            edited.instructions,
+            Date(),
+            dependencies: Rational.ComponentDependency.from(edited.components)
+        )
+        edited.prepTime    = GlobalVariables.totalDuration
+        edited.totalWeight = 0
+        for component in edited.components {
+            for ingredient in component.ingredients {
+                normalizeWeight(of: ingredient)
+                edited.totalWeight += ingredient.normWeight
+            }
+        }
+
+        // The stored children have to be read before they can be deleted; the
+        // in-memory recipe may not have finished loading them when the editor
+        // opened. Unlike a deletion this must not carry on past a read error,
+        // or the leftovers would show up as duplicates.
+        fetchChildReferences(of: recipeRef) { [weak self] result in
+            guard let self else { return }
+
+            let existingChildren: [DocumentReference]
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            case .success(let references):
+                existingChildren = references
+            }
+
+            let batch = self.db.batch()
+            existingChildren.forEach { batch.deleteDocument($0) }
+
+            // `authorId`, `hidden` and `visibility` are deliberately left
+            // alone: the rules refuse an author who changes them.
+            batch.updateData([
+                "name":           edited.name,
+                "summary":        edited.summary,
+                "urlLink":        edited.urlLink,
+                "image":          edited.image,
+                "tags":           edited.tags,
+                "prepTime":       edited.prepTime,
+                "totalWeight":    edited.totalWeight,
+                "sourceLanguage": edited.sourceLanguage,
+                "translations":   edited.firestoreTranslationsData
+            ], forDocument: recipeRef)
+
+            for component in edited.components {
+                let componentRef = recipeRef.collection("components").document()
+                component.id = componentRef.documentID
+                batch.setData(self.componentData(for: component), forDocument: componentRef)
+
+                for ingredient in component.ingredients {
+                    let ingredientRef = componentRef.collection("ingredients").document()
+                    ingredient.id = ingredientRef.documentID
+                    batch.setData(self.ingredientData(for: ingredient), forDocument: ingredientRef)
+                }
+            }
+
+            for instruction in edited.instructions {
+                let instructionRef = recipeRef.collection("instructions").document()
+                instruction.id = instructionRef.documentID
+                batch.setData(self.instructionData(for: instruction), forDocument: instructionRef)
+            }
+
+            batch.commit { error in
+                if let error {
+                    AppLog.firebase.error("Recipe edit could not be saved: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
+    }
+
+    /// The references of every stored component, ingredient and step of a
+    /// recipe. Firestore delivers its callbacks on the main queue, so the
+    /// array needs no lock.
+    private func fetchChildReferences(of recipeRef: DocumentReference, completion: @escaping (Result<[DocumentReference], Error>) -> Void) {
+        var references = [DocumentReference]()
+        var firstError: Error?
+        let group = DispatchGroup()
+
+        group.enter()
+        recipeRef.collection("instructions").getDocuments { snapshot, error in
+            if let error { firstError = firstError ?? error }
+            references += (snapshot?.documents ?? []).map(\.reference)
+            group.leave()
+        }
+
+        group.enter()
+        recipeRef.collection("components").getDocuments { snapshot, error in
+            if let error { firstError = firstError ?? error }
+            for component in snapshot?.documents ?? [] {
+                references.append(component.reference)
+                // Entered before the outer leave below, so the group cannot
+                // run dry while ingredients are still being read.
+                group.enter()
+                component.reference.collection("ingredients").getDocuments { ingredientSnapshot, ingredientError in
+                    if let ingredientError { firstError = firstError ?? ingredientError }
+                    references += (ingredientSnapshot?.documents ?? []).map(\.reference)
+                    group.leave()
+                }
+            }
+            group.leave()
+        }
+
+        group.notify(queue: .main) {
+            if let firstError {
+                completion(.failure(firstError))
+            } else {
+                completion(.success(references))
             }
         }
     }

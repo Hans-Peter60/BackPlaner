@@ -11,7 +11,14 @@ import Translation
 
 struct TabsFBView: View {
 
-    @State private var tabSelection = 0
+    /// Tags of the tabs.
+    private static let bakingTab = 0
+    private static let detailsTab = 1
+
+    /// A recipe opens on its details. The baking tab works out the plan, so
+    /// it is built only once it is chosen, and then kept.
+    @State private var tabSelection = TabsFBView.detailsTab
+    @State private var bakingTabOpened = false
 
     var recipeFB:RecipeFB
 
@@ -26,6 +33,8 @@ struct TabsFBView: View {
     @State private var showDeleteConfirm = false
     // Admin moderation: confirm before deleting someone else's public recipe.
     @State private var showAdminDeleteConfirm = false
+    // The editor for the author's own recipe, or any public one for an admin.
+    @State private var showEditSheet = false
     // Error message shown when a delete fails, so the screen no longer
     // silently dismisses (leaving the recipe in the list) as if it worked.
     @State private var deleteErrorMessage: String?
@@ -54,17 +63,30 @@ struct TabsFBView: View {
         modelFB.isAdmin && !isOwnRecipe && recipeFB.visibility == .everyone
     }
 
-    var body: some View {
-        TabView (selection: $modelFB.tabSelection) {
+    /// True when this recipe may be changed here: by its author, or by an
+    /// admin correcting a public one. The security rules allow the same two
+    /// cases, so the entry never offers what the server would refuse.
+    private var canEdit: Bool {
+        isOwnRecipe || (modelFB.isAdmin && recipeFB.visibility == .everyone)
+    }
 
-            InstructionsFBView(recipeFB: recipeFB, languageCode: selectedLanguage)
+    var body: some View {
+        TabView (selection: $tabSelection) {
+
+            Group {
+                if bakingTabOpened {
+                    InstructionsFBView(recipeFB: recipeFB, languageCode: selectedLanguage)
+                } else {
+                    Color.clear
+                }
+            }
                 .tabItem {
                     VStack {
                         Image(systemName: "dial.max.fill")
                         Text("Rezept backen")
                     }
                 }
-                .tag(0)
+                .tag(Self.bakingTab)
 
              RecipeFBDetailView(recipeFB: recipeFB)
                 .tabItem {
@@ -73,7 +95,7 @@ struct TabsFBView: View {
                         Text("Details")
                     }
                 }
-                .tag(1)
+                .tag(Self.detailsTab)
 
             // Same place as for a recipe of one's own, so the shopping list is
             // where people look for it.
@@ -91,6 +113,9 @@ struct TabsFBView: View {
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.
         .tint(Theme.accentText)
+        .onChange(of: tabSelection) { _, selection in
+            if selection == Self.bakingTab { bakingTabOpened = true }
+        }
         .task {
             // Load this recipe's components and steps on demand, so both the
             // baking and the details tab work even when the global "Detailansicht"
@@ -133,6 +158,14 @@ struct TabsFBView: View {
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
+                    if canEdit {
+                        Button {
+                            showEditSheet = true
+                        } label: {
+                            Label("Rezept bearbeiten", systemImage: "pencil")
+                        }
+                    }
+
                     Button(role: .destructive) {
                         showReportDialog = true
                     } label: {
@@ -167,6 +200,11 @@ struct TabsFBView: View {
                     Image(systemName: "ellipsis.circle")
                 }
                 .accessibilityLabel("Weitere Aktionen")
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            EditRecipeFBView(recipeFB: recipeFB) {
+                recipeWasEdited()
             }
         }
         .confirmationDialog("Rezept melden", isPresented: $showReportDialog, titleVisibility: .visible) {
@@ -260,6 +298,14 @@ struct TabsFBView: View {
         selectedLanguage = RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: RecipeFB.preferredLanguageCode)
             ? RecipeFB.preferredLanguageCode
             : RecipeTranslator.sourceLanguageCode(for: recipeFB)
+    }
+
+    /// After a save the recipe shows its original text and its other
+    /// translations are gone, so the language mark has to follow; the
+    /// automatic choice may take over again as well.
+    private func recipeWasEdited() {
+        hasChosenLanguage = false
+        selectedLanguage = RecipeTranslator.sourceLanguageCode(for: recipeFB)
     }
 
     /// Switches the displayed language for the shared recipe, translating on-device when needed.

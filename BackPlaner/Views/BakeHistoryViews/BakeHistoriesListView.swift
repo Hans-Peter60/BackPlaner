@@ -147,7 +147,7 @@ struct BakeHistoriesListView: View {
             ContentUnavailableView {
                 Label("Noch keine Backhistorie", systemImage: "clock.arrow.circlepath")
             } description: {
-                Text("Jeder Backvorgang, für den Du Reminder setzt, landet hier – mit Datum, Kommentar und Fotos.")
+                Text("Jeder Backvorgang, für den Du Erinnerungen setzt, landet hier – mit Datum, Kommentar und Fotos.")
             } actions: {
                 NavigationLink("Eigene Rezepte öffnen") {
                     RecipeListView()
@@ -253,6 +253,13 @@ struct BakeHistoriesListView: View {
             RatingStarsView(rating: bakeHistory.recipe?.rating ?? 0, label: "")
                 .font(.caption2)
 
+            BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                .font(Theme.bodyFont(13))
+                .foregroundColor(Theme.subtitle)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+
             if !bakeHistory.comment.isEmpty {
                 Text(bakeHistory.comment)
                     .font(Theme.bodyFont(13))
@@ -315,6 +322,10 @@ struct BakeHistoriesListView: View {
                                     Text(bakeHistory.recipe?.name ?? "")
                                         .font(Theme.brandFont(16))
                                         .fixedSize(horizontal: false, vertical: true)
+                                    BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                                        .font(Theme.bodyFont(14))
+                                        .foregroundColor(Theme.subtitle)
+                                        .fixedSize(horizontal: false, vertical: true)
                                     if !bakeHistory.comment.isEmpty {
                                         Text(bakeHistory.comment)
                                             .font(Theme.bodyFont(16))
@@ -329,8 +340,13 @@ struct BakeHistoriesListView: View {
                                         .font(Theme.brandFont(16))
                                     Text(bakeHistory.recipe?.name ?? "")
                                         .font(Theme.brandFont(16))
-                                    Text(bakeHistory.comment)
-                                        .font(Theme.bodyFont(16))
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(bakeHistory.comment)
+                                            .font(Theme.bodyFont(16))
+                                        BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                                            .font(Theme.bodyFont(13))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
                                 }
                             }
                             HStack {

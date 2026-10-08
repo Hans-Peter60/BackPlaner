@@ -28,7 +28,9 @@ struct BakeHistoryAddView: View {
     @State private var images       = [Data]()
     @State private var date         = GlobalVariables.dateTimePicker
     @State private var showingAlert = false
-    
+    /// Temperatures, proof times, flour, crumb — see BakeHistoryFacts.
+    @State private var facts        = BakeHistoryFacts()
+
     var dateFormat:DateFormat = DateFormat()
     let dateRange: ClosedRange<Date> = GlobalVariables.dateRange(from: DateComponents(year: -10), to: DateComponents(month: 1))
     
@@ -67,9 +69,11 @@ struct BakeHistoryAddView: View {
                 
                 Spacer()
             }
-            
+
+            BakeHistoryFactsFormSection(facts: $facts)
+
             Section {
-                
+
                 HStack {
                     // Recipe bakeHistory images
                     ForEach(recipeImages, id: \.self) { rI in
@@ -116,7 +120,8 @@ struct BakeHistoryAddView: View {
                 bakeHistory.id      = UUID()
                 bakeHistory.date    = date
                 bakeHistory.comment = comment
-                
+                bakeHistory.facts   = facts
+
                 images = [Data]()
                 for index in 0..<recipeImages.count {
                     images.append(recipeImages[index]?.jpegData(compressionQuality: 1.0) ?? Data())
