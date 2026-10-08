@@ -171,8 +171,43 @@ final class AppStoreScreenshots: XCTestCase {
         }
         let title = titles[language] ?? titles["de"] ?? ""
         let button = app.buttons.matching(NSPredicate(format: "label == %@", title)).firstMatch
-        XCTAssertTrue(button.waitForExistence(timeout: 5), "There is no tab \(index) („\(title)“)")
+        if button.waitForExistence(timeout: 5) { return button }
+
+        // Something covers the screen, most likely a system sheet. Try to
+        // close it once, then look again.
+        dismissCoveringSheet()
+        if bar.waitForExistence(timeout: 3), bar.buttons.count > index {
+            return bar.buttons.element(boundBy: index)
+        }
+        if button.waitForExistence(timeout: 3) { return button }
+
+        // Leave the screen's structure behind, so the cause can be read.
+        let hierarchy = XCTAttachment(string: app.debugDescription)
+        hierarchy.name = "\(language)-99-hierarchy"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+        XCTFail("There is no tab \(index) („\(title)“)")
         return button
+    }
+
+    /// Closes a sheet or alert that covers the app: a button that says so,
+    /// in the app or in a system process, else a swipe down.
+    private func dismissCoveringSheet() {
+        let titles = ["Done", "Not Now", "Close", "Cancel", "OK", "Continue",
+                      "Fertig", "Nicht jetzt", "Schließen", "Abbrechen", "Weiter",
+                      "OK", "Plus tard", "Fermer", "Annuler", "Continuer", "Terminé"]
+        let predicate = NSPredicate(format: "label IN %@", titles)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        for source in [app!, springboard] {
+            let button = source.buttons.matching(predicate).firstMatch
+            if button.exists {
+                button.tap()
+                settle(1)
+                return
+            }
+        }
+        app.swipeDown(velocity: .fast)
+        settle(1)
     }
 
     /// The row of the recipe whose name begins with `name`, or the first row

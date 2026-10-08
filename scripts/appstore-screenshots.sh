@@ -60,10 +60,13 @@ with open(os.path.join(source, "manifest.json")) as file:
     manifest = json.load(file)
 for test in manifest:
     for attachment in test.get("attachments", []):
-        match = re.match(r"^[a-z]{2}-(\d\d-[a-z-]+)", attachment.get("suggestedHumanReadableName", ""))
+        name = attachment.get("suggestedHumanReadableName", "")
+        match = re.match(r"^[a-z]{2}-(\d\d-[a-z-]+)", name)
         if match:
+            # The screen structure left behind by a failed run is text.
+            extension = ".txt" if match.group(1).endswith("hierarchy") else ".png"
             shutil.copy(os.path.join(source, attachment["exportedFileName"]),
-                        os.path.join(target, match.group(1) + ".png"))
+                        os.path.join(target, match.group(1) + extension))
 PY
     fi
     rm -rf "$tmp"
