@@ -13,6 +13,12 @@
 #   IPAD     simulator for the 13" shots, 2064×2752     (default: iPad Pro 13-inch (M5))
 #   LANGS    languages                                  (default: de en fr)
 #   RECIPE   public recipe to show, start of its name   (default: Sauerteigbrot mit Kartoffeln und Saaten)
+#   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
+#
+# The build folder stays outside the project on purpose: a project inside an
+# iCloud Drive folder such as ~/Documents gets extended attributes on every
+# file built there, and code signing refuses them ("resource fork, Finder
+# information, or similar detritus not allowed").
 #
 # The test uses the simulator's own data and the live recipe database, so the
 # simulator needs network access and a registered App Check debug token, as
@@ -30,7 +36,7 @@ LANGS="${LANGS:-de en fr}"
 RECIPE="${RECIPE:-Sauerteigbrot mit Kartoffeln und Saaten}"
 
 OUT="docs/appstore/$VERSION"
-DERIVED="build/screenshots"
+DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"
 
 region() {
     case "$1" in
