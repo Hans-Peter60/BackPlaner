@@ -168,7 +168,8 @@ Notes:
 
 - **Units** aren't touched by the recipe translation. The app shows them in its own language anyway (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 - The first translation into a language takes a moment (a progress indicator replaces the globe). After that it's cached and available instantly.
-- On first opening, the app shows the recipe in your language automatically if a translation already exists.
+- **Recipes appear in your app language without you doing anything.** The recipe database translates the names, descriptions and tags of recipes written in another language in the background, and when you open a recipe the app translates the rest — components, ingredients and steps — if no translation exists yet. If one does, it appears at once. The globe symbol takes you to the original or another language at any time. With the app set to German, a German recipe naturally stays as it is.
+- The first time, iOS may ask whether it may download the language packs for the translation. If you decline, recipes stay in their original language; the translation can be caught up later through the globe symbol.
 - **The original is never overwritten.** The original is the language the recipe is written in — not the language your app happened to be set to. The app reads that off the recipe text, so a French recipe is kept as a French original even if someone entered it in a German-language app.
 - The checkmark in the menu shows which language is currently displayed. Choose it again to go straight back to the original.
 
@@ -357,9 +358,9 @@ The texts "turn on the oven", "turn the oven down" and "baking is finished" appe
 
 Through **Main menu → Create new recipe**. The form is laid out from top to bottom.
 
-![The form for creating a new recipe](images/en/neues-rezept.png)
+![The form for creating a new recipe: import from images or from a web page, storage Local/Private/Public, recipe image](images/en/neues-rezept.png)
 
-*In the recipe form you can import images or enter everything by hand.*
+*In the recipe form you can import a recipe from images or from a web page, or enter everything by hand.*
 
 ### Importing a recipe from images
 
@@ -685,7 +686,7 @@ The app filters deliberately:
 
 **Main menu → Settings.**
 
-![BakePlanner's settings: General with language and default storage, Recipes with default serving size, detail view, and custom units, Baking schedule with preheat time, baking pause, start of day, and end of day; Moderation begins below](images/en/einstellungen.png)
+![BakePlanner's settings: General with language and default storage, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units; Baking schedule with preheat time, baking pause, and ovens begins below](images/en/einstellungen.png)
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 

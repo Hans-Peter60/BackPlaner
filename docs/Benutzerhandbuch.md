@@ -165,7 +165,8 @@ Hinweise:
 
 - **Einheiten** übersetzt die Rezeptübersetzung nicht. Die App zeigt sie ohnehin in der eingestellten Sprache an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 - Die erste Übersetzung einer Sprache dauert einen Moment (Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
-- Beim ersten Öffnen zeigt die App das Rezept automatisch in Deiner Sprache, wenn dafür schon eine Übersetzung vorliegt.
+- **Rezepte erscheinen in Deiner App-Sprache, ohne dass Du etwas tun musst.** Die Rezept-Datenbank übersetzt Namen, Beschreibungen und Tags fremdsprachiger Rezepte im Hintergrund, und beim Öffnen eines Rezepts übersetzt die App den Rest, Komponenten, Zutaten und Schritte, falls dafür noch keine Übersetzung vorliegt. Liegt eine vor, erscheint sie sofort. Über das Globus-Symbol kommst Du jederzeit zum Original oder in eine andere Sprache. Steht die App auf Deutsch, bleibt ein deutsches Rezept natürlich unverändert.
+- Beim ersten Mal fragt iOS gegebenenfalls, ob die Sprachpakete für die Übersetzung geladen werden dürfen. Lehnst Du ab, bleiben die Rezepte in ihrer Originalsprache; die Übersetzung lässt sich später über das Globus-Symbol nachholen.
 - **Das Original wird nie überschrieben.** Als Original gilt die Sprache, in der das Rezept geschrieben ist – nicht die Sprache, auf die Deine App eingestellt war. Die App liest das am Rezepttext ab, sodass ein französisches Rezept auch dann als französisches Original geführt wird, wenn es jemand in einer deutschsprachigen App eingegeben hat.
 - Der Haken zeigt Dir im Menü, welche Sprache gerade angezeigt wird. Wähle sie erneut, kommst Du ohne Umweg zum Original zurück.
 
@@ -354,9 +355,9 @@ Die Texte „Backofen anstellen“, „Backofen zurückdrehen“ und „Backvorg
 
 Über **Hauptmenü → Neues Rezept anlegen**. Das Formular ist von oben nach unten aufgebaut.
 
-![Formular zum Anlegen eines neuen Rezepts](images/neues-rezept.png)
+![Formular zum Anlegen eines neuen Rezepts: Import aus Bildern oder von einer Internetseite, Ablage Lokal/Privat/Öffentlich, Rezeptbild](images/neues-rezept.png)
 
-*Im Rezeptformular kannst Du Bilder importieren oder alle Angaben manuell erfassen.*
+*Im Rezeptformular kannst Du ein Rezept aus Bildern oder von einer Internetseite importieren oder alle Angaben manuell erfassen.*
 
 ### Rezept aus Bildern importieren
 
@@ -682,7 +683,7 @@ Die App filtert bewusst:
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht und Eigene Einheiten, Backplanung mit Vorheizzeit, Backpause, Tagesbeginn und Tagesende; darunter beginnt Moderation](images/einstellungen.png)
+![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten; darunter beginnt Backplanung mit Vorheizzeit, Backpause und Backöfen](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 

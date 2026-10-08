@@ -1272,12 +1272,34 @@ class RecipeFBModel: ObservableObject {
         }
     }
 
-    func getInstructionsFB(_ r:RecipeFB, _ recipeDocID:String) {
-        
+    /// Loads a recipe's components (with their ingredients) and steps if they
+    /// are not there yet, and reports once both have arrived. The baking tab,
+    /// the details tab and the automatic translation all need the complete
+    /// recipe, and the ingredients come in one request per component.
+    func loadDetails(of recipe: RecipeFB, completion: @escaping () -> Void) {
+        let recipeId = recipe.id ?? ""
+        let group = DispatchGroup()
+
+        if recipe.components.isEmpty {
+            group.enter()
+            getComponentsFB(recipe, recipeId) { group.leave() }
+        }
+        if recipe.instructions.isEmpty {
+            group.enter()
+            getInstructionsFB(recipe, recipeId) { group.leave() }
+        }
+
+        group.notify(queue: .main, execute: completion)
+    }
+
+    func getInstructionsFB(_ r:RecipeFB, _ recipeDocID:String, completion: (() -> Void)? = nil) {
+
         let collection = db.collection(r.visibility.collectionName).document(recipeDocID).collection("instructions").order(by: "step")
-        
+
         collection.getDocuments  { snapshot, error in
-            
+
+            defer { completion?() }
+
             if let snapshot, error == nil {
                 
                 // Loop through the documents returned
@@ -1302,19 +1324,22 @@ class RecipeFBModel: ObservableObject {
         }
     }
     
-    func getComponentsFB(_ r:RecipeFB, _ recipeDocID:String) {
-        
+    /// `completion` runs once the components and all of their ingredients are in.
+    func getComponentsFB(_ r:RecipeFB, _ recipeDocID:String, completion: (() -> Void)? = nil) {
+
         let collection = db.collection(r.visibility.collectionName).document(recipeDocID).collection("components")
-        
+
         collection.getDocuments  { snapshot, error in
-            
+
+            let ingredientLoads = DispatchGroup()
+
             if let snapshot, error == nil {
-                
+
                 // Loop through the documents returned
                 for doc in snapshot.documents {
-                    
+
                     let c = ComponentFB()
-                    
+
                     c.id     = doc.documentID
                     c.name   = doc["name"] as? String ?? ""
                     c.number = doc["number"] as? Int ?? 0
@@ -1322,20 +1347,25 @@ class RecipeFBModel: ObservableObject {
                         c.translations = translations.mapValues { NamedTextFB(firestoreData: $0) }
                     }
                     c.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
-                    
-                    self.getIngredientsFB(c, recipeDocID, c.id!, visibility: r.visibility)
+
+                    ingredientLoads.enter()
+                    self.getIngredientsFB(c, recipeDocID, c.id!, visibility: r.visibility) { ingredientLoads.leave() }
                     r.components.append(c)
                 }
             }
+
+            ingredientLoads.notify(queue: .main) { completion?() }
         }
     }
-    
-    func getIngredientsFB(_ c:ComponentFB, _ recipeDocID:String, _ componentDocID:String, visibility: RecipeVisibility = .everyone) {
+
+    func getIngredientsFB(_ c:ComponentFB, _ recipeDocID:String, _ componentDocID:String, visibility: RecipeVisibility = .everyone, completion: (() -> Void)? = nil) {
 
         let collection = db.collection(visibility.collectionName).document(recipeDocID).collection("components").document(componentDocID).collection("ingredients")
-        
+
         collection.getDocuments  { snapshot, error in
-            
+
+            defer { completion?() }
+
             if let snapshot, error == nil {
                 
                 // Loop through the documents returned

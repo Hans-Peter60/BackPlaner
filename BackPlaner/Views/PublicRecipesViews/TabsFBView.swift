@@ -48,6 +48,10 @@ struct TabsFBView: View {
     @State private var translationConfig: TranslationSession.Configuration?
     @State private var isTranslating = false
     @State private var translationError: String?
+    /// True while the recipe is translated into the app's language without
+    /// the user having asked; a failure then stays in the log instead of
+    /// greeting them with an alert.
+    @State private var isAutomaticTranslation = false
 
     /// True when this public recipe was uploaded from this device, so the author
     /// may delete it. Empty author ids (legacy recipes) never match.
@@ -120,12 +124,11 @@ struct TabsFBView: View {
             // Load this recipe's components and steps on demand, so both the
             // baking and the details tab work even when the global "Detailansicht"
             // prefetch (Settings → Detailansicht verwenden) is off, or hasn't
-            // finished yet. Guarded on empty to avoid duplicate rows.
-            if recipeFB.components.isEmpty {
-                modelFB.getComponentsFB(recipeFB, recipeFB.id ?? "")
-            }
-            if recipeFB.instructions.isEmpty {
-                modelFB.getInstructionsFB(recipeFB, recipeFB.id ?? "")
+            // finished yet. The language is settled only once everything is
+            // here: a translation started earlier would miss the ingredients
+            // still on their way.
+            modelFB.loadDetails(of: recipeFB) {
+                applyInitialLanguage()
             }
             // Re-evaluate admin status here too, in case the anonymous sign-in or
             // the admins document became available after launch.
@@ -265,9 +268,16 @@ struct TabsFBView: View {
                 selectedLanguage = target
                 modelFB.saveTranslations(recipeFB)
             } catch {
-                translationError = error.localizedDescription
+                if isAutomaticTranslation {
+                    // Nobody asked for it, so nobody is told; the original
+                    // stays on screen and the globe menu still works.
+                    AppLog.firebase.error("Automatic translation into \(target) failed: \(error.localizedDescription)")
+                } else {
+                    translationError = error.localizedDescription
+                }
             }
             isTranslating = false
+            isAutomaticTranslation = false
             pendingLanguage = nil
         }
         .alert("Übersetzung fehlgeschlagen",
@@ -277,27 +287,30 @@ struct TabsFBView: View {
         } message: {
             Text(translationError ?? "")
         }
-        .onAppear {
-            applyInitialLanguage()
-        }
-        // The recipe's language is read off its steps, which arrive a moment
-        // after the screen does. Without this the menu would keep the mark it
-        // guessed from the name alone.
-        .onChange(of: recipeFB.instructions.count) { _, _ in
-            guard !hasChosenLanguage else { return }
-            selectedLanguage = ""
-            applyInitialLanguage()
-        }
     }
 
-    /// Marks the language the recipe is shown in when the screen opens: the
-    /// user's own if a translation for it exists, otherwise the original.
+    /// Shows the recipe in the app's language once all of its parts have
+    /// loaded: from the cache when a complete translation exists, otherwise
+    /// by translating it now. A French or English user should not have to
+    /// find the globe menu to read a German recipe — and the other way
+    /// round. The original stays if the language is one the app does not
+    /// translate into.
     private func applyInitialLanguage() {
         guard selectedLanguage.isEmpty else { return }
 
-        selectedLanguage = RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: RecipeFB.preferredLanguageCode)
-            ? RecipeFB.preferredLanguageCode
-            : RecipeTranslator.sourceLanguageCode(for: recipeFB)
+        let preferred = RecipeFB.preferredLanguageCode
+        let source = RecipeTranslator.sourceLanguageCode(for: recipeFB)
+
+        if RecipeTranslator.showCompleteIfAvailable(recipeFB, languageCode: preferred) {
+            selectedLanguage = preferred
+            return
+        }
+
+        selectedLanguage = source
+        guard RecipeTranslator.supportedLanguages.contains(where: { $0.code == preferred }) else { return }
+
+        isAutomaticTranslation = true
+        startTranslation(into: preferred)
     }
 
     /// After a save the recipe shows its original text and its other
@@ -313,18 +326,39 @@ struct TabsFBView: View {
         guard code != selectedLanguage, !isTranslating else { return }
         hasChosenLanguage = true
 
-        if RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: code) {
+        if RecipeTranslator.showCompleteIfAvailable(recipeFB, languageCode: code) {
             selectedLanguage = code
             return
         }
 
-        // Not cached yet: kick off an on-device translation via the translationTask above.
-        pendingLanguage = code
+        isAutomaticTranslation = false
+        startTranslation(into: code)
+    }
+
+    /// Hands the recipe to the translation task above. The original goes back
+    /// on screen first: the recipe list may have translated the name and
+    /// summary ahead of time, and the task snapshots the source text from
+    /// what it finds on screen.
+    private func startTranslation(into code: String) {
         let source = RecipeTranslator.sourceLanguageCode(for: recipeFB)
-        translationConfig = TranslationSession.Configuration(
+        if recipeFB.hasCachedTranslation(languageCode: source) {
+            recipeFB.showLocalization(languageCode: source)
+        }
+        selectedLanguage = source
+        pendingLanguage = code
+
+        let configuration = TranslationSession.Configuration(
             source: Locale.Language(identifier: source),
             target: Locale.Language(identifier: code)
         )
+        // The task only runs again when its configuration changes; the same
+        // pair a second time (an automatic attempt failed, now the user asks)
+        // has to be invalidated instead.
+        if translationConfig == configuration {
+            translationConfig?.invalidate()
+        } else {
+            translationConfig = configuration
+        }
     }
 
     /// Reasons offered when reporting a public recipe.

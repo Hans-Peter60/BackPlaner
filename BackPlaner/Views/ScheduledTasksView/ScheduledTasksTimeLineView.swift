@@ -102,18 +102,26 @@ struct ScheduledTasksTimeLineView: View {
         HStack {
             ZStack {
                 Color.clear // effectively centers the text
+                // Two lines at most: the time and, at a change of day, the
+                // day. The twelve-hour clock ("12:36 AM") is wider than the
+                // German "00:36" the column was sized for; it shrinks a
+                // little rather than breaking between the digits and "AM".
                 if !isPreviousSameDate {
                     Text(stampText(for: date))
                         .font(Theme.brandFont(13))
                         .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
                 }
                 else {
                     Text(timeCalculation.calculateTime(t: date))
                         .font(Theme.bodyFont(13))
                         .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
             }
-            .frame(width: 48)
+            .frame(width: 56)
             
             GeometryReader { geo in
                 ZStack {

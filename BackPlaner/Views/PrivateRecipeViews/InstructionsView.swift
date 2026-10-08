@@ -39,6 +39,21 @@ struct InstructionsView: View {
         BakePlanScheduler.hasPlan(recipeName: recipe.name, in: viewContext)
     }
 
+    /// The two halves of the step table's header row; see the ViewThatFits
+    /// in body for how they are arranged.
+    private var instructionsHeader: some View {
+        Text("Verarbeitungsschritte:")
+            .font(Theme.brandFont(16))
+            .foregroundColor(Theme.title)
+            .padding([.bottom, .top], 5)
+    }
+
+    private var processingTimeText: some View {
+        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipe.prepTime))")
+            .font(Theme.bodyFont(16))
+            .padding([.trailing], 5)
+    }
+
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipe.totalWeight)
@@ -185,24 +200,31 @@ struct InstructionsView: View {
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
-                    HStack {
-                        Text("Verarbeitungsschritte:")
-                            .font(Theme.brandFont(16))
-                            .foregroundColor(Theme.title)
-                            .padding([.bottom, .top], 5)
-                        
-                        Spacer()
-                        
-                        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipe.prepTime))")
-                            .font(Theme.bodyFont(16))
-                            .padding([.trailing], 5)
+                    // Side by side only while both fit on one line each; on an
+                    // iPhone "Verarbeitungsschritte:" next to "Bearbeitungsdauer:
+                    // 18h 56m" used to break both, leaving the colon on a line
+                    // of its own.
+                    ViewThatFits(in: .horizontal) {
+                        HStack {
+                            instructionsHeader
+                            Spacer()
+                            processingTimeText
+                        }
+                        VStack(alignment: .leading, spacing: 2) {
+                            instructionsHeader
+                            processingTimeText
+                        }
                     }
- 
+
                     LazyVGrid(columns: gridItemLayoutInstructions, spacing: 6) {
 
                         Text("S.").bold()
                         Text("Beschreibung").bold()
+                        // The fixed columns are sized for the German words;
+                        // "Duration" shrinks a little instead of breaking mid-word.
                         Text("Dauer").bold()
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                         
                         Group {
 
@@ -231,7 +253,9 @@ struct InstructionsView: View {
                             else {
 
                                 Text("Beginn").bold()
-                                
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
+
                                 ForEach(recipe.instructionsArray.indices, id: \.self) { index in
 
                                     let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
