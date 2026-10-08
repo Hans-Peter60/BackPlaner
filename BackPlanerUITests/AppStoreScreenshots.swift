@@ -265,20 +265,37 @@ final class AppStoreScreenshots: XCTestCase {
     // MARK: - System alerts
 
     /// A German recipe opened in the English or French app is translated on
-    /// the device. The first time, iOS asks to download the language; that
-    /// sheet would cover everything, so the test accepts it and waits for the
-    /// download.
+    /// the device, unless a stored translation exists. The simulator cannot
+    /// translate: iOS covers the screen with a sheet saying so ("Übersetzen"
+    /// … "nicht unterstützt", button "Fertig"/"Done"), which the test closes;
+    /// the recipe then stays in German. On a real device iOS may instead ask
+    /// to download the language, which the test accepts.
     private func acceptTranslationDownloadIfAsked() {
-        let titles = ["Download", "Herunterladen", "Télécharger"]
-        let predicate = NSPredicate(format: "label IN %@", titles)
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        for source in [app!, springboard] {
-            let button = source.buttons.matching(predicate).firstMatch
-            guard button.waitForExistence(timeout: 3) else { continue }
-            button.tap()
-            let gone = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: button)
-            _ = XCTWaiter.wait(for: [gone], timeout: 120)
-            return
+        let download = NSPredicate(format: "label IN %@", ["Download", "Herunterladen", "Télécharger"])
+        let done = NSPredicate(format: "label IN %@", ["Fertig", "Done", "Terminé", "OK"])
+        let sheetTitle = NSPredicate(format: "label IN %@", ["Übersetzen", "Translate", "Traduire"])
+
+        let deadline = Date().addingTimeInterval(4)
+        while Date() < deadline {
+            for source in [app!, springboard] {
+                let button = source.buttons.matching(download).firstMatch
+                if button.exists {
+                    button.tap()
+                    let gone = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: button)
+                    _ = XCTWaiter.wait(for: [gone], timeout: 120)
+                    return
+                }
+                if source.staticTexts.matching(sheetTitle).firstMatch.exists {
+                    let close = source.buttons.matching(done).firstMatch
+                    if close.exists {
+                        close.tap()
+                        settle(1)
+                        return
+                    }
+                }
+            }
+            settle(0.5)
         }
     }
 
