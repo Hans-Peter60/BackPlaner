@@ -90,6 +90,7 @@ struct BakeModeView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Schließen") { dismiss() }
+                        .accessibilityIdentifier("bakeMode.close")
                 }
             }
         }

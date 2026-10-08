@@ -329,11 +329,13 @@ struct InstructionsFBView: View {
                             scheduleReminders(replaceExisting: true)
                         }
                     }
+                    .accessibilityIdentifier("plan.setReminders")
                     .padding()
                     .confirmationDialog("Für dieses Rezept gibt es schon einen Plan", isPresented: $showingPlanChoice, titleVisibility: .visible) {
                         Button("Bestehenden Plan ersetzen", role: .destructive) {
                             scheduleReminders(replaceExisting: true)
                         }
+                        .accessibilityIdentifier("plan.replace")
                         Button("Zusätzlich planen") {
                             scheduleReminders(replaceExisting: false)
                         }
