@@ -61,6 +61,8 @@ xcodebuild build-for-testing \
     -derivedDataPath "$DERIVED" \
     -quiet
 
+failed=()
+
 for device in "$IPHONE" "$IPAD"; do
     udid="$(udid_of "$device")"
     if [[ -z "$udid" ]]; then
@@ -91,24 +93,37 @@ for device in "$IPHONE" "$IPAD"; do
         mkdir -p "$dir"
         echo "  ▸ $lang → ${dir#$PWD/}"
 
-        TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \
-        TEST_RUNNER_SCREENSHOT_DIR="$dir" \
-        TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
-        xcodebuild test-without-building \
-            -project BackPlaner.xcodeproj \
-            -scheme BackPlaner \
-            -destination "id=$udid" \
-            -derivedDataPath "$DERIVED" \
-            -only-testing:BackPlanerUITests/AppStoreScreenshots \
-            -testLanguage "$lang" \
-            -testRegion "$(region "$lang")" \
-            -resultBundlePath "$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult" \
-            -quiet
-
-        ls "$dir" | sed 's/^/      /'
+        bundle="$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult"
+        if TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \
+           TEST_RUNNER_SCREENSHOT_DIR="$dir" \
+           TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+           xcodebuild test-without-building \
+               -project BackPlaner.xcodeproj \
+               -scheme BackPlaner \
+               -destination "id=$udid" \
+               -derivedDataPath "$DERIVED" \
+               -only-testing:BackPlanerUITests/AppStoreScreenshots \
+               -testLanguage "$lang" \
+               -testRegion "$(region "$lang")" \
+               -resultBundlePath "$bundle" \
+               -quiet >/dev/null 2>&1
+        then
+            ls "$dir" | sed 's/^/      /'
+        else
+            failed+=("$folder/$lang")
+            echo "      ✗ failed after: $(ls "$dir" | tr '\n' ' ')"
+            # The test's own message, e.g. which screen or button was missing.
+            xcrun xcresulttool get test-results summary --path "$bundle" 2>/dev/null \
+                | grep -E '"failureText"|"testName"' | sed 's/^ */      /' || true
+            echo "      Details with the screen at the moment of failure: open \"$bundle\""
+        fi
     done
 
     xcrun simctl status_bar "$udid" clear
 done
 
+if (( ${#failed[@]} )); then
+    echo "▸ Done with failures: ${failed[*]}" >&2
+    exit 1
+fi
 echo "▸ Done: $OUT"

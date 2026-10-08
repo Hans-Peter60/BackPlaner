@@ -166,6 +166,7 @@ struct RecipeFBListView: View {
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
                                 .accessibilityAddTraits(.isButton)
+                                .accessibilityIdentifier("publicRecipe.row")
                                 // The row draws no stars, so the label is the only
                                 // place the rating is announced — with its scale,
                                 // because a bare number says nothing. The lock

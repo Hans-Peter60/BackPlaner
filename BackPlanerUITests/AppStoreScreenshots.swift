@@ -169,11 +169,20 @@ final class AppStoreScreenshots: XCTestCase {
     }
 
     /// The row of the recipe whose name begins with `name`, or the first row
-    /// when there is no such recipe.
+    /// when there is no such recipe. A row is one combined element whose
+    /// label starts with the name ("Name, Bewertung 4 von 5 Sternen").
     private func recipeRow(named name: String) -> XCUIElement {
-        let named = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", name)).firstMatch
-        if named.waitForExistence(timeout: 20) { return named }
-        return app.cells.firstMatch
+        let rows = app.descendants(matching: .any).matching(identifier: "publicRecipe.row")
+        guard rows.firstMatch.waitForExistence(timeout: 30) else { return rows.firstMatch }
+        let named = rows.matching(NSPredicate(format: "label BEGINSWITH %@", name)).firstMatch
+        if named.exists { return named }
+        // Further down the list: scroll a little, then fall back to the first.
+        for _ in 0..<4 where !named.exists {
+            app.swipeUp(velocity: .slow)
+        }
+        if named.exists { return named }
+        for _ in 0..<4 { app.swipeDown(velocity: .slow) }
+        return rows.firstMatch
     }
 
     private func scrollUntilHittable(_ element: XCUIElement, maxSwipes: Int = 12) {
