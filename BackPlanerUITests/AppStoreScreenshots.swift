@@ -63,11 +63,11 @@ final class AppStoreScreenshots: XCTestCase {
         settle(3) // thumbnails load after the list
         capture("02-rezept-datenbank")
 
-        row.tap()
+        tapReliably(row)
         settle(2)
         capture("03-rezept-details")
 
-        tab(0).tap()
+        tab(0, titled: ["de": "Rezept backen", "en": "Bake recipe", "fr": "Cuire la recette"]).tap()
         let controls = app.descendants(matching: .any)["plan.controls"]
         XCTAssertTrue(controls.waitForExistence(timeout: 5), "The baking tab did not open")
         scrollToTop(controls)
@@ -102,7 +102,7 @@ final class AppStoreScreenshots: XCTestCase {
         let close = app.buttons["bakeMode.close"]
         if close.waitForExistence(timeout: 3) { close.tap() }
 
-        tab(1).tap()
+        tab(1, titled: ["de": "Timeline", "en": "Timeline", "fr": "Timeline"]).tap()
         settle(2)
         capture("06-timeline")
 
@@ -111,8 +111,8 @@ final class AppStoreScreenshots: XCTestCase {
         openMenu("publicRecipes")
         let rowAgain = recipeRow(named: recipeName)
         XCTAssertTrue(rowAgain.waitForExistence(timeout: 20))
-        rowAgain.tap()
-        tab(2).tap()
+        tapReliably(rowAgain)
+        tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
         settle(2)
         capture("07-einkaufsliste")
     }
@@ -152,11 +152,18 @@ final class AppStoreScreenshots: XCTestCase {
         }
     }
 
-    /// The tab at `index` in the recipe or scheduled-steps tab bar. By
-    /// position, since the titles change with the language.
-    private func tab(_ index: Int) -> XCUIElement {
-        let button = app.tabBars.buttons.element(boundBy: index)
-        XCTAssertTrue(button.waitForExistence(timeout: 5), "There is no tab \(index)")
+    /// A tab of the recipe or scheduled-steps screen. On the iPhone the tabs
+    /// form a tab bar at the bottom and are found by position; on the iPad
+    /// they float at the top as plain buttons and are found by their title in
+    /// the language of the run.
+    private func tab(_ index: Int, titled titles: [String: String]) -> XCUIElement {
+        let bar = app.tabBars.firstMatch
+        if bar.waitForExistence(timeout: 3), bar.buttons.count > index {
+            return bar.buttons.element(boundBy: index)
+        }
+        let title = titles[language] ?? titles["de"] ?? ""
+        let button = app.buttons.matching(NSPredicate(format: "label == %@", title)).firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 5), "There is no tab \(index) („\(title)“)")
         return button
     }
 
@@ -200,6 +207,11 @@ final class AppStoreScreenshots: XCTestCase {
     }
 
     private func tapReliably(_ element: XCUIElement) {
+        // A list may still be settling after a scroll; give it a moment.
+        let deadline = Date().addingTimeInterval(2)
+        while !element.isHittable, Date() < deadline {
+            settle(0.2)
+        }
         if element.isHittable {
             element.tap()
         } else {
