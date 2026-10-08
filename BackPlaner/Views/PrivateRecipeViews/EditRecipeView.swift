@@ -312,21 +312,21 @@ struct EditRecipeView: View {
         } message: {
             Text("Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu.")
         }
-        .alert("Öffentliches Rezept kann nicht geändert werden", isPresented: $showPublicSaveWarning) {
+        .alert("Rezept veröffentlichen?", isPresented: $showPublicSaveWarning) {
             Button("Abbrechen", role: .cancel) { }
             Button("Öffentlich speichern") {
                 continuePublicSaveAfterWarning()
             }
         } message: {
-            Text("Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.")
+            Text("Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen.")
         }
-        .alert("Cloud-Rezept kann nicht geändert werden", isPresented: $showPrivateCloudSaveWarning) {
+        .alert("Privat in der Cloud speichern?", isPresented: $showPrivateCloudSaveWarning) {
             Button("Abbrechen", role: .cancel) { }
             Button("Privat speichern") {
                 saveCloudRecipe(visibility: .authorOnly)
             }
         } message: {
-            Text("Ein Rezept in der Rezept-Datenbank kann nach dem Speichern nicht mehr geändert werden. Es ist nur für Dich sichtbar.")
+            Text("Das Rezept ist nur für Dich sichtbar. Du kannst es später in der Rezept-Datenbank bearbeiten oder löschen.")
         }
         .overlay {
             if isUploading {

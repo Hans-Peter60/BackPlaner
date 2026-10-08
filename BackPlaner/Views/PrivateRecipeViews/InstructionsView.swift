@@ -56,8 +56,7 @@ struct InstructionsView: View {
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
-    var gridItemLayoutHistories = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading)]
-    
+
     let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
     
     var manager:LocalNotificationManager = LocalNotificationManager()
@@ -152,6 +151,15 @@ struct InstructionsView: View {
                 // MARK: Components
                 ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
                                      scale: servingScale)
+
+                // MARK: Last time
+                // How the last bake of this recipe went, right where the
+                // next one is planned. Only a bake that already happened:
+                // setting reminders creates an entry dated at the planned
+                // end, which has nothing to say yet.
+                if let lastBake = recipe.lastCompletedBakeHistory() {
+                    LastBakeCardView(bakeHistory: lastBake, recipeName: recipe.name)
+                }
 
                 // MARK: Selections
                 InstructionSchedulingControlsView(
@@ -268,30 +276,52 @@ struct InstructionsView: View {
                 .cardStyle()
                 
                 // MARK: Histories
-                
-                VStack(alignment: .leading) {
-                    
-                    Text("Back-Kommentare")
-                        .font(Theme.brandFont(16))
-                        .foregroundColor(Theme.title)
-                    
-                    LazyVGrid(columns: gridItemLayoutHistories, spacing: 6) {
-                        
-                        Text("Dauer").bold()
-                        Text("Kommentar").bold()
-                        
-                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
 
-                            Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                            Text(bakeHistory.comment)
+                // Every bake of this recipe, newest first: the date, the
+                // recorded facts in one line, and the comment. An entry still
+                // ahead is the one just planned and is marked as such.
+                if !recipe.bakeHistoriesArray.isEmpty {
+                    VStack(alignment: .leading, spacing: 10) {
+
+                        Text("Bisherige Backvorgänge")
+                            .font(Theme.brandFont(16))
+                            .foregroundColor(Theme.title)
+
+                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
+                            VStack(alignment: .leading, spacing: 3) {
+                                HStack(spacing: 8) {
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Theme.brandFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                    if bakeHistory.date > Date() {
+                                        Text("geplant")
+                                            .font(Theme.bodyFont(13))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                }
+
+                                BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                                    .font(Theme.bodyFont(14))
+                                    .foregroundColor(Theme.subtitle)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                if !BakeHistoryFacts.isPlaceholderComment(bakeHistory.comment) {
+                                    Text(bakeHistory.comment)
+                                        .font(Theme.bodyFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                } else if !bakeHistory.hasNotes && bakeHistory.date <= Date() {
+                                    Text("Noch nichts notiert")
+                                        .font(Theme.bodyFont(14))
+                                        .foregroundColor(Theme.subtitle)
+                                }
+                            }
+                            .accessibilityElement(children: .combine)
                         }
                     }
-                    .scrollsSidewaysAtLargeText()
-
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .cardStyle()
                 }
-                .font(Theme.bodyFont(15))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .cardStyle()
 
                 // MARK: Reminder setzen
                 HStack {

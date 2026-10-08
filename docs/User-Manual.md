@@ -180,11 +180,24 @@ The app confirms with **"Recipe was saved"** and a note that you can edit the co
 
 ### Publishing a private recipe
 
-For your **private** cloud recipes, the **Bake recipe** tab also offers **Save as a public recipe**. That makes the recipe visible to every user. First you're asked to confirm that it can't be changed afterwards and that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.
+For your **private** cloud recipes, the **Bake recipe** tab also offers **Save as a public recipe**. That makes the recipe visible to every user. First you're asked to confirm that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.
 
 **Your private version stays in place** — the recipe then appears twice in the list, once with a lock. If you don't want that, delete the private version afterwards via "…" → **Delete my recipe**.
 
 For recipes that are already public, the button doesn't appear.
+
+### Editing a recipe of your own
+
+Recipes that came from *your* account — private ones as much as public ones — can be changed right in the recipe database: **"…" menu** at the top right → **Edit recipe**. The form matches the one for entering a recipe: image, name, description, link, tags, components with their ingredients, and steps. Components, ingredients, tags and steps can be added and deleted. **Save** writes the changes to the database, **Cancel** discards them; until then the recipe on screen stays as it was.
+
+Note:
+
+- What you edit is always the **original**, in the language the recipe was written in — even if you're looking at a translation right now. Existing translations are discarded and created anew the next time a language is chosen.
+- Start times, total duration and total weight are recalculated when saving.
+- A new image replaces the old one in the database.
+- The version under "My recipes" on the device is unaffected; it remains a recipe of its own.
+
+For recipes by other authors the entry doesn't appear — except for administrators (see below).
 
 ### Reporting, blocking, deleting
 
@@ -192,15 +205,16 @@ Through the **"…" menu** at the top right:
 
 - **Report recipe** — you choose a reason (objectionable/offensive, spam, copyright infringement, other). The report goes to the operator for review, and the recipe is hidden **from every user immediately**, not only after the review. It becomes visible again only if an administrator releases it.
 - **Block author** — every recipe by that author disappears from your list. This applies **on your device only**; other users still see them.
-- **Delete my recipe** — appears only for recipes that came from *your* account. The recipe is removed from the database for good.
+- **Edit recipe** — appears only for recipes that came from *your* account (see above).
+- **Delete my recipe** — likewise only for your own recipes. The recipe is removed from the database for good.
 
-For **private** recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Delete my recipe" is there.
+For **private** recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Edit recipe" and "Delete my recipe" are there.
 
 So the two differ in reach: **blocking is local, reporting affects everyone.** Both can be undone under *Settings → Moderation* (see [chapter 14](#14-settings)).
 
 ### Administrator function
 
-If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
+If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
 
 **Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the **Details** tab it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
 
@@ -235,7 +249,7 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 | **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients on a shopping list |
-| **+ History** | Record a bake with date, comment, and photos |
+| **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb) |
 
 A recipe opens on the **Details** tab. The schedule in the **Bake** tab is only worked out once you choose it; only **Plan again** in Scheduled steps takes you straight there.
 
@@ -257,10 +271,11 @@ This is the heart of the app. The layout is the same for your own and for public
 2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab.
 3. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
 4. **Components** — sorted by number, each with its ingredients at the chosen serving size.
-5. **Control bar** — see below.
-6. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
-7. **Baking comments** (your own recipes only) — earlier baking-history entries.
-8. **Set reminder**.
+5. **Last time** (your own recipes only, once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
+6. **Control bar** — see below.
+7. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
+8. **Previous bakes** (your own recipes only) — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
+9. **Set reminder**.
 
 ### The control bar
 
@@ -404,8 +419,8 @@ Below that: **Import recipe from a web page**. It reads a recipe straight from a
 In the **Save** section you choose between the three storage options (see also the overview in [chapter 3](#3-key-concepts)). A sentence below each choice explains what it means. The default comes from Settings (Default storage).
 
 - **Local** — the recipe stays on the device, is backed up through your iCloud, and can be changed at any time.
-- **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app points out that a recipe in the database can't be changed once saved.
-- **Public** — the recipe becomes visible to every user. First comes the note: **"A public recipe can no longer be changed after it has been saved."** The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
+- **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app asks "Save privately in the cloud?" — you can edit or delete the recipe later in the recipe database.
+- **Public** — the recipe becomes visible to every user. First comes the question **"Publish recipe?"**, with the note that as its author you can edit or delete it later in the recipe database. The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
 
 When importing from images or a web page, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.
 
@@ -486,7 +501,7 @@ The **Save** section holds three buttons — the same three storage options as w
 
 - **Local** — saves everything including the image, recalculates the total weight, and confirms with "Recipe was saved".
 - **Private** — stores the recipe privately in the recipe database; that requires signing in with Apple. Visible only to you and not editable afterwards.
-- **Public** — uploads the recipe so it's visible to every user. The note that it can't be changed afterwards appears here too.
+- **Public** — uploads the recipe so it's visible to every user. The "Publish recipe?" question appears here too.
 - **Delete** (top left) — clears the recipe's contents.
 
 After a successful upload, **both cloud buttons are disabled**, because the recipe now has a copy in the database — a recipe can only be uploaded once, privately *or* publicly.
@@ -604,15 +619,32 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 **Main menu → Baking history.** Every bake, newest first, either as a **list** with date, recipe name, comment and photos — or as a **gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. Switch between the two with the symbol at the top right; the choice is remembered. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
-- **Tap an entry** (row or tile) → baking notes: edit the comment and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
+- **Tap an entry** (row or tile) → baking notes: edit the comment, fill in **Measurements and result** (see below) and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
 - **Searching and filtering**: the search field (Name/Tags) and the rating filter at the top right.
 
+In the list and the gallery an entry's measurements appear in one line under the comment, such as "Room 22 °C · Dough 25 °C · Bulk proof 3h 30m · Final proof 1h 00m · Wheat 550 · open, good oven spring".
+
+### Measurements and result
+
+Free text and stars alone are not enough to do better next time. Every entry therefore has a section **Measurements and result**:
+
+| Field | Content |
+|-------|---------|
+| **Room temperature**, **Dough temperature** | In °C, with comma or point ("22.5"). Empty means "not measured". |
+| **Bulk proof**, **Final proof** | The actual duration in minutes; from 60 minutes on the conversion is shown underneath ("= 3h 30m"). |
+| **Flour** | The flour used, as free text ("Wheat 550, spelt 630"). |
+| **Crumb / oven spring** | Two or three keywords, separated by commas. Below the field are word chips for **Crumb** (open, dense, moist, dry, even, large pores, gummy) and **Oven spring** (good oven spring, little oven spring, torn, stayed flat); a tap puts the word into the field or takes it out again, and a chosen word carries a checkmark. You can add words of your own. |
+
+The number fields have no Return key; **Done** appears next to the field being edited to close the keyboard.
+
+The baking view shows these details as the **Last time** card when the same recipe is planned next (see [chapter 7](#7-baking-instructions-and-reminders)).
+
 ### Recording a bake after the fact
 
-**My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, add photos from the library, **Save**.
+**My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, fill in measurements and result, add photos from the library, **Save**.
 
-An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded", which you can replace later.
+An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it.
 
 ### Baking top list
 
@@ -889,7 +921,7 @@ Reminders stay on the device where you set them. Only a paired **iPhone's** noti
 There was no internet connection at launch. Pull the list down to load it again.
 
 **I uploaded my recipe to the database and want to correct it.**
-That isn't possible — recipes in the database are immutable, private ones as much as public ones. Delete it via "…" → **Delete my recipe** and upload the corrected version again. The version on the device stays and is recognised as uploadable again afterwards.
+Open the recipe in the recipe database and choose "…" → **Edit recipe** (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). That works for every recipe that came from your account — private ones as much as public ones. The version on the device doesn't change; if you want to bring it in line, edit it separately under "My recipes".
 
 **My private recipes aren't in the list.**
 They only appear when you're signed in: *Settings → Account → Sign in with Apple*. Make sure to use the same Apple Account you saved them with — the recipes are tied to it. Then pull the list down once.
@@ -925,7 +957,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 
 ## 18. Known limitations
 
-- **Recipes in the database are immutable once uploaded** — private ones as much as public ones. Corrections mean deleting and uploading again.
+- **Recipes in the database can be edited only by their author** (or an administrator). Once uploaded, the version on the device and the one in the database are two separate recipes; changes to one aren't carried over to the other.
 - **A recipe can only be uploaded once**, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.
 - **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.

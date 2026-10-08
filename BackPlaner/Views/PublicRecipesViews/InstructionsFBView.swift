@@ -379,7 +379,7 @@ struct InstructionsFBView: View {
                 Button("Abbrechen", role: .cancel) { }
                 Button("Veröffentlichen") { continuePublishAfterWarning() }
             } message: {
-                Text("Das Rezept wird für alle Nutzer sichtbar und kann danach nicht mehr geändert werden. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten.")
+                Text("Das Rezept wird für alle Nutzer sichtbar. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen. Deine private Fassung bleibt erhalten.")
             }
             .sheet(isPresented: $showPublishEULA) {
                 EULAView {

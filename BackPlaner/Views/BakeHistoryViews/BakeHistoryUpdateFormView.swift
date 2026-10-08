@@ -29,13 +29,22 @@ struct BakeHistoryUpdateFormView: View {
     @State private var recipeImages = [UIImage?]()
     @State private var images       = [Data]()
     @State private var showingAlert = false
+    /// Temperatures, proof times, flour, crumb — see BakeHistoryFacts.
+    @State private var facts        = BakeHistoryFacts()
 
     var body: some View {
-        
+
         Form {
-                  
-            Text(recipeName)
-                .font(Theme.brandFont(18))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(recipeName)
+                    .font(Theme.brandFont(18))
+                // Which bake this is: the form is reached from the "last
+                // time" card as well as from the list.
+                Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.subtitle)
+            }
 
             TextEditor(text: $comment)
                 .multilineTextAlignment(.leading)
@@ -46,7 +55,9 @@ struct BakeHistoryUpdateFormView: View {
                 .frame(minWidth: 200, idealWidth: 300, maxWidth: 600, minHeight: 100, idealHeight: 200, maxHeight: 200, alignment: .center)
                 // A TextEditor has no placeholder to fall back on.
                 .accessibilityLabel("Kommentar")
-                
+
+            BakeHistoryFactsFormSection(facts: $facts)
+
             Section {
                 
                 HStack {
@@ -85,7 +96,8 @@ struct BakeHistoryUpdateFormView: View {
             IconActionButton(systemImage: "checkmark", style: .primary, accessibilityLabel: "Historie speichern", title: "Speichern", controlSize: .regular) {
                 
                 bakeHistory.setValue(comment, forKey: "comment")
-                
+                bakeHistory.facts = facts
+
                 images = [Data]()
                 for index in 0..<recipeImages.count {
                     images.append(recipeImages[index]?.jpegData(compressionQuality: 1.0) ?? Data())
@@ -109,6 +121,7 @@ struct BakeHistoryUpdateFormView: View {
         .navigationTitle("Backanmerkungen- / hinweise")
         .onAppear {
             comment = self.bakeHistory.comment
+            facts   = self.bakeHistory.facts
             images  = self.bakeHistory.images ?? [Data]()
             recipeImages = [UIImage]()
             

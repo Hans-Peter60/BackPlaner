@@ -177,11 +177,24 @@ Die App bestätigt das mit **„Rezept wurde gespeichert“** und dem Hinweis, d
 
 ### Ein privates Rezept veröffentlichen
 
-Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass es danach nicht mehr geändert werden kann und nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
+Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
 
 **Deine private Fassung bleibt dabei erhalten** – das Rezept liegt danach zweimal in der Liste, einmal mit Schloss. Willst Du das nicht, lösche die private Fassung anschließend über „…“ → **Mein Rezept löschen**.
 
 Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
+
+### Ein eigenes Rezept bearbeiten
+
+Rezepte, die von *Deinem* Konto stammen – private wie öffentliche –, kannst Du direkt in der Rezept-Datenbank ändern: Menü **„…“** oben rechts → **„Rezept bearbeiten“**. Das Formular entspricht dem Erfassen eines Rezepts: Bild, Name, Beschreibung, Link, Tags, Komponenten mit Zutaten und Verarbeitungsschritte. Komponenten, Zutaten, Tags und Schritte lassen sich hinzufügen und löschen. **Speichern** schreibt die Änderungen in die Datenbank, **Abbrechen** verwirft sie; bis dahin bleibt das angezeigte Rezept unverändert.
+
+Dabei gilt:
+
+- Bearbeitet wird immer das **Original** in der Sprache, in der das Rezept geschrieben ist – auch wenn Du es gerade übersetzt ansiehst. Vorhandene Übersetzungen werden verworfen und beim nächsten Sprachwechsel neu erstellt.
+- Startzeiten, Gesamtdauer und Gesamtgewicht berechnet die App beim Speichern neu.
+- Ein neues Bild ersetzt das alte in der Datenbank.
+- Die Fassung in „Eigene Rezepte“ auf dem Gerät ist davon nicht betroffen; sie bleibt ein eigenes Rezept.
+
+Bei Rezepten anderer Autoren erscheint der Eintrag nicht – außer für Administratoren (siehe unten).
 
 ### Melden, blockieren, löschen
 
@@ -189,15 +202,16 @@ Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
 
 - **Rezept melden** – Du wählst einen Grund (anstößig/beleidigend, Spam, Urheberrechtsverletzung, Sonstiges). Die Meldung geht zur Prüfung an den Betreiber, und das Rezept wird **sofort für alle Nutzer** ausgeblendet, nicht erst nach der Prüfung. Sichtbar wird es nur wieder, wenn ein Administrator es freigibt.
 - **Autor blockieren** – alle Rezepte dieses Autors verschwinden aus Deiner Liste. Das wirkt **nur auf Deinem Gerät**; andere Nutzer sehen sie weiter.
-- **Mein Rezept löschen** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen. Das Rezept wird endgültig aus der Datenbank entfernt.
+- **Rezept bearbeiten** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen (siehe oben).
+- **Mein Rezept löschen** – erscheint ebenfalls nur bei Deinen eigenen Rezepten. Das Rezept wird endgültig aus der Datenbank entfernt.
 
-Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Mein Rezept löschen“ steht dort.
+Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Rezept bearbeiten“ und „Mein Rezept löschen“ stehen dort.
 
 Die beiden unterscheiden sich also in der Reichweite: **Blockieren wirkt lokal, Melden wirkt für alle.** Beides lässt sich zurücknehmen – unter *Einstellungen → Moderation* (siehe [Kapitel 14](#14-einstellungen)).
 
 ### Administrator-Funktion
 
-Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
+Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Über **„Rezept bearbeiten“** im selben Menü kannst Du ein öffentliches Rezept auch korrigieren – etwa einen Tippfehler oder eine falsche Mengenangabe –, ohne es zu löschen. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
 
 **Gemeldete Rezepte** bleiben für Administratoren in der Liste sichtbar, während sie für alle anderen ausgeblendet sind. Unten im Tab **Details** steht dann „Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.“ Ist die Meldung berechtigt, löschst Du das Rezept. Ist sie es nicht, macht **„Rezept wieder freigeben“** es sofort wieder für alle sichtbar.
 
@@ -232,7 +246,7 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 | **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts auf eine Einkaufsliste setzen |
-| **+ Historie** | Einen Backvorgang mit Datum, Kommentar und Fotos nachtragen |
+| **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen |
 
 Ein Rezept öffnet sich im Tab **Details**. Die Zeitplanung im Tab **Backen** wird erst berechnet, wenn Du ihn wählst; nur **Neu planen** in „Geplante Schritte“ führt direkt dorthin.
 
@@ -254,10 +268,11 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 2. **Portionsgröße** (0,5 / 1,0 / 1,5 / 2,0) oder **Teiggewicht**, das daraus berechnete **Gesamtgewicht in Gramm**, – falls hinterlegt – der **Link zum Rezept** und **Rezept teilen**: Letzteres erzeugt ein PDF mit Bild, Komponenten samt Zutaten, Gesamtzutaten und Verarbeitungsschritten in der gerade gewählten Portionsgröße und bietet es im Teilen-Blatt an, zum Beispiel für Nachrichten, Mail, Drucken oder „In Dateien sichern“. Das gibt es ebenso bei den eigenen Rezepten im Tab „Details“.
 3. **Gesamtzutaten** – alle Zutaten über alle Komponenten hinweg zusammengefasst. Diese Liste ist zum Einkaufen und Abwiegen gedacht. Wasser wird bewusst weggelassen, ebenso Zutaten, die selbst ein Zwischenprodukt einer Komponente sind (z. B. „Sauerteig“ als Zutat des Hauptteigs) – sonst würden Mengen doppelt zählen.
 4. **Komponenten** – nach Nummer sortiert, jede mit ihren Zutaten in der gewählten Portionsgröße.
-5. **Steuerleiste** – siehe unten.
-6. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
-7. **Back-Kommentare** (nur eigene Rezepte) – frühere Backhistorien-Einträge.
-8. **Reminder setzen**.
+5. **Letztes Mal** (nur eigene Rezepte, erst nach dem ersten Backen) – wie der letzte Backvorgang dieses Rezepts lief: Raum- und Teigtemperatur, tatsächliche Stock- und Stückgare, Mehl, Krume/Ofentrieb und Kommentar aus der Backhistorie, mit Datum. **Ergänzen** öffnet den Eintrag zum Nachtragen; ist noch nichts notiert, fragt die Karte danach und bietet **Jetzt eintragen** an. Gezählt wird nur ein Backvorgang, der schon stattgefunden hat – der beim Reminder-Setzen angelegte Eintrag liegt bis zum Backende in der Zukunft.
+6. **Steuerleiste** – siehe unten.
+7. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
+8. **Bisherige Backvorgänge** (nur eigene Rezepte) – alle Backhistorien-Einträge, neueste zuerst, je mit Datum, den Messwerten in einer Zeile und dem Kommentar; ein Eintrag in der Zukunft ist als „geplant“ markiert.
+9. **Reminder setzen**.
 
 ### Die Steuerleiste
 
@@ -401,8 +416,8 @@ Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest Bake
 Im Abschnitt **Speichern** wählst Du zwischen drei Ablagen (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Unter der Auswahl steht jeweils ein Satz, was sie bedeutet. Die Vorbelegung kommt aus den Einstellungen (Standard-Ablage).
 
 - **Lokal** – das Rezept bleibt auf dem Gerät, wird über Deine iCloud gesichert und ist jederzeit änderbar.
-- **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher weist die App darauf hin, dass ein Rezept in der Datenbank nach dem Speichern nicht mehr geändert werden kann.
-- **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint der Hinweis: **„Ein öffentliches Rezept kann nach dem Speichern nicht mehr geändert werden.“** Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
+- **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher fragt die App „Privat in der Cloud speichern?“ – bearbeiten oder löschen kannst Du das Rezept später in der Rezept-Datenbank.
+- **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint die Rückfrage **„Rezept veröffentlichen?“** mit dem Hinweis, dass Du es als Autor später in der Rezept-Datenbank bearbeiten oder löschen kannst. Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
 
 Beim Import aus Bildern oder von einer Internetseite ist die Ablage zunächst immer auf „Lokal“ gesetzt. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Auswahl mit.
 
@@ -482,8 +497,8 @@ Rechts oben die Sterne antippen: 1 bis 5 Sterne. Nochmaliges Tippen auf den erst
 Im Abschnitt **Speichern** stehen drei Schaltflächen – dieselben drei Ablagen wie beim Anlegen. Oben rechts in der Navigationsleiste findest Du sie außerdem im Menü hinter dem Speichern-Symbol.
 
 - **Lokal** – speichert alles inklusive Bild, berechnet das Gesamtgewicht neu und bestätigt mit „Rezept wurde gespeichert“.
-- **Privat** – legt das Rezept privat in der Rezept-Datenbank ab; nötig ist dafür eine Anmeldung mit Apple. Nur für Dich sichtbar, danach nicht mehr änderbar.
-- **Öffentlich** – lädt das Rezept für alle Nutzer sichtbar hoch. Der Hinweis, dass es danach nicht mehr geändert werden kann, erscheint auch hier.
+- **Privat** – legt das Rezept privat in der Rezept-Datenbank ab; nötig ist dafür eine Anmeldung mit Apple. Nur für Dich sichtbar; bearbeiten kannst Du es später in der Rezept-Datenbank.
+- **Öffentlich** – lädt das Rezept für alle Nutzer sichtbar hoch. Die Rückfrage „Rezept veröffentlichen?“ erscheint auch hier.
 - **Löschen** (oben links) – leert die Rezeptinhalte.
 
 Nach einem erfolgreichen Upload sind **beide Cloud-Schaltflächen deaktiviert**, weil das Rezept jetzt eine Kopie in der Datenbank besitzt – ein Rezept kann nur einmal hochgeladen werden, privat *oder* öffentlich.
@@ -601,15 +616,32 @@ Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfe
 
 **Hauptmenü → Backhistorie.** Alle Backvorgänge, neueste zuerst, wahlweise als **Liste** mit Datum, Rezeptname, Kommentar und Fotos – oder als **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. Zwischen beiden wechselst Du mit dem Symbol oben rechts; die Wahl bleibt gespeichert. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
 
-- **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
+- **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten, **Messwerte und Ergebnis** eintragen (siehe unten) und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
 - **Eintrag löschen**: Zeile nach links wischen.
 - **Suchen und filtern**: Suchfeld (Name/Tags) und Bewertungsfilter oben rechts.
 
+In Liste und Galerie stehen die Messwerte eines Eintrags in einer Zeile unter dem Kommentar, etwa „Raum 22 °C · Teig 25 °C · Stockgare 3h 30m · Stückgare 1h 00m · Weizen 550 · offen, guter Ofentrieb“.
+
+### Messwerte und Ergebnis
+
+Freitext und Sterne allein reichen nicht, um beim nächsten Mal besser zu werden. Jeder Eintrag hat deshalb einen Abschnitt **Messwerte und Ergebnis**:
+
+| Feld | Inhalt |
+|------|--------|
+| **Raumtemperatur**, **Teigtemperatur** | In °C, mit Komma oder Punkt („22,5“). Leer heißt „nicht gemessen“. |
+| **Stockgare**, **Stückgare** | Die tatsächliche Dauer in Minuten; ab 60 Minuten wird darunter die Umrechnung gezeigt („= 3h 30m“). |
+| **Mehl** | Das verwendete Mehl, als Freitext („Weizen 550, Dinkel 630“). |
+| **Krume / Ofentrieb** | Zwei, drei Stichworte, durch Komma getrennt. Darunter stehen Wort-Chips für **Krume** (offen, dicht, saftig, trocken, gleichmäßig, großporig, klitschig) und **Ofentrieb** (guter Ofentrieb, wenig Ofentrieb, eingerissen, flach geblieben); Antippen setzt das Wort ins Feld oder nimmt es wieder heraus, ein gesetztes Wort trägt ein Häkchen. Eigene Worte kannst Du dazuschreiben. |
+
+Die Zahlenfelder haben keine Return-Taste; neben dem gerade bearbeiteten Feld erscheint **Fertig**, um die Tastatur zu schließen.
+
+Diese Angaben zeigt die Backansicht beim nächsten Planen desselben Rezepts als Karte **Letztes Mal** (siehe [Kapitel 7](#7-backanleitung-und-reminder)).
+
 ### Einen Backvorgang nachtragen
 
-**Eigene Rezepte → Rezept → Tab „+ Historie“.** Backdatum wählen (bis zu 10 Jahre zurück), Kommentar schreiben, Fotos aus der Mediathek hinzufügen, **Speichern**.
+**Eigene Rezepte → Rezept → Tab „+ Historie“.** Backdatum wählen (bis zu 10 Jahre zurück), Kommentar schreiben, Messwerte und Ergebnis eintragen, Fotos aus der Mediathek hinzufügen, **Speichern**.
 
-Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Reminder setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“, den Du später ersetzen kannst.
+Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Reminder setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“ und ohne Messwerte. Nach dem Backen erinnert die Karte „Letztes Mal“ in der Backansicht daran, ihn zu ergänzen.
 
 ### Back Hit-Liste
 
@@ -886,7 +918,7 @@ Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr
 Beim Start bestand keine Internetverbindung. Zieh die Liste nach unten, um erneut zu laden.
 
 **Ich habe mein Rezept in die Datenbank hochgeladen und will es korrigieren.**
-Das ist nicht möglich – Rezepte in der Datenbank sind unveränderlich, private wie öffentliche. Lösche es über „…“ → **Mein Rezept löschen** und lade die korrigierte Fassung neu hoch. Die Fassung auf dem Gerät bleibt dabei erhalten und wird danach wieder als hochladbar erkannt.
+Öffne das Rezept in der Rezept-Datenbank und wähle „…“ → **Rezept bearbeiten** (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Das geht bei allen Rezepten, die von Deinem Konto stammen – privaten wie öffentlichen. Die Fassung auf dem Gerät ändert sich dabei nicht; willst Du sie angleichen, bearbeite sie getrennt unter „Eigene Rezepte“.
 
 **Meine privaten Rezepte sind nicht in der Liste.**
 Sie erscheinen nur, wenn Du angemeldet bist: *Einstellungen → Konto → Mit Apple anmelden*. Achte darauf, dasselbe Apple-Konto zu verwenden wie beim Speichern – die Rezepte hängen daran. Zieh die Liste danach einmal nach unten.
@@ -922,7 +954,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 
 ## 18. Bekannte Einschränkungen
 
-- **Rezepte in der Datenbank sind nach dem Hochladen unveränderlich** – private wie öffentliche. Korrekturen erfordern Löschen und erneutes Hochladen.
+- **Rezepte in der Datenbank bearbeitet nur ihr Autor** (oder ein Administrator). Die Fassung auf dem Gerät und die in der Datenbank sind nach dem Hochladen zwei getrennte Rezepte; Änderungen an der einen übernimmt die andere nicht.
 - **Ein Rezept kann nur einmal hochgeladen werden**, entweder privat oder öffentlich. Ein privates Rezept lässt sich nachträglich veröffentlichen, dabei entsteht aber eine zweite Fassung; die private wird nicht automatisch entfernt.
 - **Private Cloud-Rezepte brauchen eine Anmeldung mit Apple** und sind an dieses Konto gebunden. Ohne Anmeldung sind sie nicht sichtbar, mit einem anderen Apple-Konto ebenfalls nicht.
 - **Beim Löschen des Kontos bleiben veröffentlichte Rezepte in der Datenbank.** Sie gehören danach keinem Konto mehr und können nur noch von einem Administrator entfernt werden.

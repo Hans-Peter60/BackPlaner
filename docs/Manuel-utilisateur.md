@@ -180,11 +180,24 @@ L’app le confirme par **« La recette a été enregistrée »** et précise qu
 
 ### Publier une recette privée
 
-Pour vos recettes **privées** dans le cloud, l’onglet **Cuire la recette** propose en plus **Enregistrer comme recette publique**. La recette devient alors visible par tous. Une demande de confirmation rappelle d’abord qu’elle ne pourra plus être modifiée et que seules des recettes ne portant pas atteinte au droit d’auteur peuvent être publiées ; la première fois, vous devez également accepter les conditions d’utilisation.
+Pour vos recettes **privées** dans le cloud, l’onglet **Cuire la recette** propose en plus **Enregistrer comme recette publique**. La recette devient alors visible par tous. Une demande de confirmation rappelle d’abord que seules des recettes ne portant pas atteinte au droit d’auteur peuvent être publiées ; la première fois, vous devez également accepter les conditions d’utilisation.
 
 **Votre version privée est conservée** — la recette figure ensuite deux fois dans la liste, dont une avec un cadenas. Si vous ne le souhaitez pas, supprimez ensuite la version privée via « … » → **Supprimer ma recette**.
 
 Pour les recettes déjà publiques, le bouton n’apparaît pas.
+
+### Modifier une de vos recettes
+
+Les recettes provenant de *votre* compte — les privées comme les publiques — se modifient directement dans la base de recettes : **menu « … »** en haut à droite → **Modifier la recette**. Le formulaire est celui de la saisie d’une recette : image, nom, description, lien, tags, composants avec leurs ingrédients et étapes. Composants, ingrédients, tags et étapes peuvent être ajoutés et supprimés. **Enregistrer** écrit les modifications dans la base, **Annuler** les abandonne ; jusque-là, la recette affichée reste inchangée.
+
+À noter :
+
+- Vous modifiez toujours l’**original**, dans la langue dans laquelle la recette a été écrite — même si vous la consultez traduite. Les traductions existantes sont abandonnées et recréées au prochain changement de langue.
+- Heures de début, durée totale et poids total sont recalculés à l’enregistrement.
+- Une nouvelle image remplace l’ancienne dans la base.
+- La version sous « Mes recettes » sur l’appareil n’est pas concernée ; elle reste une recette à part.
+
+Pour les recettes d’autres auteurs, l’entrée n’apparaît pas — sauf pour les administrateurs (voir ci-dessous).
 
 ### Signaler, bloquer, supprimer
 
@@ -192,15 +205,16 @@ Via le **menu « … »** en haut à droite :
 
 - **Signaler la recette** — vous choisissez un motif (offensant/insultant, spam, atteinte au droit d’auteur, autre). Le signalement part pour examen chez l’exploitant, et la recette est masquée **immédiatement pour tous les utilisateurs**, et non seulement après l’examen. Elle ne redevient visible que si un administrateur la réaffiche.
 - **Bloquer l’auteur** — toutes les recettes de cet auteur disparaissent de votre liste. Cela n’agit **que sur votre appareil** ; les autres utilisateurs continuent de les voir.
-- **Supprimer ma recette** — n’apparaît que pour les recettes provenant de *votre* compte. La recette est retirée définitivement de la base.
+- **Modifier la recette** — n’apparaît que pour les recettes provenant de *votre* compte (voir ci-dessus).
+- **Supprimer ma recette** — de même, uniquement pour vos propres recettes. La recette est retirée définitivement de la base.
 
-Pour les recettes **privées**, « Signaler la recette » et « Bloquer l’auteur » sont absents — personne d’autre que vous ne les voit de toute façon. Seul « Supprimer ma recette » y figure.
+Pour les recettes **privées**, « Signaler la recette » et « Bloquer l’auteur » sont absents — personne d’autre que vous ne les voit de toute façon. Seuls « Modifier la recette » et « Supprimer ma recette » y figurent.
 
 Les deux diffèrent donc par leur portée : **bloquer agit localement, signaler agit pour tous.** Les deux peuvent être annulés dans *Réglages → Modération* (voir [chapitre 14](#14-réglages)).
 
 ### Fonction d’administrateur
 
-Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Un administrateur n’a aucun accès aux recettes **privées** des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
+Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Via **Modifier la recette** dans le même menu, vous pouvez aussi corriger une recette publique — une faute de frappe ou une quantité erronée, par exemple — sans la supprimer. Un administrateur n’a aucun accès aux recettes **privées** des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
 
 **Les recettes signalées** restent visibles dans la liste pour les administrateurs, alors qu’elles sont masquées pour tous les autres. En bas de l’onglet **Détails** apparaît alors « Cette recette a été signalée et est masquée pour tous les autres utilisateurs. » Si le signalement est fondé, supprimez la recette. S’il ne l’est pas, **Réafficher la recette** la rend aussitôt de nouveau visible pour tous.
 
@@ -235,7 +249,7 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 | **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF |
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette à une liste de courses |
-| **+ Historique** | Consigner une cuisson avec date, commentaire et photos |
+| **+ Historique** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) |
 
 Une recette s’ouvre sur l’onglet **Détails**. La planification de l’onglet **Cuire** n’est calculée que lorsque vous le choisissez ; seul **Replanifier** dans « Étapes planifiées » y mène directement.
 
@@ -257,10 +271,11 @@ C’est le cœur de l’app. La structure est la même pour vos recettes et pour
 2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette** et **Partager la recette** : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ».
 3. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
 4. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie.
-5. **Barre de commande** — voir ci-dessous.
-6. **Étapes de préparation** — un tableau avec l’étape, la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
-7. **Commentaires de cuisson** (vos recettes uniquement) — les entrées d’historique antérieures.
-8. **Définir un rappel**.
+5. **La dernière fois** (vos recettes uniquement, dès que la recette a été cuite une fois) — comment s’est passée la dernière cuisson de cette recette : température ambiante et de la pâte, pointage et apprêt réels, farine, mie/développement au four et commentaire de l’historique, avec la date. **Compléter** ouvre l’entrée ; si rien n’est encore noté, la carte le demande et propose **Noter maintenant**. Seule une cuisson déjà passée compte — l’entrée créée en définissant les rappels reste dans le futur jusqu’à la fin de la cuisson.
+6. **Barre de commande** — voir ci-dessous.
+7. **Étapes de préparation** — un tableau avec l’étape, la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
+8. **Cuissons précédentes** (vos recettes uniquement) — toutes les entrées d’historique, la plus récente en premier, chacune avec sa date, les mesures sur une ligne et le commentaire ; une entrée encore à venir est marquée « planifiée ».
+9. **Définir un rappel**.
 
 ### La barre de commande
 
@@ -404,8 +419,8 @@ Juste en dessous : **Importer une recette depuis une page web**. BakePlanner lit
 Dans la section **Enregistrer**, vous choisissez entre les trois emplacements (voir aussi le tableau du [chapitre 3](#3-notions-de-base)). Une phrase sous chaque choix explique ce qu’il implique. La valeur par défaut vient des Réglages (Emplacement par défaut).
 
 - **Local** — la recette reste sur l’appareil, est sauvegardée via votre iCloud et reste modifiable à tout moment.
-- **Privé** — la recette est enregistrée dans la base de recettes mais n’est visible que par vous. Cela exige une **connexion avec Apple** ; si vous n’êtes pas connecté, la feuille « Connexion requise » apparaît d’abord, puis l’enregistrement se poursuit. Avant cela, l’app signale qu’une recette dans la base ne pourra plus être modifiée après l’enregistrement.
-- **Public** — la recette devient visible par tous. Auparavant apparaît l’avertissement : **« Une recette publique ne peut plus être modifiée après son enregistrement. »** La première fois, vous devez en outre accepter les conditions d’utilisation (voir [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)). Pour les recettes privées, elles ne sont pas exigées — vous ne partagez rien.
+- **Privé** — la recette est enregistrée dans la base de recettes mais n’est visible que par vous. Cela exige une **connexion avec Apple** ; si vous n’êtes pas connecté, la feuille « Connexion requise » apparaît d’abord, puis l’enregistrement se poursuit. Avant cela, l’app demande « Enregistrer en privé dans le cloud ? » — vous pourrez ensuite modifier ou supprimer la recette dans la base de recettes.
+- **Public** — la recette devient visible par tous. Auparavant apparaît la question **« Publier la recette ? »**, avec la précision qu’en tant qu’auteur vous pourrez ensuite la modifier ou la supprimer dans la base de recettes. La première fois, vous devez en outre accepter les conditions d’utilisation (voir [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)). Pour les recettes privées, elles ne sont pas exigées — vous ne partagez rien.
 
 Lors d’un import depuis des images ou une page web, l’emplacement est toujours réglé sur « Local » au départ. L’icône du bouton « Enregistrer la recette » change avec le choix.
 
@@ -486,7 +501,7 @@ La section **Enregistrer** comporte trois boutons — les trois mêmes emplaceme
 
 - **Local** — enregistre tout, image comprise, recalcule le poids total et confirme par « La recette a été enregistrée ».
 - **Privé** — dépose la recette en privé dans la base de recettes ; une connexion avec Apple est nécessaire. Visible par vous seul et non modifiable ensuite.
-- **Public** — téléverse la recette pour la rendre visible par tous. L’avertissement qu’elle ne pourra plus être modifiée apparaît ici aussi.
+- **Public** — téléverse la recette pour la rendre visible par tous. La question « Publier la recette ? » apparaît ici aussi.
 - **Supprimer** (en haut à gauche) — vide le contenu de la recette.
 
 Après un téléversement réussi, **les deux boutons cloud sont désactivés**, car la recette possède désormais une copie dans la base — une recette ne peut être téléversée qu’une seule fois, en privé *ou* en public.
@@ -604,15 +619,32 @@ L’activité en direct apparaît dès qu’une étape est à moins de huit heur
 
 **Menu principal → Historique de cuisson.** Toutes les cuissons, la plus récente en premier, au choix en **liste** avec date, nom de la recette, commentaire et photos — ou en **galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. Passez de l’une à l’autre avec le symbole en haut à droite ; le choix est mémorisé. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
 
-- **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
+- **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire, renseigner **Mesures et résultat** (voir ci-dessous) et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
 - **Supprimer une entrée** : balayez la ligne vers la gauche.
 - **Rechercher et filtrer** : le champ de recherche (Nom/Tags) et le filtre de note en haut à droite.
 
+Dans la liste et la galerie, les mesures d’une entrée figurent sur une ligne sous le commentaire, par exemple « Ambiante 22 °C · Pâte 25 °C · Pointage 3h 30m · Apprêt 1h 00m · Blé T55 · ouverte, bon développement ».
+
+### Mesures et résultat
+
+Le texte libre et les étoiles ne suffisent pas pour faire mieux la fois suivante. Chaque entrée comporte donc une section **Mesures et résultat** :
+
+| Champ | Contenu |
+|-------|---------|
+| **Température ambiante**, **Température de la pâte** | En °C, avec virgule ou point (« 22,5 »). Vide signifie « non mesurée ». |
+| **Pointage**, **Apprêt** | La durée réelle en minutes ; à partir de 60 minutes, la conversion s’affiche dessous (« = 3h 30m »). |
+| **Farine** | La farine utilisée, en texte libre (« Blé T55, épeautre T80 »). |
+| **Mie / développement** | Deux ou trois mots-clés, séparés par des virgules. Sous le champ, des pastilles de mots pour la **mie** (ouverte, serrée, moelleuse, sèche, régulière, à grandes alvéoles, collante) et le **développement au four** (bon développement, peu de développement, déchiré, resté plat) ; toucher une pastille met le mot dans le champ ou le retire, un mot choisi porte une coche. Vous pouvez ajouter vos propres mots. |
+
+Les champs numériques n’ont pas de touche Retour ; **Terminé** apparaît à côté du champ en cours de saisie pour fermer le clavier.
+
+La vue de cuisson affiche ces informations dans la carte **La dernière fois** lors de la prochaine planification de la même recette (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+
 ### Consigner une cuisson après coup
 
-**Mes recettes → recette → onglet « + Historique ».** Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, ajoutez des photos depuis la photothèque, **Enregistrer**.
+**Mes recettes → recette → onglet « + Historique ».** Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, renseignez les mesures et le résultat, ajoutez des photos depuis la photothèque, **Enregistrer**.
 
-Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi », que vous pourrez remplacer plus tard.
+Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la vue de cuisson vous rappelle de la compléter.
 
 ### Palmarès de cuisson
 
@@ -889,7 +921,7 @@ Les rappels restent sur l’appareil où vous les avez définis. Seules les noti
 Il n’y avait pas de connexion internet au lancement. Tirez la liste vers le bas pour recharger.
 
 **J’ai téléversé ma recette dans la base et je veux la corriger.**
-Ce n’est pas possible — les recettes de la base sont immuables, les privées comme les publiques. Supprimez-la via « … » → **Supprimer ma recette** et téléversez la version corrigée. La version sur l’appareil est conservée et redevient téléversable.
+Ouvrez la recette dans la base de recettes et choisissez « … » → **Modifier la recette** (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Cela fonctionne pour toutes les recettes provenant de votre compte — les privées comme les publiques. La version sur l’appareil ne change pas ; pour l’aligner, modifiez-la séparément sous « Mes recettes ».
 
 **Mes recettes privées ne sont pas dans la liste.**
 Elles n’apparaissent que si vous êtes connecté : *Réglages → Compte → Se connecter avec Apple*. Veillez à utiliser le même compte Apple qu’à l’enregistrement — les recettes y sont liées. Tirez ensuite la liste vers le bas une fois.
@@ -925,7 +957,7 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 
 ## 18. Limitations connues
 
-- **Les recettes de la base sont immuables une fois téléversées** — les privées comme les publiques. Toute correction impose de supprimer et de téléverser à nouveau.
+- **Les recettes de la base ne sont modifiables que par leur auteur** (ou un administrateur). Une fois téléversées, la version sur l’appareil et celle de la base sont deux recettes distinctes ; les modifications de l’une ne sont pas reportées sur l’autre.
 - **Une recette ne peut être téléversée qu’une seule fois**, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.
 - **Les recettes privées dans le cloud exigent une connexion avec Apple** et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.
 - **La suppression du compte laisse les recettes publiées dans la base.** Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.

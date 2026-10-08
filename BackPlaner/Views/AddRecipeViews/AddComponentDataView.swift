@@ -73,7 +73,13 @@ struct AddComponentDataView: View {
                         TextField("", text: $components[i].name)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Komponente")
-                        Text(verbatim: "")
+
+                        // Takes the component's ingredients with it; they
+                        // belong to nothing else.
+                        IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Komponente löschen", controlSize: .regular) {
+                            guard components.indices.contains(i) else { return }
+                            components.remove(at: i)
+                        }
                     }
                     .scrollsSidewaysAtLargeText()
 

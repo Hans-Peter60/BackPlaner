@@ -33,6 +33,8 @@ struct TabsFBView: View {
     @State private var showDeleteConfirm = false
     // Admin moderation: confirm before deleting someone else's public recipe.
     @State private var showAdminDeleteConfirm = false
+    // The editor for the author's own recipe, or any public one for an admin.
+    @State private var showEditSheet = false
     // Error message shown when a delete fails, so the screen no longer
     // silently dismisses (leaving the recipe in the list) as if it worked.
     @State private var deleteErrorMessage: String?
@@ -59,6 +61,13 @@ struct TabsFBView: View {
     /// recipes are never shared, so they stay out of an admin's reach.
     private var canDeleteAsAdmin: Bool {
         modelFB.isAdmin && !isOwnRecipe && recipeFB.visibility == .everyone
+    }
+
+    /// True when this recipe may be changed here: by its author, or by an
+    /// admin correcting a public one. The security rules allow the same two
+    /// cases, so the entry never offers what the server would refuse.
+    private var canEdit: Bool {
+        isOwnRecipe || (modelFB.isAdmin && recipeFB.visibility == .everyone)
     }
 
     var body: some View {
@@ -149,6 +158,14 @@ struct TabsFBView: View {
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
+                    if canEdit {
+                        Button {
+                            showEditSheet = true
+                        } label: {
+                            Label("Rezept bearbeiten", systemImage: "pencil")
+                        }
+                    }
+
                     Button(role: .destructive) {
                         showReportDialog = true
                     } label: {
@@ -183,6 +200,11 @@ struct TabsFBView: View {
                     Image(systemName: "ellipsis.circle")
                 }
                 .accessibilityLabel("Weitere Aktionen")
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            EditRecipeFBView(recipeFB: recipeFB) {
+                recipeWasEdited()
             }
         }
         .confirmationDialog("Rezept melden", isPresented: $showReportDialog, titleVisibility: .visible) {
@@ -276,6 +298,14 @@ struct TabsFBView: View {
         selectedLanguage = RecipeTranslator.showCachedIfAvailable(recipeFB, languageCode: RecipeFB.preferredLanguageCode)
             ? RecipeFB.preferredLanguageCode
             : RecipeTranslator.sourceLanguageCode(for: recipeFB)
+    }
+
+    /// After a save the recipe shows its original text and its other
+    /// translations are gone, so the language mark has to follow; the
+    /// automatic choice may take over again as well.
+    private func recipeWasEdited() {
+        hasChosenLanguage = false
+        selectedLanguage = RecipeTranslator.sourceLanguageCode(for: recipeFB)
     }
 
     /// Switches the displayed language for the shared recipe, translating on-device when needed.
