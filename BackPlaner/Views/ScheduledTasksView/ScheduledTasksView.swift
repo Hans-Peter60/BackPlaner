@@ -470,6 +470,7 @@ struct ScheduledTasksView: View {
             .background(Theme.accent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("scheduled.bakeMode")
         .padding(.horizontal, 12)
         .padding(.top, 8)
     }
