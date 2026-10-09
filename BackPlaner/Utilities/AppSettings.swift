@@ -20,6 +20,7 @@ struct AppSettingsKeys {
     static let bakeHistoryLayout = "settings.bakeHistoryLayout"
     static let starterDoughYield = "settings.starterDoughYield"
     static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
+    static let automaticTranslation = "settings.automaticTranslation"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -111,6 +112,9 @@ struct AppSettings {
     static let defaultLiveActivity = true
     /// Whether the component columns add baker's percentages to each weight.
     static let defaultBakersPercentages = false
+    /// Whether a public recipe is machine-translated into the app's language
+    /// automatically, and the globe menu offers to pick a language at all.
+    static let defaultAutomaticTranslation = true
     /// Dough yield of the user's sourdough starter (Anstellgut), used to split
     /// an amount of starter into flour and water when the recipe does not
     /// state its TA. 200 is the usual soft starter of equal parts.
@@ -132,6 +136,7 @@ struct AppSettings {
     static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity
     }
+
     static let defaultPreheatTime = 15
     static let defaultBakePause = 10
     /// How many ovens the user can run at the same time. The plan check

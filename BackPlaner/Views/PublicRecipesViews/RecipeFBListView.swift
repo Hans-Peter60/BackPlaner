@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Translation
 
 struct RecipeFBListView: View {
     
@@ -15,6 +16,10 @@ struct RecipeFBListView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
     @EnvironmentObject var model:   RecipeModel
     @ObservedObject private var moderation = ModerationStore.shared
+
+    // Settings → Übersetzung: off, the list is left in its recipes' own
+    // languages instead of being translated ahead of time.
+    @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
 
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
@@ -29,6 +34,16 @@ struct RecipeFBListView: View {
     @State private var deleteErrorMessage: String?
 
     var recipeId: NSManagedObjectID?
+
+    // The list reads in the app's language: names, summaries and tags of
+    // recipes written in another language are translated on the device, one
+    // source language at a time (a session translates from one language).
+    @State private var listTranslationConfig: TranslationSession.Configuration?
+    @State private var listTranslationQueue: [String] = []
+    @State private var listTranslationTarget = ""
+    /// Source languages already attempted for the current target, so a
+    /// declined download or a failure is not retried on every appearance.
+    @State private var attemptedListSources: Set<String> = []
 
     /// Restricts the list to the user's own recipes — the ones he published and
     /// the private ones only he can see.
@@ -155,6 +170,12 @@ struct RecipeFBListView: View {
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
                                 .accessibilityAddTraits(.isButton)
+                                // Carries the recipe's own id, not just a shared
+                                // marker: its displayed name may already be a
+                                // cached translation by the time a UI test looks
+                                // for a specific recipe, so the name alone is not
+                                // a reliable way to find a given row again.
+                                .accessibilityIdentifier("publicRecipe.row.\(r.id ?? "")")
                                 // The row draws no stars, so the label is the only
                                 // place the rating is announced — with its scale,
                                 // because a bare number says nothing. The lock
@@ -237,6 +258,76 @@ struct RecipeFBListView: View {
                 Text("Tags").tag(2)
             }
             .autocorrectionDisabled()
+            .onAppear { scheduleListTranslation() }
+            // The list is refetched on launch, on pull-to-refresh and when
+            // the identity changes; each time it may bring untranslated rows.
+            .onChange(of: modelFB.isLoading) { _, isLoading in
+                if !isLoading { scheduleListTranslation() }
+            }
+            .translationTask(listTranslationConfig) { session in
+                await translateListEntries(using: session)
+            }
         }
+    }
+
+    // MARK: - Translating the list
+
+    /// Lines up the recipes whose list text is not yet cached in the app's
+    /// language, grouped by the language they are written in, and starts
+    /// with the first group. Does nothing while a group is being translated,
+    /// or while automatic translation is off in the settings.
+    private func scheduleListTranslation() {
+        guard automaticTranslation else { return }
+        guard listTranslationConfig == nil || listTranslationQueue.isEmpty else { return }
+
+        let target = RecipeFB.preferredLanguageCode
+        guard RecipeTranslator.supportedLanguages.contains(where: { $0.code == target }) else { return }
+        if target != listTranslationTarget {
+            listTranslationTarget = target
+            attemptedListSources = []
+        }
+
+        let pendingSources = Set(modelFB.recipesFB.lazy
+            .filter { !$0.hasCachedTranslation(languageCode: target) }
+            .map { RecipeTranslator.sourceLanguageCode(for: $0) }
+            .filter { $0 != target && !attemptedListSources.contains($0) })
+
+        listTranslationQueue = pendingSources.sorted()
+        startNextListTranslation()
+    }
+
+    private func startNextListTranslation() {
+        guard let source = listTranslationQueue.first else {
+            listTranslationConfig = nil
+            return
+        }
+        attemptedListSources.insert(source)
+        listTranslationConfig = TranslationSession.Configuration(
+            source: Locale.Language(identifier: source),
+            target: Locale.Language(identifier: listTranslationTarget)
+        )
+    }
+
+    /// Translates the group the current session is for, saves what the rules
+    /// allow (own recipes, or everything for an admin), and moves on to the
+    /// next source language. A failure is logged, not shown: nobody asked.
+    private func translateListEntries(using session: TranslationSession) async {
+        guard let source = listTranslationQueue.first else { return }
+        let target = listTranslationTarget
+
+        let recipes = modelFB.recipesFB.filter {
+            !$0.hasCachedTranslation(languageCode: target)
+                && RecipeTranslator.sourceLanguageCode(for: $0) == source
+        }
+
+        do {
+            try await RecipeTranslator.translateListEntries(recipes, into: target, using: session)
+            recipes.forEach { modelFB.saveTranslations($0) }
+        } catch {
+            AppLog.firebase.error("Translating the recipe list from \(source) into \(target) failed: \(error.localizedDescription)")
+        }
+
+        listTranslationQueue.removeFirst()
+        startNextListTranslation()
     }
 }

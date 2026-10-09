@@ -64,6 +64,21 @@ struct InstructionsFBView: View {
         BakePlanScheduler.hasPlan(recipeName: recipeFB.name, in: viewContext)
     }
 
+    /// The two halves of the step table's header row; see the ViewThatFits
+    /// in body for how they are arranged.
+    private var instructionsHeader: some View {
+        Text("Verarbeitungsschritte:")
+            .font(Theme.brandFont(16))
+            .foregroundColor(Theme.title)
+            .padding([.bottom, .top], 5)
+    }
+
+    private var processingTimeText: some View {
+        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
+            .font(Theme.bodyFont(16))
+            .padding([.trailing], 5)
+    }
+
     var startDates = [Double:Date]()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
@@ -212,27 +227,36 @@ struct InstructionsFBView: View {
 
                     // MARK: Instructions
                     VStack(alignment: .leading) {
-                        HStack {
-                            Text("Verarbeitungsschritte:")
-                                .font(Theme.brandFont(16))
-                                .foregroundColor(Theme.title)
-                                .padding([.bottom, .top], 5)
-                            
-                            Spacer()
-                            
-                            Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
-                                .font(Theme.bodyFont(16))
-                                .padding([.trailing], 5)
+                        // Side by side only while both fit on one line each; on
+                        // an iPhone the header next to "Bearbeitungsdauer: 18h
+                        // 56m" used to break both, leaving the colon on a line
+                        // of its own.
+                        ViewThatFits(in: .horizontal) {
+                            HStack {
+                                instructionsHeader
+                                Spacer()
+                                processingTimeText
+                            }
+                            VStack(alignment: .leading, spacing: 2) {
+                                instructionsHeader
+                                processingTimeText
+                            }
                         }
-                        
+
                         LazyVGrid(columns: gridItemLayoutInstructions, spacing: 6) {
                             Text("S.").bold()
                             Text("Beschreibung").bold()
+                            // The fixed columns are sized for the German words;
+                            // "Duration" shrinks a little instead of breaking mid-word.
                             Text("Dauer").bold()
-                            
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
+
                             if changeDurationsFlag {
-                                
+
                                 Text("Dauer [Min]").bold()
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
                                 
                                 ForEach(recipeFB.instructions.indices, id: \.self) { index in
 
@@ -250,9 +274,11 @@ struct InstructionsFBView: View {
                                 .font(Theme.bodyFont(15))
                             }
                             else {
-                                
+
                                 Text("Beginn").bold()
-                                
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
+
                                 ForEach(recipeFB.instructions.sorted(by: { $0.step < $1.step })) { i in
                                     
                                     let step = Rational.decimalPlace(i.step, 10)
@@ -303,11 +329,13 @@ struct InstructionsFBView: View {
                             scheduleReminders(replaceExisting: true)
                         }
                     }
+                    .accessibilityIdentifier("plan.setReminders")
                     .padding()
                     .confirmationDialog("Für dieses Rezept gibt es schon einen Plan", isPresented: $showingPlanChoice, titleVisibility: .visible) {
                         Button("Bestehenden Plan ersetzen", role: .destructive) {
                             scheduleReminders(replaceExisting: true)
                         }
+                        .accessibilityIdentifier("plan.replace")
                         Button("Zusätzlich planen") {
                             scheduleReminders(replaceExisting: false)
                         }

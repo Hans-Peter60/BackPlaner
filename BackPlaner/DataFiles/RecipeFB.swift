@@ -343,6 +343,23 @@ extension RecipeFB {
         !((translations[languageCode]?.name ?? "").isEmpty)
     }
 
+    /// Whether every part of the recipe — its own text, each component,
+    /// ingredient and step — carries a cached translation for `languageCode`.
+    /// The recipe list translates names and summaries ahead of time, so a
+    /// recipe can read translated at the top and still be German below;
+    /// only the complete translation spares the recipe screen a new one.
+    func hasCompleteTranslation(languageCode: String) -> Bool {
+        guard hasCachedTranslation(languageCode: languageCode) else { return false }
+
+        for component in components {
+            guard component.translations[languageCode] != nil else { return false }
+            for ingredient in component.ingredients where ingredient.translations[languageCode] == nil {
+                return false
+            }
+        }
+        return instructions.allSatisfy { $0.translations[languageCode] != nil }
+    }
+
     /// Re-files cached text from one language to another, throughout the recipe.
     ///
     /// Needed when a recipe turns out to be filed under the wrong language: the

@@ -135,6 +135,85 @@ enum RecipeTranslator {
         return false
     }
 
+    /// Like `showCachedIfAvailable`, but only a translation that includes the
+    /// components, ingredients and steps counts. The recipe list translates a
+    /// recipe's name and summary ahead of time, and that must not pass for
+    /// the whole recipe when it is opened.
+    @discardableResult
+    static func showCompleteIfAvailable(_ recipe: RecipeFB, languageCode: String) -> Bool {
+        repairSourceLanguage(of: recipe)
+
+        let source = sourceLanguageCode(for: recipe)
+
+        if languageCode == source {
+            if recipe.hasCachedTranslation(languageCode: source) {
+                recipe.showLocalization(languageCode: source)
+            }
+            return true
+        }
+
+        if recipe.hasCompleteTranslation(languageCode: languageCode) {
+            recipe.showLocalization(languageCode: languageCode)
+            return true
+        }
+
+        return false
+    }
+
+    /// Translates what the recipe list shows — name, summary and tags — of
+    /// several recipes of the same source language in one go, and caches the
+    /// result under `languageCode`. Nothing below that level is touched; the
+    /// recipe screen completes the translation when the recipe is opened.
+    static func translateListEntries(_ recipes: [RecipeFB], into languageCode: String, using session: TranslationSession) async throws {
+        enum Field {
+            case name
+            case summary
+            case tag(Int)
+        }
+
+        var requests = [TranslationSession.Request]()
+        var fields = [(recipe: Int, field: Field)]()
+
+        for (index, recipe) in recipes.enumerated() {
+            repairSourceLanguage(of: recipe)
+            // The original has to be safe before anything is overwritten.
+            let source = sourceLanguageCode(for: recipe)
+            if !recipe.hasCachedTranslation(languageCode: source) {
+                recipe.storeLocalization(languageCode: source)
+            }
+
+            func add(_ text: String, _ field: Field) {
+                guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                requests.append(TranslationSession.Request(sourceText: text, clientIdentifier: "\(requests.count)"))
+                fields.append((index, field))
+            }
+            add(recipe.name, .name)
+            add(recipe.summary, .summary)
+            for (tagIndex, tag) in recipe.tags.enumerated() {
+                add(tag, .tag(tagIndex))
+            }
+        }
+
+        guard !requests.isEmpty else { return }
+
+        // Responses return in the same order as the requests.
+        let responses = try await session.translations(from: requests)
+        var texts = recipes.map { RecipeTextFB(name: $0.name, summary: $0.summary, tags: $0.tags) }
+        for (responseIndex, response) in responses.enumerated() where responseIndex < fields.count {
+            let target = fields[responseIndex]
+            switch target.field {
+            case .name:             texts[target.recipe].name = response.targetText
+            case .summary:          texts[target.recipe].summary = response.targetText
+            case .tag(let tagIndex): texts[target.recipe].tags?[tagIndex] = response.targetText
+            }
+        }
+
+        for (index, recipe) in recipes.enumerated() {
+            recipe.translations[languageCode] = texts[index]
+            recipe.showLocalization(languageCode: languageCode)
+        }
+    }
+
     /// Machine-translates the recipe into `languageCode` using the provided session and caches the result.
     /// `currentLanguage` is the language currently shown, so we can capture a complete source
     /// snapshot (when the original is on screen) before overwriting anything.

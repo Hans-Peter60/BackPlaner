@@ -162,15 +162,17 @@ Une recette s’ouvre sur l’onglet **Détails**. Trois onglets figurent en bas
 
 ### Traduire une recette
 
-En haut à droite se trouve l’**icône de globe**. Elle vous permet de choisir Deutsch, English ou Français. La traduction s’effectue **entièrement sur l’appareil** (Traduction Apple) et porte sur le nom de la recette, la description, les tags, les noms de composants et d’ingrédients ainsi que les textes des étapes.
+Par défaut, BakePlanner traduit automatiquement les recettes publiques dans la langue de votre app — **entièrement sur l’appareil** (Traduction Apple) — et cela porte sur le nom de la recette, la description, les tags, les noms de composants et d’ingrédients ainsi que les textes des étapes. Vous pouvez désactiver cela sous *Réglages → Traduction → Traduire automatiquement les recettes publiques* (voir [chapitre 14](#14-réglages)).
+
+- **Activé (par défaut) :** la base de recettes traduit déjà en arrière-plan les noms, descriptions et tags des recettes écrites dans une autre langue, et à l’ouverture d’une recette l’app traduit automatiquement le reste — composants, ingrédients et étapes — s’il n’existe pas encore de traduction. S’il en existe une, elle apparaît aussitôt. Si l’app est en allemand, une recette allemande reste naturellement telle quelle. La langue étant déjà déterminée ainsi, l’icône de globe n’apparaît pas dans ce mode.
+- **Désactivé :** une recette s’affiche d’abord toujours dans la langue dans laquelle elle a été écrite. L’**icône de globe** apparaît alors en haut à droite, vous permettant de choisir vous-même entre Deutsch, English et Français. Une coche dans le menu indique quelle langue est affichée ; sélectionnez-la de nouveau pour revenir directement à l’original.
 
 Remarques :
 
 - **Les unités** ne sont pas concernées par la traduction de la recette. L’app les affiche de toute façon dans sa propre langue (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
-- La première traduction dans une langue prend un instant (un indicateur de progression remplace le globe). Elle est ensuite mise en cache et disponible immédiatement.
-- À la première ouverture, l’app affiche automatiquement la recette dans votre langue si une traduction existe déjà.
+- La première traduction dans une langue prend un instant (un léger délai pour une traduction automatique, ou un indicateur de progression remplaçant le globe pour une traduction manuelle). Elle est ensuite mise en cache et disponible immédiatement.
+- La première fois, iOS peut demander l’autorisation de télécharger les paquets de langue nécessaires. Si vous refusez, les recettes restent dans leur langue d’origine ; avec la traduction automatique désactivée, elle pourra être rattrapée plus tard via l’icône de globe.
 - **L’original n’est jamais écrasé.** L’original est la langue dans laquelle la recette est écrite — et non la langue sur laquelle votre app était réglée. L’app le déduit du texte de la recette : une recette française reste donc un original français même si quelqu’un l’a saisie dans une app en allemand.
-- La coche indique dans le menu quelle langue est affichée. Sélectionnez-la de nouveau pour revenir directement à l’original.
 
 ### Reprendre une recette
 
@@ -357,9 +359,9 @@ Les textes « allumer le four », « baisser le four » et « la cuisson est ter
 
 Via **Menu principal → Créer une nouvelle recette**. Le formulaire se parcourt de haut en bas.
 
-![Formulaire de création d’une nouvelle recette](images/fr/neues-rezept.png)
+![Formulaire de création d’une nouvelle recette : import depuis des images ou une page web, emplacement Local/Privé/Public, image de la recette](images/fr/neues-rezept.png)
 
-*Dans le formulaire de recette, vous pouvez importer des images ou tout saisir manuellement.*
+*Dans le formulaire de recette, vous pouvez importer une recette depuis des images ou une page web, ou tout saisir manuellement.*
 
 ### Importer une recette depuis des images
 
@@ -685,7 +687,7 @@ L’app filtre volontairement :
 
 **Menu principal → Réglages.**
 
-![Réglages de BakePlanner : Général avec langue et emplacement par défaut, Recettes avec taille de portion par défaut, vue détaillée et unités personnalisées, Planification de cuisson avec temps de préchauffage, pause de cuisson, début et fin de journée ; la Modération commence en dessous](images/fr/einstellungen.png)
+![Réglages de BakePlanner : Général avec langue et emplacement par défaut, Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
@@ -706,6 +708,12 @@ L’app filtre volontairement :
 | **Levain chef** | Rendement de pâte (TA) de votre levain chef, utilisé pour répartir une quantité de levain en farine et en eau quand la recette n’indique pas son TA. De 120 à 300 par pas de cinq. Par défaut : TA 200. |
 | **Lievito madre** | Idem pour le lievito madre. Par défaut : TA 150. |
 | **Unités personnalisées** | Indique combien vous en avez créées et mène à leur gestion. Voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion). |
+
+### Traduction
+
+| Réglage | Description |
+|---------|-------------|
+| **Traduire automatiquement les recettes publiques** | Concerne uniquement la base de recettes. Activé : les recettes sont traduites automatiquement dans la langue de votre app, et l’icône de globe n’apparaît pas. Désactivé : une recette affiche d’abord la langue dans laquelle elle a été écrite, et vous choisissez vous-même la langue via l’icône de globe (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Par défaut : activé. |
 
 ### Planification de cuisson
 

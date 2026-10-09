@@ -125,12 +125,12 @@ final class BackPlanerSmokeTests: XCTestCase {
         XCTAssertTrue(bakingTab.waitForExistence(timeout: 5), "The recipe has no Backen tab")
         bakingTab.tap()
 
-        let setReminders = app.buttons["Reminder setzen"]
+        let setReminders = app.buttons["plan.setReminders"]
         scrollUntilHittable(setReminders)
         tapReliably(setReminders)
         allowSystemAlertIfShown()
 
-        let confirmation = app.alerts["Reminder wurden gesetzt"]
+        let confirmation = app.alerts["Erinnerungen wurden gesetzt"]
         XCTAssertTrue(confirmation.waitForExistence(timeout: 5),
                       "Setting the reminders was not confirmed")
         confirmation.buttons["OK"].tap()

@@ -56,6 +56,8 @@ struct InstructionSchedulingControlsView: View {
             .onTapGesture(perform: onDateTapped)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("plan.controls")
         .onChange(of: dateTime) { _, newValue in
             onDateChanged(newValue)
         }
