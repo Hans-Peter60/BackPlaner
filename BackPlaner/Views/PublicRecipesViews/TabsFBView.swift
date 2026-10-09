@@ -27,6 +27,11 @@ struct TabsFBView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
     @ObservedObject private var moderation = ModerationStore.shared
 
+    // Settings → Übersetzung: whether a recipe is translated into the app's
+    // language automatically, and whether the globe menu offers a language
+    // choice at all. Off, the recipe always stays in its original language.
+    @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
+
     // Moderation UI state (App Store Guideline 1.2: users must be able to
     // flag content and block abusive authors; deleting own content is recommended).
     @State private var showReportDialog = false
@@ -135,28 +140,33 @@ struct TabsFBView: View {
             modelFB.checkAdminStatus()
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    ForEach(RecipeTranslator.supportedLanguages) { language in
-                        Button {
-                            select(language.code)
-                        } label: {
-                            if selectedLanguage == language.code {
-                                Label(language.name, systemImage: "checkmark")
-                            } else {
-                                Text(language.name)
+            // The globe only has to appear when nothing already settled the
+            // language automatically: with automatic translation on, picking
+            // one by hand would just redo what already happened.
+            if !automaticTranslation {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        ForEach(RecipeTranslator.supportedLanguages) { language in
+                            Button {
+                                select(language.code)
+                            } label: {
+                                if selectedLanguage == language.code {
+                                    Label(language.name, systemImage: "checkmark")
+                                } else {
+                                    Text(language.name)
+                                }
                             }
                         }
+                    } label: {
+                        if isTranslating {
+                            ProgressView()
+                        } else {
+                            Image(systemName: "globe")
+                        }
                     }
-                } label: {
-                    if isTranslating {
-                        ProgressView()
-                    } else {
-                        Image(systemName: "globe")
-                    }
+                    .disabled(isTranslating)
+                    .accessibilityLabel(isTranslating ? "Übersetzt …" : "Sprache wählen")
                 }
-                .disabled(isTranslating)
-                .accessibilityLabel(isTranslating ? "Übersetzt …" : "Sprache wählen")
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -294,9 +304,14 @@ struct TabsFBView: View {
     /// by translating it now. A French or English user should not have to
     /// find the globe menu to read a German recipe — and the other way
     /// round. The original stays if the language is one the app does not
-    /// translate into.
+    /// translate into, or if automatic translation is off in the settings.
     private func applyInitialLanguage() {
         guard selectedLanguage.isEmpty else { return }
+
+        guard automaticTranslation else {
+            selectedLanguage = RecipeTranslator.sourceLanguageCode(for: recipeFB)
+            return
+        }
 
         let preferred = RecipeFB.preferredLanguageCode
         let source = RecipeTranslator.sourceLanguageCode(for: recipeFB)

@@ -13,10 +13,17 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
     @AppStorage(AppSettingsKeys.bakersPercentages) private var bakersPercentages = AppSettings.defaultBakersPercentages
+    @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
     @AppStorage(AppSettingsKeys.starterDoughYield) private var starterDoughYield = AppSettings.defaultStarterDoughYield
     @AppStorage(AppSettingsKeys.lievitoMadreDoughYield) private var lievitoMadreDoughYield = AppSettings.defaultLievitoMadreDoughYield
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
+
+    // Drives the navigation title's identity below; this is the same signal
+    // that already updates the rest of the screen correctly, unlike the
+    // `selectedLanguage` AppStorage, which races the app root's own copy of
+    // it and can rebuild this view one step behind the environment change.
+    @Environment(\.locale) private var locale
 
     @EnvironmentObject private var modelFB: RecipeFBModel
 
@@ -101,6 +108,8 @@ struct SettingsView: View {
                                    value: unitStore.units.count.formatted())
                 }
             }
+
+            publicRecipeTranslationSection
 
             Section("Backplanung") {
                 Stepper(value: $preheatTime, in: 0...120, step: 5) {
@@ -221,6 +230,28 @@ struct SettingsView: View {
             Button("OK", role: .cancel) { deleteErrorMessage = nil }
         } message: {
             Text(deleteErrorMessage ?? "")
+        }
+        // The navigation bar title is bridged to UIKit and does not re-render
+        // on its own when only the environment's locale changes under it;
+        // switching the in-app language here left the previous language's
+        // title standing above an already-translated screen. A new identity
+        // forces this view (title included) to be rebuilt from scratch.
+        .id(locale.identifier)
+    }
+
+    /// Governs the public recipe screen's language handling: automatic
+    /// translation into the app's language, or — off — the original
+    /// language with the globe menu available to pick another one by hand.
+    /// The two are mutually exclusive: once translation already settled the
+    /// language, the globe would only redo what just happened.
+    @ViewBuilder
+    private var publicRecipeTranslationSection: some View {
+        Section {
+            Toggle("Öffentliche Rezepte automatisch übersetzen", isOn: $automaticTranslation)
+        } header: {
+            Text("Übersetzung")
+        } footer: {
+            Text("Betrifft nur die Rezept-Datenbank. Eingeschaltet übersetzt die App ein Rezept automatisch in Deine Sprache. Ausgeschaltet zeigt ein Rezept zunächst die Sprache, in der es geschrieben wurde; über das Globus-Symbol kannst Du dann selbst eine Sprache auswählen.")
         }
     }
 

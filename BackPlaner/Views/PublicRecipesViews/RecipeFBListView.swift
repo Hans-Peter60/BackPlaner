@@ -17,6 +17,10 @@ struct RecipeFBListView: View {
     @EnvironmentObject var model:   RecipeModel
     @ObservedObject private var moderation = ModerationStore.shared
 
+    // Settings → Übersetzung: off, the list is left in its recipes' own
+    // languages instead of being translated ahead of time.
+    @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
+
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
     @State private var rating    = 0
@@ -166,7 +170,12 @@ struct RecipeFBListView: View {
                                 .cardStyle()
                                 .accessibilityElement(children: .combine)
                                 .accessibilityAddTraits(.isButton)
-                                .accessibilityIdentifier("publicRecipe.row")
+                                // Carries the recipe's own id, not just a shared
+                                // marker: its displayed name may already be a
+                                // cached translation by the time a UI test looks
+                                // for a specific recipe, so the name alone is not
+                                // a reliable way to find a given row again.
+                                .accessibilityIdentifier("publicRecipe.row.\(r.id ?? "")")
                                 // The row draws no stars, so the label is the only
                                 // place the rating is announced — with its scale,
                                 // because a bare number says nothing. The lock
@@ -265,8 +274,10 @@ struct RecipeFBListView: View {
 
     /// Lines up the recipes whose list text is not yet cached in the app's
     /// language, grouped by the language they are written in, and starts
-    /// with the first group. Does nothing while a group is being translated.
+    /// with the first group. Does nothing while a group is being translated,
+    /// or while automatic translation is off in the settings.
     private func scheduleListTranslation() {
+        guard automaticTranslation else { return }
         guard listTranslationConfig == nil || listTranslationQueue.isEmpty else { return }
 
         let target = RecipeFB.preferredLanguageCode

@@ -37,7 +37,15 @@ final class AppStoreScreenshots: XCTestCase {
             "-AppleLanguages", "(\(language))",
             "-AppleLocale", Self.locale(for: language),
             // The in-app language picker overrides the system language.
-            "-settings.selectedLanguage", language
+            "-settings.selectedLanguage", language,
+            // Off, so the recipe list never translates the screenshot
+            // recipe's name out from under `recipeRow`'s German match, and
+            // the recipe itself only changes language when this test asks
+            // for it explicitly through the globe menu (see
+            // `translateIfNeeded`), where a failure surfaces as a failed
+            // assertion instead of a German recipe sitting in an English
+            // screenshot.
+            "-settings.automaticTranslation", "NO"
         ]
     }
 
@@ -48,7 +56,12 @@ final class AppStoreScreenshots: XCTestCase {
     @MainActor
     func testCaptureStoreScreenshots() throws {
         let recipeName = ProcessInfo.processInfo.environment["SCREENSHOT_RECIPE"]
-            ?? "Sauerteigbrot mit Kartoffeln und Saaten"
+            ?? Self.defaultRecipeName
+        // The database's own id for the default recipe, read once from a
+        // hierarchy dump; only used when no other recipe was asked for, so a
+        // custom SCREENSHOT_RECIPE still falls back to matching by name.
+        let recipeId = ProcessInfo.processInfo.environment["SCREENSHOT_RECIPE_ID"]
+            ?? (recipeName == Self.defaultRecipeName ? Self.defaultRecipeId : nil)
 
         addUIInterruptionMonitor(withDescription: "System alert") { alert in
             Self.allow(alert)
@@ -58,14 +71,13 @@ final class AppStoreScreenshots: XCTestCase {
 
         // Recipe database, then the recipe's details and its baking tab.
         openMenu("publicRecipes")
-        let row = recipeRow(named: recipeName)
+        let row = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(3) // thumbnails load after the list
         capture("02-rezept-datenbank")
 
         tapReliably(row)
-        acceptTranslationDownloadIfAsked()
-        settle(3) // the recipe is translated into the app's language
+        translateIfNeeded()
         capture("03-rezept-details")
 
         tab(0, titled: ["de": "Rezept backen", "en": "Bake recipe", "fr": "Cuire la recette"]).tap()
@@ -116,10 +128,10 @@ final class AppStoreScreenshots: XCTestCase {
         // The recipe's shopping list.
         backToMenu()
         openMenu("publicRecipes")
-        let rowAgain = recipeRow(named: recipeName)
+        let rowAgain = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(rowAgain.waitForExistence(timeout: 20))
         tapReliably(rowAgain)
-        acceptTranslationDownloadIfAsked()
+        translateIfNeeded()
         tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
         settle(2)
         capture("07-einkaufsliste")
@@ -210,11 +222,26 @@ final class AppStoreScreenshots: XCTestCase {
         settle(1)
     }
 
-    /// The row of the recipe whose name begins with `name`, or the first row
-    /// when there is no such recipe. A row is one combined element whose
-    /// label starts with the name ("Name, Bewertung 4 von 5 Sternen").
-    private func recipeRow(named name: String) -> XCUIElement {
-        let rows = app.descendants(matching: .any).matching(identifier: "publicRecipe.row")
+    /// The recipe used for the screenshots, and its database id (read once
+    /// from a hierarchy dump). Matching by id is what `recipeRow` prefers:
+    /// the list may already show this recipe under a cached translation of
+    /// its name by the time this runs, which a name match would miss.
+    private static let defaultRecipeName = "Sauerteigbrot mit Kartoffeln und Saaten"
+    private static let defaultRecipeId = "F5801F3E-DA33-48EA-807D-0C15E187F7F6"
+
+    /// The row for `id` (each row's identifier is "publicRecipe.row.<id>"),
+    /// or — without an id, or if it is not found — the row whose name begins
+    /// with `name`, or the first row when there is no such recipe either. A
+    /// row is one combined element whose label starts with the name
+    /// ("Name, Bewertung 4 von 5 Sternen").
+    private func recipeRow(named name: String, id: String?) -> XCUIElement {
+        if let id {
+            let byId = app.descendants(matching: .any).matching(identifier: "publicRecipe.row.\(id)").firstMatch
+            if byId.waitForExistence(timeout: 20) { return byId }
+        }
+
+        let rows = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH 'publicRecipe.row.'"))
         guard rows.firstMatch.waitForExistence(timeout: 30) else { return rows.firstMatch }
         let named = rows.matching(NSPredicate(format: "label BEGINSWITH %@", name)).firstMatch
         if named.exists { return named }
@@ -262,14 +289,59 @@ final class AppStoreScreenshots: XCTestCase {
         }
     }
 
-    // MARK: - System alerts
+    // MARK: - Translation
 
-    /// A German recipe opened in the English or French app is translated on
-    /// the device, unless a stored translation exists. The simulator cannot
-    /// translate: iOS covers the screen with a sheet saying so ("Übersetzen"
-    /// … "nicht unterstützt", button "Fertig"/"Done"), which the test closes;
-    /// the recipe then stays in German. On a real device iOS may instead ask
-    /// to download the language, which the test accepts.
+    /// Picks the run's language through the globe menu and waits for the
+    /// translation to finish. Automatic translation is off for this run (see
+    /// `setUpWithError`), so the recipe stays in German — and the list never
+    /// silently translates its name out from under `recipeRow`'s match —
+    /// until this asks for the target language explicitly. A translation
+    /// that fails then shows up as a failed assertion, not as a German
+    /// recipe quietly sitting in an English or French screenshot.
+    private func translateIfNeeded() {
+        guard language != "de" else { return }
+
+        let globe = app.buttons.containing(.image, identifier: "globe").firstMatch
+        guard globe.waitForExistence(timeout: 5) else {
+            XCTFail("No globe button to choose a language")
+            return
+        }
+        globe.tap()
+
+        // The language menu's entries are the language names themselves
+        // ("Deutsch", "English", "Français"), not localized strings.
+        let targetName = ["en": "English", "fr": "Français"][language] ?? ""
+        let languageButton = app.buttons[targetName]
+        guard languageButton.waitForExistence(timeout: 3) else {
+            XCTFail("No „\(targetName)“ entry in the language menu")
+            return
+        }
+        languageButton.tap()
+
+        acceptTranslationDownloadIfAsked()
+
+        // The globe shows a spinner while translating; wait for it to finish.
+        let progress = app.activityIndicators.firstMatch
+        if progress.waitForExistence(timeout: 2) {
+            let gone = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: progress)
+            _ = XCTWaiter.wait(for: [gone], timeout: 30)
+        }
+
+        let failureAlert = app.alerts.firstMatch
+        if failureAlert.waitForExistence(timeout: 2) {
+            let message = failureAlert.staticTexts.element(boundBy: 1).label
+            failureAlert.buttons.firstMatch.tap()
+            XCTFail("Translating into \(targetName) failed: \(message)")
+            return
+        }
+        settle(1)
+    }
+
+    /// On the simulator, a live translation request may be answered with a
+    /// sheet saying translation is not supported ("Übersetzen" …
+    /// "nicht unterstützt", button "Fertig"/"Done"), which this closes. On a
+    /// real device iOS may instead ask to download the language, which this
+    /// accepts.
     private func acceptTranslationDownloadIfAsked() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let download = NSPredicate(format: "label IN %@", ["Download", "Herunterladen", "Télécharger"])

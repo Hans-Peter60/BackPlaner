@@ -159,16 +159,17 @@ Ein Rezept öffnet sich im Tab **Details**. Am unteren Rand stehen drei Tabs:
 
 ### Rezept übersetzen
 
-Oben rechts findest Du das **Globus-Symbol**. Darüber wählst Du Deutsch, English oder Français. Die Übersetzung läuft **vollständig auf dem Gerät** (Apple Übersetzung) und betrifft Rezeptname, Beschreibung, Tags, Komponenten-, Zutatennamen und Schritttexte.
+Standardmäßig übersetzt BakePlanner öffentliche Rezepte automatisch in Deine App-Sprache – **vollständig auf dem Gerät** (Apple Übersetzung) – und das betrifft Rezeptname, Beschreibung, Tags, Komponenten-, Zutatennamen und Schritttexte. Unter *Einstellungen → Übersetzung → Öffentliche Rezepte automatisch übersetzen* lässt sich das abschalten (siehe [Kapitel 14](#14-einstellungen)).
+
+- **Eingeschaltet (Standard):** Die Rezept-Datenbank übersetzt Namen, Beschreibungen und Tags fremdsprachiger Rezepte bereits im Hintergrund, und beim Öffnen eines Rezepts übersetzt die App automatisch den Rest – Komponenten, Zutaten und Schritte –, falls dafür noch keine Übersetzung vorliegt. Liegt eine vor, erscheint sie sofort. Steht die App auf Deutsch, bleibt ein deutsches Rezept natürlich unverändert. Weil die Sprache damit schon feststeht, entfällt in diesem Modus das Globus-Symbol.
+- **Ausgeschaltet:** Ein Rezept zeigt zunächst immer die Sprache, in der es geschrieben wurde. Oben rechts erscheint stattdessen das **Globus-Symbol**, über das Du selbst zwischen Deutsch, English und Français wählst. Ein Haken im Menü zeigt, welche Sprache gerade angezeigt wird; wähle sie erneut, um ohne Umweg zum Original zurückzukommen.
 
 Hinweise:
 
 - **Einheiten** übersetzt die Rezeptübersetzung nicht. Die App zeigt sie ohnehin in der eingestellten Sprache an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
-- Die erste Übersetzung einer Sprache dauert einen Moment (Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
-- **Rezepte erscheinen in Deiner App-Sprache, ohne dass Du etwas tun musst.** Die Rezept-Datenbank übersetzt Namen, Beschreibungen und Tags fremdsprachiger Rezepte im Hintergrund, und beim Öffnen eines Rezepts übersetzt die App den Rest, Komponenten, Zutaten und Schritte, falls dafür noch keine Übersetzung vorliegt. Liegt eine vor, erscheint sie sofort. Über das Globus-Symbol kommst Du jederzeit zum Original oder in eine andere Sprache. Steht die App auf Deutsch, bleibt ein deutsches Rezept natürlich unverändert.
-- Beim ersten Mal fragt iOS gegebenenfalls, ob die Sprachpakete für die Übersetzung geladen werden dürfen. Lehnst Du ab, bleiben die Rezepte in ihrer Originalsprache; die Übersetzung lässt sich später über das Globus-Symbol nachholen.
+- Die erste Übersetzung einer Sprache dauert einen Moment (bei automatischer Übersetzung eine kurze Verzögerung, bei manueller eine Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
+- Beim ersten Mal fragt iOS gegebenenfalls, ob die Sprachpakete für die Übersetzung geladen werden dürfen. Lehnst Du ab, bleiben Rezepte in ihrer Originalsprache; bei ausgeschalteter automatischer Übersetzung lässt sich das später über das Globus-Symbol nachholen.
 - **Das Original wird nie überschrieben.** Als Original gilt die Sprache, in der das Rezept geschrieben ist – nicht die Sprache, auf die Deine App eingestellt war. Die App liest das am Rezepttext ab, sodass ein französisches Rezept auch dann als französisches Original geführt wird, wenn es jemand in einer deutschsprachigen App eingegeben hat.
-- Der Haken zeigt Dir im Menü, welche Sprache gerade angezeigt wird. Wähle sie erneut, kommst Du ohne Umweg zum Original zurück.
 
 ### Ein Rezept übernehmen
 
@@ -683,7 +684,7 @@ Die App filtert bewusst:
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten; darunter beginnt Backplanung mit Vorheizzeit, Backpause und Backöfen](images/einstellungen.png)
+![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 
@@ -704,6 +705,12 @@ Die App filtert bewusst:
 | **Anstellgut** | Teigausbeute Deines Anstellguts, mit der die App eine Anstellgut-Menge ohne TA-Angabe im Rezept in Mehl und Wasser aufteilt. 120 bis 300 in Fünferschritten. Standard: TA 200. |
 | **Lievito Madre** | Dasselbe für Lievito Madre. Standard: TA 150. |
 | **Eigene Einheiten** | Zeigt, wie viele Du angelegt hast, und führt zur Verwaltung. Siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen). |
+
+### Übersetzung
+
+| Einstellung | Beschreibung |
+|-------------|--------------|
+| **Öffentliche Rezepte automatisch übersetzen** | Betrifft nur die Rezept-Datenbank. Ein: Rezepte werden automatisch in Deine App-Sprache übersetzt, das Globus-Symbol entfällt. Aus: ein Rezept zeigt zunächst die Sprache, in der es geschrieben wurde, und Du wählst die Sprache selbst über das Globus-Symbol (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Standard: ein. |
 
 ### Backplanung
 
