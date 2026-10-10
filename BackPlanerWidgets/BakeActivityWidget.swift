@@ -18,8 +18,13 @@ struct BakeActivityWidget: Widget {
         ActivityConfiguration(for: BakeActivityAttributes.self) { context in
             LockScreenView(context: context)
                 .widgetURL(PlanSnapshot.scheduledStepsURL)
-                .activityBackgroundTint(WidgetTheme.backgroundTop)
-                .activitySystemActionForegroundColor(WidgetTheme.accent)
+                // `activityBackgroundTint`/`activitySystemActionForegroundColor` resolve a
+                // fixed color once in the extension process, not live against the device's
+                // actual appearance — unlike the view's own `.foregroundStyle` colors below,
+                // which do track it. A custom tint here fell out of sync with that text,
+                // landing a Light-appearance background under Dark-appearance (light) text.
+                // `nil` keeps the system's own adaptive Light/Dark material, which stays
+                // paired correctly with whichever appearance the text picks.
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
