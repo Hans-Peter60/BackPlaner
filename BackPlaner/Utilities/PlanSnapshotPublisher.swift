@@ -114,8 +114,13 @@ final class PlanSnapshotPublisher {
                 }
             )
 
+            // Automatically-queued recurring steps more than
+            // RecurringBakePlanner.visibilityLeadTime away stay out of the
+            // snapshot, so the widget and Live Activity don't pick them up
+            // as "Als Nächstes" long before they're due. Reminders are kept
+            // for all steps above — they still have to fire on time.
             let snapshot = PlanSnapshot(
-                steps: steps.map { step in
+                steps: steps.filter { $0.isVisible() }.map { step in
                     PlanSnapshot.Step(
                         id: step.id?.uuidString ?? step.objectID.uriRepresentation().absoluteString,
                         recipeName: step.recipeName,
