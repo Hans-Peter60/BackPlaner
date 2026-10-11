@@ -92,8 +92,12 @@ final class BackPlanerSmokeTests: XCTestCase {
         XCTAssertTrue(keyboard.waitForExistence(timeout: 5), "The number pad did not appear")
 
         // The form centres the focused row once the keyboard has settled.
+        // Existence is checked first: mid-transition, XCUIElement.frame
+        // returns the non-finite CGRectNull for an element that briefly
+        // doesn't exist, which XCTest flags as an invalid frame dimension.
         let settled = expectation(for: NSPredicate { _, _ in
-            duration.isHittable && duration.frame.maxY <= keyboard.frame.minY
+            guard duration.exists, keyboard.exists else { return false }
+            return duration.isHittable && duration.frame.maxY <= keyboard.frame.minY
         }, evaluatedWith: nil)
         wait(for: [settled], timeout: 3)
 
