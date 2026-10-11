@@ -388,8 +388,10 @@ struct BakePlanScheduler {
                       ovenTemperature: plan.ovenTemperature)
     }
 
-    /// Writes every step of the plan as a scheduled step.
-    func writeScheduledSteps(planID: UUID, in context: NSManagedObjectContext) {
+    /// Writes every step of the plan as a scheduled step. `isAutomaticRecurrence`
+    /// marks steps queued by `RecurringBakePlanner` rather than by the user, so
+    /// the scheduled-steps views can hold them back until shortly before they're due.
+    func writeScheduledSteps(planID: UUID, isAutomaticRecurrence: Bool = false, in context: NSManagedObjectContext) {
         for step in plan.allSteps {
             let next = NextStep(context: context)
             next.id          = UUID()
@@ -400,6 +402,7 @@ struct BakePlanScheduler {
             next.duration    = step.duration
             next.startTime   = step.startTime
             next.date        = plan.date(of: step)
+            next.isAutomaticRecurrence = isAutomaticRecurrence
         }
         do {
             try context.save()
@@ -436,6 +439,7 @@ struct BakePlanScheduler {
     @discardableResult
     static func putIntoEffect(_ plan: BakePlan, for recipe: Recipe, planID: UUID,
                               servingScale: Double, manager: LocalNotificationManager,
+                              isAutomaticRecurrence: Bool = false,
                               in context: NSManagedObjectContext) -> Result {
         recipe.bakeHistoryFlag = true
 
@@ -450,7 +454,7 @@ struct BakePlanScheduler {
                                                  instructionText: instruction.instruction)
                 .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
         }
-        scheduler.writeScheduledSteps(planID: planID, in: context)
+        scheduler.writeScheduledSteps(planID: planID, isAutomaticRecurrence: isAutomaticRecurrence, in: context)
 
         // The bake history gets an entry for the end of this bake.
         let bakeHistory     = BakeHistory(context: context)

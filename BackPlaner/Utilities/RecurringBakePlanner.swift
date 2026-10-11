@@ -83,7 +83,25 @@ enum RecurringBakePlanner {
             let scale = ServingScale.factor(servingSize: AppSettings.storedServingSize,
                                             targetWeight: nil, baseWeight: recipe.totalWeight)
             BakePlanScheduler.putIntoEffect(plan, for: recipe, planID: UUID(),
-                                            servingScale: scale, manager: manager, in: context)
+                                            servingScale: scale, manager: manager,
+                                            isAutomaticRecurrence: true, in: context)
         }
+    }
+
+    /// How long before an automatically-queued occurrence becomes visible in
+    /// the scheduled-steps views. Queuing it immediately once the rhythm is
+    /// due would otherwise put it in front of the user for the recipe's full
+    /// interval — a sourdough starter refreshed every 5 days would sit there
+    /// for 5 days — and a reminder seen that long before it matters turns
+    /// into background noise that gets overlooked.
+    static let visibilityLeadTime: TimeInterval = 2 * 24 * 60 * 60
+}
+
+extension NextStep {
+    /// Whether an automatically-queued step should already be shown. Steps
+    /// the user planned by hand are always visible; only the ones
+    /// `RecurringBakePlanner` queued ahead of time are held back.
+    func isVisible(at now: Date = Date()) -> Bool {
+        !isAutomaticRecurrence || date <= now.addingTimeInterval(RecurringBakePlanner.visibilityLeadTime)
     }
 }

@@ -53,10 +53,19 @@ struct ScheduledTasksView: View {
     /// The plan the list is narrowed down to; `nil` shows every planned step.
     @State private var planFilter: PlanKey?
 
+    /// `nextSteps` with automatically-queued steps left out while they're
+    /// more than `RecurringBakePlanner.visibilityLeadTime` away, so a
+    /// periodic plan doesn't clutter the list for its full interval. Deleting
+    /// still goes through the unfiltered `nextSteps`, so "Alle löschen"
+    /// really clears everything, including what's held back here.
+    private var visibleNextSteps: [NextStep] {
+        nextSteps.filter { $0.isVisible() }
+    }
+
     /// The distinct recipes that currently have planned steps.
     private var plannedRecipeNames: [String] {
         var seen = Set<String>()
-        return nextSteps
+        return visibleNextSteps
             .compactMap { seen.insert($0.recipeName).inserted ? $0.recipeName : nil }
             .sorted()
     }
@@ -65,7 +74,7 @@ struct ScheduledTasksView: View {
     /// in the order of their first step, the choices of the filter bar.
     private var plannedPlans: [PlanKey] {
         var seen = Set<PlanKey>()
-        return nextSteps
+        return visibleNextSteps
             .compactMap { seen.insert($0.planKey).inserted ? $0.planKey : nil }
             .sorted { a, b in
                 a.recipeName == b.recipeName
@@ -75,21 +84,21 @@ struct ScheduledTasksView: View {
     }
 
     private func firstDate(of plan: PlanKey) -> Date {
-        nextSteps.first { $0.planKey == plan }?.date ?? .distantFuture
+        visibleNextSteps.first { $0.planKey == plan }?.date ?? .distantFuture
     }
 
     /// The steps shown in the list: all of them, or only those of the plan
     /// selected in the filter bar.
     private var visibleSteps: [NextStep] {
-        guard let planFilter else { return Array(nextSteps) }
-        return nextSteps.filter { $0.planKey == planFilter }
+        guard let planFilter else { return visibleNextSteps }
+        return visibleNextSteps.filter { $0.planKey == planFilter }
     }
 
     var body: some View {
  
         VStack(spacing: 0) {
 
-        if nextSteps.isEmpty {
+        if visibleNextSteps.isEmpty {
             ContentUnavailableView(
                 "Keine geplanten Schritte",
                 systemImage: "calendar",
@@ -405,7 +414,7 @@ struct ScheduledTasksView: View {
             let instructions = recipe.instructionsArray
             // The oven, turn-down and finish steps are generated at planning
             // time and live only in the plan, never in the recipe.
-            let planned = nextSteps.filter {
+            let planned = visibleNextSteps.filter {
                 $0.recipeName == name
                     && $0.step < 99
                     && !BakePlanValidator.isPreheatInstruction($0.instruction)

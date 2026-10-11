@@ -48,11 +48,12 @@ struct NextStepCardView: View {
     /// thing to do now, not the one after it. Otherwise the earliest step
     /// still ahead. A newer due step always supersedes an older one.
     private func nextStep(at now: Date) -> NextStep? {
-        if let due = steps.last(where: { $0.date <= now }),
+        let visible = steps.filter { $0.isVisible(at: now) }
+        if let due = visible.last(where: { $0.date <= now }),
            now.timeIntervalSince(due.date) < Self.dueGracePeriod {
             return due
         }
-        return steps.first(where: { $0.date > now })
+        return visible.first(where: { $0.date > now })
     }
 
     /// Never seconds, which `Text(_:style: .relative)` would tick off one by
