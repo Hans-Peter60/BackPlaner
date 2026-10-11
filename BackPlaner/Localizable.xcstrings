@@ -729,6 +729,82 @@
         }
       }
     },
+    "alle %lld Tage" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tag"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tage"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tage"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld day"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld days"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld days"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jours"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jours"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Alle Bewertungen" : {
       "localizations" : {
         "en" : {
@@ -7137,6 +7213,22 @@
         }
       }
     },
+    "Plant nach dem letzten Backen automatisch den nächsten Termin." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Automatically schedules the next date after the last bake."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Planifie automatiquement la prochaine date après la dernière cuisson."
+          }
+        }
+      }
+    },
     "Portionsgröße" : {
       "localizations" : {
         "en" : {
@@ -7304,6 +7396,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température ambiante"
+          }
+        }
+      }
+    },
+    "Regelmäßig auffrischen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Refresh regularly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Rafraîchir régulièrement"
           }
         }
       }

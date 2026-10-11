@@ -497,31 +497,12 @@ struct InstructionsView: View {
         }
 
         showingNotificationMessage = true
-        recipe.bakeHistoryFlag = true
 
         // A step that mixes a component carries that component's
         // ingredients in its reminder, in the serving size chosen above.
-        let instructions = recipe.instructionsArray
-        let scheduler = BakePlanScheduler(plan: plan,
-                                          reminderID: "\(recipe.reminderId)-\(planID.uuidString)",
-                                          manager: manager)
-        let result = scheduler.scheduleReminders { index in
-            let instruction = instructions[index]
-            return ScheduledStepComponent.column(for: recipe,
-                                                 instruction: instruction,
-                                                 instructionText: instruction.instruction)
-                .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
-        }
-        scheduler.writeScheduledSteps(planID: planID, in: viewContext)
-
-        // The bake history gets an entry for the end of this bake.
-        let bakeHistory     = BakeHistory(context: viewContext)
-        bakeHistory.date    = result.finishDate
-        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
-        recipe.addToBakeHistories(bakeHistory)
-        viewContext.performAndWait {
-            try? viewContext.save()
-        }
+        let result = BakePlanScheduler.putIntoEffect(plan, for: recipe, planID: planID,
+                                                      servingScale: servingScale, manager: manager,
+                                                      in: viewContext)
 
         // A human-readable summary of what was scheduled.
         let timeFormatter  = TimeCalculation()

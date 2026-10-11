@@ -27,6 +27,7 @@ extension Recipe {
     @NSManaged public var firestoreId:    String?
     @NSManaged public var bakeHistoryFlag:Bool
     @NSManaged public var rating:         Int
+    @NSManaged public var recurrenceIntervalDays: Int
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet

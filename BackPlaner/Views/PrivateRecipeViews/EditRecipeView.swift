@@ -23,6 +23,10 @@ struct EditRecipeView: View {
     // Recipe Image
     @State private var recipeImage: UIImage?
     @State private var rating          = 0
+    /// 0 disables the recurrence; a personal scheduling preference, so it
+    /// lives on `recipe` directly rather than in `recipeFB` — it has no
+    /// business syncing to the public, shareable copy of this recipe.
+    @State private var recurrenceIntervalDays = 0
     @State private var componentName   = ""
     @State private var componentNumber = 0
     @State private var tags            = [String]()
@@ -106,6 +110,25 @@ struct EditRecipeView: View {
             
                 // Tag data
                 AddTagsDataView(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
+
+                // MARK: Recurrence
+                VStack(alignment: .leading, spacing: 4) {
+                    Toggle("Regelmäßig auffrischen", isOn: Binding(
+                        get: { recurrenceIntervalDays > 0 },
+                        set: { recurrenceIntervalDays = $0 ? max(recurrenceIntervalDays, 5) : 0 }
+                    ))
+                    .font(Theme.brandFont(15))
+
+                    if recurrenceIntervalDays > 0 {
+                        Stepper("alle \(recurrenceIntervalDays) Tage", value: $recurrenceIntervalDays, in: 1...60)
+                            .font(Theme.bodyFont(15))
+                    }
+
+                    Text("Plant nach dem letzten Backen automatisch den nächsten Termin.")
+                        .font(Theme.bodyFont(13))
+                        .foregroundColor(.secondary)
+                }
+                .padding(.top, 4)
 
                 saveSection
                 
@@ -339,6 +362,7 @@ struct EditRecipeView: View {
             isShown ? .success : nil
         }
         .onChange(of: rating) { scheduleAutosave() }
+        .onChange(of: recurrenceIntervalDays) { scheduleAutosave() }
         .onChange(of: recipeFB.name) { scheduleAutosave() }
         .onChange(of: recipeFB.summary) { scheduleAutosave() }
         .onChange(of: recipeFB.urlLink) { scheduleAutosave() }
@@ -355,6 +379,7 @@ struct EditRecipeView: View {
             recipeFB.summary         = recipe.summary
             recipeFB.urlLink         = recipe.urlLink ?? ""
             rating                   = recipe.rating
+            recurrenceIntervalDays   = recipe.recurrenceIntervalDays
             recipeFB.prepTime        = recipe.prepTime
             recipeFB.bakeHistoryFlag = recipe.bakeHistoryFlag
             recipeFB.tags            = recipe.tags
@@ -498,6 +523,7 @@ struct EditRecipeView: View {
         recipe.summary = recipeFB.summary
         recipe.urlLink = recipeFB.urlLink
         recipe.rating  = rating
+        recipe.recurrenceIntervalDays = recurrenceIntervalDays
         recipe.tags    = recipeFB.tags
 
         if recalculateWeight {

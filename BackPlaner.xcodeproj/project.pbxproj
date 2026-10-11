@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */; };
+		6A05F5CE307BB1980010D6D7 /* RecurringBakePlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */; };
 		6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */; };
 		6A1131F42B7CF93300CDF054 /* RecipeFBListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131F02B7CF93200CDF054 /* RecipeFBListView.swift */; };
 		6A1131F52B7CF93300CDF054 /* InstructionsFBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131F12B7CF93300CDF054 /* InstructionsFBView.swift */; };
@@ -181,6 +182,7 @@
 /* Begin PBXFileReference section */
 		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitleRegionPickerView.swift; sourceTree = "<group>"; };
+		6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringBakePlanner.swift; sourceTree = "<group>"; };
 		6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBDetailView.swift; sourceTree = "<group>"; };
 		6A1131F02B7CF93200CDF054 /* RecipeFBListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFBListView.swift; sourceTree = "<group>"; };
 		6A1131F12B7CF93300CDF054 /* InstructionsFBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsFBView.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				6AA79EC830777BDC00935F0F /* BakeHistoryFacts.swift */,
 				6AA79ED230778A5500935F0F /* ComponentProductMatcher.swift */,
 				6AA79ED430778A8B00935F0F /* DoughComposition.swift */,
+				6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -916,6 +919,7 @@
 				6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */,
 				6A1131FF2B7CF94600CDF054 /* RecipeListView.swift in Sources */,
 				6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */,
+				6A05F5CE307BB1980010D6D7 /* RecurringBakePlanner.swift in Sources */,
 				6A1132002B7CF94600CDF054 /* EditRecipeView.swift in Sources */,
 				6A9181F63049649B0045D7CB /* SettingsView.swift in Sources */,
 				6AF639772B7A51340070CDC1 /* RecipeFBModel.swift in Sources */,
