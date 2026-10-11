@@ -25,7 +25,10 @@ struct BakeModeView: View {
     private var recipes: FetchedResults<Recipe>
 
     private var stepsRequest: FetchRequest<NextStep>
-    private var steps: FetchedResults<NextStep> { stepsRequest.wrappedValue }
+    /// Automatically-queued steps more than
+    /// `RecurringBakePlanner.visibilityLeadTime` away are left out, so
+    /// paging through the plan can't land on one held back everywhere else.
+    private var steps: [NextStep] { stepsRequest.wrappedValue.filter { $0.isVisible() } }
 
     /// The step on display. Nil until the first appearance picks the one
     /// that matters now; afterwards the user's own choice.
