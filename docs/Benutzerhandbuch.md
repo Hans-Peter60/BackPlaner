@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 05.10.2026 · App-Version 1.2
+Stand: 05.10.2026 · App-Version 1.3
 
 ---
 
