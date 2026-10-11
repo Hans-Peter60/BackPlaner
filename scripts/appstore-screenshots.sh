@@ -1,16 +1,22 @@
 #!/bin/bash
 #
-# Takes the App Store screenshots for iPhone 6.9" and iPad 13" in German,
+# Takes the App Store screenshots for iPhone and iPad 13" in German,
 # English and French, by running the UI test AppStoreScreenshots on the
 # simulators. The pictures land in docs/appstore/<version>/<device>/<language>.
 #
-#   scripts/appstore-screenshots.sh            all devices and languages
-#   LANGS="en" scripts/appstore-screenshots.sh  only English
+#   scripts/appstore-screenshots.sh              all devices and languages
+#   LANGS="en" scripts/appstore-screenshots.sh    only English
+#   DEVICES="iphone" scripts/appstore-screenshots.sh  only the iPhone
 #
 # Settings (environment variables, all optional):
 #   VERSION  folder name under docs/appstore            (default: 1.3)
-#   IPHONE   simulator for the 6.9" shots, 1320×2868    (default: iPhone 17 Pro Max)
+#   DEVICES  "iphone", "ipad", or both                  (default: iphone ipad)
+#   IPHONE   simulator for the iPhone shots, 1206×2622  (default: iPhone 17 Pro)
 #   IPAD     simulator for the 13" shots, 2064×2752     (default: iPad Pro 13-inch (M5))
+#
+# App Store Connect only accepts iPhone screenshots of exactly 1179×2556,
+# 2556×1179, 1206×2622 or 2622×1206 pixels; "iPhone 17 Pro Max" (and the
+# other *Max/Air models) render at other sizes and get rejected on upload.
 #   LANGS    languages                                  (default: de en fr)
 #   RECIPE   public recipe to show, start of its name   (default: Sauerteigbrot mit Kartoffeln und Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
@@ -30,7 +36,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 VERSION="${VERSION:-1.3}"
-IPHONE="${IPHONE:-iPhone 17 Pro Max}"
+DEVICES="${DEVICES:-iphone ipad}"
+IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
 LANGS="${LANGS:-de en fr}"
 RECIPE="${RECIPE:-Sauerteigbrot mit Kartoffeln und Saaten}"
@@ -89,7 +96,16 @@ xcodebuild build-for-testing \
 
 failed=()
 
-for device in "$IPHONE" "$IPAD"; do
+devices=()
+for role in $DEVICES; do
+    case "$role" in
+        iphone) devices+=("$IPHONE") ;;
+        ipad)   devices+=("$IPAD") ;;
+        *) echo "Unknown DEVICES entry „$role“ (use iphone and/or ipad)" >&2; exit 1 ;;
+    esac
+done
+
+for device in "${devices[@]}"; do
     udid="$(udid_of "$device")"
     if [[ -z "$udid" ]]; then
         echo "Simulator „$device“ not found. Available:" >&2
