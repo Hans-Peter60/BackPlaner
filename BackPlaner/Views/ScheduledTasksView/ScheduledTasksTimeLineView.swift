@@ -18,7 +18,9 @@ struct ScheduledTasksTimeLineView: View {
     let date = Date() - 60
     
     var nextStepsRequest: FetchRequest<NextStep>
-    var nextSteps: FetchedResults<NextStep> { nextStepsRequest.wrappedValue }
+    /// Automatically-queued steps more than `RecurringBakePlanner.visibilityLeadTime`
+    /// away are left out, so a periodic plan doesn't sit on the timeline for days.
+    var nextSteps: [NextStep] { nextStepsRequest.wrappedValue.filter { $0.isVisible() } }
     var timeCalculation:TimeCalculation  = TimeCalculation()
 
     @Environment(\.horizontalSizeClass) private var hSize

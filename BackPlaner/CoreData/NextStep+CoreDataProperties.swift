@@ -28,6 +28,10 @@ extension NextStep {
     /// apart when one of them is shifted or deleted. `nil` on steps planned
     /// before this attribute existed; those count as one plan per recipe.
     @NSManaged public var planID:     UUID?
+    /// Whether this step was queued by `RecurringBakePlanner` rather than by
+    /// the user tapping "Erinnerungen setzen". `false` on steps planned
+    /// before this attribute existed.
+    @NSManaged public var isAutomaticRecurrence: Bool
 
 }
 
