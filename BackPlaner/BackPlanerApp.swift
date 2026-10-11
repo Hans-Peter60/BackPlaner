@@ -124,6 +124,7 @@ struct BackPlanerApp: App {
         // was away.
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
+                RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
                 PlanSnapshotPublisher.shared.refresh()
             }
         }

@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 5 October 2026 · App version 1.2
+Revised: 5 October 2026 · App version 1.3
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.

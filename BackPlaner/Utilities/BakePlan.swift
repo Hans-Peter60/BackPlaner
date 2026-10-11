@@ -416,6 +416,54 @@ struct BakePlanScheduler {
         return ((try? context.count(for: request)) ?? 0) > 0
     }
 
+    /// Whether the recipe has a plan that is not over yet — a step still
+    /// pending or in progress. Used to keep the automatic recurrence pass
+    /// from queuing a second occurrence beside one that already covers the
+    /// recipe's next due date.
+    static func hasPendingPlan(recipeName: String, now: Date = Date(),
+                               in context: NSManagedObjectContext) -> Bool {
+        let request = NextStep.fetchRequest()
+        request.predicate = NSPredicate(format: "recipeName == %@ AND date >= %@", recipeName, now as NSDate)
+        request.fetchLimit = 1
+        return ((try? context.count(for: request)) ?? 0) > 0
+    }
+
+    /// Reminders, scheduled steps and the bake-history entry for one plan —
+    /// the part of scheduling a recipe that has nothing to do with the UI
+    /// that triggered it. Shared by the manual "Jetzt planen" flow
+    /// (`InstructionsView`) and the automatic recurrence pass
+    /// (`RecurringBakePlanner`), so the two can't drift apart.
+    @discardableResult
+    static func putIntoEffect(_ plan: BakePlan, for recipe: Recipe, planID: UUID,
+                              servingScale: Double, manager: LocalNotificationManager,
+                              in context: NSManagedObjectContext) -> Result {
+        recipe.bakeHistoryFlag = true
+
+        let instructions = recipe.instructionsArray
+        let scheduler = BakePlanScheduler(plan: plan,
+                                          reminderID: "\(recipe.reminderId)-\(planID.uuidString)",
+                                          manager: manager)
+        let result = scheduler.scheduleReminders { index in
+            let instruction = instructions[index]
+            return ScheduledStepComponent.column(for: recipe,
+                                                 instruction: instruction,
+                                                 instructionText: instruction.instruction)
+                .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
+        }
+        scheduler.writeScheduledSteps(planID: planID, in: context)
+
+        // The bake history gets an entry for the end of this bake.
+        let bakeHistory     = BakeHistory(context: context)
+        bakeHistory.date    = result.finishDate
+        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
+        recipe.addToBakeHistories(bakeHistory)
+        context.performAndWait {
+            try? context.save()
+        }
+
+        return result
+    }
+
     /// Drops every earlier plan of a recipe, its scheduled steps and their
     /// reminders, before a replacing plan is written. The reminders are
     /// matched by identifier prefix, which the new plan's id keeps out of:

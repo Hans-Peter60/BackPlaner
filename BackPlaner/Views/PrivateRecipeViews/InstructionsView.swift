@@ -65,6 +65,7 @@ struct InstructionsView: View {
     @State private var nightFreeDates             = [NightFreeDate]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
+    @State private var pendingReplaceExisting     = false
     @State private var reminderHintText           = ""
     
     @State private var durations: [String] = []
@@ -377,8 +378,11 @@ struct InstructionsView: View {
                                              temperature: reminderOvenTemperature,
                                              finish: reminderFinishText, hints: reminderHintText)
                     }
-                    .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
-                        Button("OK", role: .cancel) { }
+                    .confirmationDialog("Backzeiten überschneiden sich", isPresented: $showingPlanError, titleVisibility: .visible) {
+                        Button("Trotzdem planen") {
+                            scheduleReminders(replaceExisting: pendingReplaceExisting, ignoringOverlap: true)
+                        }
+                        Button("Abbrechen", role: .cancel) { }
                     } message: {
                         Text(planErrorMessage)
                     }
@@ -470,17 +474,20 @@ struct InstructionsView: View {
     /// Sets the reminders and the planned steps for the date chosen above.
     /// `replaceExisting` drops the recipe's earlier plans first; otherwise
     /// the new plan stands beside them — Saturday's and Sunday's loaf.
-    private func scheduleReminders(replaceExisting: Bool) {
+    private func scheduleReminders(replaceExisting: Bool, ignoringOverlap: Bool = false) {
         // Check the plan before anything changes: overlapping bakes are an
         // error and stop the scheduling (and leave an existing plan alone);
-        // the remaining findings are hints and travel with the summary.
+        // the remaining findings are hints and travel with the summary. The
+        // user can accept the overlap and proceed anyway — several doughs
+        // sharing one oven at a low proofing temperature is a valid case.
         let plan = bakePlan
         let issues = plan.issues(in: viewContext)
         planIssues = issues
 
         let planErrors = issues.filter { $0.severity == .error }
-        if !planErrors.isEmpty {
+        if !planErrors.isEmpty && !ignoringOverlap {
             planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
+            pendingReplaceExisting = replaceExisting
             showingPlanError = true
             return
         }
@@ -497,31 +504,12 @@ struct InstructionsView: View {
         }
 
         showingNotificationMessage = true
-        recipe.bakeHistoryFlag = true
 
         // A step that mixes a component carries that component's
         // ingredients in its reminder, in the serving size chosen above.
-        let instructions = recipe.instructionsArray
-        let scheduler = BakePlanScheduler(plan: plan,
-                                          reminderID: "\(recipe.reminderId)-\(planID.uuidString)",
-                                          manager: manager)
-        let result = scheduler.scheduleReminders { index in
-            let instruction = instructions[index]
-            return ScheduledStepComponent.column(for: recipe,
-                                                 instruction: instruction,
-                                                 instructionText: instruction.instruction)
-                .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
-        }
-        scheduler.writeScheduledSteps(planID: planID, in: viewContext)
-
-        // The bake history gets an entry for the end of this bake.
-        let bakeHistory     = BakeHistory(context: viewContext)
-        bakeHistory.date    = result.finishDate
-        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
-        recipe.addToBakeHistories(bakeHistory)
-        viewContext.performAndWait {
-            try? viewContext.save()
-        }
+        let result = BakePlanScheduler.putIntoEffect(plan, for: recipe, planID: planID,
+                                                      servingScale: servingScale, manager: manager,
+                                                      in: viewContext)
 
         // A human-readable summary of what was scheduled.
         let timeFormatter  = TimeCalculation()

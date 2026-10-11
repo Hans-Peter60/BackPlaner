@@ -77,12 +77,26 @@ struct NextStepProvider: TimelineProvider {
 enum WidgetTheme {
     static let backgroundTop    = Color(light: Color(red: 0.98, green: 0.93, blue: 0.82), dark: Color(red: 0.16, green: 0.12, blue: 0.09))
     static let backgroundBottom = Color(light: Color(red: 0.93, green: 0.80, blue: 0.62), dark: Color(red: 0.09, green: 0.07, blue: 0.05))
-    static let title            = Color(light: Color(red: 0.25, green: 0.15, blue: 0.06), dark: Color(red: 0.97, green: 0.92, blue: 0.84))
-    static let subtitle         = Color(light: Color(red: 0.45, green: 0.30, blue: 0.16), dark: Color(red: 0.82, green: 0.72, blue: 0.60))
+
+    private static let titleDark    = Color(red: 0.97, green: 0.92, blue: 0.84)
+    private static let subtitleDark = Color(red: 0.82, green: 0.72, blue: 0.60)
+    private static let accentDark   = Color(red: 0.89, green: 0.575, blue: 0.31)
+
+    static let title    = Color(light: Color(red: 0.25, green: 0.15, blue: 0.06), dark: titleDark)
+    static let subtitle = Color(light: Color(red: 0.45, green: 0.30, blue: 0.16), dark: subtitleDark)
     // Same value as `Theme.accentText` in the app; see the note there. The
     // lighter brown used before fell to 3.6:1 against the foot of the
     // gradient, where the widget's date line sits.
-    static let accent           = Color(light: Color(red: 0.48, green: 0.29, blue: 0.13), dark: Color(red: 0.89, green: 0.575, blue: 0.31))
+    static let accent   = Color(light: Color(red: 0.48, green: 0.29, blue: 0.13), dark: accentDark)
+
+    // StandBy in bright ambient light shows the small widget with its
+    // background removed, sitting straight on StandBy's black canvas. The
+    // light-appearance text above assumes it's sitting on `background`, so
+    // on that bare canvas we always need the dark-appearance (light) text,
+    // regardless of the system's light/dark setting.
+    static let titleOnBareBackdrop    = titleDark
+    static let subtitleOnBareBackdrop = subtitleDark
+    static let accentOnBareBackdrop   = accentDark
 
     static var background: LinearGradient {
         LinearGradient(colors: [backgroundTop, backgroundBottom], startPoint: .top, endPoint: .bottom)
@@ -102,8 +116,17 @@ private extension Color {
 struct NextStepWidgetView: View {
 
     @Environment(\.widgetFamily) private var family
+    @Environment(\.showsWidgetContainerBackground) private var showsWidgetBackground
 
     let entry: NextStepEntry
+
+    // When the system removes our background (StandBy in bright ambient
+    // light), the gradient these colors were tuned against is gone and the
+    // widget sits on StandBy's black canvas instead — so fall back to the
+    // colors meant for a dark backdrop.
+    private var titleColor: Color    { showsWidgetBackground ? WidgetTheme.title    : WidgetTheme.titleOnBareBackdrop }
+    private var subtitleColor: Color { showsWidgetBackground ? WidgetTheme.subtitle : WidgetTheme.subtitleOnBareBackdrop }
+    private var accentColor: Color   { showsWidgetBackground ? WidgetTheme.accent   : WidgetTheme.accentOnBareBackdrop }
 
     var body: some View {
         Group {
@@ -134,7 +157,7 @@ struct NextStepWidgetView: View {
         Text(entry.isDue ? "Jetzt fällig" : "Als Nächstes")
             .font(.caption2.weight(.semibold))
             .textCase(.uppercase)
-            .foregroundStyle(WidgetTheme.accent)
+            .foregroundStyle(accentColor)
     }
 
     /// "in 41:59" / "seit 5:12". A running timer, which WidgetKit keeps
@@ -167,15 +190,15 @@ struct NextStepWidgetView: View {
             eyebrow
             Text(step.instruction)
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(WidgetTheme.title)
+                .foregroundStyle(titleColor)
                 .lineLimit(3)
             Spacer(minLength: 0)
             dayAndTime(for: step)
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(WidgetTheme.accent)
+                .foregroundStyle(accentColor)
             countdown(for: step)
                 .font(.caption2)
-                .foregroundStyle(WidgetTheme.subtitle)
+                .foregroundStyle(subtitleColor)
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -194,33 +217,33 @@ struct NextStepWidgetView: View {
                     // half empty.
                     Text(step.instruction)
                         .font(.headline)
-                        .foregroundStyle(WidgetTheme.title)
+                        .foregroundStyle(titleColor)
                         .lineLimit(2)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 Image(systemName: entry.isDue ? "bell.fill" : "timer")
                     .font(.title3)
-                    .foregroundStyle(WidgetTheme.accent)
+                    .foregroundStyle(accentColor)
             }
 
             Spacer(minLength: 0)
 
             Text(step.recipeName)
                 .font(.caption)
-                .foregroundStyle(WidgetTheme.subtitle)
+                .foregroundStyle(subtitleColor)
                 .lineLimit(1)
 
             HStack(alignment: .firstTextBaseline) {
                 dayAndTime(for: step)
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(WidgetTheme.accent)
+                    .foregroundStyle(accentColor)
                     .lineLimit(1)
                     .fixedSize()
                 Spacer(minLength: 8)
                 countdown(for: step)
                     .font(.caption2)
-                    .foregroundStyle(WidgetTheme.subtitle)
+                    .foregroundStyle(subtitleColor)
                     .lineLimit(1)
                     .multilineTextAlignment(.trailing)
             }
@@ -253,14 +276,14 @@ struct NextStepWidgetView: View {
         VStack(alignment: .leading, spacing: 4) {
             Image(systemName: "calendar")
                 .font(.title3)
-                .foregroundStyle(WidgetTheme.accent)
+                .foregroundStyle(accentColor)
             Text("Kein Schritt geplant")
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(WidgetTheme.title)
+                .foregroundStyle(titleColor)
             if !family.isAccessory {
                 Text("Setze einen Reminder in der Backanleitung eines Rezepts.")
                     .font(.caption2)
-                    .foregroundStyle(WidgetTheme.subtitle)
+                    .foregroundStyle(subtitleColor)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
