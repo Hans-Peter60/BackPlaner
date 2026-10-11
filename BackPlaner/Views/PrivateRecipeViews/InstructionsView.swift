@@ -65,6 +65,7 @@ struct InstructionsView: View {
     @State private var nightFreeDates             = [NightFreeDate]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
+    @State private var pendingReplaceExisting     = false
     @State private var reminderHintText           = ""
     
     @State private var durations: [String] = []
@@ -377,8 +378,11 @@ struct InstructionsView: View {
                                              temperature: reminderOvenTemperature,
                                              finish: reminderFinishText, hints: reminderHintText)
                     }
-                    .alert("Backzeiten überschneiden sich", isPresented: $showingPlanError) {
-                        Button("OK", role: .cancel) { }
+                    .confirmationDialog("Backzeiten überschneiden sich", isPresented: $showingPlanError, titleVisibility: .visible) {
+                        Button("Trotzdem planen") {
+                            scheduleReminders(replaceExisting: pendingReplaceExisting, ignoringOverlap: true)
+                        }
+                        Button("Abbrechen", role: .cancel) { }
                     } message: {
                         Text(planErrorMessage)
                     }
@@ -470,17 +474,20 @@ struct InstructionsView: View {
     /// Sets the reminders and the planned steps for the date chosen above.
     /// `replaceExisting` drops the recipe's earlier plans first; otherwise
     /// the new plan stands beside them — Saturday's and Sunday's loaf.
-    private func scheduleReminders(replaceExisting: Bool) {
+    private func scheduleReminders(replaceExisting: Bool, ignoringOverlap: Bool = false) {
         // Check the plan before anything changes: overlapping bakes are an
         // error and stop the scheduling (and leave an existing plan alone);
-        // the remaining findings are hints and travel with the summary.
+        // the remaining findings are hints and travel with the summary. The
+        // user can accept the overlap and proceed anyway — several doughs
+        // sharing one oven at a low proofing temperature is a valid case.
         let plan = bakePlan
         let issues = plan.issues(in: viewContext)
         planIssues = issues
 
         let planErrors = issues.filter { $0.severity == .error }
-        if !planErrors.isEmpty {
+        if !planErrors.isEmpty && !ignoringOverlap {
             planErrorMessage = planErrors.map(\.message).joined(separator: "\n\n")
+            pendingReplaceExisting = replaceExisting
             showingPlanError = true
             return
         }
