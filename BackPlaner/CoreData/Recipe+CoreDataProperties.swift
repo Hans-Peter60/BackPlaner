@@ -32,6 +32,7 @@ extension Recipe {
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet
     @NSManaged public var shoppingCarts:  NSSet?
+    @NSManaged public var starterFeedingLogs: NSSet?
 
     public var componentsArray: [Component] {
         let set = components as? Set<Component> ?? []
@@ -65,6 +66,13 @@ extension Recipe {
 
     public var bakeHistoriesArray: [BakeHistory] {
         let set = bakeHistories as? Set<BakeHistory> ?? []
+        return set.sorted {
+            $0.date > $1.date
+        }
+    }
+
+    public var starterFeedingLogsArray: [StarterFeedingLog] {
+        let set = starterFeedingLogs as? Set<StarterFeedingLog> ?? []
         return set.sorted {
             $0.date > $1.date
         }
@@ -136,6 +144,23 @@ extension Recipe {
 
     @objc(removeShoppingCarts:)
     @NSManaged public func removeFromShoppingCarts(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for starterFeedingLogs
+extension Recipe {
+
+    @objc(addStarterFeedingLogsObject:)
+    @NSManaged public func addToStarterFeedingLogs(_ value: StarterFeedingLog)
+
+    @objc(removeStarterFeedingLogsObject:)
+    @NSManaged public func removeFromStarterFeedingLogs(_ value: StarterFeedingLog)
+
+    @objc(addStarterFeedingLogs:)
+    @NSManaged public func addToStarterFeedingLogs(_ values: NSSet)
+
+    @objc(removeStarterFeedingLogs:)
+    @NSManaged public func removeFromStarterFeedingLogs(_ values: NSSet)
 
 }
 
