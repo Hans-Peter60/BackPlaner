@@ -22,6 +22,9 @@ struct AppSettingsKeys {
     static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
     static let automaticTranslation = "settings.automaticTranslation"
     static let doughFrictionFactor = "settings.doughFrictionFactor"
+    static let showLocalRecipes = "settings.recipeList.showLocal"
+    static let showPrivateCloudRecipes = "settings.recipeList.showPrivateCloud"
+    static let showPublicCloudRecipes = "settings.recipeList.showPublicCloud"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -116,6 +119,12 @@ struct AppSettings {
     /// Whether a public recipe is machine-translated into the app's language
     /// automatically, and the globe menu offers to pick a language at all.
     static let defaultAutomaticTranslation = true
+    /// Whether the combined recipe list shows local, private-cloud and
+    /// public recipes — each independently, so the three can be toggled on
+    /// their own rather than as a single "mine or everyone's" choice.
+    static let defaultShowLocalRecipes = true
+    static let defaultShowPrivateCloudRecipes = true
+    static let defaultShowPublicCloudRecipes = true
     /// Dough yield of the user's sourdough starter (Anstellgut), used to split
     /// an amount of starter into flour and water when the recipe does not
     /// state its TA. 200 is the usual soft starter of equal parts.
