@@ -72,6 +72,7 @@ struct TwoColumnRecipeParser {
             planningSteps: planningSteps,
             details: detailedInstructions
         )
+        TimedFoldExpansion.expand(&recipe.instructions)
 
         // The steps of this layout run one after another, so the schedule ends
         // where the last one does. Without this the recipe claimed a

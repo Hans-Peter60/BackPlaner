@@ -206,7 +206,7 @@ struct GeneralRecipeParser {
             }
         }
         mergeTimedContinuationSteps(&recipe.instructions)
-        expandTimedFoldInterventions(&recipe.instructions)
+        TimedFoldExpansion.expand(&recipe.instructions)
         reconcileDeclaredPreparationTime(recipe.instructions, source: textLines)
 
         // The INFO column of a baking book carries the values the recipe text
@@ -518,73 +518,6 @@ struct GeneralRecipeParser {
             let removedStep = next.step
             instructions.remove(at: index + 1)
             for instruction in instructions where instruction.step > removedStep {
-                instruction.step -= 1
-            }
-        }
-    }
-
-    private func expandTimedFoldInterventions(_ instructions: inout [InstructionFB]) {
-        guard let foldIndex = instructions.firstIndex(where: {
-            let value = normalized($0.instruction)
-            return value.contains("nach ")
-                && (value.contains("dehnen") || value.contains("denen"))
-                && value.contains("falten")
-        }) else {
-            return
-        }
-
-        let foldInstruction = instructions[foldIndex]
-        let foldText = normalized(foldInstruction.instruction)
-        guard let offsets = captures(
-            #"nach\s+(\d+)\s+und\s+(\d+)\s+minuten"#,
-            in: foldText
-        ),
-        offsets.count == 2,
-        let firstOffset = Int(offsets[0]),
-        let secondOffset = Int(offsets[1]),
-        firstOffset > 0,
-        secondOffset > firstOffset else {
-            return
-        }
-
-        let parentIndex: Int
-        if foldText.contains("stunden") && foldText.contains("ruhen lassen") {
-            parentIndex = foldIndex
-        } else {
-            guard let precedingIndex = instructions[..<foldIndex].lastIndex(where: {
-                let value = normalized($0.instruction)
-                return value.contains("stunden")
-                    && (value.contains("ruhen lassen") || value.contains("reifen lassen"))
-            }) else {
-                return
-            }
-            parentIndex = precedingIndex
-        }
-
-        let parent = instructions[parentIndex]
-        let totalDuration = max(parent.duration, duration(in: parent.instruction))
-        guard totalDuration >= secondOffset else { return }
-        parent.duration = totalDuration
-
-        let firstFold = InstructionFB()
-        firstFold.id = UUID().uuidString
-        firstFold.step = parent.step + 0.1
-        firstFold.instruction = "Teig dehnen und falten (nach \(firstOffset) Minuten)."
-        firstFold.duration = totalDuration - firstOffset
-
-        let secondFold = InstructionFB()
-        secondFold.id = UUID().uuidString
-        secondFold.step = parent.step + 0.2
-        secondFold.instruction = "Teig dehnen und falten (nach \(secondOffset) Minuten)."
-        secondFold.duration = totalDuration - secondOffset
-
-        if foldIndex == parentIndex {
-            instructions.insert(contentsOf: [firstFold, secondFold], at: parentIndex + 1)
-        } else {
-            let removedStep = foldInstruction.step
-            instructions.remove(at: foldIndex)
-            instructions.insert(contentsOf: [firstFold, secondFold], at: parentIndex + 1)
-            for instruction in instructions where instruction.step >= removedStep {
                 instruction.step -= 1
             }
         }
