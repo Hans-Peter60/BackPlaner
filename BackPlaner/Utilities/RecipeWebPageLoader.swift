@@ -635,6 +635,7 @@ extension StructuredWebRecipe {
             }
         }
         recipe.instructions = instructions
+        TimedFoldExpansion.expand(&recipe.instructions)
         recipe.totalWeight = recipe.components.flatMap(\.ingredients).reduce(0) { $0 + $1.weight }
         return recipe
     }
