@@ -115,6 +115,16 @@ struct RecipeDetailView: View {
                             .font(Theme.brandFont(15))
                     }
                     .padding(.leading)
+
+                    // MARK: Export as a re-importable file (backup / hand to someone else)
+                    ShareLink(
+                        item: RecipeFileExport(recipe: recipe),
+                        preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+                    ) {
+                        Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
+                            .font(Theme.brandFont(15))
+                    }
+                    .padding(.leading)
                 }
 
                 // MARK: Dough yield and hydration over all components
