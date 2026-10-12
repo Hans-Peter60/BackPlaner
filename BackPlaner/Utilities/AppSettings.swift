@@ -21,6 +21,7 @@ struct AppSettingsKeys {
     static let starterDoughYield = "settings.starterDoughYield"
     static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
     static let automaticTranslation = "settings.automaticTranslation"
+    static let doughFrictionFactor = "settings.doughFrictionFactor"
 }
 
 enum AppLanguage: String, CaseIterable, Identifiable {
@@ -124,6 +125,13 @@ struct AppSettings {
     static let defaultLievitoMadreDoughYield = 150
     static let minimumStarterDoughYield = 120
     static let maximumStarterDoughYield = 300
+    /// The warming a dough picks up from kneading, on top of its ingredients'
+    /// own temperatures. Calibrated per mixer/kneading style by comparing a
+    /// predicted dough temperature against the one actually measured after
+    /// mixing — the dough-temperature calculator lets it be adjusted there.
+    static let defaultFrictionFactor = 1
+    static let minimumFrictionFactor = 0
+    static let maximumFrictionFactor = 10
 
     static var storedStarterDoughYield: Int {
         storedInt(forKey: AppSettingsKeys.starterDoughYield, defaultValue: defaultStarterDoughYield)
@@ -131,6 +139,10 @@ struct AppSettings {
 
     static var storedLievitoMadreDoughYield: Int {
         storedInt(forKey: AppSettingsKeys.lievitoMadreDoughYield, defaultValue: defaultLievitoMadreDoughYield)
+    }
+
+    static var storedFrictionFactor: Int {
+        storedInt(forKey: AppSettingsKeys.doughFrictionFactor, defaultValue: defaultFrictionFactor)
     }
 
     static var isLiveActivityEnabled: Bool {
