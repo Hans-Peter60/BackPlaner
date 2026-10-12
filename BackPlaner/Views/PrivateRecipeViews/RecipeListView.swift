@@ -75,7 +75,7 @@ struct RecipeListView: View {
                             Text("Hol Dir ein Rezept aus der Datenbank oder lege ein eigenes an – mit Komponenten, Zutaten und Schritten, aus denen die App Deinen Backplan rechnet.")
                         } actions: {
                             NavigationLink("Rezept-Datenbank öffnen") {
-                                RecipeFBListView()
+                                AllRecipesListView()
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(Theme.accentTop)
@@ -100,7 +100,7 @@ struct RecipeListView: View {
                         
                         ForEach(filteredRecipes, id: \.self) { r in
                             // Invisible link plus an own chevron, see
-                            // RecipeFBListView: the List's disclosure indicator
+                            // AllRecipesListView: the List's disclosure indicator
                             // would sit outside the white card.
                             ZStack {
                                 NavigationLink(destination: TabsView(recipe: r)) { EmptyView() }

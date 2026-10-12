@@ -117,7 +117,7 @@ final class BackPlanerSmokeTests: XCTestCase {
         app.launchArguments.append("-UITestingSeedRecipe")
         launch()
 
-        openMenu("ownRecipes")
+        openMenu("publicRecipes")
 
         let recipeName = "UI-Test-Brot"
         let row = element(labelBeginningWith: recipeName)
@@ -159,8 +159,8 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     /// Raw values of MenuDestination, which the app uses as identifiers.
     private static let menuDestinations = [
-        "publicRecipes", "ownRecipes", "newRecipe", "scheduledSteps",
-        "bakeHistory", "hitList", "shoppingList", "settings"
+        "publicRecipes", "newRecipe", "scheduledSteps",
+        "bakeHistory", "hitList", "shoppingList", "doughTemperature", "settings"
     ]
 
     private func launch() {

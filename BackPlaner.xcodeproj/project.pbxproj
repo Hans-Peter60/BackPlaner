@@ -134,6 +134,7 @@
 		6AFA48B0307D0AAE00E105F9 /* TimedFoldExpansion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48AF307D0AAE00E105F9 /* TimedFoldExpansion.swift */; };
 		6AFA48B4307D102700E105F9 /* DoughTemperatureCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B3307D102700E105F9 /* DoughTemperatureCalculator.swift */; };
 		6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */; };
+		6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,6 +311,7 @@
 		6AFA48AF307D0AAE00E105F9 /* TimedFoldExpansion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedFoldExpansion.swift; sourceTree = "<group>"; };
 		6AFA48B3307D102700E105F9 /* DoughTemperatureCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculator.swift; sourceTree = "<group>"; };
 		6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculatorView.swift; sourceTree = "<group>"; };
+		6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -430,6 +432,7 @@
 				6AF639672B7A4FC00070CDC1 /* UtilityViews */,
 				6A9181F53049649B0045D7CB /* SettingsView.swift */,
 				6A5055EB304D60BD00F8E804 /* TotalIngredientsView.swift */,
+				6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -947,6 +950,7 @@
 				6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */,
 				6AB1EF22E2EAA77F7EB4D433 /* UnitLocalizer.swift in Sources */,
 				6AC7AA9F28112CAC558AF0D9 /* BakePlan.swift in Sources */,
+				6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,

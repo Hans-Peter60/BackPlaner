@@ -42,8 +42,7 @@ struct ContentView: View {
     // they used to be eight hand-written links indexed into this array, which
     // could not be rearranged into rows without renumbering them.
     private let menuItems: [MenuItem] = [
-        MenuItem(destination: .publicRecipes,  title: "Rezept-Datenbank",     subtitle: "Öffentliche Rezepte durchsuchen", systemImage: "books.vertical.fill"),
-        MenuItem(destination: .ownRecipes,     title: "Eigene Rezepte",       subtitle: "Deine gespeicherten Rezepte",     systemImage: "book.closed.fill"),
+        MenuItem(destination: .publicRecipes,  title: "Rezept-Datenbank",     subtitle: "Lokale, eigene und öffentliche Rezepte durchsuchen", systemImage: "books.vertical.fill"),
         MenuItem(destination: .newRecipe,      title: "Neues Rezept anlegen", subtitle: "Ein Rezept von Grund auf erstellen", systemImage: "plus.circle.fill"),
         MenuItem(destination: .scheduledSteps, title: "Geplante Schritte",    subtitle: "Als Liste oder Timeline",         systemImage: "calendar"),
         MenuItem(destination: .bakeHistory,    title: "Backhistorie",         subtitle: "Vergangene Backvorgänge",         systemImage: "clock.arrow.circlepath"),
@@ -180,8 +179,7 @@ struct ContentView: View {
     @ViewBuilder
     private func destination(for destination: MenuDestination) -> some View {
         switch destination {
-        case .publicRecipes:  RecipeFBListView()
-        case .ownRecipes:     RecipeListView()
+        case .publicRecipes:  AllRecipesListView()
         case .newRecipe:      AddNewRecipeDataView()
         case .scheduledSteps: ScheduledTasksTabsView()
         case .bakeHistory:    BakeHistoriesListView()
@@ -208,7 +206,6 @@ struct ContentView: View {
 /// reordered or regrouped without the destinations following along by accident.
 enum MenuDestination: Hashable {
     case publicRecipes
-    case ownRecipes
     case newRecipe
     case scheduledSteps
     case bakeHistory
