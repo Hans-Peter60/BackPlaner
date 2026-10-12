@@ -74,6 +74,15 @@
         <relationship name="components" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Component" inverseName="recipe" inverseEntity="Component"/>
         <relationship name="instructions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Instruction" inverseName="recipe" inverseEntity="Instruction"/>
         <relationship name="shoppingCarts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingCart" inverseName="recipes" inverseEntity="ShoppingCart"/>
+        <relationship name="starterFeedingLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StarterFeedingLog" inverseName="recipe" inverseEntity="StarterFeedingLog"/>
+    </entity>
+    <entity name="StarterFeedingLog" representedClassName="StarterFeedingLog" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="floatTestPassed" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="peakMinutes" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="starterFeedingLogs" inverseEntity="Recipe"/>
     </entity>
     <entity name="ShoppingCart" representedClassName="ShoppingCart" syncable="YES">
         <attribute name="cloudRecipeNames" optional="YES" attributeType="String"/>

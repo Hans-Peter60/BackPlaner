@@ -86,6 +86,17 @@ struct TabsView: View {
                    }
                }
                .tag(4)
+
+            if recipe.recurrenceIntervalDays > 0 {
+                StarterFeedingLogView(recipeId: recipe.objectID)
+                   .tabItem {
+                       VStack {
+                           Image(systemName: "drop.degreesign")
+                           Text("Fütterung")
+                       }
+                   }
+                   .tag(5)
+            }
         }
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.
