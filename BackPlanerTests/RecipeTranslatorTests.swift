@@ -213,19 +213,49 @@ struct RecipeTranslatorTests {
         recipe.instructions[0].instruction = "Prepare the breakfast the evening before."
         recipe.storeLocalization(languageCode: "en")
 
-        #expect(RecipeTranslator.showCachedIfAvailable(recipe, languageCode: "en"))
+        // The recipe's own text has "breakfast" in its summary, so even the
+        // list's cache is stale: the recipe needs a new round.
+        #expect(RecipeTranslator.showCachedIfAvailable(recipe, languageCode: "en") == false)
+        #expect(RecipeTranslator.showCompleteIfAvailable(recipe, languageCode: "en") == false)
 
-        #expect(recipe.components[0].name == "Scald")
-        // Already right, so left alone.
-        #expect(recipe.components[0].ingredients[0].name == "Old bread")
-        #expect(recipe.components[0].ingredients[1].name == "Water")
-        // A sentence cannot be put right without a new translation round.
-        #expect(recipe.summary == "A rye bread with breakfast and a long fermentation.")
-        #expect(recipe.instructions[0].instruction == "Prepare the breakfast the evening before.")
-
-        // The correction is in the cache, so it survives switching languages.
+        // The component name was put right on the way, in the cache.
+        #expect(RecipeTranslator.repairGlossaryTerms(of: recipe, languageCode: "en") == false)
         #expect(recipe.components[0].translations["en"]?.name == "Scald")
         #expect(recipe.components[0].translations["de"]?.name == "Brühstück")
+        // Already right, so left alone.
+        #expect(recipe.components[0].ingredients[0].translations["en"]?.name == "Old bread")
+        #expect(recipe.components[0].ingredients[1].translations["en"]?.name == "Water")
+    }
+
+    @Test("A cache with a mistranslated term in a step is stale for the recipe screen only")
+    func staleStepMakesTheCompleteCacheStale() {
+        let recipe = RecipeFixtures.recipe(name: "Roggenbrot",
+                                           summary: "Ein Roggenbrot mit langer Teigführung.",
+                                           steps: ["Für das Brühstück die Saaten mit kochendem Wasser übergießen."],
+                                           component: "Saaten-Brühstück",
+                                           ingredients: ["Leinsamen", "Wasser"])
+        recipe.sourceLanguage = "de"
+        recipe.storeLocalization(languageCode: "de")
+
+        recipe.name = "Rye bread"
+        recipe.summary = "A rye bread with a long fermentation."
+        recipe.components[0].name = "Seed breakfast"
+        recipe.components[0].ingredients[0].name = "Flaxseed"
+        recipe.components[0].ingredients[1].name = "Water"
+        recipe.instructions[0].instruction = "For the breakfast, pour boiling water over the seeds."
+        recipe.storeLocalization(languageCode: "en")
+
+        // Name and summary are fine, so the list may use its cache …
+        #expect(RecipeTranslator.showCachedIfAvailable(recipe, languageCode: "en"))
+        #expect(recipe.name == "Rye bread")
+        // … but the recipe screen has to translate afresh.
+        #expect(RecipeTranslator.showCompleteIfAvailable(recipe, languageCode: "en") == false)
+
+        // Once the round has gone through the glossary, the cache is good.
+        recipe.components[0].name = "Seed scald"
+        recipe.instructions[0].instruction = "For the scald, pour boiling water over the seeds."
+        recipe.storeLocalization(languageCode: "en")
+        #expect(RecipeTranslator.showCompleteIfAvailable(recipe, languageCode: "en"))
     }
 
     @Test("Repairing a correctly cached translation changes nothing")

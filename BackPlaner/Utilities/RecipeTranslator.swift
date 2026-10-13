@@ -129,11 +129,51 @@ enum RecipeTranslator {
 
         if recipe.hasCachedTranslation(languageCode: languageCode) {
             repairGlossaryTerms(of: recipe, languageCode: languageCode)
+            // A cache from before the glossary is due for a new round.
+            guard cachedTranslationHonoursGlossary(recipe, languageCode: languageCode, complete: false) else { return false }
             recipe.showLocalization(languageCode: languageCode)
             return true
         }
 
         return false
+    }
+
+    /// Whether the cached translation uses the glossary's words wherever its
+    /// source text has a term. A translation made before the glossary
+    /// existed ("Breakfast") fails this and is translated afresh, which
+    /// then goes through the glossary and is saved over the old cache.
+    /// `complete` includes components, ingredients and steps; otherwise only
+    /// the recipe's own text is checked, as the recipe list shows nothing else.
+    static func cachedTranslationHonoursGlossary(_ recipe: RecipeFB, languageCode: String, complete: Bool) -> Bool {
+        let source = sourceLanguageCode(for: recipe)
+        guard languageCode != source else { return true }
+
+        func honours(_ sourceText: String?, _ translation: String?) -> Bool {
+            guard let sourceText, let translation else { return true }
+            return BakingGlossary.translationHonoursGlossary(sourceText: sourceText, translation: translation,
+                                                             from: source, into: languageCode)
+        }
+
+        let original = recipe.translations[source]
+        let cached = recipe.translations[languageCode]
+        guard honours(original?.name, cached?.name), honours(original?.summary, cached?.summary) else { return false }
+        let cachedTags = cached?.tags ?? []
+        for (index, tag) in (original?.tags ?? []).enumerated() where index < cachedTags.count {
+            guard honours(tag, cachedTags[index]) else { return false }
+        }
+
+        guard complete else { return true }
+
+        for component in recipe.components {
+            guard honours(component.translations[source]?.name, component.translations[languageCode]?.name) else { return false }
+            for ingredient in component.ingredients {
+                guard honours(ingredient.translations[source]?.name, ingredient.translations[languageCode]?.name) else { return false }
+            }
+        }
+        for instruction in recipe.instructions {
+            guard honours(instruction.translations[source]?.instruction, instruction.translations[languageCode]?.instruction) else { return false }
+        }
+        return true
     }
 
     /// Puts cached translations right where a baker's term had been
@@ -207,6 +247,9 @@ enum RecipeTranslator {
 
         if recipe.hasCompleteTranslation(languageCode: languageCode) {
             repairGlossaryTerms(of: recipe, languageCode: languageCode)
+            // A cache from before the glossary is due for a new round, which
+            // the caller then starts; the new translation replaces it.
+            guard cachedTranslationHonoursGlossary(recipe, languageCode: languageCode, complete: true) else { return false }
             recipe.showLocalization(languageCode: languageCode)
             return true
         }
