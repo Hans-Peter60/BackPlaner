@@ -167,7 +167,8 @@ struct RecipeDetailView: View {
                                          starterAdjustment = StarterYieldRequest(
                                              recipe: recipeSnapshot,
                                              componentIndex: componentIndex,
-                                             ingredientIndex: ingredientIndex)
+                                             ingredientIndex: ingredientIndex,
+                                             scale: servingScale)
                                      })
 
                 // MARK: Instructions

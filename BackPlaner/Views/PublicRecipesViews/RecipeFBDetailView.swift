@@ -154,7 +154,8 @@ struct RecipeFBDetailView: View {
                                              starterAdjustment = StarterYieldRequest(
                                                  recipe: recipeSnapshot,
                                                  componentIndex: componentIndex,
-                                                 ingredientIndex: ingredientIndex)
+                                                 ingredientIndex: ingredientIndex,
+                                                 scale: servingScale)
                                          })
 
                     Divider()
