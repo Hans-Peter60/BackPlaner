@@ -51,6 +51,19 @@ struct BakingGlossaryMatchingTests {
         #expect(found.first.map { BakingGlossary.rendering(of: $0, in: "fr", capitalized: false) } == "pâtons")
     }
 
+    @Test("A translation is checked for the glossary's words", arguments: [
+        ("Brühstück", "Scald", true),
+        ("Brühstück", "Breakfast", false),
+        ("Das Brühstück mit dem Hauptteig vermischen", "Mix the scald with the main dough", true),
+        ("Das Brühstück mit dem Hauptteig vermischen", "Mix the breakfast with the main dough", false),
+        ("Saaten-Brühstück", "Seed scald", true),
+        ("Wasser", "Anything at all", true),
+        ("", "", true)
+    ])
+    func honoursGlossary(source: String, translation: String, expected: Bool) {
+        #expect(BakingGlossary.translationHonoursGlossary(sourceText: source, translation: translation, from: "de", into: "en") == expected)
+    }
+
     @Test("Every term is written in all three languages")
     func complete() {
         for term in BakingGlossary.terms {

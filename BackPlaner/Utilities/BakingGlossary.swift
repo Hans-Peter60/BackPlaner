@@ -152,6 +152,24 @@ enum BakingGlossary {
         match.term.forms[language] != nil
     }
 
+    /// Whether a translation uses the glossary's words for every term in its
+    /// source text. False for a translation made before the glossary
+    /// existed — "Breakfast" for "Brühstück" — which is then due for a new
+    /// round. A source text without terms passes.
+    static func translationHonoursGlossary(sourceText: String, translation: String, from source: String, into target: String) -> Bool {
+        let comparableTranslation = comparable(translation)
+
+        for match in matches(in: sourceText, language: source) {
+            guard let word = rendering(of: match, in: target, capitalized: false) else { continue }
+            if !comparableTranslation.contains(comparable(word)) { return false }
+        }
+        return true
+    }
+
+    private static func comparable(_ text: String) -> String {
+        text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current).lowercased()
+    }
+
     private static func isWholeWord(_ range: Range<String.Index>, in text: String) -> Bool {
         if range.lowerBound > text.startIndex {
             let before = text[text.index(before: range.lowerBound)]
