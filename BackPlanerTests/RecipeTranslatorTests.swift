@@ -191,6 +191,67 @@ struct RecipeTranslatorTests {
         #expect(RecipeTranslator.showCachedIfAvailable(recipe, languageCode: "fr"))
     }
 
+    // MARK: - The glossary and the cache
+
+    @Test("A cached machine translation of a baker's term is corrected on the way to the screen")
+    func cachedTermIsRepairedFromTheGlossary() {
+        // Translated and cached before the glossary existed: the component
+        // "Brühstück" came back as "Breakfast".
+        let recipe = RecipeFixtures.recipe(name: "Roggenbrot",
+                                           summary: "Ein Roggenbrot mit Brühstück und langer Teigführung.",
+                                           steps: ["Das Brühstück am Vorabend ansetzen."],
+                                           component: "Brühstück",
+                                           ingredients: ["Altbrot", "Wasser"])
+        recipe.sourceLanguage = "de"
+        recipe.storeLocalization(languageCode: "de")
+
+        recipe.name = "Rye bread"
+        recipe.summary = "A rye bread with breakfast and a long fermentation."
+        recipe.components[0].name = "Breakfast"
+        recipe.components[0].ingredients[0].name = "Old bread"
+        recipe.components[0].ingredients[1].name = "Water"
+        recipe.instructions[0].instruction = "Prepare the breakfast the evening before."
+        recipe.storeLocalization(languageCode: "en")
+
+        #expect(RecipeTranslator.showCachedIfAvailable(recipe, languageCode: "en"))
+
+        #expect(recipe.components[0].name == "Scald")
+        // Already right, so left alone.
+        #expect(recipe.components[0].ingredients[0].name == "Old bread")
+        #expect(recipe.components[0].ingredients[1].name == "Water")
+        // A sentence cannot be put right without a new translation round.
+        #expect(recipe.summary == "A rye bread with breakfast and a long fermentation.")
+        #expect(recipe.instructions[0].instruction == "Prepare the breakfast the evening before.")
+
+        // The correction is in the cache, so it survives switching languages.
+        #expect(recipe.components[0].translations["en"]?.name == "Scald")
+        #expect(recipe.components[0].translations["de"]?.name == "Brühstück")
+    }
+
+    @Test("Repairing a correctly cached translation changes nothing")
+    func repairLeavesCorrectTermsAlone() {
+        let recipe = RecipeFixtures.recipe(name: "Landbrot",
+                                           summary: "Ein kräftiges Mischbrot mit Sauerteig.",
+                                           steps: ["Alle Zutaten verkneten."],
+                                           component: "Hauptteig",
+                                           ingredients: ["Sauerteig", "Wasser"])
+        recipe.sourceLanguage = "de"
+        recipe.storeLocalization(languageCode: "de")
+
+        recipe.name = "Country loaf"
+        recipe.summary = "A hearty sourdough loaf."
+        recipe.components[0].name = "Main dough"
+        recipe.components[0].ingredients[0].name = "Sourdough"
+        recipe.components[0].ingredients[1].name = "Water"
+        recipe.instructions[0].instruction = "Knead all the ingredients."
+        recipe.storeLocalization(languageCode: "en")
+
+        #expect(RecipeTranslator.repairGlossaryTerms(of: recipe, languageCode: "en") == false)
+        // The original is never "repaired".
+        #expect(RecipeTranslator.repairGlossaryTerms(of: recipe, languageCode: "de") == false)
+        #expect(recipe.components[0].translations["de"]?.name == "Hauptteig")
+    }
+
     // MARK: - The menu
 
     @Test("The translation menu offers exactly the languages the detector knows")
