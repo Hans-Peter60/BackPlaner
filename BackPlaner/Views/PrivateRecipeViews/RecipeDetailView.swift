@@ -23,11 +23,14 @@ struct RecipeDetailView: View {
     /// A target dough weight in grams; overrides the serving-size factor.
     @State private var targetWeight: Int?
 
+    /// The flour line tapped for a substitution, while its sheet is up.
+    @State private var flourSubstitution: FlourSubstitutionRequest?
+
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipe.totalWeight)
     }
-    
+
     var body: some View {
 
         // Reads the width available so the content below can be pinned to it —
@@ -145,8 +148,17 @@ struct RecipeDetailView: View {
                 )
 
                 // MARK: Components
-                ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
-                                     scale: servingScale)
+                // One snapshot for the card and the substitution sheet, so a
+                // tapped line's index means the same ingredient in both.
+                let recipeSnapshot = RecipeExportData(recipe: recipe)
+                ComponentColumnsView(components: ComponentColumn.columns(of: recipeSnapshot),
+                                     scale: servingScale,
+                                     onFlourTap: { componentIndex, ingredientIndex in
+                                         flourSubstitution = FlourSubstitutionRequest(
+                                             recipe: recipeSnapshot,
+                                             componentIndex: componentIndex,
+                                             ingredientIndex: ingredientIndex)
+                                     })
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
@@ -208,6 +220,9 @@ struct RecipeDetailView: View {
         }
         .warmBackground()
         .navigationTitle(recipe.name)
+        .sheet(item: $flourSubstitution) { request in
+            FlourSubstitutionSheet(request: request)
+        }
 
         }
     }

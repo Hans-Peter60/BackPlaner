@@ -140,6 +140,8 @@
 		6AFA48C7307E000100E105F9 /* StarterFeedingRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */; };
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
+		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
+		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +324,8 @@
 		6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingRatio.swift; sourceTree = "<group>"; };
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
+		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
+		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -476,6 +480,7 @@
 				6A2615BA3070FE15007644AB /* BakeryBackdropView.swift */,
 				6AA79ED630778A9C00935F0F /* DoughYieldView.swift */,
 				6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */,
+				6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */,
 			);
 			path = UtilityViews;
 			sourceTree = "<group>";
@@ -594,6 +599,7 @@
 				6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */,
 				6AFA48AF307D0AAE00E105F9 /* TimedFoldExpansion.swift */,
 				6AFA48B3307D102700E105F9 /* DoughTemperatureCalculator.swift */,
+				6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */,
 				6AFA48C4307E000100E105F9 /* StarterFeedingFacts.swift */,
 				6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */,
 				6AFA48CA307E000100E105F9 /* RecipeExport.swift */,
@@ -972,6 +978,8 @@
 				6AFA48C7307E000100E105F9 /* StarterFeedingRatio.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,
+				6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */,
+				6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,

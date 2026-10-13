@@ -305,8 +305,9 @@ enum DoughComposition {
     private static let notFlourWords = ["leinsamen", "leinschrot", "soja", "flocken", "kleie", "nuss", "nüsse", "mandel", "kokos"]
     /// Poured liquids, by the baker's convention all counted in full.
     private static let waterWords = ["wasser", "water", "eau", "milch", "milk", "lait", "buttermilk", "babeurre", "bier", "beer", "biere", "wein", "wine", "vin", "molke", "whey", "saft", "juice", "jus", "kefir"]
-    /// Dry goods and non-liquids that merely contain a liquid's word.
-    private static let notWaterWords = ["pulver", "powder", "poudre", "trocken", "weinstein", "vinaigre", "essig", "vinegar"]
+    /// Dry goods and non-liquids that merely contain a liquid's word —
+    /// "épeautre" (spelt) carries "eau" in the middle of it.
+    private static let notWaterWords = ["pulver", "powder", "poudre", "trocken", "weinstein", "vinaigre", "essig", "vinegar", "epeautre"]
     /// Dried or extracted sourdough is a flavouring, not a starter.
     private static let notStarterWords = ["pulver", "powder", "poudre", "trocken", "extrakt", "extract", "getrocknet"]
     private static let lievitoMadreWords = ["lievito madre", "pasta madre", "licoli", "li.co.li"]

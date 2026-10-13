@@ -111,6 +111,27 @@ struct ComponentColumn: Identifiable {
             }
     }
 
+    /// The components of a recipe snapshot. Screens that offer the flour
+    /// substitution build their columns from the same snapshot the sheet
+    /// gets, so a tapped line's index is guaranteed to mean the same
+    /// ingredient in both — sorting the Core Data set twice did not, once
+    /// several ingredients shared a `number`.
+    static func columns(of recipe: RecipeExportData) -> [ComponentColumn] {
+        recipe.components.enumerated().map { index, component in
+            ComponentColumn(
+                id: "\(index)-\(component.name)",
+                name: component.name,
+                ingredients: component.ingredients.map {
+                    TotalIngredientData(name: $0.name,
+                                        unit: $0.unit ?? "",
+                                        weight: $0.weight,
+                                        numerator: $0.num,
+                                        denominator: $0.denom)
+                }
+            )
+        }
+    }
+
     /// The components of one of the user's own recipes.
     static func columns(of components: [Component]) -> [ComponentColumn] {
         components
@@ -155,6 +176,10 @@ struct ComponentColumnsView: View {
     let components: [ComponentColumn]
     /// 1.0 is the recipe as stored.
     let scale: Double
+    /// Set by screens that offer the flour substitution: a flour line then
+    /// becomes a button reporting its component and ingredient index — the
+    /// indices into `components` as handed in.
+    var onFlourTap: ((Int, Int) -> Void)? = nil
 
     @Environment(\.horizontalSizeClass) private var hSize
     @Environment(\.dynamicTypeSize)     private var dynamicTypeSize
@@ -192,11 +217,18 @@ struct ComponentColumnsView: View {
                 .foregroundColor(Theme.title)
                 .padding([.bottom, .top], 5)
 
+            if onFlourTap != nil, hasFlour {
+                Text("Tippe auf ein Mehl, um es zu ersetzen.")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+                    .padding(.bottom, 4)
+            }
+
             Grid(alignment: .topLeading, horizontalSpacing: 6, verticalSpacing: 6) {
-                ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                ForEach(Array(rows.enumerated()), id: \.offset) { rowIndex, row in
                     GridRow {
-                        ForEach(row) { component in
-                            column(for: component)
+                        ForEach(Array(row.enumerated()), id: \.element.id) { columnIndex, component in
+                            column(for: component, at: rowIndex * columnCount + columnIndex)
                         }
 
                         // A last row with fewer components keeps the column
@@ -219,7 +251,11 @@ struct ComponentColumnsView: View {
         .cardStyle()
     }
 
-    private func column(for component: ComponentColumn) -> some View {
+    private var hasFlour: Bool {
+        components.contains { $0.ingredients.contains { FlourSubstitution.recognize($0.name) != nil } }
+    }
+
+    private func column(for component: ComponentColumn, at componentIndex: Int) -> some View {
         let flourWeight = showBakersPercentages ? BakersPercentage.flourWeight(of: component.ingredients) : 0
 
         return VStack(alignment: .leading) {
@@ -228,20 +264,42 @@ struct ComponentColumnsView: View {
                 .padding([.bottom, .top], 5)
 
             VStack(alignment: .leading) {
-                ForEach(Array(component.ingredients.enumerated()), id: \.offset) { _, ingredient in
-                    Text("• " + Rational.getPortion(unit: ingredient.unit,
-                                                    weight: ingredient.weight,
-                                                    num: ingredient.numerator,
-                                                    denom: ingredient.denominator,
-                                                    scale: scale)
-                        + ingredient.name.trimmingCharacters(in: .whitespaces)
-                        + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight))
+                ForEach(Array(component.ingredients.enumerated()), id: \.offset) { ingredientIndex, ingredient in
+                    let line = Text(lineText(for: ingredient, flourWeight: flourWeight))
                         .font(Theme.bodyFont(15))
                         .fixedSize(horizontal: false, vertical: true)
+
+                    if let onFlourTap, FlourSubstitution.recognize(ingredient.name) != nil {
+                        Button {
+                            onFlourTap(componentIndex, ingredientIndex)
+                        } label: {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                line
+                                Image(systemName: "arrow.left.arrow.right.circle")
+                                    .font(.caption)
+                                    .foregroundColor(Theme.accentText)
+                            }
+                        }
+                        // Plain, so the tap belongs to the line and not to the card.
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Mehl ersetzen")
+                    } else {
+                        line
+                    }
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func lineText(for ingredient: TotalIngredientData, flourWeight: Double) -> String {
+        "• " + Rational.getPortion(unit: ingredient.unit,
+                                   weight: ingredient.weight,
+                                   num: ingredient.numerator,
+                                   denom: ingredient.denominator,
+                                   scale: scale)
+            + ingredient.name.trimmingCharacters(in: .whitespaces)
+            + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight)
     }
 }
 

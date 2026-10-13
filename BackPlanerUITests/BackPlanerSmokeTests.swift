@@ -24,7 +24,13 @@ final class BackPlanerSmokeTests: XCTestCase {
             "-AppleLanguages", "(de)",
             "-AppleLocale", "de_DE",
             // The in-app language picker overrides the system language.
-            "-settings.selectedLanguage", "de"
+            "-settings.selectedLanguage", "de",
+            // The recipe list's source filters persist on the simulator; a
+            // filter left off in an interactive session would hide the
+            // seeded local recipe from the plan test.
+            "-settings.recipeList.showLocal", "true",
+            "-settings.recipeList.showPrivateCloud", "true",
+            "-settings.recipeList.showPublicCloud", "true"
         ]
     }
 
@@ -160,7 +166,7 @@ final class BackPlanerSmokeTests: XCTestCase {
     /// Raw values of MenuDestination, which the app uses as identifiers.
     private static let menuDestinations = [
         "publicRecipes", "newRecipe", "scheduledSteps",
-        "bakeHistory", "hitList", "shoppingList", "doughTemperature", "settings"
+        "bakeHistory", "hitList", "shoppingList", "doughTemperature", "flourSubstitution", "settings"
     ]
 
     private func launch() {
