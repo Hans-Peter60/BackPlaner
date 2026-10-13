@@ -113,8 +113,7 @@ struct EditInstructionView: View {
                         Text("Dauer").bold()
                         
                         VStack {
-                            TextField("", value: $step, formatter: GlobalVariables.formatter)
-                                .keyboardType(.decimalPad)
+                            NumberField("", value: $step)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
                                 .accessibilityLabel("Schritt")
@@ -132,8 +131,7 @@ struct EditInstructionView: View {
                             .accessibilityLabel("Beschreibung")
                         
                         VStack {
-                            TextField("", value: $duration, formatter: GlobalVariables.formatter)
-                                .keyboardType(.decimalPad)
+                            NumberField("", value: $duration)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
                                 .accessibilityLabel("Dauer in Minuten")

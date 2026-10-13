@@ -64,6 +64,114 @@ struct EditRecipeView: View {
         !recipeFB.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
+    // The two entry rows are their own views: inline in `body` the whole
+    // screen became too much for the type checker in one go.
+
+    /// Number and name of a new component, with the button that adds it.
+    private var componentEntryRow: some View {
+        HStack {
+            NumberField(numberPlaceholder, value: $componentNumber)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 40)
+                .accessibilityLabel("Nummer")
+            TextField(namePlaceholder, text: $componentName)
+                .textFieldStyle(.roundedBorder)
+                // The placeholders are example values, not names.
+                .accessibilityLabel("Komponente")
+
+            IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Komponente hinzufügen", controlSize: .regular) {
+                addComponent()
+            }
+        }
+    }
+
+    private func addComponent() {
+        // Make sure that the fields are populated
+        let cleanedName = componentName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Check that all the fields are filled in
+        if cleanedName == "" { return }
+
+        guard
+            let objectId = recipeId,
+            let recipeCD = model.fetchRecipe(for: objectId, context: viewContext)
+        else {
+            return
+        }
+
+        let c      = Component(context: viewContext)
+        c.id       = UUID()
+        c.name     = cleanedName
+        if componentNumber == 0 {
+            c.number = recipeCD.components.count
+        }
+        else {
+            c.number = componentNumber
+        }
+
+        recipeCD.addToComponents(c)
+
+        componentName = ""
+    }
+
+    /// Step, text and duration of a new instruction, with the button that adds it.
+    private var instructionEntryGrid: some View {
+        LazyVGrid(columns: instructionGridLayout, spacing: 6) {
+            Text("Schritt").bold()
+            Text("Beschreibung").bold()
+            Text("Dauer").bold()
+            Text(verbatim: " ").bold()
+
+            NumberField("", value: $step)
+                .textFieldStyle(.roundedBorder)
+                .accessibilityLabel("Schritt")
+            TextField(namePlaceholder, text: $instruction)
+                .textFieldStyle(.roundedBorder)
+                .accessibilityLabel("Beschreibung")
+            NumberField("", value: $duration)
+                .textFieldStyle(.roundedBorder)
+                .accessibilityLabel("Dauer in Minuten")
+
+            IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Schritt hinzufügen", controlSize: .regular) {
+                addInstruction()
+            }
+        }
+        .scrollsSidewaysAtLargeText()
+    }
+
+    private func addInstruction() {
+        // Make sure that the fields are populated
+        let cleanedInstruction = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Check that all the fields are filled in
+        if cleanedInstruction == "" { return }
+
+        guard
+            let objectId = recipeId,
+            let recipeCD = model.fetchRecipe(for: objectId, context: viewContext)
+        else {
+            return
+        }
+
+        let i         = Instruction(context: viewContext)
+        i.id          = UUID()
+        i.instruction = cleanedInstruction
+        i.step        = step
+        i.duration    = duration
+
+        recipeCD.addToInstructions(i)
+        recalculateInstructionTimes(for: recipeCD)
+        try? viewContext.save()
+
+        if Double(Int(step)) == step {
+            step += 1
+        } else {
+            step += 0.1
+        }
+        instruction = ""
+        duration    = 0
+    }
+
     private var hasRecipeImage: Bool {
         guard let recipeImage else { return false }
         return recipeImage.size.width > 0 && recipeImage.size.height > 0
@@ -145,49 +253,8 @@ struct EditRecipeView: View {
                             .frame(width: 40)
                         Text("Komponente")
                     }
-                    HStack {
-                        TextField(numberPlaceholder, value: $componentNumber, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 40)
-                            .accessibilityLabel("Nummer")
-                        TextField(namePlaceholder, text: $componentName)
-                            .textFieldStyle(.roundedBorder)
-                            // The placeholders are example values, not names.
-                            .accessibilityLabel("Komponente")
-                        
-                        IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Komponente hinzufügen", controlSize: .regular) {
-                            // Make sure that the fields are populated
-                            let cleanedName = componentName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    componentEntryRow
 
-                            // Check that all the fields are filled in
-                            if cleanedName == "" { return }
-
-                            // Create an ComponentFB object and set its properties
-
-                            guard
-                                let objectId = recipeId,
-                                let recipeCD = model.fetchRecipe(for: objectId, context: viewContext)
-                            else {
-                                return
-                            }
-
-                            let c      = Component(context: viewContext)
-                            c.id       = UUID()
-                            c.name     = cleanedName
-                            if componentNumber == 0 {
-                                c.number = recipeCD.components.count
-                            }
-                            else {
-                                c.number = componentNumber
-                            }
-
-                            recipeCD.addToComponents(c)
-
-                            componentName = ""
-                        }
-                    }
-                        
                     if recipeId != nil {
                         EditComponentDataView(recipeId: recipeId!)
                     }
@@ -200,61 +267,8 @@ struct EditRecipeView: View {
                         .foregroundColor(Theme.title)
                         .padding(.bottom, 3)
                     
-                    LazyVGrid(columns: instructionGridLayout, spacing: 6) {
-                        Text("Schritt").bold()
-                        Text("Beschreibung").bold()
-                        Text("Dauer").bold()
-                        Text(verbatim: " ").bold()
-                        
-                        TextField("", value: $step, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
-                            .textFieldStyle(.roundedBorder)
-                            .accessibilityLabel("Schritt")
-                        TextField(namePlaceholder, text: $instruction)
-                            .textFieldStyle(.roundedBorder)
-                            .accessibilityLabel("Beschreibung")
-                        TextField("", value: $duration, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
-                            .textFieldStyle(.roundedBorder)
-                            .accessibilityLabel("Dauer in Minuten")
-                        
-                        IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Schritt hinzufügen", controlSize: .regular) {
-                            // Make sure that the fields are populated
-                            let cleanedInstruction = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
+                    instructionEntryGrid
 
-                            // Check that all the fields are filled in
-                            if cleanedInstruction == "" { return }
-
-                            // Create an Instruction object and set its properties
-
-                            guard
-                                let objectId = recipeId,
-                                let recipeCD = model.fetchRecipe(for: objectId, context: viewContext)
-                            else {
-                                return
-                            }
-
-                            let i         = Instruction(context: viewContext)
-                            i.id          = UUID()
-                            i.instruction = cleanedInstruction
-                            i.step        = step
-                            i.duration    = duration
-
-                            recipeCD.addToInstructions(i)
-                            recalculateInstructionTimes(for: recipeCD)
-                            try? viewContext.save()
-
-                            if Double(Int(step)) == step {
-                                step += 1
-                            } else {
-                                step += 0.1
-                            }
-                            instruction = ""
-                            duration    = 0
-                        }
-                    }
-                    .scrollsSidewaysAtLargeText()
-                    
                     if recipeId != nil { EditInstructionDataView(recipeId: recipeId!) }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

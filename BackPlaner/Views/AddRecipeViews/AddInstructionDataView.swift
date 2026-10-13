@@ -56,8 +56,7 @@ struct AddInstructionDataView: View {
 
                 // The grid header above names each column visually, but a
                 // header cell is not a label — every field needs its own.
-                TextField("", value: $step, formatter: GlobalVariables.formatter)
-                    .keyboardType(.decimalPad)
+                NumberField("", value: $step)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .entry)
                     .accessibilityLabel("Schritt")
@@ -68,8 +67,7 @@ struct AddInstructionDataView: View {
                     .focused($focusedRow, equals: .entry)
                     .accessibilityLabel("Beschreibung")
 
-                TextField("", value: $duration, formatter: GlobalVariables.formatter)
-                    .keyboardType(.decimalPad)
+                NumberField("", value: $duration)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .entry)
                     .accessibilityLabel("Dauer in Minuten")
@@ -111,8 +109,7 @@ struct AddInstructionDataView: View {
 
         ForEach(instructions.indices, id: \.self) { i in
             LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                TextField("", value: $instructions[i].step, formatter: GlobalVariables.formatter)
-                    .keyboardType(.decimalPad)
+                NumberField("", value: $instructions[i].step)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
                     .accessibilityLabel("Schritt")
@@ -121,8 +118,7 @@ struct AddInstructionDataView: View {
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
                     .accessibilityLabel("Beschreibung")
-                TextField("", value: $instructions[i].duration, formatter: GlobalVariables.formatter)
-                    .keyboardType(.decimalPad)
+                NumberField("", value: $instructions[i].duration)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
                     .accessibilityLabel("Dauer in Minuten")
