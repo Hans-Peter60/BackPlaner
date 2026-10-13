@@ -9,7 +9,7 @@
 #   DEVICES="iphone" scripts/appstore-screenshots.sh  only the iPhone
 #
 # Settings (environment variables, all optional):
-#   VERSION  folder name under docs/appstore            (default: 1.3)
+#   VERSION  folder name under docs/appstore            (default: 2.0)
 #   DEVICES  "iphone", "ipad", or both                  (default: iphone ipad)
 #   IPHONE   simulator for the iPhone shots, 1206×2622  (default: iPhone 17 Pro)
 #   IPAD     simulator for the 13" shots, 2064×2752     (default: iPad Pro 13-inch (M5))
@@ -35,7 +35,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-VERSION="${VERSION:-1.3}"
+VERSION="${VERSION:-2.0}"
 DEVICES="${DEVICES:-iphone ipad}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
