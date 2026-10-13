@@ -18,6 +18,21 @@ struct ShoppingCartEntry {
     var weight: Double
     var num: Int
     var denom: Int
+
+    /// The entry at the serving scale chosen in the recipe; 1.0 is the recipe
+    /// as stored. Done before anything else happens to the entry, so eggs by
+    /// weight are doubled first and only then turned into pieces.
+    func scaled(by scale: Double) -> ShoppingCartEntry {
+        let amount = ShoppingListAmount.scaled(weight: weight, num: num, denom: denom, by: scale)
+
+        return ShoppingCartEntry(
+            name: name,
+            unit: unit,
+            weight: amount.weight,
+            num: amount.num,
+            denom: amount.denom
+        )
+    }
 }
 
 /// What is being put on the list.
@@ -29,6 +44,14 @@ enum ShoppingCartSource {
         switch self {
         case .localRecipe(let recipe): return recipe.name
         case .cloudRecipe(let recipe): return recipe.name
+        }
+    }
+
+    /// The recipe's total weight at factor 1.0, for the target-weight input.
+    var baseWeight: Double {
+        switch self {
+        case .localRecipe(let recipe): return recipe.totalWeight
+        case .cloudRecipe(let recipe): return recipe.totalWeight
         }
     }
 
@@ -65,12 +88,23 @@ struct ShoppingCartSelectFormView: View {
 
     var source: ShoppingCartSource
 
-    init(recipe: Recipe) {
+    /// The serving scale of the recipe, owned by TabsView/TabsFBView and
+    /// shared with the Details and Backen tabs: the factor chosen there is
+    /// the one the amounts are put on the list with.
+    @Binding var selectedServingSize: Int
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @Binding var targetWeight: Int?
+
+    init(recipe: Recipe, selectedServingSize: Binding<Int>, targetWeight: Binding<Int?>) {
         self.source = .localRecipe(recipe)
+        _selectedServingSize = selectedServingSize
+        _targetWeight = targetWeight
     }
 
-    init(recipeFB: RecipeFB) {
+    init(recipeFB: RecipeFB, selectedServingSize: Binding<Int>, targetWeight: Binding<Int?>) {
         self.source = .cloudRecipe(recipeFB)
+        _selectedServingSize = selectedServingSize
+        _targetWeight = targetWeight
     }
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
@@ -85,6 +119,20 @@ struct ShoppingCartSelectFormView: View {
 
     private var sortedShoppingCarts: [ShoppingCart] {
         shoppingCarts.sorted { $0.date < $1.date }
+    }
+
+    /// 1.0 is the recipe as stored.
+    private var servingScale: Double {
+        ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: source.baseWeight)
+    }
+
+    /// "2,0" / "1,37" — the factor as the confirmation names it.
+    private var servingScaleText: String {
+        servingScale.formatted(
+            .number
+                .precision(.fractionLength(1...2))
+                .locale(AppSettings.locale)
+        )
     }
 
     private let dateFormat = DateFormat()
@@ -105,6 +153,22 @@ struct ShoppingCartSelectFormView: View {
 
     var body: some View {
         Form {
+            // The same control as under Details and Backen, bound to the same
+            // value: the list used to take the recipe as stored, whatever
+            // factor had been chosen one tab further left.
+            Section {
+                ServingScaleControl(selectedServingSize: $selectedServingSize,
+                                    targetWeight: $targetWeight,
+                                    baseWeight: source.baseWeight)
+
+                Text("Gewicht: \(Int((source.baseWeight * servingScale).rounded()), format: .number) g")
+                    .font(Theme.bodyFont(15))
+            } header: {
+                Text("Portionsgröße")
+            } footer: {
+                Text("Die Zutaten kommen mit dem Faktor \(servingScaleText) auf die Liste – so wie unter Details und Backen gewählt.")
+            }
+
             Section("Einkaufsliste") {
                 Picker("Ziel", selection: $mode) {
                     Text("Neue Liste").tag(ShoppingCartMode.newList)
@@ -179,6 +243,10 @@ struct ShoppingCartSelectFormView: View {
         .warmBackground()
         .alert("Zutaten wurden auf die Einkaufsliste gesetzt", isPresented: $showingAlert) {
             Button("OK", role: .cancel) { }
+        } message: {
+            if servingScale != 1 {
+                Text("Die Mengen entsprechen dem Faktor \(servingScaleText).")
+            }
         }
         .alert("Keine Zutaten vorhanden", isPresented: $showingNoIngredientsAlert) {
             Button("OK", role: .cancel) { }
@@ -236,9 +304,11 @@ struct ShoppingCartSelectFormView: View {
     private func addRecipe(to shoppingCart: ShoppingCart) -> Bool {
         showingAlert = false
 
-        // Amounts are converted for shopping BEFORE anything is merged, so
-        // eggs from one recipe and eggs from another meet as pieces.
+        // Scaled to the chosen factor first, then converted for shopping, and
+        // only then merged — so eggs from one recipe and eggs from another
+        // meet as pieces, and ×2 of "120 g Eier" is four of them, not two.
         let entries = source.entries
+            .map { $0.scaled(by: servingScale) }
             .filter { shouldAddToShoppingCart($0) }
             .map { shoppingListEntry(from: $0) }
 

@@ -20,6 +20,12 @@ struct TabsFBView: View {
     @State private var tabSelection = TabsFBView.detailsTab
     @State private var bakingTabOpened = false
 
+    /// The serving scale, shared by every tab of this recipe: chosen under
+    /// Details or Backen, it also decides the amounts on the shopping list.
+    @State private var selectedServingSize = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
+
     var recipeFB:RecipeFB
 
     @Environment(\.managedObjectContext) private var viewContext
@@ -84,7 +90,10 @@ struct TabsFBView: View {
 
             Group {
                 if bakingTabOpened {
-                    InstructionsFBView(recipeFB: recipeFB, languageCode: selectedLanguage)
+                    InstructionsFBView(recipeFB: recipeFB,
+                                       languageCode: selectedLanguage,
+                                       selectedServingSize: $selectedServingSize,
+                                       targetWeight: $targetWeight)
                 } else {
                     Color.clear
                 }
@@ -97,7 +106,9 @@ struct TabsFBView: View {
                 }
                 .tag(Self.bakingTab)
 
-             RecipeFBDetailView(recipeFB: recipeFB)
+             RecipeFBDetailView(recipeFB: recipeFB,
+                                selectedServingSize: $selectedServingSize,
+                                targetWeight: $targetWeight)
                 .tabItem {
                     VStack {
                         Image(systemName: "list.bullet.rectangle")
@@ -109,7 +120,9 @@ struct TabsFBView: View {
             // Same place as for a recipe of one's own, so the shopping list is
             // where people look for it.
             NavigationStack {
-                ShoppingCartSelectFormView(recipeFB: recipeFB)
+                ShoppingCartSelectFormView(recipeFB: recipeFB,
+                                           selectedServingSize: $selectedServingSize,
+                                           targetWeight: $targetWeight)
             }
                 .tabItem {
                     VStack {

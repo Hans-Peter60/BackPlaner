@@ -78,12 +78,22 @@ struct ShoppingCartsView: View {
                                     .font(Theme.bodyFont(15))
                                     .foregroundColor(Theme.subtitle)
                             } else {
-                                ForEach(shoppingCart.ingredientsArray.sorted(by: { $0.name < $1.name })) { ingredient in
-                                    ShoppingCartIngredientRow(
-                                        ingredient: ingredient,
-                                        onEdit: { selectedIngredient = ingredient },
-                                        onRemove: { remove(ingredient) }
-                                    )
+                                // Grouped by shelf, in the order of a walk
+                                // through the shop; see ShoppingListCategory.
+                                ForEach(ShoppingListCategory.shelves(shoppingCart.ingredientsArray, name: \.name)) { shelf in
+                                    Label(shelf.category.title, systemImage: shelf.category.systemImage)
+                                        .font(Theme.brandFont(15))
+                                        .foregroundColor(Theme.subtitle)
+                                        .padding(.top, 6)
+                                        .accessibilityAddTraits(.isHeader)
+
+                                    ForEach(shelf.items) { ingredient in
+                                        ShoppingCartIngredientRow(
+                                            ingredient: ingredient,
+                                            onEdit: { selectedIngredient = ingredient },
+                                            onRemove: { remove(ingredient) }
+                                        )
+                                    }
                                 }
                             }
                         }

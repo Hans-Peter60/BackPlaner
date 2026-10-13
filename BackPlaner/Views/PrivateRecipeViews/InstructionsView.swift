@@ -19,9 +19,11 @@ struct InstructionsView: View {
     
     @State private var dateTime                   = GlobalVariables.dateTimePicker
     @State private var dateTimeStartSelection     = 0
-    @State var         selectedServingSize        = AppSettings.storedServingSize
+    /// Owned by TabsView and shared with the other tabs, so the factor chosen
+    /// here is the one the shopping list uses.
+    @Binding var         selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
-    @State private var targetWeight: Int?
+    @Binding var         targetWeight: Int?
     @State private var showingNotificationMessage = false
     @State private var changeDurationsFlag        = false
     @State private var showingAlert               = false
