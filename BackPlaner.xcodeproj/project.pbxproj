@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		676C2B321384FE8F424B77DA /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45EF06D1DA27364CA170C3 /* NumberField.swift */; };
 		6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */; };
 		6A05F5CE307BB1980010D6D7 /* RecurringBakePlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */; };
 		6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */; };
@@ -330,6 +331,7 @@
 		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
+		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -477,6 +479,7 @@
 				6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */,
 				6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */,
 				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
+				EF45EF06D1DA27364CA170C3 /* NumberField.swift */,
 				6A5055ED304D684600F8E804 /* InstructionSchedulingControlsView.swift */,
 				6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */,
 				6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */,
@@ -954,6 +957,7 @@
 				6ABFE3E930483E0700E15C6C /* UnitSelectionView.swift in Sources */,
 				6A1131F52B7CF93300CDF054 /* InstructionsFBView.swift in Sources */,
 				6AD5AD773046CA60001680D2 /* IconActionButton.swift in Sources */,
+				676C2B321384FE8F424B77DA /* NumberField.swift in Sources */,
 				6A2616103072A0E0007644AB /* PendingWebImport.swift in Sources */,
 				6A11321F2B7CF97900CDF054 /* BakeHistoriesHitListView.swift in Sources */,
 				6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */,

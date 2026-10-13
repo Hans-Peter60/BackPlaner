@@ -63,26 +63,22 @@ struct AddIngredientDataView: View {
 
                     // The grid header above names each column visually, but a
                     // header cell is not a label — every field needs its own.
-                    TextField("", value: $number, formatter: GlobalVariables.formatter)
-                        .keyboardType(.decimalPad)
+                    NumberField("", value: $number)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Nummer")
-                    TextField("", value: $weight, formatter: GlobalVariables.formatter)
-                        .keyboardType(.decimalPad)
+                    NumberField("", value: $weight)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Gewicht")
                     UnitSelectionView(unit: $unit)
                     TextField("", text:  $name)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Zutat")
-                    TextField("", value: $num, formatter: GlobalVariables.formatter)
-                        .keyboardType(.decimalPad)
+                    NumberField("", value: $num)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Zähler")
                     Text(verbatim: "/")
                         .accessibilityHidden(true)
-                    TextField("", value: $denom, formatter: GlobalVariables.formatter)
-                        .keyboardType(.decimalPad)
+                    NumberField("", value: $denom)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Nenner")
 
@@ -126,12 +122,10 @@ struct AddIngredientDataView: View {
 
                     ForEach(ingredients.indices, id: \.self) { i in
 
-                        TextField("", value: $ingredients[i].number, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
+                        NumberField("", value: $ingredients[i].number)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Nummer")
-                        TextField("", value: $ingredients[i].weight, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
+                        NumberField("", value: $ingredients[i].weight)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Gewicht")
                         UnitSelectionView(unit: $ingredients[i].unit)
@@ -139,16 +133,14 @@ struct AddIngredientDataView: View {
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Zutat")
 
-                        TextField("", value: $ingredients[i].num, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
+                        NumberField("", value: $ingredients[i].num)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Zähler")
 
                         Text(verbatim: "/")
                             .accessibilityHidden(true)
 
-                        TextField("", value: $ingredients[i].denom, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
+                        NumberField("", value: $ingredients[i].denom)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Nenner")
 

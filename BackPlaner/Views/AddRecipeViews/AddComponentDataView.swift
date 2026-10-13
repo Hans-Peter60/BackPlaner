@@ -32,8 +32,7 @@ struct AddComponentDataView: View {
 
                 LazyVGrid(columns: gridItemLayout, spacing: 6) {
 
-                    TextField("", value: $componentNumber, formatter: GlobalVariables.formatter)
-                        .keyboardType(.decimalPad)
+                    NumberField("", value: $componentNumber)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityLabel("Nummer")
 
@@ -66,8 +65,7 @@ struct AddComponentDataView: View {
 
                     LazyVGrid(columns: gridItemLayout, spacing: 6) {
 
-                        TextField("", value: $components[i].number, formatter: GlobalVariables.formatter)
-                            .keyboardType(.decimalPad)
+                        NumberField("", value: $components[i].number)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Nummer")
                         TextField("", text: $components[i].name)
