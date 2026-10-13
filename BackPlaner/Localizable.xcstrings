@@ -4025,6 +4025,22 @@
         }
       }
     },
+    "Die Zutatennamen konnten nicht übersetzt werden und stehen in der Sprache des Rezepts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "The ingredient names could not be translated and are in the recipe’s language."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Les noms des ingrédients n’ont pas pu être traduits et sont dans la langue de la recette."
+          }
+        }
+      }
+    },
     "Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen." : {
       "localizations" : {
         "en" : {
@@ -15249,6 +15265,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingrédients à acheter"
+          }
+        }
+      }
+    },
+    "Zutatennamen werden übersetzt …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Translating ingredient names …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Traduction des noms des ingrédients …"
           }
         }
       }

@@ -48,6 +48,30 @@ struct ShoppingListScalingTests {
         #expect(scaled.denom == 0)
     }
 
+    @Test("Water, salt and starters stay off the list in any language", arguments: [
+        "Wasser", "Schüttwasser", "Wasser (lauwarm)", "water", "Mixing water", "eau", "eau tiède",
+        "Salz", "Meersalz", "salt", "sea salt", "sel", "Anstellgut", "Anstellgut TA 150", "Sauerteig",
+        "Roggensauerteig", "Sourdough starter", "levain", "Lievito Madre", "Poolish", "ASG"
+    ])
+    func notBought(name: String) {
+        #expect(!ShoppingListAmount.belongsOnList(name: name), "\(name)")
+    }
+
+    @Test("Everything else is bought — including what merely sounds like water or salt", arguments: [
+        "Weizenmehl 550", "Rosenwasser", "Kokosmilch", "salted butter", "Sellerie", "Sauerteigpulver",
+        "Sauerteigextrakt", "Hefe", "Eier", "Milch", "Bier"
+    ])
+    func bought(name: String) {
+        #expect(ShoppingListAmount.belongsOnList(name: name), "\(name)")
+    }
+
+    @Test("Eggs are counted by the piece in every language", arguments: ["Eier", "eggs", "œufs", "oeufs"])
+    func eggsInAnyLanguage(name: String) {
+        let amount = ShoppingListAmount.forShoppingList(name: name, unit: "g", weight: 120, num: 0, denom: 0)
+        #expect(amount.unit == ShoppingListAmount.pieceUnit)
+        #expect(amount.weight == 2)
+    }
+
     @Test("Eggs by weight are doubled before they become pieces")
     func eggsScaleThenCount() {
         // 120 g of eggs is two; at ×2 the list has to ask for four.

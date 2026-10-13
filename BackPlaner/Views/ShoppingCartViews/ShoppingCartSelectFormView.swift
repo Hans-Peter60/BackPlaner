@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Translation
 import os
 
 /// One ingredient on its way to a shopping list, independent of where it came
@@ -55,10 +56,33 @@ enum ShoppingCartSource {
         }
     }
 
-    var entries: [ShoppingCartEntry] {
+    /// The language the recipe is written in, or nil when it cannot be told
+    /// — a recipe of nothing but ingredient names gives the detector too
+    /// little to go on, and then the names are taken as they are.
+    var languageCode: String? {
+        switch self {
+        case .cloudRecipe(let recipe):
+            return RecipeTranslator.sourceLanguageCode(for: recipe)
+        case .localRecipe(let recipe):
+            var parts = recipe.instructionsArray.map(\.instruction)
+            parts.append(recipe.summary)
+            parts.append(contentsOf: recipe.componentsArray.map(\.name))
+            parts.append(contentsOf: recipe.componentsArray.flatMap(\.ingredientsArray).map(\.name))
+            return RecipeLanguageDetector.detectedLanguage(in: parts.joined(separator: ". "))
+        }
+    }
+
+    /// The ingredients with their names in `languageCode` where the recipe
+    /// already holds them in that language, and whether every name is.
+    ///
+    /// A cloud recipe caches its translations; the shopping list uses them
+    /// before asking the translator. Names it does not have are taken from
+    /// the recipe's original language, not from whatever translation is on
+    /// screen, so the translator gets the text the cache was made from.
+    func entries(in languageCode: String) -> (entries: [ShoppingCartEntry], allInLanguage: Bool) {
         switch self {
         case .localRecipe(let recipe):
-            return recipe.componentsArray.flatMap(\.ingredientsArray).map { ingredient in
+            let entries = recipe.componentsArray.flatMap(\.ingredientsArray).map { ingredient in
                 ShoppingCartEntry(
                     name: ingredient.name,
                     unit: ingredient.unit ?? "",
@@ -67,16 +91,29 @@ enum ShoppingCartSource {
                     denom: ingredient.denom
                 )
             }
+            let language = self.languageCode
+            return (entries, language == nil || language == languageCode)
+
         case .cloudRecipe(let recipe):
-            return recipe.components.flatMap(\.ingredients).map { ingredient in
-                ShoppingCartEntry(
-                    name: ingredient.name,
+            let source = RecipeTranslator.sourceLanguageCode(for: recipe)
+            var allInLanguage = true
+            let entries = recipe.components.flatMap(\.ingredients).map { ingredient in
+                let name: String
+                if let cached = ingredient.translations[languageCode]?.name, !cached.isEmpty {
+                    name = cached
+                } else {
+                    name = ingredient.translations[source]?.name ?? ingredient.name
+                    if source != languageCode { allInLanguage = false }
+                }
+                return ShoppingCartEntry(
+                    name: name,
                     unit: ingredient.unit,
                     weight: ingredient.weight,
                     num: ingredient.num,
                     denom: ingredient.denom
                 )
             }
+            return (entries, allInLanguage)
         }
     }
 }
@@ -135,6 +172,10 @@ struct ShoppingCartSelectFormView: View {
         )
     }
 
+    /// The language the list is kept in: the app's. A French recipe baked
+    /// in a German app puts "Weizenmehl" on the list, not "farine de blé".
+    private var appLanguage: String { RecipeFB.preferredLanguageCode }
+
     private let dateFormat = DateFormat()
     private let calcWeight = CalcIngredientWeight()
     private let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
@@ -150,6 +191,21 @@ struct ShoppingCartSelectFormView: View {
     /// flag: one flag shared by every row lets the dialog delete a list other
     /// than the one that was swiped.
     @State private var cartPendingDeletion: ShoppingCart?
+
+    /// An addition waiting for its ingredient names to be translated.
+    private struct PendingAddition {
+        let cart: ShoppingCart
+        let entries: [ShoppingCartEntry]
+        let isNewList: Bool
+        let sourceLanguage: String
+    }
+
+    @State private var pendingAddition: PendingAddition?
+    @State private var translationConfig: TranslationSession.Configuration?
+    @State private var isTranslating = false
+    /// True when the translator failed and the names went on the list in
+    /// the recipe's language; the confirmation says so.
+    @State private var keptOriginalNames = false
 
     var body: some View {
         Form {
@@ -188,6 +244,16 @@ struct ShoppingCartSelectFormView: View {
                     IconActionButton(systemImage: "cart.badge.plus", style: .primary, accessibilityLabel: "Einkaufsliste erstellen", title: "Erstellen", controlSize: .regular) {
                         createShoppingCart()
                     }
+                    .disabled(isTranslating)
+                }
+
+                if isTranslating {
+                    HStack(spacing: 8) {
+                        ProgressView()
+                        Text("Zutatennamen werden übersetzt …")
+                            .font(Theme.bodyFont(14))
+                            .foregroundColor(Theme.subtitle)
+                    }
                 }
             }
 
@@ -213,8 +279,9 @@ struct ShoppingCartSelectFormView: View {
                                 Spacer()
 
                                 IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Rezept zur Einkaufsliste hinzufügen", controlSize: .regular) {
-                                    addRecipe(to: shoppingCart)
+                                    beginAdding(to: shoppingCart, isNewList: false)
                                 }
+                                .disabled(isTranslating)
                             }
                             .swipeActions(allowsFullSwipe: false) {
                                 Button(role: .destructive) {
@@ -247,6 +314,9 @@ struct ShoppingCartSelectFormView: View {
             if servingScale != 1 {
                 Text("Die Mengen entsprechen dem Faktor \(servingScaleText).")
             }
+            if keptOriginalNames {
+                Text("Die Zutatennamen konnten nicht übersetzt werden und stehen in der Sprache des Rezepts.")
+            }
         }
         .alert("Keine Zutaten vorhanden", isPresented: $showingNoIngredientsAlert) {
             Button("OK", role: .cancel) { }
@@ -275,6 +345,36 @@ struct ShoppingCartSelectFormView: View {
             }
             Button("Nein", role: .cancel) { }
         }
+        // Ingredient names of a recipe in another language are translated
+        // on the device before they go on the list, through the baker's
+        // glossary like every recipe translation. Should that fail — no
+        // language pack, no network to fetch one — the names go on the list
+        // as they are and the confirmation says so.
+        .translationTask(translationConfig) { session in
+            guard let pending = pendingAddition else { return }
+            var entries = pending.entries
+
+            do {
+                let plan = GlossaryTranslationPlan(texts: entries.map(\.name),
+                                                   from: pending.sourceLanguage,
+                                                   into: appLanguage)
+                let requests = plan.sourceTexts.enumerated().map { index, text in
+                    TranslationSession.Request(sourceText: text, clientIdentifier: "\(index)")
+                }
+                let translated = requests.isEmpty ? [] : try await session.translations(from: requests).map(\.targetText)
+                let names = plan.results(translated: translated)
+                for index in entries.indices where index < names.count {
+                    entries[index].name = names[index]
+                }
+            } catch {
+                AppLog.shoppingCart.error("Zutatennamen für die Einkaufsliste konnten nicht übersetzt werden: \(error.localizedDescription)")
+                keptOriginalNames = true
+            }
+
+            isTranslating = false
+            pendingAddition = nil
+            finishAdding(entries, to: pending.cart, isNewList: pending.isNewList)
+        }
         .navigationTitle(Text("Einkaufsliste erstellen"))
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -294,28 +394,58 @@ struct ShoppingCartSelectFormView: View {
             shoppingCart = newShoppingCart
         }
 
-        if addRecipe(to: shoppingCart) {
-            createdShoppingCart = true
-            mode = .existingList
-        }
+        beginAdding(to: shoppingCart, isNewList: true)
     }
 
-    @discardableResult
-    private func addRecipe(to shoppingCart: ShoppingCart) -> Bool {
+    /// Scales and sifts the recipe's ingredients and puts them on the list —
+    /// at once when their names are already in the app's language, otherwise
+    /// after the translation round the `translationTask` above runs.
+    private func beginAdding(to shoppingCart: ShoppingCart, isNewList: Bool) {
         showingAlert = false
+        keptOriginalNames = false
 
-        // Scaled to the chosen factor first, then converted for shopping, and
-        // only then merged — so eggs from one recipe and eggs from another
-        // meet as pieces, and ×2 of "120 g Eier" is four of them, not two.
-        let entries = source.entries
+        // Scaled to the chosen factor first and sifted on the original
+        // names, which the water/salt/starter check reads in any language.
+        let prepared = source.entries(in: appLanguage)
+        let entries = prepared.entries
             .map { $0.scaled(by: servingScale) }
             .filter { shouldAddToShoppingCart($0) }
-            .map { shoppingListEntry(from: $0) }
 
         guard !entries.isEmpty else {
             showingNoIngredientsAlert = true
-            return false
+            return
         }
+
+        let detectedLanguage = source.languageCode
+        let canTranslate = RecipeTranslator.supportedLanguages.contains { $0.code == appLanguage }
+
+        guard !prepared.allInLanguage, canTranslate,
+              let recipeLanguage = detectedLanguage, recipeLanguage != appLanguage
+        else {
+            finishAdding(entries, to: shoppingCart, isNewList: isNewList)
+            return
+        }
+
+        pendingAddition = PendingAddition(cart: shoppingCart, entries: entries, isNewList: isNewList, sourceLanguage: recipeLanguage)
+        isTranslating = true
+
+        let configuration = TranslationSession.Configuration(
+            source: Locale.Language(identifier: recipeLanguage),
+            target: Locale.Language(identifier: appLanguage)
+        )
+        // The task only runs again when its configuration changes; the same
+        // pair a second time has to be invalidated instead.
+        if translationConfig == configuration {
+            translationConfig?.invalidate()
+        } else {
+            translationConfig = configuration
+        }
+    }
+
+    private func finishAdding(_ entries: [ShoppingCartEntry], to shoppingCart: ShoppingCart, isNewList: Bool) {
+        // Converted for shopping before anything is merged, so eggs from one
+        // recipe and eggs from another meet as pieces.
+        let listEntries = entries.map { shoppingListEntry(from: $0) }
 
         harmonizeIngredients(in: shoppingCart)
 
@@ -328,17 +458,19 @@ struct ShoppingCartSelectFormView: View {
             shoppingCart.addCloudRecipeName(recipe.name)
         }
 
-        for entry in entries {
+        for entry in listEntries {
             merge(entry, into: shoppingCart)
         }
 
         do {
             try viewContext.save()
             showingAlert = true
-            return true
+            if isNewList {
+                createdShoppingCart = true
+                mode = .existingList
+            }
         } catch {
             AppLog.shoppingCart.error("Einkaufsliste konnte nicht gespeichert werden: \(error)")
-            return false
         }
     }
 
@@ -385,12 +517,12 @@ struct ShoppingCartSelectFormView: View {
         }
     }
 
+    /// Water, salt and starters stay off the list, whatever language the
+    /// recipe names them in; so does anything without an amount or a unit.
     private func shouldAddToShoppingCart(_ entry: ShoppingCartEntry) -> Bool {
-        let ignoredIngredientNames = ["Wasser", "Salz", "Anstellgut", "Sauerteig"]
-        let hasIgnoredName = ignoredIngredientNames.contains { entry.name.contains($0) }
         let hasUnit = !entry.unit.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 
-        return !hasIgnoredName && normalizedWeight(of: entry) > 0 && hasUnit
+        return ShoppingListAmount.belongsOnList(name: entry.name) && normalizedWeight(of: entry) > 0 && hasUnit
     }
 
     /// The amount in its base unit. Computed rather than read from the recipe:
