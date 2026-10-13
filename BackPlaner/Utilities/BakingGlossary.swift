@@ -121,19 +121,52 @@ enum BakingGlossary {
         /// "de blé", "d'épeautre" — or an adjective, "complet".
         let fr: String
         let frIsAdjective: Bool
+        /// The bare French noun, "blé", for "blé concassé"; nil for the
+        /// adjective entry.
+        var frNoun: String? = nil
     }
 
     private static let grains: [Grain] = [
-        Grain(de: "Weizen",     en: "wheat",      fr: "de blé",         frIsAdjective: false),
-        Grain(de: "Roggen",     en: "rye",        fr: "de seigle",      frIsAdjective: false),
-        Grain(de: "Dinkel",     en: "spelt",      fr: "d'épeautre",     frIsAdjective: false),
-        Grain(de: "Emmer",      en: "emmer",      fr: "d'amidonnier",   frIsAdjective: false),
-        Grain(de: "Einkorn",    en: "einkorn",    fr: "d'engrain",      frIsAdjective: false),
-        Grain(de: "Hartweizen", en: "durum",      fr: "de blé dur",     frIsAdjective: false),
+        Grain(de: "Weizen",     en: "wheat",      fr: "de blé",         frIsAdjective: false, frNoun: "blé"),
+        Grain(de: "Roggen",     en: "rye",        fr: "de seigle",      frIsAdjective: false, frNoun: "seigle"),
+        Grain(de: "Dinkel",     en: "spelt",      fr: "d'épeautre",     frIsAdjective: false, frNoun: "épeautre"),
+        Grain(de: "Emmer",      en: "emmer",      fr: "d'amidonnier",   frIsAdjective: false, frNoun: "amidonnier"),
+        Grain(de: "Einkorn",    en: "einkorn",    fr: "d'engrain",      frIsAdjective: false, frNoun: "engrain"),
+        Grain(de: "Hartweizen", en: "durum",      fr: "de blé dur",     frIsAdjective: false, frNoun: "blé dur"),
         Grain(de: "Vollkorn",   en: "wholegrain", fr: "complet",        frIsAdjective: true)
     ]
 
-    private static let compoundTerms: [Term] = grains.flatMap { grain in
+    /// Flours, meals and semolina per grain: "Roggenmehl 1370" came back
+    /// as "farine de blé 1370" — wheat instead of rye. The type number
+    /// after the word is left alone and travels with it.
+    private static let flourTerms: [Term] = grains.compactMap { grain -> [Term]? in
+        guard let noun = grain.frNoun else { return nil }
+        return [
+            // Roggenmehl → rye flour → farine de seigle
+            Term(forms: ["de": Forms(["\(grain.de)mehl", "\(grain.de)-Mehl"]),
+                         "en": Forms(["\(grain.en) flour"]),
+                         "fr": Forms(["farine \(grain.fr)"])]),
+            // Weizenvollkornmehl → whole wheat flour → farine de blé complète
+            Term(forms: ["de": Forms(["\(grain.de)vollkornmehl", "\(grain.de)-Vollkornmehl"]),
+                         "en": Forms(["whole \(grain.en) flour", "wholegrain \(grain.en) flour", "whole-\(grain.en) flour"]),
+                         "fr": Forms(["farine \(grain.fr) complète", "farine complète \(grain.fr)"])]),
+            // Roggenschrot → rye meal → seigle concassé
+            Term(forms: ["de": Forms(["\(grain.de)schrot", "\(grain.de)-Schrot"]),
+                         "en": Forms(["\(grain.en) meal", "cracked \(grain.en)"]),
+                         "fr": Forms(["\(noun) concassé"])])
+        ]
+    }.flatMap { $0 } + [
+        // Not the bare "Mehl": in English "flour" is also the verb ("flour
+        // the banneton"), and the translator handles the plain noun itself.
+        Term(forms: ["de": Forms(["Vollkornmehl"]),
+                     "en": Forms(["wholegrain flour", "wholemeal flour", "whole grain flour"]),
+                     "fr": Forms(["farine complète"])]),
+        Term(forms: ["de": Forms(["Hartweizengrieß", "Hartweizengriess"]),
+                     "en": Forms(["durum semolina", "durum wheat semolina", "semolina"]),
+                     "fr": Forms(["semoule de blé dur", "semoule"])])
+    ]
+
+    private static let compoundTerms: [Term] = flourTerms + grains.flatMap { grain in
         [
             // Weizenanstellgut → wheat sourdough starter → levain chef de blé
             Term(forms: ["de": Forms(["\(grain.de)anstellgut", "\(grain.de)-Anstellgut"]),

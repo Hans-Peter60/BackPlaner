@@ -47,6 +47,33 @@ struct BakingGlossaryMatchingTests {
         #expect(BakingGlossary.rendering(of: found, in: "fr", capitalized: false) == french)
     }
 
+    @Test("Flours keep their grain: rye flour is not wheat flour", arguments: [
+        ("Roggenmehl 1370",      "rye flour",         "farine de seigle"),
+        ("Weizenmehl 550",       "wheat flour",       "farine de blé"),
+        ("Dinkelmehl 630",       "spelt flour",       "farine d'épeautre"),
+        ("Weizenvollkornmehl",   "whole wheat flour", "farine de blé complète"),
+        ("Roggenschrot",         "rye meal",          "seigle concassé"),
+        ("Hartweizengrieß",      "durum semolina",    "semoule de blé dur"),
+        ("Vollkornmehl",         "wholegrain flour",  "farine complète")
+    ])
+    func flours(text: String, english: String, french: String) throws {
+        let found = try #require(BakingGlossary.matches(in: text, language: "de").first)
+        #expect(BakingGlossary.rendering(of: found, in: "en", capitalized: false) == english)
+        #expect(BakingGlossary.rendering(of: found, in: "fr", capitalized: false) == french)
+    }
+
+    @Test("The type number travels with the flour and a French flour reads back into German")
+    func flourWithTypeNumber() {
+        let plan = GlossaryTranslationPlan(texts: ["Roggenmehl 1370"], from: "de", into: "fr")
+        #expect(plan.sourceTexts == ["[[1]] 1370"])
+        #expect(plan.results(translated: ["[[1]] 1370"]) == ["Farine de seigle 1370"])
+        #expect(!BakingGlossary.translationHonoursGlossary(sourceText: "Roggenmehl 1370", translation: "Farine de blé 1370", from: "de", into: "fr"))
+
+        let back = BakingGlossary.matches(in: "farine de blé complète T150", language: "fr")
+        #expect(back.count == 1)
+        #expect(back.first.map { BakingGlossary.rendering(of: $0, in: "de", capitalized: false) } == "Weizenvollkornmehl")
+    }
+
     @Test("The compound reads back from English into the German word")
     func grainCompoundFromEnglish() throws {
         let found = try #require(BakingGlossary.matches(in: "Feed the wheat sourdough starter", language: "en").first)
@@ -118,9 +145,9 @@ struct GlossaryTranslationPlanTests {
 
     @Test("A text without terms goes through unchanged")
     func direct() {
-        let plan = GlossaryTranslationPlan(texts: ["Weizenmehl 550"], from: "de", into: "en")
-        #expect(plan.sourceTexts == ["Weizenmehl 550"])
-        #expect(plan.results(translated: ["Wheat flour 550"]) == ["Wheat flour 550"])
+        let plan = GlossaryTranslationPlan(texts: ["Frische Hefe"], from: "de", into: "en")
+        #expect(plan.sourceTexts == ["Frische Hefe"])
+        #expect(plan.results(translated: ["Fresh yeast"]) == ["Fresh yeast"])
     }
 
     @Test("Empty texts are neither sent nor changed")
