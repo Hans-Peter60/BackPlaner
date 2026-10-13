@@ -161,7 +161,8 @@ struct RecipeDetailView: View {
                                          flourSubstitution = FlourSubstitutionRequest(
                                              recipe: recipeSnapshot,
                                              componentIndex: componentIndex,
-                                             ingredientIndex: ingredientIndex)
+                                             ingredientIndex: ingredientIndex,
+                                             scale: servingScale)
                                      },
                                      onStarterTap: { componentIndex, ingredientIndex in
                                          starterAdjustment = StarterYieldRequest(
