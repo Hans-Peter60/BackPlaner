@@ -143,6 +143,7 @@
 		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
+		A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakingGlossary.swift; sourceTree = "<group>"; };
 		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitleRegionPickerView.swift; sourceTree = "<group>"; };
 		6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringBakePlanner.swift; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 				6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */,
 				6AFA48CA307E000100E105F9 /* RecipeExport.swift */,
 				6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */,
+				54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -979,6 +982,7 @@
 				6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */,
 				6AFA48C5307E000100E105F9 /* StarterFeedingFacts.swift in Sources */,
 				6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */,
+				A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */,
 				6AFA48C7307E000100E105F9 /* StarterFeedingRatio.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,

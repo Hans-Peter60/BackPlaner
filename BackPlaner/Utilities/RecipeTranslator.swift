@@ -128,11 +128,64 @@ enum RecipeTranslator {
         }
 
         if recipe.hasCachedTranslation(languageCode: languageCode) {
+            repairGlossaryTerms(of: recipe, languageCode: languageCode)
             recipe.showLocalization(languageCode: languageCode)
             return true
         }
 
         return false
+    }
+
+    /// Puts cached translations right where a baker's term had been
+    /// translated by the machine before the glossary existed — "Brühstück"
+    /// came back as "Breakfast" and was cached that way, on every device.
+    ///
+    /// Only a text that is a term by itself (a component or ingredient name)
+    /// can be corrected without a new translation round; a sentence keeps
+    /// its cached wording until it is translated again. Returns whether
+    /// anything changed.
+    @discardableResult
+    static func repairGlossaryTerms(of recipe: RecipeFB, languageCode: String) -> Bool {
+        let source = sourceLanguageCode(for: recipe)
+        guard languageCode != source, recipe.hasCachedTranslation(languageCode: languageCode) else { return false }
+
+        var changed = false
+
+        /// The glossary's word for `sourceText`, when the cached text differs from it.
+        func correction(for sourceText: String?, cached: String?) -> String? {
+            guard let sourceText, let cached,
+                  let word = GlossaryTranslationPlan.termTranslation(of: sourceText, from: source, into: languageCode),
+                  word != cached
+            else { return nil }
+            return word
+        }
+
+        if let word = correction(for: recipe.translations[source]?.name, cached: recipe.translations[languageCode]?.name) {
+            recipe.translations[languageCode]?.name = word
+            changed = true
+        }
+
+        for component in recipe.components {
+            if let word = correction(for: component.translations[source]?.name, cached: component.translations[languageCode]?.name) {
+                component.translations[languageCode]?.name = word
+                changed = true
+            }
+            for ingredient in component.ingredients {
+                if let word = correction(for: ingredient.translations[source]?.name, cached: ingredient.translations[languageCode]?.name) {
+                    ingredient.translations[languageCode]?.name = word
+                    changed = true
+                }
+            }
+        }
+
+        for instruction in recipe.instructions {
+            if let word = correction(for: instruction.translations[source]?.instruction, cached: instruction.translations[languageCode]?.instruction) {
+                instruction.translations[languageCode]?.instruction = word
+                changed = true
+            }
+        }
+
+        return changed
     }
 
     /// Like `showCachedIfAvailable`, but only a translation that includes the
@@ -153,6 +206,7 @@ enum RecipeTranslator {
         }
 
         if recipe.hasCompleteTranslation(languageCode: languageCode) {
+            repairGlossaryTerms(of: recipe, languageCode: languageCode)
             recipe.showLocalization(languageCode: languageCode)
             return true
         }
@@ -171,7 +225,7 @@ enum RecipeTranslator {
             case tag(Int)
         }
 
-        var requests = [TranslationSession.Request]()
+        var sourceTexts = [String]()
         var fields = [(recipe: Int, field: Field)]()
 
         for (index, recipe) in recipes.enumerated() {
@@ -184,7 +238,7 @@ enum RecipeTranslator {
 
             func add(_ text: String, _ field: Field) {
                 guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                requests.append(TranslationSession.Request(sourceText: text, clientIdentifier: "\(requests.count)"))
+                sourceTexts.append(text)
                 fields.append((index, field))
             }
             add(recipe.name, .name)
@@ -194,17 +248,23 @@ enum RecipeTranslator {
             }
         }
 
-        guard !requests.isEmpty else { return }
+        guard let firstRecipe = recipes.first, !fields.isEmpty else { return }
 
-        // Responses return in the same order as the requests.
-        let responses = try await session.translations(from: requests)
+        // All recipes of the batch share the session's source language; the
+        // glossary (BakingGlossary) keeps the baker's terms out of the round.
+        let plan = GlossaryTranslationPlan(texts: sourceTexts,
+                                           from: sourceLanguageCode(for: firstRecipe),
+                                           into: languageCode)
+        let translated = try await translate(plan.sourceTexts, using: session)
+        let results = plan.results(translated: translated)
+
         var texts = recipes.map { RecipeTextFB(name: $0.name, summary: $0.summary, tags: $0.tags) }
-        for (responseIndex, response) in responses.enumerated() where responseIndex < fields.count {
-            let target = fields[responseIndex]
+        for (resultIndex, result) in results.enumerated() where resultIndex < fields.count {
+            let target = fields[resultIndex]
             switch target.field {
-            case .name:             texts[target.recipe].name = response.targetText
-            case .summary:          texts[target.recipe].summary = response.targetText
-            case .tag(let tagIndex): texts[target.recipe].tags?[tagIndex] = response.targetText
+            case .name:             texts[target.recipe].name = result
+            case .summary:          texts[target.recipe].summary = result
+            case .tag(let tagIndex): texts[target.recipe].tags?[tagIndex] = result
             }
         }
 
@@ -230,26 +290,30 @@ enum RecipeTranslator {
         }
 
         let allSlots = slots(for: recipe)
-        var requests = [TranslationSession.Request]()
-        var slotForRequest = [Int]()
+        guard allSlots.contains(where: { !$0.sourceText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) else { return }
 
-        for (index, slot) in allSlots.enumerated() {
-            guard !slot.sourceText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { continue }
-            requests.append(TranslationSession.Request(sourceText: slot.sourceText,
-                                                       clientIdentifier: "\(slotForRequest.count)"))
-            slotForRequest.append(index)
-        }
+        // Baker's terms are kept out of the translator's hands, see
+        // BakingGlossary: "Brühstück" used to come back as "Breakfast".
+        let plan = GlossaryTranslationPlan(texts: allSlots.map(\.sourceText), from: source, into: languageCode)
+        let translated = try await translate(plan.sourceTexts, using: session)
+        let results = plan.results(translated: translated)
 
-        guard !requests.isEmpty else { return }
-
-        // Responses return in the same order as the requests.
-        let responses = try await session.translations(from: requests)
-        for (responseIndex, response) in responses.enumerated() {
-            guard responseIndex < slotForRequest.count else { break }
-            allSlots[slotForRequest[responseIndex]].apply(response.targetText)
+        for (index, slot) in allSlots.enumerated() where index < results.count {
+            slot.apply(results[index])
         }
 
         // Cache the translated live values under the target language.
         recipe.storeLocalization(languageCode: languageCode)
+    }
+
+    /// The texts translated in order. Responses return in the same order as
+    /// the requests.
+    private static func translate(_ texts: [String], using session: TranslationSession) async throws -> [String] {
+        guard !texts.isEmpty else { return [] }
+
+        let requests = texts.enumerated().map { index, text in
+            TranslationSession.Request(sourceText: text, clientIdentifier: "\(index)")
+        }
+        return try await session.translations(from: requests).map(\.targetText)
     }
 }
