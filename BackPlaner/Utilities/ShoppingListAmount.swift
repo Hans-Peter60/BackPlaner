@@ -27,8 +27,35 @@ enum ShoppingListAmount {
     /// in grams as a fallback for recipes that state them by weight. The weight
     /// is only consulted when the recipe does not already count them.
     private static let countedIngredients: [(pattern: String, gramsPerPiece: Double)] = [
-        (#"\b(ei|eier)\b"#, 60)
+        (#"\b(ei|eier|egg|eggs|oeuf|oeufs|œuf|œufs)\b"#, 60)
     ]
+
+    // MARK: - What is not bought
+
+    /// Water: the word itself and the baker's compounds for it, in the three
+    /// languages. Not every "…wasser" — rose water is bought.
+    private static let waterExpression = try? NSRegularExpression(
+        pattern: #"\b(?:schutt|teig|bruh|koch|quell|misch)?wasser\b|\bwater\b|\beau\b"#)
+    /// Salt, including "Meersalz"; not "salted butter", and not "Sellerie".
+    private static let saltExpression = try? NSRegularExpression(
+        pattern: #"salz\b|\bsalt\b|\bsel\b|\bsale\b"#)
+
+    /// Whether an ingredient is something one buys. Water comes from the
+    /// tap, salt is always in the house, and a starter — Anstellgut,
+    /// Sauerteig, Lievito Madre, Poolish — is made, not bought. Decided from
+    /// the name in any of the app's languages, since a public recipe may be
+    /// English or French. Dried sourdough or an extract is bought and stays.
+    static func belongsOnList(name: String) -> Bool {
+        let key = IngredientNameNormalizer.comparisonKey(name)
+        guard !key.isEmpty else { return false }
+
+        if case .starter = DoughComposition.classify(name) { return false }
+
+        let range = NSRange(key.startIndex..., in: key)
+        if waterExpression?.firstMatch(in: key, range: range) != nil { return false }
+        if saltExpression?.firstMatch(in: key, range: range) != nil { return false }
+        return true
+    }
 
     /// Converts an amount for the shopping list. Anything that is not bought by
     /// the piece is returned unchanged.
