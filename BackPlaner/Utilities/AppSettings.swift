@@ -20,6 +20,7 @@ struct AppSettingsKeys {
     static let bakeHistoryLayout = "settings.bakeHistoryLayout"
     static let starterDoughYield = "settings.starterDoughYield"
     static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
+    static let starterDoughYieldPresets = "settings.starterDoughYieldPresets"
     static let automaticTranslation = "settings.automaticTranslation"
     static let doughFrictionFactor = "settings.doughFrictionFactor"
     static let showLocalRecipes = "settings.recipeList.showLocal"
@@ -148,6 +149,30 @@ struct AppSettings {
 
     static var storedLievitoMadreDoughYield: Int {
         storedInt(forKey: AppSettingsKeys.lievitoMadreDoughYield, defaultValue: defaultLievitoMadreDoughYield)
+    }
+
+    /// The dough yields the user keeps starters at, as quick picks when a
+    /// recipe's starter is exchanged for one's own (StarterYieldAdjustment).
+    /// Kept as the text typed into the settings, "190, 210, 220".
+    static let defaultStarterDoughYieldPresets = "150, 180, 200, 220"
+
+    static var storedStarterDoughYieldPresets: [Int] {
+        starterDoughYieldPresets(from: UserDefaults.standard.string(forKey: AppSettingsKeys.starterDoughYieldPresets) ?? defaultStarterDoughYieldPresets)
+    }
+
+    /// The numbers in a free-form list, within the range a starter can have,
+    /// without duplicates and in ascending order. "TA 190 / TA 210" reads
+    /// as well as "190, 210". Nothing usable falls back to the defaults.
+    static func starterDoughYieldPresets(from text: String) -> [Int] {
+        let numbers = text
+            .split(whereSeparator: { !$0.isNumber })
+            .compactMap { Int($0) }
+            .filter { (minimumStarterDoughYield...maximumStarterDoughYield).contains($0) }
+        let presets = Array(Set(numbers)).sorted()
+        if presets.isEmpty, text != defaultStarterDoughYieldPresets {
+            return starterDoughYieldPresets(from: defaultStarterDoughYieldPresets)
+        }
+        return presets
     }
 
     static var storedFrictionFactor: Int {

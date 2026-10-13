@@ -142,7 +142,9 @@
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
+		D451D9BCF90EFF3302855E4C /* StarterYieldAdjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
+		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */; };
 /* End PBXBuildFile section */
@@ -329,7 +331,9 @@
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
+		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
+		19FF11E946F59F79709D8C92 /* StarterYieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldView.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -488,6 +492,7 @@
 				6AA79ED630778A9C00935F0F /* DoughYieldView.swift */,
 				6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */,
 				6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */,
+				19FF11E946F59F79709D8C92 /* StarterYieldView.swift */,
 			);
 			path = UtilityViews;
 			sourceTree = "<group>";
@@ -607,6 +612,7 @@
 				6AFA48AF307D0AAE00E105F9 /* TimedFoldExpansion.swift */,
 				6AFA48B3307D102700E105F9 /* DoughTemperatureCalculator.swift */,
 				6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */,
+				C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */,
 				6AFA48C4307E000100E105F9 /* StarterFeedingFacts.swift */,
 				6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */,
 				6AFA48CA307E000100E105F9 /* RecipeExport.swift */,
@@ -991,7 +997,9 @@
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,
 				6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */,
+				D451D9BCF90EFF3302855E4C /* StarterYieldAdjustment.swift in Sources */,
 				6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */,
+				CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
