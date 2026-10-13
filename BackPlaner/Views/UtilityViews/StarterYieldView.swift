@@ -197,6 +197,11 @@ struct StarterYieldRequest: Identifiable {
     let recipe: RecipeExportData
     let componentIndex: Int
     let ingredientIndex: Int
+    /// The serving scale the recipe screen is showing (1.0 is the recipe as
+    /// stored). The sheet shows its grams at this scale, so they match the
+    /// line that was tapped; the copy it writes keeps the base amounts, as
+    /// every recipe does.
+    var scale: Double = 1
 }
 
 struct StarterYieldSheet: View {
@@ -247,12 +252,26 @@ struct StarterYieldSheet: View {
         ingredient.normWeight > 0 ? ingredient.normWeight : ingredient.weight
     }
 
+    /// Grams as the recipe screen shows them, at its serving scale.
+    private func shown(_ baseGrams: Double) -> String {
+        StarterYieldText.grams(baseGrams * request.scale)
+    }
+
+    private func shownDelta(_ baseGrams: Double) -> String {
+        StarterYieldText.delta(baseGrams * request.scale)
+    }
+
+    /// "2,0" — the factor named in the footer when it is not 1.
+    private var scaleText: String {
+        request.scale.formatted(.number.precision(.fractionLength(1...2)).locale(AppSettings.locale))
+    }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section("Im Rezept") {
                     LabeledContent(componentName) {
-                        Text(verbatim: "\(StarterYieldText.grams(grams)) \(ingredient.name)")
+                        Text(verbatim: "\(shown(grams)) \(ingredient.name)")
                             .multilineTextAlignment(.trailing)
                     }
                     if let source {
@@ -270,17 +289,17 @@ struct StarterYieldSheet: View {
                 }
 
                 if let applied {
-                    Section("Ergebnis") {
+                    Section {
                         LabeledContent(StarterYieldText.kindTitle(applied.source.kind)) {
-                            Text(verbatim: "\(StarterYieldText.grams(applied.source.grams)) → \(StarterYieldText.grams(applied.starterGrams))")
+                            Text(verbatim: "\(shown(applied.source.grams)) → \(shown(applied.starterGrams))")
                         }
 
                         // Names the line that moves — "Milch" in a component
                         // that has no water of its own.
                         if let liquid = applied.adjustedLiquidName {
-                            LabeledContent(liquid, value: StarterYieldText.delta(applied.waterDelta))
+                            LabeledContent(liquid, value: shownDelta(applied.waterDelta))
                         } else {
-                            LabeledContent("Wasser", value: StarterYieldText.delta(applied.waterDelta))
+                            LabeledContent("Wasser", value: shownDelta(applied.waterDelta))
                         }
 
                         if let before = yieldBefore, let after = yieldAfter {
@@ -304,12 +323,20 @@ struct StarterYieldSheet: View {
 
                         if applied.waterShortfall > 0 {
                             Label {
-                                Text("Die Komponente hat nicht genug Flüssigkeit, um \(StarterYieldText.grams(applied.waterShortfall)) wegzunehmen – bitte an anderer Stelle im Rezept ausgleichen.")
+                                Text("Die Komponente hat nicht genug Flüssigkeit, um \(shown(applied.waterShortfall)) wegzunehmen – bitte an anderer Stelle im Rezept ausgleichen.")
                                     .font(.footnote)
                             } icon: {
                                 Image(systemName: "exclamationmark.triangle.fill")
                             }
                             .foregroundColor(Theme.warning)
+                        }
+                    } header: {
+                        Text("Ergebnis")
+                    } footer: {
+                        // The grams follow the factor chosen under Details, so
+                        // they match the line that was tapped.
+                        if request.scale != 1 {
+                            Text("Mengen für Portionsgröße ×\(scaleText). Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
                         }
                     }
 
