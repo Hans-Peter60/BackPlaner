@@ -22,6 +22,9 @@ struct RecipeFBDetailView: View {
     /// A target dough weight in grams; overrides the serving-size factor.
     @State private var targetWeight: Int?
 
+    /// The flour line tapped for a substitution, while its sheet is up.
+    @State private var flourSubstitution: FlourSubstitutionRequest?
+
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipeFB.totalWeight)
@@ -131,8 +134,18 @@ struct RecipeFBDetailView: View {
                     )
 
                     // MARK: Components
-                    ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
-                                         scale: servingScale)
+                    // One snapshot for the card and the substitution sheet, so a
+                    // tapped line's index means the same ingredient in both.
+                    let recipeSnapshot = RecipeExportData(recipeFB: recipeFB,
+                                                          image: GlobalVariables.recipesImage[recipeFB.id ?? ""])
+                    ComponentColumnsView(components: ComponentColumn.columns(of: recipeSnapshot),
+                                         scale: servingScale,
+                                         onFlourTap: { componentIndex, ingredientIndex in
+                                             flourSubstitution = FlourSubstitutionRequest(
+                                                 recipe: recipeSnapshot,
+                                                 componentIndex: componentIndex,
+                                                 ingredientIndex: ingredientIndex)
+                                         })
 
                     Divider()
                     
@@ -227,6 +240,9 @@ struct RecipeFBDetailView: View {
             }
             .warmBackground()
             .navigationTitle(Text(recipeFB.name))
+            .sheet(item: $flourSubstitution) { request in
+                FlourSubstitutionSheet(request: request)
+            }
             .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
                 Button("Löschen", role: .destructive) {
                     modelFB.deleteRecipeAsAdmin(recipeFB) { result in
