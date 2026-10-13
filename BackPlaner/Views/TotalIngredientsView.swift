@@ -180,6 +180,10 @@ struct ComponentColumnsView: View {
     /// becomes a button reporting its component and ingredient index — the
     /// indices into `components` as handed in.
     var onFlourTap: ((Int, Int) -> Void)? = nil
+    /// Set by screens that offer the starter TA adjustment: a starter line
+    /// (Anstellgut, Sauerteig, Lievito Madre) then becomes a button the same
+    /// way, see StarterYieldAdjustment.
+    var onStarterTap: ((Int, Int) -> Void)? = nil
 
     @Environment(\.horizontalSizeClass) private var hSize
     @Environment(\.dynamicTypeSize)     private var dynamicTypeSize
@@ -217,8 +221,8 @@ struct ComponentColumnsView: View {
                 .foregroundColor(Theme.title)
                 .padding([.bottom, .top], 5)
 
-            if onFlourTap != nil, hasFlour {
-                Text("Tippe auf ein Mehl, um es zu ersetzen.")
+            if let tapHint {
+                Text(tapHint)
                     .font(Theme.bodyFont(13))
                     .foregroundColor(Theme.subtitle)
                     .padding(.bottom, 4)
@@ -255,6 +259,28 @@ struct ComponentColumnsView: View {
         components.contains { $0.ingredients.contains { FlourSubstitution.recognize($0.name) != nil } }
     }
 
+    private var hasStarter: Bool {
+        components.contains { $0.ingredients.contains(where: isAdjustableStarter) }
+    }
+
+    /// A starter from the jar, not a line that stands for one of this
+    /// recipe's own components.
+    private func isAdjustableStarter(_ ingredient: TotalIngredientData) -> Bool {
+        StarterYieldAdjustment.recognize(ingredient, componentNames: components.map(\.name)) != nil
+    }
+
+    /// What tapping a line does, for the one-line hint above the columns.
+    private var tapHint: LocalizedStringKey? {
+        let flour = onFlourTap != nil && hasFlour
+        let starter = onStarterTap != nil && hasStarter
+        switch (flour, starter) {
+        case (true, true):   return "Tippe auf ein Mehl, um es zu ersetzen, oder auf das Anstellgut, um seine TA anzupassen."
+        case (true, false):  return "Tippe auf ein Mehl, um es zu ersetzen."
+        case (false, true):  return "Tippe auf das Anstellgut, um seine TA anzupassen."
+        case (false, false): return nil
+        }
+    }
+
     private func column(for component: ComponentColumn, at componentIndex: Int) -> some View {
         let flourWeight = showBakersPercentages ? BakersPercentage.flourWeight(of: component.ingredients) : 0
 
@@ -283,6 +309,19 @@ struct ComponentColumnsView: View {
                         // Plain, so the tap belongs to the line and not to the card.
                         .buttonStyle(.plain)
                         .accessibilityHint("Mehl ersetzen")
+                    } else if let onStarterTap, isAdjustableStarter(ingredient) {
+                        Button {
+                            onStarterTap(componentIndex, ingredientIndex)
+                        } label: {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                line
+                                Image(systemName: "drop.circle")
+                                    .font(.caption)
+                                    .foregroundColor(Theme.accentText)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Anstellgut-TA anpassen")
                     } else {
                         line
                     }

@@ -27,6 +27,8 @@ struct RecipeDetailView: View {
 
     /// The flour line tapped for a substitution, while its sheet is up.
     @State private var flourSubstitution: FlourSubstitutionRequest?
+    /// The starter line tapped for a TA adjustment, while its sheet is up.
+    @State private var starterAdjustment: StarterYieldRequest?
 
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
@@ -160,6 +162,12 @@ struct RecipeDetailView: View {
                                              recipe: recipeSnapshot,
                                              componentIndex: componentIndex,
                                              ingredientIndex: ingredientIndex)
+                                     },
+                                     onStarterTap: { componentIndex, ingredientIndex in
+                                         starterAdjustment = StarterYieldRequest(
+                                             recipe: recipeSnapshot,
+                                             componentIndex: componentIndex,
+                                             ingredientIndex: ingredientIndex)
                                      })
 
                 // MARK: Instructions
@@ -224,6 +232,9 @@ struct RecipeDetailView: View {
         .navigationTitle(recipe.name)
         .sheet(item: $flourSubstitution) { request in
             FlourSubstitutionSheet(request: request)
+        }
+        .sheet(item: $starterAdjustment) { request in
+            StarterYieldSheet(request: request)
         }
 
         }

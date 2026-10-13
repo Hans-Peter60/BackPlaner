@@ -18,6 +18,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
     @AppStorage(AppSettingsKeys.starterDoughYield) private var starterDoughYield = AppSettings.defaultStarterDoughYield
     @AppStorage(AppSettingsKeys.lievitoMadreDoughYield) private var lievitoMadreDoughYield = AppSettings.defaultLievitoMadreDoughYield
+    @AppStorage(AppSettingsKeys.starterDoughYieldPresets) private var starterDoughYieldPresets = AppSettings.defaultStarterDoughYieldPresets
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false
     @AppStorage(AppSettingsKeys.recipeImageAnalysisMode) private var recipeImageAnalysisMode = "localOnly"
 
@@ -107,6 +108,23 @@ struct SettingsView: View {
                         in: AppSettings.minimumStarterDoughYield...AppSettings.maximumStarterDoughYield,
                         step: 5) {
                     LabeledContent("Lievito Madre", value: "TA \(lievitoMadreDoughYield)")
+                }
+
+                // The TAs one keeps starters at — the quick picks offered when
+                // a recipe's starter is swapped for one's own.
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("Meine Anstellgut-TAs")
+                        Spacer()
+                        TextField("190, 210, 220", text: $starterDoughYieldPresets)
+                            .keyboardType(.numbersAndPunctuation)
+                            .multilineTextAlignment(.trailing)
+                            .frame(maxWidth: 160)
+                            .accessibilityLabel("Meine Anstellgut-TAs")
+                    }
+                    Text("Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA.")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
                 }
 
                 NavigationLink {

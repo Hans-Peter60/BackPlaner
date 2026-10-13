@@ -1,0 +1,380 @@
+//
+//  StarterYieldView.swift
+//  BackPlaner
+//
+//  Two ways into the starter TA adjustment (see StarterYieldAdjustment):
+//  a free-standing calculator from the main menu — amount, TA the recipe
+//  wants, TA on hand — and a sheet opened from a starter line of a recipe,
+//  which also shows the dough yield and can write the adjustment into a
+//  copy of the recipe. The counterpart of FlourSubstitutionView.
+//
+
+import SwiftUI
+import CoreData
+
+// MARK: - Shared pieces
+
+private enum StarterYieldText {
+    static func grams(_ value: Double) -> String {
+        "\(Int(value.rounded())) g"
+    }
+
+    /// "+20 g", "−20 g", "±0 g" — a true minus sign, not a hyphen.
+    static func delta(_ grams: Double) -> String {
+        let whole = Int(grams.rounded())
+        if whole == 0 { return "±0 g" }
+        return whole > 0 ? "+\(whole) g" : "−\(-whole) g"
+    }
+
+    static func yield(_ value: Double) -> String {
+        "TA \(Int(value.rounded()))"
+    }
+
+    static func kindTitle(_ kind: DoughComposition.StarterKind) -> String {
+        switch kind {
+        case .sourdough:     return String(localized: "Anstellgut", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Sauerteig-Anstellgut")
+        case .lievitoMadre:  return "Lievito Madre"
+        case .pateFermentee: return "Pâte fermentée"
+        case .biga:          return "Biga"
+        case .poolish:       return "Poolish"
+        }
+    }
+
+    static let rulesOfThumb: LocalizedStringKey = "Das Mehl aus dem Anstellgut bleibt gleich; nur Anstellgut und Wasser verschieben sich gegeneinander. Teigausbeute und Gesamtgewicht des Teigs ändern sich dadurch nicht."
+}
+
+/// The TAs the user keeps starters at as quick picks, with a stepper for
+/// any other value. The quick picks come from Settings → Rezepte.
+private struct StarterYieldPicker: View {
+    let title: LocalizedStringKey
+    @Binding var yield: Int
+
+    private var presets: [Int] { AppSettings.storedStarterDoughYieldPresets }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+            // A segmented picker hides its own label; the title stands above.
+            Picker(title, selection: $yield) {
+                ForEach(presets, id: \.self) { preset in
+                    Text(verbatim: "\(preset)").tag(preset)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+
+            Stepper(value: $yield,
+                    in: AppSettings.minimumStarterDoughYield...AppSettings.maximumStarterDoughYield,
+                    step: 5) {
+                LabeledContent("Genauer Wert", value: "TA \(yield)")
+            }
+        }
+    }
+}
+
+private struct StarterYieldHintsSection: View {
+    let hints: [StarterYieldAdjustment.Hint]
+
+    var body: some View {
+        if !hints.isEmpty {
+            Section("Worauf achten") {
+                ForEach(hints) { hint in
+                    Label {
+                        Text(hint.text)
+                            .font(Theme.bodyFont(15))
+                            .fixedSize(horizontal: false, vertical: true)
+                    } icon: {
+                        Image(systemName: "lightbulb")
+                            .foregroundColor(Theme.accentText)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Calculator (main menu)
+
+struct StarterYieldCalculatorView: View {
+
+    @State private var gramsText = "100"
+    @State private var sourceYield = 150
+    @State private var targetYield = AppSettings.storedStarterDoughYield
+
+    @FocusState private var gramsFocused: Bool
+
+    private var grams: Double {
+        Double(gramsText.filter(\.isNumber)) ?? 0
+    }
+
+    private var starterAfter: Double {
+        StarterYieldAdjustment.starterGrams(grams: grams, from: Double(sourceYield), to: Double(targetYield))
+    }
+
+    private var waterDelta: Double {
+        StarterYieldAdjustment.waterDelta(grams: grams, from: Double(sourceYield), to: Double(targetYield))
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                VStack(spacing: 6) {
+                    Text("Anstellgut einsetzen")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.subtitle)
+
+                    Text(verbatim: StarterYieldText.grams(starterAfter))
+                        .font(Theme.brandFont(40))
+                        .foregroundColor(Theme.cardTitle)
+
+                    Text("Wasser im Teig: \(StarterYieldText.delta(waterDelta))")
+                        .font(Theme.bodyFont(15))
+
+                    // Figures only; nothing in it to translate.
+                    Text(verbatim: "\(StarterYieldText.grams(grams)) \(StarterYieldText.yield(Double(sourceYield))) → \(StarterYieldText.yield(Double(targetYield)))")
+                        .font(.footnote)
+                        .foregroundColor(Theme.subtitle)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .accessibilityElement(children: .combine)
+            }
+            .listRowBackground(Color.clear)
+
+            Section("Im Rezept") {
+                HStack {
+                    Text("Menge")
+                    Spacer()
+                    TextField("", text: $gramsText)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .frame(minWidth: 60, maxWidth: 90)
+                        .focused($gramsFocused)
+                        .accessibilityLabel("Menge")
+                    Text(verbatim: "g")
+                        .foregroundColor(Theme.subtitle)
+                    if gramsFocused {
+                        Button("Fertig") { gramsFocused = false }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                    }
+                }
+
+                Stepper(value: $sourceYield,
+                        in: AppSettings.minimumStarterDoughYield...AppSettings.maximumStarterDoughYield,
+                        step: 5) {
+                    LabeledContent("TA im Rezept", value: "TA \(sourceYield)")
+                }
+            }
+
+            Section("Vorhanden") {
+                StarterYieldPicker(title: "Mein Anstellgut", yield: $targetYield)
+            }
+
+            StarterYieldHintsSection(hints: StarterYieldAdjustment.hints(
+                from: Double(sourceYield), to: Double(targetYield), yieldSource: .name))
+
+            Section {
+                EmptyView()
+            } footer: {
+                Text(StarterYieldText.rulesOfThumb)
+            }
+        }
+        .clearScrollBackground()
+        .warmBackground()
+        .navigationTitle("Anstellgut-TA anpassen")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - Sheet from a recipe line
+
+/// What a tapped starter line hands to the sheet: the recipe as plain data
+/// and the position of the line within it.
+struct StarterYieldRequest: Identifiable {
+    let id = UUID()
+    let recipe: RecipeExportData
+    let componentIndex: Int
+    let ingredientIndex: Int
+}
+
+struct StarterYieldSheet: View {
+
+    let request: StarterYieldRequest
+
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var targetYield: Int
+    @State private var savedName: String?
+    @State private var saveFailed = false
+
+    private let source: StarterYieldAdjustment.Source?
+    private let ingredient: RecipeExportIngredient
+    private let componentName: String
+
+    init(request: StarterYieldRequest) {
+        self.request = request
+        let component = request.recipe.components[request.componentIndex]
+        componentName = component.name
+        ingredient = component.ingredients[request.ingredientIndex]
+        source = StarterYieldAdjustment.recognize(ingredient, componentNames: request.recipe.components.map(\.name))
+
+        // Start on the starter one keeps, as set under Einstellungen.
+        let initial = source?.kind == .lievitoMadre
+            ? AppSettings.storedLievitoMadreDoughYield
+            : AppSettings.storedStarterDoughYield
+        _targetYield = State(initialValue: initial)
+    }
+
+    private var applied: StarterYieldAdjustment.Applied? {
+        StarterYieldAdjustment.apply(to: request.recipe,
+                                     componentIndex: request.componentIndex,
+                                     ingredientIndex: request.ingredientIndex,
+                                     targetYield: Double(targetYield))
+    }
+
+    private var yieldBefore: DoughComposition.Result? {
+        DoughComposition.compute(DoughComposition.components(of: request.recipe))
+    }
+
+    private var yieldAfter: DoughComposition.Result? {
+        applied.flatMap { DoughComposition.compute(DoughComposition.components(of: $0.recipe)) }
+    }
+
+    private var grams: Double {
+        ingredient.normWeight > 0 ? ingredient.normWeight : ingredient.weight
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Im Rezept") {
+                    LabeledContent(componentName) {
+                        Text(verbatim: "\(StarterYieldText.grams(grams)) \(ingredient.name)")
+                            .multilineTextAlignment(.trailing)
+                    }
+                    if let source {
+                        LabeledContent("Erkannt als") {
+                            Text(verbatim: "\(StarterYieldText.kindTitle(source.kind)), \(StarterYieldText.yield(source.doughYield))")
+                        }
+                        if source.yieldSource == .setting {
+                            LabeledContent("TA laut", value: "Einstellungen")
+                        }
+                    }
+                }
+
+                Section {
+                    StarterYieldPicker(title: "Vorhandenes Anstellgut", yield: $targetYield)
+                }
+
+                if let applied {
+                    Section("Ergebnis") {
+                        LabeledContent(StarterYieldText.kindTitle(applied.source.kind)) {
+                            Text(verbatim: "\(StarterYieldText.grams(applied.source.grams)) → \(StarterYieldText.grams(applied.starterGrams))")
+                        }
+
+                        // Names the line that moves — "Milch" in a component
+                        // that has no water of its own.
+                        if let liquid = applied.adjustedLiquidName {
+                            LabeledContent(liquid, value: StarterYieldText.delta(applied.waterDelta))
+                        } else {
+                            LabeledContent("Wasser", value: StarterYieldText.delta(applied.waterDelta))
+                        }
+
+                        if let before = yieldBefore, let after = yieldAfter {
+                            LabeledContent("Teigausbeute") {
+                                Text(verbatim: "TA \(Int(before.doughYield.rounded())) → \(Int(after.doughYield.rounded()))")
+                            }
+                            LabeledContent("Hydration") {
+                                Text(verbatim: "\(Int(before.hydration.rounded())) % → \(Int(after.hydration.rounded())) %")
+                            }
+                        }
+
+                        if applied.waterDelta != 0, !applied.waterAdjusted {
+                            Label {
+                                Text("In dieser Komponente gibt es keine Flüssigkeit (Wasser, Milch …) – die Flüssigkeit bitte von Hand anpassen.")
+                                    .font(.footnote)
+                            } icon: {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                            }
+                            .foregroundColor(Theme.warning)
+                        }
+
+                        if applied.waterShortfall > 0 {
+                            Label {
+                                Text("Die Komponente hat nicht genug Flüssigkeit, um \(StarterYieldText.grams(applied.waterShortfall)) wegzunehmen – bitte an anderer Stelle im Rezept ausgleichen.")
+                                    .font(.footnote)
+                            } icon: {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                            }
+                            .foregroundColor(Theme.warning)
+                        }
+                    }
+
+                    StarterYieldHintsSection(hints: StarterYieldAdjustment.hints(
+                        from: applied.source.doughYield,
+                        to: applied.targetYield,
+                        yieldSource: applied.source.yieldSource))
+
+                    Section {
+                        IconActionButton(systemImage: "doc.on.doc", style: .primary, accessibilityLabel: "Kopie mit Anpassung anlegen", title: "Kopie mit Anpassung anlegen", controlSize: .regular) {
+                            createCopy(applied)
+                        }
+                    } footer: {
+                        Text("Legt unter „Eigene Rezepte“ ein neues Rezept mit dem angepassten Anstellgut und Wasser an. Das Original bleibt unverändert.")
+                    }
+                } else {
+                    Section {
+                        Text("Diese Zutat wird nicht als Anstellgut oder Sauerteig erkannt.")
+                            .foregroundColor(Theme.subtitle)
+                    }
+                }
+
+                Section {
+                    EmptyView()
+                } footer: {
+                    Text(StarterYieldText.rulesOfThumb)
+                }
+            }
+            .clearScrollBackground()
+            .warmBackground()
+            .navigationTitle("Anstellgut-TA anpassen")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") { dismiss() }
+                }
+            }
+            .alert("Kopie angelegt", isPresented: Binding(
+                get: { savedName != nil },
+                set: { if !$0 { savedName = nil; dismiss() } }
+            )) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("„\(savedName ?? "")“ liegt jetzt unter „Eigene Rezepte“.")
+            }
+            .alert("Speichern fehlgeschlagen", isPresented: $saveFailed) {
+                Button("OK", role: .cancel) { }
+            }
+        }
+    }
+
+    private func createCopy(_ applied: StarterYieldAdjustment.Applied) {
+        _ = applied.recipe.makeRecipe(in: viewContext)
+        do {
+            try viewContext.save()
+            savedName = applied.recipe.name
+        } catch {
+            viewContext.rollback()
+            saveFailed = true
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        StarterYieldCalculatorView()
+    }
+}

@@ -50,6 +50,7 @@ struct ContentView: View {
         MenuItem(destination: .shoppingList,   title: "Einkaufsliste",        subtitle: "Zutaten zum Einkaufen",           systemImage: "cart.fill"),
         MenuItem(destination: .doughTemperature, title: "Teigtemperatur",     subtitle: "Schüttwassertemperatur berechnen", systemImage: "thermometer.medium"),
         MenuItem(destination: .flourSubstitution, title: "Mehl ersetzen",     subtitle: "Mehlsorte tauschen, Wasser anpassen", systemImage: "arrow.left.arrow.right.circle"),
+        MenuItem(destination: .starterYield,   title: "Anstellgut-TA",        subtitle: "Anderes Anstellgut, Wasser anpassen", systemImage: "drop.circle"),
         MenuItem(destination: .settings,       title: "Einstellungen",        subtitle: "Sprache und App-Defaults",        systemImage: "gearshape.fill")
     ]
 
@@ -188,6 +189,7 @@ struct ContentView: View {
         case .shoppingList:   ShoppingCartsView()
         case .doughTemperature: DoughTemperatureCalculatorView()
         case .flourSubstitution: FlourSubstitutionCalculatorView()
+        case .starterYield:   StarterYieldCalculatorView()
         case .settings:       SettingsView()
         case .webImport(let pageURL, let handoff):
             // Without an explicit identity the stack keeps the previous
@@ -215,6 +217,7 @@ enum MenuDestination: Hashable {
     case shoppingList
     case doughTemperature
     case flourSubstitution
+    case starterYield
     case settings
     /// Not a menu card: reached through the share extension, with the page
     /// to import. The hand-off id makes every share a new screen, so the
