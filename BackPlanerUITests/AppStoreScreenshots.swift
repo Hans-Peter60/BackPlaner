@@ -135,6 +135,12 @@ final class AppStoreScreenshots: XCTestCase {
         tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
         settle(2)
         capture("07-einkaufsliste")
+
+        // The starter TA calculator, new in 2.0.
+        backToMenu()
+        openMenu("starterYield")
+        settle(1)
+        capture("08-anstellgut-ta")
     }
 
     // MARK: - Screenshots

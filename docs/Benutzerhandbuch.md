@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 08.10.2026 · App-Version 1.3
+Stand: 13.10.2026 · App-Version 2.0
 
 ---
 
@@ -36,7 +36,7 @@ BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unte
 - Du kannst rückwärts planen: „Das Brot soll um 18:00 Uhr fertig sein“ – die App sagt Dir, wann Du den Sauerteig ansetzen musst.
 - Für jeden Schritt wird eine **lokale Erinnerung** gesetzt, inklusive automatisch eingefügtem Schritt „Backofen anstellen“ und „Backvorgang ist beendet“.
 
-Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, private Rezepte in der Cloud, Zutaten-Import aus Fotos, Einkaufslisten, eine Backhistorie mit Fotos und Bewertungen sowie eine On-Device-Übersetzung öffentlicher Rezepte.
+Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, private Rezepte in der Cloud, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) sowie eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe.
 
 ### Schnellstart: In fünf Schritten zum ersten Backplan
 
@@ -82,7 +82,7 @@ Ein Teilansatz innerhalb eines Rezepts – zum Beispiel „Sauerteig“, „Vort
 Gehört immer zu einer Komponente. Besteht aus Nummer, Menge, Einheit, Name und optional einem Bruch (Zähler/Nenner, in der App als **Z / N** bezeichnet).
 
 **Verarbeitungsschritt**
-Eine Arbeitsanweisung mit Schrittnummer und Dauer in Minuten. Die Schrittnummer ist eine Dezimalzahl und hat eine besondere Bedeutung:
+Eine Arbeitsanweisung mit Schrittnummer und Dauer. Gespeichert wird die Dauer in Minuten; eingeben kannst Du sie auch in Stunden und Minuten („1:30“, „1h 30“, „1,5 h“), siehe [Kapitel 8](#8-neues-rezept-anlegen). Die Schrittnummer ist eine Dezimalzahl und hat eine besondere Bedeutung:
 
 - **Ganze Zahlen (1, 2, 3 …) sind Hauptschritte.** Sie laufen zeitlich nacheinander.
 - **Nachkommastellen (2.1, 2.2, 2.3) sind Parallelschritte innerhalb eines Hauptschritts.** Sie laufen gleichzeitig; für die Gesamtdauer zählt nur die *längste* Dauer der Gruppe. Schritte, die eine Komponente herstellen (Sauerteig, Vorteig, Quellstück …), starten dabei im Abstand von 5 Minuten nacheinander, in der Reihenfolge ihrer Schrittnummern: Niemand wiegt vier Vorstufen zur selben Minute ab, und die Erinnerungen kommen entsprechend versetzt. Alle anderen Parallelschritte enden gemeinsam mit ihrer Gruppe.
@@ -90,7 +90,7 @@ Eine Arbeitsanweisung mit Schrittnummer und Dauer in Minuten. Die Schrittnummer 
 Beispiel: Wenn Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig ansetzt, gib beiden Schritt 1.1 und 1.2. Der nächste Hauptschritt 2 beginnt nach gut 12 Stunden, nicht nach 14.
 
 **Portionsgröße**
-Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht.
+Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht. Statt eines Faktors kannst Du ein **Teiggewicht** in Gramm eingeben. Die Wahl gilt für alle Tabs des geöffneten Rezepts: Details, Backen und Einkaufsliste rechnen mit demselben Faktor (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 
 **Ablage**
 Wo ein Rezept liegt. Es gibt drei Möglichkeiten, und die Wahl entscheidet, wer das Rezept sehen kann:
@@ -107,24 +107,26 @@ Wo ein Rezept liegt. Es gibt drei Möglichkeiten, und die Wahl entscheidet, wer 
 
 ## 4. Das Hauptmenü
 
-Nach dem Start erscheint das Hauptmenü mit acht Karten:
+Nach dem Start erscheint das Hauptmenü mit zehn Karten:
 
-![Hauptmenü von BakePlanner mit den acht Funktionsbereichen](images/hauptmenue.png)
+![Hauptmenü von BakePlanner mit seinen Funktionsbereichen](images/hauptmenue.png)
 
 *Das Hauptmenü ist der Ausgangspunkt für Rezepte, Planung, Historie und Einstellungen.*
 
 | Karte | Zweck |
 |-------|-------|
-| **Rezept-Datenbank** | Öffentliche, von allen Nutzern geteilte Rezepte durchsuchen – dazu Deine privaten Cloud-Rezepte, wenn Du angemeldet bist |
-| **Eigene Rezepte** | Deine lokal gespeicherten Rezepte |
-| **Neues Rezept anlegen** | Rezept von Grund auf erstellen oder aus Fotos importieren |
+| **Rezept-Datenbank** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, Deine privaten Cloud-Rezepte und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Eigene / Öffentlich** |
+| **Neues Rezept anlegen** | Rezept von Grund auf erstellen oder aus Fotos bzw. von einer Internetseite importieren |
 | **Geplante Schritte** | Alle terminierten Backschritte als Liste oder Timeline |
 | **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos |
 | **Back Hit-Liste** | Rezepte, sortiert nach Anzahl der Backvorgänge |
 | **Einkaufsliste** | Alle angelegten Einkaufslisten |
-| **Einstellungen** | Sprache, Standardwerte, Backplanung, Konto |
+| **Teigtemperatur** | Rechner: Schüttwassertemperatur für eine gewünschte Teigtemperatur |
+| **Mehl ersetzen** | Rechner: Mehlsorte tauschen, Wasser anpassen |
+| **Anstellgut-TA** | Rechner: Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen |
+| **Einstellungen** | Sprache, Standardwerte, Backplanung, Sicherung, Konto |
 
-**Die Karte „Als Nächstes“.** Sobald ein Backplan läuft, erscheint über den acht Karten eine zusätzliche Karte mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Ist die Zeit eines Schritts gekommen, wechselt die Karte für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Karte öffnet „Geplante Schritte“. Ohne anstehenden Schritt bleibt die Karte verborgen, und das Menü sieht aus wie oben abgebildet.
+**Die Karte „Als Nächstes“.** Sobald ein Backplan läuft, erscheint über den Karten eine zusätzliche Karte mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Ist die Zeit eines Schritts gekommen, wechselt die Karte für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Karte öffnet „Geplante Schritte“. Ohne anstehenden Schritt bleibt die Karte verborgen, und das Menü sieht aus wie oben abgebildet.
 
 Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmenü.
 
@@ -132,7 +134,7 @@ Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmen
 
 ## 5. Rezept-Datenbank (öffentliche und private Cloud-Rezepte)
 
-Die Rezept-Datenbank ist die gemeinsame Sammlung: Rezepte, die Du oder andere Nutzer öffentlich gespeichert haben.
+Die Rezept-Datenbank ist seit Version 2.0 **eine Liste für alle Rezepte**: die öffentlichen, die Du oder andere Nutzer geteilt haben, Deine eigenen Rezepte auf dem Gerät (siehe [Kapitel 6](#6-eigene-rezepte)) und Deine privaten Cloud-Rezepte. Alphabetisch sortiert, mit drei Filter-Chips unter dem Suchfeld – **Lokal**, **Eigene**, **Öffentlich** –, die sich einzeln ein- und ausschalten lassen und ihre Stellung behalten.
 
 Bist Du mit Apple angemeldet, stehen in derselben Liste zusätzlich **Deine privaten Cloud-Rezepte**. Sie sind mit einem **Schloss-Symbol** vor dem Namen gekennzeichnet und für andere Nutzer nicht sichtbar. Meldest Du Dich ab, verschwinden sie aus der Liste – gelöscht sind sie damit nicht, sie kommen bei der nächsten Anmeldung mit demselben Apple-Konto wieder.
 
@@ -144,7 +146,8 @@ Bist Du mit Apple angemeldet, stehen in derselben Liste zusätzlich **Deine priv
 
 - **Suchfeld** oben: durchsucht Rezeptnamen.
 - **Suchbereich umschalten**: Unter dem Suchfeld kannst Du zwischen **Name** und **Tags** wählen. Bei „Tags“ wird in den Schlagworten gesucht (z. B. „Roggen“, „Vollkorn“, „Sauerteig“).
-- **Filter-Symbol** oben rechts: **Alle Rezepte** oder **Nur meine**. „Nur meine“ zeigt ausschließlich Rezepte, die von Deinem Konto stammen – Deine privaten und Deine veröffentlichten. Ist der Filter aktiv, ändert sich das Symbol.
+- **Filter-Chips** unter dem Suchfeld: **Lokal** (Rezepte auf dem Gerät), **Eigene** (Deine privaten und von Dir veröffentlichten Cloud-Rezepte) und **Öffentlich** (Rezepte aller Nutzer). Jeder Chip schaltet seine Quelle einzeln ein oder aus.
+- **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr). Ist der Filter aktiv, wird das Symbol gefüllt dargestellt.
 - **Nach unten ziehen** aktualisiert die Liste aus der Cloud.
 
 Steht „Keine Rezepte geladen“, bestand beim Start keine Internetverbindung – zieh die Liste einmal nach unten. Steht dort „Keine passenden Rezepte“, ist ein Filter aktiv.
@@ -169,6 +172,7 @@ Hinweise:
 - **Einheiten** übersetzt die Rezeptübersetzung nicht. Die App zeigt sie ohnehin in der eingestellten Sprache an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 - Die erste Übersetzung einer Sprache dauert einen Moment (bei automatischer Übersetzung eine kurze Verzögerung, bei manueller eine Fortschrittsanzeige statt Globus). Danach ist sie zwischengespeichert und sofort verfügbar.
 - Beim ersten Mal fragt iOS gegebenenfalls, ob die Sprachpakete für die Übersetzung geladen werden dürfen. Lehnst Du ab, bleiben Rezepte in ihrer Originalsprache; bei ausgeschalteter automatischer Übersetzung lässt sich das später über das Globus-Symbol nachholen.
+- **Bäckerbegriffe übersetzt ein Glossar.** Wörter wie Brühstück, Quellstück, Kochstück, Anstellgut, Stockgare oder Stückgare – auch in Zusammensetzungen wie Weizenanstellgut oder Roggensauerteig – gehen nicht durch die maschinelle Übersetzung, sondern werden mit dem Fachwort der Zielsprache eingesetzt (scald, soaker, sourdough starter, bulk fermentation …). Eine ältere Übersetzung, in der ein solches Wort noch falsch stand, übersetzt die App beim Öffnen neu.
 - **Das Original wird nie überschrieben.** Als Original gilt die Sprache, in der das Rezept geschrieben ist – nicht die Sprache, auf die Deine App eingestellt war. Die App liest das am Rezepttext ab, sodass ein französisches Rezept auch dann als französisches Original geführt wird, wenn es jemand in einer deutschsprachigen App eingegeben hat.
 
 ### Ein Rezept übernehmen
@@ -221,11 +225,11 @@ Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), ka
 
 ## 6. Eigene Rezepte
 
-Hier liegen alle Rezepte, die lokal auf dem Gerät gespeichert sind: selbst angelegte und aus der Datenbank übernommene.
+Eigene Rezepte sind die Rezepte auf Deinem Gerät: selbst angelegte, importierte und aus der Datenbank übernommene. Du findest sie unter **Hauptmenü → Rezept-Datenbank** mit dem Filter-Chip **Lokal** (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)); schaltest Du die Chips **Eigene** und **Öffentlich** aus, bleibt die reine Liste Deiner eigenen Rezepte.
 
 ![Liste der eigenen Rezepte mit Bild, Name und Tags](images/eigene-rezepte.png)
 
-Solange die Liste leer ist, bietet sie die zwei Wege zum ersten Rezept direkt an: **Rezept-Datenbank öffnen** und **Neues Rezept anlegen**.
+Wo nur eigene Rezepte infrage kommen – in den leeren Ansichten von Einkaufsliste und Backhistorie –, öffnet **Eigene Rezepte öffnen** eine Liste nur dieser Rezepte. Solange sie leer ist, bietet sie die zwei Wege zum ersten Rezept direkt an: **Rezept-Datenbank öffnen** und **Neues Rezept anlegen**.
 
 ### Suchen und filtern
 
@@ -240,15 +244,18 @@ Zeile nach links wischen → **Löschen**. Es folgt eine Sicherheitsabfrage mit 
 
 Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schritte“ stehen – lösche sie dort separat, wenn Du sie nicht mehr brauchst.
 
-### Die fünf Tabs eines eigenen Rezepts
+### Die Tabs eines eigenen Rezepts
 
 | Tab | Inhalt |
 |-----|--------|
 | **Backen** | Backanleitung mit Zeitplanung und „Erinnerungen setzen“ |
-| **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF |
+| **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF, **Rezept exportieren** als Datei; Mehl- und Anstellgut-Zeilen sind antippbar (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)) |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
-| **Einkaufsliste** | Zutaten dieses Rezepts auf eine Einkaufsliste setzen |
+| **Einkaufsliste** | Zutaten dieses Rezepts – in der gewählten Portionsgröße – auf eine Einkaufsliste setzen (siehe [Kapitel 13](#13-einkaufsliste)) |
 | **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen |
+| **Fütterung** | Nur bei Rezepten mit „Regelmäßig auffrischen“: das Anstellgut-Tagebuch (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
+
+Portionsgröße und Teiggewicht sind in allen Tabs dieselben: Was Du unter Details einstellst, gilt auch unter Backen und für die Einkaufsliste.
 
 Ein Rezept öffnet sich im Tab **Details**. Die Zeitplanung im Tab **Backen** wird erst berechnet, wenn Du ihn wählst; nur **Neu planen** in „Geplante Schritte“ führt direkt dorthin.
 
@@ -280,7 +287,7 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 
 | Element | Funktion |
 |---------|----------|
-| **Dauer ändern** | Schalter. Aktiv erscheint pro Schritt ein Eingabefeld „Dauer [Min]“. |
+| **Dauer ändern** | Schalter. Aktiv erscheint pro Schritt ein Eingabefeld „Dauer“. |
 | **Starten ab / Fertig bis** | Legt fest, wie das Datum unten interpretiert wird. Auf dem iPhone im Hochformat abgekürzt als **Ab / Bis**. |
 | **Datum und Uhrzeit** | Der Bezugszeitpunkt der Planung, wählbar von heute bis ein Jahr im Voraus. |
 
@@ -292,7 +299,7 @@ Das ist der Kern der App. Der Aufbau ist bei eigenen und öffentlichen Rezepten 
 ### Dauern anpassen
 
 1. **Dauer ändern** einschalten.
-2. In den Feldern der rechten Spalte neue Minutenwerte eintragen. Leere Felder und Werte ≤ 0 werden ignoriert, der bisherige Wert bleibt.
+2. In den Feldern der rechten Spalte neue Dauern eintragen – in Minuten („90“) oder in Stunden und Minuten („1:30“, „1h 30“, „1,5 h“, „14 Std“). Leere Felder und Werte ≤ 0 werden ignoriert, der bisherige Wert bleibt.
 3. **Dauer übernehmen** tippen.
 
 Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer neu. Bei eigenen Rezepten werden die neuen Dauern dauerhaft gespeichert; bei öffentlichen Rezepten gelten sie nur für die aktuelle Planung.
@@ -304,7 +311,7 @@ Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer ne
 | Zeichen | Bedeutung |
 |---------|-----------|
 | ⚠️ orange | **Hinweis.** Der Plan funktioniert, aber Du solltest ihn kennen. |
-| ⛔️ rot | **Fehler.** Es würden mehr Backvorgänge gleichzeitig laufen, als Du Backöfen hast. |
+| ⛔️ rot | **Fehler.** Es würden mehr Backvorgänge gleichzeitig laufen, als Du Backöfen hast. Beim Setzen der Erinnerungen fragt die App dann nach; **Trotzdem planen** setzt den Plan dennoch – etwa wenn mehrere Teige bei derselben Temperatur zusammen in den Ofen passen. |
 
 Geprüft wird dreierlei:
 
@@ -447,7 +454,7 @@ Erst die Komponente, dann ihre Zutaten:
 | Spalte | Bedeutung |
 |--------|-----------|
 | **Nr.** | Sortierreihenfolge innerhalb der Komponente |
-| **Menge / Gewicht** | Zahlenwert der Menge |
+| **Menge / Gewicht** | Zahlenwert der Menge; ein leeres Feld bedeutet 0 |
 | **Einheit** | Auswahlmenü, siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen) |
 | **Zutat** | Name der Zutat |
 | **Z / N** | Bruchangabe – Zähler und Nenner, z. B. 1 / 2 für „½“ |
@@ -458,7 +465,7 @@ Nur der **Name** ist zwingend – eine Zutat ohne Menge und Einheit ist erlaubt 
 
 ### Verarbeitungsschritte
 
-Spalten **Schritt**, **Beschreibung**, **Dauer** (Minuten). Nach dem Hinzufügen zählt die Schrittnummer automatisch weiter: von einer ganzen Zahl auf die nächste ganze Zahl, von einer Nachkommazahl in 0,1-Schritten. So legst Du parallele Teilschritte bequem als 2.1, 2.2, 2.3 an.
+Spalten **Schritt**, **Beschreibung**, **Dauer**. Die Dauer gibst Du in Minuten ein („90“) oder in Stunden und Minuten: „1:30“, „1h 30“, „1 h 30 min“, „1,5 h“, „14 Std“ – eine Zahl ohne Einheit sind Minuten, eine Dezimalzahl ohne Einheit Stunden. Gespeichert werden immer Minuten; nach dem Verlassen des Felds steht dort „1 h 30 min“. Nach dem Hinzufügen zählt die Schrittnummer automatisch weiter: von einer ganzen Zahl auf die nächste ganze Zahl, von einer Nachkommazahl in 0,1-Schritten. So legst Du parallele Teilschritte bequem als 2.1, 2.2, 2.3 an.
 
 Denk an die Regel aus [Kapitel 3](#3-grundbegriffe): Nachkommaschritte laufen parallel, ganze Zahlen nacheinander.
 
@@ -483,6 +490,14 @@ Ein neues **Rezeptbild** wird sofort beim Auswählen gespeichert.
 
 Rechts oben die Sterne antippen: 1 bis 5 Sterne. Nochmaliges Tippen auf den ersten Stern setzt die Bewertung auf 0 zurück. Die Bewertung ist die Grundlage für den Bewertungsfilter in den Listen.
 
+### Regelmäßig auffrischen
+
+Für Rezepte, die Du in festen Abständen backst oder ansetzt – allen voran das Anstellgut –, gibt es den Schalter **Regelmäßig auffrischen** mit einem Intervall in Tagen (1 bis 60). Ist er an, plant die App **nach dem letzten Backen automatisch den nächsten Termin**: Sobald der letzte Backvorgang abgeschlossen ist, erscheint die nächste Auffrischung mit Erinnerungen in „Geplante Schritte“. Der Abstand zählt immer vom tatsächlichen letzten Backen; eine frühere oder spätere Fütterung verschiebt den nächsten Termin entsprechend.
+
+Damit ein Termin in zwei Wochen die Listen nicht zumüllt, halten „Geplante Schritte“, Timeline, die Karte „Als Nächstes“, Widget, Live-Aktivität und Backmodus automatisch geplante Schritte **bis zwei Tage vor dem Termin zurück**. Die Erinnerungen selbst kommen trotzdem pünktlich. Von Hand geplante Schritte sind davon nicht betroffen.
+
+Rezepte mit diesem Schalter bekommen den zusätzlichen Tab **Fütterung**: das **Anstellgut-Tagebuch**. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
+
 ### Komponenten ändern
 
 - **Hinzufügen**: Nummer und Name eingeben, **+**.
@@ -491,7 +506,7 @@ Rechts oben die Sterne antippen: 1 bis 5 Sterne. Nochmaliges Tippen auf den erst
 
 ### Verarbeitungsschritte ändern
 
-- **Hinzufügen**: Schritt, Beschreibung, Dauer eingeben, **+**. Startzeiten werden automatisch neu berechnet.
+- **Hinzufügen**: Schritt, Beschreibung, Dauer eingeben, **+**. Die Dauer wie beim Anlegen in Minuten oder Stunden („1:30“, „1,5 h“). Startzeiten werden automatisch neu berechnet.
 - **Bearbeiten**: Schrittzeile antippen → „Verarbeitungsschritt ändern“. Nach **Fertig** rechnet die App alle Startzeiten und die Bearbeitungsdauer neu.
 - **Löschen**: Papierkorb neben der Zeile.
 
@@ -512,7 +527,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 ## 10. Geplante Schritte (Liste und Timeline)
 
-**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten.
+**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
 
 ![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext; die Karte „Weizensauerteig“ trägt neben dem Uhr-Symbol ein i-Symbol für die Zutaten](images/geplante-schritte-liste.png)
 
@@ -658,25 +673,33 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 
 Gibt es noch keine Liste, erklärt die leere Ansicht unter „Einkaufsliste“ den Weg und führt mit **Eigene Rezepte öffnen** direkt zu den Rezepten.
 
-**Eigene Rezepte → Rezept → Tab „Einkaufsliste“.**
+**Rezept → Tab „Einkaufsliste“** – bei eigenen wie bei öffentlichen Rezepten.
 
-- **Neue Liste**: Datum wählen, **Erstellen**. Existiert für dieses Datum schon eine Liste, werden die Zutaten dort ergänzt.
-- **Bestehende Liste**: umschalten auf „Bestehende Liste“ und bei der gewünschten Liste **+** tippen. Zum Löschen die Zeile nach links wischen.
+1. **Portionsgröße.** Oben steht dieselbe Portionsgrößen-Steuerung wie unter Details und Backen, mit dem Gesamtgewicht. Die Zutaten kommen **mit diesem Faktor oder Teiggewicht** auf die Liste; bei ×2 also die doppelten Mengen. Der Fußtext nennt den Faktor.
+2. **Neue Liste**: Datum wählen, **Erstellen**. Existiert für dieses Datum schon eine Liste, werden die Zutaten dort ergänzt.
+3. **Bestehende Liste**: umschalten auf „Bestehende Liste“ und bei der gewünschten Liste **+** tippen. Zum Löschen die Zeile nach links wischen.
 
-Bestätigt wird mit „Zutaten wurden auf die Einkaufsliste gesetzt“. Anschließend erscheint der Verweis **„Einkaufslisten anzeigen“**.
+Bestätigt wird mit „Zutaten wurden auf die Einkaufsliste gesetzt“, bei einem Faktor ungleich 1,0 mit dem Zusatz „Die Mengen entsprechen dem Faktor …“. Anschließend erscheint der Verweis **„Einkaufslisten anzeigen“**.
+
+### Die Liste spricht Deine Sprache
+
+Die Zutatennamen stehen auf der Liste **immer in der App-Sprache**, auch wenn das Rezept englisch oder französisch ist. Bei öffentlichen Rezepten nimmt die App die bereits vorhandene Übersetzung; sonst übersetzt sie die Namen beim Erstellen auf dem Gerät – kurz erscheint „Zutatennamen werden übersetzt …“. Dabei gilt das Glossar der Bäckerbegriffe (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Gelingt die Übersetzung nicht, etwa ohne Sprachpaket und ohne Netz, kommen die Namen in der Rezeptsprache auf die Liste, und die Bestätigung sagt das. So lassen sich auch Zutaten aus einem deutschen und einem englischen Rezept auf einer Liste zusammenführen.
 
 ### Was auf die Liste kommt – und was nicht
 
-Die App filtert bewusst:
+Die App filtert bewusst, und zwar in jeder Sprache:
 
-- **Nicht aufgenommen** werden Zutaten, deren Name **Wasser, Salz, Anstellgut** oder **Sauerteig** enthält – das hat man im Haus bzw. es ist ein Zwischenprodukt.
+- **Nicht aufgenommen** werden **Wasser** (auch Schüttwasser, water, eau), **Salz** (auch Meersalz, salt, sel) und alles, was man selbst ansetzt: **Anstellgut, Sauerteig, Levain, Lievito Madre, Poolish, Biga**. Gekauft wird dagegen, was nur so klingt – Rosenwasser, Kokosmilch, gesalzene Butter, Sauerteigpulver oder Sauerteigextrakt bleiben auf der Liste.
 - **Nicht aufgenommen** werden Zutaten ohne Einheit oder ohne verwertbare Menge.
-- **Gleiche Zutaten werden zusammengefasst.** Dabei werden Temperaturangaben aus dem Namen entfernt: „Wasser (lauwarm)“, „Milch 30 °C“ und „Milch“ gelten als dieselbe Zutat. Groß-/Kleinschreibung und Umlaute spielen keine Rolle.
+- **Eier zählt die Liste in Stück**, in jeder Sprache: „120 g Eier“ werden zu „2 St Eier“, aufgerundet, bei ×2 zu 4 Stück.
+- **Gleiche Zutaten werden zusammengefasst.** Dabei werden Temperaturangaben aus dem Namen entfernt: „Milch 30 °C“ und „Milch“ gelten als dieselbe Zutat. Groß-/Kleinschreibung und Umlaute spielen keine Rolle.
 - **Einheiten werden umgerechnet**, wenn sie dieselbe Basiseinheit haben: 0,5 kg + 200 g werden zusammengerechnet, EL und ml ebenfalls. g und ml bleiben getrennt.
 
 ### Einkaufslisten ansehen
 
-**Hauptmenü → Einkaufsliste.** Je Liste stehen das Datum („Einkaufsliste vom …“), die enthaltenen Rezepte und darunter alle Zutaten mit Menge und Einheit. **Löschen** entfernt die Liste nach Rückfrage.
+**Hauptmenü → Einkaufsliste.** Je Liste stehen das Datum („Einkaufsliste vom …“), die enthaltenen Rezepte und darunter die Zutaten mit Menge und Einheit – **nach Regalen gruppiert**, in der Reihenfolge eines Gangs durch den Laden: Mehl & Getreide, Milchprodukte & Eier, Backzutaten, Nüsse, Saaten & Trockenfrüchte, Obst & Gemüse, Gewürze & Kräuter, Öle, Fette & Flüssiges, Sonstiges. Die Zuordnung liest die App aus dem Zutatennamen, deshalb sind auch ältere Listen gruppiert.
+
+Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelten dann für diese Liste, das Rezept bleibt unverändert; dort lässt sich die Zutat auch entfernen. Das Papierkorb-Symbol neben der Zeile entfernt sie direkt. **Löschen** entfernt die ganze Liste nach Rückfrage.
 
 ---
 
@@ -704,7 +727,17 @@ Die App filtert bewusst:
 | **Bäckerprozente anzeigen** | Ergänzt in der Komponentenansicht hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)). Standard: aus. |
 | **Anstellgut** | Teigausbeute Deines Anstellguts, mit der die App eine Anstellgut-Menge ohne TA-Angabe im Rezept in Mehl und Wasser aufteilt. 120 bis 300 in Fünferschritten. Standard: TA 200. |
 | **Lievito Madre** | Dasselbe für Lievito Madre. Standard: TA 150. |
+| **Meine Anstellgut-TAs** | Die Teigausbeuten, bei denen Du Deine Anstellgute führst, durch Komma getrennt („190, 210, 220“). Sie erscheinen beim Anpassen der Anstellgut-TA als Schnellwahl (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)). Standard: 150, 180, 200, 220. |
 | **Eigene Einheiten** | Zeigt, wie viele Du angelegt hast, und führt zur Verwaltung. Siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen). |
+
+### Sicherung
+
+| Eintrag | Wirkung |
+|---------|---------|
+| **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
+| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte; bestehende werden nie überschrieben. |
+
+Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportieren** (neben „Rezept teilen“). Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
 
 ### Übersetzung
 
@@ -793,7 +826,7 @@ Jede Rezeptansicht skaliert die Mengen auf zwei Arten:
 - **Portionsgröße** – der Faktor 0,5 / 1,0 / 1,5 / 2,0 wie bisher; 1,0 ist das Rezept, wie es gespeichert ist.
 - **Teiggewicht** – daneben steht ein Feld mit dem aktuellen Gesamtgewicht als Vorgabe. Tippst Du ein Zielgewicht in Gramm ein, etwa 2000, rechnet die App alle Zutaten auf dieses Teiggewicht um; der Portionsregler zeigt dann keine Auswahl mehr. Ein Tipp auf einen Faktor löscht das Feld wieder.
 
-Umgerechnete Mengen werden so gerundet, wie man sie abwiegt: ab 10 g auf ganze Gramm, darunter auf eine Nachkommastelle („2,7 g Hefe“). Bruchangaben wie „1/2 Würfel“ bleiben bei den Faktoren 0,5 bis 2,0 Brüche („3/4 Würfel“) und werden bei einem freien Teiggewicht zu Dezimalzahlen („0,7 Würfel“). Das Teiggewicht gilt für die Anzeige und für die Zutaten in den Erinnerungen, die Du anschließend setzt.
+Umgerechnete Mengen werden so gerundet, wie man sie abwiegt: ab 10 g auf ganze Gramm, darunter auf eine Nachkommastelle („2,7 g Hefe“). Bruchangaben wie „1/2 Würfel“ bleiben bei den Faktoren 0,5 bis 2,0 Brüche („3/4 Würfel“) und werden bei einem freien Teiggewicht zu Dezimalzahlen („0,7 Würfel“). Portionsgröße und Teiggewicht gelten für **alle Tabs des Rezepts** – Details, Backen und Einkaufsliste –, für die Zutaten in den Erinnerungen, die Du anschließend setzt, und für die Rechner „Mehl ersetzen“ und „Anstellgut-TA anpassen“, wenn Du sie aus dem Rezept heraus öffnest.
 
 ### Bäckerprozente
 
@@ -812,6 +845,28 @@ Gerechnet wird nach der Bäckerkonvention:
 - **Komponenten zählen genau einmal.** Steht im Hauptteig „gesamter Sauerteig“, geht der Sauerteig über diese Zeile ein, nicht doppelt. Steht dort „200 g Sauerteig“, obwohl die Komponente 300 g ergibt, zählt sie zu zwei Dritteln. Nennt der Hauptteig den Sauerteig gar nicht, werden die Komponenten einfach addiert.
 
 Die Zeile fehlt bei Rezepten ohne erkanntes Mehl. Beim Bild-Import vergleicht die App dieselbe Rechnung mit der im Buch gedruckten Teigausbeute und warnt bei Abweichung.
+
+### Mehl ersetzen
+
+Du hast kein Weizenmehl 1050, aber Dinkelmehl 630? Mehle werden **1:1 nach Gewicht** getauscht; was sich ändert, ist das Wasser, weil jedes Mehl anders bindet. Zwei Wege:
+
+- **Im Rezept:** Im Tab **Details** sind Mehlzeilen antippbar (Pfeil-Symbol dahinter). Das Blatt **Mehl ersetzen** zeigt die erkannte Mehlsorte, lässt das Ersatzmehl nach Getreide und Type wählen und rechnet vor: die Wasseränderung der Komponente („+20 g“ oder „−20 g“), Teigausbeute und Hydration vorher und nachher. Hat die Komponente kein Wasser, nimmt die App ihre Schüttflüssigkeit (Milch, Bier); hat sie keine, sagt sie es. **Kopie mit Ersatz anlegen** schreibt den Tausch in ein neues eigenes Rezept („… – Dinkelmehl 630“); das Original bleibt unverändert.
+- **Als Rechner:** **Hauptmenü → Mehl ersetzen** für eine freie Menge – Menge, Mehl im Rezept, Ersatzmehl.
+
+Dazu kommen Hinweise zur Führung: Dinkel kürzer kneten und ein Quell- oder Kochstück erwägen, Roggen versäuern, Emmer und Einkorn in der Kastenform, Vollkorn quellen lassen, zusätzliches Wasser nach und nach einarbeiten. Die Wasserwerte sind Richtwerte relativ zu Weizen 550 (Dinkel 630 −4 %, Weizenvollkorn +10 %, Roggen 1150 +12 % …) – Mehle schwanken je nach Mühle und Ernte, der Teig hat das letzte Wort.
+
+### Anstellgut-TA anpassen
+
+Verlangt ein Rezept „100 g Anstellgut TA 150“, Du führst Deines aber bei TA 210, stimmt die Rechnung nicht mehr: Dein weicheres Anstellgut bringt weniger Mehl und mehr Wasser mit. Die App gleicht das aus, sodass **das Mehl aus dem Anstellgut gleich bleibt**: Anstellgutmenge = Rezeptmenge × TA vorhanden ÷ TA im Rezept, hier 140 g statt 100 g, und die zusätzlichen 40 g Wasser kommen aus dem Wasser derselben Komponente heraus. Teigausbeute und Gesamtgewicht des Teigs bleiben, wie das Rezept sie meint; bei festerem Anstellgut läuft es umgekehrt.
+
+- **Im Rezept:** Im Tab **Details** sind Zeilen mit Anstellgut, Sauerteig oder Lievito Madre antippbar (Tropfen-Symbol). Das Blatt **Anstellgut-TA anpassen** zeigt die erkannte TA – aus dem Zutatennamen oder, wenn dort keine steht, aus den Einstellungen, was das Blatt dazusagt. Darunter wählst Du die vorhandene TA: Deine **Anstellgut-TAs** aus den Einstellungen als Schnellwahl, daneben ein Stepper für jeden anderen Wert. Das Ergebnis nennt Anstellgut vorher → nachher, die Wasseränderung, Teigausbeute und Hydration. **Kopie mit Anpassung anlegen** schreibt alles in ein neues eigenes Rezept; die neue TA steht dann im Zutatennamen („Anstellgut TA 210“), damit die Teigausbeute sie weiter richtig liest.
+- **Als Rechner:** **Hauptmenü → Anstellgut-TA** für eine freie Menge – Menge, TA im Rezept, vorhandene TA.
+
+Nicht angeboten wird die Anpassung bei Zeilen, die auf eine Komponente des Rezepts verweisen („200 g Sauerteig“ bei einer Komponente „Sauerteig“): deren TA ergibt sich aus der Komponente selbst. Poolish und Biga haben ihre TA per Definition. Reicht das Wasser der Komponente nicht aus, geht die App nicht unter null und nennt die fehlenden Gramm. Dazu kommen Hinweise: weicheres Anstellgut gärt schneller und milder, festeres langsamer und kräftiger; bei großen TA-Sprüngen das Anstellgut vorher in ein bis zwei Fütterungen umstellen.
+
+### Teigtemperatur
+
+**Hauptmenü → Teigtemperatur** rechnet nach der Bäckerformel aus, wie warm das **Schüttwasser** sein muss, damit der Teig nach dem Kneten die gewünschte Temperatur hat. Du gibst die **Zieltemperatur** des Teigs ein, die **Raumtemperatur**, die Mehltemperatur (meist gleich der Raumtemperatur) und bei Rezepten mit Sauerteig oder Vorteig dessen Temperatur. Die **Reibungswärme** ist die Wärme, die der Teig beim Kneten zusätzlich aufnimmt: Vergleiche nach dem Kneten die gemessene Teigtemperatur mit der Zieltemperatur und passe den Wert an – einmal kalibriert, gilt er für jedes Rezept und bleibt gespeichert. Ergibt die Rechnung Wasser, das zu kalt oder zu heiß wäre, sagt der Rechner das.
 
 ### Verfügbare Einheiten
 
@@ -955,13 +1010,19 @@ Du hast als Ablage „Privat“ gewählt, ohne angemeldet zu sein. Melde Dich ü
 Beim zweiten Tippen fragt die App, ob der neue Plan den bestehenden ersetzen oder zusätzlich angelegt werden soll. Hast Du „Zusätzlich planen“ gewählt, obwohl Du nur einen Plan wolltest, wähle in „Geplante Schritte“ den überzähligen Plan über seinen Chip aus und lösche ihn mit dem Papierkorb über „Nur ‚…‘ löschen“.
 
 **Ich will dasselbe Rezept für zwei verschiedene Termine einplanen.**
-Das geht nicht – jedes Rezept hat einen Plan, der zweite ersetzt den ersten. Als Umweg kannst Du das Rezept unter einem anderen Namen duplizieren und beide getrennt planen: **privat in der Cloud** speichern, über „Als eigenes Rezept speichern“ zurückholen, umbenennen. So bleibt die Dublette aus der öffentlichen Datenbank heraus.
+Setze die Erinnerungen für den ersten Termin, stelle dann den zweiten ein und tippe erneut auf „Erinnerungen setzen“: Die App fragt, ob der neue Plan den bestehenden ersetzen oder **zusätzlich** angelegt werden soll (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
 
 **Das Gesamtgewicht passt nicht.**
 Meist liegt es an einer Einheit, die die App nicht kennt – das Einheitenfeld zeigt dann ein **Warndreieck** – oder an einer Zutat ohne Einheit. Prüfe die Zutaten im Tab „Ändern“ und wähle die Einheit aus dem Menü. Gibt es sie dort nicht, lege sie unter *Einstellungen → Rezepte → Eigene Einheiten* an (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 
 **Eine Zutat fehlt auf der Einkaufsliste.**
-Wasser, Salz, Anstellgut und Sauerteig werden absichtlich weggelassen, ebenso Zutaten ohne Einheit oder ohne Menge. Siehe [Kapitel 13](#13-einkaufsliste).
+Wasser, Salz und alles, was man selbst ansetzt (Anstellgut, Sauerteig, Poolish, Biga), werden absichtlich weggelassen – in jeder Sprache –, ebenso Zutaten ohne Einheit oder ohne Menge. Siehe [Kapitel 13](#13-einkaufsliste).
+
+**Die Mengen auf der Einkaufsliste stimmen nicht mit dem Rezept überein.**
+Die Liste übernimmt die Portionsgröße beziehungsweise das Teiggewicht, das im Rezept eingestellt ist – der Tab „Einkaufsliste“ zeigt den Faktor oben an. Stelle ihn dort um, bevor Du die Zutaten auf die Liste setzt.
+
+**Ein Fachbegriff ist falsch übersetzt.**
+Bäckerbegriffe wie Brühstück oder Anstellgut übersetzt ein Glossar in der App (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Fällt Dir trotzdem eine falsche Übersetzung auf, öffne das Rezept einmal neu: Eine ältere Übersetzung ohne das Glossarwort wird dabei neu erstellt. Bleibt der Fehler, melde das Wort – es kommt dann ins Glossar.
 
 **Eine Zutat fehlt in den „Gesamtzutaten“.**
 Wasser wird dort nicht aufgeführt; ebenso Zutaten, die selbst das Erzeugnis einer Komponente sind (z. B. „Sauerteig“ als Zutat im Hauptteig), damit Mengen nicht doppelt zählen. In der Komponentenliste darunter stehen sie vollständig.
@@ -992,6 +1053,6 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
 - **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente.
 - **Eigene Einheiten erscheinen in jeder Sprache so, wie Du sie angelegt hast.** Übersetzt werden nur die mitgelieferten.
-- **Es gibt keinen Export.** Eigene Rezepte synchronisieren zwar über iCloud (siehe [Kapitel 2](#2-systemvoraussetzungen)), lassen sich aber nicht als Datei sichern oder an andere weitergeben. Als Sicherung über die iCloud hinaus bleibt nur der Weg in die Rezept-Datenbank – privat, wenn Du nicht teilen willst.
+- **Eine Einkaufsliste behält die Sprache, in der sie erstellt wurde.** Wechselst Du danach die App-Sprache, bleiben bestehende Listen in der alten; neue Listen entstehen in der neuen.
 - **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.
 - **Eigene Einheiten gelten nur auf dem Gerät, auf dem Du sie angelegt hast.** Sie werden nicht über iCloud abgeglichen. Ein Rezept, das eine solche Einheit verwendet, zeigt auf einem anderen Gerät das Warndreieck, bis Du sie dort ebenfalls anlegst.
