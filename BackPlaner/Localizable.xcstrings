@@ -7625,7 +7625,30 @@
         }
       }
     },
+    "Mengen für Faktor ×%@, also %@ g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mengen für Faktor ×%1$@, also %2$@ g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Amounts for factor ×%@, i.e. %@ g of dough. The copy is created with the recipe’s base amounts and shows the same factor when opened."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Quantités pour le facteur ×%@, soit %@ g de pâte. La copie est créée avec les quantités de base de la recette et affiche le même facteur à l’ouverture."
+          }
+        }
+      }
+    },
     "Mengen für Portionsgröße ×%@. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
