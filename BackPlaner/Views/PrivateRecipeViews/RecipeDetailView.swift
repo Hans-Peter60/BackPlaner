@@ -19,9 +19,11 @@ struct RecipeDetailView: View {
     // and the "Verarbeitungsschritte" header no longer shares its row.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    @State var selectedServingSize = AppSettings.storedServingSize
+    /// Owned by TabsView and shared with the other tabs, so the factor chosen
+    /// here is the one the shopping list uses.
+    @Binding var selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
-    @State private var targetWeight: Int?
+    @Binding var targetWeight: Int?
 
     /// The flour line tapped for a substitution, while its sheet is up.
     @State private var flourSubstitution: FlourSubstitutionRequest?

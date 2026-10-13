@@ -71,6 +71,42 @@ enum ShoppingListAmount {
         return Amount(weight: wholePieces, unit: pieceUnit, num: 0, denom: 0)
     }
 
+    /// The amount at the serving scale chosen in the recipe (1.0 is the recipe
+    /// as stored), the same way the recipe screens scale their lines.
+    ///
+    /// A weight simply multiplies. A fraction ("1/2 Würfel Hefe") stays a
+    /// fraction as long as the scale is a half step, so it still reads as
+    /// "1 Würfel" at ×2; at any other scale it becomes a decimal amount.
+    static func scaled(
+        weight: Double,
+        num: Int,
+        denom: Int,
+        by scale: Double
+    ) -> (weight: Double, num: Int, denom: Int) {
+
+        guard scale > 0, scale != 1 else { return (weight, num, denom) }
+
+        if weight > 0 {
+            return (weight * scale, num, denom)
+        }
+
+        guard denom != 0, num != 0 else { return (weight, num, denom) }
+
+        let halfSteps = scale * 2
+        let isHalfStep = abs(halfSteps.rounded() - halfSteps) < 0.0001
+
+        guard isHalfStep else {
+            return (Double(num) / Double(denom) * scale, 0, 0)
+        }
+
+        let scaledNum = num * Int(halfSteps.rounded())
+        let scaledDenom = denom * 2
+        let divisor = Rational.greatestCommonDivisor(abs(scaledNum), abs(scaledDenom))
+
+        guard divisor != 0 else { return (weight, scaledNum, scaledDenom) }
+        return (weight, scaledNum / divisor, scaledDenom / divisor)
+    }
+
     private static func countedIngredient(for name: String) -> (pattern: String, gramsPerPiece: Double)? {
         let comparableName = IngredientNameNormalizer.comparisonKey(name)
 

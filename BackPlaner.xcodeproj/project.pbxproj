@@ -142,6 +142,7 @@
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
+		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +327,7 @@
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
+		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -603,6 +605,7 @@
 				6AFA48C4307E000100E105F9 /* StarterFeedingFacts.swift */,
 				6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */,
 				6AFA48CA307E000100E105F9 /* RecipeExport.swift */,
+				6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -975,6 +978,7 @@
 				6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */,
 				6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */,
 				6AFA48C5307E000100E105F9 /* StarterFeedingFacts.swift in Sources */,
+				6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */,
 				6AFA48C7307E000100E105F9 /* StarterFeedingRatio.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,

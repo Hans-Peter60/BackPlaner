@@ -22,6 +22,12 @@ struct TabsView: View {
     @State private var tabSelection: Int
     @State private var bakingTabOpened: Bool
 
+    /// The serving scale, shared by every tab of this recipe: chosen under
+    /// Details or Backen, it also decides the amounts on the shopping list.
+    @State private var selectedServingSize = AppSettings.storedServingSize
+    /// A target dough weight in grams; overrides the serving-size factor.
+    @State private var targetWeight: Int?
+
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
 
@@ -38,7 +44,9 @@ struct TabsView: View {
 
             Group {
                 if bakingTabOpened {
-                    InstructionsView(recipe: recipe)
+                    InstructionsView(recipe: recipe,
+                                     selectedServingSize: $selectedServingSize,
+                                     targetWeight: $targetWeight)
                 } else {
                     Color.clear
                 }
@@ -51,7 +59,9 @@ struct TabsView: View {
                 }
                 .tag(Self.bakingTab)
             
-             RecipeDetailView(recipe: recipe)
+             RecipeDetailView(recipe: recipe,
+                              selectedServingSize: $selectedServingSize,
+                              targetWeight: $targetWeight)
                 .tabItem {
                     VStack {
                         Image(systemName: "list.bullet.rectangle")
@@ -69,7 +79,9 @@ struct TabsView: View {
                }
                .tag(2)
 
-            ShoppingCartSelectFormView(recipe: recipe)
+            ShoppingCartSelectFormView(recipe: recipe,
+                                       selectedServingSize: $selectedServingSize,
+                                       targetWeight: $targetWeight)
                .tabItem {
                    VStack {
                        Image(systemName: "cart.badge.plus")

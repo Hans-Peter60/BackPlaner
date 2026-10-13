@@ -202,6 +202,13 @@ struct ServingScaleControl: View {
                     let value = Int(digits) ?? 0
                     targetWeight = value > 0 ? value : nil
                 }
+                // The scale is shared between the tabs of a recipe. A weight
+                // typed in on one tab has to show up in the field of the
+                // others, and clearing it there has to empty this field too.
+                .onChange(of: targetWeight, initial: true) { _, weight in
+                    let text = weight.map(String.init) ?? ""
+                    if text != weightText { weightText = text }
+                }
                 Text(verbatim: "g")
                     .font(Theme.bodyFont(15))
 
