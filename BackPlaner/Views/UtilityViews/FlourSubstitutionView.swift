@@ -162,6 +162,11 @@ struct FlourSubstitutionRequest: Identifiable {
     let recipe: RecipeExportData
     let componentIndex: Int
     let ingredientIndex: Int
+    /// The serving scale the recipe screen is showing (1.0 is the recipe as
+    /// stored). The sheet shows its grams at this scale, so they match the
+    /// line that was tapped; the copy it writes keeps the base amounts, as
+    /// every recipe does.
+    var scale: Double = 1
 }
 
 struct FlourSubstitutionSheet: View {
@@ -215,12 +220,18 @@ struct FlourSubstitutionSheet: View {
         ingredient.normWeight > 0 ? ingredient.normWeight : ingredient.weight
     }
 
+    /// "2,0" — the factor named in the footer when it is not 1.
+    private var scaleText: String {
+        request.scale.formatted(.number.precision(.fractionLength(1...2)).locale(AppSettings.locale))
+    }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section("Im Rezept") {
+                    // Grams as the recipe screen shows them, at its serving scale.
                     LabeledContent(componentName) {
-                        Text(verbatim: "\(Int(grams.rounded())) g \(ingredient.name)")
+                        Text(verbatim: "\(Int((grams * request.scale).rounded())) g \(ingredient.name)")
                             .multilineTextAlignment(.trailing)
                     }
                     if let source {
@@ -233,13 +244,14 @@ struct FlourSubstitutionSheet: View {
                 }
 
                 if let applied {
-                    Section("Ergebnis") {
+                    Section {
                         // Names the line that moves — "Milch" in a component
-                        // that has no water of its own.
+                        // that has no water of its own. Grams at the serving
+                        // scale, like the line that was tapped.
                         if let liquid = applied.adjustedLiquidName {
-                            LabeledContent(liquid, value: FlourText.delta(applied.waterDelta))
+                            LabeledContent(liquid, value: FlourText.delta(applied.waterDelta * request.scale))
                         } else {
-                            LabeledContent("Wasser", value: FlourText.delta(applied.waterDelta))
+                            LabeledContent("Wasser", value: FlourText.delta(applied.waterDelta * request.scale))
                         }
 
                         if let before = yieldBefore, let after = yieldAfter {
@@ -259,6 +271,14 @@ struct FlourSubstitutionSheet: View {
                                 Image(systemName: "exclamationmark.triangle.fill")
                             }
                             .foregroundColor(Theme.warning)
+                        }
+                    } header: {
+                        Text("Ergebnis")
+                    } footer: {
+                        // The grams follow the factor chosen under Details, so
+                        // they match the line that was tapped.
+                        if request.scale != 1 {
+                            Text("Mengen für Portionsgröße ×\(scaleText). Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
                         }
                     }
 
