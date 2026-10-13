@@ -26,9 +26,38 @@ struct BakingGlossaryMatchingTests {
         #expect(found.first.map { BakingGlossary.rendering(of: $0, in: "en", capitalized: false) } == "scald")
     }
 
-    @Test("Compounds are left to the translator", arguments: ["Roggensauerteig", "Brühstückzutaten", "Hauptteigmenge"])
+    @Test("Other compounds are left to the translator", arguments: ["Brühstückzutaten", "Hauptteigmenge", "Sauerteigbrot"])
     func ignoresCompounds(text: String) {
         #expect(BakingGlossary.matches(in: text, language: "de").isEmpty)
+    }
+
+    @Test("Grain compounds are glossary terms of their own", arguments: [
+        ("Weizenanstellgut",   "wheat sourdough starter", "levain chef de blé"),
+        ("Weizen-Anstellgut",  "wheat sourdough starter", "levain chef de blé"),
+        ("Roggenanstellgut",   "rye sourdough starter",   "levain chef de seigle"),
+        ("Roggensauerteig",    "rye sourdough",           "levain de seigle"),
+        ("Dinkelsauerteig",    "spelt sourdough",         "levain d'épeautre"),
+        ("Vollkornsauerteig",  "wholegrain sourdough",    "levain complet"),
+        ("Weizenvorteig",      "wheat preferment",        "pré-ferment de blé"),
+        ("Sauerteigstufe",     "sourdough stage",         "étape de levain")
+    ])
+    func grainCompounds(text: String, english: String, french: String) throws {
+        let found = try #require(BakingGlossary.matches(in: text, language: "de").first)
+        #expect(BakingGlossary.rendering(of: found, in: "en", capitalized: false) == english)
+        #expect(BakingGlossary.rendering(of: found, in: "fr", capitalized: false) == french)
+    }
+
+    @Test("The compound reads back from English into the German word")
+    func grainCompoundFromEnglish() throws {
+        let found = try #require(BakingGlossary.matches(in: "Feed the wheat sourdough starter", language: "en").first)
+        #expect(BakingGlossary.rendering(of: found, in: "de", capitalized: false) == "Weizenanstellgut")
+        #expect(BakingGlossary.matches(in: "Feed the wheat sourdough starter", language: "en").count == 1)
+    }
+
+    @Test("A cached 'wheat animal feed' is stale and a lone one is repaired")
+    func animalFeed() {
+        #expect(!BakingGlossary.translationHonoursGlossary(sourceText: "Weizenanstellgut", translation: "wheat animal feed", from: "de", into: "en"))
+        #expect(GlossaryTranslationPlan.termTranslation(of: "Weizenanstellgut", from: "de", into: "en") == "Wheat sourdough starter")
     }
 
     @Test("The longer form wins: a sourdough starter is not a sourdough plus a word")
