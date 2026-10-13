@@ -90,12 +90,14 @@ final class BackPlanerSmokeTests: XCTestCase {
         scrollUntilHittable(save, towards: .top)
         XCTAssertTrue(save.isEnabled, "A named recipe should be savable")
 
-        let duration = app.textFields["Dauer in Minuten"].firstMatch
+        // The duration field takes hours as well now, so its label is just
+        // "Dauer" and its keyboard the numbers-and-punctuation one.
+        let duration = app.textFields["Dauer"].firstMatch
         scrollUntilHittable(duration)
         duration.tap()
 
         let keyboard = app.keyboards.firstMatch
-        XCTAssertTrue(keyboard.waitForExistence(timeout: 5), "The number pad did not appear")
+        XCTAssertTrue(keyboard.waitForExistence(timeout: 5), "The keyboard did not appear")
 
         // The form centres the focused row once the keyboard has settled.
         // Existence is checked first: mid-transition, XCUIElement.frame
