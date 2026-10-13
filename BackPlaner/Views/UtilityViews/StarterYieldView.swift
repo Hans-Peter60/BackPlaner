@@ -336,7 +336,9 @@ struct StarterYieldSheet: View {
                         // The grams follow the factor chosen under Details, so
                         // they match the line that was tapped.
                         if request.scale != 1 {
-                            Text("Mengen für Portionsgröße ×\(scaleText). Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
+                            // Named as factor and as dough weight, since the
+                            // factor may have come from a typed dough weight.
+                            Text("Mengen für Faktor ×\(scaleText), also \(Int((request.recipe.totalWeight * request.scale).rounded()), format: .number) g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
                         }
                     }
 
