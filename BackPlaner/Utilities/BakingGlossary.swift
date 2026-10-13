@@ -42,7 +42,10 @@ enum BakingGlossary {
         let isPlural: Bool
     }
 
-    static let terms: [Term] = [
+    /// The base terms and the grain compounds built from them.
+    static let terms: [Term] = baseTerms + compoundTerms
+
+    private static let baseTerms: [Term] = [
         // Pre-doughs and soakers, the component names most often mangled.
         Term(forms: ["de": Forms(["Brühstück"], plural: ["Brühstücke"]),
                      "en": Forms(["scald", "hot soaker"], plural: ["scalds"]),
@@ -99,8 +102,53 @@ enum BakingGlossary {
                      "fr": Forms(["mie"])]),
         Term(forms: ["de": Forms(["Fensterprobe"]),
                      "en": Forms(["windowpane test"]),
-                     "fr": Forms(["test de la membrane"])])
+                     "fr": Forms(["test de la membrane"])]),
+        Term(forms: ["de": Forms(["Sauerteigstufe"], plural: ["Sauerteigstufen"]),
+                     "en": Forms(["sourdough stage"], plural: ["sourdough stages"]),
+                     "fr": Forms(["étape de levain"], plural: ["étapes de levain"])])
     ]
+
+    // MARK: - Grain compounds
+
+    /// German writes the grain into the word: "Weizenanstellgut",
+    /// "Roggensauerteig". Those are not whole words to the matcher, and the
+    /// translator made "wheat animal feed" of the first. So every grain gets
+    /// its own term for the starter, the sourdough and the preferment, in
+    /// both directions.
+    private struct Grain {
+        let de: String
+        let en: String
+        /// "de blé", "d'épeautre" — or an adjective, "complet".
+        let fr: String
+        let frIsAdjective: Bool
+    }
+
+    private static let grains: [Grain] = [
+        Grain(de: "Weizen",     en: "wheat",      fr: "de blé",         frIsAdjective: false),
+        Grain(de: "Roggen",     en: "rye",        fr: "de seigle",      frIsAdjective: false),
+        Grain(de: "Dinkel",     en: "spelt",      fr: "d'épeautre",     frIsAdjective: false),
+        Grain(de: "Emmer",      en: "emmer",      fr: "d'amidonnier",   frIsAdjective: false),
+        Grain(de: "Einkorn",    en: "einkorn",    fr: "d'engrain",      frIsAdjective: false),
+        Grain(de: "Hartweizen", en: "durum",      fr: "de blé dur",     frIsAdjective: false),
+        Grain(de: "Vollkorn",   en: "wholegrain", fr: "complet",        frIsAdjective: true)
+    ]
+
+    private static let compoundTerms: [Term] = grains.flatMap { grain in
+        [
+            // Weizenanstellgut → wheat sourdough starter → levain chef de blé
+            Term(forms: ["de": Forms(["\(grain.de)anstellgut", "\(grain.de)-Anstellgut"]),
+                         "en": Forms(["\(grain.en) sourdough starter", "\(grain.en) starter"]),
+                         "fr": Forms(["levain chef \(grain.fr)", "levain-chef \(grain.fr)"])]),
+            // Roggensauerteig → rye sourdough → levain de seigle
+            Term(forms: ["de": Forms(["\(grain.de)sauerteig", "\(grain.de)-Sauerteig"], plural: ["\(grain.de)sauerteige"]),
+                         "en": Forms(["\(grain.en) sourdough"], plural: ["\(grain.en) sourdoughs"]),
+                         "fr": Forms(["levain \(grain.fr)"], plural: ["levains \(grain.fr)"])]),
+            // Weizenvorteig → wheat preferment → pré-ferment de blé
+            Term(forms: ["de": Forms(["\(grain.de)vorteig", "\(grain.de)-Vorteig"]),
+                         "en": Forms(["\(grain.en) preferment", "\(grain.en) pre-ferment"]),
+                         "fr": Forms(["pré-ferment \(grain.fr)"])])
+        ]
+    }
 
     /// Every term found in `text`, written in `language`, left to right and
     /// without overlaps. Longer forms win over shorter ones, so "sourdough
