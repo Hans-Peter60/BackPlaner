@@ -131,10 +131,10 @@ struct EditInstructionView: View {
                             .accessibilityLabel("Beschreibung")
                         
                         VStack {
-                            NumberField("", value: $duration)
+                            DurationField(minutes: $duration)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
-                                .accessibilityLabel("Dauer in Minuten")
+                                .accessibilityLabel("Dauer")
                             
                             Spacer()
                         }

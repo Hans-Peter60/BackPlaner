@@ -257,7 +257,7 @@ struct InstructionsFBView: View {
 
                             if changeDurationsFlag {
 
-                                Text("Dauer [Min]").bold()
+                                Text("Dauer").bold()
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.7)
                                 
@@ -269,10 +269,13 @@ struct InstructionsFBView: View {
                                     Text(recipeFB.instructions[index].instruction)
                                     Text(Rational.displayHoursMinutes(recipeFB.instructions[index].duration))
                                     TextField(String(recipeFB.instructions[index].duration), text: durationBinding(index))
+                                        // Minutes, "1:30" or "1h 30" — see DurationInput.
+                                        .keyboardType(.numbersAndPunctuation)
+                                        .autocorrectionDisabled()
                                         // The placeholder is the current number
                                         // of minutes, which says nothing on its
                                         // own when read aloud.
-                                        .accessibilityLabel("Dauer in Minuten")
+                                        .accessibilityLabel("Dauer")
                                 }
                                 .font(Theme.bodyFont(15))
                             }
@@ -369,7 +372,7 @@ struct InstructionsFBView: View {
                                 for i in 0..<min(recipeFB.instructions.count, durations.count) {
 
                                     let cleanedDuration = durations[i].trimmingCharacters(in: .whitespacesAndNewlines)
-                                    if Int(cleanedDuration) ?? 0 > 0 { recipeFB.instructions[i].duration = Int(cleanedDuration) ?? 0}
+                                    if let minutes = DurationInput.minutes(from: cleanedDuration), minutes > 0 { recipeFB.instructions[i].duration = minutes }
                                 }
                                 recipeFB.instructions = Rational.calculateStartTimes(
                                     recipeFB.instructions,

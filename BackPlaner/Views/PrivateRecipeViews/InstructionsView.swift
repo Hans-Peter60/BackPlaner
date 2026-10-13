@@ -234,7 +234,7 @@ struct InstructionsView: View {
                             // MARK: Change Durations
                             if changeDurationsFlag {
 
-                                Text("Dauer [Min]").bold()
+                                Text("Dauer").bold()
 
                                 ForEach(recipe.instructionsArray.indices, id: \.self) { index in
 
@@ -244,10 +244,13 @@ struct InstructionsView: View {
                                     Text(recipe.instructionsArray[index].instruction)
                                     Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
                                     TextField(String(recipe.instructionsArray[index].duration), text: durationBinding(index))
+                                        // Minutes, "1:30" or "1h 30" — see DurationInput.
+                                        .keyboardType(.numbersAndPunctuation)
+                                        .autocorrectionDisabled()
                                         // The placeholder is the current number
                                         // of minutes, which says nothing on its
                                         // own when read aloud.
-                                        .accessibilityLabel("Dauer in Minuten")
+                                        .accessibilityLabel("Dauer")
 
                                 }
                                 .font(Theme.bodyFont(15))
@@ -399,7 +402,7 @@ struct InstructionsView: View {
                             for i in 0..<recipe.instructionsArray.count {
 
                                 let cleanedDuration = (i < durations.count ? durations[i] : "").trimmingCharacters(in: .whitespacesAndNewlines)
-                                if Int(cleanedDuration) ?? 0 > 0 { recipe.instructionsArray[i].duration = Int(cleanedDuration) ?? 0}
+                                if let minutes = DurationInput.minutes(from: cleanedDuration), minutes > 0 { recipe.instructionsArray[i].duration = minutes }
                                 
                                 let instruction = InstructionFB()
                                 instruction.instruction = recipe.instructionsArray[i].instruction
