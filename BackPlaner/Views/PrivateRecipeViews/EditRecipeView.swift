@@ -128,9 +128,9 @@ struct EditRecipeView: View {
             TextField(namePlaceholder, text: $instruction)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityLabel("Beschreibung")
-            NumberField("", value: $duration)
+            DurationField(minutes: $duration)
                 .textFieldStyle(.roundedBorder)
-                .accessibilityLabel("Dauer in Minuten")
+                .accessibilityLabel("Dauer")
 
             IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Schritt hinzufügen", controlSize: .regular) {
                 addInstruction()

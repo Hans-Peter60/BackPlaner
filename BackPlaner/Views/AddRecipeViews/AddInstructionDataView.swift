@@ -67,10 +67,10 @@ struct AddInstructionDataView: View {
                     .focused($focusedRow, equals: .entry)
                     .accessibilityLabel("Beschreibung")
 
-                NumberField("", value: $duration)
+                DurationField(minutes: $duration)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .entry)
-                    .accessibilityLabel("Dauer in Minuten")
+                    .accessibilityLabel("Dauer")
 
                 IconActionButton(systemImage: "plus", style: .primary, accessibilityLabel: "Verarbeitungsschritt hinzufügen", controlSize: .regular) {
                     // Make sure that the fields are populated
@@ -118,10 +118,10 @@ struct AddInstructionDataView: View {
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
                     .accessibilityLabel("Beschreibung")
-                NumberField("", value: $instructions[i].duration)
+                DurationField(minutes: $instructions[i].duration)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
-                    .accessibilityLabel("Dauer in Minuten")
+                    .accessibilityLabel("Dauer")
                 Text(verbatim: " ")
             }
             .scrollsSidewaysAtLargeText()

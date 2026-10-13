@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		676C2B321384FE8F424B77DA /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45EF06D1DA27364CA170C3 /* NumberField.swift */; };
+		195ED6CB5627C42088CD0F56 /* DurationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6776BAA8F3A4FC002CBC482F /* DurationField.swift */; };
 		6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */; };
 		6A05F5CE307BB1980010D6D7 /* RecurringBakePlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A05F5CD307BB1980010D6D7 /* RecurringBakePlanner.swift */; };
 		6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */; };
@@ -142,11 +143,11 @@
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
-		D451D9BCF90EFF3302855E4C /* StarterYieldAdjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
-		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */; };
+		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
+		D451D9BCF90EFF3302855E4C /* StarterYieldAdjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		19FF11E946F59F79709D8C92 /* StarterYieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldView.swift; sourceTree = "<group>"; };
 		54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakingGlossary.swift; sourceTree = "<group>"; };
 		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitleRegionPickerView.swift; sourceTree = "<group>"; };
@@ -331,11 +333,11 @@
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
-		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
-		19FF11E946F59F79709D8C92 /* StarterYieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldView.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
+		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
+		6776BAA8F3A4FC002CBC482F /* DurationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -484,6 +486,7 @@
 				6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */,
 				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
 				EF45EF06D1DA27364CA170C3 /* NumberField.swift */,
+				6776BAA8F3A4FC002CBC482F /* DurationField.swift */,
 				6A5055ED304D684600F8E804 /* InstructionSchedulingControlsView.swift */,
 				6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */,
 				6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */,
@@ -964,6 +967,7 @@
 				6A1131F52B7CF93300CDF054 /* InstructionsFBView.swift in Sources */,
 				6AD5AD773046CA60001680D2 /* IconActionButton.swift in Sources */,
 				676C2B321384FE8F424B77DA /* NumberField.swift in Sources */,
+				195ED6CB5627C42088CD0F56 /* DurationField.swift in Sources */,
 				6A2616103072A0E0007644AB /* PendingWebImport.swift in Sources */,
 				6A11321F2B7CF97900CDF054 /* BakeHistoriesHitListView.swift in Sources */,
 				6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */,
