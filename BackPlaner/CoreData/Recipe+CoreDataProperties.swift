@@ -28,6 +28,11 @@ extension Recipe {
     @NSManaged public var bakeHistoryFlag:Bool
     @NSManaged public var rating:         Int
     @NSManaged public var recurrenceIntervalDays: Int
+    /// When this recipe was written as a copy with an exchanged flour or an
+    /// adjusted starter (FlourSubstitution, StarterYieldAdjustment). A
+    /// further adjustment then changes this recipe in place instead of
+    /// stacking a copy on a copy. `nil` for every other recipe.
+    @NSManaged public var adjustedOn:     Date?
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet

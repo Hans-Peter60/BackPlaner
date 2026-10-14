@@ -388,15 +388,18 @@ struct BakePlanScheduler {
                       ovenTemperature: plan.ovenTemperature)
     }
 
-    /// Writes every step of the plan as a scheduled step. `isAutomaticRecurrence`
+    /// Writes every step of the plan as a scheduled step. `servingScale` is
+    /// the factor the plan was made at, so the plan's ingredient lists show
+    /// the amounts that are actually weighed out. `isAutomaticRecurrence`
     /// marks steps queued by `RecurringBakePlanner` rather than by the user, so
     /// the scheduled-steps views can hold them back until shortly before they're due.
-    func writeScheduledSteps(planID: UUID, isAutomaticRecurrence: Bool = false, in context: NSManagedObjectContext) {
+    func writeScheduledSteps(planID: UUID, servingScale: Double, isAutomaticRecurrence: Bool = false, in context: NSManagedObjectContext) {
         for step in plan.allSteps {
             let next = NextStep(context: context)
-            next.id          = UUID()
-            next.planID      = planID
-            next.recipeName  = plan.recipeName
+            next.id           = UUID()
+            next.planID       = planID
+            next.recipeName   = plan.recipeName
+            next.servingScale = servingScale
             next.instruction = step.instruction
             next.step        = step.step
             next.duration    = step.duration
@@ -454,7 +457,8 @@ struct BakePlanScheduler {
                                                  instructionText: instruction.instruction)
                 .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
         }
-        scheduler.writeScheduledSteps(planID: planID, isAutomaticRecurrence: isAutomaticRecurrence, in: context)
+        scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale,
+                                      isAutomaticRecurrence: isAutomaticRecurrence, in: context)
 
         // The bake history gets an entry for the end of this bake.
         let bakeHistory     = BakeHistory(context: context)

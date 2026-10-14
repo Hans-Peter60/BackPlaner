@@ -136,7 +136,9 @@ struct StarterYieldAdjustmentTests {
         #expect(ingredients[1].weight == 500)
         // Starter and water trade places, the dough weighs the same.
         #expect(applied.recipe.totalWeight == 950)
-        #expect(applied.recipe.name == "Landbrot – TA 210")
+        // The copy's name carries the adjustment and the date (AdjustedRecipe).
+        #expect(applied.recipe.name.hasPrefix("Landbrot – TA 210 ("))
+        #expect(applied.recipe.name.hasSuffix(")"))
     }
 
     @Test("Flour and water of the whole dough stay where the recipe put them")

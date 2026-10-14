@@ -183,7 +183,8 @@ enum StarterYieldAdjustment {
                       componentIndex: Int,
                       ingredientIndex: Int,
                       targetYield: Double,
-                      yields: DoughComposition.StarterYields = .stored) -> Applied? {
+                      yields: DoughComposition.StarterYields = .stored,
+                      on date: Date = Date()) -> Applied? {
         guard recipe.components.indices.contains(componentIndex),
               recipe.components[componentIndex].ingredients.indices.contains(ingredientIndex),
               targetYield > 100
@@ -226,7 +227,7 @@ enum StarterYieldAdjustment {
             adjustedLiquidName = IngredientNameNormalizer.displayName(liquid.name)
         }
 
-        copy.name = "\(recipe.name) – TA \(Int(targetYield.rounded()))"
+        copy.name = AdjustedRecipe.name(original: recipe.name, adjustment: "TA \(Int(targetYield.rounded()))", on: date)
         return Applied(recipe: copy,
                        source: source,
                        targetYield: targetYield,

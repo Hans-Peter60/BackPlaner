@@ -367,7 +367,8 @@ enum FlourSubstitution {
     /// is some, otherwise the component's poured liquid, which the baker's
     /// convention counts as water anyway. Nothing else changes; the copy
     /// gets the target flour added to its name.
-    static func apply(to recipe: RecipeExportData, componentIndex: Int, ingredientIndex: Int, target: Flour) -> Applied? {
+    static func apply(to recipe: RecipeExportData, componentIndex: Int, ingredientIndex: Int, target: Flour,
+                      on date: Date = Date()) -> Applied? {
         guard recipe.components.indices.contains(componentIndex),
               recipe.components[componentIndex].ingredients.indices.contains(ingredientIndex)
         else { return nil }
@@ -398,7 +399,7 @@ enum FlourSubstitution {
             adjustedLiquidName = IngredientNameNormalizer.displayName(liquid.name)
         }
 
-        copy.name = "\(recipe.name) – \(target.title)"
+        copy.name = AdjustedRecipe.name(original: recipe.name, adjustment: target.title, on: date)
         return Applied(recipe: copy, source: source, target: target,
                        waterDelta: delta, waterAdjusted: waterAdjusted,
                        adjustedLiquidName: adjustedLiquidName)

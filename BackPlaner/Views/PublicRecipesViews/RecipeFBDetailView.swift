@@ -28,10 +28,21 @@ struct RecipeFBDetailView: View {
     @State private var flourSubstitution: FlourSubstitutionRequest?
     /// The starter line tapped for a TA adjustment, while its sheet is up.
     @State private var starterAdjustment: StarterYieldRequest?
+    /// The copy an adjustment sheet wrote, waiting for the sheet to close.
+    /// Pushing from inside the sheet's callback would race its dismissal.
+    @State private var pendingCopy: NSManagedObjectID?
+    /// The copy being opened on top of this recipe.
+    @State private var openedCopy: AdjustedRecipeCopy?
 
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipeFB.totalWeight)
+    }
+
+    private func openPendingCopy() {
+        guard let pendingCopy else { return }
+        self.pendingCopy = nil
+        openedCopy = AdjustedRecipeCopy(id: pendingCopy)
     }
     // Admin/owner moderation: confirm before deleting any public recipe.
     @State private var showAdminDeleteConfirm = false
@@ -149,14 +160,16 @@ struct RecipeFBDetailView: View {
                                                  recipe: recipeSnapshot,
                                                  componentIndex: componentIndex,
                                                  ingredientIndex: ingredientIndex,
-                                                 scale: servingScale)
+                                                 scale: servingScale,
+                                                 onCopyCreated: { pendingCopy = $0 })
                                          },
                                          onStarterTap: { componentIndex, ingredientIndex in
                                              starterAdjustment = StarterYieldRequest(
                                                  recipe: recipeSnapshot,
                                                  componentIndex: componentIndex,
                                                  ingredientIndex: ingredientIndex,
-                                                 scale: servingScale)
+                                                 scale: servingScale,
+                                                 onCopyCreated: { pendingCopy = $0 })
                                          })
 
                     Divider()
@@ -252,11 +265,18 @@ struct RecipeFBDetailView: View {
             }
             .warmBackground()
             .navigationTitle(Text(recipeFB.name))
-            .sheet(item: $flourSubstitution) { request in
+            .sheet(item: $flourSubstitution, onDismiss: openPendingCopy) { request in
                 FlourSubstitutionSheet(request: request)
             }
-            .sheet(item: $starterAdjustment) { request in
+            .sheet(item: $starterAdjustment, onDismiss: openPendingCopy) { request in
                 StarterYieldSheet(request: request)
+            }
+            // The copy is one of the user's own recipes; it opens on top of
+            // the public one it was made from.
+            .navigationDestination(item: $openedCopy) { copy in
+                if let recipe = try? viewContext.existingObject(with: copy.id) as? Recipe {
+                    TabsView(recipe: recipe)
+                }
             }
             .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
                 Button("Löschen", role: .destructive) {

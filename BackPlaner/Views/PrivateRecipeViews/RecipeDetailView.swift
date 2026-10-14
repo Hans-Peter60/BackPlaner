@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct RecipeDetailView: View {
-    
-//    @Environment(\.presentationMode) var presentationMode
-    
-    var recipe:Recipe
+
+    @Environment(\.managedObjectContext) private var viewContext
+
+    /// Observed, so an adjustment written into this recipe in place shows
+    /// up without leaving the screen.
+    @ObservedObject var recipe: Recipe
 
     var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
 
@@ -29,10 +32,27 @@ struct RecipeDetailView: View {
     @State private var flourSubstitution: FlourSubstitutionRequest?
     /// The starter line tapped for a TA adjustment, while its sheet is up.
     @State private var starterAdjustment: StarterYieldRequest?
+    /// The copy an adjustment sheet wrote, waiting for the sheet to close.
+    /// Pushing from inside the sheet's callback would race its dismissal.
+    @State private var pendingCopy: NSManagedObjectID?
+    /// The copy being opened on top of this recipe.
+    @State private var openedCopy: AdjustedRecipeCopy?
 
     /// 1.0 is the recipe as stored.
     private var servingScale: Double {
         ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight, baseWeight: recipe.totalWeight)
+    }
+
+    /// An adjusted copy takes further adjustments itself; any other recipe
+    /// gets a copy.
+    private var adjustmentTarget: NSManagedObjectID? {
+        recipe.adjustedOn != nil ? recipe.objectID : nil
+    }
+
+    private func openPendingCopy() {
+        guard let pendingCopy else { return }
+        self.pendingCopy = nil
+        openedCopy = AdjustedRecipeCopy(id: pendingCopy)
     }
 
     var body: some View {
@@ -162,14 +182,18 @@ struct RecipeDetailView: View {
                                              recipe: recipeSnapshot,
                                              componentIndex: componentIndex,
                                              ingredientIndex: ingredientIndex,
-                                             scale: servingScale)
+                                             scale: servingScale,
+                                             updateTarget: adjustmentTarget,
+                                             onCopyCreated: { pendingCopy = $0 })
                                      },
                                      onStarterTap: { componentIndex, ingredientIndex in
                                          starterAdjustment = StarterYieldRequest(
                                              recipe: recipeSnapshot,
                                              componentIndex: componentIndex,
                                              ingredientIndex: ingredientIndex,
-                                             scale: servingScale)
+                                             scale: servingScale,
+                                             updateTarget: adjustmentTarget,
+                                             onCopyCreated: { pendingCopy = $0 })
                                      })
 
                 // MARK: Instructions
@@ -232,11 +256,18 @@ struct RecipeDetailView: View {
         }
         .warmBackground()
         .navigationTitle(recipe.name)
-        .sheet(item: $flourSubstitution) { request in
+        .sheet(item: $flourSubstitution, onDismiss: openPendingCopy) { request in
             FlourSubstitutionSheet(request: request)
         }
-        .sheet(item: $starterAdjustment) { request in
+        .sheet(item: $starterAdjustment, onDismiss: openPendingCopy) { request in
             StarterYieldSheet(request: request)
+        }
+        // The copy opens on top of the original, so the way back leads to
+        // the recipe the adjustment started from.
+        .navigationDestination(item: $openedCopy) { copy in
+            if let recipe = try? viewContext.existingObject(with: copy.id) as? Recipe {
+                TabsView(recipe: recipe)
+            }
         }
 
         }

@@ -204,7 +204,8 @@ struct ScheduledTasksView: View {
                                         id: nextStep.objectID,
                                         recipeName: nextStep.recipeName,
                                         instruction: nextStep.instruction,
-                                        component: component
+                                        component: component,
+                                        scale: nextStep.effectiveServingScale
                                     )
                                 } label: {
                                     Image(systemName: "info.circle")
@@ -380,7 +381,8 @@ struct ScheduledTasksView: View {
             ScheduledStepIngredientsSheet(
                 recipeName: selection.recipeName,
                 instruction: selection.instruction,
-                component: selection.component
+                component: selection.component,
+                scale: selection.scale
             )
             .presentationDetents([.medium, .large])
         }
@@ -707,6 +709,7 @@ private struct ScheduledStepIngredientsSelection: Identifiable {
     let recipeName: String
     let instruction: String
     let component: ComponentColumn
+    let scale: Double
 }
 
 /// The ingredients of the component a planned mixing step prepares, so they
@@ -718,10 +721,9 @@ private struct ScheduledStepIngredientsSheet: View {
     let recipeName: String
     let instruction: String
     let component: ComponentColumn
-
-    /// The serving size the recipe screens default to, so the amounts here
-    /// match what the user saw when planning.
-    private let servingSize = AppSettings.storedServingSize
+    /// The serving scale the plan was made at, so the amounts here are the
+    /// ones the reminders name and the user actually weighs out.
+    let scale: Double
 
     var body: some View {
         NavigationStack {
@@ -744,7 +746,7 @@ private struct ScheduledStepIngredientsSheet: View {
                                                     weight: ingredient.weight,
                                                     num: ingredient.numerator,
                                                     denom: ingredient.denominator,
-                                                    targetServings: servingSize)
+                                                    scale: scale)
                                 + ingredient.name
                             )
                             .font(Theme.bodyFont(15))

@@ -167,6 +167,12 @@ struct FlourSubstitutionRequest: Identifiable {
     /// line that was tapped; the copy it writes keeps the base amounts, as
     /// every recipe does.
     var scale: Double = 1
+    /// The recipe to change in place: set when the recipe on screen is
+    /// itself an adjusted copy, so a second adjustment does not stack a copy
+    /// on a copy. `nil` writes a new copy.
+    var updateTarget: NSManagedObjectID? = nil
+    /// Told about the new copy, so the screen can open it.
+    var onCopyCreated: ((NSManagedObjectID) -> Void)? = nil
 }
 
 struct FlourSubstitutionSheet: View {
@@ -177,7 +183,6 @@ struct FlourSubstitutionSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var target: FlourSubstitution.Flour
-    @State private var savedName: String?
     @State private var saveFailed = false
 
     private let source: FlourSubstitution.Flour?
@@ -290,11 +295,21 @@ struct FlourSubstitutionSheet: View {
                         ryeShareAfter: FlourSubstitution.ryeShare(in: applied.recipe)))
 
                     Section {
-                        IconActionButton(systemImage: "doc.on.doc", style: .primary, accessibilityLabel: "Kopie mit Ersatz anlegen", title: "Kopie mit Ersatz anlegen", controlSize: .regular) {
-                            createCopy(applied)
+                        if request.updateTarget != nil {
+                            IconActionButton(systemImage: "checkmark.circle", style: .primary, accessibilityLabel: "Änderung übernehmen", title: "Änderung übernehmen", controlSize: .regular) {
+                                applyInPlace(applied)
+                            }
+                        } else {
+                            IconActionButton(systemImage: "doc.on.doc", style: .primary, accessibilityLabel: "Kopie mit Ersatz anlegen", title: "Kopie mit Ersatz anlegen", controlSize: .regular) {
+                                createCopy(applied)
+                            }
                         }
                     } footer: {
-                        Text("Legt unter „Eigene Rezepte“ ein neues Rezept mit dem getauschten Mehl und dem angepassten Wasser an. Das Original bleibt unverändert.")
+                        if request.updateTarget != nil {
+                            Text("Dieses Rezept ist bereits eine angepasste Kopie. Die Änderung wird direkt übernommen, es entsteht keine weitere Kopie.")
+                        } else {
+                            Text("Legt unter „Eigene Rezepte“ ein neues Rezept mit dem getauschten Mehl und dem angepassten Wasser an, mit dem heutigen Datum im Namen, und öffnet es. Das Original bleibt unverändert.")
+                        }
                     }
                 } else {
                     Section {
@@ -318,25 +333,40 @@ struct FlourSubstitutionSheet: View {
                     Button("Abbrechen") { dismiss() }
                 }
             }
-            .alert("Kopie angelegt", isPresented: Binding(
-                get: { savedName != nil },
-                set: { if !$0 { savedName = nil; dismiss() } }
-            )) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text("„\(savedName ?? "")“ liegt jetzt unter „Eigene Rezepte“.")
-            }
             .alert("Speichern fehlgeschlagen", isPresented: $saveFailed) {
                 Button("OK", role: .cancel) { }
             }
         }
     }
 
+    /// Writes the copy, marks it as an adjusted one and hands it to the
+    /// screen, which opens it once this sheet is gone.
     private func createCopy(_ applied: FlourSubstitution.Applied) {
-        _ = applied.recipe.makeRecipe(in: viewContext)
+        let copy = applied.recipe.makeRecipe(in: viewContext)
+        copy.adjustedOn = Date()
         do {
             try viewContext.save()
-            savedName = applied.recipe.name
+            request.onCopyCreated?(copy.objectID)
+            dismiss()
+        } catch {
+            viewContext.rollback()
+            saveFailed = true
+        }
+    }
+
+    /// Changes the adjusted copy on screen instead of copying it again.
+    private func applyInPlace(_ applied: FlourSubstitution.Applied) {
+        guard let target = request.updateTarget,
+              let recipe = try? viewContext.existingObject(with: target) as? Recipe
+        else {
+            saveFailed = true
+            return
+        }
+        applied.recipe.update(recipe, in: viewContext)
+        recipe.adjustedOn = Date()
+        do {
+            try viewContext.save()
+            dismiss()
         } catch {
             viewContext.rollback()
             saveFailed = true

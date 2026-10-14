@@ -11,7 +11,7 @@ NEU: ANSTELLGUT-TA ANPASSEN
 • Deine üblichen TA-Werte (z. B. 190, 210, 220) hinterlegst Du in den Einstellungen als Schnellwahl. Dazu ein eigener Rechner im Hauptmenü und Hinweise zur Führung bei weicherem oder festerem Anstellgut.
 
 NEU: MEHL ERSETZEN
-• Tippe auf eine Mehlzeile und wähle ein anderes Mehl: Die App passt das Wasser der Komponente an das an, was das neue Mehl bindet, mit Hinweisen zu Dinkel, Roggen, Emmer, Einkorn, Hartweizen und Vollkorn. Auch als Rechner im Hauptmenü. „Kopie mit Ersatz anlegen“ schreibt den Tausch in ein neues Rezept, das Original bleibt unverändert.
+• Tippe auf eine Mehlzeile und wähle ein anderes Mehl: Die App passt das Wasser der Komponente an das an, was das neue Mehl bindet, mit Hinweisen zu Dinkel, Roggen, Emmer, Einkorn, Hartweizen und Vollkorn. Auch als Rechner im Hauptmenü. „Kopie mit Ersatz anlegen“ schreibt den Tausch in ein neues Rezept mit dem Datum im Namen und öffnet es; das Original bleibt unverändert. Weitere Anpassungen – ein zweites Mehl, das Anstellgut – ändern die Kopie direkt, statt eine dritte Fassung anzulegen.
 • Beide Sheets rechnen in der Portionsgröße oder dem Teiggewicht, das Du im Rezept gewählt hast.
 
 NEU: TEIGTEMPERATUR
@@ -28,7 +28,8 @@ SAUERTEIG PFLEGEN
 • Mehrere Teige gleichzeitig im Ofen sind erlaubt: Überschneidende Backzeiten lassen sich mit „Trotzdem planen“ annehmen.
 
 REZEPTE
-• Rezept-Datenbank und eigene Rezepte sind eine gemeinsame Liste mit Filtern für Lokal, Eigene und Öffentlich.
+• Rezept-Datenbank und eigene Rezepte sind eine gemeinsame Liste mit Filtern für Lokal, Von mir veröffentlicht und Öffentlich. Beim Speichern entscheidet ein Schalter „Veröffentlichen“, ob ein Rezept auf dem Gerät bleibt oder in die Datenbank geht.
+• Die Anmeldung mit Apple ist freiwillig: Mit ihr gehören Deine veröffentlichten Rezepte Dir auf allen Geräten und nach einer Neuinstallation.
 • Rezepte lassen sich als Datei exportieren und importieren, einzeln oder alle auf einmal als Sicherung in den Einstellungen.
 • Dauern lassen sich in Stunden und Minuten eingeben: „1:30“, „1h 30“, „1,5 h“ oder weiterhin „90“.
 • Beim Import werden Dehnen-und-Falten-Angaben wie „alle 30 Minuten falten, 4x“ in getaktete Schritte aufgelöst.
@@ -38,6 +39,7 @@ REZEPTE
 
 VERBESSERUNGEN UND FEHLERBEHEBUNGEN
 • In Zahlenfeldern lässt sich wieder jede Ziffer löschen.
+• Die Zutatenlisten der geplanten Schritte und des Backmodus zeigen die Mengen in der Portionsgröße, mit der geplant wurde – wie die Erinnerungen.
 • Weit entfernte wiederkehrende Schritte erscheinen auch nicht mehr im Widget, in der Live-Aktivität und im Backmodus.
 • Bessere Lesbarkeit der Live-Aktivität auf dem Sperrbildschirm.
 
@@ -52,7 +54,7 @@ NEW: ADJUST THE STARTER TA
 • Your usual TA values (e.g. 190, 210, 220) go into Settings as quick picks. Plus a calculator of its own in the main menu and advice on handling a softer or firmer starter.
 
 NEW: REPLACE FLOUR
-• Tap a flour line and pick another flour: the app adjusts the component's water to what the new flour absorbs, with advice on spelt, rye, emmer, einkorn, durum and wholegrain. Also as a calculator in the main menu. "Create copy with substitution" writes the swap into a new recipe; the original stays unchanged.
+• Tap a flour line and pick another flour: the app adjusts the component's water to what the new flour absorbs, with advice on spelt, rye, emmer, einkorn, durum and wholegrain. Also as a calculator in the main menu. "Create copy with substitution" writes the swap into a new recipe with the date in its name and opens it; the original stays unchanged. Further adjustments – a second flour, the starter – change the copy itself instead of creating a third version.
 • Both sheets work in the serving size or dough weight you chose in the recipe.
 
 NEW: DOUGH TEMPERATURE
@@ -69,7 +71,8 @@ CARING FOR THE SOURDOUGH
 • Several doughs in the oven at once are allowed: overlapping bake times can be accepted with "Plan anyway".
 
 RECIPES
-• The recipe database and your own recipes are one list with the filters Local, Mine and Public.
+• The recipe database and your own recipes are one list with the filters Local, Published by me and Public. When saving, a "Publish" switch decides whether a recipe stays on the device or goes into the database.
+• Signing in with Apple is voluntary: with it, your published recipes are yours on every device and after a reinstall.
 • Recipes can be exported and imported as files, one at a time or all at once as a backup in Settings.
 • Durations can be entered in hours and minutes: "1:30", "1h 30", "1.5 h" or still "90".
 • On import, stretch-and-fold instructions like "fold every 30 minutes, 4x" are expanded into timed steps.
@@ -79,6 +82,7 @@ TRANSLATION
 
 IMPROVEMENTS AND FIXES
 • Every digit in a number field can be deleted again.
+• The ingredient lists of the planned steps and of the bake mode show the amounts at the serving size the plan was made with – like the reminders.
 • Recurring steps far in the future no longer show up in the widget, the Live Activity or Bake Mode either.
 • Better legibility of the Live Activity on the lock screen.
 
@@ -93,7 +97,7 @@ NOUVEAU : AJUSTER LA TA DU LEVAIN CHEF
 • Vos TA habituelles (p. ex. 190, 210, 220) se définissent dans les réglages comme raccourcis. S’y ajoutent un calculateur dans le menu principal et des conseils pour un levain chef plus souple ou plus ferme.
 
 NOUVEAU : REMPLACER LA FARINE
-• Appuyez sur une ligne de farine et choisissez-en une autre : l’app ajuste l’eau du composant à ce que la nouvelle farine absorbe, avec des conseils pour l’épeautre, le seigle, l’amidonnier, l’engrain, le blé dur et la farine complète. Aussi comme calculateur dans le menu principal. « Créer une copie avec la substitution » inscrit l’échange dans une nouvelle recette ; l’original reste inchangé.
+• Appuyez sur une ligne de farine et choisissez-en une autre : l’app ajuste l’eau du composant à ce que la nouvelle farine absorbe, avec des conseils pour l’épeautre, le seigle, l’amidonnier, l’engrain, le blé dur et la farine complète. Aussi comme calculateur dans le menu principal. « Créer une copie avec la substitution » inscrit l’échange dans une nouvelle recette datée dans son nom et l’ouvre ; l’original reste inchangé. Les ajustements suivants – une deuxième farine, le levain chef – modifient la copie elle-même au lieu de créer une troisième version.
 • Les deux fiches calculent dans la taille de portion ou le poids de pâte choisis dans la recette.
 
 NOUVEAU : TEMPÉRATURE DE PÂTE
@@ -110,7 +114,8 @@ ENTRETENIR LE LEVAIN
 • Plusieurs pâtes en même temps au four sont permises : les temps de cuisson qui se chevauchent peuvent être acceptés avec « Planifier malgré tout ».
 
 RECETTES
-• La base de recettes et vos propres recettes forment une seule liste avec des filtres Local, Mes recettes et Public.
+• La base de recettes et vos propres recettes forment une seule liste avec des filtres Local, Publiées par moi et Public. À l’enregistrement, un commutateur « Publier » décide si une recette reste sur l’appareil ou rejoint la base.
+• La connexion avec Apple est facultative : avec elle, vos recettes publiées vous appartiennent sur tous vos appareils et après une réinstallation.
 • Les recettes peuvent être exportées et importées en fichier, une par une ou toutes à la fois comme sauvegarde dans les réglages.
 • Les durées se saisissent en heures et minutes : « 1:30 », « 1h 30 », « 1,5 h » ou toujours « 90 ».
 • À l’import, les indications de rabats comme « rabattre toutes les 30 minutes, 4x » sont converties en étapes minutées.
@@ -120,6 +125,7 @@ TRADUCTION
 
 AMÉLIORATIONS ET CORRECTIONS
 • Dans les champs numériques, chaque chiffre peut à nouveau être effacé.
+• Les listes d’ingrédients des étapes planifiées et du mode cuisson indiquent les quantités à la taille de portion avec laquelle le plan a été défini – comme les rappels.
 • Les étapes récurrentes lointaines n’apparaissent plus non plus dans le widget, l’activité en direct et le mode cuisson.
 • Meilleure lisibilité de l’activité en direct sur l’écran verrouillé.
 
