@@ -174,6 +174,12 @@ for device in "${devices[@]}"; do
             # starts the runner can keep the test from ever launching. The
             # app itself is launched by the runner a moment later, so its
             # start is still on film.
+            # The runner of the previous test may still be shutting down;
+            # waiting for the new one below would otherwise see the old one
+            # and start the recording too early (which once cost ten minutes
+            # of home screen before the test got going).
+            while pgrep -qf "BackPlanerUITests-Runner"; do sleep 0.5; done
+
             bundle="$DERIVED/preview-$folder-$lang-$scene-$(date +%H%M%S).xcresult"
             TEST_RUNNER_PREVIEW_LANGUAGE="$lang" \
             TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
