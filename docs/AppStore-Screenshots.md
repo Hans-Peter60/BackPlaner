@@ -26,6 +26,8 @@ docs/appstore/2.0/ipad-13/de/…  (en, fr)
 | 07 | einkaufsliste | Zutaten des Rezepts für die Einkaufsliste, mit Portionsgröße |
 | 08 | anstellgut-ta | Rechner „Anstellgut-TA“ aus dem Hauptmenü (neu in 2.0) |
 
+Der iPhone-Lauf liefert außerdem die Bilder der Handbücher: `docs/images/` (de), `docs/images/en/` und `docs/images/fr/` bekommen `hauptmenue.png` und `oeffentliche-rezepte.png` aus den Bildern 01 und 02 sowie `neues-rezept.png` und `einstellungen.png` aus zwei zusätzlichen Aufnahmen (Nummern 91 und 92), die nicht im App-Store-Ordner landen. Alle sind auf 402 Punkte Breite verkleinert. Danach `python3 docs/build-manual-html.py` ausführen, damit die Website die neuen Bilder bekommt.
+
 ## Voraussetzungen
 
 - **Simulatoren:** „iPhone 17 Pro“ (1206 × 2622 – eine der vier iPhone-Größen, die App Store Connect für den 6,9"/6,5"-Platz annimmt; die *Max*-Modelle liefern andere Maße und werden abgelehnt) und „iPad Pro 13-inch (M5)“ (13", 2064 × 2752). Heißen sie in Deiner Xcode-Version anders, gibst Du sie mit an:

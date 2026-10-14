@@ -79,6 +79,24 @@ PY
     rm -rf "$tmp"
 }
 
+# The manuals take their pictures from the iPhone run: the main menu and the
+# recipe list from the App Store screens, the new-recipe form and the settings
+# from the extra screens numbered 90 and up, which this moves out of the App
+# Store folder $1. Scaled to the 402 pt width the manual pages use; $2 is the
+# language, $3 the manual image folder for it.
+manual_images() {
+    local store="$1" lang="$2" target="$3"
+    mkdir -p "$target"
+    local pairs=("01-startbildschirm:hauptmenue" "02-rezept-datenbank:oeffentliche-rezepte"
+                 "91-neues-rezept:neues-rezept" "92-einstellungen:einstellungen")
+    for pair in "${pairs[@]}"; do
+        local source="$store/${pair%%:*}.png" name="${pair##*:}"
+        [[ -f "$source" ]] || continue
+        sips --resampleWidth 402 "$source" --out "$target/$name.png" >/dev/null
+    done
+    rm -f "$store"/9[0-9]-*.png
+}
+
 udid_of() {
     xcrun simctl list devices available \
         | grep -F "    $1 (" \
@@ -150,6 +168,14 @@ for device in "${devices[@]}"; do
                -quiet >/dev/null 2>&1
         then
             export_screenshots "$bundle" "$dir"
+            if [[ "$folder" == "iphone-6.9" ]]; then
+                case "$lang" in
+                    de) manual_images "$dir" "$lang" "docs/images" ;;
+                    *)  manual_images "$dir" "$lang" "docs/images/$lang" ;;
+                esac
+            else
+                rm -f "$dir"/9[0-9]-*.png
+            fi
             ls "$dir" | sed 's/^/      /'
         else
             export_screenshots "$bundle" "$dir"

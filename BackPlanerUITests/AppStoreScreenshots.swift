@@ -141,6 +141,19 @@ final class AppStoreScreenshots: XCTestCase {
         openMenu("starterYield")
         settle(1)
         capture("08-anstellgut-ta")
+
+        // Two screens for the manuals only (numbers from 90 up are kept out
+        // of the App Store folder by the script): the form for a new recipe
+        // with its "Veröffentlichen" switch, and the top of the settings.
+        backToMenu()
+        openMenu("newRecipe")
+        settle(1)
+        capture("91-neues-rezept")
+
+        backToMenu()
+        openMenu("settings")
+        settle(1)
+        capture("92-einstellungen")
     }
 
     // MARK: - Screenshots
