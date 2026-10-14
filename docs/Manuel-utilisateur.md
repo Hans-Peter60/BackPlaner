@@ -536,7 +536,7 @@ L’app reconnaît une telle étape de mélange au fait que le nom d’un compos
 
 1. Saisissez des minutes (1440 au maximum, soit 24 heures).
 2. Choisissez le sens : **Plus tôt** ou **Plus tard**.
-3. Choisissez la portée : **Uniquement cette étape** ou **Toutes les suivantes** (toutes les étapes ultérieures de la même recette se décalent d’autant).
+3. Choisissez la portée : **Uniquement cette étape** ou **Toutes les suivantes** (toutes les étapes ultérieures du même plan se décalent d’autant, y compris « La cuisson est terminée » et les étapes qui commencent à la même minute mais viennent après dans l’ordre).
 4. **Appliquer**.
 
 Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».

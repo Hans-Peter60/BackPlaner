@@ -54,12 +54,20 @@ struct BakePlan {
 
     // MARK: Derived steps
 
-    /// The plan's start. In "Fertig bis" mode it lies `prepTime` before the
-    /// chosen date.
+    /// Minutes from the plan's start to its end: the recipe's `prepTime`, but
+    /// never less than the end of its last step. A stored total that fell
+    /// behind the steps would otherwise put "Backvorgang ist beendet" into
+    /// the middle of the bake.
+    var totalMinutes: Int {
+        max(prepTime, steps.map { $0.startTime + $0.duration }.max() ?? 0)
+    }
+
+    /// The plan's start. In "Fertig bis" mode it lies `totalMinutes` before
+    /// the chosen date.
     var baseDate: Date {
         switch anchor {
         case .startsAt:   return date
-        case .finishesBy: return calendar.date(byAdding: .minute, value: -prepTime, to: date) ?? date
+        case .finishesBy: return calendar.date(byAdding: .minute, value: -totalMinutes, to: date) ?? date
         }
     }
 
@@ -149,11 +157,11 @@ struct BakePlan {
         return false
     }
 
-    /// "Backvorgang ist beendet", always `prepTime` after the start.
+    /// "Backvorgang ist beendet", `totalMinutes` after the start.
     var endStep: PlanStep {
         PlanStep(instruction: AppSettings.generatedStepTexts(languageCode: languageCode).bakeEnd,
                  step: 99,
-                 startTime: prepTime,
+                 startTime: totalMinutes,
                  duration: 0)
     }
 
@@ -190,7 +198,7 @@ struct BakePlan {
     /// A step's offset from the date chosen in the view, which is what the
     /// reminders are set relative to.
     func reminderOffset(of step: PlanStep) -> Int {
-        anchor == .startsAt ? step.startTime : step.startTime - prepTime
+        anchor == .startsAt ? step.startTime : step.startTime - totalMinutes
     }
 
     // MARK: Plan check

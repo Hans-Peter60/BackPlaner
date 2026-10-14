@@ -365,6 +365,7 @@ enum NotificationActions {
                 request.predicate = followingStepsPredicate(
                     recipeName: recipeName,
                     after: metadata.scheduledDate,
+                    step: currentStep?.step,
                     planID: currentStep?.planID
                 )
                 if let followingSteps = try? context.fetch(request) {
@@ -404,15 +405,20 @@ enum NotificationActions {
         completionHandler: @escaping () -> Void
     ) {
         let center = UNUserNotificationCenter.current()
+        let currentStep = (originalContent.userInfo[stepKey] as? String).flatMap(Double.init)
         center.getPendingNotificationRequests { requests in
             var requestsToReplace = requests.filter { request in
                 guard includeFollowing,
+                      request.identifier != originalIdentifier,
                       let recipeID = request.content.userInfo[recipeIDKey] as? String,
                       recipeID == metadata.recipeID,
                       let date = dateValue(request.content.userInfo[scheduledDateKey]) else {
                     return false
                 }
-                return date > metadata.scheduledDate
+                return reminderFollows(date: date,
+                                       stepText: request.content.userInfo[stepKey] as? String,
+                                       currentDate: metadata.scheduledDate,
+                                       currentStep: currentStep)
             }
 
             if let currentRequest = postponedRequest(
@@ -566,13 +572,41 @@ enum NotificationActions {
     /// The later steps of the same plan. A plan is told apart by `planID`;
     /// steps planned before that attribute existed have none and count as
     /// one plan per recipe.
-    private static func followingStepsPredicate(recipeName: String, after date: Date, planID: UUID?) -> NSPredicate {
+    /// The steps of a plan that follow the one at `date` with number `step`:
+    /// every later one, and those at the same minute with a higher step
+    /// number. The latter are the parallel steps of the same group — and the
+    /// generated "Backvorgang ist beendet", which sits at the end of the last
+    /// step and so at that step's own minute when it has no duration (or the
+    /// recipe's total time is out of date). Shifting the bake used to leave
+    /// it behind for exactly that reason. Without a step number only the
+    /// date decides.
+    static func followingStepsPredicate(recipeName: String, after date: Date, step: Double?, planID: UUID?) -> NSPredicate {
+        let plan: NSPredicate
         if let planID {
-            return NSPredicate(format: "recipeName == %@ AND date > %@ AND planID == %@",
-                               recipeName, date as NSDate, planID as CVarArg)
+            plan = NSPredicate(format: "recipeName == %@ AND planID == %@", recipeName, planID as CVarArg)
+        } else {
+            plan = NSPredicate(format: "recipeName == %@ AND planID == nil", recipeName)
         }
-        return NSPredicate(format: "recipeName == %@ AND date > %@ AND planID == nil",
-                           recipeName, date as NSDate)
+
+        let order: NSPredicate
+        if let step {
+            order = NSPredicate(format: "date > %@ OR (date == %@ AND step > %f)",
+                                date as NSDate, date as NSDate, step)
+        } else {
+            order = NSPredicate(format: "date > %@", date as NSDate)
+        }
+        return NSCompoundPredicate(andPredicateWithSubpredicates: [plan, order])
+    }
+
+    /// Whether a reminder at `date` with the step text `stepText` ("10.1",
+    /// "99") follows the step at `currentDate` with number `currentStep` —
+    /// the reminders' counterpart of `followingStepsPredicate`.
+    static func reminderFollows(date: Date, stepText: String?, currentDate: Date, currentStep: Double?) -> Bool {
+        let difference = date.timeIntervalSince(currentDate)
+        if difference > 1 { return true }
+        guard abs(difference) <= 1, let currentStep,
+              let stepText, let step = Double(stepText) else { return false }
+        return step > currentStep
     }
 
     /// Cancels the reminder that belongs to a scheduled step, so a reminder
@@ -612,6 +646,7 @@ enum NotificationActions {
         let originalDate = step.date
         let recipeName = step.recipeName
         let planID = step.planID
+        let stepNumber = step.step
         let instruction = step.instruction
         let shiftedDate = originalDate.addingTimeInterval(timeShift)
 
@@ -632,6 +667,7 @@ enum NotificationActions {
                 request.predicate = followingStepsPredicate(
                     recipeName: recipeName,
                     after: originalDate,
+                    step: stepNumber,
                     planID: planID
                 )
                 if let followingSteps = try? context.fetch(request) {
