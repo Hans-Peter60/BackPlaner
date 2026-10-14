@@ -29,26 +29,43 @@ final class AppPreview: StoreUITestCase {
 
     // MARK: - Preparation (not recorded)
 
-    /// Clears every planned step left behind by earlier runs, so the plan
+    /// Clears what earlier runs left behind: every planned step, so the plan
     /// scene shows one plan in the run's language and no "there is already
-    /// a plan" dialog. The script runs this once per language before the
-    /// scenes, without recording.
+    /// a plan" dialog, and every shopping list, so the shopping scene's list
+    /// holds the recipe once and not its amounts added up run after run.
+    /// The script runs this once per language before the scenes, without
+    /// recording.
     @MainActor
     func testPrepare() throws {
         launch()
+
         openMenu("scheduledSteps")
-
-        let delete = app.buttons.matching(NSPredicate(format: "label IN %@",
+        let deleteSteps = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Geplante Schritte löschen", "Delete scheduled steps", "Supprimer les étapes planifiées"])).firstMatch
-        guard delete.waitForExistence(timeout: 5) else { return } // nothing planned
-        delete.tap()
-
-        let all = app.buttons.matching(NSPredicate(format: "label IN %@",
-            ["Alle löschen", "Delete all", "Tout supprimer"])).firstMatch
-        if all.waitForExistence(timeout: 3) {
-            all.tap()
+        if deleteSteps.waitForExistence(timeout: 5) {
+            deleteSteps.tap()
+            let all = app.buttons.matching(NSPredicate(format: "label IN %@",
+                ["Alle löschen", "Delete all", "Tout supprimer"])).firstMatch
+            if all.waitForExistence(timeout: 3) {
+                all.tap()
+            }
+            settle(1)
         }
-        settle(1)
+
+        backToMenu()
+        openMenu("shoppingList")
+        let deleteList = app.buttons.matching(NSPredicate(format: "label IN %@",
+            ["Einkaufsliste löschen", "Delete shopping list", "Supprimer la liste de courses"])).firstMatch
+        var lists = 0
+        while deleteList.waitForExistence(timeout: 3), lists < 10 {
+            tapRowButton(deleteList)
+            let yes = app.buttons.matching(NSPredicate(format: "label IN %@",
+                ["Ja, löschen", "Yes, delete", "Oui, supprimer"])).firstMatch
+            guard yes.waitForExistence(timeout: 3) else { break }
+            yes.tap()
+            settle(1)
+            lists += 1
+        }
     }
 
     // MARK: - Scene 1: from the recipe to the baking plan
