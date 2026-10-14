@@ -109,11 +109,11 @@ sign in the same way; a moderator is an account listed in `admins`.
 
 ### Retired: author-only recipes
 
-Up to app version 2.0 a recipe could also be kept in the cloud for its author
-alone (collection `PrivateRecipe`, images under `privateImages/<uid>/…`, create
-only with a permanent account). Version 2.1 removed that storage; the app
-neither reads nor writes the collection, and the rules no longer grant any
-access to it. The documents still in the project (the developer's own, exported
+While version 2.0 was being developed, a recipe could also be kept in the cloud
+for its author alone (collection `PrivateRecipe`, images under
+`privateImages/<uid>/…`, create only with a permanent account). That storage was
+removed again before 2.0 shipped; the app neither reads nor writes the
+collection, and the rules no longer grant any access to it. The documents still in the project (the developer's own, exported
 and re-imported as local recipes on 2026-10-14) are kept until they are deleted
 from the console. `scripts/migrate-public-to-private.mjs`, which once moved
 public recipes there, went with the feature.

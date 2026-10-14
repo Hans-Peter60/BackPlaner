@@ -481,7 +481,7 @@ struct InstructionsFBView: View {
                                                  instructionText: instruction.instruction)
                 .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
         }
-        scheduler.writeScheduledSteps(planID: planID, in: viewContext)
+        scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale, in: viewContext)
 
         let bakeHistoryFB     = BakeHistoryFB()
         bakeHistoryFB.date    = plan.baseDate

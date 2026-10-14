@@ -48,8 +48,8 @@ service firebase.storage {
       allow delete: if request.auth != null && (request.auth.uid == ownerUid || isAdmin());
     }
 
-    // privateImages/<uid>/… held the pictures of the author-only recipes that
-    // app version 2.0 retired. Nothing reads them any more; the catch-all
+    // privateImages/<uid>/… held the pictures of the author-only recipes, a
+    // storage dropped again before 2.0 shipped. Nothing reads them; the catch-all
     // below denies access until the folder is cleared from the console.
 
     // Deny everything outside the images folder.

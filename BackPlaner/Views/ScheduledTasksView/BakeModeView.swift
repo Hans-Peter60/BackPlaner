@@ -139,7 +139,7 @@ struct BakeModeView: View {
                         .accessibilityAddTraits(.isHeader)
 
                     if let component {
-                        ingredientsCard(component)
+                        ingredientsCard(component, scale: step.effectiveServingScale)
                     }
                 }
                 .padding()
@@ -203,14 +203,14 @@ struct BakeModeView: View {
         }
     }
 
-    private func ingredientsCard(_ component: ComponentColumn) -> some View {
+    private func ingredientsCard(_ component: ComponentColumn, scale: Double) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Zutaten für „\(component.name)“")
                 .font(Theme.brandFont(17))
                 .foregroundColor(Theme.title)
 
             ForEach(Array(component.ingredients.enumerated()), id: \.offset) { _, ingredient in
-                Text(Self.ingredientLine(ingredient))
+                Text(Self.ingredientLine(ingredient, scale: scale))
                     .font(Theme.bodyFont(20))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
@@ -334,12 +334,14 @@ struct BakeModeView: View {
         return nil
     }
 
-    private static func ingredientLine(_ ingredient: TotalIngredientData) -> String {
+    /// One ingredient at the scale the plan was made at — the amount that
+    /// is actually weighed out, as in the reminder.
+    private static func ingredientLine(_ ingredient: TotalIngredientData, scale: Double) -> String {
         "• " + Rational.getPortion(unit: ingredient.unit,
                                    weight: ingredient.weight,
                                    num: ingredient.numerator,
                                    denom: ingredient.denominator,
-                                   targetServings: AppSettings.storedServingSize)
+                                   scale: scale)
             + ingredient.name
     }
 
@@ -358,7 +360,7 @@ struct BakeModeView: View {
                                     weight: ingredient.weight,
                                     num: ingredient.numerator,
                                     denom: ingredient.denominator,
-                                    targetServings: AppSettings.storedServingSize,
+                                    scale: step.effectiveServingScale,
                                     unitStyle: .name)
                     + ingredient.name
             }

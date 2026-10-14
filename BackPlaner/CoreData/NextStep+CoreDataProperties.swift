@@ -32,6 +32,17 @@ extension NextStep {
     /// the user tapping "Erinnerungen setzen". `false` on steps planned
     /// before this attribute existed.
     @NSManaged public var isAutomaticRecurrence: Bool
+    /// The serving scale the plan was made at (1.0 is the recipe as
+    /// stored), so the ingredient lists of the plan show the amounts that
+    /// were actually weighed out — the reminders already carry them. `0`
+    /// on steps planned before this attribute existed; see
+    /// `effectiveServingScale`.
+    @NSManaged public var servingScale: Double
+
+    /// The stored scale, or 1 for a step from before it was recorded.
+    var effectiveServingScale: Double {
+        servingScale > 0 ? servingScale : 1
+    }
 
 }
 
