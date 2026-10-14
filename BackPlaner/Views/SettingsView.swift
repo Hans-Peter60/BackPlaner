@@ -66,13 +66,16 @@ struct SettingsView: View {
                         }
                     }
 
-                    Picker("Standard-Ablage", selection: $defaultRecipeStorage) {
-                        ForEach(RecipeStoragePreference.allCases) { preference in
-                            Text(preference.title).tag(preference.rawValue)
-                        }
-                    }
                 }
                 .modifier(LargeTextPickerStyle())
+
+                // The default for the "Veröffentlichen" toggle of a new
+                // recipe. Stored as the storage preference it always was, so
+                // an existing setting keeps its meaning.
+                Toggle("Neue Rezepte veröffentlichen", isOn: Binding(
+                    get: { RecipeStoragePreference(rawValue: defaultRecipeStorage)?.publishes ?? false },
+                    set: { defaultRecipeStorage = RecipeStoragePreference(publishes: $0).rawValue }
+                ))
             }
 
             Section("Rezepte") {
@@ -206,7 +209,7 @@ struct SettingsView: View {
             Button("Konto löschen", role: .destructive) { deleteAccount() }
             Button("Abbrechen", role: .cancel) { }
         } message: {
-            Text("Deine privaten Rezepte in der Rezept-Datenbank werden mit ihren Bildern gelöscht und die Anmeldung wird aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen.")
+            Text("Das Konto wird gelöscht und die Anmeldung aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar, gehören aber keinem Konto mehr. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen.")
         }
         // Firebase refuses to delete an account whose sign-in is not recent, so
         // the identity is confirmed once more and the deletion then continues.
@@ -236,7 +239,7 @@ struct SettingsView: View {
         .alert("Du bist abgemeldet", isPresented: $showSignedOutConfirmation) {
             Button("OK", role: .cancel) { }
         } message: {
-            Text("Deine privaten Rezepte in der Rezept-Datenbank sind erst wieder sichtbar, wenn Du Dich erneut anmeldest. Rezepte auf diesem Gerät und von Dir veröffentlichte Rezepte bleiben unberührt.")
+            Text("Du verwendest die App wieder anonym. Rezepte auf diesem Gerät bleiben unberührt. Die unter Deinem Konto veröffentlichten Rezepte kannst Du wieder bearbeiten, sobald Du Dich erneut anmeldest.")
         }
         .alert("Abmelden fehlgeschlagen", isPresented: Binding(
             get: { signOutErrorMessage != nil },
@@ -249,7 +252,7 @@ struct SettingsView: View {
         .alert("Konto wurde gelöscht", isPresented: $showDeletedConfirmation) {
             Button("OK", role: .cancel) { }
         } message: {
-            Text("Deine privaten Rezepte und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden.")
+            Text("Das Konto und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden.")
         }
         .alert("Löschen fehlgeschlagen", isPresented: Binding(
             get: { deleteErrorMessage != nil },
@@ -433,9 +436,10 @@ struct SettingsView: View {
     }
 
     /// The account section serves two purposes: it is where an author signs in
-    /// so his private cloud recipes are tied to a uid that survives a reinstall,
-    /// and it is where a moderator signs in — a moderator is simply an account
-    /// whose uid is listed in the Firestore `admins` collection.
+    /// so the authorship of published recipes follows a uid that survives a
+    /// reinstall and is the same on every device, and it is where a moderator
+    /// signs in — a moderator is simply an account whose uid is listed in the
+    /// Firestore `admins` collection. Signing in is voluntary.
     @ViewBuilder
     private var accountSection: some View {
         Section {
@@ -472,7 +476,7 @@ struct SettingsView: View {
         } header: {
             Text("Konto")
         } footer: {
-            Text("Die Anmeldung wird für private Cloud-Rezepte benötigt: nur so bleiben sie nach einer Neuinstallation erreichbar. Administratoren verwalten damit gemeldete Rezepte.")
+            Text("Die Anmeldung ist freiwillig. Mit ihr gilt die Autorschaft Deiner veröffentlichten Rezepte auf allen Geräten, auf denen Du angemeldet bist, und bleibt nach einer Neuinstallation erhalten. Administratoren verwalten damit gemeldete Rezepte.")
         }
     }
 
@@ -546,7 +550,7 @@ struct RecipeAIPrivacyView: View {
             Section("Speicherung und Löschung") {
                 Text("BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt.")
                 Text("In Firestore verbleibt nur der Datensatz zur stündlichen Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster und Anfragezahl. Bei einer späteren Analyse wird ein abgelaufenes Zeitfenster durch das neue ersetzt.")
-                Text("Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt die von Dir gewählte lokale, private oder öffentliche Ablage.")
+                Text("Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird.")
             }
 
             Section("Lokale Analyse") {

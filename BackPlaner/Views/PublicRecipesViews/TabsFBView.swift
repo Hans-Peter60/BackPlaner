@@ -71,18 +71,17 @@ struct TabsFBView: View {
         return author == moderation.authorId
     }
 
-    /// True when an admin may delete this recipe here: it is public and not the
-    /// admin's own (the own one already has "Mein Rezept löschen"). Author-only
-    /// recipes are never shared, so they stay out of an admin's reach.
+    /// True when an admin may delete this recipe here: it is not the admin's
+    /// own (the own one already has "Mein Rezept löschen").
     private var canDeleteAsAdmin: Bool {
-        modelFB.isAdmin && !isOwnRecipe && recipeFB.visibility == .everyone
+        modelFB.isAdmin && !isOwnRecipe
     }
 
     /// True when this recipe may be changed here: by its author, or by an
-    /// admin correcting a public one. The security rules allow the same two
-    /// cases, so the entry never offers what the server would refuse.
+    /// admin correcting it. The security rules allow the same two cases, so
+    /// the entry never offers what the server would refuse.
     private var canEdit: Bool {
-        isOwnRecipe || (modelFB.isAdmin && recipeFB.visibility == .everyone)
+        isOwnRecipe || modelFB.isAdmin
     }
 
     var body: some View {
@@ -256,9 +255,7 @@ struct TabsFBView: View {
             }
             Button("Abbrechen", role: .cancel) { }
         } message: {
-            Text(recipeFB.visibility == .authorOnly
-                 ? "Das Rezept wird endgültig aus Deiner privaten Ablage in der Rezept-Datenbank entfernt."
-                 : "Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+            Text("Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
         }
         .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
             Button("Löschen", role: .destructive) {

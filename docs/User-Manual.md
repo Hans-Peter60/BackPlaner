@@ -13,7 +13,7 @@ Revised: 13 October 2026 · App version 2.0
 2. [System requirements](#2-system-requirements)
 3. [Key concepts](#3-key-concepts)
 4. [The main menu](#4-the-main-menu)
-5. [Recipe database (public and private cloud recipes)](#5-recipe-database-public-and-private-cloud-recipes)
+5. [Recipe database](#5-recipe-database)
 6. [My recipes](#6-my-recipes)
 7. [Baking instructions and reminders](#7-baking-instructions-and-reminders)
 8. [Creating a new recipe](#8-creating-a-new-recipe)
@@ -39,7 +39,7 @@ BakePlanner is a baking scheduler for bread, rolls, and pastry. What sets it apa
 - You can plan backwards: "the bread should be ready at 6:00 p.m." — and the app tells you when to start the sourdough.
 - Every step gets a **local reminder**, including the automatically inserted steps "turn on the oven" and "baking is finished".
 
-On top of that: a shared public recipe database, your own recipes on the device, private recipes in the cloud, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule, three baker's calculators (dough temperature, replace flour, starter TA), and on-device translation of public recipes with a glossary of baker's terms.
+On top of that: a shared public recipe database, your own recipes on the device, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule, three baker's calculators (dough temperature, replace flour, starter TA), and on-device translation of public recipes with a glossary of baker's terms.
 
 ### Quick start: your first baking plan in five steps
 
@@ -65,7 +65,7 @@ Reminders require BakePlanner to be allowed to send notifications. The full expl
 | Internet | Needed for the public recipe database and iCloud sync. Your own recipes, planning, and reminders work entirely offline; changes sync later. |
 | iCloud | Your own recipes, scheduled steps, shopping lists, and baking histories sync through iCloud across all devices using the same Apple Account, provided iCloud is on. The reminders themselves are local to each device. |
 | Permissions | Notifications (for reminders), photo library and camera (for recipe images) |
-| Sign-in | **Not** required for baking, for your own recipes, or for the public database. Only storing recipes **privately in the cloud** requires signing in with Apple (see [chapter 14](#14-settings)). |
+| Sign-in | **Not** required for baking, for your own recipes, or for the public database. Signing in with Apple is voluntary: with it, the authorship of your published recipes applies on all your devices (see [chapter 14](#14-settings)). |
 
 The app asks for notification permission on first launch. Without it, baking steps are still calculated and listed under "Scheduled steps", but **no reminders appear**.
 
@@ -96,15 +96,14 @@ Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, giv
 A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight. Instead of a factor you can enter a **dough weight** in grams. The choice applies to every tab of the open recipe: Details, Bake and Shopping list all use the same factor (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 
 **Storage**
-Where a recipe lives. There are three options, and the choice decides who can see it:
+Where a recipe lives. There are two options, and the **Publish** switch when saving decides who can see it:
 
 | Storage | Who sees it? | Where does it live? | Editable? |
 |---------|--------------|---------------------|-----------|
-| **On this device only** | only you | on the device, backed up through your iCloud | yes, any time |
-| **Private in the cloud** | only you | in the recipe database, locked to others | no |
-| **Public for everyone** | every user of the app | in the recipe database | no |
+| **On this device only** (switch off) | only you | on the device, backed up through your iCloud | yes, any time |
+| **Public for everyone** (switch on) | every user of the app | in the recipe database | yes, by you as its author |
 
-"Private in the cloud" is meant for recipes you're **not allowed to publish** — out of a book, say — but that you still don't want to keep only on the device. It requires signing in with Apple, because the recipe is tied to your account; without one it would be unreachable after a reinstall.
+A recipe you're **not allowed to publish** — out of a book, say — stays on the device. Through iCloud it's still on all your devices, and the backup (see [chapter 14](#14-settings)) exports it as a file.
 
 ---
 
@@ -118,7 +117,7 @@ After launch the main menu appears with ten cards:
 
 | Card | Purpose |
 |------|---------|
-| **Recipe database** | Every recipe in one list: your own on the device, your private cloud recipes and the public ones of all users — with the filter chips **Local / Mine / Public** |
+| **Recipe database** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** |
 | **Create new recipe** | Build a recipe from scratch or import one from photos or a web page |
 | **Scheduled steps** | Every scheduled baking step as a list or a timeline |
 | **Baking history** | Past bakes with comments and photos |
@@ -135,11 +134,11 @@ The back arrow at the top left returns you to the main menu from anywhere.
 
 ---
 
-## 5. Recipe database (public and private cloud recipes)
+## 5. Recipe database
 
-Since version 2.0 the recipe database is **one list for every recipe**: the public ones you or other users have shared, your own recipes on the device (see [chapter 6](#6-my-recipes)) and your private cloud recipes. Sorted alphabetically, with three filter chips below the search field — **Local**, **Mine**, **Public** — that can be switched on and off individually and keep their state.
+Since version 2.0 the recipe database is **one list for every recipe**: the public ones you or other users have shared, and your own recipes on the device (see [chapter 6](#6-my-recipes)). Sorted alphabetically, with three filter chips below the search field — **Local**, **Published by me**, **Public** — that can be switched on and off individually and keep their state.
 
-When you're signed in with Apple, the same list also holds **your private cloud recipes**. They're marked with a **lock symbol** before the name and are invisible to other users. Sign out and they disappear from the list — they're not deleted, and they come back the next time you sign in with the same Apple Account.
+A symbol before each name shows the source: an iPhone for recipes on the device, a person symbol for the ones you published, and a globe for the public recipes of other users. Switch **Public** off and, next to your local recipes, what remains is the list of what you published yourself.
 
 ![List of public recipes with search and filter](images/en/oeffentliche-rezepte.png)
 
@@ -149,7 +148,7 @@ When you're signed in with Apple, the same list also holds **your private cloud 
 
 - **Search field** at the top: searches recipe names.
 - **Switch the search scope**: below the search field you can choose between **Name** and **Tags**. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).
-- **Filter chips** below the search field: **Local** (recipes on the device), **Mine** (your private and your published cloud recipes) and **Public** (recipes of all users). Each chip switches its source on or off on its own.
+- **Filter chips** below the search field: **Local** (recipes on the device), **Published by me** (your own recipes in the database) and **Public** (the recipes of other users). Each chip switches its source on or off on its own; a public recipe always belongs to exactly one of the two cloud chips.
 - **Filter symbol** at the top right: minimum rating (All ratings, 1–5 stars and up). While the filter is active, the symbol is shown filled.
 - **Pull down** to refresh the list from the cloud.
 
@@ -184,17 +183,9 @@ The **Bake recipe** tab has a **Save as my own recipe** button. It puts a comple
 
 The app confirms with **"Recipe was saved"** and a note that you can edit the copy without changing the public recipe. If saving fails, an error message appears instead — nothing disappears silently.
 
-### Publishing a private recipe
-
-For your **private** cloud recipes, the **Bake recipe** tab also offers **Save as a public recipe**. That makes the recipe visible to every user. First you're asked to confirm that only recipes free of copyright infringement may be published; the first time round you also have to accept the terms of use.
-
-**Your private version stays in place** — the recipe then appears twice in the list, once with a lock. If you don't want that, delete the private version afterwards via "…" → **Delete my recipe**.
-
-For recipes that are already public, the button doesn't appear.
-
 ### Editing a recipe of your own
 
-Recipes that came from *your* account — private ones as much as public ones — can be changed right in the recipe database: **"…" menu** at the top right → **Edit recipe**. The form matches the one for entering a recipe: image, name, description, link, tags, components with their ingredients, and steps. Components, ingredients, tags and steps can be added and deleted. **Save** writes the changes to the database, **Cancel** discards them; until then the recipe on screen stays as it was.
+Recipes that came from *your* account can be changed right in the recipe database: **"…" menu** at the top right → **Edit recipe**. The form matches the one for entering a recipe: image, name, description, link, tags, components with their ingredients, and steps. Components, ingredients, tags and steps can be added and deleted. **Save** writes the changes to the database, **Cancel** discards them; until then the recipe on screen stays as it was.
 
 Note:
 
@@ -214,13 +205,12 @@ Through the **"…" menu** at the top right:
 - **Edit recipe** — appears only for recipes that came from *your* account (see above).
 - **Delete my recipe** — likewise only for your own recipes. The recipe is removed from the database for good.
 
-For **private** recipes, "Report recipe" and "Block author" are absent — nobody but you sees them anyway. Only "Edit recipe" and "Delete my recipe" are there.
 
 So the two differ in reach: **blocking is local, reporting affects everyone.** Both can be undone under *Settings → Moderation* (see [chapter 14](#14-settings)).
 
 ### Administrator function
 
-If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to other users' **private** recipes; they aren't shared, so they aren't a moderation matter either.
+If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to the recipes other users keep on their devices; they aren't shared, so they aren't a moderation matter either.
 
 **Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the **Details** tab it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
 
@@ -228,7 +218,7 @@ If you're signed in as an administrator (see [chapter 14](#14-settings)), you ca
 
 ## 6. My recipes
 
-My recipes are the recipes on your device: the ones you created, imported, or copied from the database. You find them under **Main menu → Recipe database** with the filter chip **Local** (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)); switch the chips **Mine** and **Public** off and the list is your own recipes alone.
+My recipes are the recipes on your device: the ones you created, imported, or copied from the database. You find them under **Main menu → Recipe database** with the filter chip **Local** (see [chapter 5](#5-recipe-database)); switch the chips **Published by me** and **Public** off and the list is your own recipes alone.
 
 ![List of my recipes with image, name, and tags](images/en/eigene-rezepte.png)
 
@@ -366,7 +356,7 @@ The texts "turn on the oven", "turn the oven down" and "baking is finished" appe
 
 Through **Main menu → Create new recipe**. The form is laid out from top to bottom.
 
-![The form for creating a new recipe: import from images or from a web page, storage Local/Private/Public, recipe image](images/en/neues-rezept.png)
+![The form for creating a new recipe: import from images or from a web page, Publish switch, recipe image](images/en/neues-rezept.png)
 
 *In the recipe form you can import a recipe from images or from a web page, or enter everything by hand.*
 
@@ -422,17 +412,16 @@ Below that: **Import recipe from a web page**. It reads a recipe straight from a
 
 **What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to import" with the reason. In such cases the image import of a screenshot of the page helps.
 
-> **Copyright:** for your own use you may import any recipe. That's why storage starts out as "Local". Only publish other people's recipes with the author's permission.
+> **Copyright:** for your own use you may import any recipe. That's why the "Publish" switch starts out off. Only publish other people's recipes with the author's permission.
 
-### Storage: local, private in the cloud, or public
+### Storage: on the device or published
 
-In the **Save** section you choose between the three storage options (see also the overview in [chapter 3](#3-key-concepts)). A sentence below each choice explains what it means. The default comes from Settings (Default storage).
+The **Save** section holds the **Publish** switch (see also the overview in [chapter 3](#3-key-concepts)). A sentence below it explains what the current position means. The default comes from Settings (*Publish new recipes*).
 
-- **Local** — the recipe stays on the device, is backed up through your iCloud, and can be changed at any time.
-- **Private** — the recipe is stored in the recipe database but visible only to you. That requires **signing in with Apple**; if you're not signed in, the "Sign-in required" sheet appears first and saving continues afterwards. Before that, the app asks "Save privately in the cloud?" — you can edit or delete the recipe later in the recipe database.
-- **Public** — the recipe becomes visible to every user. First comes the question **"Publish recipe?"**, with the note that as its author you can edit or delete it later in the recipe database. The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)). For private recipes they aren't required — you aren't sharing anything.
+- **Switch off** — the recipe stays on the device, is backed up through your iCloud, and can be changed at any time.
+- **Switch on** — the recipe becomes visible to every user. First comes the question **"Publish recipe?"**, with the note that as its author you can edit or delete it later in the recipe database. The first time round you also have to accept the terms of use (see [chapter 16](#16-privacy-moderation-and-terms-of-use)).
 
-When importing from images or a web page, storage always starts out as "Local". The symbol on the "Save recipe" button changes along with the choice.
+When importing from images or a web page, the switch always starts out off. The symbol on the "Save recipe" button changes along with its position.
 
 ### Recipe image
 
@@ -515,16 +504,15 @@ Recipes with this switch get the extra tab **Feeding**: the **starter diary**. A
 
 ### Saving manually
 
-The **Save** section holds three buttons — the same three storage options as when creating. You'll also find them at the top right of the navigation bar, in the menu behind the save symbol.
+The **Save** section holds two buttons. You'll also find them at the top right of the navigation bar, in the menu behind the save symbol.
 
 - **Local** — saves everything including the image, recalculates the total weight, and confirms with "Recipe was saved".
-- **Private** — stores the recipe privately in the recipe database; that requires signing in with Apple. Visible only to you and not editable afterwards.
-- **Public** — uploads the recipe so it's visible to every user. The "Publish recipe?" question appears here too.
+- **Public** — uploads a copy of the recipe so it's visible to every user. The "Publish recipe?" question appears here too.
 - **Delete** (top left) — clears the recipe's contents.
 
-After a successful upload, **both cloud buttons are disabled**, because the recipe now has a copy in the database — a recipe can only be uploaded once, privately *or* publicly.
+After a successful upload, **"Public" is disabled**, because the recipe now has a copy in the database — a recipe is published only once; afterwards you make changes in the recipe database (see [chapter 5](#5-recipe-database)).
 
-If that copy is later deleted (by you or by moderation), the app notices the next time you open the recipe and releases the buttons again. This requires you to be signed in — when signed out, the app can't check whether a private copy still exists and leaves the buttons locked to be safe.
+If that copy is later deleted (by you or by moderation), the app notices the next time you open the recipe and releases the button again.
 
 ---
 
@@ -686,7 +674,7 @@ The confirmation reads "Ingredients were added to the shopping list", and at a f
 
 ### The list speaks your language
 
-The ingredient names on the list are **always in the app's language**, even when the recipe is German or French. For public recipes the app uses the translation it already has; otherwise it translates the names on the device when the list is created — "Translating ingredient names …" shows briefly. The glossary of baker's terms applies (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). If the translation fails, for instance without a language pack and without a connection, the names go on the list in the recipe's language and the confirmation says so. This also lets ingredients from a German and an English recipe merge on one list.
+The ingredient names on the list are **always in the app's language**, even when the recipe is German or French. For public recipes the app uses the translation it already has; otherwise it translates the names on the device when the list is created — "Translating ingredient names …" shows briefly. The glossary of baker's terms applies (see [chapter 5](#5-recipe-database)). If the translation fails, for instance without a language pack and without a connection, the names go on the list in the recipe's language and the confirmation says so. This also lets ingredients from a German and an English recipe merge on one list.
 
 ### What makes it onto the list — and what doesn't
 
@@ -710,7 +698,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 **Main menu → Settings.**
 
-![BakePlanner's settings: General with language and default storage, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
+![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 
@@ -719,7 +707,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 | Setting | Description |
 |---------|-------------|
 | **Language** | System language, German, English, or French. Affects the interface as well as date and time formats. |
-| **Default storage** | The default for new recipes: **On this device only**, **Private in the cloud**, or **Public for everyone**. Default: on this device only. |
+| **Publish new recipes** | The default position of the **Publish** switch when creating a recipe. Default: off — new recipes stay on the device. |
 
 ### Recipes
 
@@ -746,7 +734,7 @@ A single recipe is exported on the **Details** tab via **Export recipe** (next t
 
 | Setting | Description |
 |---------|-------------|
-| **Automatically translate public recipes** | Affects only the recipe database. On: recipes are translated into your app language automatically, and the globe symbol doesn't appear. Off: a recipe first shows the language it was written in, and you choose the language yourself through the globe symbol (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). Default: on. |
+| **Automatically translate public recipes** | Affects only the recipe database. On: recipes are translated into your app language automatically, and the globe symbol doesn't appear. Off: a recipe first shows the language it was written in, and you choose the language yourself through the globe symbol (see [chapter 5](#5-recipe-database)). Default: on. |
 
 ### Baking schedule
 
@@ -775,9 +763,9 @@ The **AI privacy** page explains which data a cloud analysis transmits, to whom,
 
 ### Account
 
-This is where you sign in with Apple. Signing in serves two purposes:
+This is where you sign in with Apple. Signing in is **voluntary** and serves two purposes:
 
-- **Private cloud recipes.** They're tied to your Apple Account. That's the only way they remain reachable after a reinstall or on a second device — an anonymous identifier is lost with the app.
+- **Author identity.** Without signing in, your published recipes belong to the anonymous identifier of this installation — it's lost with the app and differs on a second device. Signed in, they belong to your Apple Account: you can edit and delete them on every device you're signed in on, and after a reinstall.
 - **Moderation rights.** If your identifier has been enabled for it, the label **Administrator** appears as well, and public recipes can be deleted — through the ⋯ menu, the Details tab, or a swipe in the recipe database.
 
 **Neither your name nor your email address is requested** — the app only needs the identifier itself. If your use has been anonymous so far, it carries over when you sign in: recipes already published from this device still belong to you afterwards.
@@ -785,13 +773,12 @@ This is where you sign in with Apple. Signing in serves two purposes:
 | Button | Effect |
 |--------|--------|
 | **Sign in with Apple** | Creates or connects your account. |
-| **Sign out** | Back to anonymous use. Private cloud recipes disappear from the list but stay stored and are back after the next sign-in. The app confirms with **"You're signed out"**; it does **not** ask you to sign in again to confirm — that belongs to deleting the account alone. |
+| **Sign out** | Back to anonymous use. The recipes published under the account stay in the database; you can edit them again once you're signed in again. The app confirms with **"You're signed out"**; it does **not** ask you to sign in again to confirm — that belongs to deleting the account alone. |
 | **Delete account** | Removes the account for good (see below). |
 
 **Delete account** asks first. Then this happens:
 
-- Your **private** cloud recipes are deleted along with their images.
-- The sign-in is undone; the app carries on anonymously.
+- The sign-in is undone and the account deleted; the app carries on anonymously.
 - **Published recipes stay** visible to every user. They no longer belong to any account, so you can't delete them yourself any more — do that beforehand if you don't want to leave them in the database.
 - **Recipes on the device stay.** They belong to the device and your iCloud, not to the account.
 
@@ -964,11 +951,10 @@ The serving size affects the total ingredients, the components' ingredient lists
 ### Where your data lives
 
 - **Your own recipes, scheduled steps, shopping lists, and baking histories** live on the device and in your private iCloud database. They're visible only to you and your own devices, not to other users of the app.
-- **Public recipes** live in the shared cloud database and are visible to every user of the app.
-- **Private cloud recipes** also live in the cloud, but in a separate area that only their author may read — this is enforced on the server, not merely hidden in the app. The images are stored separately too and retrievable only by you.
+- **Public recipes** live in the shared cloud database and are visible to every user of the app. No other recipes are kept in the cloud.
 - **Translations** are produced on the device.
 - **Recipe import:** with "On this device only", images and page text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text and address of a web page, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
-- The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. You only need to sign in with Apple for private cloud recipes and for moderation rights; neither your name nor your email address is requested in the process.
+- The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. Signing in with Apple is voluntary — it makes your Apple Account the author of your published recipes and enables moderation rights; neither your name nor your email address is requested in the process.
 - **You can delete your account yourself at any time** — Settings → Account → "Delete account". Details in [chapter 14](#14-settings).
 
 ### Terms of use for public recipes
@@ -981,11 +967,11 @@ Before you save a recipe publicly for the first time, you have to accept the ter
 - Reported content is reviewed and removed **within 24 hours**.
 - Authors who breach the rules repeatedly can be excluded.
 
-Choose **Decline** and nothing is uploaded; the recipe stays in the form and can be saved privately.
+Choose **Decline** and nothing is uploaded; the recipe stays in the form and can be saved on the device.
 
 ### What you can do about unwanted content
 
-Through the "…" menu in a public recipe: **Report recipe** (with a reason) or **Block author**. Both take effect at once — the report hides the recipe **from every user**, the block only on your device. You can undo both under *Settings → Moderation*. Details in [chapter 5](#5-recipe-database-public-and-private-cloud-recipes) and [chapter 14](#14-settings).
+Through the "…" menu in a public recipe: **Report recipe** (with a reason) or **Block author**. Both take effect at once — the report hides the recipe **from every user**, the block only on your device. You can undo both under *Settings → Moderation*. Details in [chapter 5](#5-recipe-database) and [chapter 14](#14-settings).
 
 ---
 
@@ -1001,13 +987,10 @@ Reminders stay on the device where you set them. Only a paired **iPhone's** noti
 There was no internet connection at launch. Pull the list down to load it again.
 
 **I uploaded my recipe to the database and want to correct it.**
-Open the recipe in the recipe database and choose "…" → **Edit recipe** (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). That works for every recipe that came from your account — private ones as much as public ones. The version on the device doesn't change; if you want to bring it in line, edit it separately under "My recipes".
+Open the recipe in the recipe database and choose "…" → **Edit recipe** (see [chapter 5](#5-recipe-database)). That works for every recipe that came from your account. The version on the device doesn't change; if you want to bring it in line, edit it separately under "My recipes".
 
-**My private recipes aren't in the list.**
-They only appear when you're signed in: *Settings → Account → Sign in with Apple*. Make sure to use the same Apple Account you saved them with — the recipes are tied to it. Then pull the list down once.
-
-**"Signing in with Apple is required for private cloud recipes."**
-You chose "Private" as the storage without being signed in. Sign in through the sheet that appears, and saving continues. Without an account the recipe would be unreachable after a reinstall — which is why the app doesn't allow it otherwise.
+**"Edit recipe" is missing on a recipe I published myself.**
+The recipe belongs to a different identifier — the anonymous identifier of another device or of an earlier installation, say. If you published it while signed in, sign in with the same Apple Account: *Settings → Account → Sign in with Apple*, then pull the list down once.
 
 **I tapped "Set reminders" twice by mistake.**
 On the second tap the app asks whether the new plan should replace the existing one or be added beside it. If you chose "Add as a second plan" although you only wanted one, select the surplus plan under "Scheduled steps" via its chip and delete it with the bin button via "Delete only '…'".
@@ -1025,7 +1008,7 @@ Water, salt and everything you make yourself (sourdough starter, sourdough, pool
 The list takes over the serving size or dough weight set in the recipe — the "Shopping list" tab shows the factor at the top. Change it there before you put the ingredients on the list.
 
 **A technical term is translated wrongly.**
-Baker's terms such as Brühstück or Anstellgut are translated by a glossary in the app (see [chapter 5](#5-recipe-database-public-and-private-cloud-recipes)). If you still come across a wrong translation, open the recipe once more: an older translation without the glossary's word is created anew. If the mistake remains, report the word — it then goes into the glossary.
+Baker's terms such as Brühstück or Anstellgut are translated by a glossary in the app (see [chapter 5](#5-recipe-database)). If you still come across a wrong translation, open the recipe once more: an older translation without the glossary's word is created anew. If the mistake remains, report the word — it then goes into the glossary.
 
 **An ingredient is missing from "Total ingredients".**
 Water isn't listed there, and neither are ingredients that are themselves the product of a component ("sourdough" as an ingredient of the main dough, say), so that amounts aren't counted twice. They appear in full in the component list below.
@@ -1044,8 +1027,8 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 ## 18. Known limitations
 
 - **Recipes in the database can be edited only by their author** (or an administrator). Once uploaded, the version on the device and the one in the database are two separate recipes; changes to one aren't carried over to the other.
-- **A recipe can only be uploaded once**, either privately or publicly. A private recipe can be published afterwards, but that creates a second version; the private one isn't removed automatically.
-- **Private cloud recipes require signing in with Apple** and are tied to that account. They aren't visible without signing in, nor with a different Apple Account.
+- **A recipe is published only once.** Afterwards you change the published version in the recipe database, not under "My recipes".
+- **Without signing in, authorship is tied to the device.** A recipe published on the iPhone can't be edited on the iPad until both devices are signed in with the same Apple Account.
 - **Deleting your account leaves published recipes in the database.** They no longer belong to any account and can only be removed by an administrator.
 - **Baking pause, start of day, and end of day** don't move any steps. The app checks the plan against them and warns you. If a step falls into the night, it suggests a different time for the whole plan (see [chapter 7](#7-baking-instructions-and-reminders)); it doesn't lengthen or shorten individual steps.
 - **Plans set before this update** carry no plan identifier yet and count together as one plan per recipe. The next "Set reminders" with "Replace existing plan" cleans that up.

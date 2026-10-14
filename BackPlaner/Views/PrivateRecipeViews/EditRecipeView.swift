@@ -38,14 +38,11 @@ struct EditRecipeView: View {
 
     @State private var showingAlert = false
     @State private var showingSheet = false
-    /// False once this recipe has a copy in the recipe database — public or
-    /// private. A cloud recipe cannot be updated, so it may only be uploaded once.
+    /// False once this recipe has a copy in the recipe database. A published
+    /// recipe is edited there, so it may only be uploaded once.
     @State private var activateCloudSaveButtons = true
     @State private var showEULA = false
     @State private var showPublicSaveWarning = false
-    @State private var showPrivateCloudSaveWarning = false
-    @State private var showSignInRequest = false
-    @State private var pendingPrivateCloudSave = false
     @State private var isUploading = false
     @State private var uploadErrorMessage: String?
     @State private var showMissingImageAlert = false
@@ -287,8 +284,8 @@ struct EditRecipeView: View {
                 }
             }
 
-            // A menu instead of one button per target: with three places to
-            // save to, separate buttons no longer fit into the navigation bar.
+            // A menu instead of one button per target, so the navigation bar
+            // keeps a single save symbol.
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
@@ -296,13 +293,6 @@ struct EditRecipeView: View {
                     } label: {
                         Label(RecipeStoragePreference.privateRecipe.title, systemImage: RecipeStoragePreference.privateRecipe.symbolName)
                     }
-
-                    Button {
-                        requestPrivateCloudSave()
-                    } label: {
-                        Label(RecipeStoragePreference.privateCloudRecipe.title, systemImage: RecipeStoragePreference.privateCloudRecipe.symbolName)
-                    }
-                    .disabled(!activateCloudSaveButtons)
 
                     Button {
                         showPublicSaveWarning = true
@@ -322,18 +312,7 @@ struct EditRecipeView: View {
         }
         .sheet(isPresented: $showEULA) {
             EULAView {
-                saveCloudRecipe(visibility: .everyone)
-            }
-        }
-        // Presenting the warning from the sheet's callback would race with the
-        // sheet's own dismissal, so it waits until the sheet is really gone.
-        .sheet(isPresented: $showSignInRequest, onDismiss: {
-            guard pendingPrivateCloudSave else { return }
-            pendingPrivateCloudSave = false
-            showPrivateCloudSaveWarning = true
-        }) {
-            PrivateCloudSignInSheet {
-                pendingPrivateCloudSave = true
+                publishRecipe()
             }
         }
         .alert("Upload fehlgeschlagen", isPresented: Binding(
@@ -356,14 +335,6 @@ struct EditRecipeView: View {
             }
         } message: {
             Text("Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen.")
-        }
-        .alert("Privat in der Cloud speichern?", isPresented: $showPrivateCloudSaveWarning) {
-            Button("Abbrechen", role: .cancel) { }
-            Button("Privat speichern") {
-                saveCloudRecipe(visibility: .authorOnly)
-            }
-        } message: {
-            Text("Das Rezept ist nur für Dich sichtbar. Du kannst es später in der Rezept-Datenbank bearbeiten oder löschen.")
         }
         .overlay {
             if isUploading {
@@ -433,8 +404,8 @@ struct EditRecipeView: View {
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
 
-            // Three buttons rarely fit next to each other at larger text
-            // sizes, so fall back to stacking them.
+            // The two buttons do not always fit next to each other at larger
+            // text sizes, so fall back to stacking them.
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 12) { saveButtons }
                 VStack(alignment: .leading, spacing: 8) { saveButtons }
@@ -444,8 +415,8 @@ struct EditRecipeView: View {
         .padding(.vertical, 6)
     }
 
-    /// The three places a recipe can be saved to. The titles stay short so the
-    /// row fits; the full meaning is in the accessibility labels.
+    /// Saving on the device, and publishing a copy. The titles stay short so
+    /// the row fits; the full meaning is in the accessibility labels.
     @ViewBuilder
     private var saveButtons: some View {
         IconActionButton(systemImage: RecipeStoragePreference.privateRecipe.symbolName,
@@ -456,16 +427,6 @@ struct EditRecipeView: View {
             savePrivateRecipe()
         }
         .disabled(!canSave || isUploading)
-
-        // Author-only cloud copy, for recipes the user may not publish.
-        IconActionButton(systemImage: RecipeStoragePreference.privateCloudRecipe.symbolName,
-                         style: .primary,
-                         accessibilityLabel: "Privat in der Cloud speichern",
-                         title: RecipeStoragePreference.privateCloudRecipe.shortTitle,
-                         controlSize: .regular) {
-            requestPrivateCloudSave()
-        }
-        .disabled(!activateCloudSaveButtons || !canSave || isUploading)
 
         IconActionButton(systemImage: RecipeStoragePreference.publicRecipe.symbolName,
                          style: .primary,
@@ -585,23 +546,12 @@ struct EditRecipeView: View {
         if !ModerationStore.shared.hasAcceptedEULA {
             showEULA = true
         } else {
-            saveCloudRecipe(visibility: .everyone)
+            publishRecipe()
         }
     }
 
-    /// A private cloud recipe belongs to its author's uid, so it needs an
-    /// account that outlives this installation. No content agreement is asked
-    /// for: nothing is published.
-    private func requestPrivateCloudSave() {
-        if modelFB.isSignedInWithAccount {
-            showPrivateCloudSaveWarning = true
-        } else {
-            showSignInRequest = true
-        }
-    }
-
-    // MARK: Save recipe to the cloud
-    private func saveCloudRecipe(visibility: RecipeVisibility) {
+    // MARK: Publish the recipe
+    private func publishRecipe() {
         guard
             let objectId = recipeId,
             let recipe = model.fetchRecipe(for: objectId, context: viewContext)
@@ -616,7 +566,7 @@ struct EditRecipeView: View {
         let cloudImage = recipeImage ?? UIImage(data: recipe.image) ?? UIImage()
 
         isUploading = true
-        modelFB.uploadRecipeToFirestore(r: cloudRecipe, i: cloudImage, visibility: visibility) { result in
+        modelFB.uploadRecipeToFirestore(r: cloudRecipe, i: cloudImage) { result in
             isUploading = false
             switch result {
             case .success:

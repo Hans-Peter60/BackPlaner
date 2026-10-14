@@ -29,7 +29,7 @@ final class BackPlanerSmokeTests: XCTestCase {
             // filter left off in an interactive session would hide the
             // seeded local recipe from the plan test.
             "-settings.recipeList.showLocal", "true",
-            "-settings.recipeList.showPrivateCloud", "true",
+            "-settings.recipeList.showOwnPublished", "true",
             "-settings.recipeList.showPublicCloud", "true"
         ]
     }

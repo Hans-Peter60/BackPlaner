@@ -13,7 +13,7 @@ Révision : 13 octobre 2026 · version 2.0 de l’app
 2. [Configuration requise](#2-configuration-requise)
 3. [Notions de base](#3-notions-de-base)
 4. [Le menu principal](#4-le-menu-principal)
-5. [Base de recettes (recettes publiques et privées dans le cloud)](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)
+5. [Base de recettes](#5-base-de-recettes)
 6. [Mes recettes](#6-mes-recettes)
 7. [Instructions de cuisson et rappels](#7-instructions-de-cuisson-et-rappels)
 8. [Créer une nouvelle recette](#8-créer-une-nouvelle-recette)
@@ -39,7 +39,7 @@ BakePlanner est une app de planification pour le pain, les petits pains et la p�
 - Vous pouvez planifier à rebours : « le pain doit être prêt à 18 h » — et l’app vous dit quand lancer le levain.
 - Chaque étape reçoit un **rappel local**, y compris les étapes insérées automatiquement « allumer le four » et « la cuisson est terminée ».
 
-S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, des recettes privées dans le cloud, l’import d’ingrédients depuis des photos et des pages web, des listes de courses triées par rayon, un historique de cuisson avec photos et mesures, un journal du levain chef pour les levains rafraîchis à intervalle régulier, trois calculateurs de boulanger (température de la pâte, remplacer la farine, TA du levain chef), ainsi que la traduction des recettes publiques sur l’appareil avec un glossaire des termes de boulangerie.
+S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, l’import d’ingrédients depuis des photos et des pages web, des listes de courses triées par rayon, un historique de cuisson avec photos et mesures, un journal du levain chef pour les levains rafraîchis à intervalle régulier, trois calculateurs de boulanger (température de la pâte, remplacer la farine, TA du levain chef), ainsi que la traduction des recettes publiques sur l’appareil avec un glossaire des termes de boulangerie.
 
 ### Démarrage rapide : votre premier plan de cuisson en cinq étapes
 
@@ -65,7 +65,7 @@ Les rappels supposent que BakePlanner soit autorisé à envoyer des notification
 | Internet | Nécessaire pour la base de recettes publique et la synchronisation iCloud. Vos propres recettes, la planification et les rappels fonctionnent entièrement hors ligne ; les modifications se synchronisent plus tard. |
 | iCloud | Vos recettes, étapes planifiées, listes de courses et historiques de cuisson se synchronisent via iCloud entre tous les appareils utilisant le même compte Apple, si iCloud est activé. Les rappels eux-mêmes sont locaux à chaque appareil. |
 | Autorisations | notifications (pour les rappels), photothèque et appareil photo (pour les images de recettes) |
-| Connexion | **Pas** nécessaire pour cuisiner, pour vos propres recettes ni pour la base publique. Seul l’enregistrement de recettes **en privé dans le cloud** exige une connexion avec Apple (voir [chapitre 14](#14-réglages)). |
+| Connexion | **Pas** nécessaire pour cuisiner, pour vos propres recettes ni pour la base publique. La connexion avec Apple est facultative : avec elle, vous êtes l’auteur de vos recettes publiées sur tous vos appareils (voir [chapitre 14](#14-réglages)). |
 
 L’app demande l’autorisation d’envoyer des notifications au premier lancement. Sans elle, les étapes de cuisson sont tout de même calculées et affichées dans « Étapes planifiées », mais **aucun rappel n’apparaît**.
 
@@ -96,15 +96,14 @@ Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2
 Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché. Au lieu d’un facteur, vous pouvez saisir un **poids de pâte** en grammes. Le choix vaut pour tous les onglets de la recette ouverte : Détails, Cuire et Liste de courses calculent avec le même facteur (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 
 **Emplacement**
-L’endroit où se trouve une recette. Il existe trois possibilités, et ce choix détermine qui peut la voir :
+L’endroit où se trouve une recette. Il existe deux possibilités, et le commutateur **Publier** au moment d’enregistrer détermine qui peut la voir :
 
 | Emplacement | Qui la voit ? | Où se trouve-t-elle ? | Modifiable ? |
 |-------------|---------------|-----------------------|--------------|
-| **Uniquement sur l’appareil** | vous seul | sur l’appareil, sauvegardée via votre iCloud | oui, à tout moment |
-| **Privé dans le cloud** | vous seul | dans la base de recettes, verrouillée pour les autres | non |
-| **Public pour tous** | tous les utilisateurs de l’app | dans la base de recettes | non |
+| **Uniquement sur l’appareil** (commutateur désactivé) | vous seul | sur l’appareil, sauvegardée via votre iCloud | oui, à tout moment |
+| **Public pour tous** (commutateur activé) | tous les utilisateurs de l’app | dans la base de recettes | oui, par vous en tant qu’auteur |
 
-« Privé dans le cloud » est prévu pour les recettes que vous **n’avez pas le droit de publier** — tirées d’un livre, par exemple — mais que vous ne voulez pas conserver uniquement sur l’appareil. Une connexion avec Apple est alors nécessaire, car la recette est liée à votre compte ; sans compte, elle serait introuvable après une réinstallation.
+Une recette que vous **n’avez pas le droit de publier** — tirée d’un livre, par exemple — reste sur l’appareil. Grâce à iCloud, elle est tout de même présente sur tous vos appareils, et la sauvegarde (voir [chapitre 14](#14-réglages)) l’exporte sous forme de fichier.
 
 ---
 
@@ -118,7 +117,7 @@ Au lancement, le menu principal apparaît avec dix cartes :
 
 | Carte | Rôle |
 |-------|------|
-| **Base de recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, vos recettes privées dans le cloud et les recettes publiques de tous — avec les puces de filtre **Local / Mes recettes / Public** |
+| **Base de recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** |
 | **Créer une nouvelle recette** | Créer une recette de zéro ou l’importer depuis des photos ou une page web |
 | **Étapes planifiées** | Toutes les étapes de cuisson programmées, en liste ou en timeline |
 | **Historique de cuisson** | Les cuissons passées avec commentaires et photos |
@@ -135,11 +134,11 @@ La flèche de retour en haut à gauche vous ramène au menu principal depuis n�
 
 ---
 
-## 5. Base de recettes (recettes publiques et privées dans le cloud)
+## 5. Base de recettes
 
-Depuis la version 2.0, la base de recettes est **une seule liste pour toutes les recettes** : les recettes publiques que vous ou d’autres avez partagées, vos propres recettes sur l’appareil (voir [chapitre 6](#6-mes-recettes)) et vos recettes privées dans le cloud. Triée par ordre alphabétique, avec trois puces de filtre sous le champ de recherche — **Local**, **Mes recettes**, **Public** — qui s’activent et se désactivent séparément et conservent leur état.
+Depuis la version 2.0, la base de recettes est **une seule liste pour toutes les recettes** : les recettes publiques que vous ou d’autres avez partagées, et vos propres recettes sur l’appareil (voir [chapitre 6](#6-mes-recettes)). Triée par ordre alphabétique, avec trois puces de filtre sous le champ de recherche — **Local**, **Publiées par moi**, **Public** — qui s’activent et se désactivent séparément et conservent leur état.
 
-Si vous êtes connecté avec Apple, la même liste contient en plus **vos recettes privées dans le cloud**. Elles sont signalées par un **cadenas** devant le nom et restent invisibles pour les autres. Si vous vous déconnectez, elles disparaissent de la liste — elles ne sont pas supprimées et reviennent à la prochaine connexion avec le même compte Apple.
+Un symbole devant chaque nom indique la source : un iPhone pour les recettes sur l’appareil, un personnage pour celles que vous avez publiées et un globe pour les recettes publiques des autres utilisateurs. Désactivez **Public** et il reste, à côté de vos recettes locales, la liste de ce que vous avez publié vous-même.
 
 ![Liste des recettes publiques avec recherche et filtre](images/fr/oeffentliche-rezepte.png)
 
@@ -149,7 +148,7 @@ Si vous êtes connecté avec Apple, la même liste contient en plus **vos recett
 
 - **Champ de recherche** en haut : recherche dans les noms de recettes.
 - **Changer le périmètre de recherche** : sous le champ, vous pouvez choisir entre **Nom** et **Tags**. Avec « Tags », la recherche porte sur les mots-clés (« seigle », « complet », « levain », par exemple).
-- **Puces de filtre** sous le champ de recherche : **Local** (recettes sur l’appareil), **Mes recettes** (vos recettes privées et celles que vous avez publiées dans le cloud) et **Public** (recettes de tous les utilisateurs). Chaque puce active ou désactive sa source séparément.
+- **Puces de filtre** sous le champ de recherche : **Local** (recettes sur l’appareil), **Publiées par moi** (vos propres recettes dans la base) et **Public** (les recettes des autres utilisateurs). Chaque puce active ou désactive sa source séparément ; une recette publique relève toujours d’exactement une des deux puces cloud.
 - **Icône de filtre** en haut à droite : note minimale (toutes les notes, 1 à 5 étoiles et plus). Lorsqu’un filtre est actif, l’icône est affichée pleine.
 - **Tirer vers le bas** actualise la liste depuis le cloud.
 
@@ -184,17 +183,9 @@ L’onglet **Cuire la recette** propose le bouton **Enregistrer comme ma recette
 
 L’app le confirme par **« La recette a été enregistrée »** et précise que vous pouvez modifier la copie sans toucher à la recette publique. Si l’enregistrement échoue, un message d’erreur apparaît à la place — rien ne disparaît en silence.
 
-### Publier une recette privée
-
-Pour vos recettes **privées** dans le cloud, l’onglet **Cuire la recette** propose en plus **Enregistrer comme recette publique**. La recette devient alors visible par tous. Une demande de confirmation rappelle d’abord que seules des recettes ne portant pas atteinte au droit d’auteur peuvent être publiées ; la première fois, vous devez également accepter les conditions d’utilisation.
-
-**Votre version privée est conservée** — la recette figure ensuite deux fois dans la liste, dont une avec un cadenas. Si vous ne le souhaitez pas, supprimez ensuite la version privée via « … » → **Supprimer ma recette**.
-
-Pour les recettes déjà publiques, le bouton n’apparaît pas.
-
 ### Modifier une de vos recettes
 
-Les recettes provenant de *votre* compte — les privées comme les publiques — se modifient directement dans la base de recettes : **menu « … »** en haut à droite → **Modifier la recette**. Le formulaire est celui de la saisie d’une recette : image, nom, description, lien, tags, composants avec leurs ingrédients et étapes. Composants, ingrédients, tags et étapes peuvent être ajoutés et supprimés. **Enregistrer** écrit les modifications dans la base, **Annuler** les abandonne ; jusque-là, la recette affichée reste inchangée.
+Les recettes provenant de *votre* compte se modifient directement dans la base de recettes : **menu « … »** en haut à droite → **Modifier la recette**. Le formulaire est celui de la saisie d’une recette : image, nom, description, lien, tags, composants avec leurs ingrédients et étapes. Composants, ingrédients, tags et étapes peuvent être ajoutés et supprimés. **Enregistrer** écrit les modifications dans la base, **Annuler** les abandonne ; jusque-là, la recette affichée reste inchangée.
 
 À noter :
 
@@ -214,13 +205,12 @@ Via le **menu « … »** en haut à droite :
 - **Modifier la recette** — n’apparaît que pour les recettes provenant de *votre* compte (voir ci-dessus).
 - **Supprimer ma recette** — de même, uniquement pour vos propres recettes. La recette est retirée définitivement de la base.
 
-Pour les recettes **privées**, « Signaler la recette » et « Bloquer l’auteur » sont absents — personne d’autre que vous ne les voit de toute façon. Seuls « Modifier la recette » et « Supprimer ma recette » y figurent.
 
 Les deux diffèrent donc par leur portée : **bloquer agit localement, signaler agit pour tous.** Les deux peuvent être annulés dans *Réglages → Modération* (voir [chapitre 14](#14-réglages)).
 
 ### Fonction d’administrateur
 
-Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Via **Modifier la recette** dans le même menu, vous pouvez aussi corriger une recette publique — une faute de frappe ou une quantité erronée, par exemple — sans la supprimer. Un administrateur n’a aucun accès aux recettes **privées** des autres utilisateurs ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
+Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Via **Modifier la recette** dans le même menu, vous pouvez aussi corriger une recette publique — une faute de frappe ou une quantité erronée, par exemple — sans la supprimer. Un administrateur n’a aucun accès aux recettes que les autres utilisateurs conservent sur leurs appareils ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
 
 **Les recettes signalées** restent visibles dans la liste pour les administrateurs, alors qu’elles sont masquées pour tous les autres. En bas de l’onglet **Détails** apparaît alors « Cette recette a été signalée et est masquée pour tous les autres utilisateurs. » Si le signalement est fondé, supprimez la recette. S’il ne l’est pas, **Réafficher la recette** la rend aussitôt de nouveau visible pour tous.
 
@@ -228,7 +218,7 @@ Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-rég
 
 ## 6. Mes recettes
 
-Mes recettes sont les recettes de votre appareil : celles que vous avez créées, importées ou reprises de la base. Vous les trouvez sous **Menu principal → Base de recettes** avec la puce de filtre **Local** (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)) ; désactivez les puces **Mes recettes** et **Public** et il ne reste que la liste de vos propres recettes.
+Mes recettes sont les recettes de votre appareil : celles que vous avez créées, importées ou reprises de la base. Vous les trouvez sous **Menu principal → Base de recettes** avec la puce de filtre **Local** (voir [chapitre 5](#5-base-de-recettes)) ; désactivez les puces **Publiées par moi** et **Public** et il ne reste que la liste de vos propres recettes.
 
 ![Liste de mes recettes avec image, nom et tags](images/fr/eigene-rezepte.png)
 
@@ -366,7 +356,7 @@ Les textes « allumer le four », « baisser le four » et « la cuisson est ter
 
 Via **Menu principal → Créer une nouvelle recette**. Le formulaire se parcourt de haut en bas.
 
-![Formulaire de création d’une nouvelle recette : import depuis des images ou une page web, emplacement Local/Privé/Public, image de la recette](images/fr/neues-rezept.png)
+![Formulaire de création d’une nouvelle recette : import depuis des images ou une page web, commutateur Publier, image de la recette](images/fr/neues-rezept.png)
 
 *Dans le formulaire de recette, vous pouvez importer une recette depuis des images ou une page web, ou tout saisir manuellement.*
 
@@ -422,17 +412,16 @@ Juste en dessous : **Importer une recette depuis une page web**. BakePlanner lit
 
 **Ce qui ne fonctionne pas :** les pages derrière une connexion, un mur payant ou un simple bandeau de cookies ne livrent pas de texte lisible, et certains sites bloquent la récupération par les apps. BakePlanner affiche alors « Importation impossible » avec le motif. Dans ce cas, l’import d’images à partir d’une capture d’écran de la page aide.
 
-> **Droit d’auteur :** pour votre usage personnel, vous pouvez importer n’importe quelle recette. C’est pourquoi l’emplacement est d’abord réglé sur « Local ». Ne publiez les recettes d’autrui qu’avec l’autorisation de leurs auteurs.
+> **Droit d’auteur :** pour votre usage personnel, vous pouvez importer n’importe quelle recette. C’est pourquoi le commutateur « Publier » est d’abord désactivé. Ne publiez les recettes d’autrui qu’avec l’autorisation de leurs auteurs.
 
-### Emplacement : local, privé dans le cloud ou public
+### Emplacement : sur l’appareil ou publiée
 
-Dans la section **Enregistrer**, vous choisissez entre les trois emplacements (voir aussi le tableau du [chapitre 3](#3-notions-de-base)). Une phrase sous chaque choix explique ce qu’il implique. La valeur par défaut vient des Réglages (Emplacement par défaut).
+La section **Enregistrer** comporte le commutateur **Publier** (voir aussi le tableau du [chapitre 3](#3-notions-de-base)). Une phrase en dessous explique ce que sa position implique. La valeur par défaut vient des Réglages (*Publier les nouvelles recettes*).
 
-- **Local** — la recette reste sur l’appareil, est sauvegardée via votre iCloud et reste modifiable à tout moment.
-- **Privé** — la recette est enregistrée dans la base de recettes mais n’est visible que par vous. Cela exige une **connexion avec Apple** ; si vous n’êtes pas connecté, la feuille « Connexion requise » apparaît d’abord, puis l’enregistrement se poursuit. Avant cela, l’app demande « Enregistrer en privé dans le cloud ? » — vous pourrez ensuite modifier ou supprimer la recette dans la base de recettes.
-- **Public** — la recette devient visible par tous. Auparavant apparaît la question **« Publier la recette ? »**, avec la précision qu’en tant qu’auteur vous pourrez ensuite la modifier ou la supprimer dans la base de recettes. La première fois, vous devez en outre accepter les conditions d’utilisation (voir [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)). Pour les recettes privées, elles ne sont pas exigées — vous ne partagez rien.
+- **Commutateur désactivé** — la recette reste sur l’appareil, est sauvegardée via votre iCloud et reste modifiable à tout moment.
+- **Commutateur activé** — la recette devient visible par tous. Auparavant apparaît la question **« Publier la recette ? »**, avec la précision qu’en tant qu’auteur vous pourrez ensuite la modifier ou la supprimer dans la base de recettes. La première fois, vous devez en outre accepter les conditions d’utilisation (voir [chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)).
 
-Lors d’un import depuis des images ou une page web, l’emplacement est toujours réglé sur « Local » au départ. L’icône du bouton « Enregistrer la recette » change avec le choix.
+Lors d’un import depuis des images ou une page web, le commutateur est toujours désactivé au départ. L’icône du bouton « Enregistrer la recette » change avec sa position.
 
 ### Image de la recette
 
@@ -515,16 +504,15 @@ Les recettes avec ce commutateur reçoivent l’onglet supplémentaire **Nourris
 
 ### Enregistrer manuellement
 
-La section **Enregistrer** comporte trois boutons — les trois mêmes emplacements que lors de la création. Vous les retrouvez également en haut à droite de la barre de navigation, dans le menu derrière l’icône d’enregistrement.
+La section **Enregistrer** comporte deux boutons. Vous les retrouvez également en haut à droite de la barre de navigation, dans le menu derrière l’icône d’enregistrement.
 
 - **Local** — enregistre tout, image comprise, recalcule le poids total et confirme par « La recette a été enregistrée ».
-- **Privé** — dépose la recette en privé dans la base de recettes ; une connexion avec Apple est nécessaire. Visible par vous seul et non modifiable ensuite.
-- **Public** — téléverse la recette pour la rendre visible par tous. La question « Publier la recette ? » apparaît ici aussi.
+- **Public** — téléverse une copie de la recette pour la rendre visible par tous. La question « Publier la recette ? » apparaît ici aussi.
 - **Supprimer** (en haut à gauche) — vide le contenu de la recette.
 
-Après un téléversement réussi, **les deux boutons cloud sont désactivés**, car la recette possède désormais une copie dans la base — une recette ne peut être téléversée qu’une seule fois, en privé *ou* en public.
+Après un téléversement réussi, **« Public » est désactivé**, car la recette possède désormais une copie dans la base — une recette n’est publiée qu’une seule fois ; les modifications se font ensuite dans la base de recettes (voir [chapitre 5](#5-base-de-recettes)).
 
-Si cette copie est supprimée plus tard (par vous ou par la modération), l’app le détecte à la prochaine ouverture et réactive les boutons. Cela suppose que vous soyez connecté — déconnecté, l’app ne peut pas vérifier s’il existe encore une copie privée et laisse les boutons verrouillés par précaution.
+Si cette copie est supprimée plus tard (par vous ou par la modération), l’app le détecte à la prochaine ouverture et réactive le bouton.
 
 ---
 
@@ -686,7 +674,7 @@ La confirmation indique « Les ingrédients ont été ajoutés à la liste de co
 
 ### La liste parle votre langue
 
-Les noms des ingrédients figurent sur la liste **toujours dans la langue de l’app**, même si la recette est en allemand ou en anglais. Pour les recettes publiques, l’app utilise la traduction qu’elle a déjà ; sinon elle traduit les noms sur l’appareil à la création de la liste — « Traduction des noms des ingrédients … » s’affiche brièvement. Le glossaire des termes de boulangerie s’applique (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Si la traduction échoue, par exemple sans pack linguistique et sans réseau, les noms arrivent sur la liste dans la langue de la recette, et la confirmation le dit. Ainsi, les ingrédients d’une recette allemande et d’une recette anglaise peuvent aussi se regrouper sur une même liste.
+Les noms des ingrédients figurent sur la liste **toujours dans la langue de l’app**, même si la recette est en allemand ou en anglais. Pour les recettes publiques, l’app utilise la traduction qu’elle a déjà ; sinon elle traduit les noms sur l’appareil à la création de la liste — « Traduction des noms des ingrédients … » s’affiche brièvement. Le glossaire des termes de boulangerie s’applique (voir [chapitre 5](#5-base-de-recettes)). Si la traduction échoue, par exemple sans pack linguistique et sans réseau, les noms arrivent sur la liste dans la langue de la recette, et la confirmation le dit. Ainsi, les ingrédients d’une recette allemande et d’une recette anglaise peuvent aussi se regrouper sur une même liste.
 
 ### Ce qui arrive sur la liste — et ce qui n’y arrive pas
 
@@ -710,7 +698,7 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 **Menu principal → Réglages.**
 
-![Réglages de BakePlanner : Général avec langue et emplacement par défaut, Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
+![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
@@ -719,7 +707,7 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 | Réglage | Description |
 |---------|-------------|
 | **Langue** | Langue du système, allemand, anglais ou français. Agit sur l’interface ainsi que sur les formats de date et d’heure. |
-| **Emplacement par défaut** | La valeur par défaut des nouvelles recettes : **Uniquement sur l’appareil**, **Privé dans le cloud** ou **Public pour tous**. Par défaut : uniquement sur l’appareil. |
+| **Publier les nouvelles recettes** | La position par défaut du commutateur **Publier** à la création d’une recette. Par défaut : désactivé — les nouvelles recettes restent sur l’appareil. |
 
 ### Recettes
 
@@ -746,7 +734,7 @@ Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la rec
 
 | Réglage | Description |
 |---------|-------------|
-| **Traduire automatiquement les recettes publiques** | Concerne uniquement la base de recettes. Activé : les recettes sont traduites automatiquement dans la langue de votre app, et l’icône de globe n’apparaît pas. Désactivé : une recette affiche d’abord la langue dans laquelle elle a été écrite, et vous choisissez vous-même la langue via l’icône de globe (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Par défaut : activé. |
+| **Traduire automatiquement les recettes publiques** | Concerne uniquement la base de recettes. Activé : les recettes sont traduites automatiquement dans la langue de votre app, et l’icône de globe n’apparaît pas. Désactivé : une recette affiche d’abord la langue dans laquelle elle a été écrite, et vous choisissez vous-même la langue via l’icône de globe (voir [chapitre 5](#5-base-de-recettes)). Par défaut : activé. |
 
 ### Planification de cuisson
 
@@ -775,9 +763,9 @@ La page **Confidentialité de l’IA** explique quelles données une analyse clo
 
 ### Compte
 
-C’est ici que vous vous connectez avec Apple. La connexion sert à deux choses :
+C’est ici que vous vous connectez avec Apple. La connexion est **facultative** et sert à deux choses :
 
-- **Les recettes privées dans le cloud.** Elles sont liées à votre compte Apple. C’est le seul moyen qu’elles restent accessibles après une réinstallation ou sur un deuxième appareil — un identifiant anonyme disparaît avec l’app.
+- **L’identité d’auteur.** Sans connexion, vos recettes publiées appartiennent à l’identifiant anonyme de cette installation — il disparaît avec l’app et diffère sur un deuxième appareil. Connecté, elles appartiennent à votre compte Apple : vous pouvez les modifier et les supprimer sur chaque appareil où vous êtes connecté, même après une réinstallation.
 - **Les droits de modération.** Si votre identifiant y a été autorisé, la mention **Administrateur** apparaît en plus, et les recettes publiques peuvent être supprimées — via le menu ⋯, l’onglet Détails ou un balayage dans la base de recettes.
 
 **Ni votre nom ni votre adresse e-mail ne sont demandés** — l’app n’a besoin que de l’identifiant lui-même. Si votre utilisation était anonyme jusque-là, elle est conservée à la connexion : les recettes déjà publiées depuis cet appareil vous appartiennent toujours ensuite.
@@ -785,13 +773,12 @@ C’est ici que vous vous connectez avec Apple. La connexion sert à deux choses
 | Bouton | Effet |
 |--------|-------|
 | **Se connecter avec Apple** | Crée ou associe votre compte. |
-| **Se déconnecter** | Retour à l’utilisation anonyme. Les recettes privées dans le cloud disparaissent de la liste, restent enregistrées et réapparaissent à la prochaine connexion. L’app confirme par **« Déconnexion effectuée »** ; elle ne demande **pas** de vous reconnecter pour confirmer — cela ne concerne que la suppression du compte. |
+| **Se déconnecter** | Retour à l’utilisation anonyme. Les recettes publiées sous le compte restent dans la base ; vous pourrez de nouveau les modifier dès que vous serez reconnecté. L’app confirme par **« Déconnexion effectuée »** ; elle ne demande **pas** de vous reconnecter pour confirmer — cela ne concerne que la suppression du compte. |
 | **Supprimer le compte** | Supprime le compte définitivement (voir ci-dessous). |
 
 **Supprimer le compte** demande d’abord confirmation. Ensuite, voici ce qui se passe :
 
-- Vos recettes **privées** dans le cloud sont supprimées avec leurs images.
-- La connexion est dissociée ; l’app continue de fonctionner de façon anonyme.
+- La connexion est dissociée et le compte supprimé ; l’app continue de fonctionner de façon anonyme.
 - **Les recettes publiées restent** visibles par tous. Elles n’appartiennent plus à aucun compte, vous ne pouvez donc plus les supprimer vous-même — faites-le avant si vous ne voulez pas les laisser dans la base.
 - **Les recettes présentes sur l’appareil sont conservées.** Elles appartiennent à l’appareil et à votre iCloud, pas au compte.
 
@@ -964,11 +951,10 @@ La taille de portion agit sur le total des ingrédients, sur les listes d’ingr
 ### Où se trouvent vos données
 
 - **Vos recettes, étapes planifiées, listes de courses et historiques de cuisson** se trouvent sur l’appareil et dans votre base iCloud privée. Ils ne sont visibles que par vous et vos propres appareils, pas par les autres utilisateurs de l’app.
-- **Les recettes publiques** se trouvent dans la base cloud commune et sont visibles par tous les utilisateurs de l’app.
-- **Les recettes privées dans le cloud** se trouvent également dans le cloud, mais dans un espace séparé que seul leur auteur peut lire — c’est imposé côté serveur et non simplement masqué dans l’app. Les images sont stockées séparément elles aussi et ne peuvent être récupérées que par vous.
+- **Les recettes publiques** se trouvent dans la base cloud commune et sont visibles par tous les utilisateurs de l’app. Aucune autre recette n’est conservée dans le cloud.
 - **Les traductions** sont produites sur l’appareil.
 - **Importation de recettes :** avec « Sur cet appareil uniquement », les images et le texte des pages restent sur l’appareil. Ce n’est que si vous avez consenti à l’**IA cloud protégée** que les images choisies, ou le texte de recette et l’adresse d’une page web, sont envoyés de manière chiffrée via une fonction Firebase de BackPlaner (région europe-west1) à Google Vertex AI (Gemini, site UE). Ils y sont traités uniquement pour créer le brouillon de recette et ne sont pas enregistrés. Seul un compteur servant à la limitation d’utilisation horaire reste enregistré avec votre identifiant pseudonyme. Vous pouvez retirer votre consentement sous *Réglages → Confidentialité et IA*.
-- L’app utilise un identifiant anonyme afin que vous puissiez supprimer vos propres recettes publiques et que d’autres utilisateurs puissent bloquer des auteurs. Un compte utilisateur n’est pas nécessaire pour cuisiner. Une connexion avec Apple n’est requise que pour les recettes privées dans le cloud et pour les droits de modération ; ni votre nom ni votre adresse e-mail ne sont demandés à cette occasion.
+- L’app utilise un identifiant anonyme afin que vous puissiez supprimer vos propres recettes publiques et que d’autres utilisateurs puissent bloquer des auteurs. Un compte utilisateur n’est pas nécessaire pour cuisiner. La connexion avec Apple est facultative — elle fait de votre compte Apple l’auteur de vos recettes publiées et débloque les droits de modération ; ni votre nom ni votre adresse e-mail ne sont demandés à cette occasion.
 - **Vous pouvez supprimer votre compte vous-même à tout moment** — Réglages → Compte → « Supprimer le compte ». Détails au [chapitre 14](#14-réglages).
 
 ### Conditions d’utilisation des recettes publiques
@@ -981,11 +967,11 @@ Avant d’enregistrer une recette publiquement pour la première fois, vous deve
 - Les contenus signalés sont examinés et supprimés **dans un délai de 24 heures**.
 - Les auteurs qui enfreignent ces règles de manière répétée peuvent être exclus.
 
-Avec **Refuser**, rien n’est téléversé ; la recette reste dans le formulaire et peut être enregistrée en privé.
+Avec **Refuser**, rien n’est téléversé ; la recette reste dans le formulaire et peut être enregistrée sur l’appareil.
 
 ### Ce que vous pouvez faire contre les contenus indésirables
 
-Via le menu « … » d’une recette publique : **Signaler la recette** (avec un motif) ou **Bloquer l’auteur**. Les deux prennent effet aussitôt — le signalement masque la recette **pour tous les utilisateurs**, le blocage uniquement sur votre appareil. Vous pouvez annuler les deux dans *Réglages → Modération*. Détails aux [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud) et [chapitre 14](#14-réglages).
+Via le menu « … » d’une recette publique : **Signaler la recette** (avec un motif) ou **Bloquer l’auteur**. Les deux prennent effet aussitôt — le signalement masque la recette **pour tous les utilisateurs**, le blocage uniquement sur votre appareil. Vous pouvez annuler les deux dans *Réglages → Modération*. Détails aux [chapitre 5](#5-base-de-recettes) et [chapitre 14](#14-réglages).
 
 ---
 
@@ -1001,13 +987,10 @@ Les rappels restent sur l’appareil où vous les avez définis. Seules les noti
 Il n’y avait pas de connexion internet au lancement. Tirez la liste vers le bas pour recharger.
 
 **J’ai téléversé ma recette dans la base et je veux la corriger.**
-Ouvrez la recette dans la base de recettes et choisissez « … » → **Modifier la recette** (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Cela fonctionne pour toutes les recettes provenant de votre compte — les privées comme les publiques. La version sur l’appareil ne change pas ; pour l’aligner, modifiez-la séparément sous « Mes recettes ».
+Ouvrez la recette dans la base de recettes et choisissez « … » → **Modifier la recette** (voir [chapitre 5](#5-base-de-recettes)). Cela fonctionne pour toutes les recettes provenant de votre compte. La version sur l’appareil ne change pas ; pour l’aligner, modifiez-la séparément sous « Mes recettes ».
 
-**Mes recettes privées ne sont pas dans la liste.**
-Elles n’apparaissent que si vous êtes connecté : *Réglages → Compte → Se connecter avec Apple*. Veillez à utiliser le même compte Apple qu’à l’enregistrement — les recettes y sont liées. Tirez ensuite la liste vers le bas une fois.
-
-**« Une connexion avec Apple est nécessaire pour les recettes privées dans le cloud. »**
-Vous avez choisi « Privé » comme emplacement sans être connecté. Connectez-vous via la feuille qui apparaît, et l’enregistrement se poursuit. Sans compte, la recette serait introuvable après une réinstallation — c’est pourquoi l’app ne procède pas autrement.
+**« Modifier la recette » manque sur une recette que j’ai publiée moi-même.**
+La recette appartient à un autre identifiant — par exemple l’identifiant anonyme d’un autre appareil ou d’une installation précédente. Si vous l’avez publiée en étant connecté, connectez-vous avec le même compte Apple : *Réglages → Compte → Se connecter avec Apple*, puis tirez la liste vers le bas une fois.
 
 **J’ai touché « Définir les rappels » deux fois par erreur.**
 Au second toucher, l’app demande si le nouveau plan doit remplacer l’existant ou s’ajouter à lui. Si vous avez choisi « Planifier en plus » alors que vous ne vouliez qu’un seul plan, sélectionnez le plan en trop dans « Étapes planifiées » via sa puce et supprimez-le avec la corbeille via « Supprimer seulement “…” ».
@@ -1025,7 +1008,7 @@ L’eau, le sel et tout ce que l’on prépare soi-même (levain chef, levain, p
 La liste reprend la taille de portion ou le poids de pâte réglés dans la recette — l’onglet « Liste de courses » affiche le facteur en haut. Changez-le là avant de mettre les ingrédients sur la liste.
 
 **Un terme technique est mal traduit.**
-Les termes de boulangerie comme Brühstück ou Anstellgut sont traduits par un glossaire dans l’app (voir [chapitre 5](#5-base-de-recettes-recettes-publiques-et-privées-dans-le-cloud)). Si vous rencontrez malgré tout une traduction fausse, rouvrez la recette une fois : une traduction plus ancienne sans le mot du glossaire est refaite. Si l’erreur persiste, signalez le mot — il entrera dans le glossaire.
+Les termes de boulangerie comme Brühstück ou Anstellgut sont traduits par un glossaire dans l’app (voir [chapitre 5](#5-base-de-recettes)). Si vous rencontrez malgré tout une traduction fausse, rouvrez la recette une fois : une traduction plus ancienne sans le mot du glossaire est refaite. Si l’erreur persiste, signalez le mot — il entrera dans le glossaire.
 
 **Un ingrédient manque dans « Total des ingrédients ».**
 L’eau n’y figure pas, ni les ingrédients qui sont eux-mêmes le produit d’un composant (« levain » comme ingrédient de la pâte principale, par exemple), afin que les quantités ne soient pas comptées deux fois. Ils figurent au complet dans la liste des composants en dessous.
@@ -1044,8 +1027,8 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 ## 18. Limitations connues
 
 - **Les recettes de la base ne sont modifiables que par leur auteur** (ou un administrateur). Une fois téléversées, la version sur l’appareil et celle de la base sont deux recettes distinctes ; les modifications de l’une ne sont pas reportées sur l’autre.
-- **Une recette ne peut être téléversée qu’une seule fois**, en privé ou en public. Une recette privée peut être publiée ensuite, mais cela crée une deuxième version ; la privée n’est pas retirée automatiquement.
-- **Les recettes privées dans le cloud exigent une connexion avec Apple** et sont liées à ce compte. Elles ne sont pas visibles sans connexion, ni avec un autre compte Apple.
+- **Une recette n’est publiée qu’une seule fois.** Ensuite, vous modifiez la version publiée dans la base de recettes, pas sous « Mes recettes ».
+- **Sans connexion, la qualité d’auteur est liée à l’appareil.** Une recette publiée depuis l’iPhone ne peut être modifiée sur l’iPad que si les deux appareils sont connectés au même compte Apple.
 - **La suppression du compte laisse les recettes publiées dans la base.** Elles n’appartiennent plus à aucun compte et ne peuvent être retirées que par un administrateur.
 - **La pause de cuisson, le début et la fin de journée** ne décalent aucune étape. L’app contrôle le plan par rapport à eux et vous avertit. Si une étape tombe la nuit, elle propose un autre horaire pour l’ensemble du plan (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)) ; elle n’allonge ni ne raccourcit les étapes une à une.
 - **Les plans définis avant cette mise à jour** ne portent pas encore d’identifiant de plan et comptent ensemble comme un seul plan par recette. Le prochain « Définir les rappels » avec « Remplacer le plan existant » remet de l’ordre.

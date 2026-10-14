@@ -40,22 +40,6 @@ enum AccountDeletionError: LocalizedError {
     }
 }
 
-enum PrivateRecipeError: LocalizedError {
-    case accountRequired
-    /// Whether a cloud copy still exists cannot be decided while signed out,
-    /// because the author-only collection is unreadable for anonymous users.
-    case ownershipUnknown
-
-    var errorDescription: String? {
-        switch self {
-        case .accountRequired:
-            return "Für private Cloud-Rezepte ist eine Anmeldung mit Apple erforderlich. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar."
-        case .ownershipUnknown:
-            return "Ob dieses Rezept noch in der Cloud liegt, lässt sich nur mit angemeldetem Konto feststellen."
-        }
-    }
-}
-
 /// Why an edited cloud recipe could not be written back.
 enum RecipeEditError: LocalizedError {
     case notSignedIn
@@ -138,8 +122,9 @@ class RecipeFBModel: ObservableObject {
             // use for it, and not touching it keeps the privacy policy's
             // promise true of the code as well as of the request.
             self.checkAdminStatus()
-            // Reload as soon as the identity actually changes, so the author's
-            // own private recipes appear (and a signed-out user's disappear).
+            // Reload as soon as the identity actually changes: which recipes
+            // count as the author's own, and whether hidden ones are shown,
+            // both depend on it.
             if user?.uid != self.loadedForUid { self.getRecipesFB() }
         }
 
@@ -150,10 +135,8 @@ class RecipeFBModel: ObservableObject {
 //        }
     }
     
-    /// Uploads a recipe to the cloud. `visibility` decides whether it joins the
-    /// shared database everyone reads, or the author's own collection that the
-    /// security rules keep private to him.
-    func uploadRecipeToFirestore(r: RecipeFB, i: UIImage, visibility: RecipeVisibility = .everyone, completion: ((Result<Void, Error>) -> Void)? = nil) {
+    /// Publishes a recipe into the shared database everyone reads.
+    func uploadRecipeToFirestore(r: RecipeFB, i: UIImage, completion: ((Result<Void, Error>) -> Void)? = nil) {
 
         // Anonymous authentication finishes asynchronously during app launch.
         // Wait for it here as well so Storage rules never see request.auth == nil.
@@ -163,18 +146,10 @@ class RecipeFBModel: ObservableObject {
                     if let error {
                         completion?(.failure(error))
                     } else {
-                        self?.uploadRecipeToFirestore(r: r, i: i, visibility: visibility, completion: completion)
+                        self?.uploadRecipeToFirestore(r: r, i: i, completion: completion)
                     }
                 }
             }
-            return
-        }
-
-        // An author-only recipe is tied to its owner's uid. An anonymous uid is
-        // gone once the app is removed, so the recipe would be unreachable —
-        // refuse instead of writing something the author can lose.
-        guard visibility == .everyone || !currentUser.isAnonymous else {
-            completion?(.failure(PrivateRecipeError.accountRequired))
             return
         }
 
@@ -185,10 +160,9 @@ class RecipeFBModel: ObservableObject {
         }
 
         r.id = UUID().uuidString
-        r.visibility = visibility
         recipesFB.append(r)
 
-        let cloudRecipes = db.collection(visibility.collectionName)
+        let cloudRecipes = db.collection(RecipeFB.collectionName)
 
         // Include the authenticated owner in the Storage path. This lets the
         // Storage rules enforce that users only create/delete their own images.
@@ -202,8 +176,8 @@ class RecipeFBModel: ObservableObject {
             ? (RecipeLanguageDetector.detectedLanguage(of: r) ?? RecipeFB.preferredLanguageCode)
             : RecipeFB.baseLanguageCode(from: r.sourceLanguage)
 
-        // A recipe being published from a private copy may be showing a
-        // translation right now; put the original back before snapshotting it.
+        // A recipe being published from a copy may be showing a translation
+        // right now; put the original back before snapshotting it.
         if r.hasCachedTranslation(languageCode: sourceLanguage) {
             r.showLocalization(languageCode: sourceLanguage)
         }
@@ -243,18 +217,15 @@ class RecipeFBModel: ObservableObject {
             "image":          r.image,
             "tags":           r.tags,
             "authorId":       ModerationStore.shared.authorId,
-            "visibility":     visibility.rawValue,
-            "sourceLanguage": r.sourceLanguage
+            "sourceLanguage": r.sourceLanguage,
+            // The list query asks for `hidden == false`, and Firestore never
+            // matches a missing field, so a recipe has to carry it from the
+            // start. The rules refuse a new recipe without it.
+            "hidden":         false
         ]
         let recipeTranslations = r.firestoreTranslationsData
         if !recipeTranslations.isEmpty {
             recipeData["translations"] = recipeTranslations
-        }
-        // The list query asks for `hidden == false`, and Firestore never
-        // matches a missing field, so a public recipe has to carry it from the
-        // start. The rules refuse a new public recipe without it.
-        if visibility == .everyone {
-            recipeData["hidden"] = false
         }
 
         group.enter()
@@ -323,7 +294,7 @@ class RecipeFBModel: ObservableObject {
             return
         }
 
-        let recipeRef = db.collection(recipe.visibility.collectionName).document(recipeId)
+        let recipeRef = db.collection(RecipeFB.collectionName).document(recipeId)
 
         // Recipe-level translations. The source language travels with them: a
         // recipe whose language was corrected must not be read back with the
@@ -452,7 +423,7 @@ class RecipeFBModel: ObservableObject {
 
         // The picture first: a document naming a picture that failed to
         // upload would be worse than keeping the old picture.
-        uploadReplacementImage(newImage, owner: currentUser.uid, visibility: edited.visibility) { [weak self] imageResult in
+        uploadReplacementImage(newImage, owner: currentUser.uid) { [weak self] imageResult in
             guard let self else { return }
 
             let newImagePath: String?
@@ -475,7 +446,7 @@ class RecipeFBModel: ObservableObject {
                         // new one would be an orphan.
                         if let newImagePath {
                             self.storage.reference()
-                                .child(edited.visibility.imageFolder + "/" + newImagePath + ".jpg")
+                                .child(RecipeFB.imageFolder + "/" + newImagePath + ".jpg")
                                 .delete { _ in }
                             edited.image = previousImagePath
                         }
@@ -486,7 +457,7 @@ class RecipeFBModel: ObservableObject {
                             if !previousImagePath.isEmpty {
                                 // Best effort, as when deleting a recipe.
                                 self.storage.reference()
-                                    .child(edited.visibility.imageFolder + "/" + previousImagePath + ".jpg")
+                                    .child(RecipeFB.imageFolder + "/" + previousImagePath + ".jpg")
                                     .delete { _ in }
                             }
                             GlobalVariables.recipesImage[recipeId] = newImage
@@ -506,7 +477,6 @@ class RecipeFBModel: ObservableObject {
     /// the new one.
     private func uploadReplacementImage(_ image: UIImage?,
                                         owner uid: String,
-                                        visibility: RecipeVisibility,
                                         completion: @escaping (Result<String?, Error>) -> Void) {
         guard let image else {
             completion(.success(nil))
@@ -523,7 +493,7 @@ class RecipeFBModel: ObservableObject {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
 
-        storage.reference().child(visibility.imageFolder + "/" + path + ".jpg").putData(data, metadata: metadata) { _, error in
+        storage.reference().child(RecipeFB.imageFolder + "/" + path + ".jpg").putData(data, metadata: metadata) { _, error in
             if let error {
                 AppLog.firebase.error("Replacement image upload failed: \(error.localizedDescription)")
                 completion(.failure(error))
@@ -536,7 +506,7 @@ class RecipeFBModel: ObservableObject {
     /// Updates the recipe document and swaps its subcollections for the
     /// edited ones, atomically.
     private func replaceRecipeContent(recipeId: String, edited: RecipeFB, completion: @escaping (Result<Void, Error>) -> Void) {
-        let recipeRef = db.collection(edited.visibility.collectionName).document(recipeId)
+        let recipeRef = db.collection(RecipeFB.collectionName).document(recipeId)
 
         // The editor shows and changes the original text, so the cached
         // translations of the other languages are stale now: they translate a
@@ -580,8 +550,8 @@ class RecipeFBModel: ObservableObject {
             let batch = self.db.batch()
             existingChildren.forEach { batch.deleteDocument($0) }
 
-            // `authorId`, `hidden` and `visibility` are deliberately left
-            // alone: the rules refuse an author who changes them.
+            // `authorId` and `hidden` are deliberately left alone: the rules
+            // refuse an author who changes them.
             batch.updateData([
                 "name":           edited.name,
                 "summary":        edited.summary,
@@ -664,12 +634,10 @@ class RecipeFBModel: ObservableObject {
         }
     }
 
-    /// Loads the recipe list: the shared public database plus, for a permanently
-    /// signed-in author, his own author-only recipes.
+    /// Loads the recipe list from the shared public database.
     func getRecipesFB(completion: (() -> Void)? = nil) {
 
-        let user = Auth.auth().currentUser
-        loadedForUid = user?.uid
+        loadedForUid = Auth.auth().currentUser?.uid
 
         isLoading = true
         // Reset so a reload (pull-to-refresh) does not duplicate recipes.
@@ -680,57 +648,29 @@ class RecipeFBModel: ObservableObject {
         loadGeneration += 1
         let generation = loadGeneration
 
-        let group = DispatchGroup()
-
-        group.enter()
-        loadRecipes(from: .everyone, ownedBy: nil, generation: generation) { group.leave() }
-
-        // Author-only recipes are readable for their owner alone. They are also
-        // only ever written by a permanent account, so an anonymous user has
-        // none to query for.
-        if let user, !user.isAnonymous {
-            group.enter()
-            loadRecipes(from: .authorOnly, ownedBy: user.uid, generation: generation) { group.leave() }
-        }
-
-        group.notify(queue: .main) {
-            guard generation == self.loadGeneration else { return }
-            self.isLoading = false
-            completion?()
-        }
-    }
-
-    /// Fetches one recipe collection. `ownerUid` restricts the query to the
-    /// caller's own documents, which is what the security rules demand for the
-    /// author-only collection.
-    private func loadRecipes(from visibility: RecipeVisibility,
-                             ownedBy ownerUid: String?,
-                             generation: Int,
-                             completion: @escaping () -> Void) {
-
         let storageRef = storage.reference()
 
-        var query: Query = db.collection(visibility.collectionName)
-        if let ownerUid {
-            query = query.whereField("authorId", isEqualTo: ownerUid)
-        }
+        var query: Query = db.collection(RecipeFB.collectionName)
         // The rules hand out a reported (hidden) public recipe to admins and
         // its author only, and a query has to prove it asks for nothing else:
         // without this filter the whole list would be refused. Admins query
         // unfiltered so they still see what they have to review.
-        if visibility == .everyone && !isAdmin {
+        if !isAdmin {
             query = query.whereField("hidden", isEqualTo: false)
         }
 
         query.getDocuments { snapshot, error in
 
-            defer { completion() }
-
             // A newer load has taken over in the meantime; its results count.
             guard generation == self.loadGeneration else { return }
 
+            defer {
+                self.isLoading = false
+                completion?()
+            }
+
             if let error {
-                AppLog.firebase.error("Could not load \(visibility.collectionName): \(error.localizedDescription)")
+                AppLog.firebase.error("Could not load \(RecipeFB.collectionName): \(error.localizedDescription)")
                 return
             }
 
@@ -749,7 +689,6 @@ class RecipeFBModel: ObservableObject {
                 let r      = RecipeFB()
 
                 r.id          = doc.documentID
-                r.visibility  = visibility
                 r.hidden      = isHidden
                 r.authorId    = doc["authorId"]    as? String ?? ""
                 r.name        = doc["name"]        as? String ?? ""
@@ -863,61 +802,19 @@ class RecipeFBModel: ObservableObject {
         performDelete(recipe, completion: completion)
     }
 
-    /// Checks whether the cloud document linked from a local recipe still
-    /// exists — in the public database or in the author's own collection. This
-    /// lets the local recipe be uploaded again after its cloud copy was deleted
-    /// elsewhere.
+    /// Checks whether the public document linked from a local recipe still
+    /// exists. This lets the local recipe be published again after its cloud
+    /// copy was deleted elsewhere.
     func cloudRecipeExists(id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        // An anonymous user cannot read the author-only collection at all. A
-        // "not found" would then be a guess, and acting on it would re-enable
-        // the upload buttons for a recipe that does exist privately — an
-        // accidental duplicate in the cloud. Report that nothing is known
-        // instead, which leaves the buttons as they are.
-        guard let user = Auth.auth().currentUser, !user.isAnonymous else {
-            db.collection(RecipeVisibility.everyone.collectionName).document(id).getDocument { snapshot, error in
-                DispatchQueue.main.async {
-                    if let error {
-                        completion(.failure(error))
-                    } else if snapshot?.exists == true {
-                        completion(.success(true))
-                    } else {
-                        completion(.failure(PrivateRecipeError.ownershipUnknown))
-                    }
-                }
-            }
-            return
-        }
-
-        let collections = RecipeVisibility.allCases
-
-        let group = DispatchGroup()
-        var exists = false
-        var failures = 0
-        var firstError: Error?
-
-        for visibility in collections {
-            group.enter()
-            db.collection(visibility.collectionName).document(id).getDocument { snapshot, error in
+        db.collection(RecipeFB.collectionName).document(id).getDocument { snapshot, error in
+            DispatchQueue.main.async {
                 if let error {
-                    // Reading a document that is not the caller's own is denied
-                    // by the rules, which is indistinguishable from "not there".
-                    failures += 1
-                    firstError = firstError ?? error
-                } else if snapshot?.exists == true {
-                    exists = true
+                    // A failed lookup means nothing is known; the caller then
+                    // leaves things as they are.
+                    completion(.failure(error))
+                } else {
+                    completion(.success(snapshot?.exists == true))
                 }
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            if exists {
-                completion(.success(true))
-            } else if failures == collections.count, let firstError {
-                // Every lookup failed, so nothing is actually known.
-                completion(.failure(firstError))
-            } else {
-                completion(.success(false))
             }
         }
     }
@@ -1022,11 +919,10 @@ class RecipeFBModel: ObservableObject {
     /// Deletes the signed-in account for good (App Store Guideline 5.1.1(v)
     /// requires this wherever an app lets people create one).
     ///
-    /// Removed are the author-only recipes with their subcollections and their
-    /// images, then the account itself. PUBLISHED recipes deliberately stay:
-    /// they are shared content other users may already be baking from. Their
-    /// `authorId` then points at an account that no longer exists, so only an
-    /// admin can take them down afterwards.
+    /// PUBLISHED recipes deliberately stay: they are shared content other
+    /// users may already be baking from. Their `authorId` then points at an
+    /// account that no longer exists, so only an admin can take them down
+    /// afterwards.
     ///
     /// Recipes stored on the device are untouched — they belong to the device
     /// and its iCloud, not to this account.
@@ -1035,101 +931,32 @@ class RecipeFBModel: ObservableObject {
             completion(.failure(AccountDeletionError.notSignedIn))
             return
         }
-        let uid = user.uid
 
-        deletePrivateRecipes(of: uid) { [weak self] in
+        user.delete { [weak self] error in
             guard let self else { return }
-
-            // Sweep the whole image folder afterwards, so an upload that failed
-            // halfway does not leave a private picture behind.
-            self.deletePrivateImages(of: uid) {
-                user.delete { error in
-                    DispatchQueue.main.async {
-                        if let error = error as NSError? {
-                            if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
-                                completion(.failure(AccountDeletionError.requiresRecentLogin))
-                            } else {
-                                AppLog.firebase.error("Account could not be deleted: \(error.localizedDescription)")
-                                completion(.failure(error))
-                            }
-                            return
-                        }
-
-                        // The account is gone; carry on anonymously so browsing
-                        // and publishing keep working.
-                        self.isAdmin = false
-                        Auth.auth().signInAnonymously { _, signInError in
-                            if let signInError {
-                                AppLog.firebase.error("Anonymous re-sign-in after deletion failed: \(signInError.localizedDescription)")
-                            }
-                            self.getRecipesFB()
-                            completion(.success(()))
-                        }
+            DispatchQueue.main.async {
+                if let error = error as NSError? {
+                    if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                        completion(.failure(AccountDeletionError.requiresRecentLogin))
+                    } else {
+                        AppLog.firebase.error("Account could not be deleted: \(error.localizedDescription)")
+                        completion(.failure(error))
                     }
-                }
-            }
-        }
-    }
-
-    /// Deletes every author-only recipe of `uid`, each with its subcollections
-    /// and its image, and takes them out of the in-memory list.
-    private func deletePrivateRecipes(of uid: String, completion: @escaping () -> Void) {
-        db.collection(RecipeVisibility.authorOnly.collectionName)
-            .whereField("authorId", isEqualTo: uid)
-            .getDocuments { [weak self] snapshot, error in
-                guard let self else { return }
-
-                if let error {
-                    AppLog.firebase.error("Private recipes could not be listed for deletion: \(error.localizedDescription)")
-                }
-
-                let documents = snapshot?.documents ?? []
-                guard !documents.isEmpty else {
-                    completion()
                     return
                 }
 
-                let group = DispatchGroup()
-                for document in documents {
-                    // A stand-in carrying just what performDelete needs, so the
-                    // deletion does not depend on the list having been loaded.
-                    let recipe = RecipeFB()
-                    recipe.id         = document.documentID
-                    recipe.authorId   = uid
-                    recipe.visibility = .authorOnly
-                    recipe.image      = document["image"] as? String ?? ""
-
-                    group.enter()
-                    self.performDelete(recipe) { _ in group.leave() }
+                // The account is gone; carry on anonymously so browsing and
+                // publishing keep working.
+                self.isAdmin = false
+                self.isSignedInWithAccount = false
+                Auth.auth().signInAnonymously { _, signInError in
+                    if let signInError {
+                        AppLog.firebase.error("Anonymous re-sign-in after deletion failed: \(signInError.localizedDescription)")
+                    }
+                    self.getRecipesFB()
+                    completion(.success(()))
                 }
-                group.notify(queue: .main) { completion() }
             }
-    }
-
-    /// Empties the account's private image folder. Best effort: a leftover
-    /// object must not stop the account from being deleted.
-    private func deletePrivateImages(of uid: String, completion: @escaping () -> Void) {
-        let folder = storage.reference().child("\(RecipeVisibility.authorOnly.imageFolder)/\(uid)")
-
-        folder.listAll { result, error in
-            if let error {
-                AppLog.firebase.error("Private images could not be listed: \(error.localizedDescription)")
-                completion()
-                return
-            }
-
-            let items = result?.items ?? []
-            guard !items.isEmpty else {
-                completion()
-                return
-            }
-
-            let group = DispatchGroup()
-            for item in items {
-                group.enter()
-                item.delete { _ in group.leave() }
-            }
-            group.notify(queue: .main) { completion() }
         }
     }
 
@@ -1157,8 +984,8 @@ class RecipeFBModel: ObservableObject {
     }
 
     /// Signs the account out and returns to an anonymous identity so browsing
-    /// and publishing keep working. The author-only recipes stay in the cloud
-    /// and reappear after the next sign-in with the same Apple account.
+    /// and publishing keep working. Recipes published under the account keep
+    /// belonging to it; they are the author's again after the next sign-in.
     func signOutAccount(completion: ((Result<Void, Error>) -> Void)? = nil) {
         // Reports a failure instead of swallowing it: this used to be `try?`,
         // so a sign-out that did not happen looked exactly like one that did.
@@ -1183,8 +1010,7 @@ class RecipeFBModel: ObservableObject {
             self?.checkAdminStatus()
             // isAdmin was cleared above, so checkAdminStatus() sees no change and
             // won't reload. Fetch explicitly, otherwise hidden recipes loaded as
-            // an admin — or the author-only recipes — would stay visible to the
-            // now anonymous user.
+            // an admin would stay visible to the now anonymous user.
             self?.getRecipesFB()
             // The sign-out itself succeeded even if the anonymous re-sign-in
             // did not, so the user is told what he asked about; the log records
@@ -1196,10 +1022,8 @@ class RecipeFBModel: ObservableObject {
     /// Admin/owner moderation: deletes ANY public recipe, not just the caller's
     /// own. Gated by `isAdmin`; the Firestore rules must additionally permit uids
     /// listed in the `admins` collection for this to succeed server-side.
-    /// Author-only recipes are never shared, so they are not subject to
-    /// moderation and stay out of an admin's reach.
     func deleteRecipeAsAdmin(_ recipe: RecipeFB, completion: ((Result<Void, Error>) -> Void)? = nil) {
-        guard recipe.visibility == .everyone, isAdmin else {
+        guard isAdmin else {
             completion?(.success(()))
             return
         }
@@ -1214,7 +1038,7 @@ class RecipeFBModel: ObservableObject {
             return
         }
 
-        let recipeRef = db.collection(recipe.visibility.collectionName).document(id)
+        let recipeRef = db.collection(RecipeFB.collectionName).document(id)
         let group = DispatchGroup()
 
         // instructions subcollection
@@ -1294,7 +1118,7 @@ class RecipeFBModel: ObservableObject {
 
     func getInstructionsFB(_ r:RecipeFB, _ recipeDocID:String, completion: (() -> Void)? = nil) {
 
-        let collection = db.collection(r.visibility.collectionName).document(recipeDocID).collection("instructions").order(by: "step")
+        let collection = db.collection(RecipeFB.collectionName).document(recipeDocID).collection("instructions").order(by: "step")
 
         collection.getDocuments  { snapshot, error in
 
@@ -1327,7 +1151,7 @@ class RecipeFBModel: ObservableObject {
     /// `completion` runs once the components and all of their ingredients are in.
     func getComponentsFB(_ r:RecipeFB, _ recipeDocID:String, completion: (() -> Void)? = nil) {
 
-        let collection = db.collection(r.visibility.collectionName).document(recipeDocID).collection("components")
+        let collection = db.collection(RecipeFB.collectionName).document(recipeDocID).collection("components")
 
         collection.getDocuments  { snapshot, error in
 
@@ -1349,7 +1173,7 @@ class RecipeFBModel: ObservableObject {
                     c.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
 
                     ingredientLoads.enter()
-                    self.getIngredientsFB(c, recipeDocID, c.id!, visibility: r.visibility) { ingredientLoads.leave() }
+                    self.getIngredientsFB(c, recipeDocID, c.id!) { ingredientLoads.leave() }
                     r.components.append(c)
                 }
             }
@@ -1358,9 +1182,9 @@ class RecipeFBModel: ObservableObject {
         }
     }
 
-    func getIngredientsFB(_ c:ComponentFB, _ recipeDocID:String, _ componentDocID:String, visibility: RecipeVisibility = .everyone, completion: (() -> Void)? = nil) {
+    func getIngredientsFB(_ c:ComponentFB, _ recipeDocID:String, _ componentDocID:String, completion: (() -> Void)? = nil) {
 
-        let collection = db.collection(visibility.collectionName).document(recipeDocID).collection("components").document(componentDocID).collection("ingredients")
+        let collection = db.collection(RecipeFB.collectionName).document(recipeDocID).collection("components").document(componentDocID).collection("ingredients")
 
         collection.getDocuments  { snapshot, error in
 

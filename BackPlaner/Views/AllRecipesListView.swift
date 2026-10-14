@@ -25,7 +25,7 @@ struct AllRecipesListView: View {
     @ObservedObject private var moderation = ModerationStore.shared
 
     @AppStorage(AppSettingsKeys.showLocalRecipes) private var showLocalRecipes = AppSettings.defaultShowLocalRecipes
-    @AppStorage(AppSettingsKeys.showPrivateCloudRecipes) private var showPrivateCloudRecipes = AppSettings.defaultShowPrivateCloudRecipes
+    @AppStorage(AppSettingsKeys.showOwnPublishedRecipes) private var showOwnPublishedRecipes = AppSettings.defaultShowOwnPublishedRecipes
     @AppStorage(AppSettingsKeys.showPublicCloudRecipes) private var showPublicCloudRecipes = AppSettings.defaultShowPublicCloudRecipes
 
     // Settings → Übersetzung: off, the list is left in its recipes' own
@@ -104,13 +104,20 @@ struct AllRecipesListView: View {
         if showLocalRecipes {
             rows += recipes.map(Row.local)
         }
-        if showPrivateCloudRecipes || showPublicCloudRecipes {
+        if showOwnPublishedRecipes || showPublicCloudRecipes {
             let visible = modelFB.recipesFB
                 .filter { !moderation.shouldHide(authorId: $0.authorId, recipeId: $0.id) }
-                .filter { $0.visibility == .authorOnly ? showPrivateCloudRecipes : showPublicCloudRecipes }
+                .filter { isOwnPublished($0) ? showOwnPublishedRecipes : showPublicCloudRecipes }
             rows += visible.map(Row.cloud)
         }
         return rows
+    }
+
+    /// True for a public recipe this identity published. Empty author ids
+    /// (legacy recipes) never match.
+    private func isOwnPublished(_ recipe: RecipeFB) -> Bool {
+        guard let author = recipe.authorId, !author.isEmpty else { return false }
+        return author == moderation.authorId
     }
 
     private var filteredRows: [Row] {
@@ -132,7 +139,7 @@ struct AllRecipesListView: View {
     private var isFiltering: Bool {
         !filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             || rating > 0
-            || !showLocalRecipes || !showPrivateCloudRecipes || !showPublicCloudRecipes
+            || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes
     }
 
     var body: some View {
@@ -256,13 +263,15 @@ struct AllRecipesListView: View {
 
     /// Three independent toggles, one per recipe source — deliberately not a
     /// single-select picker like the old "Alle/Nur meine" one: a sourdough
-    /// baker may want local and private cloud recipes but not the whole
-    /// public database cluttering the list, or any other combination.
+    /// baker may want the local recipes and the ones published from this
+    /// account but not the whole public database cluttering the list, or any
+    /// other combination. A public recipe belongs to exactly one of the two
+    /// cloud chips, depending on who published it.
     private var filterChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 filterChip("Lokal", systemImage: "iphone", isOn: $showLocalRecipes)
-                filterChip("Eigene", systemImage: "lock.icloud", isOn: $showPrivateCloudRecipes)
+                filterChip("Von mir veröffentlicht", systemImage: "person.crop.circle", isOn: $showOwnPublishedRecipes)
                 filterChip("Öffentlich", systemImage: "globe", isOn: $showPublicCloudRecipes)
             }
             .padding(.horizontal, 12)
@@ -378,16 +387,11 @@ struct AllRecipesListView: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 5) {
-                        // Marks a recipe only its author can see.
-                        if r.visibility == .authorOnly {
-                            Image(systemName: "lock.fill")
-                                .font(Theme.bodyFont(12))
-                                .foregroundColor(Theme.subtitle)
-                        } else {
-                            Image(systemName: "globe")
-                                .font(Theme.bodyFont(12))
-                                .foregroundColor(Theme.subtitle)
-                        }
+                        // The same symbols as the chips, so a row shows
+                        // which chip it answers to.
+                        Image(systemName: isOwnPublished(r) ? "person.crop.circle" : "globe")
+                            .font(Theme.bodyFont(12))
+                            .foregroundColor(Theme.subtitle)
 
                         Text(r.name)
                             .font(Theme.brandFont(16))
@@ -416,12 +420,12 @@ struct AllRecipesListView: View {
             // displayed name may already be a cached translation by the
             // time a UI test looks for a specific recipe.
             .accessibilityIdentifier("publicRecipe.row.\(r.id ?? "")")
-            .accessibilityLabel(r.visibility == .authorOnly
-                                ? Text("\(r.name), privates Rezept, Bewertung \(r.rating) von 5 Sternen")
+            .accessibilityLabel(isOwnPublished(r)
+                                ? Text("\(r.name), von Dir veröffentlicht, Bewertung \(r.rating) von 5 Sternen")
                                 : Text("\(r.name), Bewertung \(r.rating) von 5 Sternen"))
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            if modelFB.isAdmin && r.visibility == .everyone {
+            if modelFB.isAdmin {
                 Button(role: .destructive) {
                     adminDeleteCandidate = r
                 } label: {
