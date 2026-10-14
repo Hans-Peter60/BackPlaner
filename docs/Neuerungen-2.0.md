@@ -40,6 +40,7 @@ REZEPTE
 VERBESSERUNGEN UND FEHLERBEHEBUNGEN
 • In Zahlenfeldern lässt sich wieder jede Ziffer löschen.
 • Die Zutatenlisten der geplanten Schritte und des Backmodus zeigen die Mengen in der Portionsgröße, mit der geplant wurde – wie die Erinnerungen.
+• Wird ein Schritt mitsamt den nachfolgenden verschoben, wandert auch „Backvorgang ist beendet“ mit, selbst wenn es auf dieselbe Minute wie der verschobene Schritt fällt.
 • Weit entfernte wiederkehrende Schritte erscheinen auch nicht mehr im Widget, in der Live-Aktivität und im Backmodus.
 • Bessere Lesbarkeit der Live-Aktivität auf dem Sperrbildschirm.
 
@@ -83,6 +84,7 @@ TRANSLATION
 IMPROVEMENTS AND FIXES
 • Every digit in a number field can be deleted again.
 • The ingredient lists of the planned steps and of the bake mode show the amounts at the serving size the plan was made with – like the reminders.
+• Shifting a step together with the following ones now moves "Baking is finished" as well, even when it falls on the same minute as the shifted step.
 • Recurring steps far in the future no longer show up in the widget, the Live Activity or Bake Mode either.
 • Better legibility of the Live Activity on the lock screen.
 
@@ -126,6 +128,7 @@ TRADUCTION
 AMÉLIORATIONS ET CORRECTIONS
 • Dans les champs numériques, chaque chiffre peut à nouveau être effacé.
 • Les listes d’ingrédients des étapes planifiées et du mode cuisson indiquent les quantités à la taille de portion avec laquelle le plan a été défini – comme les rappels.
+• Décaler une étape avec les suivantes déplace désormais aussi « La cuisson est terminée », même si elle tombe à la même minute que l’étape décalée.
 • Les étapes récurrentes lointaines n’apparaissent plus non plus dans le widget, l’activité en direct et le mode cuisson.
 • Meilleure lisibilité de l’activité en direct sur l’écran verrouillé.
 

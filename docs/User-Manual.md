@@ -536,7 +536,7 @@ The app recognises such a mixing step by the name of a recipe component occurrin
 
 1. Enter minutes (1440 at most, that is 24 hours).
 2. Choose a direction: **Earlier** or **Later**.
-3. Choose a scope: **This step only** or **All following steps** (every later step of the same recipe moves by the same amount).
+3. Choose a scope: **This step only** or **All following steps** (every later step of the same plan moves by the same amount, including "Baking is finished" and steps that begin at the same minute but come after it in the order).
 4. **Apply**.
 
 The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".
