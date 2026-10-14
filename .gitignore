@@ -53,3 +53,6 @@ Icon Backups/
 # Zig Megabyte, die nach der Freigabe niemand mehr braucht – die Store-
 # Screenshots unter docs/appstore/<geraet>/ bleiben dagegen getrackt.
 docs/appstore/Build */
+
+# App-Vorschau-Rohvideos (scripts/appstore-previews.sh): groß, werden in iMovie geschnitten
+docs/appstore/*/preview/

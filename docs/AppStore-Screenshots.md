@@ -42,6 +42,24 @@ Nur eine Sprache: `LANGS="fr" scripts/appstore-screenshots.sh`. Andere Versionsn
 
 In einem normalen Testlauf (⌘U, Xcode Cloud) überspringt sich der Screenshot-Test selbst.
 
+## App-Vorschauen (Videos)
+
+Die Rohvideos für die App-Vorschauen entstehen auf demselben Weg:
+
+```sh
+scripts/appstore-previews.sh
+```
+
+Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den Simulator-Bildschirm aufnimmt; vorher löscht er die geplanten Schritte früherer Läufe, damit die Plan-Szene einen frischen Plan zeigt. Jedes Rohvideo beginnt auf dem Home-Bildschirm und enthält hinten rund 15 Sekunden Leerlauf, beides wird im Schnitt entfernt. Ergebnis: `docs/appstore/2.0/preview/<gerät>/<sprache>/1-plan.mov`, `2-calculators.mov`, `3-shopping.mov` (git-ignoriert). Eine Szene allein: `SCENES=plan LANGS=de DEVICES=iphone scripts/appstore-previews.sh`.
+
+| Szene | Inhalt | Einblendungen (Vorschlag) |
+|---|---|---|
+| 1 plan | Rezept → „Rezept backen“ → „Fertig bis“ → Erinnerungen setzen → Karte „Als Nächstes“ → Timeline → Backmodus | „Wann soll das Brot fertig sein?“ · „BakePlanner rechnet rückwärts“ · „Erinnerungen für jeden Schritt“ · „In der Küche: ein Schritt, große Schrift“ |
+| 2 calculators | Portionsgröße ×2 → Mehl ersetzen → Anstellgut-TA 220 → Teigtemperatur | „Doppelte Menge, ein Tipp“ · „Mehl tauschen, Wasser folgt“ · „Dein Anstellgut, Deine TA“ |
+| 3 shopping | Neues Rezept mit Import → Einkaufsliste nach Regalen → öffentliches Rezept in anderer Sprache | „Aus dem Netz oder vom Foto“ · „Einkaufsliste nach Regalen“ · „Öffentliche Rezepte in Deiner Sprache“ |
+
+Schnitt und Export in **iMovie**, Projektart „App-Vorschau“: Clip importieren, Anfang (App-Start) und Ende trimmen, Titel setzen, exportieren – iMovie liefert die Maße, die App Store Connect annimmt. Vorgaben: 15–30 Sekunden, Hochformat, 30 fps, bis zu drei Vorschauen je Gerätegröße; die Vorschau läuft in der Suche stumm an, Ton ist optional. Posterbild in App Store Connect wählen, am besten die Timeline. Für das iPad genügt Szene 1.
+
 ## Hochladen
 
 App Store Connect → BakePlanner → Version → je Sprache oben rechts umschalten → **iPhone 6,9"-Display** bzw. **iPad 13"-Display** → die Bilder des passenden Ordners hineinziehen. Die Reihenfolge ergibt sich aus den Nummern im Dateinamen.
