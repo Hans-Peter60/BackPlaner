@@ -10,7 +10,7 @@ Stand: 13.10.2026 · App-Version 2.0
 2. [Systemvoraussetzungen](#2-systemvoraussetzungen)
 3. [Grundbegriffe](#3-grundbegriffe)
 4. [Das Hauptmenü](#4-das-hauptmenü)
-5. [Rezept-Datenbank (öffentliche und private Cloud-Rezepte)](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)
+5. [Rezept-Datenbank](#5-rezept-datenbank)
 6. [Eigene Rezepte](#6-eigene-rezepte)
 7. [Backanleitung und Erinnerungen](#7-backanleitung-und-erinnerungen)
 8. [Neues Rezept anlegen](#8-neues-rezept-anlegen)
@@ -36,7 +36,7 @@ BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unte
 - Du kannst rückwärts planen: „Das Brot soll um 18:00 Uhr fertig sein“ – die App sagt Dir, wann Du den Sauerteig ansetzen musst.
 - Für jeden Schritt wird eine **lokale Erinnerung** gesetzt, inklusive automatisch eingefügtem Schritt „Backofen anstellen“ und „Backvorgang ist beendet“.
 
-Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, private Rezepte in der Cloud, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) sowie eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe.
+Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) sowie eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe.
 
 ### Schnellstart: In fünf Schritten zum ersten Backplan
 
@@ -62,7 +62,7 @@ Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlich
 | Internet | Für die öffentliche Rezept-Datenbank und die iCloud-Synchronisierung. Eigene Rezepte, Planung und Erinnerungen funktionieren auch vollständig offline; Änderungen werden später abgeglichen. |
 | iCloud | Eigene Rezepte, geplante Schritte, Einkaufslisten und Backhistorien werden über iCloud zwischen allen Geräten mit demselben Apple-Account synchronisiert, sofern iCloud aktiviert ist. Die Erinnerungen selbst sind pro Gerät lokal. |
 | Berechtigungen | Mitteilungen (für Erinnerungen), Fotomediathek und Kamera (für Rezeptbilder) |
-| Anmeldung | Für das Backen, die eigenen Rezepte und die öffentliche Datenbank **nicht** nötig. Nur wer Rezepte **privat in der Cloud** ablegen will, meldet sich mit Apple an (siehe [Kapitel 14](#14-einstellungen)). |
+| Anmeldung | Für das Backen, die eigenen Rezepte und die öffentliche Datenbank **nicht** nötig. Freiwillig ist die Anmeldung mit Apple: Mit ihr gilt die Autorschaft Deiner veröffentlichten Rezepte auf allen Deinen Geräten (siehe [Kapitel 14](#14-einstellungen)). |
 
 Die App fragt die Erlaubnis für Mitteilungen beim ersten Start ab. Ohne diese Erlaubnis werden Backschritte weiterhin berechnet und in der Liste „Geplante Schritte“ angezeigt, es erscheinen aber **keine Erinnerungen**.
 
@@ -93,15 +93,14 @@ Beispiel: Wenn Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig ansetzt, g
 Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht. Statt eines Faktors kannst Du ein **Teiggewicht** in Gramm eingeben. Die Wahl gilt für alle Tabs des geöffneten Rezepts: Details, Backen und Einkaufsliste rechnen mit demselben Faktor (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 
 **Ablage**
-Wo ein Rezept liegt. Es gibt drei Möglichkeiten, und die Wahl entscheidet, wer das Rezept sehen kann:
+Wo ein Rezept liegt. Es gibt zwei Möglichkeiten, und der Schalter **Veröffentlichen** beim Speichern entscheidet, wer das Rezept sehen kann:
 
 | Ablage | Wer sieht es? | Wo liegt es? | Änderbar? |
 |--------|---------------|--------------|-----------|
-| **Nur auf dem Gerät** | nur Du | auf dem Gerät, gesichert über Deine iCloud | ja, jederzeit |
-| **Privat in der Cloud** | nur Du | in der Rezept-Datenbank, aber für andere gesperrt | nein |
-| **Öffentlich für alle** | alle Nutzer der App | in der Rezept-Datenbank | nein |
+| **Nur auf dem Gerät** (Schalter aus) | nur Du | auf dem Gerät, gesichert über Deine iCloud | ja, jederzeit |
+| **Öffentlich für alle** (Schalter an) | alle Nutzer der App | in der Rezept-Datenbank | ja, durch Dich als Autor |
 
-„Privat in der Cloud“ ist für Rezepte gedacht, die Du **nicht veröffentlichen darfst** – etwa aus einem Buch –, aber trotzdem nicht nur auf dem Gerät haben willst. Dafür ist eine Anmeldung mit Apple nötig, weil das Rezept an Dein Konto gebunden wird; ohne Konto wäre es nach einer Neuinstallation nicht mehr erreichbar.
+Ein Rezept, das Du **nicht veröffentlichen darfst** – etwa aus einem Buch –, bleibt auf dem Gerät. Über iCloud ist es trotzdem auf allen Deinen Geräten vorhanden, und mit der Sicherung (siehe [Kapitel 14](#14-einstellungen)) lässt es sich als Datei exportieren.
 
 ---
 
@@ -115,7 +114,7 @@ Nach dem Start erscheint das Hauptmenü mit zehn Karten:
 
 | Karte | Zweck |
 |-------|-------|
-| **Rezept-Datenbank** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, Deine privaten Cloud-Rezepte und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Eigene / Öffentlich** |
+| **Rezept-Datenbank** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, die von Dir veröffentlichten und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Von mir veröffentlicht / Öffentlich** |
 | **Neues Rezept anlegen** | Rezept von Grund auf erstellen oder aus Fotos bzw. von einer Internetseite importieren |
 | **Geplante Schritte** | Alle terminierten Backschritte als Liste oder Timeline |
 | **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos |
@@ -132,11 +131,11 @@ Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmen
 
 ---
 
-## 5. Rezept-Datenbank (öffentliche und private Cloud-Rezepte)
+## 5. Rezept-Datenbank
 
-Die Rezept-Datenbank ist seit Version 2.0 **eine Liste für alle Rezepte**: die öffentlichen, die Du oder andere Nutzer geteilt haben, Deine eigenen Rezepte auf dem Gerät (siehe [Kapitel 6](#6-eigene-rezepte)) und Deine privaten Cloud-Rezepte. Alphabetisch sortiert, mit drei Filter-Chips unter dem Suchfeld – **Lokal**, **Eigene**, **Öffentlich** –, die sich einzeln ein- und ausschalten lassen und ihre Stellung behalten.
+Die Rezept-Datenbank ist seit Version 2.0 **eine Liste für alle Rezepte**: die öffentlichen, die Du oder andere Nutzer geteilt haben, und Deine eigenen Rezepte auf dem Gerät (siehe [Kapitel 6](#6-eigene-rezepte)). Alphabetisch sortiert, mit drei Filter-Chips unter dem Suchfeld – **Lokal**, **Von mir veröffentlicht**, **Öffentlich** –, die sich einzeln ein- und ausschalten lassen und ihre Stellung behalten.
 
-Bist Du mit Apple angemeldet, stehen in derselben Liste zusätzlich **Deine privaten Cloud-Rezepte**. Sie sind mit einem **Schloss-Symbol** vor dem Namen gekennzeichnet und für andere Nutzer nicht sichtbar. Meldest Du Dich ab, verschwinden sie aus der Liste – gelöscht sind sie damit nicht, sie kommen bei der nächsten Anmeldung mit demselben Apple-Konto wieder.
+Vor jedem Namen steht ein Symbol für die Quelle: ein iPhone für Rezepte auf dem Gerät, ein Personen-Symbol für die von Dir veröffentlichten und ein Globus für die öffentlichen Rezepte der anderen Nutzer. Schaltest Du **Öffentlich** aus, bleibt neben Deinen lokalen Rezepten die Liste dessen, was Du selbst veröffentlicht hast.
 
 ![Liste der öffentlichen Rezepte mit Suche und Filter](images/oeffentliche-rezepte.png)
 
@@ -146,7 +145,7 @@ Bist Du mit Apple angemeldet, stehen in derselben Liste zusätzlich **Deine priv
 
 - **Suchfeld** oben: durchsucht Rezeptnamen.
 - **Suchbereich umschalten**: Unter dem Suchfeld kannst Du zwischen **Name** und **Tags** wählen. Bei „Tags“ wird in den Schlagworten gesucht (z. B. „Roggen“, „Vollkorn“, „Sauerteig“).
-- **Filter-Chips** unter dem Suchfeld: **Lokal** (Rezepte auf dem Gerät), **Eigene** (Deine privaten und von Dir veröffentlichten Cloud-Rezepte) und **Öffentlich** (Rezepte aller Nutzer). Jeder Chip schaltet seine Quelle einzeln ein oder aus.
+- **Filter-Chips** unter dem Suchfeld: **Lokal** (Rezepte auf dem Gerät), **Von mir veröffentlicht** (Deine eigenen Rezepte in der Datenbank) und **Öffentlich** (die Rezepte der anderen Nutzer). Jeder Chip schaltet seine Quelle einzeln ein oder aus; ein öffentliches Rezept gehört immer genau zu einem der beiden Cloud-Chips.
 - **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr). Ist der Filter aktiv, wird das Symbol gefüllt dargestellt.
 - **Nach unten ziehen** aktualisiert die Liste aus der Cloud.
 
@@ -181,17 +180,9 @@ Im Tab **Rezept backen** gibt es die Schaltfläche **„Als eigenes Rezept speic
 
 Die App bestätigt das mit **„Rezept wurde gespeichert“** und dem Hinweis, dass Du die Kopie bearbeiten kannst, ohne das öffentliche Rezept zu verändern. Schlägt das Speichern fehl, erscheint stattdessen eine Fehlermeldung – ein stilles Verschwinden gibt es nicht.
 
-### Ein privates Rezept veröffentlichen
-
-Bei Deinen **privaten** Cloud-Rezepten steht im Tab **Rezept backen** zusätzlich **„Als öffentliches Rezept speichern“**. Damit machst Du das Rezept für alle Nutzer sichtbar. Vorher erscheint die Rückfrage, dass nur Rezepte ohne Urheberrechtsverletzung veröffentlicht werden dürfen; beim ersten Mal musst Du die Nutzungsbedingungen akzeptieren.
-
-**Deine private Fassung bleibt dabei erhalten** – das Rezept liegt danach zweimal in der Liste, einmal mit Schloss. Willst Du das nicht, lösche die private Fassung anschließend über „…“ → **Mein Rezept löschen**.
-
-Bei Rezepten, die schon öffentlich sind, erscheint die Schaltfläche nicht.
-
 ### Ein eigenes Rezept bearbeiten
 
-Rezepte, die von *Deinem* Konto stammen – private wie öffentliche –, kannst Du direkt in der Rezept-Datenbank ändern: Menü **„…“** oben rechts → **„Rezept bearbeiten“**. Das Formular entspricht dem Erfassen eines Rezepts: Bild, Name, Beschreibung, Link, Tags, Komponenten mit Zutaten und Verarbeitungsschritte. Komponenten, Zutaten, Tags und Schritte lassen sich hinzufügen und löschen. **Speichern** schreibt die Änderungen in die Datenbank, **Abbrechen** verwirft sie; bis dahin bleibt das angezeigte Rezept unverändert.
+Rezepte, die von *Deinem* Konto stammen, kannst Du direkt in der Rezept-Datenbank ändern: Menü **„…“** oben rechts → **„Rezept bearbeiten“**. Das Formular entspricht dem Erfassen eines Rezepts: Bild, Name, Beschreibung, Link, Tags, Komponenten mit Zutaten und Verarbeitungsschritte. Komponenten, Zutaten, Tags und Schritte lassen sich hinzufügen und löschen. **Speichern** schreibt die Änderungen in die Datenbank, **Abbrechen** verwirft sie; bis dahin bleibt das angezeigte Rezept unverändert.
 
 Dabei gilt:
 
@@ -211,13 +202,12 @@ Bei Rezepten anderer Autoren erscheint der Eintrag nicht – außer für Adminis
 - **Rezept bearbeiten** – erscheint nur bei Rezepten, die von *Deinem* Konto stammen (siehe oben).
 - **Mein Rezept löschen** – erscheint ebenfalls nur bei Deinen eigenen Rezepten. Das Rezept wird endgültig aus der Datenbank entfernt.
 
-Bei **privaten** Rezepten fehlen „Rezept melden“ und „Autor blockieren“ – es sieht sie ohnehin niemand außer Dir. Nur „Rezept bearbeiten“ und „Mein Rezept löschen“ stehen dort.
 
 Die beiden unterscheiden sich also in der Reichweite: **Blockieren wirkt lokal, Melden wirkt für alle.** Beides lässt sich zurücknehmen – unter *Einstellungen → Moderation* (siehe [Kapitel 14](#14-einstellungen)).
 
 ### Administrator-Funktion
 
-Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Über **„Rezept bearbeiten“** im selben Menü kannst Du ein öffentliches Rezept auch korrigieren – etwa einen Tippfehler oder eine falsche Mengenangabe –, ohne es zu löschen. Auf **private** Rezepte anderer Nutzer hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
+Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), kannst Du jedes öffentliche Rezept entfernen – gedacht für die Moderation gemeldeter Inhalte. Dafür gibt es drei Wege: den Eintrag **„Rezept löschen (Admin)“** im ⋯-Menü des Rezepts, die gleichnamige Schaltfläche unten im Tab **Details**, und in der Rezept-Datenbank ein Wischen nach links über die Zeile. Jeder Weg fragt vor dem Löschen nach; in der Liste nennt die Rückfrage den Rezeptnamen. Mit dem Rezept verschwindet auch sein Bild aus dem Speicher. Über **„Rezept bearbeiten“** im selben Menü kannst Du ein öffentliches Rezept auch korrigieren – etwa einen Tippfehler oder eine falsche Mengenangabe –, ohne es zu löschen. Auf die Rezepte, die andere Nutzer auf ihren Geräten haben, hat ein Administrator keinen Zugriff; sie sind nicht geteilt und damit auch kein Fall für die Moderation.
 
 **Gemeldete Rezepte** bleiben für Administratoren in der Liste sichtbar, während sie für alle anderen ausgeblendet sind. Unten im Tab **Details** steht dann „Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.“ Ist die Meldung berechtigt, löschst Du das Rezept. Ist sie es nicht, macht **„Rezept wieder freigeben“** es sofort wieder für alle sichtbar.
 
@@ -225,7 +215,7 @@ Bist Du als Administrator angemeldet (siehe [Kapitel 14](#14-einstellungen)), ka
 
 ## 6. Eigene Rezepte
 
-Eigene Rezepte sind die Rezepte auf Deinem Gerät: selbst angelegte, importierte und aus der Datenbank übernommene. Du findest sie unter **Hauptmenü → Rezept-Datenbank** mit dem Filter-Chip **Lokal** (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)); schaltest Du die Chips **Eigene** und **Öffentlich** aus, bleibt die reine Liste Deiner eigenen Rezepte.
+Eigene Rezepte sind die Rezepte auf Deinem Gerät: selbst angelegte, importierte und aus der Datenbank übernommene. Du findest sie unter **Hauptmenü → Rezept-Datenbank** mit dem Filter-Chip **Lokal** (siehe [Kapitel 5](#5-rezept-datenbank)); schaltest Du die Chips **Von mir veröffentlicht** und **Öffentlich** aus, bleibt die reine Liste Deiner eigenen Rezepte.
 
 ![Liste der eigenen Rezepte mit Bild, Name und Tags](images/eigene-rezepte.png)
 
@@ -363,7 +353,7 @@ Die Texte „Backofen anstellen“, „Backofen zurückdrehen“ und „Backvorg
 
 Über **Hauptmenü → Neues Rezept anlegen**. Das Formular ist von oben nach unten aufgebaut.
 
-![Formular zum Anlegen eines neuen Rezepts: Import aus Bildern oder von einer Internetseite, Ablage Lokal/Privat/Öffentlich, Rezeptbild](images/neues-rezept.png)
+![Formular zum Anlegen eines neuen Rezepts: Import aus Bildern oder von einer Internetseite, Schalter Veröffentlichen, Rezeptbild](images/neues-rezept.png)
 
 *Im Rezeptformular kannst Du ein Rezept aus Bildern oder von einer Internetseite importieren oder alle Angaben manuell erfassen.*
 
@@ -419,17 +409,16 @@ Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest Bake
 
 **Was nicht geht:** Seiten mit Anmeldung, Bezahlschranke oder reinem Cookie-Hinweis liefern keinen lesbaren Text, und manche Seiten sperren den Abruf durch Apps. Dann meldet BakePlanner „Import nicht möglich“ mit dem Grund. In solchen Fällen hilft der Bild-Import über einen Screenshot der Seite.
 
-> **Urheberrecht:** Für den eigenen Gebrauch darfst Du jedes Rezept importieren. Die Ablage steht deshalb zunächst auf „Lokal“. Veröffentliche fremde Rezepte nur mit Erlaubnis der Urheber.
+> **Urheberrecht:** Für den eigenen Gebrauch darfst Du jedes Rezept importieren. Der Schalter „Veröffentlichen“ ist deshalb zunächst aus. Veröffentliche fremde Rezepte nur mit Erlaubnis der Urheber.
 
-### Ablage: lokal, privat in der Cloud oder öffentlich
+### Ablage: auf dem Gerät oder veröffentlicht
 
-Im Abschnitt **Speichern** wählst Du zwischen drei Ablagen (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Unter der Auswahl steht jeweils ein Satz, was sie bedeutet. Die Vorbelegung kommt aus den Einstellungen (Standard-Ablage).
+Im Abschnitt **Speichern** steht der Schalter **Veröffentlichen** (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Darunter steht jeweils ein Satz, was die Stellung bedeutet. Die Vorbelegung kommt aus den Einstellungen (*Neue Rezepte veröffentlichen*).
 
-- **Lokal** – das Rezept bleibt auf dem Gerät, wird über Deine iCloud gesichert und ist jederzeit änderbar.
-- **Privat** – das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Dafür ist eine **Anmeldung mit Apple** nötig; bist Du nicht angemeldet, erscheint zuerst das Blatt „Anmeldung erforderlich“ und danach läuft das Speichern weiter. Vorher fragt die App „Privat in der Cloud speichern?“ – bearbeiten oder löschen kannst Du das Rezept später in der Rezept-Datenbank.
-- **Öffentlich** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint die Rückfrage **„Rezept veröffentlichen?“** mit dem Hinweis, dass Du es als Autor später in der Rezept-Datenbank bearbeiten oder löschen kannst. Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)). Für private Rezepte werden sie nicht verlangt – Du teilst ja nichts.
+- **Schalter aus** – das Rezept bleibt auf dem Gerät, wird über Deine iCloud gesichert und ist jederzeit änderbar.
+- **Schalter an** – das Rezept wird für alle Nutzer sichtbar. Vorher erscheint die Rückfrage **„Rezept veröffentlichen?“** mit dem Hinweis, dass Du es als Autor später in der Rezept-Datenbank bearbeiten oder löschen kannst. Beim ersten Mal musst Du außerdem die Nutzungsbedingungen akzeptieren (siehe [Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)).
 
-Beim Import aus Bildern oder von einer Internetseite ist die Ablage zunächst immer auf „Lokal“ gesetzt. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Auswahl mit.
+Beim Import aus Bildern oder von einer Internetseite ist der Schalter zunächst immer aus. Das Symbol auf der Schaltfläche „Rezept speichern“ wechselt mit der Stellung mit.
 
 ### Rezeptbild
 
@@ -512,16 +501,15 @@ Rezepte mit diesem Schalter bekommen den zusätzlichen Tab **Fütterung**: das *
 
 ### Manuell speichern
 
-Im Abschnitt **Speichern** stehen drei Schaltflächen – dieselben drei Ablagen wie beim Anlegen. Oben rechts in der Navigationsleiste findest Du sie außerdem im Menü hinter dem Speichern-Symbol.
+Im Abschnitt **Speichern** stehen zwei Schaltflächen. Oben rechts in der Navigationsleiste findest Du sie außerdem im Menü hinter dem Speichern-Symbol.
 
 - **Lokal** – speichert alles inklusive Bild, berechnet das Gesamtgewicht neu und bestätigt mit „Rezept wurde gespeichert“.
-- **Privat** – legt das Rezept privat in der Rezept-Datenbank ab; nötig ist dafür eine Anmeldung mit Apple. Nur für Dich sichtbar; bearbeiten kannst Du es später in der Rezept-Datenbank.
-- **Öffentlich** – lädt das Rezept für alle Nutzer sichtbar hoch. Die Rückfrage „Rezept veröffentlichen?“ erscheint auch hier.
+- **Öffentlich** – lädt eine Kopie des Rezepts für alle Nutzer sichtbar hoch. Die Rückfrage „Rezept veröffentlichen?“ erscheint auch hier.
 - **Löschen** (oben links) – leert die Rezeptinhalte.
 
-Nach einem erfolgreichen Upload sind **beide Cloud-Schaltflächen deaktiviert**, weil das Rezept jetzt eine Kopie in der Datenbank besitzt – ein Rezept kann nur einmal hochgeladen werden, privat *oder* öffentlich.
+Nach einem erfolgreichen Upload ist **„Öffentlich“ deaktiviert**, weil das Rezept jetzt eine Kopie in der Datenbank besitzt – ein Rezept wird nur einmal veröffentlicht; Änderungen machst Du danach in der Rezept-Datenbank (siehe [Kapitel 5](#5-rezept-datenbank)).
 
-Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt die App das beim nächsten Öffnen und gibt die Schaltflächen wieder frei. Das setzt voraus, dass Du angemeldet bist – abgemeldet kann die App nicht prüfen, ob noch eine private Kopie existiert, und lässt die Schaltflächen vorsichtshalber gesperrt.
+Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt die App das beim nächsten Öffnen und gibt die Schaltfläche wieder frei.
 
 ---
 
@@ -683,7 +671,7 @@ Bestätigt wird mit „Zutaten wurden auf die Einkaufsliste gesetzt“, bei eine
 
 ### Die Liste spricht Deine Sprache
 
-Die Zutatennamen stehen auf der Liste **immer in der App-Sprache**, auch wenn das Rezept englisch oder französisch ist. Bei öffentlichen Rezepten nimmt die App die bereits vorhandene Übersetzung; sonst übersetzt sie die Namen beim Erstellen auf dem Gerät – kurz erscheint „Zutatennamen werden übersetzt …“. Dabei gilt das Glossar der Bäckerbegriffe (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Gelingt die Übersetzung nicht, etwa ohne Sprachpaket und ohne Netz, kommen die Namen in der Rezeptsprache auf die Liste, und die Bestätigung sagt das. So lassen sich auch Zutaten aus einem deutschen und einem englischen Rezept auf einer Liste zusammenführen.
+Die Zutatennamen stehen auf der Liste **immer in der App-Sprache**, auch wenn das Rezept englisch oder französisch ist. Bei öffentlichen Rezepten nimmt die App die bereits vorhandene Übersetzung; sonst übersetzt sie die Namen beim Erstellen auf dem Gerät – kurz erscheint „Zutatennamen werden übersetzt …“. Dabei gilt das Glossar der Bäckerbegriffe (siehe [Kapitel 5](#5-rezept-datenbank)). Gelingt die Übersetzung nicht, etwa ohne Sprachpaket und ohne Netz, kommen die Namen in der Rezeptsprache auf die Liste, und die Bestätigung sagt das. So lassen sich auch Zutaten aus einem deutschen und einem englischen Rezept auf einer Liste zusammenführen.
 
 ### Was auf die Liste kommt – und was nicht
 
@@ -707,7 +695,7 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 **Hauptmenü → Einstellungen.**
 
-![Einstellungen von BakePlanner: Allgemein mit Sprache und Standard-Ablage, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
+![Einstellungen von BakePlanner: Allgemein mit Sprache und dem Schalter „Neue Rezepte veröffentlichen“, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 
@@ -716,7 +704,7 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 | Einstellung | Beschreibung |
 |-------------|--------------|
 | **Sprache** | Systemsprache, Deutsch, Englisch oder Französisch. Wirkt auf die Oberfläche sowie auf Datums- und Zeitformate. |
-| **Standard-Ablage** | Vorbelegung für neue Rezepte: **Nur auf dem Gerät**, **Privat in der Cloud** oder **Öffentlich für alle**. Standard: Nur auf dem Gerät. |
+| **Neue Rezepte veröffentlichen** | Vorbelegung des Schalters **Veröffentlichen** beim Anlegen eines Rezepts. Standard: aus – neue Rezepte bleiben auf dem Gerät. |
 
 ### Rezepte
 
@@ -743,7 +731,7 @@ Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportiere
 
 | Einstellung | Beschreibung |
 |-------------|--------------|
-| **Öffentliche Rezepte automatisch übersetzen** | Betrifft nur die Rezept-Datenbank. Ein: Rezepte werden automatisch in Deine App-Sprache übersetzt, das Globus-Symbol entfällt. Aus: ein Rezept zeigt zunächst die Sprache, in der es geschrieben wurde, und Du wählst die Sprache selbst über das Globus-Symbol (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Standard: ein. |
+| **Öffentliche Rezepte automatisch übersetzen** | Betrifft nur die Rezept-Datenbank. Ein: Rezepte werden automatisch in Deine App-Sprache übersetzt, das Globus-Symbol entfällt. Aus: ein Rezept zeigt zunächst die Sprache, in der es geschrieben wurde, und Du wählst die Sprache selbst über das Globus-Symbol (siehe [Kapitel 5](#5-rezept-datenbank)). Standard: ein. |
 
 ### Backplanung
 
@@ -772,9 +760,9 @@ Die Seite **Datenschutz bei KI** erklärt, welche Daten eine Cloud-Analyse über
 
 ### Konto
 
-Hier meldest Du Dich mit Apple an. Die Anmeldung erfüllt zwei Zwecke:
+Hier meldest Du Dich mit Apple an. Die Anmeldung ist **freiwillig** und erfüllt zwei Zwecke:
 
-- **Private Cloud-Rezepte.** Sie werden an Dein Apple-Konto gebunden. Nur so bleiben sie nach einer Neuinstallation oder auf einem zweiten Gerät erreichbar – eine anonyme Kennung geht mit der App verloren.
+- **Autorenkennung.** Ohne Anmeldung gehören Deine veröffentlichten Rezepte der anonymen Kennung dieser Installation – sie geht mit der App verloren und ist auf einem zweiten Gerät eine andere. Mit der Anmeldung gehören sie Deinem Apple-Konto: Du kannst sie auf jedem Gerät, auf dem Du angemeldet bist, bearbeiten und löschen, auch nach einer Neuinstallation.
 - **Moderationsrechte.** Ist Deine Kennung dafür freigeschaltet, erscheint zusätzlich der Hinweis **Administrator**, und öffentliche Rezepte lassen sich löschen – über das ⋯-Menü, den Tab Details oder ein Wischen in der Rezept-Datenbank.
 
 Es werden **weder Name noch E-Mail-Adresse abgefragt** – die App braucht nur die Kennung selbst. War Deine bisherige Nutzung anonym, bleibt sie beim Anmelden erhalten: bereits von diesem Gerät veröffentlichte Rezepte gehören danach weiter Dir.
@@ -782,13 +770,12 @@ Es werden **weder Name noch E-Mail-Adresse abgefragt** – die App braucht nur d
 | Schaltfläche | Wirkung |
 |--------------|---------|
 | **Mit Apple anmelden** | Erzeugt bzw. verbindet Dein Konto. |
-| **Abmelden** | Zurück zur anonymen Nutzung. Private Cloud-Rezepte verschwinden aus der Liste, bleiben aber gespeichert und sind nach der nächsten Anmeldung wieder da. Die App bestätigt mit **„Du bist abgemeldet“**; eine erneute Anmeldung zur Bestätigung verlangt sie **nicht** – die gehört allein zum Löschen des Kontos. |
+| **Abmelden** | Zurück zur anonymen Nutzung. Die unter dem Konto veröffentlichten Rezepte bleiben in der Datenbank; bearbeiten kannst Du sie wieder, sobald Du erneut angemeldet bist. Die App bestätigt mit **„Du bist abgemeldet“**; eine erneute Anmeldung zur Bestätigung verlangt sie **nicht** – die gehört allein zum Löschen des Kontos. |
 | **Konto löschen** | Entfernt das Konto endgültig (siehe unten). |
 
 **Konto löschen** fragt zuerst nach. Danach passiert Folgendes:
 
-- Deine **privaten** Cloud-Rezepte werden mit ihren Bildern gelöscht.
-- Die Anmeldung wird aufgehoben; die App läuft anonym weiter.
+- Die Anmeldung wird aufgehoben und das Konto gelöscht; die App läuft anonym weiter.
 - **Veröffentlichte Rezepte bleiben** für alle Nutzer sichtbar. Sie gehören danach keinem Konto mehr, Du kannst sie also selbst nicht mehr löschen – tu das vorher, wenn Du sie nicht in der Datenbank lassen willst.
 - **Rezepte auf dem Gerät bleiben erhalten.** Sie gehören dem Gerät und Deiner iCloud, nicht dem Konto.
 
@@ -961,11 +948,10 @@ Die Portionsgröße wirkt auf Gesamtzutaten, Komponenten-Zutatenlisten und das a
 ### Wo Deine Daten liegen
 
 - **Eigene Rezepte, geplante Schritte, Einkaufslisten und Backhistorien** liegen auf dem Gerät und in Deiner privaten iCloud-Datenbank. Sie sind nur für Dich und Deine eigenen Geräte sichtbar, nicht für andere Nutzer der App.
-- **Öffentliche Rezepte** liegen in der gemeinsamen Cloud-Datenbank und sind für alle Nutzer der App sichtbar.
-- **Private Cloud-Rezepte** liegen ebenfalls in der Cloud, aber in einem getrennten Bereich, den nur ihr Autor lesen darf – das wird serverseitig erzwungen, nicht bloß in der App ausgeblendet. Auch die Bilder liegen getrennt und sind nur für Dich abrufbar.
+- **Öffentliche Rezepte** liegen in der gemeinsamen Cloud-Datenbank und sind für alle Nutzer der App sichtbar. Andere Rezepte liegen nicht in der Cloud.
 - **Übersetzungen** entstehen auf dem Gerät.
 - **Rezeptimport:** Mit „Nur auf diesem Gerät“ bleiben Bilder und Seitentext auf dem Gerät. Nur wenn Du der **geschützten Cloud-KI** zugestimmt hast, gehen die gewählten Bilder bzw. der Rezepttext und die Adresse einer Internetseite verschlüsselt über eine Firebase-Funktion von BackPlaner (Region europe-west1) an Google Vertex AI (Gemini, Standort EU). Dort werden sie nur für den Rezeptentwurf verarbeitet und nicht gespeichert. Gespeichert bleibt allein ein Zähler für die stündliche Nutzungsbegrenzung mit Deiner pseudonymen Kennung. Widerrufen kannst Du die Einwilligung unter *Einstellungen → Datenschutz & KI*.
-- Die App verwendet eine anonyme Kennung, damit Du eigene öffentliche Rezepte löschen kannst und andere Nutzer Autoren blockieren können. Ein Benutzerkonto ist für das Backen nicht erforderlich. Eine Anmeldung mit Apple brauchst Du nur für private Cloud-Rezepte und für Moderationsrechte; dabei werden weder Name noch E-Mail-Adresse abgefragt.
+- Die App verwendet eine anonyme Kennung, damit Du eigene öffentliche Rezepte löschen kannst und andere Nutzer Autoren blockieren können. Ein Benutzerkonto ist für das Backen nicht erforderlich. Die Anmeldung mit Apple ist freiwillig – sie macht Dein Apple-Konto zum Autor Deiner veröffentlichten Rezepte und schaltet Moderationsrechte frei; dabei werden weder Name noch E-Mail-Adresse abgefragt.
 - **Dein Konto kannst Du jederzeit selbst löschen** – Einstellungen → Konto → „Konto löschen“. Details in [Kapitel 14](#14-einstellungen).
 
 ### Nutzungsbedingungen für öffentliche Rezepte
@@ -978,11 +964,11 @@ Bevor Du zum ersten Mal ein Rezept öffentlich speicherst, musst Du die Bedingun
 - Gemeldete Inhalte werden geprüft und **innerhalb von 24 Stunden** entfernt.
 - Autoren, die wiederholt verstoßen, können ausgeschlossen werden.
 
-Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt im Formular und kann privat gespeichert werden.
+Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt im Formular und kann auf dem Gerät gespeichert werden.
 
 ### Was Du gegen unerwünschte Inhalte tun kannst
 
-Über das Menü „…“ in einem öffentlichen Rezept: **Rezept melden** (mit Grund) oder **Autor blockieren**. Beides wirkt sofort – die Meldung blendet das Rezept **für alle Nutzer** aus, die Blockierung nur auf Deinem Gerät. Zurücknehmen kannst Du beides unter *Einstellungen → Moderation*. Details in [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte) und [Kapitel 14](#14-einstellungen).
+Über das Menü „…“ in einem öffentlichen Rezept: **Rezept melden** (mit Grund) oder **Autor blockieren**. Beides wirkt sofort – die Meldung blendet das Rezept **für alle Nutzer** aus, die Blockierung nur auf Deinem Gerät. Zurücknehmen kannst Du beides unter *Einstellungen → Moderation*. Details in [Kapitel 5](#5-rezept-datenbank) und [Kapitel 14](#14-einstellungen).
 
 ---
 
@@ -998,13 +984,10 @@ Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr
 Beim Start bestand keine Internetverbindung. Zieh die Liste nach unten, um erneut zu laden.
 
 **Ich habe mein Rezept in die Datenbank hochgeladen und will es korrigieren.**
-Öffne das Rezept in der Rezept-Datenbank und wähle „…“ → **Rezept bearbeiten** (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Das geht bei allen Rezepten, die von Deinem Konto stammen – privaten wie öffentlichen. Die Fassung auf dem Gerät ändert sich dabei nicht; willst Du sie angleichen, bearbeite sie getrennt unter „Eigene Rezepte“.
+Öffne das Rezept in der Rezept-Datenbank und wähle „…“ → **Rezept bearbeiten** (siehe [Kapitel 5](#5-rezept-datenbank)). Das geht bei allen Rezepten, die von Deinem Konto stammen. Die Fassung auf dem Gerät ändert sich dabei nicht; willst Du sie angleichen, bearbeite sie getrennt unter „Eigene Rezepte“.
 
-**Meine privaten Rezepte sind nicht in der Liste.**
-Sie erscheinen nur, wenn Du angemeldet bist: *Einstellungen → Konto → Mit Apple anmelden*. Achte darauf, dasselbe Apple-Konto zu verwenden wie beim Speichern – die Rezepte hängen daran. Zieh die Liste danach einmal nach unten.
-
-**„Für private Cloud-Rezepte ist eine Anmeldung mit Apple erforderlich.“**
-Du hast als Ablage „Privat“ gewählt, ohne angemeldet zu sein. Melde Dich über das erscheinende Blatt an, danach wird gespeichert. Ohne Konto wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar – deshalb lässt die App es nicht anders zu.
+**„Rezept bearbeiten“ fehlt bei einem Rezept, das ich selbst veröffentlicht habe.**
+Das Rezept gehört einer anderen Kennung – etwa der anonymen Kennung eines anderen Geräts oder einer früheren Installation. Hast Du es angemeldet veröffentlicht, melde Dich mit demselben Apple-Konto an: *Einstellungen → Konto → Mit Apple anmelden*, danach die Liste einmal nach unten ziehen.
 
 **Ich habe versehentlich zweimal „Erinnerungen setzen“ getippt.**
 Beim zweiten Tippen fragt die App, ob der neue Plan den bestehenden ersetzen oder zusätzlich angelegt werden soll. Hast Du „Zusätzlich planen“ gewählt, obwohl Du nur einen Plan wolltest, wähle in „Geplante Schritte“ den überzähligen Plan über seinen Chip aus und lösche ihn mit dem Papierkorb über „Nur ‚…‘ löschen“.
@@ -1022,7 +1005,7 @@ Wasser, Salz und alles, was man selbst ansetzt (Anstellgut, Sauerteig, Poolish, 
 Die Liste übernimmt die Portionsgröße beziehungsweise das Teiggewicht, das im Rezept eingestellt ist – der Tab „Einkaufsliste“ zeigt den Faktor oben an. Stelle ihn dort um, bevor Du die Zutaten auf die Liste setzt.
 
 **Ein Fachbegriff ist falsch übersetzt.**
-Bäckerbegriffe wie Brühstück oder Anstellgut übersetzt ein Glossar in der App (siehe [Kapitel 5](#5-rezept-datenbank-öffentliche-und-private-cloud-rezepte)). Fällt Dir trotzdem eine falsche Übersetzung auf, öffne das Rezept einmal neu: Eine ältere Übersetzung ohne das Glossarwort wird dabei neu erstellt. Bleibt der Fehler, melde das Wort – es kommt dann ins Glossar.
+Bäckerbegriffe wie Brühstück oder Anstellgut übersetzt ein Glossar in der App (siehe [Kapitel 5](#5-rezept-datenbank)). Fällt Dir trotzdem eine falsche Übersetzung auf, öffne das Rezept einmal neu: Eine ältere Übersetzung ohne das Glossarwort wird dabei neu erstellt. Bleibt der Fehler, melde das Wort – es kommt dann ins Glossar.
 
 **Eine Zutat fehlt in den „Gesamtzutaten“.**
 Wasser wird dort nicht aufgeführt; ebenso Zutaten, die selbst das Erzeugnis einer Komponente sind (z. B. „Sauerteig“ als Zutat im Hauptteig), damit Mengen nicht doppelt zählen. In der Komponentenliste darunter stehen sie vollständig.
@@ -1041,8 +1024,8 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 ## 18. Bekannte Einschränkungen
 
 - **Rezepte in der Datenbank bearbeitet nur ihr Autor** (oder ein Administrator). Die Fassung auf dem Gerät und die in der Datenbank sind nach dem Hochladen zwei getrennte Rezepte; Änderungen an der einen übernimmt die andere nicht.
-- **Ein Rezept kann nur einmal hochgeladen werden**, entweder privat oder öffentlich. Ein privates Rezept lässt sich nachträglich veröffentlichen, dabei entsteht aber eine zweite Fassung; die private wird nicht automatisch entfernt.
-- **Private Cloud-Rezepte brauchen eine Anmeldung mit Apple** und sind an dieses Konto gebunden. Ohne Anmeldung sind sie nicht sichtbar, mit einem anderen Apple-Konto ebenfalls nicht.
+- **Ein Rezept wird nur einmal veröffentlicht.** Danach änderst Du die veröffentlichte Fassung in der Rezept-Datenbank, nicht über „Eigene Rezepte“.
+- **Ohne Anmeldung ist die Autorschaft an das Gerät gebunden.** Ein auf dem iPhone veröffentlichtes Rezept lässt sich auf dem iPad erst bearbeiten, wenn beide Geräte mit demselben Apple-Konto angemeldet sind.
 - **Beim Löschen des Kontos bleiben veröffentlichte Rezepte in der Datenbank.** Sie gehören danach keinem Konto mehr und können nur noch von einem Administrator entfernt werden.
 - **Backpause, Backöfen, Tagesbeginn und Tagesende** verschieben keine Schritte. Die App prüft den Plan gegen sie und warnt. Fällt ein Schritt in die Nacht, schlägt sie einen anderen Zeitpunkt für den ganzen Plan vor (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)); einzelne Schritte verlängert oder verkürzt sie dabei nicht.
 - **Pläne, die vor diesem Update gesetzt wurden,** tragen noch keine Plan-Kennung und gelten gemeinsam als ein Plan je Rezept. Beim nächsten „Erinnerungen setzen“ mit „Bestehenden Plan ersetzen“ wird das bereinigt.

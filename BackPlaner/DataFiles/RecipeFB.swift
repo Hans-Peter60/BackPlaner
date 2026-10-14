@@ -9,42 +9,6 @@ import Foundation
 import SwiftUI
 import Observation
 
-/// Who may see a recipe that is stored in the cloud.
-///
-/// Public recipes live in the shared `Recipe` collection and are visible to
-/// every user, so they may only contain content whose copyright allows
-/// publication. Author-only recipes live in a separate `PrivateRecipe`
-/// collection which the security rules restrict to their owner — that gives an
-/// author a cloud copy of a recipe he may not share, without putting it into
-/// the shared database.
-///
-/// Two collections instead of one collection plus a visibility filter: a
-/// Firestore query has to be provably allowed for every document it returns,
-/// so a mixed collection would need the visibility field on every existing
-/// document. Separate collections keep the public database untouched.
-enum RecipeVisibility: String, CaseIterable {
-    case everyone   = "public"
-    case authorOnly = "private"
-
-    /// Firestore root collection holding the recipes with this visibility.
-    var collectionName: String {
-        switch self {
-        case .everyone:   return "Recipe"
-        case .authorOnly: return "PrivateRecipe"
-        }
-    }
-
-    /// Cloud Storage folder holding the recipe images with this visibility.
-    /// The folders are separated because Storage rules cannot look into
-    /// Firestore: the path itself has to carry the access decision.
-    var imageFolder: String {
-        switch self {
-        case .everyone:   return "images"
-        case .authorOnly: return "privateImages"
-        }
-    }
-}
-
 struct RecipeTextFB: Decodable {
     var name: String?
     var summary: String?
@@ -134,15 +98,19 @@ struct InstructionTextFB: Decodable {
 @Observable
 class RecipeFB: Identifiable, Decodable {
     
+    /// Firestore root collection of the published recipes. Every cloud
+    /// recipe is public: a recipe the user may not share stays on the device,
+    /// where iCloud keeps it in sync.
+    static let collectionName = "Recipe"
+
+    /// Cloud Storage folder holding the recipe images.
+    static let imageFolder = "images"
+
     // The id property is for the Identifiable protocol which we need to display these instances in a SwiftUI List
     var id:          String?
     var firestoreId: String?
     // Anonymous id of the device that uploaded this public recipe (UGC moderation)
     var authorId:    String?
-    /// Whether this cloud recipe is shared with everyone or reserved for its
-    /// author. Recipes that only exist locally keep the default, which is only
-    /// read once they are uploaded.
-    var visibility:  RecipeVisibility = .everyone
     // Set by the first report that comes in: the recipe is then withheld from
     // every user until an admin either deletes it or releases it again.
     var hidden:      Bool = false
@@ -168,7 +136,7 @@ class RecipeFB: Identifiable, Decodable {
     // Decode resiliently: keys missing from the JSON fall back to the declared defaults
     // instead of throwing keyNotFound (e.g. bakeHistoryFlag, rating, bakeHistories).
     private enum CodingKeys: String, CodingKey {
-        case id, firestoreId, authorId, visibility, hidden, name, image, summary, urlLink, prepTime, totalWeight
+        case id, firestoreId, authorId, hidden, name, image, summary, urlLink, prepTime, totalWeight
         case tags, bakeHistoryFlag, rating, sourceLanguage, translations, components, instructions, bakeHistories
     }
 
@@ -177,7 +145,6 @@ class RecipeFB: Identifiable, Decodable {
         id              = try c.decodeIfPresent(String.self,           forKey: .id)
         firestoreId     = try c.decodeIfPresent(String.self,           forKey: .firestoreId)
         authorId        = try c.decodeIfPresent(String.self,           forKey: .authorId)
-        visibility      = RecipeVisibility(rawValue: try c.decodeIfPresent(String.self, forKey: .visibility) ?? "") ?? .everyone
         hidden          = try c.decodeIfPresent(Bool.self,             forKey: .hidden)          ?? false
         name            = try c.decodeIfPresent(String.self,           forKey: .name)            ?? ""
         image           = try c.decodeIfPresent(String.self,           forKey: .image)           ?? ""
@@ -435,16 +402,15 @@ extension RecipeFB {
         }
     }
 
-    /// Full Cloud Storage path of the recipe image. Public and author-only
-    /// images live in separate folders, so the path depends on the visibility.
+    /// Full Cloud Storage path of the recipe image.
     var imageStoragePath: String {
-        visibility.imageFolder + "/" + image + ".jpg"
+        RecipeFB.imageFolder + "/" + image + ".jpg"
     }
 
     /// An independent copy of the recipe, ready to be uploaded as a new document.
     ///
-    /// The upload stamps the recipe it is handed with the new document id, image
-    /// path and visibility. Passing the object a screen is currently showing
+    /// The upload stamps the recipe it is handed with the new document id and
+    /// image path. Passing the object a screen is currently showing
     /// would therefore repoint that screen — and its entry in the recipe list —
     /// at the new document, so publishing has to work on a copy.
     ///
@@ -503,7 +469,7 @@ extension RecipeFB {
     /// A working copy for the editor of a cloud recipe.
     ///
     /// Unlike `copyForUpload()` it keeps everything that ties the recipe to
-    /// its cloud document — id, author, visibility, image path, hidden flag —
+    /// its cloud document — id, author, image path, hidden flag —
     /// because the edit is written back to that very document. The screen
     /// keeps showing the original until the save has gone through, so a
     /// cancelled or failed edit changes nothing.
@@ -513,7 +479,6 @@ extension RecipeFB {
         copy.id          = id
         copy.firestoreId = firestoreId
         copy.authorId    = authorId
-        copy.visibility  = visibility
         copy.hidden      = hidden
         copy.image       = image
         copy.totalWeight = totalWeight

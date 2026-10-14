@@ -65,7 +65,8 @@ await check('author: translation update on legacy', updateDoc(doc(author, 'Recip
 await check('reporter: hide visible', updateDoc(doc(user, 'Recipe/visible'), { hidden: true }), true)
 await check('reporter: may not unhide', updateDoc(doc(user, 'Recipe/visible'), { hidden: false }), false)
 await check('admin: unhide', updateDoc(doc(admin, 'Recipe/visible'), { hidden: false }), true)
-await check('private recipes unaffected (owner list)', getDocs(query(collection(author, 'PrivateRecipe'), where('authorId', '==', 'author'))), true)
+// The author-only collection is retired: even its owner is refused now.
+await check('retired PrivateRecipe: owner list refused', getDocs(query(collection(author, 'PrivateRecipe'), where('authorId', '==', 'author'))), false)
 
 await env.cleanup()
 console.log(failed ? `${failed} failed` : 'all passed')

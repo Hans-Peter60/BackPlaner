@@ -24,7 +24,7 @@ struct AppSettingsKeys {
     static let automaticTranslation = "settings.automaticTranslation"
     static let doughFrictionFactor = "settings.doughFrictionFactor"
     static let showLocalRecipes = "settings.recipeList.showLocal"
-    static let showPrivateCloudRecipes = "settings.recipeList.showPrivateCloud"
+    static let showOwnPublishedRecipes = "settings.recipeList.showOwnPublished"
     static let showPublicCloudRecipes = "settings.recipeList.showPublicCloud"
 }
 
@@ -47,42 +47,44 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 }
 
 /// Where a newly entered recipe is stored. The raw values are persisted in
-/// UserDefaults, so the two original cases keep their names.
+/// UserDefaults, so the cases keep their original names. A stored value of
+/// the retired "privateCloudRecipe" no longer parses and falls back to the
+/// device, which is the safe choice.
 enum RecipeStoragePreference: String, CaseIterable, Identifiable {
     /// Core Data only. Syncs with the user's own iCloud, never with the recipe database.
     case privateRecipe
-    /// Recipe database, readable by its author alone — for recipes whose
-    /// copyright does not allow publishing them.
-    case privateCloudRecipe
     /// Recipe database, readable by every user.
     case publicRecipe
 
     var id: String { rawValue }
 
+    /// The choice as the "Veröffentlichen" toggle sees it.
+    init(publishes: Bool) {
+        self = publishes ? .publicRecipe : .privateRecipe
+    }
+
+    var publishes: Bool { self == .publicRecipe }
+
     var title: LocalizedStringKey {
         switch self {
-        case .privateRecipe:      return "Nur auf dem Gerät"
-        case .privateCloudRecipe: return "Privat in der Cloud"
-        case .publicRecipe:       return "Öffentlich für alle"
+        case .privateRecipe: return "Nur auf dem Gerät"
+        case .publicRecipe:  return "Öffentlich für alle"
         }
     }
 
-    /// Short form for the segmented picker in the recipe forms.
+    /// Short form for the save buttons in the recipe forms.
     var shortTitle: LocalizedStringKey {
         switch self {
-        case .privateRecipe:      return "Lokal"
-        case .privateCloudRecipe: return "Privat"
-        case .publicRecipe:       return "Öffentlich"
+        case .privateRecipe: return "Lokal"
+        case .publicRecipe:  return "Öffentlich"
         }
     }
 
-    /// Explains the consequences of the choice below the picker.
+    /// Explains the consequences of the choice below the toggle.
     var explanation: LocalizedStringKey {
         switch self {
         case .privateRecipe:
             return "Das Rezept bleibt auf dem Gerät und wird über Deine iCloud gesichert."
-        case .privateCloudRecipe:
-            return "Das Rezept wird in der Rezept-Datenbank gesichert, ist aber nur für Dich sichtbar. Geeignet für Rezepte, die Du nicht veröffentlichen darfst. Dazu ist eine Anmeldung mit Apple nötig."
         case .publicRecipe:
             return "Das Rezept wird für alle Nutzer sichtbar. Veröffentliche nur Rezepte, die keine Urheberrechte verletzen."
         }
@@ -91,18 +93,8 @@ enum RecipeStoragePreference: String, CaseIterable, Identifiable {
     /// Icon shown on the save button for this choice.
     var symbolName: String {
         switch self {
-        case .privateRecipe:      return "iphone"
-        case .privateCloudRecipe: return "lock.icloud"
-        case .publicRecipe:       return "tray.and.arrow.up"
-        }
-    }
-
-    /// Visibility of the cloud copy, or nil when the recipe stays on the device.
-    var cloudVisibility: RecipeVisibility? {
-        switch self {
-        case .privateRecipe:      return nil
-        case .privateCloudRecipe: return .authorOnly
-        case .publicRecipe:       return .everyone
+        case .privateRecipe: return "iphone"
+        case .publicRecipe:  return "tray.and.arrow.up"
         }
     }
 }
@@ -120,11 +112,12 @@ struct AppSettings {
     /// Whether a public recipe is machine-translated into the app's language
     /// automatically, and the globe menu offers to pick a language at all.
     static let defaultAutomaticTranslation = true
-    /// Whether the combined recipe list shows local, private-cloud and
-    /// public recipes — each independently, so the three can be toggled on
-    /// their own rather than as a single "mine or everyone's" choice.
+    /// Whether the combined recipe list shows local recipes, the user's own
+    /// published ones and the other users' public ones — each independently,
+    /// so the three can be toggled on their own rather than as a single
+    /// "mine or everyone's" choice.
     static let defaultShowLocalRecipes = true
-    static let defaultShowPrivateCloudRecipes = true
+    static let defaultShowOwnPublishedRecipes = true
     static let defaultShowPublicCloudRecipes = true
     /// Dough yield of the user's sourdough starter (Anstellgut), used to split
     /// an amount of starter into flour and water when the recipe does not

@@ -10,9 +10,10 @@ import CryptoKit
 /// Sign in with Apple, wired to Firebase.
 ///
 /// The Apple account provides a uid that survives reinstalls and works across
-/// devices. Two features need it: the moderator login in the settings, and the
-/// account that author-only cloud recipes are tied to. Both use this view, so
-/// the nonce handling exists exactly once.
+/// devices. Two things rest on it: the moderator login in the settings, and
+/// the authorship of published recipes, which then follows the person rather
+/// than the installation. Signing in is voluntary; without it the anonymous
+/// identity of the installation is the author.
 struct AppleSignInView: View {
 
     /// What the Apple credential is used for. Deleting an account needs a
@@ -121,42 +122,6 @@ struct AppleSignInView: View {
         SHA256.hash(data: Data(input.utf8))
             .map { String(format: "%02x", $0) }
             .joined()
-    }
-}
-
-/// Asks for the Apple sign-in that a private cloud recipe requires, and reports
-/// back once it succeeded so the interrupted save can continue.
-struct PrivateCloudSignInSheet: View {
-
-    @Environment(\.dismiss) private var dismiss
-
-    /// Called after a successful sign-in; the sheet closes itself beforehand.
-    var onSignedIn: () -> Void
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    Text("Private Rezepte in der Rezept-Datenbank gehören zu Deinem Apple-Konto. Ohne Anmeldung wäre das Rezept nach einer Neuinstallation nicht mehr erreichbar.")
-                        .font(Theme.bodyFont(15))
-
-                    AppleSignInView {
-                        dismiss()
-                        onSignedIn()
-                    }
-                } footer: {
-                    Text("Es werden weder Name noch E-Mail-Adresse abgefragt.")
-                }
-            }
-            .clearScrollBackground()
-            .warmBackground()
-            .navigationTitle("Anmeldung erforderlich")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Abbrechen") { dismiss() }
-                }
-            }
-        }
     }
 }
 

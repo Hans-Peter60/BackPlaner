@@ -27,11 +27,6 @@ struct AddRecipeView: View {
     @State private var storage              = AppSettings.defaultStoragePreference
     @State private var showEULA             = false
     @State private var showPublicSaveWarning = false
-    @State private var showPrivateCloudSaveWarning = false
-    /// A private cloud recipe needs a permanent account; ask for it when the
-    /// user chose that option while still being anonymous.
-    @State private var showSignInRequest    = false
-    @State private var pendingPrivateCloudSave = false
     // Public-upload feedback: a spinner while the recipe is being sent and an
     // error message if it fails, so the save is no longer silent "fire and forget".
     @State private var isUploading          = false
@@ -69,6 +64,12 @@ struct AddRecipeView: View {
         return recipeImage.size.width > 0 && recipeImage.size.height > 0
     }
 
+    /// The storage choice as the "Veröffentlichen" toggle sees it.
+    private var publishes: Binding<Bool> {
+        Binding(get: { storage.publishes },
+                set: { storage = RecipeStoragePreference(publishes: $0) })
+    }
+
     var body: some View {
         // The alerts and sheets hang off a separate property: as one single
         // expression, body grew beyond what the type checker resolves in
@@ -91,25 +92,6 @@ struct AddRecipeView: View {
                 }
             } message: {
                 Text("Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen.")
-            }
-            // Presenting the warning from the sheet's callback would race with
-            // the sheet's own dismissal, so it waits until the sheet is gone.
-            .sheet(isPresented: $showSignInRequest, onDismiss: {
-                guard pendingPrivateCloudSave else { return }
-                pendingPrivateCloudSave = false
-                showPrivateCloudSaveWarning = true
-            }) {
-                PrivateCloudSignInSheet {
-                    pendingPrivateCloudSave = true
-                }
-            }
-            .alert("Privat in der Cloud speichern?", isPresented: $showPrivateCloudSaveWarning) {
-                Button("Abbrechen", role: .cancel) { }
-                Button("Privat speichern") {
-                    addRecipe(to: .privateCloudRecipe)
-                }
-            } message: {
-                Text("Das Rezept ist nur für Dich sichtbar. Du kannst es später in der Rezept-Datenbank bearbeiten oder löschen.")
             }
             .navigationTitle("Neues Rezept erfassen")
     }
@@ -148,12 +130,9 @@ struct AddRecipeView: View {
             }
             
             Section("Speichern") {
-                Picker("Ablage", selection: $storage) {
-                    ForEach(RecipeStoragePreference.allCases) { preference in
-                        Text(preference.shortTitle).tag(preference)
-                    }
-                }
-                .pickerStyle(.segmented)
+                // One toggle instead of a picker: a recipe is either kept on
+                // the device or published; there is no third place.
+                Toggle("Veröffentlichen", isOn: publishes)
 
                 Text(storage.explanation)
                     .font(Theme.bodyFont(13))
@@ -299,14 +278,6 @@ struct AddRecipeView: View {
         switch storage {
         case .privateRecipe:
             addRecipe(to: .privateRecipe)
-        case .privateCloudRecipe:
-            // The recipe is tied to the author's uid, so it needs an identity
-            // that outlives this installation.
-            if modelFB.isSignedInWithAccount {
-                showPrivateCloudSaveWarning = true
-            } else {
-                showSignInRequest = true
-            }
         case .publicRecipe:
             showPublicSaveWarning = true
         }
@@ -323,11 +294,11 @@ struct AddRecipeView: View {
     
     func addRecipe(to target: RecipeStoragePreference) {
 
-        if let visibility = target.cloudVisibility {
+        if target.publishes {
             // The upload is asynchronous: show a spinner, then confirm on
             // success or surface the error on failure.
             isUploading = true
-            modelFB.uploadRecipeToFirestore(r: recipeFB, i: recipeImage ?? UIImage(), visibility: visibility) { result in
+            modelFB.uploadRecipeToFirestore(r: recipeFB, i: recipeImage ?? UIImage()) { result in
                 isUploading = false
                 switch result {
                 case .success:
