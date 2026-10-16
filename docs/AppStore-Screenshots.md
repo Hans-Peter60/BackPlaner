@@ -34,7 +34,7 @@ Der iPhone-Lauf liefert außerdem die Bilder der Handbücher: `docs/images/` (de
   `IPHONE="iPhone 17 Pro" IPAD="iPad Pro 13-inch (M4)" scripts/appstore-screenshots.sh`
   Die verfügbaren Namen zeigt `xcrun simctl list devices available`.
 - **Rezept-Datenbank online:** Der Test arbeitet mit den echten Daten des Simulators und der echten Rezept-Datenbank. Der Simulator braucht Netz und ein registriertes App-Check-Debug-Token – wie beim Start aus Xcode. Einmal die App im jeweiligen Simulator aus Xcode starten genügt, um das zu prüfen.
-- **Rezept:** Gezeigt wird „Sauerteigbrot mit Kartoffeln und Saaten“. Ein anderes wählst Du mit `RECIPE="Übernacht-Sauerteig-Baguettes" scripts/appstore-screenshots.sh` (der Anfang des Namens genügt).
+- **Rezept:** Gezeigt wird „Kartoffelnbrot mit Saaten“. Ein anderes wählst Du mit `RECIPE="Übernacht-Sauerteig-Baguettes" scripts/appstore-screenshots.sh` (der Anfang des Namens genügt).
 
 Der Test plant das Rezept, damit Startbildschirm, Backmodus und Timeline etwas zeigen. Dieser Plan bleibt im Simulator stehen. Die Statusleiste zeigt 9:41, volle Balken und vollen Akku, der Simulator läuft im hellen Erscheinungsbild.
 
@@ -50,7 +50,7 @@ Die Rohvideos für die App-Vorschauen entstehen auf demselben Weg:
 scripts/appstore-previews.sh
 ```
 
-Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den Simulator-Bildschirm aufnimmt; vorher löscht er die geplanten Schritte früherer Läufe, damit die Plan-Szene einen frischen Plan zeigt. Jedes Rohvideo beginnt auf dem Home-Bildschirm und enthält hinten rund 15 Sekunden Leerlauf, beides wird im Schnitt entfernt. Ergebnis: `docs/appstore/2.0/preview/<gerät>/<sprache>/1-plan.mov`, `2-calculators.mov`, `3-shopping.mov` (git-ignoriert). Eine Szene allein: `SCENES=plan LANGS=de DEVICES=iphone scripts/appstore-previews.sh`.
+Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den Simulator-Bildschirm aufnimmt; vor jeder Szene löscht er (ohne Aufnahme) die geplanten Schritte, die Einkaufslisten und die lokale Kopie des Rezepts, die das Setzen der Erinnerungen anlegt – sonst stünde das Rezept doppelt in der Liste. Der Plan beginnt um 20:00 Uhr (Startargument `-UITestingPlanStart`, siehe `StoreUITestCase.planStart`; gilt ebenso für die Screenshots, deren Skript vor jeder Sprache dieselbe Aufräum-Vorbereitung laufen lässt), damit der Teig über Nacht ruht und kein Schritt als Nacht-Warnung erscheint. Jedes Rohvideo beginnt auf dem Home-Bildschirm und enthält hinten rund 15 Sekunden Leerlauf, beides wird im Schnitt entfernt. Ergebnis: `docs/appstore/2.0/preview/<gerät>/<sprache>/1-plan.mov`, `2-calculators.mov`, `3-shopping.mov` (git-ignoriert). Eine Szene allein: `SCENES=plan LANGS=de DEVICES=iphone scripts/appstore-previews.sh`.
 
 | Szene | Inhalt | Einblendungen (Vorschlag) |
 |---|---|---|

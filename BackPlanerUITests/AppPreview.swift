@@ -11,6 +11,10 @@
 //    PREVIEW_LANGUAGE   de, en or fr — required, otherwise the tests skip
 //    SCREENSHOT_RECIPE  the public recipe to show (see StoreUITestCase)
 //
+//  The app is launched with `-UITestingPlanStart 20:00` (StoreUITestCase,
+//  UITestSupport), so the baking tab opens with this evening as the plan's
+//  start.
+//
 //  In a normal test run the tests skip themselves: they work on the
 //  simulator's real data and need the recipe database online.
 //
@@ -29,16 +33,23 @@ final class AppPreview: StoreUITestCase {
 
     // MARK: - Preparation (not recorded)
 
-    /// Clears what earlier runs left behind: every planned step, so the plan
-    /// scene shows one plan in the run's language and no "there is already
-    /// a plan" dialog, and every shopping list, so the shopping scene's list
-    /// holds the recipe once and not its amounts added up run after run.
-    /// The script runs this once per language before the scenes, without
-    /// recording.
+    /// Clears what earlier runs left behind: the local copy of the recipe
+    /// that setting the reminders stores on the device, so the recipe list
+    /// shows the recipe once and not once from the device and once from the
+    /// database; every planned step, so the plan scene shows one plan in the
+    /// run's language and no "there is already a plan" dialog; and every
+    /// shopping list, so the shopping scene's list holds the recipe once and
+    /// not its amounts added up run after run. The preview script runs this
+    /// before every scene, the screenshot script before every language,
+    /// without recording — planning the recipe leaves the copy and the plan
+    /// behind again.
     @MainActor
     func testPrepare() throws {
         launch()
 
+        deleteLocalCopiesOfDemoRecipe()
+
+        backToMenu()
         openMenu("scheduledSteps")
         let deleteSteps = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Geplante Schritte löschen", "Delete scheduled steps", "Supprimer les étapes planifiées"])).firstMatch
@@ -68,6 +79,48 @@ final class AppPreview: StoreUITestCase {
         }
     }
 
+    /// Swipes away every local recipe that is a copy of the demo recipe. The
+    /// copy is found by the database id in its row identifier; its name is
+    /// no help, since the copy keeps the name in whichever language the
+    /// recipe was shown in when the reminders were set. Without a known id
+    /// (a custom SCREENSHOT_RECIPE), the local row whose name begins with
+    /// the recipe's is taken.
+    @MainActor
+    private func deleteLocalCopiesOfDemoRecipe() {
+        openMenu("publicRecipes")
+        // Wait for the list itself, not for the copy: usually there is none.
+        _ = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH 'publicRecipe.row.'"))
+            .firstMatch.waitForExistence(timeout: 20)
+
+        let copy: XCUIElement
+        if let recipeId {
+            copy = app.descendants(matching: .any).matching(identifier: "localRecipe.row.\(recipeId)").firstMatch
+        } else {
+            copy = app.descendants(matching: .any)
+                .matching(NSPredicate(format: "identifier BEGINSWITH 'localRecipe.row.' AND label BEGINSWITH %@", recipeName))
+                .firstMatch
+        }
+
+        let delete = NSPredicate(format: "label IN %@", ["Löschen", "Delete", "Supprimer"])
+        var deleted = 0
+        while copy.waitForExistence(timeout: 2), deleted < 5 {
+            scrollUntilHittable(copy)
+            copy.swipeLeft()
+            let action = app.buttons.matching(delete).firstMatch
+            guard action.waitForExistence(timeout: 3) else { break }
+            action.tap()
+            // The confirmation: a sheet on the iPhone, a popover on the iPad.
+            let dialog = app.sheets.firstMatch.exists ? app.sheets.firstMatch : app.popovers.firstMatch
+            let confirm = (dialog.waitForExistence(timeout: 3) ? dialog : app)
+                .buttons.matching(delete).firstMatch
+            guard confirm.waitForExistence(timeout: 3) else { break }
+            confirm.tap()
+            settle(1)
+            deleted += 1
+        }
+    }
+
     // MARK: - Scene 1: from the recipe to the baking plan
 
     /// Recipe → baking tab → "finish by" → reminders → the "next step" card
@@ -86,10 +139,12 @@ final class AppPreview: StoreUITestCase {
         scrollToTop(controls)
         pause(2)
 
-        // The plan starts now ("Ab"), so the start screen afterwards shows a
-        // step that is due, not a bake that is over. ("Bis" would keep the
-        // current time as the finish and put the whole plan into the past.)
-        // A look down the schedule.
+        // The plan starts ("Ab") at `StoreUITestCase.planStart` this evening,
+        // preset through the launch argument, so the start screen afterwards
+        // shows the first step as the next one and the schedule carries no
+        // night warnings.
+        // ("Bis" would keep that time as the finish and put the whole plan
+        // into the past.) A look down the schedule.
         app.swipeUp(velocity: .slow)
         pause(2)
 

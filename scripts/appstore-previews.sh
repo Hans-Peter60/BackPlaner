@@ -17,7 +17,7 @@
 #   IPAD     simulator for the 13" footage              (default: iPad Pro 13-inch (M5))
 #   LANGS    languages                                  (default: de en fr)
 #   SCENES   plan, calculators, shopping                (default: all three)
-#   RECIPE   public recipe to show, start of its name   (default: Sauerteigbrot mit Kartoffeln und Saaten)
+#   RECIPE   public recipe to show, start of its name   (default: Kartoffelnbrot mit Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
 #
 # Each movie starts while the test runner is still being installed, so it
@@ -30,7 +30,9 @@
 # 30 fps. Previews must be 15 to 30 seconds long.
 #
 # Like the screenshots, this needs network access and a registered App Check
-# debug token in the simulator; the plan scene replaces the recipe's plan.
+# debug token in the simulator; the plan scene replaces the recipe's plan,
+# which starts at 20:00 (StoreUITestCase.planStart) so that no step falls into the
+# night.
 
 set -euo pipefail
 
@@ -42,7 +44,7 @@ IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
 LANGS="${LANGS:-de en fr}"
 SCENES="${SCENES:-plan calculators shopping}"
-RECIPE="${RECIPE:-Sauerteigbrot mit Kartoffeln und Saaten}"
+RECIPE="${RECIPE:-Kartoffelnbrot mit Saaten}"
 
 OUT="docs/appstore/$VERSION/preview"
 DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"
@@ -151,23 +153,28 @@ for device in "${devices[@]}"; do
         mkdir -p "$dir"
         echo "  ▸ $lang → ${dir#$PWD/}"
 
-        # Clear the plans of earlier runs first, without recording, so the
-        # plan scene shows one fresh plan in this language.
-        TEST_RUNNER_PREVIEW_LANGUAGE="$lang" \
-        xcodebuild test-without-building \
-            -project BackPlaner.xcodeproj \
-            -scheme BackPlaner \
-            -destination "id=$udid" \
-            -derivedDataPath "$DERIVED" \
-            -only-testing:"BackPlanerUITests/AppPreview/testPrepare" \
-            -testLanguage "$lang" \
-            -testRegion "$(region "$lang")" \
-            -quiet >/dev/null 2>&1 || echo "      (clearing the old plans failed; the plan scene may show a dialog)"
-
         for scene in $SCENES; do
             method="$(test_method "$scene")"
             movie="$dir/$(scene_number "$scene")-$scene.mov"
             log="$(mktemp)"
+
+            # Clear what earlier scenes and runs left behind, without
+            # recording: the plan, the shopping lists and the local copy of
+            # the recipe that setting the reminders stores on the device.
+            # Before every scene, not once per language — the plan scene
+            # itself leaves the copy behind, and the recipe list of the
+            # following scenes showed the recipe twice.
+            TEST_RUNNER_PREVIEW_LANGUAGE="$lang" \
+            TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+            xcodebuild test-without-building \
+                -project BackPlaner.xcodeproj \
+                -scheme BackPlaner \
+                -destination "id=$udid" \
+                -derivedDataPath "$DERIVED" \
+                -only-testing:"BackPlanerUITests/AppPreview/testPrepare" \
+                -testLanguage "$lang" \
+                -testRegion "$(region "$lang")" \
+                -quiet >/dev/null 2>&1 || echo "      (clearing the old data failed; the scene may show a dialog or a doubled recipe)"
 
             # The test first, the recording once the test runner is up: a
             # recording that is already running while xcodebuild installs and

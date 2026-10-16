@@ -27,8 +27,16 @@ class StoreUITestCase: XCTestCase {
     /// from a hierarchy dump). Matching by id is what `recipeRow` prefers:
     /// the list may already show this recipe under a cached translation of
     /// its name by the time this runs, which a name match would miss.
-    static let defaultRecipeName = "Sauerteigbrot mit Kartoffeln und Saaten"
+    static let defaultRecipeName = "Kartoffelnbrot mit Saaten"
     static let defaultRecipeId = "F5801F3E-DA33-48EA-807D-0C15E187F7F6"
+
+    /// The clock time at which the recipe's plan begins, in the screenshots
+    /// and the previews alike (launch argument `-UITestingPlanStart`, see
+    /// UITestSupport). Started at the time of the run, the sourdough plan put
+    /// most of its steps into the night and the schedule was a column of
+    /// warnings; from the evening on, the dough rests through the night and
+    /// the steps fall into the day.
+    static let planStart = "20:00"
 
     var recipeName: String {
         ProcessInfo.processInfo.environment["SCREENSHOT_RECIPE"] ?? Self.defaultRecipeName
@@ -59,7 +67,8 @@ class StoreUITestCase: XCTestCase {
             // explicitly through the globe menu (see `translateIfNeeded`),
             // where a failure surfaces as a failed assertion instead of a
             // German recipe sitting in an English or French picture.
-            "-settings.automaticTranslation", "NO"
+            "-settings.automaticTranslation", "NO",
+            "-UITestingPlanStart", Self.planStart
         ]
     }
 
@@ -219,13 +228,36 @@ class StoreUITestCase: XCTestCase {
     /// the schedule underneath.
     func scrollToTop(_ element: XCUIElement, maxSwipes: Int = 8) {
         let screen = app.windows.firstMatch.frame
+        let target = screen.minY + screen.height * 0.15
+        // Below the floating navigation bar, which the content scrolls under.
+        let lowest = screen.minY + screen.height * 0.12
         var swipes = 0
         while element.exists, element.frame.minY > screen.minY + screen.height * 0.18, swipes < maxSwipes {
-            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.75))
-            let distance = min(element.frame.minY - screen.height * 0.15, screen.height * 0.5)
-            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -distance)))
+            let distance = min(element.frame.minY - target, screen.height * 0.5)
+            drag(by: -distance)
             swipes += 1
         }
+        // A drag can carry on a little once the finger lifts, and the page
+        // is shorter without a list of warnings: the date controls then came
+        // to rest under the navigation bar, where the picture cut them off.
+        // Pull them back down.
+        swipes = 0
+        while element.exists, element.frame.minY < lowest, swipes < 3 {
+            drag(by: target - element.frame.minY)
+            swipes += 1
+        }
+    }
+
+    /// Drags the screen's content by `distance` points (negative moves it
+    /// up), holding the finger still at the end so the scroll view does not
+    /// keep rolling with the momentum of a flick.
+    private func drag(by distance: CGFloat) {
+        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.6))
+        start.press(forDuration: 0.1,
+                    thenDragTo: start.withOffset(CGVector(dx: 0, dy: distance)),
+                    withVelocity: .default,
+                    thenHoldForDuration: 0.3)
+        settle(0.3)
     }
 
     /// Taps a bordered button that sits alone in a Form row. Such a button

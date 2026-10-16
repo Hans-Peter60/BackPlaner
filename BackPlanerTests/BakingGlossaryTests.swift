@@ -140,7 +140,7 @@ struct GlossaryTranslationPlanTests {
         #expect(plan.results(translated: []) == ["Scald"])
 
         let french = GlossaryTranslationPlan(texts: ["Brühstück"], from: "de", into: "fr")
-        #expect(french.results(translated: []) == ["Échaudage"])
+        #expect(french.results(translated: []) == ["Graines ébouillantées"])
     }
 
     @Test("A text without terms goes through unchanged")
@@ -195,9 +195,9 @@ struct GlossaryTranslationPlanTests {
     func punctuationOnly() {
         let plan = GlossaryTranslationPlan(texts: ["Brühstück, Hauptteig"], from: "de", into: "fr")
         #expect(plan.sourceTexts == ["[[1]], [[2]]"])
-        #expect(plan.results(translated: ["[[1]], [[2]]"]) == ["Échaudage, pâte principale"])
+        #expect(plan.results(translated: ["[[1]], [[2]]"]) == ["Graines ébouillantées, pâte principale"])
         // Even a round that lost both placeholders has nothing to translate.
-        #expect(plan.results(translated: ["breakfast, main dough"]) == ["Échaudage, pâte principale"])
+        #expect(plan.results(translated: ["breakfast, main dough"]) == ["Graines ébouillantées, pâte principale"])
     }
 
     @Test("The round works in the other direction as well")

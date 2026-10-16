@@ -50,11 +50,7 @@ struct RecipePrintData: Sendable {
 
         let columns = ComponentColumn.columns(of: recipe.componentsArray)
         components = Self.components(from: columns, scale: scale)
-        totalLines = TotalIngredientsView.aggregatedLines(
-            ingredients: columns.flatMap(\.ingredients),
-            componentNames: columns.map(\.name),
-            scale: scale
-        )
+        totalLines = TotalIngredientsView.aggregatedLines(of: columns, scale: scale)
         steps = recipe.instructionsArray.map {
             Step(number: Rational.decimalPlace($0.step, 10),
                  text: $0.instruction,
@@ -73,11 +69,7 @@ struct RecipePrintData: Sendable {
 
         let columns = ComponentColumn.columns(of: recipeFB.components)
         components = Self.components(from: columns, scale: scale)
-        totalLines = TotalIngredientsView.aggregatedLines(
-            ingredients: columns.flatMap(\.ingredients),
-            componentNames: columns.map(\.name),
-            scale: scale
-        )
+        totalLines = TotalIngredientsView.aggregatedLines(of: columns, scale: scale)
         steps = recipeFB.instructions
             .sorted { $0.step < $1.step }
             .map {

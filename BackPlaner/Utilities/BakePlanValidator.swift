@@ -386,8 +386,9 @@ enum BakePlanValidator {
             locale: Locale(identifier: "de_DE")
         )
 
-        // Neither heating the oven up nor turning it down puts dough in.
-        guard !isPreheatInstruction(text), !BakePlan.isTurnDownInstruction(instruction) else { return false }
+        // Neither heating the oven up nor turning it down puts dough in. The
+        // original text, not the folded one: the French check needs its accents.
+        guard !isPreheatInstruction(instruction), !BakePlan.isTurnDownInstruction(instruction) else { return false }
 
         return ["backen", "backofen", "ofen stellen", "ofen geben",
                 "bake", "into the oven", "on stone",
@@ -400,6 +401,14 @@ enum BakePlanValidator {
     /// ("Backofen anstellen" / "Turn on the oven" / "Allumer le four") in every
     /// language it can be stored in — it names the oven, but the dough is not
     /// in it yet.
+    ///
+    /// The verb counts, not the participle: "Backofen vorheizen", "Preheat
+    /// the oven", "Préchauffez le four" are steps of their own, while "in den
+    /// vorgeheizten Ofen", "into the preheated oven", "dans le four
+    /// préchauffé" describe the bake. Taken for a preheating step, a baking
+    /// step worded that way cost the plan its oven step and moved the bake
+    /// — and the turn-down reminder — onto the step after it; the German
+    /// text escaped only because "vorgeheizt" does not contain "vorheiz".
     static func isPreheatInstruction(_ instruction: String) -> Bool {
 
         let text = instruction.folding(
@@ -407,9 +416,18 @@ enum BakePlanValidator {
             locale: Locale(identifier: "de_DE")
         )
 
-        return ["vorheiz", "preheat", "prechauff",
-                "ofen anstellen", "turn on the oven", "allumer le four"]
-            .contains(where: text.contains)
+        if ["vorheiz", "ofen anstellen", "turn on the oven", "allumer le four"].contains(where: text.contains) {
+            return true
+        }
+        // "preheat", "preheating", "pre-heat"; not "preheated".
+        if text.range(of: #"\bpre-?heat(?:s|ing)?\b"#, options: .regularExpression) != nil {
+            return true
+        }
+        // "préchauffer", "préchauffez", "préchauffe"; not "préchauffé(e)(s)".
+        // On the lowercased text with its accents, since folding would make
+        // the participle "préchauffé" and the verb "préchauffe" the same word.
+        return instruction.lowercased()
+            .range(of: #"\bpr[eé]chauff(?:er|ez|ons|ent|e)\b"#, options: .regularExpression) != nil
     }
 
     // MARK: - Formatting

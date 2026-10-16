@@ -14,6 +14,14 @@ import UIKit
 /// the same state. `-UITestingSeedRecipe` adds one known recipe to that store:
 /// saving a recipe through the form requires a photo, and the photo picker
 /// cannot be driven reliably from a UI test.
+///
+/// `-UITestingPlanStart HH:mm` presets the date of the scheduling controls to
+/// the next time the clock shows HH:mm (today, or tomorrow once it has
+/// passed). The App Store previews use it on their way through the baking
+/// tab: started at the time of the recording, a sourdough plan puts most of
+/// its steps into the night and the schedule fills with warnings, while a
+/// start at 20:00 lets the dough rest through the night. It works on the
+/// simulator's real store, independent of `-UITesting`.
 enum UITestSupport {
 
     static let seededRecipeName = "UI-Test-Brot"
@@ -28,6 +36,24 @@ enum UITestSupport {
 
     static var seedsRecipe: Bool {
         isActive && ProcessInfo.processInfo.arguments.contains("-UITestingSeedRecipe")
+    }
+
+    /// The date asked for with `-UITestingPlanStart`, or nil when the switch
+    /// is absent or malformed.
+    static func planStart(now: Date = Date(), calendar: Calendar = .current) -> Date? {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-UITestingPlanStart"),
+              index + 1 < arguments.count else { return nil }
+        let parts = arguments[index + 1].split(separator: ":").compactMap { Int($0) }
+        guard parts.count == 2, (0..<24).contains(parts[0]), (0..<60).contains(parts[1]),
+              let today = calendar.date(bySettingHour: parts[0], minute: parts[1], second: 0, of: now)
+        else { return nil }
+        if today > now { return today }
+        return calendar.date(byAdding: .day, value: 1, to: today)
+        #else
+        return nil
+        #endif
     }
 
     /// Stores a small recipe whose steps the plan test can find again in

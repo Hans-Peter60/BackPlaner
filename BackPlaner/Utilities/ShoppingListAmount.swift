@@ -51,10 +51,25 @@ enum ShoppingListAmount {
 
         if case .starter = DoughComposition.classify(name) { return false }
 
+        return !isWater(name) && !isSalt(name)
+    }
+
+    /// Whether the ingredient is water, in any of the app's languages. Shared
+    /// with the total ingredients, which leave water out as well.
+    static func isWater(_ name: String) -> Bool {
+        matches(waterExpression, name)
+    }
+
+    /// Whether the ingredient is salt, in any of the app's languages.
+    static func isSalt(_ name: String) -> Bool {
+        matches(saltExpression, name)
+    }
+
+    private static func matches(_ expression: NSRegularExpression?, _ name: String) -> Bool {
+        let key = IngredientNameNormalizer.comparisonKey(name)
+        guard !key.isEmpty else { return false }
         let range = NSRange(key.startIndex..., in: key)
-        if waterExpression?.firstMatch(in: key, range: range) != nil { return false }
-        if saltExpression?.firstMatch(in: key, range: range) != nil { return false }
-        return true
+        return expression?.firstMatch(in: key, range: range) != nil
     }
 
     /// Converts an amount for the shopping list. Anything that is not bought by

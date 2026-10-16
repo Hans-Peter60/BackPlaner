@@ -253,4 +253,62 @@ struct BakePlanTests {
         steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen", step: 3, startTime: 70, duration: 8)
         #expect(plan(steps).generatedTurnDownStep == nil)
     }
+
+    // MARK: Preheating: the verb, not the participle
+
+    @Test("A step that heats the oven is a preheating step in every language",
+          arguments: ["Backofen auf 250 °C vorheizen",
+                      "Den Ofen vorheizen",
+                      "Backofen anstellen (250 °C)",
+                      "Preheat the oven to 250 °C",
+                      "Pre-heat the oven",
+                      "Turn on the oven (250 °C)",
+                      "Préchauffer le four à 250 °C",
+                      "Préchauffez le four",
+                      "Prechauffer le four",
+                      "Allumer le four (250 °C)"])
+    func recognisesPreheatingSteps(_ text: String) {
+        #expect(BakePlanValidator.isPreheatInstruction(text))
+        #expect(!BakePlanValidator.isBakingStartInstruction(text))
+    }
+
+    @Test("A bake into the preheated oven is the bake, not a preheating step",
+          arguments: ["Den Teigling in den auf 250 °C vorgeheizten Ofen befördern. 50 Minuten ausbacken.",
+                      "Transfer the dough piece to the baking stone in the preheated oven at 250 °C. Bake for 50 minutes.",
+                      "Transférez le pâton dans le four préchauffé à 250 °C. Faites cuire 50 minutes.",
+                      "Enfourner dans le four préchauffé et cuire 50 minutes."])
+    func bakeIntoThePreheatedOvenIsNoPreheating(_ text: String) {
+        #expect(!BakePlanValidator.isPreheatInstruction(text))
+        #expect(BakePlanValidator.isBakingStartInstruction(text))
+    }
+
+    /// The sourdough bread with potatoes, as its steps read in German, English
+    /// and French. The translations described the bake as going "into the
+    /// preheated oven", which the plan took for a preheating step: no oven
+    /// step was generated, the bake moved onto "Drain the steam", and the
+    /// turn-down fell after the bake. The German plan had one step more than
+    /// the English and French ones.
+    @Test("The same recipe yields the same plan in every language",
+          arguments: [
+            ("de", "Das Backpapier mit dem Teigling in den auf 250 °C vorgeheizten Ofen auf den Backstein befördern. Sofort kräftig bedampfen. Den Ofen sofort auf 220 °C herunterdrehen. Den Dampf nach 20 Minuten ablassen. Insgesamt 50 Minuten ausbacken.", "Dampf ablassen"),
+            ("en", "Transfer the parchment paper with the dough piece to the baking stone in the preheated oven at 250 °C. Immediately steam vigorously. Immediately lower the oven to 220 °C. Remove the steam after 20 minutes. Bake for a total of 50 minutes.", "Drain the steam"),
+            ("fr", "Transférez le papier cuisson avec le pâton sur le moule de cuisson dans le four préchauffé à 250 °C. Vaporisez immédiatement abondamment. Réduisez immédiatement la température du four à 220 °C. Évitez la vapeur après 20 minutes. Faites cuire au total 50 minutes.", "Évacuer la vapeur")
+          ])
+    func translatedBakeKeepsItsPlan(_ language: String, _ bake: String, _ steam: String) throws {
+        let steps = [
+            PlanStep(instruction: "Dehnen und Falten", step: 7, startTime: 0, duration: 120),
+            PlanStep(instruction: bake, step: 10, startTime: 120, duration: 50),
+            PlanStep(instruction: steam, step: 10.1, startTime: 170, duration: 30),
+        ]
+        let plan = plan(steps, language: language)
+        #expect(plan.bakingStep?.step == 10)
+        #expect(plan.explicitPreheatStep == nil)
+        let oven = try #require(plan.generatedOvenStep)
+        #expect(oven.step == 9.9)
+        #expect(oven.startTime == 105)
+        let turnDown = try #require(plan.generatedTurnDownStep)
+        #expect(turnDown.step == 10.1)
+        #expect(turnDown.startTime == 140)
+        #expect(plan.allSteps.count == 6)
+    }
 }

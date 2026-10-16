@@ -46,6 +46,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     if UITestSupport.seedsRecipe {
       UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)
     }
+    if let planStart = UITestSupport.planStart() {
+      GlobalVariables.dateTimePicker = planStart
+    }
 
     // Mirror the planned steps into the App Group for the widget, now and
     // after every change.
