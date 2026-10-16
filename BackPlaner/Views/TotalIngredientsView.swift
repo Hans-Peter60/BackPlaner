@@ -9,35 +9,48 @@ struct TotalIngredientData {
 }
 
 struct TotalIngredientsView: View {
-    let ingredients: [TotalIngredientData]
-    let componentNames: [String]
+    /// The recipe's components with their ingredients. The card needs the
+    /// components, not a flat list of ingredients: whether a row stands for
+    /// another component depends on which component it is in.
+    let components: [ComponentColumn]
     /// 1.0 is the recipe as stored.
     let scale: Double
 
     private var totalIngredients: [TotalIngredient] {
-        Self.totalIngredients(ingredients: ingredients, componentNames: componentNames)
+        Self.totalIngredients(of: components)
     }
 
-    /// The summed ingredients without water and without components used as
-    /// ingredients — the same list the card shows, for other consumers such
-    /// as the PDF export.
-    static func totalIngredients(ingredients: [TotalIngredientData], componentNames: [String]) -> [TotalIngredient] {
-        let rawIngredients = ingredients.filter { ingredient in
-            !isWater(ingredient.name)
-                && ComponentProductMatcher.referencedComponent(
+    /// The summed ingredients without water and salt — in whichever language
+    /// the recipe is shown — and without components used as ingredients; the
+    /// same list the card shows, for other consumers such as the PDF export.
+    static func totalIngredients(of components: [ComponentColumn]) -> [TotalIngredient] {
+        let componentNames = components.map(\.name)
+        let rawIngredients = components.enumerated().flatMap { index, component in
+            component.ingredients.filter { ingredient in
+                guard !ShoppingListAmount.isWater(ingredient.name),
+                      !ShoppingListAmount.isSalt(ingredient.name) else { return false }
+                let referenced = ComponentProductMatcher.referencedComponent(
                     name: ingredient.name,
                     weight: ingredient.weight,
                     numerator: ingredient.numerator,
                     denominator: ingredient.denominator,
                     componentNames: componentNames
-                ) == nil
+                )
+                // A row that names its own component is that component's
+                // raw ingredient, not a reference: "104 g Kartoffeln" under
+                // "Kartoffeln (gekocht)" is what one buys, while the same
+                // line in the main dough takes the cooked potatoes over
+                // from that component. Dropping both left the potatoes out
+                // of the list.
+                return referenced == nil || referenced == index
+            }
         }
         return TotalIngredient.aggregate(rawIngredients)
     }
 
     /// The summed ingredients as display lines ("• 268 g Weizenmehl 1050").
-    static func aggregatedLines(ingredients: [TotalIngredientData], componentNames: [String], scale: Double) -> [String] {
-        totalIngredients(ingredients: ingredients, componentNames: componentNames).map { ingredient in
+    static func aggregatedLines(of components: [ComponentColumn], scale: Double) -> [String] {
+        totalIngredients(of: components).map { ingredient in
             "• " + Rational.getPortion(unit: ingredient.unit,
                                        weight: ingredient.weight,
                                        num: ingredient.numerator,
@@ -45,14 +58,6 @@ struct TotalIngredientsView: View {
                                        scale: scale)
                 + ingredient.name
         }
-    }
-
-    private static func isWater(_ name: String) -> Bool {
-        let normalizedName = name
-            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
-            .localizedLowercase
-
-        return normalizedName.contains("wasser") || normalizedName.contains("water")
     }
 
     var body: some View {

@@ -52,15 +52,33 @@ enum ComponentProductMatcher {
         }
     }
 
+    /// The words that say "all of it" in front of a component's name, in the
+    /// three languages a recipe may be shown in: a translated recipe names
+    /// its sourdough "Total wheat sourdough" or "Tout le levain de blé" where
+    /// the German says "Gesamter Weizensauerteig". Longer phrases first, so
+    /// "tous les " is taken off before "tous " could leave "les " behind.
+    /// Compared against the comparison key: lowercase, accents folded.
+    static let wholeProductPrefixes = [
+        "gesamter ", "gesamte ", "gesamtes ", "ganzer ", "ganze ", "ganzes ",
+        "all of the ", "all the ", "entire ", "total ", "whole ", "all ",
+        "l'ensemble de la ", "l'ensemble des ", "l'ensemble du ", "l'ensemble de l'",
+        "la totalite de la ", "la totalite des ", "la totalite du ", "la totalite de l'",
+        "toutes les ", "tous les ", "toute la ", "tout le ", "toute l'", "tout l'",
+        "totalite ", "toutes ", "toute ", "tous ", "tout "
+    ]
+
+    /// `name` without a leading "gesamter"/"total"/"tout le …".
+    private static func droppingWholeProductPrefix(_ name: String) -> String {
+        for prefix in wholeProductPrefixes where name.hasPrefix(prefix) && name.count > prefix.count {
+            return String(name.dropFirst(prefix.count))
+        }
+        return name
+    }
+
     /// The product name with the stage kept and every space and punctuation
     /// mark dropped, so "Sauerteig Stufe 1" and "Sauerteigstufe 1" are equal.
     static func compactName(_ name: String) -> String {
-        var normalizedName = IngredientNameNormalizer.comparisonKey(name)
-
-        for prefix in ["gesamter ", "gesamte ", "gesamtes ", "ganzer ", "ganze ", "ganzes "] where normalizedName.hasPrefix(prefix) {
-            normalizedName.removeFirst(prefix.count)
-            break
-        }
+        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.comparisonKey(name))
 
         if let separatorIndex = normalizedName.firstIndex(where: { "/(".contains($0) }) {
             normalizedName = String(normalizedName[..<separatorIndex])
@@ -73,12 +91,7 @@ enum ComponentProductMatcher {
     /// parenthesis or slash remark, no "Stufe …" suffix, no temperature,
     /// case- and accent-insensitive.
     static func normalizedProductName(_ name: String) -> String {
-        var normalizedName = IngredientNameNormalizer.comparisonKey(name)
-
-        for prefix in ["gesamter ", "gesamte ", "gesamtes ", "ganzer ", "ganze ", "ganzes "] where normalizedName.hasPrefix(prefix) {
-            normalizedName.removeFirst(prefix.count)
-            break
-        }
+        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.comparisonKey(name))
 
         if let separatorIndex = normalizedName.firstIndex(where: { "/(".contains($0) }) {
             normalizedName = String(normalizedName[..<separatorIndex])

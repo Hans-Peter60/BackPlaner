@@ -356,6 +356,10 @@ struct AllRecipesListView: View {
             .cardStyle()
             .accessibilityElement(children: .combine)
             .accessibilityAddTraits(.isButton)
+            // The database id when the recipe is a copy of a public one, so
+            // the UI tests can tell that copy from the public row of the same
+            // name (its displayed name may be a translation by then).
+            .accessibilityIdentifier("localRecipe.row.\(r.firestoreId.flatMap { $0.isEmpty ? nil : $0 } ?? r.reminderId)")
             .accessibilityLabel(Text("\(r.name), lokales Rezept, Bewertung \(r.rating) von 5 Sternen"))
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {

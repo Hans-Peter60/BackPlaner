@@ -152,19 +152,8 @@ struct InstructionsView: View {
                         .font(Theme.brandFont(15))
                 }
 
-                TotalIngredientsView(
-                    ingredients: recipe.componentsArray.flatMap(\.ingredientsArray).map {
-                        TotalIngredientData(
-                            name: $0.name,
-                            unit: $0.unit ?? "",
-                            weight: $0.weight,
-                            numerator: $0.num,
-                            denominator: $0.denom
-                        )
-                    },
-                    componentNames: recipe.componentsArray.map(\.name),
-                    scale: servingScale
-                )
+                TotalIngredientsView(components: ComponentColumn.columns(of: recipe.componentsArray),
+                                     scale: servingScale)
 
                 // MARK: Components
                 ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),

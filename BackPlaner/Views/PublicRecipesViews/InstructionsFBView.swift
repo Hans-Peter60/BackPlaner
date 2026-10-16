@@ -173,19 +173,8 @@ struct InstructionsFBView: View {
                         }
                     }
                     
-                    TotalIngredientsView(
-                        ingredients: recipeFB.components.flatMap(\.ingredients).map {
-                            TotalIngredientData(
-                                name: $0.name,
-                                unit: $0.unit,
-                                weight: $0.weight,
-                                numerator: $0.num,
-                                denominator: $0.denom
-                            )
-                        },
-                        componentNames: recipeFB.components.map(\.name),
-                        scale: servingScale
-                    )
+                    TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
+                                         scale: servingScale)
 
                     // MARK: Components
                     ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),

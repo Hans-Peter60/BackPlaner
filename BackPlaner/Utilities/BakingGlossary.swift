@@ -49,7 +49,7 @@ enum BakingGlossary {
         // Pre-doughs and soakers, the component names most often mangled.
         Term(forms: ["de": Forms(["Brühstück"], plural: ["Brühstücke"]),
                      "en": Forms(["scald", "hot soaker"], plural: ["scalds"]),
-                     "fr": Forms(["échaudage"], plural: ["échaudages"])]),
+                     "fr": Forms(["Graines éboutillantées"], plural: ["Graines éboutillantées"])]),
         Term(forms: ["de": Forms(["Quellstück"], plural: ["Quellstücke"]),
                      "en": Forms(["soaker"], plural: ["soakers"]),
                      "fr": Forms(["trempage"], plural: ["trempages"])]),

@@ -18,7 +18,7 @@
 # 2556×1179, 1206×2622 or 2622×1206 pixels; "iPhone 17 Pro Max" (and the
 # other *Max/Air models) render at other sizes and get rejected on upload.
 #   LANGS    languages                                  (default: de en fr)
-#   RECIPE   public recipe to show, start of its name   (default: Sauerteigbrot mit Kartoffeln und Saaten)
+#   RECIPE   public recipe to show, start of its name   (default: Kartoffelnbrot mit Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
 #
 # The build folder stays outside the project on purpose: a project inside an
@@ -28,8 +28,9 @@
 #
 # The test uses the simulator's own data and the live recipe database, so the
 # simulator needs network access and a registered App Check debug token, as
-# when the app is run from Xcode. It plans the chosen recipe; that plan stays
-# in the simulator.
+# when the app is run from Xcode. It plans the chosen recipe, starting at
+# 20:00 (StoreUITestCase.planStart) so that no step falls into the night;
+# that plan stays in the simulator until the next run clears it.
 
 set -euo pipefail
 
@@ -40,7 +41,7 @@ DEVICES="${DEVICES:-iphone ipad}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
 LANGS="${LANGS:-de en fr}"
-RECIPE="${RECIPE:-Sauerteigbrot mit Kartoffeln und Saaten}"
+RECIPE="${RECIPE:-Kartoffelnbrot mit Saaten}"
 
 OUT="docs/appstore/$VERSION"
 DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"
@@ -152,6 +153,23 @@ for device in "${devices[@]}"; do
         rm -rf "$dir"
         mkdir -p "$dir"
         echo "  ▸ $lang → ${dir#$PWD/}"
+
+        # Clear what earlier runs left behind, as the previews do before each
+        # scene: the plan, the shopping lists and the local copy of the
+        # recipe that planning it stores on the device — otherwise the
+        # recipe list shows the recipe twice and the baking tab asks
+        # whether to replace the existing plan.
+        TEST_RUNNER_PREVIEW_LANGUAGE="$lang" \
+        TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+        xcodebuild test-without-building \
+            -project BackPlaner.xcodeproj \
+            -scheme BackPlaner \
+            -destination "id=$udid" \
+            -derivedDataPath "$DERIVED" \
+            -only-testing:"BackPlanerUITests/AppPreview/testPrepare" \
+            -testLanguage "$lang" \
+            -testRegion "$(region "$lang")" \
+            -quiet >/dev/null 2>&1 || echo "      (clearing the old data failed; the pictures may show a dialog or a doubled recipe)"
 
         bundle="$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult"
         if TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \

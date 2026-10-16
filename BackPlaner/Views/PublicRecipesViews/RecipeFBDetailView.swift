@@ -134,19 +134,8 @@ struct RecipeFBDetailView: View {
                     // MARK: Dough yield and hydration over all components
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipeFB)))
 
-                    TotalIngredientsView(
-                        ingredients: recipeFB.components.flatMap(\.ingredients).map {
-                            TotalIngredientData(
-                                name: $0.name,
-                                unit: $0.unit,
-                                weight: $0.weight,
-                                numerator: $0.num,
-                                denominator: $0.denom
-                            )
-                        },
-                        componentNames: recipeFB.components.map(\.name),
-                        scale: servingScale
-                    )
+                    TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
+                                         scale: servingScale)
 
                     // MARK: Components
                     // One snapshot for the card and the substitution sheet, so a
