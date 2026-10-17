@@ -56,6 +56,18 @@ struct SettingsView: View {
     @State private var importedRecipeCount: Int?
     @State private var importErrorMessage: String?
 
+    // "Meine Anstellgut-TAs" while it is being typed; see the field itself.
+    @State private var presetsText = ""
+    @FocusState private var presetsFocused: Bool
+
+    /// Writes the typed TAs into the setting. Called when the field is left
+    /// or submitted, and when the screen goes away with the field still
+    /// focused.
+    private func storePresets() {
+        guard presetsText != starterDoughYieldPresets else { return }
+        starterDoughYieldPresets = presetsText
+    }
+
     var body: some View {
         Form {
             Section("Allgemein") {
@@ -114,15 +126,19 @@ struct SettingsView: View {
                 }
 
                 // The TAs one keeps starters at — the quick picks offered when
-                // a recipe's starter is swapped for one's own.
+                // a recipe's starter is swapped for one's own. Typed into a
+                // local copy and stored when the field is left: bound to the
+                // setting directly, every keystroke rebuilt this whole form.
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("Meine Anstellgut-TAs")
                         Spacer()
-                        TextField("190, 210, 220", text: $starterDoughYieldPresets)
+                        TextField("190, 210, 220", text: $presetsText)
                             .keyboardType(.numbersAndPunctuation)
                             .multilineTextAlignment(.trailing)
                             .frame(maxWidth: 160)
+                            .focused($presetsFocused)
+                            .onSubmit(storePresets)
                             .accessibilityLabel("Meine Anstellgut-TAs")
                     }
                     Text("Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA.")
@@ -197,7 +213,14 @@ struct SettingsView: View {
         // Picks up an admins document created while the app was running (by
         // the console or scripts/grant-admin.mjs), so the account section
         // shows "Administrator" without a restart.
-        .onAppear { modelFB.checkAdminStatus() }
+        .onAppear {
+            modelFB.checkAdminStatus()
+            presetsText = starterDoughYieldPresets
+        }
+        .onChange(of: presetsFocused) { _, focused in
+            if !focused { storePresets() }
+        }
+        .onDisappear(perform: storePresets)
         .overlay {
             if isDeletingAccount {
                 ProgressView("Konto wird gelöscht …")
@@ -288,11 +311,18 @@ struct SettingsView: View {
 
     /// Every recipe on this device — what "alle eigenen Rezepte sichern"
     /// bundles into one file. A plain fetch, not a live `@FetchRequest`: the
-    /// count only has to be right at the moment the button is tapped.
+    /// list only has to be right at the moment the button is tapped. The
+    /// export item keeps the recipes' ids and reads them when the file is
+    /// written, so this fetch returns faults and copies nothing.
     private var allOwnRecipes: [Recipe] {
         let request = Recipe.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         return (try? viewContext.fetch(request)) ?? []
+    }
+
+    /// Whether there is anything to back up; a count, not a fetch.
+    private var hasOwnRecipes: Bool {
+        ((try? viewContext.count(for: Recipe.fetchRequest())) ?? 0) > 0
     }
 
     private var backupFileName: String {
@@ -314,7 +344,7 @@ struct SettingsView: View {
             ) {
                 Label("Alle eigenen Rezepte sichern", systemImage: "arrow.down.doc")
             }
-            .disabled(allOwnRecipes.isEmpty)
+            .disabled(!hasOwnRecipes)
 
             Button {
                 isImportingRecipes = true

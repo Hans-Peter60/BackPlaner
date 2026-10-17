@@ -234,17 +234,34 @@ extension RecipeExportData {
 /// What `ShareLink` hands to the share sheet: one recipe, or — from the
 /// settings backup — every recipe on the device, as one file either way.
 struct RecipeFileExport: Transferable {
-    let file: RecipeExportFile
+    /// The recipes by id, read again only when the file is actually handed
+    /// over. A `ShareLink` builds its item on every layout of the screen it
+    /// sits in, and the item used to carry the finished export — every
+    /// recipe with its components, steps and picture copied into the export
+    /// structure. In the settings that happened on each keystroke in the
+    /// text field next to it, and typing there stuttered.
+    private let recipeIDs: [NSManagedObjectID]
     let fileName: String
 
     init(recipe: Recipe) {
-        file = RecipeExportFile(recipes: [RecipeExportData(recipe: recipe)])
-        fileName = Self.sanitizedFileName(recipe.name.isEmpty ? "Rezept" : recipe.name)
+        self.init(recipes: [recipe], fileName: recipe.name.isEmpty ? "Rezept" : recipe.name)
     }
 
     init(recipes: [Recipe], fileName: String) {
-        file = RecipeExportFile(recipes: recipes.map(RecipeExportData.init))
+        recipeIDs = recipes.map(\.objectID)
         self.fileName = Self.sanitizedFileName(fileName)
+    }
+
+    /// The export as it stands when the file is written.
+    var file: RecipeExportFile {
+        let context = PersistenceController.shared.container.viewContext
+        var recipes: [RecipeExportData] = []
+        context.performAndWait {
+            recipes = recipeIDs
+                .compactMap { try? context.existingObject(with: $0) as? Recipe }
+                .map(RecipeExportData.init)
+        }
+        return RecipeExportFile(recipes: recipes)
     }
 
     private static func sanitizedFileName(_ name: String) -> String {
