@@ -219,6 +219,19 @@ struct PlannedStepStoreTests {
         #expect(bake.date == minutes(120))
     }
 
+    @Test("Later: from now for a due step, from its own time for one ahead")
+    func shiftLater() {
+        #expect(PlannedStepStore.shiftedDate(of: minutes(-20), isDue: true, minutes: 15, direction: .later, now: now) == minutes(15))
+        #expect(PlannedStepStore.shiftedDate(of: minutes(40), isDue: false, minutes: 15, direction: .later, now: now) == minutes(55))
+    }
+
+    @Test("Earlier: only for a step ahead, and at most up to now")
+    func shiftEarlier() {
+        #expect(PlannedStepStore.shiftedDate(of: minutes(40), isDue: false, minutes: 15, direction: .earlier, now: now) == minutes(25))
+        #expect(PlannedStepStore.shiftedDate(of: minutes(40), isDue: false, minutes: 90, direction: .earlier, now: now) == minutes(1))
+        #expect(PlannedStepStore.shiftedDate(of: minutes(-20), isDue: true, minutes: 15, direction: .earlier, now: now) == nil)
+    }
+
     @Test("Marking done removes the step from the plan")
     func markDoneRemovesTheStep() throws {
         let context = PersistenceController(inMemory: true).container.viewContext

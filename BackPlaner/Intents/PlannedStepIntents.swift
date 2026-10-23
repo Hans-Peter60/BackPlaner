@@ -87,8 +87,28 @@ enum PlannedStepStore {
         }
     }
 
-    /// Moves the step (and, if asked, its followers) by `minutes`, reminders
-    /// included. Wraps the completion-handler API the plan views use.
+    /// Where a step lands when moved `minutes` in `direction` at `now`.
+    ///
+    /// Later: counted from now for a step that is already due — the way the
+    /// reminder's postpone button does it — and from the step's own time
+    /// for one still ahead. Earlier: only for a step still ahead, and never
+    /// beyond now; asked to bring a step forward by more than it is away,
+    /// it becomes due now. `nil` for a due step asked to come earlier.
+    nonisolated static func shiftedDate(of stepDate: Date, isDue: Bool, minutes: Int,
+                                        direction: StepShiftDirection, now: Date) -> Date? {
+        let distance = TimeInterval(minutes * 60)
+        switch direction {
+        case .later:
+            return (isDue ? now : stepDate).addingTimeInterval(distance)
+        case .earlier:
+            guard !isDue else { return nil }
+            return max(stepDate.addingTimeInterval(-distance), now.addingTimeInterval(60))
+        }
+    }
+
+    /// Moves the step (and, if asked, its followers) by `minutes`, which
+    /// may be negative, reminders included. Wraps the completion-handler
+    /// API the plan views use.
     static func shift(_ step: NextStep, byMinutes minutes: Int, includeFollowing: Bool) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             NotificationActions.shiftScheduledStep(step, byMinutes: minutes, includeFollowing: includeFollowing) { result in
@@ -104,6 +124,7 @@ enum PlannedStepIntentError: Error, CustomLocalizedStringResourceConvertible {
     case noPlannedSteps
     case noBakingStep
     case shiftedIntoPast
+    case dueStepCannotComeEarlier
     case couldNotSave
 
     var localizedStringResource: LocalizedStringResource {
@@ -111,9 +132,29 @@ enum PlannedStepIntentError: Error, CustomLocalizedStringResourceConvertible {
         case .noPlannedSteps:  return "Es sind gerade keine Schritte geplant."
         case .noBakingStep:    return "In den geplanten Schritten steht kein Backschritt mehr an."
         case .shiftedIntoPast: return "Der verschobene Zeitpunkt muss in der Zukunft liegen."
+        case .dueStepCannotComeEarlier: return "Der Schritt ist schon fällig und lässt sich nicht mehr vorziehen."
         case .couldNotSave:    return "Die Änderung konnte nicht gespeichert werden."
         }
     }
+}
+
+/// Which way a step moves. The titles read in the Shortcuts sentence
+/// ("Nächsten Schritt um 15 Minuten nach vorne verschieben") and, with the
+/// synonyms, at the end of the Siri phrase ("Nächsten Schritt in
+/// BakePlanner vorziehen"). The raw values are stored in saved shortcuts
+/// and must not change.
+enum StepShiftDirection: String, AppEnum {
+    case later
+    case earlier
+
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Richtung")
+
+    static let caseDisplayRepresentations: [StepShiftDirection: DisplayRepresentation] = [
+        .later: DisplayRepresentation(title: "nach hinten verschieben",
+                                      synonyms: ["verschieben", "nach hinten"]),
+        .earlier: DisplayRepresentation(title: "nach vorne verschieben",
+                                        synonyms: ["vorziehen", "nach vorne"])
+    ]
 }
 
 // MARK: - Next step
@@ -190,17 +231,22 @@ struct MarkStepDoneIntent: AppIntent {
 struct PostponeStepIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Nächsten Schritt verschieben"
-    static let description = IntentDescription("Verschiebt den anstehenden Schritt um einige Minuten, auf Wunsch mit allen folgenden Schritten.")
+    static let description = IntentDescription("Verschiebt den anstehenden Schritt um einige Minuten nach hinten oder nach vorne, auf Wunsch mit allen folgenden Schritten.")
     static var supportedModes: IntentModes { .background }
 
     @Parameter(title: "Minuten", inclusiveRange: (1, 1440), requestValueDialog: "Um wie viele Minuten?")
     var minutes: Int
 
+    /// Later unless the phrase said otherwise, so "Nächsten Schritt
+    /// verschieben" never has to ask which way.
+    @Parameter(title: "Richtung", default: .later)
+    var direction: StepShiftDirection
+
     @Parameter(title: "Folgende Schritte mitverschieben", default: true)
     var includeFollowing: Bool
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Nächsten Schritt um \(\.$minutes) Minuten verschieben") {
+        Summary("Nächsten Schritt um \(\.$minutes) Minuten \(\.$direction)") {
             \.$includeFollowing
         }
     }
@@ -215,20 +261,27 @@ struct PostponeStepIntent: AppIntent {
         let instruction = IntentPhrasing.spokenInstruction(step.instruction)
         let recipeName = step.recipeName
 
-        // "In 15 minutes" counts from now for a step that is already due —
-        // the way the reminder's postpone button does it — and from the
-        // step's own time for one still ahead.
-        let target = (current.isDue ? now : step.date).addingTimeInterval(TimeInterval(minutes * 60))
+        guard let target = PlannedStepStore.shiftedDate(of: step.date, isDue: current.isDue, minutes: minutes,
+                                                        direction: direction, now: now) else {
+            throw PlannedStepIntentError.dueStepCannotComeEarlier
+        }
         let shiftMinutes = Int((target.timeIntervalSince(step.date) / 60).rounded())
-        guard shiftMinutes > 0 else {
+        guard shiftMinutes != 0 else {
             throw PlannedStepIntentError.shiftedIntoPast
         }
 
         let followers = includeFollowing ? try PlannedStepStore.followingSteps(of: step) : []
         if !followers.isEmpty {
-            try await requestConfirmation(
-                dialog: "„\(instruction)“ und alle folgenden Schritte von \(recipeName) um \(minutes) Minuten verschieben?"
-            )
+            switch direction {
+            case .later:
+                try await requestConfirmation(
+                    dialog: "„\(instruction)“ und alle folgenden Schritte von \(recipeName) um \(minutes) Minuten nach hinten verschieben?"
+                )
+            case .earlier:
+                try await requestConfirmation(
+                    dialog: "„\(instruction)“ und alle folgenden Schritte von \(recipeName) um \(minutes) Minuten vorziehen?"
+                )
+            }
         }
 
         do {
@@ -240,7 +293,12 @@ struct PostponeStepIntent: AppIntent {
         }
 
         let when = IntentPhrasing.dateText(target, now: now)
-        return .result(dialog: "Verschoben. „\(instruction)“ für \(recipeName) ist jetzt \(when) fällig.")
+        switch direction {
+        case .later:
+            return .result(dialog: "Verschoben. „\(instruction)“ für \(recipeName) ist jetzt \(when) fällig.")
+        case .earlier:
+            return .result(dialog: "Vorgezogen. „\(instruction)“ für \(recipeName) ist jetzt \(when) fällig.")
+        }
     }
 }
 

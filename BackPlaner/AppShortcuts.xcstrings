@@ -66,14 +66,14 @@
         }
       }
     },
-    "Nächsten Schritt in ${applicationName} verschieben" : {
+    "Nächsten Schritt in ${applicationName} ${direction}" : {
       "localizations" : {
         "de" : {
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Nächsten Schritt in ${applicationName} verschieben",
-              "Schritt verschieben in ${applicationName}"
+              "Nächsten Schritt in ${applicationName} ${direction}",
+              "Schritt ${direction} in ${applicationName}"
             ]
           }
         },
@@ -81,8 +81,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Postpone the next step in ${applicationName}",
-              "Postpone a step in ${applicationName}"
+              "Move the next step in ${applicationName} ${direction}",
+              "Move a step in ${applicationName} ${direction}"
             ]
           }
         },
@@ -90,8 +90,8 @@
           "stringSet" : {
             "state" : "translated",
             "values" : [
-              "Décaler la prochaine étape dans ${applicationName}",
-              "Décaler une étape dans ${applicationName}"
+              "${direction} la prochaine étape dans ${applicationName}",
+              "${direction} une étape dans ${applicationName}"
             ]
           }
         }

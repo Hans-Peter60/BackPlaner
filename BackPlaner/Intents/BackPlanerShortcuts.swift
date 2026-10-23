@@ -40,9 +40,12 @@ struct BackPlanerShortcuts: AppShortcutsProvider {
         )
         AppShortcut(
             intent: PostponeStepIntent(),
+            // The direction expands through its titles and synonyms:
+            // "… verschieben", "… nach hinten verschieben", "… vorziehen",
+            // "… nach vorne verschieben", "… nach hinten", "… nach vorne".
             phrases: [
-                "Nächsten Schritt in \(.applicationName) verschieben",
-                "Schritt verschieben in \(.applicationName)"
+                "Nächsten Schritt in \(.applicationName) \(\.$direction)",
+                "Schritt \(\.$direction) in \(.applicationName)"
             ],
             shortTitle: "Schritt verschieben",
             systemImageName: "clock.arrow.circlepath"
