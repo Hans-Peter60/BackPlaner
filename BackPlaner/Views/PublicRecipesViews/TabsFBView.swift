@@ -179,6 +179,10 @@ struct TabsFBView: View {
                     .disabled(isTranslating)
                     .accessibilityLabel(isTranslating ? "Übersetzt …" : "Sprache wählen")
                 }
+
+                // Language and moderation are unrelated; the spacer gives
+                // each its own Liquid Glass group instead of one shared pill.
+                ToolbarSpacer(.fixed, placement: .navigationBarTrailing)
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {

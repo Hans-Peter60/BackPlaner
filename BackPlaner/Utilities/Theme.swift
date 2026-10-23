@@ -102,6 +102,11 @@ enum Theme {
 
 /// Places the warm bread-themed gradient behind the content, with the
 /// soft-focus bakery photo (`BakeryBackdrop`) over it when the asset exists.
+///
+/// Every screen with this background also gets the soft scroll edge: its
+/// content blurs out under the navigation bar and under any glass bar at
+/// the bottom instead of being cut off along a hard line. One place for
+/// all 28 screens rather than a modifier on each scroll view.
 private struct WarmBackground: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
@@ -109,6 +114,7 @@ private struct WarmBackground: ViewModifier {
                 .ignoresSafeArea()
             BakeryBackdrop()
             content
+                .scrollEdgeEffectStyle(.soft, for: .all)
         }
     }
 }

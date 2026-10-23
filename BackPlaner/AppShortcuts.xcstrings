@@ -1,0 +1,229 @@
+{
+  "sourceLanguage" : "de",
+  "strings" : {
+    "${starter} in ${applicationName} gefüttert" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${starter} in ${applicationName} gefüttert",
+              "Sauerteig gefüttert in ${applicationName}",
+              "${applicationName} Sauerteig gefüttert"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Fed ${starter} in ${applicationName}",
+              "Fed my starter in ${applicationName}",
+              "${applicationName} fed my starter"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "J’ai nourri ${starter} dans ${applicationName}",
+              "J’ai nourri mon levain dans ${applicationName}",
+              "${applicationName} levain nourri"
+            ]
+          }
+        }
+      }
+    },
+    "Alle Sauerteige in ${applicationName} gefüttert" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Alle Sauerteige in ${applicationName} gefüttert",
+              "${applicationName} alle Sauerteige gefüttert"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Fed all starters in ${applicationName}",
+              "${applicationName} fed all starters"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "J’ai nourri tous les levains dans ${applicationName}",
+              "${applicationName} tous les levains nourris"
+            ]
+          }
+        }
+      }
+    },
+    "Nächsten Schritt in ${applicationName} ${direction}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nächsten Schritt in ${applicationName} ${direction}",
+              "Schritt ${direction} in ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Move the next step in ${applicationName} ${direction}",
+              "Move a step in ${applicationName} ${direction}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${direction} la prochaine étape dans ${applicationName}",
+              "${direction} une étape dans ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Nächster Schritt in ${applicationName}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Nächster Schritt in ${applicationName}",
+              "Was ist mein nächster Backschritt in ${applicationName}",
+              "Was steht in ${applicationName} als Nächstes an"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Next step in ${applicationName}",
+              "What is my next baking step in ${applicationName}",
+              "What is up next in ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Prochaine étape dans ${applicationName}",
+              "Quelle est ma prochaine étape dans ${applicationName}",
+              "Qu’est-ce qui vient ensuite dans ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Schritt erledigt in ${applicationName}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Schritt erledigt in ${applicationName}",
+              "${applicationName} Schritt erledigt"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Step done in ${applicationName}",
+              "${applicationName} step done"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Étape terminée dans ${applicationName}",
+              "${applicationName} étape terminée"
+            ]
+          }
+        }
+      }
+    },
+    "Wann habe ich ${starter} in ${applicationName} zuletzt gefüttert" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Wann habe ich ${starter} in ${applicationName} zuletzt gefüttert",
+              "Letzte Fütterung in ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "When did I last feed ${starter} in ${applicationName}",
+              "Last feeding in ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quand ai-je nourri ${starter} dans ${applicationName}",
+              "Dernier nourrissage dans ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Wann muss ich in ${applicationName} in den Ofen" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Wann muss ich in ${applicationName} in den Ofen",
+              "Wann kommt das Brot in ${applicationName} in den Ofen"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "When is oven time in ${applicationName}",
+              "When does the bread go into the oven in ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quand enfourner dans ${applicationName}",
+              "Quand le pain va-t-il au four dans ${applicationName}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

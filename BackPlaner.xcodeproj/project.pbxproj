@@ -96,6 +96,11 @@
 		6AD3411E304EF4FE00BCA4EA /* BakePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */; };
 		6AD34120304EF50800BCA4EA /* BakePlanIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */; };
 		6AD5AD773046CA60001680D2 /* IconActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DE1C63046B040000581C7 /* IconActionButton.swift */; };
+		6ADBF4FD308BA52D00BB7789 /* IntentPhrasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF4FC308BA52D00BB7789 /* IntentPhrasing.swift */; };
+		6ADBF4FF308BA55C00BB7789 /* PlannedStepIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF4FE308BA55C00BB7789 /* PlannedStepIntents.swift */; };
+		6ADBF501308BA58900BB7789 /* StarterIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF500308BA58900BB7789 /* StarterIntents.swift */; };
+		6ADBF503308BA59500BB7789 /* BackPlanerShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */; };
+		6ADBF507308BA89B00BB7789 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */; };
 		6AEC2C54306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */; };
 		6AEC2C56306E46B50043305A /* FirebaseFunctionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */; };
 		6AEC2C58306E46B50043305A /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 6AEC2C57306E46B50043305A /* FirebaseFunctions */; };
@@ -286,6 +291,11 @@
 		6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientNameNormalizer.swift; sourceTree = "<group>"; };
 		6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlanValidator.swift; sourceTree = "<group>"; };
 		6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlanIssuesView.swift; sourceTree = "<group>"; };
+		6ADBF4FC308BA52D00BB7789 /* IntentPhrasing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentPhrasing.swift; sourceTree = "<group>"; };
+		6ADBF4FE308BA55C00BB7789 /* PlannedStepIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedStepIntents.swift; sourceTree = "<group>"; };
+		6ADBF500308BA58900BB7789 /* StarterIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterIntents.swift; sourceTree = "<group>"; };
+		6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackPlanerShortcuts.swift; sourceTree = "<group>"; };
+		6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoColumnRecipeParser.swift; sourceTree = "<group>"; };
 		6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralRecipeParser.swift; sourceTree = "<group>"; };
 		6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridRecipeImageAnalysisAgent.swift; sourceTree = "<group>"; };
@@ -421,6 +431,17 @@
 				6A2615FD3072A079007644AB /* UniformTypeIdentifiers.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6ADBF4FB308BA52D00BB7789 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				6ADBF4FC308BA52D00BB7789 /* IntentPhrasing.swift */,
+				6ADBF4FE308BA55C00BB7789 /* PlannedStepIntents.swift */,
+				6ADBF500308BA58900BB7789 /* StarterIntents.swift */,
+				6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */,
+			);
+			path = Intents;
 			sourceTree = "<group>";
 		};
 		6AF638CA2B7A4C3B0070CDC1 /* CoreData */ = {
@@ -673,6 +694,8 @@
 				6A4816F13041DB3600011A56 /* GoogleService-Info.plist */,
 				6AF754E22B75018F00EADD84 /* Preview Content */,
 				6AF9268A3045772B0081227C /* PrivacyInfo.xcprivacy */,
+				6ADBF4FB308BA52D00BB7789 /* Intents */,
+				6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */,
 			);
 			path = BackPlaner;
 			sourceTree = "<group>";
@@ -895,6 +918,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9181F1304961530045D7CB /* Localizable.xcstrings in Resources */,
+				6ADBF507308BA89B00BB7789 /* AppShortcuts.xcstrings in Resources */,
 				6A9181F2304961530045D7CB /* InfoPlist.xcstrings in Resources */,
 				6AF9268B3045772B0081227C /* PrivacyInfo.xcprivacy in Resources */,
 				6AF639782B7A51340070CDC1 /* UnitSets.json in Resources */,
@@ -954,6 +978,7 @@
 				6AF638C92B7A4A5A0070CDC1 /* RecipeModel.swift in Sources */,
 				6A1132102B7CF95A00CDF054 /* AddComponentDataView.swift in Sources */,
 				6AA79EC930777BDC00935F0F /* BakeHistoryFacts.swift in Sources */,
+				6ADBF503308BA59500BB7789 /* BackPlanerShortcuts.swift in Sources */,
 				6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */,
 				6AF6397B2B7A51340070CDC1 /* GlobalVariables.swift in Sources */,
 				6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */,
@@ -974,6 +999,7 @@
 				6A2616103072A0E0007644AB /* PendingWebImport.swift in Sources */,
 				6A11321F2B7CF97900CDF054 /* BakeHistoriesHitListView.swift in Sources */,
 				6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */,
+				6ADBF4FD308BA52D00BB7789 /* IntentPhrasing.swift in Sources */,
 				6A1131FF2B7CF94600CDF054 /* RecipeListView.swift in Sources */,
 				6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */,
 				6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */,
@@ -1031,6 +1057,7 @@
 				6AF639792B7A51340070CDC1 /* DataService.swift in Sources */,
 				6AD34120304EF50800BCA4EA /* BakePlanIssuesView.swift in Sources */,
 				6A1132012B7CF94600CDF054 /* InstructionsView.swift in Sources */,
+				6ADBF501308BA58900BB7789 /* StarterIntents.swift in Sources */,
 				6A2615BB3070FE15007644AB /* BakeryBackdropView.swift in Sources */,
 				6AAEFCA1B5028BD456D2A48A /* BakePlanAdvisor.swift in Sources */,
 				6AD3411E304EF4FE00BCA4EA /* BakePlanValidator.swift in Sources */,
@@ -1038,6 +1065,7 @@
 				6A5055EE304D684600F8E804 /* InstructionSchedulingControlsView.swift in Sources */,
 				6A2615D330726171007644AB /* RecipeWebPageLoader.swift in Sources */,
 				6AA79ECD30777C4E00935F0F /* BakeHistoryFactsFormSection.swift in Sources */,
+				6ADBF4FF308BA55C00BB7789 /* PlannedStepIntents.swift in Sources */,
 				6A1132052B7CF94600CDF054 /* EditComponentDataView.swift in Sources */,
 				6A1132042B7CF94600CDF054 /* RecipeDetailView.swift in Sources */,
 				6A1132182B7CF96900CDF054 /* ScheduledTasksTimeLineView.swift in Sources */,

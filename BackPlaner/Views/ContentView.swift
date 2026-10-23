@@ -83,10 +83,6 @@ struct ContentView: View {
 
                     header
 
-                    // Only present while a step is ahead or just due, so the
-                    // menu is unchanged for anyone without a plan.
-                    NextStepCardView()
-
                     // An eager Grid, not a LazyVGrid: a lazy one reports its
                     // size only once its cells exist, which on iPad arrives a
                     // layout pass too late.
@@ -130,13 +126,25 @@ struct ContentView: View {
                 // has no effect and the screen scrolls as before.
                 .frame(minHeight: fullView.size.height, alignment: .center)
             }
+
+            }
+            // The next planned step floats as a Liquid Glass bar over the
+            // bottom edge: the menu cards and the bakery photo scroll
+            // underneath it, and the countdown stays in view however far
+            // down the menu is scrolled. Only present while a step is ahead
+            // or just due, so the menu is unchanged for anyone without a
+            // plan. On the GeometryReader, not the ScrollView, so the
+            // centring frame above measures the height the bar leaves.
+            .safeAreaBar(edge: .bottom) {
+                NextStepCardView()
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+            }
             .warmBackground()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: MenuDestination.self) { destination in
                 self.destination(for: destination)
-            }
-
             }
         }
         // The widget's deep link goes straight to the planned steps; the
