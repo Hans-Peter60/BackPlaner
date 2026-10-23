@@ -11,9 +11,13 @@ import CoreData
 struct ScheduledTasksTimeLineView: View {
     
     @Environment(\.managedObjectContext) private var managedObjectContext
+    /// Handed on to the bake mode, which looks up public recipes through it.
+    @EnvironmentObject var model: RecipeModel
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var recipes: FetchedResults<Recipe>
+
+    @State private var showingBakeMode = false
 
     let date = Date() - 60
     
@@ -88,10 +92,33 @@ struct ScheduledTasksTimeLineView: View {
                     .listRowBackground(Color.clear)
             }
             .clearScrollBackground()
+            // The same kitchen view the list offers, as a round Liquid Glass
+            // button floating over the timeline. The timeline has no filter,
+            // so the bake mode shows every planned step.
+            .safeAreaBar(edge: .bottom, alignment: .trailing) {
+                Button {
+                    showingBakeMode = true
+                } label: {
+                    Image(systemName: "oven.fill")
+                        .font(.title2.weight(.semibold))
+                        .frame(width: 56, height: 56)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(Theme.accentTop)
+                .accessibilityLabel("Backmodus starten")
+                .accessibilityIdentifier("timeline.bakeMode")
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
+            }
             }
         }
         .warmBackground()
         .navigationTitle("Geplante nächste Schritte")
+        .fullScreenCover(isPresented: $showingBakeMode) {
+            BakeModeView(planFilter: nil)
+                .environment(\.managedObjectContext, managedObjectContext)
+                .environmentObject(model)
+        }
     }
     
     @ViewBuilder private func rowAt(_ index: Int, item: NextStep) -> some View {

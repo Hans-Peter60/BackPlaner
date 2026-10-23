@@ -121,6 +121,9 @@ struct BakeHistoriesListView: View {
                           systemImage: layout == .list ? "square.grid.2x2" : "list.bullet")
                 }
             }
+            // Layout and filter are different kinds of control; the spacer
+            // gives each its own Liquid Glass group instead of one shared pill.
+            ToolbarSpacer(.fixed, placement: .topBarTrailing)
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Picker("Mindestbewertung", selection: $rating) {

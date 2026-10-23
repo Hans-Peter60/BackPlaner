@@ -124,27 +124,29 @@ struct BakeModeView: View {
     private func stepView(_ step: NextStep, index: Int) -> some View {
         let component = component(for: step)
 
-        return VStack(spacing: 0) {
+        return ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                header(for: step, index: index)
 
-                    header(for: step, index: index)
+                Text(step.instruction)
+                    .font(Theme.brandFont(26))
+                    .foregroundColor(Theme.cardTitle)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityAddTraits(.isHeader)
 
-                    Text(step.instruction)
-                        .font(Theme.brandFont(26))
-                        .foregroundColor(Theme.cardTitle)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityAddTraits(.isHeader)
-
-                    if let component {
-                        ingredientsCard(component, scale: step.effectiveServingScale)
-                    }
+                if let component {
+                    ingredientsCard(component, scale: step.effectiveServingScale)
                 }
-                .padding()
             }
-
+            .padding()
+        }
+        // A bar, not a sibling below the scroll view: the step text and the
+        // ingredients scroll underneath the Liquid Glass controls, which is
+        // what makes the glass read as glass. The bar also extends the
+        // scroll edge effect, so long content fades out under it.
+        .safeAreaBar(edge: .bottom) {
             controls(for: step, index: index, component: component)
         }
     }
@@ -186,7 +188,12 @@ struct BakeModeView: View {
                     .foregroundColor(Theme.accentText)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(Theme.accentText.opacity(0.12), in: Capsule())
+                    // Untinted glass: a tint strong enough to show would
+                    // need white text, and white fails on the light orange
+                    // accent of dark mode. The accent text on frosted glass
+                    // over the warm background reads like it did on the
+                    // old 12 % tint.
+                    .glassEffect(.regular, in: Capsule())
 
                     Group {
                         if isDue {
@@ -225,58 +232,63 @@ struct BakeModeView: View {
             ? AnyLayout(VStackLayout(spacing: 12))
             : AnyLayout(HStackLayout(spacing: 12))
 
-        return VStack(spacing: 12) {
-            rowLayout {
-                bigButton(systemImage: "chevron.left", title: "Zurück", enabled: index > 0) {
-                    show(steps[index - 1])
-                }
-                .accessibilityLabel("Vorheriger Schritt")
-
-                if speechEnabled {
-                    bigButton(systemImage: speaker.isSpeaking ? "stop.fill" : "speaker.wave.2.fill",
-                              title: speaker.isSpeaking ? "Stopp" : "Vorlesen",
-                              enabled: true) {
-                        if speaker.isSpeaking {
-                            speaker.stop()
-                        } else {
-                            speaker.speak(Self.spokenText(for: step, component: component))
-                        }
+        // One container for all four buttons: the glass shapes are rendered
+        // together, and when they come close they blend into one another.
+        // No material behind the bar any more — glass on a material would
+        // be glass on glass, and the content is meant to show through.
+        return GlassEffectContainer(spacing: 12) {
+            VStack(spacing: 12) {
+                rowLayout {
+                    bigButton(systemImage: "chevron.left", title: "Zurück", enabled: index > 0) {
+                        show(steps[index - 1])
                     }
-                    .accessibilityLabel(speaker.isSpeaking ? "Vorlesen beenden" : "Schritt vorlesen")
+                    .accessibilityLabel("Vorheriger Schritt")
+
+                    if speechEnabled {
+                        bigButton(systemImage: speaker.isSpeaking ? "stop.fill" : "speaker.wave.2.fill",
+                                  title: speaker.isSpeaking ? "Stopp" : "Vorlesen",
+                                  enabled: true) {
+                            if speaker.isSpeaking {
+                                speaker.stop()
+                            } else {
+                                speaker.speak(Self.spokenText(for: step, component: component))
+                            }
+                        }
+                        .accessibilityLabel(speaker.isSpeaking ? "Vorlesen beenden" : "Schritt vorlesen")
+                    }
+
+                    bigButton(systemImage: "chevron.right", title: "Weiter", enabled: index + 1 < steps.count) {
+                        show(steps[index + 1])
+                    }
+                    .accessibilityLabel("Nächster Schritt")
                 }
 
-                bigButton(systemImage: "chevron.right", title: "Weiter", enabled: index + 1 < steps.count) {
-                    show(steps[index + 1])
+                Button {
+                    markDone(step, at: index)
+                } label: {
+                    // Not a `Label`: inside the prominent button its title kept
+                    // to one line and the French "Marquer comme terminé" ended
+                    // as "Marquer com…" at the accessibility sizes. A plain
+                    // stack lets the title wrap.
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark")
+                        Text("Erledigt")
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .lineLimit(nil)
+                    .font(Theme.brandFont(18))
+                    .frame(maxWidth: .infinity, minHeight: 56)
                 }
-                .accessibilityLabel("Nächster Schritt")
+                .buttonStyle(.glassProminent)
+                .tint(Theme.accentTop)
+                // The checkmark symbol would make VoiceOver add "selected".
+                .accessibilityRemoveTraits(.isSelected)
             }
-
-            Button {
-                markDone(step, at: index)
-            } label: {
-                // Not a `Label`: inside the prominent button its title kept
-                // to one line and the French "Marquer comme terminé" ended
-                // as "Marquer com…" at the accessibility sizes. A plain
-                // stack lets the title wrap.
-                HStack(spacing: 8) {
-                    Image(systemName: "checkmark")
-                    Text("Erledigt")
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                .lineLimit(nil)
-                .font(Theme.brandFont(18))
-                .frame(maxWidth: .infinity, minHeight: 56)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(Theme.accentTop)
-            // The checkmark symbol would make VoiceOver add "selected".
-            .accessibilityRemoveTraits(.isSelected)
         }
         .padding(.horizontal)
         .padding(.top, 8)
         .padding(.bottom, 12)
-        .background(.thinMaterial)
     }
 
     private func bigButton(systemImage: String, title: LocalizedStringKey, enabled: Bool,
@@ -292,7 +304,7 @@ struct BakeModeView: View {
             }
             .frame(maxWidth: .infinity, minHeight: 56)
         }
-        .buttonStyle(.bordered)
+        .buttonStyle(.glass)
         .tint(Theme.accentText)
         .disabled(!enabled)
     }

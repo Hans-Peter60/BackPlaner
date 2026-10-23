@@ -127,8 +127,6 @@ struct ScheduledTasksView: View {
                 recipeChangedBanner(recipe)
             }
 
-            bakeModeButton
-
             List {
 
             ForEach(visibleSteps, id: \.objectID) { nextStep in
@@ -324,33 +322,10 @@ struct ScheduledTasksView: View {
         }
         .clearScrollBackground()
         .sensoryFeedback(.success, trigger: doneHaptic)
-        // Compact, floating delete button so it takes no layout space of its own.
-        .overlay(alignment: .bottomTrailing) {
-            IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Geplante Schritte löschen", controlSize: .large) {
-                confirmationShown = true
-            }
-            .background(.thinMaterial, in: Circle())
-            .padding()
-            .confirmationDialog("Geplante Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
-                // With an active filter the user can restrict the deletion to
-                // the selected recipe instead of clearing the whole plan.
-                if let planFilter {
-                    Button("Nur „\(planFilter.recipeName)“ löschen", role: .destructive) {
-                        deleteNextSteps(of: planFilter)
-                    }
-                }
-                Button("Alle löschen", role: .destructive) {
-                    deleteNextSteps(of: nil)
-                }
-                Button("Abbrechen", role: .cancel) { }
-            } message: {
-                if let planFilter {
-                    Text("Entferne nur die geplanten Schritte von „\(planFilter.recipeName)“ samt Erinnerungen – oder alle geplanten Schritte.")
-                } else {
-                    Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
-                }
-            }
-            .sensoryFeedback(.success, trigger: deleteHaptic)
+        // Bake mode and delete float over the bottom edge in Liquid Glass;
+        // the step cards scroll underneath them.
+        .safeAreaBar(edge: .bottom) {
+            planActionBar
         }
         }
         }
@@ -459,31 +434,58 @@ struct ScheduledTasksView: View {
         .padding(.top, 8)
     }
 
-    /// Opens the kitchen view of the plan — one step at a time in large type.
-    /// Respects the recipe filter above it.
-    private var bakeModeButton: some View {
-        Button {
-            showingBakeMode = true
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "oven.fill")
-                    .font(.system(size: 17, weight: .semibold))
-                Text("Backmodus starten")
-                    .font(Theme.brandFont(16))
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .semibold))
-                    .accessibilityHidden(true)
+    /// The glass bar at the foot of the list: the kitchen view of the plan —
+    /// one step at a time in large type, respecting the recipe filter — and
+    /// the delete button beside it. One container, so the two shapes are
+    /// rendered together and blend when they come close.
+    private var planActionBar: some View {
+        GlassEffectContainer(spacing: 12) {
+            HStack(spacing: 12) {
+                Button {
+                    showingBakeMode = true
+                } label: {
+                    Label("Backmodus starten", systemImage: "oven.fill")
+                        .font(Theme.brandFont(16))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(Theme.accentTop)
+                .accessibilityIdentifier("scheduled.bakeMode")
+
+                Button {
+                    confirmationShown = true
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(Theme.danger)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.glass)
+                .accessibilityLabel("Geplante Schritte löschen")
+                .confirmationDialog("Geplante Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
+                    // With an active filter the user can restrict the deletion to
+                    // the selected recipe instead of clearing the whole plan.
+                    if let planFilter {
+                        Button("Nur „\(planFilter.recipeName)“ löschen", role: .destructive) {
+                            deleteNextSteps(of: planFilter)
+                        }
+                    }
+                    Button("Alle löschen", role: .destructive) {
+                        deleteNextSteps(of: nil)
+                    }
+                    Button("Abbrechen", role: .cancel) { }
+                } message: {
+                    if let planFilter {
+                        Text("Entferne nur die geplanten Schritte von „\(planFilter.recipeName)“ samt Erinnerungen – oder alle geplanten Schritte.")
+                    } else {
+                        Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
+                    }
+                }
+                .sensoryFeedback(.success, trigger: deleteHaptic)
             }
-            .foregroundColor(.white)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Theme.accent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier("scheduled.bakeMode")
         .padding(.horizontal, 12)
-        .padding(.top, 8)
+        .padding(.bottom, 8)
     }
 
     /// Horizontal chips to narrow the list down to a single planned recipe.

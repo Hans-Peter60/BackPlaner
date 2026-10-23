@@ -2,10 +2,13 @@
 //  NextStepCardView.swift
 //  BackPlaner
 //
-//  The "Als Nächstes" card at the top of the main menu: the one planned step
-//  that matters right now, with a live countdown, one tap away from the full
-//  plan. Whoever is in the middle of a bake sees the essential thing first;
-//  without a plan the card stays away and the menu looks as before.
+//  The "Als Nächstes" bar at the bottom of the main menu: the one planned
+//  step that matters right now, with a live countdown, one tap away from the
+//  full plan. Whoever is in the middle of a bake sees the essential thing
+//  first; without a plan the bar stays away and the menu looks as before.
+//
+//  Rendered in Liquid Glass rather than as a white card: it floats over the
+//  scrolling menu and the bakery photo, which is what the glass is for.
 //
 
 import SwiftUI
@@ -131,7 +134,12 @@ struct NextStepCardView: View {
                 .foregroundColor(Theme.subtitle)
                 .accessibilityHidden(true)
         }
-        .cardStyle()
+        .padding(.vertical, 14)
+        .padding(.horizontal, 16)
+        // Regular, not clear glass: the bar sits over the bakery photo and
+        // the regular variant brings the dimming the text needs. Interactive
+        // so it lights up under the finger like a system button.
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20, style: .continuous))
         .accessibilityElement(children: .combine)
         .accessibilityHint("Öffnet die geplanten Schritte")
     }
