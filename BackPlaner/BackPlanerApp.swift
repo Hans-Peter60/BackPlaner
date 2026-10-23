@@ -129,6 +129,10 @@ struct BackPlanerApp: App {
             if phase == .active {
                 RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
                 PlanSnapshotPublisher.shared.refresh()
+                // The Siri phrases name each starter ("Roggensauer gefüttert"),
+                // so a starter added, renamed or given a rhythm while the app
+                // was open has to reach Siri's phrase list.
+                BackPlanerShortcuts.updateAppShortcutParameters()
             }
         }
     }
