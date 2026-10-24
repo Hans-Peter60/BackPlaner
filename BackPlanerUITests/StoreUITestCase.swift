@@ -91,6 +91,13 @@ class StoreUITestCase: XCTestCase {
             app.launchArguments += ["-UITestingPlanFinish", Self.planFinish,
                                     "-UITestingScrollToPlanControls"]
         }
+        // The App Check debug token of a simulator that is registered in
+        // the Firebase console, so a simulator the app has never run on
+        // (the iPhone Duo) reads the recipe database too. The Firebase
+        // debug provider takes it from this environment variable.
+        if let token = ProcessInfo.processInfo.environment["APP_CHECK_DEBUG_TOKEN"], !token.isEmpty {
+            app.launchEnvironment["FIRAAppCheckDebugToken"] = token
+        }
     }
 
     override func tearDownWithError() throws {
@@ -115,17 +122,39 @@ class StoreUITestCase: XCTestCase {
 
     func openMenu(_ destination: String) {
         let entry = app.buttons["menu.\(destination)"]
-        XCTAssertTrue(entry.waitForExistence(timeout: 10), "Menu entry \(destination) is missing")
+        if !entry.waitForExistence(timeout: 10) {
+            attachHierarchy()
+            XCTFail("Menu entry \(destination) is missing")
+            return
+        }
         scrollUntilHittable(entry)
         entry.tap()
     }
 
+    /// Leaves the screen's structure behind in the test result, so the
+    /// cause of a failure can be read (the screenshot script exports it as
+    /// 99-hierarchy.txt).
+    func attachHierarchy(named name: String = "99-hierarchy") {
+        let hierarchy = XCTAttachment(string: app.debugDescription)
+        hierarchy.name = "\(language)-\(name)"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+    }
+
     func backToMenu() {
         var attempts = 0
-        while !app.buttons["menu.publicRecipes"].exists,
-              app.navigationBars.buttons.element(boundBy: 0).exists,
-              attempts < 6 {
-            app.navigationBars.buttons.element(boundBy: 0).tap()
+        while !app.buttons["menu.publicRecipes"].exists, attempts < 6 {
+            // The back button sits in a navigation bar on the iPhone and
+            // iPad; on the unfolded iPhone Duo (regular width, compact
+            // height) the bar is not exposed as one, and the button is
+            // found by its identifier instead.
+            let inBar = app.navigationBars.buttons.element(boundBy: 0)
+            let loose = app.buttons.matching(NSPredicate(format: "identifier == 'BackButton' OR label IN %@",
+                                                         ["Zurück", "Back", "Retour"])).firstMatch
+            let back = inBar.exists ? inBar : loose
+            guard back.exists else { return }
+            back.tap()
+            settle(0.5)
             attempts += 1
         }
     }
@@ -172,11 +201,7 @@ class StoreUITestCase: XCTestCase {
         }
         if button.waitForExistence(timeout: 3) { return button }
 
-        // Leave the screen's structure behind, so the cause can be read.
-        let hierarchy = XCTAttachment(string: app.debugDescription)
-        hierarchy.name = "\(language)-99-hierarchy"
-        hierarchy.lifetime = .keepAlways
-        add(hierarchy)
+        attachHierarchy()
         XCTFail("There is no tab \(index) („\(title)“)")
         return button
     }
@@ -247,9 +272,13 @@ class StoreUITestCase: XCTestCase {
     }
 
     func scrollUntilHittable(_ element: XCUIElement, maxSwipes: Int = 12) {
+        let screen = app.windows.firstMatch.frame
         var swipes = 0
         while !(element.exists && element.isHittable) && swipes < maxSwipes {
-            app.swipeUp(velocity: .slow)
+            // A measured drag rather than a flick: on the iPhone Duo a
+            // `swipeUp` left the page where it was, while the drag from the
+            // right-hand margin (see `drag`) moved it.
+            drag(by: -screen.height * 0.5)
             swipes += 1
         }
     }
@@ -336,6 +365,11 @@ class StoreUITestCase: XCTestCase {
             settle(0.2)
         }
         if element.isHittable {
+            element.tap()
+        } else if element.frame.minY > app.windows.firstMatch.frame.maxY || element.frame.maxY < 0 {
+            // Off the screen: a plain tap lets XCTest scroll the element
+            // into view through accessibility first. On the iPhone Duo
+            // neither a swipe nor a drag moved the page, this did.
             element.tap()
         } else {
             element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.15)).tap()

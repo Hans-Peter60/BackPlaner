@@ -9,12 +9,19 @@
 // App Store Connect checks, and carries no alpha channel.
 //
 //   swift scripts/appstore-captions.swift <captions.json> <language> <raw folder> <target folder>
+//                                         [--rotate cw] [--size <width>x<height>]
 //
 // The captions file maps a language to the screens, each keyed by the file
 // name after its number ("rezept-backen" for 01-rezept-backen.png). A value
 // is the headline, with an optional second, smaller line after a "|". A
-// screen without an entry is copied as it is. Run by
-// scripts/appstore-screenshots.sh; needs only macOS.
+// screen without an entry is copied as it is (rotated and resized all the
+// same). Run by scripts/appstore-screenshots.sh; needs only macOS.
+//
+// --rotate cw turns each picture a quarter turn clockwise first: the inner
+// display of the iPhone Duo is captured in its portrait pixel order while
+// the app runs on it in landscape. --size makes the result exactly that many
+// pixels, for a display whose capture comes out a pixel short of the size
+// App Store Connect accepts.
 //
 
 import AppKit
@@ -28,19 +35,21 @@ struct Palette {
     static let subtitle         = NSColor(red: 0.45, green: 0.30, blue: 0.16, alpha: 1)
 }
 
-/// The proportions of a composed picture, all relative to the width (iPhone
-/// and iPad pictures differ in their aspect ratio, so nothing hangs on the
-/// height).
+/// The proportions of a composed picture, relative to the shorter side:
+/// iPhone and iPad pictures differ in their aspect ratio, and the unfolded
+/// iPhone Duo is shot in landscape, where text sized by the width would
+/// crowd out the picture.
 struct Layout {
     let width: CGFloat
     let height: CGFloat
 
-    var margin: CGFloat { width * 0.07 }
-    var headlineSize: CGFloat { width * 0.056 }
-    var sublineSize: CGFloat { width * 0.034 }
-    var lineGap: CGFloat { width * 0.012 }
+    private var base: CGFloat { min(width, height) }
+    var margin: CGFloat { base * 0.07 }
+    var headlineSize: CGFloat { base * 0.056 }
+    var sublineSize: CGFloat { base * 0.034 }
+    var lineGap: CGFloat { base * 0.012 }
     var headlineTop: CGFloat { height * 0.045 }
-    var textToPicture: CGFloat { width * 0.045 }
+    var textToPicture: CGFloat { base * 0.045 }
     // Relative to the shorter side, so the iPad's wide picture does not cut
     // into its status bar.
     var cornerRadius: CGFloat { min(width, height) * 0.045 }
@@ -84,14 +93,45 @@ func save(_ image: CGImage, to url: URL) {
     guard CGImageDestinationFinalize(destination) else { fail("Cannot write \(url.path)") }
 }
 
-/// Composes `picture` with the headline `caption` into a picture of the same
-/// size.
-func compose(_ picture: CGImage, caption: String) -> CGImage {
-    let width = CGFloat(picture.width), height = CGFloat(picture.height)
+/// `picture` turned a quarter turn clockwise.
+func rotatedClockwise(_ picture: CGImage) -> CGImage {
+    guard let context = CGContext(data: nil, width: picture.height, height: picture.width,
+                                  bitsPerComponent: 8, bytesPerRow: 0,
+                                  space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                  bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+    else { fail("Cannot create a drawing context") }
+    // CoreGraphics counts y upwards, so a negative angle turns clockwise
+    // on screen.
+    context.translateBy(x: 0, y: CGFloat(picture.width))
+    context.rotate(by: -.pi / 2)
+    context.draw(picture, in: CGRect(x: 0, y: 0, width: picture.width, height: picture.height))
+    guard let result = context.makeImage() else { fail("Cannot rotate the picture") }
+    return result
+}
+
+/// `picture` scaled to exactly `size` (only ever by a pixel or two).
+func resized(_ picture: CGImage, to size: (width: Int, height: Int)) -> CGImage {
+    guard picture.width != size.width || picture.height != size.height else { return picture }
+    guard let context = CGContext(data: nil, width: size.width, height: size.height,
+                                  bitsPerComponent: 8, bytesPerRow: 0,
+                                  space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                  bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+    else { fail("Cannot create a drawing context") }
+    context.interpolationQuality = .high
+    context.draw(picture, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+    guard let result = context.makeImage() else { fail("Cannot resize the picture") }
+    return result
+}
+
+/// Composes `picture` with the headline `caption` into a picture of `size`
+/// (the picture's own size unless asked otherwise).
+func compose(_ picture: CGImage, caption: String, size: (width: Int, height: Int)? = nil) -> CGImage {
+    let canvas = size ?? (picture.width, picture.height)
+    let width = CGFloat(canvas.width), height = CGFloat(canvas.height)
     let layout = Layout(width: width, height: height)
 
     // 32 bits per pixel without alpha: the PNG comes out opaque RGB.
-    guard let context = CGContext(data: nil, width: picture.width, height: picture.height,
+    guard let context = CGContext(data: nil, width: canvas.width, height: canvas.height,
                                   bitsPerComponent: 8, bytesPerRow: 0,
                                   space: CGColorSpace(name: CGColorSpace.sRGB)!,
                                   bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
@@ -129,14 +169,16 @@ func compose(_ picture: CGImage, caption: String) -> CGImage {
     // The picture under the text, scaled to the room that is left.
     let pictureTop = height - layout.headlineTop - textBlockHeight - layout.textToPicture
     let room = pictureTop - layout.bottomMargin
-    let scale = min(room / height, (width - 2 * layout.margin) / width)
-    let size = CGSize(width: width * scale, height: height * scale)
+    let pictureWidth = CGFloat(picture.width), pictureHeight = CGFloat(picture.height)
+    let scale = min(room / pictureHeight, (width - 2 * layout.margin) / pictureWidth)
+    let size = CGSize(width: pictureWidth * scale, height: pictureHeight * scale)
     let frame = CGRect(x: (width - size.width) / 2, y: pictureTop - size.height, width: size.width, height: size.height)
     let path = CGPath(roundedRect: frame, cornerWidth: layout.cornerRadius * scale,
                       cornerHeight: layout.cornerRadius * scale, transform: nil)
 
     context.saveGState()
-    context.setShadow(offset: CGSize(width: 0, height: -width * 0.015), blur: width * 0.04,
+    let shorter = min(width, height)
+    context.setShadow(offset: CGSize(width: 0, height: -shorter * 0.015), blur: shorter * 0.04,
                       color: NSColor.black.withAlphaComponent(0.22).cgColor)
     context.setFillColor(NSColor.white.cgColor)
     context.addPath(path)
@@ -156,14 +198,32 @@ func compose(_ picture: CGImage, caption: String) -> CGImage {
 
 // MARK: - Main
 
-let arguments = CommandLine.arguments
-guard arguments.count == 5 else {
-    fail("Usage: appstore-captions.swift <captions.json> <language> <raw folder> <target folder>")
+var arguments = Array(CommandLine.arguments.dropFirst())
+var rotate = false
+var targetSize: (width: Int, height: Int)?
+while let index = arguments.firstIndex(where: { $0.hasPrefix("--") }) {
+    let option = arguments.remove(at: index)
+    guard index < arguments.count else { fail("\(option) needs a value") }
+    let value = arguments.remove(at: index)
+    switch option {
+    case "--rotate":
+        guard value == "cw" else { fail("--rotate takes cw") }
+        rotate = true
+    case "--size":
+        let parts = value.split(separator: "x").compactMap { Int($0) }
+        guard parts.count == 2 else { fail("--size takes <width>x<height>") }
+        targetSize = (parts[0], parts[1])
+    default:
+        fail("Unknown option \(option)")
+    }
 }
-let captionsURL = URL(fileURLWithPath: arguments[1])
-let language = arguments[2]
-let rawFolder = URL(fileURLWithPath: arguments[3])
-let targetFolder = URL(fileURLWithPath: arguments[4])
+guard arguments.count == 4 else {
+    fail("Usage: appstore-captions.swift <captions.json> <language> <raw folder> <target folder> [--rotate cw] [--size <w>x<h>]")
+}
+let captionsURL = URL(fileURLWithPath: arguments[0])
+let language = arguments[1]
+let rawFolder = URL(fileURLWithPath: arguments[2])
+let targetFolder = URL(fileURLWithPath: arguments[3])
 
 guard let data = try? Data(contentsOf: captionsURL),
       let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: String]]
@@ -185,10 +245,16 @@ for file in files {
     let name = file.dropLast(4)
     let key = name.contains("-") ? String(name.drop(while: { $0 != "-" }).dropFirst()) : String(name)
 
-    guard let caption = captions[key], !caption.isEmpty, let picture = loadImage(source) else {
+    guard var picture = loadImage(source) else { continue }
+    if rotate { picture = rotatedClockwise(picture) }
+    if let caption = captions[key], !caption.isEmpty {
+        save(compose(picture, caption: caption, size: targetSize), to: target)
+    } else if let targetSize {
+        save(resized(picture, to: targetSize), to: target)
+    } else if rotate {
+        save(picture, to: target)
+    } else {
         try? FileManager.default.removeItem(at: target)
         try? FileManager.default.copyItem(at: source, to: target)
-        continue
     }
-    save(compose(picture, caption: caption), to: target)
 }

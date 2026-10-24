@@ -6,13 +6,15 @@ Die Bilder für App Store Connect entstehen automatisch im Simulator, auf dem Ma
 scripts/appstore-screenshots.sh
 ```
 
-Das Skript baut die App einmal, lässt den UI-Test `AppStoreScreenshots` auf zwei Simulatoren in drei Sprachen laufen und setzt anschließend über jedes Bild eine Überschrift (`scripts/appstore-captions.swift`, Texte in `docs/appstore/captions.json`). Ergebnis:
+Das Skript baut die App einmal, lässt den UI-Test `AppStoreScreenshots` auf drei Simulatoren in drei Sprachen laufen (iPhone, iPad, iPhone Duo zugeklappt und aufgeklappt) und setzt anschließend über jedes Bild eine Überschrift (`scripts/appstore-captions.swift`, Texte in `docs/appstore/captions.json`). Ergebnis:
 
 ```
 docs/appstore/2.0/iphone-6.9/de/01-rezept-backen.png … 10-teigtemperatur.png   (mit Überschrift, für den Store)
 docs/appstore/2.0/iphone-6.9/de/roh/…                                          (ohne Überschrift, nicht in git)
 docs/appstore/2.0/iphone-6.9/en/…, fr/…
 docs/appstore/2.0/ipad-13/de/…  (en, fr)
+docs/appstore/2.0/iphone-duo-outer/de/…  (en, fr)   zugeklappt, Außendisplay 1398 × 2034
+docs/appstore/2.0/iphone-duo-inner/de/…  (en, fr)   aufgeklappt, Innendisplay 2007 × 2853
 ```
 
 Die Reihenfolge folgt der Produktseite: In den Suchergebnissen sind nur die ersten drei Bilder zu sehen, deshalb stehen dort die Dinge, die BakePlanner von Rezept-Apps unterscheiden. Die Überschriften (hier Deutsch; Englisch und Französisch in `captions.json`):
@@ -40,16 +42,17 @@ Der iPhone-Lauf liefert außerdem die Bilder der Handbücher, aus den rohen Aufn
 
 ## Voraussetzungen
 
-- **Simulatoren:** „iPhone 17 Pro“ (1206 × 2622 – eine der vier iPhone-Größen, die App Store Connect für den 6,9"/6,5"-Platz annimmt; die *Max*-Modelle liefern andere Maße und werden abgelehnt) und „iPad Pro 13-inch (M5)“ (13", 2064 × 2752). Heißen sie in Deiner Xcode-Version anders, gibst Du sie mit an:
-  `IPHONE="iPhone 17 Pro" IPAD="iPad Pro 13-inch (M4)" scripts/appstore-screenshots.sh`
+- **Simulatoren:** „iPhone 17 Pro“ (1206 × 2622 – eine der vier iPhone-Größen, die App Store Connect für den 6,9"/6,5"-Platz annimmt; die *Max*-Modelle liefern andere Maße und werden abgelehnt), „iPad Pro 13-inch (M5)“ (13", 2064 × 2752) und „iPhone Duo“ (iOS 27.1). Heißen sie in Deiner Xcode-Version anders, gibst Du sie mit an:
+  `IPHONE="iPhone 17 Pro" IPAD="iPad Pro 13-inch (M4)" DUO="iPhone Duo" scripts/appstore-screenshots.sh`
   Die verfügbaren Namen zeigt `xcrun simctl list devices available`.
-- **Rezept-Datenbank online:** Der Test arbeitet mit den echten Daten des Simulators und der echten Rezept-Datenbank. Der Simulator braucht Netz und ein registriertes App-Check-Debug-Token – wie beim Start aus Xcode. Einmal die App im jeweiligen Simulator aus Xcode starten genügt, um das zu prüfen.
+- **iPhone Duo klappen:** Xcode 27.1 hat dafür keinen Befehl, nur den Regler im Device Hub. Das Skript nutzt das Werkzeug `hinge` (`brew install artemnovichkov/tap/hinge`), das den Winkel über eine private Simulator-Schnittstelle setzt; ein Xcode-Update kann es brechen. Zugeklappt läuft die App auf dem Außendisplay wie auf einem iPhone; die Statusleiste steht dort rechts neben der Kameraaussparung, das ist die Gestaltung des Außendisplays (Einstellungen und Home-Bildschirm sehen genauso aus). Aufgeklappt dreht das Skript das Gerät nach `landscape-left`, damit das Innendisplay hochkant steht (2007 × 2853) und die App dort die iPad-Aufteilung zeigt; normal gehalten wäre das Innendisplay quer, die Aufnahme käme auf der Seite liegend heraus, und die Wischgesten des Tests gingen in die falsche Richtung. App Store Connect nimmt 1398 × 2034 (außen) und 2007 × 2853 (innen) an und zeigt mit Duo-Bildern einen Hinweis „für iPhone Duo optimiert“ auf der Produktseite; ab April 2027 sind sie für Apps mit dem iOS-27.1-SDK Pflicht. Die Aufnahmen kommen einen Pixel kleiner heraus als verlangt, die Überschriften-Stufe bringt sie auf die exakte Größe (`--size`; `--rotate cw` gäbe es für die Queraufnahme).
+- **Rezept-Datenbank online:** Der Test arbeitet mit den echten Daten des Simulators und der echten Rezept-Datenbank. Der Simulator braucht Netz und ein registriertes App-Check-Debug-Token. Das Skript reicht das Token des ersten Simulators, auf dem die App schon lief, als `FIRAAppCheckDebugToken` an die App weiter (oder `APP_CHECK_DEBUG_TOKEN=…`), damit ein neuer Simulator wie der Duo nicht erst in der Firebase-Konsole registriert werden muss.
 - **Übersetzungen im Cache:** Der Simulator kann nicht übersetzen (das Translation-Framework meldet dort „Unable to Translate“). Die englischen und französischen Läufe zeigen das Rezept deshalb aus den Übersetzungen, die im Rezeptdokument in Firestore gespeichert sind (`translations.en`, `translations.fr`). Fehlen sie – etwa weil das Rezept umbenannt oder bearbeitet wurde, was den Cache leert –, bricht der Test mit „Translating into English failed“ ab. Abhilfe: das Rezept einmal auf einem echten Gerät öffnen und über das Globus-Menü nach English und Français übersetzen; danach läuft das Skript wieder durch.
 - **Rezept:** Gezeigt wird „Kartoffelbrot mit Saaten“. Ein anderes wählst Du mit `RECIPE="Übernacht-Sauerteig-Baguettes" scripts/appstore-screenshots.sh` (der Anfang des Namens genügt). Das Rezept sollte eine Mehlzeile „1050“ haben, aus der Bild 06 entsteht; sonst zeigt Bild 06 den Rechner aus dem Hauptmenü.
 
 Der Test plant das Rezept auf „Fertig bis“ zum ersten 15:00 Uhr, das mindestens einen Tag entfernt liegt (Startargument `-UITestingPlanFinish`, siehe `StoreUITestCase.planFinish`): Rückwärts über die 19 Stunden des Rezepts beginnt der Plan am Vorabend gegen 20:00 Uhr, der Teig ruht über Nacht, und kein Schritt erscheint als Nacht-Warnung. Dieser Plan bleibt im Simulator stehen. Die Statusleiste zeigt 9:41, volle Balken und vollen Akku, der Simulator läuft im hellen Erscheinungsbild.
 
-Nur eine Sprache: `LANGS="fr" scripts/appstore-screenshots.sh`. Andere Versionsnummer für den Ordner: `VERSION=2.1 …`.
+Nur eine Sprache: `LANGS="fr" scripts/appstore-screenshots.sh`. Nur bestimmte Geräte: `DEVICES="duo-outer duo-inner" …` (Rollen: `iphone`, `ipad`, `duo-outer`, `duo-inner`). Andere Versionsnummer für den Ordner: `VERSION=2.1 …`. Jeder Lauf je Gerät und Sprache dauert etwa sieben Minuten; der Simulator wird vor jedem neu gestartet, weil ein zweiter Lauf auf demselben Start gelegentlich nicht zurückkam.
 
 In einem normalen Testlauf (⌘U, Xcode Cloud) überspringt sich der Screenshot-Test selbst.
 
@@ -73,4 +76,4 @@ Schnitt und Export in **iMovie**, Projektart „App-Vorschau“: Clip importiere
 
 ## Hochladen
 
-App Store Connect → BakePlanner → Version → je Sprache oben rechts umschalten → **iPhone 6,9"-Display** bzw. **iPad 13"-Display** → die Bilder des passenden Ordners hineinziehen (nicht die aus `roh/`). Die Reihenfolge ergibt sich aus den Nummern im Dateinamen. Die Texte der Produktseite stehen in [AppStore-Beschreibung.md](AppStore-Beschreibung.md).
+App Store Connect → BakePlanner → Version → je Sprache oben rechts umschalten → **iPhone 6,9"-Display**, **iPad 13"-Display** bzw. **iPhone Duo** (Außen- und Innendisplay) → die Bilder des passenden Ordners hineinziehen (nicht die aus `roh/`). Die Reihenfolge ergibt sich aus den Nummern im Dateinamen. Die Texte der Produktseite stehen in [AppStore-Beschreibung.md](AppStore-Beschreibung.md).
