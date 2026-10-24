@@ -39,6 +39,25 @@ enum RecurringBakePlanner {
         return nil
     }
 
+    /// When the recipe is next due, as the recipe views show it: the finish
+    /// of a plan already queued — its bake-history entry then lies ahead —
+    /// else the next slot on the rhythm, found the same way the automatic
+    /// pass finds it, so the two never disagree. `nil` without a rhythm or
+    /// without a bake to measure it from.
+    static func nextOccurrence(lastFinish: Date?, intervalDays: Int, prepTime: Int,
+                               now: Date, calendar: Calendar = .current) -> Date? {
+        guard intervalDays > 0, let lastFinish else { return nil }
+        if lastFinish > now { return lastFinish }
+        return nextFinishDate(lastFinish: lastFinish, intervalDays: intervalDays,
+                              prepTime: prepTime, now: now, calendar: calendar)
+    }
+
+    static func nextOccurrence(for recipe: Recipe, now: Date = Date()) -> Date? {
+        nextOccurrence(lastFinish: recipe.bakeHistoriesArray.first?.date,
+                       intervalDays: recipe.recurrenceIntervalDays,
+                       prepTime: recipe.prepTime, now: now)
+    }
+
     /// Queues the next occurrence of every own recipe whose rhythm is due:
     /// one with `recurrenceIntervalDays > 0`, a bake history to measure the
     /// rhythm from, and no plan that is still pending. Only ever adds a
