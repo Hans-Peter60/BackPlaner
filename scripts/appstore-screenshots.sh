@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# Takes the App Store screenshots for iPhone and iPad 13" in German,
-# English and French, by running the UI test AppStoreScreenshots on the
-# simulators, and sets the headline from docs/appstore/captions.json over
-# each (scripts/appstore-captions.swift). The pictures land in
-# docs/appstore/<version>/<device>/<language>, the plain screenshots in a
-# folder roh/ next to them (not tracked by git).
+# Takes the App Store screenshots for iPhone, iPad 13" and iPhone Duo (folded
+# and unfolded) in German, English and French, by running the UI test
+# AppStoreScreenshots on the simulators, and sets the headline from
+# docs/appstore/captions.json over each (scripts/appstore-captions.swift).
+# The pictures land in docs/appstore/<version>/<device>/<language>, the plain
+# screenshots in a folder roh/ next to them (not tracked by git).
 #
 #   scripts/appstore-screenshots.sh              all devices and languages
 #   LANGS="en" scripts/appstore-screenshots.sh    only English
@@ -16,13 +16,24 @@
 #
 # Settings (environment variables, all optional):
 #   VERSION  folder name under docs/appstore            (default: 2.0)
-#   DEVICES  "iphone", "ipad", or both                  (default: iphone ipad)
+#   DEVICES  any of "iphone", "ipad", "duo-outer", "duo-inner"
+#                                                       (default: all four)
 #   IPHONE   simulator for the iPhone shots, 1206×2622  (default: iPhone 17 Pro)
 #   IPAD     simulator for the 13" shots, 2064×2752     (default: iPad Pro 13-inch (M5))
+#   DUO      simulator for the iPhone Duo shots         (default: iPhone Duo)
+#            folded 1398×2034 (outer display), unfolded 2853×2007 (inner display)
+#   HINGE    the `hinge` tool that folds the Duo simulator (default: found on PATH
+#            or in /opt/homebrew/bin; install with `brew install artemnovichkov/tap/hinge`)
+#   APP_CHECK_DEBUG_TOKEN  the registered App Check debug token, handed to the app
+#            on launch; without it the script takes the token of the first simulator
+#            that has the app installed, so a new simulator (the Duo) can read the
+#            recipe database without being registered in the Firebase console
 #
 # App Store Connect only accepts iPhone screenshots of exactly 1179×2556,
 # 2556×1179, 1206×2622 or 2622×1206 pixels; "iPhone 17 Pro Max" (and the
 # other *Max/Air models) render at other sizes and get rejected on upload.
+# For the iPhone Duo it accepts 1398×2034 / 2034×1398 (outer display) and
+# 2007×2853 / 2853×2007 (inner display).
 #   LANGS    languages                                  (default: de en fr)
 #   RECIPE   public recipe to show, start of its name   (default: Kartoffelbrot mit Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
@@ -43,14 +54,61 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 VERSION="${VERSION:-2.0}"
-DEVICES="${DEVICES:-iphone ipad}"
+DEVICES="${DEVICES:-iphone ipad duo-outer duo-inner}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
+DUO="${DUO:-iPhone Duo}"
+HINGE="${HINGE:-$(command -v hinge || echo /opt/homebrew/bin/hinge)}"
 LANGS="${LANGS:-de en fr}"
 RECIPE="${RECIPE:-Kartoffelbrot mit Saaten}"
+BUNDLE_ID="de.hpm64625.BackPlaner"
 
 OUT="docs/appstore/$VERSION"
 DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"
+
+# The simulator name, the output folder and (for the Duo) the fold for a
+# DEVICES role, written into $device, $folder and $posture.
+resolve_role() {
+    posture=""
+    caption_options=()
+    case "$1" in
+        iphone)    device="$IPHONE"; folder="iphone-6.9" ;;
+        ipad)      device="$IPAD";   folder="ipad-13" ;;
+        # Unfolded, the Duo is turned so that its inner display stands
+        # upright (2007×2853): held the usual way the display is landscape,
+        # captured in portrait pixel order with the picture on its side, and
+        # the test's swipes went the wrong way. The captures come out a
+        # pixel short of the sizes App Store Connect accepts, so the
+        # headline step brings them to the exact size.
+        duo-outer) device="$DUO";    folder="iphone-duo-outer"; posture="close"
+                   caption_options=(--size 1398x2034) ;;
+        duo-inner) device="$DUO";    folder="iphone-duo-inner"; posture="open"
+                   caption_options=(--size 2007x2853) ;;
+        *) echo "Unknown DEVICES entry „$1“ (use iphone, ipad, duo-outer, duo-inner)" >&2; exit 1 ;;
+    esac
+}
+
+# The App Check debug token the app on one of the simulators already uses
+# (the Firebase debug provider keeps it in the app's defaults); empty when
+# the app is installed nowhere.
+stored_app_check_token() {
+    /usr/bin/python3 - "$BUNDLE_ID" <<'PY'
+import glob, os, plistlib, sys
+bundle = sys.argv[1]
+root = os.path.expanduser("~/Library/Developer/CoreSimulator/Devices")
+for meta in glob.glob(f"{root}/*/data/Containers/Data/Application/*/.com.apple.mobile_container_manager.metadata.plist"):
+    try:
+        if plistlib.load(open(meta, "rb")).get("MCMMetadataIdentifier") != bundle:
+            continue
+        prefs = os.path.join(os.path.dirname(meta), "Library/Preferences", bundle + ".plist")
+        token = plistlib.load(open(prefs, "rb")).get("GACAppCheckDebugToken")
+    except Exception:
+        continue
+    if token:
+        print(token)
+        break
+PY
+}
 
 region() {
     case "$1" in
@@ -109,7 +167,7 @@ manual_images() {
 caption_pictures() {
     local dir="$1" lang="$2"
     find "$dir" -maxdepth 1 -name '*.png' -delete
-    swift scripts/appstore-captions.swift docs/appstore/captions.json "$lang" "$dir/roh" "$dir"
+    swift scripts/appstore-captions.swift docs/appstore/captions.json "$lang" "$dir/roh" "$dir" "${caption_options[@]}"
     rm -f "$dir"/9[0-9]-*.png
 }
 
@@ -122,11 +180,7 @@ udid_of() {
 
 if [[ -n "${CAPTIONS_ONLY:-}" ]]; then
     for role in $DEVICES; do
-        case "$role" in
-            iphone) folder="iphone-6.9" ;;
-            ipad)   folder="ipad-13" ;;
-            *) echo "Unknown DEVICES entry „$role“ (use iphone and/or ipad)" >&2; exit 1 ;;
-        esac
+        resolve_role "$role"
         for lang in $LANGS; do
             dir="$PWD/$OUT/$folder/$lang"
             if [[ ! -d "$dir/roh" ]]; then
@@ -151,30 +205,28 @@ xcodebuild build-for-testing \
 
 failed=()
 
-devices=()
-for role in $DEVICES; do
-    case "$role" in
-        iphone) devices+=("$IPHONE") ;;
-        ipad)   devices+=("$IPAD") ;;
-        *) echo "Unknown DEVICES entry „$role“ (use iphone and/or ipad)" >&2; exit 1 ;;
-    esac
-done
+for role in $DEVICES; do resolve_role "$role"; done   # reject unknown roles before the first run
 
-for device in "${devices[@]}"; do
+APP_CHECK_DEBUG_TOKEN="${APP_CHECK_DEBUG_TOKEN:-$(stored_app_check_token)}"
+if [[ -z "$APP_CHECK_DEBUG_TOKEN" ]]; then
+    echo "▸ No App Check debug token found; a simulator that has never run the app will see an empty recipe database" >&2
+fi
+
+for role in $DEVICES; do
+    resolve_role "$role"
     udid="$(udid_of "$device")"
     if [[ -z "$udid" ]]; then
         echo "Simulator „$device“ not found. Available:" >&2
         xcrun simctl list devices available | grep -E "iPhone|iPad" >&2
-        echo "Choose one with IPHONE=… or IPAD=…" >&2
+        echo "Choose one with IPHONE=…, IPAD=… or DUO=…" >&2
+        exit 1
+    fi
+    if [[ -n "$posture" && ! -x "$HINGE" ]]; then
+        echo "The iPhone Duo pictures need the hinge tool to fold the simulator: brew install artemnovichkov/tap/hinge" >&2
         exit 1
     fi
 
-    case "$device" in
-        iPad*) folder="ipad-13" ;;
-        *)     folder="iphone-6.9" ;;
-    esac
-
-    echo "▸ $device ($udid)"
+    echo "▸ $device ($udid)${posture:+, hinge $posture}"
 
     for lang in $LANGS; do
         dir="$PWD/$OUT/$folder/$lang"
@@ -195,6 +247,22 @@ for device in "${devices[@]}"; do
             --dataNetwork wifi --wifiMode active --wifiBars 3 \
             --cellularMode active --cellularBars 4 \
             --batteryState charged --batteryLevel 100
+        if [[ -n "$posture" ]]; then
+            # Folded (outer display) or unfolded flat (inner display). A
+            # fresh boot starts folded, so the fold is set after every boot;
+            # the orientation survives a reboot and is set explicitly too.
+            # (Folded, the status bar stands beside the camera cutout at the
+            # right edge; that is the outer display's layout, Settings and
+            # the home screen look the same, not a wrong orientation.)
+            "$HINGE" -d "$udid" "$posture" >/dev/null
+            sleep 2
+            if [[ "$posture" == "open" ]]; then
+                "$HINGE" -d "$udid" orient landscape-left >/dev/null
+            else
+                "$HINGE" -d "$udid" orient portrait >/dev/null
+            fi
+            sleep 2
+        fi
 
         # Clear what earlier runs left behind, as the previews do before each
         # scene: the plan, the shopping lists and the local copy of the
@@ -203,6 +271,7 @@ for device in "${devices[@]}"; do
         # whether to replace the existing plan.
         TEST_RUNNER_PREVIEW_LANGUAGE="$lang" \
         TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+        TEST_RUNNER_APP_CHECK_DEBUG_TOKEN="$APP_CHECK_DEBUG_TOKEN" \
         xcodebuild test-without-building \
             -project BackPlaner.xcodeproj \
             -scheme BackPlaner \
@@ -216,6 +285,7 @@ for device in "${devices[@]}"; do
         bundle="$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult"
         if TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \
            TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+           TEST_RUNNER_APP_CHECK_DEBUG_TOKEN="$APP_CHECK_DEBUG_TOKEN" \
            xcodebuild test-without-building \
                -project BackPlaner.xcodeproj \
                -scheme BackPlaner \

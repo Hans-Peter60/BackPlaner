@@ -93,7 +93,11 @@ final class AppStoreScreenshots: StoreUITestCase {
         // Bake mode and timeline of the planned steps.
         openMenu("scheduledSteps")
         let bakeMode = app.buttons["scheduled.bakeMode"]
-        XCTAssertTrue(bakeMode.waitForExistence(timeout: 5), "Scheduled steps show no bake mode button")
+        if !bakeMode.waitForExistence(timeout: 5) {
+            attachHierarchy()
+            XCTFail("Scheduled steps show no bake mode button")
+            return
+        }
         bakeMode.tap()
         settle(2)
         capture("03-backmodus")
@@ -174,11 +178,25 @@ final class AppStoreScreenshots: StoreUITestCase {
     // MARK: - Screenshots
 
     private func capture(_ name: String) {
-        let screenshot = XCUIScreen.main.screenshot()
+        let screenshot = screenshotOfAppScreen()
 
         let attachment = XCTAttachment(screenshot: screenshot)
         attachment.name = "\(language)-\(name)"
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+
+    /// A screenshot of the screen the app is on. The iPhone Duo has two:
+    /// unfolded, the app runs on the inner one while `XCUIScreen.main`
+    /// still names the outer, which is dark then, and the pictures came
+    /// out black. The screen is told by its size against the app's window.
+    private func screenshotOfAppScreen() -> XCUIScreenshot {
+        let window = app.windows.firstMatch.frame.size
+        let screens = XCUIScreen.screens
+        guard screens.count > 1 else { return XCUIScreen.main.screenshot() }
+        let shots = screens.map { $0.screenshot() }
+        return shots.first { shot in
+            abs(shot.image.size.width - window.width) < 2 && abs(shot.image.size.height - window.height) < 2
+        } ?? XCUIScreen.main.screenshot()
     }
 }
