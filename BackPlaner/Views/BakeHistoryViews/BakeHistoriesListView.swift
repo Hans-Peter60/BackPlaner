@@ -376,11 +376,14 @@ struct BakeHistoriesListView: View {
                                     }
                                 }
                                 else {
+                                    // A small glyph in a tinted box the size of a
+                                    // photo, like the gallery tile — not the symbol
+                                    // stretched to fill the whole 50 pt.
                                     Image(systemName: "photo")
-                                        .resizable()
-                                        .scaledToFill()
+                                        .font(.system(size: 20))
+                                        .foregroundColor(Theme.subtitle)
                                         .frame(width: 50, height: 50, alignment: .center)
-                                        .clipped()
+                                        .background(Theme.accentText.opacity(0.12))
                                         .cornerRadius(5)
                                         // Placeholder for "no photo": nothing to announce.
                                         .accessibilityHidden(true)
