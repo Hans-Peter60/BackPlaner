@@ -154,8 +154,19 @@ struct RecipeDetailView: View {
                     .padding(.leading)
                 }
 
-                // MARK: Dough yield and hydration over all components
-                DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipe)))
+                // MARK: Dough yield and hydration over all components, and
+                // for a starter the date its rhythm comes round next.
+                HStack(alignment: .firstTextBaseline) {
+                    DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipe)))
+
+                    if recipe.recurrenceIntervalDays > 0 {
+                        Spacer(minLength: 12)
+                        // Wraps on a narrow screen rather than pushing the
+                        // dough yield off its line.
+                        NextFeedingView(date: RecurringBakePlanner.nextOccurrence(for: recipe))
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
 
                 TotalIngredientsView(components: ComponentColumn.columns(of: recipe.componentsArray),
                                      scale: servingScale)

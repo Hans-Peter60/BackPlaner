@@ -27,6 +27,9 @@ struct EditRecipeView: View {
     /// lives on `recipe` directly rather than in `recipeFB` — it has no
     /// business syncing to the public, shareable copy of this recipe.
     @State private var recurrenceIntervalDays = 0
+    /// The last bake the rhythm is measured from, for the next-feeding date
+    /// under the stepper.
+    @State private var lastBakeDate: Date?
     @State private var componentName   = ""
     @State private var componentNumber = 0
     @State private var tags            = [String]()
@@ -225,8 +228,17 @@ struct EditRecipeView: View {
                     .font(Theme.brandFont(15))
 
                     if recurrenceIntervalDays > 0 {
-                        Stepper("alle \(recurrenceIntervalDays) Tage", value: $recurrenceIntervalDays, in: 1...60)
-                            .font(Theme.bodyFont(15))
+                        // The next date follows the stepper live, so the
+                        // effect of a changed rhythm shows before saving.
+                        Stepper(value: $recurrenceIntervalDays, in: 1...60) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("alle \(recurrenceIntervalDays) Tage")
+                                NextFeedingView(date: RecurringBakePlanner.nextOccurrence(
+                                    lastFinish: lastBakeDate, intervalDays: recurrenceIntervalDays,
+                                    prepTime: recipeFB.prepTime, now: Date()))
+                            }
+                        }
+                        .font(Theme.bodyFont(15))
                     }
 
                     Text("Plant nach dem letzten Backen automatisch den nächsten Termin.")
@@ -365,6 +377,7 @@ struct EditRecipeView: View {
             recipeFB.urlLink         = recipe.urlLink ?? ""
             rating                   = recipe.rating
             recurrenceIntervalDays   = recipe.recurrenceIntervalDays
+            lastBakeDate             = recipe.bakeHistoriesArray.first?.date
             recipeFB.prepTime        = recipe.prepTime
             recipeFB.bakeHistoryFlag = recipe.bakeHistoryFlag
             recipeFB.tags            = recipe.tags

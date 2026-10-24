@@ -29,6 +29,22 @@ struct RecurringBakePlannerTests {
         #expect(finish == date(2026, 10, 6, 10))
     }
 
+    @Test("The next occurrence shown is a queued plan's finish, else the next slot, else nothing")
+    func nextOccurrenceForTheViews() {
+        let now = date(2026, 10, 2, 8)
+        // A plan already queued wrote its finish into the bake history.
+        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 4, 18), intervalDays: 5,
+                                                    prepTime: 0, now: now, calendar: calendar) == date(2026, 10, 4, 18))
+        // Otherwise the rhythm from the last bake.
+        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 1, 10), intervalDays: 5,
+                                                    prepTime: 0, now: now, calendar: calendar) == date(2026, 10, 6, 10))
+        // Nothing to measure from, or no rhythm.
+        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: nil, intervalDays: 5,
+                                                    prepTime: 0, now: now, calendar: calendar) == nil)
+        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 1, 10), intervalDays: 0,
+                                                    prepTime: 0, now: now, calendar: calendar) == nil)
+    }
+
     @Test("Several missed cycles land on the rhythm's grid, not on \"now\"")
     func missedCyclesStayOnTheGrid() {
         let lastFinish = date(2026, 10, 1, 10)
