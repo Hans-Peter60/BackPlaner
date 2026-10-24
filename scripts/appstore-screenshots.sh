@@ -2,11 +2,17 @@
 #
 # Takes the App Store screenshots for iPhone and iPad 13" in German,
 # English and French, by running the UI test AppStoreScreenshots on the
-# simulators. The pictures land in docs/appstore/<version>/<device>/<language>.
+# simulators, and sets the headline from docs/appstore/captions.json over
+# each (scripts/appstore-captions.swift). The pictures land in
+# docs/appstore/<version>/<device>/<language>, the plain screenshots in a
+# folder roh/ next to them (not tracked by git).
 #
 #   scripts/appstore-screenshots.sh              all devices and languages
 #   LANGS="en" scripts/appstore-screenshots.sh    only English
 #   DEVICES="iphone" scripts/appstore-screenshots.sh  only the iPhone
+#   CAPTIONS_ONLY=1 scripts/appstore-screenshots.sh  no new screenshots: only set
+#                                                the headlines over the roh/ pictures
+#                                                again, e.g. after changing a text
 #
 # Settings (environment variables, all optional):
 #   VERSION  folder name under docs/appstore            (default: 2.0)
@@ -18,7 +24,7 @@
 # 2556×1179, 1206×2622 or 2622×1206 pixels; "iPhone 17 Pro Max" (and the
 # other *Max/Air models) render at other sizes and get rejected on upload.
 #   LANGS    languages                                  (default: de en fr)
-#   RECIPE   public recipe to show, start of its name   (default: Kartoffelnbrot mit Saaten)
+#   RECIPE   public recipe to show, start of its name   (default: Kartoffelbrot mit Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
 #
 # The build folder stays outside the project on purpose: a project inside an
@@ -41,7 +47,7 @@ DEVICES="${DEVICES:-iphone ipad}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
 LANGS="${LANGS:-de en fr}"
-RECIPE="${RECIPE:-Kartoffelnbrot mit Saaten}"
+RECIPE="${RECIPE:-Kartoffelbrot mit Saaten}"
 
 OUT="docs/appstore/$VERSION"
 DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"
@@ -80,22 +86,31 @@ PY
     rm -rf "$tmp"
 }
 
-# The manuals take their pictures from the iPhone run: the main menu and the
-# recipe list from the App Store screens, the new-recipe form and the settings
-# from the extra screens numbered 90 and up, which this moves out of the App
-# Store folder $1. Scaled to the 402 pt width the manual pages use; $2 is the
-# language, $3 the manual image folder for it.
+# The manuals take their pictures from the plain iPhone screenshots in $1:
+# the main menu from the App Store screens, the recipe list, the new-recipe
+# form and the settings from the extra screens numbered 90 and up. Scaled to
+# the 402 pt width the manual pages use; $2 is the language, $3 the manual
+# image folder for it.
 manual_images() {
-    local store="$1" lang="$2" target="$3"
+    local raw="$1" lang="$2" target="$3"
     mkdir -p "$target"
-    local pairs=("01-startbildschirm:hauptmenue" "02-rezept-datenbank:oeffentliche-rezepte"
+    local pairs=("02-startbildschirm:hauptmenue" "93-rezept-datenbank:oeffentliche-rezepte"
                  "91-neues-rezept:neues-rezept" "92-einstellungen:einstellungen")
     for pair in "${pairs[@]}"; do
-        local source="$store/${pair%%:*}.png" name="${pair##*:}"
+        local source="$raw/${pair%%:*}.png" name="${pair##*:}"
         [[ -f "$source" ]] || continue
         sips --resampleWidth 402 "$source" --out "$target/$name.png" >/dev/null
     done
-    rm -f "$store"/9[0-9]-*.png
+}
+
+# Sets the headlines over the plain screenshots in $1/roh and writes the
+# App Store pictures to $1; $2 is the language. The extra screens for the
+# manuals (numbers from 90 up) stay out of the App Store folder.
+caption_pictures() {
+    local dir="$1" lang="$2"
+    find "$dir" -maxdepth 1 -name '*.png' -delete
+    swift scripts/appstore-captions.swift docs/appstore/captions.json "$lang" "$dir/roh" "$dir"
+    rm -f "$dir"/9[0-9]-*.png
 }
 
 udid_of() {
@@ -104,6 +119,27 @@ udid_of() {
         | head -1 \
         | sed -E 's/.*\(([0-9A-F-]{36})\).*/\1/'
 }
+
+if [[ -n "${CAPTIONS_ONLY:-}" ]]; then
+    for role in $DEVICES; do
+        case "$role" in
+            iphone) folder="iphone-6.9" ;;
+            ipad)   folder="ipad-13" ;;
+            *) echo "Unknown DEVICES entry „$role“ (use iphone and/or ipad)" >&2; exit 1 ;;
+        esac
+        for lang in $LANGS; do
+            dir="$PWD/$OUT/$folder/$lang"
+            if [[ ! -d "$dir/roh" ]]; then
+                echo "▸ $folder/$lang: no roh/ folder with plain screenshots; run without CAPTIONS_ONLY first" >&2
+                continue
+            fi
+            echo "▸ $folder/$lang"
+            caption_pictures "$dir" "$lang"
+            ls "$dir" | grep -v '^roh$' | sed 's/^/      /'
+        done
+    done
+    exit 0
+fi
 
 echo "▸ Building once for all simulators …"
 xcodebuild build-for-testing \
@@ -139,20 +175,26 @@ for device in "${devices[@]}"; do
     esac
 
     echo "▸ $device ($udid)"
-    xcrun simctl boot "$udid" 2>/dev/null || true
-    xcrun simctl bootstatus "$udid" -b >/dev/null
-    xcrun simctl ui "$udid" appearance light
-    xcrun simctl status_bar "$udid" override \
-        --time "9:41" \
-        --dataNetwork wifi --wifiMode active --wifiBars 3 \
-        --cellularMode active --cellularBars 4 \
-        --batteryState charged --batteryLevel 100
 
     for lang in $LANGS; do
         dir="$PWD/$OUT/$folder/$lang"
         rm -rf "$dir"
-        mkdir -p "$dir"
+        mkdir -p "$dir/roh"
         echo "  ▸ $lang → ${dir#$PWD/}"
+
+        # A fresh boot for every language: on a simulator that had already
+        # run the test once, the next run now and then never came back
+        # after its last picture (xcodebuild sat there with the app gone
+        # from the screen), while a rebooted simulator ran through.
+        xcrun simctl shutdown "$udid" 2>/dev/null || true
+        xcrun simctl boot "$udid" 2>/dev/null || true
+        xcrun simctl bootstatus "$udid" -b >/dev/null
+        xcrun simctl ui "$udid" appearance light
+        xcrun simctl status_bar "$udid" override \
+            --time "9:41" \
+            --dataNetwork wifi --wifiMode active --wifiBars 3 \
+            --cellularMode active --cellularBars 4 \
+            --batteryState charged --batteryLevel 100
 
         # Clear what earlier runs left behind, as the previews do before each
         # scene: the plan, the shopping lists and the local copy of the
@@ -185,20 +227,19 @@ for device in "${devices[@]}"; do
                -resultBundlePath "$bundle" \
                -quiet >/dev/null 2>&1
         then
-            export_screenshots "$bundle" "$dir"
+            export_screenshots "$bundle" "$dir/roh"
             if [[ "$folder" == "iphone-6.9" ]]; then
                 case "$lang" in
-                    de) manual_images "$dir" "$lang" "docs/images" ;;
-                    *)  manual_images "$dir" "$lang" "docs/images/$lang" ;;
+                    de) manual_images "$dir/roh" "$lang" "docs/images" ;;
+                    *)  manual_images "$dir/roh" "$lang" "docs/images/$lang" ;;
                 esac
-            else
-                rm -f "$dir"/9[0-9]-*.png
             fi
-            ls "$dir" | sed 's/^/      /'
+            caption_pictures "$dir" "$lang"
+            ls "$dir" | grep -v '^roh$' | sed 's/^/      /'
         else
-            export_screenshots "$bundle" "$dir"
+            export_screenshots "$bundle" "$dir/roh"
             failed+=("$folder/$lang")
-            echo "      ✗ failed after: $(ls "$dir" | tr '\n' ' ')"
+            echo "      ✗ failed after: $(ls "$dir/roh" | tr '\n' ' ')"
             # The test's own message, e.g. which screen or button was missing.
             xcrun xcresulttool get test-results summary --path "$bundle" 2>/dev/null \
                 | grep -E '"failureText"|"testName"' | sed 's/^ */      /' || true

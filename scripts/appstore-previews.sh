@@ -17,7 +17,7 @@
 #   IPAD     simulator for the 13" footage              (default: iPad Pro 13-inch (M5))
 #   LANGS    languages                                  (default: de en fr)
 #   SCENES   plan, calculators, shopping                (default: all three)
-#   RECIPE   public recipe to show, start of its name   (default: Kartoffelnbrot mit Saaten)
+#   RECIPE   public recipe to show, start of its name   (default: Kartoffelbrot mit Saaten)
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
 #
 # Each movie starts while the test runner is still being installed, so it
@@ -44,7 +44,7 @@ IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
 LANGS="${LANGS:-de en fr}"
 SCENES="${SCENES:-plan calculators shopping}"
-RECIPE="${RECIPE:-Kartoffelnbrot mit Saaten}"
+RECIPE="${RECIPE:-Kartoffelbrot mit Saaten}"
 
 OUT="docs/appstore/$VERSION/preview"
 DERIVED="${DERIVED:-$HOME/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots}"

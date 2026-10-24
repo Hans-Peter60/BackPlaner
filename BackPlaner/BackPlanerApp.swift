@@ -46,7 +46,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     if UITestSupport.seedsRecipe {
       UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)
     }
-    if let planStart = UITestSupport.planStart() {
+    if let planFinish = UITestSupport.planFinish() {
+      GlobalVariables.dateTimePicker = planFinish
+    } else if let planStart = UITestSupport.planStart() {
       GlobalVariables.dateTimePicker = planStart
     }
 

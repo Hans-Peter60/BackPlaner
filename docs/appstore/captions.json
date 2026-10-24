@@ -1,0 +1,38 @@
+{
+  "de": {
+    "rezept-backen": "Sag, wann das Brot fertig sein soll|BakePlanner rechnet jeden Schritt zurück",
+    "startbildschirm": "Erinnerung für jeden Schritt|Auf iPhone, iPad und Apple Watch",
+    "backmodus": "In der Küche: ein Schritt, große Schrift|Mit den Zutaten, auf Wunsch vorgelesen",
+    "timeline": "Dein Backtag auf einen Blick",
+    "anstellgut-ta": "Dein Anstellgut, Deine TA|Die App rechnet Anstellgut und Wasser um",
+    "mehl-ersetzen": "Mehl tauschen, Wasser folgt|Dinkel, Roggen, Vollkorn: mit Hinweisen",
+    "rezept-details": "Portionsgröße, Teiggewicht, Teigausbeute|Alles rechnet mit",
+    "rezept-import": "Aus dem Buch oder aus dem Netz|Foto oder Link: die App liest das Rezept aus",
+    "einkaufsliste": "Einkaufsliste nach Regalen|In der gewählten Portionsgröße",
+    "teigtemperatur": "Die richtige Wassertemperatur|Für die Teigtemperatur, die das Rezept will"
+  },
+  "en": {
+    "rezept-backen": "Say when the bread should be ready|BakePlanner works every step back from there",
+    "startbildschirm": "A reminder for every step|On iPhone, iPad and Apple Watch",
+    "backmodus": "In the kitchen: one step, big type|With its ingredients, read aloud on request",
+    "timeline": "Your baking day at a glance",
+    "anstellgut-ta": "Your starter, your TA|The app adjusts starter and water",
+    "mehl-ersetzen": "Swap the flour, the water follows|Spelt, rye, wholegrain: with advice",
+    "rezept-details": "Serving size, dough weight, dough yield|Everything scales along",
+    "rezept-import": "From the book or from the web|Photo or link: the app reads the recipe",
+    "einkaufsliste": "Shopping list by shelf|At the serving size you chose",
+    "teigtemperatur": "The right water temperature|For the dough temperature the recipe wants"
+  },
+  "fr": {
+    "rezept-backen": "Dites quand le pain doit être prêt|BakePlanner remonte chaque étape à rebours",
+    "startbildschirm": "Un rappel pour chaque étape|Sur iPhone, iPad et Apple Watch",
+    "backmodus": "En cuisine : une étape, en grand|Avec ses ingrédients, lue à voix haute si vous voulez",
+    "timeline": "Votre journée de boulange d’un coup d’œil",
+    "anstellgut-ta": "Votre levain chef, votre TA|L’app recalcule levain chef et eau",
+    "mehl-ersetzen": "Changez de farine, l’eau suit|Épeautre, seigle, complète : avec conseils",
+    "rezept-details": "Portion, poids de pâte, rendement|Tout se recalcule",
+    "rezept-import": "Du livre ou du web|Photo ou lien : l’app lit la recette",
+    "einkaufsliste": "Liste de courses par rayon|À la taille de portion choisie",
+    "teigtemperatur": "La bonne température de l’eau|Pour la température de pâte voulue"
+  }
+}

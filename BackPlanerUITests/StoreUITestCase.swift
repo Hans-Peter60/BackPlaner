@@ -27,7 +27,7 @@ class StoreUITestCase: XCTestCase {
     /// from a hierarchy dump). Matching by id is what `recipeRow` prefers:
     /// the list may already show this recipe under a cached translation of
     /// its name by the time this runs, which a name match would miss.
-    static let defaultRecipeName = "Kartoffelnbrot mit Saaten"
+    static let defaultRecipeName = "Kartoffelbrot mit Saaten"
     static let defaultRecipeId = "F5801F3E-DA33-48EA-807D-0C15E187F7F6"
 
     /// The clock time at which the recipe's plan begins, in the screenshots
@@ -37,6 +37,19 @@ class StoreUITestCase: XCTestCase {
     /// warnings; from the evening on, the dough rests through the night and
     /// the steps fall into the day.
     static let planStart = "20:00"
+
+    /// The clock time at which the plan ends when a subclass plans to a
+    /// finish (`plansToFinish`, launch argument `-UITestingPlanFinish`): the
+    /// first 15:00 that is at least a day away. Worked back over the demo
+    /// recipe's 19 hours, the plan begins around 20:00 the evening before,
+    /// so the steps fall as with `planStart`.
+    static let planFinish = "15:00"
+
+    /// Whether the baking tab opens on "Fertig bis" with `planFinish` rather
+    /// than on "Starten ab" with `planStart`. The screenshots do, so the
+    /// picture of the baking tab shows a finish time and the start times
+    /// worked back from it; the previews keep the start.
+    var plansToFinish: Bool { false }
 
     var recipeName: String {
         ProcessInfo.processInfo.environment["SCREENSHOT_RECIPE"] ?? Self.defaultRecipeName
@@ -70,6 +83,14 @@ class StoreUITestCase: XCTestCase {
             "-settings.automaticTranslation", "NO",
             "-UITestingPlanStart", Self.planStart
         ]
+        if plansToFinish {
+            // The baking tab also scrolls its date controls to the top by
+            // itself (UITestSupport.scrollsToPlanControls): dragging the
+            // page there from here worked in one language and not in the
+            // next, the drags now and then taken by the content.
+            app.launchArguments += ["-UITestingPlanFinish", Self.planFinish,
+                                    "-UITestingScrollToPlanControls"]
+        }
     }
 
     override func tearDownWithError() throws {
@@ -117,7 +138,17 @@ class StoreUITestCase: XCTestCase {
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(1)
         tapReliably(row)
+        waitForRecipeDetails()
         translateIfNeeded()
+    }
+
+    /// Waits until the recipe's screen has slid in: its tabs exist, and the
+    /// push animation has had its time. A screenshot taken straight after
+    /// the tap caught the details half-way in from the right.
+    func waitForRecipeDetails() {
+        let detailsTab = tab(1, titled: ["de": "Details", "en": "Details", "fr": "Détails"])
+        XCTAssertTrue(detailsTab.waitForExistence(timeout: 10), "The recipe did not open")
+        settle(1.5)
     }
 
     /// A tab of the recipe or scheduled-steps screen. On the iPhone the tabs
@@ -226,33 +257,58 @@ class StoreUITestCase: XCTestCase {
     /// Scrolls until `element` sits in the upper part of the screen, as the
     /// baking view is shown in the store: the date controls at the top and
     /// the schedule underneath.
-    func scrollToTop(_ element: XCUIElement, maxSwipes: Int = 8) {
+    func scrollToTop(_ container: XCUIElement, maxSwipes: Int = 8) {
+        // Measured on a control inside, when there is one: the frame of a
+        // container that merely contains its children came out higher than
+        // the controls stood on screen, and the page was pulled back down
+        // until they sat halfway down the picture.
+        let control = container.segmentedControls.firstMatch
+        let element = control.exists ? control : container
         let screen = app.windows.firstMatch.frame
         let target = screen.minY + screen.height * 0.15
+        let highest = screen.minY + screen.height * 0.18
         // Below the floating navigation bar, which the content scrolls under.
         let lowest = screen.minY + screen.height * 0.12
-        var swipes = 0
-        while element.exists, element.frame.minY > screen.minY + screen.height * 0.18, swipes < maxSwipes {
-            let distance = min(element.frame.minY - target, screen.height * 0.5)
-            drag(by: -distance)
-            swipes += 1
-        }
-        // A drag can carry on a little once the finger lifts, and the page
-        // is shorter without a list of warnings: the date controls then came
-        // to rest under the navigation bar, where the picture cut them off.
-        // Pull them back down.
-        swipes = 0
-        while element.exists, element.frame.minY < lowest, swipes < 3 {
-            drag(by: target - element.frame.minY)
-            swipes += 1
+        // Two passes: the page may still be laying out its schedule during
+        // the first, so that a drag runs into a bottom that is not there yet
+        // and bounces back.
+        for pass in 0..<2 {
+            if pass > 0 {
+                guard element.exists, element.frame.minY > highest || element.frame.minY < lowest else { return }
+                settle(1)
+            }
+            var swipes = 0
+            while element.exists, element.frame.minY > highest, swipes < maxSwipes {
+                let distance = min(element.frame.minY - target, screen.height * 0.5)
+                drag(by: -distance, avoiding: element.frame)
+                swipes += 1
+            }
+            // A drag can carry on a little once the finger lifts, and the
+            // page is shorter without a list of warnings: the date controls
+            // then came to rest under the navigation bar, where the picture
+            // cut them off. Pull them back down.
+            swipes = 0
+            while element.exists, element.frame.minY < lowest, swipes < 3 {
+                drag(by: target - element.frame.minY, avoiding: element.frame)
+                swipes += 1
+            }
         }
     }
 
     /// Drags the screen's content by `distance` points (negative moves it
     /// up), holding the finger still at the end so the scroll view does not
-    /// keep rolling with the momentum of a flick.
-    private func drag(by distance: CGFloat) {
-        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.6))
+    /// keep rolling with the momentum of a flick. The finger goes down in
+    /// the right-hand margin of the page, where no control sits, and
+    /// outside `avoiding`: a press that lands on a control (the date
+    /// picker, a step's row) is taken by the control, not by the scroll
+    /// view, and the page stayed where it was.
+    private func drag(by distance: CGFloat, avoiding: CGRect = .null) {
+        let screen = app.windows.firstMatch.frame
+        let x = screen.minX + screen.width * 0.96
+        let startY = [0.6, 0.8, 0.4, 0.9].first { fraction in
+            !avoiding.contains(CGPoint(x: x, y: screen.minY + screen.height * fraction))
+        } ?? 0.6
+        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.96, dy: startY))
         start.press(forDuration: 0.1,
                     thenDragTo: start.withOffset(CGVector(dx: 0, dy: distance)),
                     withVelocity: .default,
