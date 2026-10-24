@@ -5248,6 +5248,22 @@
         }
       }
     },
+    "Einkaufsliste vom %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping list of %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste de courses du %@"
+          }
+        }
+      }
+    },
     "Einkaufslisten" : {
       "localizations" : {
         "en" : {

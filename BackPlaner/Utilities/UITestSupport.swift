@@ -22,6 +22,13 @@ import UIKit
 /// its steps into the night and the schedule fills with warnings, while a
 /// start at 20:00 lets the dough rest through the night. It works on the
 /// simulator's real store, independent of `-UITesting`.
+///
+/// `-UITestingPlanFinish HH:mm` presets the controls to "fertig bis" instead,
+/// at the first HH:mm that is at least a day away, so that a recipe of up to
+/// a day's length starts in the future. The App Store screenshots use it:
+/// the picture of the baking tab then shows what sets the app apart, a
+/// finish time and the start times worked back from it. It wins over
+/// `-UITestingPlanStart` when both are given.
 enum UITestSupport {
 
     static let seededRecipeName = "UI-Test-Brot"
@@ -41,16 +48,53 @@ enum UITestSupport {
     /// The date asked for with `-UITestingPlanStart`, or nil when the switch
     /// is absent or malformed.
     static func planStart(now: Date = Date(), calendar: Calendar = .current) -> Date? {
+        clockTime(after: "-UITestingPlanStart", atLeast: 0, now: now, calendar: calendar)
+    }
+
+    /// The date asked for with `-UITestingPlanFinish`, or nil when the switch
+    /// is absent or malformed.
+    static func planFinish(now: Date = Date(), calendar: Calendar = .current) -> Date? {
+        clockTime(after: "-UITestingPlanFinish", atLeast: 24 * 60 * 60, now: now, calendar: calendar)
+    }
+
+    /// Whether the scheduling controls start on "fertig bis".
+    static var plansToFinish: Bool {
+        planFinish() != nil
+    }
+
+    /// `-UITestingScrollToPlanControls`: the baking tab of a public recipe
+    /// scrolls its date controls to the top once it appears. The App Store
+    /// screenshots ask for it, so the picture of the tab opens on the date
+    /// and the schedule; dragging the page there from the test proved
+    /// unreliable, with the drags now and then taken by the content.
+    static var scrollsToPlanControls: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.arguments.contains("-UITestingScrollToPlanControls")
+        #else
+        false
+        #endif
+    }
+
+    /// The first time the clock shows the HH:mm that follows `argument`,
+    /// `distance` seconds or more from `now`; nil without the argument or
+    /// with a malformed time.
+    private static func clockTime(after argument: String, atLeast distance: TimeInterval,
+                                  now: Date, calendar: Calendar) -> Date? {
         #if DEBUG
         let arguments = ProcessInfo.processInfo.arguments
-        guard let index = arguments.firstIndex(of: "-UITestingPlanStart"),
+        guard let index = arguments.firstIndex(of: argument),
               index + 1 < arguments.count else { return nil }
         let parts = arguments[index + 1].split(separator: ":").compactMap { Int($0) }
         guard parts.count == 2, (0..<24).contains(parts[0]), (0..<60).contains(parts[1]),
-              let today = calendar.date(bySettingHour: parts[0], minute: parts[1], second: 0, of: now)
+              var date = calendar.date(bySettingHour: parts[0], minute: parts[1], second: 0, of: now)
         else { return nil }
-        if today > now { return today }
-        return calendar.date(byAdding: .day, value: 1, to: today)
+        let earliest = now.addingTimeInterval(distance)
+        // At most a few days: the loop ends once the time is far enough away.
+        for _ in 0..<7 where date <= earliest {
+            guard let next = calendar.date(byAdding: .day, value: 1, to: date) else { return nil }
+            date = next
+        }
+        return date
         #else
         return nil
         #endif

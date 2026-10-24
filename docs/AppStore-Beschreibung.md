@@ -1,137 +1,159 @@
-# App-Store-Beschreibung (ab Version 1.2)
+# App-Store-Produktseite (ab Version 2.0)
 
-Für das Feld **„Beschreibung“** in App Store Connect, je Sprache (höchstens 4000 Zeichen). Der Text zwischen den Linien wird unverändert eingefügt.
+Die Texte für App Store Connect, je Sprache. Der Text zwischen den Linien wird unverändert eingefügt.
 
-Gegenüber der bisherigen deutschen Beschreibung sind zwei Stellen neu:
-- der Import **von Internetseiten**, neu in 1.2, im zweiten Absatz und in der Funktionsliste;
-- „auf **der** Apple Watch, iPhone oder iPad“ heißt jetzt „auf Apple Watch, iPhone oder iPad“.
+Solange die App noch keine Nutzer hat, berichtet die Produktseite keine Neuerungen, sondern stellt die Besonderheiten der App voran. Die eine Botschaft, die BakePlanner von Rezept-Apps unterscheidet: Du sagst, wann das Brot fertig sein soll, und die App rechnet rückwärts. Untertitel, Werbetext, die ersten Zeilen der Beschreibung und das erste Bild sagen alle dasselbe. Die Überschriften der Screenshots stehen in `docs/appstore/captions.json`, siehe [AppStore-Screenshots.md](AppStore-Screenshots.md).
 
-## Deutsch
+## Name und Untertitel
 
----
+Unter **App-Informationen**, je Sprache, höchstens 30 Zeichen. Beide fließen in die Suche ein, stärker als die Schlüsselwörter. Was dort steht, muss in den Schlüsselwörtern nicht noch einmal auftauchen.
 
-Mit BakePlanner wird Brotbacken übersichtlich, planbar und entspannt. Die App begleitet dich von der Rezeptidee über den Einkauf bis zum fertigen Brot und hilft dir dabei, alle wichtigen Schritte im Blick zu behalten.
+| | Name | Untertitel | Zeichen |
+|---|---|---|---|
+| Deutsch | `BakePlanner` | `Sauerteigbrot rückwärts planen` | 30 |
+| English | `BakePlanner` | `Plan sourdough bakes backward` | 29 |
+| Français | `BakePlanner` | `Pain & levain, plan à rebours` | 29 |
 
-Durchsuche die öffentliche Rezeptdatenbank, speichere deine Favoriten oder erfasse eigene Rezepte mit Bildern, Zutaten, Komponenten und detaillierten Anweisungen. Vorhandene Rezepte kannst du bequem aus fotografierten Seiten oder direkt von einer Internetseite importieren und anschließend bearbeiten.
+Alternativen, falls der Untertitel breiter sein soll als Sauerteig: `Brot backen, rückwärts geplant` (30) · `Bread timing, planned backward` (30) · `Le pain planifié à rebours` (27).
 
-Plane die einzelnen Arbeitsschritte deines Backtages als Liste oder übersichtliche Zeitleiste. So weißt du jederzeit, wann Teigruhe, Falten, Formen oder Backen anstehen. Passende Zutaten lassen sich in einer Einkaufsliste zusammenstellen.
+## Werbetext
 
-Deine vergangenen Backvorgänge werden in der Backhistorie festgehalten. Mit der persönlichen Hit-Liste findest du deine besten und beliebtesten Rezepte schnell wieder.
+Auf der Versionsseite, höchstens 170 Zeichen. Er steht oben auf der Produktseite, lässt sich jederzeit ohne neue Prüfung ändern und zählt nicht für die Suche.
 
-Funktionen im Überblick:
+| Sprache | Werbetext | Zeichen |
+|---|---|---|
+| Deutsch | `Sag BakePlanner, wann das Brot fertig sein soll. Die App rechnet rückwärts, erinnert Dich an jeden Schritt und begleitet Dich in der Küche bis zum Ofen.` | 152 |
+| English | `Tell BakePlanner when the bread should be ready. The app works backward, reminds you of every step and stays with you in the kitchen right up to the oven.` | 154 |
+| Français | `Dites à BakePlanner quand le pain doit être prêt. L’app calcule à rebours, vous rappelle chaque étape et vous accompagne en cuisine jusqu’au four.` | 146 |
 
-• Öffentliche Rezepte entdecken
-• Eigene Rezepte erstellen und verwalten
-• Rezepte aus Bildern oder von Internetseiten importieren
-• Zutaten, Komponenten und Arbeitsschritte erfassen
-• Backabläufe planen und in einer Zeitleiste anzeigen
-• Benachrichtigungen für geplante Schritte auf Apple Watch, iPhone oder iPad erhalten
-• Einkaufslisten zusammenstellen
-• Backergebnisse in der Historie dokumentieren
-• Persönliche Lieblingsrezepte in der Hit-Liste finden
-• Rezepte lokal oder in der Cloud speichern
+## Beschreibung
 
-BakePlanner – plane und backe dein perfektes Brot.
+Höchstens 4000 Zeichen. Auf der Produktseite sind ohne „mehr“ nur die ersten drei Zeilen zu sehen, deshalb steht die Kernbotschaft im ersten Satz.
 
----
+Die Sätze zu Siri setzen voraus, dass die Siri-Kurzbefehle im Build der Version 2.0 enthalten sind; sonst den zweiten Satz unter „In der Küche“ streichen.
 
-## English
+### Deutsch
 
 ---
 
-BakePlanner makes bread baking clear, plannable and relaxed. The app accompanies you from the recipe idea through the shopping to the finished loaf and helps you keep track of every important step.
+Wann muss der Sauerteig angesetzt werden, damit das Brot am Samstag um 18 Uhr aus dem Ofen kommt? BakePlanner rechnet es aus und erinnert Dich an jeden Schritt.
 
-Browse the public recipe database, save your favorites, or add your own recipes with images, ingredients, components and detailed instructions. You can easily import existing recipes from photographed pages or straight from a web page, and edit them afterwards.
+Ein Rezept besteht in BakePlanner nicht nur aus Zutaten, sondern aus Arbeitsschritten mit Dauern. Du wählst „Fertig bis“ oder „Starten ab“, und die App berechnet die Beginnzeit für Brühstück, Sauerteig, Kneten, Falten, Formen und Backen. „Backofen anstellen“ setzt sie von selbst dazu. Für jeden Schritt kommt eine Erinnerung auf iPhone, iPad und Apple Watch. Der nächste Schritt steht als Widget auf dem Home-Bildschirm und als Live-Aktivität auf dem Sperrbildschirm.
 
-Plan the individual steps of your baking day as a list or a clear timeline. That way you always know when it’s time for resting, folding, shaping or baking. The ingredients you need can be gathered in a shopping list.
+IN DER KÜCHE
+Der Backmodus zeigt einen Schritt in großer Schrift, mit den Zutaten in der geplanten Portionsgröße, und liest ihn auf Wunsch vor. Mit Siri fragst Du nach dem nächsten Schritt, meldest ihn als erledigt oder verschiebst ihn, ohne das Display mit Teigfingern anzufassen.
 
-Your past bakes are recorded in your baking history. With your personal top list, you’ll quickly find your best and most popular recipes again.
+BÄCKERRECHNER
+• Anstellgut-TA: Das Rezept verlangt TA 150, Du führst Deines bei TA 200? Die App rechnet Anstellgutmenge und Wasser im Hauptteig um.
+• Mehl ersetzen: Dinkel statt Weizen, Vollkorn statt Typ 550. Das Wasser folgt dem neuen Mehl, mit Hinweisen zur Verarbeitung.
+• Teigtemperatur: die Schüttwassertemperatur für die gewünschte Teigtemperatur, mit Vorteig und Knetfaktor.
+• Portionsgröße oder Teiggewicht frei wählbar. Teigausbeute, Hydration und Bäckerprozente rechnet die App mit.
 
-Features at a glance:
+SAUERTEIG PFLEGEN
+Wiederkehrende Rezepte wie die Auffrischung des Anstellguts plant die App nach dem letzten Mal von selbst neu. Im Fütterungstagebuch hältst Du Zeit bis zum Höchststand, Schwimmtest und Notizen fest.
 
-• Discover public recipes
-• Create and manage your own recipes
-• Import recipes from photos or web pages
-• Add ingredients, components and steps
-• Plan your bakes and view them on a timeline
-• Get notifications for scheduled steps on Apple Watch, iPhone or iPad
-• Put together shopping lists
-• Record your results in the baking history
-• Find your favorite recipes in your top list
-• Save recipes on your device or in the cloud
+REZEPTE
+Fotografiere ein Rezept aus dem Buch oder teile eine Internetseite aus Safari: BakePlanner liest Zutaten, Komponenten und Schritte aus und löst „alle 30 Minuten falten, 4x“ in getaktete Schritte auf. In der gemeinsamen Rezept-Datenbank findest Du Rezepte anderer Bäcker. Sie werden auf dem Gerät übersetzt, mit einem Glossar, das Brühstück, Stockgare und Anstellgut richtig überträgt. Eigene Rezepte bleiben auf dem Gerät, bis Du sie veröffentlichst. Ein Konto ist nicht nötig, die Anmeldung mit Apple ist freiwillig.
 
-BakePlanner – plan and bake your perfect bread.
+EINKAUFEN UND DOKUMENTIEREN
+Die Einkaufsliste ist nach Regalen sortiert und übernimmt die Mengen in der gewählten Portionsgröße. Die Backhistorie hält Foto, Messwerte und Ergebnis jedes Backtags fest. Die Hit-Liste zeigt, was am besten gelungen ist.
 
----
-
-## Français
+BakePlanner – sag, wann das Brot fertig sein soll. Den Rest rechnet die App.
 
 ---
 
-Avec BakePlanner, faire son pain devient simple, planifiable et serein. L’app vous accompagne de l’idée de recette jusqu’au pain cuit, en passant par les courses, et vous aide à garder un œil sur toutes les étapes importantes.
+### English
 
-Parcourez la base de recettes publique, enregistrez vos favorites ou saisissez vos propres recettes avec photos, ingrédients, composants et instructions détaillées. Importez facilement des recettes existantes à partir de pages photographiées ou directement depuis une page web, puis modifiez-les.
+---
 
-Planifiez les étapes de votre journée de boulange sous forme de liste ou de timeline claire. Vous savez ainsi à tout moment quand viennent le repos de la pâte, les rabats, le façonnage ou la cuisson. Les ingrédients nécessaires se regroupent dans une liste de courses.
+When does the sourdough have to go on so the bread comes out of the oven at 6 pm on Saturday? BakePlanner works it out and reminds you of every step.
 
-Vos cuissons passées sont consignées dans l’historique de cuisson. Grâce à votre palmarès personnel, vous retrouvez rapidement vos meilleures recettes et vos préférées.
+In BakePlanner a recipe is not just a list of ingredients but steps with durations. You choose “Done by” or “Start from”, and the app calculates the start time for the scald, the sourdough, kneading, folding, shaping and baking. “Turn on the oven” it adds by itself. Every step comes with a reminder on iPhone, iPad and Apple Watch. The next step sits as a widget on the Home Screen and as a Live Activity on the Lock Screen.
 
-Fonctionnalités en bref :
+IN THE KITCHEN
+Bake Mode shows one step in big type, with its ingredients at the planned serving size, and reads it aloud if you like. Ask Siri for the next step, mark it done or push it back without touching the screen with doughy fingers.
 
-• Découvrir des recettes publiques
-• Créer et gérer vos propres recettes
-• Importer des recettes à partir de photos ou de pages web
-• Saisir ingrédients, composants et étapes
-• Planifier vos cuissons et les afficher dans une timeline
-• Recevoir des notifications pour les étapes planifiées sur Apple Watch, iPhone ou iPad
-• Établir des listes de courses
-• Consigner vos résultats dans l’historique
-• Retrouver vos recettes préférées dans votre palmarès
-• Enregistrer vos recettes sur l’appareil ou dans le cloud
+BAKER’S CALCULATORS
+• Starter TA: the recipe wants a starter at TA 150 and you keep yours at TA 200? The app converts the amount of starter and the water in the main dough.
+• Replace flour: spelt instead of wheat, wholegrain instead of white. The water follows the new flour, with advice on handling it.
+• Dough temperature: the water temperature for the dough temperature you want, with preferment and friction factor.
+• Serving size or dough weight, as you like. Dough yield, hydration and baker’s percentages are calculated along.
 
-BakePlanner – planifiez et réussissez votre pain parfait.
+CARING FOR THE SOURDOUGH
+Recurring recipes such as refreshing the starter are planned anew by the app after each time. In the feeding diary you note the time to peak, the float test and remarks.
+
+RECIPES
+Photograph a recipe from a book or share a web page from Safari: BakePlanner reads ingredients, components and steps and turns “fold every 30 minutes, 4x” into timed steps. In the shared recipe database you find recipes from other bakers. They are translated on the device, with a glossary that gets scald, bulk fermentation and starter right. Your own recipes stay on the device until you publish them. No account is needed; signing in with Apple is voluntary.
+
+SHOPPING AND KEEPING RECORDS
+The shopping list is sorted by shelf and takes the amounts at the chosen serving size. The baking history keeps a photo, measurements and the result of every baking day. The top list shows what turned out best.
+
+BakePlanner – say when the bread should be ready. The app works out the rest.
+
+---
+
+### Français
+
+---
+
+Quand faut-il lancer le levain pour que le pain sorte du four samedi à 18 h ? BakePlanner le calcule et vous rappelle chaque étape.
+
+Dans BakePlanner, une recette n’est pas qu’une liste d’ingrédients : ce sont des étapes avec des durées. Vous choisissez « Terminé pour » ou « Commencer à », et l’app calcule l’heure de début de l’échaudage, du levain, du pétrissage, des rabats, du façonnage et de la cuisson. « Allumer le four », elle l’ajoute d’elle-même. Chaque étape a son rappel sur iPhone, iPad et Apple Watch. La prochaine étape s’affiche en widget sur l’écran d’accueil et en activité en direct sur l’écran verrouillé.
+
+EN CUISINE
+Le mode cuisson affiche une étape en grands caractères, avec ses ingrédients à la taille de portion planifiée, et la lit à voix haute si vous le souhaitez. Demandez à Siri la prochaine étape, marquez-la comme faite ou décalez-la, sans toucher l’écran avec les doigts pleins de pâte.
+
+CALCULATEURS DE BOULANGER
+• TA du levain chef : la recette demande un levain chef à TA 150 et vous entretenez le vôtre à TA 200 ? L’app recalcule la quantité de levain chef et l’eau de la pâte principale.
+• Remplacer la farine : épeautre au lieu de blé, complète au lieu de blanche. L’eau suit la nouvelle farine, avec des conseils pour la travailler.
+• Température de la pâte : la température de l’eau de coulage pour la température de pâte souhaitée, avec pré-ferment et facteur de friction.
+• Taille de portion ou poids de pâte, au choix. Rendement de pâte, hydratation et pourcentages du boulanger suivent.
+
+ENTRETENIR LE LEVAIN
+Les recettes récurrentes comme le rafraîchi du levain chef, l’app les replanifie d’elle-même après chaque fois. Dans le journal de nourrissage, vous notez le temps jusqu’au pic, le test de flottaison et vos remarques.
+
+RECETTES
+Photographiez une recette dans un livre ou partagez une page web depuis Safari : BakePlanner lit les ingrédients, les composants et les étapes, et transforme « rabattre toutes les 30 minutes, 4x » en étapes minutées. Dans la base de recettes partagée, vous trouvez les recettes d’autres boulangers. Elles sont traduites sur l’appareil, avec un glossaire qui rend correctement échaudage, pointage et levain chef. Vos propres recettes restent sur l’appareil jusqu’à ce que vous les publiiez. Aucun compte n’est nécessaire ; la connexion avec Apple est facultative.
+
+COURSES ET SUIVI
+La liste de courses est triée par rayon et reprend les quantités à la taille de portion choisie. L’historique de cuisson garde une photo, les mesures et le résultat de chaque journée de boulange. Le palmarès montre ce qui a le mieux réussi.
+
+BakePlanner – dites quand le pain doit être prêt. L’app calcule le reste.
 
 ---
 
 ## Schlüsselwörter
 
-Durch Kommas getrennt, ohne Leerzeichen danach, höchstens 100 Zeichen. Der App-Name zählt ohnehin mit und muss nicht wiederholt werden.
-
-**Übersetzung der bisherigen deutschen Schlüsselwörter** (`Backen,Brot,Planung,Essen & Trinken`):
+Durch Kommas getrennt, ohne Leerzeichen danach, höchstens 100 Zeichen. Name und Untertitel zählen ohnehin mit, deshalb fehlen „Sauerteig“, „planen“ und ihre Entsprechungen. „Essen & Trinken“ ist die Kategorie der App und findet nichts zusätzlich.
 
 | Sprache | Schlüsselwörter | Zeichen |
 |---|---|---|
-| English | `baking,bread,planning,food & drink` | 34 |
-| Français | `cuisson,pain,planification,cuisine et boissons` | 46 |
-
-**Ausführlicher, empfohlen:** Die 100 Zeichen sind kaum ausgeschöpft, und „Essen & Trinken“ ist ohnehin die Kategorie der App, findet also nichts zusätzlich. Mehr Begriffe, nach denen Bäcker suchen, bringen mehr Treffer:
-
-| Sprache | Schlüsselwörter | Zeichen |
-|---|---|---|
-| Deutsch | `Backen,Brot,Planung,Sauerteig,Rezepte,Backplan,Teig,Vorteig,Erinnerung,Einkaufsliste,Bäcker,Timer` | 97 |
-| English | `baking,bread,planning,sourdough,recipe,schedule,dough,loaf,timer,reminder,shopping list,baker` | 93 |
-| Français | `cuisson,pain,planification,levain,recette,boulange,pâte,minuteur,rappel,liste de courses,four` | 93 |
-
-## Kopfzeile und Suchergebnisse
-
-Name und Untertitel stehen je Sprache unter **App-Informationen**, höchstens 30 Zeichen. Beide fließen in die Suche ein, und zwar stärker als die Schlüsselwörter. Was dort steht, muss in den Schlüsselwörtern nicht noch einmal auftauchen.
-
-| | Name | Untertitel | Zeichen |
-|---|---|---|---|
-| Deutsch | `BakePlanner` | `Sauerteig & Brotbacken planen` | 29 |
-| English | `BakePlanner` | `Bread & sourdough bake planner` | 30 |
-| Français | `BakePlanner` | `Planificateur pain & levain` | 27 |
-
-**Schlüsselwörter passend dazu**, ohne die Wörter aus Name und Untertitel:
-
-| Sprache | Schlüsselwörter | Zeichen |
-|---|---|---|
-| Deutsch | `Rezepte,Backplan,Teig,Vorteig,Erinnerung,Einkaufsliste,Bäcker,Timer,Hefe,Roggen,Dinkel,Backofen` | 95 |
-| English | `baking,recipe,schedule,dough,loaf,timer,reminder,shopping list,baker,yeast,rye,starter,proof,oven` | 97 |
+| Deutsch | `Backen,Brot,Rezepte,Backplan,Teig,Vorteig,Erinnerung,Einkaufsliste,Bäcker,Timer,Hefe,Roggen,Dinkel` | 98 |
+| English | `baking,bread,recipe,schedule,dough,loaf,timer,reminder,shopping list,baker,yeast,rye,starter,oven` | 97 |
 | Français | `boulange,recette,pâte,minuteur,rappel,liste de courses,four,boulanger,levure,seigle,baguette,cuisson` | 100 |
 
-**Werbetext** (auf der Versionsseite, höchstens 170 Zeichen). Er steht oben auf der Produktseite, lässt sich jederzeit ohne neue Prüfung ändern und eignet sich für Neuigkeiten. Für die Suche zählt er nicht.
+## Neuerungen in dieser Version
 
-- DE: `Neu in 1.2: Rezepte direkt von Internetseiten importieren – auch aus Safari über „Teilen“. Und „Backofen anstellen“ nennt jetzt die Temperatur.`
-- EN: `New in 1.2: import recipes straight from web pages – even from Safari via Share. And “Turn on the oven” now names the temperature.`
-- FR: `Nouveau dans la 1.2 : importez des recettes depuis une page web, même depuis Safari via « Partager ». Et « Allumer le four » indique la température.`
+Das Feld darf nicht leer bleiben. Solange niemand von einer früheren Version kommt, genügt ein Satz, der auf die Beschreibung verweist; die ausführliche Fassung steht weiter in [Neuerungen-2.0.md](Neuerungen-2.0.md), falls sie später gebraucht wird.
+
+- DE: `Version 2.0 bringt die Bäckerrechner (Anstellgut-TA, Mehl ersetzen, Teigtemperatur), das Fütterungstagebuch und die Einkaufsliste nach Regalen. Alle Funktionen stehen in der Beschreibung.`
+- EN: `Version 2.0 brings the baker’s calculators (starter TA, replace flour, dough temperature), the feeding diary and the shopping list by shelf. All features are listed in the description.`
+- FR: `La version 2.0 apporte les calculateurs de boulanger (TA du levain chef, remplacer la farine, température de la pâte), le journal de nourrissage et la liste de courses par rayon. Toutes les fonctions sont dans la description.`
+
+## Hinweise für die Prüfung
+
+Im Feld **Hinweise** der Versionsseite (die Prüfer lesen Englisch). Verkürzt die Prüfung, weil der Prüfer die Planung ohne Suchen findet:
+
+---
+
+No account is needed; everything can be tested without signing in. Sign in with Apple is optional and only ties published recipes to the user.
+
+To see the core feature: Main menu → “Recipe database” → open “Kartoffelbrot mit Saaten” (or any public recipe) → tab “Bake recipe” → choose “Done by” and a date two days ahead → the start time of every step is calculated backward → “Set reminders” (allow notifications). The main menu then shows the next step; “Scheduled steps” shows the list, the timeline and “Bake mode”.
+
+The three calculators (dough temperature, replace flour, starter TA) are in the main menu. Recipe import from photos uses an on-device model by default; the cloud option is explained in Settings → Privacy & AI.
+
+---
+
+## Website
+
+Die Startseite unter `docs/website/index.html` sagt „Plane und backe dein perfektes Brot“. Der neue Untertitel gehört dort dazu, damit Suchende dieselbe Botschaft wiederfinden; die Tagline in der App kann bleiben.

@@ -48,7 +48,10 @@ struct ShoppingCartsView: View {
                     ForEach(shoppingCarts.sorted(by: { $0.date < $1.date }), id: \.self) { shoppingCart in
                         VStack(alignment: .leading, spacing: 6) {
                             HStack {
-                                Text("Einkaufsliste vom " + dateFormat.calculateDate(dT: shoppingCart.date))
+                                // One localizable string, not a concatenation:
+                                // "Einkaufsliste vom" stood in German in the
+                                // English and French app.
+                                Text("Einkaufsliste vom \(dateFormat.calculateDate(dT: shoppingCart.date))")
                                     .font(Theme.brandFont(20))
                                 
                                 Spacer()

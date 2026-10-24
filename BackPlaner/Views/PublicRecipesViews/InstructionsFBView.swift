@@ -20,7 +20,8 @@ struct InstructionsFBView: View {
     var languageCode = ""
     
     @State private var dateTime = GlobalVariables.dateTimePicker
-    @State private var dateTimeStartSelection     = 0
+    // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
+    @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
     /// Owned by TabsFBView and shared with the other tabs, so the factor
     /// chosen here is the one the shopping list uses.
     @Binding var         selectedServingSize: Int
@@ -115,11 +116,11 @@ struct InstructionsFBView: View {
     var body: some View {
         
         GeometryReader { fullView in
-            
+            ScrollViewReader { scrollProxy in
             ScrollView(.vertical, showsIndicators: false) {
-                
+
                 VStack (alignment: .leading) {
-                    
+
                     PortraitAdaptiveStack(spacing: 12) {
                         NavigationLink(
                             destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
@@ -191,6 +192,7 @@ struct InstructionsFBView: View {
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
+                    .id(Self.planControlsAnchor)
                     .onChange(of: dateTimeStartSelection) { _, _ in
                         refreshPlanIssues()
                     }
@@ -394,9 +396,24 @@ struct InstructionsFBView: View {
             }
             .onAppear {
                 refreshPlanIssues()
+                if UITestSupport.scrollsToPlanControls {
+                    // Once the schedule has been laid out; without animation,
+                    // so the screenshot never catches the page on its way.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            scrollProxy.scrollTo(Self.planControlsAnchor, anchor: UnitPoint(x: 0.5, y: 0.13))
+                        }
+                    }
+                }
+            }
             }
         }
     }
+
+    /// The scroll anchor of the date controls (see `UITestSupport.scrollsToPlanControls`).
+    private static let planControlsAnchor = "plan.controls.anchor"
 
     // MARK: - Backplanung
 

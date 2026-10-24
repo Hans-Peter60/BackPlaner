@@ -18,7 +18,8 @@ struct InstructionsView: View {
     var recipe: Recipe
     
     @State private var dateTime                   = GlobalVariables.dateTimePicker
-    @State private var dateTimeStartSelection     = 0
+    // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
+    @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
     /// Owned by TabsView and shared with the other tabs, so the factor chosen
     /// here is the one the shopping list uses.
     @Binding var         selectedServingSize: Int

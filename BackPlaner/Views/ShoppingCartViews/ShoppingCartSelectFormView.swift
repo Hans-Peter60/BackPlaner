@@ -269,7 +269,7 @@ struct ShoppingCartSelectFormView: View {
                         ForEach(sortedShoppingCarts, id: \.self) { shoppingCart in
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Einkaufsliste vom " + dateFormat.calculateDate(dT: shoppingCart.date))
+                                    Text("Einkaufsliste vom \(dateFormat.calculateDate(dT: shoppingCart.date))")
                                         .font(Theme.brandFont(16))
                                     Text("\(shoppingCart.ingredientsArray.count) Zutaten")
                                         .font(Theme.bodyFont(13))
