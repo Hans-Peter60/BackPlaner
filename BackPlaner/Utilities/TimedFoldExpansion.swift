@@ -2,37 +2,64 @@
 //  TimedFoldExpansion.swift
 //  BackPlaner
 //
-//  Turns one imported instruction that describes repeated stretch-and-folds
-//  during a rest or rise into one generated step per fold, each carrying the
-//  remaining duration of the parent step from that point on. Recognises an
-//  explicit list of offsets ("nach 30, 60 und 90 Minuten") and an interval
-//  with an optional repeat count ("alle 30 Minuten falten, 4x"); without an
-//  explicit count, the interval repeats for as long as the parent step's
-//  duration allows. Shared by every import parser (GeneralRecipeParser,
-//  TwoColumnRecipeParser, RecipeWebPageLoader) so the recognised wording
+//  Turns one instruction that describes repeated stretch-and-folds during a
+//  rest or rise into one generated step per fold, each carrying the remaining
+//  duration of the parent step from that point on. Recognises an explicit list
+//  of offsets ("nach 30, 60 und 90 Minuten", "in den ersten 30 und 60
+//  Minuten") and an interval with an optional repeat count ("alle 30 Minuten
+//  falten, 4x"); without an explicit count, the interval repeats for as long
+//  as the parent step's duration allows. Shared by every import parser
+//  (GeneralRecipeParser, TwoColumnRecipeParser, RecipeWebPageLoader) and by
+//  the forms that enter or edit a recipe by hand, so the recognised wording
 //  doesn't depend on where the recipe came from.
 //
 
+import CoreData
 import Foundation
 
 enum TimedFoldExpansion {
 
-    static func expand(_ instructions: inout [InstructionFB]) {
-        guard let foldIndex = instructions.firstIndex(where: isFoldCandidate) else { return }
+    /// Expands every fold instruction in `instructions`. Returns whether
+    /// anything changed.
+    @discardableResult
+    static func expand(_ instructions: inout [InstructionFB]) -> Bool {
+        var handled = Set<ObjectIdentifier>()
+        var changed = false
+        // One fold line at a time: the generated steps mention "nach … Minuten"
+        // themselves and must not be taken for another fold schedule, and a
+        // recipe may fold during more than one rest.
+        while let foldIndex = instructions.firstIndex(where: {
+            !handled.contains(ObjectIdentifier($0)) && isFoldCandidate($0)
+        }) {
+            handled.insert(ObjectIdentifier(instructions[foldIndex]))
+            if let generated = expand(&instructions, foldIndex: foldIndex) {
+                generated.forEach { handled.insert(ObjectIdentifier($0)) }
+                changed = true
+            }
+        }
+        return changed
+    }
 
+    /// Expands the fold instruction at `foldIndex`; returns the generated
+    /// steps, or nil when the line does not describe a fold schedule after
+    /// all.
+    private static func expand(_ instructions: inout [InstructionFB], foldIndex: Int) -> [InstructionFB]? {
         let foldInstruction = instructions[foldIndex]
         let foldText = normalized(foldInstruction.instruction)
 
         guard let parentIndex = parentStepIndex(for: foldText, foldIndex: foldIndex, in: instructions) else {
-            return
+            return nil
         }
 
         let parent = instructions[parentIndex]
-        let totalDuration = max(parent.duration, parsedDuration(in: parent.instruction))
-        guard totalDuration > 0 else { return }
+        // A duration the recipe already carries wins over the one read from
+        // the text: "8–12 Stunden" reads as 12 hours, while the recipe may
+        // say 10.
+        let totalDuration = parent.duration > 0 ? parent.duration : parsedDuration(in: parent.instruction)
+        guard totalDuration > 0 else { return nil }
 
         let offsets = foldOffsets(in: foldText, totalDuration: totalDuration)
-        guard !offsets.isEmpty else { return }
+        guard !offsets.isEmpty else { return nil }
 
         parent.duration = totalDuration
 
@@ -55,7 +82,57 @@ enum TimedFoldExpansion {
                 instruction.step -= 1
             }
         }
+        return foldSteps
     }
+
+    // MARK: - Core Data
+
+    /// Expands the fold instructions of a stored recipe, adding, renumbering
+    /// and removing its `Instruction` objects as the array form does. Returns
+    /// whether anything changed; the caller saves the context.
+    @discardableResult
+    static func expand(in recipe: Recipe, context: NSManagedObjectContext) -> Bool {
+        let stored = recipe.instructionsArray
+        var working = [InstructionFB]()
+        var origin = [ObjectIdentifier: Instruction]()
+        for instruction in stored {
+            let instructionFB = InstructionFB()
+            instructionFB.id = instruction.id?.uuidString ?? UUID().uuidString
+            instructionFB.instruction = instruction.instruction
+            instructionFB.step = instruction.step
+            instructionFB.duration = instruction.duration
+            instructionFB.startTime = instruction.startTime
+            instructionFB.componentName = instruction.componentName
+            working.append(instructionFB)
+            origin[ObjectIdentifier(instructionFB)] = instruction
+        }
+
+        guard expand(&working) else { return false }
+
+        var kept = Set<ObjectID>()
+        for instructionFB in working {
+            if let instruction = origin[ObjectIdentifier(instructionFB)] {
+                instruction.step = instructionFB.step
+                instruction.duration = instructionFB.duration
+                kept.insert(instruction.objectID)
+            } else {
+                let instruction = Instruction(context: context)
+                instruction.id = UUID()
+                instruction.instruction = instructionFB.instruction
+                instruction.step = instructionFB.step
+                instruction.duration = instructionFB.duration
+                instruction.componentName = instructionFB.componentName
+                recipe.addToInstructions(instruction)
+            }
+        }
+        for instruction in stored where !kept.contains(instruction.objectID) {
+            recipe.removeFromInstructions(instruction)
+            context.delete(instruction)
+        }
+        return true
+    }
+
+    private typealias ObjectID = NSManagedObjectID
 
     // MARK: - Detection
 
@@ -63,23 +140,33 @@ enum TimedFoldExpansion {
         let value = normalized(instruction.instruction)
         guard value.contains("dehnen") || value.contains("denen") else { return false }
         guard value.contains("falten") else { return false }
-        return value.contains("nach ") || value.contains("alle ")
+        return value.contains("nach ") || value.contains("alle ") || value.contains("ersten ")
+    }
+
+    /// The words that make a step a rest or rise the folds happen during.
+    private static let restWords = [
+        "ruhen lassen", "reifen lassen", "gehen lassen", "stehen lassen", "lagern",
+        "ruhen", "reifen", "gare", "fermentieren"
+    ]
+
+    private static func describesRest(_ text: String) -> Bool {
+        restWords.contains { text.contains($0) }
     }
 
     /// The fold line itself names its own rest when it already states the
     /// duration ("... 12 Stunden ruhen lassen. Dabei nach 30 und 60 Minuten
-    /// falten."); otherwise the most recent preceding rest/rise step is the
-    /// one the folds happen during.
+    /// falten.", "8–12 Stunden bei 9 °C lagern und in den ersten 30 und 60
+    /// Minuten falten"); otherwise the most recent preceding rest/rise step
+    /// is the one the folds happen during.
     private static func parentStepIndex(
         for foldText: String, foldIndex: Int, in instructions: [InstructionFB]
     ) -> Int? {
-        if foldText.contains("stunden") && foldText.contains("ruhen lassen") {
+        if foldText.contains("stunden") && describesRest(foldText) {
             return foldIndex
         }
         return instructions[..<foldIndex].lastIndex(where: {
             let value = normalized($0.instruction)
-            return value.contains("stunden")
-                && (value.contains("ruhen lassen") || value.contains("reifen lassen"))
+            return value.contains("stunden") && describesRest(value)
         })
     }
 
@@ -94,12 +181,16 @@ enum TimedFoldExpansion {
         return intervalOffsets(in: text, totalDuration: totalDuration)
     }
 
-    /// "nach 30, 60 und 90 minuten" → [30, 60, 90]. Requires at least two
-    /// offsets to survive — a single "nach 30 minuten" reads more like a
-    /// one-off timing note than a fold schedule, and a single repeated fold
-    /// time is already covered by the interval pattern below.
+    /// "nach 30, 60 und 90 minuten" or "in den ersten 30 und 60 minuten" →
+    /// [30, 60, 90]. Only numbers and their connectors may stand between the
+    /// lead-in and "minuten", so "bei 9 °C lagern und in den ersten …" does
+    /// not sweep the temperature in. Requires at least two offsets to
+    /// survive — a single "nach 30 minuten" reads more like a one-off timing
+    /// note than a fold schedule, and a single repeated fold time is already
+    /// covered by the interval pattern below.
     private static func explicitOffsets(in text: String) -> [Int]? {
-        guard let segment = captures(#"nach\s+(.+?)\s*minuten"#, in: text)?.first else {
+        let pattern = #"(?:nach|in den ersten)\s+((?:\d+\s*(?:,|und|&|\+|sowie)?\s*)+)minuten"#
+        guard let segment = captures(pattern, in: text)?.first else {
             return nil
         }
         let numbers = allMatches(#"\d+"#, in: segment).compactMap { Int($0) }.filter { $0 > 0 }

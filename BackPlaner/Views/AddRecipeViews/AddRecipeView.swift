@@ -293,6 +293,10 @@ struct AddRecipeView: View {
     }
     
     func addRecipe(to target: RecipeStoragePreference) {
+        // A step typed by hand gets the same treatment as an imported one:
+        // "nach 30 und 60 Minuten dehnen und falten" becomes one step per
+        // fold, so each fold gets its own reminder.
+        TimedFoldExpansion.expand(&recipeFB.instructions)
 
         if target.publishes {
             // The upload is asynchronous: show a spinner, then confirm on
