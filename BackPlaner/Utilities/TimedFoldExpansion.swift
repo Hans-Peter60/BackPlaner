@@ -58,22 +58,35 @@ enum TimedFoldExpansion {
         let totalDuration = parent.duration > 0 ? parent.duration : parsedDuration(in: parent.instruction)
         guard totalDuration > 0 else { return nil }
 
-        let offsets = foldOffsets(in: foldText, totalDuration: totalDuration)
+        let wanted = foldOffsets(in: foldText, totalDuration: totalDuration)
+        guard !wanted.isEmpty else { return nil }
+
+        // Folds the rest already has, as sub-steps 3.1, 3.2 … from an earlier
+        // expansion or typed by hand: a rest line that states its own folds
+        // is run through here every time its step is saved, and used to
+        // gain a second set of fold steps each time. Only offsets without a
+        // step are added, numbered after the existing ones.
+        let existing = instructions.filter {
+            $0 !== parent && $0.step > parent.step && $0.step < parent.step + 1
+        }
+        let existingOffsets = Set(existing.compactMap(generatedFoldOffset))
+        let offsets = wanted.filter { !existingOffsets.contains($0) }
         guard !offsets.isEmpty else { return nil }
 
         parent.duration = totalDuration
 
+        let firstNumber = existing.count + 1
         let foldSteps = offsets.enumerated().map { index, offset -> InstructionFB in
             let step = InstructionFB()
             step.id = UUID().uuidString
-            step.step = parent.step + 0.1 * Double(index + 1)
+            step.step = parent.step + 0.1 * Double(firstNumber + index)
             step.instruction = "Teig dehnen und falten (nach \(offset) Minuten)."
             step.duration = totalDuration - offset
             return step
         }
 
         if foldIndex == parentIndex {
-            instructions.insert(contentsOf: foldSteps, at: parentIndex + 1)
+            instructions.insert(contentsOf: foldSteps, at: parentIndex + 1 + existing.count)
         } else {
             let removedStep = foldInstruction.step
             instructions.remove(at: foldIndex)
@@ -135,6 +148,16 @@ enum TimedFoldExpansion {
     private typealias ObjectID = NSManagedObjectID
 
     // MARK: - Detection
+
+    /// The offset of a fold step this expansion generated ("Teig dehnen und
+    /// falten (nach 30 Minuten).") or of one worded the same way by hand;
+    /// nil for any other step.
+    private static func generatedFoldOffset(_ instruction: InstructionFB) -> Int? {
+        let value = normalized(instruction.instruction)
+        guard value.contains("dehnen und falten"),
+              let offset = captures(#"nach\s+(\d+)\s*minuten"#, in: value)?.first else { return nil }
+        return Int(offset)
+    }
 
     private static func isFoldCandidate(_ instruction: InstructionFB) -> Bool {
         let value = normalized(instruction.instruction)
