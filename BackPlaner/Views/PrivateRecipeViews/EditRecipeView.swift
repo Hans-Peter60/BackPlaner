@@ -160,6 +160,9 @@ struct EditRecipeView: View {
         i.duration    = duration
 
         recipeCD.addToInstructions(i)
+        // "nach 30 und 60 Minuten dehnen und falten" becomes one step per
+        // fold, as it does on import.
+        TimedFoldExpansion.expand(in: recipeCD, context: viewContext)
         recalculateInstructionTimes(for: recipeCD)
         try? viewContext.save()
 

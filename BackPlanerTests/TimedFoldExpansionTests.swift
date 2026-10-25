@@ -79,6 +79,34 @@ struct TimedFoldExpansionTests {
         #expect(instructions.map(\.duration) == [180, 150, 120, 90, 60])
     }
 
+    @Test("A cold rest that folds 'in den ersten 30 und 60 Minuten' expands in place")
+    func foldsInTheFirstMinutesOfAStoredRest() {
+        var instructions = [
+            step("Den Teig 8-12 Stunden bei 9-10°C lagern und in den ersten 30 und 60 Minuten dehnen und falten.",
+                 minutes: 600, step: 3),
+            step("Teiglinge formen.", minutes: 10, step: 4)
+        ]
+        let changed = TimedFoldExpansion.expand(&instructions)
+
+        #expect(changed)
+        #expect(instructions.map(\.step) == [3, 3.1, 3.2, 4])
+        #expect(instructions.map(\.duration) == [600, 570, 540, 10])
+        #expect(instructions[1].instruction == "Teig dehnen und falten (nach 30 Minuten).")
+    }
+
+    @Test("A recipe may fold during more than one rest")
+    func twoRestsEachGetTheirFolds() {
+        var instructions = [
+            step("2 Stunden ruhen lassen. Dabei nach 30 und 60 Minuten dehnen und falten.", minutes: 120, step: 1),
+            step("Teig formen.", minutes: 5, step: 2),
+            step("3 Stunden gehen lassen und nach 30 und 60 Minuten dehnen und falten.", minutes: 180, step: 3)
+        ]
+        TimedFoldExpansion.expand(&instructions)
+
+        #expect(instructions.map(\.step) == [1, 1.1, 1.2, 2, 3, 3.1, 3.2])
+        #expect(instructions.map(\.duration) == [120, 90, 60, 5, 180, 150, 120])
+    }
+
     @Test("A single explicit offset is left alone — one repeated fold time is an interval, not a list")
     func singleExplicitOffsetIsNotExpanded() {
         var instructions = [
@@ -97,8 +125,9 @@ struct TimedFoldExpansionTests {
             step("Den Teigling rundwirken.", minutes: 5, step: 1)
         ]
         let before = instructions.map(\.instruction)
-        TimedFoldExpansion.expand(&instructions)
+        let changed = TimedFoldExpansion.expand(&instructions)
 
+        #expect(!changed)
         #expect(instructions.map(\.instruction) == before)
     }
 }

@@ -157,6 +157,9 @@ struct EditInstructionView: View {
                             self.instructions.duration    = self.duration
 
                             if let recipe = self.instructions.recipe {
+                                // An edited step that now describes repeated
+                                // folds gets one step per fold, as on import.
+                                TimedFoldExpansion.expand(in: recipe, context: viewContext)
                                 recalculateInstructionTimes(for: recipe)
                             }
 
