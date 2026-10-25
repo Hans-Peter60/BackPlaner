@@ -67,6 +67,22 @@ final class Entitlements {
         resolution.unlocked
     }
 
+    /// What a cloud import sends so the Functions can verify Pro for
+    /// themselves: the App Store's signed purchase, or for a grandfathered
+    /// installation the signed AppTransaction. Empty without Pro, and
+    /// under a UI-test override, which has nothing signed to show.
+    var proClaim: [String: String] {
+        let resolution = resolution
+        guard resolution.isPro else { return [:] }
+        if store.hasPurchased, let jws = store.purchaseJWS {
+            return ["proTransaction": jws]
+        }
+        if resolution.isGrandfathered, let jws = store.appTransactionJWS {
+            return ["proAppTransaction": jws]
+        }
+        return [:]
+    }
+
     var isPro: Bool { resolution.isPro }
     var storeVisible: Bool { resolution.storeVisible }
     var proRequired: Bool { resolution.proRequired }

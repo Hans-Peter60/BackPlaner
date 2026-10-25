@@ -43,6 +43,14 @@ final class ProStore {
     /// and in a simulator without a StoreKit configuration.
     private(set) var originalAppVersion: String?
 
+    /// The Pro purchase as the App Store signed it (JWS). The Functions
+    /// verify this themselves before they waive the monthly import limit,
+    /// so the server never has to take the app's word for Pro.
+    private(set) var purchaseJWS: String?
+
+    /// The signed AppTransaction, the server-side proof of grandfathering.
+    private(set) var appTransactionJWS: String?
+
     private(set) var isPurchasing = false
 
     /// Whether loading the product failed, so the paywall can say so
@@ -96,13 +104,16 @@ final class ProStore {
     /// disappears from them, so Pro ends with it.
     func refreshPurchases() async {
         var purchased = false
+        var jws: String?
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result,
                transaction.productID == Self.productID,
                transaction.revocationDate == nil {
                 purchased = true
+                jws = result.jwsRepresentation
             }
         }
+        purchaseJWS = jws
         setPurchased(purchased)
     }
 
@@ -121,6 +132,7 @@ final class ProStore {
                 throw ProStoreError.unverified
             }
             await transaction.finish()
+            purchaseJWS = verification.jwsRepresentation
             setPurchased(true)
             return true
         case .pending, .userCancelled:
@@ -139,8 +151,10 @@ final class ProStore {
 
     private func loadOriginalAppVersion() async {
         do {
-            if case .verified(let appTransaction) = try await AppTransaction.shared {
+            let result = try await AppTransaction.shared
+            if case .verified(let appTransaction) = result {
                 originalAppVersion = appTransaction.originalAppVersion
+                appTransactionJWS = result.jwsRepresentation
             }
         } catch {
             // No receipt: a simulator without a StoreKit configuration, or

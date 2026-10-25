@@ -3,6 +3,14 @@ import {HttpsError, onCall} from "firebase-functions/v2/https";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore, Timestamp} from "firebase-admin/firestore";
 import {GoogleGenAI} from "@google/genai";
+import {
+  ProVerifier,
+  decidePro,
+  hasProClaim,
+  makeAppleVerifier,
+  proClaimHash,
+  readProClaim,
+} from "./proVerification.js";
 
 initializeApp();
 
@@ -170,7 +178,7 @@ export const analyzeRecipeImages = onCall(
     }
 
     const images = validateImages(request.data?.images);
-    await enforceRateLimit(uid, claimsPro(request.data));
+    await enforceRateLimit(uid, request.data);
 
     const parts = [
       {
@@ -217,7 +225,7 @@ export const analyzeRecipeText = onCall(
 
     const text = validateText(request.data?.text);
     const sourceURL = validateSourceURL(request.data?.sourceURL);
-    await enforceRateLimit(uid, claimsPro(request.data));
+    await enforceRateLimit(uid, request.data);
 
     const parts = [
       {
@@ -394,23 +402,60 @@ function validateImages(value: unknown): RecipeImage[] {
   });
 }
 
+/** Verified Pro claims are remembered this long before being re-checked. */
+const proVerificationValidMilliseconds = 7 * 24 * 60 * 60 * 1000;
+
+let appleVerifier: ProVerifier | undefined;
+
 /**
- * Whether the app says this installation has BakePlanner Pro.
- *
- * Phase 1 of the purchase: the claim is taken at its word. The hourly limit
- * caps what a forged claim can cost, and the monthly limit is only switched
- * on (`config/monetization.freeImportsPerMonth`) once it matters. Phase 2
- * verifies the purchase with the App Store Server API before trusting it.
+ * Whether this installation has BakePlanner Pro — decided from what the
+ * app sends (see proVerification.ts), never from its word alone. A claim
+ * that was verified recently is recognised by its hash in the user's
+ * `aiRateLimits` document, so the signature check runs about once a week
+ * per installation rather than on every import.
+ * @param {string} uid Authenticated Firebase user ID.
  * @param {unknown} data Untrusted callable payload.
- * @return {boolean} The claim.
+ * @param {MonetizationLimits} limits The switches in force.
+ * @return {Promise<boolean>} True only for a verified purchase or a
+ * verified grandfathered installation.
  */
-function claimsPro(data: unknown): boolean {
-  return typeof data === "object" && data !== null &&
-    (data as {pro?: unknown}).pro === true;
+async function resolvePro(
+  uid: string,
+  data: unknown,
+  limits: MonetizationLimits,
+): Promise<boolean> {
+  const claim = readProClaim(data);
+  if (!hasProClaim(claim)) return false;
+
+  const hash = proClaimHash(claim);
+  const reference = getFirestore().collection("aiRateLimits").doc(uid);
+  const snapshot = await reference.get();
+  const verifiedAt = snapshot.get("proVerifiedAt") as Timestamp | undefined;
+  if (snapshot.get("proClaimHash") === hash && verifiedAt &&
+      Date.now() - verifiedAt.toMillis() < proVerificationValidMilliseconds) {
+    return true;
+  }
+
+  appleVerifier ??= makeAppleVerifier();
+  const decision = await decidePro(claim, {
+    verifier: appleVerifier,
+    grandfatherBeforeBuild: limits.grandfatherBeforeBuild,
+  });
+  console.info("Pro claim decided", {isPro: decision.isPro,
+    reason: decision.reason});
+  if (decision.isPro) {
+    await reference.set(
+      {proClaimHash: hash, proVerifiedAt: Timestamp.now()}, {merge: true});
+  }
+  return decision.isPro;
 }
 
 /** How many imports a month the app may make without Pro; 0 = no limit. */
-type MonetizationLimits = {freeImportsPerMonth: number};
+type MonetizationLimits = {
+  freeImportsPerMonth: number;
+  /** Installations first downloaded before this build count as Pro. */
+  grandfatherBeforeBuild?: string;
+};
 
 let cachedLimits: {value: MonetizationLimits; readAt: number} | undefined;
 const limitsCacheMilliseconds = 60 * 1000;
@@ -426,12 +471,18 @@ async function readMonetizationLimits(): Promise<MonetizationLimits> {
       Date.now() - cachedLimits.readAt < limitsCacheMilliseconds) {
     return cachedLimits.value;
   }
-  let value: MonetizationLimits = {freeImportsPerMonth: 0};
+  const value: MonetizationLimits = {freeImportsPerMonth: 0};
   try {
     const snapshot = await getFirestore().doc("config/monetization").get();
     const raw = snapshot.get("freeImportsPerMonth");
     if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
-      value = {freeImportsPerMonth: Math.floor(raw)};
+      value.freeImportsPerMonth = Math.floor(raw);
+    }
+    const build = snapshot.get("grandfatherBeforeBuild");
+    if (typeof build === "string" && build.length > 0) {
+      value.grandfatherBeforeBuild = build;
+    } else if (typeof build === "number" && Number.isFinite(build)) {
+      value.grandfatherBeforeBuild = String(build);
     }
   } catch (error) {
     console.error("Monetization config could not be read", error);
@@ -456,14 +507,18 @@ function monthKey(timestamp: Timestamp): string {
  * allowance of free imports for installations without Pro. Both live in the
  * user's `aiRateLimits` document.
  * @param {string} uid Authenticated Firebase user ID.
- * @param {boolean} hasPro Whether the installation claims Pro (see claimsPro).
+ * @param {unknown} data The callable payload, carrying the Pro claim.
  */
-async function enforceRateLimit(uid: string, hasPro = false): Promise<void> {
+async function enforceRateLimit(uid: string, data: unknown): Promise<void> {
   const database = getFirestore();
   const reference = database.collection("aiRateLimits").doc(uid);
   const now = Timestamp.now();
   const hourInMilliseconds = 60 * 60 * 1000;
   const limits = await readMonetizationLimits();
+  // Pro only matters while a monthly limit is set; without one nobody
+  // needs to prove anything, and no signature is checked.
+  const hasPro = limits.freeImportsPerMonth > 0 &&
+    await resolvePro(uid, data, limits);
   const monthlyLimit = hasPro ? 0 : limits.freeImportsPerMonth;
   const month = monthKey(now);
 
@@ -497,11 +552,12 @@ async function enforceRateLimit(uid: string, hasPro = false): Promise<void> {
       );
     }
 
+    // Merge: the document also remembers the verified Pro claim.
     transaction.set(reference, {
       windowStartedAt: windowExpired ? now : windowStartedAt,
       count: windowExpired ? 1 : (count ?? 0) + 1,
       month,
       monthCount: monthCount + 1,
-    });
+    }, {merge: true});
   });
 }

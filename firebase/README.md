@@ -138,6 +138,19 @@ A missing field keeps its free value, so a typo cannot lock the app. The app
 caches the last document it read in the App Group and starts from it; the
 widget extension reads only the resolved decision (`entitlements.widgetsUnlocked`).
 
+**How the Functions know who has Pro.** With a monthly limit set, a cloud
+import carries the App Store's signed purchase (`proTransaction`, a JWS) or,
+for a grandfathered installation, the signed AppTransaction
+(`proAppTransaction`). `functions/src/proVerification.ts` verifies the
+signature chain against Apple's root certificates in `functions/certs/`
+(Production first, then Sandbox; the Xcode environment never counts) and
+checks bundle id, product id, revocation and — for grandfathering —
+`originalApplicationVersion` against `grandfatherBeforeBuild`. A claim that
+verified is remembered by its SHA-256 in the user's `aiRateLimits` document
+for a week (`proClaimHash`, `proVerifiedAt`). The app's Apple ID
+(6810684679) and bundle id are constants in that file. `cd functions && npm
+test` runs the decision logic against a stub verifier.
+
 Suggested rollout, one field at a time:
 1. Submit the app with the product approved in App Store Connect and the
    document absent (or all free). The review can see the store with

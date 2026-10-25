@@ -139,10 +139,15 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
             ]
         }
 
+        // The signed Pro purchase (or AppTransaction) lets the server waive
+        // the monthly allowance after verifying the signature itself.
+        var payload: [String: Any] = ["images": encodedImages]
+        payload.merge(Entitlements.shared.proClaim) { _, claim in claim }
+
         let callable = functions.httpsCallable("analyzeRecipeImages")
         callable.timeoutInterval = 250
         let result = try await Self.mappingLimits {
-            try await callable.call(["images": encodedImages, "pro": Entitlements.shared.isPro])
+            try await callable.call(payload)
         }
 
         guard let payload = result.data as? [String: Any],
@@ -157,10 +162,10 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
     /// Structures the text of a recipe web page. The page is fetched by the
     /// app; only the extracted text and the address leave the device.
     func analyzeRecipeText(_ text: String, sourceURL: URL?) async throws -> CloudRecipeAnalysis {
-        // The Pro claim lets the server skip the monthly allowance. Taken at
-        // its word for now (see claimsPro in the Functions); the hourly limit
-        // bounds what a forged claim could cost.
-        var payload: [String: Any] = ["text": text, "pro": await Entitlements.shared.isPro]
+        // The signed Pro purchase (or AppTransaction) lets the server waive
+        // the monthly allowance after verifying the signature itself.
+        var payload: [String: Any] = ["text": text]
+        payload.merge(await Entitlements.shared.proClaim) { _, claim in claim }
         if let sourceURL {
             payload["sourceURL"] = sourceURL.absoluteString
         }
