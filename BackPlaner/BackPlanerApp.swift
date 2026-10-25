@@ -37,7 +37,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // Firestore/Auth request already carries a valid attestation token.
     AppCheck.setAppCheckProviderFactory(BackPlanerAppCheckProviderFactory())
 
+    // Configured even for a unit-test run: a code path that touches Firestore
+    // without a configured app crashes, and configuring is local and cheap.
     FirebaseApp.configure()
+
+    // As the host of a unit-test run the app stops here: nothing below is
+    // needed by the tests, and none of it can then delay or hang the run.
+    if UITestSupport.isUnitTestHost {
+      return true
+    }
 
     // One-time store maintenance: remove objects that were orphaned while the
     // Core Data model still used Nullify delete rules.
@@ -112,17 +120,17 @@ struct BackPlanerApp: App {
 
     let persistenceController = PersistenceController.shared
 
-//    init() {
-//        FirebaseApp.configure()
-        
-//        let recipeDb = Firestore.firestore()
-//    }
-
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environment(\.locale, Locale(identifier: AppSettings.localeIdentifier(for: selectedLanguage)))
+            if UITestSupport.isUnitTestHost {
+                // The host of a unit-test run shows nothing: the main menu
+                // would load recipes, plans and the backdrop photo for no one.
+                Color.clear
+            } else {
+                ContentView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .environment(\.locale, Locale(identifier: AppSettings.localeIdentifier(for: selectedLanguage)))
+            }
         }
         // Coming to the foreground is the moment a Live Activity can be
         // started; the pass also catches a plan that moved on while the app

@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "9C7D1E2F-3A4B-4C5D-8E6F-7A8B9C0D1E2F",
+      "name" : "Standard",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "defaultTestExecutionTimeAllowance" : 300,
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:BackPlaner.xcodeproj",
+        "identifier" : "6A02A09E305268C00031651D",
+        "name" : "BackPlanerTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:BackPlaner.xcodeproj",
+        "identifier" : "6A759F6349C5799253EC851C",
+        "name" : "BackPlanerUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -62,8 +62,15 @@ final class BackPlanerSmokeTests: XCTestCase {
             entry.tap()
 
             let back = app.navigationBars.buttons.element(boundBy: 0)
-            XCTAssertTrue(back.waitForExistence(timeout: 5),
-                          "\(destination) did not open a screen with a back button")
+            if !back.waitForExistence(timeout: 5) {
+                // Leave the screen's structure behind, so the cause can be read.
+                let hierarchy = XCTAttachment(string: app.debugDescription)
+                hierarchy.name = "\(destination)-hierarchy"
+                hierarchy.lifetime = .keepAlways
+                add(hierarchy)
+                XCTFail("\(destination) did not open a screen with a back button")
+                return
+            }
             back.tap()
 
             XCTAssertTrue(menuEntry(destination).waitForExistence(timeout: 5),
@@ -212,8 +219,17 @@ final class BackPlanerSmokeTests: XCTestCase {
     /// bar and count as not hittable although it is there (see tapReliably).
     private func scrollUntilHittable(_ element: XCUIElement, towards target: ScrollTarget = .bottom,
                                      maxSwipes: Int = 10) {
+        // Hittable, and clear of the bottom edge: a menu card that ends
+        // under the home indicator counts as hittable, yet the tap on it
+        // went nowhere and "Mehl ersetzen" never opened.
+        let clearance: CGFloat = 48
+        func isReady() -> Bool {
+            guard element.exists && element.isHittable else { return false }
+            let window = app.windows.firstMatch.frame
+            return element.frame.maxY <= window.maxY - clearance && element.frame.minY >= window.minY
+        }
         var swipes = 0
-        while !(element.exists && element.isHittable) && swipes < maxSwipes {
+        while !isReady() && swipes < maxSwipes {
             switch target {
             case .bottom: app.swipeUp(velocity: .slow)
             case .top:    app.swipeDown(velocity: .slow)
