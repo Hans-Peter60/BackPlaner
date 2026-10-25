@@ -78,9 +78,9 @@ struct StarterFeedingStoreTests {
     @Test("Only recipes with a rhythm are starters, in name order")
     func startersAreRecipesWithARhythm() throws {
         let context = PersistenceController(inMemory: true).container.viewContext
-        recipe("Weizensauer", rhythmDays: 7, in: context)
-        recipe("Roggensauer", rhythmDays: 5, in: context)
-        recipe("Baguette", rhythmDays: 0, in: context)
+        _ = recipe("Weizensauer", rhythmDays: 7, in: context)
+        _ = recipe("Roggensauer", rhythmDays: 5, in: context)
+        _ = recipe("Baguette", rhythmDays: 0, in: context)
         try context.save()
 
         let names = try StarterFeedingStore.starterRecipes(in: context).map(\.name)
