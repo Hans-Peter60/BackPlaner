@@ -72,6 +72,8 @@ Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den
 | 2 calculators | Portionsgröße ×2 → Mehl ersetzen → Anstellgut-TA 220 → Teigtemperatur | „Alles rechnet mit“ · „Mehl tauschen, Wasser folgt“ · „Dein Anstellgut, Deine TA“ · „Die richtige Wassertemperatur“ |
 | 3 shopping | Neues Rezept mit Import → Einkaufsliste nach Regalen → öffentliches Rezept in anderer Sprache | „Aus dem Buch oder aus dem Netz“ · „Einkaufsliste nach Regalen“ · „Öffentliche Rezepte in Deiner Sprache“ |
 
+Für die Aufnahme von Hand auf dem iPhone (QuickTime Player am Mac) gibt es die Playbooks in [AppStore-Vorschau-Playbooks.md](AppStore-Vorschau-Playbooks.md), mit denselben Szenen und Einblendungen.
+
 Schnitt und Export in **iMovie**, Projektart „App-Vorschau“: Clip importieren, Anfang (App-Start) und Ende trimmen, Titel setzen, exportieren – iMovie liefert die Maße, die App Store Connect annimmt. Vorgaben: 15–30 Sekunden, Hochformat, 30 fps, bis zu drei Vorschauen je Gerätegröße; die Vorschau läuft in der Suche stumm an und steht vor den Bildern, Ton ist optional. Posterbild in App Store Connect wählen, am besten die Timeline. Für das iPad genügt Szene 1.
 
 ## Hochladen
