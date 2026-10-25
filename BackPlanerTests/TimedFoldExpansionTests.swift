@@ -94,6 +94,37 @@ struct TimedFoldExpansionTests {
         #expect(instructions[1].instruction == "Teig dehnen und falten (nach 30 Minuten).")
     }
 
+    @Test("Expanding a second time adds nothing — the rest line is saved again and again")
+    func expandingTwiceIsIdempotent() {
+        var instructions = [
+            step("Den Teig 8-12 Stunden bei 9-10°C lagern und in den ersten 30 und 60 Minuten dehnen und falten.",
+                 minutes: 600, step: 3),
+            step("Teiglinge formen.", minutes: 10, step: 4)
+        ]
+        TimedFoldExpansion.expand(&instructions)
+        let afterFirst = instructions.map { "\($0.step) \($0.instruction) \($0.duration)" }
+
+        let changedAgain = TimedFoldExpansion.expand(&instructions)
+
+        #expect(!changedAgain)
+        #expect(instructions.map { "\($0.step) \($0.instruction) \($0.duration)" } == afterFirst)
+    }
+
+    @Test("An offset added to the rest line later gets its step, the existing ones stay")
+    func onlyMissingOffsetsAreAdded() {
+        var instructions = [
+            step("3 Stunden ruhen lassen. Dabei nach 30 und 60 Minuten dehnen und falten.", minutes: 180, step: 1)
+        ]
+        TimedFoldExpansion.expand(&instructions)
+        instructions[0].instruction = "3 Stunden ruhen lassen. Dabei nach 30, 60 und 90 Minuten dehnen und falten."
+
+        TimedFoldExpansion.expand(&instructions)
+
+        #expect(instructions.map(\.step) == [1, 1.1, 1.2, 1.3])
+        #expect(instructions[3].instruction == "Teig dehnen und falten (nach 90 Minuten).")
+        #expect(instructions.map(\.duration) == [180, 150, 120, 90])
+    }
+
     @Test("A recipe may fold during more than one rest")
     func twoRestsEachGetTheirFolds() {
         var instructions = [
