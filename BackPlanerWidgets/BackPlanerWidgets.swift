@@ -20,6 +20,10 @@ struct NextStepEntry: TimelineEntry {
     let date: Date
     let step: PlanSnapshot.Step?
     let isDue: Bool
+    /// Widgets belong to BakePlanner Pro; while the app says they are
+    /// locked (`PlanSnapshot.widgetsUnlocked`) the widget shows that
+    /// instead of the plan.
+    var isLocked = false
 
     static let placeholder = NextStepEntry(
         date: .now,
@@ -43,14 +47,24 @@ struct NextStepProvider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping (NextStepEntry) -> Void) {
         if context.isPreview {
             completion(.placeholder)
+        } else if !PlanSnapshot.widgetsUnlocked {
+            completion(NextStepEntry(date: .now, step: nil, isDue: false, isLocked: true))
         } else {
             completion(entry(at: .now, from: PlanSnapshot.load() ?? .empty))
         }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<NextStepEntry>) -> Void) {
-        let snapshot = PlanSnapshot.load() ?? .empty
         let now = Date()
+
+        // Locked: one entry, until the app unlocks and reloads the timelines.
+        guard PlanSnapshot.widgetsUnlocked else {
+            completion(Timeline(entries: [NextStepEntry(date: now, step: nil, isDue: false, isLocked: true)],
+                                policy: .never))
+            return
+        }
+
+        let snapshot = PlanSnapshot.load() ?? .empty
 
         var entries = [entry(at: now, from: snapshot)]
         for date in snapshot.changeDates(after: now).prefix(80) {
@@ -130,7 +144,9 @@ struct NextStepWidgetView: View {
 
     var body: some View {
         Group {
-            if let step = entry.step {
+            if entry.isLocked {
+                lockedView
+            } else if let step = entry.step {
                 switch family {
                 case .systemMedium:         mediumView(step)
                 case .accessoryRectangular: rectangularView(step)
@@ -270,6 +286,25 @@ struct NextStepWidgetView: View {
 
     private func inlineView(_ step: PlanSnapshot.Step) -> some View {
         Text("\(step.date, format: .dateTime.hour().minute()) \(step.instruction)")
+    }
+
+    /// Widgets belong to BakePlanner Pro. Tapping opens the app, where the
+    /// settings offer the purchase.
+    private var lockedView: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Image(systemName: "lock")
+                .font(.title3)
+                .foregroundStyle(accentColor)
+            Text("BakePlanner Pro")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(titleColor)
+            if !family.isAccessory {
+                Text("Das Widget gehört zu BakePlanner Pro. Freischalten in den Einstellungen der App.")
+                    .font(.caption2)
+                    .foregroundStyle(subtitleColor)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     private var emptyView: some View {

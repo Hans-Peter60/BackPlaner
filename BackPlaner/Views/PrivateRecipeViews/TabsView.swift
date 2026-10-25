@@ -79,9 +79,12 @@ struct TabsView: View {
                }
                .tag(2)
 
-            ShoppingCartSelectFormView(recipe: recipe,
-                                       selectedServingSize: $selectedServingSize,
-                                       targetWeight: $targetWeight)
+            // Shopping lists are a Pro feature; locked, the tab offers Pro.
+            ProLockedScreen(.shoppingList) {
+                ShoppingCartSelectFormView(recipe: recipe,
+                                           selectedServingSize: $selectedServingSize,
+                                           targetWeight: $targetWeight)
+            }
                .tabItem {
                    VStack {
                        Image(systemName: "cart.badge.plus")

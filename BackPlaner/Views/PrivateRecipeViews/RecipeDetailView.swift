@@ -133,21 +133,31 @@ struct RecipeDetailView: View {
                             .font(Theme.brandFont(15))
                     }
 
-                    // MARK: Share as PDF, at the serving size shown
-                    ShareLink(
-                        item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
-                        preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
-                    ) {
+                    // MARK: Share as PDF, at the serving size shown (Pro)
+                    ProGate(.pdfExport) {
+                        ShareLink(
+                            item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
+                            preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+                        ) {
+                            Label("Rezept teilen", systemImage: "square.and.arrow.up")
+                                .font(Theme.brandFont(15))
+                        }
+                    } label: {
                         Label("Rezept teilen", systemImage: "square.and.arrow.up")
                             .font(Theme.brandFont(15))
                     }
                     .padding(.leading)
 
-                    // MARK: Export as a re-importable file (backup / hand to someone else)
-                    ShareLink(
-                        item: RecipeFileExport(recipe: recipe),
-                        preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
-                    ) {
+                    // MARK: Export as a re-importable file (hand to someone else) (Pro)
+                    ProGate(.recipeSharing) {
+                        ShareLink(
+                            item: RecipeFileExport(recipe: recipe),
+                            preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+                        ) {
+                            Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
+                                .font(Theme.brandFont(15))
+                        }
+                    } label: {
                         Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
                             .font(Theme.brandFont(15))
                     }
@@ -159,7 +169,7 @@ struct RecipeDetailView: View {
                 HStack(alignment: .firstTextBaseline) {
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipe)))
 
-                    if recipe.recurrenceIntervalDays > 0 {
+                    if recipe.recurrenceIntervalDays > 0, Entitlements.shared.isUnlocked(.recurringPlans) {
                         Spacer(minLength: 12)
                         // Wraps on a narrow screen rather than pushing the
                         // dough yield off its line.

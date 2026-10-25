@@ -224,13 +224,22 @@ struct EditRecipeView: View {
 
                 // MARK: Recurrence
                 VStack(alignment: .leading, spacing: 4) {
-                    Toggle("Regelmäßig auffrischen", isOn: Binding(
-                        get: { recurrenceIntervalDays > 0 },
-                        set: { recurrenceIntervalDays = $0 ? max(recurrenceIntervalDays, 5) : 0 }
-                    ))
-                    .font(Theme.brandFont(15))
+                    // A Pro feature: locked, the toggle gives way to a row
+                    // that opens the paywall, and the rhythm stays as it is.
+                    ProGate(.recurringPlans) {
+                        Toggle("Regelmäßig auffrischen", isOn: Binding(
+                            get: { recurrenceIntervalDays > 0 },
+                            set: { recurrenceIntervalDays = $0 ? max(recurrenceIntervalDays, 5) : 0 }
+                        ))
+                        .font(Theme.brandFont(15))
+                    } label: {
+                        Text("Regelmäßig auffrischen")
+                            .font(Theme.brandFont(15))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                    }
 
-                    if recurrenceIntervalDays > 0 {
+                    if recurrenceIntervalDays > 0, Entitlements.shared.isUnlocked(.recurringPlans) {
                         // The next date follows the stepper live, so the
                         // effect of a changed rhythm shows before saving.
                         Stepper(value: $recurrenceIntervalDays, in: 1...60) {

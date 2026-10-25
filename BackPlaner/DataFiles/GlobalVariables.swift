@@ -24,6 +24,8 @@ enum AppLog {
     /// between the simulator and a device for the same image, so a defect that
     /// only shows on the phone can only be measured through the phone's log.
     static let recipeImport  = Logger(subsystem: subsystem, category: "recipeImport")
+    /// The Pro purchase: the remote configuration, StoreKit, the decision.
+    static let store         = Logger(subsystem: subsystem, category: "store")
 }
 
 struct GlobalVariables {

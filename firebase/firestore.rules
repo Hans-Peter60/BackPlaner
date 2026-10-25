@@ -158,6 +158,16 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ---- Remote configuration ------------------------------------------
+    // `config/monetization` holds the switches of the Pro purchase (see
+    // Utilities/MonetizationConfig.swift and firebase/README.md). Written
+    // ONLY from the Firebase console; every signed-in app reads it. The
+    // Functions read it with the Admin SDK, which bypasses these rules.
+    match /config/{document} {
+      allow read:  if isSignedIn();
+      allow write: if false;
+    }
+
     // ---- Moderation reports (App Store Guideline 1.2) -------------------
 
     // The app writes these with the deterministic id `{recipeId}_{uid}`. Since

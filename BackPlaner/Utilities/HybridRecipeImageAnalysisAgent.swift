@@ -35,6 +35,13 @@ final class HybridRecipeImageAnalysisAgent {
             AppLog.data.warning(
                 "Recipe import: cloud AI unavailable or rejected; using local analysis: \(error.localizedDescription)"
             )
+            // The month's free cloud imports are used up: the local result
+            // says so, because otherwise the person would not know why the
+            // analysis came out differently from last time.
+            if case FirebaseFunctionsClientError.monthlyLimitReached = error {
+                return try await analyzeLocally(images: images, progress: progress)
+                    .addingWarning(error.localizedDescription)
+            }
         }
 
         return try await analyzeLocally(images: images, progress: progress)
@@ -115,6 +122,9 @@ final class HybridRecipeImageAnalysisAgent {
         let text = page.analysisText
 
         var result: RecipeImageAnalysisResult?
+        // Set when the month's free cloud imports are used up, so the
+        // result can say why the cloud stayed out of it.
+        var cloudLimitNotice: String?
         if allowCloud {
             progress(String(localized: "Rezept wird in der Cloud analysiert …", bundle: AppSettings.localizationBundle))
             do {
@@ -133,6 +143,9 @@ final class HybridRecipeImageAnalysisAgent {
                 throw CancellationError()
             } catch {
                 AppLog.data.warning("Recipe web import: cloud AI unavailable or rejected; using local analysis: \(error.localizedDescription)")
+                if case FirebaseFunctionsClientError.monthlyLimitReached = error {
+                    cloudLimitNotice = error.localizedDescription
+                }
             }
         }
 
@@ -179,7 +192,7 @@ final class HybridRecipeImageAnalysisAgent {
             recipe: recipe,
             recognizedText: result.recognizedText,
             recipeImage: await image,
-            warnings: result.warnings,
+            warnings: result.warnings + (cloudLimitNotice.map { [$0] } ?? []),
             analysisSource: result.analysisSource
         ), groupingComponents: true)
     }

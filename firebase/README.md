@@ -118,6 +118,40 @@ and re-imported as local recipes on 2026-10-14) are kept until they are deleted
 from the console. `scripts/migrate-public-to-private.mjs`, which once moved
 public recipes there, went with the feature.
 
+## Pro switches: `config/monetization`
+
+BakePlanner Pro (the one-time purchase `de.hpm64625.BackPlaner.pro`) is built
+into the app but **dormant until this document says otherwise**. The document
+is read by every signed-in app (`allow read: if isSignedIn()`) and by the
+Functions through the Admin SDK; no client can write it — it is edited only in
+the console (Firestore → Data → `config` → `monetization`). Create it by hand;
+while it does not exist, everything is free.
+
+| Field | Type | Meaning | Free value |
+|---|---|---|---|
+| `proRequired` | boolean | Lock the Pro features (PDF export, recipe hand-over, recurring plans, shopping lists, widgets, Live Activity) for installations without Pro. | `false` |
+| `storeVisible` | boolean | Show the Pro section in the settings and the paywall in the features. Lets the store be shown — for the App Review, for first purchases — before anything is locked. A buyer sees the section regardless. | `false` |
+| `freeImportsPerMonth` | number | Cloud imports (photo and web page analysis) per month without Pro; `0` = no monthly limit. The hourly limit applies either way. | `0` |
+| `grandfatherBeforeBuild` | string | Installations first downloaded as a build (CFBundleVersion) *below* this one count as Pro without a purchase. Compared against `AppTransaction.originalAppVersion`. Omit to grandfather nobody. | absent |
+
+A missing field keeps its free value, so a typo cannot lock the app. The app
+caches the last document it read in the App Group and starts from it; the
+widget extension reads only the resolved decision (`entitlements.widgetsUnlocked`).
+
+Suggested rollout, one field at a time:
+1. Submit the app with the product approved in App Store Connect and the
+   document absent (or all free). The review can see the store with
+   `storeVisible: true`.
+2. `storeVisible: true` — the store is offered, nothing is locked yet.
+3. `grandfatherBeforeBuild: "<build of the first Pro version>"`, then
+   `proRequired: true` — existing installations keep their features, new ones
+   buy Pro.
+4. `freeImportsPerMonth: 3` once the imports' cost warrants it.
+
+Rolling back is the same edit in reverse; no app update is needed. The
+`-UITestingMonetization` launch argument fixes the configuration for the UI
+tests and screenshots so they never depend on what the console says.
+
 ## Deploy
 
 **Console (quickest):**

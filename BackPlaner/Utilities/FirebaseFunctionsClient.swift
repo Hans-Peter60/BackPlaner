@@ -141,7 +141,9 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
 
         let callable = functions.httpsCallable("analyzeRecipeImages")
         callable.timeoutInterval = 250
-        let result = try await callable.call(["images": encodedImages])
+        let result = try await Self.mappingLimits {
+            try await callable.call(["images": encodedImages, "pro": Entitlements.shared.isPro])
+        }
 
         guard let payload = result.data as? [String: Any],
               JSONSerialization.isValidJSONObject(payload) else {
@@ -155,14 +157,19 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
     /// Structures the text of a recipe web page. The page is fetched by the
     /// app; only the extracted text and the address leave the device.
     func analyzeRecipeText(_ text: String, sourceURL: URL?) async throws -> CloudRecipeAnalysis {
-        var payload: [String: Any] = ["text": text]
+        // The Pro claim lets the server skip the monthly allowance. Taken at
+        // its word for now (see claimsPro in the Functions); the hourly limit
+        // bounds what a forged claim could cost.
+        var payload: [String: Any] = ["text": text, "pro": await Entitlements.shared.isPro]
         if let sourceURL {
             payload["sourceURL"] = sourceURL.absoluteString
         }
 
         let callable = functions.httpsCallable("analyzeRecipeText")
         callable.timeoutInterval = 250
-        let result = try await callable.call(payload)
+        let result = try await Self.mappingLimits {
+            try await callable.call(payload)
+        }
 
         guard let response = result.data as? [String: Any],
               JSONSerialization.isValidJSONObject(response) else {
@@ -172,12 +179,33 @@ final class FirebaseFunctionsClient: @unchecked Sendable {
         let data = try JSONSerialization.data(withJSONObject: response)
         return try JSONDecoder().decode(CloudRecipeAnalysis.self, from: data)
     }
+
+    /// Turns the server's "resource-exhausted" with the reason
+    /// `monthly-limit` into `.monthlyLimitReached`, so the import can tell
+    /// the person why the cloud stayed out of it. Every other error passes.
+    private static func mappingLimits<T>(_ call: () async throws -> T) async throws -> T {
+        do {
+            return try await call()
+        } catch {
+            let nsError = error as NSError
+            if nsError.domain == FunctionsErrorDomain,
+               nsError.code == FunctionsErrorCode.resourceExhausted.rawValue,
+               let details = nsError.userInfo[FunctionsErrorDetailsKey] as? [String: Any],
+               details["reason"] as? String == "monthly-limit" {
+                throw FirebaseFunctionsClientError.monthlyLimitReached
+            }
+            throw error
+        }
+    }
 }
 
 enum FirebaseFunctionsClientError: LocalizedError {
     case imageEncodingFailed
     case imageTooLarge
     case invalidResponse
+    /// The free cloud imports of this month are used up (see
+    /// `MonetizationConfig.freeImportsPerMonth`).
+    case monthlyLimitReached
 
     var errorDescription: String? {
         switch self {
@@ -187,6 +215,9 @@ enum FirebaseFunctionsClientError: LocalizedError {
             return "Ein Rezeptbild ist auch nach der Verkleinerung zu groß."
         case .invalidResponse:
             return "Der Server hat eine ungültige Antwort geliefert."
+        case .monthlyLimitReached:
+            return String(localized: "Die kostenlosen Cloud-Importe dieses Monats sind aufgebraucht. Das Rezept wurde auf dem Gerät analysiert. Mit BakePlanner Pro gibt es kein Monatslimit.",
+                          bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         }
     }
 }
