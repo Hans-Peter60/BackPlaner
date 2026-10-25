@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "5B2E3A9C-6D1F-4C8E-9A0B-1F2E3D4C5B6A",
+      "name" : "Standard",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "defaultTestExecutionTimeAllowance" : 60,
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:BackPlaner.xcodeproj",
+        "identifier" : "6A02A09E305268C00031651D",
+        "name" : "BackPlanerTests"
+      }
+    }
+  ],
+  "version" : 1
+}

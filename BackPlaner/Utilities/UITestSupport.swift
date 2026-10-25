@@ -33,6 +33,22 @@ enum UITestSupport {
 
     static let seededRecipeName = "UI-Test-Brot"
 
+    /// Whether the app is only the host of a unit-test run (BackPlanerTests).
+    /// XCTest sets this variable when it launches the host app; the UI tests
+    /// drive the app from another process, so it is absent there. In a
+    /// unit-test run the app skips its start-up work — store maintenance, the
+    /// widget publisher, notifications, the backdrop blur, the anonymous
+    /// sign-in — and shows an empty window: the tests build what they need
+    /// themselves, and every piece left out is one that cannot hang the run.
+    static var isUnitTestHost: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+            || ProcessInfo.processInfo.environment["XCTestSessionIdentifier"] != nil
+        #else
+        false
+        #endif
+    }
+
     static var isActive: Bool {
         #if DEBUG
         ProcessInfo.processInfo.arguments.contains("-UITesting")
