@@ -39,7 +39,7 @@ BakePlanner is a baking scheduler for bread, rolls, and pastry. What sets it apa
 - You can plan backwards: "the bread should be ready at 6:00 p.m." — and the app tells you when to start the sourdough.
 - Every step gets a **local reminder**, including the automatically inserted steps "turn on the oven" and "baking is finished".
 
-On top of that: a shared public recipe database, your own recipes on the device, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule, three baker's calculators (dough temperature, replace flour, starter TA), and on-device translation of public recipes with a glossary of baker's terms.
+On top of that: a shared public recipe database, your own recipes on the device, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule, three baker's calculators (dough temperature, replace flour, starter TA), on-device translation of public recipes with a glossary of baker's terms, and Siri commands for the next step and starter feedings (see [chapter 11](#11-reminders-on-the-lock-screen)).
 
 ### Quick start: your first baking plan in five steps
 
@@ -57,7 +57,7 @@ Reminders require BakePlanner to be allowed to send notifications. The full expl
 
 | Item | Value |
 |------|-------|
-| Devices | iPhone and iPad |
+| Devices | iPhone (including iPhone Duo, folded and unfolded) and iPad |
 | Operating system | iOS/iPadOS 26.0 or later |
 | Orientation | iPhone: portrait and landscape · iPad: all orientations |
 | Languages | German, English, French (switchable in Settings) |
@@ -128,7 +128,7 @@ After launch the main menu appears with ten cards:
 | **Starter TA** | Calculator: use a starter of a different dough yield, adjust the water |
 | **Settings** | Language, defaults, baking plan, backup, account |
 
-**The "Up next" card.** As soon as a baking plan is running, an extra card appears above the cards with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). When a step's time has come, the card switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the card opens "Scheduled steps". With no step ahead the card stays hidden and the menu looks as pictured above.
+**The "Up next" bar.** As soon as a baking plan is running, a bar floats over the bottom edge of the screen with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The menu cards scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar opens "Scheduled steps". With no step ahead it stays hidden and the menu looks as pictured above.
 
 The back arrow at the top left returns you to the main menu from anywhere.
 
@@ -461,6 +461,8 @@ Columns **Step**, **Description**, **Duration**. Enter the duration in minutes (
 
 Remember the rule from [chapter 3](#3-key-concepts): decimal steps run in parallel, whole numbers one after another.
 
+**Stretch and fold during a rest.** If a step describes several folds during a rest — "rest for 3 hours, stretch and fold after 30 and 60 minutes", "store for 8–12 hours at 9 °C and stretch and fold in the first 30 and 60 minutes", or "fold every 30 minutes, 4x" — the app creates one step per fold when you save: 3.1 "Stretch and fold the dough (after 30 minutes)", 3.2 "… (after 60 minutes)" and so on, each with its own reminder. The rest step itself keeps its full duration; the fold steps carry what remains of the rest from their point on. The same happens on import from photos and web pages and when you edit a step (see [chapter 9](#9-editing-a-recipe)). If the fold instruction stands in a step of its own after the rest, it is assigned to the rest mentioned last and expanded there.
+
 ### Saving
 
 - **Save recipe** — saves locally or uploads to the database. During an upload, "Recipe is uploading ..." appears; then either "Recipe was saved" or a specific error message.
@@ -488,6 +490,8 @@ For recipes you bake or set up at fixed intervals — the starter above all — 
 
 So that a date two weeks away doesn't clutter the lists, "Scheduled steps", the timeline, the "Up next" card, the widget, the Live Activity and Bake Mode hold automatically planned steps back **until two days before they are due**. The reminders themselves still come on time. Steps you planned by hand are not affected.
 
+When the next refresh is due, the **Details** and **Edit** tabs show at the top as the line **"Next feeding: 27 Oct 2026, 08:00"**; before the first bake it reads "after the first bake".
+
 Recipes with this switch get the extra tab **Feeding**: the **starter diary**. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
 
 ### Changing components
@@ -499,7 +503,7 @@ Recipes with this switch get the extra tab **Feeding**: the **starter diary**. A
 ### Changing processing steps
 
 - **Adding**: enter step, description, duration, **+**. The duration as when creating, in minutes or hours ("1:30", "1.5 h"). Start times are recalculated automatically.
-- **Editing**: tap the step's row → "Edit processing step". After **Done** the app recalculates every start time and the working time.
+- **Editing**: tap the step's row → "Edit processing step". After **Done** the app recalculates every start time and the working time. If the step describes folds during a rest ("stretch and fold after 30 and 60 minutes"), the fold steps from [chapter 8](#8-creating-a-new-recipe) are created at that point — for an older recipe too, once you open the step and confirm it with **Done**.
 - **Deleting**: the bin next to the row.
 
 ### Saving manually
@@ -560,7 +564,7 @@ With no steps scheduled, both views read: "No scheduled steps — Set a reminder
 
 ### Bake mode
 
-For working in the kitchen there is a **Start bake mode** button above the list. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.
+For working in the kitchen there is a **Start bake mode** button: in the list it floats as a bar over the bottom edge, with the bin for "Delete scheduled steps" beside it; in the timeline it is the round oven button at the bottom right. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.
 
 At the bottom sit large buttons that can be hit with flour on your hands:
 
@@ -616,6 +620,22 @@ While a plan is running, BakePlanner also shows the upcoming step as a **Live Ac
 The Live Activity appears as soon as a step is less than eight hours away — iOS ends Live Activities after eight hours at the latest, so not earlier. It is updated when you open the app, mark a step as done or reschedule it, and it ends when no step is within reach any more. The first time, iOS asks whether BakePlanner may show Live Activities. Under *Settings → Baking plan → Live Activity on the Lock Screen* it can be switched off altogether.
 
 **Apple Watch.** The baking reminders appear on the watch if you set them on the **iPhone** — the iPhone's notifications are passed on to the paired watch. Reminders set on the iPad stay on the iPad. More on this in [chapter 7](#7-baking-instructions-and-reminders).
+
+### Siri
+
+With dough on your hands you need not touch the device: BakePlanner understands a few phrases through **Siri**, with nothing to set up. Every phrase names the app, which is how Siri knows BakePlanner is meant. The phrases exist in German, English and French; Siri understands the ones in its own language.
+
+| What you say | What happens |
+|---|---|
+| "Next step in BakePlanner" · "What is up next in BakePlanner" | Siri names the upcoming step with recipe and time, or "due now" when it is time. |
+| "Step done in BakePlanner" | Marks the due step as done and names the next one. If the step is not due yet, Siri asks first. |
+| "Move the next step in BakePlanner later" · "… up" | Moves the upcoming step a few minutes later or earlier. Siri asks "By how many minutes?"; the following steps move along. |
+| "When is oven time in BakePlanner" | Names the planned start of baking with its time. |
+| "Fed Rye starter in BakePlanner" · "Fed my starter in BakePlanner" | Records a feeding in the starter diary. Without a name Siri asks which starter is meant; the recipes with "Refresh regularly" count. |
+| "Fed all starters in BakePlanner" | Records a feeding for every starter. One recorded within the last hour is skipped. |
+| "When did I last feed Rye starter in BakePlanner" · "Last feeding in BakePlanner" | Names the date and time of the last feeding. |
+
+The same commands are listed in the **Shortcuts** app under BakePlanner and can be built into your own shortcuts there. Everything runs in the background; the app need not be open. Whatever Siri changes shows at once in "Scheduled steps", the widget and the Live Activity.
 
 ---
 

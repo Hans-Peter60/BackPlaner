@@ -39,7 +39,7 @@ BakePlanner est une app de planification pour le pain, les petits pains et la p�
 - Vous pouvez planifier à rebours : « le pain doit être prêt à 18 h » — et l’app vous dit quand lancer le levain.
 - Chaque étape reçoit un **rappel local**, y compris les étapes insérées automatiquement « allumer le four » et « la cuisson est terminée ».
 
-S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, l’import d’ingrédients depuis des photos et des pages web, des listes de courses triées par rayon, un historique de cuisson avec photos et mesures, un journal du levain chef pour les levains rafraîchis à intervalle régulier, trois calculateurs de boulanger (température de la pâte, remplacer la farine, TA du levain chef), ainsi que la traduction des recettes publiques sur l’appareil avec un glossaire des termes de boulangerie.
+S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, l’import d’ingrédients depuis des photos et des pages web, des listes de courses triées par rayon, un historique de cuisson avec photos et mesures, un journal du levain chef pour les levains rafraîchis à intervalle régulier, trois calculateurs de boulanger (température de la pâte, remplacer la farine, TA du levain chef), la traduction des recettes publiques sur l’appareil avec un glossaire des termes de boulangerie, ainsi que des commandes Siri pour la prochaine étape et le nourrissage du levain (voir [chapitre 11](#11-rappels-sur-lécran-verrouillé)).
 
 ### Démarrage rapide : votre premier plan de cuisson en cinq étapes
 
@@ -57,7 +57,7 @@ Les rappels supposent que BakePlanner soit autorisé à envoyer des notification
 
 | Élément | Valeur |
 |---------|--------|
-| Appareils | iPhone et iPad |
+| Appareils | iPhone (y compris iPhone Duo, plié et déplié) et iPad |
 | Système d’exploitation | iOS/iPadOS 26.0 ou ultérieur |
 | Orientation | iPhone : portrait et paysage · iPad : toutes les orientations |
 | Langues | allemand, anglais, français (commutables dans les Réglages) |
@@ -128,7 +128,7 @@ Au lancement, le menu principal apparaît avec dix cartes :
 | **TA du levain chef** | Calculateur : utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau |
 | **Réglages** | Langue, valeurs par défaut, planification, sauvegarde, compte |
 
-**La carte « À suivre ».** Dès qu’un plan de cuisson est en cours, une carte supplémentaire apparaît au-dessus des cartes avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Quand l’heure d’une étape est arrivée, la carte passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la carte ouvre « Étapes planifiées ». Sans étape à venir, la carte reste masquée et le menu ressemble à l’illustration ci-dessus.
+**La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte au bord inférieur de l’écran avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les cartes du menu défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre ouvre « Étapes planifiées ». Sans étape à venir, elle reste masquée et le menu ressemble à l’illustration ci-dessus.
 
 La flèche de retour en haut à gauche vous ramène au menu principal depuis n’importe quelle section.
 
@@ -461,6 +461,8 @@ Colonnes **Étape**, **Description**, **Durée**. Saisissez la durée en minutes
 
 Souvenez-vous de la règle du [chapitre 3](#3-notions-de-base) : les étapes décimales se déroulent en parallèle, les nombres entiers se succèdent.
 
+**Rabats pendant un repos.** Si une étape décrit plusieurs rabats pendant un repos de la pâte — « laisser reposer 3 heures, rabattre après 30 et 60 minutes », « conserver 8 à 12 heures à 9 °C et rabattre dans les 30 et 60 premières minutes » ou « rabattre toutes les 30 minutes, 4x » —, l’app crée à l’enregistrement une étape par rabat : 3.1 « Étirer et rabattre la pâte (après 30 minutes) », 3.2 « … (après 60 minutes) » et ainsi de suite, chacune avec son propre rappel. L’étape de repos garde sa durée complète ; les étapes de rabat portent ce qui reste du repos à partir de leur moment. Il en va de même à l’import depuis des photos et des pages web et lors de la modification d’une étape (voir [chapitre 9](#9-modifier-une-recette)). Si la consigne de rabat figure dans une étape à part après le repos, elle est rattachée au dernier repos cité et développée là.
+
 ### Enregistrer
 
 - **Enregistrer la recette** — enregistre localement ou téléverse dans la base. Lors d’un téléversement, « La recette est en cours de téléversement... » apparaît ; ensuite soit « La recette a été enregistrée », soit un message d’erreur précis.
@@ -488,6 +490,8 @@ Pour les recettes que vous cuisez ou lancez à intervalles fixes — le levain c
 
 Pour qu’une date dans deux semaines n’encombre pas les listes, « Étapes planifiées », la timeline, la carte « À suivre », le widget, l’activité en direct et le mode cuisson retiennent les étapes planifiées automatiquement **jusqu’à deux jours avant l’échéance**. Les rappels, eux, arrivent quand même à l’heure. Les étapes planifiées à la main ne sont pas concernées.
 
+La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et **Modifier** sur la ligne **« Prochain nourrissage : 27/10/2026, 08:00 »** ; avant la première cuisson, on y lit « après la première cuisson ».
+
 Les recettes avec ce commutateur reçoivent l’onglet supplémentaire **Nourrissage** : le **journal du levain chef**. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
 
 ### Modifier les composants
@@ -499,7 +503,7 @@ Les recettes avec ce commutateur reçoivent l’onglet supplémentaire **Nourris
 ### Modifier les étapes de préparation
 
 - **Ajouter** : saisir l’étape, la description, la durée, **+**. La durée comme à la création, en minutes ou en heures (« 1:30 », « 1,5 h »). Les heures de début sont recalculées automatiquement.
-- **Modifier** : toucher la ligne de l’étape → « Modifier l’étape de préparation ». Après **Terminé**, l’app recalcule toutes les heures de début et la durée de travail.
+- **Modifier** : toucher la ligne de l’étape → « Modifier l’étape de préparation ». Après **Terminé**, l’app recalcule toutes les heures de début et la durée de travail. Si l’étape décrit des rabats pendant un repos (« rabattre après 30 et 60 minutes »), les étapes de rabat du [chapitre 8](#8-créer-une-nouvelle-recette) sont créées à ce moment — pour une recette ancienne aussi, dès que vous ouvrez l’étape et la confirmez par **Terminé**.
 - **Supprimer** : la corbeille à côté de la ligne.
 
 ### Enregistrer manuellement
@@ -560,7 +564,7 @@ Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape 
 
 ### Mode cuisson
 
-Pour le travail en cuisine, un bouton **Démarrer le mode cuisson** se trouve au-dessus de la liste. Il ouvre l’étape en cours en plein écran et en grands caractères : en haut le nom de la recette et « Étape 3 sur 12 », en dessous l’heure avec un compte à rebours (« dans 42 min ») ou « depuis 5 min » dès que l’étape est due, puis le texte de l’étape. Si l’étape mélange un composant, ses ingrédients et quantités suivent juste en dessous — les mêmes que derrière le symbole i.
+Pour le travail en cuisine, il y a le bouton **Démarrer le mode cuisson** : dans la liste, il flotte en barre au bord inférieur, à côté de la corbeille « Supprimer les étapes planifiées » ; dans la timeline, c’est le bouton rond avec le four en bas à droite. Il ouvre l’étape en cours en plein écran et en grands caractères : en haut le nom de la recette et « Étape 3 sur 12 », en dessous l’heure avec un compte à rebours (« dans 42 min ») ou « depuis 5 min » dès que l’étape est due, puis le texte de l’étape. Si l’étape mélange un composant, ses ingrédients et quantités suivent juste en dessous — les mêmes que derrière le symbole i.
 
 En bas se trouvent de grands boutons que l’on atteint même avec de la farine sur les mains :
 
@@ -616,6 +620,22 @@ Pendant qu’un plan est en cours, BakePlanner affiche aussi l’étape à venir
 L’activité en direct apparaît dès qu’une étape est à moins de huit heures — iOS met fin aux activités en direct au plus tard après huit heures, d’où cette limite. Elle est mise à jour quand vous ouvrez l’app, marquez une étape comme terminée ou la décalez, et se termine quand plus aucune étape n’est à portée. La première fois, iOS demande si BakePlanner peut afficher des activités en direct. Sous *Réglages → Planification → Activité en direct sur l’écran verrouillé*, elle peut être désactivée complètement.
 
 **Apple Watch.** Les rappels de cuisson apparaissent sur la montre si vous les avez définis sur l’**iPhone** — les notifications de l’iPhone sont transmises à la montre jumelée. Les rappels définis sur l’iPad restent sur l’iPad. Plus de détails au [chapitre 7](#7-instructions-de-cuisson-et-rappels).
+
+### Siri
+
+Les mains dans la pâte, vous n’avez pas à toucher l’appareil : BakePlanner comprend quelques phrases via **Siri**, sans rien configurer. Chaque phrase nomme l’app, c’est ainsi que Siri sait qu’il s’agit de BakePlanner. Les phrases existent en allemand, en anglais et en français ; Siri comprend celles de sa propre langue.
+
+| Ce que vous dites | Ce qui se passe |
+|---|---|
+| « Prochaine étape dans BakePlanner » · « Qu’est-ce qui vient ensuite dans BakePlanner » | Siri nomme l’étape à venir avec la recette et l’heure, ou « à faire maintenant » si c’est le moment. |
+| « Étape terminée dans BakePlanner » | Marque l’étape due comme terminée et nomme la suivante. Si l’étape n’est pas encore due, Siri demande confirmation. |
+| « Retarder la prochaine étape dans BakePlanner » · « Devancer la prochaine étape dans BakePlanner » | Décale l’étape à venir de quelques minutes vers l’arrière ou vers l’avant. Siri demande « De combien de minutes ? » ; les étapes suivantes suivent. |
+| « Quand enfourner dans BakePlanner » | Donne le début de cuisson prévu avec l’heure. |
+| « J’ai nourri Levain de seigle dans BakePlanner » · « J’ai nourri mon levain dans BakePlanner » | Consigne un nourrissage dans le journal du levain chef. Sans nom, Siri demande quel levain ; comptent les recettes avec « Rafraîchir régulièrement ». |
+| « J’ai nourri tous les levains dans BakePlanner » | Consigne un nourrissage pour chaque levain. Un levain déjà consigné dans l’heure écoulée est ignoré. |
+| « Quand ai-je nourri Levain de seigle dans BakePlanner » · « Dernier nourrissage dans BakePlanner » | Donne la date et l’heure du dernier nourrissage. |
+
+Les mêmes commandes figurent dans l’app **Raccourcis** sous BakePlanner et peuvent y entrer dans vos propres raccourcis. Tout s’exécute en arrière-plan, l’app n’a pas besoin d’être ouverte. Ce que Siri modifie apparaît aussitôt dans « Étapes planifiées », le widget et l’activité en direct.
 
 ---
 
