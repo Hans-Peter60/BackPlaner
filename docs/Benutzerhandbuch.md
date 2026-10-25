@@ -36,7 +36,7 @@ BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unte
 - Du kannst rückwärts planen: „Das Brot soll um 18:00 Uhr fertig sein“ – die App sagt Dir, wann Du den Sauerteig ansetzen musst.
 - Für jeden Schritt wird eine **lokale Erinnerung** gesetzt, inklusive automatisch eingefügtem Schritt „Backofen anstellen“ und „Backvorgang ist beendet“.
 
-Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) sowie eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe.
+Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe sowie Siri-Befehle für den nächsten Schritt und die Sauerteigfütterung (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)).
 
 ### Schnellstart: In fünf Schritten zum ersten Backplan
 
@@ -54,7 +54,7 @@ Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlich
 
 | Punkt | Wert |
 |-------|------|
-| Geräte | iPhone und iPad |
+| Geräte | iPhone (auch iPhone Duo, zugeklappt und aufgeklappt) und iPad |
 | Betriebssystem | iOS/iPadOS 26.0 oder neuer |
 | Ausrichtung | iPhone: Hoch- und Querformat · iPad: alle Ausrichtungen |
 | Sprachen | Deutsch, Englisch, Französisch (umschaltbar in den Einstellungen) |
@@ -125,7 +125,7 @@ Nach dem Start erscheint das Hauptmenü mit zehn Karten:
 | **Anstellgut-TA** | Rechner: Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen |
 | **Einstellungen** | Sprache, Standardwerte, Backplanung, Sicherung, Konto |
 
-**Die Karte „Als Nächstes“.** Sobald ein Backplan läuft, erscheint über den Karten eine zusätzliche Karte mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Ist die Zeit eines Schritts gekommen, wechselt die Karte für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Karte öffnet „Geplante Schritte“. Ohne anstehenden Schritt bleibt die Karte verborgen, und das Menü sieht aus wie oben abgebildet.
+**Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt am unteren Bildschirmrand eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Menükarten scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste öffnet „Geplante Schritte“. Ohne anstehenden Schritt bleibt sie verborgen, und das Menü sieht aus wie oben abgebildet.
 
 Mit dem Zurück-Pfeil oben links kommst Du aus jedem Bereich wieder ins Hauptmenü.
 
@@ -458,6 +458,8 @@ Spalten **Schritt**, **Beschreibung**, **Dauer**. Die Dauer gibst Du in Minuten 
 
 Denk an die Regel aus [Kapitel 3](#3-grundbegriffe): Nachkommaschritte laufen parallel, ganze Zahlen nacheinander.
 
+**Dehnen und Falten während einer Ruhe.** Beschreibt ein Schritt mehrere Falt-Durchgänge während einer Teigruhe – „3 Stunden ruhen lassen, dabei nach 30 und 60 Minuten dehnen und falten“, „8–12 Stunden bei 9 °C lagern und in den ersten 30 und 60 Minuten dehnen und falten“ oder „alle 30 Minuten falten, 4x“ –, legt die App beim Speichern für jeden Durchgang einen eigenen Schritt an: 3.1 „Teig dehnen und falten (nach 30 Minuten)“, 3.2 „… (nach 60 Minuten)“ und so fort, jeder mit eigener Erinnerung. Der Ruheschritt selbst bleibt mit seiner vollen Dauer stehen; die Falt-Schritte tragen die Restdauer der Ruhe ab ihrem Zeitpunkt. Dasselbe geschieht beim Import aus Bildern und Internetseiten und beim Bearbeiten eines Schritts (siehe [Kapitel 9](#9-rezept-bearbeiten)). Steht die Falt-Anweisung in einem eigenen Schritt nach der Ruhe, wird sie der zuletzt genannten Ruhe zugeordnet und dort aufgelöst.
+
 ### Speichern
 
 - **Rezept speichern** – speichert lokal bzw. lädt in die Datenbank hoch. Beim Upload erscheint „Rezept wird hochgeladen …“; danach entweder „Rezept wurde gespeichert“ oder eine konkrete Fehlermeldung.
@@ -485,6 +487,8 @@ Für Rezepte, die Du in festen Abständen backst oder ansetzt – allen voran da
 
 Damit ein Termin in zwei Wochen die Listen nicht zumüllt, halten „Geplante Schritte“, Timeline, die Karte „Als Nächstes“, Widget, Live-Aktivität und Backmodus automatisch geplante Schritte **bis zwei Tage vor dem Termin zurück**. Die Erinnerungen selbst kommen trotzdem pünktlich. Von Hand geplante Schritte sind davon nicht betroffen.
 
+Wann die nächste Auffrischung ansteht, zeigen die Tabs **Details** und **Ändern** oben als Zeile **„Nächste Fütterung: 27.10.26, 08:00“**; vor dem ersten Backen steht dort „nach dem ersten Backen“.
+
 Rezepte mit diesem Schalter bekommen den zusätzlichen Tab **Fütterung**: das **Anstellgut-Tagebuch**. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
 
 ### Komponenten ändern
@@ -496,7 +500,7 @@ Rezepte mit diesem Schalter bekommen den zusätzlichen Tab **Fütterung**: das *
 ### Verarbeitungsschritte ändern
 
 - **Hinzufügen**: Schritt, Beschreibung, Dauer eingeben, **+**. Die Dauer wie beim Anlegen in Minuten oder Stunden („1:30“, „1,5 h“). Startzeiten werden automatisch neu berechnet.
-- **Bearbeiten**: Schrittzeile antippen → „Verarbeitungsschritt ändern“. Nach **Fertig** rechnet die App alle Startzeiten und die Bearbeitungsdauer neu.
+- **Bearbeiten**: Schrittzeile antippen → „Verarbeitungsschritt ändern“. Nach **Fertig** rechnet die App alle Startzeiten und die Bearbeitungsdauer neu. Beschreibt der Schritt Falt-Durchgänge während einer Ruhe („nach 30 und 60 Minuten dehnen und falten“), entstehen dabei die Falt-Schritte aus [Kapitel 8](#8-neues-rezept-anlegen) – auch bei einem alten Rezept, wenn Du den Schritt einmal öffnest und mit **Fertig** bestätigst.
 - **Löschen**: Papierkorb neben der Zeile.
 
 ### Manuell speichern
@@ -557,7 +561,7 @@ Sind keine Schritte geplant, steht in beiden Ansichten: „Keine geplanten Schri
 
 ### Backmodus
 
-Für die Arbeit in der Küche gibt es über der Liste die Schaltfläche **Backmodus starten**. Sie öffnet den aktuellen Schritt bildschirmfüllend in großer Schrift: oben Rezeptname und „Schritt 3 von 12“, darunter die Uhrzeit mit Countdown („in 42 Min.“) beziehungsweise „seit 5 Min.“, sobald der Schritt fällig ist, dann der Schritttext. Mischt der Schritt eine Komponente an, stehen deren Zutaten mit Mengen direkt darunter – dieselben wie hinter dem i-Symbol.
+Für die Arbeit in der Küche gibt es die Schaltfläche **Backmodus starten**: In der Liste schwebt sie als Leiste am unteren Rand, neben ihr der Papierkorb für „Geplante Schritte löschen“; in der Timeline ist es der runde Ofen-Knopf unten rechts. Sie öffnet den aktuellen Schritt bildschirmfüllend in großer Schrift: oben Rezeptname und „Schritt 3 von 12“, darunter die Uhrzeit mit Countdown („in 42 Min.“) beziehungsweise „seit 5 Min.“, sobald der Schritt fällig ist, dann der Schritttext. Mischt der Schritt eine Komponente an, stehen deren Zutaten mit Mengen direkt darunter – dieselben wie hinter dem i-Symbol.
 
 Unten liegen große Tasten, die sich auch mit Mehl an den Händen treffen lassen:
 
@@ -613,6 +617,22 @@ Läuft ein Plan, zeigt BakePlanner den anstehenden Schritt zusätzlich als **Liv
 Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfernt ist – iOS beendet Live-Aktivitäten spätestens nach acht Stunden, deshalb nicht früher. Sie wird aktualisiert, wenn Du die App öffnest, einen Schritt als erledigt markierst oder verschiebst, und endet, wenn kein Schritt mehr in Reichweite ist. Beim ersten Mal fragt iOS, ob BakePlanner Live-Aktivitäten zeigen darf. Unter *Einstellungen → Backplanung → Live-Aktivität auf dem Sperrbildschirm* lässt sie sich ganz abschalten.
 
 **Apple Watch.** Die Backhinweise erscheinen auf der Uhr, wenn Du die Erinnerungen auf dem **iPhone** gesetzt hast – Mitteilungen des iPhones werden an die gekoppelte Uhr weitergereicht. Auf dem iPad gesetzte Erinnerungen bleiben auf dem iPad. Mehr dazu in [Kapitel 7](#7-backanleitung-und-erinnerungen).
+
+### Siri
+
+Mit Teig an den Händen musst Du das Gerät nicht anfassen: BakePlanner versteht einige Sätze über **Siri**, ohne dass Du etwas einrichtest. Jeder Satz nennt den App-Namen, daran erkennt Siri, dass BakePlanner gemeint ist. Die Sätze gibt es auf Deutsch, Englisch und Französisch; Siri versteht die in ihrer eigenen Sprache.
+
+| Was Du sagst | Was passiert |
+|---|---|
+| „Nächster Schritt in BakePlanner“ · „Was steht in BakePlanner als Nächstes an“ | Siri nennt den anstehenden Schritt mit Rezept und Uhrzeit, oder „Jetzt fällig“, wenn er dran ist. |
+| „Schritt erledigt in BakePlanner“ | Markiert den fälligen Schritt als erledigt und nennt den nächsten. Ist der Schritt noch nicht fällig, fragt Siri nach. |
+| „Nächsten Schritt in BakePlanner verschieben“ · „… nach hinten“ · „… vorziehen“ · „… nach vorne“ | Verschiebt den anstehenden Schritt um einige Minuten nach hinten oder nach vorne. Siri fragt „Um wie viele Minuten?“, die folgenden Schritte wandern mit. |
+| „Wann muss ich in BakePlanner in den Ofen“ | Nennt den geplanten Backbeginn mit Uhrzeit. |
+| „Roggensauer in BakePlanner gefüttert“ · „Sauerteig gefüttert in BakePlanner“ | Trägt eine Fütterung in das Anstellgut-Tagebuch ein. Ohne Namen fragt Siri, welcher Sauerteig gemeint ist; es zählen die Rezepte mit „Regelmäßig auffrischen“. |
+| „Alle Sauerteige in BakePlanner gefüttert“ | Trägt für jeden Sauerteig eine Fütterung ein. Einer, der in der letzten Stunde schon eingetragen wurde, wird übersprungen. |
+| „Wann habe ich Roggensauer in BakePlanner zuletzt gefüttert“ · „Letzte Fütterung in BakePlanner“ | Nennt Datum und Uhrzeit der letzten Fütterung. |
+
+Dieselben Befehle stehen in der App **Kurzbefehle** unter BakePlanner und lassen sich dort in eigene Abläufe einbauen. Alles läuft im Hintergrund, die App muss dafür nicht geöffnet sein. Was Siri ändert, sieht man sofort in „Geplante Schritte“, im Widget und in der Live-Aktivität.
 
 ---
 
