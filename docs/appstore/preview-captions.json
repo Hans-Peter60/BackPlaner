@@ -1,0 +1,41 @@
+{
+  "de": [
+    { "file": "1-1-fertig-bis",       "text": "Sag, wann das Brot fertig sein soll|BakePlanner rechnet jeden Schritt zurück" },
+    { "file": "1-2-erinnerung",       "text": "Erinnerung für jeden Schritt|Auf iPhone, iPad und Apple Watch" },
+    { "file": "1-3-timeline",         "text": "Dein Backtag auf einen Blick" },
+    { "file": "1-4-backmodus",        "text": "In der Küche: ein Schritt, große Schrift|Mit den Zutaten, auf Wunsch vorgelesen" },
+    { "file": "2-1-portionsgroesse",  "text": "Portionsgröße, Teiggewicht, Teigausbeute|Alles rechnet mit" },
+    { "file": "2-2-mehl-ersetzen",    "text": "Mehl tauschen, Wasser folgt|Dinkel, Roggen, Vollkorn: mit Hinweisen" },
+    { "file": "2-3-anstellgut-ta",    "text": "Dein Anstellgut, Deine TA|Die App rechnet Anstellgut und Wasser um" },
+    { "file": "2-4-teigtemperatur",   "text": "Die richtige Wassertemperatur|Für die Teigtemperatur, die das Rezept will" },
+    { "file": "3-1-import",           "text": "Aus dem Buch oder aus dem Netz|Foto oder Link: die App liest das Rezept aus" },
+    { "file": "3-2-einkaufsliste",    "text": "Einkaufsliste nach Regalen|In der gewählten Portionsgröße" },
+    { "file": "3-3-sprache",          "text": "Öffentliche Rezepte in Deiner Sprache" }
+  ],
+  "en": [
+    { "file": "1-1-fertig-bis",       "text": "Say when the bread should be ready|BakePlanner works every step back from there" },
+    { "file": "1-2-erinnerung",       "text": "A reminder for every step|On iPhone, iPad and Apple Watch" },
+    { "file": "1-3-timeline",         "text": "Your baking day at a glance" },
+    { "file": "1-4-backmodus",        "text": "In the kitchen: one step, big type|With its ingredients, read aloud on request" },
+    { "file": "2-1-portionsgroesse",  "text": "Serving size, dough weight, dough yield|Everything scales along" },
+    { "file": "2-2-mehl-ersetzen",    "text": "Swap the flour, the water follows|Spelt, rye, wholegrain: with advice" },
+    { "file": "2-3-anstellgut-ta",    "text": "Your starter, your TA|The app adjusts starter and water" },
+    { "file": "2-4-teigtemperatur",   "text": "The right water temperature|For the dough temperature the recipe wants" },
+    { "file": "3-1-import",           "text": "From the book or from the web|Photo or link: the app reads the recipe" },
+    { "file": "3-2-einkaufsliste",    "text": "Shopping list by shelf|At the serving size you chose" },
+    { "file": "3-3-sprache",          "text": "Public recipes in your language" }
+  ],
+  "fr": [
+    { "file": "1-1-fertig-bis",       "text": "Dites quand le pain doit être prêt|BakePlanner remonte chaque étape à rebours" },
+    { "file": "1-2-erinnerung",       "text": "Un rappel pour chaque étape|Sur iPhone, iPad et Apple Watch" },
+    { "file": "1-3-timeline",         "text": "Votre journée de boulange d’un coup d’œil" },
+    { "file": "1-4-backmodus",        "text": "En cuisine : une étape, en grand|Avec ses ingrédients, lue à voix haute si vous voulez" },
+    { "file": "2-1-portionsgroesse",  "text": "Portion, poids de pâte, rendement|Tout se recalcule" },
+    { "file": "2-2-mehl-ersetzen",    "text": "Changez de farine, l’eau suit|Épeautre, seigle, complète : avec conseils" },
+    { "file": "2-3-anstellgut-ta",    "text": "Votre levain chef, votre TA|L’app recalcule levain chef et eau" },
+    { "file": "2-4-teigtemperatur",   "text": "La bonne température de l’eau|Pour la température de pâte voulue" },
+    { "file": "3-1-import",           "text": "Du livre ou du web|Photo ou lien : l’app lit la recette" },
+    { "file": "3-2-einkaufsliste",    "text": "Liste de courses par rayon|À la taille de portion choisie" },
+    { "file": "3-3-sprache",          "text": "Les recettes publiques dans votre langue" }
+  ]
+}
