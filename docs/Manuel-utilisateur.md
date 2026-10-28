@@ -1,6 +1,6 @@
 # BakePlanner – Manuel de l’utilisateur
 
-Révision : 25 octobre 2026 · version 2.0 de l’app
+Révision : 28 octobre 2026 · version 2.0 de l’app
 
 > Traduit de l’original allemand, `Benutzerhandbuch.md`. En cas de divergence,
 > la version allemande fait foi.
@@ -246,7 +246,7 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette — dans la taille de portion choisie — à une liste de courses (voir [chapitre 13](#13-liste-de-courses)) |
 | **+ Historique** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) |
-| **Nourrissage** | Uniquement pour les recettes avec « Rafraîchir régulièrement » : le journal du levain chef (voir [chapitre 9](#9-modifier-une-recette)) |
+| **Nourrissage** | Uniquement pour les recettes de levain chef : le journal du levain chef (voir [chapitre 9](#9-modifier-une-recette)) |
 
 Taille de portion et poids de pâte sont les mêmes dans tous les onglets : ce que vous réglez sous Détails vaut aussi sous Cuire et pour la liste de courses.
 
@@ -330,7 +330,7 @@ Toucher **Définir les rappels** déclenche plusieurs choses à la fois :
    - Si la recette indique une **température de four**, elle est ajoutée, par exemple « Allumer le four (250 °C) ». Avec « cuire à 250 °C puis 220 °C », c’est la première. La température peut aussi figurer dans l’étape précédente (« enfourner, four à 250 °C »).
    - Si la recette comporte déjà **sa propre étape de préchauffage**, aucune seconde n’est ajoutée. L’étape de la recette sert alors de rappel de préchauffage et reçoit la température si elle ne l’indique pas encore.
    - Si la cuisson commence dans un **four froid** (« enfourner dans le four froid »), le temps de préchauffage est supprimé.
-   - Si l’étape de cuisson indique une **température descendante** (« enfourner à 250 °C, après 10 minutes baisser à 220 °C »), l’app insère en plus **« Baisser le four à 220 °C »** — à la minute indiquée par l’étape, sinon dix minutes après le début de la cuisson. Si l’étape mentionne la buée ou la vapeur, le texte devient « …, évacuer la buée » ; pas avec « sans buée ». Une température de chaleur tournante indiquée à côté (« 230 °C sole/voûte, chaleur tournante 210 °C ») ne compte pas comme une baisse.
+   - Si l’étape de cuisson indique une **température descendante** (« enfourner à 250 °C, après 10 minutes baisser à 220 °C »), l’app insère en plus **« Baisser le four à 220 °C »** — à la minute indiquée dans la phrase qui donne la température la plus basse ; « immédiatement » signifie au début de la cuisson, et sans indication ce sont dix minutes après le début. Si l’étape mentionne la buée ou la vapeur, le texte devient « …, évacuer la buée » ; pas avec « sans buée ». Si la recette a une **étape à elle pour évacuer la buée** (« Évacuer la buée » 20 minutes après l’enfournement), le four est baissé à l’enfournement et l’étape insérée ne parle pas de buée — c’est la recette qui dit quand la buée s’évacue. Une température de chaleur tournante indiquée à côté (« 230 °C sole/voûte, chaleur tournante 210 °C ») ne compte pas comme une baisse.
 3. **« La cuisson est terminée »** est également planifié pour l’heure de fin.
 4. Toutes les étapes arrivent dans **Étapes planifiées**.
 5. Pour vos recettes, une **entrée d’historique** est créée avec la date de fin et le commentaire provisoire « aucun commentaire saisi », que vous pourrez compléter plus tard.
@@ -486,13 +486,15 @@ Touchez les étoiles en haut à droite : de 1 à 5 étoiles. Toucher de nouveau 
 
 ### Rafraîchir régulièrement
 
-Pour les recettes que vous cuisez ou lancez à intervalles fixes — le levain chef avant tout —, il y a le commutateur **Rafraîchir régulièrement** avec un intervalle en jours (1 à 60). Activé, l’app **planifie automatiquement la prochaine date après la dernière cuisson** : dès que la dernière cuisson est terminée, le prochain rafraîchi apparaît avec ses rappels dans « Étapes planifiées ». L’intervalle compte toujours à partir de la dernière cuisson réelle ; un nourrissage plus tôt ou plus tard décale d’autant la prochaine date.
+Pour les recettes que vous cuisez ou lancez à intervalles fixes — le levain chef avant tout —, il y a le commutateur **Rafraîchir régulièrement** (**Planifier régulièrement** pour les pains) avec un intervalle en jours (1 à 60). Activé, l’app **planifie automatiquement la prochaine date après la dernière cuisson** : dès que la dernière cuisson est terminée, le prochain rafraîchi apparaît avec ses rappels dans « Étapes planifiées ». Le rythme est calé sur le **début de la première étape** : nourrissez votre levain chef aujourd’hui à 8 h et, avec « tous les 1 jour », vous le nourrissez de nouveau demain à 8 h — quelle que soit la durée de la recette, et même au changement d’heure. L’intervalle compte toujours à partir de la dernière cuisson réelle ; un nourrissage plus tôt ou plus tard décale d’autant la prochaine date.
 
 Pour qu’une date dans deux semaines n’encombre pas les listes, « Étapes planifiées », la timeline, la carte « À suivre », le widget, l’activité en direct et le mode cuisson retiennent les étapes planifiées automatiquement **jusqu’à deux jours avant l’échéance**. Les rappels, eux, arrivent quand même à l’heure. Les étapes planifiées à la main ne sont pas concernées.
 
-La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et **Modifier** sur la ligne **« Prochain nourrissage : 27/10/2026, 08:00 »** ; avant la première cuisson, on y lit « après la première cuisson ».
+La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et **Modifier** sur la ligne **« Prochain nourrissage : Demain 08:00 »** (« Prochaine cuisson : … » pour les pains) — il s’agit du début de la première étape. Tant qu’un plan est encore en cours, la ligne indique déjà la date d’après ; avant la première cuisson, on y lit « après la première cuisson ».
 
-Les recettes avec ce commutateur reçoivent l’onglet supplémentaire **Nourrissage** : le **journal du levain chef**. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
+**Ce qui fait d’une recette un levain chef** se décide d’après ses ingrédients, pas d’après le commutateur : ils donnent un ratio de nourrissage de levain chef (ou levain, starter — les noms se valent), de farine et d’eau, et rien n’est cuit. Une recette composée uniquement de ces trois-là est toujours un levain chef, même si une étape mentionne le four (« laisser mûrir dans le four éteint, lumière allumée », « garder au frais jusqu’à la prochaine cuisson »). Seules une température de four ou une étape de préchauffage — ou d’autres ingrédients comme le sel — en font un pain. Un tag comme « Levain chef », « Starter » ou « Rafraîchi » tranche à la main en cas de doute ; un tag « Levain » ne suffit pas, les pains le portent aussi.
+
+Les recettes de levain chef reçoivent l’onglet supplémentaire **Nourrissage** : le **journal du levain chef**. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
 
 ### Modifier les composants
 
@@ -536,11 +538,11 @@ Chaque étape est une carte avec l’image de la recette, son nom, l’heure de 
 
 L’app reconnaît une telle étape de mélange au fait que le nom d’un composant de la recette figure dans le texte de l’étape. Les étapes issues de l’import d’image savent de toute façon à quel composant elles appartiennent. Une étape comme « Rabattre la pâte », sans nom de composant, n’a pas de symbole i.
 
-**Décaler une étape dans le temps** — via l’icône d’horloge sur la carte :
+**Décaler une étape dans le temps** — via l’icône d’horloge sur la carte. La fiche affiche en haut la recette, l’étape et son heure actuelle (« Actuellement ») et, dès que vous avez saisi des minutes, la nouvelle (« Nouveau ») :
 
 1. Saisissez des minutes (1440 au maximum, soit 24 heures).
 2. Choisissez le sens : **Plus tôt** ou **Plus tard**.
-3. Choisissez la portée : **Uniquement cette étape** ou **Toutes les suivantes** (toutes les étapes ultérieures du même plan se décalent d’autant, y compris « La cuisson est terminée » et les étapes qui commencent à la même minute mais viennent après dans l’ordre).
+3. Choisissez les **étapes concernées** : **Uniquement cette étape** ou **Toutes les suivantes** (toutes les étapes ultérieures du même plan se décalent d’autant, y compris « La cuisson est terminée » et les étapes qui commencent à la même minute mais viennent après dans l’ordre). Une note sous le choix explique son effet.
 4. **Appliquer**.
 
 Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».
@@ -631,7 +633,7 @@ Les mains dans la pâte, vous n’avez pas à toucher l’appareil : BakePlanner
 | « Étape terminée dans BakePlanner » | Marque l’étape due comme terminée et nomme la suivante. Si l’étape n’est pas encore due, Siri demande confirmation. |
 | « Retarder la prochaine étape dans BakePlanner » · « Devancer la prochaine étape dans BakePlanner » | Décale l’étape à venir de quelques minutes vers l’arrière ou vers l’avant. Siri demande « De combien de minutes ? » ; les étapes suivantes suivent. |
 | « Quand enfourner dans BakePlanner » | Donne le début de cuisson prévu avec l’heure. |
-| « J’ai nourri Levain de seigle dans BakePlanner » · « J’ai nourri mon levain dans BakePlanner » | Consigne un nourrissage dans le journal du levain chef. Sans nom, Siri demande quel levain ; comptent les recettes avec « Rafraîchir régulièrement ». |
+| « J’ai nourri Levain de seigle dans BakePlanner » · « J’ai nourri mon levain dans BakePlanner » | Consigne un nourrissage dans le journal du levain chef. Sans nom, Siri demande quel levain ; comptent les recettes de levain chef (voir [chapitre 9](#9-modifier-une-recette)). |
 | « J’ai nourri tous les levains dans BakePlanner » | Consigne un nourrissage pour chaque levain. Un levain déjà consigné dans l’heure écoulée est ignoré. |
 | « Quand ai-je nourri Levain de seigle dans BakePlanner » · « Dernier nourrissage dans BakePlanner » | Donne la date et l’heure du dernier nourrissage. |
 
@@ -823,7 +825,7 @@ Les deux listes ne valent que pour cet appareil et ne sont pas synchronisées vi
 
 ### Aide
 
-D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce document) et la page **Aide et contact** avec l’adresse e-mail pour vos questions et signalements. Les deux pages s’affichent dans la langue réglée dans l’app.
+D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce document), la page **Aide et contact** avec l’adresse e-mail pour vos questions et signalements, la **politique de confidentialité** et les **mentions légales**. Toutes ces pages s’affichent dans la langue réglée dans l’app.
 
 ---
 

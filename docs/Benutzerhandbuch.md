@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 25.10.2026 · App-Version 2.0
+Stand: 28.10.2026 · App-Version 2.0
 
 ---
 
@@ -36,7 +36,7 @@ BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unte
 - Du kannst rückwärts planen: „Das Brot soll um 18:00 Uhr fertig sein“ – die App sagt Dir, wann Du den Sauerteig ansetzen musst.
 - Für jeden Schritt wird eine **lokale Erinnerung** gesetzt, inklusive automatisch eingefügtem Schritt „Backofen anstellen“ und „Backvorgang ist beendet“.
 
-Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für regelmäßig aufgefrischte Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe sowie Siri-Befehle für den nächsten Schritt und die Sauerteigfütterung (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)).
+Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Zutaten-Import aus Fotos und von Internetseiten, Einkaufslisten nach Regalen sortiert, eine Backhistorie mit Fotos und Messwerten, ein Anstellgut-Tagebuch für Deine Sauerteige, drei Bäckerrechner (Teigtemperatur, Mehl ersetzen, Anstellgut-TA) eine On-Device-Übersetzung öffentlicher Rezepte mit einem Glossar der Bäckerbegriffe sowie Siri-Befehle für den nächsten Schritt und die Sauerteigfütterung (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)).
 
 ### Schnellstart: In fünf Schritten zum ersten Backplan
 
@@ -243,7 +243,7 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts – in der gewählten Portionsgröße – auf eine Einkaufsliste setzen (siehe [Kapitel 13](#13-einkaufsliste)) |
 | **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen |
-| **Fütterung** | Nur bei Rezepten mit „Regelmäßig auffrischen“: das Anstellgut-Tagebuch (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
+| **Fütterung** | Nur bei Anstellgut-Rezepten: das Anstellgut-Tagebuch (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 
 Portionsgröße und Teiggewicht sind in allen Tabs dieselben: Was Du unter Details einstellst, gilt auch unter Backen und für die Einkaufsliste.
 
@@ -327,7 +327,7 @@ Ein Tippen auf **Erinnerungen setzen** löst mehrere Dinge gleichzeitig aus:
    - Nennt das Rezept eine **Ofentemperatur**, steht sie dabei, etwa „Backofen anstellen (250 °C)“. Bei „Bei 250 °C fallend auf 220 °C backen“ ist es die erste. Die Temperatur darf auch im Schritt davor stehen („Brot einschießen, Ofen 250 °C“).
    - Hat das Rezept schon einen **eigenen Schritt zum Vorheizen**, fügt die App keinen zweiten ein. Der eigene Schritt erinnert dann an das Vorheizen und bekommt die Temperatur angehängt, wenn sie dort noch fehlt.
    - Beginnt das Backen im **kalten Ofen** („in den kalten Backofen schieben“), entfällt die Vorheizzeit.
-   - Nennt der Backschritt eine **fallende Temperatur** („bei 250 °C einschießen, nach 10 Minuten auf 220 °C reduzieren“), fügt die App zusätzlich **„Backofen auf 220 °C zurückdrehen“** ein – zu der Minute, die der Schritt nennt, sonst zehn Minuten nach Backbeginn. Erwähnt der Schritt Dampf oder Schwaden, heißt es „…, Dampf ablassen“; bei „ohne Dampf“ nicht. Eine daneben genannte Umluft-Temperatur („230 °C Ober-/Unterhitze, Umluft 210 °C“) zählt nicht als Absenkung.
+   - Nennt der Backschritt eine **fallende Temperatur** („bei 250 °C einschießen, nach 10 Minuten auf 220 °C reduzieren“), fügt die App zusätzlich **„Backofen auf 220 °C zurückdrehen“** ein – zu der Minute, die der Satz mit der niedrigeren Temperatur nennt; „sofort“ heißt zum Backbeginn, ohne Angabe sind es zehn Minuten nach Backbeginn. Erwähnt der Schritt Dampf oder Schwaden, heißt es „…, Dampf ablassen“; bei „ohne Dampf“ nicht. Hat das Rezept einen **eigenen Schritt zum Dampfablassen** („Dampf ablassen“ 20 Minuten nach dem Einschießen), wird der Ofen zum Backbeginn zurückgedreht und der eingefügte Schritt nennt keinen Dampf – wann der Dampf abgelassen wird, sagt das Rezept selbst. Eine daneben genannte Umluft-Temperatur („230 °C Ober-/Unterhitze, Umluft 210 °C“) zählt nicht als Absenkung.
 3. Ebenso wird **„Backvorgang ist beendet“** zum Endzeitpunkt eingeplant.
 4. Alle Schritte landen in **„Geplante Schritte“**.
 5. Bei eigenen Rezepten wird ein **Backhistorien-Eintrag** mit dem Enddatum und dem Platzhalter-Kommentar „kein Kommentar erfasst“ angelegt, den Du später ergänzen kannst.
@@ -483,13 +483,15 @@ Rechts oben die Sterne antippen: 1 bis 5 Sterne. Nochmaliges Tippen auf den erst
 
 ### Regelmäßig auffrischen
 
-Für Rezepte, die Du in festen Abständen backst oder ansetzt – allen voran das Anstellgut –, gibt es den Schalter **Regelmäßig auffrischen** mit einem Intervall in Tagen (1 bis 60). Ist er an, plant die App **nach dem letzten Backen automatisch den nächsten Termin**: Sobald der letzte Backvorgang abgeschlossen ist, erscheint die nächste Auffrischung mit Erinnerungen in „Geplante Schritte“. Der Abstand zählt immer vom tatsächlichen letzten Backen; eine frühere oder spätere Fütterung verschiebt den nächsten Termin entsprechend.
+Für Rezepte, die Du in festen Abständen backst oder ansetzt – allen voran das Anstellgut –, gibt es den Schalter **Regelmäßig auffrischen** (bei Broten **Regelmäßig planen**) mit einem Intervall in Tagen (1 bis 60). Ist er an, plant die App **nach dem letzten Backen automatisch den nächsten Termin**: Sobald der letzte Backvorgang abgeschlossen ist, erscheint die nächste Auffrischung mit Erinnerungen in „Geplante Schritte“. Der Rhythmus hängt am **Beginn des ersten Schritts**: Wer sein Anstellgut heute um 8:00 Uhr füttert, füttert es bei „alle 1 Tage“ morgen wieder um 8:00 Uhr – unabhängig davon, wie lange das Rezept dauert, und auch über die Zeitumstellung hinweg. Der Abstand zählt immer vom tatsächlichen letzten Backen; eine frühere oder spätere Fütterung verschiebt den nächsten Termin entsprechend.
 
 Damit ein Termin in zwei Wochen die Listen nicht zumüllt, halten „Geplante Schritte“, Timeline, die Karte „Als Nächstes“, Widget, Live-Aktivität und Backmodus automatisch geplante Schritte **bis zwei Tage vor dem Termin zurück**. Die Erinnerungen selbst kommen trotzdem pünktlich. Von Hand geplante Schritte sind davon nicht betroffen.
 
-Wann die nächste Auffrischung ansteht, zeigen die Tabs **Details** und **Ändern** oben als Zeile **„Nächste Fütterung: 27.10.26, 08:00“**; vor dem ersten Backen steht dort „nach dem ersten Backen“.
+Wann die nächste Auffrischung ansteht, zeigen die Tabs **Details** und **Ändern** oben als Zeile **„Nächste Fütterung: Morgen 08:00“** (bei Broten „Nächster Backtermin: …“) – gemeint ist der Beginn des ersten Schritts. Läuft gerade noch ein Plan, steht dort bereits der Termin danach; vor dem ersten Backen steht dort „nach dem ersten Backen“.
 
-Rezepte mit diesem Schalter bekommen den zusätzlichen Tab **Fütterung**: das **Anstellgut-Tagebuch**. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
+**Was ein Anstellgut-Rezept ist**, entscheidet die App an den Zutaten, nicht am Schalter: Sie ergeben ein Fütterungsverhältnis aus Anstellgut (oder Sauerteig, Levain, Starter – die Namen sind gleichwertig), Mehl und Wasser, und nichts wird gebacken. Ein Rezept nur aus diesen dreien ist immer ein Anstellgut, auch wenn ein Schritt den Ofen erwähnt („im ausgeschalteten Backofen mit Licht reifen lassen“, „bis zum nächsten Backen kühl lagern“). Erst eine Ofentemperatur oder ein Vorheiz-Schritt – oder weitere Zutaten wie Salz – machen daraus ein Brot. Mit einem Tag wie „Anstellgut“, „ASG“ oder „Auffrischen“ legst Du es im Zweifel von Hand fest; „Sauerteig“ als Tag reicht nicht, der steht auch auf Broten.
+
+Anstellgut-Rezepte bekommen den zusätzlichen Tab **Fütterung**: das **Anstellgut-Tagebuch**. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
 
 ### Komponenten ändern
 
@@ -533,11 +535,11 @@ Jeder Schritt ist eine Karte mit Rezeptbild, Rezeptname, Startzeit, Datum, Dauer
 
 Die App erkennt einen solchen Mischschritt daran, dass der Name einer Rezeptkomponente im Schritttext vorkommt. Bei Rezepten aus dem Bildimport weiß der Schritt ohnehin, zu welcher Komponente er gehört. Ein Schritt wie „Teig falten“ ohne Komponentennamen bekommt kein i-Symbol.
 
-**Einen Schritt zeitlich verschieben** – über das Uhr-Symbol auf der Karte:
+**Einen Schritt zeitlich verschieben** – über das Uhr-Symbol auf der Karte. Das Blatt zeigt oben Rezept, Schritt und den bisherigen Zeitpunkt („Bisher“) und, sobald Du Minuten eingegeben hast, den neuen („Neu“):
 
 1. Minuten eingeben (maximal 1440, also 24 Stunden).
 2. Richtung wählen: **Früher** oder **Später**.
-3. Umfang wählen: **Nur dieser Schritt** oder **Alle nachfolgenden** (alle späteren Schritte desselben Plans wandern um denselben Betrag mit, auch „Backvorgang ist beendet“ und Schritte, die zur selben Minute beginnen, aber in der Reihenfolge dahinter stehen).
+3. **Betroffene Schritte** wählen: **Nur dieser Schritt** oder **Alle nachfolgenden** (alle späteren Schritte desselben Plans wandern um denselben Betrag mit, auch „Backvorgang ist beendet“ und Schritte, die zur selben Minute beginnen, aber in der Reihenfolge dahinter stehen). Ein Hinweis unter der Auswahl sagt, was sie bewirkt.
 4. **Übernehmen**.
 
 Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Zeitpunkt in der Vergangenheit, lehnt die App das mit „Verschieben nicht möglich“ ab.
@@ -628,7 +630,7 @@ Mit Teig an den Händen musst Du das Gerät nicht anfassen: BakePlanner versteht
 | „Schritt erledigt in BakePlanner“ | Markiert den fälligen Schritt als erledigt und nennt den nächsten. Ist der Schritt noch nicht fällig, fragt Siri nach. |
 | „Nächsten Schritt in BakePlanner verschieben“ · „… nach hinten“ · „… vorziehen“ · „… nach vorne“ | Verschiebt den anstehenden Schritt um einige Minuten nach hinten oder nach vorne. Siri fragt „Um wie viele Minuten?“, die folgenden Schritte wandern mit. |
 | „Wann muss ich in BakePlanner in den Ofen“ | Nennt den geplanten Backbeginn mit Uhrzeit. |
-| „Roggensauer in BakePlanner gefüttert“ · „Sauerteig gefüttert in BakePlanner“ | Trägt eine Fütterung in das Anstellgut-Tagebuch ein. Ohne Namen fragt Siri, welcher Sauerteig gemeint ist; es zählen die Rezepte mit „Regelmäßig auffrischen“. |
+| „Roggensauer in BakePlanner gefüttert“ · „Sauerteig gefüttert in BakePlanner“ | Trägt eine Fütterung in das Anstellgut-Tagebuch ein. Ohne Namen fragt Siri, welcher Sauerteig gemeint ist; es zählen die Anstellgut-Rezepte (siehe [Kapitel 9](#9-rezept-bearbeiten)). |
 | „Alle Sauerteige in BakePlanner gefüttert“ | Trägt für jeden Sauerteig eine Fütterung ein. Einer, der in der letzten Stunde schon eingetragen wurde, wird übersprungen. |
 | „Wann habe ich Roggensauer in BakePlanner zuletzt gefüttert“ · „Letzte Fütterung in BakePlanner“ | Nennt Datum und Uhrzeit der letzten Fütterung. |
 
@@ -820,7 +822,7 @@ Beide Listen gelten nur für dieses Gerät und werden nicht über iCloud abgegli
 
 ### Hilfe
 
-Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument) und die Seite **Hilfe und Kontakt** mit der E-Mail-Adresse für Fragen und Fehlermeldungen. Beide Seiten erscheinen in der Sprache, die in der App eingestellt ist.
+Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), die Seite **Hilfe und Kontakt** mit der E-Mail-Adresse für Fragen und Fehlermeldungen, die **Datenschutzerklärung** und das **Impressum**. Alle Seiten erscheinen in der Sprache, die in der App eingestellt ist.
 
 ---
 
