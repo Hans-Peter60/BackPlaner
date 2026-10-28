@@ -41,10 +41,24 @@ private enum TimelineMetrics {
     /// boundaries, and the least room between two axis labels.
     static let gapThreshold: TimeInterval = 4 * 3600
     static let gapLength: CGFloat = 44
+    /// What stays at full scale on either side of a collapsed night: half
+    /// an hour, but never less than a line of bar text, so a rest that
+    /// begins shortly before the night keeps its first line visible.
+    static let gapEdgeMinutes: CGFloat = 30
+    static let gapEdgePoints: CGFloat = 26
+
+    static func gapEdge(pointsPerMinute: CGFloat) -> TimeInterval {
+        TimeInterval(max(gapEdgeMinutes, gapEdgePoints / pointsPerMinute) * 60)
+    }
     static let minimumInterval: CGFloat = 26
     /// A bar with a marker in its first minute: one line for the bar, one
     /// for the marker.
     static let roomForStartMarker: CGFloat = 40
+    /// One line of marker or finish label in a column.
+    static let labelHeight: CGFloat = 16
+    /// One line of bar text (Avenir at 12 points), for how many lines fit
+    /// before the first marker label.
+    static let barLineHeight: CGFloat = 16.5
     static let minimumTickSpacing: CGFloat = 40
     /// Room before the first step, so its axis label is not cut off by the
     /// pinned header, and after the last one, for the finish flag.
@@ -131,6 +145,7 @@ struct ScheduledTasksTimeLineView: View {
                                               minimumInterval: TimelineMetrics.minimumInterval,
                                               roomAfter: TimelineMetrics.roomAfter(for: lanes),
                                               gapThreshold: TimelineMetrics.gapThreshold,
+                                              gapEdge: TimelineMetrics.gapEdge(pointsPerMinute: zoom.pointsPerMinute),
                                               gapLength: TimelineMetrics.gapLength,
                                               minimumTickSpacing: TimelineMetrics.minimumTickSpacing)
                 VStack(spacing: 0) {
@@ -548,38 +563,61 @@ private struct PlanTimelineChart: View {
             // Bars that run at the same time share the lane side by side.
             let trackLength = (crossLength - TimelineMetrics.trackSpacing * CGFloat(bar.trackCount - 1)) / CGFloat(bar.trackCount)
             let barCross = crossOffset + CGFloat(bar.track) * (trackLength + TimelineMetrics.trackSpacing)
-            // The bar's text may run down to its first marker's label, not
-            // beyond; a marker at the bar's very start (the turn-down as the
-            // loaf goes in) keeps its line there but its label moves below
-            // the bar's first line.
-            let firstMarker = bar.markers.map { max(scale.position(of: $0.date), position + 20) }.min()
-            let textLength = firstMarker.map { $0 - position } ?? length
+            // The marker labels are stacked: each sits at its marker's line,
+            // but never over the bar's first line (a marker at the bar's
+            // very start — the turn-down as the loaf goes in) nor over the
+            // label before it. The bar's text may run down to the first of
+            // them, not beyond.
+            let markers = bar.markers.sorted { $0.date < $1.date }
+            let markerLabels = stackedLabelPositions(markers.map { scale.position(of: $0.date) }, floor: position + 20)
+            let textLength = markerLabels.first.map { $0 - position } ?? length
             let anchor = TooltipAnchor(entry: bar.entry, kind: bar.kind, recipeName: lane.recipeName,
                                        position: position, crossOffset: barCross)
 
             place(barView(bar, anchor: anchor, length: length, textLength: textLength),
                   position: position, length: length, crossOffset: barCross, crossLength: trackLength)
 
-            ForEach(bar.markers) { marker in
-                markerViews(marker, recipeName: lane.recipeName, labelFloor: position + 20,
+            ForEach(Array(zip(markers, markerLabels)), id: \.0.id) { marker, labelPosition in
+                markerViews(marker, recipeName: lane.recipeName, labelPosition: labelPosition,
                             crossOffset: barCross, crossLength: trackLength)
             }
         }
 
-        ForEach(lane.markers) { marker in
-            markerViews(marker, recipeName: lane.recipeName, labelFloor: 0, crossOffset: crossOffset, crossLength: crossLength)
+        // Loose markers and the finish share the lane's labels the same way:
+        // "Kühl lagern" at 17:20 and the finish at 17:20 one under the other.
+        let loose = lane.markers.sorted { $0.date < $1.date }
+        let loosePositions = loose.map { scale.position(of: $0.date) } + [lane.finish].compactMap { $0 }.map { scale.position(of: $0) }
+        let looseLabels = stackedLabelPositions(loosePositions, floor: 0)
+
+        ForEach(Array(zip(loose, looseLabels)), id: \.0.id) { marker, labelPosition in
+            markerViews(marker, recipeName: lane.recipeName, labelPosition: labelPosition,
+                        crossOffset: crossOffset, crossLength: crossLength)
         }
 
-        if let finish = lane.finish {
-            finishFlag(finish, crossOffset: crossOffset, crossLength: crossLength)
+        if let finish = lane.finish, let labelPosition = looseLabels.last {
+            finishFlag(finish, labelPosition: labelPosition, crossOffset: crossOffset, crossLength: crossLength)
         }
+    }
+
+    /// Where a row of labels goes: each at its own position, but no higher
+    /// than `floor` and never over the label before it. In a row (time
+    /// running sideways) the labels keep their positions; they sit in the
+    /// lane's lower band and cannot stack.
+    private func stackedLabelPositions(_ positions: [CGFloat], floor: CGFloat) -> [CGFloat] {
+        guard axis == .vertical else { return positions }
+        var result: [CGFloat] = []
+        for position in positions {
+            let previousEnd = result.last.map { $0 + TimelineMetrics.labelHeight } ?? -CGFloat.infinity
+            result.append(max(position, floor, previousEnd))
+        }
+        return result
     }
 
     /// A step as a bar: its colour says what kind of step it is, the text
     /// its time and instruction. Tapping opens the detail; a long press
     /// offers done and shift, as the list's card does.
     private func barView(_ bar: PlanTimelineBar, anchor: TooltipAnchor, length: CGFloat, textLength: CGFloat) -> some View {
-        let lines = axis == .vertical ? max(1, Int((textLength - 6) / 15)) : 2
+        let lines = axis == .vertical ? max(1, Int((textLength - 6) / TimelineMetrics.barLineHeight)) : 2
         // A short bar in a row has room for its time at most.
         let showsTime = axis == .vertical || length >= 44
         let showsText = axis == .vertical || length >= 90
@@ -609,10 +647,9 @@ private struct PlanTimelineChart: View {
 
     /// A sub-step inside its parent's bar, or a step without a duration: a
     /// line across the lane with the time and text beside it.
-    @ViewBuilder private func markerViews(_ marker: PlanTimelineMarker, recipeName: String, labelFloor: CGFloat,
+    @ViewBuilder private func markerViews(_ marker: PlanTimelineMarker, recipeName: String, labelPosition: CGFloat,
                                           crossOffset: CGFloat, crossLength: CGFloat) -> some View {
         let position = scale.position(of: marker.date)
-        let labelPosition = max(position, labelFloor)
         let anchor = TooltipAnchor(entry: marker.entry, kind: marker.kind, recipeName: recipeName,
                                    position: position, crossOffset: crossOffset)
         place(Rectangle().fill(Theme.accentText.opacity(0.8)),
@@ -633,7 +670,8 @@ private struct PlanTimelineChart: View {
 
         if axis == .vertical {
             place(stepLink(anchor, label: hoverable(label, anchor: anchor)),
-                  position: labelPosition + 2, length: 15, crossOffset: crossOffset, crossLength: crossLength)
+                  position: labelPosition + 2, length: TimelineMetrics.labelHeight - 1,
+                  crossOffset: crossOffset, crossLength: crossLength)
         } else if crossLength >= 40 {
             // In a row the label sits in the lower third, under the bar's
             // text — when the row is not shared and still has a lower third.
@@ -644,7 +682,7 @@ private struct PlanTimelineChart: View {
     }
 
     /// "Backvorgang ist beendet": a checkered flag at the plan's end.
-    @ViewBuilder private func finishFlag(_ finish: Date, crossOffset: CGFloat, crossLength: CGFloat) -> some View {
+    @ViewBuilder private func finishFlag(_ finish: Date, labelPosition: CGFloat, crossOffset: CGFloat, crossLength: CGFloat) -> some View {
         let position = scale.position(of: finish)
         place(Rectangle().fill(Theme.accentText),
               position: position - 1, length: 2, crossOffset: crossOffset, crossLength: crossLength)
@@ -658,7 +696,8 @@ private struct PlanTimelineChart: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .accessibilityElement(children: .combine)
         if axis == .vertical {
-            place(label, position: position + 2, length: 16, crossOffset: crossOffset, crossLength: crossLength)
+            place(label, position: labelPosition + 2, length: TimelineMetrics.labelHeight,
+                  crossOffset: crossOffset, crossLength: crossLength)
         } else {
             place(label, position: position + 2, length: 80, crossOffset: crossOffset, crossLength: 18)
         }
@@ -831,6 +870,7 @@ private enum TimelinePreviewData {
             entry(4, "Stockgare", at: 750, 120, recipe: "Baguette"),
             entry(5, "Formen und Stückgare", at: 870, 45, recipe: "Baguette"),
             entry(6, "Bei 250 °C mit Dampf backen", at: 915, 25, recipe: "Baguette"),
+            entry(7, "Auf einem Gitter auskühlen lassen", at: 940, 0, recipe: "Baguette"),
             entry(99, "Backvorgang ist beendet", at: 940, 0, recipe: "Baguette"),
         ]
         return PlanTimelineLane.lanes(from: rye + baguette)
@@ -841,6 +881,7 @@ private enum TimelinePreviewData {
                           minimumInterval: TimelineMetrics.minimumInterval,
                           roomAfter: TimelineMetrics.roomAfter(for: lanes),
                           gapThreshold: TimelineMetrics.gapThreshold,
+                          gapEdge: TimelineMetrics.gapEdge(pointsPerMinute: pointsPerMinute),
                           gapLength: TimelineMetrics.gapLength,
                           minimumTickSpacing: TimelineMetrics.minimumTickSpacing)
     }
@@ -849,6 +890,16 @@ private enum TimelinePreviewData {
 #Preview("Hochformat", traits: .portrait) {
     PlanTimelineChart(lanes: TimelinePreviewData.lanes,
                       scale: TimelinePreviewData.scale(pointsPerMinute: 1),
+                      axis: .vertical,
+                      recipeImage: { _ in nil },
+                      onDone: { _ in },
+                      onShift: { _ in })
+        .warmBackground()
+}
+
+#Preview("Hochformat, Maßstab S", traits: .portrait) {
+    PlanTimelineChart(lanes: TimelinePreviewData.lanes,
+                      scale: TimelinePreviewData.scale(pointsPerMinute: 0.5),
                       axis: .vertical,
                       recipeImage: { _ in nil },
                       onDone: { _ in },
