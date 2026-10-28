@@ -3,6 +3,14 @@ import {HttpsError, onCall} from "firebase-functions/v2/https";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore, Timestamp} from "firebase-admin/firestore";
 import {GoogleGenAI} from "@google/genai";
+import {
+  ProVerifier,
+  decidePro,
+  hasProClaim,
+  makeAppleVerifier,
+  proClaimHash,
+  readProClaim,
+} from "./proVerification.js";
 
 initializeApp();
 
@@ -170,7 +178,7 @@ export const analyzeRecipeImages = onCall(
     }
 
     const images = validateImages(request.data?.images);
-    await enforceRateLimit(uid);
+    await enforceRateLimit(uid, request.data);
 
     const parts = [
       {
@@ -217,7 +225,7 @@ export const analyzeRecipeText = onCall(
 
     const text = validateText(request.data?.text);
     const sourceURL = validateSourceURL(request.data?.sourceURL);
-    await enforceRateLimit(uid);
+    await enforceRateLimit(uid, request.data);
 
     const parts = [
       {
@@ -394,15 +402,125 @@ function validateImages(value: unknown): RecipeImage[] {
   });
 }
 
+/** Verified Pro claims are remembered this long before being re-checked. */
+const proVerificationValidMilliseconds = 7 * 24 * 60 * 60 * 1000;
+
+let appleVerifier: ProVerifier | undefined;
+
 /**
- * Applies a per-user rolling hourly request limit backed by Firestore.
+ * Whether this installation has BakePlanner Pro — decided from what the
+ * app sends (see proVerification.ts), never from its word alone. A claim
+ * that was verified recently is recognised by its hash in the user's
+ * `aiRateLimits` document, so the signature check runs about once a week
+ * per installation rather than on every import.
  * @param {string} uid Authenticated Firebase user ID.
+ * @param {unknown} data Untrusted callable payload.
+ * @param {MonetizationLimits} limits The switches in force.
+ * @return {Promise<boolean>} True only for a verified purchase or a
+ * verified grandfathered installation.
  */
-async function enforceRateLimit(uid: string): Promise<void> {
+async function resolvePro(
+  uid: string,
+  data: unknown,
+  limits: MonetizationLimits,
+): Promise<boolean> {
+  const claim = readProClaim(data);
+  if (!hasProClaim(claim)) return false;
+
+  const hash = proClaimHash(claim);
+  const reference = getFirestore().collection("aiRateLimits").doc(uid);
+  const snapshot = await reference.get();
+  const verifiedAt = snapshot.get("proVerifiedAt") as Timestamp | undefined;
+  if (snapshot.get("proClaimHash") === hash && verifiedAt &&
+      Date.now() - verifiedAt.toMillis() < proVerificationValidMilliseconds) {
+    return true;
+  }
+
+  appleVerifier ??= makeAppleVerifier();
+  const decision = await decidePro(claim, {
+    verifier: appleVerifier,
+    grandfatherBeforeBuild: limits.grandfatherBeforeBuild,
+  });
+  console.info("Pro claim decided", {isPro: decision.isPro,
+    reason: decision.reason});
+  if (decision.isPro) {
+    await reference.set(
+      {proClaimHash: hash, proVerifiedAt: Timestamp.now()}, {merge: true});
+  }
+  return decision.isPro;
+}
+
+/** How many imports a month the app may make without Pro; 0 = no limit. */
+type MonetizationLimits = {
+  freeImportsPerMonth: number;
+  /** Installations first downloaded before this build count as Pro. */
+  grandfatherBeforeBuild?: string;
+};
+
+let cachedLimits: {value: MonetizationLimits; readAt: number} | undefined;
+const limitsCacheMilliseconds = 60 * 1000;
+
+/**
+ * Reads the Pro switches from `config/monetization` — the same document the
+ * app reads, so both switch together. Cached for a minute per instance; a
+ * missing document or a failed read means "no monthly limit", as in the app.
+ * @return {Promise<MonetizationLimits>} The limits in force.
+ */
+async function readMonetizationLimits(): Promise<MonetizationLimits> {
+  if (cachedLimits &&
+      Date.now() - cachedLimits.readAt < limitsCacheMilliseconds) {
+    return cachedLimits.value;
+  }
+  const value: MonetizationLimits = {freeImportsPerMonth: 0};
+  try {
+    const snapshot = await getFirestore().doc("config/monetization").get();
+    const raw = snapshot.get("freeImportsPerMonth");
+    if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
+      value.freeImportsPerMonth = Math.floor(raw);
+    }
+    const build = snapshot.get("grandfatherBeforeBuild");
+    if (typeof build === "string" && build.length > 0) {
+      value.grandfatherBeforeBuild = build;
+    } else if (typeof build === "number" && Number.isFinite(build)) {
+      value.grandfatherBeforeBuild = String(build);
+    }
+  } catch (error) {
+    console.error("Monetization config could not be read", error);
+  }
+  cachedLimits = {value, readAt: Date.now()};
+  return value;
+}
+
+/**
+ * The calendar month of `timestamp` as "YYYY-MM", in UTC: the key under which
+ * the monthly imports are counted.
+ * @param {Timestamp} timestamp The moment.
+ * @return {string} The month key.
+ */
+function monthKey(timestamp: Timestamp): string {
+  return timestamp.toDate().toISOString().slice(0, 7);
+}
+
+/**
+ * Applies the per-user limits backed by Firestore: a rolling hourly limit
+ * for everyone, and — once `config/monetization` sets one — a monthly
+ * allowance of free imports for installations without Pro. Both live in the
+ * user's `aiRateLimits` document.
+ * @param {string} uid Authenticated Firebase user ID.
+ * @param {unknown} data The callable payload, carrying the Pro claim.
+ */
+async function enforceRateLimit(uid: string, data: unknown): Promise<void> {
   const database = getFirestore();
   const reference = database.collection("aiRateLimits").doc(uid);
   const now = Timestamp.now();
   const hourInMilliseconds = 60 * 60 * 1000;
+  const limits = await readMonetizationLimits();
+  // Pro only matters while a monthly limit is set; without one nobody
+  // needs to prove anything, and no signature is checked.
+  const hasPro = limits.freeImportsPerMonth > 0 &&
+    await resolvePro(uid, data, limits);
+  const monthlyLimit = hasPro ? 0 : limits.freeImportsPerMonth;
+  const month = monthKey(now);
 
   await database.runTransaction(async (transaction) => {
     const snapshot = await transaction.get(reference);
@@ -412,16 +530,34 @@ async function enforceRateLimit(uid: string): Promise<void> {
     const windowExpired = !windowStartedAt ||
       now.toMillis() - windowStartedAt.toMillis() >= hourInMilliseconds;
 
-    if (windowExpired) {
-      transaction.set(reference, {windowStartedAt: now, count: 1});
-      return;
-    }
-    if ((count ?? 0) >= hourlyRequestLimit) {
+    if (!windowExpired && (count ?? 0) >= hourlyRequestLimit) {
       throw new HttpsError(
         "resource-exhausted",
         "Das stündliche Analyse-Limit wurde erreicht.",
+        {reason: "hourly-limit"},
       );
     }
-    transaction.update(reference, {count: (count ?? 0) + 1});
+
+    // The month's count: a new month starts at zero.
+    const storedMonth = snapshot.get("month") as string | undefined;
+    const monthCount = storedMonth === month ?
+      (snapshot.get("monthCount") as number | undefined) ?? 0 :
+      0;
+
+    if (monthlyLimit > 0 && monthCount >= monthlyLimit) {
+      throw new HttpsError(
+        "resource-exhausted",
+        "Die kostenlosen Importe dieses Monats sind aufgebraucht.",
+        {reason: "monthly-limit", limit: monthlyLimit},
+      );
+    }
+
+    // Merge: the document also remembers the verified Pro claim.
+    transaction.set(reference, {
+      windowStartedAt: windowExpired ? now : windowStartedAt,
+      count: windowExpired ? 1 : (count ?? 0) + 1,
+      month,
+      monthCount: monthCount + 1,
+    }, {merge: true});
   });
 }

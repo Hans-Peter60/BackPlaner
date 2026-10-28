@@ -1,0 +1,46 @@
+{
+  "identifier" : "8F6D2C1A-4B3E-4F5A-9C7D-1E2F3A4B5C6D",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "6A0000000001",
+      "localizations" : [
+        {
+          "description" : "PDF-Export, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität und Rezepte weitergeben.",
+          "displayName" : "BakePlanner Pro",
+          "locale" : "de_DE"
+        },
+        {
+          "description" : "PDF export, recurring bake plans, shopping lists, widgets, Live Activity and recipe hand-over.",
+          "displayName" : "BakePlanner Pro",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Export PDF, plans de cuisson récurrents, listes de courses, widgets, activité en direct et transmission de recettes.",
+          "displayName" : "BakePlanner Pro",
+          "locale" : "fr_FR"
+        }
+      ],
+      "productID" : "de.hpm64625.BackPlaner.pro",
+      "referenceName" : "BakePlanner Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_developerTeamID" : "S3AX38VTCQ",
+    "_failTransactionsEnabled" : false,
+    "_locale" : "de_DE",
+    "_storefront" : "DEU"
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -104,6 +104,44 @@ struct BakePlanTests {
         #expect(try #require(plan(steps).generatedOvenStep).instruction == "Backofen anstellen")
     }
 
+    /// Feeding a starter: mix, let ripen. No step bakes, heats the oven or
+    /// states an oven heat, yet the last step was taken for the bake and
+    /// "Backofen anstellen" fell next to the first step.
+    @Test("Feeding a starter switches no oven on")
+    func feedingAStarterNeedsNoOven() {
+        let steps = [
+            PlanStep(instruction: "Anstellgut, Mehl und Wasser mischen", step: 1, startTime: 0, duration: 5),
+            PlanStep(instruction: "Bei 26 °C 12 Stunden reifen lassen", step: 2, startTime: 5, duration: 720),
+        ]
+        let feeding = plan(steps)
+        #expect(feeding.bakingStep == nil)
+        #expect(feeding.generatedOvenStep == nil)
+        #expect(feeding.ovenOnStep == nil)
+        #expect(feeding.ovenTemperature == nil)
+        #expect(feeding.bakeWindow == nil)
+        #expect(feeding.allSteps.count == steps.count + 1)
+        #expect(BakePlanValidator.bakeWindow(recipeName: "Roggensauer", steps: feeding.plannedSteps) == nil)
+    }
+
+    @Test("A bake worded without a keyword still gets its oven step when a step names oven heat")
+    func unwordedBakeWithOvenHeatKeepsItsOvenStep() throws {
+        let steps = [
+            PlanStep(instruction: "Teig formen", step: 1, startTime: 0, duration: 20),
+            PlanStep(instruction: "Bei 250 °C 50 Minuten", step: 2, startTime: 20, duration: 50),
+        ]
+        let unworded = plan(steps)
+        #expect(unworded.bakingStep?.step == 2)
+        #expect(try #require(unworded.generatedOvenStep).instruction == "Backofen anstellen (250 °C)")
+    }
+
+    @Test("A quantity after a preposition is no oven temperature")
+    func quantitiesAreNoOvenTemperature() {
+        #expect(BakePlan.ovenTemperature(in: "Anstellgut auf 150 g auffrischen") == nil)
+        #expect(BakePlan.ovenTemperature(in: "Mit Wasser auf 200 ml auffüllen") == nil)
+        #expect(BakePlan.ovenTemperature(in: "Bei 100 % Hydration führen") == nil)
+        #expect(BakePlan.ovenTemperature(in: "Bake at 230 for 40 minutes") == "230 °C")
+    }
+
     @Test("The generated steps follow the recipe's language")
     func wordsGeneratedStepsInTheLanguage() throws {
         let english = plan(loaf, language: "en")
@@ -224,6 +262,53 @@ struct BakePlanTests {
         #expect(turnDown.startTime == 71)
     }
 
+    /// The rye bread: the oven is heated to 250 °C, turned down to 220 °C as
+    /// the loaf goes in with steam, and the steam is let out twenty minutes
+    /// later by a step of the recipe's own. The generated step used to say
+    /// "zurückdrehen, Dampf ablassen" ten minutes in — too late for the heat
+    /// and too early for the steam.
+    @Test("A recipe that lets the steam out itself turns the heat down as the loaf goes in")
+    func ownSteamReleaseTurnsDownAtTheStart() throws {
+        let steps = [
+            PlanStep(instruction: "Teig formen", step: 1, startTime: 0, duration: 20),
+            PlanStep(instruction: "Bei 250 Grad fallen auf 220 Grad mit Dampf backen", step: 2, startTime: 20, duration: 20),
+            PlanStep(instruction: "Dampf ablassen", step: 3, startTime: 40, duration: 40),
+        ]
+        let rye = plan(steps)
+        #expect(rye.bakingStep?.step == 2)
+        #expect(rye.generatedOvenStep?.instruction == "Backofen anstellen (250 °C)")
+        let turnDown = try #require(rye.generatedTurnDownStep)
+        #expect(turnDown.instruction == "Backofen auf 220 °C zurückdrehen")
+        #expect(turnDown.startTime == 20)
+        #expect(turnDown.step == 2.1)
+        #expect(BakePlan.isSteamReleaseInstruction("Dampf ablassen"))
+        #expect(BakePlan.isSteamReleaseInstruction("Release the steam"))
+        #expect(BakePlan.isSteamReleaseInstruction("Évacuer la buée"))
+        #expect(!BakePlan.isSteamReleaseInstruction("Mit Dampf backen"))
+    }
+
+    @Test("\"Sofort\" turns the heat down as the loaf goes in; steam let out at another minute is not the turn-down's")
+    func immediatelyMeansTheStart() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C einschießen, kräftig schwaden. Den Ofen sofort auf 220 °C herunterdrehen. Den Dampf nach 20 Minuten ablassen. 45 Minuten backen.",
+                            step: 3, startTime: 70, duration: 45)
+        let turnDown = try #require(plan(steps).generatedTurnDownStep)
+        #expect(turnDown.instruction == "Backofen auf 220 °C zurückdrehen")
+        #expect(turnDown.startTime == 70)
+
+        // The minute stated with the lower temperature still wins, steam included.
+        steps[2] = PlanStep(instruction: "Bei 250 °C einschießen und schwaden. Nach 10 Minuten auf 220 °C reduzieren und Dampf ablassen. 45 Minuten backen.",
+                            step: 3, startTime: 70, duration: 45)
+        let later = try #require(plan(steps).generatedTurnDownStep)
+        #expect(later.instruction == "Backofen auf 220 °C zurückdrehen, Dampf ablassen")
+        #expect(later.startTime == 80)
+
+        // "direkt auf den Stein" places the loaf; the default minute applies.
+        steps[2] = PlanStep(instruction: "Direkt auf den Stein einschießen, bei 250 °C fallend auf 220 °C backen",
+                            step: 3, startTime: 70, duration: 45)
+        #expect(plan(steps).generatedTurnDownStep?.startTime == 80)
+    }
+
     @Test("The turn-down step follows the recipe's language and unit")
     func wordsTheTurnDownInTheLanguage() throws {
         var steps = loaf
@@ -287,7 +372,8 @@ struct BakePlanTests {
     /// preheated oven", which the plan took for a preheating step: no oven
     /// step was generated, the bake moved onto "Drain the steam", and the
     /// turn-down fell after the bake. The German plan had one step more than
-    /// the English and French ones.
+    /// the English and French ones. The heat is turned down "sofort", as the
+    /// loaf goes in; the steam has a step of its own.
     @Test("The same recipe yields the same plan in every language",
           arguments: [
             ("de", "Das Backpapier mit dem Teigling in den auf 250 °C vorgeheizten Ofen auf den Backstein befördern. Sofort kräftig bedampfen. Den Ofen sofort auf 220 °C herunterdrehen. Den Dampf nach 20 Minuten ablassen. Insgesamt 50 Minuten ausbacken.", "Dampf ablassen"),
@@ -308,7 +394,8 @@ struct BakePlanTests {
         #expect(oven.startTime == 105)
         let turnDown = try #require(plan.generatedTurnDownStep)
         #expect(turnDown.step == 10.1)
-        #expect(turnDown.startTime == 140)
+        #expect(turnDown.startTime == 120)
+        #expect(!BakePlan.isTurnDownInstruction(steam))
         #expect(plan.allSteps.count == 6)
     }
 }

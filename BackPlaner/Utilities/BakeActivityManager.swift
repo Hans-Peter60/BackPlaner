@@ -25,7 +25,9 @@ final class BakeActivityManager {
     /// notification action in the background the request fails quietly and
     /// the next foreground pass catches up. Updates and ends work either way.
     func refresh(with snapshot: PlanSnapshot, now: Date = Date()) {
-        guard AppSettings.isLiveActivityEnabled,
+        // The Live Activity is a Pro feature; locked, a running one ends.
+        guard Entitlements.shared.isUnlocked(.liveActivity),
+              AppSettings.isLiveActivityEnabled,
               ActivityAuthorizationInfo().areActivitiesEnabled,
               let target = snapshot.liveActivityContent(at: now)
         else {

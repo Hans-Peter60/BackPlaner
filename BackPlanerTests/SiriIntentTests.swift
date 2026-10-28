@@ -57,7 +57,10 @@ struct StarterFeedingStoreTests {
 
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
-    private func recipe(_ name: String, rhythmDays: Int, in context: NSManagedObjectContext) -> Recipe {
+    /// A starter feeding (Anstellgut, Mehl, Wasser; mix and let ripen) or,
+    /// with `bakes`, a bread of the same ingredients that goes into the oven.
+    private func recipe(_ name: String, rhythmDays: Int, bakes: Bool = false,
+                        in context: NSManagedObjectContext) -> Recipe {
         let recipe = Recipe(context: context)
         recipe.id = UUID()
         recipe.name = name
@@ -65,6 +68,35 @@ struct StarterFeedingStoreTests {
         recipe.tags = []
         recipe.image = Data()
         recipe.recurrenceIntervalDays = rhythmDays
+
+        let component = Component(context: context)
+        component.id = UUID()
+        component.name = name
+        component.number = 1
+        for (index, (ingredientName, grams)) in [("Anstellgut", 10.0), ("Roggenmehl", 50.0), ("Wasser", 50.0)].enumerated() {
+            let ingredient = Ingredient(context: context)
+            ingredient.id = UUID()
+            ingredient.number = index + 1
+            ingredient.name = ingredientName
+            ingredient.weight = grams
+            ingredient.normWeight = grams
+            ingredient.unit = "g"
+            component.addToIngredients(ingredient)
+        }
+        recipe.addToComponents(component)
+
+        let steps = bakes
+            ? ["Zutaten mischen", "Bei 250 °C 50 Minuten backen"]
+            : ["Zutaten mischen", "Bei 26 °C 12 Stunden reifen lassen"]
+        for (index, text) in steps.enumerated() {
+            let instruction = Instruction(context: context)
+            instruction.id = UUID()
+            instruction.step = Double(index + 1)
+            instruction.instruction = text
+            instruction.startTime = index * 5
+            instruction.duration = 5
+            recipe.addToInstructions(instruction)
+        }
         return recipe
     }
 
@@ -75,12 +107,14 @@ struct StarterFeedingStoreTests {
         recipe.addToStarterFeedingLogs(entry)
     }
 
-    @Test("Only recipes with a rhythm are starters, in name order")
-    func startersAreRecipesWithARhythm() throws {
+    /// A rhythm makes no starter: a bread planned every five days stays a
+    /// bread, and a starter without a rhythm is still fed.
+    @Test("Recipes that feed a starter are the starters, in name order, whatever their rhythm")
+    func startersAreTheFeedingRecipes() throws {
         let context = PersistenceController(inMemory: true).container.viewContext
         _ = recipe("Weizensauer", rhythmDays: 7, in: context)
-        _ = recipe("Roggensauer", rhythmDays: 5, in: context)
-        _ = recipe("Baguette", rhythmDays: 0, in: context)
+        _ = recipe("Roggensauer", rhythmDays: 0, in: context)
+        _ = recipe("Baguette", rhythmDays: 5, bakes: true, in: context)
         try context.save()
 
         let names = try StarterFeedingStore.starterRecipes(in: context).map(\.name)

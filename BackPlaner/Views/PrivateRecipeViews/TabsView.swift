@@ -79,9 +79,12 @@ struct TabsView: View {
                }
                .tag(2)
 
-            ShoppingCartSelectFormView(recipe: recipe,
-                                       selectedServingSize: $selectedServingSize,
-                                       targetWeight: $targetWeight)
+            // Shopping lists are a Pro feature; locked, the tab offers Pro.
+            ProLockedScreen(.shoppingList) {
+                ShoppingCartSelectFormView(recipe: recipe,
+                                           selectedServingSize: $selectedServingSize,
+                                           targetWeight: $targetWeight)
+            }
                .tabItem {
                    VStack {
                        Image(systemName: "cart.badge.plus")
@@ -99,7 +102,9 @@ struct TabsView: View {
                }
                .tag(4)
 
-            if recipe.recurrenceIntervalDays > 0 {
+            // A starter gets its feeding diary whether or not it has a
+            // rhythm; a bread planned on a rhythm does not.
+            if StarterRecipe.isStarterFeeding(recipe) {
                 StarterFeedingLogView(recipeId: recipe.objectID)
                    .tabItem {
                        VStack {

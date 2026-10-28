@@ -48,6 +48,16 @@ struct PlanSnapshot: Codable, Equatable {
 
     static let empty = PlanSnapshot(steps: [], generatedAt: .distantPast)
 
+    /// Where the app leaves its decision whether the widget may show the
+    /// plan (see `Entitlements`): the extension cannot ask StoreKit or
+    /// Firestore in time for a timeline. Absent means unlocked — the widget
+    /// fails open like the app.
+    static let widgetsUnlockedKey = "entitlements.widgetsUnlocked"
+
+    static var widgetsUnlocked: Bool {
+        UserDefaults(suiteName: appGroupIdentifier)?.object(forKey: widgetsUnlockedKey) as? Bool ?? true
+    }
+
     // MARK: Reading and writing
 
     static func load() -> PlanSnapshot? {

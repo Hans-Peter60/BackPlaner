@@ -72,10 +72,17 @@ struct BakePlan {
     }
 
     /// The step that puts the dough into the oven: the first one worded that
-    /// way, else the last step. Baking may come in phases (covered, then
-    /// uncovered), and a cool-down may follow it.
+    /// way, else the last step — provided the recipe uses an oven at all.
+    /// Baking may come in phases (covered, then uncovered), and a cool-down
+    /// may follow it. Feeding a starter ("Anstellgut, Mehl und Wasser
+    /// mischen, bei 26 °C reifen lassen") names no bake, no preheating and
+    /// no oven temperature; taken for a bake, its last step used to switch
+    /// the oven on alongside the first.
     var bakingStep: PlanStep? {
-        steps.first { BakePlanValidator.isBakingStartInstruction($0.instruction) } ?? steps.last
+        if let worded = steps.first(where: { BakePlanValidator.isBakingStartInstruction($0.instruction) }) {
+            return worded
+        }
+        return BakePlanValidator.usesOven(steps.map(\.instruction)) ? steps.last : nil
     }
 
     /// A step of the recipe's own that switches the oven on. An import from a
@@ -125,21 +132,46 @@ struct BakePlan {
     /// recipe knew the second temperature all along; without this step
     /// nobody was reminded of it. It falls at the minute the step names,
     /// else ten minutes into the bake, and only while the bake still runs.
+    ///
+    /// A recipe that releases the steam in a step of its own ("Bei 250 °C
+    /// fallend auf 220 °C mit Dampf backen", then "Dampf ablassen" twenty
+    /// minutes later) has said when the steam goes; the heat is turned down
+    /// as the loaf goes in, with the steam still in the oven. Its generated
+    /// step names no steam and, unless the bake says otherwise, falls at the
+    /// start of the bake.
     var generatedTurnDownStep: PlanStep? {
         guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
 
         // The same order the oven temperature is looked for in.
         let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
         guard let drop = ordered.lazy.compactMap({ Self.temperatureDrop(in: $0.instruction) }).first else { return nil }
-        guard bakingStep.duration <= 0 || drop.afterMinutes < bakingStep.duration else { return nil }
+
+        let recipeReleasesSteam = steps[(index + 1)...].contains { Self.isSteamReleaseInstruction($0.instruction) }
+        let afterMinutes = drop.afterMinutes ?? (recipeReleasesSteam ? 0 : Self.defaultTurnDownMinutes)
+        guard bakingStep.duration <= 0 || afterMinutes < bakingStep.duration else { return nil }
 
         let texts = AppSettings.generatedStepTexts(languageCode: languageCode)
-        let format = drop.withSteam ? texts.turnDownWithSteam : texts.turnDown
+        let format = drop.withSteam && !recipeReleasesSteam ? texts.turnDownWithSteam : texts.turnDown
         return PlanStep(instruction: String(format: format, drop.temperature),
                         step: bakingStep.step + 0.1,
-                        startTime: bakingStep.startTime + drop.afterMinutes,
+                        startTime: bakingStep.startTime + afterMinutes,
                         duration: 0)
     }
+
+    /// Whether a step of the recipe's own lets the steam out of the oven:
+    /// "Dampf ablassen", "Schwaden abziehen lassen", "Release the steam",
+    /// "Évacuer la buée". The bake itself ("mit Dampf backen") is not one.
+    static func isSteamReleaseInstruction(_ instruction: String) -> Bool {
+        let text = instruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
+                                       locale: Locale(identifier: "de_DE"))
+        guard steamWords.contains(where: text.contains) else { return false }
+        return steamReleaseWords.contains(where: text.contains)
+    }
+
+    private static let steamWords = ["dampf", "schwaden", "steam", "buee", "vapeur"]
+    private static let steamReleaseWords = ["ablass", "abzieh", "entweich", "rauslass", "herauslass",
+                                            "release", "let out", "let the steam", "drain", "remove the steam",
+                                            "evacu", "echapper"]
 
     /// Whether a text is a turn-down step the plan generated, in any of the
     /// languages it can be stored in. Generated steps live only in the plan,
@@ -282,7 +314,8 @@ struct BakePlan {
         }
         guard found.isEmpty else { return found }
 
-        let afterPreposition = #"(?:\bbei|\bauf|\bat|à)\s+(\d{3})(?!\d)"#
+        // Not a quantity: "auf 150 g auffrischen", "à 100 ml" are no heat.
+        let afterPreposition = #"(?:\bbei|\bauf|\bat|à)\s+(\d{3})(?!\d)(?!\s*(?:g|kg|ml|cl|l|gramm|grams?|lit(?:er|re)s?)\b)(?!\s*%)"#
         for match in matches(of: afterPreposition, in: text) {
             if let value = Int(match.groups[0]), value >= 100, value <= 300 {
                 found.append(OvenTemperature(value: value, fahrenheit: false, location: match.location))
@@ -292,12 +325,16 @@ struct BakePlan {
     }
 
     /// A bake whose heat falls: the lower temperature, the minute into the
-    /// bake at which to turn down, and whether steam is released with it.
+    /// bake at which to turn down (nil when the step does not say), and
+    /// whether steam is released with it.
     ///
     /// A second temperature only counts as a drop when it is lower than the
     /// first and is not the convection figure given alongside ("230 °C
-    /// Ober-/Unterhitze, Umluft 210 °C"). "Ohne Dampf" is no steam.
-    static func temperatureDrop(in text: String) -> (temperature: String, afterMinutes: Int, withSteam: Bool)? {
+    /// Ober-/Unterhitze, Umluft 210 °C"). "Ohne Dampf" is no steam, and
+    /// neither is steam the step lets out at some other minute ("Den Ofen
+    /// sofort auf 220 °C herunterdrehen. Den Dampf nach 20 Minuten
+    /// ablassen."): that release is its own moment, not the turn-down's.
+    static func temperatureDrop(in text: String) -> (temperature: String, afterMinutes: Int?, withSteam: Bool)? {
         let temperatures = ovenTemperatures(in: text)
         guard let first = temperatures.first,
               let lower = temperatures.dropFirst().first(where: { $0.value < first.value && $0.fahrenheit == first.fahrenheit })
@@ -308,27 +345,96 @@ struct BakePlan {
         let convectionWords = ["umluft", "heissluft", "heißluft", "fan", "convection", "tournante"]
         guard !convectionWords.contains(where: leadIn.contains) else { return nil }
 
-        let steamWords = ["dampf", "schwaden", "steam", "buee", "vapeur"]
-        let noSteamPhrases = ["ohne dampf", "ohne schwaden", "without steam", "sans buee", "sans vapeur"]
-        let withSteam = steamWords.contains(where: folded.contains) && !noSteamPhrases.contains(where: folded.contains)
+        let afterMinutes = minutesBeforeTurningDown(in: folded, lowerTemperatureAt: lower.location)
 
-        return (lower.text, minutesBeforeTurningDown(in: folded) ?? defaultTurnDownMinutes, withSteam)
+        let noSteamPhrases = ["ohne dampf", "ohne schwaden", "without steam", "sans buee", "sans vapeur"]
+        var withSteam = steamWords.contains(where: folded.contains) && !noSteamPhrases.contains(where: folded.contains)
+        if withSteam, let releaseMinutes = steamReleaseMinutes(in: folded), releaseMinutes != afterMinutes {
+            withSteam = false
+        }
+
+        return (lower.text, afterMinutes, withSteam)
     }
 
-    /// "nach 10 Minuten", "after 15 min", "après 10 minutes", or "10 Minuten
-    /// anbacken, dann …" / "for 15 minutes, then …": the minute at which the
-    /// heat is turned down, if the step says.
-    private static func minutesBeforeTurningDown(in foldedText: String) -> Int? {
+    /// The minute at which the heat is turned down, if the step says. Read
+    /// from the sentence that names the lower temperature: "sofort" /
+    /// "immediately" / "immédiatement" there means as the loaf goes in;
+    /// "nach 10 Minuten", "after 15 min", "après 10 minutes", or "10
+    /// Minuten anbacken, dann …" / "for 15 minutes, then …" name the minute.
+    /// Only when that sentence is silent do the others count, and never one
+    /// about the steam — "Den Dampf nach 20 Minuten ablassen" times the
+    /// steam, not the heat.
+    private static func minutesBeforeTurningDown(in foldedText: String, lowerTemperatureAt location: Int) -> Int? {
+        let sentences = Self.sentences(of: foldedText)
+        let dropSentence = sentences.first { $0.range.contains(location) } ?? sentences.last
+
+        if let dropSentence {
+            if immediatelyWords.contains(where: dropSentence.text.contains) { return 0 }
+            if let minutes = statedMinutes(in: dropSentence.text) { return minutes }
+        }
+        for sentence in sentences where sentence.range != dropSentence?.range {
+            guard !steamWords.contains(where: sentence.text.contains) else { continue }
+            if let minutes = statedMinutes(in: sentence.text) { return minutes }
+        }
+        return nil
+    }
+
+    /// The minute at which a step says it lets the steam out, when it says
+    /// so in a sentence of its own.
+    private static func steamReleaseMinutes(in foldedText: String) -> Int? {
+        for sentence in sentences(of: foldedText) {
+            guard steamWords.contains(where: sentence.text.contains),
+                  steamReleaseWords.contains(where: sentence.text.contains) else { continue }
+            if immediatelyWords.contains(where: sentence.text.contains) { return 0 }
+            if let minutes = statedMinutes(in: sentence.text) { return minutes }
+        }
+        return nil
+    }
+
+    // Not "direkt": "direkt auf den Stein einschießen" places the loaf, not
+    // the moment the heat is turned down.
+    private static let immediatelyWords = ["sofort", "immediately", "right away", "straight away",
+                                           "immediatement", "aussitot", "tout de suite"]
+
+    private static func statedMinutes(in foldedSentence: String) -> Int? {
         let patterns = [
             #"(?:nach|after|apres)\s+(?:ca\.?\s*|etwa\s+|about\s+|environ\s+)?(\d{1,3})\s*(?:min\b|min\.|minuten|minutes?)"#,
             #"(\d{1,3})\s*(?:min\b|min\.|minuten|minutes?)\s*(?:anbacken|lang|,)?\s*(?:dann|danach|then|puis|anschliessend)"#
         ]
         for pattern in patterns {
-            if let match = matches(of: pattern, in: foldedText).first, let minutes = Int(match.groups[0]), minutes > 0 {
+            if let match = matches(of: pattern, in: foldedSentence).first, let minutes = Int(match.groups[0]), minutes > 0 {
                 return minutes
             }
         }
         return nil
+    }
+
+    /// The text split at sentence ends, each with the character range it
+    /// covers in the text; "1.5" does not end a sentence.
+    private static func sentences(of text: String) -> [(text: String, range: Range<Int>)] {
+        var result: [(text: String, range: Range<Int>)] = []
+        var start = 0
+        let characters = Array(text)
+        for (index, character) in characters.enumerated() {
+            let endsSentence: Bool
+            switch character {
+            case ";", "!", "?", "\n":
+                endsSentence = true
+            case ".":
+                let next = index + 1 < characters.count ? characters[index + 1] : " "
+                endsSentence = !next.isNumber
+            default:
+                endsSentence = false
+            }
+            if endsSentence {
+                result.append((String(characters[start...index]), start..<(index + 1)))
+                start = index + 1
+            }
+        }
+        if start < characters.count {
+            result.append((String(characters[start...]), start..<characters.count))
+        }
+        return result
     }
 
     private struct Match {
@@ -362,7 +468,9 @@ struct BakePlanScheduler {
     struct Result {
         /// The recipe's steps plus the generated ones.
         let reminderCount: Int
-        let ovenOnDate: Date
+        /// When the oven is switched on; nil for a plan without a bake, such
+        /// as feeding a starter.
+        let ovenOnDate: Date?
         let finishDate: Date
         /// "250 °C", if the recipe states an oven temperature.
         let ovenTemperature: String?
@@ -391,7 +499,7 @@ struct BakePlanScheduler {
                                                  plan.reminderOffset(of: endStep), plan.date, true)
 
         return Result(reminderCount: plan.steps.count + generatedSteps.count + 1,
-                      ovenOnDate: plan.ovenOnStep.map(plan.date(of:)) ?? plan.baseDate,
+                      ovenOnDate: plan.ovenOnStep.map(plan.date(of:)),
                       finishDate: finishDate,
                       ovenTemperature: plan.ovenTemperature)
     }

@@ -18,6 +18,7 @@ const env = await initializeTestEnvironment({
 await env.withSecurityRulesDisabled(async ctx => {
   const db = ctx.firestore()
   await setDoc(doc(db, 'admins/admin'), { note: 'x' })
+  await setDoc(doc(db, 'config/monetization'), { proRequired: false, storeVisible: false })
   await setDoc(doc(db, 'Recipe/visible'), { name: 'Sichtbar', authorId: 'author', hidden: false })
   await setDoc(doc(db, 'Recipe/reported'), { name: 'Gemeldet', authorId: 'author', hidden: true })
   await setDoc(doc(db, 'Recipe/legacy'), { name: 'Alt', authorId: 'author' })
@@ -65,6 +66,11 @@ await check('author: translation update on legacy', updateDoc(doc(author, 'Recip
 await check('reporter: hide visible', updateDoc(doc(user, 'Recipe/visible'), { hidden: true }), true)
 await check('reporter: may not unhide', updateDoc(doc(user, 'Recipe/visible'), { hidden: false }), false)
 await check('admin: unhide', updateDoc(doc(admin, 'Recipe/visible'), { hidden: false }), true)
+// The Pro switches: every signed-in app reads them, nobody but the console writes them.
+await check('user: read monetization config', getDoc(doc(user, 'config/monetization')), true)
+await check('anonymous (no auth): read monetization config refused', getDoc(doc(env.unauthenticatedContext().firestore(), 'config/monetization')), false)
+await check('user: write monetization config refused', updateDoc(doc(user, 'config/monetization'), { proRequired: false }), false)
+await check('admin: write monetization config refused', updateDoc(doc(admin, 'config/monetization'), { proRequired: true }), false)
 // The author-only collection is retired: even its owner is refused now.
 await check('retired PrivateRecipe: owner list refused', getDocs(query(collection(author, 'PrivateRecipe'), where('authorId', '==', 'author'))), false)
 

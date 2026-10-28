@@ -64,6 +64,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // after every change.
     PlanSnapshotPublisher.shared.start(with: PersistenceController.shared.container)
 
+    // Follow the Pro configuration and the App Store. Until the document
+    // says otherwise every feature is free, so this never delays the start.
+    Entitlements.shared.start()
+
     // Present reminders in the foreground and register their iPhone/Watch actions.
     UNUserNotificationCenter.current().delegate = self
     NotificationActions.registerCategories()
@@ -137,7 +141,11 @@ struct BackPlanerApp: App {
         // was away.
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
+                // Recurring plans are a Pro feature: locked, no occurrence
+                // is queued, and the rhythm stored on the recipe waits.
+                if Entitlements.shared.isUnlocked(.recurringPlans) {
+                    RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
+                }
                 PlanSnapshotPublisher.shared.refresh()
                 // The Siri phrases name each starter ("Roggensauer gefüttert"),
                 // so a starter added, renamed or given a rhythm while the app

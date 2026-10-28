@@ -194,7 +194,7 @@ struct ContentView: View {
         case .scheduledSteps: ScheduledTasksTabsView()
         case .bakeHistory:    BakeHistoriesListView()
         case .hitList:        BakeHistoriesHitListView()
-        case .shoppingList:   ShoppingCartsView()
+        case .shoppingList:   ProLockedScreen(.shoppingList) { ShoppingCartsView() }
         case .doughTemperature: DoughTemperatureCalculatorView()
         case .flourSubstitution: FlourSubstitutionCalculatorView()
         case .starterYield:   StarterYieldCalculatorView()

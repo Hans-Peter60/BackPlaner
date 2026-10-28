@@ -6,11 +6,11 @@
 //  Weizensauer zuletzt gefüttert?" — the feeding log by voice, for the
 //  moment the hands are in the dough.
 //
-//  A starter is what the app already treats as one: a recipe that refreshes
-//  on a rhythm (`recurrenceIntervalDays > 0`), the same condition that shows
-//  the "+ Fütterung" tab. Siri tells them apart by name, exactly like the
-//  recipe list does, and a fourth starter appears by itself once it has a
-//  rhythm.
+//  A starter is what the app already treats as one: a recipe that feeds a
+//  starter instead of baking something (`StarterRecipe.isStarterFeeding`),
+//  the same condition that shows the "+ Fütterung" tab. Siri tells them
+//  apart by name, exactly like the recipe list does, and a fourth starter
+//  appears by itself once its recipe exists.
 //
 
 import AppIntents
@@ -67,13 +67,14 @@ enum StarterFeedingStore {
         PersistenceController.shared.container.viewContext
     }
 
-    /// Every recipe that refreshes on a rhythm, by name.
+    /// Every recipe that feeds a starter, by name. Decided from the steps
+    /// and ingredients, which no fetch predicate can express; the recipes
+    /// are few, so filtering them in memory costs nothing.
     static func starterRecipes(in context: NSManagedObjectContext = context) throws -> [Recipe] {
         let request = Recipe.fetchRequest()
-        request.predicate = NSPredicate(format: "recurrenceIntervalDays > 0")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true,
                                                     selector: #selector(NSString.localizedStandardCompare(_:)))]
-        return try context.fetch(request)
+        return try context.fetch(request).filter(StarterRecipe.isStarterFeeding)
     }
 
     static func starterRecipe(withID id: String, in context: NSManagedObjectContext = context) throws -> Recipe? {
@@ -196,7 +197,7 @@ enum StarterIntentError: Error, CustomLocalizedStringResourceConvertible {
     var localizedStringResource: LocalizedStringResource {
         switch self {
         case .starterNotFound: return "Diesen Sauerteig gibt es nicht mehr."
-        case .noStarters:      return "Es gibt noch kein Rezept mit einem Fütterungsrhythmus."
+        case .noStarters:      return "Es gibt noch kein Anstellgut-Rezept zum Füttern."
         case .couldNotSave:    return "Die Fütterung konnte nicht gespeichert werden."
         }
     }

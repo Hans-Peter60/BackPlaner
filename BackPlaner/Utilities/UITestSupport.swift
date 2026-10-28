@@ -91,6 +91,52 @@ enum UITestSupport {
         #endif
     }
 
+    /// What `-UITestingMonetization` fixes for a run: the configuration the
+    /// Firestore document would otherwise supply, and the purchase state.
+    struct MonetizationOverride: Equatable {
+        var config: MonetizationConfig
+        /// Whether the run counts as having bought Pro.
+        var purchased: Bool
+        /// Stands in for `AppTransaction.originalAppVersion` (a build number).
+        var originalAppVersion: String?
+    }
+
+    /// `-UITestingMonetization <flags>`: fixes the Pro configuration for a
+    /// test instead of reading `config/monetization`. The flags are a
+    /// comma-separated list of `proRequired`, `storeVisible`, `purchased`,
+    /// `freeImports=<n>`, `grandfatherBefore=<build>` and
+    /// `originalBuild=<build>`; `-UITestingMonetization free` fixes the
+    /// all-free configuration. The screenshots and the smoke tests use it so
+    /// that a run never depends on what the console currently says.
+    static var monetizationOverride: MonetizationOverride? {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-UITestingMonetization"),
+              index + 1 < arguments.count else { return nil }
+        return monetizationOverride(from: arguments[index + 1])
+        #else
+        return nil
+        #endif
+    }
+
+    /// Parses the flags of `-UITestingMonetization`; unknown flags are ignored.
+    static func monetizationOverride(from flags: String) -> MonetizationOverride {
+        var override = MonetizationOverride(config: .free, purchased: false, originalAppVersion: nil)
+        for flag in flags.split(separator: ",").map({ $0.trimmingCharacters(in: .whitespaces) }) {
+            let parts = flag.split(separator: "=", maxSplits: 1).map(String.init)
+            switch parts.first {
+            case "proRequired":  override.config.proRequired = true
+            case "storeVisible": override.config.storeVisible = true
+            case "purchased":    override.purchased = true
+            case "freeImports":  override.config.freeImportsPerMonth = parts.count == 2 ? Int(parts[1]) ?? 0 : 0
+            case "grandfatherBefore" where parts.count == 2: override.config.grandfatherBeforeBuild = parts[1]
+            case "originalBuild" where parts.count == 2:     override.originalAppVersion = parts[1]
+            default: break
+            }
+        }
+        return override
+    }
+
     /// The first time the clock shows the HH:mm that follows `argument`,
     /// `distance` seconds or more from `now`; nil without the argument or
     /// with a malformed time.

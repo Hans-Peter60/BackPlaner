@@ -56,6 +56,12 @@ struct SettingsView: View {
     @State private var importedRecipeCount: Int?
     @State private var importErrorMessage: String?
 
+    // BakePlanner Pro: the section only exists while the remote
+    // configuration shows the store (or this installation has bought Pro).
+    @State private var showPaywall = false
+    @State private var isRestoringPurchases = false
+    @State private var restoreMessage: String?
+
     // "Meine Anstellgut-TAs" while it is being typed; see the field itself.
     @State private var presetsText = ""
     @FocusState private var presetsFocused: Bool
@@ -70,6 +76,8 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            proSection
+
             Section("Allgemein") {
                 Group {
                     Picker("Sprache", selection: $selectedLanguage) {
@@ -192,11 +200,18 @@ struct SettingsView: View {
                 Toggle("Sprachausgabe im Backmodus", isOn: $speechInBakeMode)
 
                 // Off ends a running Live Activity right away; on starts one
-                // for the step within reach.
-                Toggle("Live-Aktivität auf dem Sperrbildschirm", isOn: $liveActivity)
-                    .onChange(of: liveActivity) { _, _ in
-                        PlanSnapshotPublisher.shared.refresh()
-                    }
+                // for the step within reach. A Pro feature: locked, the row
+                // leads to the paywall instead.
+                ProGate(.liveActivity) {
+                    Toggle("Live-Aktivität auf dem Sperrbildschirm", isOn: $liveActivity)
+                        .onChange(of: liveActivity) { _, _ in
+                            PlanSnapshotPublisher.shared.refresh()
+                        }
+                } label: {
+                    Text("Live-Aktivität auf dem Sperrbildschirm")
+                        .foregroundStyle(.primary)
+                    Spacer()
+                }
             }
 
             recipeAIPrivacySection
@@ -291,6 +306,73 @@ struct SettingsView: View {
         // title standing above an already-translated screen. A new identity
         // forces this view (title included) to be rebuilt from scratch.
         .id(locale.identifier)
+    }
+
+    /// BakePlanner Pro, the one-time purchase. Absent while the remote
+    /// configuration keeps the store hidden, so with the purchase switched
+    /// off the settings look as they always did. See `Entitlements`.
+    @ViewBuilder
+    private var proSection: some View {
+        let entitlements = Entitlements.shared
+        if entitlements.storeVisible {
+            Section {
+                if entitlements.isPro {
+                    Label("Pro ist freigeschaltet", systemImage: "checkmark.seal.fill")
+                        .foregroundStyle(Theme.accentText)
+                    if entitlements.resolution.isGrandfathered && !ProStore.shared.hasPurchased {
+                        Text("Du hattest die App schon, bevor es Pro gab. Die Pro-Funktionen bleiben für Dich frei.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                } else {
+                    Button {
+                        showPaywall = true
+                    } label: {
+                        LabeledContent {
+                            if let product = ProStore.shared.product {
+                                Text(product.displayPrice)
+                            }
+                        } label: {
+                            Label("Pro freischalten", systemImage: "seal")
+                        }
+                    }
+                    .accessibilityIdentifier("settings.pro")
+
+                    Button("Käufe wiederherstellen") {
+                        Task { await restorePurchases() }
+                    }
+                    .disabled(isRestoringPurchases)
+                }
+            } header: {
+                Text("BakePlanner Pro")
+            } footer: {
+                Text("Einmalkauf, kein Abo: PDF-Export, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets und Live-Aktivität.")
+            }
+            .sheet(isPresented: $showPaywall) {
+                ProPaywallView()
+            }
+            .alert("Käufe wiederherstellen", isPresented: Binding(
+                get: { restoreMessage != nil },
+                set: { if !$0 { restoreMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { restoreMessage = nil }
+            } message: {
+                Text(restoreMessage ?? "")
+            }
+        }
+    }
+
+    private func restorePurchases() async {
+        isRestoringPurchases = true
+        defer { isRestoringPurchases = false }
+        do {
+            try await ProStore.shared.restore()
+            restoreMessage = Entitlements.shared.isPro
+                ? String(localized: "Pro ist wieder freigeschaltet.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+                : String(localized: "Für dieses Apple-Konto wurde kein Kauf gefunden.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+        } catch {
+            restoreMessage = error.localizedDescription
+        }
     }
 
     /// Governs the public recipe screen's language handling: automatic
@@ -510,9 +592,11 @@ struct SettingsView: View {
         }
     }
 
-    /// The user manual and the support page live on the website, not in the
-    /// app, so they can be corrected without an update. Both open in Safari,
-    /// like "Link zum Rezept" — the app deliberately has no web view.
+    /// The user manual, the support page, the privacy policy and the legal
+    /// notice live on the website, not in the app, so they can be corrected
+    /// without an update. All open in Safari, like "Link zum Rezept" — the
+    /// app deliberately has no web view. Privacy policy and legal notice
+    /// have to be reachable from inside a commercial app.
     @ViewBuilder
     private var helpSection: some View {
         Section {
@@ -521,6 +605,12 @@ struct SettingsView: View {
             }
             Link(destination: HelpLinks.support) {
                 Label("Hilfe und Kontakt", systemImage: "questionmark.circle")
+            }
+            Link(destination: HelpLinks.privacy) {
+                Label("Datenschutzerklärung", systemImage: "hand.raised")
+            }
+            Link(destination: HelpLinks.imprint) {
+                Label("Impressum", systemImage: "building.columns")
             }
         } header: {
             Text("Hilfe")
@@ -554,6 +644,17 @@ enum HelpLinks {
     static var support: URL {
         URL(string: "\(site)index.html#\(languageCode)")!
     }
+
+    /// The privacy policy, in the language the app runs in. Also the URL to
+    /// give App Store Connect.
+    static var privacy: URL {
+        URL(string: "\(site)privacy.html#\(languageCode)")!
+    }
+
+    /// The legal notice (Impressum) German law requires of a commercial app.
+    static var imprint: URL {
+        URL(string: "\(site)impressum.html#\(languageCode)")!
+    }
 }
 
 struct RecipeAIPrivacyView: View {
@@ -563,8 +664,8 @@ struct RecipeAIPrivacyView: View {
     var body: some View {
         List {
             Section("Umfang der Verarbeitung") {
-                Text("Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder oder den Rezepttext und die Adresse der von Dir angegebenen Internetseite sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung und der Nachweis von Firebase App Check.")
-                Text("Für die stündliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters und die Anzahl der Anfragen gespeichert.")
+                Text("Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder oder den Rezepttext und die Adresse der von Dir angegebenen Internetseite sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung, der Nachweis von Firebase App Check und, mit BakePlanner Pro, der vom App Store signierte Kaufbeleg, damit der Server Dein Kontingent zuordnen kann. Der Beleg enthält die Kennung und das Datum des Kaufs, aber keinen Namen und keine Zahlungsdaten.")
+                Text("Für die stündliche und die monatliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters, der aktuelle Monat und die Anzahl der Anfragen gespeichert.")
             }
 
             Section("Zweck und Rechtsgrundlage") {
@@ -579,7 +680,7 @@ struct RecipeAIPrivacyView: View {
 
             Section("Speicherung und Löschung") {
                 Text("BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt.")
-                Text("In Firestore verbleibt nur der Datensatz zur stündlichen Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster und Anfragezahl. Bei einer späteren Analyse wird ein abgelaufenes Zeitfenster durch das neue ersetzt.")
+                Text("In Firestore verbleibt nur der Datensatz zur Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster, Monat und Anfragezahlen sowie eine Prüfsumme des zuletzt geprüften Kaufbelegs und der Zeitpunkt der Prüfung. Bei einer späteren Analyse werden ein abgelaufenes Zeitfenster und ein vergangener Monat durch die neuen ersetzt.")
                 Text("Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird.")
             }
 

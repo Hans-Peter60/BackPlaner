@@ -15,47 +15,82 @@ import CoreData
 
 enum RecurringBakePlanner {
 
-    /// The next finish date on the rhythm `lastFinish + k·intervalDays`
-    /// (`k` ≥ 1) whose plan start (finish minus `prepTime`) lies after `now`.
-    /// Stepping by whole multiples of the interval — rather than by
-    /// `intervalDays` from `now` — keeps the cadence anchored to the
-    /// original rhythm instead of resetting it to "whenever the app was
-    /// next opened", and keeps a long-unopened app from piling up a
-    /// backlog of missed cycles: it always lands on exactly one, the next
-    /// due one.
-    static func nextFinishDate(lastFinish: Date, intervalDays: Int, prepTime: Int,
-                               now: Date, calendar: Calendar = .current) -> Date? {
-        guard intervalDays > 0 else { return nil }
+    /// Minutes a plan of the recipe takes, as `BakePlan.totalMinutes`
+    /// measures it: the stored preparation time, never less than the end of
+    /// the last step. The bake history records only when a plan finished;
+    /// this is what turns that finish back into the plan's start.
+    static func planDuration(prepTime: Int, stepEnds: [Int]) -> Int {
+        max(prepTime, stepEnds.max() ?? 0)
+    }
+
+    static func planDuration(of recipe: Recipe) -> Int {
+        planDuration(prepTime: recipe.prepTime,
+                     stepEnds: recipe.instructionsArray.map { $0.startTime + $0.duration })
+    }
+
+    static func planDuration(of recipe: RecipeFB) -> Int {
+        planDuration(prepTime: recipe.prepTime,
+                     stepEnds: recipe.instructions.map { ($0.startTime ?? 0) + $0.duration })
+    }
+
+    /// The next start on the rhythm `lastStart + k·intervalDays` (`k` ≥ 1)
+    /// that lies after `now`, where `lastStart` is the last plan's finish
+    /// less its `duration`. The rhythm hangs on the start, so the first
+    /// step — the feeding of a starter, the first mixing of a bread — comes
+    /// round at the same time of day every time, whatever the recipe's
+    /// length; stepping by calendar days keeps that time of day across a
+    /// daylight-saving change. Stepping by whole multiples of the interval
+    /// — rather than by `intervalDays` from `now` — keeps the cadence
+    /// anchored to the original rhythm instead of resetting it to
+    /// "whenever the app was next opened", and keeps a long-unopened app
+    /// from piling up a backlog of missed cycles: it always lands on
+    /// exactly one, the next due one.
+    static func nextStartDate(lastFinish: Date, duration: Int, intervalDays: Int,
+                              now: Date, calendar: Calendar = .current) -> Date? {
+        guard intervalDays > 0,
+              let lastStart = calendar.date(byAdding: .minute, value: -duration, to: lastFinish) else { return nil }
 
         var k = 1
         while k < 1000 {
-            guard let finish = calendar.date(byAdding: .day, value: intervalDays * k, to: lastFinish) else {
+            guard let start = calendar.date(byAdding: .day, value: intervalDays * k, to: lastStart) else {
                 return nil
             }
-            let start = calendar.date(byAdding: .minute, value: -prepTime, to: finish) ?? finish
-            if start > now { return finish }
+            if start > now { return start }
             k += 1
         }
         return nil
     }
 
-    /// When the recipe is next due, as the recipe views show it: the finish
-    /// of a plan already queued — its bake-history entry then lies ahead —
-    /// else the next slot on the rhythm, found the same way the automatic
-    /// pass finds it, so the two never disagree. `nil` without a rhythm or
-    /// without a bake to measure it from.
-    static func nextOccurrence(lastFinish: Date?, intervalDays: Int, prepTime: Int,
+    /// The finish of the occurrence `nextStartDate` finds: its start plus
+    /// the plan's `duration`.
+    static func nextFinishDate(lastFinish: Date, duration: Int, intervalDays: Int,
                                now: Date, calendar: Calendar = .current) -> Date? {
-        guard intervalDays > 0, let lastFinish else { return nil }
-        if lastFinish > now { return lastFinish }
-        return nextFinishDate(lastFinish: lastFinish, intervalDays: intervalDays,
-                              prepTime: prepTime, now: now, calendar: calendar)
+        nextStartDate(lastFinish: lastFinish, duration: duration, intervalDays: intervalDays,
+                      now: now, calendar: calendar)
+            .flatMap { calendar.date(byAdding: .minute, value: duration, to: $0) }
     }
 
-    static func nextOccurrence(for recipe: Recipe, now: Date = Date()) -> Date? {
-        nextOccurrence(lastFinish: recipe.bakeHistoriesArray.first?.date,
-                       intervalDays: recipe.recurrenceIntervalDays,
-                       prepTime: recipe.prepTime, now: now)
+    /// When the rhythm next comes round, as the recipe views show it: the
+    /// start of the slot the automatic pass will queue, found the same way
+    /// it finds it, so the two never disagree. `nil` without a rhythm or
+    /// without a bake to measure it from.
+    ///
+    /// A plan still pending — its bake-history entry lies ahead — is not
+    /// that slot: it is already planned and sits in the list of scheduled
+    /// steps. The rhythm continues after its finish. Shown as the next
+    /// occurrence, a starter fed today at 17:20 on a daily rhythm read
+    /// "Nächste Fütterung: Heute 17:20" where tomorrow was meant.
+    static func nextStart(lastFinish: Date?, duration: Int, intervalDays: Int,
+                          now: Date, calendar: Calendar = .current) -> Date? {
+        guard let lastFinish else { return nil }
+        return nextStartDate(lastFinish: lastFinish, duration: duration, intervalDays: intervalDays,
+                             now: max(now, lastFinish), calendar: calendar)
+    }
+
+    static func nextStart(for recipe: Recipe, now: Date = Date()) -> Date? {
+        nextStart(lastFinish: recipe.bakeHistoriesArray.first?.date,
+                  duration: planDuration(of: recipe),
+                  intervalDays: recipe.recurrenceIntervalDays, now: now)
     }
 
     /// Queues the next occurrence of every own recipe whose rhythm is due:
@@ -75,20 +110,22 @@ enum RecurringBakePlanner {
             guard !recipe.instructionsArray.isEmpty,
                   let lastFinish = recipe.bakeHistoriesArray.first?.date,
                   !BakePlanScheduler.hasPendingPlan(recipeName: recipe.name, now: now, in: context),
-                  let finish = nextFinishDate(lastFinish: lastFinish,
-                                              intervalDays: recipe.recurrenceIntervalDays,
-                                              prepTime: recipe.prepTime,
-                                              now: now)
+                  let start = nextStartDate(lastFinish: lastFinish,
+                                            duration: planDuration(of: recipe),
+                                            intervalDays: recipe.recurrenceIntervalDays,
+                                            now: now)
             else { continue }
 
+            // Planned from its start, so the first step keeps its time of
+            // day; the finish follows from the recipe's length.
             let plan = BakePlan(recipeName: recipe.name,
                                 steps: recipe.instructionsArray.map {
                                     PlanStep(instruction: $0.instruction, step: $0.step,
                                              startTime: $0.startTime, duration: $0.duration)
                                 },
                                 prepTime: recipe.prepTime,
-                                anchor: .finishesBy,
-                                date: finish,
+                                anchor: .startsAt,
+                                date: start,
                                 languageCode: AppSettings.locale.identifier)
 
             // A conflict with another plan is left for the next foreground

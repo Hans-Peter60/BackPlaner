@@ -119,9 +119,12 @@ struct TabsFBView: View {
             // Same place as for a recipe of one's own, so the shopping list is
             // where people look for it.
             NavigationStack {
-                ShoppingCartSelectFormView(recipeFB: recipeFB,
-                                           selectedServingSize: $selectedServingSize,
-                                           targetWeight: $targetWeight)
+                // Shopping lists are a Pro feature; locked, the tab offers Pro.
+                ProLockedScreen(.shoppingList) {
+                    ShoppingCartSelectFormView(recipeFB: recipeFB,
+                                               selectedServingSize: $selectedServingSize,
+                                               targetWeight: $targetWeight)
+                }
             }
                 .tabItem {
                     VStack {

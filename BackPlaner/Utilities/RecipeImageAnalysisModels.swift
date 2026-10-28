@@ -87,6 +87,20 @@ struct RecipeImageAnalysisResult {
         self.analysisSource = analysisSource
     }
 
+    /// The same result with one more warning, e.g. why the cloud stayed out
+    /// of the analysis.
+    func addingWarning(_ warning: String) -> RecipeImageAnalysisResult {
+        RecipeImageAnalysisResult(
+            recipe: recipe,
+            recognizedText: recognizedText,
+            recipeImage: recipeImage,
+            warnings: warnings + [warning],
+            layout: layout,
+            titleOptions: titleOptions,
+            analysisSource: analysisSource
+        )
+    }
+
     var componentCount: Int { recipe.components.count }
     var ingredientCount: Int {
         recipe.components.reduce(0) { $0 + $1.ingredients.count }

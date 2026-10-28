@@ -353,26 +353,11 @@ enum NotificationActions {
         let context = PersistenceController.shared.container.newBackgroundContext()
 
         context.perform {
-            let currentStep = fetchCurrentStep(metadata: metadata, in: context)
-            let recipeName = currentStep?.recipeName
-
-            if let currentStep {
-                currentStep.date = newCurrentDate
-            }
-
-            if includeFollowing, let recipeName {
-                let request = NextStep.fetchRequest()
-                request.predicate = followingStepsPredicate(
-                    recipeName: recipeName,
-                    after: metadata.scheduledDate,
-                    step: currentStep?.step,
-                    planID: currentStep?.planID
-                )
-                if let followingSteps = try? context.fetch(request) {
-                    for step in followingSteps {
-                        step.date = step.date.addingTimeInterval(shift)
-                    }
-                }
+            // The step moves to the new date and its followers by the same
+            // amount, measured from the step's stored date (within a minute
+            // of the reminder's), so the plan keeps its spacing exactly.
+            if let currentStep = fetchCurrentStep(metadata: metadata, in: context) {
+                moveScheduledStep(currentStep, to: newCurrentDate, includeFollowing: includeFollowing)
             }
 
             do {
@@ -636,6 +621,48 @@ enum NotificationActions {
         }
     }
 
+    /// Moves `step` to `newDate` and, with `includeFollowing`, the later
+    /// steps of its plan by the same amount. Returns every moved step's
+    /// instruction and the date it had, which is what its reminder is
+    /// matched on. Call on the step's context queue; the caller saves.
+    ///
+    /// The followers are fetched before the step itself moves. The fetch
+    /// sees pending changes, so a step already set to a later date
+    /// satisfied "date > original date" itself and was shifted a second
+    /// time: moved 30 minutes later with its followers, a rest step landed
+    /// 60 minutes later, at the same minute as its fold "nach 30 Minuten",
+    /// and the folds looked wrongly placed.
+    @discardableResult
+    static func moveScheduledStep(
+        _ step: NextStep,
+        to newDate: Date,
+        includeFollowing: Bool
+    ) -> [ScheduledNotificationMatch] {
+        let originalDate = step.date
+        let timeShift = newDate.timeIntervalSince(originalDate)
+        var matches = [ScheduledNotificationMatch(instruction: step.instruction, date: originalDate)]
+
+        var followingSteps: [NextStep] = []
+        if includeFollowing, let context = step.managedObjectContext {
+            let request = NextStep.fetchRequest()
+            request.predicate = followingStepsPredicate(
+                recipeName: step.recipeName,
+                after: originalDate,
+                step: step.step,
+                planID: step.planID
+            )
+            followingSteps = ((try? context.fetch(request)) ?? []).filter { $0 !== step }
+        }
+
+        step.date = newDate
+        for followingStep in followingSteps {
+            matches.append(ScheduledNotificationMatch(instruction: followingStep.instruction,
+                                                      date: followingStep.date))
+            followingStep.date = followingStep.date.addingTimeInterval(timeShift)
+        }
+        return matches
+    }
+
     static func shiftScheduledStep(
         _ step: NextStep,
         byMinutes minutes: Int,
@@ -643,12 +670,8 @@ enum NotificationActions {
         completionHandler: @escaping (Result<Void, Error>) -> Void
     ) {
         let timeShift = TimeInterval(minutes * 60)
-        let originalDate = step.date
         let recipeName = step.recipeName
-        let planID = step.planID
-        let stepNumber = step.step
-        let instruction = step.instruction
-        let shiftedDate = originalDate.addingTimeInterval(timeShift)
+        let shiftedDate = step.date.addingTimeInterval(timeShift)
 
         guard shiftedDate > Date() else {
             completionHandler(.failure(ScheduledStepShiftError.dateInPast))
@@ -657,31 +680,7 @@ enum NotificationActions {
 
         let context = step.managedObjectContext
         context?.perform {
-            var notificationMatches = [
-                ScheduledNotificationMatch(instruction: instruction, date: originalDate)
-            ]
-            step.date = shiftedDate
-
-            if includeFollowing, let context {
-                let request = NextStep.fetchRequest()
-                request.predicate = followingStepsPredicate(
-                    recipeName: recipeName,
-                    after: originalDate,
-                    step: stepNumber,
-                    planID: planID
-                )
-                if let followingSteps = try? context.fetch(request) {
-                    for followingStep in followingSteps {
-                        notificationMatches.append(
-                            ScheduledNotificationMatch(
-                                instruction: followingStep.instruction,
-                                date: followingStep.date
-                            )
-                        )
-                        followingStep.date = followingStep.date.addingTimeInterval(timeShift)
-                    }
-                }
-            }
+            let notificationMatches = moveScheduledStep(step, to: shiftedDate, includeFollowing: includeFollowing)
 
             do {
                 try context?.save()
