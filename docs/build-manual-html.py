@@ -35,6 +35,7 @@ MANUALS = {
         "title": "BakePlanner – Benutzerhandbuch",
         "back": "Hilfe und Kontakt",
         "privacy": "Datenschutz",
+        "imprint": "Impressum",
         "languages": "Sprache wählen",
         "top": "Nach oben",
     },
@@ -43,6 +44,7 @@ MANUALS = {
         "title": "BakePlanner – User Manual",
         "back": "Help and contact",
         "privacy": "Privacy",
+        "imprint": "Legal notice",
         "languages": "Choose language",
         "top": "Back to top",
     },
@@ -51,6 +53,7 @@ MANUALS = {
         "title": "BakePlanner – Manuel de l’utilisateur",
         "back": "Aide et contact",
         "privacy": "Confidentialité",
+        "imprint": "Mentions légales",
         "languages": "Choisir la langue",
         "top": "Haut de page",
     },
@@ -387,6 +390,7 @@ PAGE = """<!DOCTYPE html>
   <a href="index.html#{lang}">{back}</a>
 {language_links}
   <a href="privacy.html">{privacy}</a>
+  <a href="impressum.html">{imprint}</a>
 </nav>
 
 <article>
@@ -394,7 +398,7 @@ PAGE = """<!DOCTYPE html>
 </article>
 
 <footer>
-  <p><a href="#top">{top}</a> · <a href="index.html#{lang}">{back}</a> · <a href="privacy.html">{privacy}</a></p>
+  <p><a href="#top">{top}</a> · <a href="index.html#{lang}">{back}</a> · <a href="privacy.html">{privacy}</a> · <a href="impressum.html">{imprint}</a></p>
 </footer>
 
 </main>
@@ -425,6 +429,7 @@ def build() -> None:
             back=meta["back"],
             language_links=language_links(lang),
             privacy=meta["privacy"],
+            imprint=meta["imprint"],
             top=meta["top"],
             body=body,
         )

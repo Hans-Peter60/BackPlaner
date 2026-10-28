@@ -77,13 +77,14 @@
   <a href="#de" lang="de">Deutsch</a>
   <a href="#en" lang="en">English</a>
   <a href="#fr" lang="fr">Français</a>
+  <a href="impressum.html">Impressum / Legal</a>
   <a href="index.html">Hilfe / Help</a>
 </nav>
 
 <!-- ===================== DEUTSCH ===================== -->
 <section id="de" lang="de">
   <h2>Datenschutzerklärung</h2>
-  <p><strong>Stand: 14. Oktober 2026</strong></p>
+  <p><strong>Stand: 26. Oktober 2026</strong></p>
 
   <h3>Verantwortlich</h3>
   <p>Hans-Peter Mueller<br>
@@ -159,6 +160,15 @@
       Analyseanfragen pro Stunde.</td>
     </tr>
     <tr>
+      <td>Kaufbeleg von BakePlanner Pro (signierte Transaktion des App Store)</td>
+      <td>Vom App Store auf dein Gerät. Nur bei einer Cloud-KI-Analyse mit
+      monatlicher Begrenzung zusätzlich an die Firebase Cloud Function, die
+      eine Prüfsumme davon eine Woche lang speichert.</td>
+      <td>Freischaltung der Pro-Funktionen und Zuordnung deines
+      Import-Kontingents auf dem Server. Der Beleg enthält Kennung und Datum
+      des Kaufs, aber keinen Namen und keine Zahlungsdaten.</td>
+    </tr>
+    <tr>
       <td>Erinnerungen, Einstellungen, Übersetzungsspeicher, blockierte
       Autoren</td>
       <td>Ausschließlich auf dem Gerät</td>
@@ -214,21 +224,41 @@
   <p>Die Übersetzung von Rezepten läuft weiterhin über Apples
   Übersetzungsfunktion auf dem Gerät.</p>
 
+  <h3>In-App-Kauf „BakePlanner Pro“</h3>
+  <p>Der Kauf läuft vollständig über den Apple App Store; Vertragspartner ist
+  Apple Distribution International Ltd. Ich erhalte von Apple weder deinen
+  Namen noch Zahlungsdaten, sondern nur eine signierte Transaktion mit der
+  Produktkennung und dem Kaufdatum, die auf deinem Gerät geprüft wird. Ob
+  deine Installation die Pro-Funktionen auch ohne Kauf behält, entscheidet
+  die App anhand der Version, mit der sie zuerst geladen wurde; auch diese
+  Angabe stammt signiert vom App Store.</p>
+  <p>Nur wenn für Cloud-KI-Analysen eine monatliche Begrenzung gilt, sendet
+  die App den signierten Kaufbeleg zusammen mit der Analyseanfrage an die
+  Firebase Cloud Function. Diese prüft die Signatur gegen Apples
+  Zertifikate und merkt sich zur pseudonymen Nutzerkennung eine
+  SHA-256-Prüfsumme des geprüften Belegs für sieben Tage, damit der Beleg
+  nicht bei jeder Anfrage erneut geprüft werden muss. Der Beleg selbst wird
+  nicht gespeichert. Rechtsgrundlage ist die Erfüllung des Vertrags mit dir
+  (Art. 6 Abs. 1 lit. b DSGVO).</p>
+
   <h3>Auftragsverarbeiter</h3>
   <p>Google Ireland Limited bzw. Google LLC für Firebase (Datenbank,
   Bildspeicher, anonyme Anmeldung, Cloud Functions und Missbrauchsschutz)
   sowie Google Vertex AI (Gemini) für die ausdrücklich ausgewählte
   Cloud-Analyse von Rezeptbildern und Rezepttexten. Apple Inc. für iCloud, Apple Intelligence,
-  Vision, die Anmeldung mit Apple und die Mitteilungszustellung.</p>
+  Vision, die Anmeldung mit Apple, die Mitteilungszustellung und die
+  Abwicklung des In-App-Kaufs über den App Store.</p>
 
   <h3>Speicherdauer</h3>
   <p>Veröffentlichte Rezepte bleiben, bis sie gelöscht werden – von dir oder
   nach einer Meldung. Auf dem Gerät gespeicherte Daten verschwinden mit dem
   Löschen der App. Die an die Cloud-KI übertragenen Bilder und Seitentexte
   werden von BakePlanner nicht dauerhaft abgelegt. Für die stündliche Nutzungsbegrenzung
-  speichert Firestore zur pseudonymen Nutzerkennung nur den Beginn des
-  aktuellen Zeitfensters und die Anfrageanzahl; ein abgelaufenes Zeitfenster
-  wird bei der nächsten Analyse ersetzt.</p>
+  und die monatliche Begrenzung speichert Firestore zur pseudonymen
+  Nutzerkennung nur den Beginn des aktuellen Zeitfensters, den aktuellen
+  Monat und die Anfragezahlen; ein abgelaufenes Zeitfenster wird bei der
+  nächsten Analyse ersetzt. Die Prüfsumme eines geprüften Pro-Kaufbelegs
+  wird nach sieben Tagen verworfen.</p>
 
   <h3>Deine Rechte</h3>
   <p>Du kannst dein Konto in der App löschen: <em>Einstellungen → Konto →
@@ -253,7 +283,7 @@
 <!-- ===================== ENGLISH ===================== -->
 <section id="en" lang="en">
   <h2>Privacy Policy</h2>
-  <p><strong>Last updated: 14 October 2026</strong></p>
+  <p><strong>Last updated: 26 October 2026</strong></p>
 
   <h3>Controller</h3>
   <p>Hans-Peter Mueller<br>
@@ -325,6 +355,16 @@
       analysis requests per hour.</td>
     </tr>
     <tr>
+      <td>Proof of purchase of BakePlanner Pro (the App Store’s signed
+      transaction)</td>
+      <td>From the App Store to your device. Only for a Cloud AI analysis
+      under a monthly limit is it also sent to the Firebase Cloud Function,
+      which keeps a checksum of it for one week.</td>
+      <td>Unlocking the Pro features and attributing your import allowance on
+      the server. The proof carries the purchase id and date, but no name and
+      no payment details.</td>
+    </tr>
+    <tr>
       <td>Reminders, settings, translation cache, blocked authors</td>
       <td>On the device only</td>
       <td>App functionality.</td>
@@ -372,21 +412,39 @@
   all future analyses under <em>Settings → Privacy &amp; AI</em>.</p>
   <p>Recipe translation continues to use Apple's on-device translation.</p>
 
+  <h3>In-app purchase “BakePlanner Pro”</h3>
+  <p>The purchase is handled entirely by the Apple App Store; the contracting
+  party is Apple Distribution International Ltd. Apple gives me neither your
+  name nor any payment details, only a signed transaction carrying the
+  product id and the purchase date, which is verified on your device.
+  Whether your installation keeps the Pro features without a purchase is
+  decided from the version it was first downloaded as; that figure, too,
+  comes signed from the App Store.</p>
+  <p>Only while a monthly limit applies to Cloud AI analyses does the app send
+  the signed proof of purchase along with the analysis request to the
+  Firebase Cloud Function. The function checks the signature against Apple’s
+  certificates and keeps a SHA-256 checksum of the verified proof against the
+  pseudonymous user id for seven days, so the proof need not be re-verified
+  on every request. The proof itself is not stored. The legal basis is the
+  performance of the contract with you (Art. 6(1)(b) GDPR).</p>
+
   <h3>Processors</h3>
   <p>Google Ireland Limited / Google LLC for Firebase (database, image storage,
   anonymous sign-in, Cloud Functions and abuse protection) and Google Vertex
   AI (Gemini) for explicitly selected cloud analysis of recipe images and
   recipe texts. Apple
-  Inc. for iCloud, Apple Intelligence, Vision, Sign in with Apple and
-  notification delivery.</p>
+  Inc. for iCloud, Apple Intelligence, Vision, Sign in with Apple,
+  notification delivery and the in-app purchase through the App Store.</p>
 
   <h3>Retention</h3>
   <p>Published recipes remain until deleted — by you or after a report. Data
   held on the device goes when you delete the app. BakePlanner does not retain
   images or page texts sent to Cloud AI. For the hourly usage limit,
-  Firestore stores only the start of the current window and the request count
-  against the pseudonymous user ID; an expired window is replaced when the
-  next analysis is made.</p>
+  and the monthly limit, Firestore stores only the start of the current
+  window, the current month and the request counts against the pseudonymous
+  user ID; an expired window is replaced when the next analysis is made. The
+  checksum of a verified Pro proof of purchase is discarded after seven
+  days.</p>
 
   <h3>Your rights</h3>
   <p>You can delete your account in the app: <em>Settings → Account → Delete
@@ -408,7 +466,7 @@
 <!-- ===================== FRANÇAIS ===================== -->
 <section id="fr" lang="fr">
   <h2>Politique de confidentialité</h2>
-  <p><strong>Dernière mise à jour : 14 octobre 2026</strong></p>
+  <p><strong>Dernière mise à jour : 26 octobre 2026</strong></p>
 
   <h3>Responsable du traitement</h3>
   <p>Hans-Peter Mueller<br>
@@ -484,6 +542,17 @@
       d’analyse au maximum par heure.</td>
     </tr>
     <tr>
+      <td>Preuve d’achat de BakePlanner Pro (transaction signée par l’App
+      Store)</td>
+      <td>De l’App Store vers votre appareil. Uniquement lors d’une analyse
+      par l’IA cloud soumise à une limite mensuelle, elle est aussi transmise
+      à la fonction Firebase Cloud, qui en conserve une somme de contrôle
+      pendant une semaine.</td>
+      <td>Déblocage des fonctions Pro et attribution de votre quota
+      d’importation sur le serveur. La preuve contient l’identifiant et la
+      date de l’achat, mais ni nom ni données de paiement.</td>
+    </tr>
+    <tr>
       <td>Rappels, réglages, cache de traduction, auteurs bloqués</td>
       <td>Uniquement sur l’appareil</td>
       <td>Fonctionnement de l’app.</td>
@@ -537,22 +606,42 @@
   <p>La traduction des recettes continue d’utiliser la fonction de traduction
   d’Apple sur l’appareil.</p>
 
+  <h3>Achat intégré « BakePlanner Pro »</h3>
+  <p>L’achat est entièrement géré par l’App Store d’Apple ; le cocontractant
+  est Apple Distribution International Ltd. Apple ne me transmet ni votre nom
+  ni vos données de paiement, mais uniquement une transaction signée portant
+  l’identifiant du produit et la date d’achat, vérifiée sur votre appareil.
+  Le fait que votre installation conserve ou non les fonctions Pro sans
+  achat est déterminé à partir de la version avec laquelle elle a été
+  téléchargée la première fois ; cette donnée provient elle aussi, signée,
+  de l’App Store.</p>
+  <p>Ce n’est que lorsqu’une limite mensuelle s’applique aux analyses par
+  l’IA cloud que l’app transmet la preuve d’achat signée avec la requête
+  d’analyse à la fonction Firebase Cloud. Celle-ci vérifie la signature à
+  l’aide des certificats d’Apple et conserve, avec l’identifiant pseudonyme,
+  une somme de contrôle SHA-256 de la preuve vérifiée pendant sept jours,
+  afin de ne pas la revérifier à chaque requête. La preuve elle-même n’est
+  pas conservée. La base juridique est l’exécution du contrat conclu avec
+  vous (art. 6, § 1, point b du RGPD).</p>
+
   <h3>Sous-traitants</h3>
   <p>Google Ireland Limited / Google LLC pour Firebase (base de données,
   stockage d’images, connexion anonyme, fonctions Cloud et protection contre
   les abus) ainsi que Google Vertex AI (Gemini) pour l’analyse cloud des
   images et des textes de recettes expressément choisie. Apple Inc. pour iCloud, Apple
-  Intelligence, Vision, la connexion avec Apple et la remise des
-  notifications.</p>
+  Intelligence, Vision, la connexion avec Apple, la remise des
+  notifications et l’achat intégré via l’App Store.</p>
 
   <h3>Durée de conservation</h3>
   <p>Les recettes publiées subsistent jusqu’à leur suppression — par vous ou
   après un signalement. Les données présentes sur l’appareil
   disparaissent avec la suppression de l’app. BakePlanner ne conserve pas les
   images ni les textes de pages transmis à l’IA cloud. Pour la limite
-  horaire, Firestore stocke uniquement le début de la période en cours et le
-  nombre de requêtes avec l’identifiant pseudonyme ; une période expirée est
-  remplacée lors de l’analyse suivante.</p>
+  horaire et la limite mensuelle, Firestore stocke uniquement le début de la
+  période en cours, le mois en cours et le nombre de requêtes avec
+  l’identifiant pseudonyme ; une période expirée est remplacée lors de
+  l’analyse suivante. La somme de contrôle d’une preuve d’achat Pro vérifiée
+  est effacée au bout de sept jours.</p>
 
   <h3>Vos droits</h3>
   <p>Vous pouvez supprimer votre compte dans l’app : <em>Réglages → Compte →
@@ -573,7 +662,8 @@
 </section>
 
 <footer>
-  <p><a href="index.html">Hilfe · Help · Aide</a></p>
+  <p><a href="index.html">Hilfe · Help · Aide</a> ·
+     <a href="impressum.html">Impressum · Legal Notice · Mentions légales</a></p>
 </footer>
 
 </main>
