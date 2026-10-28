@@ -109,6 +109,7 @@ echo "▸ Building once for all simulators …"
 xcodebuild build-for-testing \
     -project BackPlaner.xcodeproj \
     -scheme BackPlaner \
+    -testPlan AllTests \
     -destination "generic/platform=iOS Simulator" \
     -derivedDataPath "$DERIVED" \
     -quiet
@@ -169,6 +170,7 @@ for device in "${devices[@]}"; do
             xcodebuild test-without-building \
                 -project BackPlaner.xcodeproj \
                 -scheme BackPlaner \
+                -testPlan AllTests \
                 -destination "id=$udid" \
                 -derivedDataPath "$DERIVED" \
                 -only-testing:"BackPlanerUITests/AppPreview/testPrepare" \
@@ -193,6 +195,7 @@ for device in "${devices[@]}"; do
             xcodebuild test-without-building \
                 -project BackPlaner.xcodeproj \
                 -scheme BackPlaner \
+                -testPlan AllTests \
                 -destination "id=$udid" \
                 -derivedDataPath "$DERIVED" \
                 -only-testing:"BackPlanerUITests/AppPreview/$method" \

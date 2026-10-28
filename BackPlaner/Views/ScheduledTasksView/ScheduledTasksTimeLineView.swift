@@ -26,9 +26,11 @@ private enum TimelineMetrics {
     /// portrait, the column width otherwise.
     static let laneHeaderHeight: CGFloat = 48
     static let laneHeaderWidth: CGFloat = 132
-    /// Lanes as columns (portrait) are at least this wide; fewer lanes
-    /// share the screen width.
+    /// Lanes as columns (portrait) are at least this wide and at most that;
+    /// fewer lanes share the screen width, and on an iPad one lane does not
+    /// stretch across the whole screen.
     static let minimumLaneWidth: CGFloat = 150
+    static let maximumLaneWidth: CGFloat = 440
     /// Lanes as rows are this high.
     static let laneHeight: CGFloat = 64
     static let laneSpacing: CGFloat = 6
@@ -96,8 +98,6 @@ private enum TimelineZoom: String, CaseIterable, Identifiable {
 struct ScheduledTasksTimeLineView: View {
 
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.horizontalSizeClass) private var hSize
-    @Environment(\.verticalSizeClass) private var vSize
     /// Handed on to the bake mode, which looks up public recipes through it.
     @EnvironmentObject var model: RecipeModel
 
@@ -126,9 +126,6 @@ struct ScheduledTasksTimeLineView: View {
         })
     }
 
-    /// An iPhone in portrait reads the plan top-down; everything else left to right.
-    private var axis: Axis { hSize == .compact && vSize == .regular ? .vertical : .horizontal }
-
     var body: some View {
         Group {
             let lanes = self.lanes
@@ -150,10 +147,16 @@ struct ScheduledTasksTimeLineView: View {
                                               minimumTickSpacing: TimelineMetrics.minimumTickSpacing)
                 VStack(spacing: 0) {
                     controls
-                    PlanTimelineChart(lanes: lanes, scale: scale, axis: axis,
-                                      recipeImage: fetchRecipeImage(name:),
-                                      onDone: markDone(stepID:),
-                                      onShift: beginShifting(stepID:))
+                    // Taller than wide — an iPhone or iPad held upright, the
+                    // Duo's inner display — reads the plan top-down; wider
+                    // than tall, left to right.
+                    GeometryReader { geo in
+                        PlanTimelineChart(lanes: lanes, scale: scale,
+                                          axis: geo.size.height >= geo.size.width ? .vertical : .horizontal,
+                                          recipeImage: fetchRecipeImage(name:),
+                                          onDone: markDone(stepID:),
+                                          onShift: beginShifting(stepID:))
+                    }
                 }
                 // The same kitchen view the list offers, as a round Liquid Glass
                 // button floating over the plan. The timeline has no filter,
@@ -328,7 +331,7 @@ private struct PlanTimelineChart: View {
     private func laneWidth(in size: CGSize) -> CGFloat {
         let count = CGFloat(lanes.count)
         let available = size.width - TimelineMetrics.axisThickness - TimelineMetrics.laneSpacing * (count - 1) - 8
-        return max(TimelineMetrics.minimumLaneWidth, available / count)
+        return min(TimelineMetrics.maximumLaneWidth, max(TimelineMetrics.minimumLaneWidth, available / count))
     }
 
     private func vertical(in size: CGSize, now: Date) -> some View {
@@ -339,7 +342,10 @@ private struct PlanTimelineChart: View {
 
         return ScrollView(.horizontal, showsIndicators: false) {
             ScrollView(.vertical) {
-                LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
+                // Narrower than the screen (one lane on an iPad), the plan
+                // stands centred; wider, it starts at the left and scrolls.
+                LazyVStack(alignment: contentWidth < size.width ? .center : .leading, spacing: 0,
+                           pinnedViews: [.sectionHeaders]) {
                     Section {
                         ZStack(alignment: .topLeading) {
                             tickLines(crossOffset: TimelineMetrics.axisThickness,

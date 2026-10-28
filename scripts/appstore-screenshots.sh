@@ -145,14 +145,16 @@ PY
 }
 
 # The manuals take their pictures from the plain iPhone screenshots in $1:
-# the main menu from the App Store screens, the recipe list, the new-recipe
-# form and the settings from the extra screens numbered 90 and up. Scaled to
+# the main menu and the timeline from the App Store screens, the recipe
+# list, the new-recipe form and the settings from the extra screens
+# numbered 90 and up. Scaled to
 # the 402 pt width the manual pages use; $2 is the language, $3 the manual
 # image folder for it.
 manual_images() {
     local raw="$1" lang="$2" target="$3"
     mkdir -p "$target"
-    local pairs=("02-startbildschirm:hauptmenue" "93-rezept-datenbank:oeffentliche-rezepte"
+    local pairs=("02-startbildschirm:hauptmenue" "04-timeline:geplante-schritte-timeline"
+                 "93-rezept-datenbank:oeffentliche-rezepte"
                  "91-neues-rezept:neues-rezept" "92-einstellungen:einstellungen")
     for pair in "${pairs[@]}"; do
         local source="$raw/${pair%%:*}.png" name="${pair##*:}"
@@ -167,7 +169,7 @@ manual_images() {
 caption_pictures() {
     local dir="$1" lang="$2"
     find "$dir" -maxdepth 1 -name '*.png' -delete
-    swift scripts/appstore-captions.swift docs/appstore/captions.json "$lang" "$dir/roh" "$dir" "${caption_options[@]}"
+    swift scripts/appstore-captions.swift docs/appstore/captions.json "$lang" "$dir/roh" "$dir" ${caption_options[@]+"${caption_options[@]}"}
     rm -f "$dir"/9[0-9]-*.png
 }
 
@@ -199,6 +201,7 @@ echo "▸ Building once for all simulators …"
 xcodebuild build-for-testing \
     -project BackPlaner.xcodeproj \
     -scheme BackPlaner \
+    -testPlan AllTests \
     -destination "generic/platform=iOS Simulator" \
     -derivedDataPath "$DERIVED" \
     -quiet
@@ -275,6 +278,7 @@ for role in $DEVICES; do
         xcodebuild test-without-building \
             -project BackPlaner.xcodeproj \
             -scheme BackPlaner \
+            -testPlan AllTests \
             -destination "id=$udid" \
             -derivedDataPath "$DERIVED" \
             -only-testing:"BackPlanerUITests/AppPreview/testPrepare" \
@@ -289,6 +293,7 @@ for role in $DEVICES; do
            xcodebuild test-without-building \
                -project BackPlaner.xcodeproj \
                -scheme BackPlaner \
+               -testPlan AllTests \
                -destination "id=$udid" \
                -derivedDataPath "$DERIVED" \
                -only-testing:BackPlanerUITests/AppStoreScreenshots \
