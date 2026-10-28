@@ -32,6 +32,10 @@ private enum TimelineMetrics {
     /// Lanes as rows are this high.
     static let laneHeight: CGFloat = 64
     static let laneSpacing: CGFloat = 6
+    /// Between two bars that run at the same time and share a lane.
+    static let trackSpacing: CGFloat = 3
+    /// The card with a step's full text, shown on hover and in the long-press preview.
+    static let tooltipWidth: CGFloat = 260
     /// The scale: how long an idle stretch has to be before it collapses,
     /// the band it collapses to, the smallest distance between two step
     /// boundaries, and the least room between two axis labels.
@@ -288,6 +292,10 @@ private struct PlanTimelineChart: View {
 
     @Environment(\.locale) private var locale
 
+    /// The step under the pointer, with where its bar or marker is drawn,
+    /// so the card with its full text can be laid over the plan there.
+    @State private var hovered: TooltipAnchor?
+
     var body: some View {
         GeometryReader { geo in
             // Re-evaluated once a minute so the "now" line keeps moving.
@@ -331,6 +339,7 @@ private struct PlanTimelineChart: View {
                             gapBands(crossLength: contentWidth)
                             nowLine(now: now, crossLength: contentWidth)
                             axisLabels()
+                            tooltip(contentCross: contentWidth, contentLength: contentLength)
                         }
                         .frame(width: contentWidth, height: contentLength, alignment: .topLeading)
                     } header: {
@@ -373,6 +382,7 @@ private struct PlanTimelineChart: View {
                             gapBands(crossLength: contentHeight)
                             nowLine(now: now, crossLength: contentHeight)
                             axisLabels()
+                            tooltip(contentCross: contentHeight, contentLength: contentLength)
                         }
                         .frame(width: contentLength, height: contentHeight, alignment: .topLeading)
                     } header: {
@@ -535,24 +545,29 @@ private struct PlanTimelineChart: View {
         ForEach(lane.bars) { bar in
             let position = scale.position(of: bar.start)
             let length = max(scale.length(from: bar.start, to: bar.end), TimelineMetrics.minimumInterval)
+            // Bars that run at the same time share the lane side by side.
+            let trackLength = (crossLength - TimelineMetrics.trackSpacing * CGFloat(bar.trackCount - 1)) / CGFloat(bar.trackCount)
+            let barCross = crossOffset + CGFloat(bar.track) * (trackLength + TimelineMetrics.trackSpacing)
             // The bar's text may run down to its first marker's label, not
             // beyond; a marker at the bar's very start (the turn-down as the
             // loaf goes in) keeps its line there but its label moves below
             // the bar's first line.
             let firstMarker = bar.markers.map { max(scale.position(of: $0.date), position + 20) }.min()
             let textLength = firstMarker.map { $0 - position } ?? length
+            let anchor = TooltipAnchor(entry: bar.entry, kind: bar.kind, recipeName: lane.recipeName,
+                                       position: position, crossOffset: barCross)
 
-            place(barView(bar, lane: lane, length: length, textLength: textLength),
-                  position: position, length: length, crossOffset: crossOffset, crossLength: crossLength)
+            place(barView(bar, anchor: anchor, length: length, textLength: textLength),
+                  position: position, length: length, crossOffset: barCross, crossLength: trackLength)
 
             ForEach(bar.markers) { marker in
-                markerViews(marker, lane: lane, labelFloor: position + 20,
-                            crossOffset: crossOffset, crossLength: crossLength)
+                markerViews(marker, recipeName: lane.recipeName, labelFloor: position + 20,
+                            crossOffset: barCross, crossLength: trackLength)
             }
         }
 
         ForEach(lane.markers) { marker in
-            markerViews(marker, lane: lane, labelFloor: 0, crossOffset: crossOffset, crossLength: crossLength)
+            markerViews(marker, recipeName: lane.recipeName, labelFloor: 0, crossOffset: crossOffset, crossLength: crossLength)
         }
 
         if let finish = lane.finish {
@@ -563,7 +578,7 @@ private struct PlanTimelineChart: View {
     /// A step as a bar: its colour says what kind of step it is, the text
     /// its time and instruction. Tapping opens the detail; a long press
     /// offers done and shift, as the list's card does.
-    private func barView(_ bar: PlanTimelineBar, lane: PlanTimelineLane, length: CGFloat, textLength: CGFloat) -> some View {
+    private func barView(_ bar: PlanTimelineBar, anchor: TooltipAnchor, length: CGFloat, textLength: CGFloat) -> some View {
         let lines = axis == .vertical ? max(1, Int((textLength - 6) / 15)) : 2
         // A short bar in a row has room for its time at most.
         let showsTime = axis == .vertical || length >= 44
@@ -587,17 +602,19 @@ private struct PlanTimelineChart: View {
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(verbatim: "\(lane.recipeName), \(bar.start.formatted(.dateTime.hour().minute().locale(locale))), \(bar.entry.instruction), \(Rational.displayHoursMinutes(bar.entry.duration))"))
+        .accessibilityLabel(Text(verbatim: "\(anchor.recipeName), \(bar.start.formatted(.dateTime.hour().minute().locale(locale))), \(bar.entry.instruction), \(Rational.displayHoursMinutes(bar.entry.duration))"))
 
-        return stepLink(bar.entry, label: label)
+        return stepLink(anchor, label: hoverable(label, anchor: anchor))
     }
 
     /// A sub-step inside its parent's bar, or a step without a duration: a
     /// line across the lane with the time and text beside it.
-    @ViewBuilder private func markerViews(_ marker: PlanTimelineMarker, lane: PlanTimelineLane, labelFloor: CGFloat,
+    @ViewBuilder private func markerViews(_ marker: PlanTimelineMarker, recipeName: String, labelFloor: CGFloat,
                                           crossOffset: CGFloat, crossLength: CGFloat) -> some View {
         let position = scale.position(of: marker.date)
         let labelPosition = max(position, labelFloor)
+        let anchor = TooltipAnchor(entry: marker.entry, kind: marker.kind, recipeName: recipeName,
+                                   position: position, crossOffset: crossOffset)
         place(Rectangle().fill(Theme.accentText.opacity(0.8)),
               position: position - 1, length: 2, crossOffset: crossOffset, crossLength: crossLength)
 
@@ -612,14 +629,15 @@ private struct PlanTimelineChart: View {
             .padding(.horizontal, 5)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text(verbatim: "\(lane.recipeName), \(marker.date.formatted(.dateTime.hour().minute().locale(locale))), \(marker.entry.instruction)"))
+            .accessibilityLabel(Text(verbatim: "\(recipeName), \(marker.date.formatted(.dateTime.hour().minute().locale(locale))), \(marker.entry.instruction)"))
 
         if axis == .vertical {
-            place(stepLink(marker.entry, label: label),
+            place(stepLink(anchor, label: hoverable(label, anchor: anchor)),
                   position: labelPosition + 2, length: 15, crossOffset: crossOffset, crossLength: crossLength)
-        } else {
-            // In a row the label sits in the lower third, under the bar's text.
-            place(stepLink(marker.entry, label: label),
+        } else if crossLength >= 40 {
+            // In a row the label sits in the lower third, under the bar's
+            // text — when the row is not shared and still has a lower third.
+            place(stepLink(anchor, label: hoverable(label, anchor: anchor)),
                   position: position + 1, length: 44,
                   crossOffset: crossOffset + crossLength - 18, crossLength: 16)
         }
@@ -646,9 +664,10 @@ private struct PlanTimelineChart: View {
         }
     }
 
-    /// Opens the step's detail on a tap; done and shift on a long press.
-    @ViewBuilder private func stepLink<Content: View>(_ entry: PlanTimelineEntry, label: Content) -> some View {
-        if let stepID = entry.id.base as? NSManagedObjectID {
+    /// Opens the step's detail on a tap; a long press shows the step's full
+    /// text and offers done and shift.
+    @ViewBuilder private func stepLink<Content: View>(_ anchor: TooltipAnchor, label: Content) -> some View {
+        if let stepID = anchor.entry.id.base as? NSManagedObjectID {
             NavigationLink(value: stepID) {
                 label
             }
@@ -664,11 +683,84 @@ private struct PlanTimelineChart: View {
                 } label: {
                     Label("Verschieben", systemImage: "clock.arrow.circlepath")
                 }
+            } preview: {
+                stepCard(anchor)
+                    .frame(width: TimelineMetrics.tooltipWidth + 20)
+                    .padding(10)
             }
         } else {
             label
         }
     }
+
+    // MARK: Full text on hover
+
+    /// Remembers the step under the pointer (an iPad with a trackpad or
+    /// mouse); touch has the long-press preview instead.
+    private func hoverable<Content: View>(_ content: Content, anchor: TooltipAnchor) -> some View {
+        content.onHover { inside in
+            if inside {
+                hovered = anchor
+            } else if hovered == anchor {
+                hovered = nil
+            }
+        }
+    }
+
+    /// The card with the hovered step's full text, laid over the plan at
+    /// the step's bar and kept inside the content. It takes no pointer
+    /// events itself, or it would hide the bar from the pointer that
+    /// summoned it and flicker.
+    @ViewBuilder private func tooltip(contentCross: CGFloat, contentLength: CGFloat) -> some View {
+        if let anchor = hovered {
+            let width = min(TimelineMetrics.tooltipWidth, contentCross, contentLength)
+            let card = stepCard(anchor)
+                .frame(width: width, alignment: .topLeading)
+                .allowsHitTesting(false)
+            if axis == .vertical {
+                card.offset(x: min(anchor.crossOffset, max(0, contentCross - width)),
+                            y: anchor.position + TimelineMetrics.leadingInset)
+            } else {
+                card.offset(x: min(anchor.position + TimelineMetrics.leadingInset, max(0, contentLength - width)),
+                            y: anchor.crossOffset)
+            }
+        }
+    }
+
+    /// Recipe, time span and the full instruction of one step.
+    private func stepCard(_ anchor: TooltipAnchor) -> some View {
+        let entry = anchor.entry
+        let timeFormat = Date.FormatStyle.dateTime.hour().minute().locale(locale)
+        let span = entry.duration > 0
+            ? "\(entry.date.formatted(timeFormat)) – \(entry.end.formatted(timeFormat)) · \(Rational.displayHoursMinutes(entry.duration))"
+            : entry.date.formatted(timeFormat)
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(anchor.recipeName)
+                .font(Theme.brandFont(12))
+                .foregroundColor(Theme.subtitle)
+            Text(verbatim: span)
+                .font(Theme.brandFont(13))
+                .foregroundColor(Theme.cardTitle)
+            Text(entry.instruction)
+                .font(Theme.bodyFont(13))
+                .foregroundColor(Theme.cardTitle)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Theme.card))
+        .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(anchor.kind.fill, lineWidth: 2))
+        .shadow(color: .black.opacity(0.18), radius: 6, y: 2)
+    }
+}
+
+/// A step and where it is drawn, for the card with its full text.
+private struct TooltipAnchor: Equatable {
+    let entry: PlanTimelineEntry
+    let kind: PlanTimelineKind
+    let recipeName: String
+    let position: CGFloat
+    let crossOffset: CGFloat
 }
 
 // MARK: - Appearance
@@ -719,6 +811,7 @@ private enum TimelinePreviewData {
         let rye = [
             entry(1, "Zutaten von Sauerteig abwiegen", at: -10, 10),
             entry(2, "Sauerteig bereiten, bei Raumtemperatur reifen lassen", at: 0, 720),
+            entry(2.1, "Brühstück herstellen und abgedeckt quellen lassen", at: 5, 15),
             entry(3, "Hauptteig kneten", at: 720, 15),
             entry(4, "Bei Raumtemperatur reifen lassen", at: 735, 90),
             entry(4.1, "Teig dehnen und falten (nach 30 Minuten).", at: 765, 60),

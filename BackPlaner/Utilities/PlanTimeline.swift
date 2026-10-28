@@ -248,11 +248,16 @@ struct PlanTimelineMarker: Identifiable, Equatable {
     var date: Date { entry.date }
 }
 
-/// A step with a duration, drawn as long as it lasts.
+/// A step with a duration, drawn as long as it lasts. Bars that overlap
+/// in time share the lane side by side: `track` says which strip of the
+/// lane this bar takes, `trackCount` how many strips its cluster of
+/// overlapping bars needs.
 struct PlanTimelineBar: Identifiable, Equatable {
     let entry: PlanTimelineEntry
     let kind: PlanTimelineKind
     var markers: [PlanTimelineMarker] = []
+    var track = 0
+    var trackCount = 1
     var id: AnyHashable { entry.id }
     var start: Date { entry.date }
     var end: Date { entry.end }
@@ -297,10 +302,14 @@ struct PlanTimelineLane: Identifiable, Equatable {
 
     /// Whole-numbered steps with a duration become bars; the finish (step
     /// 99) is the lane's end. A sub-step (3.1) that falls inside its
-    /// parent's bar (3) is a marker on it — the folds of a rest, the
-    /// turn-down of a bake, the oven switched on during the final proof.
-    /// One that does not lie inside its parent is a bar of its own, or a
-    /// loose marker when it has no duration.
+    /// parent's bar (3) and is a moment rather than a task of its own —
+    /// the folds of a rest, the turn-down of a bake, the oven switched on
+    /// during the final proof, anything without a duration — is a marker
+    /// on it. A sub-step with work of its own ("Brühstück herstellen"
+    /// while the sourdough ripens) is a bar that runs alongside; one that
+    /// does not lie inside its parent is a bar of its own, or a loose
+    /// marker when it has no duration. Overlapping bars are then dealt
+    /// into tracks.
     static func lane(_ key: PlanKey, entries: [PlanTimelineEntry]) -> PlanTimelineLane {
         var bars: [PlanTimelineBar] = []
         var loose: [PlanTimelineMarker] = []
@@ -320,21 +329,55 @@ struct PlanTimelineLane: Identifiable, Equatable {
         }
 
         for sub in subSteps {
+            let subKind = kind(of: sub)
             let parentStep = sub.step.rounded(.down)
-            if let index = bars.firstIndex(where: { $0.entry.step == parentStep && $0.start <= sub.date && sub.date < $0.end }) {
-                bars[index].markers.append(PlanTimelineMarker(entry: sub, kind: kind(of: sub)))
+            let parent = bars.firstIndex { $0.entry.step == parentStep && $0.start <= sub.date && sub.date < $0.end }
+            if let parent, sub.duration == 0 || subKind == .fold || subKind == .oven {
+                bars[parent].markers.append(PlanTimelineMarker(entry: sub, kind: subKind))
             } else if sub.duration > 0 {
-                bars.append(PlanTimelineBar(entry: sub, kind: kind(of: sub)))
+                bars.append(PlanTimelineBar(entry: sub, kind: subKind))
             } else {
-                loose.append(PlanTimelineMarker(entry: sub, kind: kind(of: sub)))
+                loose.append(PlanTimelineMarker(entry: sub, kind: subKind))
             }
         }
         bars.sort { ($0.start, $0.entry.step) < ($1.start, $1.entry.step) }
+        assignTracks(&bars)
 
         let dates = bars.flatMap { [$0.start, $0.end] } + loose.map(\.date) + [finish].compactMap { $0 }
         let start = dates.min() ?? Date()
         let end = dates.max() ?? start
         return PlanTimelineLane(id: key, bars: bars, markers: loose, finish: finish, start: start, end: end)
+    }
+
+    /// Deals overlapping bars into tracks. Bars are visited in order of
+    /// their start; a bar that begins after every bar so far has ended
+    /// opens a new cluster. Within a cluster each bar takes the first track
+    /// that is free when it starts, and every bar of the cluster is told
+    /// how many tracks the cluster uses. A bar that overlaps nothing keeps
+    /// the whole lane.
+    private static func assignTracks(_ bars: inout [PlanTimelineBar]) {
+        var clusterStart = 0
+        var clusterEnd: Date?
+        var trackEnds: [Date] = []
+
+        for index in bars.indices {
+            let bar = bars[index]
+            if let end = clusterEnd, bar.start >= end {
+                for member in clusterStart..<index { bars[member].trackCount = trackEnds.count }
+                clusterStart = index
+                clusterEnd = nil
+                trackEnds = []
+            }
+            if let track = trackEnds.firstIndex(where: { $0 <= bar.start }) {
+                trackEnds[track] = bar.end
+                bars[index].track = track
+            } else {
+                trackEnds.append(bar.end)
+                bars[index].track = trackEnds.count - 1
+            }
+            clusterEnd = max(clusterEnd ?? bar.end, bar.end)
+        }
+        for member in clusterStart..<bars.count { bars[member].trackCount = max(1, trackEnds.count) }
     }
 
     // MARK: Kind
