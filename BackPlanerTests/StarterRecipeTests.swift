@@ -64,9 +64,28 @@ struct StarterRecipeTests {
         #expect(!isStarter(steps: [], ingredients: []))
     }
 
-    @Test("A tag settles it when a step mentions the oven")
+    /// "Sauerteig" and "Anstellgut" name the same thing. A recipe of
+    /// nothing but sourdough, flour and water is a feeding even when a
+    /// step mentions the oven or the bake the starter is kept for; it used
+    /// to be taken for a bread and read "Nächster Backtermin".
+    @Test("Sourdough, flour and water alone are a feeding, whatever the steps mention")
+    func sourdoughFlourAndWaterAreAFeeding() {
+        let sourdough = [("Sauerteig", 50.0), ("Roggenmehl", 100.0), ("Wasser", 100.0)]
+        #expect(isStarter(steps: ["Sauerteig, Mehl und Wasser verrühren", "12 Stunden bei Raumtemperatur reifen lassen"],
+                          ingredients: sourdough))
+        #expect(isStarter(steps: ["Verrühren", "Bis zum nächsten Backen im Kühlschrank lagern"],
+                          ingredients: sourdough))
+        #expect(isStarter(steps: ["Zutaten mischen", "Im ausgeschalteten Backofen mit Licht reifen lassen"],
+                          ingredients: feedingIngredients))
+        // Oven heat does bake something; salt makes it a bread.
+        #expect(!isStarter(steps: ["Verrühren", "Bei 230 °C backen"], ingredients: sourdough))
+        #expect(!isStarter(steps: ["Verrühren", "Bis zum nächsten Backen im Kühlschrank lagern"],
+                           ingredients: sourdough + [("Salz", 4.0)]))
+    }
+
+    @Test("A tag settles it when a step heats the oven")
     func tagOverridesTheOvenCheck() {
-        let steps = ["Zutaten mischen", "Im ausgeschalteten Backofen mit Licht reifen lassen"]
+        let steps = ["Zutaten mischen", "Backofen auf 50 °C vorheizen, ausschalten und den Teig hineinstellen"]
         #expect(!isStarter(steps: steps, ingredients: feedingIngredients))
         #expect(isStarter(steps: steps, ingredients: feedingIngredients, tags: ["Anstellgut"]))
         #expect(isStarter(steps: steps, ingredients: feedingIngredients, tags: ["Fütterung"]))

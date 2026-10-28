@@ -102,7 +102,9 @@ struct TabsView: View {
                }
                .tag(4)
 
-            if recipe.recurrenceIntervalDays > 0 {
+            // A starter gets its feeding diary whether or not it has a
+            // rhythm; a bread planned on a rhythm does not.
+            if StarterRecipe.isStarterFeeding(recipe) {
                 StarterFeedingLogView(recipeId: recipe.objectID)
                    .tabItem {
                        VStack {

@@ -509,7 +509,7 @@ struct InstructionsView: View {
         // A human-readable summary of what was scheduled.
         let timeFormatter  = TimeCalculation()
         reminderCount      = result.reminderCount
-        reminderOvenOnText = timeFormatter.calculateTime(t: result.ovenOnDate)
+        reminderOvenOnText = result.ovenOnDate.map { timeFormatter.calculateTime(t: $0) } ?? ""
         reminderOvenTemperature = result.ovenTemperature ?? ""
         reminderFinishText = timeFormatter.calculateTime(t: result.finishDate)
         showingAlert       = true
@@ -530,9 +530,16 @@ struct InstructionsView: View {
 
 /// The message after reminders were set, shared by both baking views. A
 /// function returning `Text` rather than a view: an alert shows nothing else.
+/// A plan without a bake (feeding a starter) has no oven time and gets no
+/// oven line.
 enum ReminderSummary {
     static func text(count: Int, ovenOn: String, temperature: String,
                      finish: String, hints: String) -> Text {
+        if ovenOn.isEmpty {
+            return hints.isEmpty
+                ? Text("\(count) Erinnerungen gesetzt.\nFertig um \(finish) Uhr.")
+                : Text("\(count) Erinnerungen gesetzt.\nFertig um \(finish) Uhr.\n\n\(hints)")
+        }
         switch (temperature.isEmpty, hints.isEmpty) {
         case (true, true):
             return Text("\(count) Erinnerungen gesetzt.\nBackofen anstellen um \(ovenOn) Uhr.\nFertig um \(finish) Uhr.")

@@ -165,7 +165,7 @@ struct RecipeDetailView: View {
                 }
 
                 // MARK: Dough yield and hydration over all components, and
-                // for a starter the date its rhythm comes round next.
+                // for a recipe on a rhythm the date it comes round next.
                 HStack(alignment: .firstTextBaseline) {
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipe)))
 
@@ -173,7 +173,10 @@ struct RecipeDetailView: View {
                         Spacer(minLength: 12)
                         // Wraps on a narrow screen rather than pushing the
                         // dough yield off its line.
-                        NextFeedingView(date: RecurringBakePlanner.nextOccurrence(for: recipe))
+                        // When the first step is next due: the feeding of a
+                        // starter, the first mixing of a bread.
+                        NextFeedingView(date: RecurringBakePlanner.nextStart(for: recipe),
+                                        isStarter: StarterRecipe.isStarterFeeding(recipe))
                             .multilineTextAlignment(.trailing)
                     }
                 }

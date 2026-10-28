@@ -367,7 +367,14 @@ enum BakePlanValidator {
             .filter { isBakingStartInstruction($0.instruction) }
             .min { $0.step < $1.step }
 
-        guard let start = (ovenStep ?? processingSteps.max { $0.step < $1.step })?.date,
+        // Without a step worded as a bake the last processing step counts,
+        // but only when the plan uses an oven at all: feeding a starter
+        // occupies no oven, however long it ripens.
+        let lastStep = usesOven(processingSteps.map(\.instruction))
+            ? processingSteps.max { $0.step < $1.step }
+            : nil
+
+        guard let start = (ovenStep ?? lastStep)?.date,
               let end = steps.first(where: { $0.step >= finishStepNumber })?.date
                         ?? steps.map(\.date).max(),
               end >= start else {
@@ -375,6 +382,16 @@ enum BakePlanValidator {
         }
 
         return BakeWindow(recipeName: recipeName, start: start, end: end)
+    }
+
+    /// Whether a recipe's steps involve the oven at all: one is worded as a
+    /// bake, one heats the oven up, or one states an oven temperature. A
+    /// starter feeding or a no-bake recipe has none of the three, and gets
+    /// neither an oven step nor an oven phase.
+    static func usesOven(_ instructions: [String]) -> Bool {
+        instructions.contains {
+            isBakingStartInstruction($0) || isPreheatInstruction($0) || BakePlan.ovenTemperature(in: $0) != nil
+        }
     }
 
     /// Whether a step puts the dough into the oven. Preheating does not count —

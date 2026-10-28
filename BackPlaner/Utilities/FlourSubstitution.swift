@@ -291,7 +291,8 @@ enum FlourSubstitution {
             case .speltSoaker:
                 return "Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig."
             case .ryeAcidify:
-                return "Roggen hat kein Klebergerüst: Ab etwa 20 % Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig."
+                // The share is formatted in code: "20 %" in German, "20%" in English.
+                return "Roggen hat kein Klebergerüst: Ab etwa \(FlourSubstitution.ryeAcidifyShare, format: .percent) Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig."
             case .ryeMixOnly:
                 return "Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern."
             case .emmer:
@@ -309,6 +310,9 @@ enum FlourSubstitution {
             }
         }
     }
+
+    /// The rye share of all flour from which the dough wants acidifying.
+    static let ryeAcidifyShare = 0.2
 
     /// What changes in the handling, in the order worth reading. `ryeShareAfter`
     /// is the rye share of all flour once the swap is made; nil without a
@@ -329,7 +333,7 @@ enum FlourSubstitution {
         if to.grain == .rye {
             if let share = ryeShareAfter, share > 0.5 {
                 hints.append(.ryeMixOnly)
-            } else if ryeShareAfter == nil || ryeShareAfter! >= 0.2 || from.grain != .rye {
+            } else if ryeShareAfter == nil || ryeShareAfter! >= ryeAcidifyShare || from.grain != .rye {
                 hints.append(.ryeAcidify)
             }
         }

@@ -24,25 +24,50 @@ struct RecurringBakePlannerTests {
     func dueAtTheFirstMultiple() {
         let lastFinish = date(2026, 10, 1, 10)
         let now        = date(2026, 10, 2, 8)
-        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, intervalDays: 5,
-                                                         prepTime: 0, now: now, calendar: calendar)
+        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, duration: 0,
+                                                         intervalDays: 5, now: now, calendar: calendar)
         #expect(finish == date(2026, 10, 6, 10))
     }
 
-    @Test("The next occurrence shown is a queued plan's finish, else the next slot, else nothing")
-    func nextOccurrenceForTheViews() {
+    @Test("The next start shown is the slot after a pending plan, else the next slot, else nothing")
+    func nextStartForTheViews() {
         let now = date(2026, 10, 2, 8)
-        // A plan already queued wrote its finish into the bake history.
-        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 4, 18), intervalDays: 5,
-                                                    prepTime: 0, now: now, calendar: calendar) == date(2026, 10, 4, 18))
+        // A plan already queued wrote its finish into the bake history; the
+        // rhythm continues after it.
+        #expect(RecurringBakePlanner.nextStart(lastFinish: date(2026, 10, 4, 18), duration: 0, intervalDays: 5,
+                                               now: now, calendar: calendar) == date(2026, 10, 9, 18))
+        // A starter fed today at 05:20, ripe at 17:20, on a daily rhythm:
+        // fed again tomorrow at 05:20.
+        #expect(RecurringBakePlanner.nextStart(lastFinish: date(2026, 10, 2, 17, 20), duration: 12 * 60, intervalDays: 1,
+                                               now: now, calendar: calendar) == date(2026, 10, 3, 5, 20))
         // Otherwise the rhythm from the last bake.
-        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 1, 10), intervalDays: 5,
-                                                    prepTime: 0, now: now, calendar: calendar) == date(2026, 10, 6, 10))
+        #expect(RecurringBakePlanner.nextStart(lastFinish: date(2026, 10, 1, 10), duration: 0, intervalDays: 5,
+                                               now: now, calendar: calendar) == date(2026, 10, 6, 10))
         // Nothing to measure from, or no rhythm.
-        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: nil, intervalDays: 5,
-                                                    prepTime: 0, now: now, calendar: calendar) == nil)
-        #expect(RecurringBakePlanner.nextOccurrence(lastFinish: date(2026, 10, 1, 10), intervalDays: 0,
-                                                    prepTime: 0, now: now, calendar: calendar) == nil)
+        #expect(RecurringBakePlanner.nextStart(lastFinish: nil, duration: 0, intervalDays: 5,
+                                               now: now, calendar: calendar) == nil)
+        #expect(RecurringBakePlanner.nextStart(lastFinish: date(2026, 10, 1, 10), duration: 0, intervalDays: 0,
+                                               now: now, calendar: calendar) == nil)
+    }
+
+    /// The rhythm hangs on the start, not the finish: a bread started at
+    /// 08:00 is started at 08:00 again, however long it takes, and the
+    /// finish follows from the recipe's length. Anchored on the finish, a
+    /// recipe whose stored preparation time fell behind its steps used to
+    /// shift its start.
+    @Test("The first step keeps its time of day; the plan's length comes from the steps when prepTime fell behind")
+    func startKeepsItsTimeOfDay() {
+        let now = date(2026, 10, 2, 8)
+        // Started on the 1st at 08:00, 26 hours long, finished on the 2nd at 10:00.
+        let lastFinish = date(2026, 10, 2, 10)
+        #expect(RecurringBakePlanner.nextStartDate(lastFinish: lastFinish, duration: 26 * 60, intervalDays: 5,
+                                                   now: now, calendar: calendar) == date(2026, 10, 6, 8))
+        #expect(RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, duration: 26 * 60, intervalDays: 5,
+                                                    now: now, calendar: calendar) == date(2026, 10, 7, 10))
+        // The length is the steps' end when the stored preparation time is shorter.
+        #expect(RecurringBakePlanner.planDuration(prepTime: 60, stepEnds: [0 + 10, 10 + 720]) == 730)
+        #expect(RecurringBakePlanner.planDuration(prepTime: 900, stepEnds: [10, 730]) == 900)
+        #expect(RecurringBakePlanner.planDuration(prepTime: 0, stepEnds: []) == 0)
     }
 
     @Test("Several missed cycles land on the rhythm's grid, not on \"now\"")
@@ -52,8 +77,8 @@ struct RecurringBakePlannerTests {
         // missed. The next slot on the original grid is the 21st, not
         // "today" or "tomorrow".
         let now = date(2026, 10, 18, 9)
-        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, intervalDays: 5,
-                                                          prepTime: 0, now: now, calendar: calendar)
+        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, duration: 0,
+                                                          intervalDays: 5, now: now, calendar: calendar)
         #expect(finish == date(2026, 10, 21, 10))
     }
 
@@ -65,15 +90,15 @@ struct RecurringBakePlannerTests {
         // the occurrence must be the one after it.
         let lastFinish = date(2026, 10, 1, 10)
         let now        = date(2026, 10, 6, 6)
-        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, intervalDays: 5,
-                                                          prepTime: 18 * 60, now: now, calendar: calendar)
+        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, duration: 18 * 60,
+                                                          intervalDays: 5, now: now, calendar: calendar)
         #expect(finish == date(2026, 10, 11, 10))
     }
 
     @Test("Disabled (intervalDays 0) never produces a date")
     func disabledIntervalReturnsNil() {
-        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: date(2026, 10, 1, 10), intervalDays: 0,
-                                                         prepTime: 0, now: date(2026, 10, 1, 10), calendar: calendar)
+        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: date(2026, 10, 1, 10), duration: 0,
+                                                         intervalDays: 0, now: date(2026, 10, 1, 10), calendar: calendar)
         #expect(finish == nil)
     }
 
@@ -84,8 +109,8 @@ struct RecurringBakePlannerTests {
         // plan at 18:00 local time on both sides of the change.
         let lastFinish = date(2026, 10, 20, 18)
         let now        = date(2026, 10, 20, 19)
-        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, intervalDays: 7,
-                                                         prepTime: 0, now: now, calendar: calendar)
+        let finish = RecurringBakePlanner.nextFinishDate(lastFinish: lastFinish, duration: 0,
+                                                         intervalDays: 7, now: now, calendar: calendar)
         #expect(finish == date(2026, 10, 27, 18))
     }
 }

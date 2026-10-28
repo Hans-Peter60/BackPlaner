@@ -223,17 +223,21 @@ struct EditRecipeView: View {
                 AddTagsDataView(tags: $recipeFB.tags, title: "Tags", placeholderText: "...")
 
                 // MARK: Recurrence
+                // A starter is "refreshed", a bread on a rhythm is "planned";
+                // the wording follows what the recipe is.
+                let isStarter = StarterRecipe.isStarterFeeding(recipeFB)
+                let rhythmTitle: LocalizedStringKey = isStarter ? "Regelmäßig auffrischen" : "Regelmäßig planen"
                 VStack(alignment: .leading, spacing: 4) {
                     // A Pro feature: locked, the toggle gives way to a row
                     // that opens the paywall, and the rhythm stays as it is.
                     ProGate(.recurringPlans) {
-                        Toggle("Regelmäßig auffrischen", isOn: Binding(
+                        Toggle(rhythmTitle, isOn: Binding(
                             get: { recurrenceIntervalDays > 0 },
                             set: { recurrenceIntervalDays = $0 ? max(recurrenceIntervalDays, 5) : 0 }
                         ))
                         .font(Theme.brandFont(15))
                     } label: {
-                        Text("Regelmäßig auffrischen")
+                        Text(rhythmTitle)
                             .font(Theme.brandFont(15))
                             .foregroundStyle(.primary)
                         Spacer()
@@ -245,9 +249,14 @@ struct EditRecipeView: View {
                         Stepper(value: $recurrenceIntervalDays, in: 1...60) {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("alle \(recurrenceIntervalDays) Tage")
-                                NextFeedingView(date: RecurringBakePlanner.nextOccurrence(
-                                    lastFinish: lastBakeDate, intervalDays: recurrenceIntervalDays,
-                                    prepTime: recipeFB.prepTime, now: Date()))
+                                // When the first step is next due: the
+                                // feeding of a starter, the first mixing
+                                // of a bread.
+                                NextFeedingView(date: RecurringBakePlanner.nextStart(
+                                    lastFinish: lastBakeDate,
+                                    duration: RecurringBakePlanner.planDuration(of: recipeFB),
+                                    intervalDays: recurrenceIntervalDays, now: Date()),
+                                                isStarter: isStarter)
                             }
                         }
                         .font(Theme.bodyFont(15))

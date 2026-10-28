@@ -505,7 +505,7 @@ struct InstructionsFBView: View {
             // A human-readable summary of what was scheduled.
             let timeFormatter  = TimeCalculation()
             reminderCount      = result.reminderCount
-            reminderOvenOnText = timeFormatter.calculateTime(t: result.ovenOnDate)
+            reminderOvenOnText = result.ovenOnDate.map { timeFormatter.calculateTime(t: $0) } ?? ""
             reminderOvenTemperature = result.ovenTemperature ?? ""
             reminderFinishText = timeFormatter.calculateTime(t: result.finishDate)
             showingAlert       = true
