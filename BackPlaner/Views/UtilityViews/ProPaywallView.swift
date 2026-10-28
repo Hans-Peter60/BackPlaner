@@ -103,7 +103,12 @@ struct ProPaywallView: View {
                         .disabled(isRestoring || store.isPurchasing)
                     }
                 } footer: {
-                    Text("Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto. Alles andere in der App bleibt kostenlos: Rezepte, Zeitplan, Backmodus, Backhistorie, Rezept-Datenbank und die Rechner.")
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto. Alles andere in der App bleibt kostenlos: Rezepte, Zeitplan, Backmodus, Backhistorie, Rezept-Datenbank und die Rechner.")
+                        // What the purchase shares with whom, one tap away
+                        // from the buy button.
+                        Link("Datenschutzerklärung", destination: HelpLinks.privacy)
+                    }
                 }
             }
             .clearScrollBackground()

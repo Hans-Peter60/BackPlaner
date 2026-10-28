@@ -592,9 +592,11 @@ struct SettingsView: View {
         }
     }
 
-    /// The user manual and the support page live on the website, not in the
-    /// app, so they can be corrected without an update. Both open in Safari,
-    /// like "Link zum Rezept" — the app deliberately has no web view.
+    /// The user manual, the support page, the privacy policy and the legal
+    /// notice live on the website, not in the app, so they can be corrected
+    /// without an update. All open in Safari, like "Link zum Rezept" — the
+    /// app deliberately has no web view. Privacy policy and legal notice
+    /// have to be reachable from inside a commercial app.
     @ViewBuilder
     private var helpSection: some View {
         Section {
@@ -603,6 +605,12 @@ struct SettingsView: View {
             }
             Link(destination: HelpLinks.support) {
                 Label("Hilfe und Kontakt", systemImage: "questionmark.circle")
+            }
+            Link(destination: HelpLinks.privacy) {
+                Label("Datenschutzerklärung", systemImage: "hand.raised")
+            }
+            Link(destination: HelpLinks.imprint) {
+                Label("Impressum", systemImage: "building.columns")
             }
         } header: {
             Text("Hilfe")
@@ -635,6 +643,17 @@ enum HelpLinks {
 
     static var support: URL {
         URL(string: "\(site)index.html#\(languageCode)")!
+    }
+
+    /// The privacy policy, in the language the app runs in. Also the URL to
+    /// give App Store Connect.
+    static var privacy: URL {
+        URL(string: "\(site)privacy.html#\(languageCode)")!
+    }
+
+    /// The legal notice (Impressum) German law requires of a commercial app.
+    static var imprint: URL {
+        URL(string: "\(site)impressum.html#\(languageCode)")!
     }
 }
 
