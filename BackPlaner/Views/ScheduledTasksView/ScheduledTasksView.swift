@@ -705,7 +705,9 @@ extension NextStep {
     var planKey: PlanKey { PlanKey(recipeName: recipeName, planID: planID) }
 }
 
-private struct ScheduledStepShiftSelection: Identifiable {
+/// The step a shift sheet is opened for. Shared with the timeline, which
+/// offers the same shift from a bar's context menu.
+struct ScheduledStepShiftSelection: Identifiable {
     let id: NSManagedObjectID
     let recipeName: String
     let instruction: String
@@ -777,7 +779,7 @@ private struct ScheduledStepIngredientsSheet: View {
     }
 }
 
-private struct ScheduledStepShiftSheet: View {
+struct ScheduledStepShiftSheet: View {
     enum Direction: String, CaseIterable, Identifiable {
         case earlier
         case later

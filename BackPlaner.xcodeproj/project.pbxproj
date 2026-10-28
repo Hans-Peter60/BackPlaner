@@ -107,6 +107,7 @@
 		6ADBF501308BA58900BB7789 /* StarterIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF500308BA58900BB7789 /* StarterIntents.swift */; };
 		6ADBF503308BA59500BB7789 /* BackPlanerShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */; };
 		6ADBF507308BA89B00BB7789 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */; };
+		6ADD60E530923F1D0004E4A3 /* PlanTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD60E430923F1D0004E4A3 /* PlanTimeline.swift */; };
 		6AEC2C54306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */; };
 		6AEC2C56306E46B50043305A /* FirebaseFunctionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */; };
 		6AEC2C58306E46B50043305A /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 6AEC2C57306E46B50043305A /* FirebaseFunctions */; };
@@ -309,6 +310,7 @@
 		6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackPlanerShortcuts.swift; sourceTree = "<group>"; };
 		6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoColumnRecipeParser.swift; sourceTree = "<group>"; };
+		6ADD60E430923F1D0004E4A3 /* PlanTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTimeline.swift; sourceTree = "<group>"; };
 		6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralRecipeParser.swift; sourceTree = "<group>"; };
 		6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridRecipeImageAnalysisAgent.swift; sourceTree = "<group>"; };
 		6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsClient.swift; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				6A86A98E308E518D00BA0CF2 /* ProFeature.swift */,
 				6A86A990308E51A300BA0CF2 /* ProStore.swift */,
 				6A86A992308E51B200BA0CF2 /* Entitlements.swift */,
+				6ADD60E430923F1D0004E4A3 /* PlanTimeline.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1028,6 +1031,7 @@
 				6A9181F63049649B0045D7CB /* SettingsView.swift in Sources */,
 				6AF639772B7A51340070CDC1 /* RecipeFBModel.swift in Sources */,
 				6AF639822B7A515A0070CDC1 /* NotificationManager.swift in Sources */,
+				6ADD60E530923F1D0004E4A3 /* PlanTimeline.swift in Sources */,
 				6A1131F62B7CF93300CDF054 /* TabsFBView.swift in Sources */,
 				6AA6703B30519DDF0074C7E6 /* ShoppingListAmount.swift in Sources */,
 				6A1132202B7CF97900CDF054 /* BakeHistoryUpdateFormView.swift in Sources */,
