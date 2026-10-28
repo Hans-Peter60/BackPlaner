@@ -330,8 +330,16 @@ struct PlanTimelineLane: Identifiable, Equatable {
 
         for sub in subSteps {
             let subKind = kind(of: sub)
+            // The parent is the bar the sub-step falls into: the one with its
+            // whole number when that bar runs at the time, else the bar that
+            // began last. The generated oven step is numbered after the step
+            // before the bake (6.9), which may have ended long before the
+            // oven is switched on during the proof; and a recipe may number
+            // its bake 7.1, with the turn-down at 7.2.
             let parentStep = sub.step.rounded(.down)
-            let parent = bars.firstIndex { $0.entry.step == parentStep && $0.start <= sub.date && sub.date < $0.end }
+            let containing = bars.indices.filter { bars[$0].start <= sub.date && sub.date < bars[$0].end }
+            let parent = containing.first { bars[$0].entry.step == parentStep }
+                ?? containing.max { bars[$0].start < bars[$1].start }
             if let parent, sub.duration == 0 || subKind == .fold || subKind == .oven {
                 bars[parent].markers.append(PlanTimelineMarker(entry: sub, kind: subKind))
             } else if sub.duration > 0 {

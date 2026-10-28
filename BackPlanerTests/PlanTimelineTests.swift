@@ -175,6 +175,30 @@ struct PlanTimelineLaneTests {
         #expect(lane.bars[2].kind == .shape)
     }
 
+    /// The oven step is numbered after the step before the bake — the
+    /// shaping, 6.9 — but is switched on during the proof, which is step 5;
+    /// and a recipe may number its bake 7.1 and its steam release 7.2, so
+    /// the generated turn-down is 7.2 as well. Both mark the bar they fall
+    /// into, not the one their number points at.
+    @Test("A sub-step marks the bar it falls into, whatever its number")
+    func subStepsMarkTheBarTheyFallInto() throws {
+        let entries = [
+            entry(5, "Im Gärkorb reifen lassen", at: 0, duration: 120),
+            entry(6, "Zu einem runden Laib formen", at: 120, duration: 5),      // after the proof? no — the recipe's order
+            entry(6.9, "Backofen anstellen (250 °C)", at: 105, duration: 15),  // during the proof
+            entry(7.1, "Bei 250 Grad fallend auf 220 Grad backen", at: 125, duration: 50),
+            entry(7.2, "Backofen auf 220 °C zurückdrehen", at: 125, duration: 0),
+            entry(7.3, "Dampf ablassen", at: 145, duration: 30),
+        ]
+        let lane = try #require(PlanTimelineLane.lanes(from: entries).first)
+        #expect(lane.bars.map(\.entry.step) == [5, 6, 7.1])
+        #expect(lane.bars[0].markers.map(\.entry.step) == [6.9])
+        // Turn-down and steam release are moments of the bake, so both mark
+        // it; the bake keeps the whole lane.
+        #expect(lane.bars[2].markers.map(\.entry.step) == [7.2, 7.3])
+        #expect(lane.bars[2].trackCount == 1)
+    }
+
     @Test("A sub-step outside its parent is a bar of its own, or a loose marker without a duration")
     func subStepsOutsideTheParent() throws {
         let entries = [
