@@ -524,7 +524,7 @@ If that copy is later deleted (by you or by moderation), the app notices the nex
 
 ## 10. Scheduled steps (list and timeline)
 
-**Main menu → Scheduled steps.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. You switch between two views at the bottom. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
+**Main menu → Scheduled steps.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. You switch between two views at the bottom; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
 
 ![Scheduled steps as a list: each card shows the recipe image, start time, duration, and step text; the "Weizensauerteig" card carries an i symbol for the ingredients next to the clock symbol](images/en/geplante-schritte-liste.png)
 

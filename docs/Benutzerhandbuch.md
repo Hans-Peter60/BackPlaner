@@ -521,7 +521,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 ## 10. Geplante Schritte (Liste und Timeline)
 
-**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
+**Hauptmenü → Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Unten wechselst Du zwischen zwei Ansichten; die Timeline öffnet sich zuerst. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
 
 ![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext; die Karte „Weizensauerteig“ trägt neben dem Uhr-Symbol ein i-Symbol für die Zutaten](images/geplante-schritte-liste.png)
 

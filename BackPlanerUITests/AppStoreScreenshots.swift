@@ -90,8 +90,10 @@ final class AppStoreScreenshots: StoreUITestCase {
         settle(1)
         capture("02-startbildschirm")
 
-        // Bake mode and timeline of the planned steps.
+        // Bake mode and timeline of the planned steps. The timeline opens
+        // first; the bake mode button of the list is on the first tab.
         openMenu("scheduledSteps")
+        tab(0, titled: ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]).tap()
         let bakeMode = app.buttons["scheduled.bakeMode"]
         if !bakeMode.waitForExistence(timeout: 5) {
             attachHierarchy()

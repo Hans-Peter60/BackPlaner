@@ -162,6 +162,12 @@ final class BackPlanerSmokeTests: XCTestCase {
 
         openMenu("scheduledSteps")
 
+        // The timeline opens first; the steps are checked in the list.
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.waitForExistence(timeout: 3), tabBar.buttons.count > 0 {
+            tabBar.buttons.element(boundBy: 0).tap()
+        }
+
         XCTAssertFalse(app.staticTexts["Keine geplanten Schritte"].waitForExistence(timeout: 2),
                        "The plan left no steps behind")
         XCTAssertTrue(element(labelContaining: "Teig kneten").waitForExistence(timeout: 5),
