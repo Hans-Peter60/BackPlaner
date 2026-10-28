@@ -556,9 +556,13 @@ Les rappels correspondants se décalent automatiquement. Si le nouveau moment es
 
 ### La vue « Timeline »
 
-Les mêmes étapes sur un axe temporel vertical. L’horodatage figure à gauche — avec le jour de la semaine et la date pour la première étape d’une journée, seulement l’heure pour les suivantes. Les points et les traits de liaison rendent visibles les étapes regroupées sur une même journée et les pauses plus longues. Pratique pour avoir une vue d’ensemble d’une fermentation sur plusieurs jours.
+Les mêmes étapes sous forme de **planning de projet** : chaque plan a sa propre voie avec l’image et le nom de la recette, chaque étape une barre aussi longue que dure l’étape. La couleur dit ce qu’il y a à faire — pétrissage en vert, repos et apprêt en gris, façonnage en violet, four en bleu, cuisson en jaune ; une légende figure en haut. La barre porte l’heure et l’instruction. Les sous-étapes qui tombent dans une autre étape — les rabats pendant le pointage, « Allumer le four » pendant l’apprêt, la baisse du four à l’enfournement — apparaissent comme un repère avec leur heure sur la barre de leur étape. Un drapeau à damier marque « La cuisson est terminée », une ligne rouge l’instant présent.
 
-![Étapes planifiées en timeline : heures de début sur un axe vertical, regroupées par jour](images/fr/geplante-schritte-timeline.png)
+L’axe du temps montre les heures pleines, avec le jour de la semaine et la date au changement de jour. Les étapes courtes reçoivent assez de place pour que leur heure reste lisible ; une longue plage sans aucune étape — la nuit où le levain mûrit — se replie en une bande hachurée qui indique ce qu’elle saute (« 22:45 – 08:35 · 10h »). **S / M / L** en haut à droite règle l’échelle.
+
+Sur un iPhone en portrait, le temps s’écoule de haut en bas : l’axe est à gauche, les plans sont des colonnes et vous faites défiler comme dans la liste. En paysage et sur iPad, le temps s’écoule de gauche à droite avec une ligne par plan. Toucher une barre ou un repère ouvre le détail de l’étape ; un appui long propose **Marquer comme terminé** et **Décaler**, comme la carte de la liste.
+
+![Étapes planifiées en planning de projet : axe du temps à gauche, un plan par colonne, barres à la longueur des étapes](images/fr/geplante-schritte-timeline.png)
 
 *L’onglet du bas permet de passer de la liste à la timeline.*
 

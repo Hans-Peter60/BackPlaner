@@ -556,9 +556,13 @@ The matching reminders move along automatically. If the new time would be in the
 
 ### The "Timeline" view
 
-The same steps as a vertical time axis. The timestamp is on the left — with weekday and date for the first step of a day, only the time for the ones that follow. Dots and connecting lines make it visible which steps fall together on one day and where the longer gaps are. Handy for getting an overview of a multi-day fermentation.
+The same steps as a **project plan**: every plan gets a lane of its own with the recipe image and name, every step a bar as long as the step takes. The colour says what is to be done — mixing green, resting and proofing grey, shaping purple, oven blue, baking yellow; a legend sits at the top. The bar carries the time and the instruction. Sub-steps that fall inside another step — the stretch and fold during the bulk rest, "Turn on the oven" during the final proof, the turn-down as the loaf goes in — appear as a marker with their time on their step's bar. A checkered flag marks "Baking is finished", a red line the present moment.
 
-![Scheduled steps as a timeline: start times on a vertical axis, grouped by day](images/en/geplante-schritte-timeline.png)
+The time axis shows the full hours, with weekday and date where the day changes. Short steps get enough room for their time to stay legible; a long stretch without any step — the night the sourdough ripens in — collapses to a hatched band that names what it skips ("22:45 – 08:35 · 10h"). **S / M / L** at the top right sets the scale.
+
+On an iPhone in portrait, time runs top-down: the axis stands on the left, the plans are columns, and you scroll as in the list. In landscape and on an iPad, time runs left to right with a row per plan. Tapping a bar or a marker opens the step's detail; a long press offers **Mark as done** and **Reschedule**, like the card in the list.
+
+![Scheduled steps as a project plan: time axis on the left, one plan per column, bars as long as the steps](images/en/geplante-schritte-timeline.png)
 
 *The tab at the bottom switches between list and timeline.*
 
