@@ -553,9 +553,13 @@ Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Z
 
 ### Ansicht „Timeline“
 
-Dieselben Schritte als senkrechte Zeitachse. Links steht der Zeitstempel – beim ersten Schritt eines Tages mit Wochentag und Datum, bei den folgenden nur die Uhrzeit. Punkte und Verbindungslinien machen sichtbar, welche Schritte zusammen an einem Tag liegen und wo größere Pausen sind. Praktisch für den Überblick über eine mehrtägige Teigführung.
+Dieselben Schritte als **Ablaufplan**, wie ein Projektplan: Jeder Plan bekommt eine eigene Spur mit Rezeptbild und Name, jeder Schritt einen Balken, der so lang ist, wie der Schritt dauert. Die Farbe sagt, was zu tun ist – Mischen grün, Ruhen und Gare grau, Formen violett, Ofen blau, Backen gelb; eine Legende steht oben. Im Balken stehen Uhrzeit und Anweisung. Teilschritte, die in einen anderen Schritt fallen – das Dehnen und Falten während der Teigruhe, „Backofen anstellen“ während der Stückgare, das Zurückdrehen beim Einschießen –, erscheinen als Marke mit Uhrzeit auf dem Balken ihres Schritts. Eine karierte Fahne markiert „Backvorgang ist beendet“, eine rote Linie den jetzigen Zeitpunkt.
 
-![Geplante Schritte als Timeline: Startzeiten auf einer senkrechten Achse, nach Tagen gruppiert](images/geplante-schritte-timeline.png)
+Die Zeitachse zeigt die vollen Stunden, am Tageswechsel mit Wochentag und Datum. Kurze Schritte bekommen so viel Platz, dass ihre Uhrzeit lesbar bleibt; eine lange Pause ohne jeden Schritt – die Nacht, in der der Sauerteig reift – wird zu einem schraffierten Band zusammengeschoben, das nennt, welche Zeit es überspringt („22:45 – 08:35 · 10h“). Mit **S / M / L** oben rechts wählst Du den Maßstab.
+
+Auf dem iPhone im Hochformat läuft die Zeit von oben nach unten: Die Zeitachse steht links, die Pläne sind Spalten, und Du scrollst wie in der Liste. Im Querformat und auf dem iPad läuft die Zeit von links nach rechts mit einer Zeile je Plan. Ein Tippen auf einen Balken oder eine Marke öffnet die Detailansicht des Schritts; langes Drücken bietet **Erledigt** und **Verschieben** an, wie die Karte in der Liste.
+
+![Geplante Schritte als Ablaufplan: Zeitachse links, ein Plan je Spalte, Balken in Schrittlänge](images/geplante-schritte-timeline.png)
 
 *Über den unteren Tab wechselst Du zwischen Liste und Timeline.*
 
