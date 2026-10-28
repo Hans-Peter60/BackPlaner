@@ -73,6 +73,39 @@ struct ScheduledStepShiftTests {
         #expect(found == [10.1])
     }
 
+    /// A rest with two folds inside it, then the bake. Shifted later with its
+    /// followers, the rest used to move twice as far — the fetch for the
+    /// followers saw its already changed date — and the folds, moved once,
+    /// came out at the rest's new start and 30 minutes after it.
+    @Test("Shifting a step with its followers keeps their spacing, later and earlier")
+    func followersKeepTheirSpacing() throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        let rest = step(3, at: minute(0), plan: planID, in: context)
+        let firstFold = step(3.1, at: minute(30), plan: planID, in: context)
+        let secondFold = step(3.2, at: minute(60), plan: planID, in: context)
+        let bake = step(4, at: minute(120), plan: planID, in: context)
+        let earlier = step(2, at: minute(-60), plan: planID, in: context)
+        try context.save()
+
+        let matches = NotificationActions.moveScheduledStep(rest, to: minute(30), includeFollowing: true)
+        #expect(rest.date == minute(30))
+        #expect(firstFold.date == minute(60))
+        #expect(secondFold.date == minute(90))
+        #expect(bake.date == minute(150))
+        #expect(earlier.date == minute(-60))
+        // The reminders are matched on the dates the steps had.
+        #expect(matches.map(\.date).sorted() == [minute(0), minute(30), minute(60), minute(120)])
+
+        NotificationActions.moveScheduledStep(rest, to: minute(15), includeFollowing: true)
+        #expect(rest.date == minute(15))
+        #expect(firstFold.date == minute(45))
+        #expect(bake.date == minute(135))
+
+        NotificationActions.moveScheduledStep(firstFold, to: minute(50), includeFollowing: false)
+        #expect(firstFold.date == minute(50))
+        #expect(secondFold.date == minute(75))
+    }
+
     @Test("A reminder at the same minute follows by its step text")
     func reminderOrder() {
         let current = bakeDate

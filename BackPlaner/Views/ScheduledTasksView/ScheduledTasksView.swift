@@ -336,7 +336,8 @@ struct ScheduledTasksView: View {
         .sheet(item: $shiftSelection) { selection in
             ScheduledStepShiftSheet(
                 recipeName: selection.recipeName,
-                instruction: selection.instruction
+                instruction: selection.instruction,
+                date: selection.date
             ) { minutes, includeFollowing in
                 shiftSelection = nil
                 performShift(
@@ -345,7 +346,10 @@ struct ScheduledTasksView: View {
                     includeFollowing: includeFollowing
                 )
             }
-            .presentationDetents([.medium])
+            // Tall enough to show the whole form above the number pad: at
+            // the medium height the choice of the affected steps sat below
+            // the keyboard and was easy to miss.
+            .presentationDetents([.large])
         }
         .fullScreenCover(isPresented: $showingBakeMode) {
             BakeModeView(planFilter: planFilter)
@@ -591,7 +595,8 @@ struct ScheduledTasksView: View {
         shiftSelection = ScheduledStepShiftSelection(
             id: step.objectID,
             recipeName: step.recipeName,
-            instruction: step.instruction
+            instruction: step.instruction,
+            date: step.date
         )
     }
 
@@ -704,6 +709,7 @@ private struct ScheduledStepShiftSelection: Identifiable {
     let id: NSManagedObjectID
     let recipeName: String
     let instruction: String
+    let date: Date
 }
 
 private struct ScheduledStepIngredientsSelection: Identifiable {
@@ -806,12 +812,22 @@ private struct ScheduledStepShiftSheet: View {
         var includesFollowing: Bool {
             self == .following
         }
+
+        /// What the choice does, spelled out under the control.
+        var footer: LocalizedStringKey {
+            switch self {
+            case .current: "Nur dieser Schritt wird verschoben; alle anderen Schritte des Plans bleiben, wo sie sind."
+            case .following: "Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben."
+            }
+        }
     }
 
     @Environment(\.dismiss) private var dismiss
 
     let recipeName: String
     let instruction: String
+    /// When the step is currently due, so the sheet can show where it moves.
+    let date: Date
     let onApply: (_ minutes: Int, _ includeFollowing: Bool) -> Void
 
     @State private var minutesText = ""
@@ -823,6 +839,16 @@ private struct ScheduledStepShiftSheet: View {
         return min(value, 1_440)
     }
 
+    /// Where the step lands with the current entry.
+    private var shiftedDate: Date? {
+        minutes.map { date.addingTimeInterval(TimeInterval($0 * direction.multiplier * 60)) }
+    }
+
+    // Everything on one screen: the step with its old and new time, the
+    // amount and direction, and — as a segmented control right below them,
+    // not in a section of its own further down — which steps move. The
+    // sheet is presented at full height so none of it hides behind the
+    // number pad.
     var body: some View {
         NavigationStack {
             Form {
@@ -831,9 +857,17 @@ private struct ScheduledStepShiftSheet: View {
                         .font(.headline)
                     Text(instruction)
                         .foregroundColor(Theme.subtitle)
+                    LabeledContent("Bisher") {
+                        StackedDateTime(date: date, alignment: .trailing)
+                    }
+                    if let shiftedDate {
+                        LabeledContent("Neu") {
+                            StackedDateTime(date: shiftedDate, color: Theme.accentText, alignment: .trailing)
+                        }
+                    }
                 }
 
-                Section("Zeitverschiebung") {
+                Section {
                     TextField("Minuten", text: $minutesText)
                         .keyboardType(.numberPad)
 
@@ -843,15 +877,17 @@ private struct ScheduledStepShiftSheet: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                }
 
-                Section("Betroffene Schritte") {
-                    Picker("Umfang", selection: $scope) {
+                    Picker("Betroffene Schritte", selection: $scope) {
                         ForEach(Scope.allCases) { scope in
                             Text(scope.title).tag(scope)
                         }
                     }
-                    .pickerStyle(.inline)
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Zeitverschiebung")
+                } footer: {
+                    Text(scope.footer)
                 }
             }
             .navigationTitle("Schritt verschieben")
