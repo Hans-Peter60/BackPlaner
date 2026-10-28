@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 25 October 2026 · App version 2.0
+Revised: 28 October 2026 · App version 2.0
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.
@@ -246,7 +246,7 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients — at the chosen serving size — on a shopping list (see [chapter 13](#13-shopping-list)) |
 | **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb) |
-| **Feeding** | Only for recipes with "Refresh regularly": the starter diary (see [chapter 9](#9-editing-a-recipe)) |
+| **Feeding** | Only for starter recipes: the starter diary (see [chapter 9](#9-editing-a-recipe)) |
 
 Serving size and dough weight are the same in every tab: what you set under Details also applies under Bake and to the shopping list.
 
@@ -330,7 +330,7 @@ Tapping **Set reminders** does several things at once:
    - If the recipe names an **oven temperature**, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").
    - If the recipe already has **its own preheating step**, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.
    - If the bake starts in a **cold oven** ("place in the cold oven"), there is no preheat time.
-   - If the baking step names a **falling temperature** ("load at 250 °C, after 10 minutes reduce to 220 °C"), the app additionally inserts **"Turn the oven down to 220 °C"** — at the minute the step names, otherwise ten minutes into the bake. If the step mentions steam, it reads "…, release the steam"; not with "without steam". A convection figure given alongside ("230 °C top/bottom heat, fan 210 °C") does not count as a drop.
+   - If the baking step names a **falling temperature** ("load at 250 °C, after 10 minutes reduce to 220 °C"), the app additionally inserts **"Turn the oven down to 220 °C"** — at the minute named in the sentence with the lower temperature; "immediately" means at the start of the bake, and without any minute it is ten minutes in. If the step mentions steam, it reads "…, release the steam"; not with "without steam". If the recipe has a **step of its own for releasing the steam** ("Release the steam" 20 minutes after loading), the oven is turned down as the loaf goes in and the inserted step names no steam — the recipe itself says when the steam goes. A convection figure given alongside ("230 °C top/bottom heat, fan 210 °C") does not count as a drop.
 3. **"Baking is finished"** is likewise scheduled for the finishing time.
 4. Every step lands in **Scheduled steps**.
 5. For your own recipes a **baking-history entry** is created with the end date and the placeholder comment "no comment recorded", which you can fill in later.
@@ -486,13 +486,15 @@ Tap the stars at the top right: 1 to 5 stars. Tapping the first star again reset
 
 ### Refresh regularly
 
-For recipes you bake or set up at fixed intervals — the starter above all — there is the switch **Refresh regularly** with an interval in days (1 to 60). When it is on, the app **plans the next date automatically after the last bake**: as soon as the last bake is finished, the next refresh appears with its reminders under "Scheduled steps". The interval always counts from the actual last bake; an earlier or later feeding moves the next date accordingly.
+For recipes you bake or set up at fixed intervals — the starter above all — there is the switch **Refresh regularly** (**Plan regularly** for breads) with an interval in days (1 to 60). When it is on, the app **plans the next date automatically after the last bake**: as soon as the last bake is finished, the next refresh appears with its reminders under "Scheduled steps". The rhythm hangs on the **start of the first step**: feed your starter at 8:00 today and, at "every 1 day", you feed it at 8:00 again tomorrow — however long the recipe takes, and across a daylight-saving change. The interval always counts from the actual last bake; an earlier or later feeding moves the next date accordingly.
 
 So that a date two weeks away doesn't clutter the lists, "Scheduled steps", the timeline, the "Up next" card, the widget, the Live Activity and Bake Mode hold automatically planned steps back **until two days before they are due**. The reminders themselves still come on time. Steps you planned by hand are not affected.
 
-When the next refresh is due, the **Details** and **Edit** tabs show at the top as the line **"Next feeding: 27 Oct 2026, 08:00"**; before the first bake it reads "after the first bake".
+When the next refresh is due, the **Details** and **Edit** tabs show at the top as the line **"Next feeding: Tomorrow 08:00"** ("Next bake: …" for breads) — meaning the start of the first step. While a plan is still running, the line already shows the date after it; before the first bake it reads "after the first bake".
 
-Recipes with this switch get the extra tab **Feeding**: the **starter diary**. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
+**What makes a recipe a starter** is decided by its ingredients, not by the switch: they give a feeding ratio of starter (or sourdough, levain — the names are equivalent), flour and water, and nothing is baked. A recipe of nothing but those three is always a starter, even when a step mentions the oven ("let ripen in the switched-off oven with the light on", "keep cool until the next bake"). Only an oven temperature or a preheating step — or further ingredients such as salt — make it a bread. A tag such as "Starter", "Feeding" or "Refresh" settles it by hand when in doubt; a "Sourdough" tag is not enough, breads carry it too.
+
+Starter recipes get the extra tab **Feeding**: the **starter diary**. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
 
 ### Changing components
 
@@ -536,11 +538,11 @@ Every step is a card with the recipe image, recipe name, start time, date, durat
 
 The app recognises such a mixing step by the name of a recipe component occurring in the step text. Steps from the image import know which component they belong to anyway. A step like "Fold the dough" with no component name gets no i symbol.
 
-**Rescheduling a step** — through the clock symbol on the card:
+**Rescheduling a step** — through the clock symbol on the card. The sheet shows the recipe, the step and its current time ("Currently") at the top and, once you have entered minutes, the new one ("New"):
 
 1. Enter minutes (1440 at most, that is 24 hours).
 2. Choose a direction: **Earlier** or **Later**.
-3. Choose a scope: **This step only** or **All following steps** (every later step of the same plan moves by the same amount, including "Baking is finished" and steps that begin at the same minute but come after it in the order).
+3. Choose the **affected steps**: **This step only** or **All following steps** (every later step of the same plan moves by the same amount, including "Baking is finished" and steps that begin at the same minute but come after it in the order). A note under the choice spells out what it does.
 4. **Apply**.
 
 The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".
@@ -631,7 +633,7 @@ With dough on your hands you need not touch the device: BakePlanner understands 
 | "Step done in BakePlanner" | Marks the due step as done and names the next one. If the step is not due yet, Siri asks first. |
 | "Move the next step in BakePlanner later" · "… up" | Moves the upcoming step a few minutes later or earlier. Siri asks "By how many minutes?"; the following steps move along. |
 | "When is oven time in BakePlanner" | Names the planned start of baking with its time. |
-| "Fed Rye starter in BakePlanner" · "Fed my starter in BakePlanner" | Records a feeding in the starter diary. Without a name Siri asks which starter is meant; the recipes with "Refresh regularly" count. |
+| "Fed Rye starter in BakePlanner" · "Fed my starter in BakePlanner" | Records a feeding in the starter diary. Without a name Siri asks which starter is meant; the starter recipes count (see [chapter 9](#9-editing-a-recipe)). |
 | "Fed all starters in BakePlanner" | Records a feeding for every starter. One recorded within the last hour is skipped. |
 | "When did I last feed Rye starter in BakePlanner" · "Last feeding in BakePlanner" | Names the date and time of the last feeding. |
 
@@ -823,7 +825,7 @@ Both lists apply to this device only and aren't synced through iCloud.
 
 ### Help
 
-From here you open the **User manual** (this document) and the **Help and contact** page with the e-mail address for questions and bug reports in your browser. Both pages appear in the language the app is set to.
+From here you open the **User manual** (this document), the **Help and contact** page with the e-mail address for questions and bug reports, the **Privacy policy** and the **Legal notice** in your browser. All pages appear in the language the app is set to.
 
 ---
 

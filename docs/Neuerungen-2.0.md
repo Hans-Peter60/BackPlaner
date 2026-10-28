@@ -23,7 +23,7 @@ EINKAUFSLISTE
 • Zutaten erscheinen in der App-Sprache, auch wenn das Rezept englisch oder französisch ist. Wasser, Salz und Anstellgut bleiben in jeder Sprache draußen; Eier werden in Stück gezählt.
 
 SAUERTEIG PFLEGEN
-• Rezepte lassen sich regelmäßig wiederholen, etwa die Auffrischung des Anstellguts: Nach dem letzten Backen plant die App den nächsten Termin automatisch. Bis kurz vor dem Termin bleibt er aus den Listen heraus, damit er nicht übersehen wird.
+• Rezepte lassen sich regelmäßig wiederholen, etwa die Auffrischung des Anstellguts: Nach dem letzten Backen plant die App den nächsten Termin automatisch, und zwar immer zur selben Uhrzeit wie der erste Schritt des letzten Durchgangs. Bis kurz vor dem Termin bleibt er aus den Listen heraus, damit er nicht übersehen wird. Ein Anstellgut erkennt die App an den Zutaten – Sauerteig, Mehl und Wasser –, nicht an einem Schalter.
 • Neuer Tab „Fütterung“ mit einem Anstellgut-Tagebuch: Zeit bis zum Höchststand, Schwimmtest und Notiz zu jeder Fütterung. Das Fütterungsverhältnis liest die App aus dem Rezept.
 • Mehrere Teige gleichzeitig im Ofen sind erlaubt: Überschneidende Backzeiten lassen sich mit „Trotzdem planen“ annehmen.
 
@@ -40,7 +40,8 @@ REZEPTE
 VERBESSERUNGEN UND FEHLERBEHEBUNGEN
 • In Zahlenfeldern lässt sich wieder jede Ziffer löschen.
 • Die Zutatenlisten der geplanten Schritte und des Backmodus zeigen die Mengen in der Portionsgröße, mit der geplant wurde – wie die Erinnerungen.
-• Wird ein Schritt mitsamt den nachfolgenden verschoben, wandert auch „Backvorgang ist beendet“ mit, selbst wenn es auf dieselbe Minute wie der verschobene Schritt fällt.
+• Wird ein Schritt mitsamt den nachfolgenden verschoben, wandert auch „Backvorgang ist beendet“ mit, selbst wenn es auf dieselbe Minute wie der verschobene Schritt fällt. Der Dialog zeigt den bisherigen und den neuen Zeitpunkt und die Wahl der betroffenen Schritte auf einen Blick.
+• Lässt ein Rezept den Dampf in einem eigenen Schritt ab, wird der Ofen gleich beim Einschießen zurückgedreht; der eingefügte Schritt nennt dann keinen Dampf mehr.
 • Weit entfernte wiederkehrende Schritte erscheinen auch nicht mehr im Widget, in der Live-Aktivität und im Backmodus.
 • Bessere Lesbarkeit der Live-Aktivität auf dem Sperrbildschirm.
 
@@ -67,7 +68,7 @@ SHOPPING LIST
 • Ingredients appear in the app's language even when the recipe is German or French. Water, salt and starter stay off the list in any language; eggs are counted by the piece.
 
 CARING FOR THE SOURDOUGH
-• Recipes can repeat on a schedule, such as refreshing the starter: after the last bake the app plans the next date automatically. It stays out of the lists until shortly before it is due, so it is not overlooked.
+• Recipes can repeat on a schedule, such as refreshing the starter: after the last bake the app plans the next date automatically, always at the same time of day as the first step of the last run. It stays out of the lists until shortly before it is due, so it is not overlooked. The app tells a starter by its ingredients – sourdough, flour and water – not by a switch.
 • New "Feeding" tab with a starter diary: time to peak, float test and a note for every feeding. The app reads the feeding ratio from the recipe.
 • Several doughs in the oven at once are allowed: overlapping bake times can be accepted with "Plan anyway".
 
@@ -84,7 +85,8 @@ TRANSLATION
 IMPROVEMENTS AND FIXES
 • Every digit in a number field can be deleted again.
 • The ingredient lists of the planned steps and of the bake mode show the amounts at the serving size the plan was made with – like the reminders.
-• Shifting a step together with the following ones now moves "Baking is finished" as well, even when it falls on the same minute as the shifted step.
+• Shifting a step together with the following ones now moves "Baking is finished" as well, even when it falls on the same minute as the shifted step. The sheet shows the current and the new time and the choice of affected steps at a glance.
+• When a recipe releases the steam in a step of its own, the oven is turned down as the loaf goes in; the inserted step then no longer mentions steam.
 • Recurring steps far in the future no longer show up in the widget, the Live Activity or Bake Mode either.
 • Better legibility of the Live Activity on the lock screen.
 
@@ -111,7 +113,7 @@ LISTE DE COURSES
 • Les ingrédients apparaissent dans la langue de l’app, même si la recette est en allemand ou en anglais. L’eau, le sel et le levain chef restent hors liste dans toutes les langues ; les œufs sont comptés à la pièce.
 
 ENTRETENIR LE LEVAIN
-• Les recettes peuvent se répéter à intervalle régulier, par exemple le rafraîchi du levain chef : après la dernière cuisson, l’app planifie automatiquement la prochaine date. Elle reste hors des listes jusqu’à peu avant l’échéance, pour ne pas passer inaperçue.
+• Les recettes peuvent se répéter à intervalle régulier, par exemple le rafraîchi du levain chef : après la dernière cuisson, l’app planifie automatiquement la prochaine date, toujours à la même heure que la première étape du dernier passage. Elle reste hors des listes jusqu’à peu avant l’échéance, pour ne pas passer inaperçue. L’app reconnaît un levain chef à ses ingrédients – levain, farine et eau –, pas à un commutateur.
 • Nouvel onglet « Nourrissage » avec un journal du levain chef : temps jusqu’au pic, test de flottaison et note pour chaque rafraîchi. L’app lit le ratio de rafraîchi dans la recette.
 • Plusieurs pâtes en même temps au four sont permises : les temps de cuisson qui se chevauchent peuvent être acceptés avec « Planifier malgré tout ».
 
@@ -128,7 +130,8 @@ TRADUCTION
 AMÉLIORATIONS ET CORRECTIONS
 • Dans les champs numériques, chaque chiffre peut à nouveau être effacé.
 • Les listes d’ingrédients des étapes planifiées et du mode cuisson indiquent les quantités à la taille de portion avec laquelle le plan a été défini – comme les rappels.
-• Décaler une étape avec les suivantes déplace désormais aussi « La cuisson est terminée », même si elle tombe à la même minute que l’étape décalée.
+• Décaler une étape avec les suivantes déplace désormais aussi « La cuisson est terminée », même si elle tombe à la même minute que l’étape décalée. La fiche montre d’un coup d’œil l’heure actuelle, la nouvelle et le choix des étapes concernées.
+• Lorsqu’une recette évacue la buée dans une étape à elle, le four est baissé dès l’enfournement ; l’étape insérée ne parle alors plus de buée.
 • Les étapes récurrentes lointaines n’apparaissent plus non plus dans le widget, l’activité en direct et le mode cuisson.
 • Meilleure lisibilité de l’activité en direct sur l’écran verrouillé.
 
