@@ -557,7 +557,7 @@ Dieselben Schritte als **Ablaufplan**, wie ein Projektplan: Jeder Plan bekommt e
 
 Die Zeitachse zeigt die vollen Stunden, am Tageswechsel mit Wochentag und Datum. Kurze Schritte bekommen so viel Platz, dass ihre Uhrzeit lesbar bleibt; eine lange Pause ohne jeden Schritt – die Nacht, in der der Sauerteig reift – wird zu einem schraffierten Band zusammengeschoben, das nennt, welche Zeit es überspringt („22:45 – 08:35 · 10h“). Mit **S / M / L** oben rechts wählst Du den Maßstab.
 
-Auf dem iPhone im Hochformat läuft die Zeit von oben nach unten: Die Zeitachse steht links, die Pläne sind Spalten, und Du scrollst wie in der Liste. Im Querformat und auf dem iPad läuft die Zeit von links nach rechts mit einer Zeile je Plan. Ein Tippen auf einen Balken oder eine Marke öffnet die Detailansicht des Schritts; langes Drücken bietet **Erledigt** und **Verschieben** an, wie die Karte in der Liste.
+Auf dem iPhone im Hochformat läuft die Zeit von oben nach unten: Die Zeitachse steht links, die Pläne sind Spalten, und Du scrollst wie in der Liste. Im Querformat und auf dem iPad läuft die Zeit von links nach rechts mit einer Zeile je Plan. Schritte, die gleichzeitig laufen – das Brühstück, während der Sauerteig reift –, teilen sich die Spur nebeneinander. Ein Tippen auf einen Balken oder eine Marke öffnet die Detailansicht des Schritts; langes Drücken zeigt den vollständigen Text des Schritts und bietet **Erledigt** und **Verschieben** an, wie die Karte in der Liste. Mit Maus oder Trackpad genügt es, über einen Balken zu fahren, um den ganzen Text zu sehen.
 
 ![Geplante Schritte als Ablaufplan: Zeitachse links, ein Plan je Spalte, Balken in Schrittlänge](images/geplante-schritte-timeline.png)
 

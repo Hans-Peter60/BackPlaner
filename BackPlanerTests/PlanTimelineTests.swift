@@ -189,6 +189,38 @@ struct PlanTimelineLaneTests {
         #expect(lane.end == minute(95))
     }
 
+    /// Two component preparations in one group run at the same time: the
+    /// sourdough ripens for twelve hours while the soaker is mixed five
+    /// minutes in. The soaker has work of its own, so it is a bar beside
+    /// the sourdough, not a marker on it — and the two share the lane.
+    @Test("Steps that run at the same time are dealt into tracks side by side")
+    func parallelStepsShareTheLane() throws {
+        let entries = [
+            entry(1, "Zutaten abwiegen", at: 0, duration: 10),
+            entry(2, "Sauerteig ansetzen und 12 Stunden reifen lassen", at: 10, duration: 720),
+            entry(2.1, "Brühstück herstellen und quellen lassen", at: 15, duration: 15),
+            entry(2.2, "Teig dehnen und falten (nach 60 Minuten).", at: 70, duration: 660),
+            entry(3, "Hauptteig kneten", at: 730, duration: 15),
+        ]
+        let lane = try #require(PlanTimelineLane.lanes(from: entries).first)
+        #expect(lane.bars.map(\.entry.step) == [1, 2, 2.1, 3])
+        #expect(lane.bars.map(\.track) == [0, 0, 1, 0])
+        #expect(lane.bars.map(\.trackCount) == [1, 2, 2, 1])
+        // The fold stays a marker on the rest.
+        #expect(lane.bars[1].markers.map(\.entry.step) == [2.2])
+
+        // Three preparations at once need three tracks; a later bar none.
+        let three = [
+            entry(2.1, "Sauerteig herstellen", at: 0, duration: 600),
+            entry(2.2, "Brühstück herstellen", at: 5, duration: 120),
+            entry(2.3, "Quellstück herstellen", at: 10, duration: 60),
+            entry(3, "Hauptteig kneten", at: 600, duration: 15),
+        ]
+        let lanes = PlanTimelineLane.lanes(from: three)
+        #expect(lanes.first?.bars.map(\.track) == [0, 1, 2, 0])
+        #expect(lanes.first?.bars.map(\.trackCount) == [3, 3, 3, 1])
+    }
+
     @Test("One lane per plan, in the order of their first step; a recipe planned twice is two lanes")
     func onePlanPerLane() {
         let second = UUID()
