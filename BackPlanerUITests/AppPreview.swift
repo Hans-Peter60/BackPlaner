@@ -51,6 +51,8 @@ final class AppPreview: StoreUITestCase {
 
         backToMenu()
         openMenu("scheduledSteps")
+        // The timeline opens first; the delete button is on the list tab.
+        tab(0, titled: ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]).tap()
         let deleteSteps = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Geplante Schritte löschen", "Delete scheduled steps", "Supprimer les étapes planifiées"])).firstMatch
         if deleteSteps.waitForExistence(timeout: 5) {
