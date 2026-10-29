@@ -38,7 +38,7 @@ struct PlanSnapshot: Codable, Equatable {
     /// How long a step counts as "due now" after its time has come. A step
     /// that is not marked done stays in the plan, so without this an old,
     /// finished plan would keep its last step on display forever.
-    static let dueGracePeriod: TimeInterval = 60 * 60
+    static let dueGracePeriod: TimeInterval = CurrentStepRule.dueGracePeriod
 
     static var fileURL: URL? {
         FileManager.default
@@ -85,16 +85,9 @@ struct PlanSnapshot: Codable, Equatable {
     /// yet comes first — when the reminder fires, that is the thing to do,
     /// not the one after it. Otherwise the earliest step still ahead. A newer
     /// due step always supersedes an older one. The main menu card applies
-    /// the same rule to the live Core Data objects.
+    /// the same rule (`CurrentStepRule`) to the live Core Data objects.
     func currentStep(at now: Date) -> (step: Step, isDue: Bool)? {
-        if let due = steps.last(where: { $0.date <= now }),
-           now.timeIntervalSince(due.date) < Self.dueGracePeriod {
-            return (due, true)
-        }
-        if let upcoming = steps.first(where: { $0.date > now }) {
-            return (upcoming, false)
-        }
-        return nil
+        CurrentStepRule.currentStep(in: steps, at: now, date: \.date)
     }
 
     /// The moments after `now` at which `currentStep(at:)` can change: every

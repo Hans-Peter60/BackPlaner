@@ -88,4 +88,12 @@ enum RecurringBakePlanner {
     /// for 5 days — and a reminder seen that long before it matters turns
     /// into background noise that gets overlooked.
     static let visibilityLeadTime: TimeInterval = 2 * 24 * 60 * 60
+
+    /// Whether a scheduled step should already be shown. Steps the user
+    /// planned by hand are always visible; only the ones queued ahead of time
+    /// by the automatic pass are held back until `visibilityLeadTime` before
+    /// they are due.
+    static func isVisible(date: Date, isAutomaticRecurrence: Bool, at now: Date) -> Bool {
+        !isAutomaticRecurrence || date <= now.addingTimeInterval(visibilityLeadTime)
+    }
 }

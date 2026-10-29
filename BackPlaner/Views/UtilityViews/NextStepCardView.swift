@@ -26,11 +26,6 @@ struct NextStepCardView: View {
     // longer fit on one line, so they stack.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    /// How long a step counts as "just due" before the card lets go of it. A
-    /// step that is not marked done stays in the plan forever, so without this
-    /// an old, finished plan would keep its last step pinned to the menu.
-    private static let dueGracePeriod: TimeInterval = 60 * 60
-
     var body: some View {
         // Re-evaluated every minute: the fetch result does not change when
         // time merely passes, but which step is "next" does.
@@ -51,12 +46,7 @@ struct NextStepCardView: View {
     /// thing to do now, not the one after it. Otherwise the earliest step
     /// still ahead. A newer due step always supersedes an older one.
     private func nextStep(at now: Date) -> NextStep? {
-        let visible = steps.filter { $0.isVisible(at: now) }
-        if let due = visible.last(where: { $0.date <= now }),
-           now.timeIntervalSince(due.date) < Self.dueGracePeriod {
-            return due
-        }
-        return visible.first(where: { $0.date > now })
+        CurrentStepRule.currentStep(in: steps.filter { $0.isVisible(at: now) }, at: now, date: \.date)?.step
     }
 
     /// Never seconds, which `Text(_:style: .relative)` would tick off one by

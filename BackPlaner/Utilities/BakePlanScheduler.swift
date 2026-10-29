@@ -253,6 +253,6 @@ extension NextStep {
     /// the user planned by hand are always visible; only the ones
     /// `RecurringBakePlanner` queued ahead of time are held back.
     func isVisible(at now: Date = Date()) -> Bool {
-        !isAutomaticRecurrence || date <= now.addingTimeInterval(RecurringBakePlanner.visibilityLeadTime)
+        RecurringBakePlanner.isVisible(date: date, isAutomaticRecurrence: isAutomaticRecurrence, at: now)
     }
 }

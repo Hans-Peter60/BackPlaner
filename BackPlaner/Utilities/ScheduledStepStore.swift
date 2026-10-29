@@ -32,6 +32,14 @@ struct ScheduledStepData: Equatable {
     var servingScale: Double
 }
 
+extension ScheduledStepData {
+    /// Whether the step should already be shown; see
+    /// `RecurringBakePlanner.isVisible(date:isAutomaticRecurrence:at:)`.
+    func isVisible(at now: Date = Date()) -> Bool {
+        RecurringBakePlanner.isVisible(date: date, isAutomaticRecurrence: isAutomaticRecurrence, at: now)
+    }
+}
+
 /// Where the scheduled steps are kept.
 protocol ScheduledStepStore {
     /// The scheduled steps of every recipe except `recipeName`.

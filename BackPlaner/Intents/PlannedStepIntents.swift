@@ -44,15 +44,7 @@ enum PlannedStepStore {
     /// The step that matters at `now`, and whether its time has come. The
     /// same rule as `PlanSnapshot.currentStep(at:)` and the main menu card.
     static func currentStep(at now: Date = Date(), in context: NSManagedObjectContext = context) throws -> (step: NextStep, isDue: Bool)? {
-        let steps = try visibleSteps(at: now, in: context)
-        if let due = steps.last(where: { $0.date <= now }),
-           now.timeIntervalSince(due.date) < PlanSnapshot.dueGracePeriod {
-            return (due, true)
-        }
-        if let upcoming = steps.first(where: { $0.date > now }) {
-            return (upcoming, false)
-        }
-        return nil
+        try CurrentStepRule.currentStep(in: visibleSteps(at: now, in: context), at: now, date: \.date)
     }
 
     /// The next step that puts dough into the oven: still ahead, or due

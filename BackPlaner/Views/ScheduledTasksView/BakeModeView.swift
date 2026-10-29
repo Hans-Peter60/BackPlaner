@@ -60,11 +60,7 @@ struct BakeModeView: View {
     /// the next one ahead, else the last of the plan — the same rule as the
     /// main-menu card and the widget.
     private func initialStep(at now: Date) -> NextStep? {
-        if let due = steps.last(where: { $0.date <= now }),
-           now.timeIntervalSince(due.date) < PlanSnapshot.dueGracePeriod {
-            return due
-        }
-        return steps.first(where: { $0.date > now }) ?? steps.last
+        CurrentStepRule.currentStep(in: steps, at: now, date: \.date)?.step ?? steps.last
     }
 
     private func show(_ step: NextStep?) {
