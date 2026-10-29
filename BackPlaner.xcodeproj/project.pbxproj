@@ -46,10 +46,8 @@
 		6A261559306FAB78007644AB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A261558306FAB78007644AB /* SwiftUI.framework */; };
 		6A261564306FAB79007644AB /* BackPlanerWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6A261555306FAB78007644AB /* BackPlanerWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
-		6AFA48D9307E000100E105F9 /* CurrentStepRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */; };
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
-		6AFA48DA307E000100E105F9 /* CurrentStepRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
 		6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2615B630706A43007644AB /* RecipePDFExporter.swift */; };
@@ -99,10 +97,6 @@
 		6AB1EF22E2EAA77F7EB4D433 /* UnitLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A594020A96F493A2307665F /* UnitLocalizer.swift */; };
 		6ABFE3E930483E0700E15C6C /* UnitSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */; };
 		6AC7AA9F28112CAC558AF0D9 /* BakePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA409AB74E84F593EC1CC78 /* BakePlan.swift */; };
-		6AFA48D3307E000100E105F9 /* BakePlanScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D2307E000100E105F9 /* BakePlanScheduler.swift */; };
-		6AFA48D5307E000100E105F9 /* ScheduledStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D4307E000100E105F9 /* ScheduledStepStore.swift */; };
-		6AFA48DE307E000100E105F9 /* RecipePrintData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DD307E000100E105F9 /* RecipePrintData.swift */; };
-		6AFA48DC307E000100E105F9 /* ComponentColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DB307E000100E105F9 /* ComponentColumn.swift */; };
 		6AD3411C304EA41700BCA4EA /* IngredientNameNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411B304EA41700BCA4EA /* IngredientNameNormalizer.swift */; };
 		6AD3411E304EF4FE00BCA4EA /* BakePlanValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411D304EF4FE00BCA4EA /* BakePlanValidator.swift */; };
 		6AD34120304EF50800BCA4EA /* BakePlanIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */; };
@@ -124,8 +118,6 @@
 		6AF6394B2B7A4ED90070CDC1 /* BakeHistory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6393B2B7A4ED90070CDC1 /* BakeHistory+CoreDataClass.swift */; };
 		6AF6394D2B7A4ED90070CDC1 /* ShoppingCart+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6393D2B7A4ED90070CDC1 /* ShoppingCart+CoreDataClass.swift */; };
 		6AF6394F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6393F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift */; };
-		6AFA48D1307E000100E105F9 /* CoreDataLogicAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */; };
-		6AFA48D7307E000100E105F9 /* CoreDataScheduledStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */; };
 		6AF639512B7A4ED90070CDC1 /* Component+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639412B7A4ED90070CDC1 /* Component+CoreDataClass.swift */; };
 		6AF639532B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639432B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift */; };
 		6AF639552B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */; };
@@ -165,6 +157,14 @@
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
+		6AFA48D1307E000100E105F9 /* CoreDataLogicAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */; };
+		6AFA48D3307E000100E105F9 /* BakePlanScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D2307E000100E105F9 /* BakePlanScheduler.swift */; };
+		6AFA48D5307E000100E105F9 /* ScheduledStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D4307E000100E105F9 /* ScheduledStepStore.swift */; };
+		6AFA48D7307E000100E105F9 /* CoreDataScheduledStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */; };
+		6AFA48D9307E000100E105F9 /* CurrentStepRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */; };
+		6AFA48DA307E000100E105F9 /* CurrentStepRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */; };
+		6AFA48DC307E000100E105F9 /* ComponentColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DB307E000100E105F9 /* ComponentColumn.swift */; };
+		6AFA48DE307E000100E105F9 /* RecipePrintData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DD307E000100E105F9 /* RecipePrintData.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */; };
 		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
@@ -261,7 +261,6 @@
 		6A261558306FAB78007644AB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 		6A26156A306FAB87007644AB /* BackPlanerWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlanerWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
-		6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStepRule.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
@@ -298,10 +297,6 @@
 		6A99FC0B304B5203008DDA63 /* ScheduledTasksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledTasksTabsView.swift; sourceTree = "<group>"; };
 		6A9DE1C63046B040000581C7 /* IconActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionButton.swift; sourceTree = "<group>"; };
 		6AA409AB74E84F593EC1CC78 /* BakePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlan.swift; sourceTree = "<group>"; };
-		6AFA48D2307E000100E105F9 /* BakePlanScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlanScheduler.swift; sourceTree = "<group>"; };
-		6AFA48D4307E000100E105F9 /* ScheduledStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledStepStore.swift; sourceTree = "<group>"; };
-		6AFA48DD307E000100E105F9 /* RecipePrintData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePrintData.swift; sourceTree = "<group>"; };
-		6AFA48DB307E000100E105F9 /* ComponentColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentColumn.swift; sourceTree = "<group>"; };
 		6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInView.swift; sourceTree = "<group>"; };
 		6AA6703A30519DDF0074C7E6 /* ShoppingListAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListAmount.swift; sourceTree = "<group>"; };
 		6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLanguageDetector.swift; sourceTree = "<group>"; };
@@ -335,8 +330,6 @@
 		6AF6393B2B7A4ED90070CDC1 /* BakeHistory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BakeHistory+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AF6393D2B7A4ED90070CDC1 /* ShoppingCart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShoppingCart+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AF6393F2B7A4ED90070CDC1 /* Recipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataClass.swift"; sourceTree = "<group>"; };
-		6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLogicAdapters.swift; sourceTree = "<group>"; };
-		6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataScheduledStepStore.swift; sourceTree = "<group>"; };
 		6AF639412B7A4ED90070CDC1 /* Component+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Component+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AF639432B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Instruction+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -376,6 +369,13 @@
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CC307E000100E105F9 /* FlourSubstitution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitution.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
+		6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLogicAdapters.swift; sourceTree = "<group>"; };
+		6AFA48D2307E000100E105F9 /* BakePlanScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakePlanScheduler.swift; sourceTree = "<group>"; };
+		6AFA48D4307E000100E105F9 /* ScheduledStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledStepStore.swift; sourceTree = "<group>"; };
+		6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataScheduledStepStore.swift; sourceTree = "<group>"; };
+		6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStepRule.swift; sourceTree = "<group>"; };
+		6AFA48DB307E000100E105F9 /* ComponentColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentColumn.swift; sourceTree = "<group>"; };
+		6AFA48DD307E000100E105F9 /* RecipePrintData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePrintData.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
