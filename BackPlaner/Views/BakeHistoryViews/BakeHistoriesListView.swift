@@ -406,13 +406,13 @@ struct BakeHistoriesListView: View {
                             }
                             HStack {
                                 
-                                if bakeHistory.images != nil {
+                                if let images = bakeHistory.images, !images.isEmpty {
                                     
                                     // MARK: History Images
-                                    ForEach(bakeHistory.images!, id: \.self) { image in
+                                    ForEach(images, id: \.self) { image in
                                         
                                         NavigationLink(
-                                            destination: ShowBigImagesView(images: bakeHistory.images!, index: 0)
+                                            destination: ShowBigImagesView(images: images, index: 0)
                                         )
                                         {
                                             let i = UIImage(data: image) ?? UIImage()
@@ -426,6 +426,18 @@ struct BakeHistoriesListView: View {
                                         // The photo is the link's only content.
                                         .accessibilityLabel("Backfoto anzeigen")
                                     }
+                                }
+                                else if let recipeImage = bakeHistory.recipe.flatMap({ UIImage(data: $0.image) }) {
+                                    // No photo of this bake yet: the recipe's own
+                                    // picture stands in, dimmed, as on the gallery tile.
+                                    Image(uiImage: recipeImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50, alignment: .center)
+                                        .clipped()
+                                        .cornerRadius(5)
+                                        .opacity(0.6)
+                                        .accessibilityHidden(true)
                                 }
                                 else {
                                     // A small glyph in a tinted box the size of a
