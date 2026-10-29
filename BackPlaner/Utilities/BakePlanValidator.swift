@@ -9,7 +9,6 @@
 //
 
 import Foundation
-import CoreData
 
 /// How serious a finding of ``BakePlanValidator`` is.
 enum BakePlanIssueSeverity {
@@ -325,32 +324,6 @@ enum BakePlanValidator {
     }
 
     // MARK: - Bake windows
-
-    /// The oven phases of all plans that are currently scheduled, without the
-    /// plan of `recipeName` (which is about to be replaced) and without bakes
-    /// that are already over.
-    static func scheduledBakeWindows(
-        excluding recipeName: String,
-        in context: NSManagedObjectContext,
-        now: Date = Date()
-    ) -> [BakeWindow] {
-
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName != %@", recipeName)
-
-        guard let steps = try? context.fetch(request) else { return [] }
-
-        return Dictionary(grouping: steps, by: \.recipeName)
-            .compactMap { name, steps in
-                bakeWindow(
-                    recipeName: name,
-                    steps: steps.map {
-                        PlannedStep(instruction: $0.instruction, step: $0.step, date: $0.date)
-                    }
-                )
-            }
-            .filter { $0.end > now }
-    }
 
     /// Derives the oven phase of a plan: the step that puts the dough into the
     /// oven starts the bake, the generated finish step ends it.

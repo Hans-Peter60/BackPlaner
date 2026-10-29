@@ -28,7 +28,7 @@ Guter Ansatzpunkt: Es gibt mit `RecipeExportData` / `RecipeExportIngredient` (Si
 `Rational`, `FlourSubstitution`, `StarterYieldAdjustment` sind seit Schritt 1a frei von SwiftUI und Core Data. `RecipeFB` importiert noch SwiftUI (`@Observable`) – prüfen und lösen.
 
 ### Logik mit Core-Data-Kopplung (Daten-Schnittstelle nötig)
-`BakePlan` (inkl. `BakePlanScheduler`), `BakePlanValidator`, `BakePlanAdvisor`, `RecurringBakePlanner`, `TimedFoldExpansion`, `AdjustedRecipe`, `RecipeExport`, `RecipeModel`.
+`TimedFoldExpansion`, `AdjustedRecipe`, `RecipeExport`, `RecipeModel`.
 
 ### Apple-Dienste, auf Android zu ersetzen
 | iOS | Datei(en) | Android-Ersatz |
@@ -66,6 +66,7 @@ Guter Ansatzpunkt: Es gibt mit `RecipeExportData` / `RecipeExportIngredient` (Si
 
 - **Schritt 1a** (Branch `claude/sleepy-wozniak-9n8mxc`): Hinweistexte (`LocalizedStringKey`) von `FlourSubstitution` und `StarterYieldAdjustment` in die zugehörigen Views verschoben; die Core-Data-Brücken `DoughComposition.components(of: Recipe)` und `Rational.ComponentDependency.from([Component])` liegen jetzt in `CoreData/CoreDataLogicAdapters.swift`. `DoughComposition`, `Rational`, `FlourSubstitution` und `StarterYieldAdjustment` importieren damit nur noch Foundation; für Sprache und Einstellungen hängen sie noch an `AppSettings`. Für Nutzer ändert sich nichts.
 - **Schritt 1b:** Die Bezeichnungen von `BakeHistoryFacts.Kind` (`title`) liegen jetzt in `BakeHistoryFactsFormSection.swift`; die Core-Data-Brücken `BakeHistory.facts`/`hasNotes`, `Recipe.lastCompletedBakeHistory` und `StarterFeedingLog.facts` in `CoreDataLogicAdapters.swift`. `BakeHistoryFacts` und `StarterFeedingFacts` importieren nur noch Foundation. Für Nutzer ändert sich nichts.
+- **Schritt 1c:** Alles, was beim Planen Core Data oder Erinnerungen berührt, liegt jetzt in `Utilities/BakePlanScheduler.swift`: der `BakePlanScheduler` selbst, `BakePlan.issues(in:)`, `BakePlanValidator.scheduledBakeWindows(…, in:)`, `BakePlanAdvisor.nightFreeDates(for:in:)`, aus `RecurringBakePlanner` `planDuration(of: Recipe)`, `nextStart(for:)` und `scheduleDueOccurrences`, dazu `NextStep.isVisible`. `BakePlan`, `BakePlanValidator`, `BakePlanAdvisor` und `RecurringBakePlanner` importieren nur noch Foundation. Offen: `BakePlanValidator` schreibt über `AppLog` (`os.Logger`) ins Apple-Log. Für Nutzer ändert sich nichts.
 
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?

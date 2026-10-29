@@ -11,7 +11,6 @@
 //
 
 import Foundation
-import CoreData
 
 enum RecurringBakePlanner {
 
@@ -21,11 +20,6 @@ enum RecurringBakePlanner {
     /// this is what turns that finish back into the plan's start.
     static func planDuration(prepTime: Int, stepEnds: [Int]) -> Int {
         max(prepTime, stepEnds.max() ?? 0)
-    }
-
-    static func planDuration(of recipe: Recipe) -> Int {
-        planDuration(prepTime: recipe.prepTime,
-                     stepEnds: recipe.instructionsArray.map { $0.startTime + $0.duration })
     }
 
     static func planDuration(of recipe: RecipeFB) -> Int {
@@ -87,63 +81,6 @@ enum RecurringBakePlanner {
                              now: max(now, lastFinish), calendar: calendar)
     }
 
-    static func nextStart(for recipe: Recipe, now: Date = Date()) -> Date? {
-        nextStart(lastFinish: recipe.bakeHistoriesArray.first?.date,
-                  duration: planDuration(of: recipe),
-                  intervalDays: recipe.recurrenceIntervalDays, now: now)
-    }
-
-    /// Queues the next occurrence of every own recipe whose rhythm is due:
-    /// one with `recurrenceIntervalDays > 0`, a bake history to measure the
-    /// rhythm from, and no plan that is still pending. Only ever adds a
-    /// plan — never replaces one, the way the manual "Jetzt planen" flow
-    /// can.
-    @MainActor
-    static func scheduleDueOccurrences(in context: NSManagedObjectContext,
-                                       manager: LocalNotificationManager = LocalNotificationManager(),
-                                       now: Date = Date()) {
-        let request = Recipe.fetchRequest()
-        request.predicate = NSPredicate(format: "recurrenceIntervalDays > 0")
-        guard let recipes = try? context.fetch(request) else { return }
-
-        for recipe in recipes {
-            guard !recipe.instructionsArray.isEmpty,
-                  let lastFinish = recipe.bakeHistoriesArray.first?.date,
-                  !BakePlanScheduler.hasPendingPlan(recipeName: recipe.name, now: now, in: context),
-                  let start = nextStartDate(lastFinish: lastFinish,
-                                            duration: planDuration(of: recipe),
-                                            intervalDays: recipe.recurrenceIntervalDays,
-                                            now: now)
-            else { continue }
-
-            // Planned from its start, so the first step keeps its time of
-            // day; the finish follows from the recipe's length.
-            let plan = BakePlan(recipeName: recipe.name,
-                                steps: recipe.instructionsArray.map {
-                                    PlanStep(instruction: $0.instruction, step: $0.step,
-                                             startTime: $0.startTime, duration: $0.duration)
-                                },
-                                prepTime: recipe.prepTime,
-                                anchor: .startsAt,
-                                date: start,
-                                languageCode: AppSettings.locale.identifier)
-
-            // A conflict with another plan is left for the next foreground
-            // pass to retry — there is nobody here to show an error to.
-            let errors = plan.issues(in: context).filter { $0.severity == .error }
-            guard errors.isEmpty else {
-                AppLog.planning.notice("Automatic occurrence for \(recipe.name) skipped: \(errors.map(\.message))")
-                continue
-            }
-
-            let scale = ServingScale.factor(servingSize: AppSettings.storedServingSize,
-                                            targetWeight: nil, baseWeight: recipe.totalWeight)
-            BakePlanScheduler.putIntoEffect(plan, for: recipe, planID: UUID(),
-                                            servingScale: scale, manager: manager,
-                                            isAutomaticRecurrence: true, in: context)
-        }
-    }
-
     /// How long before an automatically-queued occurrence becomes visible in
     /// the scheduled-steps views. Queuing it immediately once the rhythm is
     /// due would otherwise put it in front of the user for the recipe's full
@@ -151,13 +88,4 @@ enum RecurringBakePlanner {
     /// for 5 days — and a reminder seen that long before it matters turns
     /// into background noise that gets overlooked.
     static let visibilityLeadTime: TimeInterval = 2 * 24 * 60 * 60
-}
-
-extension NextStep {
-    /// Whether an automatically-queued step should already be shown. Steps
-    /// the user planned by hand are always visible; only the ones
-    /// `RecurringBakePlanner` queued ahead of time are held back.
-    func isVisible(at now: Date = Date()) -> Bool {
-        !isAutomaticRecurrence || date <= now.addingTimeInterval(RecurringBakePlanner.visibilityLeadTime)
-    }
 }

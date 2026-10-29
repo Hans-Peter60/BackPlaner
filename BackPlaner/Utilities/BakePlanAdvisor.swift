@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import CoreData
 
 /// A date for the scheduling controls at which no step of the plan begins at
 /// night.
@@ -87,22 +86,6 @@ enum BakePlanAdvisor {
         return [earlier, later]
             .compactMap { $0 }
             .sorted { abs($0.shift) < abs($1.shift) }
-    }
-
-    /// The suggestions for the baking views: the day window from the
-    /// settings, nothing before now or beyond the picker's range, and the
-    /// bakes already scheduled.
-    static func nightFreeDates(for plan: BakePlan, in context: NSManagedObjectContext,
-                               now: Date = Date()) -> [NightFreeDate] {
-        let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
-        let range = GlobalVariables.planningDateRange(around: now)
-        guard now < range.upperBound else { return [] }
-        return nightFreeDates(
-            for: plan, dayStart: dayStart, dayEnd: dayEnd,
-            allowedDates: now...range.upperBound,
-            existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: plan.recipeName, in: context),
-            ovenCount: GlobalVariables.ovenCount
-        )
     }
 
     /// Whether a step begins outside the day window set in the settings.

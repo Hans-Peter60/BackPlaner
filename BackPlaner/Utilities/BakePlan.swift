@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import CoreData
 
 /// One processing step as the planner sees it, whichever recipe model it came
 /// from: an own recipe (Core Data `Instruction`) or a public one
@@ -260,10 +259,6 @@ struct BakePlan {
         BakePlanValidator.issues(for: plannedSteps, bakeWindow: bakeWindow, existingWindows: existingWindows)
     }
 
-    func issues(in context: NSManagedObjectContext) -> [BakePlanIssue] {
-        issues(existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: recipeName, in: context))
-    }
-
     // MARK: Wording
 
     static func startsInColdOven(_ bakingInstruction: String) -> Bool {
@@ -453,155 +448,5 @@ struct BakePlan {
             let location = Range(match.range, in: text).map { text.distance(from: text.startIndex, to: $0.lowerBound) } ?? 0
             return Match(groups: groups, location: location)
         }
-    }
-}
-
-/// Puts a `BakePlan` into effect: the reminders and the scheduled steps.
-struct BakePlanScheduler {
-
-    let plan: BakePlan
-    /// Identifies the plan's reminders: the recipe's reminder id and the plan
-    /// id, so two plans of one recipe never replace each other's reminders.
-    let reminderID: String
-    var manager = LocalNotificationManager()
-
-    struct Result {
-        /// The recipe's steps plus the generated ones.
-        let reminderCount: Int
-        /// When the oven is switched on; nil for a plan without a bake, such
-        /// as feeding a starter.
-        let ovenOnDate: Date?
-        let finishDate: Date
-        /// "250 °C", if the recipe states an oven temperature.
-        let ovenTemperature: String?
-    }
-
-    /// Sets a reminder for every step. `details` gives the extra text of the
-    /// recipe step at that index (the ingredients a step mixes); generated
-    /// steps have none.
-    func scheduleReminders(details: (Int) -> String?) -> Result {
-        for (index, step) in plan.scheduledSteps.enumerated() {
-            _ = manager.setNotification(reminderID, step.instruction,
-                                        Rational.decimalPlace(step.step, 10),
-                                        plan.reminderOffset(of: step), plan.date, true,
-                                        details: details(index))
-        }
-
-        let generatedSteps = [plan.generatedOvenStep, plan.generatedTurnDownStep].compactMap { $0 }
-        for generated in generatedSteps {
-            _ = manager.setNotification(reminderID, generated.instruction,
-                                        Rational.decimalPlace(generated.step, 10),
-                                        plan.reminderOffset(of: generated), plan.date, true)
-        }
-
-        let endStep = plan.endStep
-        let finishDate = manager.setNotification(reminderID, endStep.instruction, "99",
-                                                 plan.reminderOffset(of: endStep), plan.date, true)
-
-        return Result(reminderCount: plan.steps.count + generatedSteps.count + 1,
-                      ovenOnDate: plan.ovenOnStep.map(plan.date(of:)),
-                      finishDate: finishDate,
-                      ovenTemperature: plan.ovenTemperature)
-    }
-
-    /// Writes every step of the plan as a scheduled step. `servingScale` is
-    /// the factor the plan was made at, so the plan's ingredient lists show
-    /// the amounts that are actually weighed out. `isAutomaticRecurrence`
-    /// marks steps queued by `RecurringBakePlanner` rather than by the user, so
-    /// the scheduled-steps views can hold them back until shortly before they're due.
-    func writeScheduledSteps(planID: UUID, servingScale: Double, isAutomaticRecurrence: Bool = false, in context: NSManagedObjectContext) {
-        for step in plan.allSteps {
-            let next = NextStep(context: context)
-            next.id           = UUID()
-            next.planID       = planID
-            next.recipeName   = plan.recipeName
-            next.servingScale = servingScale
-            next.instruction = step.instruction
-            next.step        = step.step
-            next.duration    = step.duration
-            next.startTime   = step.startTime
-            next.date        = plan.date(of: step)
-            next.isAutomaticRecurrence = isAutomaticRecurrence
-        }
-        do {
-            try context.save()
-        } catch {
-            AppLog.planning.error("Scheduled steps could not be saved: \(error.localizedDescription)")
-        }
-    }
-
-    /// Whether the recipe already has scheduled steps.
-    static func hasPlan(recipeName: String, in context: NSManagedObjectContext) -> Bool {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@", recipeName)
-        request.fetchLimit = 1
-        return ((try? context.count(for: request)) ?? 0) > 0
-    }
-
-    /// Whether the recipe has a plan that is not over yet — a step still
-    /// pending or in progress. Used to keep the automatic recurrence pass
-    /// from queuing a second occurrence beside one that already covers the
-    /// recipe's next due date.
-    static func hasPendingPlan(recipeName: String, now: Date = Date(),
-                               in context: NSManagedObjectContext) -> Bool {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@ AND date >= %@", recipeName, now as NSDate)
-        request.fetchLimit = 1
-        return ((try? context.count(for: request)) ?? 0) > 0
-    }
-
-    /// Reminders, scheduled steps and the bake-history entry for one plan —
-    /// the part of scheduling a recipe that has nothing to do with the UI
-    /// that triggered it. Shared by the manual "Jetzt planen" flow
-    /// (`InstructionsView`) and the automatic recurrence pass
-    /// (`RecurringBakePlanner`), so the two can't drift apart.
-    @discardableResult
-    static func putIntoEffect(_ plan: BakePlan, for recipe: Recipe, planID: UUID,
-                              servingScale: Double, manager: LocalNotificationManager,
-                              isAutomaticRecurrence: Bool = false,
-                              in context: NSManagedObjectContext) -> Result {
-        recipe.bakeHistoryFlag = true
-
-        let instructions = recipe.instructionsArray
-        let scheduler = BakePlanScheduler(plan: plan,
-                                          reminderID: "\(recipe.reminderId)-\(planID.uuidString)",
-                                          manager: manager)
-        let result = scheduler.scheduleReminders { index in
-            let instruction = instructions[index]
-            return ScheduledStepComponent.column(for: recipe,
-                                                 instruction: instruction,
-                                                 instructionText: instruction.instruction)
-                .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
-        }
-        scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale,
-                                      isAutomaticRecurrence: isAutomaticRecurrence, in: context)
-
-        // The bake history gets an entry for the end of this bake.
-        let bakeHistory     = BakeHistory(context: context)
-        bakeHistory.date    = result.finishDate
-        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
-        recipe.addToBakeHistories(bakeHistory)
-        context.performAndWait {
-            try? context.save()
-        }
-
-        return result
-    }
-
-    /// Drops every earlier plan of a recipe, its scheduled steps and their
-    /// reminders, before a replacing plan is written. The reminders are
-    /// matched by identifier prefix, which the new plan's id keeps out of:
-    /// cancelling runs asynchronously and would otherwise catch the reminders
-    /// being created right now.
-    static func removePlans(recipeName: String, reminderPrefix: String,
-                            keeping planID: UUID, in context: NSManagedObjectContext) {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@", recipeName)
-        if let previousSteps = try? context.fetch(request) {
-            previousSteps.forEach { context.delete($0) }
-            try? context.save()
-        }
-        NotificationActions.cancelPendingNotifications(withIdentifierPrefix: "Recipe-\(reminderPrefix)-",
-                                                       excludingContaining: planID.uuidString)
     }
 }
