@@ -120,8 +120,7 @@ After launch the main menu appears with ten cards:
 | **Recipe database** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** |
 | **Create new recipe** | Build a recipe from scratch or import one from photos or a web page |
 | **Scheduled steps** | Every scheduled baking step as a list or a timeline |
-| **Baking history** | Past bakes with comments and photos |
-| **Baking top list** | Recipes sorted by how often you've baked them |
+| **Baking history** | Past bakes with comments and photos — as a list, gallery, top list or photo cloud |
 | **Shopping list** | All the shopping lists you've created |
 | **Dough temperature** | Calculator: the water temperature for a desired dough temperature |
 | **Replace flour** | Calculator: swap the flour type, adjust the water |
@@ -649,7 +648,7 @@ The same commands are listed in the **Shortcuts** app under BakePlanner and can 
 
 ### Baking history
 
-**Main menu → Baking history.** Every bake, newest first, either as a **list** with date, recipe name, comment and photos — or as a **gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. Switch between the two with the symbol at the top right; the choice is remembered. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
+**Main menu → Baking history.** Every bake in four views, switched with the symbols under the title; the choice is remembered. **List**: newest first, with date, recipe name, comment and photos. **Gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. **Top list** and **photo cloud** sum the history up per recipe (see below). Search, tags and the rating filter apply in all four. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
 - **Tap an entry** (row or tile) → baking notes: edit the comment, fill in **Measurements and result** (see below) and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
@@ -678,9 +677,11 @@ The baking view shows these details as the **Last time** card when the same reci
 
 An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it.
 
-### Baking top list
+### Top list and photo cloud
 
-**Main menu → Baking top list.** Shows every recipe you've baked at least once, sorted by the number of bakes — your classics at the top. Each recipe shows its name, the count, and the photos from the baking histories. Search and rating filters work as they do in the other lists.
+**Baking history → Top list.** Every recipe you've baked at least once, sorted by the number of bakes — your classics at the top; with equal counts, the most recently baked first. Each recipe shows its rank, picture, name, "baked 3× · last 12 Oct 2026", its rating, the newest photos from the baking histories and, large on the right, the count. A tap opens the recipe. The top list used to be a menu entry of its own; it is the same history, grouped by recipe.
+
+**Baking history → Photo cloud.** The same recipes as a round cloud: every recipe is a circle with the photo of its last bake (or the recipe picture) and the count in its corner. The circle's area follows the count — a recipe baked four times as often gets a circle twice as wide. The most baked recipe sits in the middle, the others nestle around it in a spiral. Larger circles carry the name underneath; the whole cloud is fitted to the screen. A tap opens the recipe.
 
 ---
 

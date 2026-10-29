@@ -117,8 +117,7 @@ Nach dem Start erscheint das Hauptmenü mit zehn Karten:
 | **Rezept-Datenbank** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, die von Dir veröffentlichten und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Von mir veröffentlicht / Öffentlich** |
 | **Neues Rezept anlegen** | Rezept von Grund auf erstellen oder aus Fotos bzw. von einer Internetseite importieren |
 | **Geplante Schritte** | Alle terminierten Backschritte als Liste oder Timeline |
-| **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos |
-| **Back Hit-Liste** | Rezepte, sortiert nach Anzahl der Backvorgänge |
+| **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos – als Liste, Galerie, Hit-Liste oder Fotowolke |
 | **Einkaufsliste** | Alle angelegten Einkaufslisten |
 | **Teigtemperatur** | Rechner: Schüttwassertemperatur für eine gewünschte Teigtemperatur |
 | **Mehl ersetzen** | Rechner: Mehlsorte tauschen, Wasser anpassen |
@@ -646,7 +645,7 @@ Dieselben Befehle stehen in der App **Kurzbefehle** unter BakePlanner und lassen
 
 ### Backhistorie
 
-**Hauptmenü → Backhistorie.** Alle Backvorgänge, neueste zuerst, wahlweise als **Liste** mit Datum, Rezeptname, Kommentar und Fotos – oder als **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. Zwischen beiden wechselst Du mit dem Symbol oben rechts; die Wahl bleibt gespeichert. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
+**Hauptmenü → Backhistorie.** Alle Backvorgänge in vier Darstellungen, umschaltbar über die Symbole unter dem Titel; die Wahl bleibt gespeichert. **Liste**: neueste zuerst, mit Datum, Rezeptname, Kommentar und Fotos. **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. **Hit-Liste** und **Fotowolke** fassen die Historie je Rezept zusammen (siehe unten). Suche, Tags und Bewertungsfilter gelten in allen vier. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
 
 - **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten, **Messwerte und Ergebnis** eintragen (siehe unten) und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
 - **Eintrag löschen**: Zeile nach links wischen.
@@ -675,9 +674,11 @@ Diese Angaben zeigt die Backansicht beim nächsten Planen desselben Rezepts als 
 
 Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinnerungen setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“ und ohne Messwerte. Nach dem Backen erinnert die Karte „Letztes Mal“ in der Backansicht daran, ihn zu ergänzen.
 
-### Back Hit-Liste
+### Hit-Liste und Fotowolke
 
-**Hauptmenü → Back Hit-Liste.** Zeigt alle Rezepte, die schon einmal gebacken wurden, sortiert nach der Anzahl der Backvorgänge – oben Deine Klassiker. Je Rezept erscheinen Name, Anzahl und die Fotos aus den Backhistorien. Suche und Bewertungsfilter funktionieren wie in den anderen Listen.
+**Backhistorie → Hit-Liste.** Alle Rezepte, die schon einmal gebacken wurden, sortiert nach der Anzahl der Backvorgänge – oben Deine Klassiker; bei gleicher Anzahl zuerst das zuletzt gebackene. Je Rezept stehen Platz, Rezeptbild, Name, „3× gebacken · zuletzt 12.10.2026“, die Bewertung, die neuesten Fotos aus den Backhistorien und rechts groß die Anzahl. Ein Tippen öffnet das Rezept. Die Hit-Liste war früher ein eigener Menüpunkt; sie ist dieselbe Historie, nach Rezept gruppiert.
+
+**Backhistorie → Fotowolke.** Dieselben Rezepte als runde Wolke: Jedes Rezept ist ein Kreis mit dem Foto seines letzten Backvorgangs (ersatzweise dem Rezeptbild) und der Anzahl in der Ecke. Die Fläche des Kreises folgt der Anzahl – ein viermal so oft gebackenes Rezept bekommt einen doppelt so breiten Kreis. Das meistgebackene liegt in der Mitte, die anderen schmiegen sich spiralförmig darum. Unter größeren Kreisen steht der Name; die ganze Wolke wird auf den Bildschirm eingepasst. Ein Tippen öffnet das Rezept.
 
 ---
 

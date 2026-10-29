@@ -120,8 +120,7 @@ Au lancement, le menu principal apparaît avec dix cartes :
 | **Base de recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** |
 | **Créer une nouvelle recette** | Créer une recette de zéro ou l’importer depuis des photos ou une page web |
 | **Étapes planifiées** | Toutes les étapes de cuisson programmées, en liste ou en timeline |
-| **Historique de cuisson** | Les cuissons passées avec commentaires et photos |
-| **Palmarès de cuisson** | Les recettes classées par nombre de cuissons |
+| **Historique de cuisson** | Les cuissons passées avec commentaires et photos — en liste, galerie, palmarès ou nuage de photos |
 | **Liste de courses** | Toutes les listes de courses créées |
 | **Température de la pâte** | Calculateur : la température de l’eau de coulage pour une température de pâte souhaitée |
 | **Remplacer la farine** | Calculateur : changer de farine, ajuster l’eau |
@@ -649,7 +648,7 @@ Les mêmes commandes figurent dans l’app **Raccourcis** sous BakePlanner et pe
 
 ### Historique de cuisson
 
-**Menu principal → Historique de cuisson.** Toutes les cuissons, la plus récente en premier, au choix en **liste** avec date, nom de la recette, commentaire et photos — ou en **galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. Passez de l’une à l’autre avec le symbole en haut à droite ; le choix est mémorisé. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
+**Menu principal → Historique de cuisson.** Toutes les cuissons en quatre affichages, à choisir par les symboles sous le titre ; le choix est mémorisé. **Liste** : la plus récente en premier, avec date, nom de la recette, commentaire et photos. **Galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. **Palmarès** et **nuage de photos** résument l’historique par recette (voir ci-dessous). La recherche, les tags et le filtre de note s’appliquent aux quatre. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
 
 - **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire, renseigner **Mesures et résultat** (voir ci-dessous) et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
 - **Supprimer une entrée** : balayez la ligne vers la gauche.
@@ -678,9 +677,11 @@ La vue de cuisson affiche ces informations dans la carte **La dernière fois** l
 
 Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la vue de cuisson vous rappelle de la compléter.
 
-### Palmarès de cuisson
+### Palmarès et nuage de photos
 
-**Menu principal → Palmarès de cuisson.** Affiche toutes les recettes déjà cuites au moins une fois, classées par nombre de cuissons — vos classiques en tête. Pour chaque recette figurent le nom, le nombre et les photos des historiques. La recherche et le filtre de note fonctionnent comme dans les autres listes.
+**Historique de cuisson → Palmarès.** Toutes les recettes déjà cuites au moins une fois, classées par nombre de cuissons — vos classiques en tête ; à nombre égal, la dernière cuite en premier. Pour chaque recette figurent le rang, l’image, le nom, « cuit 3× · dernière le 12/10/2026 », la note, les photos les plus récentes des historiques et, en grand à droite, le nombre. Un toucher ouvre la recette. Le palmarès était auparavant une entrée du menu ; c’est le même historique, regroupé par recette.
+
+**Historique de cuisson → Nuage de photos.** Les mêmes recettes en nuage rond : chaque recette est un cercle avec la photo de sa dernière cuisson (à défaut l’image de la recette) et le nombre dans le coin. La surface du cercle suit le nombre — une recette cuite quatre fois plus souvent obtient un cercle deux fois plus large. La plus cuite est au centre, les autres se lovent autour en spirale. Sous les grands cercles figure le nom ; le nuage entier est ajusté à l’écran. Un toucher ouvre la recette.
 
 ---
 

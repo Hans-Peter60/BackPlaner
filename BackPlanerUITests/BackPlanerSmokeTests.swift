@@ -181,7 +181,7 @@ final class BackPlanerSmokeTests: XCTestCase {
     /// Raw values of MenuDestination, which the app uses as identifiers.
     private static let menuDestinations = [
         "publicRecipes", "newRecipe", "scheduledSteps",
-        "bakeHistory", "hitList", "shoppingList", "doughTemperature", "flourSubstitution", "starterYield", "settings"
+        "bakeHistory", "shoppingList", "doughTemperature", "flourSubstitution", "starterYield", "settings"
     ]
 
     private func launch() {

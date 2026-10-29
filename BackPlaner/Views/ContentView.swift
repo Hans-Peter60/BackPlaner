@@ -45,8 +45,7 @@ struct ContentView: View {
         MenuItem(destination: .publicRecipes,  title: "Rezept-Datenbank",     subtitle: "Lokale, eigene und öffentliche Rezepte durchsuchen", systemImage: "books.vertical.fill"),
         MenuItem(destination: .newRecipe,      title: "Neues Rezept anlegen", subtitle: "Ein Rezept von Grund auf erstellen", systemImage: "plus.circle.fill"),
         MenuItem(destination: .scheduledSteps, title: "Geplante Schritte",    subtitle: "Als Liste oder Timeline",         systemImage: "calendar"),
-        MenuItem(destination: .bakeHistory,    title: "Backhistorie",         subtitle: "Vergangene Backvorgänge",         systemImage: "clock.arrow.circlepath"),
-        MenuItem(destination: .hitList,        title: "Back Hit-Liste",       subtitle: "Deine besten Rezepte",            systemImage: "star.fill"),
+        MenuItem(destination: .bakeHistory,    title: "Backhistorie",         subtitle: "Backvorgänge, Hit-Liste, Fotowolke", systemImage: "clock.arrow.circlepath"),
         MenuItem(destination: .shoppingList,   title: "Einkaufsliste",        subtitle: "Zutaten zum Einkaufen",           systemImage: "cart.fill"),
         MenuItem(destination: .doughTemperature, title: "Teigtemperatur",     subtitle: "Schüttwassertemperatur berechnen", systemImage: "thermometer.medium"),
         MenuItem(destination: .flourSubstitution, title: "Mehl ersetzen",     subtitle: "Mehlsorte tauschen, Wasser anpassen", systemImage: "arrow.left.arrow.right.circle"),
@@ -193,7 +192,6 @@ struct ContentView: View {
         case .newRecipe:      AddNewRecipeDataView()
         case .scheduledSteps: ScheduledTasksTabsView()
         case .bakeHistory:    BakeHistoriesListView()
-        case .hitList:        BakeHistoriesHitListView()
         case .shoppingList:   ProLockedScreen(.shoppingList) { ShoppingCartsView() }
         case .doughTemperature: DoughTemperatureCalculatorView()
         case .flourSubstitution: FlourSubstitutionCalculatorView()
@@ -221,7 +219,6 @@ enum MenuDestination: Hashable {
     case newRecipe
     case scheduledSteps
     case bakeHistory
-    case hitList
     case shoppingList
     case doughTemperature
     case flourSubstitution
