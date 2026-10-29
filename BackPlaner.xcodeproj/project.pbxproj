@@ -165,6 +165,9 @@
 		6AFA48DA307E000100E105F9 /* CurrentStepRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */; };
 		6AFA48DC307E000100E105F9 /* ComponentColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DB307E000100E105F9 /* ComponentColumn.swift */; };
 		6AFA48DE307E000100E105F9 /* RecipePrintData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DD307E000100E105F9 /* RecipePrintData.swift */; };
+		6AFA48E0307E000100E105F9 /* AppSettingsCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48DF307E000100E105F9 /* AppSettingsCore.swift */; };
+		6AFA48E2307E000100E105F9 /* GlobalVariablesCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48E1307E000100E105F9 /* GlobalVariablesCore.swift */; };
+		6AFA48E4307E000100E105F9 /* RecipeExportFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48E3307E000100E105F9 /* RecipeExportFormat.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		A385A67E38BDDCC322983214 /* BakingGlossary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */; };
 		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
@@ -376,6 +379,9 @@
 		6AFA48D8307E000100E105F9 /* CurrentStepRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStepRule.swift; sourceTree = "<group>"; };
 		6AFA48DB307E000100E105F9 /* ComponentColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentColumn.swift; sourceTree = "<group>"; };
 		6AFA48DD307E000100E105F9 /* RecipePrintData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePrintData.swift; sourceTree = "<group>"; };
+		6AFA48DF307E000100E105F9 /* AppSettingsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsCore.swift; sourceTree = "<group>"; };
+		6AFA48E1307E000100E105F9 /* GlobalVariablesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariablesCore.swift; sourceTree = "<group>"; };
+		6AFA48E3307E000100E105F9 /* RecipeExportFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExportFormat.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
@@ -625,6 +631,7 @@
 			children = (
 				6AF639722B7A51330070CDC1 /* DataService.swift */,
 				6AF639742B7A51330070CDC1 /* GlobalVariables.swift */,
+				6AFA48E1307E000100E105F9 /* GlobalVariablesCore.swift */,
 				6AF639732B7A51330070CDC1 /* RecipeFB.swift */,
 				6AF639702B7A51330070CDC1 /* RecipeFBModel.swift */,
 				6AF639712B7A51330070CDC1 /* UnitSets.json */,
@@ -640,6 +647,7 @@
 				6AF639812B7A515A0070CDC1 /* Rational.swift */,
 				6AF92688304469170081227C /* Theme.swift */,
 				6A9181F33049649A0045D7CB /* AppSettings.swift */,
+				6AFA48DF307E000100E105F9 /* AppSettingsCore.swift */,
 				6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */,
 				6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */,
 				6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */,
@@ -680,6 +688,7 @@
 				6AFA48C4307E000100E105F9 /* StarterFeedingFacts.swift */,
 				6AFA48C6307E000100E105F9 /* StarterFeedingRatio.swift */,
 				6AFA48CA307E000100E105F9 /* RecipeExport.swift */,
+				6AFA48E3307E000100E105F9 /* RecipeExportFormat.swift */,
 				6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */,
 				54296DF523F2F5ABFA706E35 /* BakingGlossary.swift */,
 				6A86A98C308E516C00BA0CF2 /* MonetizationConfig.swift */,
@@ -1025,6 +1034,7 @@
 				6ADBF503308BA59500BB7789 /* BackPlanerShortcuts.swift in Sources */,
 				6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */,
 				6AF6397B2B7A51340070CDC1 /* GlobalVariables.swift in Sources */,
+				6AFA48E2307E000100E105F9 /* GlobalVariablesCore.swift in Sources */,
 				6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */,
 				6AF639492B7A4ED90070CDC1 /* NextStep+CoreDataClass.swift in Sources */,
 				6A1132172B7CF96900CDF054 /* ScheduledTaskEditView.swift in Sources */,
@@ -1081,12 +1091,14 @@
 				6AFA48C7307E000100E105F9 /* StarterFeedingRatio.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,
+				6AFA48E4307E000100E105F9 /* RecipeExportFormat.swift in Sources */,
 				6AFA48CD307E000100E105F9 /* FlourSubstitution.swift in Sources */,
 				D451D9BCF90EFF3302855E4C /* StarterYieldAdjustment.swift in Sources */,
 				07566BDA8D69BD342855BF03 /* AdjustedRecipe.swift in Sources */,
 				6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */,
 				CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */,
 				6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */,
+				6AFA48E0307E000100E105F9 /* AppSettingsCore.swift in Sources */,
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,

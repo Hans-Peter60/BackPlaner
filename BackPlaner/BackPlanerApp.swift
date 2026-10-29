@@ -124,6 +124,12 @@ struct BackPlanerApp: App {
 
     let persistenceController = PersistenceController.shared
 
+    init() {
+        // The calculation logic knows only the bundled units on its own;
+        // the ones the user added come from the settings store.
+        GlobalVariables.customUnitSets = { CustomUnitStore.shared.unitSets }
+    }
+
     var body: some Scene {
         WindowGroup {
             if UITestSupport.isUnitTestHost {

@@ -16,63 +16,6 @@ import CoreData
 import SwiftUI
 import UniformTypeIdentifiers
 
-// MARK: - File format
-
-struct RecipeExportFile: Codable, Equatable {
-    static let currentFormatVersion = 1
-
-    var formatVersion: Int = Self.currentFormatVersion
-    var recipes: [RecipeExportData]
-
-    /// Whether this app version knows how to read a file written at
-    /// `formatVersion` — a later version may have added fields this one
-    /// would silently drop, so only versions up to its own are accepted.
-    static func isSupported(formatVersion: Int) -> Bool {
-        formatVersion <= currentFormatVersion
-    }
-}
-
-struct RecipeExportData: Codable, Equatable {
-    var name: String
-    var summary: String
-    var urlLink: String?
-    var prepTime: Int
-    var totalWeight: Double
-    var tags: [String]
-    var rating: Int
-    var recurrenceIntervalDays: Int
-    /// JSON encodes `Data` as base64 on its own, so the image travels inline
-    /// with no extra work here.
-    var image: Data?
-    var components: [RecipeExportComponent]
-    var instructions: [RecipeExportInstruction]
-}
-
-struct RecipeExportComponent: Codable, Equatable {
-    var name: String
-    var number: Int
-    var ingredients: [RecipeExportIngredient]
-}
-
-struct RecipeExportIngredient: Codable, Equatable {
-    var name: String
-    var number: Int
-    var unit: String?
-    var weight: Double
-    var normWeight: Double
-    var num: Int
-    var denom: Int
-}
-
-struct RecipeExportInstruction: Codable, Equatable {
-    var instruction: String
-    var step: Double
-    var duration: Int
-    var startTime: Int
-    var bakeFlag: Bool
-    var componentName: String?
-}
-
 // MARK: - Recipe → export data
 
 extension RecipeExportData {
@@ -282,9 +225,7 @@ struct RecipeFileExport: Transferable {
     }
 
     private func write() throws -> URL {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let data = try encoder.encode(file)
+        let data = try file.encoded()
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(fileName)
             .appendingPathExtension("json")
@@ -295,21 +236,7 @@ struct RecipeFileExport: Transferable {
 
 // MARK: - Import
 
-enum RecipeImportError: LocalizedError {
-    case unreadableFile
-    case unsupportedFormatVersion
-
-    var errorDescription: String? {
-        switch self {
-        case .unreadableFile:
-            return String(localized: "Die Datei ist keine gültige BakePlanner-Rezeptdatei.", bundle: AppSettings.localizationBundle)
-        case .unsupportedFormatVersion:
-            return String(localized: "Diese Datei wurde mit einer neueren Version von BakePlanner erstellt. Bitte aktualisiere die App.", bundle: AppSettings.localizationBundle)
-        }
-    }
-}
-
-enum RecipeImport {
+extension RecipeImport {
     /// Decodes a backup/share file and writes every recipe it holds into the
     /// context as new recipes, returning how many were added.
     @discardableResult
@@ -324,16 +251,7 @@ enum RecipeImport {
             throw RecipeImportError.unreadableFile
         }
 
-        let file: RecipeExportFile
-        do {
-            file = try JSONDecoder().decode(RecipeExportFile.self, from: data)
-        } catch {
-            throw RecipeImportError.unreadableFile
-        }
-
-        guard RecipeExportFile.isSupported(formatVersion: file.formatVersion) else {
-            throw RecipeImportError.unsupportedFormatVersion
-        }
+        let file = try decodeFile(data)
 
         for recipeData in file.recipes {
             _ = recipeData.makeRecipe(in: context)

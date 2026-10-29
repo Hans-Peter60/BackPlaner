@@ -8,13 +8,6 @@
 //
 
 import Foundation
-import CoreData
-
-/// The copy an adjustment sheet has just written, for the recipe screen to
-/// open it.
-struct AdjustedRecipeCopy: Identifiable, Hashable {
-    let id: NSManagedObjectID
-}
 
 enum AdjustedRecipe {
 
@@ -50,47 +43,5 @@ enum AdjustedRecipe {
     private static func datedSuffixRange(in name: String) -> Range<String.Index>? {
         let pattern = #"\s*\([^()]*\b\d{4}\b[^()]*\)$"#
         return name.range(of: pattern, options: .regularExpression)
-    }
-}
-
-extension RecipeExportData {
-
-    /// Writes this data over an existing recipe: name, total weight and the
-    /// components with their ingredients. Everything else — steps, bake
-    /// history, feeding log, shopping lists — stays, because an adjustment
-    /// changes amounts and ingredient names and nothing more.
-    ///
-    /// The components are replaced rather than matched up: an adjustment
-    /// may rename a line, and nothing else refers to a component object.
-    func update(_ recipe: Recipe, in context: NSManagedObjectContext) {
-        recipe.name        = name
-        recipe.totalWeight = totalWeight
-
-        for case let component as Component in recipe.components {
-            recipe.removeFromComponents(component)
-            context.delete(component)
-        }
-
-        for componentData in components {
-            let component    = Component(context: context)
-            component.id     = UUID()
-            component.name   = componentData.name
-            component.number = componentData.number
-
-            for ingredientData in componentData.ingredients {
-                let ingredient        = Ingredient(context: context)
-                ingredient.id         = UUID()
-                ingredient.name       = ingredientData.name
-                ingredient.number     = ingredientData.number
-                ingredient.unit       = ingredientData.unit
-                ingredient.weight     = ingredientData.weight
-                ingredient.normWeight = ingredientData.normWeight
-                ingredient.num        = ingredientData.num
-                ingredient.denom      = ingredientData.denom
-                component.addToIngredients(ingredient)
-            }
-
-            recipe.addToComponents(component)
-        }
     }
 }

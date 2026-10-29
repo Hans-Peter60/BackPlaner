@@ -152,3 +152,104 @@ extension StarterFeedingLog {
         }
     }
 }
+
+// MARK: - Adjusted copies
+
+/// The copy an adjustment sheet has just written, for the recipe screen to
+/// open it.
+struct AdjustedRecipeCopy: Identifiable, Hashable {
+    let id: NSManagedObjectID
+}
+
+extension RecipeExportData {
+
+    /// Writes this data over an existing recipe: name, total weight and the
+    /// components with their ingredients. Everything else — steps, bake
+    /// history, feeding log, shopping lists — stays, because an adjustment
+    /// changes amounts and ingredient names and nothing more.
+    ///
+    /// The components are replaced rather than matched up: an adjustment
+    /// may rename a line, and nothing else refers to a component object.
+    func update(_ recipe: Recipe, in context: NSManagedObjectContext) {
+        recipe.name        = name
+        recipe.totalWeight = totalWeight
+
+        for case let component as Component in recipe.components {
+            recipe.removeFromComponents(component)
+            context.delete(component)
+        }
+
+        for componentData in components {
+            let component    = Component(context: context)
+            component.id     = UUID()
+            component.name   = componentData.name
+            component.number = componentData.number
+
+            for ingredientData in componentData.ingredients {
+                let ingredient        = Ingredient(context: context)
+                ingredient.id         = UUID()
+                ingredient.name       = ingredientData.name
+                ingredient.number     = ingredientData.number
+                ingredient.unit       = ingredientData.unit
+                ingredient.weight     = ingredientData.weight
+                ingredient.normWeight = ingredientData.normWeight
+                ingredient.num        = ingredientData.num
+                ingredient.denom      = ingredientData.denom
+                component.addToIngredients(ingredient)
+            }
+
+            recipe.addToComponents(component)
+        }
+    }
+}
+
+// MARK: - Fold steps
+
+extension TimedFoldExpansion {
+    /// Expands the fold instructions of a stored recipe, adding, renumbering
+    /// and removing its `Instruction` objects as the array form does. Returns
+    /// whether anything changed; the caller saves the context.
+    @discardableResult
+    static func expand(in recipe: Recipe, context: NSManagedObjectContext) -> Bool {
+        let stored = recipe.instructionsArray
+        var working = [InstructionFB]()
+        var origin = [ObjectIdentifier: Instruction]()
+        for instruction in stored {
+            let instructionFB = InstructionFB()
+            instructionFB.id = instruction.id?.uuidString ?? UUID().uuidString
+            instructionFB.instruction = instruction.instruction
+            instructionFB.step = instruction.step
+            instructionFB.duration = instruction.duration
+            instructionFB.startTime = instruction.startTime
+            instructionFB.componentName = instruction.componentName
+            working.append(instructionFB)
+            origin[ObjectIdentifier(instructionFB)] = instruction
+        }
+
+        guard expand(&working) else { return false }
+
+        var kept = Set<ObjectID>()
+        for instructionFB in working {
+            if let instruction = origin[ObjectIdentifier(instructionFB)] {
+                instruction.step = instructionFB.step
+                instruction.duration = instructionFB.duration
+                kept.insert(instruction.objectID)
+            } else {
+                let instruction = Instruction(context: context)
+                instruction.id = UUID()
+                instruction.instruction = instructionFB.instruction
+                instruction.step = instructionFB.step
+                instruction.duration = instructionFB.duration
+                instruction.componentName = instructionFB.componentName
+                recipe.addToInstructions(instruction)
+            }
+        }
+        for instruction in stored where !kept.contains(instruction.objectID) {
+            recipe.removeFromInstructions(instruction)
+            context.delete(instruction)
+        }
+        return true
+    }
+
+    private typealias ObjectID = NSManagedObjectID
+}

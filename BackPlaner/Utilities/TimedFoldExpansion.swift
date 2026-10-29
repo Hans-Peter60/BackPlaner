@@ -14,7 +14,6 @@
 //  doesn't depend on where the recipe came from.
 //
 
-import CoreData
 import Foundation
 
 enum TimedFoldExpansion {
@@ -97,55 +96,6 @@ enum TimedFoldExpansion {
         }
         return foldSteps
     }
-
-    // MARK: - Core Data
-
-    /// Expands the fold instructions of a stored recipe, adding, renumbering
-    /// and removing its `Instruction` objects as the array form does. Returns
-    /// whether anything changed; the caller saves the context.
-    @discardableResult
-    static func expand(in recipe: Recipe, context: NSManagedObjectContext) -> Bool {
-        let stored = recipe.instructionsArray
-        var working = [InstructionFB]()
-        var origin = [ObjectIdentifier: Instruction]()
-        for instruction in stored {
-            let instructionFB = InstructionFB()
-            instructionFB.id = instruction.id?.uuidString ?? UUID().uuidString
-            instructionFB.instruction = instruction.instruction
-            instructionFB.step = instruction.step
-            instructionFB.duration = instruction.duration
-            instructionFB.startTime = instruction.startTime
-            instructionFB.componentName = instruction.componentName
-            working.append(instructionFB)
-            origin[ObjectIdentifier(instructionFB)] = instruction
-        }
-
-        guard expand(&working) else { return false }
-
-        var kept = Set<ObjectID>()
-        for instructionFB in working {
-            if let instruction = origin[ObjectIdentifier(instructionFB)] {
-                instruction.step = instructionFB.step
-                instruction.duration = instructionFB.duration
-                kept.insert(instruction.objectID)
-            } else {
-                let instruction = Instruction(context: context)
-                instruction.id = UUID()
-                instruction.instruction = instructionFB.instruction
-                instruction.step = instructionFB.step
-                instruction.duration = instructionFB.duration
-                instruction.componentName = instructionFB.componentName
-                recipe.addToInstructions(instruction)
-            }
-        }
-        for instruction in stored where !kept.contains(instruction.objectID) {
-            recipe.removeFromInstructions(instruction)
-            context.delete(instruction)
-        }
-        return true
-    }
-
-    private typealias ObjectID = NSManagedObjectID
 
     // MARK: - Detection
 
