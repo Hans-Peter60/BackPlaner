@@ -65,33 +65,25 @@ struct BakePlanScheduler {
     /// the amounts that are actually weighed out. `isAutomaticRecurrence`
     /// marks steps queued by `RecurringBakePlanner` rather than by the user, so
     /// the scheduled-steps views can hold them back until shortly before they're due.
+    func writeScheduledSteps(planID: UUID, servingScale: Double, isAutomaticRecurrence: Bool = false,
+                             to store: any ScheduledStepStore) {
+        store.add(plan.scheduledStepData(planID: planID, servingScale: servingScale,
+                                         isAutomaticRecurrence: isAutomaticRecurrence))
+    }
+
     func writeScheduledSteps(planID: UUID, servingScale: Double, isAutomaticRecurrence: Bool = false, in context: NSManagedObjectContext) {
-        for step in plan.allSteps {
-            let next = NextStep(context: context)
-            next.id           = UUID()
-            next.planID       = planID
-            next.recipeName   = plan.recipeName
-            next.servingScale = servingScale
-            next.instruction = step.instruction
-            next.step        = step.step
-            next.duration    = step.duration
-            next.startTime   = step.startTime
-            next.date        = plan.date(of: step)
-            next.isAutomaticRecurrence = isAutomaticRecurrence
-        }
-        do {
-            try context.save()
-        } catch {
-            AppLog.planning.error("Scheduled steps could not be saved: \(error.localizedDescription)")
-        }
+        writeScheduledSteps(planID: planID, servingScale: servingScale,
+                            isAutomaticRecurrence: isAutomaticRecurrence,
+                            to: CoreDataScheduledStepStore(context: context))
     }
 
     /// Whether the recipe already has scheduled steps.
+    static func hasPlan(recipeName: String, from store: any ScheduledStepStore) -> Bool {
+        store.hasSteps(recipeName: recipeName)
+    }
+
     static func hasPlan(recipeName: String, in context: NSManagedObjectContext) -> Bool {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@", recipeName)
-        request.fetchLimit = 1
-        return ((try? context.count(for: request)) ?? 0) > 0
+        hasPlan(recipeName: recipeName, from: CoreDataScheduledStepStore(context: context))
     }
 
     /// Whether the recipe has a plan that is not over yet — a step still
@@ -99,11 +91,13 @@ struct BakePlanScheduler {
     /// from queuing a second occurrence beside one that already covers the
     /// recipe's next due date.
     static func hasPendingPlan(recipeName: String, now: Date = Date(),
+                               from store: any ScheduledStepStore) -> Bool {
+        store.hasSteps(recipeName: recipeName, onOrAfter: now)
+    }
+
+    static func hasPendingPlan(recipeName: String, now: Date = Date(),
                                in context: NSManagedObjectContext) -> Bool {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@ AND date >= %@", recipeName, now as NSDate)
-        request.fetchLimit = 1
-        return ((try? context.count(for: request)) ?? 0) > 0
+        hasPendingPlan(recipeName: recipeName, now: now, from: CoreDataScheduledStepStore(context: context))
     }
 
     /// Reminders, scheduled steps and the bake-history entry for one plan —
@@ -151,68 +145,40 @@ struct BakePlanScheduler {
     /// being created right now.
     static func removePlans(recipeName: String, reminderPrefix: String,
                             keeping planID: UUID, in context: NSManagedObjectContext) {
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName == %@", recipeName)
-        if let previousSteps = try? context.fetch(request) {
-            previousSteps.forEach { context.delete($0) }
-            try? context.save()
-        }
+        removePlans(recipeName: recipeName, reminderPrefix: reminderPrefix, keeping: planID,
+                    from: CoreDataScheduledStepStore(context: context))
+    }
+
+    static func removePlans(recipeName: String, reminderPrefix: String,
+                            keeping planID: UUID, from store: any ScheduledStepStore) {
+        store.removeSteps(recipeName: recipeName)
         NotificationActions.cancelPendingNotifications(withIdentifierPrefix: "Recipe-\(reminderPrefix)-",
                                                        excludingContaining: planID.uuidString)
     }
 }
 
-// MARK: - Plan checks against the scheduled plans
+// MARK: - Plan checks against the scheduled plans in Core Data
 
 extension BakePlan {
     func issues(in context: NSManagedObjectContext) -> [BakePlanIssue] {
-        issues(existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: recipeName, in: context))
+        issues(from: CoreDataScheduledStepStore(context: context))
     }
 }
 
 extension BakePlanValidator {
-    /// The oven phases of all plans that are currently scheduled, without the
-    /// plan of `recipeName` (which is about to be replaced) and without bakes
-    /// that are already over.
     static func scheduledBakeWindows(
         excluding recipeName: String,
         in context: NSManagedObjectContext,
         now: Date = Date()
     ) -> [BakeWindow] {
-
-        let request = NextStep.fetchRequest()
-        request.predicate = NSPredicate(format: "recipeName != %@", recipeName)
-
-        guard let steps = try? context.fetch(request) else { return [] }
-
-        return Dictionary(grouping: steps, by: \.recipeName)
-            .compactMap { name, steps in
-                bakeWindow(
-                    recipeName: name,
-                    steps: steps.map {
-                        PlannedStep(instruction: $0.instruction, step: $0.step, date: $0.date)
-                    }
-                )
-            }
-            .filter { $0.end > now }
+        scheduledBakeWindows(excluding: recipeName, from: CoreDataScheduledStepStore(context: context), now: now)
     }
 }
 
 extension BakePlanAdvisor {
-    /// The suggestions for the baking views: the day window from the
-    /// settings, nothing before now or beyond the picker's range, and the
-    /// bakes already scheduled.
     static func nightFreeDates(for plan: BakePlan, in context: NSManagedObjectContext,
                                now: Date = Date()) -> [NightFreeDate] {
-        let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
-        let range = GlobalVariables.planningDateRange(around: now)
-        guard now < range.upperBound else { return [] }
-        return nightFreeDates(
-            for: plan, dayStart: dayStart, dayEnd: dayEnd,
-            allowedDates: now...range.upperBound,
-            existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: plan.recipeName, in: context),
-            ovenCount: GlobalVariables.ovenCount
-        )
+        nightFreeDates(for: plan, from: CoreDataScheduledStepStore(context: context), now: now)
     }
 }
 
