@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 
 struct CalcIngredientWeight {
@@ -232,7 +231,7 @@ class Rational {
         let name: String
         let requires: [String]
 
-        private static func requirements(
+        static func requirements(
             of ingredientNames: [String],
             componentNames: [String],
             excluding ownName: String
@@ -259,20 +258,6 @@ class Rational {
                     name: component.name,
                     requires: requirements(
                         of: component.ingredients.filter { $0.weight == 0 }.map { $0.name },
-                        componentNames: names,
-                        excluding: component.name
-                    )
-                )
-            }
-        }
-
-        static func from(_ components: [Component]) -> [ComponentDependency] {
-            let names = components.map { $0.name }
-            return components.map { component in
-                ComponentDependency(
-                    name: component.name,
-                    requires: requirements(
-                        of: component.ingredientsArray.filter { $0.weight == 0 }.map { $0.name },
                         componentNames: names,
                         excluding: component.name
                     )

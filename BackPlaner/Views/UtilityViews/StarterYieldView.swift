@@ -437,3 +437,22 @@ struct StarterYieldSheet: View {
         StarterYieldCalculatorView()
     }
 }
+
+// MARK: - Hint texts
+
+// The wording lives with the view that shows it, so the logic itself needs
+// no SwiftUI.
+extension StarterYieldAdjustment.Hint {
+    var text: LocalizedStringKey {
+        switch self {
+        case .softer:
+            return "Weicheres Anstellgut (höhere TA) gärt schneller und säuert milder – die Reifezeit des Sauerteigs eher etwas kürzer ansetzen."
+        case .firmer:
+            return "Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen."
+        case .bigStep:
+            return "Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen."
+        case .assumedYield:
+            return "Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“."
+        }
+    }
+}

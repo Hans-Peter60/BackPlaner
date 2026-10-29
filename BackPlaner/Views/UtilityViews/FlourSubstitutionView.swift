@@ -379,3 +379,35 @@ struct FlourSubstitutionSheet: View {
         FlourSubstitutionCalculatorView()
     }
 }
+
+// MARK: - Hint texts
+
+// The wording lives with the view that shows it, so the logic itself needs
+// no SwiftUI.
+extension FlourSubstitution.Hint {
+    var text: LocalizedStringKey {
+        switch self {
+        case .speltHandling:
+            return "Dinkelteig kürzer und schonender kneten, lieber dehnen und falten – er neigt zum Überkneten und wird sonst trocken."
+        case .speltSoaker:
+            return "Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig."
+        case .ryeAcidify:
+            // The share is formatted in code: "20 %" in German, "20%" in English.
+            return "Roggen hat kein Klebergerüst: Ab etwa \(FlourSubstitution.ryeAcidifyShare, format: .percent) Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig."
+        case .ryeMixOnly:
+            return "Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern."
+        case .emmer:
+            return "Emmer hat einen weichen Kleber: kurz kneten, kurze Gare, am sichersten in der Kastenform backen."
+        case .einkorn:
+            return "Einkorn bindet wenig Wasser und ist klebrig: deutlich weniger Wasser, kaum kneten, Kastenform statt freigeschoben."
+        case .durumAutolyse:
+            return "Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich."
+        case .wholeGrainSoak:
+            return "Vollkorn braucht Zeit zum Quellen: Autolyse oder ein Brüh-/Quellstück einplanen; die Krume wird dichter."
+        case .wheatKnead:
+            return "Weizen hat mehr Kleber als Dinkel, Emmer oder Einkorn: etwas länger kneten, bis der Teig ein Fenster zieht."
+        case .addWaterGradually:
+            return "Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte."
+        }
+    }
+}

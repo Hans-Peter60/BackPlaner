@@ -25,10 +25,10 @@ Guter Ansatzpunkt: Es gibt mit `RecipeExportData` / `RecipeExportIngredient` (Si
 
 ### Plattformneutral, direkt wiederverwendbar (nur Foundation/CoreGraphics)
 `GeneralRecipeParser` (2.629 Z.), `TwoColumnRecipeParser`, `PlanTimeline`, `BakingGlossary`, `ShoppingListAmount`, `UnitLocalizer`, `StarterFeedingRatio`, `ScheduledStepComponent`, `ComponentProductMatcher`, `IngredientNameNormalizer`, `DoughTemperatureCalculator`, `PendingWebImport`, `DataService`, `IntentPhrasing`, `RecipeWebPageLoader` (URLSession, UIKit nur am Rand).
-`Rational`, `FlourSubstitution`, `StarterYieldAdjustment`, `RecipeFB` importieren SwiftUI, vermutlich nur für einzelne Typen – prüfen und lösen.
+`Rational`, `FlourSubstitution`, `StarterYieldAdjustment` sind seit Schritt 1a frei von SwiftUI und Core Data. `RecipeFB` importiert noch SwiftUI (`@Observable`) – prüfen und lösen.
 
 ### Logik mit Core-Data-Kopplung (Daten-Schnittstelle nötig)
-`BakePlan` (inkl. `BakePlanScheduler`), `BakePlanValidator`, `BakePlanAdvisor`, `DoughComposition`, `RecurringBakePlanner`, `TimedFoldExpansion`, `AdjustedRecipe`, `BakeHistoryFacts`, `StarterFeedingFacts`, `RecipeExport`, `RecipeModel`.
+`BakePlan` (inkl. `BakePlanScheduler`), `BakePlanValidator`, `BakePlanAdvisor`, `RecurringBakePlanner`, `TimedFoldExpansion`, `AdjustedRecipe`, `BakeHistoryFacts`, `StarterFeedingFacts`, `RecipeExport`, `RecipeModel`.
 
 ### Apple-Dienste, auf Android zu ersetzen
 | iOS | Datei(en) | Android-Ersatz |
@@ -61,6 +61,10 @@ Guter Ansatzpunkt: Es gibt mit `RecipeExportData` / `RecipeExportIngredient` (Si
 3. **Skip-Probelauf** mit dem Package plus ein, zwei einfachen Views (z. B. Teigtemperatur-Rechner, Einkaufsliste) – zeigt, wie viel SwiftUI Skip direkt übersetzt.
 4. **Entscheidung:** Skip weiter oder Kotlin/Compose mit dem Swift-Package über das Swift SDK für Android bzw. Neuschreiben der Logik.
 5. **Android 1.0:** Rezepte, Planung, Erinnerungen, Backmodus, Einkaufsliste, Historie, Anstellgut-Tagebuch, öffentliche Rezepte, Pro über Play Billing. Widgets, Live-Aktivität, Siri, Watch, Apple Intelligence später oder gar nicht.
+
+## Stand der Umsetzung
+
+- **Schritt 1a** (Branch `claude/sleepy-wozniak-9n8mxc`): Hinweistexte (`LocalizedStringKey`) von `FlourSubstitution` und `StarterYieldAdjustment` in die zugehörigen Views verschoben; die Core-Data-Brücken `DoughComposition.components(of: Recipe)` und `Rational.ComponentDependency.from([Component])` liegen jetzt in `CoreData/CoreDataLogicAdapters.swift`. `DoughComposition`, `Rational`, `FlourSubstitution` und `StarterYieldAdjustment` importieren damit nur noch Foundation; für Sprache und Einstellungen hängen sie noch an `AppSettings`. Für Nutzer ändert sich nichts.
 
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?

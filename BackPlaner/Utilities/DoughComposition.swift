@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import CoreData
 
 enum DoughComposition {
 
@@ -43,18 +42,6 @@ enum DoughComposition {
     static func components(of recipe: RecipeFB) -> [Component] {
         recipe.components.map { component in
             Component(name: component.name, ingredients: component.ingredients.map { ingredient in
-                Ingredient(name: ingredient.name,
-                           grams: ingredient.normWeight > 0 ? ingredient.normWeight : ingredient.weight,
-                           weight: ingredient.weight,
-                           numerator: ingredient.num,
-                           denominator: ingredient.denom)
-            })
-        }
-    }
-
-    static func components(of recipe: Recipe) -> [Component] {
-        recipe.componentsArray.map { component in
-            Component(name: component.name, ingredients: component.ingredientsArray.map { ingredient in
                 Ingredient(name: ingredient.name,
                            grams: ingredient.normWeight > 0 ? ingredient.normWeight : ingredient.weight,
                            weight: ingredient.weight,
