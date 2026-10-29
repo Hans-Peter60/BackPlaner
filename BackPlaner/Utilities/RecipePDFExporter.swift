@@ -14,48 +14,10 @@ import UniformTypeIdentifiers
 
 // MARK: - What goes on the page
 
-/// A recipe flattened to strings, so the renderer knows neither Core Data
-/// nor Firebase and the export can travel across threads.
-struct RecipePrintData: Sendable {
-
-    struct Component: Sendable {
-        let name: String
-        let lines: [String]
-    }
-
-    struct Step: Sendable {
-        let number: String
-        let text: String
-        let duration: String
-    }
-
-    let name: String
-    let summary: String
-    let imageData: Data?
-    let totalWeight: Int
-    let prepTime: String
-    let urlLink: String?
-    let totalLines: [String]
-    let components: [Component]
-    let steps: [Step]
-
+extension RecipePrintData {
     /// One of the user's own recipes.
     init(recipe: Recipe, scale: Double) {
-        name = recipe.name
-        summary = recipe.summary
-        imageData = recipe.image.isEmpty ? nil : recipe.image
-        totalWeight = Int((recipe.totalWeight * scale).rounded())
-        prepTime = Rational.displayHoursMinutes(recipe.prepTime)
-        urlLink = recipe.urlLink.flatMap { $0.isEmpty ? nil : $0 }
-
-        let columns = ComponentColumn.columns(of: recipe.componentsArray)
-        components = Self.components(from: columns, scale: scale)
-        totalLines = TotalIngredientsView.aggregatedLines(of: columns, scale: scale)
-        steps = recipe.instructionsArray.map {
-            Step(number: Rational.decimalPlace($0.step, 10),
-                 text: $0.instruction,
-                 duration: Rational.displayHoursMinutes($0.duration))
-        }
+        self.init(data: RecipeExportData(recipe: recipe), scale: scale)
     }
 
     /// A recipe from the public database.
@@ -77,22 +39,6 @@ struct RecipePrintData: Sendable {
                      text: $0.instruction,
                      duration: Rational.displayHoursMinutes($0.duration))
             }
-    }
-
-    private static func components(from columns: [ComponentColumn], scale: Double) -> [Component] {
-        columns.map { column in
-            Component(
-                name: column.name,
-                lines: column.ingredients.map { ingredient in
-                    "• " + Rational.getPortion(unit: ingredient.unit,
-                                               weight: ingredient.weight,
-                                               num: ingredient.numerator,
-                                               denom: ingredient.denominator,
-                                               scale: scale)
-                        + ingredient.name.trimmingCharacters(in: .whitespaces)
-                }
-            )
-        }
     }
 }
 

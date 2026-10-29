@@ -77,6 +77,12 @@ struct RecipeExportInstruction: Codable, Equatable {
 
 extension RecipeExportData {
     init(recipe: Recipe) {
+        self.init(recipe: recipe, includingImage: true)
+    }
+
+    /// `includingImage: false` leaves the image out: the calculations need
+    /// only the content, and need not carry the picture around.
+    init(recipe: Recipe, includingImage: Bool) {
         name                   = recipe.name
         summary                = recipe.summary
         urlLink                = recipe.urlLink
@@ -85,7 +91,7 @@ extension RecipeExportData {
         tags                   = recipe.tags
         rating                 = recipe.rating
         recurrenceIntervalDays = recipe.recurrenceIntervalDays
-        image                  = recipe.image.isEmpty ? nil : recipe.image
+        image                  = includingImage && !recipe.image.isEmpty ? recipe.image : nil
 
         components = recipe.componentsArray.map { component in
             RecipeExportComponent(

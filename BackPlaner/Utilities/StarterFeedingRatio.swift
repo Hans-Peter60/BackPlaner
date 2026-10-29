@@ -22,7 +22,7 @@ enum StarterFeedingRatio {
 
     /// `nil` when the recipe does not clearly state all three parts — a
     /// feeding ratio needs starter, flour and water to mean anything.
-    static func ratio(for recipe: Recipe) -> Ratio? {
+    static func ratio(for recipe: RecipeExportData) -> Ratio? {
         ratio(components: DoughComposition.components(of: recipe))
     }
 
@@ -104,8 +104,8 @@ enum StarterRecipe {
         BakePlanValidator.isPreheatInstruction(instruction) || BakePlan.ovenTemperature(in: instruction) != nil
     }
 
-    static func isStarterFeeding(_ recipe: Recipe) -> Bool {
-        isStarterFeeding(instructions: recipe.instructionsArray.map(\.instruction),
+    static func isStarterFeeding(_ recipe: RecipeExportData) -> Bool {
+        isStarterFeeding(instructions: recipe.instructions.map(\.instruction),
                          components: DoughComposition.components(of: recipe),
                          tags: recipe.tags)
     }

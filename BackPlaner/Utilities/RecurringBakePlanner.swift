@@ -22,6 +22,11 @@ enum RecurringBakePlanner {
         max(prepTime, stepEnds.max() ?? 0)
     }
 
+    static func planDuration(of recipe: RecipeExportData) -> Int {
+        planDuration(prepTime: recipe.prepTime,
+                     stepEnds: recipe.instructions.map { $0.startTime + $0.duration })
+    }
+
     static func planDuration(of recipe: RecipeFB) -> Int {
         planDuration(prepTime: recipe.prepTime,
                      stepEnds: recipe.instructions.map { ($0.startTime ?? 0) + $0.duration })

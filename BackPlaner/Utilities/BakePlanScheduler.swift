@@ -112,14 +112,14 @@ struct BakePlanScheduler {
                               in context: NSManagedObjectContext) -> Result {
         recipe.bakeHistoryFlag = true
 
-        let instructions = recipe.instructionsArray
+        let content = RecipeExportData(recipe: recipe, includingImage: false)
         let scheduler = BakePlanScheduler(plan: plan,
                                           reminderID: "\(recipe.reminderId)-\(planID.uuidString)",
                                           manager: manager)
         let result = scheduler.scheduleReminders { index in
-            let instruction = instructions[index]
-            return ScheduledStepComponent.column(for: recipe,
-                                                 instruction: instruction,
+            let instruction = content.instructions[index]
+            return ScheduledStepComponent.column(for: content,
+                                                 storedComponentName: instruction.componentName,
                                                  instructionText: instruction.instruction)
                 .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
         }
@@ -186,8 +186,7 @@ extension BakePlanAdvisor {
 
 extension RecurringBakePlanner {
     static func planDuration(of recipe: Recipe) -> Int {
-        planDuration(prepTime: recipe.prepTime,
-                     stepEnds: recipe.instructionsArray.map { $0.startTime + $0.duration })
+        planDuration(of: RecipeExportData(recipe: recipe, includingImage: false))
     }
 
     static func nextStart(for recipe: Recipe, now: Date = Date()) -> Date? {

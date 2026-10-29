@@ -61,20 +61,22 @@ enum ScheduledStepComponent {
     /// `step` is the step number a planned step remembers; it leads back to
     /// the instruction and its stored component name. `instructionText` is the
     /// wording to fall back on.
-    static func column(for recipe: Recipe, step: Double?, instructionText: String) -> ComponentColumn? {
-        let instruction = recipe.instructionsArray.first { $0.step == step }
-        return column(for: recipe, instruction: instruction, instructionText: instructionText)
+    static func column(for recipe: RecipeExportData, step: Double?, instructionText: String) -> ComponentColumn? {
+        let instruction = recipe.instructions.first { $0.step == step }
+        return column(for: recipe, storedComponentName: instruction?.componentName,
+                      instructionText: instructionText)
     }
 
-    /// The component one of the user's own recipes mixes in `instruction`.
-    static func column(for recipe: Recipe, instruction: Instruction?, instructionText: String) -> ComponentColumn? {
-        let components = recipe.componentsArray
+    /// The component one of the user's own recipes mixes in a step whose
+    /// stored component name is `storedComponentName`.
+    static func column(for recipe: RecipeExportData, storedComponentName: String?,
+                       instructionText: String) -> ComponentColumn? {
         guard let name = componentName(
-            stored: instruction?.componentName,
+            stored: storedComponentName,
             instructionText: instructionText,
-            among: components.map(\.name)
-        ), let component = components.first(where: { $0.name == name }) else { return nil }
-        return ComponentColumn.columns(of: [component]).first
+            among: recipe.components.map(\.name)
+        ) else { return nil }
+        return ComponentColumn.columns(of: recipe).first { $0.name == name }
     }
 
     /// The component a public recipe mixes in the given step.

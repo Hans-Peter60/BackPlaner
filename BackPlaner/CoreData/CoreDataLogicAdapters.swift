@@ -41,6 +41,51 @@ extension Rational.ComponentDependency {
     }
 }
 
+// MARK: - Recipe content
+
+extension StarterFeedingRatio {
+    static func ratio(for recipe: Recipe) -> Ratio? {
+        ratio(for: RecipeExportData(recipe: recipe, includingImage: false))
+    }
+}
+
+extension StarterRecipe {
+    static func isStarterFeeding(_ recipe: Recipe) -> Bool {
+        isStarterFeeding(RecipeExportData(recipe: recipe, includingImage: false))
+    }
+}
+
+extension ScheduledStepComponent {
+    static func column(for recipe: Recipe, step: Double?, instructionText: String) -> ComponentColumn? {
+        column(for: RecipeExportData(recipe: recipe, includingImage: false), step: step,
+               instructionText: instructionText)
+    }
+}
+
+// MARK: - Component columns
+
+extension ComponentColumn {
+    /// The components of one of the user's own recipes.
+    static func columns(of components: [Component]) -> [ComponentColumn] {
+        components
+            .sorted { $0.number < $1.number }
+            .map { component in
+                ComponentColumn(
+                    id: component.objectID.uriRepresentation().absoluteString,
+                    name: component.name,
+                    // Already sorted by number by the accessor itself.
+                    ingredients: component.ingredientsArray.map {
+                        TotalIngredientData(name: $0.name,
+                                            unit: $0.unit ?? "",
+                                            weight: $0.weight,
+                                            numerator: $0.num,
+                                            denominator: $0.denom)
+                    }
+                )
+            }
+    }
+}
+
 // MARK: - Bake history
 
 extension BakeHistory {
