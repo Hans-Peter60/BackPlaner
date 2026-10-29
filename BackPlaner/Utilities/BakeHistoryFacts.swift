@@ -9,8 +9,6 @@
 //
 
 import Foundation
-import CoreData
-import SwiftUI
 
 struct BakeHistoryFacts: Equatable {
 
@@ -56,18 +54,6 @@ struct BakeHistoryFacts: Equatable {
         case finalProof
         case flour
         case outcome
-
-        /// The label of the row in a form or on the "last time" card.
-        var title: LocalizedStringKey {
-            switch self {
-            case .roomTemperature:  return "Raumtemperatur"
-            case .doughTemperature: return "Teigtemperatur"
-            case .bulkProof:        return "Stockgare"
-            case .finalProof:       return "Stückgare"
-            case .flour:            return "Mehl"
-            case .outcome:          return "Krume / Ofentrieb"
-            }
-        }
 
         /// The label in a one-line summary; flour and outcome speak for
         /// themselves there and carry none. A `String` in the in-app
@@ -277,51 +263,5 @@ struct BakeHistoryFacts: Equatable {
         entries
             .filter { date($0) <= now }
             .max { date($0) < date($1) }
-    }
-}
-
-// MARK: - Core Data
-
-extension BakeHistory {
-
-    /// The structured part of the entry. Empty texts are stored as `nil`, so
-    /// an untouched field never counts as recorded.
-    var facts: BakeHistoryFacts {
-        get {
-            BakeHistoryFacts(roomTemperature: roomTemperature?.doubleValue,
-                             doughTemperature: doughTemperature?.doubleValue,
-                             bulkProofMinutes: bulkProofMinutes?.intValue,
-                             finalProofMinutes: finalProofMinutes?.intValue,
-                             flour: flour ?? "",
-                             outcome: outcome ?? "")
-        }
-        set {
-            roomTemperature   = newValue.roomTemperature.map { NSNumber(value: $0) }
-            doughTemperature  = newValue.doughTemperature.map { NSNumber(value: $0) }
-            bulkProofMinutes  = newValue.bulkProofMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            finalProofMinutes = newValue.finalProofMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            let flour = newValue.flour.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.flour = flour.isEmpty ? nil : flour
-            let outcome = newValue.outcome.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.outcome = outcome.isEmpty ? nil : outcome
-        }
-    }
-
-    /// Whether the entry holds anything worth reading: a fact, a real
-    /// comment or a photo.
-    var hasNotes: Bool {
-        !facts.isEmpty
-            || !BakeHistoryFacts.isPlaceholderComment(comment)
-            || !(images ?? []).isEmpty
-    }
-}
-
-extension Recipe {
-
-    /// The entry of the recipe's last bake that has already taken place, if
-    /// there is one — what "last time" refers to when the recipe is planned
-    /// again.
-    func lastCompletedBakeHistory(now: Date = Date()) -> BakeHistory? {
-        BakeHistoryFacts.lastCompleted(bakeHistoriesArray, date: \.date, now: now)
     }
 }

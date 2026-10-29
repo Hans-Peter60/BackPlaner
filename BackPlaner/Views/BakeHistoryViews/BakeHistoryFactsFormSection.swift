@@ -209,3 +209,21 @@ struct BakeHistoryFactsFormSection: View {
         .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : [.isButton])
     }
 }
+
+// MARK: - Labels
+
+// The wording lives with the views that show it, so the logic itself needs
+// no SwiftUI.
+extension BakeHistoryFacts.Kind {
+    /// The label of the row in a form or on the "last time" card.
+    var title: LocalizedStringKey {
+        switch self {
+        case .roomTemperature:  return "Raumtemperatur"
+        case .doughTemperature: return "Teigtemperatur"
+        case .bulkProof:        return "Stockgare"
+        case .finalProof:       return "Stückgare"
+        case .flour:            return "Mehl"
+        case .outcome:          return "Krume / Ofentrieb"
+        }
+    }
+}

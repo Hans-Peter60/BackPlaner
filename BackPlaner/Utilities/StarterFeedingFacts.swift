@@ -9,7 +9,6 @@
 //
 
 import Foundation
-import CoreData
 
 struct StarterFeedingFacts: Equatable {
 
@@ -31,26 +30,5 @@ struct StarterFeedingFacts: Equatable {
 
     static func parseMinutes(_ text: String) -> Int? {
         BakeHistoryFacts.parseMinutes(text)
-    }
-}
-
-// MARK: - Core Data
-
-extension StarterFeedingLog {
-
-    /// Empty texts are stored as `nil`, so an untouched note never counts as
-    /// written.
-    var facts: StarterFeedingFacts {
-        get {
-            StarterFeedingFacts(peakMinutes: peakMinutes?.intValue,
-                                 floatTestPassed: floatTestPassed?.boolValue,
-                                 note: note ?? "")
-        }
-        set {
-            peakMinutes = newValue.peakMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            floatTestPassed = newValue.floatTestPassed.map { NSNumber(value: $0) }
-            let note = newValue.note.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.note = note.isEmpty ? nil : note
-        }
     }
 }
