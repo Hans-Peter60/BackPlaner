@@ -35,7 +35,7 @@ Einstellungen → Apps → BakePlanner → Sprache → Deutsch / English / Fran�
 1. iPhone per Kabel anschließen, entsperren, dem Mac vertrauen.
 2. QuickTime Player → Ablage → Neue Videoaufnahme. Neben dem roten Aufnahmeknopf den Pfeil aufklappen und als **Kamera das iPhone** wählen. Mikrofon: „Keins“ oder das iPhone, falls Ton gewünscht. Qualität: Maximum.
 3. Das iPhone zeigt jetzt im Spiegelbild die saubere Statusleiste (9:41, voller Akku, volles Netz). Das ist Absicht und erwünscht.
-4. Aufnahme mit dem roten Knopf starten, am Ende wieder stoppen. Sichern unter `docs/appstore/2.0/preview/iphone-6.9/<sprache>/roh/<szene>.mov` (der Ordner `preview` ist git-ignoriert).
+4. Aufnahme mit dem roten Knopf starten, am Ende wieder stoppen. Sichern unter `docs/appstore/2.1/preview/iphone-6.9/<sprache>/roh/<szene>.mov` (der Ordner `preview` ist git-ignoriert).
 
 **Grundregeln beim Tippen**
 
@@ -128,8 +128,8 @@ Die Texte der Szenen 1 und 2 sind wörtlich die Screenshot-Überschriften aus `c
 5. Prüfen, dass die Gesamtlänge zwischen 15 und 30 Sekunden liegt (unten rechts). Lieber 25 bis 28 Sekunden, nicht auf 30,0 zielen.
 6. **Einblendungen als Overlay-Bilder.** iMovies eigene Titelvorlagen werden nicht benutzt: Ihre Namen und Positionen unterscheiden sich je nach Version, und keine sieht aus wie die Überschriften auf den Screenshots. Stattdessen rendert ein Skript jede Einblendung als transparentes PNG in den Farben und der Schrift der Screenshots, das in iMovie über dem Video liegt:
    ```sh
-   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.0/preview/captions/de
-   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.0/preview/captions/de --position bottom
+   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.1/preview/captions/de
+   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.1/preview/captions/de --position bottom
    ```
    (genauso für `en` und `fr`). Die Texte stehen in `docs/appstore/preview-captions.json`, die Bilder heißen `1-1-fertig-bis.png`, `1-2-erinnerung.png`, … nach Szene und Reihenfolge; mit `--position bottom` entstehen dieselben als `…-unten.png` für Stellen, an denen oben gerade etwas passiert. Die Bilder sind 886 × 1920 Pixel wie das fertige iPhone-Video (für ein anderes Maß `--size 1200x1600`) und außerhalb der Textkachel durchsichtig. Der Ordner liegt unter `preview/` und ist git-ignoriert; nach einer Textänderung einfach neu rendern.
 
@@ -144,7 +144,7 @@ Die Texte der Szenen 1 und 2 sind wörtlich die Screenshot-Überschriften aus `c
 
    Falls du doch iMovies Titel nehmen willst: im Titelbrowser (⌘5) mit der Maus über die Vorlagen fahren und eine wählen, bei der der Text still steht und oben oder unten sitzt, nicht in der Mitte. Die Namen weichen je nach iMovie-Version ab.
 7. Optional ein leises Musikbett aus den iMovie-Soundeffekten, Lautstärke um 30 %. Bei Ton vom iPhone (Vorlesen in Szene 1) diesen behalten, Musik dort absenken.
-8. **Export**: Ablage → Bereitstellen → **App-Vorschau**. Speichern als `docs/appstore/2.0/preview/iphone-6.9/<sprache>/1-plan.mp4`, `2-calculators.mp4`, `3-shopping.mp4`.
+8. **Export**: Ablage → Bereitstellen → **App-Vorschau**. Speichern als `docs/appstore/2.1/preview/iphone-6.9/<sprache>/1-plan.mp4`, `2-calculators.mp4`, `3-shopping.mp4`.
 
 Für jede Sprache ein eigenes iMovie-Projekt (duplizieren und Clips tauschen geht am schnellsten, die Titelpositionen bleiben dann gleich).
 

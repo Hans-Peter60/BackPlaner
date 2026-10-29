@@ -9,12 +9,12 @@ scripts/appstore-screenshots.sh
 Das Skript baut die App einmal, lässt den UI-Test `AppStoreScreenshots` auf drei Simulatoren in drei Sprachen laufen (iPhone, iPad, iPhone Duo zugeklappt und aufgeklappt) und setzt anschließend über jedes Bild eine Überschrift (`scripts/appstore-captions.swift`, Texte in `docs/appstore/captions.json`). Ergebnis:
 
 ```
-docs/appstore/2.0/iphone-6.9/de/01-rezept-backen.png … 10-teigtemperatur.png   (mit Überschrift, für den Store)
-docs/appstore/2.0/iphone-6.9/de/roh/…                                          (ohne Überschrift, nicht in git)
-docs/appstore/2.0/iphone-6.9/en/…, fr/…
-docs/appstore/2.0/ipad-13/de/…  (en, fr)
-docs/appstore/2.0/iphone-duo-outer/de/…  (en, fr)   zugeklappt, Außendisplay 1398 × 2034
-docs/appstore/2.0/iphone-duo-inner/de/…  (en, fr)   aufgeklappt, Innendisplay 2007 × 2853
+docs/appstore/2.1/iphone-6.9/de/01-rezept-backen.png … 10-teigtemperatur.png   (mit Überschrift, für den Store)
+docs/appstore/2.1/iphone-6.9/de/roh/…                                          (ohne Überschrift, nicht in git)
+docs/appstore/2.1/iphone-6.9/en/…, fr/…
+docs/appstore/2.1/ipad-13/de/…  (en, fr)
+docs/appstore/2.1/iphone-duo-outer/de/…  (en, fr)   zugeklappt, Außendisplay 1398 × 2034
+docs/appstore/2.1/iphone-duo-inner/de/…  (en, fr)   aufgeklappt, Innendisplay 2007 × 2853
 ```
 
 Die Reihenfolge folgt der Produktseite: In den Suchergebnissen sind nur die ersten drei Bilder zu sehen, deshalb stehen dort die Dinge, die BakePlanner von Rezept-Apps unterscheiden. Die Überschriften (hier Deutsch; Englisch und Französisch in `captions.json`):
@@ -64,7 +64,7 @@ Die Rohvideos für die App-Vorschauen entstehen auf demselben Weg:
 scripts/appstore-previews.sh
 ```
 
-Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den Simulator-Bildschirm aufnimmt; vor jeder Szene löscht er (ohne Aufnahme) die geplanten Schritte, die Einkaufslisten und die lokale Kopie des Rezepts, die das Setzen der Erinnerungen anlegt – sonst stünde das Rezept doppelt in der Liste. Der Plan beginnt um 20:00 Uhr (Startargument `-UITestingPlanStart`, siehe `StoreUITestCase.planStart`; das Screenshot-Skript lässt vor jeder Sprache dieselbe Aufräum-Vorbereitung laufen), damit der Teig über Nacht ruht und kein Schritt als Nacht-Warnung erscheint. Jedes Rohvideo beginnt auf dem Home-Bildschirm und enthält hinten rund 15 Sekunden Leerlauf, beides wird im Schnitt entfernt. Ergebnis: `docs/appstore/2.0/preview/<gerät>/<sprache>/1-plan.mov`, `2-calculators.mov`, `3-shopping.mov` (git-ignoriert). Eine Szene allein: `SCENES=plan LANGS=de DEVICES=iphone scripts/appstore-previews.sh`.
+Der UI-Test `AppPreview` fährt die App durch drei Szenen, während `simctl` den Simulator-Bildschirm aufnimmt; vor jeder Szene löscht er (ohne Aufnahme) die geplanten Schritte, die Einkaufslisten und die lokale Kopie des Rezepts, die das Setzen der Erinnerungen anlegt – sonst stünde das Rezept doppelt in der Liste. Der Plan beginnt um 20:00 Uhr (Startargument `-UITestingPlanStart`, siehe `StoreUITestCase.planStart`; das Screenshot-Skript lässt vor jeder Sprache dieselbe Aufräum-Vorbereitung laufen), damit der Teig über Nacht ruht und kein Schritt als Nacht-Warnung erscheint. Jedes Rohvideo beginnt auf dem Home-Bildschirm und enthält hinten rund 15 Sekunden Leerlauf, beides wird im Schnitt entfernt. Ergebnis: `docs/appstore/2.1/preview/<gerät>/<sprache>/1-plan.mov`, `2-calculators.mov`, `3-shopping.mov` (git-ignoriert). Eine Szene allein: `SCENES=plan LANGS=de DEVICES=iphone scripts/appstore-previews.sh`.
 
 | Szene | Inhalt | Einblendungen (dieselben Worte wie die Screenshot-Überschriften) |
 |---|---|---|
