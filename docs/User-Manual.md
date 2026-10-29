@@ -681,7 +681,11 @@ An entry is also created automatically when you set reminders in the baking inst
 
 **Baking history → Top list.** Every recipe you've baked at least once, sorted by the number of bakes — your classics at the top; with equal counts, the most recently baked first. Each recipe shows its rank, picture, name, "baked 3× · last 12 Oct 2026", its rating, the newest photos from the baking histories and, large on the right, the count. A tap opens the recipe. The top list used to be a menu entry of its own; it is the same history, grouped by recipe.
 
-**Baking history → Photo cloud.** The same recipes as a round cloud: every recipe is a circle with the photo of its last bake (or the recipe picture) and the count in its corner. The circle's area follows the count — a recipe baked four times as often gets a circle twice as wide. The most baked recipe sits in the middle, the others nestle around it in a spiral. Larger circles carry the name underneath; the whole cloud is fitted to the screen. A tap opens the recipe.
+**Baking history → Photo cloud.** The same recipes as a round cloud: every recipe is a circle with the photo of its last bake (or the recipe picture) and the count in its corner. The circle's area follows the count — a recipe baked four times as often gets a circle twice as wide. The most baked recipe sits in the middle, the others nestle around it in a spiral. Larger circles carry the name on a dark band inside; the whole cloud is fitted to the screen. A tap opens the recipe.
+
+![Baking history as a photo cloud: one circle per recipe with its last bake photo, the most fed starters large in the middle, the breads small around them](images/en/backhistorie-fotowolke.png)
+
+*The photo cloud: the more often baked, the bigger the circle.*
 
 ---
 

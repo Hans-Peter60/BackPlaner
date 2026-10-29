@@ -678,7 +678,11 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 
 **Backhistorie → Hit-Liste.** Alle Rezepte, die schon einmal gebacken wurden, sortiert nach der Anzahl der Backvorgänge – oben Deine Klassiker; bei gleicher Anzahl zuerst das zuletzt gebackene. Je Rezept stehen Platz, Rezeptbild, Name, „3× gebacken · zuletzt 12.10.2026“, die Bewertung, die neuesten Fotos aus den Backhistorien und rechts groß die Anzahl. Ein Tippen öffnet das Rezept. Die Hit-Liste war früher ein eigener Menüpunkt; sie ist dieselbe Historie, nach Rezept gruppiert.
 
-**Backhistorie → Fotowolke.** Dieselben Rezepte als runde Wolke: Jedes Rezept ist ein Kreis mit dem Foto seines letzten Backvorgangs (ersatzweise dem Rezeptbild) und der Anzahl in der Ecke. Die Fläche des Kreises folgt der Anzahl – ein viermal so oft gebackenes Rezept bekommt einen doppelt so breiten Kreis. Das meistgebackene liegt in der Mitte, die anderen schmiegen sich spiralförmig darum. Unter größeren Kreisen steht der Name; die ganze Wolke wird auf den Bildschirm eingepasst. Ein Tippen öffnet das Rezept.
+**Backhistorie → Fotowolke.** Dieselben Rezepte als runde Wolke: Jedes Rezept ist ein Kreis mit dem Foto seines letzten Backvorgangs (ersatzweise dem Rezeptbild) und der Anzahl in der Ecke. Die Fläche des Kreises folgt der Anzahl – ein viermal so oft gebackenes Rezept bekommt einen doppelt so breiten Kreis. Das meistgebackene liegt in der Mitte, die anderen schmiegen sich spiralförmig darum. In größeren Kreisen steht der Name auf einem dunklen Band; die ganze Wolke wird auf den Bildschirm eingepasst. Ein Tippen öffnet das Rezept.
+
+![Backhistorie als Fotowolke: ein Kreis je Rezept mit dem letzten Backfoto, die meistgebackenen Anstellgute groß in der Mitte, die Brote klein darum](images/backhistorie-fotowolke.png)
+
+*Die Fotowolke: Je öfter gebacken, desto größer der Kreis.*
 
 ---
 
