@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 28 October 2026 · App version 2.0
+Revised: 29 October 2026 · App version 2.0
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.
@@ -20,7 +20,7 @@ Revised: 28 October 2026 · App version 2.0
 9. [Editing a recipe](#9-editing-a-recipe)
 10. [Scheduled steps (list and timeline)](#10-scheduled-steps-list-and-timeline)
 11. [Reminders on the Lock Screen](#11-reminders-on-the-lock-screen)
-12. [Baking history and Baking top list](#12-baking-history-and-baking-top-list)
+12. [Baking history](#12-baking-history)
 13. [Shopping list](#13-shopping-list)
 14. [Settings](#14-settings)
 15. [Units, amounts, and serving sizes](#15-units-amounts-and-serving-sizes)
@@ -109,7 +109,7 @@ A recipe you're **not allowed to publish** — out of a book, say — stays on t
 
 ## 4. The main menu
 
-After launch the main menu appears with ten cards:
+After launch the main menu appears with nine cards:
 
 ![BakePlanner's main menu with its functional areas](images/en/hauptmenue.png)
 
@@ -644,7 +644,7 @@ The same commands are listed in the **Shortcuts** app under BakePlanner and can 
 
 ---
 
-## 12. Baking history and Baking top list
+## 12. Baking history
 
 ### Baking history
 

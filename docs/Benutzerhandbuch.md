@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 28.10.2026 · App-Version 2.0
+Stand: 29.10.2026 · App-Version 2.0
 
 ---
 
@@ -17,7 +17,7 @@ Stand: 28.10.2026 · App-Version 2.0
 9. [Rezept bearbeiten](#9-rezept-bearbeiten)
 10. [Geplante Schritte (Liste und Timeline)](#10-geplante-schritte-liste-und-timeline)
 11. [Erinnerungen auf dem Sperrbildschirm](#11-erinnerungen-auf-dem-sperrbildschirm)
-12. [Backhistorie und Back Hit-Liste](#12-backhistorie-und-back-hit-liste)
+12. [Backhistorie](#12-backhistorie)
 13. [Einkaufsliste](#13-einkaufsliste)
 14. [Einstellungen](#14-einstellungen)
 15. [Einheiten, Mengen und Portionsgrößen](#15-einheiten-mengen-und-portionsgrößen)
@@ -106,7 +106,7 @@ Ein Rezept, das Du **nicht veröffentlichen darfst** – etwa aus einem Buch –
 
 ## 4. Das Hauptmenü
 
-Nach dem Start erscheint das Hauptmenü mit zehn Karten:
+Nach dem Start erscheint das Hauptmenü mit neun Karten:
 
 ![Hauptmenü von BakePlanner mit seinen Funktionsbereichen](images/hauptmenue.png)
 
@@ -641,7 +641,7 @@ Dieselben Befehle stehen in der App **Kurzbefehle** unter BakePlanner und lassen
 
 ---
 
-## 12. Backhistorie und Back Hit-Liste
+## 12. Backhistorie
 
 ### Backhistorie
 

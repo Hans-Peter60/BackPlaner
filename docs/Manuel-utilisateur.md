@@ -1,6 +1,6 @@
 # BakePlanner – Manuel de l’utilisateur
 
-Révision : 28 octobre 2026 · version 2.0 de l’app
+Révision : 29 octobre 2026 · version 2.0 de l’app
 
 > Traduit de l’original allemand, `Benutzerhandbuch.md`. En cas de divergence,
 > la version allemande fait foi.
@@ -20,7 +20,7 @@ Révision : 28 octobre 2026 · version 2.0 de l’app
 9. [Modifier une recette](#9-modifier-une-recette)
 10. [Étapes planifiées (liste et timeline)](#10-étapes-planifiées-liste-et-timeline)
 11. [Rappels sur l’écran verrouillé](#11-rappels-sur-lécran-verrouillé)
-12. [Historique de cuisson et palmarès](#12-historique-de-cuisson-et-palmarès)
+12. [Historique de cuisson](#12-historique-de-cuisson)
 13. [Liste de courses](#13-liste-de-courses)
 14. [Réglages](#14-réglages)
 15. [Unités, quantités et tailles de portion](#15-unités-quantités-et-tailles-de-portion)
@@ -109,7 +109,7 @@ Une recette que vous **n’avez pas le droit de publier** — tirée d’un livr
 
 ## 4. Le menu principal
 
-Au lancement, le menu principal apparaît avec dix cartes :
+Au lancement, le menu principal apparaît avec neuf cartes :
 
 ![Menu principal de BakePlanner avec ses domaines fonctionnels](images/fr/hauptmenue.png)
 
@@ -644,7 +644,7 @@ Les mêmes commandes figurent dans l’app **Raccourcis** sous BakePlanner et pe
 
 ---
 
-## 12. Historique de cuisson et palmarès
+## 12. Historique de cuisson
 
 ### Historique de cuisson
 
