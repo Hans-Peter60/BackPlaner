@@ -178,7 +178,7 @@ Notes:
 
 ### Taking a copy of a recipe
 
-The **Bake recipe** tab has a **Save as my own recipe** button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited.
+The **Bake recipe** tab has a **Save as my own recipe** button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited. If a copy already exists, it stays as it is — your changes and its baking history included. The public recipe never overwrites it, not even when you save or plan it again.
 
 The app confirms with **"Recipe was saved"** and a note that you can edit the copy without changing the public recipe. If saving fails, an error message appears instead — nothing disappears silently.
 

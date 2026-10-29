@@ -489,18 +489,13 @@ struct InstructionsFBView: View {
         }
         scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale, in: viewContext)
 
-        let bakeHistoryFB     = BakeHistoryFB()
-        bakeHistoryFB.date    = plan.baseDate
-        bakeHistoryFB.comment = AppSettings.generatedRecipeTexts().missingComment
-        bakeHistoryFB.images  = [GlobalVariables.noImage]
-        recipeFB.bakeHistories.append(bakeHistoryFB)
         recipeFB.bakeHistoryFlag = true
 
         // The reminders themselves are already set; this writes the
-        // bake-history entry that belongs to them. Confirm only if that
-        // actually worked.
+        // bake-history entry that belongs to them, to the own copy of the
+        // recipe. Confirm only if that actually worked.
         do {
-            _ = try model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: UIImage())
+            try model.recordPlannedBake(of: recipeFB, on: plan.baseDate, context: viewContext)
 
             // A human-readable summary of what was scheduled.
             let timeFormatter  = TimeCalculation()

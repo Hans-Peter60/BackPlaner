@@ -204,7 +204,8 @@ class RecipeModel: ObservableObject {
     
     // MARK: uploadRecipeIntoCoreData
     /// Writes a recipe from the cloud model into Core Data and returns the
-    /// managed object.
+    /// managed object. A public recipe that already has an own copy returns
+    /// that copy unchanged.
     ///
     /// Throws when the context cannot be saved. It used to swallow that error
     /// and return the object anyway, so every caller went on to tell the user
@@ -224,9 +225,12 @@ class RecipeModel: ObservableObject {
             isUpdatingExistingRecipe = true
         } else if let firestoreId = recipeFB.id,
                   !firestoreId.isEmpty,
-                  let fetchedRecipe = fetchRecipe(firestoreId: firestoreId, context: context) {
-            r = fetchedRecipe
-            isUpdatingExistingRecipe = true
+                  let ownCopy = fetchRecipe(firestoreId: firestoreId, context: context) {
+            // The public recipe has been taken over before. It never writes
+            // over that copy: the user may have changed it, and its bake
+            // history is the user's own record. Taking it over again used to
+            // replace the copy's content and delete its bake history.
+            return ownCopy
         } else {
             r = Recipe(context: context)
             isUpdatingExistingRecipe = false
@@ -362,6 +366,35 @@ class RecipeModel: ObservableObject {
         }
 
         return r
+    }
+
+    // MARK: recordPlannedBake
+    /// The bake-history entry for a plan of a public recipe, dated `date`.
+    /// It goes to the own copy of the recipe — taken over now if there is
+    /// none yet — and nothing else about the copy changes, so its earlier
+    /// entries stay. The entry used to travel through the public recipe,
+    /// which only knows the entries of the current session, and taking the
+    /// recipe over again replaced the copy's whole bake history with those.
+    @discardableResult
+    func recordPlannedBake(of recipeFB: RecipeFB, on date: Date,
+                           context: NSManagedObjectContext) throws -> Recipe {
+        let recipe = try uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB,
+                                                  context: context, recipeImage: UIImage())
+
+        let bakeHistory     = BakeHistory(context: context)
+        bakeHistory.id      = UUID()
+        bakeHistory.date    = date
+        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
+        recipe.bakeHistoryFlag = true
+        recipe.addToBakeHistories(bakeHistory)
+
+        do {
+            try context.save()
+        } catch {
+            AppLog.persistence.error("Couldn't save the bake history entry: \(error.localizedDescription)")
+            throw error
+        }
+        return recipe
     }
 }
 

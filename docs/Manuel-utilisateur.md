@@ -178,7 +178,7 @@ Remarques :
 
 ### Reprendre une recette
 
-L’onglet **Cuire la recette** propose le bouton **Enregistrer comme ma recette**. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable.
+L’onglet **Cuire la recette** propose le bouton **Enregistrer comme ma recette**. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable. Si une copie existe déjà, elle reste telle quelle — avec vos modifications et son historique de cuisson. La recette publique ne l’écrase jamais, même si vous l’enregistrez ou la planifiez à nouveau.
 
 L’app le confirme par **« La recette a été enregistrée »** et précise que vous pouvez modifier la copie sans toucher à la recette publique. Si l’enregistrement échoue, un message d’erreur apparaît à la place — rien ne disparaît en silence.
 

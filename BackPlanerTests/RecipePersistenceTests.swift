@@ -264,7 +264,7 @@ struct RecipePersistenceTests {
         #expect(recipe.instructionsArray.map(\.instruction) == ["Teig kneten", "Bei 250 °C backen"])
     }
 
-    @Test("Taking over the same public recipe again updates the own copy instead of adding one")
+    @Test("Taking over the same public recipe again leaves the own copy as it is")
     func publicRecipeTakenOverTwice() throws {
         let context = makeContext()
         let model = RecipeModel()
@@ -272,16 +272,60 @@ struct RecipePersistenceTests {
         let first = try model.uploadRecipeIntoCoreData(
             recipeId: nil, recipeFB: publicRecipe(id: "fs-landbrot", name: "Weizenbrot", flour: 500),
             context: context, recipeImage: UIImage())
+        first.name = "Weizenbrot mit Dinkel"
+        try context.save()
+
         let second = try model.uploadRecipeIntoCoreData(
             recipeId: nil, recipeFB: publicRecipe(id: "fs-landbrot", name: "Weizenbrot hell", flour: 600),
             context: context, recipeImage: UIImage())
 
         #expect(first.objectID == second.objectID)
         #expect(try count(Recipe.self, in: context) == 1)
-        #expect(second.name == "Weizenbrot hell")
-        #expect(second.totalWeight == 900)
+        #expect(second.name == "Weizenbrot mit Dinkel")
+        #expect(second.totalWeight == 800)
+        #expect(second.componentsArray.first?.ingredientsArray.map(\.weight) == [500, 300])
         #expect(try count(Component.self, in: context) == 1)
         #expect(try count(Ingredient.self, in: context) == 2)
         #expect(try count(Instruction.self, in: context) == 2)
+    }
+
+    // MARK: - Bake history of a planned public recipe
+
+    @Test("Planning a public recipe for the first time takes it over with one bake-history entry")
+    func firstPlannedBakeTakesTheRecipeOver() throws {
+        let context = makeContext()
+        let bakeDate = Date(timeIntervalSince1970: 1_800_000_000)
+
+        let recipe = try RecipeModel().recordPlannedBake(
+            of: publicRecipe(id: "fs-landbrot", name: "Weizenbrot", flour: 500), on: bakeDate, context: context)
+
+        #expect(recipe.firestoreId == "fs-landbrot")
+        #expect(recipe.bakeHistoryFlag)
+        #expect(recipe.bakeHistoriesArray.map(\.date) == [bakeDate])
+        #expect(try count(Recipe.self, in: context) == 1)
+    }
+
+    @Test("Planning a public recipe again keeps the earlier entries and their notes")
+    func plannedBakesKeepTheHistory() throws {
+        let context = makeContext()
+        let model = RecipeModel()
+        let firstDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let secondDate = firstDate.addingTimeInterval(7 * 24 * 60 * 60)
+
+        let recipe = try model.recordPlannedBake(
+            of: publicRecipe(id: "fs-landbrot", name: "Weizenbrot", flour: 500), on: firstDate, context: context)
+        let firstEntry = try #require(recipe.bakeHistoriesArray.first)
+        firstEntry.comment = "Krume schön offen"
+        try context.save()
+
+        // A new session: the public recipe is loaded afresh and knows nothing
+        // of the earlier plan.
+        let again = try model.recordPlannedBake(
+            of: publicRecipe(id: "fs-landbrot", name: "Weizenbrot", flour: 500), on: secondDate, context: context)
+
+        #expect(again.objectID == recipe.objectID)
+        #expect(try count(BakeHistory.self, in: context) == 2)
+        #expect(Set(again.bakeHistoriesArray.map(\.date)) == [firstDate, secondDate])
+        #expect(again.bakeHistoriesArray.contains { $0.comment == "Krume schön offen" })
     }
 }

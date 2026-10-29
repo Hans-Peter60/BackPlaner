@@ -175,7 +175,7 @@ Hinweise:
 
 ### Ein Rezept übernehmen
 
-Im Tab **Rezept backen** gibt es die Schaltfläche **„Als eigenes Rezept speichern“**. Damit landet eine vollständige Kopie – samt Bild, Komponenten, Zutaten und Schritten – in „Eigene Rezepte“. Erst diese Kopie kannst Du bearbeiten.
+Im Tab **Rezept backen** gibt es die Schaltfläche **„Als eigenes Rezept speichern“**. Damit landet eine vollständige Kopie – samt Bild, Komponenten, Zutaten und Schritten – in „Eigene Rezepte“. Erst diese Kopie kannst Du bearbeiten. Gibt es schon eine Kopie, bleibt sie, wie sie ist – auch mit Deinen Änderungen und ihrer Backhistorie. Das öffentliche Rezept überschreibt sie nicht, auch nicht, wenn Du es erneut speicherst oder planst.
 
 Die App bestätigt das mit **„Rezept wurde gespeichert“** und dem Hinweis, dass Du die Kopie bearbeiten kannst, ohne das öffentliche Rezept zu verändern. Schlägt das Speichern fehl, erscheint stattdessen eine Fehlermeldung – ein stilles Verschwinden gibt es nicht.
 
