@@ -56,7 +56,7 @@ REZEPTE
 Fotografiere ein Rezept aus dem Buch oder teile eine Internetseite aus Safari: BakePlanner liest Zutaten, Komponenten und Schritte aus und löst „alle 30 Minuten falten, 4x“ in getaktete Schritte auf. In der gemeinsamen Rezept-Datenbank findest Du Rezepte anderer Bäcker. Sie werden auf dem Gerät übersetzt, mit einem Glossar, das Brühstück, Stockgare und Anstellgut richtig überträgt. Eigene Rezepte bleiben auf dem Gerät, bis Du sie veröffentlichst. Ein Konto ist nicht nötig, die Anmeldung mit Apple ist freiwillig.
 
 EINKAUFEN UND DOKUMENTIEREN
-Die Einkaufsliste ist nach Regalen sortiert und übernimmt die Mengen in der gewählten Portionsgröße. Die Backhistorie hält Foto, Messwerte und Ergebnis jedes Backtags fest. Die Hit-Liste zeigt, was am besten gelungen ist.
+Die Einkaufsliste ist nach Regalen sortiert und übernimmt die Mengen in der gewählten Portionsgröße. Die Backhistorie hält Foto, Messwerte und Ergebnis jedes Backtags fest – als Liste, Galerie, Hit-Liste oder Fotowolke, in der jedes Rezept so groß erscheint, wie oft Du es gebacken hast.
 
 BakePlanner – sag, wann das Brot fertig sein soll. Den Rest rechnet die App.
 
@@ -86,7 +86,7 @@ RECIPES
 Photograph a recipe from a book or share a web page from Safari: BakePlanner reads ingredients, components and steps and turns “fold every 30 minutes, 4x” into timed steps. In the shared recipe database you find recipes from other bakers. They are translated on the device, with a glossary that gets scald, bulk fermentation and starter right. Your own recipes stay on the device until you publish them. No account is needed; signing in with Apple is voluntary.
 
 SHOPPING AND KEEPING RECORDS
-The shopping list is sorted by shelf and takes the amounts at the chosen serving size. The baking history keeps a photo, measurements and the result of every baking day. The top list shows what turned out best.
+The shopping list is sorted by shelf and takes the amounts at the chosen serving size. The baking history keeps a photo, measurements and the result of every baking day – as a list, gallery, top list or photo cloud, where every recipe appears as big as the number of times you have baked it.
 
 BakePlanner – say when the bread should be ready. The app works out the rest.
 
@@ -116,7 +116,7 @@ RECETTES
 Photographiez une recette dans un livre ou partagez une page web depuis Safari : BakePlanner lit les ingrédients, les composants et les étapes, et transforme « rabattre toutes les 30 minutes, 4x » en étapes minutées. Dans la base de recettes partagée, vous trouvez les recettes d’autres boulangers. Elles sont traduites sur l’appareil, avec un glossaire qui rend correctement échaudage, pointage et levain chef. Vos propres recettes restent sur l’appareil jusqu’à ce que vous les publiiez. Aucun compte n’est nécessaire ; la connexion avec Apple est facultative.
 
 COURSES ET SUIVI
-La liste de courses est triée par rayon et reprend les quantités à la taille de portion choisie. L’historique de cuisson garde une photo, les mesures et le résultat de chaque journée de boulange. Le palmarès montre ce qui a le mieux réussi.
+La liste de courses est triée par rayon et reprend les quantités à la taille de portion choisie. L’historique de cuisson garde une photo, les mesures et le résultat de chaque journée de boulange – en liste, galerie, palmarès ou nuage de photos, où chaque recette apparaît aussi grande que le nombre de fois où vous l’avez cuite.
 
 BakePlanner – dites quand le pain doit être prêt. L’app calcule le reste.
 
@@ -134,11 +134,11 @@ Durch Kommas getrennt, ohne Leerzeichen danach, höchstens 100 Zeichen. Name und
 
 ## Neuerungen in dieser Version
 
-Das Feld darf nicht leer bleiben. Solange niemand von einer früheren Version kommt, genügt ein Satz, der auf die Beschreibung verweist; die ausführliche Fassung steht weiter in [Neuerungen-2.0.md](Neuerungen-2.0.md), falls sie später gebraucht wird.
+Die ausführlichen Texte für 2.1 stehen in [Neuerungen-2.1.md](Neuerungen-2.1.md) (je Sprache unter 4000 Zeichen); die von 2.0 in [Neuerungen-2.0.md](Neuerungen-2.0.md). Reicht ein Satz:
 
-- DE: `Version 2.0 bringt die Bäckerrechner (Anstellgut-TA, Mehl ersetzen, Teigtemperatur), das Fütterungstagebuch und die Einkaufsliste nach Regalen. Alle Funktionen stehen in der Beschreibung.`
-- EN: `Version 2.0 brings the baker’s calculators (starter TA, replace flour, dough temperature), the feeding diary and the shopping list by shelf. All features are listed in the description.`
-- FR: `La version 2.0 apporte les calculateurs de boulanger (TA du levain chef, remplacer la farine, température de la pâte), le journal de nourrissage et la liste de courses par rayon. Toutes les fonctions sont dans la description.`
+- DE: `Version 2.1 zeigt den Backtag als Ablaufplan, fasst die Backhistorie mit Hit-Liste und Fotowolke zusammen, erkennt Anstellgut an seinen Zutaten und füttert immer zur selben Uhrzeit. Dazu Korrekturen beim Verschieben von Schritten und beim Zurückdrehen des Ofens.`
+- EN: `Version 2.1 shows your baking day as a project plan, sums the baking history up in a top list and a photo cloud, tells a starter by its ingredients and feeds it at the same time every day. Plus fixes for rescheduling steps and turning the oven down.`
+- FR: `La version 2.1 présente la journée de boulange en planning, résume l’historique en palmarès et nuage de photos, reconnaît le levain chef à ses ingrédients et le nourrit chaque jour à la même heure. Avec des corrections pour le décalage des étapes et la baisse du four.`
 
 ## Hinweise für die Prüfung
 

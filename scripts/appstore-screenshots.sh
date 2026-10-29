@@ -53,7 +53,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-VERSION="${VERSION:-2.0}"
+VERSION="${VERSION:-2.1}"
 DEVICES="${DEVICES:-iphone ipad duo-outer duo-inner}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
