@@ -85,7 +85,7 @@ Guter Ansatzpunkt: Es gibt mit `RecipeExportData` / `RecipeExportIngredient` (Si
 
 ### Kandidaten für das Package `BakePlannerCore` (Stand nach 2b-6)
 Alle importieren Foundation; `GeneralRecipeParser` und `TwoColumnRecipeParser` zusätzlich CoreGraphics (nur `CGFloat`/`CGRect`, die Foundation auf anderen Plattformen selbst mitbringt).
-`PlanTimeline`, `GeneralRecipeParser`, `TwoColumnRecipeParser`, `PendingWebImport`.
+`GeneralRecipeParser`, `TwoColumnRecipeParser`, `PendingWebImport`.
 `Bundle.main` (Einheitentabelle, Sprachpakete) bleibt im iOS-Package richtig, weil es dort die App ist; auf Android hängt die Lösung vom Weg ab.
 
 ### Skip-Probelauf (Schritt 3, vorgezogen)
