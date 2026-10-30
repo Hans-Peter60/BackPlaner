@@ -5,7 +5,9 @@
 //  The baking history per recipe, and the circle packing of the photo cloud.
 //
 
+#if canImport(CoreGraphics)
 import CoreGraphics
+#endif
 import Foundation
 import Testing
 @testable import BakePlannerCore
