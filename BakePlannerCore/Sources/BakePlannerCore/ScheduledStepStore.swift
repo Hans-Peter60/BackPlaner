@@ -56,15 +56,15 @@ extension ScheduledStepData {
 /// Where the scheduled steps are kept.
 public protocol ScheduledStepStore {
     /// The scheduled steps of every recipe except `recipeName`.
-    public func steps(excludingRecipe recipeName: String) -> [ScheduledStepData]
+    func steps(excludingRecipe recipeName: String) -> [ScheduledStepData]
     /// Whether `recipeName` has any scheduled step.
-    public func hasSteps(recipeName: String) -> Bool
+    func hasSteps(recipeName: String) -> Bool
     /// Whether `recipeName` has a scheduled step dated at or after `date`.
-    public func hasSteps(recipeName: String, onOrAfter date: Date) -> Bool
+    func hasSteps(recipeName: String, onOrAfter date: Date) -> Bool
     /// Adds the steps and saves them.
-    public func add(_ steps: [ScheduledStepData])
+    func add(_ steps: [ScheduledStepData])
     /// Deletes every scheduled step of `recipeName` and saves.
-    public func removeSteps(recipeName: String)
+    func removeSteps(recipeName: String)
 }
 
 extension BakePlan {
