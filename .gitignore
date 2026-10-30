@@ -63,3 +63,11 @@ docs/appstore/*/*/*/roh/
 
 # Python
 __pycache__/
+
+# Android (Skip app in BakePlannerAndroid/)
+.gradle/
+.kotlin/
+local.properties
+*.apk
+*.aab
+captures/
