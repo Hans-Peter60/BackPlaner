@@ -34,8 +34,10 @@ public enum AppLog {
 
 #if !canImport(os)
 /// Where the system log does not exist, the same calls write to standard
-/// output, debug messages excepted.
-public struct Logger {
+/// output, debug messages excepted. Named apart from `Logger`, which an app
+/// on such a platform may bring along (Skip does on Android); only this
+/// package calls it by that name.
+public struct CoreLogger {
     public let subsystem: String
     public let category: String
 
@@ -49,6 +51,8 @@ public struct Logger {
         print("[\(category)] \(level): \(message)")
     }
 }
+
+typealias Logger = CoreLogger
 #endif
 
 public struct GlobalVariables {

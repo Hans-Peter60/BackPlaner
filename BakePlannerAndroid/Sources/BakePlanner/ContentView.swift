@@ -1,180 +1,49 @@
 import SwiftUI
 
-enum ContentTab: String, Hashable {
-    case welcome, home, settings
-}
-
 struct ContentView: View {
-    @AppStorage("tab") var tab = ContentTab.welcome
-    @AppStorage("name") var welcomeName = "Skipper"
-    @AppStorage("appearance") var appearance = ""
-    @State var viewModel = ViewModel()
+    @State var model = AppModel()
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        TabView(selection: $tab) {
-            NavigationStack {
-                WelcomeView(welcomeName: $welcomeName)
-            }
-            .tabItem { Label("Welcome", systemImage: "heart.fill") }
-            .tag(ContentTab.welcome)
+        ZStack {
+            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
+                           startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
 
-            NavigationStack {
-                ItemListView()
-                    .navigationTitle(Text("\(viewModel.items.count) Items"))
-            }
-            .tabItem { Label("Home", systemImage: "house.fill") }
-            .tag(ContentTab.home)
+            VStack(spacing: 16) {
+                Text(verbatim: "BakePlanner")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundStyle(Palette.accent(colorScheme))
 
-            NavigationStack {
-                SettingsView(appearance: $appearance, welcomeName: $welcomeName)
-                    .navigationTitle("Settings")
-            }
-            .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-            .tag(ContentTab.settings)
-        }
-        .environment(viewModel)
-        .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
-    }
-}
-
-struct WelcomeView : View {
-    @State var heartBeating = false
-    @Binding var welcomeName: String
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Text("Hello [\(welcomeName)](https://skip.dev)!")
-                .padding()
-            Image(systemName: "heart.fill")
-                .foregroundStyle(.red)
-                .scaleEffect(heartBeating ? 1.5 : 1.0)
-                .task {
-                    withAnimation(.easeInOut(duration: 1).repeatForever()) {
-                        heartBeating = true
-                    }
-                }
-        }
-        .font(.largeTitle)
-    }
-}
-
-struct ItemListView : View {
-    @Environment(ViewModel.self) var viewModel: ViewModel
-
-    var body: some View {
-        List {
-            ForEach(viewModel.items) { item in
-                NavigationLink(value: item) {
-                    Label {
-                        Text(item.itemTitle)
-                    } icon: {
-                        if item.favorite {
-                            Image(systemName: "star.fill")
-                                .foregroundStyle(.yellow)
-                        }
-                    }
+                if let loadError = model.loadError {
+                    Text("Die Rezepte konnten nicht geladen werden.")
+                    Text(verbatim: loadError)
+                        .font(.caption)
+                } else {
+                    Text("Rezepte auf diesem Gerät: \(model.recipeCount)")
                 }
             }
-            .onDelete { offsets in
-                viewModel.items.remove(atOffsets: offsets)
-            }
-            .onMove { fromOffsets, toOffset in
-                viewModel.items.move(fromOffsets: fromOffsets, toOffset: toOffset)
-            }
+            .padding()
         }
-        .navigationDestination(for: Item.self) { item in
-            ItemView(item: item)
-                .navigationTitle(item.itemTitle)
-        }
-        .toolbar {
-            ToolbarItemGroup {
-                Button {
-                    withAnimation {
-                        viewModel.items.insert(Item(), at: 0)
-                    }
-                } label: {
-                    Label("Add", systemImage: "plus")
-                }
-            }
+        .task {
+            model.load()
         }
     }
 }
 
-struct ItemView : View {
-    @State var item: Item
-    @Environment(ViewModel.self) var viewModel: ViewModel
-    @Environment(\.dismiss) var dismiss
+/// The colours of BakePlanner on iOS (Theme.swift in the iOS app): warm
+/// flour and crust tones, darker at night.
+enum Palette {
+    static func backgroundTop(_ scheme: ColorScheme) -> Color {
+        scheme == .dark ? Color(red: 0.16, green: 0.12, blue: 0.09) : Color(red: 0.98, green: 0.93, blue: 0.82)
+    }
 
-    var body: some View {
-        Form {
-            TextField("Title", text: $item.title)
-                .textFieldStyle(.roundedBorder)
-            Toggle("Favorite", isOn: $item.favorite)
-            DatePicker("Date", selection: $item.date)
-            Text("Notes").font(.title3)
-            TextEditor(text: $item.notes)
-                .border(Color.secondary, width: 1.0)
-        }
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    viewModel.save(item: item)
-                    dismiss()
-                }
-                .disabled(!viewModel.isUpdated(item))
-            }
-        }
+    static func backgroundBottom(_ scheme: ColorScheme) -> Color {
+        scheme == .dark ? Color(red: 0.09, green: 0.07, blue: 0.05) : Color(red: 0.93, green: 0.80, blue: 0.62)
+    }
+
+    static func accent(_ scheme: ColorScheme) -> Color {
+        scheme == .dark ? Color(red: 0.61, green: 0.41, blue: 0.22) : Color(red: 0.62, green: 0.41, blue: 0.21)
     }
 }
-
-struct SettingsView : View {
-    @Binding var appearance: String
-    @Binding var welcomeName: String
-
-    var body: some View {
-        Form {
-            TextField("Name", text: $welcomeName)
-            Picker("Appearance", selection: $appearance) {
-                Text("System").tag("")
-                Text("Light").tag("light")
-                Text("Dark").tag("dark")
-            }
-            if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-               let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-                Text("Version \(version) (\(buildNumber))")
-            }
-            HStack {
-                PlatformHeartView()
-                Text("Powered by [Skip](https://skip.dev)")
-            }
-        }
-    }
-}
-
-/// A view that shows a blue heart on iOS and a green heart on Android.
-struct PlatformHeartView : View {
-    var body: some View {
-        #if os(Android)
-        ComposeView {
-            HeartComposer()
-        }
-        #else
-        Text(verbatim: "💙")
-        #endif
-    }
-}
-
-#if SKIP
-/// Use a ContentComposer to integrate Compose content. This code will be transpiled to Kotlin.
-struct HeartComposer : ContentComposer {
-    @Composable func Compose(context: ComposeContext) {
-        androidx.compose.material3.Text("💚", modifier: context.modifier)
-    }
-}
-#endif

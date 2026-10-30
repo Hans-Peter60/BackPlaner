@@ -71,3 +71,7 @@ local.properties
 *.apk
 *.aab
 captures/
+
+# Libraries, not apps: their resolved versions are not kept
+BakePlannerCore/Package.resolved
+BakePlannerStorage/Package.resolved
