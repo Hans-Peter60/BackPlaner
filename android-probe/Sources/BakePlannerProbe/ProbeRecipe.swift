@@ -9,6 +9,8 @@
 
 import Foundation
 import Observation
+// Needed for an @Observable to drive the Android UI.
+import SkipFuse
 
 @Observable
 final class ProbeRecipe {

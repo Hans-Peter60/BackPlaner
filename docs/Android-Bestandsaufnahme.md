@@ -82,6 +82,11 @@ Dazu `RecipeFB.swift` (die öffentlichen Rezept-Modelle, auf die mehrere davon z
 ### Skip-Probelauf (Schritt 3, vorgezogen)
 `android-probe/` enthält Kopien von `DoughTemperatureCalculator`, `IngredientNameNormalizer`, `CurrentStepRule` und dem Sicherungsformat, ein `@Observable`-Modell, eine SwiftUI-Ansicht und XCTest-Tests. Der Ordner gehört zu keinem Xcode-Ziel. Anleitung in `android-probe/README.md`; das Ergebnis entscheidet, wie das Package (Schritt 2b) aussieht.
 
+Erste Befunde (Skip 1.9.20, nativer Modus „Skip Fuse“):
+- `@State private var` lässt sich nicht nach Android überbrücken; `@State` muss mindestens `internal` sein. In der App betrifft das 341 Stellen.
+- Dateien mit `@Observable` brauchen `import SkipFuse`, Ansichten `import SkipFuseUI` statt `SwiftUI`; sonst treiben die Modelle die Android-Oberfläche nicht an. In der App betrifft das 5 Dateien mit `@Observable`.
+- Das Skip-Projekt darf nicht in einem iCloud-synchronisierten Ordner liegen, sonst scheitert die Code-Signatur.
+
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?
 - Reicht für Android 1.0 lokale Speicherung plus Sicherungsdatei, oder ist Sync zwischen Android-Geräten Pflicht?

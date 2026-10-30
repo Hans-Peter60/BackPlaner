@@ -1,6 +1,6 @@
 # Skip-Probelauf für BakePlanner
 
-Ein kleiner Versuch, ob [Skip](https://skip.tools) Logik und Ansichten aus BakePlanner nach Android bringt, ohne die App selbst anzufassen. Dieser Ordner gehört zu keinem Xcode-Ziel. Die App baut und verhält sich unverändert.
+Ein kleiner Versuch, ob [Skip](https://skip.dev) Logik und Ansichten aus BakePlanner nach Android bringt, ohne die App selbst anzufassen. Dieser Ordner gehört zu keinem Xcode-Ziel. Die App baut und verhält sich unverändert.
 
 ## Was drin ist
 
@@ -11,10 +11,12 @@ Ein kleiner Versuch, ob [Skip](https://skip.tools) Logik und Ansichten aus BakeP
 | `Sources/BakePlannerProbe/CurrentStepRule.swift` | Kopie, Generics, Datumsrechnung |
 | `Sources/BakePlannerProbe/RecipeExportFormat.swift` | Kopie des Sicherungsformats (JSON), Fehlertexte vereinfacht |
 | `Sources/BakePlannerProbe/ProbeRecipe.swift` | `@Observable`-Modell wie die öffentlichen Rezepte, dazu eine Sicherungsdatei, wie sie das iPhone schreibt |
-| `Sources/BakePlannerProbe/ProbeView.swift` | SwiftUI: Formular, Stepper, Schalter, Listen, formatierte Zahlen und Uhrzeiten |
+| `Sources/BakePlannerProbe/ProbeView.swift` | SwiftUI über `SkipFuseUI`: Formular, Stepper, Schalter, Listen, formatierte Zahlen und Uhrzeiten |
 | `Tests/BakePlannerProbeTests/BakePlannerProbeTests.swift` | dieselben Erwartungen wie die Unit-Tests der App, als XCTest |
 
 ## Ablauf
+
+Die Probe ist für den nativen Modus („Skip Fuse“) geschrieben: `ProbeView` importiert `SkipFuseUI`, `ProbeRecipe` zusätzlich `SkipFuse`, und `@State` ist nicht `private`. Sie baut deshalb nur in einem Skip-Projekt.
 
 Die Befehle von Skip ändern sich zwischen Versionen. Wo unten ein Befehl nicht passt, gilt, was `skip checkup` und `skip init --help` auf deinem Mac sagen.
 
@@ -37,6 +39,8 @@ skip android sdk install
 ```
 
 ### 2. Probe-Projekt anlegen, außerhalb des BakePlanner-Ordners
+
+Nicht unter „Dokumente“ oder „Schreibtisch“ anlegen: Liegen sie in der iCloud-Synchronisierung, scheitert die Code-Signatur („CodeSign … failed“). `~/Developer` ist sicher.
 
 ```bash
 skip init --help
@@ -103,4 +107,4 @@ skip test
 - **Sicherungsdatei:** Die Zeile darunter sollte „Weißbrot: 1 Komponente(n), 2 Schritte, 830,5 g“ lauten, mit Komma bei deutscher Spracheinstellung.
 - **Uhrzeit:** Hat „Gerade dran“ dasselbe Format wie auf dem iPhone?
 
-Skip verlangt für geschlossene oder kommerzielle Projekte nach einer Probezeit unter Umständen eine Lizenz. Die aktuellen Bedingungen stehen auf skip.tools. Für diesen Probelauf spielt das keine Rolle.
+Skip verlangt für geschlossene oder kommerzielle Projekte nach einer Probezeit unter Umständen eine Lizenz. Die aktuellen Bedingungen stehen auf skip.dev. Für diesen Probelauf spielt das keine Rolle.

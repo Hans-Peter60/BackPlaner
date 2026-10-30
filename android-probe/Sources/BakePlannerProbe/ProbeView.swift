@@ -5,15 +5,17 @@
 //  One screen that exercises what the BakePlanner views use most: a form
 //  with steppers and a toggle, sections, lists, formatted numbers and dates,
 //  and an @Observable model. Plus the logic copied from the app, so its
-//  results can be compared with the iPhone at a glance.
+//  results can be compared with the iPhone at a glance. SkipFuseUI is
+//  SwiftUI on iOS and its Android counterpart there.
 //
 
 import Foundation
-import SwiftUI
+import SkipFuseUI
 
 struct ProbeView: View {
-    @State private var recipe = ProbeRecipe.sample
-    @State private var now = Date()
+    // Not private: Skip Fuse cannot bridge private state to Android.
+    @State var recipe = ProbeRecipe.sample
+    @State var now = Date()
 
     var body: some View {
         NavigationStack {
