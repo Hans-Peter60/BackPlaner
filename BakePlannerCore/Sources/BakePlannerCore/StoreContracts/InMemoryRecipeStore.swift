@@ -42,6 +42,10 @@ public final class InMemoryRecipeStore: RecipeStore {
         return recipe
     }
 
+    public func add(contentsOf contents: [RecipeExportData]) throws -> [StoredRecipe] {
+        try contents.map { try add($0, firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false) }
+    }
+
     public func update(_ recipe: StoredRecipe) throws {
         guard let existing = stored[recipe.id] else { throw RecipeStoreError.unknownRecipe(recipe.id) }
         var updated = recipe

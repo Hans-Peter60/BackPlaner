@@ -52,6 +52,9 @@ public protocol RecipeStore {
     /// Never merges with an existing recipe of the same name.
     func add(_ content: RecipeExportData, firestoreId: String?, adjustedOn: Date?,
              bakeHistoryFlag: Bool) throws -> StoredRecipe
+    /// Keeps several new recipes at once, in the given order — all of them
+    /// or, when keeping fails, none. What a backup file is read into.
+    func add(contentsOf contents: [RecipeExportData]) throws -> [StoredRecipe]
     /// Replaces everything of the recipe `recipe.id` but its picture.
     func update(_ recipe: StoredRecipe) throws
     /// Replaces the picture of the recipe `id`; `nil` removes it.

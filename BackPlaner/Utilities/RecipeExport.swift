@@ -254,13 +254,6 @@ extension RecipeImport {
             throw RecipeImportError.unreadableFile
         }
 
-        let file = try decodeFile(data)
-
-        for recipeData in file.recipes {
-            _ = recipeData.makeRecipe(in: context)
-        }
-
-        try context.save()
-        return file.recipes.count
+        return try importFile(data, into: CoreDataRecipeStore(context: context))
     }
 }

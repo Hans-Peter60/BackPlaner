@@ -30,6 +30,7 @@ public enum RecipeStoreContract {
         ("a removed recipe is gone, the others stay", delete),
         ("adding the same content twice keeps two recipes", noMerging),
         ("unknown keys are reported, not ignored", unknownKeys),
+        ("several recipes are added at once, in order", addSeveral),
     ]
 
     // MARK: Checks
@@ -150,6 +151,23 @@ public enum RecipeStoreContract {
             throw ContractViolation(description: "setting the picture of an unknown recipe did not fail")
         } catch RecipeStoreError.unknownRecipe {}
         try expect(store.recipes(includingImages: false).isEmpty, "an unknown key created a recipe")
+    }
+
+    public static func addSeveral(_ store: RecipeStore) throws {
+        var zopf = bread()
+        zopf.name = "Zopf"
+        zopf.image = nil
+        let added = try store.add(contentsOf: [zopf, bread()])
+
+        try expect(added.map(\.content) == [zopf, bread()], "the recipes added at once came back otherwise")
+        try expect(Set(added.map(\.id)).count == 2, "recipes added at once share a key")
+        try expect(added.allSatisfy { $0.firestoreId == nil && $0.adjustedOn == nil && !$0.bakeHistoryFlag },
+                   "recipes added at once are not plain new recipes")
+        for recipe in added {
+            try expect(store.recipe(id: recipe.id) == recipe, "a recipe added at once reads back otherwise")
+        }
+        try expect(store.add(contentsOf: []).isEmpty, "adding nothing added something")
+        try expect(store.recipes(includingImages: false).count == 2, "adding nothing changed the store")
     }
 
     // MARK: Helpers

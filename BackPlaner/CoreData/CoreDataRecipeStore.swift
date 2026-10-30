@@ -42,6 +42,12 @@ struct CoreDataRecipeStore: RecipeStore {
         return stored(recipe, includingImage: true)
     }
 
+    func add(contentsOf contents: [RecipeExportData]) throws -> [StoredRecipe] {
+        let recipes = contents.map { $0.makeRecipe(in: context) }
+        try save()
+        return recipes.map { stored($0, includingImage: true) }
+    }
+
     func update(_ updated: StoredRecipe) throws {
         guard let recipe = managedRecipe(id: updated.id) else {
             throw RecipeStoreError.unknownRecipe(updated.id)
