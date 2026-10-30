@@ -381,6 +381,7 @@
 		6AFA48DF307E000100E105F9 /* AppSettingsCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsCore.swift; sourceTree = "<group>"; };
 		6AFA48E1307E000100E105F9 /* GlobalVariablesCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariablesCore.swift; sourceTree = "<group>"; };
 		6AFA48E3307E000100E105F9 /* RecipeExportFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExportFormat.swift; sourceTree = "<group>"; };
+		6AFA48E8307E000100E105F9 /* BakePlannerCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BakePlannerCore; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		C216EA9360EF0016D178E98F /* StarterYieldAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldAdjustment.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
@@ -705,6 +706,7 @@
 			children = (
 				6A26156A306FAB87007644AB /* BackPlanerWidgetsExtension.entitlements */,
 				6AF754DB2B75018E00EADD84 /* BackPlaner */,
+				6AFA48E8307E000100E105F9 /* BakePlannerCore */,
 				6A02A0A0305268C00031651D /* BackPlanerTests */,
 				6A26155A306FAB78007644AB /* BackPlanerWidgets */,
 				6A2615FF3072A079007644AB /* BackPlanerShare */,
