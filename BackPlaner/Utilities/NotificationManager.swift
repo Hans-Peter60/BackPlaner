@@ -11,32 +11,6 @@ import CoreData
 import UserNotifications
 import os
 
-struct DateCalculation {
-    
-    let formatter = DateFormatter()
-    
-    func calculateDateTime(dT: Date) -> String {
-        
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        formatter.locale = AppSettings.locale
-        return formatter.string(from: dT)
-    }
-}
-
-struct TimeCalculation {
-    
-    let formatter = DateFormatter()
-    
-    func calculateTime(t: Date) -> String {
-        
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        formatter.locale = AppSettings.locale
-        return formatter.string(from: t)
-    }
-}
-
 class LocalNotificationManager: ObservableObject {
     
     @Published var notifications = [Notification]()

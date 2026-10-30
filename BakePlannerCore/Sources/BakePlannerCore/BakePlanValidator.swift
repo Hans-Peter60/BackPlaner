@@ -1,6 +1,6 @@
 //
 //  BakePlanValidator.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Checks a generated baking plan against the planning settings: the day
 //  window (Tagesbeginn/Tagesende), the oven phases of plans that are already
@@ -8,11 +8,10 @@
 //  between two bakes in the same oven (Backpause).
 //
 
-import BakePlannerCore
 import Foundation
 
 /// How serious a finding of ``BakePlanValidator`` is.
-enum BakePlanIssueSeverity {
+public enum BakePlanIssueSeverity {
     /// The plan must not be scheduled this way — more bakes would run at the
     /// same time than there are ovens.
     case error
@@ -21,28 +20,45 @@ enum BakePlanIssueSeverity {
 }
 
 /// A single finding for a generated baking plan.
-struct BakePlanIssue: Identifiable {
-    let id = UUID()
-    let severity: BakePlanIssueSeverity
-    let message: String
+public struct BakePlanIssue: Identifiable {
+    public let id = UUID()
+    public let severity: BakePlanIssueSeverity
+    public let message: String
+
+    public init(severity: BakePlanIssueSeverity, message: String) {
+        self.severity = severity
+        self.message = message
+    }
 }
 
 /// One step of a baking plan, reduced to the values validation needs.
-struct PlannedStep {
-    let instruction: String
-    var step: Double = 0
-    let date: Date
+public struct PlannedStep {
+    public let instruction: String
+    public var step: Double = 0
+    public let date: Date
+
+    public init(instruction: String, step: Double = 0, date: Date) {
+        self.instruction = instruction
+        self.step = step
+        self.date = date
+    }
 }
 
 /// The oven phase of a plan: it begins with the last processing step (the step
 /// that puts the dough into the oven) and ends when the plan is finished.
-struct BakeWindow {
-    let recipeName: String
-    let start: Date
-    let end: Date
+public struct BakeWindow {
+    public let recipeName: String
+    public let start: Date
+    public let end: Date
+
+    public init(recipeName: String, start: Date, end: Date) {
+        self.recipeName = recipeName
+        self.start = start
+        self.end = end
+    }
 }
 
-enum BakePlanValidator {
+public enum BakePlanValidator {
 
     /// The generated finish step ("Backvorgang ist beendet") always carries
     /// step number 99, see the reminder generation in the instruction views.
@@ -63,7 +79,7 @@ enum BakePlanValidator {
     ///     the setting. Overridable so the rules can be tested.
     ///   - bakePause: the minimum gap in minutes between two bakes that share
     ///     an oven; defaults to the setting.
-    static func issues(
+    public static func issues(
         for steps: [PlannedStep],
         bakeWindow: BakeWindow?,
         existingWindows: [BakeWindow],
@@ -97,7 +113,7 @@ enum BakePlanValidator {
 
     /// The day window in hours. A stored end at or before the start would switch
     /// the check off unnoticed, so such a setting falls back to the defaults.
-    static func dayWindow() -> (start: Int, end: Int) {
+    public static func dayWindow() -> (start: Int, end: Int) {
 
         let dayStart = GlobalVariables.dayStart
         let dayEnd   = GlobalVariables.dayEnd
@@ -118,7 +134,7 @@ enum BakePlanValidator {
     /// Whether a step beginning at `date` lies before `dayStart` or after
     /// `dayEnd` (both in hours). The same rule as the day-window hints, for
     /// BakePlanAdvisor to look for a plan without them.
-    static func isOutsideDay(_ date: Date, dayStart: Int, dayEnd: Int, calendar: Calendar = .current) -> Bool {
+    public static func isOutsideDay(_ date: Date, dayStart: Int, dayEnd: Int, calendar: Calendar = .current) -> Bool {
         let minute = minuteOfDay(date, calendar: calendar)
         return minute < dayStart * 60 || minute > dayEnd * 60
     }
@@ -271,7 +287,7 @@ enum BakePlanValidator {
     /// Whether `window` would need more ovens than there are, given the bakes
     /// already scheduled: the condition of the overlap error above, without
     /// its message.
-    static func needsMoreOvens(
+    public static func needsMoreOvens(
         _ window: BakeWindow,
         existingWindows: [BakeWindow],
         ovenCount: Int = GlobalVariables.ovenCount
@@ -294,7 +310,7 @@ enum BakePlanValidator {
     /// The largest number of `windows` that occupy an oven at the same instant
     /// during `window`. Each of them is widened by `padding` on both sides,
     /// which is how the pause between two bakes is accounted for.
-    static func peakConcurrency(
+    public static func peakConcurrency(
         of windows: [BakeWindow],
         within window: BakeWindow,
         padding: TimeInterval
@@ -334,7 +350,7 @@ enum BakePlanValidator {
     /// that cools down, rests or glazes afterwards — an already scheduled bake
     /// then looked shorter than it is, and a second bake placed inside its real
     /// oven time was reported as a short pause instead of an overlap.
-    static func bakeWindow(recipeName: String, steps: [PlannedStep]) -> BakeWindow? {
+    public static func bakeWindow(recipeName: String, steps: [PlannedStep]) -> BakeWindow? {
 
         let processingSteps = steps.filter { $0.step < finishStepNumber }
         let ovenStep = processingSteps
@@ -362,7 +378,7 @@ enum BakePlanValidator {
     /// bake, one heats the oven up, or one states an oven temperature. A
     /// starter feeding or a no-bake recipe has none of the three, and gets
     /// neither an oven step nor an oven phase.
-    static func usesOven(_ instructions: [String]) -> Bool {
+    public static func usesOven(_ instructions: [String]) -> Bool {
         instructions.contains {
             isBakingStartInstruction($0) || isPreheatInstruction($0) || BakePlan.ovenTemperature(in: $0) != nil
         }
@@ -370,7 +386,7 @@ enum BakePlanValidator {
 
     /// Whether a step puts the dough into the oven. Preheating does not count —
     /// it names a temperature as well, but the oven is still empty.
-    static func isBakingStartInstruction(_ instruction: String) -> Bool {
+    public static func isBakingStartInstruction(_ instruction: String) -> Bool {
 
         let text = instruction.folding(
             options: [.caseInsensitive, .diacriticInsensitive],
@@ -400,7 +416,7 @@ enum BakePlanValidator {
     /// step worded that way cost the plan its oven step and moved the bake
     /// — and the turn-down reminder — onto the step after it; the German
     /// text escaped only because "vorgeheizt" does not contain "vorheiz".
-    static func isPreheatInstruction(_ instruction: String) -> Bool {
+    public static func isPreheatInstruction(_ instruction: String) -> Bool {
 
         let text = instruction.folding(
             options: [.caseInsensitive, .diacriticInsensitive],

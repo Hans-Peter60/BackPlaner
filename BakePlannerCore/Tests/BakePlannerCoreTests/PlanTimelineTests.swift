@@ -1,15 +1,14 @@
 //
 //  PlanTimelineTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 //  The scale and the lanes of the project-plan timeline: short steps get
 //  room, a night collapses to a band, sub-steps sit on their parent's bar.
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("The timeline's scale")
 struct PlanTimelineScaleTests {

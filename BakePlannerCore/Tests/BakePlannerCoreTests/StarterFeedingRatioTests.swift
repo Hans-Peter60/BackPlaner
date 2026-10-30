@@ -1,12 +1,11 @@
 //
 //  StarterFeedingRatioTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Starter feeding ratio derived from a recipe's ingredients")
 struct StarterFeedingRatioTests {

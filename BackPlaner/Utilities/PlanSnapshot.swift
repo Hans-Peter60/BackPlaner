@@ -10,6 +10,7 @@
 //  ever reads it.
 //
 
+import BakePlannerCore
 import Foundation
 import ActivityKit
 

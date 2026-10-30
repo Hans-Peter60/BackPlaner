@@ -1,12 +1,11 @@
 //
 //  BakePlanAdvisorTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Dates at which no step of a plan falls into the night")
 struct BakePlanAdvisorTests {

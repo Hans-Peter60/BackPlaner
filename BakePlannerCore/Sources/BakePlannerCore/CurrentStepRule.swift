@@ -1,20 +1,20 @@
 //
 //  CurrentStepRule.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Which planned step matters right now — the one rule behind the main menu
-//  card, the bake mode, Siri and the widget. Compiled into both the app and
-//  the widget extension.
+//  card, the bake mode, Siri and the widget. The app and the widget
+//  extension both link the package for it.
 //
 
 import Foundation
 
-enum CurrentStepRule {
+public enum CurrentStepRule {
 
     /// How long a step counts as "due now" after its time has come. A step
     /// that is not marked done stays in the plan, so without this an old,
     /// finished plan would keep its last step on display forever.
-    static let dueGracePeriod: TimeInterval = 60 * 60
+    public static let dueGracePeriod: TimeInterval = 60 * 60
 
     /// The step that matters at `now`, and whether its time has already come.
     /// `steps` are sorted by date, earliest first.
@@ -23,7 +23,7 @@ enum CurrentStepRule {
     /// yet comes first — when the reminder fires, that is the thing to do,
     /// not the one after it. Otherwise the earliest step still ahead. A newer
     /// due step always supersedes an older one.
-    static func currentStep<Step>(in steps: [Step], at now: Date,
+    public static func currentStep<Step>(in steps: [Step], at now: Date,
                                   date: (Step) -> Date) -> (step: Step, isDue: Bool)? {
         if let due = steps.last(where: { date($0) <= now }),
            now.timeIntervalSince(date(due)) < dueGracePeriod {

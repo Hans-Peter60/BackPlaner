@@ -695,12 +695,7 @@ struct ScheduledTasksView: View {
     }
 }
 
-/// One planning run of one recipe. Steps planned before `planID` existed
-/// have none and form a single plan per recipe.
-struct PlanKey: Hashable {
-    let recipeName: String
-    let planID: UUID?
-
+extension PlanKey {
     /// Matches exactly the steps of this plan.
     var predicate: NSPredicate {
         if let planID {

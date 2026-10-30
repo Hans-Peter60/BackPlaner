@@ -1,12 +1,11 @@
 //
 //  BakePlanTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("The plan both baking views share")
 struct BakePlanTests {

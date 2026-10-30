@@ -61,7 +61,28 @@ def check_catalogs() -> list[str]:
 
 PACKAGE_SOURCES = "BakePlannerCore/Sources"
 PACKAGE_CATALOG = "BackPlaner/Localizable.xcstrings"
-LOCALIZED_LITERAL = re.compile(r'String\(localized:\s*"((?:[^"\\]|\\.)*)"')
+LOCALIZED_LITERAL = re.compile(r'String\(\s*localized:\s*"((?:[^"\\]|\\.)*)"')
+FORMAT_SPECIFIER = r"%(?:\d+\$)?(?:@|lld|ld|d|lf|f)"
+
+
+def catalog_key_pattern(literal: str) -> re.Pattern:
+    """The catalog key a Swift literal becomes: each interpolation
+    \\(…) turns into a format specifier whose kind depends on the value's
+    type, so any of them is accepted."""
+    parts, plain, i = [], "", 0
+    while i < len(literal):
+        if literal.startswith("\\(", i):
+            parts.append(re.escape(json.loads(f'"{plain}"')))
+            plain, depth, i = "", 1, i + 2
+            while i < len(literal) and depth:
+                depth += {"(": 1, ")": -1}.get(literal[i], 0)
+                i += 1
+            parts.append(FORMAT_SPECIFIER)
+        else:
+            plain += literal[i]
+            i += 1
+    parts.append(re.escape(json.loads(f'"{plain}"')))
+    return re.compile("".join(parts) + r"\Z")
 
 
 def check_package_strings() -> list[str]:
@@ -79,16 +100,19 @@ def check_package_strings() -> list[str]:
     for path in sorted((ROOT / PACKAGE_SOURCES).rglob("*.swift")):
         relative = path.relative_to(ROOT)
         for match in LOCALIZED_LITERAL.finditer(path.read_text(encoding="utf-8")):
-            key = json.loads(f'"{match.group(1)}"')
-            entry = strings.get(key)
-            if entry is None:
-                findings.append(f"{relative}: “{key}” is not in {PACKAGE_CATALOG}")
-            elif entry.get("extractionState") == "stale":
-                findings.append(f"{relative}: “{key}” is stale in {PACKAGE_CATALOG}; mark it manual")
+            pattern = catalog_key_pattern(match.group(1))
+            keys = [key for key in strings if pattern.match(key)]
+            shown = match.group(1) if len(match.group(1)) <= 70 else match.group(1)[:67] + "…"
+            if not keys:
+                findings.append(f"{relative}: “{shown}” is not in {PACKAGE_CATALOG}")
+                continue
+            entry = strings[keys[0]]
+            if entry.get("extractionState") == "stale":
+                findings.append(f"{relative}: “{shown}” is stale in {PACKAGE_CATALOG}; mark it manual")
             else:
                 missing = [language for language in LANGUAGES if language not in entry.get("localizations", {})]
                 if missing:
-                    findings.append(f"{relative}: no {'/'.join(missing)} for “{key}” in {PACKAGE_CATALOG}")
+                    findings.append(f"{relative}: no {'/'.join(missing)} for “{shown}” in {PACKAGE_CATALOG}")
     return findings
 
 

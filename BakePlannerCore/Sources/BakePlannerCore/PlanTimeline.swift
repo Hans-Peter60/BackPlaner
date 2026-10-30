@@ -1,6 +1,6 @@
 //
 //  PlanTimeline.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  The project-plan view of the scheduled steps (the "Timeline" tab): a
 //  time scale that stretches short steps to a readable minimum and shrinks
@@ -12,7 +12,6 @@
 //  arithmetic, and the tests check it without a view.
 //
 
-import BakePlannerCore
 import CoreGraphics
 import Foundation
 
@@ -27,35 +26,48 @@ import Foundation
 /// a short step, and a band says what was skipped. A rise of three hours
 /// stays at full scale — it is the night that needs collapsing, not every
 /// long rest.
-struct PlanTimelineScale: Equatable {
+public struct PlanTimelineScale: Equatable {
 
     /// A collapsed stretch: what it covers and where it is drawn.
-    struct Gap: Equatable {
-        let start: Date
-        let end: Date
-        let position: CGFloat
-        let length: CGFloat
+    public struct Gap: Equatable {
+        public let start: Date
+        public let end: Date
+        public let position: CGFloat
+        public let length: CGFloat
+
+        public init(start: Date, end: Date, position: CGFloat, length: CGFloat) {
+            self.start = start
+            self.end = end
+            self.position = position
+            self.length = length
+        }
     }
 
     /// A labelled point on the axis. `startsDay` marks the first tick of a
     /// day, which the axis labels with the weekday as well as the time.
-    struct Tick: Equatable {
-        let date: Date
-        let position: CGFloat
-        let startsDay: Bool
+    public struct Tick: Equatable {
+        public let date: Date
+        public let position: CGFloat
+        public let startsDay: Bool
+
+        public init(date: Date, position: CGFloat, startsDay: Bool) {
+            self.date = date
+            self.position = position
+            self.startsDay = startsDay
+        }
     }
 
-    let start: Date
-    let end: Date
+    public let start: Date
+    public let end: Date
     /// The axis length in points.
-    let length: CGFloat
-    let gaps: [Gap]
-    let ticks: [Tick]
+    public let length: CGFloat
+    public let gaps: [Gap]
+    public let ticks: [Tick]
 
     /// Dates with their positions, sorted; the scale is linear in between.
     private let knots: [(date: Date, position: CGFloat)]
 
-    static func == (lhs: PlanTimelineScale, rhs: PlanTimelineScale) -> Bool {
+    public static func == (lhs: PlanTimelineScale, rhs: PlanTimelineScale) -> Bool {
         lhs.start == rhs.start && lhs.end == rhs.end && lhs.length == rhs.length
             && lhs.gaps == rhs.gaps && lhs.ticks == rhs.ticks
     }
@@ -63,7 +75,7 @@ struct PlanTimelineScale: Equatable {
     /// `roomAfter` asks for more than `minimumInterval` after particular
     /// boundaries: a bar whose marker sits at its very start needs a second
     /// line for the marker's label.
-    init(boundaries: [Date],
+    public init(boundaries: [Date],
          pointsPerMinute: CGFloat,
          minimumInterval: CGFloat = 26,
          roomAfter: [Date: CGFloat] = [:],
@@ -120,13 +132,13 @@ struct PlanTimelineScale: Equatable {
                            minimumSpacing: minimumTickSpacing, calendar: calendar)
     }
 
-    static func wholeMinute(_ date: Date) -> Date {
+    public static func wholeMinute(_ date: Date) -> Date {
         Date(timeIntervalSinceReferenceDate: (date.timeIntervalSinceReferenceDate / 60).rounded() * 60)
     }
 
     /// The position of a date; before the start it is 0, after the end the
     /// full length.
-    func position(of date: Date) -> CGFloat {
+    public func position(of date: Date) -> CGFloat {
         guard let firstKnot = knots.first, let lastKnot = knots.last else { return 0 }
         if date <= firstKnot.date { return 0 }
         if date >= lastKnot.date { return lastKnot.position }
@@ -147,12 +159,12 @@ struct PlanTimelineScale: Equatable {
     }
 
     /// The length between two dates on the axis.
-    func length(from: Date, to: Date) -> CGFloat {
+    public func length(from: Date, to: Date) -> CGFloat {
         max(0, position(of: to) - position(of: from))
     }
 
     /// Whether a date lies inside a collapsed band.
-    func isInGap(_ date: Date) -> Bool {
+    public func isInGap(_ date: Date) -> Bool {
         gaps.contains { $0.start < date && date < $0.end }
     }
 
@@ -221,76 +233,97 @@ struct PlanTimelineScale: Equatable {
 // MARK: - Lanes
 
 /// What a step does, for its colour.
-enum PlanTimelineKind: Equatable {
+public enum PlanTimelineKind: Equatable {
     case mix, rest, fold, shape, oven, bake, other
 }
 
 /// One scheduled step, whichever store it came from.
-struct PlanTimelineEntry: Identifiable, Equatable {
-    let id: AnyHashable
-    let recipeName: String
-    let planID: UUID?
-    let instruction: String
-    let step: Double
-    let date: Date
+public struct PlanTimelineEntry: Identifiable, Equatable {
+    public let id: AnyHashable
+    public let recipeName: String
+    public let planID: UUID?
+    public let instruction: String
+    public let step: Double
+    public let date: Date
     /// Minutes.
-    let duration: Int
+    public let duration: Int
 
-    var end: Date { date.addingTimeInterval(TimeInterval(duration * 60)) }
-    var planKey: PlanKey { PlanKey(recipeName: recipeName, planID: planID) }
+    public var end: Date { date.addingTimeInterval(TimeInterval(duration * 60)) }
+    public var planKey: PlanKey { PlanKey(recipeName: recipeName, planID: planID) }
+
+    public init(id: AnyHashable, recipeName: String, planID: UUID?, instruction: String, step: Double, date: Date, duration: Int) {
+        self.id = id
+        self.recipeName = recipeName
+        self.planID = planID
+        self.instruction = instruction
+        self.step = step
+        self.date = date
+        self.duration = duration
+    }
 }
 
 /// A point on a lane: a sub-step inside its parent's bar, or a step without
 /// a duration.
-struct PlanTimelineMarker: Identifiable, Equatable {
-    let entry: PlanTimelineEntry
-    let kind: PlanTimelineKind
-    var id: AnyHashable { entry.id }
-    var date: Date { entry.date }
+public struct PlanTimelineMarker: Identifiable, Equatable {
+    public let entry: PlanTimelineEntry
+    public let kind: PlanTimelineKind
+    public var id: AnyHashable { entry.id }
+    public var date: Date { entry.date }
+
+    public init(entry: PlanTimelineEntry, kind: PlanTimelineKind) {
+        self.entry = entry
+        self.kind = kind
+    }
 }
 
 /// A step with a duration, drawn as long as it lasts. Bars that overlap
 /// in time share the lane side by side: `track` says which strip of the
 /// lane this bar takes, `trackCount` how many strips its cluster of
 /// overlapping bars needs.
-struct PlanTimelineBar: Identifiable, Equatable {
-    let entry: PlanTimelineEntry
-    let kind: PlanTimelineKind
-    var markers: [PlanTimelineMarker] = []
-    var track = 0
-    var trackCount = 1
-    var id: AnyHashable { entry.id }
-    var start: Date { entry.date }
-    var end: Date { entry.end }
+public struct PlanTimelineBar: Identifiable, Equatable {
+    public let entry: PlanTimelineEntry
+    public let kind: PlanTimelineKind
+    public var markers: [PlanTimelineMarker] = []
+    public var track = 0
+    public var trackCount = 1
+    public var id: AnyHashable { entry.id }
+    public var start: Date { entry.date }
+    public var end: Date { entry.end }
+
+    public init(entry: PlanTimelineEntry, kind: PlanTimelineKind, markers: [PlanTimelineMarker] = []) {
+        self.entry = entry
+        self.kind = kind
+        self.markers = markers
+    }
 }
 
 /// One plan: its bars, loose markers and the finish.
-struct PlanTimelineLane: Identifiable, Equatable {
-    let id: PlanKey
-    let bars: [PlanTimelineBar]
-    let markers: [PlanTimelineMarker]
+public struct PlanTimelineLane: Identifiable, Equatable {
+    public let id: PlanKey
+    public let bars: [PlanTimelineBar]
+    public let markers: [PlanTimelineMarker]
     /// "Backvorgang ist beendet", if the plan has it.
-    let finish: Date?
-    let start: Date
-    let end: Date
+    public let finish: Date?
+    public let start: Date
+    public let end: Date
 
-    var recipeName: String { id.recipeName }
+    public var recipeName: String { id.recipeName }
 
     /// Every date the scale has to keep apart: bar starts and ends, markers
     /// and the finish.
-    var boundaries: [Date] {
+    public var boundaries: [Date] {
         bars.flatMap { [$0.start, $0.end] + $0.markers.map(\.date) } + markers.map(\.date) + [finish].compactMap { $0 }
     }
 
     /// The starts of bars with a marker in their first minute — the
     /// turn-down as the loaf goes in. Such a bar needs room for the
     /// marker's label under its own first line.
-    var startsWithMarker: [Date] {
+    public var startsWithMarker: [Date] {
         bars.filter { bar in bar.markers.contains { abs($0.date.timeIntervalSince(bar.start)) < 60 } }.map(\.start)
     }
 
     /// One lane per plan, in the order of their first step.
-    static func lanes(from entries: [PlanTimelineEntry]) -> [PlanTimelineLane] {
+    public static func lanes(from entries: [PlanTimelineEntry]) -> [PlanTimelineLane] {
         let sorted = entries.sorted { ($0.date, $0.step) < ($1.date, $1.step) }
         var order: [PlanKey] = []
         var grouped: [PlanKey: [PlanTimelineEntry]] = [:]
@@ -311,7 +344,7 @@ struct PlanTimelineLane: Identifiable, Equatable {
     /// does not lie inside its parent is a bar of its own, or a loose
     /// marker when it has no duration. Overlapping bars are then dealt
     /// into tracks.
-    static func lane(_ key: PlanKey, entries: [PlanTimelineEntry]) -> PlanTimelineLane {
+    public static func lane(_ key: PlanKey, entries: [PlanTimelineEntry]) -> PlanTimelineLane {
         var bars: [PlanTimelineBar] = []
         var loose: [PlanTimelineMarker] = []
         var subSteps: [PlanTimelineEntry] = []
@@ -398,11 +431,11 @@ struct PlanTimelineLane: Identifiable, Equatable {
     private static let mixWords = ["mischen", "kneten", "herstellen", "verruhren", "ansetzen", "zubereiten", "vermengen",
                                    "mix", "knead", "combine", "prepare", "petrir", "melanger", "preparer", "incorporer"]
 
-    static func kind(of entry: PlanTimelineEntry) -> PlanTimelineKind {
+    public static func kind(of entry: PlanTimelineEntry) -> PlanTimelineKind {
         kind(of: entry.instruction, duration: entry.duration)
     }
 
-    static func kind(of instruction: String, duration: Int) -> PlanTimelineKind {
+    public static func kind(of instruction: String, duration: Int) -> PlanTimelineKind {
         let text = instruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
                                        locale: Locale(identifier: "de_DE"))
         if BakePlanValidator.isPreheatInstruction(instruction)
@@ -421,5 +454,26 @@ struct PlanTimelineLane: Identifiable, Equatable {
         if mixes { return .mix }
         if rests { return .rest }
         return .other
+    }
+
+    public init(id: PlanKey, bars: [PlanTimelineBar], markers: [PlanTimelineMarker], finish: Date?, start: Date, end: Date) {
+        self.id = id
+        self.bars = bars
+        self.markers = markers
+        self.finish = finish
+        self.start = start
+        self.end = end
+    }
+}
+
+/// One planning run of one recipe. Steps planned before `planID` existed
+/// have none and form a single plan per recipe.
+public struct PlanKey: Hashable {
+    public let recipeName: String
+    public let planID: UUID?
+
+    public init(recipeName: String, planID: UUID?) {
+        self.recipeName = recipeName
+        self.planID = planID
     }
 }

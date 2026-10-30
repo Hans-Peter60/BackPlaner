@@ -1,6 +1,6 @@
 //
 //  BakePlanAdvisor.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  When a plan has steps that begin before Tagesbeginn or after Tagesende,
 //  the plan check only says so. The advisor looks for the nearest earlier and
@@ -9,31 +9,37 @@
 //  stays as it is: only the date in the scheduling controls moves.
 //
 
-import BakePlannerCore
 import Foundation
 
 /// A date for the scheduling controls at which no step of the plan begins at
 /// night.
-struct NightFreeDate: Equatable, Identifiable {
+public struct NightFreeDate: Equatable, Identifiable {
     /// The new date for the picker, read like the current one ("Starten ab"
     /// or "Fertig bis").
-    let date: Date
+    public let date: Date
     /// Minutes from the current date; negative means earlier.
-    let shift: Int
+    public let shift: Int
     /// When the first step begins and the bake is finished with this date.
-    let start: Date
-    let finish: Date
+    public let start: Date
+    public let finish: Date
 
-    var id: Date { date }
+    public var id: Date { date }
+
+    public init(date: Date, shift: Int, start: Date, finish: Date) {
+        self.date = date
+        self.shift = shift
+        self.start = start
+        self.finish = finish
+    }
 }
 
-enum BakePlanAdvisor {
+public enum BakePlanAdvisor {
 
     /// Suggested dates lie on the quarter hour.
-    static let gridMinutes = 15
+    public static let gridMinutes = 15
     /// How far the search reaches in either direction. A day is enough: one
     /// day later the steps fall on the same clock times again.
-    static let searchMinutes = 24 * 60
+    public static let searchMinutes = 24 * 60
 
     /// The nearest earlier and the nearest later date at which every step of
     /// `plan` begins inside the day window, the closer one first. Empty when
@@ -46,7 +52,7 @@ enum BakePlanAdvisor {
     ///   - existingWindows: the oven phases already scheduled. A date at which
     ///     this bake would need more ovens than there are is skipped.
     ///   - ovenCount: how many bakes may run at once.
-    static func nightFreeDates(
+    public static func nightFreeDates(
         for plan: BakePlan,
         dayStart: Int,
         dayEnd: Int,
@@ -90,14 +96,14 @@ enum BakePlanAdvisor {
     }
 
     /// Whether a step begins outside the day window set in the settings.
-    static func hasNightSteps(_ plan: BakePlan) -> Bool {
+    public static func hasNightSteps(_ plan: BakePlan) -> Bool {
         let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
         return hasNightSteps(plan, dayStart: dayStart, dayEnd: dayEnd)
     }
 
     /// Whether any step of the plan, the generated ones included, begins
     /// outside the day window.
-    static func hasNightSteps(_ plan: BakePlan, dayStart: Int, dayEnd: Int) -> Bool {
+    public static func hasNightSteps(_ plan: BakePlan, dayStart: Int, dayEnd: Int) -> Bool {
         plan.plannedSteps.contains {
             BakePlanValidator.isOutsideDay($0.date, dayStart: dayStart, dayEnd: dayEnd, calendar: plan.calendar)
         }

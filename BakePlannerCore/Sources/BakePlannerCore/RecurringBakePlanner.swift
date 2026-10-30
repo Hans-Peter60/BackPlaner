@@ -1,6 +1,6 @@
 //
 //  RecurringBakePlanner.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Queues the next occurrence of a recipe that refreshes on a fixed rhythm
 //  (a sourdough starter, say every 5 days) without anyone having to plan it
@@ -10,25 +10,24 @@
 //  plan that moved on while the app was away.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum RecurringBakePlanner {
+public enum RecurringBakePlanner {
 
     /// Minutes a plan of the recipe takes, as `BakePlan.totalMinutes`
     /// measures it: the stored preparation time, never less than the end of
     /// the last step. The bake history records only when a plan finished;
     /// this is what turns that finish back into the plan's start.
-    static func planDuration(prepTime: Int, stepEnds: [Int]) -> Int {
+    public static func planDuration(prepTime: Int, stepEnds: [Int]) -> Int {
         max(prepTime, stepEnds.max() ?? 0)
     }
 
-    static func planDuration(of recipe: RecipeExportData) -> Int {
+    public static func planDuration(of recipe: RecipeExportData) -> Int {
         planDuration(prepTime: recipe.prepTime,
                      stepEnds: recipe.instructions.map { $0.startTime + $0.duration })
     }
 
-    static func planDuration(of recipe: RecipeFB) -> Int {
+    public static func planDuration(of recipe: RecipeFB) -> Int {
         planDuration(prepTime: recipe.prepTime,
                      stepEnds: recipe.instructions.map { ($0.startTime ?? 0) + $0.duration })
     }
@@ -45,7 +44,7 @@ enum RecurringBakePlanner {
     /// "whenever the app was next opened", and keeps a long-unopened app
     /// from piling up a backlog of missed cycles: it always lands on
     /// exactly one, the next due one.
-    static func nextStartDate(lastFinish: Date, duration: Int, intervalDays: Int,
+    public static func nextStartDate(lastFinish: Date, duration: Int, intervalDays: Int,
                               now: Date, calendar: Calendar = .current) -> Date? {
         guard intervalDays > 0,
               let lastStart = calendar.date(byAdding: .minute, value: -duration, to: lastFinish) else { return nil }
@@ -63,7 +62,7 @@ enum RecurringBakePlanner {
 
     /// The finish of the occurrence `nextStartDate` finds: its start plus
     /// the plan's `duration`.
-    static func nextFinishDate(lastFinish: Date, duration: Int, intervalDays: Int,
+    public static func nextFinishDate(lastFinish: Date, duration: Int, intervalDays: Int,
                                now: Date, calendar: Calendar = .current) -> Date? {
         nextStartDate(lastFinish: lastFinish, duration: duration, intervalDays: intervalDays,
                       now: now, calendar: calendar)
@@ -80,7 +79,7 @@ enum RecurringBakePlanner {
     /// steps. The rhythm continues after its finish. Shown as the next
     /// occurrence, a starter fed today at 17:20 on a daily rhythm read
     /// "Nächste Fütterung: Heute 17:20" where tomorrow was meant.
-    static func nextStart(lastFinish: Date?, duration: Int, intervalDays: Int,
+    public static func nextStart(lastFinish: Date?, duration: Int, intervalDays: Int,
                           now: Date, calendar: Calendar = .current) -> Date? {
         guard let lastFinish else { return nil }
         return nextStartDate(lastFinish: lastFinish, duration: duration, intervalDays: intervalDays,
@@ -93,13 +92,13 @@ enum RecurringBakePlanner {
     /// interval — a sourdough starter refreshed every 5 days would sit there
     /// for 5 days — and a reminder seen that long before it matters turns
     /// into background noise that gets overlooked.
-    static let visibilityLeadTime: TimeInterval = 2 * 24 * 60 * 60
+    public static let visibilityLeadTime: TimeInterval = 2 * 24 * 60 * 60
 
     /// Whether a scheduled step should already be shown. Steps the user
     /// planned by hand are always visible; only the ones queued ahead of time
     /// by the automatic pass are held back until `visibilityLeadTime` before
     /// they are due.
-    static func isVisible(date: Date, isAutomaticRecurrence: Bool, at now: Date) -> Bool {
+    public static func isVisible(date: Date, isAutomaticRecurrence: Bool, at now: Date) -> Bool {
         !isAutomaticRecurrence || date <= now.addingTimeInterval(visibilityLeadTime)
     }
 }

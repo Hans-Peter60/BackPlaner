@@ -1,31 +1,37 @@
 //
 //  BakePlan.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 
-import BakePlannerCore
 import Foundation
 
 /// One processing step as the planner sees it, whichever recipe model it came
 /// from: an own recipe (Core Data `Instruction`) or a public one
 /// (`InstructionFB`).
-struct PlanStep: Equatable {
-    let instruction: String
-    let step: Double
+public struct PlanStep: Equatable {
+    public let instruction: String
+    public let step: Double
     /// Minutes after the plan's start.
-    let startTime: Int
-    let duration: Int
+    public let startTime: Int
+    public let duration: Int
+
+    public init(instruction: String, step: Double, startTime: Int, duration: Int) {
+        self.instruction = instruction
+        self.step = step
+        self.startTime = startTime
+        self.duration = duration
+    }
 }
 
 /// How the date in the baking view is read.
-enum PlanAnchor {
+public enum PlanAnchor {
     /// "Starten ab": the plan starts at the date.
     case startsAt
     /// "Fertig bis": the plan is finished at the date.
     case finishesBy
 
     /// The picker's selection in the baking views (0 = start, 1 = finish).
-    init(selection: Int) {
+    public init(selection: Int) {
         self = selection == 0 ? .startsAt : .finishesBy
     }
 }
@@ -37,20 +43,20 @@ enum PlanAnchor {
 /// its own copy, and the public one had fallen behind: it took the last step
 /// for the bake, generated a preheating step next to the recipe's own, and
 /// knew neither a cold oven nor the temperature. Here it exists once.
-struct BakePlan {
+public struct BakePlan {
 
-    let recipeName: String
+    public let recipeName: String
     /// The recipe's steps in recipe order.
-    let steps: [PlanStep]
+    public let steps: [PlanStep]
     /// Minutes from the plan's start to the end of the bake.
-    let prepTime: Int
-    let anchor: PlanAnchor
+    public let prepTime: Int
+    public let anchor: PlanAnchor
     /// The date chosen in the view.
-    let date: Date
+    public let date: Date
     /// Language of the two generated steps.
-    let languageCode: String
-    var preheatTime: Int = GlobalVariables.preheatTime
-    var calendar: Calendar = .current
+    public let languageCode: String
+    public var preheatTime: Int = GlobalVariables.preheatTime
+    public var calendar: Calendar = .current
 
     // MARK: Derived steps
 
@@ -58,13 +64,13 @@ struct BakePlan {
     /// never less than the end of its last step. A stored total that fell
     /// behind the steps would otherwise put "Backvorgang ist beendet" into
     /// the middle of the bake.
-    var totalMinutes: Int {
+    public var totalMinutes: Int {
         max(prepTime, steps.map { $0.startTime + $0.duration }.max() ?? 0)
     }
 
     /// The plan's start. In "Fertig bis" mode it lies `totalMinutes` before
     /// the chosen date.
-    var baseDate: Date {
+    public var baseDate: Date {
         switch anchor {
         case .startsAt:   return date
         case .finishesBy: return calendar.date(byAdding: .minute, value: -totalMinutes, to: date) ?? date
@@ -78,7 +84,7 @@ struct BakePlan {
     /// mischen, bei 26 °C reifen lassen") names no bake, no preheating and
     /// no oven temperature; taken for a bake, its last step used to switch
     /// the oven on alongside the first.
-    var bakingStep: PlanStep? {
+    public var bakingStep: PlanStep? {
         if let worded = steps.first(where: { BakePlanValidator.isBakingStartInstruction($0.instruction) }) {
             return worded
         }
@@ -88,20 +94,20 @@ struct BakePlan {
     /// A step of the recipe's own that switches the oven on. An import from a
     /// planning example has one; its duration is then the recipe's, and no
     /// step is generated.
-    var explicitPreheatStep: PlanStep? {
+    public var explicitPreheatStep: PlanStep? {
         steps.first { BakePlanValidator.isPreheatInstruction($0.instruction) }
     }
 
     /// Minutes the oven needs before the bake: none for a recipe with its own
     /// preheating step or one that starts in a cold oven, else the setting.
-    var preheatDuration: Int {
+    public var preheatDuration: Int {
         guard explicitPreheatStep == nil, let bakingStep else { return 0 }
         return Self.startsInColdOven(bakingStep.instruction) ? 0 : preheatTime
     }
 
     /// "Backofen anstellen (250 °C)", generated when the recipe has no
     /// preheating step of its own.
-    var generatedOvenStep: PlanStep? {
+    public var generatedOvenStep: PlanStep? {
         guard explicitPreheatStep == nil, let bakingStep else { return nil }
         let text = Self.ovenStartText(
             baseText: AppSettings.generatedStepTexts(languageCode: languageCode).startHeating,
@@ -116,7 +122,7 @@ struct BakePlan {
     /// The oven temperature the generated step names: the first one stated in
     /// the baking step, else in the steps after it (a second baking phase),
     /// else in those before it ("Brot einschießen, 250 °C").
-    var ovenTemperature: String? {
+    public var ovenTemperature: String? {
         guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
         let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
         return ordered.lazy.compactMap { Self.ovenTemperature(in: $0.instruction) }.first
@@ -125,7 +131,7 @@ struct BakePlan {
     /// Minutes into the bake at which the heat is turned down when the recipe
     /// says that it falls but not when: the ten minutes after which bakers
     /// release the steam.
-    static let defaultTurnDownMinutes = 10
+    public static let defaultTurnDownMinutes = 10
 
     /// "Backofen auf 220 °C zurückdrehen, Dampf ablassen", generated when the
     /// bake states a falling temperature ("250 °C fallend auf 220 °C"). The
@@ -139,7 +145,7 @@ struct BakePlan {
     /// as the loaf goes in, with the steam still in the oven. Its generated
     /// step names no steam and, unless the bake says otherwise, falls at the
     /// start of the bake.
-    var generatedTurnDownStep: PlanStep? {
+    public var generatedTurnDownStep: PlanStep? {
         guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
 
         // The same order the oven temperature is looked for in.
@@ -161,7 +167,7 @@ struct BakePlan {
     /// Whether a step of the recipe's own lets the steam out of the oven:
     /// "Dampf ablassen", "Schwaden abziehen lassen", "Release the steam",
     /// "Évacuer la buée". The bake itself ("mit Dampf backen") is not one.
-    static func isSteamReleaseInstruction(_ instruction: String) -> Bool {
+    public static func isSteamReleaseInstruction(_ instruction: String) -> Bool {
         let text = instruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
                                        locale: Locale(identifier: "de_DE"))
         guard steamWords.contains(where: text.contains) else { return false }
@@ -177,7 +183,7 @@ struct BakePlan {
     /// languages it can be stored in. Generated steps live only in the plan,
     /// never in the recipe, so whoever compares the two has to leave them
     /// out — as "Geplante Schritte" does for the oven and finish steps.
-    static func isTurnDownInstruction(_ instruction: String) -> Bool {
+    public static func isTurnDownInstruction(_ instruction: String) -> Bool {
         for language in ["de", "en", "fr"] {
             let texts = AppSettings.generatedStepTexts(languageCode: language)
             for format in [texts.turnDown, texts.turnDownWithSteam] {
@@ -190,7 +196,7 @@ struct BakePlan {
     }
 
     /// "Backvorgang ist beendet", `totalMinutes` after the start.
-    var endStep: PlanStep {
+    public var endStep: PlanStep {
         PlanStep(instruction: AppSettings.generatedStepTexts(languageCode: languageCode).bakeEnd,
                  step: 99,
                  startTime: totalMinutes,
@@ -201,7 +207,7 @@ struct BakePlan {
     /// recipe's own that names no temperature ("Backofen anstellen", as
     /// planning-example imports write it) gets the oven temperature appended,
     /// like the generated one; the stored recipe is left as it is.
-    var scheduledSteps: [PlanStep] {
+    public var scheduledSteps: [PlanStep] {
         guard let preheat = explicitPreheatStep,
               Self.ovenTemperature(in: preheat.instruction) == nil,
               let temperature = ovenTemperature else { return steps }
@@ -213,35 +219,35 @@ struct BakePlan {
     }
 
     /// Every step the plan writes, generated ones included.
-    var allSteps: [PlanStep] {
+    public var allSteps: [PlanStep] {
         scheduledSteps + [generatedOvenStep, generatedTurnDownStep].compactMap { $0 } + [endStep]
     }
 
     /// When the oven is switched on, by the recipe's own step or the
     /// generated one.
-    var ovenOnStep: PlanStep? {
+    public var ovenOnStep: PlanStep? {
         explicitPreheatStep ?? generatedOvenStep
     }
 
-    func date(of step: PlanStep) -> Date {
+    public func date(of step: PlanStep) -> Date {
         calendar.date(byAdding: .minute, value: step.startTime, to: baseDate) ?? baseDate
     }
 
     /// A step's offset from the date chosen in the view, which is what the
     /// reminders are set relative to.
-    func reminderOffset(of step: PlanStep) -> Int {
+    public func reminderOffset(of step: PlanStep) -> Int {
         anchor == .startsAt ? step.startTime : step.startTime - totalMinutes
     }
 
     // MARK: Plan check
 
-    var plannedSteps: [PlannedStep] {
+    public var plannedSteps: [PlannedStep] {
         allSteps.map { PlannedStep(instruction: $0.instruction, step: $0.step, date: date(of: $0)) }
     }
 
     /// The oven phase: from the step that puts the dough in until the plan
     /// ends.
-    var bakeWindow: BakeWindow? {
+    public var bakeWindow: BakeWindow? {
         guard let bakingStep else { return nil }
         let start = date(of: bakingStep)
         let end = date(of: endStep)
@@ -250,19 +256,19 @@ struct BakePlan {
     }
 
     /// The same plan for a different date.
-    func moved(to newDate: Date) -> BakePlan {
+    public func moved(to newDate: Date) -> BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
                  date: newDate, languageCode: languageCode, preheatTime: preheatTime,
                  calendar: calendar)
     }
 
-    func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
+    public func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
         BakePlanValidator.issues(for: plannedSteps, bakeWindow: bakeWindow, existingWindows: existingWindows)
     }
 
     // MARK: Wording
 
-    static func startsInColdOven(_ bakingInstruction: String) -> Bool {
+    public static func startsInColdOven(_ bakingInstruction: String) -> Bool {
         let text = bakingInstruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
                                              locale: Locale(identifier: "de_DE"))
         let coldOvenPhrases = ["kalten backofen", "kalten ofen", "nicht vorheizen",
@@ -271,7 +277,7 @@ struct BakePlan {
     }
 
     /// "Backofen anstellen (250 °C)", or the plain text without a temperature.
-    static func ovenStartText(baseText: String, temperature: String?) -> String {
+    public static func ovenStartText(baseText: String, temperature: String?) -> String {
         guard let temperature else { return baseText }
         return "\(baseText) (\(temperature))"
     }
@@ -281,7 +287,7 @@ struct BakePlan {
     /// "von", a bracket), or a bare number after "bei", "auf", "at" or "à".
     /// Only oven heat counts, so a dough or proofing temperature ("bei 28 °C
     /// gehen lassen") is passed over: Celsius from 100, Fahrenheit from 200.
-    static func ovenTemperature(in text: String) -> String? {
+    public static func ovenTemperature(in text: String) -> String? {
         ovenTemperatures(in: text).first?.text
     }
 
@@ -330,7 +336,7 @@ struct BakePlan {
     /// neither is steam the step lets out at some other minute ("Den Ofen
     /// sofort auf 220 °C herunterdrehen. Den Dampf nach 20 Minuten
     /// ablassen."): that release is its own moment, not the turn-down's.
-    static func temperatureDrop(in text: String) -> (temperature: String, afterMinutes: Int?, withSteam: Bool)? {
+    public static func temperatureDrop(in text: String) -> (temperature: String, afterMinutes: Int?, withSteam: Bool)? {
         let temperatures = ovenTemperatures(in: text)
         guard let first = temperatures.first,
               let lower = temperatures.dropFirst().first(where: { $0.value < first.value && $0.fahrenheit == first.fahrenheit })
@@ -449,5 +455,16 @@ struct BakePlan {
             let location = Range(match.range, in: text).map { text.distance(from: text.startIndex, to: $0.lowerBound) } ?? 0
             return Match(groups: groups, location: location)
         }
+    }
+
+    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, calendar: Calendar = .current) {
+        self.recipeName = recipeName
+        self.steps = steps
+        self.prepTime = prepTime
+        self.anchor = anchor
+        self.date = date
+        self.languageCode = languageCode
+        self.preheatTime = preheatTime
+        self.calendar = calendar
     }
 }

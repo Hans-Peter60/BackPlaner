@@ -1,12 +1,11 @@
 //
 //  RecurringBakePlannerTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("The next occurrence of a recipe that refreshes on a fixed rhythm")
 struct RecurringBakePlannerTests {
