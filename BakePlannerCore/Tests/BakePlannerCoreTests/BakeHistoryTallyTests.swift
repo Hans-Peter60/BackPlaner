@@ -1,6 +1,6 @@
 //
 //  BakeHistoryTallyTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 //  The baking history per recipe, and the circle packing of the photo cloud.
 //
@@ -8,7 +8,7 @@
 import CoreGraphics
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("The baking history summed up per recipe")
 struct BakeHistoryTallyTests {

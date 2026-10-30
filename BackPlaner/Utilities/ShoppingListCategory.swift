@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import SwiftUI
 
 /// The shelf an ingredient is found on, so a shopping list reads in the order

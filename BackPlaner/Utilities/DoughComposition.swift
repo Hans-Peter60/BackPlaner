@@ -9,6 +9,7 @@
 //  count at all, so the figures match what baking books print.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum DoughComposition {

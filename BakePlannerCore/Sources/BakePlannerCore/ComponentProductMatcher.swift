@@ -1,6 +1,6 @@
 //
 //  ComponentProductMatcher.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Recognises an ingredient row that stands for another component of the
 //  same recipe — "gesamter Sauerteig" in the main dough — so that the
@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum ComponentProductMatcher {
+public enum ComponentProductMatcher {
 
     /// The index of the component the row refers to, or nil for a raw
     /// ingredient.
@@ -20,7 +20,7 @@ enum ComponentProductMatcher {
     /// numerator equals its denominator stands for the whole product and may
     /// name the component loosely ("gesamte Sauerteigstufe 1" for the
     /// component "Sauerteig Stufe 1").
-    static func referencedComponent(name: String,
+    public static func referencedComponent(name: String,
                                     weight: Double,
                                     numerator: Int,
                                     denominator: Int,

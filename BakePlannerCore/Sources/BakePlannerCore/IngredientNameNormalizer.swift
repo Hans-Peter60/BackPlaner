@@ -1,6 +1,6 @@
 import Foundation
 
-enum IngredientNameNormalizer {
+public enum IngredientNameNormalizer {
     private static let temperatureExpressions: [NSRegularExpression] = [
         #"\([^)]*(?:°\s*[cf]|grad|celsius|fahrenheit|temperatur)[^)]*\)"#,
         #"[-+]?\d+(?:[,.]\d+)?\s*(?:°\s*[cf]?|grad(?:\s+(?:celsius|fahrenheit))?|celsius|fahrenheit)"#,
@@ -14,7 +14,7 @@ enum IngredientNameNormalizer {
 
     private static let whitespaceExpression = try? NSRegularExpression(pattern: #"\s{2,}"#)
 
-    static func displayName(_ name: String) -> String {
+    public static func displayName(_ name: String) -> String {
         var result = name
 
         for expression in temperatureExpressions {
@@ -45,7 +45,7 @@ enum IngredientNameNormalizer {
             : cleanedName
     }
 
-    static func comparisonKey(_ name: String) -> String {
+    public static func comparisonKey(_ name: String) -> String {
         displayName(name)
             .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
             .localizedLowercase

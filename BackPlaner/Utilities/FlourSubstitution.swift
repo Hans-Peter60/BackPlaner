@@ -11,6 +11,7 @@
 //  Gluten-free flours are deliberately absent: they are not a 1:1 swap.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum FlourSubstitution {

@@ -11,6 +11,7 @@
 //  flour.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum StarterYieldAdjustment {

@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import Foundation
 
 /// Turns a recipe amount into the amount you actually buy.

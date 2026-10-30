@@ -1,6 +1,6 @@
 //
 //  BakingGlossaryTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 //  The glossary itself and the plan that carries its terms through a round
 //  of machine translation. The translator is simulated: the tests hand the
@@ -8,7 +8,7 @@
 //
 
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Baking glossary: finding terms")
 struct BakingGlossaryMatchingTests {

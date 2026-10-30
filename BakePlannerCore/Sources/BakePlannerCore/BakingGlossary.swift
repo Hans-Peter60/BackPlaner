@@ -1,6 +1,6 @@
 //
 //  BakingGlossary.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Baker's terms that machine translation gets wrong — "Brühstück" came back
 //  as "Breakfast" — and a plan that carries them through a translation
@@ -15,7 +15,7 @@ import Foundation
 /// in the target language's canonical form. Only whole words: "Roggensauerteig"
 /// is left to the translator, which handles such compounds well enough; it is
 /// the bare technical nouns it has no idea about.
-enum BakingGlossary {
+public enum BakingGlossary {
 
     /// The forms of one term in one language: the first singular form is the
     /// one written out, every form is recognised.
@@ -237,7 +237,7 @@ enum BakingGlossary {
     /// source text. False for a translation made before the glossary
     /// existed — "Breakfast" for "Brühstück" — which is then due for a new
     /// round. A source text without terms passes.
-    static func translationHonoursGlossary(sourceText: String, translation: String, from source: String, into target: String) -> Bool {
+    public static func translationHonoursGlossary(sourceText: String, translation: String, from source: String, into target: String) -> Bool {
         let comparableTranslation = comparable(translation)
 
         for match in matches(in: sourceText, language: source) {
@@ -280,7 +280,7 @@ enum BakingGlossary {
 ///
 /// Build it, send `sourceTexts` in order, hand the translated texts back to
 /// `results(translated:)` and get one result per input text.
-struct GlossaryTranslationPlan {
+public struct GlossaryTranslationPlan {
 
     /// One text's way through the round.
     private enum Item {
@@ -301,7 +301,7 @@ struct GlossaryTranslationPlan {
     private let items: [Item]
 
     /// The texts to send to the translator, in request order.
-    private(set) var sourceTexts: [String] = []
+    public private(set) var sourceTexts: [String] = []
 
     /// The placeholder that stands in for the n-th term of a text.
     static func placeholder(_ number: Int) -> String { "[[\(number)]]" }
@@ -313,7 +313,7 @@ struct GlossaryTranslationPlan {
     /// The glossary's word for a text that is nothing but a term ("Brühstück"
     /// → "Scald"), nil for any other text. Needs no translator, so a cached
     /// translation can be corrected with it as well.
-    static func termTranslation(of text: String, from source: String, into target: String) -> String? {
+    public static func termTranslation(of text: String, from source: String, into target: String) -> String? {
         let matches = BakingGlossary.matches(in: text, language: source)
             .filter { BakingGlossary.canTranslate($0, into: target) }
         return termTranslation(of: text, matches: matches, into: target)
@@ -325,7 +325,7 @@ struct GlossaryTranslationPlan {
         return BakingGlossary.rendering(of: matches[0], in: target, capitalized: startsUppercase(trimmed))
     }
 
-    init(texts: [String], from source: String, into target: String) {
+    public init(texts: [String], from source: String, into target: String) {
         var items = [Item]()
         var requests = [String]()
 
@@ -384,7 +384,7 @@ struct GlossaryTranslationPlan {
     /// One result per input text, in input order. `translated` are the
     /// translations of `sourceTexts`, in that order; a shorter list leaves
     /// the texts beyond it as they were.
-    func results(translated: [String]) -> [String] {
+    public func results(translated: [String]) -> [String] {
         func translation(_ index: Int) -> String? {
             index < translated.count ? translated[index] : nil
         }

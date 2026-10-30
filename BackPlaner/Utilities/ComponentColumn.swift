@@ -7,6 +7,7 @@
 //  recipe screens, the PDF export and the reminders.
 //
 
+import BakePlannerCore
 import Foundation
 
 struct TotalIngredientData {

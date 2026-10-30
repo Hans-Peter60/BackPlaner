@@ -6,6 +6,7 @@
 //  on-device Translation framework, caching the result in the recipe's `translations`.
 //
 
+import BakePlannerCore
 import Foundation
 import Translation
 

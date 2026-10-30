@@ -1,6 +1,6 @@
 //
 //  BakeHistoryTally.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  The baking history summed up per recipe — what the hit list and the
 //  photo cloud of "Backhistorie" show: how often a recipe was baked, when
@@ -13,31 +13,39 @@
 import CoreGraphics
 import Foundation
 
-enum BakeHistoryTally {
+public enum BakeHistoryTally {
 
     /// One bake, as the history records it.
-    struct Entry {
-        let recipeID: AnyHashable
-        let recipeName: String
-        let rating: Int
-        let date: Date
-        let photos: [Data]
+    public struct Entry {
+        public let recipeID: AnyHashable
+        public let recipeName: String
+        public let rating: Int
+        public let date: Date
+        public let photos: [Data]
+
+        public init(recipeID: AnyHashable, recipeName: String, rating: Int, date: Date, photos: [Data]) {
+            self.recipeID = recipeID
+            self.recipeName = recipeName
+            self.rating = rating
+            self.date = date
+            self.photos = photos
+        }
     }
 
     /// One recipe's bakes summed up.
-    struct Recipe: Identifiable, Equatable {
-        let id: AnyHashable
-        let name: String
-        let rating: Int
-        let count: Int
-        let lastDate: Date
+    public struct Recipe: Identifiable, Equatable {
+        public let id: AnyHashable
+        public let name: String
+        public let rating: Int
+        public let count: Int
+        public let lastDate: Date
         /// Newest bake's photos first.
-        let photos: [Data]
+        public let photos: [Data]
     }
 
     /// The recipes of the entries, most baked first; equally often baked
     /// recipes by their last bake, newest first, then by name.
-    static func recipes(from entries: [Entry]) -> [Recipe] {
+    public static func recipes(from entries: [Entry]) -> [Recipe] {
         var order: [AnyHashable] = []
         var grouped: [AnyHashable: [Entry]] = [:]
         for entry in entries {
@@ -66,18 +74,18 @@ enum BakeHistoryTally {
 /// further one at the first free spot along a spiral outwards. Given in the
 /// order of the radii, so the biggest circle — the most baked recipe —
 /// belongs first.
-struct CirclePacking: Equatable {
+public struct CirclePacking: Equatable {
 
-    struct Placement: Equatable {
-        let center: CGPoint
-        let radius: CGFloat
+    public struct Placement: Equatable {
+        public let center: CGPoint
+        public let radius: CGFloat
     }
 
-    let placements: [Placement]
+    public let placements: [Placement]
     /// The smallest rectangle around all circles.
-    let bounds: CGRect
+    public let bounds: CGRect
 
-    init(radii: [CGFloat], spacing: CGFloat = 4) {
+    public init(radii: [CGFloat], spacing: CGFloat = 4) {
         var placements: [Placement] = []
         for radius in radii {
             if placements.isEmpty {
@@ -120,7 +128,7 @@ struct CirclePacking: Equatable {
     /// A circle's radius for a count: its area grows with the count, so
     /// a recipe baked four times as often gets a circle twice as wide, and
     /// the least baked still has `minimum`.
-    static func radius(count: Int, maxCount: Int, minimum: CGFloat, maximum: CGFloat) -> CGFloat {
+    public static func radius(count: Int, maxCount: Int, minimum: CGFloat, maximum: CGFloat) -> CGFloat {
         guard maxCount > 0, count > 0 else { return minimum }
         let share = sqrt(CGFloat(count) / CGFloat(maxCount))
         return minimum + (maximum - minimum) * share
