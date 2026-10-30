@@ -79,6 +79,9 @@ Alle importieren Foundation; `BakeHistoryTally`, `PlanTimeline`, `GeneralRecipeP
 `AppSettingsCore`, `GlobalVariablesCore`, `DataService`, `Rational`, `UnitLocalizer`, `ShoppingListAmount`, `IngredientNameNormalizer`, `ComponentProductMatcher`, `ComponentColumn`, `DoughComposition`, `DoughTemperatureCalculator`, `FlourSubstitution`, `StarterYieldAdjustment`, `StarterFeedingRatio`, `StarterFeedingFacts`, `BakeHistoryFacts`, `BakeHistoryTally`, `AdjustedRecipe`, `TimedFoldExpansion`, `RecipeExportFormat`, `RecipePrintData`, `ScheduledStepComponent`, `ScheduledStepStore`, `CurrentStepRule`, `PlanTimeline`, `BakePlan`, `BakePlanValidator`, `BakePlanAdvisor`, `RecurringBakePlanner`, `BakingGlossary`, `GeneralRecipeParser`, `TwoColumnRecipeParser`, `PendingWebImport`.
 Dazu `RecipeFB.swift` (die öffentlichen Rezept-Modelle, auf die mehrere davon zugreifen): seit Schritt 2a-2 nur Foundation und `Observation`. `Bundle.main` (Einheitentabelle, Sprachpakete) bleibt im iOS-Package richtig, weil es dort die App ist; auf Android hängt die Lösung vom Weg ab.
 
+### Skip-Probelauf (Schritt 3, vorgezogen)
+`android-probe/` enthält Kopien von `DoughTemperatureCalculator`, `IngredientNameNormalizer`, `CurrentStepRule` und dem Sicherungsformat, ein `@Observable`-Modell, eine SwiftUI-Ansicht und XCTest-Tests. Der Ordner gehört zu keinem Xcode-Ziel. Anleitung in `android-probe/README.md`; das Ergebnis entscheidet, wie das Package (Schritt 2b) aussieht.
+
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?
 - Reicht für Android 1.0 lokale Speicherung plus Sicherungsdatei, oder ist Sync zwischen Android-Geräten Pflicht?
