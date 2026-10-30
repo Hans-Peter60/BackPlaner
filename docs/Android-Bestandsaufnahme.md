@@ -86,6 +86,7 @@ Erste Befunde (Skip 1.9.20, nativer Modus „Skip Fuse“):
 - `@State private var` lässt sich nicht nach Android überbrücken; `@State` muss mindestens `internal` sein. In der App betrifft das 341 Stellen.
 - Dateien mit `@Observable` brauchen `import SkipFuse`, Ansichten `import SkipFuseUI` statt `SwiftUI`; sonst treiben die Modelle die Android-Oberfläche nicht an. In der App betrifft das 5 Dateien mit `@Observable`.
 - Das Skip-Projekt darf nicht in einem iCloud-synchronisierten Ordner liegen, sonst scheitert die Code-Signatur.
+- Das Skip-Projekt baut im Swift-6-Sprachmodus mit strenger Nebenläufigkeitsprüfung; die App ist im Swift-5-Modus. Gemeinsam genutzte `static`-Werte nicht-`Sendable`-Typen werden abgelehnt (in der App etwa die vielen `static var` von `GlobalVariables`). Für das Package entweder den Swift-5-Modus einstellen oder diese Stellen absichern.
 
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?

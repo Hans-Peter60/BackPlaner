@@ -38,10 +38,15 @@ final class ProbeRecipe {
         )
     }
 
-    static let sample = ProbeRecipe(
-        name: "Landbrot",
-        ingredients: ["Wasser (lauwarm, 30 °C)", "Weizenmehl 550", "Roggenmehl 1150", "Salz", "Hefe, zimmerwarm"]
-    )
+    /// A fresh instance each time: the Skip project builds in the Swift 6
+    /// language mode, where a shared stored instance of a non-Sendable class
+    /// is refused.
+    static var sample: ProbeRecipe {
+        ProbeRecipe(
+            name: "Landbrot",
+            ingredients: ["Wasser (lauwarm, 30 °C)", "Weizenmehl 550", "Roggenmehl 1150", "Salz", "Hefe, zimmerwarm"]
+        )
+    }
 
     /// A backup file as the iOS app writes it, read on this platform.
     static let sampleBackup = """
