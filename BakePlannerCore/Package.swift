@@ -11,14 +11,10 @@ let package = Package(
     platforms: [.iOS(.v26), .macOS(.v15)],
     products: [
         .library(name: "BakePlannerCore", targets: ["BakePlannerCore"]),
-        // A store in memory and the checks every store must pass, for the
-        // package's tests and the app's.
-        .library(name: "BakePlannerCoreTesting", targets: ["BakePlannerCoreTesting"]),
     ],
     targets: [
         .target(name: "BakePlannerCore"),
-        .target(name: "BakePlannerCoreTesting", dependencies: ["BakePlannerCore"]),
-        .testTarget(name: "BakePlannerCoreTests", dependencies: ["BakePlannerCore", "BakePlannerCoreTesting"]),
+        .testTarget(name: "BakePlannerCoreTests", dependencies: ["BakePlannerCore"]),
     ],
     // The same language mode as the app, so moved code compiles unchanged.
     swiftLanguageModes: [.v5]

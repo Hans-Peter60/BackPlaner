@@ -7,7 +7,6 @@
 //
 
 import BakePlannerCore
-import BakePlannerCoreTesting
 import Testing
 
 @Suite("Recipe store contract: in memory")

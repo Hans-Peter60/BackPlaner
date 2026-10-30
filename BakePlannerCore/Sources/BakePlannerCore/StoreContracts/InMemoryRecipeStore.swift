@@ -1,13 +1,12 @@
 //
 //  InMemoryRecipeStore.swift
-//  BakePlannerCoreTesting
+//  BakePlannerCore
 //
 //  A RecipeStore that keeps everything in memory: the reference the
 //  contract is checked against first, and a stand-in for tests that need a
 //  store but not its persistence.
 //
 
-import BakePlannerCore
 import Foundation
 
 public final class InMemoryRecipeStore: RecipeStore {

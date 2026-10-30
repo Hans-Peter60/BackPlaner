@@ -174,9 +174,15 @@ extension RecipeExportData {
     func update(_ recipe: Recipe, in context: NSManagedObjectContext) {
         recipe.name        = name
         recipe.totalWeight = totalWeight
+        recipe.replaceComponents(with: components, in: context)
+    }
+}
 
-        for case let component as Component in recipe.components {
-            recipe.removeFromComponents(component)
+extension Recipe {
+    /// Deletes the recipe's components and builds them anew from `components`.
+    func replaceComponents(with components: [RecipeExportComponent], in context: NSManagedObjectContext) {
+        for case let component as Component in self.components {
+            removeFromComponents(component)
             context.delete(component)
         }
 
@@ -199,7 +205,27 @@ extension RecipeExportData {
                 component.addToIngredients(ingredient)
             }
 
-            recipe.addToComponents(component)
+            addToComponents(component)
+        }
+    }
+
+    /// Deletes the recipe's steps and builds them anew from `instructions`.
+    func replaceInstructions(with instructions: [RecipeExportInstruction], in context: NSManagedObjectContext) {
+        for case let instruction as Instruction in self.instructions {
+            removeFromInstructions(instruction)
+            context.delete(instruction)
+        }
+
+        for instructionData in instructions {
+            let instruction           = Instruction(context: context)
+            instruction.id            = UUID()
+            instruction.instruction   = instructionData.instruction
+            instruction.step          = instructionData.step
+            instruction.duration      = instructionData.duration
+            instruction.startTime     = instructionData.startTime
+            instruction.bakeFlag      = instructionData.bakeFlag
+            instruction.componentName = instructionData.componentName
+            addToInstructions(instruction)
         }
     }
 }

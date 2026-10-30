@@ -1,13 +1,16 @@
 //
 //  RecipeStoreContract.swift
-//  BakePlannerCoreTesting
+//  BakePlannerCore
 //
 //  What every RecipeStore must do, written once and checked against each
 //  store: in memory, Core Data, SQLite. Each check takes a new, empty store
 //  and throws ContractViolation when the store behaves differently.
 //
+//  Part of the package rather than a test target of its own: the app's
+//  tests run the same checks against Core Data, and linking a second
+//  package library into them would load this package twice.
+//
 
-import BakePlannerCore
 import Foundation
 
 public struct ContractViolation: Error, CustomStringConvertible {
