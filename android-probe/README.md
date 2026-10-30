@@ -70,8 +70,20 @@ Im Terminal, im BakePlanner-Ordner (den Pfad anpassen):
 cp android-probe/Sources/BakePlannerProbe/*.swift ~/Developer/bakeplanner-probe/Sources/BakePlannerProbe/
 ```
 
+Ein natives App-Projekt legt Skip ohne Testziel an. Den Ordner anlegen und die Tests hineinkopieren:
+
+```bash
+mkdir -p ~/Developer/bakeplanner-probe/Tests/BakePlannerProbeTests
+```
+
 ```bash
 cp android-probe/Tests/BakePlannerProbeTests/*.swift ~/Developer/bakeplanner-probe/Tests/BakePlannerProbeTests/
+```
+
+Dann in `~/Developer/bakeplanner-probe/Package.swift` in der Liste `targets: [ … ]` nach dem bestehenden `.target(…)` eine Zeile ergänzen:
+
+```swift
+        .testTarget(name: "BakePlannerProbeTests", dependencies: ["BakePlannerProbe"]),
 ```
 
 Falls Skip die Ordner anders genannt hat, mit `ls -R ~/Developer/bakeplanner-probe/Sources ~/Developer/bakeplanner-probe/Tests` nachsehen und die passenden nehmen.
@@ -87,17 +99,25 @@ var body: some View {
 ### 4. Laufen lassen
 
 - **iOS und Android zusammen:** Der Android-Emulator läuft. In Xcode das iOS-Ziel auf einem Simulator starten (⌘R). Skip baut dabei die Android-Fassung mit und startet sie im Emulator. Der erste Build dauert lange, weil Gradle viel herunterlädt.
-- **Tests auf beiden Plattformen**, im Ordner `~/Developer/bakeplanner-probe`:
+- **Tests**, im Ordner `~/Developer/bakeplanner-probe`. Auf dem Mac:
 
 ```bash
-skip test
+swift test
 ```
+
+Und auf dem laufenden Android-Emulator:
+
+```bash
+skip android test
+```
+
+Kennt deine Skip-Version den Befehl nicht, zeigt `skip android --help` den passenden.
 
 ### 5. Was ich zurück brauche
 
 1. Die Ausgabe von `skip version`, und welcher Modus (nativ oder transpiliert).
 2. Je einen Screenshot der Probe auf dem iPhone-Simulator und im Android-Emulator.
-3. Die Ausgabe von `skip test`, vor allem die Zusammenfassung am Ende.
+3. Die Ausgaben von `swift test` und `skip android test`, vor allem die Zusammenfassung am Ende.
 4. Falls etwas nicht baut: die Fehlermeldungen, als Text oder Screenshot (Xcode: Issue-Navigator, ⌘5).
 
 ### Worauf zu achten ist
