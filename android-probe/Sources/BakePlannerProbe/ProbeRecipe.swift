@@ -7,6 +7,7 @@
 //  Checks that Observation works on Android as on iOS.
 //
 
+import BakePlannerCore
 import Foundation
 import Observation
 // Needed for an @Observable to drive the Android UI.

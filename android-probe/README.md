@@ -6,13 +6,12 @@ Ein kleiner Versuch, ob [Skip](https://skip.dev) Logik und Ansichten aus BakePla
 
 | Datei | Was sie prüft |
 |---|---|
-| `Sources/BakePlannerProbe/DoughTemperatureCalculator.swift` | Kopie aus der App, reine Rechnung |
-| `Sources/BakePlannerProbe/IngredientNameNormalizer.swift` | Kopie, reguläre Ausdrücke (`NSRegularExpression`), Unicode, Akzente |
-| `Sources/BakePlannerProbe/CurrentStepRule.swift` | Kopie, Generics, Datumsrechnung |
-| `Sources/BakePlannerProbe/RecipeExportFormat.swift` | Kopie des Sicherungsformats (JSON), Fehlertexte vereinfacht |
 | `Sources/BakePlannerProbe/ProbeRecipe.swift` | `@Observable`-Modell wie die öffentlichen Rezepte, dazu eine Sicherungsdatei, wie sie das iPhone schreibt |
 | `Sources/BakePlannerProbe/ProbeView.swift` | SwiftUI über `SkipFuseUI`: Formular, Stepper, Schalter, Listen, formatierte Zahlen und Uhrzeiten |
+| `Sources/BakePlannerProbe/NotificationProbeView.swift` | Erinnerungen (zweiter Lauf, siehe unten) |
 | `Tests/BakePlannerProbeTests/BakePlannerProbeTests.swift` | dieselben Erwartungen wie die Unit-Tests der App, als XCTest |
+
+Die Logik kommt seit Schritt 2b nicht mehr als Kopie, sondern aus dem Paket `BakePlannerCore` im BakePlanner-Ordner: Teigtemperatur, Zutatennamen, „welcher Schritt ist dran“ und das Sicherungsformat. Die Probe prüft damit, ob das echte Paket auf Android baut und rechnet.
 
 ## Ablauf
 
@@ -62,9 +61,13 @@ skip init --open-xcode --appid=de.hpm64625.BakePlannerProbe bakeplanner-probe Ba
 
 Die Option für den nativen Modus aus der Hilfe dazuschreiben. Skip legt `~/Developer/bakeplanner-probe` an und öffnet es in Xcode.
 
-### 3. Die Probe-Dateien hineinkopieren
+### 3. Die Probe-Dateien hineinkopieren und das Paket einbinden
 
-Im Terminal, im BakePlanner-Ordner (den Pfad anpassen):
+Im Terminal, im BakePlanner-Ordner (den Pfad anpassen). Stammen noch Kopien aus einem früheren Lauf im Probe-Projekt (`CurrentStepRule.swift`, `DoughTemperatureCalculator.swift`, `IngredientNameNormalizer.swift`, `RecipeExportFormat.swift`), diese dort zuerst löschen, sonst gibt es die Typen doppelt:
+
+```bash
+rm -f ~/Developer/bakeplanner-probe/Sources/BakePlannerProbe/{CurrentStepRule,DoughTemperatureCalculator,IngredientNameNormalizer,RecipeExportFormat}.swift
+```
 
 ```bash
 cp android-probe/Sources/BakePlannerProbe/*.swift ~/Developer/bakeplanner-probe/Sources/BakePlannerProbe/
@@ -80,7 +83,20 @@ mkdir -p ~/Developer/bakeplanner-probe/Tests/BakePlannerProbeTests
 cp android-probe/Tests/BakePlannerProbeTests/*.swift ~/Developer/bakeplanner-probe/Tests/BakePlannerProbeTests/
 ```
 
-Dann in `~/Developer/bakeplanner-probe/Package.swift` in der Liste `targets: [ … ]` nach dem bestehenden `.target(…)` eine Zeile ergänzen:
+Dann `~/Developer/bakeplanner-probe/Package.swift` an drei Stellen ergänzen:
+
+1. Unter `platforms:` die Mindestversionen auf die des Pakets anheben: `.iOS(.v26)` und `.macOS(.v15)`.
+2. In der Liste `dependencies: [ … ]` des Pakets das BakePlanner-Paket eintragen, mit dem vollen Pfad deines BakePlanner-Ordners:
+
+```swift
+        .package(path: "/Users/hans-peter/Documents/Apps/BackPlaner/BakePlannerCore"),
+```
+
+3. Beim `.target(name: "BakePlannerProbe", …)` in dessen `dependencies: [ … ]` das Produkt ergänzen, und nach dem Target das Testziel:
+
+```swift
+                .product(name: "BakePlannerCore", package: "BakePlannerCore"),
+```
 
 ```swift
         .testTarget(name: "BakePlannerProbeTests", dependencies: ["BakePlannerProbe"]),
@@ -165,3 +181,25 @@ cp android-probe/Sources/BakePlannerProbe/NotificationProbeView.swift android-pr
 | F | „Erinnerung in 1 Minute, dann App schließen“, App aus der App-Übersicht wegwischen | Kommt die Erinnerung trotzdem? |
 
 Ergebnis des ersten Builds (30.10.2026): Auf Android stellt Skip `UNNotificationAction`, `UNTextInputNotificationAction`, `UNNotificationCategory` und `UNTextInputNotificationResponse` nicht bereit, und `pendingNotificationRequests()` liefert untypisierte Werte. Die Probe lässt diese Teile auf Android deshalb weg (`#if !os(Android)`).
+
+## Dritter Lauf: das echte Paket auf Android
+
+Seit Schritt 2b liegt die plattformneutrale Logik der App im Paket `BakePlannerCore`. Dieser Lauf prüft, ob es auf Android baut und seine Tests dort bestehen.
+
+1. Im BakePlanner-Ordner `git pull`, dann die Schritte 3 und 4 oben wiederholen: Kopien im Probe-Projekt löschen, die Probe-Dateien kopieren, `Package.swift` um das Paket ergänzen.
+2. ⌘R wie bisher: Läuft die Probe auf iPhone und Android wie beim ersten Lauf?
+3. Die Tests der Probe im Probe-Ordner:
+
+```bash
+skip android test
+```
+
+4. Die Tests des Pakets selbst auf dem laufenden Android-Emulator, im Ordner `BakePlannerCore` des BakePlanner-Ordners. Der Build-Ordner muss außerhalb von iCloud liegen:
+
+```bash
+skip android test --scratch-path ~/Developer/build/BakePlannerCore-android
+```
+
+Kennt deine Skip-Version die Option `--scratch-path` nicht, zeigt `skip android test --help` die passende.
+
+Was ich zurück brauche: die Ausgaben der beiden `skip android test`, vor allem Fehlermeldungen beim Bauen und die Zusammenfassung am Ende. Zu erwarten sind Meldungen zu Teilen, die es auf Android so nicht gibt, etwa `String(localized:bundle:)` oder `Bundle.main` (Einheitentabelle, Sprachpakete). Genau die will dieser Lauf finden.

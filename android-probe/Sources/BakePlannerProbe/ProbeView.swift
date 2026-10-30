@@ -9,6 +9,7 @@
 //  SwiftUI on iOS and its Android counterpart there.
 //
 
+import BakePlannerCore
 import Foundation
 import SkipFuseUI
 

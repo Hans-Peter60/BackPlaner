@@ -9,7 +9,9 @@
 //  RecipeImageAnalysisModels).
 //
 
+#if canImport(CoreGraphics)
 import CoreGraphics
+#endif
 import Foundation
 
 /// Text knowledge the recognition and the readers share.

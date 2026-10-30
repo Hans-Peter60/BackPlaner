@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(os)
 import os
+#endif
 
 public class DataService {
     

@@ -10,7 +10,9 @@
 //  overlapping. Plain values, tested without Core Data or a view.
 //
 
+#if canImport(CoreGraphics)
 import CoreGraphics
+#endif
 import Foundation
 
 public enum BakeHistoryTally {

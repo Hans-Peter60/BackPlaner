@@ -12,7 +12,9 @@
 //  arithmetic, and the tests check it without a view.
 //
 
+#if canImport(CoreGraphics)
 import CoreGraphics
+#endif
 import Foundation
 
 // MARK: - Scale

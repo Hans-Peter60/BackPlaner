@@ -7,6 +7,7 @@
 //  runs on Android.
 //
 
+import BakePlannerCore
 import Foundation
 import XCTest
 @testable import BakePlannerProbe
