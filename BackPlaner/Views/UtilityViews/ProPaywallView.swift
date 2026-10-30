@@ -10,6 +10,7 @@
 //  different.
 //
 
+import BakePlannerCore
 import SwiftUI
 import StoreKit
 

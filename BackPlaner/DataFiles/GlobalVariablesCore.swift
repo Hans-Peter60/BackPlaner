@@ -8,6 +8,7 @@
 //  SwiftUI (the downloaded pictures, the grid layouts).
 //
 
+import BakePlannerCore
 import Foundation
 #if canImport(os)
 import os

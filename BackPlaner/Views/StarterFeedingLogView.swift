@@ -9,6 +9,7 @@
 //  drift out of sync with the recipe that defines it.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 

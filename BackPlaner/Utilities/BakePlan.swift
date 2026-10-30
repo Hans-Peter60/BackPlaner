@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import Foundation
 
 /// One processing step as the planner sees it, whichever recipe model it came

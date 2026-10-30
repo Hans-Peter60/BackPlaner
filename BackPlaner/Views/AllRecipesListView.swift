@@ -12,6 +12,7 @@
 //  history).
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 import Translation

@@ -12,6 +12,7 @@
 //  which combines the purchase with the remote configuration.
 //
 
+import BakePlannerCore
 import Foundation
 import Observation
 import StoreKit

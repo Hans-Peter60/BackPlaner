@@ -1,3 +1,4 @@
+import BakePlannerCore
 import Foundation
 import FoundationModels
 import UIKit

@@ -9,6 +9,7 @@
 //  copy of the recipe. The counterpart of FlourSubstitutionView.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 

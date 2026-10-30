@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 03.11.21.
 //
 
+import BakePlannerCore
 import Foundation
 import Observation
 

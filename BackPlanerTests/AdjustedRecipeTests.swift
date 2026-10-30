@@ -6,6 +6,7 @@
 //  and how a second adjustment extends it instead of nesting.
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner

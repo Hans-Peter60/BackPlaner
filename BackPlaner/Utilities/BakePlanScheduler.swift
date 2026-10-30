@@ -9,6 +9,7 @@
 //  can later move into a platform-neutral package unchanged.
 //
 
+import BakePlannerCore
 import Foundation
 import CoreData
 

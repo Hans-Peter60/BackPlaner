@@ -8,6 +8,7 @@
 //  from iCloud, the app coming to the foreground — keeps the activity right.
 //
 
+import BakePlannerCore
 import ActivityKit
 import Foundation
 import os

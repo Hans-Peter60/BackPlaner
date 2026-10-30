@@ -1,3 +1,4 @@
+import BakePlannerCore
 import SwiftUI
 
 /// Shows the findings of ``BakePlanValidator`` for the plan currently set up in

@@ -1,6 +1,6 @@
 //
 //  AppSettingsCore.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  The settings the calculation logic reads — language, generated texts,
 //  planning values — kept in UserDefaults and needing nothing but
@@ -10,62 +10,62 @@
 
 import Foundation
 
-struct AppSettingsKeys {
-    static let selectedLanguage = "settings.selectedLanguage"
-    static let defaultRecipeStorage = "settings.defaultRecipeStorage"
-    static let defaultServingSize = "settings.defaultServingSize"
-    static let useDetailView = "settings.useDetailView"
-    static let preheatTime = "settings.preheatTime"
-    static let bakePause = "settings.bakePause"
-    static let ovenCount = "settings.ovenCount"
-    static let dayStart = "settings.dayStart"
-    static let dayEnd = "settings.dayEnd"
-    static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
-    static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
-    static let speechInBakeMode = "settings.speechInBakeMode"
-    static let liveActivity = "settings.liveActivity"
-    static let bakersPercentages = "settings.bakersPercentages"
-    static let bakeHistoryLayout = "settings.bakeHistoryLayout"
-    static let starterDoughYield = "settings.starterDoughYield"
-    static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
-    static let starterDoughYieldPresets = "settings.starterDoughYieldPresets"
-    static let automaticTranslation = "settings.automaticTranslation"
-    static let doughFrictionFactor = "settings.doughFrictionFactor"
-    static let showLocalRecipes = "settings.recipeList.showLocal"
-    static let showOwnPublishedRecipes = "settings.recipeList.showOwnPublished"
-    static let showPublicCloudRecipes = "settings.recipeList.showPublicCloud"
+public struct AppSettingsKeys {
+    public static let selectedLanguage = "settings.selectedLanguage"
+    public static let defaultRecipeStorage = "settings.defaultRecipeStorage"
+    public static let defaultServingSize = "settings.defaultServingSize"
+    public static let useDetailView = "settings.useDetailView"
+    public static let preheatTime = "settings.preheatTime"
+    public static let bakePause = "settings.bakePause"
+    public static let ovenCount = "settings.ovenCount"
+    public static let dayStart = "settings.dayStart"
+    public static let dayEnd = "settings.dayEnd"
+    public static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
+    public static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
+    public static let speechInBakeMode = "settings.speechInBakeMode"
+    public static let liveActivity = "settings.liveActivity"
+    public static let bakersPercentages = "settings.bakersPercentages"
+    public static let bakeHistoryLayout = "settings.bakeHistoryLayout"
+    public static let starterDoughYield = "settings.starterDoughYield"
+    public static let lievitoMadreDoughYield = "settings.lievitoMadreDoughYield"
+    public static let starterDoughYieldPresets = "settings.starterDoughYieldPresets"
+    public static let automaticTranslation = "settings.automaticTranslation"
+    public static let doughFrictionFactor = "settings.doughFrictionFactor"
+    public static let showLocalRecipes = "settings.recipeList.showLocal"
+    public static let showOwnPublishedRecipes = "settings.recipeList.showOwnPublished"
+    public static let showPublicCloudRecipes = "settings.recipeList.showPublicCloud"
 }
 
-enum AppLanguage: String, CaseIterable, Identifiable {
+public enum AppLanguage: String, CaseIterable, Identifiable {
     case system = ""
     case german = "de"
     case english = "en"
     case french = "fr"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 }
 
 /// Where a newly entered recipe is stored. The raw values are persisted in
 /// UserDefaults, so the cases keep their original names. A stored value of
 /// the retired "privateCloudRecipe" no longer parses and falls back to the
 /// device, which is the safe choice.
-enum RecipeStoragePreference: String, CaseIterable, Identifiable {
+public enum RecipeStoragePreference: String, CaseIterable, Identifiable {
     /// Core Data only. Syncs with the user's own iCloud, never with the recipe database.
     case privateRecipe
     /// Recipe database, readable by every user.
     case publicRecipe
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
     /// The choice as the "Veröffentlichen" toggle sees it.
-    init(publishes: Bool) {
+    public init(publishes: Bool) {
         self = publishes ? .publicRecipe : .privateRecipe
     }
 
-    var publishes: Bool { self == .publicRecipe }
+    public var publishes: Bool { self == .publicRecipe }
 
     /// Icon shown on the save button for this choice.
-    var symbolName: String {
+    public var symbolName: String {
         switch self {
         case .privateRecipe: return "iphone"
         case .publicRecipe:  return "tray.and.arrow.up"
@@ -73,64 +73,64 @@ enum RecipeStoragePreference: String, CaseIterable, Identifiable {
     }
 }
 
-struct AppSettings {
-    static let defaultRecipeStorage = RecipeStoragePreference.privateRecipe.rawValue
-    static let defaultServingSize = 2
-    static let defaultUseDetailView = true
+public struct AppSettings {
+    public static let defaultRecipeStorage = RecipeStoragePreference.privateRecipe.rawValue
+    public static let defaultServingSize = 2
+    public static let defaultUseDetailView = true
     /// Whether the bake mode offers to read a step aloud.
-    static let defaultSpeechInBakeMode = true
+    public static let defaultSpeechInBakeMode = true
     /// Whether a running plan shows a Live Activity on the lock screen.
-    static let defaultLiveActivity = true
+    public static let defaultLiveActivity = true
     /// Whether the component columns add baker's percentages to each weight.
-    static let defaultBakersPercentages = false
+    public static let defaultBakersPercentages = false
     /// Whether a public recipe is machine-translated into the app's language
     /// automatically, and the globe menu offers to pick a language at all.
-    static let defaultAutomaticTranslation = true
+    public static let defaultAutomaticTranslation = true
     /// Whether the combined recipe list shows local recipes, the user's own
     /// published ones and the other users' public ones — each independently,
     /// so the three can be toggled on their own rather than as a single
     /// "mine or everyone's" choice.
-    static let defaultShowLocalRecipes = true
-    static let defaultShowOwnPublishedRecipes = true
-    static let defaultShowPublicCloudRecipes = true
+    public static let defaultShowLocalRecipes = true
+    public static let defaultShowOwnPublishedRecipes = true
+    public static let defaultShowPublicCloudRecipes = true
     /// Dough yield of the user's sourdough starter (Anstellgut), used to split
     /// an amount of starter into flour and water when the recipe does not
     /// state its TA. 200 is the usual soft starter of equal parts.
-    static let defaultStarterDoughYield = 200
+    public static let defaultStarterDoughYield = 200
     /// Dough yield of the user's lievito madre; the firm Italian starter is
     /// kept at TA 150 by convention.
-    static let defaultLievitoMadreDoughYield = 150
-    static let minimumStarterDoughYield = 120
-    static let maximumStarterDoughYield = 300
+    public static let defaultLievitoMadreDoughYield = 150
+    public static let minimumStarterDoughYield = 120
+    public static let maximumStarterDoughYield = 300
     /// The warming a dough picks up from kneading, on top of its ingredients'
     /// own temperatures. Calibrated per mixer/kneading style by comparing a
     /// predicted dough temperature against the one actually measured after
     /// mixing — the dough-temperature calculator lets it be adjusted there.
-    static let defaultFrictionFactor = 1
-    static let minimumFrictionFactor = 0
-    static let maximumFrictionFactor = 10
+    public static let defaultFrictionFactor = 1
+    public static let minimumFrictionFactor = 0
+    public static let maximumFrictionFactor = 10
 
-    static var storedStarterDoughYield: Int {
+    public static var storedStarterDoughYield: Int {
         storedInt(forKey: AppSettingsKeys.starterDoughYield, defaultValue: defaultStarterDoughYield)
     }
 
-    static var storedLievitoMadreDoughYield: Int {
+    public static var storedLievitoMadreDoughYield: Int {
         storedInt(forKey: AppSettingsKeys.lievitoMadreDoughYield, defaultValue: defaultLievitoMadreDoughYield)
     }
 
     /// The dough yields the user keeps starters at, as quick picks when a
     /// recipe's starter is exchanged for one's own (StarterYieldAdjustment).
     /// Kept as the text typed into the settings, "190, 210, 220".
-    static let defaultStarterDoughYieldPresets = "150, 180, 200, 220"
+    public static let defaultStarterDoughYieldPresets = "150, 180, 200, 220"
 
-    static var storedStarterDoughYieldPresets: [Int] {
+    public static var storedStarterDoughYieldPresets: [Int] {
         starterDoughYieldPresets(from: UserDefaults.standard.string(forKey: AppSettingsKeys.starterDoughYieldPresets) ?? defaultStarterDoughYieldPresets)
     }
 
     /// The numbers in a free-form list, within the range a starter can have,
     /// without duplicates and in ascending order. "TA 190 / TA 210" reads
     /// as well as "190, 210". Nothing usable falls back to the defaults.
-    static func starterDoughYieldPresets(from text: String) -> [Int] {
+    public static func starterDoughYieldPresets(from text: String) -> [Int] {
         let numbers = text
             .split(whereSeparator: { !$0.isNumber })
             .compactMap { Int($0) }
@@ -142,33 +142,33 @@ struct AppSettings {
         return presets
     }
 
-    static var storedFrictionFactor: Int {
+    public static var storedFrictionFactor: Int {
         storedInt(forKey: AppSettingsKeys.doughFrictionFactor, defaultValue: defaultFrictionFactor)
     }
 
-    static var isLiveActivityEnabled: Bool {
+    public static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity
     }
 
-    static let defaultPreheatTime = 15
-    static let defaultBakePause = 10
+    public static let defaultPreheatTime = 15
+    public static let defaultBakePause = 10
     /// How many ovens the user can run at the same time. The plan check
     /// allows as many overlapping bakes as there are ovens.
-    static let defaultOvenCount = 1
-    static let maximumOvenCount = 6
-    static let defaultDayStart = 6
-    static let defaultDayEnd = 23
-    static var defaultStartHeatingText: String {
+    public static let defaultOvenCount = 1
+    public static let maximumOvenCount = 6
+    public static let defaultDayStart = 6
+    public static let defaultDayEnd = 23
+    public static var defaultStartHeatingText: String {
         generatedStepTexts(languageCode: locale.identifier).startHeating
     }
-    static var defaultBakeEndText: String {
+    public static var defaultBakeEndText: String {
         generatedStepTexts(languageCode: locale.identifier).bakeEnd
     }
 
     /// The steps the plan adds to a recipe. `turnDown` and `turnDownWithSteam`
     /// are formats taking the lower temperature ("220 °C") of a bake whose
     /// heat falls.
-    static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String,
+    public static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String,
                                                               turnDown: String, turnDownWithSteam: String) {
         switch baseLanguage(of: languageCode) {
         case "en":
@@ -192,7 +192,7 @@ struct AppSettings {
     /// `bakeTemperature` and `fallingBakeTemperature` must keep the higher
     /// temperature in front of the lower one: the preheating reminder reads the
     /// oven temperature from the first number of the baking step.
-    static func generatedRecipeTexts(languageCode: String = locale.identifier) -> (
+    public static func generatedRecipeTexts(languageCode: String = locale.identifier) -> (
         importedRecipe: String,
         componentFormat: String,
         componentPreparationFormat: String,
@@ -243,11 +243,11 @@ struct AppSettings {
             .map(String.init) ?? "de"
     }
 
-    static func localeIdentifier(for selectedLanguage: String = storedLanguage) -> String {
+    public static func localeIdentifier(for selectedLanguage: String = storedLanguage) -> String {
         selectedLanguage.isEmpty ? Locale.autoupdatingCurrent.identifier : selectedLanguage
     }
 
-    static var locale: Locale {
+    public static var locale: Locale {
         Locale(identifier: localeIdentifier())
     }
 
@@ -264,7 +264,7 @@ struct AppSettings {
     ///
     /// Falls back to the main bundle for "system language" and whenever the
     /// `.lproj` for the chosen language is missing.
-    static var localizationBundle: Bundle {
+    public static var localizationBundle: Bundle {
         let language = storedLanguage
         guard !language.isEmpty,
               let path = Bundle.main.path(forResource: language, ofType: "lproj"),
@@ -273,51 +273,51 @@ struct AppSettings {
         return bundle
     }
 
-    static var storedLanguage: String {
+    public static var storedLanguage: String {
         UserDefaults.standard.string(forKey: AppSettingsKeys.selectedLanguage) ?? AppLanguage.system.rawValue
     }
 
-    static var defaultStoragePreference: RecipeStoragePreference {
+    public static var defaultStoragePreference: RecipeStoragePreference {
         let rawValue = UserDefaults.standard.string(forKey: AppSettingsKeys.defaultRecipeStorage) ?? defaultRecipeStorage
         return RecipeStoragePreference(rawValue: rawValue) ?? .privateRecipe
     }
 
-    static var storedServingSize: Int {
+    public static var storedServingSize: Int {
         let value = UserDefaults.standard.integer(forKey: AppSettingsKeys.defaultServingSize)
         return value == 0 ? defaultServingSize : value
     }
 
-    static var storedUseDetailView: Bool {
+    public static var storedUseDetailView: Bool {
         if UserDefaults.standard.object(forKey: AppSettingsKeys.useDetailView) == nil {
             return defaultUseDetailView
         }
         return UserDefaults.standard.bool(forKey: AppSettingsKeys.useDetailView)
     }
 
-    static var storedPreheatTime: Int {
+    public static var storedPreheatTime: Int {
         storedInt(forKey: AppSettingsKeys.preheatTime, defaultValue: defaultPreheatTime)
     }
 
-    static var storedBakePause: Int {
+    public static var storedBakePause: Int {
         storedInt(forKey: AppSettingsKeys.bakePause, defaultValue: defaultBakePause)
     }
 
     /// Never below 1: a stored 0 would switch the overlap check off entirely.
-    static var storedOvenCount: Int {
+    public static var storedOvenCount: Int {
         max(1, storedInt(forKey: AppSettingsKeys.ovenCount, defaultValue: defaultOvenCount))
     }
 
-    static var storedDayStart: Int {
+    public static var storedDayStart: Int {
         storedInt(forKey: AppSettingsKeys.dayStart, defaultValue: defaultDayStart)
     }
 
-    static var storedDayEnd: Int {
+    public static var storedDayEnd: Int {
         storedInt(forKey: AppSettingsKeys.dayEnd, defaultValue: defaultDayEnd)
     }
 
-    static var storedStartHeatingText: String { defaultStartHeatingText }
+    public static var storedStartHeatingText: String { defaultStartHeatingText }
 
-    static var storedBakeEndText: String { defaultBakeEndText }
+    public static var storedBakeEndText: String { defaultBakeEndText }
 
     private static func storedInt(forKey key: String, defaultValue: Int) -> Int {
         if UserDefaults.standard.object(forKey: key) == nil {

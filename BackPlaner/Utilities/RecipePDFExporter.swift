@@ -8,6 +8,7 @@
 //  and of public ones, at the serving size currently shown.
 //
 
+import BakePlannerCore
 import SwiftUI
 import UIKit
 import UniformTypeIdentifiers

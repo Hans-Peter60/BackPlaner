@@ -8,6 +8,7 @@
 //  between two bakes in the same oven (Backpause).
 //
 
+import BakePlannerCore
 import Foundation
 
 /// How serious a finding of ``BakePlanValidator`` is.

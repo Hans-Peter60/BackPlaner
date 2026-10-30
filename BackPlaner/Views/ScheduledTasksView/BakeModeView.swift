@@ -8,6 +8,7 @@
 //  on. Made for floury hands and a phone propped against the flour tin.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 import AVFoundation

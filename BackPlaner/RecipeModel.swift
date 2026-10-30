@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 04.11.21.
 //
 
+import BakePlannerCore
 import CoreData
 import SwiftUI
 import Foundation

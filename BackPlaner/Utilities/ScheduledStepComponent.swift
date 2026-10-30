@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import Foundation
 
 /// Which component a planned step mixes, and the ingredient list that goes

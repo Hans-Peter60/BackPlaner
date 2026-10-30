@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 08.02.24.
 //
 
+import BakePlannerCore
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore

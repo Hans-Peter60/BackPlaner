@@ -7,6 +7,7 @@
 //  changed in place rather than copied again.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum AdjustedRecipe {

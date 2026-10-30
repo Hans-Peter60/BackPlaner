@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import SwiftUI
 import AuthenticationServices
 import CryptoKit

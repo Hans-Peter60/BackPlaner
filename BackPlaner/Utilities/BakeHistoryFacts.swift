@@ -8,6 +8,7 @@
 //  stars alone did not let anyone get better from one bake to the next.
 //
 
+import BakePlannerCore
 import Foundation
 
 struct BakeHistoryFacts: Equatable {

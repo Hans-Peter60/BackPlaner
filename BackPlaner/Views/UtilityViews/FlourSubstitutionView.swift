@@ -9,6 +9,7 @@
 //  of the recipe.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 
