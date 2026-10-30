@@ -1,10 +1,10 @@
 //
 //  DoughTemperatureCalculatorTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("The water temperature needed to hit a target dough temperature")
 struct DoughTemperatureCalculatorTests {

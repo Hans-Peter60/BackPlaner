@@ -19,6 +19,13 @@
         "identifier" : "6A02A09E305268C00031651D",
         "name" : "BackPlanerTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:BakePlannerCore",
+        "identifier" : "BakePlannerCoreTests",
+        "name" : "BakePlannerCoreTests"
+      }
     }
   ],
   "version" : 1

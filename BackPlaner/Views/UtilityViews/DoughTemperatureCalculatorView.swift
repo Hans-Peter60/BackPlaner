@@ -7,6 +7,7 @@
 //  standard "Desired Dough Temperature" method (see DoughTemperatureCalculator).
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct DoughTemperatureCalculatorView: View {
