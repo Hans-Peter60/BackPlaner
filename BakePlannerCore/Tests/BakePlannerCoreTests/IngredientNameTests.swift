@@ -20,6 +20,20 @@ struct IngredientNameNormalizerTests {
         #expect(IngredientNameNormalizer.displayName("Weizenmehl 550") == "Weizenmehl 550")
     }
 
+    @Test("A temperature in brackets leaves no empty brackets behind")
+    func bracketsAreTidied() {
+        #expect(IngredientNameNormalizer.displayName("Hefe (zimmerwarm)") == "Hefe")
+        #expect(IngredientNameNormalizer.displayName("Milch (lauwarm)") == "Milch")
+        #expect(IngredientNameNormalizer.displayName("Ei (Größe M, zimmerwarm)") == "Ei (Größe M)")
+        #expect(IngredientNameNormalizer.displayName("Butter (zimmerwarm, weich)") == "Butter (weich)")
+    }
+
+    @Test("Brackets without a temperature stay as they are")
+    func otherBracketsStay() {
+        #expect(IngredientNameNormalizer.displayName("Weizenmehl (Type 550)") == "Weizenmehl (Type 550)")
+        #expect(IngredientNameNormalizer.displayName("Kartoffeln (gekocht)") == "Kartoffeln (gekocht)")
+    }
+
     @Test("A name that is nothing but a temperature stays as it was")
     func onlyATemperature() {
         #expect(IngredientNameNormalizer.displayName(" lauwarm ") == "lauwarm")

@@ -12,6 +12,15 @@ public enum IngredientNameNormalizer {
         )
     }
 
+    /// What a removed temperature leaves inside brackets: "Hefe ( )" from
+    /// "Hefe (zimmerwarm)", "Ei (Größe M, )" from "Ei (Größe M, zimmerwarm)".
+    /// Separators next to a bracket go, then brackets left empty.
+    private static let bracketTidying: [(expression: NSRegularExpression?, template: String)] = [
+        (try? NSRegularExpression(pattern: #"\(\s*[,;:\-]*\s*"#), "("),
+        (try? NSRegularExpression(pattern: #"\s*[,;:\-]*\s*\)"#), ")"),
+        (try? NSRegularExpression(pattern: #"\(\)"#), " ")
+    ]
+
     private static let whitespaceExpression = try? NSRegularExpression(pattern: #"\s{2,}"#)
 
     public static func displayName(_ name: String) -> String {
@@ -23,6 +32,16 @@ public enum IngredientNameNormalizer {
                 in: result,
                 range: range,
                 withTemplate: " "
+            )
+        }
+
+        for (expression, template) in bracketTidying {
+            guard let expression else { continue }
+            let range = NSRange(result.startIndex..., in: result)
+            result = expression.stringByReplacingMatches(
+                in: result,
+                range: range,
+                withTemplate: template
             )
         }
 
