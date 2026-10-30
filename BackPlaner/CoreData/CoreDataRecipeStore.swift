@@ -96,7 +96,9 @@ struct CoreDataRecipeStore: RecipeStore {
     }
 
     private func managedRecipe(id: String) -> Recipe? {
-        guard let url = URL(string: id),
+        // Core Data raises an Objective-C exception, which Swift cannot
+        // catch, for a key that is not one of its own URIs at all.
+        guard let url = URL(string: id), url.scheme == "x-coredata", url.host() != nil,
               let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url),
               let recipe = try? context.existingObject(with: objectID) as? Recipe,
               !recipe.isDeleted else { return nil }
