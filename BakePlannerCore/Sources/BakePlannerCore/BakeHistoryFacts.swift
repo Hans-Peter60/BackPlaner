@@ -141,11 +141,16 @@ public struct BakeHistoryFacts: Equatable {
     /// "22 °C", "22,5 °C" — never converted to Fahrenheit, whatever the
     /// locale: the value was measured in Celsius and is shown as such.
     public static func temperatureText(_ celsius: Double, locale: Locale) -> String {
+        #if canImport(Darwin)
         Measurement(value: celsius, unit: UnitTemperature.celsius)
             .formatted(.measurement(width: .abbreviated,
                                     usage: .asProvided,
                                     numberFormatStyle: .number.precision(.fractionLength(0...1)))
                 .locale(locale))
+        #else
+        // Foundation elsewhere cannot format a measurement.
+        celsius.formatted(.number.precision(.fractionLength(0...1)).locale(locale)) + " °C"
+        #endif
     }
 
     /// The duration in the form the plan table uses ("3h 30m", "45m").
