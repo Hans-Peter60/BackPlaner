@@ -580,16 +580,24 @@ struct ScheduledTasksView: View {
     /// every other step.
     ///
     /// A planned step stores neither its instruction nor its component, only
-    /// the recipe name and the step number. The user's own recipes are tried
-    /// first, then the public ones, since a plan can come from either.
+    /// the recipe name and the step number. A public recipe and the user's
+    /// own copy share that name; PlannedStepSource tells which one the step
+    /// came from.
     private func component(for nextStep: NextStep) -> ComponentColumn? {
-        if let recipe = recipes.first(where: { $0.name == nextStep.recipeName }) {
-            return ScheduledStepComponent.column(for: recipe, step: nextStep.step, instructionText: nextStep.instruction)
+        let recipeFB = model.recipesFB.first { $0.name == nextStep.recipeName }
+        let recipe = recipes.first { $0.name == nextStep.recipeName }
+        switch PlannedStepSource.source(
+            ofStep: nextStep.step, instruction: nextStep.instruction,
+            publicSteps: recipeFB?.instructions.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) },
+            ownSteps: recipe?.instructionsArray.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) }
+        ) {
+        case .publicRecipe:
+            return recipeFB.flatMap { ScheduledStepComponent.column(for: $0, step: nextStep.step, instructionText: nextStep.instruction) }
+        case .ownRecipe:
+            return recipe.flatMap { ScheduledStepComponent.column(for: $0, step: nextStep.step, instructionText: nextStep.instruction) }
+        case nil:
+            return nil
         }
-        if let recipeFB = model.recipesFB.first(where: { $0.name == nextStep.recipeName }) {
-            return ScheduledStepComponent.column(for: recipeFB, step: nextStep.step, instructionText: nextStep.instruction)
-        }
-        return nil
     }
 
     private func beginShifting(_ step: NextStep) {

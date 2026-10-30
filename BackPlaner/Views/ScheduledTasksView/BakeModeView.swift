@@ -334,13 +334,20 @@ struct BakeModeView: View {
     // MARK: Helpers
 
     private func component(for step: NextStep) -> ComponentColumn? {
-        if let recipe = recipes.first(where: { $0.name == step.recipeName }) {
-            return ScheduledStepComponent.column(for: recipe, step: step.step, instructionText: step.instruction)
+        let recipeFB = model.recipesFB.first { $0.name == step.recipeName }
+        let recipe = recipes.first { $0.name == step.recipeName }
+        switch PlannedStepSource.source(
+            ofStep: step.step, instruction: step.instruction,
+            publicSteps: recipeFB?.instructions.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) },
+            ownSteps: recipe?.instructionsArray.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) }
+        ) {
+        case .publicRecipe:
+            return recipeFB.flatMap { ScheduledStepComponent.column(for: $0, step: step.step, instructionText: step.instruction) }
+        case .ownRecipe:
+            return recipe.flatMap { ScheduledStepComponent.column(for: $0, step: step.step, instructionText: step.instruction) }
+        case nil:
+            return nil
         }
-        if let recipeFB = model.recipesFB.first(where: { $0.name == step.recipeName }) {
-            return ScheduledStepComponent.column(for: recipeFB, step: step.step, instructionText: step.instruction)
-        }
-        return nil
     }
 
     /// One ingredient at the scale the plan was made at — the amount that
