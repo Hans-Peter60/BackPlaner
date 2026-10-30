@@ -85,20 +85,20 @@ enum TotalIngredientsList {
             component.ingredients.filter { ingredient in
                 guard !ShoppingListAmount.isWater(ingredient.name),
                       !ShoppingListAmount.isSalt(ingredient.name) else { return false }
-                let referenced = ComponentProductMatcher.referencedComponent(
-                    name: ingredient.name,
-                    weight: ingredient.weight,
-                    numerator: ingredient.numerator,
-                    denominator: ingredient.denominator,
-                    componentNames: componentNames
-                )
                 // A row that names its own component is that component's
                 // raw ingredient, not a reference: "104 g Kartoffeln" under
                 // "Kartoffeln (gekocht)" is what one buys, while the same
                 // line in the main dough takes the cooked potatoes over
                 // from that component. Dropping both left the potatoes out
                 // of the list.
-                return referenced == nil || referenced == index
+                return !ShoppingListAmount.standsForAnotherComponent(
+                    name: ingredient.name,
+                    weight: ingredient.weight,
+                    num: ingredient.numerator,
+                    denom: ingredient.denominator,
+                    componentIndex: index,
+                    componentNames: componentNames
+                )
             }
         }
         return TotalIngredient.aggregate(rawIngredients)

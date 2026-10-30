@@ -55,6 +55,28 @@ enum ShoppingListAmount {
         return !isWater(name) && !isSalt(name)
     }
 
+    /// Whether a row of the component at `componentIndex` stands for another
+    /// component of the same recipe — "Gesamte Kartoffeln (gekocht)" in the
+    /// main dough, for the component "Kartoffeln (gekocht)". What that
+    /// component is made of is already counted, so the row is neither bought
+    /// nor summed up. A row naming its own component is that component's raw
+    /// ingredient: "104 g Kartoffeln" under "Kartoffeln (gekocht)" is bought.
+    static func standsForAnotherComponent(name: String,
+                                          weight: Double,
+                                          num: Int,
+                                          denom: Int,
+                                          componentIndex: Int,
+                                          componentNames: [String]) -> Bool {
+        guard let referenced = ComponentProductMatcher.referencedComponent(
+            name: name,
+            weight: weight,
+            numerator: num,
+            denominator: denom,
+            componentNames: componentNames
+        ) else { return false }
+        return referenced != componentIndex
+    }
+
     /// Whether the ingredient is water, in any of the app's languages. Shared
     /// with the total ingredients, which leave water out as well.
     static func isWater(_ name: String) -> Bool {

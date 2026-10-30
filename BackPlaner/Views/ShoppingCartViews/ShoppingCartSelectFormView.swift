@@ -83,7 +83,15 @@ enum ShoppingCartSource {
     func entries(in languageCode: String) -> (entries: [ShoppingCartEntry], allInLanguage: Bool) {
         switch self {
         case .localRecipe(let recipe):
-            let entries = recipe.componentsArray.flatMap(\.ingredientsArray).map { ingredient in
+            let components = recipe.componentsArray
+            let componentNames = components.map(\.name)
+            let entries = components.enumerated().flatMap { index, component in
+                component.ingredientsArray.filter { ingredient in
+                    !ShoppingListAmount.standsForAnotherComponent(name: ingredient.name, weight: ingredient.weight,
+                                                                  num: ingredient.num, denom: ingredient.denom,
+                                                                  componentIndex: index, componentNames: componentNames)
+                }
+            }.map { ingredient in
                 ShoppingCartEntry(
                     name: ingredient.name,
                     unit: ingredient.unit ?? "",
@@ -98,7 +106,16 @@ enum ShoppingCartSource {
         case .cloudRecipe(let recipe):
             let source = RecipeTranslator.sourceLanguageCode(for: recipe)
             var allInLanguage = true
-            let entries = recipe.components.flatMap(\.ingredients).map { ingredient in
+            // Matched on the names as written; the translations are only
+            // what the list shows.
+            let componentNames = recipe.components.map(\.name)
+            let entries = recipe.components.enumerated().flatMap { index, component in
+                component.ingredients.filter { ingredient in
+                    !ShoppingListAmount.standsForAnotherComponent(name: ingredient.name, weight: ingredient.weight,
+                                                                  num: ingredient.num, denom: ingredient.denom,
+                                                                  componentIndex: index, componentNames: componentNames)
+                }
+            }.map { ingredient in
                 let name: String
                 if let cached = ingredient.translations[languageCode]?.name, !cached.isEmpty {
                     name = cached

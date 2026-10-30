@@ -143,3 +143,80 @@ struct ShoppingListCategoryTests {
         #expect(shelves[2].items == ["Hefe", "Zucker"])
     }
 }
+
+/// A bread whose main dough takes over two of its components whole, as
+/// "Sauerteigbrot mit Kartoffeln und Saaten" does.
+private func potatoBread() -> RecipeExportData {
+    func row(_ name: String, _ weight: Double, whole: Bool = false, number: Int) -> RecipeExportIngredient {
+        RecipeExportIngredient(name: name, number: number, unit: whole ? nil : "g", weight: weight, normWeight: weight,
+                               num: whole ? 1 : 0, denom: whole ? 1 : 0)
+    }
+    return RecipeExportData(
+        name: "Sauerteigbrot mit Kartoffeln und Saaten", summary: "", urlLink: nil, prepTime: 0, totalWeight: 0,
+        tags: [], rating: 0, recurrenceIntervalDays: 0, image: nil,
+        components: [
+            RecipeExportComponent(name: "Brühstück", number: 1, ingredients: [
+                row("Saatenmischung", 125, number: 1),
+            ]),
+            RecipeExportComponent(name: "Kartoffeln (gekocht)", number: 2, ingredients: [
+                row("Kartoffeln", 104, number: 1),
+            ]),
+            RecipeExportComponent(name: "Hauptteig", number: 3, ingredients: [
+                row("Gesamte Kartoffeln (gekocht)", 0, whole: true, number: 1),
+                row("Butter", 12, number: 2),
+                row("Gesamtes Brühstück", 0, whole: true, number: 3),
+            ]),
+        ],
+        instructions: [])
+}
+
+@Suite("Shopping list: rows that stand for another component")
+struct ShoppingListComponentProductTests {
+
+    @Test("A row taking over another component is not bought, the component's own ingredient is")
+    func componentProduct() {
+        let names = ["Brühstück", "Kartoffeln (gekocht)", "Hauptteig"]
+        #expect(ShoppingListAmount.standsForAnotherComponent(name: "Gesamte Kartoffeln (gekocht)", weight: 0, num: 1, denom: 1,
+                                                             componentIndex: 2, componentNames: names))
+        #expect(!ShoppingListAmount.standsForAnotherComponent(name: "Kartoffeln", weight: 104, num: 0, denom: 0,
+                                                              componentIndex: 1, componentNames: names))
+        #expect(!ShoppingListAmount.standsForAnotherComponent(name: "Butter", weight: 12, num: 0, denom: 0,
+                                                              componentIndex: 2, componentNames: names))
+    }
+
+    @Test("A public recipe puts each potato on the list once")
+    func publicRecipe() {
+        let recipe = RecipeFB()
+        recipe.name = potatoBread().name
+        recipe.components = potatoBread().components.map { component in
+            let componentFB = ComponentFB()
+            componentFB.name = component.name
+            componentFB.number = component.number
+            componentFB.ingredients = component.ingredients.map { ingredient in
+                let ingredientFB = IngredientFB()
+                ingredientFB.name = ingredient.name
+                ingredientFB.number = ingredient.number
+                ingredientFB.unit = ingredient.unit ?? ""
+                ingredientFB.weight = ingredient.weight
+                ingredientFB.num = ingredient.num
+                ingredientFB.denom = ingredient.denom
+                return ingredientFB
+            }
+            return componentFB
+        }
+
+        let entries = ShoppingCartSource.cloudRecipe(recipe).entries(in: "de").entries
+        #expect(entries.map(\.name) == ["Saatenmischung", "Kartoffeln", "Butter"])
+    }
+
+    @Test("An own recipe puts each potato on the list once")
+    @MainActor
+    func ownRecipe() throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        let recipe = potatoBread().makeRecipe(in: context)
+        try context.save()
+
+        let entries = ShoppingCartSource.localRecipe(recipe).entries(in: "de").entries
+        #expect(entries.map(\.name) == ["Saatenmischung", "Kartoffeln", "Butter"])
+    }
+}
