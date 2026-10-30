@@ -75,50 +75,51 @@ extension RecipeExportData {
     /// order, so an index into `ComponentColumn.columns(of:)` lands on the
     /// same line here.
     init(recipeFB: RecipeFB, image: UIImage?) {
-        name                   = recipeFB.name
-        summary                = recipeFB.summary
-        urlLink                = recipeFB.urlLink.isEmpty ? nil : recipeFB.urlLink
-        prepTime               = recipeFB.prepTime
-        totalWeight            = recipeFB.totalWeight
-        tags                   = recipeFB.tags
-        rating                 = recipeFB.rating
-        recurrenceIntervalDays = 0
-        self.image             = image?.jpegData(compressionQuality: 1.0)
-
-        components = recipeFB.components
-            .sorted { $0.number < $1.number }
-            .map { component in
-                RecipeExportComponent(
-                    name: component.name,
-                    number: component.number,
-                    ingredients: component.ingredients
-                        .sorted { $0.number < $1.number }
-                        .map { ingredient in
-                            RecipeExportIngredient(
-                                name: ingredient.name,
-                                number: ingredient.number,
-                                unit: ingredient.unit.isEmpty ? nil : ingredient.unit,
-                                weight: ingredient.weight,
-                                normWeight: ingredient.normWeight,
-                                num: ingredient.num,
-                                denom: ingredient.denom
-                            )
-                        }
-                )
-            }
-
-        instructions = recipeFB.instructions
-            .sorted { $0.step < $1.step }
-            .map { instruction in
-                RecipeExportInstruction(
-                    instruction: instruction.instruction,
-                    step: instruction.step,
-                    duration: instruction.duration,
-                    startTime: instruction.startTime ?? 0,
-                    bakeFlag: instruction.bakeFlag ?? false,
-                    componentName: instruction.componentName
-                )
-            }
+        // Another module's struct: its own initializer sets the fields.
+        self.init(
+            name: recipeFB.name,
+            summary: recipeFB.summary,
+            urlLink: recipeFB.urlLink.isEmpty ? nil : recipeFB.urlLink,
+            prepTime: recipeFB.prepTime,
+            totalWeight: recipeFB.totalWeight,
+            tags: recipeFB.tags,
+            rating: recipeFB.rating,
+            recurrenceIntervalDays: 0,
+            image: image?.jpegData(compressionQuality: 1.0),
+            components: recipeFB.components
+                .sorted { $0.number < $1.number }
+                .map { component in
+                    RecipeExportComponent(
+                        name: component.name,
+                        number: component.number,
+                        ingredients: component.ingredients
+                            .sorted { $0.number < $1.number }
+                            .map { ingredient in
+                                RecipeExportIngredient(
+                                    name: ingredient.name,
+                                    number: ingredient.number,
+                                    unit: ingredient.unit.isEmpty ? nil : ingredient.unit,
+                                    weight: ingredient.weight,
+                                    normWeight: ingredient.normWeight,
+                                    num: ingredient.num,
+                                    denom: ingredient.denom
+                                )
+                            }
+                    )
+                },
+            instructions: recipeFB.instructions
+                .sorted { $0.step < $1.step }
+                .map { instruction in
+                    RecipeExportInstruction(
+                        instruction: instruction.instruction,
+                        step: instruction.step,
+                        duration: instruction.duration,
+                        startTime: instruction.startTime ?? 0,
+                        bakeFlag: instruction.bakeFlag ?? false,
+                        componentName: instruction.componentName
+                    )
+                }
+        )
     }
 }
 
