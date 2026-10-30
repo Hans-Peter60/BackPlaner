@@ -1,20 +1,19 @@
-import BakePlannerCore
 import Foundation
 import CoreGraphics
 
-struct GeneralRecipeParser {
+public struct GeneralRecipeParser {
     private enum Section {
         case introduction
         case ingredients
         case instructions
     }
 
-    let lines: [RecognizedRecipeLine]
+    public let lines: [RecognizedRecipeLine]
     /// What the document request laid out per page. Empty when it failed, in
     /// which case every step falls back to the geometric reading.
-    var structures: [RecognizedPageStructure] = []
+    public var structures: [RecognizedPageStructure] = []
 
-    func parse() throws -> (recipe: RecipeFB, warnings: [String]) {
+    public func parse() throws -> (recipe: RecipeFB, warnings: [String]) {
         // The recognition contributes both the printed lines and the paragraphs
         // Vision joined from them, so every sentence of a prose recipe arrives
         // twice. Reading it once is what keeps one printed sentence from
@@ -1307,7 +1306,7 @@ struct GeneralRecipeParser {
         let condensed = normalized(head).replacingOccurrences(of: " ", with: "")
         guard condensed.count >= 8 else { return name }
 
-        for word in RecipeImageAnalysisAgent.bakingVocabulary {
+        for word in RecipeImportText.bakingVocabulary {
             let candidate = normalized(word).replacingOccurrences(of: " ", with: "")
             guard abs(candidate.count - condensed.count) <= 2,
                   editDistance(condensed, candidate) <= 2 else {
@@ -2626,5 +2625,10 @@ struct GeneralRecipeParser {
             guard let range = Range(match.range(at: index), in: text) else { return "" }
             return String(text[range])
         }
+    }
+
+    public init(lines: [RecognizedRecipeLine], structures: [RecognizedPageStructure] = []) {
+        self.lines = lines
+        self.structures = structures
     }
 }

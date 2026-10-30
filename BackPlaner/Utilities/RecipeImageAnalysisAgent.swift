@@ -5,18 +5,9 @@ import UIKit
 
 final class RecipeImageAnalysisAgent {
 
-    /// Baking terms that language correction otherwise garbles in the small type
-    /// of ingredient tables — "Roggenvollkornmehl" came back as
-    /// "Roggenvol kornmeh", "Anstellgut" as "Anstel gut".
-    static let bakingVocabulary = [
-        "Roggenvollkornmehl", "Weizenvollkornmehl", "Dinkelvollkornmehl",
-        "Roggenmehl", "Weizenmehl", "Dinkelmehl", "Ruchmehl", "Vollkornmehl",
-        "Anstellgut", "Sauerteig", "Sauerteigstufe", "Quellstück", "Brühstück",
-        "Kochstück", "Vorteig", "Hauptteig", "Poolish", "Lievito Madre",
-        "Stückgare", "Stockgare", "Autolyse", "Gärkorb", "Teigling",
-        "Backmalz", "Trockenhefe", "Frischhefe", "Backpapier", "Walnüsse",
-        "Feigen", "Planungsbeispiel"
-    ]
+    /// Baking terms that language correction otherwise garbles; see
+    /// RecipeImportText.
+    static let bakingVocabulary = RecipeImportText.bakingVocabulary
 
     /// Reads the pages with every known layout and returns the best result.
     ///
@@ -578,19 +569,7 @@ final class RecipeImageAnalysisAgent {
     }
 
     static func clockTime(in text: String) -> (hour: Int, minute: Int)? {
-        guard let expression = try? NSRegularExpression(pattern: #"\b(\d{1,2})[:.](\d{2})\b"#),
-              let match = expression.firstMatch(
-                  in: text,
-                  range: NSRange(text.startIndex..., in: text)
-              ),
-              let hourRange = Range(match.range(at: 1), in: text),
-              let minuteRange = Range(match.range(at: 2), in: text),
-              let hour = Int(text[hourRange]),
-              let minute = Int(text[minuteRange]),
-              hour < 24, minute < 60 else {
-            return nil
-        }
-        return (hour, minute)
+        RecipeImportText.clockTime(in: text)
     }
 
     private static func documentRequest() -> RecognizeDocumentsRequest {

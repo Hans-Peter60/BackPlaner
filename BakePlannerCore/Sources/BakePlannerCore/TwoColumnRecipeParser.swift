@@ -1,14 +1,13 @@
-import BakePlannerCore
 import Foundation
 import CoreGraphics
 
-struct TwoColumnRecipeParser {
-    let lines: [RecognizedRecipeLine]
+public struct TwoColumnRecipeParser {
+    public let lines: [RecognizedRecipeLine]
     /// What the document request laid out per page. Empty when it failed, in
     /// which case every step falls back to the geometric reading.
-    var structures: [RecognizedPageStructure] = []
+    public var structures: [RecognizedPageStructure] = []
 
-    func parse() throws -> RecipeFB {
+    public func parse() throws -> RecipeFB {
         let componentHeadings = findComponentHeadings()
         guard !componentHeadings.isEmpty,
               let planningHeading = lines.first(where: {
@@ -193,7 +192,7 @@ struct TwoColumnRecipeParser {
             structure.tables.filter { table in
                 // The planning example is a table too, and its rows are times.
                 table.rows.count { row in
-                    RecipeImageAnalysisAgent.clockTime(in: row.joined(separator: " ")) != nil
+                    RecipeImportText.clockTime(in: row.joined(separator: " ")) != nil
                 } < 2
             }.flatMap { table in
                 zip(table.rows, table.rowBoxes).compactMap { row, box -> (name: String, amount: Double, unit: String)? in
@@ -329,7 +328,7 @@ struct TwoColumnRecipeParser {
         let tables = structures.flatMap { structure in
             structure.tables.filter { table in
                 table.rows.count { row in
-                    RecipeImageAnalysisAgent.clockTime(in: row.joined(separator: " ")) != nil
+                    RecipeImportText.clockTime(in: row.joined(separator: " ")) != nil
                 } >= 2
             }
         }
@@ -342,9 +341,9 @@ struct TwoColumnRecipeParser {
         for row in table.rows {
             let cells = row.filter { !$0.isEmpty }
             guard let timeCell = cells.first(where: {
-                      RecipeImageAnalysisAgent.clockTime(in: $0) != nil
+                      RecipeImportText.clockTime(in: $0) != nil
                   }),
-                  let time = RecipeImageAnalysisAgent.clockTime(in: timeCell) else {
+                  let time = RecipeImportText.clockTime(in: timeCell) else {
                 continue
             }
 
@@ -720,5 +719,10 @@ struct TwoColumnRecipeParser {
             guard let range = Range(match.range(at: index), in: text) else { return "" }
             return String(text[range])
         }
+    }
+
+    public init(lines: [RecognizedRecipeLine], structures: [RecognizedPageStructure] = []) {
+        self.lines = lines
+        self.structures = structures
     }
 }

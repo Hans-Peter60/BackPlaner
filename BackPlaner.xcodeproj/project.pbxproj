@@ -62,7 +62,6 @@
 		6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */; };
 		6A5055EC304D60BD00F8E804 /* TotalIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5055EB304D60BD00F8E804 /* TotalIngredientsView.swift */; };
 		6A5055EE304D684600F8E804 /* InstructionSchedulingControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5055ED304D684600F8E804 /* InstructionSchedulingControlsView.swift */; };
-		6A5549C21D7D7E146EEC2D5B /* TwoColumnRecipeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */; };
 		6A783875CB5EA1223E1E21CE /* RecipeImageAnalysisModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E80EFF2BE162FF4DF2AD5 /* RecipeImageAnalysisModels.swift */; };
 		6A85E61F304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */; };
 		6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */; };
@@ -78,7 +77,6 @@
 		6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9181F33049649A0045D7CB /* AppSettings.swift */; };
 		6A9181F63049649B0045D7CB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9181F53049649B0045D7CB /* SettingsView.swift */; };
 		6A99FC0C304B5203008DDA63 /* ScheduledTasksTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A99FC0B304B5203008DDA63 /* ScheduledTasksTabsView.swift */; };
-		6A9C917188A1BEC63D808DF4 /* GeneralRecipeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */; };
 		6AA03CE6304F3BC000F60434 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 6AA03CE5304F3BC000F60434 /* FirebaseAppCheck */; };
 		6AA6703930517A4C0074C7E6 /* AppleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */; };
 		6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */; };
@@ -277,8 +275,6 @@
 		6ADBF500308BA58900BB7789 /* StarterIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterIntents.swift; sourceTree = "<group>"; };
 		6ADBF502308BA59500BB7789 /* BackPlanerShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackPlanerShortcuts.swift; sourceTree = "<group>"; };
 		6ADBF506308BA89B00BB7789 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
-		6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoColumnRecipeParser.swift; sourceTree = "<group>"; };
-		6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralRecipeParser.swift; sourceTree = "<group>"; };
 		6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridRecipeImageAnalysisAgent.swift; sourceTree = "<group>"; };
 		6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctionsClient.swift; sourceTree = "<group>"; };
 		6AF638C82B7A4A5A0070CDC1 /* RecipeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
@@ -589,8 +585,6 @@
 				6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */,
 				6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */,
 				6A1E80EFF2BE162FF4DF2AD5 /* RecipeImageAnalysisModels.swift */,
-				6ADCC82A5B05FFFA462D71B7 /* TwoColumnRecipeParser.swift */,
-				6AE74A37F09EDC68DA30B8EA /* GeneralRecipeParser.swift */,
 				6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */,
 				6AFA48D2307E000100E105F9 /* BakePlanScheduler.swift */,
 				6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */,
@@ -981,8 +975,6 @@
 				6A1132162B7CF96900CDF054 /* ScheduledTasksView.swift in Sources */,
 				6A85E61F304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift in Sources */,
 				6A783875CB5EA1223E1E21CE /* RecipeImageAnalysisModels.swift in Sources */,
-				6A5549C21D7D7E146EEC2D5B /* TwoColumnRecipeParser.swift in Sources */,
-				6A9C917188A1BEC63D808DF4 /* GeneralRecipeParser.swift in Sources */,
 				6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */,
 				6AFA48D3307E000100E105F9 /* BakePlanScheduler.swift in Sources */,
 				6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */,
