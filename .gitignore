@@ -60,3 +60,6 @@ docs/appstore/*/preview/
 # Screenshots ohne Überschrift (scripts/appstore-screenshots.sh): die Fassung mit
 # Überschrift daneben ist die für den Store; die rohen Bilder entstehen bei jedem Lauf neu
 docs/appstore/*/*/*/roh/
+
+# Python
+__pycache__/
