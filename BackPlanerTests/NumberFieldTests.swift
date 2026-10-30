@@ -7,6 +7,7 @@
 //  valid number (zero) and a half-typed text leaves the number alone.
 //
 
+import BakePlannerCore
 import Testing
 @testable import BackPlaner
 

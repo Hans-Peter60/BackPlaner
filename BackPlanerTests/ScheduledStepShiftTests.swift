@@ -6,6 +6,7 @@
 //  together with them, and where the plan puts its finish.
 //
 
+import BakePlannerCore
 import CoreData
 import Foundation
 import Testing

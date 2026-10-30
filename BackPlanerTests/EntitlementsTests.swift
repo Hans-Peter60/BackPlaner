@@ -7,6 +7,7 @@
 //  the Firestore document and the UI-test switch that feed it.
 //
 
+import BakePlannerCore
 import Testing
 import Foundation
 @testable import BackPlaner

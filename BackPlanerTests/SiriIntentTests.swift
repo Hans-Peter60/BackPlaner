@@ -7,6 +7,7 @@
 //  and how loosely a spoken starter name is matched.
 //
 
+import BakePlannerCore
 import CoreData
 import Foundation
 import Testing

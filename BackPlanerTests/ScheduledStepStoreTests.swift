@@ -6,6 +6,7 @@
 //  answers, and what planning makes of the steps a store holds.
 //
 
+import BakePlannerCore
 import CoreData
 import Foundation
 import Testing

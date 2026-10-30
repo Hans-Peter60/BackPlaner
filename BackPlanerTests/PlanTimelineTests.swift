@@ -6,6 +6,7 @@
 //  room, a night collapses to a band, sub-steps sit on their parent's bar.
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner

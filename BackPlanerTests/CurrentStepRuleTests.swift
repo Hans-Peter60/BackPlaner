@@ -6,6 +6,7 @@
 //  step becomes visible — on plain dates, without Core Data.
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner

@@ -3,6 +3,7 @@
 //  BackPlanerTests
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner

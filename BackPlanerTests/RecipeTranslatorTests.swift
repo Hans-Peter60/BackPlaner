@@ -8,6 +8,7 @@
 //  only exists inside a SwiftUI view, so it is not exercised here.
 //
 
+import BakePlannerCore
 import Testing
 @testable import BackPlaner
 
