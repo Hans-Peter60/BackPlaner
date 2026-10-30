@@ -1,6 +1,6 @@
 //
 //  DoughComposition.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Dough yield (Teigausbeute, TA) and hydration of a recipe over all of its
 //  components, with the flour and water hidden in a sourdough starter taken
@@ -9,24 +9,23 @@
 //  count at all, so the figures match what baking books print.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum DoughComposition {
+public enum DoughComposition {
 
     // MARK: - Input
 
-    struct Ingredient: Equatable {
-        let name: String
+    public struct Ingredient: Equatable {
+        public let name: String
         /// Weight in grams after unit conversion (`normWeight`).
-        let grams: Double
+        public let grams: Double
         /// The weight as entered; zero for a row that stands for another
         /// component ("gesamter Sauerteig") or for a counted amount.
-        let weight: Double
-        let numerator: Int
-        let denominator: Int
+        public let weight: Double
+        public let numerator: Int
+        public let denominator: Int
 
-        init(name: String, grams: Double, weight: Double? = nil, numerator: Int = 0, denominator: Int = 0) {
+        public init(name: String, grams: Double, weight: Double? = nil, numerator: Int = 0, denominator: Int = 0) {
             self.name        = name
             self.grams       = grams
             self.weight      = weight ?? grams
@@ -35,12 +34,17 @@ enum DoughComposition {
         }
     }
 
-    struct Component: Equatable {
-        let name: String
-        let ingredients: [Ingredient]
+    public struct Component: Equatable {
+        public let name: String
+        public let ingredients: [Ingredient]
+
+        public init(name: String, ingredients: [Ingredient]) {
+            self.name = name
+            self.ingredients = ingredients
+        }
     }
 
-    static func components(of recipe: RecipeFB) -> [Component] {
+    public static func components(of recipe: RecipeFB) -> [Component] {
         recipe.components.map { component in
             Component(name: component.name, ingredients: component.ingredients.map { ingredient in
                 Ingredient(name: ingredient.name,
@@ -54,13 +58,18 @@ enum DoughComposition {
 
     /// The dough yields the user keeps his own starters at, for recipes that
     /// name an amount of starter but not its TA (Settings → Rezepte).
-    struct StarterYields: Equatable {
-        var sourdough: Double
-        var lievitoMadre: Double
+    public struct StarterYields: Equatable {
+        public var sourdough: Double
+        public var lievitoMadre: Double
 
-        static let standard = StarterYields(sourdough: 200, lievitoMadre: 150)
+        public init(sourdough: Double, lievitoMadre: Double) {
+            self.sourdough = sourdough
+            self.lievitoMadre = lievitoMadre
+        }
 
-        static var stored: StarterYields {
+        public static let standard = StarterYields(sourdough: 200, lievitoMadre: 150)
+
+        public static var stored: StarterYields {
             StarterYields(sourdough: Double(AppSettings.storedStarterDoughYield),
                           lievitoMadre: Double(AppSettings.storedLievitoMadreDoughYield))
         }
@@ -68,7 +77,7 @@ enum DoughComposition {
 
     // MARK: - Output
 
-    enum StarterKind: Equatable {
+    public enum StarterKind: Equatable {
         case sourdough
         case lievitoMadre
         /// A piece of yesterday's dough, about TA 165 by definition.
@@ -80,7 +89,7 @@ enum DoughComposition {
     }
 
     /// Where a starter's dough yield came from.
-    enum YieldSource: Equatable {
+    public enum YieldSource: Equatable {
         /// Written into the ingredient's name: "Anstellgut (TA 200)".
         case name
         /// The user's setting for this kind of starter.
@@ -90,51 +99,51 @@ enum DoughComposition {
     }
 
     /// An amount of starter and how it was split into flour and water.
-    struct StarterShare: Identifiable, Equatable {
-        let id: Int
-        let name: String
-        let grams: Double
-        let kind: StarterKind
-        let doughYield: Double
-        let source: YieldSource
+    public struct StarterShare: Identifiable, Equatable {
+        public let id: Int
+        public let name: String
+        public let grams: Double
+        public let kind: StarterKind
+        public let doughYield: Double
+        public let source: YieldSource
 
-        var flour: Double { grams * 100 / doughYield }
-        var water: Double { grams - flour }
+        public var flour: Double { grams * 100 / doughYield }
+        public var water: Double { grams - flour }
     }
 
     /// Flour and water a component brings in through its own ingredients,
     /// without what it takes over from other components.
-    struct ComponentShare: Identifiable, Equatable {
-        let id: Int
-        let name: String
-        let flour: Double
-        let water: Double
+    public struct ComponentShare: Identifiable, Equatable {
+        public let id: Int
+        public let name: String
+        public let flour: Double
+        public let water: Double
 
-        var doughYield: Double? { DoughComposition.doughYield(flour: flour, water: water) }
-        var hydration: Double? { flour > 0 ? water * 100 / flour : nil }
+        public var doughYield: Double? { DoughComposition.doughYield(flour: flour, water: water) }
+        public var hydration: Double? { flour > 0 ? water * 100 / flour : nil }
     }
 
     /// A heavier ingredient that counts neither as flour nor as water.
-    struct Uncounted: Identifiable, Equatable {
-        let id: Int
-        let name: String
-        let grams: Double
+    public struct Uncounted: Identifiable, Equatable {
+        public let id: Int
+        public let name: String
+        public let grams: Double
     }
 
-    struct Result: Equatable {
-        let flour: Double
-        let water: Double
-        let components: [ComponentShare]
-        let starters: [StarterShare]
-        let uncounted: [Uncounted]
+    public struct Result: Equatable {
+        public let flour: Double
+        public let water: Double
+        public let components: [ComponentShare]
+        public let starters: [StarterShare]
+        public let uncounted: [Uncounted]
 
-        var doughYield: Double { DoughComposition.doughYield(flour: flour, water: water) ?? 0 }
-        var hydration: Double { water * 100 / flour }
+        public var doughYield: Double { DoughComposition.doughYield(flour: flour, water: water) ?? 0 }
+        public var hydration: Double { water * 100 / flour }
     }
 
     /// TA = (flour + water) / flour × 100; nil without flour. Multiplied
     /// before dividing so round figures stay round.
-    static func doughYield(flour: Double, water: Double) -> Double? {
+    public static func doughYield(flour: Double, water: Double) -> Double? {
         guard flour > 0 else { return nil }
         return (flour + water) * 100 / flour
     }
@@ -149,7 +158,7 @@ enum DoughComposition {
     /// makes more than that. Components no other component uses are the
     /// final doughs and are summed; so a recipe that never names its
     /// preferments in the main dough still counts every component once.
-    static func compute(_ components: [Component], starterYields: StarterYields = .stored) -> Result? {
+    public static func compute(_ components: [Component], starterYields: StarterYields = .stored) -> Result? {
         guard !components.isEmpty else { return nil }
 
         struct Analysis {
@@ -277,7 +286,7 @@ enum DoughComposition {
 
     // MARK: - Classification
 
-    enum Class: Equatable {
+    public enum Class: Equatable {
         case flour
         case water
         case starter(StarterKind)
@@ -306,7 +315,7 @@ enum DoughComposition {
     /// Ingredients that are expected not to count and would only add noise.
     private static let unremarkableWords = ["salz", "salt", "sel", "hefe", "yeast", "levure", "zucker", "sugar", "sucre", "honig", "honey", "miel", "malz", "malt", "sirup", "syrup", "sirop"]
 
-    static func classify(_ name: String) -> Class {
+    public static func classify(_ name: String) -> Class {
         let key = comparisonKey(name)
 
         if let kind = starterKind(in: key), !notStarterWords.contains(where: key.contains) {
@@ -321,7 +330,7 @@ enum DoughComposition {
         return .other
     }
 
-    static func isFlour(_ name: String) -> Bool {
+    public static func isFlour(_ name: String) -> Bool {
         classify(name) == .flour
     }
 
@@ -356,7 +365,7 @@ enum DoughComposition {
 
     /// The TA a starter is taken apart with: the one written into its name
     /// if there is one, otherwise the user's setting or the kind's definition.
-    static func doughYield(of kind: StarterKind, in name: String, yields: StarterYields) -> (Double, YieldSource) {
+    public static func doughYield(of kind: StarterKind, in name: String, yields: StarterYields) -> (Double, YieldSource) {
         if let yield = doughYield(in: name) {
             return (yield, .name)
         }
@@ -370,7 +379,7 @@ enum DoughComposition {
     }
 
     /// A dough yield written into an ingredient name, or nil.
-    static func doughYield(in name: String) -> Double? {
+    public static func doughYield(in name: String) -> Double? {
         let range = NSRange(name.startIndex..., in: name)
 
         if let match = yieldExpression?.firstMatch(in: name, range: range),

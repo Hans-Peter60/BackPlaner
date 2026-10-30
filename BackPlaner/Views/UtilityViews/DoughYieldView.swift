@@ -6,6 +6,7 @@
 //  by component and the assumptions behind it.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct DoughYieldView: View {

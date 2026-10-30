@@ -1,16 +1,15 @@
 //
 //  AdjustedRecipe.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  What the flour substitution and the starter adjustment share once they
 //  write their result: the name of the copy, and the rule that a copy is
 //  changed in place rather than copied again.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum AdjustedRecipe {
+public enum AdjustedRecipe {
 
     /// The name of a recipe after an adjustment: the original name, the
     /// adjustments made so far, and the date of the last one.
@@ -22,7 +21,7 @@ enum AdjustedRecipe {
     /// new adjustment joins the ones named before it, and the date moves on
     /// to today. The user asked for the date so a copy made for one bake is
     /// told apart from the original and from last month's copy.
-    static func name(original: String, adjustment: String, on date: Date = Date()) -> String {
+    public static func name(original: String, adjustment: String, on date: Date = Date()) -> String {
         let trimmed = original.trimmingCharacters(in: .whitespaces)
         let stamp = date.formatted(.dateTime.day().month().year().locale(AppSettings.locale))
 
@@ -35,7 +34,7 @@ enum AdjustedRecipe {
 
     /// Whether the name ends in the dated suffix `name(original:adjustment:on:)`
     /// writes.
-    static func hasDatedSuffix(_ name: String) -> Bool {
+    public static func hasDatedSuffix(_ name: String) -> Bool {
         datedSuffixRange(in: name.trimmingCharacters(in: .whitespaces)) != nil
     }
 

@@ -1,11 +1,11 @@
 //
 //  DoughCompositionTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Dough yield and hydration over all components")
 struct DoughCompositionTests {

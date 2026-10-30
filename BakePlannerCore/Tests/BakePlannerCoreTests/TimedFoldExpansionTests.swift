@@ -1,11 +1,10 @@
 //
 //  TimedFoldExpansionTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Repeated stretch-and-folds expand into one step per fold")
 struct TimedFoldExpansionTests {

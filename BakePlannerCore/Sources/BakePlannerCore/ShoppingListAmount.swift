@@ -1,9 +1,8 @@
 //
 //  ShoppingListAmount.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 
-import BakePlannerCore
 import Foundation
 
 /// Turns a recipe amount into the amount you actually buy.
@@ -11,17 +10,24 @@ import Foundation
 /// A recipe may call for "120 g Eier" — correct for the dough, useless at the
 /// counter, where eggs come by the piece. Entries like that are converted once,
 /// when they go onto the shopping list; the recipe itself keeps its weight.
-enum ShoppingListAmount {
+public enum ShoppingListAmount {
 
     /// Unit written on the shopping list for something counted in pieces.
-    static let pieceUnit = "St"
+    public static let pieceUnit = "St"
 
     /// What one entry looks like on the shopping list.
-    struct Amount {
-        var weight: Double
-        var unit: String
-        var num: Int
-        var denom: Int
+    public struct Amount {
+        public var weight: Double
+        public var unit: String
+        public var num: Int
+        public var denom: Int
+
+        public init(weight: Double, unit: String, num: Int, denom: Int) {
+            self.weight = weight
+            self.unit = unit
+            self.num = num
+            self.denom = denom
+        }
     }
 
     /// Ingredients that are bought by the piece, with the weight of one piece
@@ -46,7 +52,7 @@ enum ShoppingListAmount {
     /// Sauerteig, Lievito Madre, Poolish — is made, not bought. Decided from
     /// the name in any of the app's languages, since a public recipe may be
     /// English or French. Dried sourdough or an extract is bought and stays.
-    static func belongsOnList(name: String) -> Bool {
+    public static func belongsOnList(name: String) -> Bool {
         let key = IngredientNameNormalizer.comparisonKey(name)
         guard !key.isEmpty else { return false }
 
@@ -61,7 +67,7 @@ enum ShoppingListAmount {
     /// component is made of is already counted, so the row is neither bought
     /// nor summed up. A row naming its own component is that component's raw
     /// ingredient: "104 g Kartoffeln" under "Kartoffeln (gekocht)" is bought.
-    static func standsForAnotherComponent(name: String,
+    public static func standsForAnotherComponent(name: String,
                                           weight: Double,
                                           num: Int,
                                           denom: Int,
@@ -79,12 +85,12 @@ enum ShoppingListAmount {
 
     /// Whether the ingredient is water, in any of the app's languages. Shared
     /// with the total ingredients, which leave water out as well.
-    static func isWater(_ name: String) -> Bool {
+    public static func isWater(_ name: String) -> Bool {
         matches(waterExpression, name)
     }
 
     /// Whether the ingredient is salt, in any of the app's languages.
-    static func isSalt(_ name: String) -> Bool {
+    public static func isSalt(_ name: String) -> Bool {
         matches(saltExpression, name)
     }
 
@@ -97,7 +103,7 @@ enum ShoppingListAmount {
 
     /// Converts an amount for the shopping list. Anything that is not bought by
     /// the piece is returned unchanged.
-    static func forShoppingList(
+    public static func forShoppingList(
         name: String,
         unit: String,
         weight: Double,
@@ -142,7 +148,7 @@ enum ShoppingListAmount {
     /// A weight simply multiplies. A fraction ("1/2 Würfel Hefe") stays a
     /// fraction as long as the scale is a half step, so it still reads as
     /// "1 Würfel" at ×2; at any other scale it becomes a decimal amount.
-    static func scaled(
+    public static func scaled(
         weight: Double,
         num: Int,
         denom: Int,

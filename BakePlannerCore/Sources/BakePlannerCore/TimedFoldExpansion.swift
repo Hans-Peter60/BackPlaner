@@ -1,6 +1,6 @@
 //
 //  TimedFoldExpansion.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Turns one instruction that describes repeated stretch-and-folds during a
 //  rest or rise into one generated step per fold, each carrying the remaining
@@ -14,15 +14,14 @@
 //  doesn't depend on where the recipe came from.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum TimedFoldExpansion {
+public enum TimedFoldExpansion {
 
     /// Expands every fold instruction in `instructions`. Returns whether
     /// anything changed.
     @discardableResult
-    static func expand(_ instructions: inout [InstructionFB]) -> Bool {
+    public static func expand(_ instructions: inout [InstructionFB]) -> Bool {
         var handled = Set<ObjectIdentifier>()
         var changed = false
         // One fold line at a time: the generated steps mention "nach … Minuten"

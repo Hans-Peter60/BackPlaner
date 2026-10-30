@@ -8,6 +8,7 @@
 //  must not be asked for a feeding.
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner
