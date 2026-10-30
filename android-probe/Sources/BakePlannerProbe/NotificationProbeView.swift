@@ -94,8 +94,15 @@ enum NotificationProbe {
         content.threadIdentifier = "probe"
         content.userInfo = ["step": step, "scheduledDate": date.timeIntervalSince1970]
 
+        #if os(Android)
+        // Skip cannot hand DateComponents to Android, so a calendar trigger
+        // crashes there (second run, 30.10.2026); the time until the date
+        // does the same for a one-off reminder.
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: max(1, date.timeIntervalSinceNow), repeats: false)
+        #else
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        #endif
         try await UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: id, content: content, trigger: trigger))
     }
 }
