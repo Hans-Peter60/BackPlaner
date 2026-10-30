@@ -14,7 +14,7 @@ struct PortableLocalizationTests {
 
     @Test("Placeholders take the values in order")
     func inOrder() {
-        #expect(CoreLocalization.fill("„%@“ beginnt am %@.", with: ["Brot", "1.11."]) == "„Brot“ beginnt am 1.11.")
+        #expect(CoreLocalization.fill("„%@“ beginnt am %@.", with: ["Brot", "01.11.26, 06:00"]) == "„Brot“ beginnt am 01.11.26, 06:00.")
         #expect(CoreLocalization.fill("nur %lld Minuten, Pause %lld", with: ["5", "10"]) == "nur 5 Minuten, Pause 10")
     }
 
