@@ -20,6 +20,12 @@ struct ProbeView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("Erinnerungen") {
+                    NavigationLink("Erinnerungen testen") {
+                        NotificationProbeView()
+                    }
+                }
+
                 Section("Teigtemperatur") {
                     Stepper("Zieltemperatur: \(recipe.targetDoughTemperature) °C",
                             value: $recipe.targetDoughTemperature, in: 18...30)
