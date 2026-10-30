@@ -88,6 +88,20 @@ Erste Befunde (Skip 1.9.20, nativer Modus „Skip Fuse“):
 - Das Skip-Projekt darf nicht in einem iCloud-synchronisierten Ordner liegen, sonst scheitert die Code-Signatur.
 - Das Skip-Projekt baut im Swift-6-Sprachmodus mit strenger Nebenläufigkeitsprüfung; die App ist im Swift-5-Modus. Gemeinsam genutzte `static`-Werte nicht-`Sendable`-Typen werden abgelehnt (in der App etwa die vielen `static var` von `GlobalVariables`). Für das Package entweder den Swift-5-Modus einstellen oder diese Stellen absichern.
 - Ergebnis des Laufs (iPhone-17-Pro-Simulator mit iOS 27, Android-Emulator mit API 37): Teigtemperatur, Zutatennamen-Bereinigung (reguläre Ausdrücke, Umlaute), „gerade dran“ (Datumsrechnung) und das Einlesen einer iPhone-Sicherungsdatei liefern auf Android dieselben Ergebnisse wie auf iOS. Formular, Abschnitte, Stepper, Schalter und Listen erscheinen als Android-Bedienelemente. Ein `@Observable`-Modell aktualisiert die Android-Oberfläche erst mit `import SkipFuse` in seiner Datei; ohne den Import bleibt die Anzeige stehen, während einfache `@State`-Werte funktionieren. Zahlen und Uhrzeiten folgen der Gerätesprache (Emulator auf Englisch: „8:08 AM“, „830.5“).
+- Tests: `skip android test` lief auf dem Emulator (`aarch64-unknown-linux-android`) mit 11 von 11 bestandenen XCTest-Tests: dieselben Erwartungen wie in den iOS-Unit-Tests. Ein natives App-Projekt hat zunächst kein Testziel; es wird in `Package.swift` ergänzt.
+
+### Empfehlung zu Schritt 4 (Stand 30.10.2026)
+**Skip im nativen Modus („Skip Fuse“).** Die Logik läuft auf Android unverändert als Swift und besteht dieselben Tests; die SwiftUI-Ansichten werden mit mechanischen Anpassungen weiterverwendet (`@State` ohne `private`, `import SkipFuse`/`SkipFuseUI`, Swift-6-Modus oder Absicherung gemeinsam genutzter Werte). Ein Kotlin-Neubau müsste die rund 42.000 Zeilen Logik und Oberfläche ein zweites Mal schreiben und pflegen.
+
+Offene Risiken, je mit eigenem Probelauf vor dem Bau zu klären:
+| Bereich | Stand bei Skip | Einschätzung |
+|---|---|---|
+| Firebase (Firestore, Auth, Storage, Functions) | `skip-firebase`, leitet an das offizielle Android-SDK weiter; anonyme Anmeldung und OAuth vorhanden, Firestore-Transaktionen nicht | gut; App Check mit Play Integrity noch prüfen |
+| Erinnerungen | Teile von `UserNotifications` in SkipUI überbrückt, `skip-notify` noch Platzhalter | **größtes Risiko**: exakte Weckzeiten, Aktionen mit Texteingabe, Android-Berechtigungen; vermutlich eigener Kotlin-Code (`#if SKIP`) |
+| Private Daten | Core Data gibt es nicht; `skip-sql` (SQLite) | Repository-Protokolle (wie `ScheduledStepStore`) mit SQLite-Umsetzung; Umzug über die Sicherungsdatei |
+| Pro-Kauf | `skip-marketplace` (StoreKit / Play Billing) | Reife unklar; prüfen, sonst eigener Kotlin-Code; `proVerification.ts` für Play-Belege erweitern |
+| Texterkennung, Apple Intelligence, Übersetzung | nicht vorhanden | Cloud Functions `analyzeRecipeImages`/`analyzeRecipeText` nutzen |
+| Widgets, Live-Aktivität, Siri, Watch | nicht vorhanden | für Android 1.0 weglassen |
 
 ## Offene Fragen
 - Soll die Android-Version Pro als Einmalkauf über Play Billing bekommen, und gilt ein iOS-Kauf auch auf Android (dann serverseitige Prüfung über `proVerification.ts`)?
