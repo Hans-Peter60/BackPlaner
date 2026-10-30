@@ -1,6 +1,6 @@
 //
 //  StarterYieldAdjustment.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Using a starter of a different dough yield (TA) than the recipe asks
 //  for. A recipe wants 100 g of Anstellgut at TA 150; the jar holds TA 210.
@@ -11,31 +11,37 @@
 //  flour.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum StarterYieldAdjustment {
+public enum StarterYieldAdjustment {
 
     // MARK: - The starter line of a recipe
 
     /// A starter the recipe calls for, at the TA it is taken apart with.
-    struct Source: Equatable {
-        let kind: DoughComposition.StarterKind
+    public struct Source: Equatable {
+        public let kind: DoughComposition.StarterKind
         /// Grams as the recipe states them.
-        let grams: Double
-        let doughYield: Double
+        public let grams: Double
+        public let doughYield: Double
         /// Whether the TA stood in the recipe or came from the settings.
-        let yieldSource: DoughComposition.YieldSource
+        public let yieldSource: DoughComposition.YieldSource
 
-        var flour: Double { grams * 100 / doughYield }
-        var water: Double { grams - flour }
+        public var flour: Double { grams * 100 / doughYield }
+        public var water: Double { grams - flour }
+
+        public init(kind: DoughComposition.StarterKind, grams: Double, doughYield: Double, yieldSource: DoughComposition.YieldSource) {
+            self.kind = kind
+            self.grams = grams
+            self.doughYield = doughYield
+            self.yieldSource = yieldSource
+        }
     }
 
     /// The starter an ingredient line names, or nil for anything else: a
     /// flour, water, a line without weight — or a line that stands for a
     /// component of this very recipe ("200 g Sauerteig" with a component
     /// called Sauerteig), whose dough yield is that component's business.
-    static func recognize(name: String,
+    public static func recognize(name: String,
                           grams: Double,
                           weight: Double,
                           numerator: Int,
@@ -58,7 +64,7 @@ enum StarterYieldAdjustment {
         return Source(kind: kind, grams: grams, doughYield: yield, yieldSource: source)
     }
 
-    static func recognize(_ ingredient: RecipeExportIngredient,
+    public static func recognize(_ ingredient: RecipeExportIngredient,
                           componentNames: [String],
                           yields: DoughComposition.StarterYields = .stored) -> Source? {
         recognize(name: ingredient.name,
@@ -70,7 +76,7 @@ enum StarterYieldAdjustment {
                   yields: yields)
     }
 
-    static func recognize(_ ingredient: TotalIngredientData,
+    public static func recognize(_ ingredient: TotalIngredientData,
                           componentNames: [String],
                           yields: DoughComposition.StarterYields = .stored) -> Source? {
         recognize(name: ingredient.name,
@@ -86,7 +92,7 @@ enum StarterYieldAdjustment {
 
     /// Grams of starter at `targetYield` that carry the same flour as
     /// `grams` of starter at `sourceYield`.
-    static func starterGrams(grams: Double, from sourceYield: Double, to targetYield: Double) -> Double {
+    public static func starterGrams(grams: Double, from sourceYield: Double, to targetYield: Double) -> Double {
         guard sourceYield > 0 else { return grams }
         return grams * targetYield / sourceYield
     }
@@ -95,7 +101,7 @@ enum StarterYieldAdjustment {
     /// starter is exchanged, so flour and water of the whole dough stay as
     /// the recipe meant them. Exactly the water the new starter brings more
     /// or less, which is the difference in starter weight.
-    static func waterDelta(grams: Double, from sourceYield: Double, to targetYield: Double) -> Double {
+    public static func waterDelta(grams: Double, from sourceYield: Double, to targetYield: Double) -> Double {
         grams - starterGrams(grams: grams, from: sourceYield, to: targetYield)
     }
 
@@ -107,7 +113,7 @@ enum StarterYieldAdjustment {
     /// The ingredient line with the new TA written into it: an existing
     /// "TA 150" or "50 % Hydration" is replaced, otherwise "(TA 210)" is
     /// appended — so the dough yield reads the right figure from the copy.
-    static func renamed(_ name: String, toYield yield: Double) -> String {
+    public static func renamed(_ name: String, toYield yield: Double) -> String {
         let whole = Int(yield.rounded())
         let range = NSRange(name.startIndex..., in: name)
 
@@ -124,16 +130,16 @@ enum StarterYieldAdjustment {
 
     // MARK: - Hints
 
-    enum Hint: Hashable, Identifiable {
+    public enum Hint: Hashable, Identifiable {
         case softer
         case firmer
         case bigStep
         case assumedYield
 
-        var id: Self { self }
+        public var id: Self { self }
     }
 
-    static func hints(from sourceYield: Double, to targetYield: Double, yieldSource: DoughComposition.YieldSource) -> [Hint] {
+    public static func hints(from sourceYield: Double, to targetYield: Double, yieldSource: DoughComposition.YieldSource) -> [Hint] {
         var hints: [Hint] = []
         if yieldSource == .setting { hints.append(.assumedYield) }
         if targetYield > sourceYield { hints.append(.softer) }
@@ -144,29 +150,40 @@ enum StarterYieldAdjustment {
 
     // MARK: - Applying to a recipe
 
-    struct Applied: Equatable {
-        var recipe: RecipeExportData
-        let source: Source
-        let targetYield: Double
+    public struct Applied: Equatable {
+        public var recipe: RecipeExportData
+        public let source: Source
+        public let targetYield: Double
         /// Whole grams of starter after the exchange.
-        let starterGrams: Double
+        public let starterGrams: Double
         /// Whole grams the dough's water has to move by (negative: less).
-        let waterDelta: Double
+        public let waterDelta: Double
         /// False when the component has no poured liquid to take it from.
-        let waterAdjusted: Bool
+        public let waterAdjusted: Bool
         /// The line that was moved: "Wasser", or the milk or beer standing
         /// in for it in a component without water.
-        let adjustedLiquidName: String?
+        public let adjustedLiquidName: String?
         /// Grams that could not be taken away because the liquid line had
         /// less than that; zero when everything fitted.
-        let waterShortfall: Double
+        public let waterShortfall: Double
+
+        public init(recipe: RecipeExportData, source: Source, targetYield: Double, starterGrams: Double, waterDelta: Double, waterAdjusted: Bool, adjustedLiquidName: String?, waterShortfall: Double) {
+            self.recipe = recipe
+            self.source = source
+            self.targetYield = targetYield
+            self.starterGrams = starterGrams
+            self.waterDelta = waterDelta
+            self.waterAdjusted = waterAdjusted
+            self.adjustedLiquidName = adjustedLiquidName
+            self.waterShortfall = waterShortfall
+        }
     }
 
     /// The recipe with one starter line rescaled to `targetYield` and the
     /// liquid of the same component moved by what the new starter brings
     /// more or less. Flour and water of the dough stay the same; the copy
     /// gets the TA added to its name.
-    static func apply(to recipe: RecipeExportData,
+    public static func apply(to recipe: RecipeExportData,
                       componentIndex: Int,
                       ingredientIndex: Int,
                       targetYield: Double,

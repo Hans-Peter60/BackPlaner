@@ -12,6 +12,7 @@
 //  arithmetic, and the tests check it without a view.
 //
 
+import BakePlannerCore
 import CoreGraphics
 import Foundation
 

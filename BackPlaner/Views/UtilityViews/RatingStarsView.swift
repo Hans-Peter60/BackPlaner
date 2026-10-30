@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 29.12.21.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct RatingStarsView: View {

@@ -14,7 +14,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 ## Daten
 - **Private Daten:** Core Data mit `NSPersistentCloudKitContainer` (iCloud-Container `iCloud.de.hpm64625.BackPlaner`). Entitäten: Recipe, Component, Ingredient, Instruction, NextStep, BakeHistory, ShoppingCart, Item, StarterFeedingLog.
 - **Öffentliche Rezepte:** Firestore + Storage. Anmeldung anonym über Firebase Auth, optional mit Apple verknüpft; `authorId` = Firebase-UID.
-- **Sicherungsformat:** `RecipeExportData` / `RecipeExportIngredient` (`Utilities/RecipeExport.swift`) – plattformneutrale Structs, auch Brücke für einen späteren Plattformwechsel. Format nicht ohne Versionierung ändern.
+- **Sicherungsformat:** `RecipeExportData` / `RecipeExportIngredient` (`BakePlannerCore/Sources/BakePlannerCore/RecipeExportFormat.swift`, Core-Data-Anbindung in `Utilities/RecipeExport.swift`) – plattformneutrale Structs, auch Brücke für einen späteren Plattformwechsel. Format nicht ohne Versionierung ändern.
 - **Pro:** StoreKit 2, Einmalkauf `de.hpm64625.BackPlaner.pro`; Umfang in `Utilities/ProFeature.swift`. Kern (Rezepte, Plan, Erinnerungen, Backmodus, Historie, öffentliche Rezepte, Rechner) bleibt kostenlos.
 
 ## Prüfen und Testen
@@ -26,6 +26,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 ## Konventionen
 - Quelltext-Kommentare und Commit-Nachrichten auf Englisch; Commit-Betreff beschreibt das Ergebnis für den Nutzer (z. B. „The timeline opens first under …").
 - UI-Texte auf Deutsch als Schlüssel in `Localizable.xcstrings`; **jeder neue Text braucht en und fr**, sonst schlägt `check-repo.py` fehl.
+- Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
 - Neue Swift-Dateien müssen in `project.pbxproj` eingetragen sein.
 - Handbuch geändert → `python3 docs/build-manual-html.py` ausführen.
 - Logik gehört nach `Utilities/` und bekommt Unit-Tests; Rechenlogik (TA, Portionen, Zeitplan, Einheiten) nie ohne Test ändern.

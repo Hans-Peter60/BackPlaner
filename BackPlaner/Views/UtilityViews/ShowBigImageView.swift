@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 17.12.21.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct ShowBigImageView: View {

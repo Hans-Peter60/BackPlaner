@@ -16,6 +16,7 @@
 //  Purely decorative: hidden from VoiceOver and never hit-testable.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins

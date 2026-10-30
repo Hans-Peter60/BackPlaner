@@ -8,6 +8,7 @@
 //  app worth having, and none of it costs anything per use.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 enum ProFeature: String, CaseIterable, Identifiable, Sendable {

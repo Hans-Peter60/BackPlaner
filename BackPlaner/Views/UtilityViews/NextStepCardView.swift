@@ -11,6 +11,7 @@
 //  scrolling menu and the bakery photo, which is what the glass is for.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 

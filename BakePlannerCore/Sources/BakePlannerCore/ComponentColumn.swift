@@ -1,21 +1,28 @@
 //
 //  ComponentColumn.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  A recipe's components with their ingredients, whichever model the recipe
 //  comes from, and the summed ingredients worked out from them. Used by the
 //  recipe screens, the PDF export and the reminders.
 //
 
-import BakePlannerCore
 import Foundation
 
-struct TotalIngredientData {
-    let name: String
-    let unit: String
-    let weight: Double
-    let numerator: Int
-    let denominator: Int
+public struct TotalIngredientData {
+    public let name: String
+    public let unit: String
+    public let weight: Double
+    public let numerator: Int
+    public let denominator: Int
+
+    public init(name: String, unit: String, weight: Double, numerator: Int, denominator: Int) {
+        self.name = name
+        self.unit = unit
+        self.weight = weight
+        self.numerator = numerator
+        self.denominator = denominator
+    }
 }
 
 /// One component of a recipe: its name and the ingredients listed under it.
@@ -23,13 +30,13 @@ struct TotalIngredientData {
 /// Exists so the same card can serve both recipe models — the Firebase
 /// `ComponentFB` of the public database and the Core Data `Component` of the
 /// user's own recipes — without the view knowing either.
-struct ComponentColumn: Identifiable {
-    let id: String
-    let name: String
-    let ingredients: [TotalIngredientData]
+public struct ComponentColumn: Identifiable {
+    public let id: String
+    public let name: String
+    public let ingredients: [TotalIngredientData]
 
     /// The components of a recipe from the public database.
-    static func columns(of components: [ComponentFB]) -> [ComponentColumn] {
+    public static func columns(of components: [ComponentFB]) -> [ComponentColumn] {
         components
             .sorted { $0.number < $1.number }
             .enumerated()
@@ -55,7 +62,7 @@ struct ComponentColumn: Identifiable {
     /// gets, so a tapped line's index is guaranteed to mean the same
     /// ingredient in both — sorting the Core Data set twice did not, once
     /// several ingredients shared a `number`.
-    static func columns(of recipe: RecipeExportData) -> [ComponentColumn] {
+    public static func columns(of recipe: RecipeExportData) -> [ComponentColumn] {
         recipe.components.enumerated().map { index, component in
             ComponentColumn(
                 id: "\(index)-\(component.name)",
@@ -70,16 +77,22 @@ struct ComponentColumn: Identifiable {
             )
         }
     }
+
+    public init(id: String, name: String, ingredients: [TotalIngredientData]) {
+        self.id = id
+        self.name = name
+        self.ingredients = ingredients
+    }
 }
 
 /// The summed ingredients of a recipe — the list the "Gesamtzutaten" card
 /// shows.
-enum TotalIngredientsList {
+public enum TotalIngredientsList {
 
     /// The summed ingredients without water and salt — in whichever language
     /// the recipe is shown — and without components used as ingredients; the
     /// same list the card shows, for other consumers such as the PDF export.
-    static func totalIngredients(of components: [ComponentColumn]) -> [TotalIngredient] {
+    public static func totalIngredients(of components: [ComponentColumn]) -> [TotalIngredient] {
         let componentNames = components.map(\.name)
         let rawIngredients = components.enumerated().flatMap { index, component in
             component.ingredients.filter { ingredient in
@@ -105,7 +118,7 @@ enum TotalIngredientsList {
     }
 
     /// The summed ingredients as display lines ("• 268 g Weizenmehl 1050").
-    static func aggregatedLines(of components: [ComponentColumn], scale: Double) -> [String] {
+    public static func aggregatedLines(of components: [ComponentColumn], scale: Double) -> [String] {
         totalIngredients(of: components).map { ingredient in
             "• " + Rational.getPortion(unit: ingredient.unit,
                                        weight: ingredient.weight,
@@ -117,15 +130,15 @@ enum TotalIngredientsList {
     }
 }
 
-struct TotalIngredient: Identifiable {
-    let id: String
-    let name: String
-    let unit: String
-    let weight: Double
-    let numerator: Int
-    let denominator: Int
+public struct TotalIngredient: Identifiable {
+    public let id: String
+    public let name: String
+    public let unit: String
+    public let weight: Double
+    public let numerator: Int
+    public let denominator: Int
 
-    static func aggregate(_ ingredients: [TotalIngredientData]) -> [TotalIngredient] {
+    public static func aggregate(_ ingredients: [TotalIngredientData]) -> [TotalIngredient] {
         var grouped: [String: Accumulator] = [:]
 
         for ingredient in ingredients {
@@ -151,6 +164,15 @@ struct TotalIngredient: Identifiable {
         .sorted {
             $0.name.localizedStandardCompare($1.name) == .orderedAscending
         }
+    }
+
+    public init(id: String, name: String, unit: String, weight: Double, numerator: Int, denominator: Int) {
+        self.id = id
+        self.name = name
+        self.unit = unit
+        self.weight = weight
+        self.numerator = numerator
+        self.denominator = denominator
     }
 }
 

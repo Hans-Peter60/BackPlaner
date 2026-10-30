@@ -10,6 +10,7 @@
 //  automatic planning will pick is visible wherever the rhythm is.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct NextFeedingView: View {

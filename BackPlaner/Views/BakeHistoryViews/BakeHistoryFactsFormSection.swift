@@ -8,6 +8,7 @@
 //  editing form of an existing entry, so both record the same things.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct BakeHistoryFactsFormSection: View {

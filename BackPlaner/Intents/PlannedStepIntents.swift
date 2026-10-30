@@ -13,6 +13,7 @@
 //  not marked done comes first, otherwise the earliest step still ahead.
 //
 
+import BakePlannerCore
 import AppIntents
 import CoreData
 import Foundation

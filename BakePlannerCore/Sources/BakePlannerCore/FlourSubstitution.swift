@@ -1,6 +1,6 @@
 //
 //  FlourSubstitution.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  Swapping one flour for another: which flour a recipe line names, how
 //  much more or less water the replacement binds, and what else changes in
@@ -11,21 +11,20 @@
 //  Gluten-free flours are deliberately absent: they are not a 1:1 swap.
 //
 
-import BakePlannerCore
 import Foundation
 
-enum FlourSubstitution {
+public enum FlourSubstitution {
 
     // MARK: - Grains and millings
 
-    enum Grain: String, CaseIterable, Identifiable {
+    public enum Grain: String, CaseIterable, Identifiable {
         case wheat, spelt, rye, emmer, einkorn, durum
 
-        var id: String { rawValue }
+        public var id: String { rawValue }
 
         /// "Weizen" — the heading of a picker section and the first word of
         /// a flour's title.
-        var title: String {
+        public var title: String {
             switch self {
             case .wheat:   return String(localized: "Weizen", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Getreide")
             case .spelt:   return String(localized: "Dinkel", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Getreide")
@@ -39,7 +38,7 @@ enum FlourSubstitution {
         /// "Weizenmehl" — the first word of an ingredient line written into a
         /// recipe copy. A real ingredient name, so it must stay recognisable
         /// as flour by `DoughComposition.classify` in every language.
-        var flourWord: String {
+        public var flourWord: String {
             switch self {
             case .wheat:   return String(localized: "Weizenmehl", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Zutatenname")
             case .spelt:   return String(localized: "Dinkelmehl", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Zutatenname")
@@ -54,14 +53,14 @@ enum FlourSubstitution {
     /// How far a flour is milled out. German type numbers and French T
     /// numbers are kept apart because bakers read them differently, even
     /// where they describe much the same flour.
-    enum Milling: Hashable {
+    public enum Milling: Hashable {
         case type(Int)
         case french(Int)
         case light
         case wholeGrain
         case semolina
 
-        var title: String {
+        public var title: String {
             switch self {
             case .type(let number):   return String(number)
             case .french(let number): return "T\(number)"
@@ -73,7 +72,7 @@ enum FlourSubstitution {
 
         /// A position on one scale, so the nearest catalogue entry can be
         /// found for a type a grain is not sold in ("Dinkelmehl 550").
-        var ashKey: Int {
+        public var ashKey: Int {
             switch self {
             case .type(let number): return number
             case .french(let number):
@@ -95,33 +94,39 @@ enum FlourSubstitution {
         }
     }
 
-    struct Flour: Hashable, Identifiable {
-        let grain: Grain
-        let milling: Milling
+    public struct Flour: Hashable, Identifiable {
+        public let grain: Grain
+        public let milling: Milling
         /// Water the flour binds beyond wheat 550, as a share of its weight.
-        let extraWater: Double
+        public let extraWater: Double
 
-        var id: String { "\(grain.rawValue)-\(milling)" }
-        var isWholeGrain: Bool { milling == .wholeGrain }
+        public var id: String { "\(grain.rawValue)-\(milling)" }
+        public var isWholeGrain: Bool { milling == .wholeGrain }
 
         /// The same as the ingredient line, for pickers and the result line:
         /// adjectives agree with "Farine …" in French, where "Blé complète"
         /// (grain + grade) did not.
-        var title: String { ingredientName }
+        public var title: String { ingredientName }
 
         /// The ingredient line a recipe copy gets: "Dinkelmehl 630",
         /// "Roggenmehl Vollkorn", "Hartweizengrieß".
-        var ingredientName: String {
+        public var ingredientName: String {
             if grain == .durum, milling == .semolina {
                 return String(localized: "Hartweizengrieß", bundle: AppSettings.localizationBundle, locale: AppSettings.locale, comment: "Zutatenname")
             }
             return "\(grain.flourWord) \(milling.title)"
         }
+
+        public init(grain: Grain, milling: Milling, extraWater: Double) {
+            self.grain = grain
+            self.milling = milling
+            self.extraWater = extraWater
+        }
     }
 
     // MARK: - Catalogue
 
-    static let catalog: [Flour] = [
+    public static let catalog: [Flour] = [
         Flour(grain: .wheat, milling: .type(405),  extraWater: -0.02),
         Flour(grain: .wheat, milling: .type(550),  extraWater:  0.00),
         Flour(grain: .wheat, milling: .type(812),  extraWater:  0.02),
@@ -158,12 +163,12 @@ enum FlourSubstitution {
         Flour(grain: .durum, milling: .wholeGrain, extraWater: 0.08)
     ]
 
-    static func flours(of grain: Grain) -> [Flour] {
+    public static func flours(of grain: Grain) -> [Flour] {
         catalog.filter { $0.grain == grain }
     }
 
     /// The reference every water figure is relative to.
-    static var wheat550: Flour {
+    public static var wheat550: Flour {
         catalog.first { $0.grain == .wheat && $0.milling == .type(550) }!
     }
 
@@ -196,7 +201,7 @@ enum FlourSubstitution {
     /// The catalogue flour an ingredient line names, or nil when the line
     /// is not a flour at all. A grain without a type gets that grain's
     /// everyday flour; a type the grain is not sold in gets the nearest one.
-    static func recognize(_ name: String) -> Flour? {
+    public static func recognize(_ name: String) -> Flour? {
         guard DoughComposition.isFlour(name) else { return nil }
         let key = comparisonKey(name)
 
@@ -264,13 +269,13 @@ enum FlourSubstitution {
 
     /// Grams of water to add (negative: to take away) when `grams` of `from`
     /// become the same weight of `to`.
-    static func waterDelta(grams: Double, from: Flour, to: Flour) -> Double {
+    public static func waterDelta(grams: Double, from: Flour, to: Flour) -> Double {
         grams * (to.extraWater - from.extraWater)
     }
 
     // MARK: - Hints
 
-    enum Hint: Hashable, Identifiable {
+    public enum Hint: Hashable, Identifiable {
         case speltHandling
         case speltSoaker
         case ryeAcidify
@@ -282,16 +287,16 @@ enum FlourSubstitution {
         case wheatKnead
         case addWaterGradually
 
-        var id: Self { self }
+        public var id: Self { self }
     }
 
     /// The rye share of all flour from which the dough wants acidifying.
-    static let ryeAcidifyShare = 0.2
+    public static let ryeAcidifyShare = 0.2
 
     /// What changes in the handling, in the order worth reading. `ryeShareAfter`
     /// is the rye share of all flour once the swap is made; nil without a
     /// recipe, when only the general rye rule can be given.
-    static func hints(from: Flour, to: Flour, ryeShareAfter: Double?) -> [Hint] {
+    public static func hints(from: Flour, to: Flour, ryeShareAfter: Double?) -> [Hint] {
         var hints: [Hint] = []
 
         if to.grain != from.grain {
@@ -326,18 +331,27 @@ enum FlourSubstitution {
 
     // MARK: - Applying to a recipe
 
-    struct Applied: Equatable {
-        var recipe: RecipeExportData
-        let source: Flour
-        let target: Flour
+    public struct Applied: Equatable {
+        public var recipe: RecipeExportData
+        public let source: Flour
+        public let target: Flour
         /// Whole grams, as written into the liquid line.
-        let waterDelta: Double
+        public let waterDelta: Double
         /// False when the component has no poured liquid to change — the
         /// swap is still made, the liquid is the baker's to adjust.
-        let waterAdjusted: Bool
+        public let waterAdjusted: Bool
         /// The line that was moved: "Wasser", or the milk, buttermilk or
         /// beer that stands in for it in a component without water.
-        let adjustedLiquidName: String?
+        public let adjustedLiquidName: String?
+
+        public init(recipe: RecipeExportData, source: Flour, target: Flour, waterDelta: Double, waterAdjusted: Bool, adjustedLiquidName: String?) {
+            self.recipe = recipe
+            self.source = source
+            self.target = target
+            self.waterDelta = waterDelta
+            self.waterAdjusted = waterAdjusted
+            self.adjustedLiquidName = adjustedLiquidName
+        }
     }
 
     /// The recipe with one flour line swapped and the liquid of the same
@@ -345,7 +359,7 @@ enum FlourSubstitution {
     /// is some, otherwise the component's poured liquid, which the baker's
     /// convention counts as water anyway. Nothing else changes; the copy
     /// gets the target flour added to its name.
-    static func apply(to recipe: RecipeExportData, componentIndex: Int, ingredientIndex: Int, target: Flour,
+    public static func apply(to recipe: RecipeExportData, componentIndex: Int, ingredientIndex: Int, target: Flour,
                       on date: Date = Date()) -> Applied? {
         guard recipe.components.indices.contains(componentIndex),
               recipe.components[componentIndex].ingredients.indices.contains(ingredientIndex)
@@ -385,21 +399,21 @@ enum FlourSubstitution {
 
     /// Any liquid the dough yield counts as water — water, milk, beer —
     /// measured in grams or millilitres.
-    static func isPouredLiquid(_ ingredient: RecipeExportIngredient) -> Bool {
+    public static func isPouredLiquid(_ ingredient: RecipeExportIngredient) -> Bool {
         guard DoughComposition.classify(ingredient.name) == .water else { return false }
         let unit = (ingredient.unit ?? "").trimmingCharacters(in: .whitespaces).lowercased()
         return unit.isEmpty || unit.hasPrefix("g") || unit.hasPrefix("ml")
     }
 
     /// Water itself, the line to prefer when the component has one.
-    static func isPlainWater(_ ingredient: RecipeExportIngredient) -> Bool {
+    public static func isPlainWater(_ ingredient: RecipeExportIngredient) -> Bool {
         guard isPouredLiquid(ingredient) else { return false }
         let key = comparisonKey(ingredient.name)
         return ["wasser", "water", "eau"].contains(where: key.contains)
     }
 
     /// Rye as a share of all flour in the recipe, 0 when there is no flour.
-    static func ryeShare(in recipe: RecipeExportData) -> Double {
+    public static func ryeShare(in recipe: RecipeExportData) -> Double {
         var flour = 0.0
         var rye = 0.0
         for component in recipe.components {
@@ -417,7 +431,7 @@ enum FlourSubstitution {
 // MARK: - Dough yield of an export-model recipe
 
 extension DoughComposition {
-    static func components(of recipe: RecipeExportData) -> [Component] {
+    public static func components(of recipe: RecipeExportData) -> [Component] {
         recipe.components.map { component in
             Component(name: component.name, ingredients: component.ingredients.map { ingredient in
                 Ingredient(name: ingredient.name,

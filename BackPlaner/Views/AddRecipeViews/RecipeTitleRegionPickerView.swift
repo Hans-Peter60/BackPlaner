@@ -5,6 +5,7 @@
 //  Lets the user point at the recipe's name on the photographed page.
 //
 
+import BakePlannerCore
 import SwiftUI
 import UIKit
 

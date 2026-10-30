@@ -13,6 +13,7 @@
 //  appears by itself once its recipe exists.
 //
 
+import BakePlannerCore
 import AppIntents
 import CoreData
 import Foundation

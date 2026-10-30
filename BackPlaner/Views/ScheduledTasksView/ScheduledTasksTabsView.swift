@@ -10,6 +10,7 @@
 //  the two stay where they have always been.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 struct ScheduledTasksTabsView: View {

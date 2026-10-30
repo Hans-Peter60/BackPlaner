@@ -4,7 +4,7 @@ Jeder Pull Request wird an zwei Stellen geprüft:
 
 | Wo | Was | Wird eingerichtet |
 |---|---|---|
-| **GitHub Actions** (`.github/workflows/checks.yml`) | String-Kataloge vollständig (en/fr), Projektdatei gültig, Handbuch-Webseiten aktuell, Cloud Functions Lint und Build, Firestore-Regeln im Emulator | über das Repository, läuft von selbst |
+| **GitHub Actions** (`.github/workflows/checks.yml`) | String-Kataloge vollständig (en/fr), Texte des Pakets `BakePlannerCore` im App-Katalog, Projektdatei gültig, Handbuch-Webseiten aktuell, Cloud Functions Lint und Build, Firestore-Regeln im Emulator | über das Repository, läuft von selbst |
 | **Xcode Cloud** | App bauen, Unit-Tests und UI-Tests im Simulator | einmalig in Xcode (siehe unten) |
 
 Die GitHub-Prüfung braucht keinen Mac und kostet praktisch nichts. Alles, was die App selbst betrifft, läuft in Xcode Cloud. Im Apple Developer Program sind 25 Rechenstunden im Monat enthalten; ein Testlauf dauert einige Minuten.

@@ -12,6 +12,7 @@
 //  AppShortcuts.xcstrings.
 //
 
+import BakePlannerCore
 import AppIntents
 
 struct BackPlanerShortcuts: AppShortcutsProvider {

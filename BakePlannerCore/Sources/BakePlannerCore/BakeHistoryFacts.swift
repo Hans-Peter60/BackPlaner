@@ -1,6 +1,6 @@
 //
 //  BakeHistoryFacts.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 //  The part of a bake-history entry that helps with the next bake of the
 //  same recipe: the temperatures, how long the dough really proofed, which
@@ -8,25 +8,24 @@
 //  stars alone did not let anyone get better from one bake to the next.
 //
 
-import BakePlannerCore
 import Foundation
 
-struct BakeHistoryFacts: Equatable {
+public struct BakeHistoryFacts: Equatable {
 
     /// Room temperature in °C.
-    var roomTemperature: Double?
+    public var roomTemperature: Double?
     /// Dough temperature in °C.
-    var doughTemperature: Double?
+    public var doughTemperature: Double?
     /// The bulk proof (Stockgare) as it actually took, in minutes.
-    var bulkProofMinutes: Int?
+    public var bulkProofMinutes: Int?
     /// The final proof (Stückgare) as it actually took, in minutes.
-    var finalProofMinutes: Int?
+    public var finalProofMinutes: Int?
     /// The flour used, free text ("Weizen 550, Drax-Mühle").
-    var flour: String = ""
+    public var flour: String = ""
     /// Crumb and oven spring in a few keywords, comma-separated.
-    var outcome: String = ""
+    public var outcome: String = ""
 
-    init(roomTemperature: Double? = nil,
+    public init(roomTemperature: Double? = nil,
          doughTemperature: Double? = nil,
          bulkProofMinutes: Int? = nil,
          finalProofMinutes: Int? = nil,
@@ -41,14 +40,14 @@ struct BakeHistoryFacts: Equatable {
     }
 
     /// True when nothing at all was recorded.
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         items().isEmpty
     }
 
     // MARK: - Items
 
     /// The kinds of fact, in the order they are shown.
-    enum Kind: CaseIterable, Hashable {
+    public enum Kind: CaseIterable, Hashable {
         case roomTemperature
         case doughTemperature
         case bulkProof
@@ -60,7 +59,7 @@ struct BakeHistoryFacts: Equatable {
         /// themselves there and carry none. A `String` in the in-app
         /// language (not a `LocalizedStringKey`) because the summary is
         /// assembled as one string, see `summaryLine()`.
-        var shortTitle: String? {
+        public var shortTitle: String? {
             let bundle = AppSettings.localizationBundle
             let locale = AppSettings.locale
             switch self {
@@ -72,7 +71,7 @@ struct BakeHistoryFacts: Equatable {
             }
         }
 
-        var systemImage: String {
+        public var systemImage: String {
             switch self {
             case .roomTemperature:  return "thermometer.medium"
             case .doughTemperature: return "thermometer.variable"
@@ -85,15 +84,20 @@ struct BakeHistoryFacts: Equatable {
     }
 
     /// One recorded fact, formatted for display.
-    struct Item: Identifiable, Equatable {
-        let kind: Kind
-        let value: String
-        var id: Kind { kind }
+    public struct Item: Identifiable, Equatable {
+        public let kind: Kind
+        public let value: String
+        public var id: Kind { kind }
+
+        public init(kind: Kind, value: String) {
+            self.kind = kind
+            self.value = value
+        }
     }
 
     /// The facts that were recorded, formatted, in display order. Numbers
     /// follow `locale`; the free texts are shown as typed.
-    func items(locale: Locale = AppSettings.locale) -> [Item] {
+    public func items(locale: Locale = AppSettings.locale) -> [Item] {
         var items = [Item]()
         if let roomTemperature {
             items.append(Item(kind: .roomTemperature, value: Self.temperatureText(roomTemperature, locale: locale)))
@@ -121,7 +125,7 @@ struct BakeHistoryFacts: Equatable {
     /// The recorded facts in one line — "Raum 22 °C · Teig 25 °C · Stockgare
     /// 3h 30m · Weizen 550 · offen" — for a list row or a gallery tile.
     /// Empty when nothing was recorded.
-    func summaryLine(locale: Locale = AppSettings.locale) -> String {
+    public func summaryLine(locale: Locale = AppSettings.locale) -> String {
         items(locale: locale)
             .map { item in
                 if let shortTitle = item.kind.shortTitle {
@@ -136,7 +140,7 @@ struct BakeHistoryFacts: Equatable {
 
     /// "22 °C", "22,5 °C" — never converted to Fahrenheit, whatever the
     /// locale: the value was measured in Celsius and is shown as such.
-    static func temperatureText(_ celsius: Double, locale: Locale) -> String {
+    public static func temperatureText(_ celsius: Double, locale: Locale) -> String {
         Measurement(value: celsius, unit: UnitTemperature.celsius)
             .formatted(.measurement(width: .abbreviated,
                                     usage: .asProvided,
@@ -145,13 +149,13 @@ struct BakeHistoryFacts: Equatable {
     }
 
     /// The duration in the form the plan table uses ("3h 30m", "45m").
-    static func durationText(_ minutes: Int) -> String {
+    public static func durationText(_ minutes: Int) -> String {
         Rational.displayHoursMinutes(minutes)
     }
 
     /// A temperature as typed: "22", "22,5" or "22.5"; anything else, and an
     /// empty field, is "not measured".
-    static func parseTemperature(_ text: String) -> Double? {
+    public static func parseTemperature(_ text: String) -> Double? {
         let cleaned = text
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: ",", with: ".")
@@ -164,7 +168,7 @@ struct BakeHistoryFacts: Equatable {
 
     /// A number of minutes as typed. Zero and anything that is not a whole
     /// number count as "not recorded".
-    static func parseMinutes(_ text: String) -> Int? {
+    public static func parseMinutes(_ text: String) -> Int? {
         let digits = text.filter(\.isNumber)
         guard let value = Int(digits), value > 0 else { return nil }
         return value
@@ -172,12 +176,12 @@ struct BakeHistoryFacts: Equatable {
 
     /// The text to put into a temperature field for an existing value, with
     /// the decimal separator of `locale`.
-    static func temperatureInput(_ celsius: Double?, locale: Locale = AppSettings.locale) -> String {
+    public static func temperatureInput(_ celsius: Double?, locale: Locale = AppSettings.locale) -> String {
         guard let celsius else { return "" }
         return celsius.formatted(.number.precision(.fractionLength(0...1)).grouping(.never).locale(locale))
     }
 
-    static func minutesInput(_ minutes: Int?) -> String {
+    public static func minutesInput(_ minutes: Int?) -> String {
         guard let minutes, minutes > 0 else { return "" }
         return String(minutes)
     }
@@ -187,18 +191,18 @@ struct BakeHistoryFacts: Equatable {
     /// The words offered as chips under the crumb / oven-spring field. Typed
     /// text in the app's language, since they become part of the stored
     /// entry — like the placeholder comment, see `AppSettings.generatedRecipeTexts`.
-    enum OutcomeKeyword: CaseIterable, Identifiable {
+    public enum OutcomeKeyword: CaseIterable, Identifiable {
         // Crumb
         case open, dense, moist, dry, even, largePores, gummy
         // Oven spring
         case goodSpring, littleSpring, torn, flat
 
-        var id: Self { self }
+        public var id: Self { self }
 
-        static let crumb: [OutcomeKeyword] = [.open, .dense, .moist, .dry, .even, .largePores, .gummy]
-        static let ovenSpring: [OutcomeKeyword] = [.goodSpring, .littleSpring, .torn, .flat]
+        public static let crumb: [OutcomeKeyword] = [.open, .dense, .moist, .dry, .even, .largePores, .gummy]
+        public static let ovenSpring: [OutcomeKeyword] = [.goodSpring, .littleSpring, .torn, .flat]
 
-        var text: String {
+        public var text: String {
             let bundle = AppSettings.localizationBundle
             let locale = AppSettings.locale
             switch self {
@@ -218,7 +222,7 @@ struct BakeHistoryFacts: Equatable {
     }
 
     /// The keywords in `outcome`, split at the commas.
-    static func keywords(in outcome: String) -> [String] {
+    public static func keywords(in outcome: String) -> [String] {
         outcome
             .split(separator: ",")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -227,7 +231,7 @@ struct BakeHistoryFacts: Equatable {
 
     /// `outcome` with `keyword` added when it is missing and removed when it
     /// is there. Whatever else was typed stays.
-    static func toggling(_ keyword: String, in outcome: String) -> String {
+    public static func toggling(_ keyword: String, in outcome: String) -> String {
         var words = keywords(in: outcome)
         if let index = words.firstIndex(where: { $0.caseInsensitiveCompare(keyword) == .orderedSame }) {
             words.remove(at: index)
@@ -237,7 +241,7 @@ struct BakeHistoryFacts: Equatable {
         return words.joined(separator: ", ")
     }
 
-    static func contains(_ keyword: String, in outcome: String) -> Bool {
+    public static func contains(_ keyword: String, in outcome: String) -> Bool {
         keywords(in: outcome).contains { $0.caseInsensitiveCompare(keyword) == .orderedSame }
     }
 
@@ -246,7 +250,7 @@ struct BakeHistoryFacts: Equatable {
     /// Whether `comment` says nothing: empty, or the placeholder the app
     /// writes when reminders are set, in any of its languages — the entry
     /// may have been created with the app in another language.
-    static func isPlaceholderComment(_ comment: String) -> Bool {
+    public static func isPlaceholderComment(_ comment: String) -> Bool {
         let trimmed = comment.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty { return true }
         return ["de", "en", "fr"].contains {
@@ -260,7 +264,7 @@ struct BakeHistoryFacts: Equatable {
     /// creates an entry dated at the end of the planned bake, so the newest
     /// entry is often still in the future and says nothing yet; the one to
     /// learn from is the newest with a date at or before `now`.
-    static func lastCompleted<Entry>(_ entries: [Entry], date: (Entry) -> Date, now: Date) -> Entry? {
+    public static func lastCompleted<Entry>(_ entries: [Entry], date: (Entry) -> Date, now: Date) -> Entry? {
         entries
             .filter { date($0) <= now }
             .max { date($0) < date($1) }

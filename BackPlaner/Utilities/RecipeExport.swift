@@ -27,44 +27,45 @@ extension RecipeExportData {
     /// `includingImage: false` leaves the image out: the calculations need
     /// only the content, and need not carry the picture around.
     init(recipe: Recipe, includingImage: Bool) {
-        name                   = recipe.name
-        summary                = recipe.summary
-        urlLink                = recipe.urlLink
-        prepTime               = recipe.prepTime
-        totalWeight            = recipe.totalWeight
-        tags                   = recipe.tags
-        rating                 = recipe.rating
-        recurrenceIntervalDays = recipe.recurrenceIntervalDays
-        image                  = includingImage && !recipe.image.isEmpty ? recipe.image : nil
-
-        components = recipe.componentsArray.map { component in
-            RecipeExportComponent(
-                name: component.name,
-                number: component.number,
-                ingredients: component.ingredientsArray.map { ingredient in
-                    RecipeExportIngredient(
-                        name: ingredient.name,
-                        number: ingredient.number,
-                        unit: ingredient.unit,
-                        weight: ingredient.weight,
-                        normWeight: ingredient.normWeight,
-                        num: ingredient.num,
-                        denom: ingredient.denom
-                    )
-                }
-            )
-        }
-
-        instructions = recipe.instructionsArray.map { instruction in
-            RecipeExportInstruction(
-                instruction: instruction.instruction,
-                step: instruction.step,
-                duration: instruction.duration,
-                startTime: instruction.startTime,
-                bakeFlag: instruction.bakeFlag,
-                componentName: instruction.componentName
-            )
-        }
+        // Another module's struct: its own initializer sets the fields.
+        self.init(
+            name: recipe.name,
+            summary: recipe.summary,
+            urlLink: recipe.urlLink,
+            prepTime: recipe.prepTime,
+            totalWeight: recipe.totalWeight,
+            tags: recipe.tags,
+            rating: recipe.rating,
+            recurrenceIntervalDays: recipe.recurrenceIntervalDays,
+            image: includingImage && !recipe.image.isEmpty ? recipe.image : nil,
+            components: recipe.componentsArray.map { component in
+                RecipeExportComponent(
+                    name: component.name,
+                    number: component.number,
+                    ingredients: component.ingredientsArray.map { ingredient in
+                        RecipeExportIngredient(
+                            name: ingredient.name,
+                            number: ingredient.number,
+                            unit: ingredient.unit,
+                            weight: ingredient.weight,
+                            normWeight: ingredient.normWeight,
+                            num: ingredient.num,
+                            denom: ingredient.denom
+                        )
+                    }
+                )
+            },
+            instructions: recipe.instructionsArray.map { instruction in
+                RecipeExportInstruction(
+                    instruction: instruction.instruction,
+                    step: instruction.step,
+                    duration: instruction.duration,
+                    startTime: instruction.startTime,
+                    bakeFlag: instruction.bakeFlag,
+                    componentName: instruction.componentName
+                )
+            }
+        )
     }
 }
 

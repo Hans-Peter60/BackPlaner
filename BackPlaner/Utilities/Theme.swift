@@ -6,6 +6,7 @@
 //  same warm, bread-themed look (gradient background, brown palette, white cards).
 //
 
+import BakePlannerCore
 import SwiftUI
 
 // MARK: - Palette, fonts and gradients

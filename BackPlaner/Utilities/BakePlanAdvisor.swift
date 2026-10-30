@@ -9,6 +9,7 @@
 //  stays as it is: only the date in the scheduling controls moves.
 //
 
+import BakePlannerCore
 import Foundation
 
 /// A date for the scheduling controls at which no step of the plan begins at

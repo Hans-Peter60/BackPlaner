@@ -1,9 +1,8 @@
 //
 //  ScheduledStepComponent.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 
-import BakePlannerCore
 import Foundation
 
 /// Which component a planned step mixes, and the ingredient list that goes
@@ -12,7 +11,7 @@ import Foundation
 /// Shared by the list of planned steps (the "i" button) and by the reminders,
 /// which carry the same list in their text so it can be read off the lock
 /// screen while weighing out.
-enum ScheduledStepComponent {
+public enum ScheduledStepComponent {
 
     // MARK: Finding the component
 
@@ -24,7 +23,7 @@ enum ScheduledStepComponent {
     /// component it prepares. When several component names occur in the text,
     /// the one mentioned first wins, and among names starting at the same spot
     /// the longer one — so "Vorteig A" beats "Vorteig".
-    static func componentName(
+    public static func componentName(
         stored: String?,
         instructionText: String,
         among componentNames: [String]
@@ -62,7 +61,7 @@ enum ScheduledStepComponent {
     /// `step` is the step number a planned step remembers; it leads back to
     /// the instruction and its stored component name. `instructionText` is the
     /// wording to fall back on.
-    static func column(for recipe: RecipeExportData, step: Double?, instructionText: String) -> ComponentColumn? {
+    public static func column(for recipe: RecipeExportData, step: Double?, instructionText: String) -> ComponentColumn? {
         let instruction = recipe.instructions.first { $0.step == step }
         return column(for: recipe, storedComponentName: instruction?.componentName,
                       instructionText: instructionText)
@@ -70,7 +69,7 @@ enum ScheduledStepComponent {
 
     /// The component one of the user's own recipes mixes in a step whose
     /// stored component name is `storedComponentName`.
-    static func column(for recipe: RecipeExportData, storedComponentName: String?,
+    public static func column(for recipe: RecipeExportData, storedComponentName: String?,
                        instructionText: String) -> ComponentColumn? {
         guard let name = componentName(
             stored: storedComponentName,
@@ -81,13 +80,13 @@ enum ScheduledStepComponent {
     }
 
     /// The component a public recipe mixes in the given step.
-    static func column(for recipe: RecipeFB, step: Double?, instructionText: String) -> ComponentColumn? {
+    public static func column(for recipe: RecipeFB, step: Double?, instructionText: String) -> ComponentColumn? {
         let instruction = recipe.instructions.first { $0.step == step }
         return column(for: recipe, instruction: instruction, instructionText: instructionText)
     }
 
     /// The component a public recipe mixes in `instruction`.
-    static func column(for recipe: RecipeFB, instruction: InstructionFB?, instructionText: String) -> ComponentColumn? {
+    public static func column(for recipe: RecipeFB, instruction: InstructionFB?, instructionText: String) -> ComponentColumn? {
         guard let name = componentName(
             stored: instruction?.componentName,
             instructionText: instructionText,
@@ -104,7 +103,7 @@ enum ScheduledStepComponent {
     ///
     /// Uses the in-app language, like every other reminder text, since the
     /// notification is composed outside SwiftUI.
-    static func ingredientsText(for component: ComponentColumn, scale: Double) -> String? {
+    public static func ingredientsText(for component: ComponentColumn, scale: Double) -> String? {
         guard !component.ingredients.isEmpty else { return nil }
 
         let heading = String(

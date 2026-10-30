@@ -7,6 +7,7 @@
 //  "1h 30", "1,5 h", "45 min", "14 Std" — and keeps the minutes.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 /// Reading and writing a duration as text.

@@ -9,6 +9,7 @@
 //  would be worse than either.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum IntentPhrasing {

@@ -1,12 +1,11 @@
 //
 //  BakeHistoryFactsTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Structured notes of a bake")
 struct BakeHistoryFactsTests {

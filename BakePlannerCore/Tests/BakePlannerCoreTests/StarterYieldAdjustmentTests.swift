@@ -1,12 +1,11 @@
 //
 //  StarterYieldAdjustmentTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Starter TA adjustment: recognition, arithmetic, applying to a recipe")
 struct StarterYieldAdjustmentTests {

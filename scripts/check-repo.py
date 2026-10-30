@@ -8,6 +8,9 @@ Run by the GitHub Action on every pull request, and locally with
 
 - String catalogs: every string the app shows has an English and a French
   entry, so nothing ships in German by accident.
+- Package strings: every text the shared package (BakePlannerCore) shows
+  is in the app's catalog, which translates it at run time, and has an
+  English and a French entry there.
 - Xcode project: project.pbxproj parses, every object it refers to exists,
   and every source file it lists is where it says.
 - User manual: the website pages match the Markdown, i.e. build-manual-html.py
@@ -53,6 +56,39 @@ def check_catalogs() -> list[str]:
             if missing:
                 shown = key if len(key) <= 70 else key[:67] + "…"
                 findings.append(f"{relative}: no {'/'.join(missing)} for “{shown}”")
+    return findings
+
+
+PACKAGE_SOURCES = "BakePlannerCore/Sources"
+PACKAGE_CATALOG = "BackPlaner/Localizable.xcstrings"
+LOCALIZED_LITERAL = re.compile(r'String\(localized:\s*"((?:[^"\\]|\\.)*)"')
+
+
+def check_package_strings() -> list[str]:
+    """The package looks its texts up in the app's bundle
+    (AppSettings.localizationBundle), so each one must stay in the app's
+    catalog. Xcode no longer finds them in the app's code; they are kept
+    there as manual entries, which the catalog check above skips only when
+    stale."""
+    try:
+        strings = json.loads((ROOT / PACKAGE_CATALOG).read_text(encoding="utf-8"))["strings"]
+    except (OSError, ValueError, KeyError) as error:
+        return [f"{PACKAGE_CATALOG}: cannot be read ({error})"]
+
+    findings = []
+    for path in sorted((ROOT / PACKAGE_SOURCES).rglob("*.swift")):
+        relative = path.relative_to(ROOT)
+        for match in LOCALIZED_LITERAL.finditer(path.read_text(encoding="utf-8")):
+            key = json.loads(f'"{match.group(1)}"')
+            entry = strings.get(key)
+            if entry is None:
+                findings.append(f"{relative}: “{key}” is not in {PACKAGE_CATALOG}")
+            elif entry.get("extractionState") == "stale":
+                findings.append(f"{relative}: “{key}” is stale in {PACKAGE_CATALOG}; mark it manual")
+            else:
+                missing = [language for language in LANGUAGES if language not in entry.get("localizations", {})]
+                if missing:
+                    findings.append(f"{relative}: no {'/'.join(missing)} for “{key}” in {PACKAGE_CATALOG}")
     return findings
 
 
@@ -130,6 +166,7 @@ def check_manual() -> list[str]:
 def main() -> int:
     sections = [
         ("String catalogs", check_catalogs),
+        ("Package strings", check_package_strings),
         ("Xcode project", check_project),
         ("User manual", check_manual),
     ]

@@ -1,12 +1,11 @@
 //
 //  FlourSubstitutionTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
-import BakePlannerCore
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Flour substitution: recognition, water, hints, applying to a recipe")
 struct FlourSubstitutionTests {

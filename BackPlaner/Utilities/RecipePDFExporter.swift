@@ -23,23 +23,7 @@ extension RecipePrintData {
 
     /// A recipe from the public database.
     init(recipeFB: RecipeFB, image: UIImage?, scale: Double) {
-        name = recipeFB.name
-        summary = recipeFB.summary
-        imageData = image?.jpegData(compressionQuality: 0.8)
-        totalWeight = Int((recipeFB.totalWeight * scale).rounded())
-        prepTime = Rational.displayHoursMinutes(recipeFB.prepTime)
-        urlLink = recipeFB.urlLink.isEmpty ? nil : recipeFB.urlLink
-
-        let columns = ComponentColumn.columns(of: recipeFB.components)
-        components = Self.components(from: columns, scale: scale)
-        totalLines = TotalIngredientsView.aggregatedLines(of: columns, scale: scale)
-        steps = recipeFB.instructions
-            .sorted { $0.step < $1.step }
-            .map {
-                Step(number: Rational.decimalPlace($0.step, 10),
-                     text: $0.instruction,
-                     duration: Rational.displayHoursMinutes($0.duration))
-            }
+        self.init(recipeFB: recipeFB, imageData: image?.jpegData(compressionQuality: 0.8), scale: scale)
     }
 }
 
