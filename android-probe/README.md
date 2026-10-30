@@ -128,3 +128,38 @@ Kennt deine Skip-Version den Befehl nicht, zeigt `skip android --help` den passe
 - **Uhrzeit:** Hat „Gerade dran“ dasselbe Format wie auf dem iPhone?
 
 Skip verlangt für geschlossene oder kommerzielle Projekte nach einer Probezeit unter Umständen eine Lizenz. Die aktuellen Bedingungen stehen auf skip.dev. Für diesen Probelauf spielt das keine Rolle.
+
+## Zweiter Lauf: Erinnerungen
+
+`NotificationProbeView.swift` prüft die Erinnerungen so, wie BakePlanner sie benutzt (`NotificationManager.swift`):
+- Erlaubnis anfragen
+- Erinnerung zu einer festen Uhrzeit mit Zusatzdaten
+- die Aktionen „Erledigt“ und „Verschieben um …“ mit Texteingabe
+- ausstehende Erinnerungen abfragen und einzeln löschen
+- Rückmeldung beim Antippen einer Aktion
+
+Die Probe-Ansicht führt über „Erinnerungen testen“ dorthin.
+
+1. Im BakePlanner-Ordner `git pull` ausführen, dann die zwei Dateien ins Probe-Projekt kopieren:
+
+```bash
+cp android-probe/Sources/BakePlannerProbe/NotificationProbeView.swift android-probe/Sources/BakePlannerProbe/ProbeView.swift ~/Developer/bakeplanner-probe/Sources/BakePlannerProbe/
+```
+
+2. In `~/Developer/bakeplanner-probe/Android/app/src/main/AndroidManifest.xml` innerhalb von `<manifest …>` und vor `<application` ergänzen, falls noch nicht vorhanden:
+
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+```
+
+3. ⌘R, auf beiden Geräten „Erinnerungen testen“ öffnen und die Prüfliste durchgehen:
+
+| | Vorgehen | Zu notieren |
+|---|---|---|
+| A | „Erlaubnis anfragen“ | Erscheint die Systemabfrage? Was steht im Protokoll? |
+| B | „Drei Erinnerungen“ antippen, App offen lassen | Kommen sie zur geplanten Minute? Steht „Im Vordergrund angekommen“ im Protokoll? |
+| C | „Ausstehende anzeigen“, dann „Die 2-Minuten-Erinnerung löschen“ | Werden drei angezeigt? Kommt die gelöschte trotzdem? |
+| D | „Drei Erinnerungen“ antippen, App in den Hintergrund (Home) | Kommen sie pünktlich? Sind „Erledigt“ und „Verschieben um …“ zu sehen? |
+| E | Bei einer Erinnerung „Erledigt“ antippen, bei einer anderen „Verschieben um …“ mit „15“ | Was steht danach im Protokoll der App? |
+| F | „Erinnerung in 1 Minute, dann App schließen“, App aus der App-Übersicht wegwischen | Kommt die Erinnerung trotzdem? |
