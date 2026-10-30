@@ -7,6 +7,7 @@
 //  used to run on the context itself.
 //
 
+import BakePlannerCore
 import Foundation
 import CoreData
 

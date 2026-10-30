@@ -10,6 +10,7 @@
 //  plan that moved on while the app was away.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum RecurringBakePlanner {

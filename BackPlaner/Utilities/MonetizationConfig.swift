@@ -14,6 +14,7 @@
 //  lock a feature by accident; the only way to lock one is the console.
 //
 
+import BakePlannerCore
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore

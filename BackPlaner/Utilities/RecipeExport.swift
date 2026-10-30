@@ -11,6 +11,7 @@
 //  already draws for the public database.
 //
 
+import BakePlannerCore
 import Foundation
 import CoreData
 import SwiftUI

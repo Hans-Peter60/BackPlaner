@@ -1,3 +1,4 @@
+import BakePlannerCore
 import Foundation
 import UIKit
 @preconcurrency import Vision

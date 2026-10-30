@@ -3,6 +3,7 @@
 //  BackPlaner
 //
 
+import BakePlannerCore
 import SwiftUI
 
 /// Edits a recipe that lives in the recipe database: the author's own, or —

@@ -6,6 +6,7 @@
 //  of the PDF export that knows no platform. RecipePDFExporter renders it.
 //
 
+import BakePlannerCore
 import Foundation
 
 /// A recipe flattened to strings, so the renderer knows neither Core Data

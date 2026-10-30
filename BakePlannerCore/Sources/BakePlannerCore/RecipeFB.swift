@@ -1,33 +1,32 @@
 //
 //  Recipe.swift
-//  PetersBackPlaner
+//  BakePlannerCore
 //
 //  Created by Hans-Peter Müller on 03.11.21.
 //
 
-import BakePlannerCore
 import Foundation
 import Observation
 
-struct RecipeTextFB: Decodable {
-    var name: String?
-    var summary: String?
-    var tags: [String]?
+public struct RecipeTextFB: Decodable {
+    public var name: String?
+    public var summary: String?
+    public var tags: [String]?
 
-    init(name: String? = nil, summary: String? = nil, tags: [String]? = nil) {
+    public init(name: String? = nil, summary: String? = nil, tags: [String]? = nil) {
         self.name = name
         self.summary = summary
         self.tags = tags
     }
 
-    init(firestoreData: Any?) {
+    public init(firestoreData: Any?) {
         let data = firestoreData as? [String: Any]
         name = data?["name"] as? String
         summary = data?["summary"] as? String
         tags = data?["tags"] as? [String]
     }
 
-    var firestoreData: [String: Any] {
+    public var firestoreData: [String: Any] {
         var data: [String: Any] = [:]
         if let name { data["name"] = name }
         if let summary { data["summary"] = summary }
@@ -36,40 +35,40 @@ struct RecipeTextFB: Decodable {
     }
 }
 
-struct NamedTextFB: Decodable {
-    var name: String?
+public struct NamedTextFB: Decodable {
+    public var name: String?
 
-    init(name: String? = nil) {
+    public init(name: String? = nil) {
         self.name = name
     }
 
-    init(firestoreData: Any?) {
+    public init(firestoreData: Any?) {
         let data = firestoreData as? [String: Any]
         name = data?["name"] as? String
     }
 
-    var firestoreData: [String: Any] {
+    public var firestoreData: [String: Any] {
         guard let name else { return [:] }
         return ["name": name]
     }
 }
 
-struct IngredientTextFB: Decodable {
-    var name: String?
-    var unit: String?
+public struct IngredientTextFB: Decodable {
+    public var name: String?
+    public var unit: String?
 
-    init(name: String? = nil, unit: String? = nil) {
+    public init(name: String? = nil, unit: String? = nil) {
         self.name = name
         self.unit = unit
     }
 
-    init(firestoreData: Any?) {
+    public init(firestoreData: Any?) {
         let data = firestoreData as? [String: Any]
         name = data?["name"] as? String
         unit = data?["unit"] as? String
     }
 
-    var firestoreData: [String: Any] {
+    public var firestoreData: [String: Any] {
         var data: [String: Any] = [:]
         if let name { data["name"] = name }
         if let unit { data["unit"] = unit }
@@ -77,61 +76,61 @@ struct IngredientTextFB: Decodable {
     }
 }
 
-struct InstructionTextFB: Decodable {
-    var instruction: String?
+public struct InstructionTextFB: Decodable {
+    public var instruction: String?
 
-    init(instruction: String? = nil) {
+    public init(instruction: String? = nil) {
         self.instruction = instruction
     }
 
-    init(firestoreData: Any?) {
+    public init(firestoreData: Any?) {
         let data = firestoreData as? [String: Any]
         instruction = data?["instruction"] as? String
     }
 
-    var firestoreData: [String: Any] {
+    public var firestoreData: [String: Any] {
         guard let instruction else { return [:] }
         return ["instruction": instruction]
     }
 }
 
 @Observable
-class RecipeFB: Identifiable, Decodable {
+public class RecipeFB: Identifiable, Decodable {
     
     /// Firestore root collection of the published recipes. Every cloud
     /// recipe is public: a recipe the user may not share stays on the device,
     /// where iCloud keeps it in sync.
-    static let collectionName = "Recipe"
+    public static let collectionName = "Recipe"
 
     /// Cloud Storage folder holding the recipe images.
-    static let imageFolder = "images"
+    public static let imageFolder = "images"
 
     // The id property is for the Identifiable protocol which we need to display these instances in a SwiftUI List
-    var id:          String?
-    var firestoreId: String?
+    public var id:          String?
+    public var firestoreId: String?
     // Anonymous id of the device that uploaded this public recipe (UGC moderation)
-    var authorId:    String?
+    public var authorId:    String?
     // Set by the first report that comes in: the recipe is then withheld from
     // every user until an admin either deletes it or releases it again.
-    var hidden:      Bool = false
+    public var hidden:      Bool = false
 
     // These properties map to the properties in the JSON file
-    var name:           String  = ""
-    var image:          String  = ""
-    var summary:        String  = ""
-    var urlLink:        String  = ""
-    var prepTime:       Int     = 0
-    var totalWeight:    Double  = 0.0
-    var tags:          [String] = [String]()
-    var bakeHistoryFlag:Bool    = false
-    var rating:         Int     = 0
-    var sourceLanguage: String  = ""
-    var translations: [String: RecipeTextFB] = [:]
-    var components:    [ComponentFB]   = [ComponentFB]()
-    var instructions:  [InstructionFB] = [InstructionFB]()
-    var bakeHistories: [BakeHistoryFB] = [BakeHistoryFB]()
+    public var name:           String  = ""
+    public var image:          String  = ""
+    public var summary:        String  = ""
+    public var urlLink:        String  = ""
+    public var prepTime:       Int     = 0
+    public var totalWeight:    Double  = 0.0
+    public var tags:          [String] = [String]()
+    public var bakeHistoryFlag:Bool    = false
+    public var rating:         Int     = 0
+    public var sourceLanguage: String  = ""
+    public var translations: [String: RecipeTextFB] = [:]
+    public var components:    [ComponentFB]   = [ComponentFB]()
+    public var instructions:  [InstructionFB] = [InstructionFB]()
+    public var bakeHistories: [BakeHistoryFB] = [BakeHistoryFB]()
 
-    init() {}
+    public init() {}
 
     // Decode resiliently: keys missing from the JSON fall back to the declared defaults
     // instead of throwing keyNotFound (e.g. bakeHistoryFlag, rating, bakeHistories).
@@ -140,7 +139,7 @@ class RecipeFB: Identifiable, Decodable {
         case tags, bakeHistoryFlag, rating, sourceLanguage, translations, components, instructions, bakeHistories
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id              = try c.decodeIfPresent(String.self,           forKey: .id)
         firestoreId     = try c.decodeIfPresent(String.self,           forKey: .firestoreId)
@@ -164,22 +163,22 @@ class RecipeFB: Identifiable, Decodable {
 }
 
 @Observable
-class ComponentFB: Identifiable, Decodable {
+public class ComponentFB: Identifiable, Decodable {
 
-    var id:    String?
-    var name:  String  = ""
-    var number:Int     = 0
-    var translations: [String: NamedTextFB] = [:]
-    var ingredients:[IngredientFB] = [IngredientFB]()
+    public var id:    String?
+    public var name:  String  = ""
+    public var number:Int     = 0
+    public var translations: [String: NamedTextFB] = [:]
+    public var ingredients:[IngredientFB] = [IngredientFB]()
 
-    init() {}
+    public init() {}
 
     // Decode resiliently: e.g. the JSON uses "step" and omits "number".
     private enum CodingKeys: String, CodingKey {
         case id, name, number, step, translations, ingredients
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id           = try c.decodeIfPresent(String.self,        forKey: .id)
         name         = try c.decodeIfPresent(String.self,        forKey: .name)        ?? ""
@@ -190,26 +189,26 @@ class ComponentFB: Identifiable, Decodable {
 }
 
 @Observable
-class IngredientFB: Identifiable, Decodable {
+public class IngredientFB: Identifiable, Decodable {
 
-    var id:        String?
-    var number:    Int    = 0
-    var name:      String = ""
-    var weight:    Double = 0.0
-    var normWeight:Double = 0.0
-    var unit:      String = ""
-    var num:       Int    = 0
-    var denom:     Int    = 0
-    var translations: [String: IngredientTextFB] = [:]
+    public var id:        String?
+    public var number:    Int    = 0
+    public var name:      String = ""
+    public var weight:    Double = 0.0
+    public var normWeight:Double = 0.0
+    public var unit:      String = ""
+    public var num:       Int    = 0
+    public var denom:     Int    = 0
+    public var translations: [String: IngredientTextFB] = [:]
 
-    init() {}
+    public init() {}
 
     // Decode resiliently: some ingredients only specify "name" (e.g. carry-over components).
     private enum CodingKeys: String, CodingKey {
         case id, number, name, weight, normWeight, unit, num, denom, translations
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id           = try c.decodeIfPresent(String.self, forKey: .id)
         number       = try c.decodeIfPresent(Int.self,    forKey: .number)     ?? 0
@@ -223,29 +222,29 @@ class IngredientFB: Identifiable, Decodable {
     }
 }
 
-class InstructionFB: Identifiable, Decodable {
+public class InstructionFB: Identifiable, Decodable {
 
-    var id:         String?
-    var step:       Double = 0
-    var instruction:String = ""
-    var duration:   Int    = 0
-    var startTime:  Int?
-    var date:       Date?
-    var bakeFlag:   Bool?
+    public var id:         String?
+    public var step:       Double = 0
+    public var instruction:String = ""
+    public var duration:   Int    = 0
+    public var startTime:  Int?
+    public var date:       Date?
+    public var bakeFlag:   Bool?
     /// The component this step prepares, for steps the recipe import generates
     /// per component. The bake plan schedules those in dependency order, and
     /// reads the dependency from here instead of from the step's wording.
-    var componentName: String?
-    var translations: [String: InstructionTextFB] = [:]
+    public var componentName: String?
+    public var translations: [String: InstructionTextFB] = [:]
 
-    init() {}
+    public init() {}
 
     private enum CodingKeys: String, CodingKey {
         case id, step, instruction, duration, startTime, date, bakeFlag
         case componentName, translations
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id            = try c.decodeIfPresent(String.self, forKey: .id)
         step          = try c.decodeIfPresent(Double.self, forKey: .step) ?? 0
@@ -259,54 +258,60 @@ class InstructionFB: Identifiable, Decodable {
     }
 }
 
-class NextStepFB: Identifiable, Decodable {
+public class NextStepFB: Identifiable, Decodable {
+
+    public init() {}
     
-    var id:         String?
-    var date:       Date?
-    var recipeName: String?
-    var step:       Double = 0
-    var instruction:String = ""
-    var duration:   Int    = 0
-    var startTime:  Int?
+    public var id:         String?
+    public var date:       Date?
+    public var recipeName: String?
+    public var step:       Double = 0
+    public var instruction:String = ""
+    public var duration:   Int    = 0
+    public var startTime:  Int?
 }
 
-class BakeHistoryFB: Identifiable, Decodable {
+public class BakeHistoryFB: Identifiable, Decodable {
+
+    public init() {}
     
-    var id:     String? = ""
-    var date:   Date    = Date()
-    var comment:String  = ""
-    var images:[String] = [String]()
+    public var id:     String? = ""
+    public var date:   Date    = Date()
+    public var comment:String  = ""
+    public var images:[String] = [String]()
 }
 
-class UnitSetFB: Identifiable, Decodable {
-    var id:        String?
-    var name:      String = ""
-    var abbreviation:String = ""
-    var factor:    Double = 0.0
-    var baseUnit:  String = ""
+public class UnitSetFB: Identifiable, Decodable {
+
+    public init() {}
+    public var id:        String?
+    public var name:      String = ""
+    public var abbreviation:String = ""
+    public var factor:    Double = 0.0
+    public var baseUnit:  String = ""
 }
 
 extension RecipeFB {
-    func applyPreferredLocalization() {
+    public func applyPreferredLocalization() {
         applyLocalization(languageCode: Self.preferredLanguageCode)
     }
 
-    func capturePreferredLocalization() {
+    public func capturePreferredLocalization() {
         captureLocalization(languageCode: Self.preferredLanguageCode)
     }
 
     /// Public wrapper: display the recipe using the cached translation for `languageCode`.
-    func showLocalization(languageCode: String) {
+    public func showLocalization(languageCode: String) {
         applyLocalization(languageCode: languageCode)
     }
 
     /// Public wrapper: snapshot the current live values into the translation cache for `languageCode`.
-    func storeLocalization(languageCode: String) {
+    public func storeLocalization(languageCode: String) {
         captureLocalization(languageCode: languageCode)
     }
 
     /// Whether a non-empty translation is already cached for `languageCode`.
-    func hasCachedTranslation(languageCode: String) -> Bool {
+    public func hasCachedTranslation(languageCode: String) -> Bool {
         !((translations[languageCode]?.name ?? "").isEmpty)
     }
 
@@ -315,7 +320,7 @@ extension RecipeFB {
     /// The recipe list translates names and summaries ahead of time, so a
     /// recipe can read translated at the top and still be German below;
     /// only the complete translation spares the recipe screen a new one.
-    func hasCompleteTranslation(languageCode: String) -> Bool {
+    public func hasCompleteTranslation(languageCode: String) -> Bool {
         guard hasCachedTranslation(languageCode: languageCode) else { return false }
 
         for component in components {
@@ -333,7 +338,7 @@ extension RecipeFB {
     /// text in that slot is the original, not a translation of it. Left where it
     /// is, the app would keep finding an "already translated" version of the
     /// language it is asked to translate into.
-    func moveCachedTranslation(from oldCode: String, to newCode: String) {
+    public func moveCachedTranslation(from oldCode: String, to newCode: String) {
         guard !oldCode.isEmpty, !newCode.isEmpty, oldCode != newCode else { return }
 
         if let text = translations.removeValue(forKey: oldCode) {
@@ -395,7 +400,7 @@ extension RecipeFB {
         translations[languageCode] ?? translations[Self.baseLanguageCode(from: languageCode)]
     }
 
-    var firestoreTranslationsData: [String: Any] {
+    public var firestoreTranslationsData: [String: Any] {
         translations.compactMapValues { text in
             let data = text.firestoreData
             return data.isEmpty ? nil : data
@@ -403,7 +408,7 @@ extension RecipeFB {
     }
 
     /// Full Cloud Storage path of the recipe image.
-    var imageStoragePath: String {
+    public var imageStoragePath: String {
         RecipeFB.imageFolder + "/" + image + ".jpg"
     }
 
@@ -417,7 +422,7 @@ extension RecipeFB {
     /// Identifiers are deliberately not carried over: the new document and its
     /// subdocuments get their own. `totalWeight` starts at zero because the
     /// upload recalculates it from the ingredients.
-    func copyForUpload() -> RecipeFB {
+    public func copyForUpload() -> RecipeFB {
         let copy = RecipeFB()
 
         copy.name            = name
@@ -473,7 +478,7 @@ extension RecipeFB {
     /// because the edit is written back to that very document. The screen
     /// keeps showing the original until the save has gone through, so a
     /// cancelled or failed edit changes nothing.
-    func editableCopy() -> RecipeFB {
+    public func editableCopy() -> RecipeFB {
         let copy = copyForUpload()
 
         copy.id          = id
@@ -498,7 +503,7 @@ extension RecipeFB {
 
     /// Takes over the content of an edited copy once that copy has been
     /// saved, so the screen shows what the cloud now holds.
-    func adopt(_ edited: RecipeFB) {
+    public func adopt(_ edited: RecipeFB) {
         name           = edited.name
         summary        = edited.summary
         urlLink        = edited.urlLink
@@ -516,7 +521,7 @@ extension RecipeFB {
     /// and refreshes that one from the live text. After an edit the other
     /// languages describe a recipe that no longer exists; they are
     /// translated again on demand.
-    func resetTranslations(keeping languageCode: String) {
+    public func resetTranslations(keeping languageCode: String) {
         translations = [:]
         for component in components {
             component.translations = [:]
@@ -531,11 +536,11 @@ extension RecipeFB {
         storeLocalization(languageCode: languageCode)
     }
 
-    static var preferredLanguageCode: String {
+    public static var preferredLanguageCode: String {
         baseLanguageCode(from: AppSettings.localeIdentifier())
     }
 
-    static func baseLanguageCode(from identifier: String) -> String {
+    public static func baseLanguageCode(from identifier: String) -> String {
         identifier
             .replacingOccurrences(of: "-", with: "_")
             .split(separator: "_")
@@ -545,7 +550,7 @@ extension RecipeFB {
 }
 
 extension ComponentFB {
-    func applyLocalization(languageCode: String) {
+    public func applyLocalization(languageCode: String) {
         if let localizedName = translations[languageCode]?.name ?? translations[RecipeFB.baseLanguageCode(from: languageCode)]?.name {
             name = localizedName
         }
@@ -555,7 +560,7 @@ extension ComponentFB {
         }
     }
 
-    func captureLocalization(languageCode: String) {
+    public func captureLocalization(languageCode: String) {
         translations[languageCode] = NamedTextFB(name: name)
 
         for ingredient in ingredients {
@@ -563,7 +568,7 @@ extension ComponentFB {
         }
     }
 
-    var firestoreTranslationsData: [String: Any] {
+    public var firestoreTranslationsData: [String: Any] {
         translations.compactMapValues { text in
             let data = text.firestoreData
             return data.isEmpty ? nil : data
@@ -572,18 +577,18 @@ extension ComponentFB {
 }
 
 extension IngredientFB {
-    func applyLocalization(languageCode: String) {
+    public func applyLocalization(languageCode: String) {
         if let text = translations[languageCode] ?? translations[RecipeFB.baseLanguageCode(from: languageCode)] {
             name = text.name ?? name
             unit = text.unit ?? unit
         }
     }
 
-    func captureLocalization(languageCode: String) {
+    public func captureLocalization(languageCode: String) {
         translations[languageCode] = IngredientTextFB(name: name, unit: unit)
     }
 
-    var firestoreTranslationsData: [String: Any] {
+    public var firestoreTranslationsData: [String: Any] {
         translations.compactMapValues { text in
             let data = text.firestoreData
             return data.isEmpty ? nil : data
@@ -592,17 +597,17 @@ extension IngredientFB {
 }
 
 extension InstructionFB {
-    func applyLocalization(languageCode: String) {
+    public func applyLocalization(languageCode: String) {
         if let localizedInstruction = translations[languageCode]?.instruction ?? translations[RecipeFB.baseLanguageCode(from: languageCode)]?.instruction {
             instruction = localizedInstruction
         }
     }
 
-    func captureLocalization(languageCode: String) {
+    public func captureLocalization(languageCode: String) {
         translations[languageCode] = InstructionTextFB(instruction: instruction)
     }
 
-    var firestoreTranslationsData: [String: Any] {
+    public var firestoreTranslationsData: [String: Any] {
         translations.compactMapValues { text in
             let data = text.firestoreData
             return data.isEmpty ? nil : data

@@ -9,6 +9,7 @@
 //  the next plan of the same recipe, not the history list.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 

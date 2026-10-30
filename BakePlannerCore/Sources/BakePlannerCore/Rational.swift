@@ -1,18 +1,19 @@
 //
 //  Rational.swift
-//  PetersBackPlaner
+//  BakePlannerCore
 //
 //  Created by Hans-Peter Müller on 05.11.21.
 //
 
-import BakePlannerCore
 import Foundation
 
 
-struct CalcIngredientWeight {
+public struct CalcIngredientWeight {
+
+    public init() {}
     
     // MARK: CalcIngredientsWeight
-    func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
+    public func calcIngredientWeight(weight:Double, unit:String, name:String, num:Int, denom:Int) -> Double {
         // "tsp" or "c. à s." from an imported recipe count as the bundled
         // TL and EL; they used to fall through and be read as grams.
         let knownUnit = UnitLocalizer.canonicalAbbreviation(for: unit) ?? unit
@@ -56,12 +57,12 @@ struct CalcIngredientWeight {
     }
 }
 
-class Rational {
+public class Rational {
 
     // MARK: GetPortion
     /// The amount at a serving size given in half steps (2 = the recipe as
     /// stored). Kept for the callers that still think in those steps.
-    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int,
+    public static func getPortion(unit:String, weight: Double, num:Int, denom:Int, targetServings:Int,
                            unitStyle: UnitLocalizer.Style = .abbreviation) -> String {
         getPortion(unit: unit, weight: weight, num: num, denom: denom, scale: Double(targetServings) / 2,
                    unitStyle: unitStyle)
@@ -77,7 +78,7 @@ class Rational {
     ///
     /// The unit appears in the app's language (see UnitLocalizer); `.name`
     /// spells it out, for reading aloud.
-    static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double,
+    public static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double,
                            unitStyle: UnitLocalizer.Style = .abbreviation) -> String {
 
         var portion            = ""
@@ -155,7 +156,7 @@ class Rational {
     /// 10 upwards, one decimal below that ("1,5 EL", "2,5 g Hefe"), with the
     /// decimal separator of the app's language. Scaling used to produce
     /// "82.582 g", which nobody can weigh and which wrapped the columns.
-    static func formattedAmount(_ value: Double) -> String {
+    public static func formattedAmount(_ value: Double) -> String {
         let rounded = value >= 10 ? value.rounded() : (value * 10).rounded() / 10
         return rounded.formatted(
             .number
@@ -166,7 +167,7 @@ class Rational {
     }
 
     // MARK: DecimalPlace
-    static func decimalPlace(_ nDouble:Double, _ decimalPlace:Int) -> String {
+    public static func decimalPlace(_ nDouble:Double, _ decimalPlace:Int) -> String {
         
         var numberString = ""
         var numberDouble = nDouble
@@ -192,7 +193,7 @@ class Rational {
     }
     
     // MARK: GreatestCommonDivisor
-    static func greatestCommonDivisor(_ a: Int, _ b: Int) -> Int {
+    public static func greatestCommonDivisor(_ a: Int, _ b: Int) -> Int {
         
         // GCD(0, b) = b
         if a == 0 { return b }
@@ -205,7 +206,7 @@ class Rational {
     }
     
     // MARK: DisplayHoursMinutes
-    static func displayHoursMinutes(_ d:Int) -> String {
+    public static func displayHoursMinutes(_ d:Int) -> String {
         var m = d
         if m == 0 {
             return("")
@@ -228,11 +229,16 @@ class Rational {
     /// A component and the components it uses up, as far as the scheduling of
     /// parallel preparation steps needs to know. A row without a weight whose
     /// name begins with "gesamte" ("gesamte Sauerteigstufe 1") is such a use.
-    struct ComponentDependency {
-        let name: String
-        let requires: [String]
+    public struct ComponentDependency {
+        public let name: String
+        public let requires: [String]
 
-        static func requirements(
+        public init(name: String, requires: [String]) {
+            self.name = name
+            self.requires = requires
+        }
+
+        public static func requirements(
             of ingredientNames: [String],
             componentNames: [String],
             excluding ownName: String
@@ -252,7 +258,7 @@ class Rational {
             }
         }
 
-        static func from(_ components: [ComponentFB]) -> [ComponentDependency] {
+        public static func from(_ components: [ComponentFB]) -> [ComponentDependency] {
             let names = components.map { $0.name }
             return components.map { component in
                 ComponentDependency(
@@ -271,7 +277,7 @@ class Rational {
     /// Minutes between the starts of parallel component preparations that do
     /// not wait for one another: the handling time for mixing one pre-dough
     /// before the next.
-    static let preparationStaggerMinutes = 5
+    public static let preparationStaggerMinutes = 5
 
     /// Places every step on the timeline and returns the instructions with their
     /// `startTime` in minutes after `startDate`.
@@ -292,7 +298,7 @@ class Rational {
     ///   is what a folding intervention inside a resting step needs.
     ///
     /// Passing no `dependencies` keeps the previous behaviour for every step.
-    static func calculateStartTimes(
+    public static func calculateStartTimes(
         _ instructions: [InstructionFB],
         _ startDate: Date,
         dependencies: [ComponentDependency] = []
@@ -380,11 +386,13 @@ class Rational {
 }
 
 // MARK: DateFormat
-struct DateFormat {
+public struct DateFormat {
     
-    let formatter = DateFormatter()
+    public let formatter = DateFormatter()
+
+    public init() {}
     
-    func calculateDate(dT: Date) -> String {
+    public func calculateDate(dT: Date) -> String {
         
         formatter.dateStyle = .short
         formatter.timeStyle = .none

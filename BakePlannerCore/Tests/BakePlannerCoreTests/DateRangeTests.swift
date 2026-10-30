@@ -1,11 +1,11 @@
 //
 //  DateRangeTests.swift
-//  BackPlanerTests
+//  BakePlannerCoreTests
 //
 
 import Foundation
 import Testing
-@testable import BackPlaner
+@testable import BakePlannerCore
 
 @Suite("Date ranges offered by the date pickers")
 struct DateRangeTests {

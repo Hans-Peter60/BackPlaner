@@ -14,6 +14,7 @@
 //  `PlanTimelineScale` and `PlanTimelineLane`; only the directions differ.
 //
 
+import BakePlannerCore
 import SwiftUI
 import CoreData
 

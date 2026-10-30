@@ -9,6 +9,7 @@
 //  repository later can be checked against them.
 //
 
+import BakePlannerCore
 import CoreData
 import Foundation
 import Testing

@@ -8,6 +8,7 @@
 //  value is made from.
 //
 
+import BakePlannerCore
 import CoreData
 import Foundation
 import Testing

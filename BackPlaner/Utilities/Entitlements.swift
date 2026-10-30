@@ -12,6 +12,7 @@
 //  configuration everything is free.
 //
 
+import BakePlannerCore
 import Foundation
 import Observation
 import WidgetKit

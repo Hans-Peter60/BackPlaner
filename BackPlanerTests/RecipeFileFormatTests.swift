@@ -7,6 +7,7 @@
 //  calculation logic sees once the app has started.
 //
 
+import BakePlannerCore
 import Foundation
 import Testing
 @testable import BackPlaner

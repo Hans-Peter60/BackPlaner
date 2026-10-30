@@ -5,6 +5,7 @@
 //  Created by Hans-Peter Müller on 22.11.21.
 //
 
+import BakePlannerCore
 import Foundation
 import UIKit
 import FirebaseFirestore

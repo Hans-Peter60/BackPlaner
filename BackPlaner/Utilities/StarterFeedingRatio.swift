@@ -10,6 +10,7 @@
 //  sync with it.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum StarterFeedingRatio {

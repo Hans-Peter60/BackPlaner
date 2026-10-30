@@ -1,9 +1,8 @@
 //
 //  UnitLocalizer.swift
-//  BackPlaner
+//  BakePlannerCore
 //
 
-import BakePlannerCore
 import Foundation
 
 /// Units in the language of the app, and units from any language back to the
@@ -21,9 +20,9 @@ import Foundation
 /// as grams. `normalizeUnits(in:)` turns them into the bundled abbreviation;
 /// pounds and ounces become grams, because the bundled "Pfund" is the German
 /// 500 g pound and would be 10 % off.
-enum UnitLocalizer {
+public enum UnitLocalizer {
 
-    enum Style {
+    public enum Style {
         /// "tsp", for amounts in lists.
         case abbreviation
         /// "teaspoons", for the unit picker and for reading aloud.
@@ -35,7 +34,7 @@ enum UnitLocalizer {
     /// The stored unit as the app's language shows it, for `amount` of it.
     /// A unit the app does not ship (a custom or a free-text one) comes back
     /// unchanged.
-    static func display(_ unit: String,
+    public static func display(_ unit: String,
                         amount: Double = 1,
                         style: Style = .abbreviation,
                         language: String = UnitLocalizer.appLanguage,
@@ -55,7 +54,7 @@ enum UnitLocalizer {
     }
 
     /// "tsp – teaspoon": the line the unit picker offers for a unit.
-    static func menuTitle(for unitSet: UnitSetFB,
+    public static func menuTitle(for unitSet: UnitSetFB,
                           language: String = UnitLocalizer.appLanguage,
                           bundle: Bundle = AppSettings.localizationBundle) -> String {
         // A custom unit is the user's own wording in every language.
@@ -69,7 +68,7 @@ enum UnitLocalizer {
 
     /// The language the app shows: the one picked in Settings, or the
     /// system's choice among the app's localizations.
-    static var appLanguage: String {
+    public static var appLanguage: String {
         let stored = AppSettings.storedLanguage
         return stored.isEmpty ? (Bundle.main.preferredLocalizations.first ?? "de") : stored
     }
@@ -97,7 +96,7 @@ enum UnitLocalizer {
 
     /// The bundled abbreviation for a unit written in German, English or
     /// French, or nil when it is none the app ships.
-    static func canonicalAbbreviation(for unit: String) -> String? {
+    public static func canonicalAbbreviation(for unit: String) -> String? {
         let key = comparable(unit)
         guard !key.isEmpty else { return nil }
         if let direct = bundledAbbreviation(matching: unit.trimmingCharacters(in: .whitespacesAndNewlines)) {
@@ -165,7 +164,7 @@ enum UnitLocalizer {
     /// Gives every ingredient of an imported recipe the unit the app knows:
     /// the bundled abbreviation where the spelling is a known one, grams for
     /// pounds and ounces, anything else left as it came.
-    static func normalizeUnits(in recipe: RecipeFB) {
+    public static func normalizeUnits(in recipe: RecipeFB) {
         for component in recipe.components {
             for ingredient in component.ingredients {
                 normalize(ingredient)
@@ -173,7 +172,7 @@ enum UnitLocalizer {
         }
     }
 
-    static func normalize(_ ingredient: IngredientFB) {
+    public static func normalize(_ ingredient: IngredientFB) {
         let unit = ingredient.unit.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !unit.isEmpty else { return }
 

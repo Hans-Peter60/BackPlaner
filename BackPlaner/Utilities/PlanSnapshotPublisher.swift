@@ -9,6 +9,7 @@
 //  changes arriving from iCloud.
 //
 
+import BakePlannerCore
 import CoreData
 import WidgetKit
 import os

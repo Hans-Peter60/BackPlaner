@@ -8,6 +8,7 @@
 //  keeping the previous horizontal layout on iPhone landscape and on iPad.
 //
 
+import BakePlannerCore
 import SwiftUI
 
 /// True only when running on a compact-width, regular-height layout — i.e. an

@@ -8,6 +8,7 @@
 //  tests use a store in memory, and another platform can bring its own.
 //
 
+import BakePlannerCore
 import Foundation
 
 /// One scheduled step of a plan — the same fields as the Core Data entity

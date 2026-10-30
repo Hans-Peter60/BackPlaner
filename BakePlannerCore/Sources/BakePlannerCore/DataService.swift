@@ -1,6 +1,6 @@
 //
 //  DataService.swift
-//  PetersBackPlaner
+//  BakePlannerCore
 //
 //  Created by Hans-Peter Müller on 05.11.21.
 //
@@ -8,9 +8,9 @@
 import Foundation
 import os
 
-class DataService {
+public class DataService {
     
-    static func getUnitSets() -> [UnitSetFB] {
+    public static func getUnitSets() -> [UnitSetFB] {
         
         // Parse local json file
 

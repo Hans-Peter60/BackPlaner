@@ -14,6 +14,7 @@
 //  doesn't depend on where the recipe came from.
 //
 
+import BakePlannerCore
 import Foundation
 
 enum TimedFoldExpansion {

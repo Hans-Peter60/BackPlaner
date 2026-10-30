@@ -7,6 +7,7 @@
 //  of nothing but ingredient names is a separate case the tests state outright.
 //
 
+import BakePlannerCore
 import Foundation
 @testable import BackPlaner
 
