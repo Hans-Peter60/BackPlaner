@@ -6,8 +6,9 @@
 //  through Foundation's String(localized:bundle:locale:comment:). Foundation
 //  elsewhere (Android) has no such initializer. There this file stands in
 //  for it, so the same call sites compile: the text is looked up through
-//  `CoreLocalization.lookup`, which the app installs, and stays German
-//  without one. Nothing here changes what the iOS app shows.
+//  `CoreLocalization.lookup` — by default in the app's catalog as generated
+//  into the package — and stays German where it has no translation. Nothing
+//  here changes what the iOS app shows.
 //
 
 import Foundation
@@ -16,7 +17,23 @@ public enum CoreLocalization {
     /// The translation of a catalog key — the German text with `%@` and
     /// `%lld` where values go, as the app's catalog keys it — or `nil` to keep
     /// the German text. Only consulted where Foundation cannot localize.
-    public static var lookup: (String) -> String? = { _ in nil }
+    /// Answers from the app's catalog as generated into the package
+    /// (PackageTranslations), in the language the app shows.
+    public static var lookup: (String) -> String? = { key in
+        translation(of: key, language: languageCode)
+    }
+
+    /// The text for `key` in `language` ("en", "fr"), from the app's catalog.
+    static func translation(of key: String, language: String) -> String? {
+        PackageTranslations.table[key]?[language]
+    }
+
+    /// The language the app shows: the one picked in Settings, else the
+    /// system's, without its region.
+    static var languageCode: String {
+        let stored = AppSettings.storedLanguage
+        return RecipeFB.baseLanguageCode(from: stored.isEmpty ? Locale.current.identifier : stored)
+    }
 
     /// `format` with its placeholders (`%@`, `%lld`, `%d`, `%lf`, also
     /// numbered like `%2$@`) replaced by `arguments` in order, and `%%` as

@@ -48,9 +48,21 @@ public enum UnitLocalizer {
 
         let base = "unit.\(abbreviation)" + (style == .name ? ".name" : "")
         let plural = isPlural(amount, language: language)
-        let fallback = bundle.localizedString(forKey: base, value: style == .name ? germanName(of: abbreviation) : abbreviation, table: nil)
+        let fallback = text(forKey: base, value: style == .name ? germanName(of: abbreviation) : abbreviation,
+                            language: language, bundle: bundle)
         guard plural else { return fallback }
-        return bundle.localizedString(forKey: base + ".plural", value: fallback, table: nil)
+        return text(forKey: base + ".plural", value: fallback, language: language, bundle: bundle)
+    }
+
+    /// A unit's word from the app's catalog. Where Foundation cannot read
+    /// the app's bundle (Android), from the catalog as generated into the
+    /// package.
+    private static func text(forKey key: String, value: String, language: String, bundle: Bundle) -> String {
+        #if canImport(Darwin)
+        bundle.localizedString(forKey: key, value: value, table: nil)
+        #else
+        CoreLocalization.translation(of: key, language: RecipeFB.baseLanguageCode(from: language)) ?? value
+        #endif
     }
 
     /// "tsp – teaspoon": the line the unit picker offers for a unit.
@@ -70,7 +82,11 @@ public enum UnitLocalizer {
     /// system's choice among the app's localizations.
     public static var appLanguage: String {
         let stored = AppSettings.storedLanguage
+        #if canImport(Darwin)
         return stored.isEmpty ? (Bundle.main.preferredLocalizations.first ?? "de") : stored
+        #else
+        return CoreLocalization.languageCode
+        #endif
     }
 
     /// English uses the plural for anything above one, French from two on.

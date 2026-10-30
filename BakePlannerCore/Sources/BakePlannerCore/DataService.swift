@@ -13,7 +13,11 @@ import os
 public class DataService {
     
     public static func getUnitSets() -> [UnitSetFB] {
-        
+        #if !canImport(Darwin)
+        // No app bundle to read from: the same file, generated into the
+        // package (scripts/generate-package-data.py).
+        return unitSets(from: Data(BundledUnitSetsData.json.utf8))
+        #else
         // Parse local json file
 
         // Get a url path to the json file
@@ -59,5 +63,15 @@ public class DataService {
             #endif
         }
         return [UnitSetFB]()
+        #endif
+    }
+
+    /// The units in a UnitSets.json, each with an id of its own.
+    static func unitSets(from data: Data) -> [UnitSetFB] {
+        guard let unitSets = try? JSONDecoder().decode([UnitSetFB].self, from: data) else { return [] }
+        for unitSet in unitSets {
+            unitSet.id = UUID().uuidString
+        }
+        return unitSets
     }
 }

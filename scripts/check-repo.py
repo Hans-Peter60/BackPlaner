@@ -11,6 +11,9 @@ Run by the GitHub Action on every pull request, and locally with
 - Package strings: every text the shared package (BakePlannerCore) shows
   is in the app's catalog, which translates it at run time, and has an
   English and a French entry there.
+- Package data: the translations and units generated into the package for
+  Android (scripts/generate-package-data.py) match the catalog and
+  UnitSets.json.
 - Xcode project: project.pbxproj parses, every object it refers to exists,
   and every source file it lists is where it says.
 - User manual: the website pages match the Markdown, i.e. build-manual-html.py
@@ -116,6 +119,14 @@ def check_package_strings() -> list[str]:
     return findings
 
 
+def check_package_data() -> list[str]:
+    result = subprocess.run([sys.executable, str(ROOT / "scripts/generate-package-data.py"), "--check"],
+                            cwd=ROOT, capture_output=True, text=True)
+    if result.returncode != 0:
+        return [line for line in (result.stdout + result.stderr).splitlines() if line.strip()]
+    return []
+
+
 def check_project() -> list[str]:
     try:
         import openstep_parser
@@ -191,6 +202,7 @@ def main() -> int:
     sections = [
         ("String catalogs", check_catalogs),
         ("Package strings", check_package_strings),
+        ("Package data", check_package_data),
         ("Xcode project", check_project),
         ("User manual", check_manual),
     ]

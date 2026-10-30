@@ -19,7 +19,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 
 ## Prüfen und Testen
 - Unit-Tests: `xcodebuild test -scheme BackPlaner -testPlan UnitTests -destination 'id=<udid>'`. Hängt der Test-Runner beim Start, anderen Simulator nehmen (iOS 27.x).
-- Repository-Prüfung (String-Kataloge en/fr vollständig, Projektdatei, Handbuch-HTML aktuell): `python3 scripts/check-repo.py`.
+- Repository-Prüfung (String-Kataloge en/fr vollständig, Paket-Texte und erzeugte Paketdaten aktuell, Projektdatei, Handbuch-HTML aktuell): `python3 scripts/check-repo.py`.
 - Functions: `cd functions && npm run lint && npm run build`. Regeln: `cd firebase/tests && npm test` (braucht Java).
 - Details: `docs/CI.md`. Die App selbst baut Xcode Cloud, GitHub Actions prüft den Rest.
 
@@ -27,6 +27,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - Quelltext-Kommentare und Commit-Nachrichten auf Englisch; Commit-Betreff beschreibt das Ergebnis für den Nutzer (z. B. „The timeline opens first under …").
 - UI-Texte auf Deutsch als Schlüssel in `Localizable.xcstrings`; **jeder neue Text braucht en und fr**, sonst schlägt `check-repo.py` fehl.
 - Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
+- Für Android bringt das Paket Übersetzungen und Einheiten als erzeugte Dateien mit (`BakePlannerCore/Sources/BakePlannerCore/Generated/`). Nach Änderungen an diesen Katalogeinträgen, an `unit.*`-Einträgen oder an `UnitSets.json`: `python3 scripts/generate-package-data.py` ausführen; `check-repo.py` prüft, dass die Dateien aktuell sind.
 - Neue Swift-Dateien müssen in `project.pbxproj` eingetragen sein.
 - Handbuch geändert → `python3 docs/build-manual-html.py` ausführen.
 - Logik gehört nach `Utilities/` und bekommt Unit-Tests; Rechenlogik (TA, Portionen, Zeitplan, Einheiten) nie ohne Test ändern.
