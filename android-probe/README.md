@@ -161,5 +161,7 @@ cp android-probe/Sources/BakePlannerProbe/NotificationProbeView.swift android-pr
 | B | „Drei Erinnerungen“ antippen, App offen lassen | Kommen sie zur geplanten Minute? Steht „Im Vordergrund angekommen“ im Protokoll? |
 | C | „Ausstehende anzeigen“, dann „Die 2-Minuten-Erinnerung löschen“ | Werden drei angezeigt? Kommt die gelöschte trotzdem? |
 | D | „Drei Erinnerungen“ antippen, App in den Hintergrund (Home) | Kommen sie pünktlich? Sind „Erledigt“ und „Verschieben um …“ zu sehen? |
-| E | Bei einer Erinnerung „Erledigt“ antippen, bei einer anderen „Verschieben um …“ mit „15“ | Was steht danach im Protokoll der App? |
+| E | iPhone: bei einer Erinnerung „Erledigt“ antippen, bei einer anderen „Verschieben um …“ mit „15“. Android: die Erinnerung selbst antippen (Aktionen gibt es dort nicht, siehe unten) | Was steht danach im Protokoll der App? |
 | F | „Erinnerung in 1 Minute, dann App schließen“, App aus der App-Übersicht wegwischen | Kommt die Erinnerung trotzdem? |
+
+Ergebnis des ersten Builds (30.10.2026): Auf Android stellt Skip `UNNotificationAction`, `UNTextInputNotificationAction`, `UNNotificationCategory` und `UNTextInputNotificationResponse` nicht bereit, und `pendingNotificationRequests()` liefert untypisierte Werte. Die Probe lässt diese Teile auf Android deshalb weg (`#if !os(Android)`).

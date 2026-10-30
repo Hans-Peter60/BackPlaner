@@ -51,9 +51,12 @@ final class NotificationProbeDelegate: NSObject, UNUserNotificationCenterDelegat
         let body = response.notification.request.content.body
         let step = response.notification.request.content.userInfo["step"] as? String ?? "?"
         var text = "Aktion „\(action)“ bei „\(body)“ (Schritt \(step))"
+        #if !os(Android)
+        // Skip has no text-input actions on Android (first run, 30.10.2026).
         if let input = response as? UNTextInputNotificationResponse {
             text += ", eingegeben: „\(input.userText)“"
         }
+        #endif
         await log.add(text)
     }
 }
@@ -63,7 +66,10 @@ enum NotificationProbe {
     static let doneAction = "probe.done"
     static let postponeAction = "probe.postpone"
 
+    /// Skip has no notification actions or categories on Android (first
+    /// run, 30.10.2026): the reminders arrive there without buttons.
     static func registerCategory() {
+        #if !os(Android)
         let done = UNNotificationAction(identifier: doneAction, title: "Erledigt", options: [])
         let postpone = UNTextInputNotificationAction(identifier: postponeAction,
                                                      title: "Verschieben um …",
@@ -74,6 +80,7 @@ enum NotificationProbe {
                                               actions: [done, postpone],
                                               intentIdentifiers: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
+        #endif
     }
 
     /// A reminder at a fixed minute, built like the app builds its own.
@@ -186,7 +193,8 @@ struct NotificationProbeView: View {
 
     func refreshPending() async {
         let requests = await UNUserNotificationCenter.current().pendingNotificationRequests()
-        pending = requests.map(\.identifier).sorted()
+        // Untyped on Android, so cast each one.
+        pending = requests.compactMap { ($0 as? UNNotificationRequest)?.identifier }.sorted()
         log.add("Ausstehend: \(pending.count)")
     }
 }
