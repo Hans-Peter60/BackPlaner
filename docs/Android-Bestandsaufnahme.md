@@ -90,6 +90,14 @@ Im Package liegt die plattformneutrale Logik der App: Einstellungen, Einheiten u
 In der App bleibt, was an Apple-Diensten hängt: Core Data mit CloudKit und die Brücken dorthin (`CoreDataLogicAdapters`, `CoreDataScheduledStepStore`, `BakePlanScheduler`, `RecipeExport`), Erinnerungen, Siri, Live-Aktivität, Vision-Texterkennung und KI-Import, Übersetzung, StoreKit, Firebase, die Übergabe der Share-Extension und alle Views.
 Vor einem Android-Build zu klären: `String(localized:bundle:)` und `Bundle.main` (Einheitentabelle `UnitSets.json`, Sprachpakete) lesen auf iOS aus dem App-Bundle; auf Android braucht das Package eigene Ressourcen oder eine Quelle, die die App hineinreicht. Der dritte Lauf in `android-probe/` zeigt, was davon tatsächlich fehlt.
 
+### Dritter Skip-Lauf: das Package auf Android (30.10.2026)
+`BakePlannerCore` baut mit dem Swift SDK für Android (Skip Fuse), und alle 195 Tests in 23 Suiten bestehen dort (`skip android test` im Package-Ordner, Build-Ordner außerhalb von iCloud). Dafür nötig waren:
+- `#if canImport` um CoreGraphics und `os` (auch in einer Testdatei).
+- `PortableLocalization.swift`: Android-Foundation kennt `String(localized:bundle:locale:comment:)` nicht. Außerhalb von Apple-Plattformen ersetzt das Package den Aufruf mit gleicher Form; der Text wird wie im App-Katalog verschlüsselt („„%@““), über `CoreLocalization.lookup` übersetzt (ohne Quelle bleibt er deutsch) und mit den Werten gefüllt. Auf iOS wird das nicht kompiliert.
+- `Measurement.formatted` fehlt dort ebenfalls; Temperaturen schreibt das Package auf Android mit einem einfachen Zahlenformat.
+
+Offen für eine Android-App: eine Übersetzungsquelle für `CoreLocalization.lookup` (aus dem App-Katalog erzeugt) und die Einheitentabelle `UnitSets.json`, die `DataService` auf iOS aus `Bundle.main` liest; auf Android ist sie leer, bis die App sie mitbringt.
+
 ### Skip-Probelauf (Schritt 3, vorgezogen)
 `android-probe/` enthält ein `@Observable`-Modell, eine SwiftUI-Ansicht, die Erinnerungs-Probe und XCTest-Tests; die Logik kommt seit Schritt 2b-7b aus `BakePlannerCore` (die ersten beiden Läufe nutzten Kopien). Der Ordner gehört zu keinem Xcode-Ziel. Anleitung in `android-probe/README.md`.
 
