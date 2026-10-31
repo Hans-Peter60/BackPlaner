@@ -435,16 +435,14 @@ struct ShoppingCartSelectFormView: View {
     }
 
     private func finishAdding(_ entries: [ShoppingCartEntry], to shoppingCart: ShoppingCart, isNewList: Bool) {
-        // The list as it stands, each line keyed by its place, so the
-        // result can be written back onto the same objects.
-        let ingredients = shoppingCart.ingredientsArray
-        let lines = ingredients.enumerated().map { index, ingredient in
-            ShoppingListLine(key: String(index), name: ingredient.name, unit: ingredient.unit,
+        // The list as it stands, each line keyed so the result can be
+        // written back onto the same objects.
+        let lines = shoppingCart.ingredientsArray.map { ingredient in
+            ShoppingListLine(key: ingredient.storeKey, name: ingredient.name, unit: ingredient.unit,
                              weight: ingredient.weight, normWeight: ingredient.normWeight,
                              num: ingredient.num, denom: ingredient.denom)
         }
-        let result = ShoppingListBuilder.adding(entries, to: lines)
-        write(result, onto: ingredients, of: shoppingCart)
+        shoppingCart.apply(ShoppingListBuilder.adding(entries, to: lines), in: viewContext)
 
         switch source {
         case .localRecipe(let recipe):
@@ -464,38 +462,6 @@ struct ShoppingCartSelectFormView: View {
             }
         } catch {
             AppLog.shoppingCart.error("Einkaufsliste konnte nicht gespeichert werden: \(error)")
-        }
-    }
-
-    /// Updates the list's ingredients to `lines`: lines kept from before
-    /// change their object, new lines get one, and objects whose line was
-    /// merged into another are deleted.
-    private func write(_ lines: [ShoppingListLine], onto ingredients: [Ingredient], of shoppingCart: ShoppingCart) {
-        var kept = Set<Int>()
-
-        for line in lines {
-            let ingredient: Ingredient
-            if let key = line.key, let index = Int(key), ingredients.indices.contains(index) {
-                ingredient = ingredients[index]
-                kept.insert(index)
-            } else {
-                ingredient = Ingredient(context: viewContext)
-                ingredient.id = UUID()
-                ingredient.number = 0
-                shoppingCart.addToIngredients(ingredient)
-            }
-            // Assigned only where something changed, so an untouched line is
-            // not sent through iCloud again.
-            if ingredient.name != line.name { ingredient.name = line.name }
-            if ingredient.unit != line.unit { ingredient.unit = line.unit }
-            if ingredient.weight != line.weight { ingredient.weight = line.weight }
-            if ingredient.normWeight != line.normWeight { ingredient.normWeight = line.normWeight }
-            if ingredient.num != line.num { ingredient.num = line.num }
-            if ingredient.denom != line.denom { ingredient.denom = line.denom }
-        }
-
-        for (index, ingredient) in ingredients.enumerated() where !kept.contains(index) {
-            viewContext.delete(ingredient)
         }
     }
 }
