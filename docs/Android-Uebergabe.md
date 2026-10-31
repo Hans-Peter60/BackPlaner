@@ -89,7 +89,13 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 
 ## Offen
 
-1. **Die übrigen Speicher:** Backhistorie, Anstellgut-Tagebuch, Einkaufslisten, geplante Schritte. Jeweils Protokoll und Vertrag in `BakePlannerCore`, Core-Data-Umsetzung in der App, SQLite-Umsetzung in `BakePlannerStorage`, nach dem Muster der Rezepte.
-2. **Wartet auf Hans-Peters Entscheidung:** Soll die Sicherungsdatei um Backhistorie, Anstellgut-Tagebuch usw. erweitert werden? Das braucht eine neue Formatversion. Laut `CLAUDE.md` nur mit seiner Zustimmung.
-3. **Später:** Planung und Erinnerungen auf Android (eigener Android-Code), Backmodus, Einkaufsliste, öffentliche Rezepte über Firebase, Pro über Play Billing.
-4. **Kleiner Wunsch, falls gewünscht:** eine Warnung, wenn sich zwei Pläne desselben Rezepts überschneiden. Die Plan-Prüfung vergleicht bisher nur verschiedene Rezepte.
+1. **Einkaufsliste (Schritt 5), beschlossen am 31.10.2026:**
+   - **5a:** Die Logik steckt heute in der View `BackPlaner/Views/ShoppingCartViews/ShoppingCartSelectFormView.swift`: Wasser, Salz und Anstellgut aussortieren, Komponenten-Zeilen weglassen, auf die Menge umrechnen, Eier in Stück, Namen vereinheitlichen, gleiche Zutaten zusammenfassen (auch über Einheiten), Brüche addieren. Sie kommt ins Paket (`ShoppingListBuilder`), ebenso `ShoppingListCategory`, dessen Regal-Überschriften als Erweiterung in der App bleiben. Die iOS-View ruft das Paket auf, ihr Verhalten bleibt gleich (`ShoppingListTests` grün, neue Paket-Tests).
+   - **5b:** `ShoppingListStore` mit Structs (Liste: Datum, Rezeptnamen, Zeilen), Vertrag, Speicher im Arbeitsspeicher, `CoreDataShoppingListStore` (Entität `ShoppingCart` mit `Ingredient`-Zeilen, Bezug zu `Recipe`, `cloudRecipeNames`).
+   - **5c:** `SQLiteShoppingListStore` in `BakePlannerStorage`, Vertrag auf Mac und Android.
+   - **5d:** Android: Reiter „Rezepte“ / „Einkaufslisten“, Listen nach Datum, Zeilen nach Regalen, Menge ändern, Zeile entfernen, Liste löschen; in der Rezeptdetailansicht „Auf die Einkaufsliste“ (neue oder bestehende Liste, gewählte Menge).
+   - Nicht dabei: Übersetzung der Zutatennamen öffentlicher Rezepte (Apple-Übersetzungsdienst), Abhaken (kann die iOS-App auch nicht).
+2. **Die übrigen Speicher:** Backhistorie, Anstellgut-Tagebuch, geplante Schritte. Jeweils Protokoll und Vertrag in `BakePlannerCore`, Core-Data-Umsetzung in der App, SQLite-Umsetzung in `BakePlannerStorage`, nach dem Muster der Rezepte.
+3. **Wartet auf Hans-Peters Entscheidung:** Soll die Sicherungsdatei um Backhistorie, Anstellgut-Tagebuch usw. erweitert werden? Das braucht eine neue Formatversion. Laut `CLAUDE.md` nur mit seiner Zustimmung.
+4. **Später:** Planung und Erinnerungen auf Android (eigener Android-Code), Backmodus, öffentliche Rezepte über Firebase, Pro über Play Billing.
+5. **Kleiner Wunsch, falls gewünscht:** eine Warnung, wenn sich zwei Pläne desselben Rezepts überschneiden. Die Plan-Prüfung vergleicht bisher nur verschiedene Rezepte.
