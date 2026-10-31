@@ -166,7 +166,9 @@ struct InstructionsView: View {
                 // next one is planned. Only a bake that already happened:
                 // setting reminders creates an entry dated at the planned
                 // end, which has nothing to say yet.
-                if let lastBake = recipe.lastCompletedBakeHistory() {
+                // A starter is fed, not baked: no "last time" card, and no
+                // list of earlier bakes below.
+                if !StarterRecipe.isStarterFeeding(recipe), let lastBake = recipe.lastCompletedBakeHistory() {
                     LastBakeCardView(bakeHistory: lastBake, recipeName: recipe.name)
                 }
 
@@ -301,7 +303,7 @@ struct InstructionsView: View {
                 // Every bake of this recipe, newest first: the date, the
                 // recorded facts in one line, and the comment. An entry still
                 // ahead is the one just planned and is marked as such.
-                if !recipe.bakeHistoriesArray.isEmpty {
+                if !StarterRecipe.isStarterFeeding(recipe), !recipe.bakeHistoriesArray.isEmpty {
                     VStack(alignment: .leading, spacing: 10) {
 
                         Text("Bisherige Backvorgänge")

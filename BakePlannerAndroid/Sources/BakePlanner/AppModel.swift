@@ -42,6 +42,14 @@ final class AppModel {
     /// The bake history of every recipe, newest first, without photos.
     var bakeHistory: [StoredBakeHistory] = []
 
+    /// The bake history as it is shown: a starter is fed, not baked, so
+    /// entries an older iPhone version wrote for a planned starter stay
+    /// stored but are left out.
+    var shownBakeHistory: [StoredBakeHistory] {
+        let starters = Set(recipes.filter { StarterRecipe.isStarterFeeding($0.content) }.map(\.id))
+        return bakeHistory.filter { !starters.contains($0.recipeID) }
+    }
+
     private var store: SQLiteRecipeStore?
     private var listStore: SQLiteShoppingListStore?
     private var historyStore: SQLiteBakeHistoryStore?

@@ -26,7 +26,7 @@ struct BakeHistoryView: View {
                            startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
 
-            if model.bakeHistory.isEmpty {
+            if model.shownBakeHistory.isEmpty {
                 VStack(spacing: 12) {
                     Text("Noch keine Backhistorie")
                         .font(.title2)
@@ -54,7 +54,7 @@ struct BakeHistoryView: View {
                             }
                         }
                     } else {
-                        ForEach(model.bakeHistory, id: \.id) { entry in
+                        ForEach(model.shownBakeHistory, id: \.id) { entry in
                             Button {
                                 editedEntry = model.bakeEntry(id: entry.id)
                                 editsEntry = editedEntry != nil
@@ -64,7 +64,7 @@ struct BakeHistoryView: View {
                             }
                         }
                         .onDelete { offsets in
-                            entryToDelete = offsets.first.map { model.bakeHistory[$0] }
+                            entryToDelete = offsets.first.map { model.shownBakeHistory[$0] }
                             confirmsDeletion = entryToDelete != nil
                         }
                     }
@@ -100,7 +100,7 @@ struct BakeHistoryView: View {
     /// The recipes, most baked first, as the iPhone's hit list has them.
     private var hitList: [BakeHistoryTally.Recipe] {
         let ratings = Dictionary(model.recipes.map { ($0.id, $0.content.rating) }, uniquingKeysWith: { first, _ in first })
-        return BakeHistoryTally.recipes(from: model.bakeHistory.map { entry in
+        return BakeHistoryTally.recipes(from: model.shownBakeHistory.map { entry in
             BakeHistoryTally.Entry(recipeID: entry.recipeID, recipeName: model.recipeName(id: entry.recipeID),
                                    rating: ratings[entry.recipeID] ?? 0, date: entry.date, photos: [])
         })

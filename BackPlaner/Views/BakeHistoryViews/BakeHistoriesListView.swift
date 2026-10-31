@@ -67,8 +67,23 @@ struct BakeHistoriesListView: View {
         BakeHistoryLayout(rawValue: layoutRawValue) ?? .list
     }
     
+    /// The entries of recipes that are baked. A starter is fed, not baked:
+    /// entries older versions wrote when it was planned stay stored but are
+    /// not shown.
+    private var bakedHistories: [BakeHistory] {
+        var isStarter: [NSManagedObjectID: Bool] = [:]
+        return bakeHistories.filter { history in
+            guard let recipe = history.recipe else { return false }
+            if let known = isStarter[recipe.objectID] { return !known }
+            let starter = StarterRecipe.isStarterFeeding(recipe)
+            isStarter[recipe.objectID] = starter
+            return !starter
+        }
+    }
+
     private var filteredBakeHistories: [BakeHistory] {
-        
+        let bakeHistories = bakedHistories
+
         if filterBy.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             // No filter text, so return all recipes (skip any history without a recipe)
             return bakeHistories.filter { b in
