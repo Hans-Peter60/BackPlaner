@@ -3,8 +3,9 @@
 //  BakePlannerCoreTests
 //
 //  Putting a recipe on a shopping list: what is bought, at which amount,
-//  and how it joins the lines already there. Grams only, since the unit
-//  table is not loaded in the package's test runner.
+//  and how it joins the lines already there. No unit conversions: on
+//  Apple platforms the unit table comes from the app bundle, which the
+//  package's test runner does not have.
 //
 
 import Testing
@@ -36,9 +37,11 @@ struct ShoppingListBuilderTests {
         #expect(bought == [entry("Roggenmehl", 500)])
     }
 
-    @Test("Eggs by weight go on the list by the piece")
-    func eggsBecomePieces() {
-        let bought = ShoppingListBuilder.entriesToBuy([entry("Eier", 120)], scale: 2)
+    // Eggs by weight become pieces only where the unit table says "g" is a
+    // weight; that case is tested in the app (ShoppingListTests).
+    @Test("Eggs go on the list by the piece, at the chosen scale")
+    func eggsAsPieces() {
+        let bought = ShoppingListBuilder.entriesToBuy([entry("Eier", 2, unit: "St")], scale: 2)
         let lines = ShoppingListBuilder.adding(bought, to: [])
         #expect(lines.count == 1)
         #expect(lines[0].unit == ShoppingListAmount.pieceUnit)
