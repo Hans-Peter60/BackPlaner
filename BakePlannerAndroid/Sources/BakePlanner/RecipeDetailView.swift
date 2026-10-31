@@ -174,7 +174,7 @@ struct RecipeDetailView: View {
 
                 // Only for a recipe that feeds a starter, as the iPhone shows
                 // its "Anstellgut-Tagebuch" tab.
-                if StarterFeedingRatio.isStarterFeeding(recipe.content) {
+                if StarterRecipe.isStarterFeeding(recipe.content) {
                     StarterFeedingSection(model: model, recipeID: recipeID,
                                           ratio: StarterFeedingRatio.ratio(for: recipe.content))
                 }
