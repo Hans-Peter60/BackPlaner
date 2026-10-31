@@ -135,6 +135,11 @@ struct RecipeDetailView: View {
                     if let yield = Self.yieldText(of: recipe.content) {
                         Text(yield)
                     }
+                    if recipe.content.recurrenceIntervalDays > 0 {
+                        Self.nextRhythmText(date: model.nextRhythmStart(of: recipe),
+                                            isStarter: StarterRecipe.isStarterFeeding(recipe.content))
+                            .foregroundStyle(Palette.accent(colorScheme))
+                    }
                 }
                 .font(.subheadline)
 
@@ -248,6 +253,21 @@ struct RecipeDetailView: View {
                 .bold()
                 .foregroundStyle(Palette.accent(colorScheme))
             content()
+        }
+    }
+
+    /// "Nächste Fütterung: Mi., 4.11. 08:00", as on the iPhone; before the
+    /// first bake or feeding, when that will be.
+    static func nextRhythmText(date: Date?, isStarter: Bool) -> Text {
+        switch (isStarter, date) {
+        case (true, let date?):
+            return Text("Nächste Fütterung: \(PlanText.day(date)) \(PlanText.time(date))")
+        case (true, nil):
+            return Text("Nächste Fütterung: nach der ersten Fütterung")
+        case (false, let date?):
+            return Text("Nächster Backtermin: \(PlanText.day(date)) \(PlanText.time(date))")
+        case (false, nil):
+            return Text("Nächster Backtermin: nach dem ersten Backen")
         }
     }
 

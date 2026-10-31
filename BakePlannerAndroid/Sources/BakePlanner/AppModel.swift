@@ -248,8 +248,10 @@ final class AppModel {
     /// beside it — with a reminder for each step ahead, and, as on the
     /// iPhone, a bake-history entry for the end of a bake, or for a starter
     /// a feeding at its start whose result is entered when it is over.
-    func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool) async -> PlanOutcome {
-        let newSteps = plan.scheduledStepData(planID: UUID(), servingScale: servingScale)
+    func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool,
+                       isAutomaticRecurrence: Bool = false) async -> PlanOutcome {
+        let newSteps = plan.scheduledStepData(planID: UUID(), servingScale: servingScale,
+                                              isAutomaticRecurrence: isAutomaticRecurrence)
         let content: RecipeExportData
         do {
             guard let recipe = try openedStore().recipe(id: recipeID) else { return .failed }
@@ -275,7 +277,54 @@ final class AppModel {
             loadScheduledSteps()
             return .failed
         }
+        if isAutomaticRecurrence {
+            // Nobody to ask for permission here: reminders where allowed.
+            await Reminders.reschedule(newSteps, recipe: content)
+            return .saved
+        }
         return await Reminders.schedule(newSteps, recipe: content) ? .saved : .savedWithoutReminders
+    }
+
+    // MARK: Rhythm
+
+    /// The recipe as the automatic pass looks at it: its last bake and,
+    /// for a starter, its last feeding.
+    func rhythmRecipe(_ recipe: StoredRecipe) -> RecurringBakePlanner.RhythmRecipe {
+        RecurringBakePlanner.RhythmRecipe(
+            content: recipe.content,
+            lastBakeFinish: bakeHistory.filter { $0.recipeID == recipe.id }.map(\.date).max(),
+            lastFeedingStart: feedings(ofRecipe: recipe.id).first?.date)
+    }
+
+    /// When the recipe's rhythm next comes round — the start of its first
+    /// step — or nil before its first bake or feeding.
+    func nextRhythmStart(of recipe: StoredRecipe, now: Date = Date()) -> Date? {
+        let rhythm = rhythmRecipe(recipe)
+        let duration = RecurringBakePlanner.planDuration(of: recipe.content)
+        let isStarter = StarterRecipe.isStarterFeeding(recipe.content)
+        return RecurringBakePlanner.nextStart(
+            lastFinish: RecurringBakePlanner.rhythmFinish(lastBakeFinish: rhythm.lastBakeFinish,
+                                                          lastFeedingStart: isStarter ? rhythm.lastFeedingStart : nil,
+                                                          duration: duration),
+            duration: duration, intervalDays: recipe.content.recurrenceIntervalDays, now: now)
+    }
+
+    /// The automatic pass, as on the iPhone whenever the app comes to the
+    /// foreground: every recipe on a rhythm that is due gets its next plan
+    /// — steps marked as automatic (shown two days ahead), reminders, and
+    /// the bake-history entry or, for a starter, the feeding. Recipe by
+    /// recipe, so two due at once do not take the same oven.
+    func scheduleDueOccurrences() async {
+        guard let store = try? openedStepStore() else { return }
+        // The serving size from the settings, as the iPhone takes it
+        // (2 is the recipe as stored).
+        let scale = Double(AppSettings.storedServingSize) / 2
+        for recipe in recipes where recipe.content.recurrenceIntervalDays > 0 {
+            guard let plan = RecurringBakePlanner.dueOccurrence(of: rhythmRecipe(recipe), steps: store) else { continue }
+            logger.info("automatic occurrence of \(recipe.content.name) at \(plan.baseDate)")
+            _ = await putIntoEffect(plan, recipeID: recipe.id, servingScale: scale, replacing: false,
+                                    isAutomaticRecurrence: true)
+        }
     }
 
     enum ShiftOutcome: Equatable {

@@ -8,6 +8,7 @@ struct ContentView: View {
     /// Locale.current does not follow it on Android, so it is handed to the
     /// package: generated plan steps, plan hints and dates use it.
     @Environment(\.locale) var locale
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some View {
         TabView {
@@ -39,6 +40,13 @@ struct ContentView: View {
                 Label("Zeitleiste", systemImage: "calendar")
             }
         }
+        // Coming to the foreground plans what is due on a rhythm, as on the
+        // iPhone.
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await model.scheduleDueOccurrences() }
+            }
+        }
         .onChange(of: locale) { _, newLocale in
             AppSettings.systemLocale = { newLocale }
         }
@@ -49,6 +57,7 @@ struct ContentView: View {
             model.loadShoppingLists()
             model.loadBakeHistory()
             model.loadScheduledSteps()
+            await model.scheduleDueOccurrences()
         }
     }
 }

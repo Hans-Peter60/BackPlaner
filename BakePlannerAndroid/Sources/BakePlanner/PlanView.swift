@@ -162,6 +162,14 @@ enum PlanText {
         return formatter.string(from: date)
     }
 
+    /// "Mi., 4.11." in the app's language.
+    static func day(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = AppSettings.locale
+        formatter.setLocalizedDateFormatFromTemplate("EEEdM")
+        return formatter.string(from: date)
+    }
+
     static func time(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = AppSettings.locale

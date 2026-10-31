@@ -53,6 +53,83 @@
         }
       }
     },
+    "alle %lld Tage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tag"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tage"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "alle %lld Tage"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld day"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld days"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "every %lld days"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jours"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "tous les %lld jours"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Alle eigenen Rezepte sichern" : {
       "comment" : "Recipe list: save every recipe as one backup file.",
       "extractionState" : "manual",
@@ -1603,6 +1680,78 @@
         }
       }
     },
+    "Nächste Fütterung: %@ %@" : {
+      "comment" : "Next feeding date: day label (Heute/Morgen/date) and time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding: %1$@ %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage : %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Nächste Fütterung: nach der ersten Fütterung" : {
+      "comment" : "Recipe that feeds a starter, on a rhythm, before its first feeding: when the next one is due.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding: after the first feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage : après le premier nourrissage"
+          }
+        }
+      }
+    },
+    "Nächster Backtermin: %@ %@" : {
+      "comment" : "Next date of a bread planned on a rhythm: day label (Heute/Morgen/date) and time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next bake: %1$@ %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine cuisson : %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Nächster Backtermin: nach dem ersten Backen" : {
+      "comment" : "Next date of a bread planned on a rhythm, before any bake has been recorded.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next bake: after the first bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine cuisson : après la première cuisson"
+          }
+        }
+      }
+    },
     "Name" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -2006,6 +2155,41 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température ambiante"
+          }
+        }
+      }
+    },
+    "Regelmäßig auffrischen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Refresh regularly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Rafraîchir régulièrement"
+          }
+        }
+      }
+    },
+    "Regelmäßig planen" : {
+      "comment" : "Toggle for planning a bread on a fixed rhythm; a starter reads \"Regelmäßig auffrischen\" instead.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan regularly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier régulièrement"
           }
         }
       }

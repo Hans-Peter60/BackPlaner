@@ -42,6 +42,17 @@ struct RecipeEditor: View {
                 Text("Bewertung")
             }
 
+            Section {
+                Toggle(draft.isStarter ? LocalizedStringKey("Regelmäßig auffrischen") : LocalizedStringKey("Regelmäßig planen"),
+                       isOn: Binding(get: { draft.recurrenceIntervalDays > 0 },
+                                     set: { draft.recurrenceIntervalDays = $0 ? max(draft.recurrenceIntervalDays, 5) : 0 }))
+                if draft.recurrenceIntervalDays > 0 {
+                    Stepper(value: $draft.recurrenceIntervalDays, in: 1...60) {
+                        Text("alle \(draft.recurrenceIntervalDays) Tage")
+                    }
+                }
+            }
+
             ForEach($draft.components) { $component in
                 Section {
                     TextField("Komponente", text: $component.name)
@@ -124,8 +135,14 @@ struct RecipeDraft {
     var tags: String
     var components: [ComponentDraft]
     var steps: [StepDraft]
+    /// Days between two plans the app makes on its own; 0 for none.
+    var recurrenceIntervalDays: Int
+    /// Whether the recipe feeds a starter, for the rhythm's wording.
+    let isStarter: Bool
 
     init(_ content: RecipeExportData?) {
+        recurrenceIntervalDays = content?.recurrenceIntervalDays ?? 0
+        isStarter = content.map { StarterRecipe.isStarterFeeding($0) } ?? false
         name = content?.name ?? ""
         summary = content?.summary ?? ""
         rating = content?.rating ?? 0
@@ -159,7 +176,7 @@ struct RecipeDraft {
                 .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                 .filter { !$0.isEmpty },
             rating: rating,
-            recurrenceIntervalDays: original?.recurrenceIntervalDays ?? 0,
+            recurrenceIntervalDays: recurrenceIntervalDays,
             image: original?.image,
             components: components.enumerated().map { index, component in
                 RecipeExportComponent(name: component.name.trimmingCharacters(in: .whitespacesAndNewlines),
