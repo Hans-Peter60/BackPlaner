@@ -54,6 +54,10 @@ final class AppModel {
     private var listStore: SQLiteShoppingListStore?
     private var historyStore: SQLiteBakeHistoryStore?
     private var feedingStore: SQLiteStarterFeedingLogStore?
+    private var stepStore: SQLiteScheduledStepStore?
+
+    /// Every scheduled step of every plan, by date.
+    var scheduledSteps: [StoredScheduledStep] = []
 
     func load() {
         do {
@@ -189,6 +193,95 @@ final class AppModel {
     /// The recipe's name for an entry; empty when the list has not caught up.
     func recipeName(id: String) -> String {
         recipes.first { $0.id == id }?.content.name ?? ""
+    }
+
+    // MARK: Planning
+
+    func loadScheduledSteps() {
+        do {
+            scheduledSteps = try openedStepStore().allSteps()
+        } catch {
+            logger.error("could not read the scheduled steps: \(error)")
+        }
+    }
+
+    /// The plan of `recipe` for `date`, read as its start or its finish —
+    /// worked out in BakePlan, as on the iPhone.
+    static func plan(of recipe: StoredRecipe, anchor: PlanAnchor, date: Date) -> BakePlan {
+        BakePlan(recipeName: recipe.content.name,
+                 steps: recipe.content.instructions.map {
+                     PlanStep(instruction: $0.instruction, step: $0.step, startTime: $0.startTime,
+                              duration: $0.duration)
+                 },
+                 prepTime: recipe.content.prepTime,
+                 anchor: anchor,
+                 date: date,
+                 languageCode: AppSettings.locale.identifier,
+                 isStarterFeeding: StarterRecipe.isStarterFeeding(recipe.content))
+    }
+
+    /// What speaks against the plan: bakes at the same time than there are
+    /// ovens (errors), steps in the night (hints).
+    func issues(of plan: BakePlan) -> [BakePlanIssue] {
+        guard let store = try? openedStepStore() else { return [] }
+        return plan.issues(from: store)
+    }
+
+    /// Dates for which no step falls into the night, when some do.
+    func nightFreeDates(for plan: BakePlan) -> [NightFreeDate] {
+        guard BakePlanAdvisor.hasNightSteps(plan), let store = try? openedStepStore() else { return [] }
+        return BakePlanAdvisor.nightFreeDates(for: plan, from: store)
+    }
+
+    func hasPlan(recipeName: String) -> Bool {
+        (try? openedStepStore().hasSteps(recipeName: recipeName)) ?? false
+    }
+
+    /// Keeps the plan's steps — replacing the recipe's earlier plan, or
+    /// beside it — and, as on the iPhone, a bake-history entry for the end
+    /// of a bake, or for a starter a feeding at its start whose result is
+    /// entered when it is over. Reminders do not exist on Android yet.
+    @discardableResult
+    func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool) -> Bool {
+        do {
+            guard let recipe = try openedStore().recipe(id: recipeID) else { return false }
+            let steps = try openedStepStore()
+            if replacing {
+                steps.removeSteps(recipeName: plan.recipeName)
+            }
+            steps.add(plan.scheduledStepData(planID: UUID(), servingScale: servingScale))
+            if StarterRecipe.isStarterFeeding(recipe.content) {
+                _ = try openedFeedingStore().add(toRecipe: recipeID, date: plan.baseDate, facts: StarterFeedingFacts())
+            } else {
+                _ = try openedHistoryStore().add(toRecipe: recipeID, date: plan.date(of: plan.endStep),
+                                                 comment: AppSettings.generatedRecipeTexts().missingComment,
+                                                 images: [], facts: BakeHistoryFacts())
+            }
+            loadScheduledSteps()
+            loadBakeHistory()
+            load()
+            return true
+        } catch {
+            logger.error("could not plan \(plan.recipeName): \(error)")
+            loadScheduledSteps()
+            return false
+        }
+    }
+
+    /// The step is done: it goes from the timeline.
+    func markDone(_ step: StoredScheduledStep) {
+        try? openedStepStore().removeStep(key: step.key)
+        loadScheduledSteps()
+    }
+
+    /// Removes every step of one plan.
+    func deletePlan(_ steps: [StoredScheduledStep]) {
+        if let store = try? openedStepStore() {
+            for step in steps {
+                store.removeStep(key: step.key)
+            }
+        }
+        loadScheduledSteps()
     }
 
     // MARK: Starter feeding diary
@@ -366,6 +459,14 @@ final class AppModel {
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let opened = try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
         store = opened
+        return opened
+    }
+
+    /// The scheduled steps, in the same database file as the recipes.
+    private func openedStepStore() throws -> SQLiteScheduledStepStore {
+        if let stepStore { return stepStore }
+        let opened = SQLiteScheduledStepStore(file: try openedStore().file)
+        stepStore = opened
         return opened
     }
 

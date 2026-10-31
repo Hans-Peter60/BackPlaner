@@ -212,6 +212,23 @@
         }
       }
     },
+    "Backzeiten überschneiden sich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking times overlap"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chevauchement des temps de cuisson"
+          }
+        }
+      }
+    },
     "Backzutaten" : {
       "comment" : "Heading above the group of items in the shopping list.",
       "extractionState" : "manual",
@@ -332,6 +349,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liste existante"
+          }
+        }
+      }
+    },
+    "Bestehenden Plan ersetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace existing plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacer le plan existant"
           }
         }
       }
@@ -567,6 +601,23 @@
         }
       }
     },
+    "Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can replace the existing plan or keep both — for two baking days, say."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez remplacer le plan existant ou garder les deux — pour deux jours de cuisson, par exemple."
+          }
+        }
+      }
+    },
     "Einheit" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -671,6 +722,42 @@
         }
       }
     },
+    "Erinnerungen gibt es auf Android noch nicht; die Schritte stehen in der Zeitleiste." : {
+      "comment" : "Planning on Android: reminders follow later.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders are not available on Android yet; the steps are on the timeline."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les rappels ne sont pas encore disponibles sur Android ; les étapes figurent dans la chronologie."
+          }
+        }
+      }
+    },
+    "Erledigt" : {
+      "comment" : "Identifier for the notification action when a task is completed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme terminé"
+          }
+        }
+      }
+    },
     "Erstelle zuerst eine neue Liste." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -722,6 +809,23 @@
         }
       }
     },
+    "Fertig bis" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done by"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé pour"
+          }
+        }
+      }
+    },
     "Fotos" : {
       "comment" : "Bake history entry: heading above the photos.",
       "extractionState" : "manual",
@@ -736,6 +840,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Photos"
+          }
+        }
+      }
+    },
+    "Für dieses Rezept gibt es schon einen Plan" : {
+      "comment" : "Title of the dialog when reminders are set for a recipe that already has planned steps.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This recipe already has a plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette recette a déjà un plan"
           }
         }
       }
@@ -807,6 +929,57 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "planifiée"
+          }
+        }
+      }
+    },
+    "Geplante nächste Schritte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled next steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaines étapes planifiées"
+          }
+        }
+      }
+    },
+    "Geplante Schritte löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete scheduled steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les étapes planifiées"
+          }
+        }
+      }
+    },
+    "Geplante Schritte löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete scheduled steps?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer les étapes planifiées ?"
           }
         }
       }
@@ -984,6 +1157,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune liste de courses"
+          }
+        }
+      }
+    },
+    "Keine geplanten Schritte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No scheduled steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune étape planifiée"
           }
         }
       }
@@ -1539,6 +1729,24 @@
         }
       }
     },
+    "Öffne ein Rezept und tippe auf „Planen“." : {
+      "comment" : "Timeline, empty: how a recipe gets planned on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Plan”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Planifier »."
+          }
+        }
+      }
+    },
     "Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“." : {
       "comment" : "Shopping lists, empty: how a recipe gets onto a list on Android.",
       "extractionState" : "manual",
@@ -1570,6 +1778,42 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
+    "Plan gespeichert" : {
+      "comment" : "Planning: the plan's steps were kept.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan saved"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan enregistré"
+          }
+        }
+      }
+    },
+    "Planen" : {
+      "comment" : "Recipe detail: button that plans the recipe; the plan sheet's confirm button.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier"
           }
         }
       }
@@ -1843,6 +2087,24 @@
         }
       }
     },
+    "So beginnt kein Schritt in der Nacht:" : {
+      "comment" : "Heading above the suggested dates at which no step begins outside the day window.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So that no step begins at night:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour qu’aucune étape ne commence la nuit :"
+          }
+        }
+      }
+    },
     "Sonstiges" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1874,6 +2136,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Starten ab" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start from"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer à"
+          }
+        }
+      }
+    },
+    "Startzeit" : {
+      "comment" : "A segmented control for choosing whether to start the task from the beginning or the end.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heure de début"
           }
         }
       }
@@ -1991,6 +2288,41 @@
         }
       }
     },
+    "Trotzdem planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Plan anyway"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Planifier malgré tout"
+          }
+        }
+      }
+    },
+    "Übernehmen" : {
+      "comment" : "The button that applies the changes made in the sheet.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -2027,6 +2359,24 @@
         }
       }
     },
+    "Zeitleiste" : {
+      "comment" : "Tab with the planned steps of every plan.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chronologie"
+          }
+        }
+      }
+    },
     "Ziel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2040,6 +2390,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Destination"
+          }
+        }
+      }
+    },
+    "Zusätzlich planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add as a second plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier en plus"
           }
         }
       }

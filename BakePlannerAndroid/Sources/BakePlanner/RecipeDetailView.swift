@@ -22,6 +22,7 @@ struct RecipeDetailView: View {
     @State var pickedImageName: String?
     @State var pickedImageType: String?
     @State var addsToShoppingList = false
+    @State var plans = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -65,6 +66,13 @@ struct RecipeDetailView: View {
                             self.recipe = model.recipe(id: recipeID)
                         }
                     }
+                }
+            }
+        }
+        .sheet(isPresented: $plans) {
+            if let recipe {
+                NavigationStack {
+                    PlanView(model: model, recipe: recipe, scale: scale)
                 }
             }
         }
@@ -131,6 +139,14 @@ struct RecipeDetailView: View {
                 .font(.subheadline)
 
                 // At the amount chosen above, as on the iPhone.
+                Button {
+                    plans = true
+                } label: {
+                    Label("Planen", systemImage: "calendar")
+                }
+                .buttonStyle(.bordered)
+                .tint(Palette.accent(colorScheme))
+
                 Button {
                     addsToShoppingList = true
                 } label: {

@@ -27,11 +27,19 @@ struct ContentView: View {
             .tabItem {
                 Label("Backhistorie", systemImage: "clock")
             }
+
+            NavigationStack {
+                PlanTimelineView(model: model)
+            }
+            .tabItem {
+                Label("Zeitleiste", systemImage: "calendar")
+            }
         }
         .task {
             model.load()
             model.loadShoppingLists()
             model.loadBakeHistory()
+            model.loadScheduledSteps()
         }
     }
 }
