@@ -8,9 +8,9 @@
 //  missing. A recipe shared with someone else leaves the bake history out:
 //  that is this device's record of what actually happened, not part of the
 //  recipe, the same boundary "Rezept veröffentlichen" draws for the public
-//  database. The full backup from the settings carries it along (format
-//  version 2), so it moves to a new device with the recipes. The starter
-//  feeding diary is not in the file.
+//  database. The full backup from the settings carries it along, and the
+//  starter feeding diary too (format version 2), so both move to a new
+//  device with the recipes.
 //
 
 import BakePlannerCore
@@ -226,6 +226,7 @@ struct RecipeFileExport: Transferable {
                 let keys = recipeIDs.map { $0.uriRepresentation().absoluteString }
                 if let backup = try? RecipeExportFile(recipeIDs: keys, from: CoreDataRecipeStore(context: context),
                                                       bakeHistory: CoreDataBakeHistoryStore(context: context),
+                                                      starterFeedings: CoreDataStarterFeedingLogStore(context: context),
                                                       shrinkPhoto: BackupPhoto.shrunk) {
                     file = backup
                     return
@@ -277,7 +278,8 @@ extension RecipeImport {
         }
 
         return try importFile(data, into: CoreDataRecipeStore(context: context),
-                              bakeHistory: CoreDataBakeHistoryStore(context: context))
+                              bakeHistory: CoreDataBakeHistoryStore(context: context),
+                              starterFeedings: CoreDataStarterFeedingLogStore(context: context))
     }
 }
 

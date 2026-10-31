@@ -244,8 +244,8 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 | **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF, **Exporter la recette** en fichier ; les lignes de farine et de levain chef se touchent (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)) |
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette — dans la taille de portion choisie — à une liste de courses (voir [chapitre 13](#13-liste-de-courses)) |
-| **+ Historique** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) |
-| **Nourrissage** | Uniquement pour les recettes de levain chef : le journal du levain chef (voir [chapitre 9](#9-modifier-une-recette)) |
+| **+ Historique** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) ; pas pour les recettes de levain chef |
+| **Nourrissage** | Uniquement pour les recettes de levain chef, à la place de « + Historique » : le journal du levain chef (voir [chapitre 9](#9-modifier-une-recette)) |
 
 Taille de portion et poids de pâte sont les mêmes dans tous les onglets : ce que vous réglez sous Détails vaut aussi sous Cuire et pour la liste de courses.
 
@@ -493,7 +493,7 @@ La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et *
 
 **Ce qui fait d’une recette un levain chef** se décide d’après ses ingrédients, pas d’après le commutateur : ils donnent un ratio de nourrissage de levain chef (ou levain, starter — les noms se valent), de farine et d’eau, et rien n’est cuit. Une recette composée uniquement de ces trois-là est toujours un levain chef, même si une étape mentionne le four (« laisser mûrir dans le four éteint, lumière allumée », « garder au frais jusqu’à la prochaine cuisson »). Seules une température de four ou une étape de préchauffage — ou d’autres ingrédients comme le sel — en font un pain. Un tag comme « Levain chef », « Starter » ou « Rafraîchi » tranche à la main en cas de doute ; un tag « Levain » ne suffit pas, les pains le portent aussi.
 
-Les recettes de levain chef reçoivent l’onglet supplémentaire **Nourrissage** : le **journal du levain chef**. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
+À la place de « + Historique », les recettes de levain chef reçoivent l’onglet **Nourrissage** : le **journal du levain chef** — un levain chef se nourrit, il ne se cuit pas. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
 
 ### Modifier les composants
 
@@ -756,10 +756,10 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 | Entrée | Effet |
 |--------|-------|
-| **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images et **historique de cuisson** compris (ses photos réduites à la taille de l’écran), dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
-| **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
+| **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images, **historique de cuisson** (ses photos réduites à la taille de l’écran) et **journal du levain chef** compris, dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
+| **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson et le journal du levain chef du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson ou journal du levain chef demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
 
-Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson, qui vous appartient. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
 
 ### Traduction
 

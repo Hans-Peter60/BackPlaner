@@ -241,8 +241,8 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 | **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF, **Rezept exportieren** als Datei; Mehl- und Anstellgut-Zeilen sind antippbar (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)) |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts – in der gewählten Portionsgröße – auf eine Einkaufsliste setzen (siehe [Kapitel 13](#13-einkaufsliste)) |
-| **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen |
-| **Fütterung** | Nur bei Anstellgut-Rezepten: das Anstellgut-Tagebuch (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
+| **+ Historie** | Einen Backvorgang mit Datum, Kommentar, Fotos und Messwerten (Raum- und Teigtemperatur, Gare, Mehl, Krume) nachtragen; nicht bei Anstellgut-Rezepten |
+| **Fütterung** | Nur bei Anstellgut-Rezepten, an Stelle von „+ Historie“: das Anstellgut-Tagebuch (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 
 Portionsgröße und Teiggewicht sind in allen Tabs dieselben: Was Du unter Details einstellst, gilt auch unter Backen und für die Einkaufsliste.
 
@@ -490,7 +490,7 @@ Wann die nächste Auffrischung ansteht, zeigen die Tabs **Details** und **Änder
 
 **Was ein Anstellgut-Rezept ist**, entscheidet die App an den Zutaten, nicht am Schalter: Sie ergeben ein Fütterungsverhältnis aus Anstellgut (oder Sauerteig, Levain, Starter – die Namen sind gleichwertig), Mehl und Wasser, und nichts wird gebacken. Ein Rezept nur aus diesen dreien ist immer ein Anstellgut, auch wenn ein Schritt den Ofen erwähnt („im ausgeschalteten Backofen mit Licht reifen lassen“, „bis zum nächsten Backen kühl lagern“). Erst eine Ofentemperatur oder ein Vorheiz-Schritt – oder weitere Zutaten wie Salz – machen daraus ein Brot. Mit einem Tag wie „Anstellgut“, „ASG“ oder „Auffrischen“ legst Du es im Zweifel von Hand fest; „Sauerteig“ als Tag reicht nicht, der steht auch auf Broten.
 
-Anstellgut-Rezepte bekommen den zusätzlichen Tab **Fütterung**: das **Anstellgut-Tagebuch**. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
+Anstellgut-Rezepte bekommen statt „+ Historie“ den Tab **Fütterung**: das **Anstellgut-Tagebuch** – ein Anstellgut wird gefüttert, nicht gebacken. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
 
 ### Komponenten ändern
 
@@ -753,10 +753,10 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 | Eintrag | Wirkung |
 |---------|---------|
-| **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern und **Backhistorie** (mit Fotos, auf Bildschirmgröße verkleinert) in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
-| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte, mit der Backhistorie aus der Datei; bestehende werden nie überschrieben. Eine Sicherung mit Backhistorie liest erst diese App-Version; ältere melden, die Datei stamme aus einer neueren Version. |
+| **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern, **Backhistorie** (mit Fotos, auf Bildschirmgröße verkleinert) und **Anstellgut-Tagebuch** in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
+| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte, mit Backhistorie und Anstellgut-Tagebuch aus der Datei; bestehende werden nie überschrieben. Eine Sicherung mit Backhistorie oder Anstellgut-Tagebuch liest erst diese App-Version; ältere melden, die Datei stamme aus einer neueren Version. |
 
-Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportieren** (neben „Rezept teilen“) – ohne Backhistorie, die gehört Dir. Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
+Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportieren** (neben „Rezept teilen“) – ohne Backhistorie und Anstellgut-Tagebuch, die gehören Dir. Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
 
 ### Übersetzung
 

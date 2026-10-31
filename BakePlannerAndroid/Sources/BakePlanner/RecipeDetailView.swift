@@ -172,14 +172,14 @@ struct RecipeDetailView: View {
                     }
                 }
 
-                // Only for a recipe that feeds a starter, as the iPhone shows
-                // its "Anstellgut-Tagebuch" tab.
+                // A starter is fed, not baked: it keeps a feeding diary and
+                // no bake history; every other recipe the other way round.
                 if StarterRecipe.isStarterFeeding(recipe.content) {
                     StarterFeedingSection(model: model, recipeID: recipeID,
                                           ratio: StarterFeedingRatio.ratio(for: recipe.content))
+                } else {
+                    RecipeBakeHistorySection(model: model, recipeID: recipeID)
                 }
-
-                RecipeBakeHistorySection(model: model, recipeID: recipeID)
             }
             .padding()
         }

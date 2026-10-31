@@ -12,15 +12,17 @@ import Foundation
 
 extension RecipeImport {
     /// Reads the recipe file `data` into `store`, every recipe as a new one,
-    /// and the bake history it carries into `bakeHistory`, attached to the
-    /// new recipes. Returns how many recipes were read. Nothing is kept
-    /// when the file cannot be read or was written by a newer version.
-    public static func importFile(_ data: Data, into store: RecipeStore,
-                                  bakeHistory: BakeHistoryStore) throws -> Int {
+    /// and the bake history and feedings it carries into `bakeHistory` and
+    /// `starterFeedings`, attached to the new recipes. Returns how many
+    /// recipes were read. Nothing is kept when the file cannot be read or
+    /// was written by a newer version.
+    public static func importFile(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
+                                  starterFeedings: StarterFeedingLogStore) throws -> Int {
         let file = try decodeFile(data)
         let added = try store.add(contentsOf: file.recipes.map { recipe in
             var recipe = recipe
             recipe.bakeHistory = nil
+            recipe.starterFeedings = nil
             return recipe
         })
         for (recipe, content) in zip(added, file.recipes) {
@@ -29,6 +31,9 @@ extension RecipeImport {
             for entry in (content.bakeHistory ?? []).reversed() {
                 _ = try bakeHistory.add(toRecipe: recipe.id, date: entry.date, comment: entry.comment,
                                         images: entry.images, facts: entry.facts)
+            }
+            for feeding in (content.starterFeedings ?? []).reversed() {
+                _ = try starterFeedings.add(toRecipe: recipe.id, date: feeding.date, facts: feeding.facts)
             }
         }
         return added.count
@@ -46,9 +51,10 @@ extension RecipeExportFile {
     /// The full backup: the recipes `ids` of `store` with their bake
     /// history from `bakeHistory`, photos passed through `shrinkPhoto`
     /// (each app makes them as small as still looks good on its largest
-    /// screen). Format version 2 when any recipe has been baked.
+    /// screen), and their feedings from `starterFeedings`. Format version 2
+    /// when any recipe has been baked or fed.
     public init(recipeIDs ids: [String], from store: RecipeStore, bakeHistory: BakeHistoryStore,
-                shrinkPhoto: (Data) -> Data = { $0 }) throws {
+                starterFeedings: StarterFeedingLogStore, shrinkPhoto: (Data) -> Data = { $0 }) throws {
         var recipes: [RecipeExportData] = []
         for id in ids {
             guard var content = try store.recipe(id: id)?.content else { continue }
@@ -58,6 +64,10 @@ extension RecipeExportFile {
                     RecipeExportBakeEntry(date: entry.date, comment: entry.comment,
                                           images: entry.images.map(shrinkPhoto), facts: entry.facts)
                 }
+            }
+            let feedings = try starterFeedings.feedings(ofRecipe: id)
+            if !feedings.isEmpty {
+                content.starterFeedings = feedings.map { RecipeExportStarterFeeding(date: $0.date, facts: $0.facts) }
             }
             recipes.append(content)
         }

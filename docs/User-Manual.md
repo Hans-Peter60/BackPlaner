@@ -244,8 +244,8 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 | **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF, **Export recipe** as a file; flour and starter lines can be tapped (see [chapter 15](#15-units-amounts-and-serving-sizes)) |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients — at the chosen serving size — on a shopping list (see [chapter 13](#13-shopping-list)) |
-| **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb) |
-| **Feeding** | Only for starter recipes: the starter diary (see [chapter 9](#9-editing-a-recipe)) |
+| **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb); not for starter recipes |
+| **Feeding** | Only for starter recipes, in place of "+ History": the starter diary (see [chapter 9](#9-editing-a-recipe)) |
 
 Serving size and dough weight are the same in every tab: what you set under Details also applies under Bake and to the shopping list.
 
@@ -493,7 +493,7 @@ When the next refresh is due, the **Details** and **Edit** tabs show at the top 
 
 **What makes a recipe a starter** is decided by its ingredients, not by the switch: they give a feeding ratio of starter (or sourdough, levain — the names are equivalent), flour and water, and nothing is baked. A recipe of nothing but those three is always a starter, even when a step mentions the oven ("let ripen in the switched-off oven with the light on", "keep cool until the next bake"). Only an oven temperature or a preheating step — or further ingredients such as salt — make it a bread. A tag such as "Starter", "Feeding" or "Refresh" settles it by hand when in doubt; a "Sourdough" tag is not enough, breads carry it too.
 
-Starter recipes get the extra tab **Feeding**: the **starter diary**. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
+Instead of "+ History", starter recipes get the tab **Feeding**: the **starter diary** — a starter is fed, not baked. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
 
 ### Changing components
 
@@ -756,10 +756,10 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 | Entry | Effect |
 |-------|--------|
-| **Back up all my recipes** | Writes every recipe on the device, images and **baking history** included (its photos scaled down to screen size), into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
-| **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history from the file; existing ones are never overwritten. A backup with baking history needs this version of the app; older ones report that the file comes from a newer version. |
+| **Back up all my recipes** | Writes every recipe on the device, images, **baking history** (its photos scaled down to screen size) and **starter diary** included, into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
+| **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history and starter diary from the file; existing ones are never overwritten. A backup with baking history or starter diary needs this version of the app; older ones report that the file comes from a newer version. |
 
-A single recipe is exported on the **Details** tab via **Export recipe** (next to "Share recipe") — without its baking history, which is yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
+A single recipe is exported on the **Details** tab via **Export recipe** (next to "Share recipe") — without its baking history and starter diary, which are yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
 
 ### Translation
 

@@ -14,7 +14,8 @@ import Foundation
 
 public struct RecipeExportFile: Codable, Equatable {
     /// The newest version this app writes and reads. Version 2 added the
-    /// bake history of each recipe (`RecipeExportData.bakeHistory`).
+    /// bake history and the starter feeding diary of each recipe
+    /// (`RecipeExportData.bakeHistory`, `.starterFeedings`).
     public static let currentFormatVersion = 2
     /// The version of a file without bake history: unchanged since the
     /// first version, so an older app still reads such a file — a recipe
@@ -32,11 +33,12 @@ public struct RecipeExportFile: Codable, Equatable {
     }
 
     /// A file of `recipes`, at the lowest version that holds them: 2 when
-    /// a recipe carries bake history, 1 otherwise. An older app refuses a
-    /// version-2 file instead of dropping the history unnoticed.
+    /// a recipe carries bake history or feedings, 1 otherwise. An older app
+    /// refuses a version-2 file instead of dropping them unnoticed.
     public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
         self.formatVersion = formatVersion
-            ?? (recipes.contains { $0.bakeHistory != nil } ? Self.currentFormatVersion : Self.plainFormatVersion)
+            ?? (recipes.contains { $0.bakeHistory != nil || $0.starterFeedings != nil }
+                ? Self.currentFormatVersion : Self.plainFormatVersion)
         self.recipes = recipes
     }
 }
@@ -58,8 +60,11 @@ public struct RecipeExportData: Codable, Equatable {
     /// The recipe's bakes, newest first — only in a full backup (format
     /// version 2), nil otherwise and then left out of the file entirely.
     public var bakeHistory: [RecipeExportBakeEntry]?
+    /// The starter's feedings, newest first — likewise only in a full
+    /// backup, nil otherwise.
+    public var starterFeedings: [RecipeExportStarterFeeding]?
 
-    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil) {
+    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil, starterFeedings: [RecipeExportStarterFeeding]? = nil) {
         self.name = name
         self.summary = summary
         self.urlLink = urlLink
@@ -72,6 +77,29 @@ public struct RecipeExportData: Codable, Equatable {
         self.components = components
         self.instructions = instructions
         self.bakeHistory = bakeHistory
+        self.starterFeedings = starterFeedings
+    }
+}
+
+/// One feeding of a starter in a backup file (format version 2). Values not
+/// measured are left out; a failed float test is `false`.
+public struct RecipeExportStarterFeeding: Codable, Equatable {
+    /// Seconds since 2001, as JSONEncoder writes a Date by default.
+    public var date: Date
+    public var peakMinutes: Int?
+    public var floatTestPassed: Bool?
+    public var note: String?
+
+    public init(date: Date, facts: StarterFeedingFacts) {
+        let facts = facts.normalized
+        self.date = date
+        peakMinutes = facts.peakMinutes
+        floatTestPassed = facts.floatTestPassed
+        note = facts.note.isEmpty ? nil : facts.note
+    }
+
+    public var facts: StarterFeedingFacts {
+        StarterFeedingFacts(peakMinutes: peakMinutes, floatTestPassed: floatTestPassed, note: note ?? "").normalized
     }
 }
 

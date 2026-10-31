@@ -94,17 +94,20 @@ struct TabsView: View {
                }
                .tag(3)
             
-            BakeHistoryAddView(recipeId: recipe.objectID)
-               .tabItem {
-                   VStack {
-                       Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                       Text("+ Historie")
+            // A starter is fed, not baked: it gets its feeding diary —
+            // whether or not it has a rhythm — instead of a bake history
+            // entry; every other recipe the other way round.
+            if !StarterRecipe.isStarterFeeding(recipe) {
+                BakeHistoryAddView(recipeId: recipe.objectID)
+                   .tabItem {
+                       VStack {
+                           Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                           Text("+ Historie")
+                       }
                    }
-               }
-               .tag(4)
+                   .tag(4)
+            }
 
-            // A starter gets its feeding diary whether or not it has a
-            // rhythm; a bread planned on a rhythm does not.
             if StarterRecipe.isStarterFeeding(recipe) {
                 StarterFeedingLogView(recipeId: recipe.objectID)
                    .tabItem {

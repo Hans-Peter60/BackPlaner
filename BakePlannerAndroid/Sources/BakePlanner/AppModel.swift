@@ -285,12 +285,14 @@ final class AppModel {
     /// Writes the recipes `ids` into a backup file, as the iPhone app reads
     /// it, and returns where it lies — in the app's cache, ready to be
     /// handed to the system's "save as". The full backup carries the bake
-    /// history along; a single recipe saved to pass on does not.
+    /// history and the feeding diary along; a single recipe saved to pass
+    /// on does not.
     func exportFile(recipeIDs ids: [String], named name: String, includingBakeHistory: Bool) -> URL? {
         do {
             let file: RecipeExportFile
             if includingBakeHistory {
-                file = try RecipeExportFile(recipeIDs: ids, from: openedStore(), bakeHistory: openedHistoryStore())
+                file = try RecipeExportFile(recipeIDs: ids, from: openedStore(), bakeHistory: openedHistoryStore(),
+                                            starterFeedings: openedFeedingStore())
             } else {
                 file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
             }
@@ -326,7 +328,8 @@ final class AppModel {
         #endif
         do {
             let data = try Data(contentsOf: url)
-            let count = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore())
+            let count = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                                    starterFeedings: openedFeedingStore())
             importOutcome = .imported(count)
         } catch {
             logger.error("could not import \(url.lastPathComponent): \(error)")

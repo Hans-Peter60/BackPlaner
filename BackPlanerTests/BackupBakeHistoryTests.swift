@@ -54,13 +54,15 @@ struct BackupBakeHistoryTests {
                                     images: [photo(width: 4032, height: 3024)], facts: facts)
 
         let file = try RecipeExportFile(recipeIDs: [bread.id], from: recipes, bakeHistory: history,
+                                        starterFeedings: CoreDataStarterFeedingLogStore(context: source),
                                         shrinkPhoto: BackupPhoto.shrunk)
         #expect(file.formatVersion == 2)
 
         let target = PersistenceController(inMemory: true).container.viewContext
         let targetRecipes = CoreDataRecipeStore(context: target)
         let targetHistory = CoreDataBakeHistoryStore(context: target)
-        #expect(try RecipeImport.importFile(try file.encoded(), into: targetRecipes, bakeHistory: targetHistory) == 1)
+        #expect(try RecipeImport.importFile(try file.encoded(), into: targetRecipes, bakeHistory: targetHistory,
+                                            starterFeedings: CoreDataStarterFeedingLogStore(context: target)) == 1)
 
         let copy = try #require(try targetRecipes.recipes(includingImages: false).first)
         #expect(copy.bakeHistoryFlag)
