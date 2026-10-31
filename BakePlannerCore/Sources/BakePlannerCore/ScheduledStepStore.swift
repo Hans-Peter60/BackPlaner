@@ -83,6 +83,10 @@ public protocol ScheduledStepStore {
     /// Deletes the step with this key — the step is done — and saves.
     /// Nothing happens for an unknown key.
     func removeStep(key: String)
+    /// Gives the steps new dates, by key, in one go — a step moved with its
+    /// followers (see ScheduledStepShift) — and saves. Unknown keys are
+    /// left out.
+    func setDates(_ dates: [String: Date])
 }
 
 extension BakePlan {

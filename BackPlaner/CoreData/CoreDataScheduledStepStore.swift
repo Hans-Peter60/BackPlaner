@@ -76,6 +76,22 @@ struct CoreDataScheduledStepStore: ScheduledStepStore {
         return steps.map { StoredScheduledStep(key: $0.storeKey, data: ScheduledStepData($0)) }
     }
 
+    func setDates(_ dates: [String: Date]) {
+        var changed = false
+        for (key, date) in dates {
+            guard let step: NextStep = context.existingObject(storeKey: key), step.date != date else { continue }
+            step.date = date
+            changed = true
+        }
+        guard changed else { return }
+        do {
+            try context.save()
+        } catch {
+            context.rollback()
+            AppLog.planning.error("The moved steps could not be saved: \(error.localizedDescription)")
+        }
+    }
+
     func removeStep(key: String) {
         guard let step: NextStep = context.existingObject(storeKey: key) else { return }
         context.delete(step)

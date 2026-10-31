@@ -71,6 +71,16 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
         select(where: nil, [])
     }
 
+    public func setDates(_ dates: [String: Date]) {
+        _ = try? database.transaction {
+            for (key, date) in dates {
+                guard let rowID = Int64(key) else { continue }
+                try database.exec(sql: "UPDATE scheduled_step SET date = ? WHERE id = ?",
+                                  parameters: [.real(date.timeIntervalSinceReferenceDate), .long(rowID)])
+            }
+        }
+    }
+
     public func removeStep(key: String) {
         guard let rowID = Int64(key) else { return }
         _ = try? database.exec(sql: "DELETE FROM scheduled_step WHERE id = ?", parameters: [.long(rowID)])

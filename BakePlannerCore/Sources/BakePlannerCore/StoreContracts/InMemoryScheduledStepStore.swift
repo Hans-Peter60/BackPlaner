@@ -54,4 +54,12 @@ public final class InMemoryScheduledStepStore: ScheduledStepStore {
     public func removeStep(key: String) {
         entries.removeAll { $0.key == key }
     }
+
+    public func setDates(_ dates: [String: Date]) {
+        for index in entries.indices {
+            if let date = dates[entries[index].key] {
+                entries[index].data.date = date
+            }
+        }
+    }
 }

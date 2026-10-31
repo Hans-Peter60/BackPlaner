@@ -20,6 +20,7 @@ public enum ScheduledStepStoreContract {
         ("the steps of other recipes are found without the recipe's own", excluding),
         ("removing a recipe's steps leaves the others", removeRecipe),
         ("a step done is removed on its own", removeStep),
+        ("steps get new dates in one go, the others stay", setDates),
     ]
 
     // MARK: Checks
@@ -95,6 +96,29 @@ public enum ScheduledStepStoreContract {
         store.removeStep(key: key)
         store.removeStep(key: "none")
         try expect(store.allSteps().map(\.data) == [second], "an unknown key removed a step")
+    }
+
+    public static func setDates(_ store: ScheduledStepStore) throws {
+        let first = step("Brot", 1, at: 0)
+        let second = step("Brot", 2, at: 60)
+        let other = step("Kuchen", 1, at: 30)
+        store.add([first, second, other])
+        let keys = Dictionary(store.allSteps().map { ($0.data.recipeName + "\($0.data.step)", $0.key) },
+                              uniquingKeysWith: { first, _ in first })
+        guard let firstKey = keys["Brot1.0"], let secondKey = keys["Brot2.0"] else {
+            throw ContractViolation(description: "the added steps are missing")
+        }
+
+        store.setDates([firstKey: minute(15), secondKey: minute(75), "none": minute(500)])
+
+        var movedFirst = first
+        movedFirst.date = minute(15)
+        var movedSecond = second
+        movedSecond.date = minute(75)
+        try expect(store.allSteps().map(\.data) == [movedFirst, other, movedSecond],
+                   "the new dates were not kept, or other steps changed: \(store.allSteps().map(\.data))")
+        try expect(store.allSteps().map(\.key).contains(firstKey), "a step lost its key by moving")
+        try expect(store.hasSteps(recipeName: "Brot", onOrAfter: minute(75)), "the moved date is not found")
     }
 
     // MARK: Helpers
