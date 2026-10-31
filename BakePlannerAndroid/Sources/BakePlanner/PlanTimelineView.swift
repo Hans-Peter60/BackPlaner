@@ -93,7 +93,7 @@ struct PlanTimelineView: View {
         .task {
             model.loadScheduledSteps()
         }
-        .alert("Geplante Schritte löschen?", isPresented: $confirmsDeletion) {
+        .alert("Bist Du sicher?", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {
                 if let plan = planToDelete {
                     // Every step of the plan, those not shown yet included.

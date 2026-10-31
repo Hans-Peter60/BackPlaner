@@ -477,6 +477,23 @@
         }
       }
     },
+    "Bist Du sicher?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr ?"
+          }
+        }
+      }
+    },
     "Darstellung" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -963,23 +980,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer les étapes planifiées"
-          }
-        }
-      }
-    },
-    "Geplante Schritte löschen?" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete scheduled steps?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer les étapes planifiées ?"
           }
         }
       }
