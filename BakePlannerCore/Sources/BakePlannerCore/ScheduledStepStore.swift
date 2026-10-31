@@ -53,7 +53,20 @@ extension ScheduledStepData {
     }
 }
 
-/// Where the scheduled steps are kept.
+/// A scheduled step with the store's own key for it — steps stored before
+/// they had an id need one too, to be marked done.
+public struct StoredScheduledStep: Equatable {
+    public var key: String
+    public var data: ScheduledStepData
+
+    public init(key: String, data: ScheduledStepData) {
+        self.key = key
+        self.data = data
+    }
+}
+
+/// Where the scheduled steps are kept. A plan belongs to its recipe by
+/// name; a recipe has at most one plan, which planning anew replaces.
 public protocol ScheduledStepStore {
     /// The scheduled steps of every recipe except `recipeName`.
     func steps(excludingRecipe recipeName: String) -> [ScheduledStepData]
@@ -65,6 +78,11 @@ public protocol ScheduledStepStore {
     func add(_ steps: [ScheduledStepData])
     /// Deletes every scheduled step of `recipeName` and saves.
     func removeSteps(recipeName: String)
+    /// Every scheduled step, by date and, at the same time, by step number.
+    func allSteps() -> [StoredScheduledStep]
+    /// Deletes the step with this key — the step is done — and saves.
+    /// Nothing happens for an unknown key.
+    func removeStep(key: String)
 }
 
 extension BakePlan {

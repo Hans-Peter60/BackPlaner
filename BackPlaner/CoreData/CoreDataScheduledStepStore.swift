@@ -65,6 +65,26 @@ struct CoreDataScheduledStepStore: ScheduledStepStore {
             try? context.save()
         }
     }
+
+    func allSteps() -> [StoredScheduledStep] {
+        let request = NextStep.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true),
+                                   NSSortDescriptor(key: "step", ascending: true)]
+        guard let steps = try? context.fetch(request) else { return [] }
+        // Keys are object IDs: steps stored before they had an id have none
+        // of their own.
+        return steps.map { StoredScheduledStep(key: $0.storeKey, data: ScheduledStepData($0)) }
+    }
+
+    func removeStep(key: String) {
+        guard let step: NextStep = context.existingObject(storeKey: key) else { return }
+        context.delete(step)
+        do {
+            try context.save()
+        } catch {
+            AppLog.planning.error("The step done could not be removed: \(error.localizedDescription)")
+        }
+    }
 }
 
 extension ScheduledStepData {

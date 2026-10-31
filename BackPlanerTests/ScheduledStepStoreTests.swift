@@ -3,7 +3,9 @@
 //  BackPlanerTests
 //
 //  The scheduled steps behind the planning logic: what the Core Data store
-//  answers, and what planning makes of the steps a store holds.
+//  answers (the contract and a few checks of its own), and what planning
+//  makes of the steps a store holds (InMemoryScheduledStepStore lives in
+//  BakePlannerCore).
 //
 
 import BakePlannerCore
@@ -11,35 +13,6 @@ import CoreData
 import Foundation
 import Testing
 @testable import BackPlaner
-
-/// Scheduled steps in memory, for testing the planning logic without Core Data.
-final class InMemoryScheduledStepStore: ScheduledStepStore {
-    var stored: [ScheduledStepData]
-
-    init(_ steps: [ScheduledStepData] = []) {
-        stored = steps
-    }
-
-    func steps(excludingRecipe recipeName: String) -> [ScheduledStepData] {
-        stored.filter { $0.recipeName != recipeName }
-    }
-
-    func hasSteps(recipeName: String) -> Bool {
-        stored.contains { $0.recipeName == recipeName }
-    }
-
-    func hasSteps(recipeName: String, onOrAfter date: Date) -> Bool {
-        stored.contains { $0.recipeName == recipeName && $0.date >= date }
-    }
-
-    func add(_ steps: [ScheduledStepData]) {
-        stored += steps
-    }
-
-    func removeSteps(recipeName: String) {
-        stored.removeAll { $0.recipeName == recipeName }
-    }
-}
 
 private let base = Date(timeIntervalSince1970: 1_800_000_000)
 
@@ -137,6 +110,12 @@ struct CoreDataScheduledStepStoreTests {
 
     private func makeStore() -> CoreDataScheduledStepStore {
         CoreDataScheduledStepStore(context: PersistenceController(inMemory: true).container.viewContext)
+    }
+
+    @Test("Every check of the contract", arguments: ScheduledStepStoreContract.checks.map(\.name))
+    func contract(_ name: String) throws {
+        let check = try #require(ScheduledStepStoreContract.checks.first { $0.name == name })
+        try check.run(makeStore())
     }
 
     @Test("Stored steps come back with every field")
