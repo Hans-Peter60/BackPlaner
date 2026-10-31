@@ -1,4 +1,5 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
@@ -15,6 +16,10 @@ struct RecipeDetailView: View {
     /// The factor on the recipe as stored: 1 is the recipe, 2 twice as much.
     @State var scale = 1.0
     @State var isEditing = false
+    @State var picksImage = false
+    @State var pickedImageURL: URL?
+    @State var pickedImageName: String?
+    @State var pickedImageType: String?
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -51,6 +56,18 @@ struct RecipeDetailView: View {
                 }
             }
         }
+        .withDocumentPicker(isPresented: $picksImage,
+                            allowedContentTypes: [.image],
+                            selectedDocumentURL: $pickedImageURL,
+                            selectedFilename: $pickedImageName,
+                            selectedFileMimeType: $pickedImageType)
+        .onChange(of: pickedImageURL) { _, url in
+            guard let url else { return }
+            pickedImageURL = nil
+            // A file that is no picture leaves the recipe's picture as it is.
+            guard let data = Self.pictureData(at: url) else { return }
+            changeImage(to: data)
+        }
         .task {
             recipe = model.recipe(id: recipeID)
         }
@@ -61,6 +78,18 @@ struct RecipeDetailView: View {
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 picture(of: recipe)
+
+                HStack(spacing: 16) {
+                    Button(recipe.content.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
+                        picksImage = true
+                    }
+                    if recipe.content.image != nil {
+                        Button("Bild entfernen", role: .destructive) {
+                            changeImage(to: nil)
+                        }
+                    }
+                }
+                .font(.subheadline)
 
                 if !page.summary.isEmpty {
                     Text(verbatim: page.summary)
@@ -132,6 +161,31 @@ struct RecipeDetailView: View {
                 .frame(height: 220)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         }
+        #endif
+    }
+
+    private func changeImage(to data: Data?) {
+        if model.setImage(data, forRecipe: recipeID) {
+            recipe = model.recipe(id: recipeID)
+        }
+    }
+
+    /// The picked picture as JPEG, the way the iOS app keeps pictures; nil
+    /// when the file is no picture.
+    static func pictureData(at url: URL) -> Data? {
+        #if !os(Android)
+        // On iOS the picked file is only readable while its access lasts;
+        // on Android the picker hands over a copy in the app's cache.
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+        #endif
+        guard let data = try? Data(contentsOf: url) else { return nil }
+        #if canImport(UIKit) || os(Android)
+        // Whatever the camera wrote (HEIC, PNG, JPEG) becomes JPEG.
+        guard let image = UIImage(data: data) else { return nil }
+        return image.jpegData(compressionQuality: 0.8) ?? data
+        #else
+        return data
         #endif
     }
 

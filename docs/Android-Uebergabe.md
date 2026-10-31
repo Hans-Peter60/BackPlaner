@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 31.10.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 4d-2.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 31.10.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 4d-3.
 
 ## Wo was liegt
 
@@ -67,7 +67,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
   - Die Android-App verwendet die Swift-6-Sprachversion, die Pakete die Swift-5-Sprachversion.
 - **Dateiauswahl:** `fileImporter` ist in Skip auf Android nur ein Platzhalter. Stattdessen `withDocumentPicker` aus **SkipKit**. Auf iOS muss man den Zugriff selbst holen (`startAccessingSecurityScopedResource`), auf Android liefert der Picker eine Kopie.
 - **Dialoge:** Android schließt einen `.alert` vor der Aktion des Knopfes. Die Sichtbarkeit (`isPresented`) gehört deshalb nicht an dieselben Daten, die die Aktion braucht. Sonst sind sie beim Ausführen schon weg, siehe Löschen in `ContentView`.
-- **Bilder:** `UIImage(data:)` und `Image(uiImage:)` gibt es in Skip Fuse auch auf Android.
+- **Bilder:** `UIImage(data:)`, `Image(uiImage:)` und `jpegData` gibt es in Skip Fuse auch auf Android. SkipKits `withMediaPicker` liefert auf Android eine `content://`-Adresse, die Swift nicht lesen kann; für Bilder deshalb `withDocumentPicker` mit `[.image]`.
 - **Erinnerungen** (Probe vom 30.10.2026):
   - Es fehlen `UNNotificationAction`, Texteingabe-Aktionen und Kategorien.
   - `UNCalendarNotificationTrigger` stürzt ab, `UNTimeIntervalNotificationTrigger` funktioniert.
@@ -88,12 +88,8 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 
 ## Offen
 
-1. **4d-3, Rezeptbild ändern:**
-   - Fotoauswahl über SkipKit (`MediaPicker`, vorher im Quelltext prüfen).
-   - Das Bild verkleinern, als JPEG über `SQLiteRecipeStore.setImage` speichern.
-   - Dazu „Bild entfernen“.
-2. **4e, Rezepte als Sicherungsdatei teilen:** Von Android zurück zum iPhone, mit `RecipeExportFile(recipeIDs:from:)` und SkipKits `withDocumentExporter` oder dem Teilen-Menü.
-3. **Die übrigen Speicher:** Backhistorie, Anstellgut-Tagebuch, Einkaufslisten, geplante Schritte. Jeweils Protokoll und Vertrag in `BakePlannerCore`, Core-Data-Umsetzung in der App, SQLite-Umsetzung in `BakePlannerStorage`, nach dem Muster der Rezepte.
-4. **Wartet auf Hans-Peters Entscheidung:** Soll die Sicherungsdatei um Backhistorie, Anstellgut-Tagebuch usw. erweitert werden? Das braucht eine neue Formatversion. Laut `CLAUDE.md` nur mit seiner Zustimmung.
-5. **Später:** Planung und Erinnerungen auf Android (eigener Android-Code), Backmodus, Einkaufsliste, öffentliche Rezepte über Firebase, Pro über Play Billing.
-6. **Kleiner Wunsch, falls gewünscht:** eine Warnung, wenn sich zwei Pläne desselben Rezepts überschneiden. Die Plan-Prüfung vergleicht bisher nur verschiedene Rezepte.
+1. **4e, Rezepte als Sicherungsdatei teilen:** Von Android zurück zum iPhone, mit `RecipeExportFile(recipeIDs:from:)` und SkipKits `withDocumentExporter` oder dem Teilen-Menü.
+2. **Die übrigen Speicher:** Backhistorie, Anstellgut-Tagebuch, Einkaufslisten, geplante Schritte. Jeweils Protokoll und Vertrag in `BakePlannerCore`, Core-Data-Umsetzung in der App, SQLite-Umsetzung in `BakePlannerStorage`, nach dem Muster der Rezepte.
+3. **Wartet auf Hans-Peters Entscheidung:** Soll die Sicherungsdatei um Backhistorie, Anstellgut-Tagebuch usw. erweitert werden? Das braucht eine neue Formatversion. Laut `CLAUDE.md` nur mit seiner Zustimmung.
+4. **Später:** Planung und Erinnerungen auf Android (eigener Android-Code), Backmodus, Einkaufsliste, öffentliche Rezepte über Firebase, Pro über Play Billing.
+5. **Kleiner Wunsch, falls gewünscht:** eine Warnung, wenn sich zwei Pläne desselben Rezepts überschneiden. Die Plan-Prüfung vergleicht bisher nur verschiedene Rezepte.

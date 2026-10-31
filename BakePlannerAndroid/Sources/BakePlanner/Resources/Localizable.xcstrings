@@ -86,6 +86,57 @@
         }
       }
     },
+    "Bild entfernen" : {
+      "comment" : "Recipe detail: remove the recipe's picture.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer l’image"
+          }
+        }
+      }
+    },
+    "Bild hinzufügen" : {
+      "comment" : "Recipe detail: pick a picture for a recipe without one.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une image"
+          }
+        }
+      }
+    },
+    "Bild ändern" : {
+      "comment" : "Recipe detail: pick another picture.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer l’image"
+          }
+        }
+      }
+    },
     "Dauer" : {
       "comment" : "Recipe editor.",
       "localizations" : {

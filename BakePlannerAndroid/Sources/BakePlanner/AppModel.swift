@@ -70,6 +70,18 @@ final class AppModel {
         }
     }
 
+    /// Gives the recipe a new picture, or none for `nil`. Whether it worked.
+    @discardableResult
+    func setImage(_ image: Data?, forRecipe id: String) -> Bool {
+        do {
+            try openedStore().setImage(image, forRecipe: id)
+            return true
+        } catch {
+            logger.error("could not change the picture of recipe \(id): \(error)")
+            return false
+        }
+    }
+
     /// Removes the recipe and refreshes the list.
     func delete(id: String) {
         do {
