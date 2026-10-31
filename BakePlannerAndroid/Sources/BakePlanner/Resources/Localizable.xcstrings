@@ -18,6 +18,23 @@
         }
       }
     },
+    "%lld× gebacken · zuletzt %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "baked %1$lld× · last %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuit %1$lld× · dernière le %2$@"
+          }
+        }
+      }
+    },
     "Abbrechen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -50,6 +67,93 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Sauvegarder toutes mes recettes"
+          }
+        }
+      }
+    },
+    "Backanmerkungen- / hinweise" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking notes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes de cuisson"
+          }
+        }
+      }
+    },
+    "Backdatum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake date"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date de cuisson"
+          }
+        }
+      }
+    },
+    "Backhistorie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique de cuisson"
+          }
+        }
+      }
+    },
+    "Backvorgang eintragen" : {
+      "comment" : "Recipe detail: button that records a bake in the bake history.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record a bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter une cuisson"
+          }
+        }
+      }
+    },
+    "Backvorgang löschen?" : {
+      "comment" : "Bake history: confirm removing an entry.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this bake?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer cette cuisson ?"
           }
         }
       }
@@ -228,6 +332,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une image"
+          }
+        }
+      }
+    },
+    "Bisherige Backvorgänge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Previous bakes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cuissons précédentes"
+          }
+        }
+      }
+    },
+    "Darstellung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affichage"
           }
         }
       }
@@ -476,6 +614,24 @@
         }
       }
     },
+    "Fotos" : {
+      "comment" : "Bake history entry: heading above the photos.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
     "Für dieses Rezept sind keine Zutaten hinterlegt, die auf eine Einkaufsliste passen." : {
       "comment" : "A message displayed when a recipe has no ingredients that can be added to a shopping cart.",
       "extractionState" : "manual",
@@ -490,6 +646,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette recette ne contient aucun ingrédient pouvant être ajouté à une liste de courses."
+          }
+        }
+      }
+    },
+    "geplant" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "planned"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "planifiée"
           }
         }
       }
@@ -562,6 +735,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
+    "Hit-Liste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palmarès"
           }
         }
       }
@@ -672,6 +862,23 @@
         }
       }
     },
+    "Kommentar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commentaire"
+          }
+        }
+      }
+    },
     "Komponente" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -744,6 +951,59 @@
         }
       }
     },
+    "Krume" : {
+      "comment" : "A heading for the crumb keywords.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Crumb"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mie"
+          }
+        }
+      }
+    },
+    "Krume / Ofentrieb" : {
+      "comment" : "Label for the crumb and oven spring field in the last bake card.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Crumb / oven spring"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mie / développement"
+          }
+        }
+      }
+    },
+    "Liste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste"
+          }
+        }
+      }
+    },
     "Löschen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -758,6 +1018,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer"
+          }
+        }
+      }
+    },
+    "Mehl" : {
+      "comment" : "Label for the flour field in the \"last time\" card.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Farine"
           }
         }
       }
@@ -812,6 +1090,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modifier la quantité"
+          }
+        }
+      }
+    },
+    "Messwerte und Ergebnis" : {
+      "comment" : "A section header for the \"facts\" part of a bake-history entry.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Measurements and result"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mesures et résultat"
           }
         }
       }
@@ -904,6 +1200,23 @@
         }
       }
     },
+    "Noch keine Backhistorie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No baking history yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore d’historique de cuisson"
+          }
+        }
+      }
+    },
     "Noch keine Rezepte" : {
       "comment" : "Empty recipe list.",
       "extractionState" : "manual",
@@ -935,6 +1248,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun ingrédient pour le moment"
+          }
+        }
+      }
+    },
+    "Noch nichts notiert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nothing noted yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Rien de noté pour l’instant"
           }
         }
       }
@@ -975,6 +1305,42 @@
         }
       }
     },
+    "Ofentrieb" : {
+      "comment" : "A heading for the oven spring keywords.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Oven spring"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Développement au four"
+          }
+        }
+      }
+    },
+    "Öffne ein Rezept und tippe auf „Backvorgang eintragen“." : {
+      "comment" : "Bake history, empty: how a bake gets recorded on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Record a bake”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Noter une cuisson »."
+          }
+        }
+      }
+    },
     "Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“." : {
       "comment" : "Shopping lists, empty: how a recipe gets onto a list on Android.",
       "extractionState" : "manual",
@@ -1006,6 +1372,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
+    "Raumtemperatur" : {
+      "comment" : "Label of a row in a form or on the \"last time\" card for room temperature.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Room temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Température ambiante"
           }
         }
       }
@@ -1224,6 +1608,59 @@
         }
       }
     },
+    "Stichworte, durch Komma getrennt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Keywords, separated by commas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mots-clés, séparés par des virgules"
+          }
+        }
+      }
+    },
+    "Stockgare" : {
+      "comment" : "Text for the \"bulk proof\" label.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bulk proof"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pointage"
+          }
+        }
+      }
+    },
+    "Stückgare" : {
+      "comment" : "The label of the \"final proof\" row in the \"last time\" card.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Final proof"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Apprêt"
+          }
+        }
+      }
+    },
     "TA %lld · Hydration %@" : {
       "comment" : "A label that displays the dough yield and hydration percentage. The first argument is the dough yield, a number. The second argument is the string “%arg %%”.",
       "extractionState" : "manual",
@@ -1266,6 +1703,24 @@
         }
       }
     },
+    "Teigtemperatur" : {
+      "comment" : "Text for the dough temperature.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dough temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Température de la pâte"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -1280,6 +1735,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
+          }
+        }
+      }
+    },
+    "z. B. Weizen 550, Dinkel 630" : {
+      "comment" : "A hint for the flour field in the bake-history form.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "For example: wheat 550, spelt 630"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Par exemple : blé T55, épeautre T80"
           }
         }
       }

@@ -4,8 +4,8 @@ import Foundation
 import Observation
 import SkipFuse
 
-/// What the app shows, and where it keeps the user's recipes and shopping
-/// lists: one SQLite database in the app's own storage.
+/// What the app shows, and where it keeps the user's recipes, shopping lists
+/// and bake history: one SQLite database in the app's own storage.
 @MainActor
 @Observable
 final class AppModel {
@@ -39,8 +39,12 @@ final class AppModel {
         case failed
     }
 
+    /// The bake history of every recipe, newest first, without photos.
+    var bakeHistory: [StoredBakeHistory] = []
+
     private var store: SQLiteRecipeStore?
     private var listStore: SQLiteShoppingListStore?
+    private var historyStore: SQLiteBakeHistoryStore?
 
     func load() {
         do {
@@ -111,6 +115,71 @@ final class AppModel {
         }
         load()
         loadShoppingLists()
+        loadBakeHistory()
+    }
+
+    // MARK: Bake history
+
+    func loadBakeHistory() {
+        do {
+            bakeHistory = try openedHistoryStore().entries(includingImages: false)
+        } catch {
+            logger.error("could not read the bake history: \(error)")
+        }
+    }
+
+    /// One entry with its photos, read afresh.
+    func bakeEntry(id: String) -> StoredBakeHistory? {
+        do {
+            return try openedHistoryStore().entry(id: id)
+        } catch {
+            logger.error("could not read bake history entry \(id): \(error)")
+            return nil
+        }
+    }
+
+    /// Keeps a new entry for the recipe, which then counts as baked. Whether
+    /// it worked.
+    @discardableResult
+    func addBakeEntry(toRecipe recipeID: String, date: Date, comment: String, images: [Data],
+                      facts: BakeHistoryFacts) -> Bool {
+        do {
+            _ = try openedHistoryStore().add(toRecipe: recipeID, date: date, comment: comment, images: images,
+                                             facts: facts)
+            loadBakeHistory()
+            load()
+            return true
+        } catch {
+            logger.error("could not add a bake history entry to recipe \(recipeID): \(error)")
+            return false
+        }
+    }
+
+    /// Keeps a changed entry. Whether it worked.
+    @discardableResult
+    func updateBakeEntry(_ entry: StoredBakeHistory) -> Bool {
+        do {
+            try openedHistoryStore().update(entry)
+            loadBakeHistory()
+            return true
+        } catch {
+            logger.error("could not change bake history entry \(entry.id): \(error)")
+            return false
+        }
+    }
+
+    func deleteBakeEntry(id: String) {
+        do {
+            try openedHistoryStore().delete(id: id)
+        } catch {
+            logger.error("could not delete bake history entry \(id): \(error)")
+        }
+        loadBakeHistory()
+    }
+
+    /// The recipe's name for an entry; empty when the list has not caught up.
+    func recipeName(id: String) -> String {
+        recipes.first { $0.id == id }?.content.name ?? ""
     }
 
     // MARK: Shopping lists
@@ -232,6 +301,14 @@ final class AppModel {
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let opened = try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
         store = opened
+        return opened
+    }
+
+    /// The bake history, in the same database file as the recipes.
+    private func openedHistoryStore() throws -> SQLiteBakeHistoryStore {
+        if let historyStore { return historyStore }
+        let opened = SQLiteBakeHistoryStore(file: try openedStore().file)
+        historyStore = opened
         return opened
     }
 

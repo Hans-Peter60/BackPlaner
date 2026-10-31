@@ -20,10 +20,18 @@ struct ContentView: View {
             .tabItem {
                 Label("Einkaufslisten", systemImage: "cart")
             }
+
+            NavigationStack {
+                BakeHistoryView(model: model)
+            }
+            .tabItem {
+                Label("Backhistorie", systemImage: "clock")
+            }
         }
         .task {
             model.load()
             model.loadShoppingLists()
+            model.loadBakeHistory()
         }
     }
 }

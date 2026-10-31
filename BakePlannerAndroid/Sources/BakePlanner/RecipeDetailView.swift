@@ -170,6 +170,8 @@ struct RecipeDetailView: View {
                         }
                     }
                 }
+
+                RecipeBakeHistorySection(model: model, recipeID: recipeID)
             }
             .padding()
         }
