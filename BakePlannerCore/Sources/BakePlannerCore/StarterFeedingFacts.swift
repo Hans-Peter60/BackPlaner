@@ -24,6 +24,15 @@ public struct StarterFeedingFacts: Equatable {
         self.note = note
     }
 
+    /// The facts as every store keeps them: the note trimmed, a peak time
+    /// of zero minutes or less as not measured. The float test stays as it
+    /// is — a failed test is a result.
+    public var normalized: StarterFeedingFacts {
+        StarterFeedingFacts(peakMinutes: peakMinutes.flatMap { $0 > 0 ? $0 : nil },
+                            floatTestPassed: floatTestPassed,
+                            note: note.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
     public static func minutesInput(_ minutes: Int?) -> String {
         BakeHistoryFacts.minutesInput(minutes)
     }

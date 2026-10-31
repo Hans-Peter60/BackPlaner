@@ -141,6 +141,7 @@
 		6AFA48EC307E000100E105F9 /* CoreDataRecipeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48EB307E000100E105F9 /* CoreDataRecipeStore.swift */; };
 		6AFA48EE307E000100E105F9 /* CoreDataShoppingListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */; };
 		6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */; };
+		6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
 /* End PBXBuildFile section */
@@ -325,6 +326,7 @@
 		6AFA48EB307E000100E105F9 /* CoreDataRecipeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRecipeStore.swift; sourceTree = "<group>"; };
 		6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataShoppingListStore.swift; sourceTree = "<group>"; };
 		6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBakeHistoryStore.swift; sourceTree = "<group>"; };
+		6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStarterFeedingLogStore.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -449,6 +451,7 @@
 				6AFA48EB307E000100E105F9 /* CoreDataRecipeStore.swift */,
 				6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */,
 				6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */,
+				6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */,
 				6AF754E72B75018F00EADD84 /* BackPlaner.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -959,6 +962,7 @@
 				6AFA48EC307E000100E105F9 /* CoreDataRecipeStore.swift in Sources */,
 				6AFA48EE307E000100E105F9 /* CoreDataShoppingListStore.swift in Sources */,
 				6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */,
+				6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */,
 				6AF639622B7A4F060070CDC1 /* Recipe+CoreDataProperties.swift in Sources */,
 				6AF639482B7A4ED90070CDC1 /* Item+CoreDataProperties.swift in Sources */,
 				6A11320F2B7CF95A00CDF054 /* AddTagsDataView.swift in Sources */,

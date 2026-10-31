@@ -145,10 +145,10 @@ extension StarterFeedingLog {
                                  note: note ?? "")
         }
         set {
-            peakMinutes = newValue.peakMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            floatTestPassed = newValue.floatTestPassed.map { NSNumber(value: $0) }
-            let note = newValue.note.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.note = note.isEmpty ? nil : note
+            let facts = newValue.normalized
+            peakMinutes = facts.peakMinutes.map { NSNumber(value: $0) }
+            floatTestPassed = facts.floatTestPassed.map { NSNumber(value: $0) }
+            note = facts.note.isEmpty ? nil : facts.note
         }
     }
 }
