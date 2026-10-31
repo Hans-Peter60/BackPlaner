@@ -496,8 +496,11 @@ final class AppModel {
         do {
             let file: RecipeExportFile
             if includingBakeHistory {
+                // Photos picked before they were made small on picking
+                // are made small here, as the iPhone does.
                 file = try RecipeExportFile(recipeIDs: ids, from: openedStore(), bakeHistory: openedHistoryStore(),
-                                            starterFeedings: openedFeedingStore())
+                                            starterFeedings: openedFeedingStore(),
+                                            shrinkPhoto: PhotoShrinker.shrunk)
             } else {
                 file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
             }

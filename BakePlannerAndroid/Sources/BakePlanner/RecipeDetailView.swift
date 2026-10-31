@@ -236,13 +236,8 @@ struct RecipeDetailView: View {
         defer { if accessing { url.stopAccessingSecurityScopedResource() } }
         #endif
         guard let data = try? Data(contentsOf: url) else { return nil }
-        #if canImport(UIKit) || os(Android)
-        // Whatever the camera wrote (HEIC, PNG, JPEG) becomes JPEG.
-        guard let image = UIImage(data: data) else { return nil }
-        return image.jpegData(compressionQuality: 0.8) ?? data
-        #else
-        return data
-        #endif
+        // JPEG, and no larger than looks sharp on screen (PhotoShrinker).
+        return PhotoShrinker.pickedPhoto(data)
     }
 
     private func section<Content: View>(_ title: LocalizedStringKey,
