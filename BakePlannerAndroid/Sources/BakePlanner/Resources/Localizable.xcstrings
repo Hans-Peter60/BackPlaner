@@ -18,6 +18,23 @@
         }
       }
     },
+    "Alle eigenen Rezepte sichern" : {
+      "comment" : "Recipe list: save every recipe as one backup file.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Back up all my recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sauvegarder toutes mes recettes"
+          }
+        }
+      }
+    },
     "Bearbeiten" : {
       "comment" : "Button and title: change a recipe's details.",
       "localizations" : {
@@ -218,6 +235,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total des ingrédients :"
+          }
+        }
+      }
+    },
+    "Gesichert" : {
+      "comment" : "Alert after a backup file was saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistré"
           }
         }
       }
@@ -460,6 +494,23 @@
         }
       }
     },
+    "Rezept sichern" : {
+      "comment" : "Recipe detail: save this recipe as a backup file.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder la recette"
+          }
+        }
+      }
+    },
     "Rezepte" : {
       "comment" : "Title of the recipe list.",
       "localizations" : {
@@ -541,6 +592,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une étape"
+          }
+        }
+      }
+    },
+    "Sichern fehlgeschlagen" : {
+      "comment" : "Alert when a backup file could not be written or saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la sauvegarde"
           }
         }
       }

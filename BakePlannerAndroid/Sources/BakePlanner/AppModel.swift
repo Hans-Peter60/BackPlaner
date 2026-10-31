@@ -92,6 +92,32 @@ final class AppModel {
         load()
     }
 
+    /// Writes the recipes `ids` into a backup file, as the iPhone app reads
+    /// it, and returns where it lies — in the app's cache, ready to be
+    /// handed to the system's "save as".
+    func exportFile(recipeIDs ids: [String], named name: String) -> URL? {
+        do {
+            let file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
+            let folder = URL.cachesDirectory.appendingPathComponent("Export", isDirectory: true)
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            let safeName = name.components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|")).joined(separator: "-")
+            let url = folder.appendingPathComponent(safeName.isEmpty ? "Rezept" : safeName).appendingPathExtension("json")
+            try file.encoded().write(to: url, options: .atomic)
+            return url
+        } catch {
+            logger.error("could not write a backup file: \(error)")
+            return nil
+        }
+    }
+
+    /// "BakePlanner-Rezepte-2026-10-31", as the iPhone app names its backups.
+    static var backupFileName: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return "BakePlanner-Rezepte-\(formatter.string(from: Date()))"
+    }
+
     /// Reads a backup or recipe file — as the iPhone app writes it — into
     /// the database, every recipe as a new one.
     func importFile(at url: URL) {

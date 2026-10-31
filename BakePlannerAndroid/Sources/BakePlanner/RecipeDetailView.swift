@@ -17,6 +17,7 @@ struct RecipeDetailView: View {
     @State var scale = 1.0
     @State var isEditing = false
     @State var picksImage = false
+    @State var recipeToExport: [String]?
     @State var pickedImageURL: URL?
     @State var pickedImageName: String?
     @State var pickedImageType: String?
@@ -42,7 +43,16 @@ struct RecipeDetailView: View {
                 }
                 .disabled(recipe == nil)
             }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    recipeToExport = [recipeID]
+                } label: {
+                    Label("Rezept sichern", systemImage: "square.and.arrow.up")
+                }
+                .disabled(recipe == nil)
+            }
         }
+        .recipeFileExporter(model: model, recipeIDs: $recipeToExport, fileName: recipe?.content.name ?? "Rezept")
         .sheet(isPresented: $isEditing) {
             if let recipe {
                 NavigationStack {

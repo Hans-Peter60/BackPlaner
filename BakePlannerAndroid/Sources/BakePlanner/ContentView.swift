@@ -29,6 +29,7 @@ struct RecipeListView: View {
     @State var recipeToDelete: StoredRecipe?
     @State var confirmsDeletion = false
     @State var createsRecipe = false
+    @State var recipesToExport: [String]?
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -90,7 +91,16 @@ struct RecipeListView: View {
                     Label("Neues Rezept", systemImage: "plus")
                 }
             }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    recipesToExport = model.recipes.map(\.id)
+                } label: {
+                    Label("Alle eigenen Rezepte sichern", systemImage: "square.and.arrow.up")
+                }
+                .disabled(model.recipes.isEmpty)
+            }
         }
+        .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName)
         .sheet(isPresented: $createsRecipe) {
             NavigationStack {
                 RecipeEditor(original: nil) { _, content in
