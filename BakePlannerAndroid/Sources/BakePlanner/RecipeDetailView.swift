@@ -21,6 +21,7 @@ struct RecipeDetailView: View {
     @State var pickedImageURL: URL?
     @State var pickedImageName: String?
     @State var pickedImageType: String?
+    @State var addsToShoppingList = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -64,6 +65,11 @@ struct RecipeDetailView: View {
                         }
                     }
                 }
+            }
+        }
+        .sheet(isPresented: $addsToShoppingList) {
+            NavigationStack {
+                AddToShoppingListView(model: model, recipeID: recipeID, scale: scale)
             }
         }
         .withDocumentPicker(isPresented: $picksImage,
@@ -122,6 +128,15 @@ struct RecipeDetailView: View {
                     }
                 }
                 .font(.subheadline)
+
+                // At the amount chosen above, as on the iPhone.
+                Button {
+                    addsToShoppingList = true
+                } label: {
+                    Label("Rezept zur Einkaufsliste hinzufügen", systemImage: "cart")
+                }
+                .buttonStyle(.bordered)
+                .tint(Palette.accent(colorScheme))
 
                 section("Komponenten") {
                     ForEach(Array(page.components.enumerated()), id: \.offset) { _, component in

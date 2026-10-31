@@ -4,8 +4,8 @@ import Foundation
 import Observation
 import SkipFuse
 
-/// What the app shows, and where it keeps the user's recipes: a SQLite
-/// database in the app's own storage.
+/// What the app shows, and where it keeps the user's recipes and shopping
+/// lists: one SQLite database in the app's own storage.
 @MainActor
 @Observable
 final class AppModel {
@@ -21,7 +21,26 @@ final class AppModel {
         case failed(String)
     }
 
+    /// The shopping lists, oldest first.
+    var shoppingLists: [StoredShoppingList] = []
+
+    /// Where a recipe's ingredients go.
+    enum ShoppingListTarget {
+        /// The list of that day — a new one when the day has none yet, as
+        /// on the iPhone.
+        case newList(Date)
+        case existingList(String)
+    }
+
+    enum ShoppingListOutcome: Equatable {
+        case added
+        /// The recipe has nothing that is bought (only water, salt, starter).
+        case nothingToBuy
+        case failed
+    }
+
     private var store: SQLiteRecipeStore?
+    private var listStore: SQLiteShoppingListStore?
 
     func load() {
         do {
@@ -82,7 +101,8 @@ final class AppModel {
         }
     }
 
-    /// Removes the recipe and refreshes the list.
+    /// Removes the recipe and refreshes the list. Its ingredients stay on
+    /// the shopping lists; the recipe's name goes from them.
     func delete(id: String) {
         do {
             try openedStore().delete(id: id)
@@ -90,6 +110,74 @@ final class AppModel {
             logger.error("could not delete recipe \(id): \(error)")
         }
         load()
+        loadShoppingLists()
+    }
+
+    // MARK: Shopping lists
+
+    func loadShoppingLists() {
+        do {
+            shoppingLists = try openedListStore().lists()
+        } catch {
+            logger.error("could not read the shopping lists: \(error)")
+        }
+    }
+
+    /// Puts the ingredients of recipe `recipeID`, at `scale` (1 is the
+    /// recipe as stored), on a shopping list — sifted, converted and merged
+    /// as on the iPhone (ShoppingListBuilder).
+    func addToShoppingList(recipeID: String, scale: Double, target: ShoppingListTarget) -> ShoppingListOutcome {
+        do {
+            guard let recipe = try openedStore().recipe(id: recipeID) else { return .failed }
+            let entries = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: recipe.content), scale: scale)
+            guard !entries.isEmpty else { return .nothingToBuy }
+
+            let lists = try openedListStore()
+            let listID: String
+            switch target {
+            case .newList(let date):
+                listID = try lists.list(onSameDayAs: date)?.id ?? lists.addList(on: date).id
+            case .existingList(let id):
+                listID = id
+            }
+            try lists.add(entries, from: .own(id: recipeID), toList: listID)
+            loadShoppingLists()
+            return .added
+        } catch {
+            logger.error("could not put recipe \(recipeID) on a shopping list: \(error)")
+            loadShoppingLists()
+            return .failed
+        }
+    }
+
+    /// Keeps a changed line of a shopping list.
+    func update(_ item: StoredShoppingListItem) {
+        do {
+            try openedListStore().update(item)
+        } catch {
+            logger.error("could not change shopping list line \(item.id): \(error)")
+        }
+        loadShoppingLists()
+    }
+
+    /// Takes one line off its shopping list.
+    func deleteShoppingListItem(id: String) {
+        do {
+            try openedListStore().deleteItem(id: id)
+        } catch {
+            logger.error("could not remove shopping list line \(id): \(error)")
+        }
+        loadShoppingLists()
+    }
+
+    /// Removes a shopping list with its lines; the recipes stay.
+    func deleteShoppingList(id: String) {
+        do {
+            try openedListStore().delete(id: id)
+        } catch {
+            logger.error("could not delete shopping list \(id): \(error)")
+        }
+        loadShoppingLists()
     }
 
     /// Writes the recipes `ids` into a backup file, as the iPhone app reads
@@ -144,6 +232,14 @@ final class AppModel {
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let opened = try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
         store = opened
+        return opened
+    }
+
+    /// The shopping lists, in the same database file as the recipes.
+    private func openedListStore() throws -> SQLiteShoppingListStore {
+        if let listStore { return listStore }
+        let opened = SQLiteShoppingListStore(file: try openedStore().file)
+        listStore = opened
         return opened
     }
 }

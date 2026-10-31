@@ -6,11 +6,24 @@ struct ContentView: View {
     @State var model = AppModel()
 
     var body: some View {
-        NavigationStack {
-            RecipeListView(model: model)
+        TabView {
+            NavigationStack {
+                RecipeListView(model: model)
+            }
+            .tabItem {
+                Label("Rezepte", systemImage: "list.bullet")
+            }
+
+            NavigationStack {
+                ShoppingListsView(model: model)
+            }
+            .tabItem {
+                Label("Einkaufslisten", systemImage: "cart")
+            }
         }
         .task {
             model.load()
+            model.loadShoppingLists()
         }
     }
 }

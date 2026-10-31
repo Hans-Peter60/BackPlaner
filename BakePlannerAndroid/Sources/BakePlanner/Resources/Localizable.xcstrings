@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%lld Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld ingrédients"
+          }
+        }
+      }
+    },
     "Abbrechen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -33,6 +50,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Sauvegarder toutes mes recettes"
+          }
+        }
+      }
+    },
+    "Backzutaten" : {
+      "comment" : "Heading above the group of items in the shopping list.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Baking supplies"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ingrédients de pâtisserie"
           }
         }
       }
@@ -87,6 +122,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Description"
+          }
+        }
+      }
+    },
+    "Bestehende Einkaufslisten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing shopping lists"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listes de courses existantes"
+          }
+        }
+      }
+    },
+    "Bestehende Liste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste existante"
           }
         }
       }
@@ -163,6 +232,23 @@
         }
       }
     },
+    "Datum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        }
+      }
+    },
     "Dauer" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -177,6 +263,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée"
+          }
+        }
+      }
+    },
+    "Die Änderung konnte nicht gespeichert werden." : {
+      "comment" : "Error message when a change could not be saved.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The change could not be saved."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modification n’a pas pu être enregistrée."
+          }
+        }
+      }
+    },
+    "Die Menge gilt für diese Einkaufsliste. Das Rezept bleibt unverändert." : {
+      "comment" : "A description of the effect of changing the amount of a shopping list item.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The amount applies to this shopping list. The recipe stays unchanged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La quantité s’applique à cette liste de courses. La recette reste inchangée."
+          }
+        }
+      }
+    },
+    "Die Mengen entsprechen dem Faktor %@." : {
+      "comment" : "A message that appears in a ShoppingCartSelectFormView alert, showing the factor by which the recipe's ingredient amounts have been multiplied.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "The amounts correspond to the factor %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Les quantités correspondent au facteur %@."
           }
         }
       }
@@ -213,6 +353,143 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unité"
+          }
+        }
+      }
+    },
+    "Einkaufsliste erstellen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create shopping list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une liste de courses"
+          }
+        }
+      }
+    },
+    "Einkaufsliste löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete shopping list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la liste de courses"
+          }
+        }
+      }
+    },
+    "Einkaufsliste vom %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping list of %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste de courses du %@"
+          }
+        }
+      }
+    },
+    "Einkaufslisten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping lists"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listes de courses"
+          }
+        }
+      }
+    },
+    "Erstelle zuerst eine neue Liste." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a new list first."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez d’abord une nouvelle liste."
+          }
+        }
+      }
+    },
+    "Erstellen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer"
+          }
+        }
+      }
+    },
+    "Fertig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        }
+      }
+    },
+    "Für dieses Rezept sind keine Zutaten hinterlegt, die auf eine Einkaufsliste passen." : {
+      "comment" : "A message displayed when a recipe has no ingredients that can be added to a shopping cart.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This recipe doesn’t have any ingredients that can be added to a shopping list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette recette ne contient aucun ingrédient pouvant être ajouté à une liste de courses."
           }
         }
       }
@@ -271,6 +548,24 @@
         }
       }
     },
+    "Gewürze & Kräuter" : {
+      "comment" : "Text for the category of items that are spices and herbs.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spices & herbs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
     "Import fehlgeschlagen" : {
       "comment" : "Alert title when a backup file could not be imported.",
       "extractionState" : "manual",
@@ -321,6 +616,58 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer"
+          }
+        }
+      }
+    },
+    "Keine Einkaufsliste vorhanden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No shopping list available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune liste de courses disponible"
+          }
+        }
+      }
+    },
+    "Keine Einkaufslisten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No shopping lists"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune liste de courses"
+          }
+        }
+      }
+    },
+    "Keine Zutaten vorhanden" : {
+      "comment" : "A message that appears when a recipe has no ingredients that can be added to a shopping cart.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ingredients available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun ingrédient disponible"
           }
         }
       }
@@ -415,6 +762,24 @@
         }
       }
     },
+    "Mehl & Getreide" : {
+      "comment" : "Heading above the group of items on the shelf for the category \"Mehl & Getreide\".",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Flour & grains"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Farines & céréales"
+          }
+        }
+      }
+    },
     "Menge" : {
       "comment" : "A label displayed above the input field for the amount of a shopping list item.",
       "extractionState" : "manual",
@@ -429,6 +794,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quantité"
+          }
+        }
+      }
+    },
+    "Menge ändern" : {
+      "comment" : "A hint that the user can change the amount of the ingredient.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change amount"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier la quantité"
+          }
+        }
+      }
+    },
+    "Milchprodukte & Eier" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dairy & eggs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Produits laitiers & œufs"
           }
         }
       }
@@ -469,6 +869,23 @@
         }
       }
     },
+    "Neue Liste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle liste"
+          }
+        }
+      }
+    },
     "Neues Rezept" : {
       "comment" : "Button and title: start a new recipe.",
       "extractionState" : "manual",
@@ -505,6 +922,94 @@
         }
       }
     },
+    "Noch keine Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ingredients yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun ingrédient pour le moment"
+          }
+        }
+      }
+    },
+    "Nüsse, Saaten & Trockenfrüchte" : {
+      "comment" : "Text for the category \"Nüsse, Saaten & Trockenfrüchte\".",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nuts, seeds & dried fruit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Noix, graines & fruits secs"
+          }
+        }
+      }
+    },
+    "Obst & Gemüse" : {
+      "comment" : "The heading above the group.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruit & vegetables"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruits & légumes"
+          }
+        }
+      }
+    },
+    "Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“." : {
+      "comment" : "Shopping lists, empty: how a recipe gets onto a list on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Add recipe to shopping list”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Ajouter la recette à la liste de courses »."
+          }
+        }
+      }
+    },
+    "Öle, Fette & Flüssiges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Oils, fats & liquids"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
     "Rezept löschen?" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -537,6 +1042,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sauvegarder la recette"
+          }
+        }
+      }
+    },
+    "Rezept zur Einkaufsliste hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add recipe to shopping list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter la recette à la liste de courses"
           }
         }
       }
@@ -667,6 +1189,23 @@
         }
       }
     },
+    "Sonstiges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Other"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Divers"
+          }
+        }
+      }
+    },
     "Speichern" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -745,6 +1284,23 @@
         }
       }
     },
+    "Ziel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination"
+          }
+        }
+      }
+    },
     "Zutat" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -763,6 +1319,24 @@
         }
       }
     },
+    "Zutat entfernen" : {
+      "comment" : "The text of a button that deletes a shopping cart ingredient.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer l’ingrédient"
+          }
+        }
+      }
+    },
     "Zutat hinzufügen" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -777,6 +1351,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter un ingrédient"
+          }
+        }
+      }
+    },
+    "Zutaten wurden auf die Einkaufsliste gesetzt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients were added to the shopping list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les ingrédients ont été ajoutés à la liste de courses"
           }
         }
       }
