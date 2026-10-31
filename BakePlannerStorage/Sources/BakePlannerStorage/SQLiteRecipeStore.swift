@@ -4,7 +4,8 @@
 //
 //  The user's own recipes kept in SQLite — the Android side of RecipeStore.
 //  One table per level, as in the iOS Core Data model: recipe, component,
-//  ingredient, instruction. Removing a recipe removes its parts.
+//  ingredient, instruction (schema in BakePlannerDatabase). Removing a
+//  recipe removes its parts.
 //
 
 import BakePlannerCore
@@ -13,85 +14,27 @@ import SkipSQLPlus
 
 public final class SQLiteRecipeStore: RecipeStore {
 
-    private let database: SQLContext
+    /// The database file the store keeps its recipes in; other stores
+    /// (shopping lists) share it, so their rows can refer to recipes.
+    public let file: BakePlannerDatabase
+    private var database: SQLContext { file.context }
 
     /// The store in the database file at `path`, created when missing; in
     /// memory only for `nil`.
-    public init(path: String?) throws {
-        if let path {
-            database = try SQLContext(path: path, flags: [.create, .readWrite], configuration: .plus)
-        } else {
-            database = SQLContext(configuration: .plus)
-        }
-        try database.exec(sql: "PRAGMA foreign_keys = ON")
-        try database.migrate(migrations: Self.migrations)
+    public convenience init(path: String?) throws {
+        try self.init(file: BakePlannerDatabase(path: path))
     }
 
-    /// Closes the database file. The store cannot be used afterwards.
+    /// The store in an open database file.
+    public init(file: BakePlannerDatabase) {
+        self.file = file
+    }
+
+    /// Closes the database file. The store, and every other store on the
+    /// same file, cannot be used afterwards.
     public func close() throws {
-        try database.close()
+        try file.close()
     }
-
-    /// The schema, one step per version. Steps are only ever added at the
-    /// end: a database on a device runs the ones it has not run yet.
-    private static let migrations: [(SQLContext) throws -> Void] = [
-        { database in
-            try database.exec(sql: """
-                CREATE TABLE recipe (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    firestore_id TEXT,
-                    adjusted_on REAL,
-                    bake_history_flag INTEGER NOT NULL,
-                    name TEXT NOT NULL,
-                    summary TEXT NOT NULL,
-                    url_link TEXT,
-                    prep_time INTEGER NOT NULL,
-                    total_weight REAL NOT NULL,
-                    tags TEXT NOT NULL,
-                    rating INTEGER NOT NULL,
-                    recurrence_interval_days INTEGER NOT NULL,
-                    image BLOB
-                )
-                """)
-            try database.exec(sql: """
-                CREATE TABLE component (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    recipe_id INTEGER NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
-                    name TEXT NOT NULL,
-                    number INTEGER NOT NULL
-                )
-                """)
-            try database.exec(sql: """
-                CREATE TABLE ingredient (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    component_id INTEGER NOT NULL REFERENCES component(id) ON DELETE CASCADE,
-                    name TEXT NOT NULL,
-                    number INTEGER NOT NULL,
-                    unit TEXT,
-                    weight REAL NOT NULL,
-                    norm_weight REAL NOT NULL,
-                    num INTEGER NOT NULL,
-                    denom INTEGER NOT NULL
-                )
-                """)
-            try database.exec(sql: """
-                CREATE TABLE instruction (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    recipe_id INTEGER NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
-                    instruction TEXT NOT NULL,
-                    step REAL NOT NULL,
-                    duration INTEGER NOT NULL,
-                    start_time INTEGER NOT NULL,
-                    bake_flag INTEGER NOT NULL,
-                    component_name TEXT
-                )
-                """)
-            try database.exec(sql: "CREATE INDEX component_recipe ON component(recipe_id)")
-            try database.exec(sql: "CREATE INDEX ingredient_component ON ingredient(component_id)")
-            try database.exec(sql: "CREATE INDEX instruction_recipe ON instruction(recipe_id)")
-            try database.exec(sql: "CREATE INDEX recipe_firestore_id ON recipe(firestore_id)")
-        },
-    ]
 
     // MARK: RecipeStore
 

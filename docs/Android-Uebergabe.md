@@ -8,7 +8,7 @@ Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent).
 |---|---|---|
 | `BackPlaner/` | die iOS-App (Core Data, Firebase, SwiftUI) | – |
 | `BakePlannerCore/` | Swift Package: plattformneutrale Logik und Datenmodelle, Speicher-Protokolle (`RecipeStore`, `ScheduledStepStore`), Vertragsprüfungen (`StoreContracts/`), erzeugte Daten für Android (`Generated/`) | iOS-App, Widget, Android-App |
-| `BakePlannerStorage/` | Swift Package: `SQLiteRecipeStore` über SkipSQLPlus | nur die Android-App |
+| `BakePlannerStorage/` | Swift Package: eine SQLite-Datei (`BakePlannerDatabase`) mit `SQLiteRecipeStore` und `SQLiteShoppingListStore` über SkipSQLPlus | nur die Android-App |
 | `BakePlannerAndroid/` | die Android-App (Skip Fuse, nativer Modus), Paketname `de.hpm64625.bakeplanner` | – |
 | `android-probe/` | Probe-Dateien aus den Skip-Probeläufen, gehört zu keinem Ziel | – |
 
@@ -92,7 +92,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 1. **Einkaufsliste (Schritt 5), beschlossen am 31.10.2026:**
    - **5a (erledigt, siehe Bestandsaufnahme):** Die Logik steckte in der View `BackPlaner/Views/ShoppingCartViews/ShoppingCartSelectFormView.swift`: Wasser, Salz und Anstellgut aussortieren, Komponenten-Zeilen weglassen, auf die Menge umrechnen, Eier in Stück, Namen vereinheitlichen, gleiche Zutaten zusammenfassen (auch über Einheiten), Brüche addieren. Sie kommt ins Paket (`ShoppingListBuilder`), ebenso `ShoppingListCategory`, dessen Regal-Überschriften als Erweiterung in der App bleiben. Die iOS-View ruft das Paket auf, ihr Verhalten bleibt gleich (`ShoppingListTests` grün, neue Paket-Tests).
    - **5b (erledigt, siehe Bestandsaufnahme):** `ShoppingListStore` mit Structs (Liste: Datum, Rezeptnamen, Zeilen), Vertrag, Speicher im Arbeitsspeicher, `CoreDataShoppingListStore` (Entität `ShoppingCart` mit `Ingredient`-Zeilen, Bezug zu `Recipe`, `cloudRecipeNames`).
-   - **5c:** `SQLiteShoppingListStore` in `BakePlannerStorage`, Vertrag auf Mac und Android.
+   - **5c (erledigt, siehe Bestandsaufnahme):** `SQLiteShoppingListStore` in `BakePlannerStorage`, Vertrag auf Mac und Android.
    - **5d:** Android: Reiter „Rezepte“ / „Einkaufslisten“, Listen nach Datum, Zeilen nach Regalen, Menge ändern, Zeile entfernen, Liste löschen; in der Rezeptdetailansicht „Auf die Einkaufsliste“ (neue oder bestehende Liste, gewählte Menge).
    - Nicht dabei: Übersetzung der Zutatennamen öffentlicher Rezepte (Apple-Übersetzungsdienst), Abhaken (kann die iOS-App auch nicht).
 2. **Die übrigen Speicher:** Backhistorie, Anstellgut-Tagebuch, geplante Schritte. Jeweils Protokoll und Vertrag in `BakePlannerCore`, Core-Data-Umsetzung in der App, SQLite-Umsetzung in `BakePlannerStorage`, nach dem Muster der Rezepte.
