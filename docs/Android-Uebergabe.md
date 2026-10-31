@@ -51,7 +51,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **Texte im Paket:** `String(localized: …, bundle: AppSettings.localizationBundle)` stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als `"extractionState" : "manual"`. Sonst markiert Xcode sie als veraltet. `check-repo.py` prüft das, auch bei mehrzeiligen Aufrufen und Platzhaltern.
 - **Symbolerzeugung:** Xcode erzeugt für manuelle Einträge Swift-Symbole und scheitert an Schlüsseln wie „„%@““. In der App ist deshalb `STRING_CATALOG_GENERATE_SYMBOLS = NO` gesetzt.
 - **Erzeugte Paketdaten:** Ändern sich diese Einträge, `unit.*`-Einträge oder `UnitSets.json`, muss `scripts/generate-package-data.py` laufen. Sonst schlägt `check-repo.py` fehl.
-- **Android-Katalog:** `BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings` hat Quellsprache Deutsch und braucht en und fr. Xcode speichert Kataloge ohne Zeilenumbruch am Ende. Nicht mehr benutzte Schlüssel entfernen, sonst setzt Xcode sie auf „stale“ und `git status` zeigt eine Änderung.
+- **Android-Katalog:** `BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings` hat Quellsprache Deutsch und braucht en und fr. Alle Einträge stehen auf `"extractionState" : "manual"`, denn Xcode findet die Texte im über Skip gebauten Code nicht und würde sonst jeden auf „stale“ setzen. Die Schlüssel sind sortiert wie bei Xcode (ohne Rücksicht auf Groß- und Kleinschreibung und Umlaute, „Bild ändern“ vor „Bild entfernen“), die Datei endet ohne Zeilenumbruch. Nicht mehr benutzte Schlüssel von Hand entfernen.
 - **Vorhandene Übersetzungen nutzen:** Für neue Android-Texte zuerst im iOS-Katalog nachsehen, ob es den Text samt Übersetzung schon gibt, und ihn übernehmen.
 
 ### Android und Skip

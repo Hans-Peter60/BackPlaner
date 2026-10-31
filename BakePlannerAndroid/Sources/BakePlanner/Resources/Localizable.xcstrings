@@ -3,6 +3,7 @@
   "strings" : {
     "Abbrechen" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20,6 +21,7 @@
     },
     "Alle eigenen Rezepte sichern" : {
       "comment" : "Recipe list: save every recipe as one backup file.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -37,6 +39,7 @@
     },
     "Bearbeiten" : {
       "comment" : "Button and title: change a recipe's details.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -54,6 +57,7 @@
     },
     "Bearbeitungsdauer: %@" : {
       "comment" : "Recipe detail.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -71,6 +75,7 @@
     },
     "Beschreibung" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -88,6 +93,7 @@
     },
     "Bewertung" : {
       "comment" : "A label for the recipe'",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -103,8 +109,27 @@
         }
       }
     },
+    "Bild ändern" : {
+      "comment" : "Recipe detail: pick another picture.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer l’image"
+          }
+        }
+      }
+    },
     "Bild entfernen" : {
       "comment" : "Recipe detail: remove the recipe's picture.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -122,6 +147,7 @@
     },
     "Bild hinzufügen" : {
       "comment" : "Recipe detail: pick a picture for a recipe without one.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -137,25 +163,9 @@
         }
       }
     },
-    "Bild ändern" : {
-      "comment" : "Recipe detail: pick another picture.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change picture"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Changer l’image"
-          }
-        }
-      }
-    },
     "Dauer" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -173,6 +183,7 @@
     },
     "Die Rezepte konnten nicht geladen werden." : {
       "comment" : "When the recipe database cannot be read.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -190,6 +201,7 @@
     },
     "Einheit" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -207,6 +219,7 @@
     },
     "Gesamtgewicht: %@ g" : {
       "comment" : "Fact line in the exported PDF; %@ is the formatted weight.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -224,6 +237,7 @@
     },
     "Gesamtzutaten:" : {
       "comment" : "A label displayed above the list of total ingredients.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -241,6 +255,7 @@
     },
     "Gesichert" : {
       "comment" : "Alert after a backup file was saved.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -258,6 +273,7 @@
     },
     "Import fehlgeschlagen" : {
       "comment" : "Alert title when a backup file could not be imported.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -275,6 +291,7 @@
     },
     "Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast." : {
       "comment" : "Empty recipe list: how to get recipes onto the device.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -292,6 +309,7 @@
     },
     "Importieren" : {
       "comment" : "Button that opens the file picker for a backup file.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -309,6 +327,7 @@
     },
     "Komponente" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -326,6 +345,7 @@
     },
     "Komponente entfernen" : {
       "comment" : "Recipe editor: removes a component with its ingredients.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -343,6 +363,7 @@
     },
     "Komponente hinzufügen" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -360,6 +381,7 @@
     },
     "Komponenten" : {
       "comment" : "Recipe detail.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -377,6 +399,7 @@
     },
     "Löschen" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -394,6 +417,7 @@
     },
     "Menge" : {
       "comment" : "A label displayed above the input field for the amount of a shopping list item.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -411,6 +435,7 @@
     },
     "Minuten" : {
       "comment" : "Placeholder text for a text field in a notification.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -428,6 +453,7 @@
     },
     "Name" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -445,6 +471,7 @@
     },
     "Neues Rezept" : {
       "comment" : "Button and title: start a new recipe.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -462,6 +489,7 @@
     },
     "Noch keine Rezepte" : {
       "comment" : "Empty recipe list.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -479,6 +507,7 @@
     },
     "Rezept löschen?" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -496,6 +525,7 @@
     },
     "Rezept sichern" : {
       "comment" : "Recipe detail: save this recipe as a backup file.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -513,6 +543,7 @@
     },
     "Rezepte" : {
       "comment" : "Title of the recipe list.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -530,6 +561,7 @@
     },
     "Rezepte importiert: %lld" : {
       "comment" : "Alert title after a backup file was imported; the number of recipes.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -547,6 +579,7 @@
     },
     "Rezeptname" : {
       "comment" : "A label displayed above the text field for the recipe name.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -564,6 +597,7 @@
     },
     "Schritt" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -581,6 +615,7 @@
     },
     "Schritt hinzufügen" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -598,6 +633,7 @@
     },
     "Sichern fehlgeschlagen" : {
       "comment" : "Alert when a backup file could not be written or saved.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -615,6 +651,7 @@
     },
     "Sicherung" : {
       "comment" : "Recipe list: menu to import or save a backup file.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -632,6 +669,7 @@
     },
     "Speichern" : {
       "comment" : "Recipe editing.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -649,6 +687,7 @@
     },
     "TA %lld · Hydration %@" : {
       "comment" : "A label that displays the dough yield and hydration percentage. The first argument is the dough yield, a number. The second argument is the string “%arg %%”.",
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -672,6 +711,7 @@
     },
     "Tags, durch Komma getrennt" : {
       "comment" : "Placeholder of the tags field.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -689,6 +729,7 @@
     },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -706,6 +747,7 @@
     },
     "Zutat" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -723,6 +765,7 @@
     },
     "Zutat hinzufügen" : {
       "comment" : "Recipe editor.",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
