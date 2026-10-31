@@ -534,23 +534,6 @@
         }
       }
     },
-    "Tags" : {
-      "comment" : "Recipe editing.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tags"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tags"
-          }
-        }
-      }
-    },
     "Tags, durch Komma getrennt" : {
       "comment" : "Placeholder of the tags field.",
       "localizations" : {
