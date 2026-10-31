@@ -105,13 +105,7 @@ struct CoreDataShoppingListStore: ShoppingListStore {
     }
 
     private func existingObject<Object: NSManagedObject>(id: String) -> Object? {
-        // Core Data raises an Objective-C exception, which Swift cannot
-        // catch, for a key that is not one of its own URIs at all.
-        guard let url = URL(string: id), url.scheme == "x-coredata", url.host() != nil,
-              let objectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url),
-              let object = try? context.existingObject(with: objectID) as? Object,
-              !object.isDeleted else { return nil }
-        return object
+        context.existingObject(storeKey: id)
     }
 
     private func save() throws {
@@ -123,6 +117,19 @@ struct CoreDataShoppingListStore: ShoppingListStore {
 extension NSManagedObject {
     /// The key a store hands out for this object.
     var storeKey: String { objectID.uriRepresentation().absoluteString }
+}
+
+extension NSManagedObjectContext {
+    /// The object a store's key stands for, if it still exists.
+    func existingObject<Object: NSManagedObject>(storeKey: String) -> Object? {
+        // Core Data raises an Objective-C exception, which Swift cannot
+        // catch, for a key that is not one of its own URIs at all.
+        guard let url = URL(string: storeKey), url.scheme == "x-coredata", url.host() != nil,
+              let objectID = persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url),
+              let object = try? existingObject(with: objectID) as? Object,
+              !object.isDeleted else { return nil }
+        return object
+    }
 }
 
 extension ShoppingCart {

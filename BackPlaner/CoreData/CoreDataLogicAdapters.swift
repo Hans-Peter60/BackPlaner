@@ -103,14 +103,13 @@ extension BakeHistory {
                              outcome: outcome ?? "")
         }
         set {
-            roomTemperature   = newValue.roomTemperature.map { NSNumber(value: $0) }
-            doughTemperature  = newValue.doughTemperature.map { NSNumber(value: $0) }
-            bulkProofMinutes  = newValue.bulkProofMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            finalProofMinutes = newValue.finalProofMinutes.flatMap { $0 > 0 ? NSNumber(value: $0) : nil }
-            let flour = newValue.flour.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.flour = flour.isEmpty ? nil : flour
-            let outcome = newValue.outcome.trimmingCharacters(in: .whitespacesAndNewlines)
-            self.outcome = outcome.isEmpty ? nil : outcome
+            let facts = newValue.normalized
+            roomTemperature   = facts.roomTemperature.map { NSNumber(value: $0) }
+            doughTemperature  = facts.doughTemperature.map { NSNumber(value: $0) }
+            bulkProofMinutes  = facts.bulkProofMinutes.map { NSNumber(value: $0) }
+            finalProofMinutes = facts.finalProofMinutes.map { NSNumber(value: $0) }
+            flour   = facts.flour.isEmpty ? nil : facts.flour
+            outcome = facts.outcome.isEmpty ? nil : facts.outcome
         }
     }
 

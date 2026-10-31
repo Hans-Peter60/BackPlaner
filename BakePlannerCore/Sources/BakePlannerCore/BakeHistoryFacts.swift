@@ -44,6 +44,18 @@ public struct BakeHistoryFacts: Equatable {
         items().isEmpty
     }
 
+    /// The facts as every store keeps them: flour and outcome trimmed, a
+    /// proof of zero minutes or less as not recorded. Temperatures stay as
+    /// they are — 0 °C is a measurement.
+    public var normalized: BakeHistoryFacts {
+        BakeHistoryFacts(roomTemperature: roomTemperature,
+                         doughTemperature: doughTemperature,
+                         bulkProofMinutes: bulkProofMinutes.flatMap { $0 > 0 ? $0 : nil },
+                         finalProofMinutes: finalProofMinutes.flatMap { $0 > 0 ? $0 : nil },
+                         flour: flour.trimmingCharacters(in: .whitespacesAndNewlines),
+                         outcome: outcome.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
     // MARK: - Items
 
     /// The kinds of fact, in the order they are shown.
