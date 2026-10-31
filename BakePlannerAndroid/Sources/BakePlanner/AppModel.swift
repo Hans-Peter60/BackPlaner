@@ -278,6 +278,36 @@ final class AppModel {
         return await Reminders.schedule(newSteps, recipe: content) ? .saved : .savedWithoutReminders
     }
 
+    enum ShiftOutcome: Equatable {
+        case moved
+        /// The step would land at or before now.
+        case dateInPast
+        case failed
+    }
+
+    /// Moves a planned step by `minutes` (negative for earlier) — with the
+    /// later steps of its plan if `includeFollowing` — by the rule the
+    /// iPhone follows (ScheduledStepShift), reminders included.
+    func shift(_ step: StoredScheduledStep, byMinutes minutes: Int, includeFollowing: Bool) async -> ShiftOutcome {
+        let dates: [String: Date]
+        do {
+            dates = try ScheduledStepShift.newDates(shifting: step.key, byMinutes: minutes,
+                                                    includeFollowing: includeFollowing, in: scheduledSteps)
+            try openedStepStore().setDates(dates)
+        } catch ScheduledStepShift.Failure.dateInPast {
+            return .dateInPast
+        } catch {
+            logger.error("could not move step \(step.key): \(error)")
+            loadScheduledSteps()
+            return .failed
+        }
+        loadScheduledSteps()
+        let moved = scheduledSteps.filter { dates[$0.key] != nil }.map(\.data)
+        let recipe = recipes.first { $0.content.name == step.data.recipeName }?.content
+        await Reminders.reschedule(moved, recipe: recipe)
+        return .moved
+    }
+
     /// The step is done: it goes from the timeline, its reminder with it.
     func markDone(_ step: StoredScheduledStep) {
         Reminders.cancel([step.data])

@@ -71,6 +71,24 @@
         }
       }
     },
+    "Alle nachfolgenden" : {
+      "comment" : "Text for a notification action that will postpone a task for all following tasks.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All following steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les suivantes"
+          }
+        }
+      }
+    },
     "Anstellgut %lld : Mehl %lld : Wasser %lld" : {
       "comment" : "A label showing the feeding ratio of a starter recipe. The first argument is the amount of starter. The second argument is the amount of flour. The third argument is the amount of water.",
       "extractionState" : "manual",
@@ -370,6 +388,24 @@
         }
       }
     },
+    "Betroffene Schritte" : {
+      "comment" : "A section in the sheet that lets the user choose which steps to update.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affected steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes concernées"
+          }
+        }
+      }
+    },
     "Bewertung" : {
       "comment" : "A label for the recipe'",
       "extractionState" : "manual",
@@ -438,6 +474,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une image"
+          }
+        }
+      }
+    },
+    "Bisher" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currently"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actuellement"
           }
         }
       }
@@ -564,6 +617,24 @@
         }
       }
     },
+    "Der verschobene Zeitpunkt muss in der Zukunft liegen." : {
+      "comment" : "Error description for a time that is in the past.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The rescheduled time must be in the future."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’heure décalée doit se situer dans le futur."
+          }
+        }
+      }
+    },
     "Die Änderung konnte nicht gespeichert werden." : {
       "comment" : "Error message when a change could not be saved.",
       "extractionState" : "manual",
@@ -632,6 +703,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les recettes n’ont pas pu être chargées."
+          }
+        }
+      }
+    },
+    "Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This step and every later step of the same plan move by the same amount."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette étape et toutes les étapes suivantes du même plan sont décalées de la même durée."
           }
         }
       }
@@ -874,6 +962,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Photos"
+          }
+        }
+      }
+    },
+    "Früher" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earlier"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tôt"
           }
         }
       }
@@ -1516,6 +1621,23 @@
         }
       }
     },
+    "Neu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau"
+          }
+        }
+      }
+    },
     "Neue Fütterung erfassen" : {
       "comment" : "A heading for the form to log a feeding.",
       "extractionState" : "manual",
@@ -1670,6 +1792,41 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Note"
+          }
+        }
+      }
+    },
+    "Nur dieser Schritt" : {
+      "comment" : "Title of the scope option for scheduling a step shift.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This step only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement cette étape"
+          }
+        }
+      }
+    },
+    "Nur dieser Schritt wird verschoben; alle anderen Schritte des Plans bleiben, wo sie sind." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only this step moves; every other step of the plan stays where it is."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seule cette étape est décalée ; toutes les autres étapes du plan restent en place."
           }
         }
       }
@@ -1978,6 +2135,24 @@
         }
       }
     },
+    "Richtung" : {
+      "comment" : "A label for the direction of the time shift.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction"
+          }
+        }
+      }
+    },
     "Schritt" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -2010,6 +2185,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une étape"
+          }
+        }
+      }
+    },
+    "Schritt verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler l’étape"
           }
         }
       }
@@ -2135,6 +2327,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Divers"
+          }
+        }
+      }
+    },
+    "Später" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
           }
         }
       }
@@ -2358,6 +2567,23 @@
         }
       }
     },
+    "Verschieben nicht möglich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to reschedule"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décalage impossible"
+          }
+        }
+      }
+    },
     "z. B. Weizen 550, Dinkel 630" : {
       "comment" : "A hint for the flour field in the bake-history form.",
       "extractionState" : "manual",
@@ -2390,6 +2616,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chronologie"
+          }
+        }
+      }
+    },
+    "Zeitverschiebung" : {
+      "comment" : "A section header for the time shift settings in the scheduled task view.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time shift"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décalage"
           }
         }
       }

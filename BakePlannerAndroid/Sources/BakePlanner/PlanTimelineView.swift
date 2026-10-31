@@ -2,8 +2,8 @@ import BakePlannerCore
 import SwiftUI
 
 /// The planned steps of every plan, plan by plan in the order they begin:
-/// each step with its time, done with a tap; a whole plan removed after
-/// asking. Steps the rhythm queued ahead of time show up two days before
+/// each step with its time, moved with a tap on it, done with "Erledigt";
+/// a whole plan removed after asking. Steps the rhythm queued ahead of time show up two days before
 /// they are due, as on the iPhone.
 struct PlanTimelineView: View {
     let model: AppModel
@@ -12,6 +12,11 @@ struct PlanTimelineView: View {
     /// the chosen button.
     @State var planToDelete: TimelinePlan?
     @State var confirmsDeletion = false
+    /// The step being moved. Kept apart from the sheet's visibility, as the
+    /// dialogs are.
+    @State var stepToShift: StoredScheduledStep?
+    @State var shiftsStep = false
+    @State var showsShiftError = false
     @Environment(\.colorScheme) var colorScheme
 
     /// One plan: the steps of one planning run.
@@ -64,13 +69,20 @@ struct PlanTimelineView: View {
                         Section {
                             ForEach(plan.steps, id: \.key) { step in
                                 HStack(alignment: .top, spacing: 8) {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(verbatim: PlanText.dateTime(step.data.date))
-                                            .font(.caption)
-                                            .foregroundStyle(step.data.date < Date() ? Color.red : Color.secondary)
-                                        Text(verbatim: step.data.instruction)
+                                    Button {
+                                        stepToShift = step
+                                        shiftsStep = true
+                                    } label: {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(verbatim: PlanText.dateTime(step.data.date))
+                                                .font(.caption)
+                                                .foregroundStyle(step.data.date < Date() ? Color.red : Color.secondary)
+                                            Text(verbatim: step.data.instruction)
+                                                .foregroundStyle(Color.primary)
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                     }
-                                    Spacer()
+                                    .buttonStyle(.borderless)
                                     Button("Erledigt") {
                                         model.markDone(step)
                                     }
@@ -93,6 +105,27 @@ struct PlanTimelineView: View {
         .task {
             model.loadScheduledSteps()
         }
+        .sheet(isPresented: $shiftsStep) {
+            if let step = stepToShift {
+                NavigationStack {
+                    StepShiftSheet(step: step) { minutes, includeFollowing in
+                        Task {
+                            if await model.shift(step, byMinutes: minutes, includeFollowing: includeFollowing) == .dateInPast {
+                                showsShiftError = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .alert("Verschieben nicht möglich", isPresented: $showsShiftError) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text("Der verschobene Zeitpunkt muss in der Zukunft liegen.")
+        }
         .alert("Bist Du sicher?", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {
                 if let plan = planToDelete {
@@ -107,6 +140,91 @@ struct PlanTimelineView: View {
         } message: {
             if let plan = planToDelete {
                 Text(verbatim: plan.recipeName)
+            }
+        }
+    }
+}
+
+/// Moves one planned step by some minutes, earlier or later, alone or with
+/// the later steps of its plan — the iPhone's "Schritt verschieben" sheet,
+/// showing the step's time before and after.
+struct StepShiftSheet: View {
+    let step: StoredScheduledStep
+    /// Minutes (negative for earlier) and whether the following steps move too.
+    let onApply: (Int, Bool) -> Void
+    @State var minutesText = ""
+    @State var later = true
+    @State var withFollowing = false
+    @Environment(\.dismiss) var dismiss
+
+    /// The minutes typed: a whole number above zero, at most a day.
+    private var minutes: Int? {
+        guard let value = Int(minutesText.trimmingCharacters(in: .whitespaces)), value > 0 else { return nil }
+        return min(value, 1_440)
+    }
+
+    private var signedMinutes: Int? {
+        minutes.map { later ? $0 : -$0 }
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                Text(verbatim: step.data.recipeName)
+                    .font(.headline)
+                Text(verbatim: step.data.instruction)
+                    .foregroundStyle(.secondary)
+                HStack {
+                    Text("Bisher")
+                    Spacer()
+                    Text(verbatim: PlanText.dateTime(step.data.date))
+                }
+                if let signedMinutes {
+                    HStack {
+                        Text("Neu")
+                        Spacer()
+                        Text(verbatim: PlanText.dateTime(step.data.date.addingTimeInterval(TimeInterval(signedMinutes * 60))))
+                            .bold()
+                    }
+                }
+            }
+
+            Section {
+                TextField("Minuten", text: $minutesText)
+                Picker("Richtung", selection: $later) {
+                    Text("Früher").tag(false)
+                    Text("Später").tag(true)
+                }
+                .pickerStyle(.segmented)
+                Picker("Betroffene Schritte", selection: $withFollowing) {
+                    Text("Nur dieser Schritt").tag(false)
+                    Text("Alle nachfolgenden").tag(true)
+                }
+                .pickerStyle(.segmented)
+                Text(withFollowing
+                     ? LocalizedStringKey("Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben.")
+                     : LocalizedStringKey("Nur dieser Schritt wird verschoben; alle anderen Schritte des Plans bleiben, wo sie sind."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } header: {
+                Text("Zeitverschiebung")
+            }
+        }
+        .navigationTitle("Schritt verschieben")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Abbrechen") {
+                    dismiss()
+                }
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Übernehmen") {
+                    if let signedMinutes {
+                        onApply(signedMinutes, withFollowing)
+                    }
+                    dismiss()
+                }
+                .disabled(minutes == nil)
             }
         }
     }

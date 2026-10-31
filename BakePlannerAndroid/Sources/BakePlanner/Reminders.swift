@@ -23,13 +23,26 @@ enum Reminders {
         let center = UNUserNotificationCenter.current()
         let granted = (try? await center.requestAuthorization(options: [.alert, .sound])) ?? false
         guard granted else { return false }
+        await add(steps, recipe: recipe, now: now)
+        return true
+    }
 
+    /// Sets the reminders of steps that moved, at their new dates, without
+    /// asking for permission again: the same identifiers replace the old
+    /// requests. Steps now in the past get none.
+    static func reschedule(_ steps: [ScheduledStepData], recipe: RecipeExportData?, now: Date = Date()) async {
+        cancel(steps)
+        await add(steps, recipe: recipe, now: now)
+    }
+
+    private static func add(_ steps: [ScheduledStepData], recipe: RecipeExportData?, now: Date) async {
+        let center = UNUserNotificationCenter.current()
         for step in steps where step.date > now {
             guard let identifier = PlanReminder.identifier(of: step) else { continue }
             let content = UNMutableNotificationContent()
             content.title = PlanReminder.title
             content.body = PlanReminder.body(instruction: step.instruction,
-                                             details: PlanReminder.details(of: step, in: recipe))
+                                             details: recipe.flatMap { PlanReminder.details(of: step, in: $0) })
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: step.date.timeIntervalSince(now),
                                                             repeats: false)
             do {
@@ -38,7 +51,6 @@ enum Reminders {
                 logger.error("could not set the reminder of \(step.instruction): \(error)")
             }
         }
-        return true
     }
 
     /// Takes back the reminders of these steps — done, or their plan
