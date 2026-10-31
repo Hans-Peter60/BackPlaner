@@ -123,5 +123,34 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "CREATE INDEX shopping_list_recipe_recipe ON shopping_list_recipe(recipe_id)")
             try database.exec(sql: "CREATE INDEX shopping_list_item_list ON shopping_list_item(shopping_list_id)")
         },
+        // 3: bake history (step 6b). Facts not recorded are NULL, as in Core
+        // Data: a temperature never measured is not 0 °C. Photos in a table
+        // of their own, in their order.
+        { database in
+            try database.exec(sql: """
+                CREATE TABLE bake_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    recipe_id INTEGER NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
+                    date REAL NOT NULL,
+                    comment TEXT NOT NULL,
+                    room_temperature REAL,
+                    dough_temperature REAL,
+                    bulk_proof_minutes INTEGER,
+                    final_proof_minutes INTEGER,
+                    flour TEXT,
+                    outcome TEXT
+                )
+                """)
+            try database.exec(sql: """
+                CREATE TABLE bake_history_image (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    bake_history_id INTEGER NOT NULL REFERENCES bake_history(id) ON DELETE CASCADE,
+                    position INTEGER NOT NULL,
+                    data BLOB NOT NULL
+                )
+                """)
+            try database.exec(sql: "CREATE INDEX bake_history_recipe ON bake_history(recipe_id)")
+            try database.exec(sql: "CREATE INDEX bake_history_image_entry ON bake_history_image(bake_history_id)")
+        },
     ]
 }
