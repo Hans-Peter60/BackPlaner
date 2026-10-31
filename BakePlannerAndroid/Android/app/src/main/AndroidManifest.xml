@@ -18,6 +18,19 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher">
+        <!-- WorkManager is configured by AndroidAppMain (Configuration.Provider),
+             which posts reminders with the app's own worker: its default
+             initializer has to go. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true"
