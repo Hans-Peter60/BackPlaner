@@ -13,29 +13,8 @@ import os
 
 /// One ingredient on its way to a shopping list, independent of where it came
 /// from — a recipe on the device or one from the cloud, which has no Core Data
-/// object at all.
-struct ShoppingCartEntry {
-    var name: String
-    var unit: String
-    var weight: Double
-    var num: Int
-    var denom: Int
-
-    /// The entry at the serving scale chosen in the recipe; 1.0 is the recipe
-    /// as stored. Done before anything else happens to the entry, so eggs by
-    /// weight are doubled first and only then turned into pieces.
-    func scaled(by scale: Double) -> ShoppingCartEntry {
-        let amount = ShoppingListAmount.scaled(weight: weight, num: num, denom: denom, by: scale)
-
-        return ShoppingCartEntry(
-            name: name,
-            unit: unit,
-            weight: amount.weight,
-            num: amount.num,
-            denom: amount.denom
-        )
-    }
-}
+/// object at all. Defined in BakePlannerCore, which holds the list's rules.
+typealias ShoppingCartEntry = ShoppingListEntry
 
 /// What is being put on the list.
 enum ShoppingCartSource {
@@ -195,13 +174,10 @@ struct ShoppingCartSelectFormView: View {
     private var appLanguage: String { RecipeFB.preferredLanguageCode }
 
     private let dateFormat = DateFormat()
-    private let calcWeight = CalcIngredientWeight()
     private let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
 
     @State private var date = Date()
     @State private var mode = ShoppingCartMode.newList
-    @State private var unitSetSc = UnitSetFB()
-    @State private var unitSetNew = UnitSetFB()
     @State private var showingAlert = false
     @State private var showingNoIngredientsAlert = false
     @State private var createdShoppingCart = false
@@ -425,9 +401,7 @@ struct ShoppingCartSelectFormView: View {
         // Scaled to the chosen factor first and sifted on the original
         // names, which the water/salt/starter check reads in any language.
         let prepared = source.entries(in: appLanguage)
-        let entries = prepared.entries
-            .map { $0.scaled(by: servingScale) }
-            .filter { shouldAddToShoppingCart($0) }
+        let entries = ShoppingListBuilder.entriesToBuy(prepared.entries, scale: servingScale)
 
         guard !entries.isEmpty else {
             showingNoIngredientsAlert = true
@@ -461,11 +435,16 @@ struct ShoppingCartSelectFormView: View {
     }
 
     private func finishAdding(_ entries: [ShoppingCartEntry], to shoppingCart: ShoppingCart, isNewList: Bool) {
-        // Converted for shopping before anything is merged, so eggs from one
-        // recipe and eggs from another meet as pieces.
-        let listEntries = entries.map { shoppingListEntry(from: $0) }
-
-        harmonizeIngredients(in: shoppingCart)
+        // The list as it stands, each line keyed by its place, so the
+        // result can be written back onto the same objects.
+        let ingredients = shoppingCart.ingredientsArray
+        let lines = ingredients.enumerated().map { index, ingredient in
+            ShoppingListLine(key: String(index), name: ingredient.name, unit: ingredient.unit,
+                             weight: ingredient.weight, normWeight: ingredient.normWeight,
+                             num: ingredient.num, denom: ingredient.denom)
+        }
+        let result = ShoppingListBuilder.adding(entries, to: lines)
+        write(result, onto: ingredients, of: shoppingCart)
 
         switch source {
         case .localRecipe(let recipe):
@@ -474,10 +453,6 @@ struct ShoppingCartSelectFormView: View {
             // A cloud recipe has no Core Data object to relate to, so only its
             // name is recorded — enough to see where the ingredients came from.
             shoppingCart.addCloudRecipeName(recipe.name)
-        }
-
-        for entry in listEntries {
-            merge(entry, into: shoppingCart)
         }
 
         do {
@@ -492,176 +467,35 @@ struct ShoppingCartSelectFormView: View {
         }
     }
 
-    /// Converts a recipe amount into the amount to buy — eggs by the piece
-    /// instead of by weight, see ``ShoppingListAmount``.
-    private func shoppingListEntry(from entry: ShoppingCartEntry) -> ShoppingCartEntry {
-        let amount = ShoppingListAmount.forShoppingList(
-            name: entry.name,
-            unit: entry.unit,
-            weight: entry.weight,
-            num: entry.num,
-            denom: entry.denom
-        )
+    /// Updates the list's ingredients to `lines`: lines kept from before
+    /// change their object, new lines get one, and objects whose line was
+    /// merged into another are deleted.
+    private func write(_ lines: [ShoppingListLine], onto ingredients: [Ingredient], of shoppingCart: ShoppingCart) {
+        var kept = Set<Int>()
 
-        return ShoppingCartEntry(
-            name: entry.name,
-            unit: amount.unit,
-            weight: amount.weight,
-            num: amount.num,
-            denom: amount.denom
-        )
-    }
-
-    private func harmonizeIngredients(in shoppingCart: ShoppingCart) {
-        var canonicalIngredients: [String: Ingredient] = [:]
-
-        for ingredient in shoppingCart.ingredientsArray {
-            let normalizedName = IngredientNameNormalizer.displayName(ingredient.name)
-            let normalizedUnit = (ingredient.unit ?? "")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-                .localizedLowercase
-            let key = IngredientNameNormalizer.comparisonKey(normalizedName) + "|" + normalizedUnit
-
-            ingredient.name = normalizedName
-
-            if let canonicalIngredient = canonicalIngredients[key] {
-                canonicalIngredient.weight += ingredient.weight
-                canonicalIngredient.normWeight += ingredient.normWeight
-                addFractions(from: ingredient, to: canonicalIngredient)
-                viewContext.delete(ingredient)
+        for line in lines {
+            let ingredient: Ingredient
+            if let key = line.key, let index = Int(key), ingredients.indices.contains(index) {
+                ingredient = ingredients[index]
+                kept.insert(index)
             } else {
-                canonicalIngredients[key] = ingredient
+                ingredient = Ingredient(context: viewContext)
+                ingredient.id = UUID()
+                ingredient.number = 0
+                shoppingCart.addToIngredients(ingredient)
             }
-        }
-    }
-
-    /// Water, salt and starters stay off the list, whatever language the
-    /// recipe names them in; so does anything without an amount or a unit.
-    private func shouldAddToShoppingCart(_ entry: ShoppingCartEntry) -> Bool {
-        let hasUnit = !entry.unit.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-
-        return ShoppingListAmount.belongsOnList(name: entry.name) && normalizedWeight(of: entry) > 0 && hasUnit
-    }
-
-    /// The amount in its base unit. Computed rather than read from the recipe:
-    /// a stored value can predate an edit, and a cloud recipe may carry none.
-    private func normalizedWeight(of entry: ShoppingCartEntry) -> Double {
-        calcWeight.calcIngredientWeight(
-            weight: entry.weight,
-            unit: entry.unit,
-            name: entry.name,
-            num: entry.num,
-            denom: entry.denom
-        )
-    }
-
-    private func merge(_ entry: ShoppingCartEntry, into shoppingCart: ShoppingCart) {
-        let ingredientName = IngredientNameNormalizer.displayName(entry.name)
-        let comparisonKey = IngredientNameNormalizer.comparisonKey(entry.name)
-
-        guard let existing = shoppingCart.ingredientsArray.first(where: {
-            IngredientNameNormalizer.comparisonKey($0.name) == comparisonKey
-        }) else {
-            addNewShoppingCartIngredient(
-                from: entry,
-                normalizedName: ingredientName,
-                to: shoppingCart
-            )
-            return
+            // Assigned only where something changed, so an untouched line is
+            // not sent through iCloud again.
+            if ingredient.name != line.name { ingredient.name = line.name }
+            if ingredient.unit != line.unit { ingredient.unit = line.unit }
+            if ingredient.weight != line.weight { ingredient.weight = line.weight }
+            if ingredient.normWeight != line.normWeight { ingredient.normWeight = line.normWeight }
+            if ingredient.num != line.num { ingredient.num = line.num }
+            if ingredient.denom != line.denom { ingredient.denom = line.denom }
         }
 
-        existing.name = ingredientName
-
-        if (existing.unit ?? "") == entry.unit {
-            existing.weight += entry.weight
-            existing.normWeight += normalizedWeight(of: entry)
-            addFractions(from: entry, to: existing)
-        } else {
-            mergeWithUnitConversion(entry, into: existing)
+        for (index, ingredient) in ingredients.enumerated() where !kept.contains(index) {
+            viewContext.delete(ingredient)
         }
-    }
-
-    private func addNewShoppingCartIngredient(
-        from entry: ShoppingCartEntry,
-        normalizedName: String,
-        to shoppingCart: ShoppingCart
-    ) {
-        let newIngredient = Ingredient(context: viewContext)
-        newIngredient.id = UUID()
-        newIngredient.name = normalizedName
-        newIngredient.unit = entry.unit
-        newIngredient.weight = entry.weight
-        newIngredient.num = entry.num
-        newIngredient.denom = entry.denom
-        newIngredient.normWeight = normalizedWeight(of: entry)
-        newIngredient.number = 0
-
-        shoppingCart.addToIngredients(newIngredient)
-    }
-
-    private func addFractions(from ingredient: Ingredient, to existing: Ingredient) {
-        addFractions(num: ingredient.num, denom: ingredient.denom, to: existing)
-    }
-
-    private func addFractions(from entry: ShoppingCartEntry, to existing: Ingredient) {
-        addFractions(num: entry.num, denom: entry.denom, to: existing)
-    }
-
-    private func addFractions(num: Int, denom: Int, to existing: Ingredient) {
-        guard existing.denom != 0, denom != 0 else { return }
-        guard existing.num != 0 || num != 0 else { return }
-
-        let combinedNum = (existing.num * denom) + (num * existing.denom)
-        let combinedDenom = existing.denom * denom
-        let gcd = Rational.greatestCommonDivisor(combinedNum, combinedDenom)
-
-        guard gcd != 0 else { return }
-        existing.num = combinedNum / gcd
-        existing.denom = combinedDenom / gcd
-    }
-
-    /// Converts the entry into the unit already on the list and adds it there.
-    /// Returns false when the two units share no base unit, so the caller can
-    /// put the amount on a line of its own instead of losing it.
-    @discardableResult
-    private func mergeWithUnitConversion(_ entry: ShoppingCartEntry, into existing: Ingredient) -> Bool {
-        unitSetSc = UnitSetFB()
-        unitSetNew = UnitSetFB()
-
-        guard let storedUnit = existing.unit, !storedUnit.isEmpty else { return false }
-        guard !entry.unit.isEmpty else { return false }
-        // Imported spellings ("tsp") count as the bundled unit they mean.
-        let existingUnit = UnitLocalizer.canonicalAbbreviation(for: storedUnit) ?? storedUnit
-        let entryUnit = UnitLocalizer.canonicalAbbreviation(for: entry.unit) ?? entry.unit
-
-        for unitSet in GlobalVariables.unitSets {
-            if entryUnit.localizedLowercase.contains(unitSet.name) || entryUnit == unitSet.abbreviation {
-                unitSetNew = unitSet
-            }
-            if existingUnit.localizedLowercase.contains(unitSet.name) || existingUnit == unitSet.abbreviation {
-                unitSetSc = unitSet
-            }
-        }
-
-        guard !unitSetSc.baseUnit.isEmpty, unitSetSc.baseUnit == unitSetNew.baseUnit else { return false }
-        guard unitSetSc.factor != 0 else { return false }
-
-        existing.weight += entry.weight / unitSetSc.factor * unitSetNew.factor
-        existing.normWeight += normalizedWeight(of: entry) / unitSetSc.factor * unitSetNew.factor
-        addConvertedFractions(from: entry, to: existing)
-        return true
-    }
-
-    private func addConvertedFractions(from entry: ShoppingCartEntry, to existing: Ingredient) {
-        guard existing.denom != 0, entry.denom != 0 else { return }
-        guard existing.num != 0 || entry.num != 0 else { return }
-
-        let num = Int((Double(existing.num * entry.denom) * unitSetSc.factor) + (Double(entry.num * existing.denom) * unitSetNew.factor))
-        let denom = existing.denom * entry.denom
-        let gcd = Rational.greatestCommonDivisor(num, denom)
-
-        guard gcd != 0 else { return }
-        existing.num = num / gcd
-        existing.denom = denom / gcd
     }
 }

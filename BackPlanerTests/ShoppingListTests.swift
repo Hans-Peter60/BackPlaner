@@ -84,68 +84,6 @@ struct ShoppingListScalingTests {
     }
 }
 
-@Suite("Shopping list: shelves")
-struct ShoppingListCategoryTests {
-
-    typealias Category = ShoppingListCategory
-
-    @Test("Ingredients land on their shelf", arguments: [
-        ("Weizenmehl 550",        Category.flourAndGrain),
-        ("Roggenvollkornschrot",  Category.flourAndGrain),
-        ("Haferflocken",          Category.flourAndGrain),
-        ("Kartoffelstärke",       Category.flourAndGrain),
-        ("Reis",                  Category.flourAndGrain),
-        ("Semmelbrösel",          Category.flourAndGrain),
-        ("Butter",                Category.dairyAndEggs),
-        ("Eier",                  Category.dairyAndEggs),
-        ("Ei(M)",                 Category.dairyAndEggs),
-        ("Eigelb",                Category.dairyAndEggs),
-        ("Buttermilch",           Category.dairyAndEggs),
-        ("Magerquark",            Category.dairyAndEggs),
-        ("Frische Hefe",          Category.bakingSupplies),
-        ("Trockenhefe",           Category.bakingSupplies),
-        ("Zucker",                Category.bakingSupplies),
-        ("Vanillezucker",         Category.bakingSupplies),
-        ("Honig",                 Category.bakingSupplies),
-        ("Backmalz",              Category.bakingSupplies),
-        ("Weinsteinbackpulver",   Category.bakingSupplies),
-        ("Haselnüsse",            Category.nutsSeedsDriedFruit),
-        ("Mandelmehl",            Category.nutsSeedsDriedFruit),
-        ("Erdnussbutter",         Category.nutsSeedsDriedFruit),
-        ("Sonnenblumenkerne",     Category.nutsSeedsDriedFruit),
-        ("Leinsamen",             Category.nutsSeedsDriedFruit),
-        ("Rosinen",               Category.nutsSeedsDriedFruit),
-        ("Äpfel",                 Category.fruitAndVegetables),
-        ("Zwiebeln",              Category.fruitAndVegetables),
-        ("Kartoffeln",            Category.fruitAndVegetables),
-        ("Zitronenschale",        Category.fruitAndVegetables),
-        ("Preiselbeeren",         Category.fruitAndVegetables),
-        ("Brotgewürz",            Category.spicesAndHerbs),
-        ("Kümmel",                Category.spicesAndHerbs),
-        ("Rosmarin",              Category.spicesAndHerbs),
-        ("Olivenöl",              Category.fatsAndLiquids),
-        ("Butterschmalz",         Category.fatsAndLiquids),
-        ("Apfelessig",            Category.fatsAndLiquids),
-        ("Bier",                  Category.fatsAndLiquids),
-        ("Zitronensaft",          Category.fatsAndLiquids),
-        ("Speck",                 Category.other),
-        ("",                      Category.other)
-    ])
-    func classifies(name: String, expected: Category) {
-        #expect(Category.category(for: name) == expected, "\(name)")
-    }
-
-    @Test("Shelves come in shop order, each sorted by name, empty ones left out")
-    func shelvesAreOrdered() {
-        let names = ["Zucker", "Butter", "Weizenmehl 550", "Hefe", "Äpfel", "Roggenmehl 1150"]
-        let shelves = Category.shelves(names, name: { $0 })
-
-        #expect(shelves.map(\.category) == [.flourAndGrain, .dairyAndEggs, .bakingSupplies, .fruitAndVegetables])
-        #expect(shelves[0].items == ["Roggenmehl 1150", "Weizenmehl 550"])
-        #expect(shelves[2].items == ["Hefe", "Zucker"])
-    }
-}
-
 /// A bread whose main dough takes over two of its components whole, as
 /// "Sauerteigbrot mit Kartoffeln und Saaten" does.
 private func potatoBread() -> RecipeExportData {
