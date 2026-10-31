@@ -168,5 +168,27 @@ public final class BakePlannerDatabase {
                 """)
             try database.exec(sql: "CREATE INDEX starter_feeding_recipe ON starter_feeding(recipe_id)")
         },
+        // 5: scheduled steps (step 8b). A plan belongs to its recipe by name,
+        // as on iOS, so there is no foreign key; ids are UUID text, NULL for
+        // steps stored before they had one.
+        { database in
+            try database.exec(sql: """
+                CREATE TABLE scheduled_step (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    step_id TEXT,
+                    plan_id TEXT,
+                    recipe_name TEXT NOT NULL,
+                    instruction TEXT NOT NULL,
+                    step REAL NOT NULL,
+                    start_time INTEGER NOT NULL,
+                    duration INTEGER NOT NULL,
+                    date REAL NOT NULL,
+                    is_automatic_recurrence INTEGER NOT NULL,
+                    serving_scale REAL NOT NULL
+                )
+                """)
+            try database.exec(sql: "CREATE INDEX scheduled_step_recipe ON scheduled_step(recipe_name)")
+            try database.exec(sql: "CREATE INDEX scheduled_step_date ON scheduled_step(date)")
+        },
     ]
 }
