@@ -613,6 +613,23 @@
         }
       }
     },
+    "Sicherung" : {
+      "comment" : "Recipe list: menu to import or save a backup file.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sauvegarde"
+          }
+        }
+      }
+    },
     "Speichern" : {
       "comment" : "Recipe editing.",
       "localizations" : {

@@ -79,9 +79,19 @@ struct RecipeListView: View {
         }
         .navigationTitle("Rezepte")
         .toolbar {
+            // Android shows two items of the bar and drops further ones, so
+            // reading and writing backups share one menu.
             ToolbarItem(placement: .primaryAction) {
-                Button("Importieren") {
-                    showsPicker = true
+                Menu {
+                    Button("Importieren") {
+                        showsPicker = true
+                    }
+                    Button("Alle eigenen Rezepte sichern") {
+                        recipesToExport = model.recipes.map(\.id)
+                    }
+                    .disabled(model.recipes.isEmpty)
+                } label: {
+                    Text("Sicherung")
                 }
             }
             ToolbarItem(placement: .primaryAction) {
@@ -90,14 +100,6 @@ struct RecipeListView: View {
                 } label: {
                     Label("Neues Rezept", systemImage: "plus")
                 }
-            }
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    recipesToExport = model.recipes.map(\.id)
-                } label: {
-                    Label("Alle eigenen Rezepte sichern", systemImage: "square.and.arrow.up")
-                }
-                .disabled(model.recipes.isEmpty)
             }
         }
         .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName)

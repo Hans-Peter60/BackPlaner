@@ -67,6 +67,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
   - Die Android-App verwendet die Swift-6-Sprachversion, die Pakete die Swift-5-Sprachversion.
 - **Dateiauswahl:** `fileImporter` ist in Skip auf Android nur ein Platzhalter. Stattdessen `withDocumentPicker` aus **SkipKit**. Auf iOS muss man den Zugriff selbst holen (`startAccessingSecurityScopedResource`), auf Android liefert der Picker eine Kopie.
 - **Dialoge:** Android schließt einen `.alert` vor der Aktion des Knopfes. Die Sichtbarkeit (`isPresented`) gehört deshalb nicht an dieselben Daten, die die Aktion braucht. Sonst sind sie beim Ausführen schon weg, siehe Löschen in `ContentView`.
+- **Leiste oben:** Android zeigt nur zwei Einträge mit `placement: .primaryAction` und lässt weitere ohne Meldung weg. Mehr Aktionen gehören in ein `Menu`.
 - **Bilder:** `UIImage(data:)`, `Image(uiImage:)` und `jpegData` gibt es in Skip Fuse auch auf Android. SkipKits `withMediaPicker` liefert auf Android eine `content://`-Adresse, die Swift nicht lesen kann; für Bilder deshalb `withDocumentPicker` mit `[.image]`.
 - **Erinnerungen** (Probe vom 30.10.2026):
   - Es fehlen `UNNotificationAction`, Texteingabe-Aktionen und Kategorien.
