@@ -74,3 +74,7 @@ Carthage/Build/
 **/fastlane/README.md
 **/fastlane/Preview.html
 **/fastlane/test_output
+
+# Created by Xcode when the project is opened on its own; the app is
+# opened through Project.xcworkspace instead.
+Darwin/BakePlanner.xcodeproj/project.xcworkspace/
