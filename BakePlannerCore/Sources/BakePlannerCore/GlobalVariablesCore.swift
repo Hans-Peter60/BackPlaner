@@ -18,25 +18,24 @@ import os
 public enum AppLog {
     private static let subsystem = Bundle.main.bundleIdentifier ?? "BackPlaner"
 
-    public static let data          = Logger(subsystem: subsystem, category: "data")
-    public static let firebase      = Logger(subsystem: subsystem, category: "firebase")
-    public static let notifications = Logger(subsystem: subsystem, category: "notifications")
-    public static let planning      = Logger(subsystem: subsystem, category: "planning")
-    public static let persistence   = Logger(subsystem: subsystem, category: "persistence")
-    public static let shoppingCart  = Logger(subsystem: subsystem, category: "shoppingCart")
+    public static let data          = AppLogger(subsystem: subsystem, category: "data")
+    public static let firebase      = AppLogger(subsystem: subsystem, category: "firebase")
+    public static let notifications = AppLogger(subsystem: subsystem, category: "notifications")
+    public static let planning      = AppLogger(subsystem: subsystem, category: "planning")
+    public static let persistence   = AppLogger(subsystem: subsystem, category: "persistence")
+    public static let shoppingCart  = AppLogger(subsystem: subsystem, category: "shoppingCart")
     /// Reading recipes from photographed pages. What Vision returns differs
     /// between the simulator and a device for the same image, so a defect that
     /// only shows on the phone can only be measured through the phone's log.
-    public static let recipeImport  = Logger(subsystem: subsystem, category: "recipeImport")
+    public static let recipeImport  = AppLogger(subsystem: subsystem, category: "recipeImport")
     /// The Pro purchase: the remote configuration, StoreKit, the decision.
-    public static let store         = Logger(subsystem: subsystem, category: "store")
+    public static let store         = AppLogger(subsystem: subsystem, category: "store")
 }
 
 #if !canImport(os)
 /// Where the system log does not exist, the same calls write to standard
 /// output, debug messages excepted. Named apart from `Logger`, which an app
-/// on such a platform may bring along (Skip does on Android); only this
-/// package calls it by that name.
+/// on such a platform may bring along (Skip does on Android).
 public struct CoreLogger {
     public let subsystem: String
     public let category: String
@@ -51,8 +50,13 @@ public struct CoreLogger {
         print("[\(category)] \(level): \(message)")
     }
 }
+#endif
 
-typealias Logger = CoreLogger
+/// The logger type behind AppLog: the system's where there is one.
+#if canImport(os)
+public typealias AppLogger = Logger
+#else
+public typealias AppLogger = CoreLogger
 #endif
 
 public struct GlobalVariables {
