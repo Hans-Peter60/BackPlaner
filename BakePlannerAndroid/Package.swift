@@ -12,6 +12,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/skiptools/skip.git", from: "1.9.20"),
         .package(url: "https://github.com/skiptools/skip-fuse-ui.git", from: "1.0.0"),
+        // The system document picker on Android (SwiftUI's fileImporter is not there).
+        .package(url: "https://github.com/skiptools/skip-kit.git", from: "1.1.6"),
         // BakePlanner's logic and the SQLite storage, from this repository.
         .package(path: "../BakePlannerCore"),
         .package(path: "../BakePlannerStorage"),
@@ -19,6 +21,7 @@ let package = Package(
     targets: [
         .target(name: "BakePlanner", dependencies: [
             .product(name: "SkipFuseUI", package: "skip-fuse-ui"),
+            .product(name: "SkipKit", package: "skip-kit"),
             .product(name: "BakePlannerCore", package: "BakePlannerCore"),
             .product(name: "BakePlannerStorage", package: "BakePlannerStorage"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),

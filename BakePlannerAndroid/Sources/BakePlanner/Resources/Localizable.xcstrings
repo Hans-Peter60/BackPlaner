@@ -2,7 +2,7 @@
   "sourceLanguage" : "de",
   "strings" : {
     "Die Rezepte konnten nicht geladen werden." : {
-      "comment" : "Start screen, when the recipe database cannot be read.",
+      "comment" : "When the recipe database cannot be read.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18,19 +18,104 @@
         }
       }
     },
-    "Rezepte auf diesem Gerät: %lld" : {
-      "comment" : "Start screen: how many recipes the database on the device holds.",
+    "Import fehlgeschlagen" : {
+      "comment" : "Alert title when a backup file could not be imported.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipes on this device: %lld"
+            "value" : "Import failed"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recettes sur cet appareil : %lld"
+            "value" : "Échec de l’importation"
+          }
+        }
+      }
+    },
+    "Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast." : {
+      "comment" : "Empty recipe list: how to get recipes onto the device.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import a backup file you exported in the settings on your iPhone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importez un fichier de sauvegarde que vous avez exporté dans les réglages de votre iPhone."
+          }
+        }
+      }
+    },
+    "Importieren" : {
+      "comment" : "Button that opens the file picker for a backup file.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer"
+          }
+        }
+      }
+    },
+    "Noch keine Rezepte" : {
+      "comment" : "Empty recipe list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No recipes yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune recette pour l’instant"
+          }
+        }
+      }
+    },
+    "Rezepte" : {
+      "comment" : "Title of the recipe list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes"
+          }
+        }
+      }
+    },
+    "Rezepte importiert: %lld" : {
+      "comment" : "Alert title after a backup file was imported; the number of recipes.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes imported: %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes importées : %lld"
           }
         }
       }

@@ -9,18 +9,23 @@ import SkipFuse
 @MainActor
 @Observable
 final class AppModel {
-    /// How many recipes the database holds.
-    var recipeCount = 0
+    /// The recipes, by name, without their pictures.
+    var recipes: [StoredRecipe] = []
     /// Why the recipes could not be read, if they could not.
     var loadError: String?
+    /// What the last import did, until the user has seen it.
+    var importOutcome: ImportOutcome?
+
+    enum ImportOutcome: Equatable {
+        case imported(Int)
+        case failed(String)
+    }
 
     private var store: SQLiteRecipeStore?
 
     func load() {
         do {
-            let store = try self.store ?? Self.openStore()
-            self.store = store
-            recipeCount = try store.recipes(includingImages: false).count
+            recipes = try openedStore().recipes(includingImages: false)
             loadError = nil
         } catch {
             logger.error("could not read the recipes: \(error)")
@@ -28,9 +33,32 @@ final class AppModel {
         }
     }
 
-    private static func openStore() throws -> SQLiteRecipeStore {
+    /// Reads a backup or recipe file — as the iPhone app writes it — into
+    /// the database, every recipe as a new one.
+    func importFile(at url: URL) {
+        #if !os(Android)
+        // On iOS the picked file is only readable while its access lasts;
+        // on Android the picker hands over a copy in the app's cache.
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+        #endif
+        do {
+            let data = try Data(contentsOf: url)
+            let count = try RecipeImport.importFile(data, into: openedStore())
+            importOutcome = .imported(count)
+        } catch {
+            logger.error("could not import \(url.lastPathComponent): \(error)")
+            importOutcome = .failed(error.localizedDescription)
+        }
+        load()
+    }
+
+    private func openedStore() throws -> SQLiteRecipeStore {
+        if let store { return store }
         let folder = URL.applicationSupportDirectory
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        return try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
+        let opened = try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
+        store = opened
+        return opened
     }
 }
