@@ -152,5 +152,21 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "CREATE INDEX bake_history_recipe ON bake_history(recipe_id)")
             try database.exec(sql: "CREATE INDEX bake_history_image_entry ON bake_history_image(bake_history_id)")
         },
+        // 4: starter feeding diary (step 7b). Not measured is NULL, as in Core
+        // Data: no peak time is not 0 minutes, an untried float test not a
+        // failed one.
+        { database in
+            try database.exec(sql: """
+                CREATE TABLE starter_feeding (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    recipe_id INTEGER NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
+                    date REAL NOT NULL,
+                    peak_minutes INTEGER,
+                    float_test_passed INTEGER,
+                    note TEXT
+                )
+                """)
+            try database.exec(sql: "CREATE INDEX starter_feeding_recipe ON starter_feeding(recipe_id)")
+        },
     ]
 }
