@@ -35,11 +35,26 @@ struct CoreDataStarterFeedingLogStore: StarterFeedingLogStore {
         return stored(feeding, recipe: recipe)
     }
 
+    func update(_ updated: StoredStarterFeeding) throws {
+        guard let feeding = managedFeeding(id: updated.id) else {
+            throw StarterFeedingLogStoreError.unknownFeeding(updated.id)
+        }
+        if feeding.facts != updated.facts.normalized {
+            feeding.facts = updated.facts
+        }
+        try save()
+    }
+
     func delete(id: String) throws {
-        guard let feeding: StarterFeedingLog = context.existingObject(storeKey: id),
-              feeding.recipe.map({ !$0.isDeleted }) == true else { return }
+        guard let feeding = managedFeeding(id: id) else { return }
         context.delete(feeding)
         try save()
+    }
+
+    private func managedFeeding(id: String) -> StarterFeedingLog? {
+        guard let feeding: StarterFeedingLog = context.existingObject(storeKey: id),
+              feeding.recipe.map({ !$0.isDeleted }) == true else { return nil }
+        return feeding
     }
 
     // MARK: Helpers

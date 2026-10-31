@@ -5672,6 +5672,23 @@
         }
       }
     },
+    "Ergebnis eintragen" : {
+      "comment" : "Starter diary: enter how a feeding went (time to peak, float test, note).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record result"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter le résultat"
+          }
+        }
+      }
+    },
     "Erinnerung verschieben" : {
       "localizations" : {
         "en" : {
@@ -6380,6 +6397,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette recette ne contient aucun ingrédient pouvant être ajouté à une liste de courses."
+          }
+        }
+      }
+    },
+    "Füttern" : {
+      "comment" : "Tab of a recipe that feeds a starter, in place of „Backen“: plan the feeding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourrir"
           }
         }
       }

@@ -40,6 +40,14 @@ public final class InMemoryStarterFeedingLogStore: StarterFeedingLogStore {
         return feeding
     }
 
+    public func update(_ feeding: StoredStarterFeeding) throws {
+        guard var existing = stored[feeding.id], try recipes.recipe(id: existing.recipeID) != nil else {
+            throw StarterFeedingLogStoreError.unknownFeeding(feeding.id)
+        }
+        existing.facts = feeding.facts.normalized
+        stored[feeding.id] = existing
+    }
+
     public func delete(id: String) throws {
         stored[id] = nil
     }

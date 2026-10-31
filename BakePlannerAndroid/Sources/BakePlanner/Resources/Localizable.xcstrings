@@ -653,6 +653,24 @@
         }
       }
     },
+    "Ergebnis eintragen" : {
+      "comment" : "Starter diary: enter how a feeding went (time to peak, float test, note).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record result"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter le résultat"
+          }
+        }
+      }
+    },
     "Erstelle zuerst eine neue Liste." : {
       "extractionState" : "manual",
       "localizations" : {

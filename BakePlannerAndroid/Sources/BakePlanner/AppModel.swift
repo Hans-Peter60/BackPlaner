@@ -215,6 +215,19 @@ final class AppModel {
         }
     }
 
+    /// Enters the result of a feeding — peak time, float test, note.
+    /// Whether it worked.
+    @discardableResult
+    func updateFeeding(_ feeding: StoredStarterFeeding) -> Bool {
+        do {
+            try openedFeedingStore().update(feeding)
+            return true
+        } catch {
+            logger.error("could not enter the result of feeding \(feeding.id): \(error)")
+            return false
+        }
+    }
+
     func deleteFeeding(id: String) {
         do {
             try openedFeedingStore().delete(id: id)

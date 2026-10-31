@@ -459,7 +459,8 @@ struct InstructionsView: View {
                  prepTime: recipe.prepTime,
                  anchor: PlanAnchor(selection: dateTimeStartSelection),
                  date: dateTime,
-                 languageCode: locale.identifier)
+                 languageCode: locale.identifier,
+                 isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
     }
 
     private func refreshPlanIssues() {

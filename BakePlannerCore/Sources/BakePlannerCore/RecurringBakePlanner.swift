@@ -79,6 +79,22 @@ public enum RecurringBakePlanner {
     /// steps. The rhythm continues after its finish. Shown as the next
     /// occurrence, a starter fed today at 17:20 on a daily rhythm read
     /// "Nächste Fütterung: Heute 17:20" where tomorrow was meant.
+    /// The finish a rhythm is measured from. A bake: its last bake-history
+    /// entry. A starter, which is fed rather than baked: the start of its
+    /// last feeding plus the plan's `duration` — or a bake-history entry an
+    /// older version wrote for it, when that is later, so a running rhythm
+    /// does not jump.
+    public static func rhythmFinish(lastBakeFinish: Date?, lastFeedingStart: Date?, duration: Int,
+                                    calendar: Calendar = .current) -> Date? {
+        let feedingFinish = lastFeedingStart.flatMap { calendar.date(byAdding: .minute, value: duration, to: $0) }
+        switch (lastBakeFinish, feedingFinish) {
+        case let (bake?, feeding?): return max(bake, feeding)
+        case let (bake?, nil):      return bake
+        case let (nil, feeding?):   return feeding
+        case (nil, nil):            return nil
+        }
+    }
+
     public static func nextStart(lastFinish: Date?, duration: Int, intervalDays: Int,
                           now: Date, calendar: Calendar = .current) -> Date? {
         guard let lastFinish else { return nil }

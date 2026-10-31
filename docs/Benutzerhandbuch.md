@@ -237,7 +237,7 @@ Bereits geplante Schritte dieses Rezepts bleiben allerdings in „Geplante Schri
 
 | Tab | Inhalt |
 |-----|--------|
-| **Backen** | Backanleitung mit Zeitplanung und „Erinnerungen setzen“ |
+| **Backen** | Backanleitung mit Zeitplanung und „Erinnerungen setzen“; bei Anstellgut-Rezepten heißt der Tab **Füttern** |
 | **Details** | Bewertung, Beschreibung, Gesamtzutaten, Komponenten, Schrittübersicht, **Rezept teilen** als PDF, **Rezept exportieren** als Datei; Mehl- und Anstellgut-Zeilen sind antippbar (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)) |
 | **Ändern** | Rezept bearbeiten (siehe [Kapitel 9](#9-rezept-bearbeiten)) |
 | **Einkaufsliste** | Zutaten dieses Rezepts – in der gewählten Portionsgröße – auf eine Einkaufsliste setzen (siehe [Kapitel 13](#13-einkaufsliste)) |
@@ -491,6 +491,8 @@ Wann die nächste Auffrischung ansteht, zeigen die Tabs **Details** und **Änder
 **Was ein Anstellgut-Rezept ist**, entscheidet die App an den Zutaten, nicht am Schalter: Sie ergeben ein Fütterungsverhältnis aus Anstellgut (oder Sauerteig, Levain, Starter – die Namen sind gleichwertig), Mehl und Wasser, und nichts wird gebacken. Ein Rezept nur aus diesen dreien ist immer ein Anstellgut, auch wenn ein Schritt den Ofen erwähnt („im ausgeschalteten Backofen mit Licht reifen lassen“, „bis zum nächsten Backen kühl lagern“). Erst eine Ofentemperatur oder ein Vorheiz-Schritt – oder weitere Zutaten wie Salz – machen daraus ein Brot. Mit einem Tag wie „Anstellgut“, „ASG“ oder „Auffrischen“ legst Du es im Zweifel von Hand fest; „Sauerteig“ als Tag reicht nicht, der steht auch auf Broten.
 
 Anstellgut-Rezepte bekommen statt „+ Historie“ den Tab **Fütterung**: das **Anstellgut-Tagebuch** – ein Anstellgut wird gefüttert, nicht gebacken. Oben steht das Fütterungsverhältnis „Anstellgut : Mehl : Wasser“, aus den Zutaten des Rezepts berechnet und deshalb nicht von Hand änderbar. Darunter erfasst Du zu jeder Fütterung die **Reifezeit bis zum Höhepunkt** in Minuten, auf Wunsch den **Schwimmtest** und eine Notiz zu Geruch und Konsistenz. Die bisherigen Fütterungen stehen darunter, neueste zuerst – so siehst Du, ob Dein Anstellgut schneller oder langsamer wird.
+
+Planst Du ein Anstellgut im Tab **Füttern** (oder läuft sein Rhythmus), legt BakePlanner zum Beginn der Fütterung einen Eintrag im Anstellgut-Tagebuch an – „geplant“, solange er in der Zukunft liegt – und keinen Eintrag in der Backhistorie. Der letzte Schritt erinnert Dich: „Fütterung abgeschlossen – Ergebnis im Anstellgut-Tagebuch eintragen“. Tippe dazu den Eintrag an und trage unter **Ergebnis eintragen** Reifezeit, Schwimmtest und Notiz ein. Der Rhythmus zählt ab dem Beginn der letzten Fütterung.
 
 ### Komponenten ändern
 

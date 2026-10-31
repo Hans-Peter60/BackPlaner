@@ -15,6 +15,11 @@ struct StarterFeedingSection: View {
     /// runs the chosen button.
     @State var feedingToDelete: StoredStarterFeeding?
     @State var confirmsDeletion = false
+    /// The feeding whose result is being entered — one the iPhone's plan
+    /// wrote at its start, for instance. Kept apart from the sheet's
+    /// visibility, as the dialogs are.
+    @State var feedingForResult: StoredStarterFeeding?
+    @State var entersResult = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -49,7 +54,13 @@ struct StarterFeedingSection: View {
                     .font(.headline)
                 ForEach(feedings, id: \.id) { feeding in
                     HStack(alignment: .top) {
-                        StarterFeedingRow(feeding: feeding)
+                        Button {
+                            feedingForResult = feeding
+                            entersResult = true
+                        } label: {
+                            StarterFeedingRow(feeding: feeding)
+                                .foregroundStyle(Color.primary)
+                        }
                         Spacer()
                         Button {
                             feedingToDelete = feeding
@@ -67,9 +78,22 @@ struct StarterFeedingSection: View {
         }
         .sheet(isPresented: $addsFeeding) {
             NavigationStack {
-                StarterFeedingEditor { date, facts in
+                StarterFeedingEditor(original: nil) { date, facts in
                     if model.addFeeding(toRecipe: recipeID, date: date, facts: facts) {
                         feedings = model.feedings(ofRecipe: recipeID)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $entersResult) {
+            if let feeding = feedingForResult {
+                NavigationStack {
+                    StarterFeedingEditor(original: feeding) { _, facts in
+                        var changed = feeding
+                        changed.facts = facts
+                        if model.updateFeeding(changed) {
+                            feedings = model.feedings(ofRecipe: recipeID)
+                        }
                     }
                 }
             }
@@ -99,8 +123,15 @@ struct StarterFeedingRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(verbatim: BakeHistoryText.date(feeding.date))
-                .bold()
+            HStack(spacing: 8) {
+                Text(verbatim: BakeHistoryText.date(feeding.date))
+                    .bold()
+                if feeding.date > Date() {
+                    Text("geplant")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
             HStack(spacing: 10) {
                 if let peakMinutes = feeding.facts.peakMinutes {
                     Text(verbatim: "⏳ " + BakeHistoryFacts.durationText(peakMinutes))
@@ -118,22 +149,38 @@ struct StarterFeedingRow: View {
     }
 }
 
-/// Records a feeding: when, the time to the peak, the float test and a
-/// note, as on the iPhone. A feeding is never changed afterwards, only
-/// removed.
+/// Records a feeding — when, the time to the peak, the float test and a
+/// note, as on the iPhone — or, given `original`, enters the result of one
+/// already recorded, whose date stays.
 struct StarterFeedingEditor: View {
+    let original: StoredStarterFeeding?
     let onSave: (Date, StarterFeedingFacts) -> Void
-    @State var date = Date()
-    @State var peakText = ""
+    @State var date: Date
+    @State var peakText: String
     /// 0 not checked, 1 floats, 2 does not float.
-    @State var floatTest = 0
-    @State var note = ""
+    @State var floatTest: Int
+    @State var note: String
     @Environment(\.dismiss) var dismiss
+
+    init(original: StoredStarterFeeding?, onSave: @escaping (Date, StarterFeedingFacts) -> Void) {
+        self.original = original
+        self.onSave = onSave
+        let facts = original?.facts ?? StarterFeedingFacts()
+        _date = State(initialValue: original?.date ?? Date())
+        _peakText = State(initialValue: StarterFeedingFacts.minutesInput(facts.peakMinutes))
+        _floatTest = State(initialValue: facts.floatTestPassed.map { $0 ? 1 : 2 } ?? 0)
+        _note = State(initialValue: facts.note)
+    }
 
     var body: some View {
         Form {
             Section {
-                DatePicker("Datum", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                if original == nil {
+                    DatePicker("Datum", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                } else {
+                    Text(verbatim: BakeHistoryText.date(date))
+                        .bold()
+                }
                 HStack {
                     Text("Reifezeit bis zum Höhepunkt")
                     Spacer()
@@ -150,10 +197,12 @@ struct StarterFeedingEditor: View {
                 }
                 TextField("Notiz", text: $note, prompt: Text("Beobachtungen, Geruch, Konsistenz …"), axis: .vertical)
             } header: {
-                Text("Neue Fütterung erfassen")
+                if original == nil {
+                    Text("Neue Fütterung erfassen")
+                }
             }
         }
-        .navigationTitle("Anstellgut-Tagebuch")
+        .navigationTitle(original == nil ? LocalizedStringKey("Anstellgut-Tagebuch") : LocalizedStringKey("Ergebnis eintragen"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Abbrechen") {

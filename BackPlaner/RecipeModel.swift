@@ -376,13 +376,26 @@ class RecipeModel: ObservableObject {
     /// entries stay. The entry used to travel through the public recipe,
     /// which only knows the entries of the current session, and taking the
     /// recipe over again replaced the copy's whole bake history with those.
-    /// A starter is fed, not baked: it is taken over without an entry.
+    /// A starter is fed, not baked: it gets a feeding in its starter diary at
+    /// `date` instead, its result to be entered when the feeding is over.
     @discardableResult
     func recordPlannedBake(of recipeFB: RecipeFB, on date: Date,
                            context: NSManagedObjectContext) throws -> Recipe {
         let recipe = try uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB,
                                                   context: context, recipeImage: UIImage())
-        guard !StarterRecipe.isStarterFeeding(recipe) else { return recipe }
+        if StarterRecipe.isStarterFeeding(recipe) {
+            let feeding  = StarterFeedingLog(context: context)
+            feeding.id   = UUID()
+            feeding.date = date
+            recipe.addToStarterFeedingLogs(feeding)
+            do {
+                try context.save()
+            } catch {
+                AppLog.persistence.error("Couldn't save the planned feeding: \(error.localizedDescription)")
+                throw error
+            }
+            return recipe
+        }
 
         let bakeHistory     = BakeHistory(context: context)
         bakeHistory.id      = UUID()

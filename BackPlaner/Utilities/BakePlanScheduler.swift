@@ -104,7 +104,9 @@ struct BakePlanScheduler {
     /// Reminders, scheduled steps and the bake-history entry for one plan —
     /// the part of scheduling a recipe that has nothing to do with the UI
     /// that triggered it. A starter is fed, not baked: its plan writes no
-    /// bake-history entry and does not mark the recipe as baked. Shared by the manual "Jetzt planen" flow
+    /// bake-history entry and does not mark the recipe as baked; it writes a
+    /// feeding into the starter diary at the plan's start, whose result is
+    /// entered there when the feeding is over. Shared by the manual "Jetzt planen" flow
     /// (`InstructionsView`) and the automatic recurrence pass
     /// (`RecurringBakePlanner`), so the two can't drift apart.
     @discardableResult
@@ -131,8 +133,14 @@ struct BakePlanScheduler {
         scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale,
                                       isAutomaticRecurrence: isAutomaticRecurrence, in: context)
 
-        // The bake history gets an entry for the end of this bake.
-        if !isStarter {
+        // The bake history gets an entry for the end of this bake; a
+        // starter's diary one for the start of this feeding.
+        if isStarter {
+            let feeding  = StarterFeedingLog(context: context)
+            feeding.id   = UUID()
+            feeding.date = plan.baseDate
+            recipe.addToStarterFeedingLogs(feeding)
+        } else {
             let bakeHistory     = BakeHistory(context: context)
             bakeHistory.date    = result.finishDate
             bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
@@ -197,9 +205,18 @@ extension RecurringBakePlanner {
     }
 
     static func nextStart(for recipe: Recipe, now: Date = Date()) -> Date? {
-        nextStart(lastFinish: recipe.bakeHistoriesArray.first?.date,
+        nextStart(lastFinish: rhythmFinish(of: recipe),
                   duration: planDuration(of: recipe),
                   intervalDays: recipe.recurrenceIntervalDays, now: now)
+    }
+
+    /// The finish the recipe's rhythm is measured from: its last bake, or
+    /// for a starter the start of its last feeding (see `rhythmFinish`).
+    static func rhythmFinish(of recipe: Recipe) -> Date? {
+        let lastFeeding = StarterRecipe.isStarterFeeding(recipe) ? recipe.starterFeedingLogsArray.first?.date : nil
+        return rhythmFinish(lastBakeFinish: recipe.bakeHistoriesArray.first?.date,
+                            lastFeedingStart: lastFeeding,
+                            duration: planDuration(of: recipe))
     }
 
     /// Queues the next occurrence of every own recipe whose rhythm is due:
@@ -217,7 +234,7 @@ extension RecurringBakePlanner {
 
         for recipe in recipes {
             guard !recipe.instructionsArray.isEmpty,
-                  let lastFinish = recipe.bakeHistoriesArray.first?.date,
+                  let lastFinish = rhythmFinish(of: recipe),
                   !BakePlanScheduler.hasPendingPlan(recipeName: recipe.name, now: now, in: context),
                   let start = nextStartDate(lastFinish: lastFinish,
                                             duration: planDuration(of: recipe),
@@ -235,7 +252,8 @@ extension RecurringBakePlanner {
                                 prepTime: recipe.prepTime,
                                 anchor: .startsAt,
                                 date: start,
-                                languageCode: AppSettings.locale.identifier)
+                                languageCode: AppSettings.locale.identifier,
+                                isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
 
             // A conflict with another plan is left for the next foreground
             // pass to retry — there is nobody here to show an error to.

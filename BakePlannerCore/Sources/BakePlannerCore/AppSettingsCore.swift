@@ -183,6 +183,17 @@ public struct AppSettings {
         }
     }
 
+    /// The last step of a starter's plan, which is fed, not baked. Stored
+    /// with the scheduled steps, so it is produced in the plan's language,
+    /// like `generatedStepTexts`.
+    public static func generatedFeedingEndText(languageCode: String) -> String {
+        switch baseLanguage(of: languageCode) {
+        case "en": return "Feeding finished – record the result in the starter diary"
+        case "fr": return "Nourrissage terminé – noter le résultat dans le journal du levain"
+        default:   return "Fütterung abgeschlossen – Ergebnis im Anstellgut-Tagebuch eintragen"
+        }
+    }
+
     /// Texts the app writes into a recipe itself — a step sentence, a fallback
     /// name, a placeholder comment. They become part of the stored data, so they
     /// have to be produced in the app's language at the moment they are created;

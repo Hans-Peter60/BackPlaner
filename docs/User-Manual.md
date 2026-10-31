@@ -240,7 +240,7 @@ Steps already scheduled for that recipe do stay in "Scheduled steps", though —
 
 | Tab | Contents |
 |-----|----------|
-| **Bake** | Baking instructions with the schedule and "Set reminders" |
+| **Bake** | Baking instructions with the schedule and "Set reminders"; for starter recipes the tab is called **Feed** |
 | **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF, **Export recipe** as a file; flour and starter lines can be tapped (see [chapter 15](#15-units-amounts-and-serving-sizes)) |
 | **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
 | **Shopping list** | Put this recipe's ingredients — at the chosen serving size — on a shopping list (see [chapter 13](#13-shopping-list)) |
@@ -494,6 +494,8 @@ When the next refresh is due, the **Details** and **Edit** tabs show at the top 
 **What makes a recipe a starter** is decided by its ingredients, not by the switch: they give a feeding ratio of starter (or sourdough, levain — the names are equivalent), flour and water, and nothing is baked. A recipe of nothing but those three is always a starter, even when a step mentions the oven ("let ripen in the switched-off oven with the light on", "keep cool until the next bake"). Only an oven temperature or a preheating step — or further ingredients such as salt — make it a bread. A tag such as "Starter", "Feeding" or "Refresh" settles it by hand when in doubt; a "Sourdough" tag is not enough, breads carry it too.
 
 Instead of "+ History", starter recipes get the tab **Feeding**: the **starter diary** — a starter is fed, not baked. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
+
+When you plan a starter on the **Feed** tab (or its rhythm comes round), BakePlanner writes an entry into the starter diary at the start of the feeding — "planned" while it lies ahead — and none into the baking history. The last step reminds you: "Feeding finished – record the result in the starter diary". Tap the entry and fill in time to peak, float test and note under **Record result**. The rhythm counts from the start of the last feeding.
 
 ### Changing components
 

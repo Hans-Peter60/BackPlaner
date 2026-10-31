@@ -113,4 +113,28 @@ struct RecurringBakePlannerTests {
                                                          intervalDays: 7, now: now, calendar: calendar)
         #expect(finish == date(2026, 10, 27, 18))
     }
+
+    // MARK: A starter is fed, not baked
+
+    @Test("A starter's rhythm is measured from the start of its last feeding plus the plan's length")
+    func starterFromLastFeeding() {
+        let feeding = date(2026, 10, 1, 8)
+        let finish = RecurringBakePlanner.rhythmFinish(lastBakeFinish: nil, lastFeedingStart: feeding,
+                                                       duration: 720, calendar: calendar)
+        #expect(finish == date(2026, 10, 1, 20))
+    }
+
+    @Test("An older bake-history entry counts when it is later, so a running rhythm does not jump")
+    func laterOfFeedingAndOldEntry() {
+        let old = date(2026, 10, 3, 20)
+        #expect(RecurringBakePlanner.rhythmFinish(lastBakeFinish: old, lastFeedingStart: date(2026, 10, 1, 8),
+                                                  duration: 720, calendar: calendar) == old)
+        #expect(RecurringBakePlanner.rhythmFinish(lastBakeFinish: date(2026, 9, 1, 20),
+                                                  lastFeedingStart: date(2026, 10, 1, 8),
+                                                  duration: 720, calendar: calendar) == date(2026, 10, 1, 20))
+        #expect(RecurringBakePlanner.rhythmFinish(lastBakeFinish: old, lastFeedingStart: nil,
+                                                  duration: 720, calendar: calendar) == old)
+        #expect(RecurringBakePlanner.rhythmFinish(lastBakeFinish: nil, lastFeedingStart: nil,
+                                                  duration: 720, calendar: calendar) == nil)
+    }
 }

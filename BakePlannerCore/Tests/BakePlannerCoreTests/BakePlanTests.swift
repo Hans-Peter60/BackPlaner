@@ -398,4 +398,27 @@ struct BakePlanTests {
         #expect(!BakePlan.isTurnDownInstruction(steam))
         #expect(plan.allSteps.count == 6)
     }
+
+    @Test("A starter's plan ends by asking for the feeding's result, in the plan's language")
+    func starterEndStep() {
+        let steps = [PlanStep(instruction: "Zutaten mischen", step: 1, startTime: 0, duration: 5),
+                     PlanStep(instruction: "Bei 26 °C 12 Stunden reifen lassen", step: 2, startTime: 5, duration: 720)]
+        let starter = BakePlan(recipeName: "Roggensauer", steps: steps, prepTime: 725, anchor: .startsAt,
+                               date: Date(timeIntervalSince1970: 1_800_000_000), languageCode: "de",
+                               isStarterFeeding: true)
+        #expect(starter.endStep.instruction == "Fütterung abgeschlossen – Ergebnis im Anstellgut-Tagebuch eintragen")
+        #expect(starter.endStep.step == 99 && starter.endStep.startTime == 725)
+        #expect(starter.allSteps.last == starter.endStep)
+        #expect(starter.moved(to: Date(timeIntervalSince1970: 1_800_086_400)).endStep.instruction
+                == starter.endStep.instruction)
+
+        let english = BakePlan(recipeName: "Rye starter", steps: steps, prepTime: 725, anchor: .startsAt,
+                               date: Date(timeIntervalSince1970: 1_800_000_000), languageCode: "en",
+                               isStarterFeeding: true)
+        #expect(english.endStep.instruction == "Feeding finished – record the result in the starter diary")
+
+        let bread = BakePlan(recipeName: "Roggensauer", steps: steps, prepTime: 725, anchor: .startsAt,
+                             date: Date(timeIntervalSince1970: 1_800_000_000), languageCode: "de")
+        #expect(bread.endStep.instruction == "Backvorgang ist beendet")
+    }
 }

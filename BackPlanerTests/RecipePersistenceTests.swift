@@ -359,16 +359,22 @@ struct RecipePersistenceTests {
         return recipe
     }
 
-    @Test("Planning a public starter takes it over without a bake-history entry: a starter is fed, not baked")
-    func plannedStarterHasNoBakeHistory() throws {
+    @Test("Planning a public starter writes a feeding at its start, not a bake-history entry: a starter is fed, not baked")
+    func plannedStarterIsAFeeding() throws {
         let context = makeContext()
-        let recipe = try RecipeModel().recordPlannedBake(
-            of: publicStarter(), on: Date(timeIntervalSince1970: 1_800_000_000), context: context)
+        let start = Date(timeIntervalSince1970: 1_800_000_000)
+        let recipe = try RecipeModel().recordPlannedBake(of: publicStarter(), on: start, context: context)
 
         #expect(StarterRecipe.isStarterFeeding(recipe))
         #expect(recipe.firestoreId == "fs-roggensauer")
         #expect(recipe.bakeHistoriesArray.isEmpty)
         #expect(!recipe.bakeHistoryFlag)
         #expect(try count(BakeHistory.self, in: context) == 0)
+        let feeding = try #require(recipe.starterFeedingLogsArray.first)
+        #expect(recipe.starterFeedingLogsArray.count == 1)
+        #expect(feeding.date == start && feeding.facts == StarterFeedingFacts())
+        // The rhythm counts from that feeding's start plus the plan's length.
+        #expect(RecurringBakePlanner.rhythmFinish(of: recipe)
+                == start.addingTimeInterval(TimeInterval(RecurringBakePlanner.planDuration(of: recipe) * 60)))
     }
 }

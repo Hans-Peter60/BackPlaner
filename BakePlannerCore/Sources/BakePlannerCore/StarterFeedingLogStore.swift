@@ -32,18 +32,23 @@ public struct StoredStarterFeeding: Equatable {
 /// same storage. (`StarterFeedingStore` is taken by the iOS app's Siri
 /// support.)
 ///
-/// A feeding is recorded and removed, never changed, as on the iPhone.
+/// A feeding is recorded — by hand, or when a starter is planned, then
+/// still without a result — and its result entered afterwards.
 public protocol StarterFeedingLogStore {
     /// The feedings of recipe `recipeID`, newest first; none for an unknown
     /// recipe.
     func feedings(ofRecipe recipeID: String) throws -> [StoredStarterFeeding]
     /// Keeps a new feeding for recipe `recipeID`, its facts normalized.
     func add(toRecipe recipeID: String, date: Date, facts: StarterFeedingFacts) throws -> StoredStarterFeeding
+    /// Replaces the result of feeding `feeding.id` — peak time, float test,
+    /// note — normalized; its date and recipe stay.
+    func update(_ feeding: StoredStarterFeeding) throws
     /// Removes the feeding. Nothing happens for an unknown key.
     func delete(id: String) throws
 }
 
 public enum StarterFeedingLogStoreError: Error, Equatable {
+    case unknownFeeding(String)
     /// A recipe the RecipeStore beside this store does not have.
     case unknownRecipe(String)
 }

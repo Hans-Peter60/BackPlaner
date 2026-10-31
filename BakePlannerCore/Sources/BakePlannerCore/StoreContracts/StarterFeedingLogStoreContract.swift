@@ -20,6 +20,7 @@ public enum StarterFeedingLogStoreContract {
         ("a feeding comes back as it was added", addAndRead),
         ("facts are kept normalized; not measured stays apart from failed", normalizedFacts),
         ("feedings come newest first, each recipe its own", order),
+        ("the result is entered afterwards; date and recipe stay", update),
         ("a removed feeding is gone, the others stay", delete),
         ("removing a recipe removes its feedings", recipeRemoved),
         ("unknown keys are reported, not ignored", unknownKeys),
@@ -72,6 +73,31 @@ public enum StarterFeedingLogStoreContract {
         try expect(store.feedings(ofRecipe: wheat.id) == [other], "the other recipe's feedings are not its own")
     }
 
+    public static func update(_ store: StarterFeedingLogStore, _ recipes: RecipeStore) throws {
+        let rye = try newRecipe(recipes)
+        let wheat = try newRecipe(recipes, name: "Weizensauer")
+        // As planning writes it: the start, no result yet.
+        let planned = try store.add(toRecipe: rye.id, date: moment(10), facts: StarterFeedingFacts())
+        let other = try store.add(toRecipe: rye.id, date: moment(8), facts: StarterFeedingFacts(note: "Gut"))
+
+        var result = planned
+        result.facts = StarterFeedingFacts(peakMinutes: 0, floatTestPassed: false, note: " träge ")
+        result.date = moment(20)
+        result.recipeID = wheat.id
+        try store.update(result)
+
+        var expected = planned
+        expected.facts = StarterFeedingFacts(floatTestPassed: false, note: "träge")
+        try expect(store.feedings(ofRecipe: rye.id) == [expected, other],
+                   "the result was not entered as normalized, or date, recipe or the other feeding changed")
+        try expect(store.feedings(ofRecipe: wheat.id).isEmpty, "the update moved the feeding")
+
+        result.facts = StarterFeedingFacts(peakMinutes: 285, floatTestPassed: true)
+        try store.update(result)
+        try expect(store.feedings(ofRecipe: rye.id).first?.facts == StarterFeedingFacts(peakMinutes: 285, floatTestPassed: true),
+                   "a second result did not replace the first")
+    }
+
     public static func delete(_ store: StarterFeedingLogStore, _ recipes: RecipeStore) throws {
         let starter = try newRecipe(recipes)
         let first = try store.add(toRecipe: starter.id, date: moment(10), facts: StarterFeedingFacts())
@@ -100,6 +126,10 @@ public enum StarterFeedingLogStoreContract {
             _ = try store.add(toRecipe: "none", date: moment(10), facts: StarterFeedingFacts())
             throw ContractViolation(description: "adding a feeding to an unknown recipe did not fail")
         } catch StarterFeedingLogStoreError.unknownRecipe {}
+        do {
+            try store.update(StoredStarterFeeding(id: "none", recipeID: "none", date: moment(10)))
+            throw ContractViolation(description: "entering the result of an unknown feeding did not fail")
+        } catch StarterFeedingLogStoreError.unknownFeeding {}
         let starter = try newRecipe(recipes)
         let feeding = try store.add(toRecipe: starter.id, date: moment(10), facts: StarterFeedingFacts())
         try store.delete(id: "none")

@@ -65,6 +65,23 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
                                     facts: normalized)
     }
 
+    public func update(_ feeding: StoredStarterFeeding) throws {
+        guard let rowID = Int64(feeding.id),
+              !(try database.selectAll(sql: "SELECT 1 FROM starter_feeding WHERE id = ?",
+                                       parameters: [.long(rowID)]).isEmpty) else {
+            throw StarterFeedingLogStoreError.unknownFeeding(feeding.id)
+        }
+        let facts = feeding.facts.normalized
+        try database.exec(sql: """
+            UPDATE starter_feeding SET peak_minutes = ?, float_test_passed = ?, note = ? WHERE id = ?
+            """, parameters: [
+                facts.peakMinutes.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
+                facts.floatTestPassed.map { SQLValue.long($0 ? 1 : 0) } ?? SQLValue.null,
+                facts.note.isEmpty ? SQLValue.null : SQLValue.text(facts.note),
+                .long(rowID),
+            ])
+    }
+
     public func delete(id: String) throws {
         guard let rowID = Int64(id) else { return }
         try database.exec(sql: "DELETE FROM starter_feeding WHERE id = ?", parameters: [.long(rowID)])

@@ -430,7 +430,8 @@ struct InstructionsFBView: View {
                  prepTime: recipeFB.prepTime,
                  anchor: PlanAnchor(selection: dateTimeStartSelection),
                  date: dateTime,
-                 languageCode: languageCode.isEmpty ? locale.identifier : languageCode)
+                 languageCode: languageCode.isEmpty ? locale.identifier : languageCode,
+                 isStarterFeeding: StarterRecipe.isStarterFeeding(recipeFB))
     }
 
     private func refreshPlanIssues() {

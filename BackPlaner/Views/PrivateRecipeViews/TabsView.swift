@@ -55,7 +55,9 @@ struct TabsView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "dial.max.fill")
-                        Text("Backen")
+                        // A starter is fed, not baked.
+                        Text(StarterRecipe.isStarterFeeding(recipe) ? LocalizedStringKey("Füttern")
+                                                                    : LocalizedStringKey("Backen"))
                     }
                 }
                 .tag(Self.bakingTab)

@@ -240,7 +240,7 @@ Les étapes déjà planifiées pour cette recette restent toutefois dans « Éta
 
 | Onglet | Contenu |
 |--------|---------|
-| **Cuire** | Instructions de cuisson avec planification et « Définir les rappels » |
+| **Cuire** | Instructions de cuisson avec planification et « Définir les rappels » ; pour les recettes de levain chef, l’onglet s’appelle **Nourrir** |
 | **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF, **Exporter la recette** en fichier ; les lignes de farine et de levain chef se touchent (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)) |
 | **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 | **Liste de courses** | Ajouter les ingrédients de cette recette — dans la taille de portion choisie — à une liste de courses (voir [chapitre 13](#13-liste-de-courses)) |
@@ -494,6 +494,8 @@ La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et *
 **Ce qui fait d’une recette un levain chef** se décide d’après ses ingrédients, pas d’après le commutateur : ils donnent un ratio de nourrissage de levain chef (ou levain, starter — les noms se valent), de farine et d’eau, et rien n’est cuit. Une recette composée uniquement de ces trois-là est toujours un levain chef, même si une étape mentionne le four (« laisser mûrir dans le four éteint, lumière allumée », « garder au frais jusqu’à la prochaine cuisson »). Seules une température de four ou une étape de préchauffage — ou d’autres ingrédients comme le sel — en font un pain. Un tag comme « Levain chef », « Starter » ou « Rafraîchi » tranche à la main en cas de doute ; un tag « Levain » ne suffit pas, les pains le portent aussi.
 
 À la place de « + Historique », les recettes de levain chef reçoivent l’onglet **Nourrissage** : le **journal du levain chef** — un levain chef se nourrit, il ne se cuit pas. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
+
+Si vous planifiez un levain chef dans l’onglet **Nourrir** (ou si son rythme revient), BakePlanner crée une entrée dans le journal du levain chef au début du nourrissage — « planifiée » tant qu’elle est à venir — et aucune dans l’historique de cuisson. La dernière étape vous le rappelle : « Nourrissage terminé – noter le résultat dans le journal du levain ». Touchez l’entrée et renseignez le temps jusqu’au pic, le test de flottaison et la note sous **Noter le résultat**. Le rythme compte à partir du début du dernier nourrissage.
 
 ### Modifier les composants
 

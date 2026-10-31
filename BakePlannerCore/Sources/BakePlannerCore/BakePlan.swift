@@ -57,6 +57,10 @@ public struct BakePlan {
     public let languageCode: String
     public var preheatTime: Int = GlobalVariables.preheatTime
     public var calendar: Calendar = .current
+    /// True for a recipe that feeds a starter: it is fed, not baked, so its
+    /// last step asks for the feeding's result instead of announcing the end
+    /// of a bake.
+    public var isStarterFeeding: Bool = false
 
     // MARK: Derived steps
 
@@ -195,9 +199,13 @@ public struct BakePlan {
         return false
     }
 
-    /// "Backvorgang ist beendet", `totalMinutes` after the start.
+    /// "Backvorgang ist beendet", `totalMinutes` after the start — for a
+    /// starter "Fütterung abgeschlossen – Ergebnis im Anstellgut-Tagebuch
+    /// eintragen".
     public var endStep: PlanStep {
-        PlanStep(instruction: AppSettings.generatedStepTexts(languageCode: languageCode).bakeEnd,
+        PlanStep(instruction: isStarterFeeding
+                    ? AppSettings.generatedFeedingEndText(languageCode: languageCode)
+                    : AppSettings.generatedStepTexts(languageCode: languageCode).bakeEnd,
                  step: 99,
                  startTime: totalMinutes,
                  duration: 0)
@@ -259,7 +267,7 @@ public struct BakePlan {
     public func moved(to newDate: Date) -> BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
                  date: newDate, languageCode: languageCode, preheatTime: preheatTime,
-                 calendar: calendar)
+                 calendar: calendar, isStarterFeeding: isStarterFeeding)
     }
 
     public func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
@@ -457,7 +465,7 @@ public struct BakePlan {
         }
     }
 
-    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, calendar: Calendar = .current) {
+    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false) {
         self.recipeName = recipeName
         self.steps = steps
         self.prepTime = prepTime
@@ -466,5 +474,6 @@ public struct BakePlan {
         self.languageCode = languageCode
         self.preheatTime = preheatTime
         self.calendar = calendar
+        self.isStarterFeeding = isStarterFeeding
     }
 }
