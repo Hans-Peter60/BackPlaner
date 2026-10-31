@@ -546,6 +546,24 @@
         }
       }
     },
+    "Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern." : {
+      "comment" : "Planning on Android when notifications are not allowed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan is on the timeline, but without reminders: BakePlanner may not send notifications. You can change this in Android's settings under Apps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan figure dans la chronologie, mais sans rappels : BakePlanner n’a pas le droit d’envoyer des notifications. Vous pouvez le modifier dans les réglages d’Android, sous Applications."
+          }
+        }
+      }
+    },
     "Die Änderung konnte nicht gespeichert werden." : {
       "comment" : "Error message when a change could not be saved.",
       "extractionState" : "manual",
@@ -739,20 +757,19 @@
         }
       }
     },
-    "Erinnerungen gibt es auf Android noch nicht; die Schritte stehen in der Zeitleiste." : {
-      "comment" : "Planning on Android: reminders follow later.",
+    "Erinnerungen wurden gesetzt" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reminders are not available on Android yet; the steps are on the timeline."
+            "value" : "Reminders were set"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les rappels ne sont pas encore disponibles sur Android ; les étapes figurent dans la chronologie."
+            "value" : "Les rappels ont été définis"
           }
         }
       }

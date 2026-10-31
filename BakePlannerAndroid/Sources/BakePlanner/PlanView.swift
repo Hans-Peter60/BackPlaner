@@ -4,7 +4,7 @@ import SwiftUI
 /// Plans a recipe at the amount chosen in it: from a start or towards a
 /// finish, with the steps and their times, what speaks against the plan
 /// (ovens busy, steps in the night) and dates without night steps — as the
-/// iPhone's baking view does. Reminders do not exist on Android yet.
+/// iPhone's baking view does. Planning sets a reminder for every step ahead.
 struct PlanView: View {
     let model: AppModel
     let recipe: StoredRecipe
@@ -18,7 +18,7 @@ struct PlanView: View {
     @State var showsOverlap = false
     @State var showsPlanChoice = false
     @State var showsSaved = false
-    @State var saveFailed = false
+    @State var outcome: AppModel.PlanOutcome = .saved
     @Environment(\.dismiss) var dismiss
 
     private var plan: BakePlan {
@@ -115,16 +115,15 @@ struct PlanView: View {
         } message: {
             Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
         }
-        .alert(saveFailed ? LocalizedStringKey("Die Änderung konnte nicht gespeichert werden.") : LocalizedStringKey("Plan gespeichert"),
-               isPresented: $showsSaved) {
+        .alert(outcomeTitle, isPresented: $showsSaved) {
             Button(role: .cancel) {
-                if !saveFailed { dismiss() }
+                if outcome != .failed { dismiss() }
             } label: {
                 Text(verbatim: "OK")
             }
         } message: {
-            if !saveFailed {
-                Text("Erinnerungen gibt es auf Android noch nicht; die Schritte stehen in der Zeitleiste.")
+            if outcome == .savedWithoutReminders {
+                Text("Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern.")
             }
         }
     }
@@ -137,9 +136,20 @@ struct PlanView: View {
         }
     }
 
+    private var outcomeTitle: LocalizedStringKey {
+        switch outcome {
+        case .saved: return "Erinnerungen wurden gesetzt"
+        case .savedWithoutReminders: return "Plan gespeichert"
+        case .failed: return "Die Änderung konnte nicht gespeichert werden."
+        }
+    }
+
     private func save(replacing: Bool) {
-        saveFailed = !model.putIntoEffect(plan, recipeID: recipe.id, servingScale: scale, replacing: replacing)
-        showsSaved = true
+        let plan = self.plan
+        Task {
+            outcome = await model.putIntoEffect(plan, recipeID: recipe.id, servingScale: scale, replacing: replacing)
+            showsSaved = true
+        }
     }
 }
 

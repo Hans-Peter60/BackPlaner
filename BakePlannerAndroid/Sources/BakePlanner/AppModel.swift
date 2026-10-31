@@ -237,19 +237,29 @@ final class AppModel {
         (try? openedStepStore().hasSteps(recipeName: recipeName)) ?? false
     }
 
+    enum PlanOutcome: Equatable {
+        case saved
+        /// Saved, but the user does not allow notifications.
+        case savedWithoutReminders
+        case failed
+    }
+
     /// Keeps the plan's steps — replacing the recipe's earlier plan, or
-    /// beside it — and, as on the iPhone, a bake-history entry for the end
-    /// of a bake, or for a starter a feeding at its start whose result is
-    /// entered when it is over. Reminders do not exist on Android yet.
-    @discardableResult
-    func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool) -> Bool {
+    /// beside it — with a reminder for each step ahead, and, as on the
+    /// iPhone, a bake-history entry for the end of a bake, or for a starter
+    /// a feeding at its start whose result is entered when it is over.
+    func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool) async -> PlanOutcome {
+        let newSteps = plan.scheduledStepData(planID: UUID(), servingScale: servingScale)
+        let content: RecipeExportData
         do {
-            guard let recipe = try openedStore().recipe(id: recipeID) else { return false }
+            guard let recipe = try openedStore().recipe(id: recipeID) else { return .failed }
+            content = recipe.content
             let steps = try openedStepStore()
             if replacing {
+                Reminders.cancel(scheduledSteps.map(\.data).filter { $0.recipeName == plan.recipeName })
                 steps.removeSteps(recipeName: plan.recipeName)
             }
-            steps.add(plan.scheduledStepData(planID: UUID(), servingScale: servingScale))
+            steps.add(newSteps)
             if StarterRecipe.isStarterFeeding(recipe.content) {
                 _ = try openedFeedingStore().add(toRecipe: recipeID, date: plan.baseDate, facts: StarterFeedingFacts())
             } else {
@@ -260,22 +270,24 @@ final class AppModel {
             loadScheduledSteps()
             loadBakeHistory()
             load()
-            return true
         } catch {
             logger.error("could not plan \(plan.recipeName): \(error)")
             loadScheduledSteps()
-            return false
+            return .failed
         }
+        return await Reminders.schedule(newSteps, recipe: content) ? .saved : .savedWithoutReminders
     }
 
-    /// The step is done: it goes from the timeline.
+    /// The step is done: it goes from the timeline, its reminder with it.
     func markDone(_ step: StoredScheduledStep) {
+        Reminders.cancel([step.data])
         try? openedStepStore().removeStep(key: step.key)
         loadScheduledSteps()
     }
 
-    /// Removes every step of one plan.
+    /// Removes every step of one plan, and their reminders.
     func deletePlan(_ steps: [StoredScheduledStep]) {
+        Reminders.cancel(steps.map(\.data))
         if let store = try? openedStepStore() {
             for step in steps {
                 store.removeStep(key: step.key)
