@@ -23,8 +23,11 @@ struct RecipeListView: View {
     @State var pickedURL: URL?
     @State var pickedName: String?
     @State var pickedType: String?
-    /// The recipe waiting for the user to confirm its removal.
+    /// The recipe waiting for the user to confirm its removal. Kept apart
+    /// from the dialog's visibility: closing the dialog — which Android does
+    /// before running the chosen button — must not forget which recipe.
     @State var recipeToDelete: StoredRecipe?
+    @State var confirmsDeletion = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -65,6 +68,7 @@ struct RecipeListView: View {
                     }
                     .onDelete { offsets in
                         recipeToDelete = offsets.first.map { filteredRecipes[$0] }
+                        confirmsDeletion = recipeToDelete != nil
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -89,7 +93,7 @@ struct RecipeListView: View {
             pickedURL = nil
             model.importFile(at: url)
         }
-        .alert("Rezept löschen?", isPresented: showsDeletion) {
+        .alert("Rezept löschen?", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {
                 if let recipe = recipeToDelete {
                     model.delete(id: recipe.id)
@@ -113,11 +117,6 @@ struct RecipeListView: View {
                 Text(verbatim: reason)
             }
         }
-    }
-
-    private var showsDeletion: Binding<Bool> {
-        Binding(get: { recipeToDelete != nil },
-                set: { if !$0 { recipeToDelete = nil } })
     }
 
     private var filteredRecipes: [StoredRecipe] {
