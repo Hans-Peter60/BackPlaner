@@ -103,7 +103,8 @@ struct BakePlanScheduler {
 
     /// Reminders, scheduled steps and the bake-history entry for one plan —
     /// the part of scheduling a recipe that has nothing to do with the UI
-    /// that triggered it. Shared by the manual "Jetzt planen" flow
+    /// that triggered it. A starter is fed, not baked: its plan writes no
+    /// bake-history entry and does not mark the recipe as baked. Shared by the manual "Jetzt planen" flow
     /// (`InstructionsView`) and the automatic recurrence pass
     /// (`RecurringBakePlanner`), so the two can't drift apart.
     @discardableResult
@@ -111,7 +112,10 @@ struct BakePlanScheduler {
                               servingScale: Double, manager: LocalNotificationManager,
                               isAutomaticRecurrence: Bool = false,
                               in context: NSManagedObjectContext) -> Result {
-        recipe.bakeHistoryFlag = true
+        let isStarter = StarterRecipe.isStarterFeeding(recipe)
+        if !isStarter {
+            recipe.bakeHistoryFlag = true
+        }
 
         let content = RecipeExportData(recipe: recipe, includingImage: false)
         let scheduler = BakePlanScheduler(plan: plan,
@@ -128,10 +132,12 @@ struct BakePlanScheduler {
                                       isAutomaticRecurrence: isAutomaticRecurrence, in: context)
 
         // The bake history gets an entry for the end of this bake.
-        let bakeHistory     = BakeHistory(context: context)
-        bakeHistory.date    = result.finishDate
-        bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
-        recipe.addToBakeHistories(bakeHistory)
+        if !isStarter {
+            let bakeHistory     = BakeHistory(context: context)
+            bakeHistory.date    = result.finishDate
+            bakeHistory.comment = AppSettings.generatedRecipeTexts().missingComment
+            recipe.addToBakeHistories(bakeHistory)
+        }
         context.performAndWait {
             try? context.save()
         }

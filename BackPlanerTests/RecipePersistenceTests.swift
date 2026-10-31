@@ -329,4 +329,46 @@ struct RecipePersistenceTests {
         #expect(Set(again.bakeHistoriesArray.map(\.date)) == [firstDate, secondDate])
         #expect(again.bakeHistoriesArray.contains { $0.comment == "Krume schön offen" })
     }
+
+    /// A public starter refreshed 1:5:5 — mixed and left to ripen, no oven.
+    private func publicStarter() -> RecipeFB {
+        let recipe = RecipeFB()
+        recipe.id = "fs-roggensauer"
+        recipe.name = "Roggensauer"
+        let component = ComponentFB()
+        component.name = "Roggensauer"
+        component.number = 1
+        component.ingredients = [("Anstellgut", 20.0), ("Roggenmehl 1150", 100.0), ("Wasser", 100.0)]
+            .enumerated().map { index, line in
+                let ingredient = IngredientFB()
+                ingredient.name = line.0
+                ingredient.number = index + 1
+                ingredient.unit = "g"
+                ingredient.weight = line.1
+                return ingredient
+            }
+        recipe.components = [component]
+        recipe.instructions = [("Zutaten mischen", 5.0), ("Bei 26 °C 12 Stunden reifen lassen", 720.0)]
+            .enumerated().map { index, line in
+                let instruction = InstructionFB()
+                instruction.instruction = line.0
+                instruction.step = Double(index + 1)
+                instruction.duration = Int(line.1)
+                return instruction
+            }
+        return recipe
+    }
+
+    @Test("Planning a public starter takes it over without a bake-history entry: a starter is fed, not baked")
+    func plannedStarterHasNoBakeHistory() throws {
+        let context = makeContext()
+        let recipe = try RecipeModel().recordPlannedBake(
+            of: publicStarter(), on: Date(timeIntervalSince1970: 1_800_000_000), context: context)
+
+        #expect(StarterRecipe.isStarterFeeding(recipe))
+        #expect(recipe.firestoreId == "fs-roggensauer")
+        #expect(recipe.bakeHistoriesArray.isEmpty)
+        #expect(!recipe.bakeHistoryFlag)
+        #expect(try count(BakeHistory.self, in: context) == 0)
+    }
 }
