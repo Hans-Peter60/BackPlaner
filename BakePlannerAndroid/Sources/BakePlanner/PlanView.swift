@@ -10,9 +10,9 @@ struct PlanView: View {
     let recipe: StoredRecipe
     /// The factor chosen in the recipe: 1 is the recipe as stored.
     let scale: Double
-    /// 0 "Starten ab", 1 "Fertig bis".
-    @State var anchorSelection = 1
-    @State var date = Date().addingTimeInterval(24 * 60 * 60)
+    /// 0 "Starten ab", 1 "Fertig bis". Starting now, as on the iPhone.
+    @State var anchorSelection = 0
+    @State var date = Date()
     // Kept apart from the dialogs' visibility: Android closes a dialog
     // before it runs the chosen button.
     @State var showsOverlap = false
