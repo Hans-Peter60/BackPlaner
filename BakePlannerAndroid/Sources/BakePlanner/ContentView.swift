@@ -173,7 +173,7 @@ struct RecipeListView: View {
             Text(verbatim: recipeToDelete?.content.name ?? "")
         }
         .alert(importTitle, isPresented: showsImportOutcome) {
-            Button(role: .cancel) {
+            Button {
                 model.importOutcome = nil
             } label: {
                 Text(verbatim: "OK")

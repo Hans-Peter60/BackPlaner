@@ -69,7 +69,7 @@ struct AddToShoppingListView: View {
             }
         }
         .alert(outcomeTitle, isPresented: $showsOutcome) {
-            Button(role: .cancel) {
+            Button {
                 if outcome == .added { dismiss() }
                 outcome = nil
             } label: {

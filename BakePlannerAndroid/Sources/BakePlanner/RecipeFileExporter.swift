@@ -43,7 +43,7 @@ struct RecipeFileExporter: ViewModifier {
             }
             .alert(outcome == .saved ? LocalizedStringKey("Gesichert") : LocalizedStringKey("Sichern fehlgeschlagen"),
                    isPresented: $showsOutcome) {
-                Button(role: .cancel) {
+                Button {
                 } label: {
                     Text(verbatim: "OK")
                 }

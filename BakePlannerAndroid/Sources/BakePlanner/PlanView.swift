@@ -116,7 +116,7 @@ struct PlanView: View {
             Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
         }
         .alert(outcomeTitle, isPresented: $showsSaved) {
-            Button(role: .cancel) {
+            Button {
                 if outcome != .failed { dismiss() }
             } label: {
                 Text(verbatim: "OK")
