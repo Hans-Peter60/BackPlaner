@@ -32,7 +32,7 @@ public enum CoreLocalization {
     /// system's, without its region.
     static var languageCode: String {
         let stored = AppSettings.storedLanguage
-        return RecipeFB.baseLanguageCode(from: stored.isEmpty ? Locale.current.identifier : stored)
+        return RecipeFB.baseLanguageCode(from: stored.isEmpty ? AppSettings.systemLocale().identifier : stored)
     }
 
     /// `format` with its placeholders (`%@`, `%lld`, `%d`, `%lf`, also

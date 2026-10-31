@@ -52,7 +52,7 @@ public struct IngredientAmountText: Equatable {
     /// The amount as the editor shows it: "250", "1,5", "1/4", "1 1/2";
     /// empty for none. Decimals use `decimalSeparator`.
     public static func text(weight: Double, numerator: Int, denominator: Int,
-                            decimalSeparator: String = Locale.current.decimalSeparator ?? ",") -> String {
+                            decimalSeparator: String = AppSettings.locale.decimalSeparator ?? ",") -> String {
         if numerator > 0, denominator > 0 {
             let whole = numerator / denominator
             let rest = numerator % denominator

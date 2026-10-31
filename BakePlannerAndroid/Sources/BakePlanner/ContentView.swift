@@ -4,6 +4,10 @@ import SwiftUI
 
 struct ContentView: View {
     @State var model = AppModel()
+    /// The device's language as SwiftUI shows the texts in. Swift's
+    /// Locale.current does not follow it on Android, so it is handed to the
+    /// package: generated plan steps, plan hints and dates use it.
+    @Environment(\.locale) var locale
 
     var body: some View {
         TabView {
@@ -35,7 +39,12 @@ struct ContentView: View {
                 Label("Zeitleiste", systemImage: "calendar")
             }
         }
+        .onChange(of: locale) { _, newLocale in
+            AppSettings.systemLocale = { newLocale }
+        }
         .task {
+            let current = locale
+            AppSettings.systemLocale = { current }
             model.load()
             model.loadShoppingLists()
             model.loadBakeHistory()

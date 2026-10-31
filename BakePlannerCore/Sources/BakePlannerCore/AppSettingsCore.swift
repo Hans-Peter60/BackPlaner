@@ -254,8 +254,14 @@ public struct AppSettings {
             .map(String.init) ?? "de"
     }
 
+    /// The device's language and region, used where no language is picked
+    /// in the app. On iOS what Foundation reports. On Android, Swift's
+    /// `Locale.current` does not follow the device's settings, so the app
+    /// hands in the locale SwiftUI shows its texts in.
+    public static var systemLocale: () -> Locale = { Locale.autoupdatingCurrent }
+
     public static func localeIdentifier(for selectedLanguage: String = storedLanguage) -> String {
-        selectedLanguage.isEmpty ? Locale.autoupdatingCurrent.identifier : selectedLanguage
+        selectedLanguage.isEmpty ? systemLocale().identifier : selectedLanguage
     }
 
     public static var locale: Locale {
