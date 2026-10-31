@@ -28,6 +28,7 @@ struct RecipeListView: View {
     /// before running the chosen button — must not forget which recipe.
     @State var recipeToDelete: StoredRecipe?
     @State var confirmsDeletion = false
+    @State var createsRecipe = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -80,6 +81,20 @@ struct RecipeListView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("Importieren") {
                     showsPicker = true
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    createsRecipe = true
+                } label: {
+                    Label("Neues Rezept", systemImage: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $createsRecipe) {
+            NavigationStack {
+                RecipeEditor(original: nil) { _, content in
+                    model.add(content)
                 }
             }
         }

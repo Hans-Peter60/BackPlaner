@@ -86,6 +86,23 @@
         }
       }
     },
+    "Dauer" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée"
+          }
+        }
+      }
+    },
     "Die Rezepte konnten nicht geladen werden." : {
       "comment" : "When the recipe database cannot be read.",
       "localizations" : {
@@ -99,6 +116,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les recettes n’ont pas pu être chargées."
+          }
+        }
+      }
+    },
+    "Einheit" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unité"
           }
         }
       }
@@ -188,6 +222,57 @@
         }
       }
     },
+    "Komponente" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composant"
+          }
+        }
+      }
+    },
+    "Komponente entfernen" : {
+      "comment" : "Recipe editor: removes a component with its ingredients.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le composant"
+          }
+        }
+      }
+    },
+    "Komponente hinzufügen" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un composant"
+          }
+        }
+      }
+    },
     "Komponenten" : {
       "comment" : "Recipe detail.",
       "localizations" : {
@@ -239,6 +324,23 @@
         }
       }
     },
+    "Minuten" : {
+      "comment" : "Placeholder text for a text field in a notification.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutes"
+          }
+        }
+      }
+    },
     "Name" : {
       "comment" : "Recipe editing.",
       "localizations" : {
@@ -252,6 +354,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Neues Rezept" : {
+      "comment" : "Button and title: start a new recipe.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle recette"
           }
         }
       }
@@ -341,6 +460,40 @@
         }
       }
     },
+    "Schritt" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape"
+          }
+        }
+      }
+    },
+    "Schritt hinzufügen" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une étape"
+          }
+        }
+      }
+    },
     "Speichern" : {
       "comment" : "Recipe editing.",
       "localizations" : {
@@ -416,7 +569,7 @@
       }
     },
     "Verarbeitungsschritte" : {
-      "comment" : "Recipe detail.",
+      "comment" : "Recipe editor.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -428,6 +581,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
+          }
+        }
+      }
+    },
+    "Zutat" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédient"
+          }
+        }
+      }
+    },
+    "Zutat hinzufügen" : {
+      "comment" : "Recipe editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un ingrédient"
           }
         }
       }

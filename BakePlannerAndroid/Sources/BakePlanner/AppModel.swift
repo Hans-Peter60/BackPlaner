@@ -57,6 +57,19 @@ final class AppModel {
         }
     }
 
+    /// Keeps a new recipe and refreshes the list. Whether it worked.
+    @discardableResult
+    func add(_ content: RecipeExportData) -> Bool {
+        do {
+            _ = try openedStore().add(content, firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+            load()
+            return true
+        } catch {
+            logger.error("could not add a recipe: \(error)")
+            return false
+        }
+    }
+
     /// Removes the recipe and refreshes the list.
     func delete(id: String) {
         do {

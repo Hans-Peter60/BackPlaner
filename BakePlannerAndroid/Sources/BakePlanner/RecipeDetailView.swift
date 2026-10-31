@@ -41,7 +41,9 @@ struct RecipeDetailView: View {
         .sheet(isPresented: $isEditing) {
             if let recipe {
                 NavigationStack {
-                    RecipeDetailsEditor(recipe: recipe) { edited in
+                    RecipeEditor(original: recipe) { _, content in
+                        var edited = recipe
+                        edited.content = content
                         if model.save(edited) {
                             self.recipe = model.recipe(id: recipeID)
                         }
