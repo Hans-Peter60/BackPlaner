@@ -45,6 +45,7 @@ final class AppModel {
     private var store: SQLiteRecipeStore?
     private var listStore: SQLiteShoppingListStore?
     private var historyStore: SQLiteBakeHistoryStore?
+    private var feedingStore: SQLiteStarterFeedingLogStore?
 
     func load() {
         do {
@@ -182,6 +183,38 @@ final class AppModel {
         recipes.first { $0.id == id }?.content.name ?? ""
     }
 
+    // MARK: Starter feeding diary
+
+    /// The feedings of a starter's recipe, newest first.
+    func feedings(ofRecipe recipeID: String) -> [StoredStarterFeeding] {
+        do {
+            return try openedFeedingStore().feedings(ofRecipe: recipeID)
+        } catch {
+            logger.error("could not read the feedings of recipe \(recipeID): \(error)")
+            return []
+        }
+    }
+
+    /// Keeps a new feeding. Whether it worked.
+    @discardableResult
+    func addFeeding(toRecipe recipeID: String, date: Date, facts: StarterFeedingFacts) -> Bool {
+        do {
+            _ = try openedFeedingStore().add(toRecipe: recipeID, date: date, facts: facts)
+            return true
+        } catch {
+            logger.error("could not add a feeding to recipe \(recipeID): \(error)")
+            return false
+        }
+    }
+
+    func deleteFeeding(id: String) {
+        do {
+            try openedFeedingStore().delete(id: id)
+        } catch {
+            logger.error("could not delete feeding \(id): \(error)")
+        }
+    }
+
     // MARK: Shopping lists
 
     func loadShoppingLists() {
@@ -309,6 +342,14 @@ final class AppModel {
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let opened = try SQLiteRecipeStore(path: folder.appendingPathComponent("recipes.sqlite").path)
         store = opened
+        return opened
+    }
+
+    /// The starter feeding diary, in the same database file as the recipes.
+    private func openedFeedingStore() throws -> SQLiteStarterFeedingLogStore {
+        if let feedingStore { return feedingStore }
+        let opened = SQLiteStarterFeedingLogStore(file: try openedStore().file)
+        feedingStore = opened
         return opened
     }
 

@@ -71,6 +71,60 @@
         }
       }
     },
+    "Anstellgut %lld : Mehl %lld : Wasser %lld" : {
+      "comment" : "A label showing the feeding ratio of a starter recipe. The first argument is the amount of starter. The second argument is the amount of flour. The third argument is the amount of water.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sourdough starter %1$lld : Flour %2$lld : Water %3$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Levain chef %1$lld : Farine %2$lld : Eau %3$lld"
+          }
+        }
+      }
+    },
+    "Anstellgut-Tagebuch" : {
+      "comment" : "The title of a screen that logs feeding times.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Starter Diary"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Journal du levain"
+          }
+        }
+      }
+    },
+    "Aus dem Rezept übernommen — hier nicht änderbar." : {
+      "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Taken from the recipe — not editable here."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Repris de la recette — non modifiable ici."
+          }
+        }
+      }
+    },
     "Backanmerkungen- / hinweise" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -212,6 +266,24 @@
         }
       }
     },
+    "Beobachtungen, Geruch, Konsistenz …" : {
+      "comment" : "A placeholder text for a text field that lets the user add notes about a feeding.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Observations, smell, texture …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Observations, odeur, consistance …"
+          }
+        }
+      }
+    },
     "Beschreibung" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -349,6 +421,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Cuissons précédentes"
+          }
+        }
+      }
+    },
+    "Bisherige Fütterungen" : {
+      "comment" : "A heading for the user's past feeding entries.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Previous feedings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nourrissages précédents"
           }
         }
       }
@@ -646,6 +736,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette recette ne contient aucun ingrédient pouvant être ajouté à une liste de courses."
+          }
+        }
+      }
+    },
+    "Fütterung löschen?" : {
+      "comment" : "Starter feeding diary: confirm removing a feeding.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this feeding?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer ce nourrissage ?"
+          }
+        }
+      }
+    },
+    "Fütterungsverhältnis" : {
+      "comment" : "A label for the feeding ratio of a starter.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Feeding ratio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ratio de nourrissage"
           }
         }
       }
@@ -1165,6 +1291,24 @@
         }
       }
     },
+    "Neue Fütterung erfassen" : {
+      "comment" : "A heading for the form to log a feeding.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Enter new feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Saisir un nouveau nourrissage"
+          }
+        }
+      }
+    },
     "Neue Liste" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1196,6 +1340,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouvelle recette"
+          }
+        }
+      }
+    },
+    "Nicht geprüft" : {
+      "comment" : "Text for a choice in the \"Schwimmtest\" picker.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Not checked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Non vérifié"
           }
         }
       }
@@ -1265,6 +1427,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Rien de noté pour l’instant"
+          }
+        }
+      }
+    },
+    "Notiz" : {
+      "comment" : "A label for a text field that lets the user add notes about a feeding.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Note"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Note"
           }
         }
       }
@@ -1390,6 +1570,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température ambiante"
+          }
+        }
+      }
+    },
+    "Reifezeit bis zum Höhepunkt" : {
+      "comment" : "A label for a text field that lets the user specify the number of minutes it takes for the starter to reach the right consistency.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Time to peak rise"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Temps jusqu’au pic de pousse"
           }
         }
       }
@@ -1533,6 +1731,60 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une étape"
+          }
+        }
+      }
+    },
+    "Schwimmt" : {
+      "comment" : "Text for the \"not checked\" option in the \"float test\" picker.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Floats"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Flotte"
+          }
+        }
+      }
+    },
+    "Schwimmt nicht" : {
+      "comment" : "Description of the \"failed\" option for the float test.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Does not float"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ne flotte pas"
+          }
+        }
+      }
+    },
+    "Schwimmtest" : {
+      "comment" : "A label for the swimming test.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Float test"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Test de flottaison"
           }
         }
       }
