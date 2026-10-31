@@ -137,7 +137,7 @@ struct StarterFeedingEditor: View {
                 HStack {
                     Text("Reifezeit bis zum Höhepunkt")
                     Spacer()
-                    TextField("", text: $peakText)
+                    TextField("Reifezeit bis zum Höhepunkt", text: $peakText)
                         .multilineTextAlignment(.trailing)
                         .frame(width: 72)
                     Text(verbatim: "min")

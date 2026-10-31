@@ -361,7 +361,7 @@ struct BakeEntryEditor: View {
         HStack {
             Text(title)
             Spacer()
-            TextField("", text: text)
+            TextField(title, text: text)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 80)
             Text(verbatim: unit)
