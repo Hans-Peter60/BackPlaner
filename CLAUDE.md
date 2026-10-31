@@ -33,7 +33,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - Logik gehört nach `Utilities/` und bekommt Unit-Tests; Rechenlogik (TA, Portionen, Zeitplan, Einheiten) nie ohne Test ändern.
 
 ## Android-Portierung (geplant)
-Stand und Plan: `docs/Android-Bestandsaufnahme.md`. Leitlinien:
+Stand und Plan: `docs/Android-Bestandsaufnahme.md`. Wer weiterarbeitet, liest zuerst `docs/Android-Uebergabe.md` (Bauen und Testen, Arbeitsweise, bekannte Stolpersteine, offene Schritte). Leitlinien:
 - Weg: zuerst auf iOS die Datenschicht hinter ein Repository-Protokoll mit plattformneutralen Structs legen (Skip unterstützt Core Data auf Android nicht), dann Logik in ein Swift Package, dann Skip-Probelauf.
 - Firebase bleibt das gemeinsame Backend; private Daten auf Android zunächst lokal (SQLite), Plattformwechsel über die Sicherungsdatei.
 - Arbeiten in kleinen Schritten, je Schritt ein eigener Branch; alle Unit-Tests müssen nach jedem Schritt grün sein; die iOS-App darf sich für Nutzer nicht verändern.
