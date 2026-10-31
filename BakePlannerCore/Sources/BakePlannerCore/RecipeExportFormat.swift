@@ -13,7 +13,13 @@ import Foundation
 // MARK: - File format
 
 public struct RecipeExportFile: Codable, Equatable {
-    public static let currentFormatVersion = 1
+    /// The newest version this app writes and reads. Version 2 added the
+    /// bake history of each recipe (`RecipeExportData.bakeHistory`).
+    public static let currentFormatVersion = 2
+    /// The version of a file without bake history: unchanged since the
+    /// first version, so an older app still reads such a file — a recipe
+    /// shared with someone else, for instance.
+    public static let plainFormatVersion = 1
 
     public var formatVersion: Int = Self.currentFormatVersion
     public var recipes: [RecipeExportData]
@@ -25,8 +31,12 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    public init(formatVersion: Int = RecipeExportFile.currentFormatVersion, recipes: [RecipeExportData]) {
+    /// A file of `recipes`, at the lowest version that holds them: 2 when
+    /// a recipe carries bake history, 1 otherwise. An older app refuses a
+    /// version-2 file instead of dropping the history unnoticed.
+    public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
         self.formatVersion = formatVersion
+            ?? (recipes.contains { $0.bakeHistory != nil } ? Self.currentFormatVersion : Self.plainFormatVersion)
         self.recipes = recipes
     }
 }
@@ -45,8 +55,11 @@ public struct RecipeExportData: Codable, Equatable {
     public var image: Data?
     public var components: [RecipeExportComponent]
     public var instructions: [RecipeExportInstruction]
+    /// The recipe's bakes, newest first — only in a full backup (format
+    /// version 2), nil otherwise and then left out of the file entirely.
+    public var bakeHistory: [RecipeExportBakeEntry]?
 
-    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction]) {
+    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil) {
         self.name = name
         self.summary = summary
         self.urlLink = urlLink
@@ -58,6 +71,42 @@ public struct RecipeExportData: Codable, Equatable {
         self.image = image
         self.components = components
         self.instructions = instructions
+        self.bakeHistory = bakeHistory
+    }
+}
+
+/// One bake of a recipe in a backup file (format version 2). Values not
+/// recorded are left out.
+public struct RecipeExportBakeEntry: Codable, Equatable {
+    /// Seconds since 2001, as JSONEncoder writes a Date by default.
+    public var date: Date
+    public var comment: String
+    /// JPEG photos, base64 in the file.
+    public var images: [Data]
+    public var roomTemperature: Double?
+    public var doughTemperature: Double?
+    public var bulkProofMinutes: Int?
+    public var finalProofMinutes: Int?
+    public var flour: String?
+    public var outcome: String?
+
+    public init(date: Date, comment: String, images: [Data], facts: BakeHistoryFacts) {
+        let facts = facts.normalized
+        self.date = date
+        self.comment = comment
+        self.images = images
+        roomTemperature = facts.roomTemperature
+        doughTemperature = facts.doughTemperature
+        bulkProofMinutes = facts.bulkProofMinutes
+        finalProofMinutes = facts.finalProofMinutes
+        flour = facts.flour.isEmpty ? nil : facts.flour
+        outcome = facts.outcome.isEmpty ? nil : facts.outcome
+    }
+
+    public var facts: BakeHistoryFacts {
+        BakeHistoryFacts(roomTemperature: roomTemperature, doughTemperature: doughTemperature,
+                         bulkProofMinutes: bulkProofMinutes, finalProofMinutes: finalProofMinutes,
+                         flour: flour ?? "", outcome: outcome ?? "").normalized
     }
 }
 

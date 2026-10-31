@@ -5,16 +5,19 @@
 //  A recipe (or several) as a self-contained JSON file: everything needed to
 //  recreate it on another device or hand it to someone else without putting
 //  it in the public database — the one thing the manual still lists as
-//  missing. Bake history and the starter feeding diary are left out
-//  deliberately: those are this device's record of what actually happened,
-//  not part of the recipe itself, the same boundary "Rezept veröffentlichen"
-//  already draws for the public database.
+//  missing. A recipe shared with someone else leaves the bake history out:
+//  that is this device's record of what actually happened, not part of the
+//  recipe, the same boundary "Rezept veröffentlichen" draws for the public
+//  database. The full backup from the settings carries it along (format
+//  version 2), so it moves to a new device with the recipes. The starter
+//  feeding diary is not in the file.
 //
 
 import BakePlannerCore
 import Foundation
 import CoreData
 import SwiftUI
+import UIKit
 import UniformTypeIdentifiers
 
 // MARK: - Recipe → export data
@@ -194,26 +197,45 @@ struct RecipeFileExport: Transferable {
     /// text field next to it, and typing there stuttered.
     private let recipeIDs: [NSManagedObjectID]
     let fileName: String
+    /// True for the full backup: the recipes' bake history goes along.
+    private let includesBakeHistory: Bool
 
+    /// One recipe to share, without its bake history.
     init(recipe: Recipe) {
-        self.init(recipes: [recipe], fileName: recipe.name.isEmpty ? "Rezept" : recipe.name)
+        self.init(recipes: [recipe], fileName: recipe.name.isEmpty ? "Rezept" : recipe.name,
+                  includesBakeHistory: false)
     }
 
+    /// The backup of `recipes`, with their bake history.
     init(recipes: [Recipe], fileName: String) {
+        self.init(recipes: recipes, fileName: fileName, includesBakeHistory: true)
+    }
+
+    private init(recipes: [Recipe], fileName: String, includesBakeHistory: Bool) {
         recipeIDs = recipes.map(\.objectID)
         self.fileName = Self.sanitizedFileName(fileName)
+        self.includesBakeHistory = includesBakeHistory
     }
 
     /// The export as it stands when the file is written.
     var file: RecipeExportFile {
         let context = PersistenceController.shared.container.viewContext
-        var recipes: [RecipeExportData] = []
+        var file = RecipeExportFile(recipes: [])
         context.performAndWait {
-            recipes = recipeIDs
+            if includesBakeHistory {
+                let keys = recipeIDs.map { $0.uriRepresentation().absoluteString }
+                if let backup = try? RecipeExportFile(recipeIDs: keys, from: CoreDataRecipeStore(context: context),
+                                                      bakeHistory: CoreDataBakeHistoryStore(context: context),
+                                                      shrinkPhoto: BackupPhoto.shrunk) {
+                    file = backup
+                    return
+                }
+            }
+            file = RecipeExportFile(recipes: recipeIDs
                 .compactMap { try? context.existingObject(with: $0) as? Recipe }
-                .map(RecipeExportData.init)
+                .map(RecipeExportData.init))
         }
-        return RecipeExportFile(recipes: recipes)
+        return file
     }
 
     private static func sanitizedFileName(_ name: String) -> String {
@@ -254,6 +276,37 @@ extension RecipeImport {
             throw RecipeImportError.unreadableFile
         }
 
-        return try importFile(data, into: CoreDataRecipeStore(context: context))
+        return try importFile(data, into: CoreDataRecipeStore(context: context),
+                              bakeHistory: CoreDataBakeHistoryStore(context: context))
+    }
+}
+
+// MARK: - Photos in the backup
+
+/// The bake photos as the backup carries them: no longer edge than looks
+/// sharp on the largest screen they are shown on — the photo opened full
+/// screen on a 13-inch iPad — instead of the camera's 12 or 48 megapixels.
+enum BackupPhoto {
+    /// Pixels on the longer side.
+    static let longestEdge: CGFloat = 2048
+    static let jpegQuality: CGFloat = 0.8
+
+    /// The photo at most `longestEdge` pixels long, as JPEG. One already
+    /// that small, or one that is no picture, stays exactly as it is.
+    static func shrunk(_ data: Data) -> Data {
+        guard let image = UIImage(data: data) else { return data }
+        let width = image.size.width * image.scale
+        let height = image.size.height * image.scale
+        let longest = max(width, height)
+        guard longest > longestEdge else { return data }
+
+        let factor = longestEdge / longest
+        let size = CGSize(width: (width * factor).rounded(), height: (height * factor).rounded())
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let resized = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            image.draw(in: CGRect(origin: .zero, size: size))
+        }
+        return resized.jpegData(compressionQuality: jpegQuality) ?? data
     }
 }

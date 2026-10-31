@@ -123,7 +123,8 @@ struct RecipeListView: View {
                 }
             }
         }
-        .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName)
+        .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName,
+                            includesBakeHistory: true)
         .sheet(isPresented: $createsRecipe) {
             NavigationStack {
                 RecipeEditor(original: nil) { _, content in

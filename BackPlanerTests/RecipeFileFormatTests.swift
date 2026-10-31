@@ -40,7 +40,8 @@ struct RecipeFileFormatTests {
         #expect(try RecipeImport.decodeFile(data) == file)
         let text = try #require(String(data: data, encoding: .utf8))
         #expect(text.contains("\n"))
-        #expect(text.contains("\"formatVersion\" : \(RecipeExportFile.currentFormatVersion)"))
+        // Without bake history the file stays at the first version.
+        #expect(text.contains("\"formatVersion\" : \(RecipeExportFile.plainFormatVersion)"))
     }
 
     @Test("Something that is no recipe file is refused as unreadable")

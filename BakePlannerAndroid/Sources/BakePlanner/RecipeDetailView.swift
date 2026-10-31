@@ -53,7 +53,8 @@ struct RecipeDetailView: View {
                 .disabled(recipe == nil)
             }
         }
-        .recipeFileExporter(model: model, recipeIDs: $recipeToExport, fileName: recipe?.content.name ?? "Rezept")
+        .recipeFileExporter(model: model, recipeIDs: $recipeToExport, fileName: recipe?.content.name ?? "Rezept",
+                            includesBakeHistory: false)
         .sheet(isPresented: $isEditing) {
             if let recipe {
                 NavigationStack {

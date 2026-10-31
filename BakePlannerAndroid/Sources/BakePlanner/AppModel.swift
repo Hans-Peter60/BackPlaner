@@ -251,10 +251,16 @@ final class AppModel {
 
     /// Writes the recipes `ids` into a backup file, as the iPhone app reads
     /// it, and returns where it lies — in the app's cache, ready to be
-    /// handed to the system's "save as".
-    func exportFile(recipeIDs ids: [String], named name: String) -> URL? {
+    /// handed to the system's "save as". The full backup carries the bake
+    /// history along; a single recipe saved to pass on does not.
+    func exportFile(recipeIDs ids: [String], named name: String, includingBakeHistory: Bool) -> URL? {
         do {
-            let file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
+            let file: RecipeExportFile
+            if includingBakeHistory {
+                file = try RecipeExportFile(recipeIDs: ids, from: openedStore(), bakeHistory: openedHistoryStore())
+            } else {
+                file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
+            }
             let folder = URL.cachesDirectory.appendingPathComponent("Export", isDirectory: true)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let safeName = name.components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|")).joined(separator: "-")
@@ -276,7 +282,8 @@ final class AppModel {
     }
 
     /// Reads a backup or recipe file — as the iPhone app writes it — into
-    /// the database, every recipe as a new one.
+    /// the database, every recipe as a new one, with the bake history the
+    /// file carries.
     func importFile(at url: URL) {
         #if !os(Android)
         // On iOS the picked file is only readable while its access lasts;
@@ -286,13 +293,14 @@ final class AppModel {
         #endif
         do {
             let data = try Data(contentsOf: url)
-            let count = try RecipeImport.importFile(data, into: openedStore())
+            let count = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore())
             importOutcome = .imported(count)
         } catch {
             logger.error("could not import \(url.lastPathComponent): \(error)")
             importOutcome = .failed(error.localizedDescription)
         }
         load()
+        loadBakeHistory()
     }
 
     private func openedStore() throws -> SQLiteRecipeStore {

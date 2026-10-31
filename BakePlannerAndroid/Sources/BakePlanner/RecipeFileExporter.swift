@@ -8,6 +8,8 @@ struct RecipeFileExporter: ViewModifier {
     let model: AppModel
     @Binding var recipeIDs: [String]?
     let fileName: String
+    /// True for the full backup, which carries the bake history along.
+    let includesBakeHistory: Bool
     @State var fileURL: URL?
     @State var showsExporter = false
     /// Kept apart from the alert's visibility: Android closes the alert
@@ -24,7 +26,7 @@ struct RecipeFileExporter: ViewModifier {
             .onChange(of: recipeIDs) { _, ids in
                 guard let ids else { return }
                 recipeIDs = nil
-                fileURL = model.exportFile(recipeIDs: ids, named: fileName)
+                fileURL = model.exportFile(recipeIDs: ids, named: fileName, includingBakeHistory: includesBakeHistory)
                 if fileURL == nil {
                     outcome = .failed
                     showsOutcome = true
@@ -50,7 +52,9 @@ struct RecipeFileExporter: ViewModifier {
 }
 
 extension View {
-    func recipeFileExporter(model: AppModel, recipeIDs: Binding<[String]?>, fileName: String) -> some View {
-        modifier(RecipeFileExporter(model: model, recipeIDs: recipeIDs, fileName: fileName))
+    func recipeFileExporter(model: AppModel, recipeIDs: Binding<[String]?>, fileName: String,
+                            includesBakeHistory: Bool) -> some View {
+        modifier(RecipeFileExporter(model: model, recipeIDs: recipeIDs, fileName: fileName,
+                                    includesBakeHistory: includesBakeHistory))
     }
 }

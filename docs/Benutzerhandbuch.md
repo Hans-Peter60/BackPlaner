@@ -753,10 +753,10 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 | Eintrag | Wirkung |
 |---------|---------|
-| **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
-| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte; bestehende werden nie überschrieben. |
+| **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern und **Backhistorie** (mit Fotos, auf Bildschirmgröße verkleinert) in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
+| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte, mit der Backhistorie aus der Datei; bestehende werden nie überschrieben. Eine Sicherung mit Backhistorie liest erst diese App-Version; ältere melden, die Datei stamme aus einer neueren Version. |
 
-Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportieren** (neben „Rezept teilen“). Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
+Ein einzelnes Rezept exportierst Du im Tab **Details** über **Rezept exportieren** (neben „Rezept teilen“) – ohne Backhistorie, die gehört Dir. Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
 
 ### Übersetzung
 

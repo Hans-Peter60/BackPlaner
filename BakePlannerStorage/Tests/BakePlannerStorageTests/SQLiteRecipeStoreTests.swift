@@ -45,7 +45,7 @@ struct SQLiteRecipeStoreTests {
         let store = try SQLiteRecipeStore(path: nil)
         defer { try? store.close() }
         let data = try RecipeExportFile(recipes: [RecipeStoreContract.bread()]).encoded()
-        #expect(try RecipeImport.importFile(data, into: store) == 1)
+        #expect(try RecipeImport.importFile(data, into: store, bakeHistory: SQLiteBakeHistoryStore(file: store.file)) == 1)
         let file = try RecipeExportFile(recipeIDs: store.recipes(includingImages: false).map(\.id), from: store)
         #expect(file.recipes == [RecipeStoreContract.bread()])
     }

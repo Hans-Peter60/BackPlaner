@@ -756,10 +756,10 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 | Entrée | Effet |
 |--------|-------|
-| **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images comprises, dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
-| **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous ; les recettes existantes ne sont jamais écrasées. |
+| **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images et **historique de cuisson** compris (ses photos réduites à la taille de l’écran), dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
+| **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
 
-Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la recette** (à côté de « Partager la recette »). Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson, qui vous appartient. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
 
 ### Traduction
 

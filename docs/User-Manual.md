@@ -756,10 +756,10 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 | Entry | Effect |
 |-------|--------|
-| **Back up all my recipes** | Writes every recipe on the device, images included, into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
-| **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own; existing ones are never overwritten. |
+| **Back up all my recipes** | Writes every recipe on the device, images and **baking history** included (its photos scaled down to screen size), into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
+| **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history from the file; existing ones are never overwritten. A backup with baking history needs this version of the app; older ones report that the file comes from a newer version. |
 
-A single recipe is exported on the **Details** tab via **Export recipe** (next to "Share recipe"). The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
+A single recipe is exported on the **Details** tab via **Export recipe** (next to "Share recipe") — without its baking history, which is yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
 
 ### Translation
 
