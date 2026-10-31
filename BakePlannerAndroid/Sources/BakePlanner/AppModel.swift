@@ -33,6 +33,16 @@ final class AppModel {
         }
     }
 
+    /// One recipe with its picture, read afresh.
+    func recipe(id: String) -> StoredRecipe? {
+        do {
+            return try openedStore().recipe(id: id)
+        } catch {
+            logger.error("could not read recipe \(id): \(error)")
+            return nil
+        }
+    }
+
     /// Reads a backup or recipe file — as the iPhone app writes it — into
     /// the database, every recipe as a new one.
     func importFile(at url: URL) {

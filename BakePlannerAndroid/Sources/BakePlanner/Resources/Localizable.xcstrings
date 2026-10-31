@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "Bearbeitungsdauer: %@" : {
+      "comment" : "Recipe detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Working time: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée de travail : %@"
+          }
+        }
+      }
+    },
     "Die Rezepte konnten nicht geladen werden." : {
       "comment" : "When the recipe database cannot be read.",
       "localizations" : {
@@ -14,6 +31,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les recettes n’ont pas pu être chargées."
+          }
+        }
+      }
+    },
+    "Gesamtgewicht: %@ g" : {
+      "comment" : "Fact line in the exported PDF; %@ is the formatted weight.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total weight: %@ g"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids total : %@ g"
+          }
+        }
+      }
+    },
+    "Gesamtzutaten:" : {
+      "comment" : "A label displayed above the list of total ingredients.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total ingredients:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total des ingrédients :"
           }
         }
       }
@@ -69,6 +120,40 @@
         }
       }
     },
+    "Komponenten" : {
+      "comment" : "Recipe detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Components"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composants"
+          }
+        }
+      }
+    },
+    "Menge" : {
+      "comment" : "A label displayed above the input field for the amount of a shopping list item.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité"
+          }
+        }
+      }
+    },
     "Noch keine Rezepte" : {
       "comment" : "Empty recipe list.",
       "localizations" : {
@@ -116,6 +201,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes importées : %lld"
+          }
+        }
+      }
+    },
+    "TA %lld · Hydration %@" : {
+      "comment" : "A label that displays the dough yield and hydration percentage. The first argument is the dough yield, a number. The second argument is the string “%arg %%”.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "TA %1$lld · Hydration %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough yield %lld · hydration %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA %lld · hydratation %@"
+          }
+        }
+      }
+    },
+    "Verarbeitungsschritte" : {
+      "comment" : "Recipe detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes de préparation"
           }
         }
       }

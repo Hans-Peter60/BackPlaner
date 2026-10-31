@@ -55,7 +55,11 @@ struct RecipeListView: View {
             } else {
                 List {
                     ForEach(filteredRecipes, id: \.id) { recipe in
-                        RecipeRow(recipe: recipe)
+                        NavigationLink {
+                            RecipeDetailView(model: model, recipeID: recipe.id)
+                        } label: {
+                            RecipeRow(recipe: recipe)
+                        }
                     }
                 }
                 .scrollContentBackground(.hidden)
