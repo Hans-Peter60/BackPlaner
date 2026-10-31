@@ -28,9 +28,9 @@ struct EditRecipeView: View {
     /// lives on `recipe` directly rather than in `recipeFB` — it has no
     /// business syncing to the public, shareable copy of this recipe.
     @State private var recurrenceIntervalDays = 0
-    /// The last bake the rhythm is measured from, for the next-feeding date
-    /// under the stepper.
-    @State private var lastBakeDate: Date?
+    /// The finish the rhythm is measured from — the last bake, or for a
+    /// starter its last feeding — for the next date under the stepper.
+    @State private var rhythmFinish: Date?
     @State private var componentName   = ""
     @State private var componentNumber = 0
     @State private var tags            = [String]()
@@ -254,7 +254,7 @@ struct EditRecipeView: View {
                                 // feeding of a starter, the first mixing
                                 // of a bread.
                                 NextFeedingView(date: RecurringBakePlanner.nextStart(
-                                    lastFinish: lastBakeDate,
+                                    lastFinish: rhythmFinish,
                                     duration: RecurringBakePlanner.planDuration(of: recipeFB),
                                     intervalDays: recurrenceIntervalDays, now: Date()),
                                                 isStarter: isStarter)
@@ -399,7 +399,9 @@ struct EditRecipeView: View {
             recipeFB.urlLink         = recipe.urlLink ?? ""
             rating                   = recipe.rating
             recurrenceIntervalDays   = recipe.recurrenceIntervalDays
-            lastBakeDate             = recipe.bakeHistoriesArray.first?.date
+            // Measured as the recipe view and the automatic planning do: a
+            // starter from its last feeding, see `rhythmFinish(of:)`.
+            rhythmFinish             = RecurringBakePlanner.rhythmFinish(of: recipe)
             recipeFB.prepTime        = recipe.prepTime
             recipeFB.bakeHistoryFlag = recipe.bakeHistoryFlag
             recipeFB.tags            = recipe.tags

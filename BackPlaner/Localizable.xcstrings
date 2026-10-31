@@ -9237,18 +9237,19 @@
         }
       }
     },
-    "Nächste Fütterung: nach dem ersten Backen" : {
+    "Nächste Fütterung: nach der ersten Fütterung" : {
+      "comment" : "Recipe that feeds a starter, on a rhythm, before its first feeding: when the next one is due.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next feeding: after the first bake"
+            "value" : "Next feeding: after the first feeding"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prochain nourrissage : après la première cuisson"
+            "value" : "Prochain nourrissage : après le premier nourrissage"
           }
         }
       }

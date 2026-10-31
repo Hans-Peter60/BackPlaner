@@ -16,7 +16,8 @@ import SwiftUI
 struct NextFeedingView: View {
 
     /// From `RecurringBakePlanner.nextStart`; `nil` while the recipe has
-    /// no bake yet to measure the rhythm from.
+    /// nothing yet to measure the rhythm from — no bake, or for a starter
+    /// no feeding.
     let date: Date?
     /// Whether the recipe feeds a starter (`StarterRecipe.isStarterFeeding`)
     /// or bakes something; only the wording differs.
@@ -34,7 +35,7 @@ struct NextFeedingView: View {
                 case (true, let date?):
                     Text("Nächste Fütterung: \(StepTiming.dayLabel(for: date, now: context.date)) \(date, format: .dateTime.hour().minute())")
                 case (true, nil):
-                    Text("Nächste Fütterung: nach dem ersten Backen")
+                    Text("Nächste Fütterung: nach der ersten Fütterung")
                 case (false, let date?):
                     Text("Nächster Backtermin: \(StepTiming.dayLabel(for: date, now: context.date)) \(date, format: .dateTime.hour().minute())")
                 case (false, nil):
