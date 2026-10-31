@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "Abbrechen" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Bearbeiten" : {
+      "comment" : "Button and title: change a recipe's details.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier"
+          }
+        }
+      }
+    },
     "Bearbeitungsdauer: %@" : {
       "comment" : "Recipe detail.",
       "localizations" : {
@@ -14,6 +48,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée de travail : %@"
+          }
+        }
+      }
+    },
+    "Beschreibung" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        }
+      }
+    },
+    "Bewertung" : {
+      "comment" : "A label for the recipe'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note"
           }
         }
       }
@@ -137,6 +205,23 @@
         }
       }
     },
+    "Löschen" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        }
+      }
+    },
     "Menge" : {
       "comment" : "A label displayed above the input field for the amount of a shopping list item.",
       "localizations" : {
@@ -154,6 +239,23 @@
         }
       }
     },
+    "Name" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
+          }
+        }
+      }
+    },
     "Noch keine Rezepte" : {
       "comment" : "Empty recipe list.",
       "localizations" : {
@@ -167,6 +269,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune recette pour l’instant"
+          }
+        }
+      }
+    },
+    "Rezept löschen?" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette ?"
           }
         }
       }
@@ -205,6 +324,40 @@
         }
       }
     },
+    "Rezeptname" : {
+      "comment" : "A label displayed above the text field for the recipe name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom de la recette"
+          }
+        }
+      }
+    },
+    "Speichern" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
+        }
+      }
+    },
     "TA %lld · Hydration %@" : {
       "comment" : "A label that displays the dough yield and hydration percentage. The first argument is the dough yield, a number. The second argument is the string “%arg %%”.",
       "localizations" : {
@@ -224,6 +377,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TA %lld · hydratation %@"
+          }
+        }
+      }
+    },
+    "Tags" : {
+      "comment" : "Recipe editing.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },
+    "Tags, durch Komma getrennt" : {
+      "comment" : "Placeholder of the tags field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags, separated by commas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags, séparés par des virgules"
           }
         }
       }

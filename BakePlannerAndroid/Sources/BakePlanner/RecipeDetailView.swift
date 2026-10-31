@@ -14,6 +14,7 @@ struct RecipeDetailView: View {
     @State var recipe: StoredRecipe?
     /// The factor on the recipe as stored: 1 is the recipe, 2 twice as much.
     @State var scale = 1.0
+    @State var isEditing = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -29,6 +30,25 @@ struct RecipeDetailView: View {
             }
         }
         .navigationTitle(recipe?.content.name ?? "")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Bearbeiten") {
+                    isEditing = true
+                }
+                .disabled(recipe == nil)
+            }
+        }
+        .sheet(isPresented: $isEditing) {
+            if let recipe {
+                NavigationStack {
+                    RecipeDetailsEditor(recipe: recipe) { edited in
+                        if model.save(edited) {
+                            self.recipe = model.recipe(id: recipeID)
+                        }
+                    }
+                }
+            }
+        }
         .task {
             recipe = model.recipe(id: recipeID)
         }

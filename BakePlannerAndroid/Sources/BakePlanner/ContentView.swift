@@ -23,6 +23,8 @@ struct RecipeListView: View {
     @State var pickedURL: URL?
     @State var pickedName: String?
     @State var pickedType: String?
+    /// The recipe waiting for the user to confirm its removal.
+    @State var recipeToDelete: StoredRecipe?
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -61,6 +63,9 @@ struct RecipeListView: View {
                             RecipeRow(recipe: recipe)
                         }
                     }
+                    .onDelete { offsets in
+                        recipeToDelete = offsets.first.map { filteredRecipes[$0] }
+                    }
                 }
                 .scrollContentBackground(.hidden)
                 .searchable(text: $searchText)
@@ -84,6 +89,19 @@ struct RecipeListView: View {
             pickedURL = nil
             model.importFile(at: url)
         }
+        .alert("Rezept löschen?", isPresented: showsDeletion) {
+            Button("Löschen", role: .destructive) {
+                if let recipe = recipeToDelete {
+                    model.delete(id: recipe.id)
+                }
+                recipeToDelete = nil
+            }
+            Button("Abbrechen", role: .cancel) {
+                recipeToDelete = nil
+            }
+        } message: {
+            Text(verbatim: recipeToDelete?.content.name ?? "")
+        }
         .alert(importTitle, isPresented: showsImportOutcome) {
             Button(role: .cancel) {
                 model.importOutcome = nil
@@ -95,6 +113,11 @@ struct RecipeListView: View {
                 Text(verbatim: reason)
             }
         }
+    }
+
+    private var showsDeletion: Binding<Bool> {
+        Binding(get: { recipeToDelete != nil },
+                set: { if !$0 { recipeToDelete = nil } })
     }
 
     private var filteredRecipes: [StoredRecipe] {

@@ -43,6 +43,30 @@ final class AppModel {
         }
     }
 
+    /// Keeps the changed recipe (everything but its picture) and refreshes
+    /// the list. Whether it worked.
+    @discardableResult
+    func save(_ recipe: StoredRecipe) -> Bool {
+        do {
+            try openedStore().update(recipe)
+            load()
+            return true
+        } catch {
+            logger.error("could not save recipe \(recipe.id): \(error)")
+            return false
+        }
+    }
+
+    /// Removes the recipe and refreshes the list.
+    func delete(id: String) {
+        do {
+            try openedStore().delete(id: id)
+        } catch {
+            logger.error("could not delete recipe \(id): \(error)")
+        }
+        load()
+    }
+
     /// Reads a backup or recipe file — as the iPhone app writes it — into
     /// the database, every recipe as a new one.
     func importFile(at url: URL) {
