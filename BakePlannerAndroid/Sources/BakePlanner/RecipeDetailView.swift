@@ -62,7 +62,12 @@ struct RecipeDetailView: View {
                     RecipeEditor(original: recipe) { _, content in
                         var edited = recipe
                         edited.content = content
+                        // `update` leaves the picture alone; a changed one
+                        // goes through setImage.
                         if model.save(edited) {
+                            if content.image != recipe.content.image {
+                                model.setImage(content.image, forRecipe: recipeID)
+                            }
                             self.recipe = model.recipe(id: recipeID)
                         }
                     }

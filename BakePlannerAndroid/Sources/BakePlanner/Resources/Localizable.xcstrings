@@ -3756,6 +3756,23 @@
         }
       }
     },
+    "Rezeptbild" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe image"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image de la recette"
+          }
+        }
+      }
+    },
     "Rezepte" : {
       "comment" : "Title of the recipe list.",
       "extractionState" : "manual",

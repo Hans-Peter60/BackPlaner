@@ -1,5 +1,9 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Changes a recipe — or starts a new one — as a whole: its details, the
 /// components with their ingredients, and the steps. On saving, weights,
@@ -15,6 +19,10 @@ struct RecipeEditor: View {
     let notice: Text?
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
+    @State var picksImage = false
+    @State var pickedImageURL: URL?
+    @State var pickedImageName: String?
+    @State var pickedImageType: String?
     @Environment(\.dismiss) var dismiss
 
     init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: Text? = nil,
@@ -39,6 +47,26 @@ struct RecipeEditor: View {
                 TextField("Rezeptname", text: $draft.name)
             } header: {
                 Text("Name")
+            }
+
+            // The picture, as the iPhone's form has it; picked through the
+            // system's file chooser like in the recipe view.
+            Section {
+                if let image = draft.image {
+                    EditorPicture(data: image)
+                }
+                HStack(spacing: 16) {
+                    Button(draft.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
+                        picksImage = true
+                    }
+                    if draft.image != nil {
+                        Button("Bild entfernen", role: .destructive) {
+                            draft.image = nil
+                        }
+                    }
+                }
+            } header: {
+                Text("Rezeptbild")
             }
 
             Section {
@@ -138,6 +166,37 @@ struct RecipeEditor: View {
                 .disabled(!draft.canSave)
             }
         }
+        .withDocumentPicker(isPresented: $picksImage,
+                            allowedContentTypes: [.image],
+                            selectedDocumentURL: $pickedImageURL,
+                            selectedFilename: $pickedImageName,
+                            selectedFileMimeType: $pickedImageType)
+        .onChange(of: pickedImageURL) { _, url in
+            guard let url else { return }
+            pickedImageURL = nil
+            // A file that is no picture leaves the picture as it is.
+            if let data = RecipeDetailView.pictureData(at: url) {
+                draft.image = data
+            }
+        }
+    }
+}
+
+/// The draft's picture as a small preview in the form.
+struct EditorPicture: View {
+    let data: Data
+
+    var body: some View {
+        #if canImport(UIKit) || os(Android)
+        if let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity)
+                .frame(height: 160)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        #endif
     }
 }
 
@@ -150,6 +209,8 @@ struct RecipeDraft {
     var tags: String
     var components: [ComponentDraft]
     var steps: [StepDraft]
+    /// The recipe's picture, as the app keeps pictures (JPEG, PhotoShrinker).
+    var image: Data?
     /// Days between two plans the app makes on its own; 0 for none.
     var recurrenceIntervalDays: Int
     /// Whether the recipe feeds a starter, for the rhythm's wording.
@@ -159,6 +220,7 @@ struct RecipeDraft {
         recurrenceIntervalDays = content?.recurrenceIntervalDays ?? 0
         isStarter = content.map { StarterRecipe.isStarterFeeding($0) } ?? false
         name = content?.name ?? ""
+        image = content?.image
         summary = content?.summary ?? ""
         rating = content?.rating ?? 0
         tags = content?.tags.joined(separator: ", ") ?? ""
@@ -179,7 +241,7 @@ struct RecipeDraft {
     }
 
     /// The recipe this draft describes. What the editor does not show — the
-    /// link, the rhythm, the picture — comes from `original`.
+    /// link, the preparation time — comes from `original`.
     func content(keeping original: RecipeExportData?) -> RecipeExportData {
         RecipeExportData(
             name: name.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -192,7 +254,7 @@ struct RecipeDraft {
                 .filter { !$0.isEmpty },
             rating: rating,
             recurrenceIntervalDays: recurrenceIntervalDays,
-            image: original?.image,
+            image: image,
             components: components.enumerated().map { index, component in
                 RecipeExportComponent(name: component.name.trimmingCharacters(in: .whitespacesAndNewlines),
                                       number: index + 1,
