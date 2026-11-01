@@ -295,7 +295,7 @@ struct StarterYieldSheet: View {
                     HStack {
                         Text("Erkannt als")
                         Spacer()
-                        HStack(spacing: 4) {
+                        HStack(spacing: 0) {
                             starterKindText(source.kind)
                             Text(verbatim: ", TA \(Int(source.doughYield.rounded()))")
                         }

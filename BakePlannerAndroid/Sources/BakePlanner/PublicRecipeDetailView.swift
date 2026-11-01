@@ -24,6 +24,14 @@ struct PublicRecipeDetailView: View {
     @State var savedCopy = false
     @State var showsSaveOutcome = false
     @State var choosesReportReason = false
+    /// The tapped flour or starter line, on the own copy the adjustment
+    /// would be written into. Kept apart from the sheets' visibility.
+    @State var lineRequest: IngredientLineRequest?
+    @State var substitutesFlour = false
+    @State var adjustsStarter = false
+    /// The adjusted copy to open once its sheet has gone.
+    @State var keptRecipeID: String?
+    @State var opensKeptRecipe = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -90,6 +98,24 @@ struct PublicRecipeDetailView: View {
                     AddToShoppingListView(model: model, source: .shared(content), scale: scale)
                 }
             }
+        }
+        .appSheet(isPresented: $substitutesFlour) {
+            if let lineRequest {
+                NavigationStack {
+                    FlourSubstitutionSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        .appSheet(isPresented: $adjustsStarter) {
+            if let lineRequest {
+                NavigationStack {
+                    StarterYieldSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        // The adjusted own copy opens as the next page, as on the iPhone.
+        .navigationDestination(isPresented: $opensKeptRecipe) {
+            RecipeDetailView(model: model, recipeID: keptRecipeID ?? "")
         }
         .alert(savedCopy ? LocalizedStringKey("Rezept wurde gespeichert") : LocalizedStringKey("Speichern fehlgeschlagen"),
                isPresented: $showsSaveOutcome) {
@@ -168,9 +194,34 @@ struct PublicRecipeDetailView: View {
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))
 
-                RecipeLineSections(page: page)
+                // Flour and starter lines are tappable as on an own recipe;
+                // the adjustment is written into a new own copy, built as
+                // "Als eigenes Rezept speichern" would build it.
+                RecipeLineSections(page: page, content: content, onFlourTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: copyToAdjust(), componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    substitutesFlour = true
+                }, onStarterTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: copyToAdjust(), componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    adjustsStarter = true
+                })
             }
             .padding()
+        }
+    }
+
+    /// The own copy an adjustment starts from: not stored yet (empty key,
+    /// no adjustment date), so the sheet offers "Kopie anlegen".
+    private func copyToAdjust() -> StoredRecipe {
+        StoredRecipe(id: "", content: PublicRecipeCopy.content(of: recipe, imageData: model.publicRecipeImages[recipe.id ?? ""]))
+    }
+
+    private func showKept(_ kept: StoredRecipe) {
+        keptRecipeID = kept.id
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            opensKeptRecipe = true
         }
     }
 }
