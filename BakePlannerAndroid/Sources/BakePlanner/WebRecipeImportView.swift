@@ -16,6 +16,9 @@ struct WebRecipeImportView: View {
     /// Hands the imported recipe and what to say about it to the list,
     /// which opens the editor with them.
     let onImport: (RecipeExportData, Text?) -> Void
+    /// The page shared from the browser; the import starts with it at
+    /// once, as the iPhone's does, unless the cloud still needs consent.
+    var initialAddress: String? = nil
     @State var address = ""
     @State var isLoading = false
     @State var failure: String?
@@ -94,6 +97,14 @@ struct WebRecipeImportView: View {
             }
         }
         .navigationTitle("Rezept von einer Internetseite importieren")
+        .task {
+            if let initialAddress, address.isEmpty {
+                address = initialAddress
+                if !needsConsent {
+                    await importPage()
+                }
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Abbrechen") {

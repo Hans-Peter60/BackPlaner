@@ -42,6 +42,15 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.bakeplanner", category: "Bak
         logger.debug("onLaunch")
     }
 
+    /// A text another app shared with BakePlanner — a recipe page's address
+    /// from the browser. Called by MainActivity (Main.kt) on the main thread.
+    /* SKIP @bridge */public func onSharedText(_ text: String) {
+        logger.debug("onSharedText")
+        Task { @MainActor in
+            SharedImport.shared.receive(text: text)
+        }
+    }
+
     /* SKIP @bridge */public func onResume() {
         logger.debug("onResume")
     }

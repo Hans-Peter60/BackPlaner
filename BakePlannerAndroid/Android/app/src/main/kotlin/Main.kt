@@ -77,6 +77,7 @@ open class MainActivity: AppCompatActivity {
         }
 
         AppDelegate.shared.onLaunch()
+        handleSharedText(intent)
 
         // Example of requesting permissions on startup.
         // These must match the permissions in the AndroidManifest.xml file.
@@ -93,6 +94,29 @@ open class MainActivity: AppCompatActivity {
     override fun onStart() {
         logger.info("onStart")
         super.onStart()
+    }
+
+    /// The activity is a `singleTask`: a share while it runs arrives here.
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleSharedText(intent)
+    }
+
+    /// A text another app shared with BakePlanner (the browser's page
+    /// address) goes to the app; the intent is then marked as taken, so a
+    /// recreated activity does not share it a second time.
+    private fun handleSharedText(intent: android.content.Intent?) {
+        if (intent == null || intent.action != android.content.Intent.ACTION_SEND) {
+            return
+        }
+        if (intent.type?.startsWith("text/") != true) {
+            return
+        }
+        val text = intent.getStringExtra(android.content.Intent.EXTRA_TEXT) ?: return
+        intent.action = android.content.Intent.ACTION_MAIN
+        intent.removeExtra(android.content.Intent.EXTRA_TEXT)
+        AppDelegate.shared.onSharedText(text)
     }
 
     override fun onResume() {

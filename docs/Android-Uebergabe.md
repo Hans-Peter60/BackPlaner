@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18r. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18s. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -85,6 +85,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **UserDefaults auf Android (gefunden in Schritt 15b):** Was die App in `UserDefaults.standard` schrieb, las das Paket nicht zurück (Backöfen blieben 1), und nach einem Neustart war alles weg. Die Android-App hält ihre Einstellungen deshalb selbst in `settings.json` neben der Datenbank (`SettingsFile`) und gibt dem Paket beim Start einen Leser dafür (`AppSettings.settingsReader`, in `onInit`). Neue Einstellungen immer über `SettingsFile.set`; das iPhone liest weiter `UserDefaults` (Leser nil).
 - **SF-Symbole:** Skip übersetzt nur bekannte Namen (Liste in skip-ui `Image.swift`); „globe“, „flame“, „oven“ fehlen. Bei unbekannten Namen erscheint ein Warndreieck.
 - **`ForEach` über einen Bereich (gefunden in 18a):** `ForEach(1...5, id: \.self)` liefert in Skip Bereichs-Indizes statt Ganzzahlen; der Cast auf `Int` stürzt ab („Could not cast value of type ClosedRange<Int>.Index“). Ein Array nehmen: `ForEach([1, 2, 3, 4, 5], id: \.self)`.
+- **Beobachtetes Singleton aus dem Delegate (gefunden in 18s):** Eine Änderung an einem `@Observable`-Singleton, die aus einer von Kotlin gebrückten Methode (`BakePlannerAppDelegate`) heraus per `Task { @MainActor in }` gesetzt wird, erreichte `onChange(of:)` in der Ansicht nicht. Für solche Übergaben einen Handler registrieren lassen (`SharedImport.setHandler`), der die `@State`-Werte der Ansicht setzt; das kommt an.
 - **`Canvas` zeichnet nichts (gefunden in 18q):** SkipUIs `Canvas` ist ein Platzhalter. Schraffuren und ähnliches aus Formen oder einem `LinearGradient` mit harten Farbstopps bauen (`StripedBackground` in `PlanChartView.swift`). Freie Platzierung mit `.frame` und `.offset` in einem `ZStack(alignment: .topLeading)` funktioniert, ebenso `contextMenu` (langes Drücken) und verschachtelte `ScrollView`s in beide Richtungen.
 - **Alert schließt beim Tippen daneben (gefunden in 18q):** Anders als auf dem iPhone verschwindet ein Alert auf Android auch durch Tippen außerhalb; der Code des Knopfs läuft dann nicht. Was nach dem Alert passieren muss (etwa das Blatt schließen), darf nicht nur im „OK“ stehen.
 - **Gleiche Katalog-Symbole (gefunden in 18p):** Xcode erzeugt für den Android-Katalog Symbole aus den Schlüsseln. Mehrere Schlüssel, die sich nur in Platzhaltern oder Zeilenumbrüchen unterscheiden (die sechs `ReminderSummary`-Texte des iPhones), ergeben dasselbe Symbol, und der Build bricht ab („would generate the same symbol“). Solche Texte aus unterscheidbaren Einzelzeilen zusammensetzen. Dazu: SkipFuseUI kennt kein `Text + Text`, und ein Alert zeigt nur den ersten `Text` seiner Nachricht; die Zeilen daher als `String(localized:…, bundle: .module)` verbinden und als einen `Text(verbatim:)` geben.
@@ -252,7 +253,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
    - **17b (erledigt, siehe Bestandsaufnahme; „Aus Fotos“ kommt mit 17d ins Menü) (Android): Rezept von einer Internetseite.** „Neues Rezept“ wird zur Auswahl: „Von Hand“, „Von einer Internetseite“, „Aus Fotos“ (17d). Adresse eingeben → Seite laden → strukturierte Daten → Editor mit dem Rezept und Bild, Hinweis wie auf dem iPhone. Seiten ohne strukturierte Daten: „Kein Rezept gefunden“, bis 17c.
    - **17c (erledigt, siehe Bestandsaufnahme) (Android): Cloud-KI.** Einstellungen → „Datenschutz & KI“ wie auf dem iPhone (Zustimmung, Texte aus dem iOS-Katalog). Mit Zustimmung geht der Seitentext an `analyzeRecipeText`; das liest auch Seiten ohne strukturierte Daten und ordnet Komponenten besser zu.
    - **17d (erledigt, siehe Bestandsaufnahme; Kamera seit 18r) (Android): Rezept aus Fotos.** Fotos wählen (Dateiauswahl, bis zu zehn), auf die Grenzen der Function verkleinern, an `analyzeRecipeImages`, Ergebnis in den Editor. Nur mit Zustimmung zur Cloud-KI; ohne sie erklärt die App, dass Fotos auf Android (noch) nur über die Cloud gelesen werden. **Aufnehmen mit der Kamera** fehlt: SkipKits Kamera-Aufnahme liefert eine `content://`-Adresse (FileProvider), die natives Swift nicht lesen kann; Wege: die Datei im Bilder-Ordner der App suchen oder ein kleines übersetztes Modul wie `BakePlannerSpeech`. Dazu `CAMERA` im Manifest.
-   - **Später möglich:** Texterkennung auf dem Gerät mit ML Kit (eigenes Kotlin-Modul wie `BakePlannerSpeech`) und den Lesern im Paket, also Fotos ohne Cloud; „Teilen“ aus Chrome an BakePlanner (Intent-Filter), wie die Share-Extension.
+   - **Später möglich:** Texterkennung auf dem Gerät mit ML Kit (eigenes Kotlin-Modul wie `BakePlannerSpeech`) und den Lesern im Paket, also Fotos ohne Cloud. Teilen aus dem Browser gibt es seit 18s.
    - **Zu bedenken:** Cloud-KI kostet je Aufruf (Vertex AI) und zählt gegen die Monatsgrenze; App Check gilt für die Functions, im Play Store braucht es Play Integrity.
 
 
@@ -265,8 +266,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Rezeptliste | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Geplante Schritte | Timeline im Querformat (Zeilen statt Spalten, iPad) | klein |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
-| Neues Rezept | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |
-| | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
+| Neues Rezept | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
 | | Falt-Durchgänge beim Speichern in eigene Schritte auflösen (`TimedFoldExpansion`): prüfen, ob `recalculated()` das tut | prüfen |
 | | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
 | Einstellungen | Pro über Play Billing | später |

@@ -96,6 +96,8 @@ struct RecipeListView: View {
     @State var confirmsDeletion = false
     @State var createsRecipe = false
     @State var importsFromWeb = false
+    /// The page another app shared, for the web import it opens.
+    @State var sharedAddress: String?
     @State var importsFromPhotos = false
     /// A recipe read from a web page or from photos, waiting for the editor. Kept apart
     /// from the editor's visibility, as the dialogs' data is.
@@ -238,7 +240,16 @@ struct RecipeListView: View {
         }
         .appSheet(isPresented: $importsFromWeb) {
             NavigationStack {
-                WebRecipeImportView(model: model, onImport: receiveImport)
+                WebRecipeImportView(model: model, onImport: receiveImport, initialAddress: sharedAddress)
+            }
+        }
+        // A page shared from the browser opens the web import with it:
+        // while the app runs, and when the share started the app (the
+        // address then waits until this view is here).
+        .task {
+            SharedImport.shared.setHandler { url in
+                sharedAddress = url.absoluteString
+                importsFromWeb = true
             }
         }
         .appSheet(isPresented: $importsFromPhotos) {
