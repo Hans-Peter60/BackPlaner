@@ -82,14 +82,25 @@ final class AppModel {
 
     /// Authors blocked and recipes reported on this device — the iPhone's
     /// keys (ModerationStore). Their public recipes stay out of the list.
-    var blockedAuthors = Set(UserDefaults.standard.stringArray(forKey: AppModel.blockedAuthorsKey) ?? []) {
-        didSet { UserDefaults.standard.set(Array(blockedAuthors), forKey: AppModel.blockedAuthorsKey) }
+    /// Kept as one text, an id per line: UserDefaults on Android has no
+    /// string arrays (`stringArray(forKey:)` is unavailable there).
+    var blockedAuthors = AppModel.storedIDs(AppModel.blockedAuthorsKey) {
+        didSet { AppModel.storeIDs(blockedAuthors, AppModel.blockedAuthorsKey) }
     }
-    var reportedRecipeIDs = Set(UserDefaults.standard.stringArray(forKey: AppModel.reportedRecipesKey) ?? []) {
-        didSet { UserDefaults.standard.set(Array(reportedRecipeIDs), forKey: AppModel.reportedRecipesKey) }
+    var reportedRecipeIDs = AppModel.storedIDs(AppModel.reportedRecipesKey) {
+        didSet { AppModel.storeIDs(reportedRecipeIDs, AppModel.reportedRecipesKey) }
     }
     private static let blockedAuthorsKey = "ugc.blockedAuthors"
     private static let reportedRecipesKey = "ugc.hiddenRecipes"
+
+    private static func storedIDs(_ key: String) -> Set<String> {
+        let text = UserDefaults.standard.string(forKey: key) ?? ""
+        return Set(text.split(separator: "\n").map(String.init))
+    }
+
+    private static func storeIDs(_ ids: Set<String>, _ key: String) {
+        UserDefaults.standard.set(ids.sorted().joined(separator: "\n"), forKey: key)
+    }
 
     /// The public recipes the list shows: neither reported here nor by a
     /// blocked author.
