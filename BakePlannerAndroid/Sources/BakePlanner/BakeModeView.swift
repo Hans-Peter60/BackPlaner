@@ -1,4 +1,5 @@
 import BakePlannerCore
+import BakePlannerSpeech
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
@@ -6,8 +7,8 @@ import UIKit
 
 /// The kitchen view of a running plan, as on the iPhone: one step at a time
 /// in large type, the component's ingredients at the planned amount, big
-/// buttons for back, next and done, and a screen that stays on. Opens at the
-/// step that matters now (CurrentStepRule). Reading aloud follows later.
+/// buttons for back, next and done, the step read aloud on request, and a
+/// screen that stays on. Opens at the step that matters now (CurrentStepRule).
 struct BakeModeView: View {
     let model: AppModel
     /// One plan only (PlanTimelineView.planKey), or every plan for nil.
@@ -15,6 +16,13 @@ struct BakeModeView: View {
     /// The step on display. Nil until the view picks the one that matters
     /// now; afterwards the user's own choice.
     @State var currentKey: String?
+    /// Reads the step aloud (BakePlannerSpeech: Android's TextToSpeech).
+    @State var speaker = StepSpeaker()
+    /// Whether the step is being read, for the button's title.
+    @State var isReading = false
+    /// Counts the readings, so a watch over an earlier one does not end a
+    /// later one.
+    @State var readingNumber = 0
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
 
@@ -70,6 +78,13 @@ struct BakeModeView: View {
         }
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
+            speaker.shutdown()
+            isReading = false
+        }
+        // Paging on, or a step done, ends the reading of the one before.
+        .onChange(of: currentKey) { _, _ in
+            speaker.stop()
+            isReading = false
         }
     }
 
@@ -125,6 +140,16 @@ struct BakeModeView: View {
                 .disabled(index == 0)
 
                 Button {
+                    toggleReading(BakeModeText.spokenText(instruction: step.data.instruction, component: component,
+                                                          scale: step.data.effectiveServingScale))
+                } label: {
+                    Text(isReading ? LocalizedStringKey("Stopp") : LocalizedStringKey("Vorlesen"))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.bordered)
+
+                Button {
                     currentKey = steps[index + 1].key
                 } label: {
                     Text("Weiter")
@@ -159,6 +184,31 @@ struct BakeModeView: View {
             Text("seit \(BakeHistoryFacts.durationText(-minutes))")
         } else {
             Text("Jetzt")
+        }
+    }
+
+    /// Reads the step aloud in the app's language, or stops reading. The
+    /// title turns back to "Vorlesen" once the reading is over: the speaker
+    /// is asked every half second, after giving Android's speech engine a
+    /// moment to start.
+    private func toggleReading(_ text: String) {
+        if isReading {
+            speaker.stop()
+            isReading = false
+            return
+        }
+        speaker.speak(text, languageCode: AppSettings.locale.identifier)
+        isReading = true
+        readingNumber += 1
+        let number = readingNumber
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+            while isReading && readingNumber == number && speaker.isSpeaking {
+                try? await Task.sleep(for: .milliseconds(500))
+            }
+            if readingNumber == number {
+                isReading = false
+            }
         }
     }
 

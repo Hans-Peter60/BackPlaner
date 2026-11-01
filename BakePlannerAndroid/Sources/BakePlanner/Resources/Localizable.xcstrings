@@ -2743,6 +2743,23 @@
         }
       }
     },
+    "Stopp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        }
+      }
+    },
     "Stückgare" : {
       "comment" : "The label of the \"final proof\" row in the \"last time\" card.",
       "extractionState" : "manual",
@@ -2887,6 +2904,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décalage impossible"
+          }
+        }
+      }
+    },
+    "Vorlesen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read aloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire à voix haute"
           }
         }
       }
