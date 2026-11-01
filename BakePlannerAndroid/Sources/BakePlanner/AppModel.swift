@@ -181,6 +181,19 @@ final class AppModel {
         }
     }
 
+    /// Keeps a copy a flour substitution or starter adjustment produced,
+    /// marked as adjusted today, and refreshes the list. The copy, or nil.
+    func addAdjustedCopy(_ content: RecipeExportData) -> StoredRecipe? {
+        do {
+            let copy = try openedStore().add(content, firestoreId: nil, adjustedOn: Date(), bakeHistoryFlag: false)
+            load()
+            return copy
+        } catch {
+            logger.error("could not add an adjusted copy: \(error)")
+            return nil
+        }
+    }
+
     /// Gives the recipe a new picture, or none for `nil`. Whether it worked.
     @discardableResult
     func setImage(_ image: Data?, forRecipe id: String) -> Bool {

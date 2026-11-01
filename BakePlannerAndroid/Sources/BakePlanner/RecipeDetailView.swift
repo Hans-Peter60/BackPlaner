@@ -23,6 +23,14 @@ struct RecipeDetailView: View {
     @State var pickedImageType: String?
     @State var addsToShoppingList = false
     @State var plans = false
+    /// The tapped flour or starter line. Kept apart from the sheets'
+    /// visibility, as the dialogs' data is.
+    @State var lineRequest: IngredientLineRequest?
+    @State var substitutesFlour = false
+    @State var adjustsStarter = false
+    /// The adjusted copy to open once its sheet has gone.
+    @State var keptRecipeID: String?
+    @State var opensKeptRecipe = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -86,6 +94,24 @@ struct RecipeDetailView: View {
                 AddToShoppingListView(model: model, source: .own(recipeID), scale: scale)
             }
         }
+        .appSheet(isPresented: $substitutesFlour) {
+            if let lineRequest {
+                NavigationStack {
+                    FlourSubstitutionSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        .appSheet(isPresented: $adjustsStarter) {
+            if let lineRequest {
+                NavigationStack {
+                    StarterYieldSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        // The new copy opens as the next page, as on the iPhone.
+        .navigationDestination(isPresented: $opensKeptRecipe) {
+            RecipeDetailView(model: model, recipeID: keptRecipeID ?? recipeID)
+        }
         .withDocumentPicker(isPresented: $picksImage,
                             allowedContentTypes: [.image],
                             selectedDocumentURL: $pickedImageURL,
@@ -100,6 +126,20 @@ struct RecipeDetailView: View {
         }
         .task {
             recipe = model.recipe(id: recipeID)
+        }
+    }
+
+    /// After a flour or starter adjustment: a changed copy on screen is
+    /// reloaded, a new copy opened once the sheet has gone.
+    private func showKept(_ kept: StoredRecipe) {
+        if kept.id == recipeID {
+            recipe = model.recipe(id: recipeID)
+            return
+        }
+        keptRecipeID = kept.id
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            opensKeptRecipe = true
         }
     }
 
@@ -158,7 +198,15 @@ struct RecipeDetailView: View {
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))
 
-                RecipeLineSections(page: page)
+                RecipeLineSections(page: page, content: recipe.content, onFlourTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: recipe, componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    substitutesFlour = true
+                }, onStarterTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: recipe, componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    adjustsStarter = true
+                })
 
                 // A starter is fed, not baked: it keeps a feeding diary and
                 // no bake history; every other recipe the other way round.

@@ -84,17 +84,78 @@ struct RecipeLinkRow: View {
 
 struct RecipeLineSections: View {
     let page: RecipePrintData
+    /// The recipe behind the page, when its flour and starter lines are to
+    /// be tappable (own recipes): the columns of `page` come from the same
+    /// recipe, so a line's indices name the same ingredient in both.
+    var content: RecipeExportData? = nil
+    var onFlourTap: ((Int, Int) -> Void)? = nil
+    var onStarterTap: ((Int, Int) -> Void)? = nil
     @Environment(\.colorScheme) var colorScheme
 
+    private var columns: [ComponentColumn] {
+        content.map { ComponentColumn.columns(of: $0) } ?? []
+    }
+
+    /// What a tap on a line does, as the iPhone's one-line hint.
+    private var tapHint: LocalizedStringKey? {
+        let names = columns.map(\.name)
+        let flour = onFlourTap != nil && columns.contains { $0.ingredients.contains { FlourSubstitution.recognize($0.name) != nil } }
+        let starter = onStarterTap != nil && columns.contains { $0.ingredients.contains {
+            StarterYieldAdjustment.recognize($0, componentNames: names) != nil } }
+        switch (flour, starter) {
+        case (true, true): return "Tippe auf ein Mehl, um es zu ersetzen, oder auf das Anstellgut, um seine TA anzupassen."
+        case (true, false): return "Tippe auf ein Mehl, um es zu ersetzen."
+        case (false, true): return "Tippe auf das Anstellgut, um seine TA anzupassen."
+        case (false, false): return nil
+        }
+    }
+
     var body: some View {
+        let columns = self.columns
+        let names = columns.map(\.name)
         VStack(alignment: .leading, spacing: 16) {
             section("Komponenten") {
-                ForEach(Array(page.components.enumerated()), id: \.offset) { _, component in
+                if let tapHint {
+                    Text(tapHint)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                ForEach(Array(page.components.enumerated()), id: \.offset) { componentIndex, component in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(verbatim: component.name)
                             .font(.headline)
-                        ForEach(Array(component.lines.enumerated()), id: \.offset) { _, line in
-                            Text(verbatim: line)
+                        ForEach(Array(component.lines.enumerated()), id: \.offset) { ingredientIndex, line in
+                            let ingredient = columns.indices.contains(componentIndex)
+                                && columns[componentIndex].ingredients.indices.contains(ingredientIndex)
+                                ? columns[componentIndex].ingredients[ingredientIndex] : nil
+                            if let onFlourTap, let ingredient, FlourSubstitution.recognize(ingredient.name) != nil {
+                                Button {
+                                    onFlourTap(componentIndex, ingredientIndex)
+                                } label: {
+                                    HStack(spacing: 4) {
+                                        Text(verbatim: line)
+                                        Image(systemName: "arrow.forward.square")
+                                            .font(.caption)
+                                            .foregroundStyle(Palette.accent(colorScheme))
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            } else if let onStarterTap, let ingredient,
+                                      StarterYieldAdjustment.recognize(ingredient, componentNames: names) != nil {
+                                Button {
+                                    onStarterTap(componentIndex, ingredientIndex)
+                                } label: {
+                                    HStack(spacing: 4) {
+                                        Text(verbatim: line)
+                                        Image(systemName: "arrow.clockwise.circle")
+                                            .font(.caption)
+                                            .foregroundStyle(Palette.accent(colorScheme))
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            } else {
+                                Text(verbatim: line)
+                            }
                         }
                     }
                 }

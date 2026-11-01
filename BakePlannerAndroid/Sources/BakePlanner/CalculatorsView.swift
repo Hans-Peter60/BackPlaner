@@ -282,32 +282,35 @@ struct FlourSubstitutionCalculator: View {
         .navigationTitle("Mehl ersetzen")
     }
 
-    // The wording lives with the view, as on the iPhone.
-    private func flourHintText(_ hint: FlourSubstitution.Hint) -> Text {
-        switch hint {
-        case .speltHandling:
-            return Text("Dinkelteig kürzer und schonender kneten, lieber dehnen und falten – er neigt zum Überkneten und wird sonst trocken.")
-        case .speltSoaker:
-            return Text("Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig.")
-        case .ryeAcidify:
-            let share = FlourSubstitution.ryeAcidifyShare.formatted(.percent)
-            return Text("Roggen hat kein Klebergerüst: Ab etwa \(share) Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig.")
-        case .ryeMixOnly:
-            return Text("Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern.")
-        case .emmer:
-            return Text("Emmer hat einen weichen Kleber: kurz kneten, kurze Gare, am sichersten in der Kastenform backen.")
-        case .einkorn:
-            return Text("Einkorn bindet wenig Wasser und ist klebrig: deutlich weniger Wasser, kaum kneten, Kastenform statt freigeschoben.")
-        case .durumAutolyse:
-            return Text("Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich.")
-        case .wholeGrainSoak:
-            return Text("Vollkorn braucht Zeit zum Quellen: Autolyse oder ein Brüh-/Quellstück einplanen; die Krume wird dichter.")
-        case .wheatKnead:
-            return Text("Weizen hat mehr Kleber als Dinkel, Emmer oder Einkorn: etwas länger kneten, bis der Teig ein Fenster zieht.")
-        case .addWaterGradually:
-            return Text("Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte.")
-        }
+}
+
+/// The flour hints in words, as on the iPhone; shared by the calculator
+/// and the sheet of a recipe line.
+func flourHintText(_ hint: FlourSubstitution.Hint) -> Text {
+    switch hint {
+    case .speltHandling:
+        return Text("Dinkelteig kürzer und schonender kneten, lieber dehnen und falten – er neigt zum Überkneten und wird sonst trocken.")
+    case .speltSoaker:
+        return Text("Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig.")
+    case .ryeAcidify:
+        let share = FlourSubstitution.ryeAcidifyShare.formatted(.percent)
+        return Text("Roggen hat kein Klebergerüst: Ab etwa \(share) Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig.")
+    case .ryeMixOnly:
+        return Text("Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern.")
+    case .emmer:
+        return Text("Emmer hat einen weichen Kleber: kurz kneten, kurze Gare, am sichersten in der Kastenform backen.")
+    case .einkorn:
+        return Text("Einkorn bindet wenig Wasser und ist klebrig: deutlich weniger Wasser, kaum kneten, Kastenform statt freigeschoben.")
+    case .durumAutolyse:
+        return Text("Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich.")
+    case .wholeGrainSoak:
+        return Text("Vollkorn braucht Zeit zum Quellen: Autolyse oder ein Brüh-/Quellstück einplanen; die Krume wird dichter.")
+    case .wheatKnead:
+        return Text("Weizen hat mehr Kleber als Dinkel, Emmer oder Einkorn: etwas länger kneten, bis der Teig ein Fenster zieht.")
+    case .addWaterGradually:
+        return Text("Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte.")
     }
+
 }
 
 // MARK: - Starter TA
@@ -397,16 +400,20 @@ struct StarterYieldCalculator: View {
         .navigationTitle("Anstellgut-TA anpassen")
     }
 
-    private func starterHintText(_ hint: StarterYieldAdjustment.Hint) -> Text {
-        switch hint {
-        case .softer:
-            return Text("Weicheres Anstellgut (höhere TA) gärt schneller und säuert milder – die Reifezeit des Sauerteigs eher etwas kürzer ansetzen.")
-        case .firmer:
-            return Text("Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen.")
-        case .bigStep:
-            return Text("Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen.")
-        case .assumedYield:
-            return Text("Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“.")
-        }
+}
+
+/// The starter hints in words, as on the iPhone; shared by the calculator
+/// and the sheet of a recipe line.
+func starterHintText(_ hint: StarterYieldAdjustment.Hint) -> Text {
+    switch hint {
+    case .softer:
+        return Text("Weicheres Anstellgut (höhere TA) gärt schneller und säuert milder – die Reifezeit des Sauerteigs eher etwas kürzer ansetzen.")
+    case .firmer:
+        return Text("Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen.")
+    case .bigStep:
+        return Text("Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen.")
+    case .assumedYield:
+        return Text("Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“.")
     }
+
 }

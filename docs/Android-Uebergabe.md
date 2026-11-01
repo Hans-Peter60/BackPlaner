@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18l. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18m. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -260,7 +260,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
 | Rezeptliste | Bild in der Zeile (die Liste lädt bisher keine Bilder) | klein |
-| Rezeptansicht | Mehl ersetzen und Anstellgut-TA anpassen aus der Zutatenzeile, mit „Kopie anlegen“ / „Änderung übernehmen“ (Logik im Paket, iOS-Views 414 und 459 Zeilen) | groß |
+| Rezeptansicht | Mehl ersetzen und Anstellgut-TA anpassen aus der Zutatenzeile **eines öffentlichen Rezepts** (eigene Rezepte: erledigt, 18m) | mittel |
 | | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Planen | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
 | Geplante Schritte | Schritt-Detailansicht beim Antippen (Antippen öffnet bisher „Verschieben“) | klein |
