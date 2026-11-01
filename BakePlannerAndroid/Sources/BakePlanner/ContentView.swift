@@ -119,9 +119,13 @@ struct RecipeListView: View {
                     }
                     let rows = filteredRows
                     ForEach(rows) { row in
-                        link(to: row)
-                            // Only the own recipes can be deleted here.
-                            .deleteDisabled(!row.isLocal)
+                        NavigationLink {
+                            RecipeListDestination(model: model, row: row)
+                        } label: {
+                            RecipeListLabel(row: row)
+                        }
+                        // Only the own recipes can be deleted here.
+                        .deleteDisabled(!row.isLocal)
                     }
                     .onDelete { offsets in
                         if let index = offsets.first, case .local(let recipe) = rows[index] {
@@ -218,27 +222,6 @@ struct RecipeListView: View {
         }
     }
 
-    /// The list entry and the page it opens. Each kind of recipe has a link
-    /// of its own: with one link whose page switched between the two, Skip
-    /// opened an own recipe as an empty page.
-    @ViewBuilder
-    private func link(to row: Row) -> some View {
-        switch row {
-        case .local(let recipe):
-            NavigationLink {
-                RecipeDetailView(model: model, recipeID: recipe.id)
-            } label: {
-                RecipeRow(recipe: recipe)
-            }
-        case .shared(let recipe):
-            NavigationLink {
-                PublicRecipeDetailView(model: model, recipe: recipe)
-            } label: {
-                PublicRecipeRow(recipe: recipe)
-            }
-        }
-    }
-
     /// One line of the list: an own recipe or a public one.
     enum Row: Identifiable {
         case local(StoredRecipe)
@@ -313,6 +296,38 @@ struct RecipeRow: View {
                         .foregroundStyle(.secondary)
                 }
             }
+        }
+    }
+}
+
+/// The page a list entry opens. Its own view type, so the link's page is a
+/// single view: Skip opened an own recipe as an empty page when the link's
+/// page switched between the two kinds itself, and lost the back button
+/// when the list entry switched between two links.
+struct RecipeListDestination: View {
+    let model: AppModel
+    let row: RecipeListView.Row
+
+    var body: some View {
+        switch row {
+        case .local(let recipe):
+            RecipeDetailView(model: model, recipeID: recipe.id)
+        case .shared(let recipe):
+            PublicRecipeDetailView(model: model, recipe: recipe)
+        }
+    }
+}
+
+/// A list entry's line, for either kind of recipe.
+struct RecipeListLabel: View {
+    let row: RecipeListView.Row
+
+    var body: some View {
+        switch row {
+        case .local(let recipe):
+            RecipeRow(recipe: recipe)
+        case .shared(let recipe):
+            PublicRecipeRow(recipe: recipe)
         }
     }
 }
