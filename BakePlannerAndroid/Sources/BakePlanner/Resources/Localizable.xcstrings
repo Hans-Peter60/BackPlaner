@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%lld Erinnerungen gesetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld reminders set."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld rappels définis."
+          }
+        }
+      }
+    },
     "%lld Sterne und mehr" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -768,6 +785,40 @@
         }
       }
     },
+    "Backofen anstellen um %@ Uhr mit %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the oven at %1$@ (%2$@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allumer le four à %1$@ (%2$@)."
+          }
+        }
+      }
+    },
+    "Backofen anstellen um %@ Uhr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the oven at %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allumer le four à %@."
+          }
+        }
+      }
+    },
     "Backpause" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -922,6 +973,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée de travail : %@"
+          }
+        }
+      }
+    },
+    "Beginn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début"
           }
         }
       }
@@ -2819,6 +2887,23 @@
         }
       }
     },
+    "Fertig um %@ Uhr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done at %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé à %@."
+          }
+        }
+      }
+    },
     "Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4568,6 +4653,23 @@
         }
       }
     },
+    "Nächster Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine étape"
+          }
+        }
+      }
+    },
     "Name" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -5229,6 +5331,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Temps jusqu’au pic de pousse"
+          }
+        }
+      }
+    },
+    "Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette"
           }
         }
       }

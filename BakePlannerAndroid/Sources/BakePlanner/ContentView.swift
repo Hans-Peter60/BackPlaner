@@ -1,6 +1,9 @@
 import BakePlannerCore
 import SkipKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct ContentView: View {
     @State var model = AppModel()
@@ -153,7 +156,7 @@ struct RecipeListView: View {
                         NavigationLink {
                             RecipeListDestination(model: model, row: row)
                         } label: {
-                            RecipeListLabel(row: row)
+                            RecipeListLabel(model: model, row: row)
                         }
                         // Only the own recipes can be deleted here.
                         .deleteDisabled(!row.isLocal)
@@ -426,26 +429,58 @@ struct RecipeListView: View {
     }
 }
 
-/// One recipe in the list: name, rating, and its tags.
+/// One recipe in the list: its picture small, name, rating, and its tags.
 struct RecipeRow: View {
+    let model: AppModel
     let recipe: StoredRecipe
+    @State var thumbnail: Data?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: recipe.content.name)
-                .font(.headline)
-            HStack(spacing: 8) {
-                if recipe.content.rating > 0 {
-                    Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))
-                        .foregroundStyle(.orange)
-                }
-                if !recipe.content.tags.isEmpty {
-                    Text(verbatim: recipe.content.tags.joined(separator: ", "))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+        HStack(spacing: 12) {
+            RowThumbnail(data: thumbnail)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: recipe.content.name)
+                    .font(.headline)
+                HStack(spacing: 8) {
+                    if recipe.content.rating > 0 {
+                        Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))
+                            .foregroundStyle(.orange)
+                    }
+                    if !recipe.content.tags.isEmpty {
+                        Text(verbatim: recipe.content.tags.joined(separator: ", "))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
+        .task(id: recipe.id) {
+            thumbnail = model.thumbnail(forRecipe: recipe.id)
+        }
+    }
+}
+
+/// The small picture at the start of a list row, or a plain square
+/// without one, so the names line up.
+struct RowThumbnail: View {
+    let data: Data?
+
+    var body: some View {
+        Group {
+            #if canImport(UIKit) || os(Android)
+            if let data, let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Color.gray.opacity(0.15)
+            }
+            #else
+            Color.gray.opacity(0.15)
+            #endif
+        }
+        .frame(width: 48, height: 48)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -469,34 +504,40 @@ struct RecipeListDestination: View {
 
 /// A list entry's line, for either kind of recipe.
 struct RecipeListLabel: View {
+    let model: AppModel
     let row: RecipeListView.Row
 
     var body: some View {
         switch row {
         case .local(let recipe):
-            RecipeRow(recipe: recipe)
+            RecipeRow(model: model, recipe: recipe)
         case .shared(let recipe):
-            PublicRecipeRow(recipe: recipe)
+            PublicRecipeRow(model: model, recipe: recipe)
         }
     }
 }
 
-/// One public recipe in the list: name, tags, and that it is public.
+/// One public recipe in the list: its picture small once it was read for
+/// the detail page, name, tags, and that it is public.
 struct PublicRecipeRow: View {
+    let model: AppModel
     let recipe: RecipeFB
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: recipe.name)
-                .font(.headline)
-            HStack(spacing: 8) {
-                Text("Öffentlich")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                if !recipe.tags.isEmpty {
-                    Text(verbatim: recipe.tags.joined(separator: ", "))
+        HStack(spacing: 12) {
+            RowThumbnail(data: model.publicRecipeImages[recipe.id ?? ""].flatMap { PhotoShrinker.thumbnail($0) })
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: recipe.name)
+                    .font(.headline)
+                HStack(spacing: 8) {
+                    Text("Öffentlich")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    if !recipe.tags.isEmpty {
+                        Text(verbatim: recipe.tags.joined(separator: ", "))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }

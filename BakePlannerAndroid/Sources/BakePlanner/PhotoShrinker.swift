@@ -45,6 +45,18 @@ enum PhotoShrinker {
         #endif
     }
 
+    /// A small square-ish version for a list row, `edge` pixels on the
+    /// longer side; nil for data that is no picture.
+    static func thumbnail(_ data: Data, edge: Double = 160) -> Data? {
+        #if canImport(UIKit) || os(Android)
+        guard let image = UIImage(data: data) else { return nil }
+        let small = smallerImage(of: image, longestEdge: edge) ?? image
+        return small.jpegData(compressionQuality: .init(0.7))
+        #else
+        return nil
+        #endif
+    }
+
     // MARK: Pages for the cloud AI
 
     /// What the Cloud Function analyzeRecipeImages accepts per page, as the

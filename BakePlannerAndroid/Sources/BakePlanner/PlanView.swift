@@ -26,6 +26,9 @@ struct PlanView: View {
     @State var additionalOverlap = ""
     @State var showsAdditionalOverlap = false
     @State var outcome: AppModel.PlanOutcome = .saved
+    /// What was scheduled, for the confirmation: reminders, oven time with
+    /// temperature, finish, and the plan's hints — as the iPhone's alert.
+    @State var summary: Text?
     /// The recipe as planned, with the durations changed here; an own
     /// recipe keeps them, as on the iPhone.
     @State var workingRecipe: StoredRecipe
@@ -203,6 +206,8 @@ struct PlanView: View {
         } message: {
             if outcome == .savedWithoutReminders {
                 Text("Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern.")
+            } else if outcome == .saved, let summary {
+                summary
             }
         }
     }
@@ -236,8 +241,34 @@ struct PlanView: View {
         }
     }
 
+    /// The confirmation's wording, the iPhone's ReminderSummary: no oven
+    /// line for a plan without a bake (feeding a starter). Built line by
+    /// line — the iPhone's whole-text keys would all get the same generated
+    /// catalog symbol here, which Xcode refuses — and SkipFuseUI has no
+    /// Text + Text, so the lines are joined as strings.
+    private func summaryText(of plan: BakePlan, hints: String) -> Text {
+        let count = plan.allSteps.count
+        let finish = PlanText.time(plan.date(of: plan.endStep))
+        var lines = [String(localized: "\(count) Erinnerungen gesetzt.", bundle: .module)]
+        if let ovenStep = plan.ovenOnStep {
+            let ovenOn = PlanText.time(plan.date(of: ovenStep))
+            let temperature = plan.ovenTemperature ?? ""
+            lines.append(temperature.isEmpty
+                ? String(localized: "Backofen anstellen um \(ovenOn) Uhr.", bundle: .module)
+                : String(localized: "Backofen anstellen um \(ovenOn) Uhr mit \(temperature).", bundle: .module))
+        }
+        lines.append(String(localized: "Fertig um \(finish) Uhr.", bundle: .module))
+        var text = lines.joined(separator: "\n")
+        if !hints.isEmpty {
+            text += "\n\n" + hints
+        }
+        return Text(verbatim: text)
+    }
+
     private func save(replacing: Bool) {
         let plan = self.plan
+        let hints = model.issues(of: plan).filter { $0.severity == .hint }.map(\.message).joined(separator: "\n\n")
+        summary = summaryText(of: plan, hints: hints)
         Task {
             var recipeID = recipe.id
             if let takeOver {

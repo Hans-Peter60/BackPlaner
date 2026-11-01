@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18o. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18p. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -85,6 +85,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **UserDefaults auf Android (gefunden in Schritt 15b):** Was die App in `UserDefaults.standard` schrieb, las das Paket nicht zurück (Backöfen blieben 1), und nach einem Neustart war alles weg. Die Android-App hält ihre Einstellungen deshalb selbst in `settings.json` neben der Datenbank (`SettingsFile`) und gibt dem Paket beim Start einen Leser dafür (`AppSettings.settingsReader`, in `onInit`). Neue Einstellungen immer über `SettingsFile.set`; das iPhone liest weiter `UserDefaults` (Leser nil).
 - **SF-Symbole:** Skip übersetzt nur bekannte Namen (Liste in skip-ui `Image.swift`); „globe“, „flame“, „oven“ fehlen. Bei unbekannten Namen erscheint ein Warndreieck.
 - **`ForEach` über einen Bereich (gefunden in 18a):** `ForEach(1...5, id: \.self)` liefert in Skip Bereichs-Indizes statt Ganzzahlen; der Cast auf `Int` stürzt ab („Could not cast value of type ClosedRange<Int>.Index“). Ein Array nehmen: `ForEach([1, 2, 3, 4, 5], id: \.self)`.
+- **Gleiche Katalog-Symbole (gefunden in 18p):** Xcode erzeugt für den Android-Katalog Symbole aus den Schlüsseln. Mehrere Schlüssel, die sich nur in Platzhaltern oder Zeilenumbrüchen unterscheiden (die sechs `ReminderSummary`-Texte des iPhones), ergeben dasselbe Symbol, und der Build bricht ab („would generate the same symbol“). Solche Texte aus unterscheidbaren Einzelzeilen zusammensetzen. Dazu: SkipFuseUI kennt kein `Text + Text`, und ein Alert zeigt nur den ersten `Text` seiner Nachricht; die Zeilen daher als `String(localized:…, bundle: .module)` verbinden und als einen `Text(verbatim:)` geben.
 - **Schlüssel in einer `List` (gefunden in 18b):** Skips `List` verlangt über alle `ForEach`-Blöcke hinweg eindeutige IDs. Zwei Abschnitte, deren Elemente jeweils bei 0 zählen, stürzen ab („Key "Optional(0)" was already used“). Die Zeilen mit einem Präfix versehen (`Keyed`, `keyedRows` in `DoughYieldSheet.swift`).
 - **Symbol „star“:** Skip zeichnet nur „star.fill“; das umrandete „star“ ist in skip-ui auskommentiert und erscheint als Warndreieck.
 - **App Check im Emulator:** Das Debug-Token steckt in den App-Daten. Nach Deinstallation oder Löschen der App-Daten erzeugt die App ein neues, und Cloud Functions (`enforceAppCheck`) antworten mit „Unauthenticated“, im Log davor „Error getting App Check token … 403 App attestation failed“. Das aktuelle Token steht bei jedem Start im Log („Enter this debug secret into the allow list“) und muss in der Firebase-Konsole unter App Check → Apps → Android → Debug-Tokens eingetragen werden. Firestore und Storage laufen derweil mit Platzhalter-Token weiter, weil App Check dort nicht erzwungen wird.
@@ -259,11 +260,8 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
-| Rezeptliste | Bild in der Zeile (die Liste lädt bisher keine Bilder) | klein |
-| | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
-| Planen | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
-| Geplante Schritte | Schritt-Detailansicht beim Antippen (Antippen öffnet bisher „Verschieben“) | klein |
-| | Grafische Timeline mit Balken, Farben, Nachtband (iOS 943 Zeilen) | groß |
+| Rezeptliste | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
+| Geplante Schritte | Grafische Timeline mit Balken, Farben, Nachtband (iOS 943 Zeilen) | groß |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
 | Neues Rezept | Kamera für Rezeptbild, Backhistorie-Fotos und Foto-Import (siehe 17d) | mittel |
 | | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |

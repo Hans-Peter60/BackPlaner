@@ -194,11 +194,30 @@ final class AppModel {
         }
     }
 
+    /// Small pictures for the recipe list, made once per recipe from the
+    /// stored picture and kept; the list itself loads no pictures.
+    private var thumbnails: [String: Data] = [:]
+
+    /// The list thumbnail of an own recipe, read and shrunk on first use;
+    /// nil without a picture.
+    func thumbnail(forRecipe id: String) -> Data? {
+        if let cached = thumbnails[id] { return cached.isEmpty ? nil : cached }
+        let data = recipe(id: id)?.content.image.flatMap { PhotoShrinker.thumbnail($0) }
+        thumbnails[id] = data ?? Data()
+        return data
+    }
+
+    /// Forgets a recipe's thumbnail after its picture changed.
+    func forgetThumbnail(forRecipe id: String) {
+        thumbnails[id] = nil
+    }
+
     /// Gives the recipe a new picture, or none for `nil`. Whether it worked.
     @discardableResult
     func setImage(_ image: Data?, forRecipe id: String) -> Bool {
         do {
             try openedStore().setImage(image, forRecipe: id)
+            forgetThumbnail(forRecipe: id)
             return true
         } catch {
             logger.error("could not change the picture of recipe \(id): \(error)")

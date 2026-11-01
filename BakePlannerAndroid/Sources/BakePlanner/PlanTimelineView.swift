@@ -25,6 +25,10 @@ struct PlanTimelineView: View {
     /// the sheet's visibility, as the dialogs are.
     @State var ingredientStep: StoredScheduledStep?
     @State var showsIngredients = false
+    /// The step whose details are shown. Kept apart from the sheet's
+    /// visibility, as the dialogs are.
+    @State var detailStep: StoredScheduledStep?
+    @State var showsDetail = false
     @State var confirmsDeleteAll = false
     /// Refreshed every minute, so the "Als Nächstes" card moves on with time.
     @State var now = Date()
@@ -87,9 +91,11 @@ struct PlanTimelineView: View {
                         Section {
                             ForEach(plan.steps, id: \.key) { step in
                                 HStack(alignment: .top, spacing: 8) {
+                                    // A tap opens the step's details, as on the
+                                    // iPhone; moving it is offered there.
                                     Button {
-                                        stepToShift = step
-                                        shiftsStep = true
+                                        detailStep = step
+                                        showsDetail = true
                                     } label: {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(verbatim: PlanText.dateTime(step.data.date))
@@ -155,6 +161,22 @@ struct PlanTimelineView: View {
                     Label("Alle löschen", systemImage: "trash")
                 }
                 .disabled(plans.isEmpty)
+            }
+        }
+        .appSheet(isPresented: $showsDetail) {
+            if let step = detailStep {
+                NavigationStack {
+                    StepDetailSheet(step: step, component: component(of: step), onShift: {
+                        // The shift sheet opens once this one has gone.
+                        stepToShift = step
+                        Task {
+                            try? await Task.sleep(for: .milliseconds(400))
+                            shiftsStep = true
+                        }
+                    }, onDone: {
+                        model.markDone(step)
+                    })
+                }
             }
         }
         .appSheet(isPresented: $showsIngredients) {
@@ -279,6 +301,84 @@ struct NextStepCard: View {
             Text(verbatim: step.data.recipeName + " · " + PlanText.dateTime(step.data.date))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// A planned step in full: recipe, start, step number, duration and the
+/// whole text, the ingredients it mixes, and the two actions of the
+/// iPhone's card — the iPhone's ScheduledTaskDetailView.
+struct StepDetailSheet: View {
+    let step: StoredScheduledStep
+    let component: ComponentColumn?
+    let onShift: () -> Void
+    let onDone: () -> Void
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        Form {
+            Section {
+                HStack {
+                    Text("Rezept")
+                    Spacer()
+                    Text(verbatim: step.data.recipeName)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.trailing)
+                }
+                HStack {
+                    Text("Beginn")
+                    Spacer()
+                    Text(verbatim: PlanText.dateTime(step.data.date))
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("Schritt")
+                    Spacer()
+                    Text(verbatim: Rational.decimalPlace(step.data.step, 10))
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("Dauer")
+                    Spacer()
+                    Text(verbatim: Rational.displayHoursMinutes(step.data.duration))
+                        .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("Nächster Schritt")
+            }
+            Section {
+                Text(verbatim: step.data.instruction)
+            } header: {
+                Text("Beschreibung")
+            }
+            if let component {
+                Section {
+                    ForEach(Array(BakeModeText.ingredientLines(of: component, scale: step.data.effectiveServingScale).enumerated()),
+                            id: \.offset) { _, line in
+                        Text(verbatim: line)
+                    }
+                } header: {
+                    Text("Zutaten für „\(component.name)“")
+                }
+            }
+            Section {
+                Button("Schritt verschieben") {
+                    onShift()
+                    dismiss()
+                }
+                Button("Erledigt") {
+                    onDone()
+                    dismiss()
+                }
+            }
+        }
+        .navigationTitle("Nächster Schritt")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Fertig") {
+                    dismiss()
+                }
+            }
         }
     }
 }
