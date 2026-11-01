@@ -65,6 +65,7 @@ struct WebRecipeImportView: View {
         defer { isLoading = false }
         do {
             let page = try await RecipeWebPageLoader.load(url)
+            logger.info("web import \(page.url.absoluteString): structured recipe \(page.structuredRecipe != nil), \(page.structuredRecipe?.ingredientLines.count ?? 0) ingredients, page text \(page.readableText.count) characters")
             guard let structured = page.structuredRecipe else {
                 throw RecipeWebImportError.noRecipeFound
             }
@@ -78,6 +79,7 @@ struct WebRecipeImportView: View {
             onImport(content)
             dismiss()
         } catch {
+            logger.error("web import \(url.absoluteString) failed: \(error)")
             failure = (error as? RecipeWebImportError)?.errorDescription ?? error.localizedDescription
         }
     }
