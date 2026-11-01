@@ -45,7 +45,7 @@ struct RecipeFirestoreMappingTests {
         #expect(recipe.translations["en"]?.name == "Rye bread")
         #expect(recipe.translations["en"]?.tags == ["Rye"])
 
-        recipe.applyLocalization(languageCode: "en")
+        recipe.showLocalization(languageCode: "en")
         #expect(recipe.name == "Rye bread")
     }
 
