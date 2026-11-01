@@ -1,9 +1,11 @@
 import BakePlannerCore
 import SwiftUI
 
-/// A public recipe, read only: its picture, summary, amount, dough yield,
-/// components, total ingredients and steps, as the own recipes show them.
-/// Components, steps and picture are read when the recipe is first opened.
+/// A public recipe: its picture, summary, amount, dough yield, components,
+/// total ingredients and steps, as the own recipes show them. Components,
+/// steps and picture are read when the recipe is first opened. It can be
+/// planned (which keeps an own copy, as on the iPhone), put on a shopping
+/// list, and saved as an own recipe.
 struct PublicRecipeDetailView: View {
     let model: AppModel
     let recipe: RecipeFB
@@ -11,6 +13,15 @@ struct PublicRecipeDetailView: View {
     @State var loadError: String?
     /// The factor on the recipe as published: 1 is the recipe, 2 twice as much.
     @State var scale = 1.0
+    /// The own copy as the plan works from it (PublicRecipeCopy); its key is
+    /// empty, the copy is kept only when the plan is saved.
+    @State var planRecipe: StoredRecipe?
+    @State var plans = false
+    @State var addsToShoppingList = false
+    /// Whether saving as an own recipe worked. Kept apart from the alert's
+    /// visibility: Android closes the alert before it runs its button.
+    @State var savedCopy = false
+    @State var showsSaveOutcome = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -33,6 +44,33 @@ struct PublicRecipeDetailView: View {
             }
         }
         .navigationTitle(recipe.name)
+        .sheet(isPresented: $plans) {
+            if let planRecipe {
+                NavigationStack {
+                    PlanView(model: model, recipe: planRecipe, scale: scale, takeOver: {
+                        await model.takeOver(recipe)
+                    })
+                }
+            }
+        }
+        .sheet(isPresented: $addsToShoppingList) {
+            if let content {
+                NavigationStack {
+                    AddToShoppingListView(model: model, source: .shared(content), scale: scale)
+                }
+            }
+        }
+        .alert(savedCopy ? LocalizedStringKey("Rezept wurde gespeichert") : LocalizedStringKey("Speichern fehlgeschlagen"),
+               isPresented: $showsSaveOutcome) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            if savedCopy {
+                Text("Das Rezept steht jetzt bei Deinen Rezepten auf diesem Gerät. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern.")
+            }
+        }
         .task {
             do {
                 content = try await model.publicRecipeContent(recipe)
@@ -75,6 +113,36 @@ struct PublicRecipeDetailView: View {
                     }
                 }
                 .font(.subheadline)
+
+                // At the amount chosen above, as on the iPhone.
+                Button {
+                    planRecipe = StoredRecipe(id: "", content: PublicRecipeCopy.content(
+                        of: recipe, imageData: model.publicRecipeImages[recipe.id ?? ""]))
+                    plans = true
+                } label: {
+                    Label("Planen", systemImage: "calendar")
+                }
+                .buttonStyle(.bordered)
+                .tint(Palette.accent(colorScheme))
+
+                Button {
+                    addsToShoppingList = true
+                } label: {
+                    Label("Rezept zur Einkaufsliste hinzufügen", systemImage: "cart")
+                }
+                .buttonStyle(.bordered)
+                .tint(Palette.accent(colorScheme))
+
+                Button {
+                    Task {
+                        savedCopy = await model.takeOver(recipe) != nil
+                        showsSaveOutcome = true
+                    }
+                } label: {
+                    Label("Als eigenes Rezept speichern", systemImage: "square.and.arrow.down")
+                }
+                .buttonStyle(.bordered)
+                .tint(Palette.accent(colorScheme))
 
                 RecipeLineSections(page: page)
             }

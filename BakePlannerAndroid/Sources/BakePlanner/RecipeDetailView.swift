@@ -78,7 +78,7 @@ struct RecipeDetailView: View {
         }
         .sheet(isPresented: $addsToShoppingList) {
             NavigationStack {
-                AddToShoppingListView(model: model, recipeID: recipeID, scale: scale)
+                AddToShoppingListView(model: model, source: .own(recipeID), scale: scale)
             }
         }
         .withDocumentPicker(isPresented: $picksImage,

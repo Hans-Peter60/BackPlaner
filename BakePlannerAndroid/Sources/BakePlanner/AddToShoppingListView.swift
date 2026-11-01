@@ -6,7 +6,7 @@ import SwiftUI
 /// "Einkaufsliste" tab does.
 struct AddToShoppingListView: View {
     let model: AppModel
-    let recipeID: String
+    let source: AppModel.ShoppingListSource
     /// The factor chosen in the recipe: 1 is the recipe as stored.
     let scale: Double
     @State var addsToExistingList = false
@@ -83,7 +83,7 @@ struct AddToShoppingListView: View {
     }
 
     private func add(to target: AppModel.ShoppingListTarget) {
-        outcome = model.addToShoppingList(recipeID: recipeID, scale: scale, target: target)
+        outcome = model.addToShoppingList(source, scale: scale, target: target)
         showsOutcome = true
     }
 

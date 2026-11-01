@@ -10,6 +10,9 @@ struct PlanView: View {
     let recipe: StoredRecipe
     /// The factor chosen in the recipe: 1 is the recipe as stored.
     let scale: Double
+    /// For a public recipe: the own copy the plan is kept for, made only
+    /// when the plan is saved (as on the iPhone), nil when it could not be.
+    var takeOver: (() async -> StoredRecipe?)? = nil
     /// 0 "Starten ab", 1 "Fertig bis". Starting now, as on the iPhone.
     @State var anchorSelection = 0
     @State var date = Date()
@@ -147,7 +150,16 @@ struct PlanView: View {
     private func save(replacing: Bool) {
         let plan = self.plan
         Task {
-            outcome = await model.putIntoEffect(plan, recipeID: recipe.id, servingScale: scale, replacing: replacing)
+            var recipeID = recipe.id
+            if let takeOver {
+                guard let copy = await takeOver() else {
+                    outcome = .failed
+                    showsSaved = true
+                    return
+                }
+                recipeID = copy.id
+            }
+            outcome = await model.putIntoEffect(plan, recipeID: recipeID, servingScale: scale, replacing: replacing)
             showsSaved = true
         }
     }

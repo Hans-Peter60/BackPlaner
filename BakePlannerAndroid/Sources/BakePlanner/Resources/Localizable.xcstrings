@@ -166,6 +166,23 @@
         }
       }
     },
+    "Als eigenes Rezept speichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save as my own recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer comme ma recette"
+          }
+        }
+      }
+    },
     "Anstellgut" : {
       "comment" : "Sauerteig-Anstellgut",
       "extractionState" : "manual",
@@ -759,6 +776,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette n’a pas pu être chargée."
+          }
+        }
+      }
+    },
+    "Das Rezept steht jetzt bei Deinen Rezepten auf diesem Gerät. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern." : {
+      "comment" : "Public recipe: it was saved as an own recipe.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe is now among your recipes on this device. You can edit it there without changing the public recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette figure maintenant parmi vos recettes sur cet appareil. Vous pouvez la modifier sans changer la recette publique."
           }
         }
       }
@@ -2509,6 +2544,23 @@
         }
       }
     },
+    "Rezept wurde gespeichert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe was saved"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette a été enregistrée"
+          }
+        }
+      }
+    },
     "Rezept zur Einkaufsliste hinzufügen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2860,6 +2912,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Speichern fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de l’enregistrement"
           }
         }
       }

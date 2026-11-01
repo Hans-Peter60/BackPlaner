@@ -458,10 +458,28 @@ final class AppModel {
     /// Puts the ingredients of recipe `recipeID`, at `scale` (1 is the
     /// recipe as stored), on a shopping list — sifted, converted and merged
     /// as on the iPhone (ShoppingListBuilder).
-    func addToShoppingList(recipeID: String, scale: Double, target: ShoppingListTarget) -> ShoppingListOutcome {
+    /// Whose ingredients go on a shopping list.
+    enum ShoppingListSource {
+        /// One of the own recipes, by its key.
+        case own(String)
+        /// A public recipe, as shown; the list names it, as on the iPhone.
+        case shared(RecipeExportData)
+    }
+
+    func addToShoppingList(_ source: ShoppingListSource, scale: Double, target: ShoppingListTarget) -> ShoppingListOutcome {
         do {
-            guard let recipe = try openedStore().recipe(id: recipeID) else { return .failed }
-            let entries = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: recipe.content), scale: scale)
+            let content: RecipeExportData
+            let recipeSource: ShoppingListRecipe
+            switch source {
+            case .own(let recipeID):
+                guard let recipe = try openedStore().recipe(id: recipeID) else { return .failed }
+                content = recipe.content
+                recipeSource = .own(id: recipeID)
+            case .shared(let shared):
+                content = shared
+                recipeSource = .publicRecipe(name: shared.name)
+            }
+            let entries = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: content), scale: scale)
             guard !entries.isEmpty else { return .nothingToBuy }
 
             let lists = try openedListStore()
@@ -472,11 +490,11 @@ final class AppModel {
             case .existingList(let id):
                 listID = id
             }
-            try lists.add(entries, from: .own(id: recipeID), toList: listID)
+            try lists.add(entries, from: recipeSource, toList: listID)
             loadShoppingLists()
             return .added
         } catch {
-            logger.error("could not put recipe \(recipeID) on a shopping list: \(error)")
+            logger.error("could not put a recipe on a shopping list: \(error)")
             loadShoppingLists()
             return .failed
         }
@@ -600,6 +618,38 @@ final class AppModel {
             publicRecipeImages[id] = data
         }
         return RecipeExportData(recipeFB: recipe, imageData: publicRecipeImages[id])
+    }
+
+    /// What the public recipe becomes as an own copy (PublicRecipeCopy):
+    /// what planning and taking over work from.
+    func publicRecipeCopyContent(_ recipe: RecipeFB) async throws -> RecipeExportData {
+        try await PublicRecipeService.loadDetails(of: recipe)
+        let id = recipe.id ?? ""
+        if publicRecipeImages[id] == nil, let data = await PublicRecipeService.imageData(of: recipe) {
+            publicRecipeImages[id] = data
+        }
+        return PublicRecipeCopy.content(of: recipe, imageData: publicRecipeImages[id])
+    }
+
+    /// The own copy of a public recipe — the one taken over before, if there
+    /// is one, else a new one. An earlier copy is never written over: the
+    /// user may have changed it, and its bake history is his own (as on the
+    /// iPhone). Nil when it could not be read or kept.
+    func takeOver(_ recipe: RecipeFB) async -> StoredRecipe? {
+        guard let firestoreID = recipe.id, !firestoreID.isEmpty else { return nil }
+        do {
+            let store = try openedStore()
+            if let copy = try store.recipe(firestoreId: firestoreID) {
+                return copy
+            }
+            let content = try await publicRecipeCopyContent(recipe)
+            let copy = try store.add(content, firestoreId: firestoreID, adjustedOn: nil, bakeHistoryFlag: false)
+            load()
+            return copy
+        } catch {
+            logger.error("could not take over public recipe \(firestoreID): \(error)")
+            return nil
+        }
     }
 
     private func openedStore() throws -> SQLiteRecipeStore {
