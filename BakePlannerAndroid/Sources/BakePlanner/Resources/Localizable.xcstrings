@@ -217,6 +217,23 @@
         }
       }
     },
+    "Allgemein" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        }
+      }
+    },
     "Als eigenes Rezept speichern" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2794,6 +2811,24 @@
         }
       }
     },
+    "Öffnet die Android-Einstellungen, in denen Du die Sprache von BakePlanner unabhängig von der Gerätesprache wählst." : {
+      "comment" : "Settings: the language row opens Android's per-app language page.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the Android settings where you choose BakePlanner’s language independently of the device language."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les réglages Android dans lesquels vous choisissez la langue de BakePlanner indépendamment de celle de l’appareil."
+          }
+        }
+      }
+    },
     "Öle, Fette & Flüssiges" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3374,6 +3409,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de l’enregistrement"
+          }
+        }
+      }
+    },
+    "Sprache" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue"
           }
         }
       }

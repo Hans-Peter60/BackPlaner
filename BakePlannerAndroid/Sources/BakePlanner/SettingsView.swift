@@ -1,6 +1,9 @@
 import BakePlannerCore
 import Foundation
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// The settings the Android app uses, as on the iPhone: the default serving
 /// size (the amount the rhythm plans), the dough yields of one's starters,
@@ -21,6 +24,7 @@ struct SettingsView: View {
     @State var dayStart = AppSettings.storedDayStart
     @State var dayEnd = AppSettings.storedDayEnd
     @Environment(\.dismiss) var dismiss
+    @Environment(\.locale) var locale
     /// An account change is under way (the browser may be open).
     @State var changesAccount = false
     @State var confirmsAccountDeletion = false
@@ -39,6 +43,28 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            // The app's language is chosen in Android's settings (Android 13
+            // and later, locales_config.xml); this row leads there.
+            Section {
+                Button {
+                    Task {
+                        _ = await UIApplication.shared.open(Self.languageSettingsURL)
+                    }
+                } label: {
+                    HStack {
+                        Text("Sprache")
+                            .foregroundStyle(Color.primary)
+                        Spacer()
+                        Text(verbatim: Self.languageName(of: locale))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } header: {
+                Text("Allgemein")
+            } footer: {
+                Text("Öffnet die Android-Einstellungen, in denen Du die Sprache von BakePlanner unabhängig von der Gerätesprache wählst.")
+            }
+
             Section {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Standard-Portionsgröße")
@@ -258,6 +284,16 @@ struct SettingsView: View {
 
     private func store(_ value: Int, _ key: String) {
         UserDefaults.standard.set(value, forKey: key)
+    }
+
+    /// Android's page for the language of this app; Skip adds the package.
+    static let languageSettingsURL = URL(string: "intent://android.settings.APP_LOCALE_SETTINGS")!
+
+    /// "Deutsch", "English", "Français": the app's language in itself.
+    static func languageName(of locale: Locale) -> String {
+        let code = String(locale.identifier.split(whereSeparator: { $0 == "_" || $0 == "-" }).first ?? "")
+        let name = locale.localizedString(forLanguageCode: code) ?? code
+        return name.prefix(1).uppercased() + name.dropFirst()
     }
 
     /// "06:00", as on the iPhone.
