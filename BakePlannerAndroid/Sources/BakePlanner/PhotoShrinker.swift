@@ -57,6 +57,19 @@ enum PhotoShrinker {
         #endif
     }
 
+    /// A picture as it is published with a recipe, the iPhone's upload
+    /// size: 1024 pixels on the longer side, JPEG 0.5. Nil for data that
+    /// is no picture.
+    static func uploadPhoto(_ data: Data) -> Data? {
+        #if canImport(UIKit) || os(Android)
+        guard let image = UIImage(data: data) else { return nil }
+        let small = smallerImage(of: image, longestEdge: 1024) ?? image
+        return small.jpegData(compressionQuality: .init(0.5))
+        #else
+        return nil
+        #endif
+    }
+
     // MARK: Pages for the cloud AI
 
     /// What the Cloud Function analyzeRecipeImages accepts per page, as the

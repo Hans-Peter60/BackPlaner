@@ -698,7 +698,9 @@ final class AppModel {
         isLoadingPublicRecipes = true
         defer { isLoadingPublicRecipes = false }
         do {
-            publicRecipes = try await PublicRecipeService.recipes()
+            // An admin sees the reported recipes too, to review them.
+            await refreshAccount()
+            publicRecipes = try await PublicRecipeService.recipes(includingHidden: account.isAdmin)
             publicRecipesError = nil
         } catch PublicRecipeService.ServiceError.unavailable {
             publicRecipes = []
@@ -755,6 +757,88 @@ final class AppModel {
         await refreshAccount()
         await loadPublicRecipes()
         return failure
+    }
+
+    // MARK: Publishing
+
+    /// Whether the user has accepted the terms for public recipes, once,
+    /// as on the iPhone (same key).
+    var hasAcceptedTerms: Bool {
+        get { Self.storedBool("ugc.eulaAccepted", default: false) }
+        set { SettingsFile.set(newValue, forKey: "ugc.eulaAccepted") }
+    }
+
+    /// Whether a public recipe is the user's own: published under the
+    /// account signed in here. Empty author ids (old recipes) never match.
+    func isOwn(_ recipe: RecipeFB) -> Bool {
+        guard let author = recipe.authorId, !author.isEmpty, let uid = PublicRecipeService.currentUID else { return false }
+        return author == uid
+    }
+
+    /// Whether an own recipe may be published: not yet, or its public copy
+    /// is gone again (deleted elsewhere), as the iPhone decides.
+    func canPublish(_ recipe: StoredRecipe) -> Bool {
+        guard let firestoreID = recipe.firestoreId, !firestoreID.isEmpty else { return true }
+        return !publicRecipes.contains { $0.id == firestoreID }
+    }
+
+    /// Publishes an own recipe; nil when it worked, else why not. The
+    /// recipe remembers its public id, as on the iPhone, and the public
+    /// list is read again.
+    func publish(recipeID: String) async -> String? {
+        guard var recipe = recipe(id: recipeID), let image = recipe.content.image,
+              let upload = PhotoShrinker.uploadPhoto(image) else { return nil }
+        do {
+            let publicID = try await PublicRecipeService.publish(recipe.content, image: upload)
+            recipe.firestoreId = publicID
+            try openedStore().update(recipe)
+            load()
+        } catch {
+            logger.error("could not publish recipe \(recipeID): \(error)")
+            return String(describing: error)
+        }
+        await loadPublicRecipes()
+        return nil
+    }
+
+    /// Saves an edit of a published recipe; nil when it worked. The new
+    /// picture, if the edit changed it, goes along.
+    func saveEdits(of recipe: RecipeFB, content: RecipeExportData) async -> String? {
+        let id = recipe.id ?? ""
+        let newImage = content.image != publicRecipeImages[id] ? content.image.flatMap { PhotoShrinker.uploadPhoto($0) } : nil
+        do {
+            try await PublicRecipeService.saveEdits(of: recipe, content: content, newImage: newImage)
+            if let newImage { publicRecipeImages[id] = newImage }
+        } catch {
+            logger.error("could not save edits of public recipe \(id): \(error)")
+            return String(describing: error)
+        }
+        await loadPublicRecipes()
+        return nil
+    }
+
+    /// Removes a published recipe (own, or any as an admin); nil when it
+    /// worked.
+    func deletePublic(_ recipe: RecipeFB) async -> String? {
+        do {
+            try await PublicRecipeService.delete(recipe)
+        } catch {
+            logger.error("could not delete public recipe \(recipe.id ?? ""): \(error)")
+            return String(describing: error)
+        }
+        publicRecipes.removeAll { $0.id == recipe.id }
+        return nil
+    }
+
+    /// Releases a reported recipe again (admins); nil when it worked.
+    func release(_ recipe: RecipeFB) async -> String? {
+        do {
+            try await PublicRecipeService.setHidden(recipe, hidden: false)
+        } catch {
+            logger.error("could not release public recipe \(recipe.id ?? ""): \(error)")
+            return String(describing: error)
+        }
+        return nil
     }
 
     /// Reports a public recipe. It leaves this device's list at once, even

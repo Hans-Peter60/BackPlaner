@@ -32,6 +32,16 @@ struct RecipeDetailView: View {
     /// The adjusted copy to open once its sheet has gone.
     @State var keptRecipeID: String?
     @State var opensKeptRecipe = false
+    /// Publishing: the terms first (once), then the question, then the
+    /// upload; what came of it in an alert. Kept apart from the alerts'
+    /// visibility, as the dialogs' data is.
+    @State var showsTerms = false
+    @State var confirmsPublishing = false
+    @State var isPublishing = false
+    @State var publishFailure: String?
+    @State var showsPublishOutcome = false
+    @State var needsSignIn = false
+    @State var needsImage = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -55,13 +65,74 @@ struct RecipeDetailView: View {
                 .disabled(recipe == nil)
             }
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    recipeToExport = [recipeID]
+                Menu {
+                    Button {
+                        recipeToExport = [recipeID]
+                    } label: {
+                        Label("Rezept sichern", systemImage: "square.and.arrow.up")
+                    }
+                    // Publishing wants an account of one's own and a picture;
+                    // a recipe that is public already is not offered again.
+                    if let recipe, model.canPublish(recipe) {
+                        Button("Veröffentlichen") {
+                            beginPublishing(recipe)
+                        }
+                        .disabled(isPublishing)
+                    }
                 } label: {
-                    Label("Rezept sichern", systemImage: "square.and.arrow.up")
+                    Label("Weitere Aktionen", systemImage: "ellipsis")
                 }
                 .disabled(recipe == nil)
             }
+        }
+        .appSheet(isPresented: $showsTerms) {
+            NavigationStack {
+                TermsView {
+                    model.hasAcceptedTerms = true
+                    // The question follows once the sheet has gone.
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))
+                        confirmsPublishing = true
+                    }
+                }
+            }
+        }
+        .alert("Rezept veröffentlichen?", isPresented: $confirmsPublishing) {
+            Button("Öffentlich speichern") {
+                Task { await publish() }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen.")
+        }
+        .alert(publishFailure == nil ? LocalizedStringKey("Rezept wurde gespeichert") : LocalizedStringKey("Upload fehlgeschlagen"),
+               isPresented: $showsPublishOutcome) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            if let publishFailure {
+                Text(verbatim: publishFailure)
+            } else {
+                Text("Das Rezept ist jetzt für alle Nutzer in der Rezept-Datenbank sichtbar.")
+            }
+        }
+        .alert("Anmeldung nötig", isPresented: $needsSignIn) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text("Zum Veröffentlichen melde Dich in den Einstellungen unter „Konto“ mit Apple an. So gehört das Rezept Dir auf allen Geräten.")
+        }
+        .alert("Bild erforderlich", isPresented: $needsImage) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text("Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu.")
         }
         .recipeFileExporter(model: model, recipeIDs: $recipeToExport, fileName: recipe?.content.name ?? "Rezept",
                             includesBakeHistory: false)
@@ -153,6 +224,20 @@ struct RecipeDetailView: View {
             VStack(alignment: .leading, spacing: 16) {
                 RecipePicture(data: recipe.content.image)
 
+                if isPublishing {
+                    HStack(spacing: 12) {
+                        ProgressView()
+                        Text("Rezept wird hochgeladen …")
+                    }
+                    .font(.subheadline)
+                } else if !model.canPublish(recipe) {
+                    // Public already: the word stands where the public
+                    // recipe's view says "Öffentlich".
+                    Text("Veröffentlicht")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
                 HStack(spacing: 16) {
                     Button(recipe.content.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
                         picksImage = true
@@ -226,6 +311,32 @@ struct RecipeDetailView: View {
             }
             .padding()
         }
+    }
+
+    /// Publishing starts with its conditions — signed in, a picture — then
+    /// the terms once, then the question.
+    private func beginPublishing(_ recipe: StoredRecipe) {
+        guard model.account.isSignedInWithApple else {
+            needsSignIn = true
+            return
+        }
+        guard recipe.content.image != nil else {
+            needsImage = true
+            return
+        }
+        if model.hasAcceptedTerms {
+            confirmsPublishing = true
+        } else {
+            showsTerms = true
+        }
+    }
+
+    private func publish() async {
+        isPublishing = true
+        publishFailure = await model.publish(recipeID: recipeID)
+        isPublishing = false
+        recipe = model.recipe(id: recipeID)
+        showsPublishOutcome = true
     }
 
     private func changeImage(to data: Data?) {

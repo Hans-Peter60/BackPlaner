@@ -87,6 +87,23 @@
         }
       }
     },
+    "Ablehnen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refuser"
+          }
+        }
+      }
+    },
     "Abmelden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -134,6 +151,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Administrateur"
+          }
+        }
+      }
+    },
+    "Aktion fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Action failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de l’action"
+          }
+        }
+      }
+    },
+    "Akzeptieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter"
           }
         }
       }
@@ -435,6 +486,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de la connexion"
+          }
+        }
+      }
+    },
+    "Anmeldung nötig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in required"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion requise"
           }
         }
       }
@@ -1184,6 +1252,23 @@
         }
       }
     },
+    "Bevor Du teilst" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before you share"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant de partager"
+          }
+        }
+      }
+    },
     "Bewertung" : {
       "comment" : "A label for the recipe'",
       "extractionState" : "manual",
@@ -1234,6 +1319,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer l’image"
+          }
+        }
+      }
+    },
+    "Bild erforderlich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image required"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image requise"
           }
         }
       }
@@ -1546,6 +1648,40 @@
         }
       }
     },
+    "Das Rezept ist jetzt für alle Nutzer in der Rezept-Datenbank sichtbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe is now visible to every user in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette est maintenant visible par tous les utilisateurs dans la base de recettes."
+          }
+        }
+      }
+    },
+    "Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe can’t be saved. Add a recipe image first."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette ne peut pas être enregistrée. Ajoutez d’abord une image de recette."
+          }
+        }
+      }
+    },
     "Das Rezept konnte nicht geladen werden." : {
       "comment" : "Public recipe: its components and steps could not be read.",
       "extractionState" : "manual",
@@ -1595,6 +1731,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette figure maintenant parmi vos recettes sur cet appareil. Vous pouvez la modifier sans changer la recette publique."
+          }
+        }
+      }
+    },
+    "Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe will be permanently removed from the public database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette sera supprimée définitivement de la base de données publique."
+          }
+        }
+      }
+    },
+    "Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe becomes visible to all users. As its author you can edit or delete it later in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette devient visible par tous les utilisateurs. En tant qu’auteur, vous pourrez ensuite la modifier ou la supprimer dans la base de recettes."
           }
         }
       }
@@ -2285,6 +2455,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette recette est déjà une copie ajustée. La modification lui est appliquée directement ; aucune autre copie n’est créée."
+          }
+        }
+      }
+    },
+    "Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This recipe has been reported and is hidden from all other users."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette recette a été signalée et est masquée pour tous les autres utilisateurs."
           }
         }
       }
@@ -4424,6 +4611,40 @@
         }
       }
     },
+    "Mein Rezept endgültig löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my recipe for good?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer définitivement ma recette ?"
+          }
+        }
+      }
+    },
+    "Mein Rezept löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer ma recette"
+          }
+        }
+      }
+    },
     "Meine Anstellgut-TAs" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5154,6 +5375,23 @@
         }
       }
     },
+    "Nutzungsbedingungen für öffentliche Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of use for public recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conditions d'utilisation des recettes publiques"
+          }
+        }
+      }
+    },
     "Obst & Gemüse" : {
       "comment" : "The heading above the group.",
       "extractionState" : "manual",
@@ -5220,6 +5458,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Public"
+          }
+        }
+      }
+    },
+    "Öffentlich speichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save publicly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer publiquement"
+          }
+        }
+      }
+    },
+    "Öffentliches Rezept löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete public recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette publique ?"
           }
         }
       }
@@ -5505,6 +5777,40 @@
         }
       }
     },
+    "Rezept bearbeiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier la recette"
+          }
+        }
+      }
+    },
+    "Rezept löschen (Admin)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete recipe (admin)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette (admin)"
+          }
+        }
+      }
+    },
     "Rezept löschen?" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -5575,6 +5881,23 @@
         }
       }
     },
+    "Rezept veröffentlichen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publish recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publier la recette ?"
+          }
+        }
+      }
+    },
     "Rezept von einer Internetseite importieren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5588,6 +5911,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer une recette depuis une page web"
+          }
+        }
+      }
+    },
+    "Rezept wieder freigeben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unhide recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réafficher la recette"
+          }
+        }
+      }
+    },
+    "Rezept wird hochgeladen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe is uploading ..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette est en cours de téléversement..."
           }
         }
       }
@@ -6846,6 +7203,23 @@
         }
       }
     },
+    "Upload fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec du téléversement"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -6860,6 +7234,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
+          }
+        }
+      }
+    },
+    "Veröffentlichen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publier"
+          }
+        }
+      }
+    },
+    "Veröffentlicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publié"
           }
         }
       }
@@ -6964,6 +7372,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À la main"
+          }
+        }
+      }
+    },
+    "Von mir veröffentlicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published by me"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publiées par moi"
           }
         }
       }
@@ -7206,6 +7631,23 @@
         }
       }
     },
+    "Wenn Du ein Rezept öffentlich teilst, wird es für alle Nutzer der Rezept-Datenbank sichtbar.\n\nEs gilt eine Null-Toleranz-Politik gegenüber anstößigen, beleidigenden, rechtswidrigen oder urheberrechtsverletzenden Inhalten. Du bist allein verantwortlich für die von Dir geteilten Inhalte.\n\nGemeldete Inhalte werden geprüft und innerhalb von 24 Stunden entfernt. Autoren, die wiederholt gegen diese Regeln verstoßen, können ausgeschlossen werden.\n\nMit „Akzeptieren“ bestätigst Du, dass Du diese Bedingungen einhältst." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you share a recipe publicly, it becomes visible to all users of the recipe database.\n\nThere is a zero-tolerance policy for offensive, abusive, illegal, or copyright-infringing content. You are solely responsible for the content you share.\n\nReported content will be reviewed and removed within 24 hours. Authors who repeatedly violate these rules may be excluded.\n\nBy tapping \"Accept\", you confirm that you will comply with these terms."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous partagez une recette publiquement, elle devient visible par tous les utilisateurs de la base de données de recettes.\n\nUne politique de tolérance zéro s'applique aux contenus offensants, insultants, illégaux ou portant atteinte aux droits d'auteur. Vous êtes seul responsable des contenus que vous partagez.\n\nLes contenus signalés seront examinés et supprimés dans un délai de 24 heures. Les auteurs qui enfreignent ces règles de manière répétée peuvent être exclus.\n\nEn touchant « Accepter », vous confirmez que vous respecterez ces conditions."
+          }
+        }
+      }
+    },
     "Wie viel Gramm eine Einheit wiegt. Ein Pfund wären 500." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7392,6 +7834,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autorisée"
+          }
+        }
+      }
+    },
+    "Zum Veröffentlichen melde Dich in den Einstellungen unter „Konto“ mit Apple an. So gehört das Rezept Dir auf allen Geräten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To publish, sign in with Apple in Settings under “Account”. The recipe then belongs to you on all your devices."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour publier, connecte-toi avec Apple dans les réglages, sous « Compte ». La recette t’appartiendra ainsi sur tous tes appareils."
           }
         }
       }

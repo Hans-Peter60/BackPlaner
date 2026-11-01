@@ -13,6 +13,34 @@ import Testing
 @Suite("Public recipes in Firestore")
 struct RecipeFirestoreMappingTests {
 
+    @Test("An own recipe becomes the cloud recipe it is published as, and reads back the same")
+    func exportToCloudAndBack() {
+        let own = RecipeExportData(
+            name: "Brot", summary: "Knusprig", urlLink: "https://example.org", prepTime: 90, totalWeight: 850,
+            tags: ["Weizen"], rating: 4, recurrenceIntervalDays: 0, image: nil,
+            components: [
+                RecipeExportComponent(name: "Teig", number: 1, ingredients: [
+                    RecipeExportIngredient(name: "Mehl", number: 1, unit: "g", weight: 500, normWeight: 500, num: 0, denom: 0),
+                    RecipeExportIngredient(name: "Wasser", number: 2, unit: "ml", weight: 350, normWeight: 350, num: 0, denom: 0),
+                ]),
+            ],
+            instructions: [
+                RecipeExportInstruction(instruction: "Kneten", step: 1, duration: 10, startTime: 0, bakeFlag: false, componentName: "Teig"),
+                RecipeExportInstruction(instruction: "Backen", step: 2, duration: 40, startTime: 10, bakeFlag: true),
+            ])
+        let cloud = RecipeFirestoreMapping.recipeFB(from: own)
+        #expect(cloud.name == "Brot")
+        #expect(cloud.urlLink == "https://example.org")
+        #expect(cloud.components.count == 1)
+        #expect(cloud.components[0].ingredients.map(\.unit) == ["g", "ml"])
+        #expect(cloud.instructions.map(\.bakeFlag) == [false, true])
+        #expect(cloud.instructions[0].componentName == "Teig")
+        // The round trip through the cloud recipe keeps the content.
+        var back = RecipeExportData(recipeFB: cloud, imageData: nil)
+        back.recurrenceIntervalDays = own.recurrenceIntervalDays
+        #expect(back == own)
+    }
+
     @Test("A recipe document is read with its translations")
     func readsRecipe() {
         let recipe = RecipeFirestoreMapping.recipe(id: "r1", data: [
