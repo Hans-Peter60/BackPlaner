@@ -76,7 +76,7 @@ struct StarterFeedingSection: View {
         .task {
             feedings = model.feedings(ofRecipe: recipeID)
         }
-        .sheet(isPresented: $addsFeeding) {
+        .appSheet(isPresented: $addsFeeding) {
             NavigationStack {
                 StarterFeedingEditor(original: nil) { date, facts in
                     if model.addFeeding(toRecipe: recipeID, date: date, facts: facts) {
@@ -85,7 +85,7 @@ struct StarterFeedingSection: View {
                 }
             }
         }
-        .sheet(isPresented: $entersResult) {
+        .appSheet(isPresented: $entersResult) {
             if let feeding = feedingForResult {
                 NavigationStack {
                     StarterFeedingEditor(original: feeding) { _, facts in

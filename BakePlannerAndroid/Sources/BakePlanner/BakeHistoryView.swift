@@ -73,7 +73,7 @@ struct BakeHistoryView: View {
             }
         }
         .navigationTitle("Backhistorie")
-        .sheet(isPresented: $editsEntry) {
+        .appSheet(isPresented: $editsEntry) {
             if let entry = editedEntry {
                 NavigationStack {
                     BakeEntryEditor(model: model, recipeID: entry.recipeID, original: entry)
@@ -187,12 +187,12 @@ struct RecipeBakeHistorySection: View {
                 }
             }
         }
-        .sheet(isPresented: $addsEntry) {
+        .appSheet(isPresented: $addsEntry) {
             NavigationStack {
                 BakeEntryEditor(model: model, recipeID: recipeID, original: nil)
             }
         }
-        .sheet(isPresented: $editsEntry) {
+        .appSheet(isPresented: $editsEntry) {
             if let entry = editedEntry {
                 NavigationStack {
                     BakeEntryEditor(model: model, recipeID: recipeID, original: entry)

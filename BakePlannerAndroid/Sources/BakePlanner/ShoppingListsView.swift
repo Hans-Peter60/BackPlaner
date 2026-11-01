@@ -113,7 +113,7 @@ struct ShoppingListDetailView: View {
             }
         }
         .navigationTitle("Einkaufsliste vom \(titleDate)")
-        .sheet(isPresented: $editsItem) {
+        .appSheet(isPresented: $editsItem) {
             if let item = editedItem {
                 NavigationStack {
                     ShoppingListItemEditor(item: item,

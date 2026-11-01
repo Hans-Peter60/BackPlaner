@@ -75,7 +75,7 @@ struct PublicRecipeDetailView: View {
         } message: {
             Text("Warum meldest Du dieses Rezept? Es wird sofort für alle Nutzer ausgeblendet und anschließend geprüft.")
         }
-        .sheet(isPresented: $plans) {
+        .appSheet(isPresented: $plans) {
             if let planRecipe {
                 NavigationStack {
                     PlanView(model: model, recipe: planRecipe, scale: scale, takeOver: {
@@ -84,7 +84,7 @@ struct PublicRecipeDetailView: View {
                 }
             }
         }
-        .sheet(isPresented: $addsToShoppingList) {
+        .appSheet(isPresented: $addsToShoppingList) {
             if let content {
                 NavigationStack {
                     AddToShoppingListView(model: model, source: .shared(content), scale: scale)

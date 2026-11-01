@@ -123,7 +123,7 @@ struct PlanTimelineView: View {
                 .disabled(plans.isEmpty)
             }
         }
-        .sheet(isPresented: $showsBakeMode) {
+        .appSheet(isPresented: $showsBakeMode) {
             NavigationStack {
                 BakeModeView(model: model, planKey: bakeModePlanKey)
             }
@@ -131,7 +131,7 @@ struct PlanTimelineView: View {
         .task {
             model.loadScheduledSteps()
         }
-        .sheet(isPresented: $shiftsStep) {
+        .appSheet(isPresented: $shiftsStep) {
             if let step = stepToShift {
                 NavigationStack {
                     StepShiftSheet(step: step) { minutes, includeFollowing in

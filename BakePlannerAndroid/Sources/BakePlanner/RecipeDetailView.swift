@@ -56,7 +56,7 @@ struct RecipeDetailView: View {
         }
         .recipeFileExporter(model: model, recipeIDs: $recipeToExport, fileName: recipe?.content.name ?? "Rezept",
                             includesBakeHistory: false)
-        .sheet(isPresented: $isEditing) {
+        .appSheet(isPresented: $isEditing) {
             if let recipe {
                 NavigationStack {
                     RecipeEditor(original: recipe) { _, content in
@@ -69,14 +69,14 @@ struct RecipeDetailView: View {
                 }
             }
         }
-        .sheet(isPresented: $plans) {
+        .appSheet(isPresented: $plans) {
             if let recipe {
                 NavigationStack {
                     PlanView(model: model, recipe: recipe, scale: scale)
                 }
             }
         }
-        .sheet(isPresented: $addsToShoppingList) {
+        .appSheet(isPresented: $addsToShoppingList) {
             NavigationStack {
                 AddToShoppingListView(model: model, source: .own(recipeID), scale: scale)
             }

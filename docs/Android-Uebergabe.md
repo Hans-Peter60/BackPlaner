@@ -81,6 +81,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
   - Planung mit Erinnerungen braucht auf Android also eigenen Code.
 - **Listen mit verschiedenen Einträgen (11c-1):** Ein `NavigationLink` muss direkt im `ForEach` stehen, und sein Ziel muss eine einzige eigene Ansicht sein. Schaltet das Ziel im Link selbst um (`switch` im Ziel-Block), öffnete Skip ein eigenes Rezept als leere Seite. Schaltet der Eintrag zwischen zwei Links um, fehlte der Zurück-Knopf. Lösung: eine eigene Ansicht für Ziel und Zeile, die innen umschaltet (`RecipeListDestination`, `RecipeListLabel`).
 - **UserDefaults auf Android:** `stringArray(forKey:)` gibt es dort nicht (Build-Fehler „unavailable“). Listen als Text mit einer Zeile je Eintrag speichern.
+- **Sprache in Blättern (Schritt 14):** Ein `.environment(\.locale, …)` an der Wurzel erreicht die Inhalte von `.sheet` nicht; sie erschienen in der Gerätesprache. Blätter deshalb mit `.appSheet(isPresented:)` (`AppLocaleSheet.swift`) öffnen, das die App-Sprache neu setzt.
 - **SF-Symbole:** Skip übersetzt nur bekannte Namen (Liste in skip-ui `Image.swift`); „globe“, „flame“, „oven“ fehlen. Bei unbekannten Namen erscheint ein Warndreieck.
 - **Testdateien auf den Emulator:** per Drag & Drop ins Emulator-Fenster oder `adb push … /sdcard/Download/`. In der Dateiauswahl über ☰ → Downloads.
 
