@@ -49,6 +49,8 @@ struct ContentView: View {
         }
         .onChange(of: locale) { _, newLocale in
             AppSettings.systemLocale = { newLocale }
+            // Public recipes show the translation of the app's language.
+            Task { await model.loadPublicRecipes() }
         }
         .task {
             let current = locale
@@ -58,6 +60,7 @@ struct ContentView: View {
             model.loadBakeHistory()
             model.loadScheduledSteps()
             await model.scheduleDueOccurrences()
+            await model.loadPublicRecipes()
         }
     }
 }
@@ -93,7 +96,7 @@ struct RecipeListView: View {
                         .font(.caption)
                 }
                 .padding()
-            } else if model.recipes.isEmpty {
+            } else if model.recipes.isEmpty && model.publicRecipes.isEmpty {
                 VStack(spacing: 12) {
                     Text("Noch keine Rezepte")
                         .font(.title2)
@@ -109,20 +112,46 @@ struct RecipeListView: View {
                 .padding()
             } else {
                 List {
-                    ForEach(filteredRecipes, id: \.id) { recipe in
+                    if model.showsPublicRecipes, model.publicRecipesError != nil {
+                        Text("Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen.")
+                            .font(.caption)
+                            .foregroundStyle(Color.red)
+                    }
+                    let rows = filteredRows
+                    ForEach(rows) { row in
                         NavigationLink {
-                            RecipeDetailView(model: model, recipeID: recipe.id)
+                            switch row {
+                            case .local(let recipe):
+                                RecipeDetailView(model: model, recipeID: recipe.id)
+                            case .shared(let recipe):
+                                PublicRecipeDetailView(model: model, recipe: recipe)
+                            }
                         } label: {
-                            RecipeRow(recipe: recipe)
+                            switch row {
+                            case .local(let recipe):
+                                RecipeRow(recipe: recipe)
+                            case .shared(let recipe):
+                                PublicRecipeRow(recipe: recipe)
+                            }
                         }
+                        // Only the own recipes can be deleted here.
+                        .deleteDisabled(!row.isLocal)
                     }
                     .onDelete { offsets in
-                        recipeToDelete = offsets.first.map { filteredRecipes[$0] }
+                        if let index = offsets.first, case .local(let recipe) = rows[index] {
+                            recipeToDelete = recipe
+                        } else {
+                            recipeToDelete = nil
+                        }
                         confirmsDeletion = recipeToDelete != nil
                     }
                 }
                 .scrollContentBackground(.hidden)
                 .searchable(text: $searchText)
+                .refreshable {
+                    model.load()
+                    await model.loadPublicRecipes()
+                }
             }
         }
         .navigationTitle("Rezepte")
@@ -157,7 +186,7 @@ struct RecipeListView: View {
                             includesBakeHistory: true)
         .sheet(isPresented: $showsSettings) {
             NavigationStack {
-                SettingsView()
+                SettingsView(model: model)
             }
         }
         .sheet(isPresented: $createsRecipe) {
@@ -203,10 +232,46 @@ struct RecipeListView: View {
         }
     }
 
-    private var filteredRecipes: [StoredRecipe] {
+    /// One line of the list: an own recipe or a public one.
+    enum Row: Identifiable {
+        case local(StoredRecipe)
+        case shared(RecipeFB)
+
+        var id: String {
+            switch self {
+            case .local(let recipe): return "local:" + recipe.id
+            case .shared(let recipe): return "public:" + (recipe.id ?? "")
+            }
+        }
+
+        var name: String {
+            switch self {
+            case .local(let recipe): return recipe.content.name
+            case .shared(let recipe): return recipe.name
+            }
+        }
+
+        var isLocal: Bool {
+            if case .local = self { return true }
+            return false
+        }
+    }
+
+    /// Own and public recipes together, as the settings choose, by name —
+    /// as on the iPhone.
+    private var filteredRows: [Row] {
+        var rows: [Row] = []
+        if model.showsLocalRecipes {
+            rows += model.recipes.map { Row.local($0) }
+        }
+        if model.showsPublicRecipes {
+            rows += model.publicRecipes.map { Row.shared($0) }
+        }
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return model.recipes }
-        return model.recipes.filter { $0.content.name.localizedCaseInsensitiveContains(query) }
+        if !query.isEmpty {
+            rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
+        }
+        return rows.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
     private var showsImportOutcome: Binding<Bool> {
@@ -237,6 +302,28 @@ struct RecipeRow: View {
                 }
                 if !recipe.content.tags.isEmpty {
                     Text(verbatim: recipe.content.tags.joined(separator: ", "))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+}
+
+/// One public recipe in the list: name, tags, and that it is public.
+struct PublicRecipeRow: View {
+    let recipe: RecipeFB
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(verbatim: recipe.name)
+                .font(.headline)
+            HStack(spacing: 8) {
+                Text("Öffentlich")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if !recipe.tags.isEmpty {
+                    Text(verbatim: recipe.tags.joined(separator: ", "))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

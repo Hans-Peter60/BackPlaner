@@ -102,7 +102,7 @@ struct RecipeDetailView: View {
         let page = RecipePrintData(data: recipe.content, scale: scale)
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                picture(of: recipe)
+                RecipePicture(data: recipe.content.image)
 
                 HStack(spacing: 16) {
                     Button(recipe.content.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
@@ -160,38 +160,7 @@ struct RecipeDetailView: View {
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))
 
-                section("Komponenten") {
-                    ForEach(Array(page.components.enumerated()), id: \.offset) { _, component in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(verbatim: component.name)
-                                .font(.headline)
-                            ForEach(Array(component.lines.enumerated()), id: \.offset) { _, line in
-                                Text(verbatim: line)
-                            }
-                        }
-                    }
-                }
-
-                section("Gesamtzutaten:") {
-                    ForEach(Array(page.totalLines.enumerated()), id: \.offset) { _, line in
-                        Text(verbatim: line)
-                    }
-                }
-
-                section("Verarbeitungsschritte") {
-                    ForEach(Array(page.steps.enumerated()), id: \.offset) { _, step in
-                        HStack(alignment: .top, spacing: 8) {
-                            Text(verbatim: step.number)
-                                .bold()
-                                .frame(width: 36, alignment: .leading)
-                            Text(verbatim: step.text)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text(verbatim: step.duration)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
+                RecipeLineSections(page: page)
 
                 // A starter is fed, not baked: it keeps a feeding diary and
                 // no bake history; every other recipe the other way round.
@@ -204,20 +173,6 @@ struct RecipeDetailView: View {
             }
             .padding()
         }
-    }
-
-    @ViewBuilder
-    private func picture(of recipe: StoredRecipe) -> some View {
-        #if canImport(UIKit) || os(Android)
-        if let data = recipe.content.image, let image = UIImage(data: data) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: 220)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
-        #endif
     }
 
     private func changeImage(to data: Data?) {
@@ -238,17 +193,6 @@ struct RecipeDetailView: View {
         guard let data = try? Data(contentsOf: url) else { return nil }
         // JPEG, and no larger than looks sharp on screen (PhotoShrinker).
         return PhotoShrinker.pickedPhoto(data)
-    }
-
-    private func section<Content: View>(_ title: LocalizedStringKey,
-                                        @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.title3)
-                .bold()
-                .foregroundStyle(Palette.accent(colorScheme))
-            content()
-        }
     }
 
     /// "Nächste Fütterung: Mi., 4.11. 08:00", as on the iPhone; before the

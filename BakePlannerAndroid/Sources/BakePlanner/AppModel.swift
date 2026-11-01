@@ -59,6 +59,31 @@ final class AppModel {
     /// Every scheduled step of every plan, by date.
     var scheduledSteps: [StoredScheduledStep] = []
 
+    /// The visible public recipes, without components and steps until one
+    /// is opened (PublicRecipeService).
+    var publicRecipes: [RecipeFB] = []
+    /// Why the public recipes could not be read, if they could not.
+    var publicRecipesError: String?
+    var isLoadingPublicRecipes = false
+    /// The pictures of the public recipes opened so far, by recipe id.
+    var publicRecipeImages: [String: Data] = [:]
+
+    /// Which recipes the list shows — the iPhone's settings keys. "Von mir
+    /// veröffentlicht" counts as public here: Android has its own anonymous
+    /// account, so none of the public recipes is its own yet.
+    var showsLocalRecipes = AppModel.storedBool(AppSettingsKeys.showLocalRecipes,
+                                                default: AppSettings.defaultShowLocalRecipes) {
+        didSet { UserDefaults.standard.set(showsLocalRecipes, forKey: AppSettingsKeys.showLocalRecipes) }
+    }
+    var showsPublicRecipes = AppModel.storedBool(AppSettingsKeys.showPublicCloudRecipes,
+                                                 default: AppSettings.defaultShowPublicCloudRecipes) {
+        didSet { UserDefaults.standard.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
+    }
+
+    private static func storedBool(_ key: String, default defaultValue: Bool) -> Bool {
+        UserDefaults.standard.object(forKey: key) as? Bool ?? defaultValue
+    }
+
     func load() {
         do {
             recipes = try openedStore().recipes(includingImages: false)
@@ -545,6 +570,36 @@ final class AppModel {
         }
         load()
         loadBakeHistory()
+    }
+
+    // MARK: Public recipes
+
+    /// Reads the public recipes afresh, in the app's language.
+    func loadPublicRecipes() async {
+        guard !isLoadingPublicRecipes else { return }
+        isLoadingPublicRecipes = true
+        defer { isLoadingPublicRecipes = false }
+        do {
+            publicRecipes = try await PublicRecipeService.recipes()
+            publicRecipesError = nil
+        } catch PublicRecipeService.ServiceError.unavailable {
+            publicRecipes = []
+            publicRecipesError = nil
+        } catch {
+            logger.error("could not read the public recipes: \(error)")
+            publicRecipesError = error.localizedDescription
+        }
+    }
+
+    /// A public recipe as the recipe page shows it: components, steps and
+    /// picture read on first opening, then kept.
+    func publicRecipeContent(_ recipe: RecipeFB) async throws -> RecipeExportData {
+        try await PublicRecipeService.loadDetails(of: recipe)
+        let id = recipe.id ?? ""
+        if publicRecipeImages[id] == nil, let data = await PublicRecipeService.imageData(of: recipe) {
+            publicRecipeImages[id] = data
+        }
+        return RecipeExportData(recipeFB: recipe, imageData: publicRecipeImages[id])
     }
 
     private func openedStore() throws -> SQLiteRecipeStore {

@@ -220,24 +220,6 @@
         }
       }
     },
-    "Anzahl" : {
-      "comment" : "Settings: how many public recipes can be read.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Count"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nombre"
-          }
-        }
-      }
-    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -763,6 +745,24 @@
         }
       }
     },
+    "Das Rezept konnte nicht geladen werden." : {
+      "comment" : "Public recipe: its components and steps could not be read.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe could not be loaded."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette n’a pas pu être chargée."
+          }
+        }
+      }
+    },
     "Datum" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -884,6 +884,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Les quantités correspondent au facteur %@."
+          }
+        }
+      }
+    },
+    "Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen." : {
+      "comment" : "Recipe list: reading the public recipes failed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The public recipes could not be loaded. Pull the list down to try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les recettes publiques n’ont pas pu être chargées. Tirez la liste vers le bas pour réessayer."
           }
         }
       }
@@ -1728,6 +1746,23 @@
         }
       }
     },
+    "Lokal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local"
+          }
+        }
+      }
+    },
     "Löschen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -2243,20 +2278,19 @@
         }
       }
     },
-    "Öffentliche Rezepte" : {
-      "comment" : "Settings: section about the public recipes.",
+    "Öffentlich" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Public recipes"
+            "value" : "Public"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recettes publiques"
+            "value" : "Public"
           }
         }
       }
@@ -2524,6 +2558,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes importées : %lld"
+          }
+        }
+      }
+    },
+    "Rezeptliste" : {
+      "comment" : "Settings: which recipes the recipe list shows.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste des recettes"
           }
         }
       }
@@ -3077,24 +3129,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
-          }
-        }
-      }
-    },
-    "Verbindung wird geprüft …" : {
-      "comment" : "Settings: while asking the public recipe database.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Checking the connection …"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérification de la connexion …"
           }
         }
       }

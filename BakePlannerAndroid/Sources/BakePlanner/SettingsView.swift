@@ -11,6 +11,7 @@ import SwiftUI
 /// @AppStorage: on Android it keeps its values on the Kotlin side, which the
 /// package's Foundation may not see.
 struct SettingsView: View {
+    let model: AppModel
     @State var servingSize = AppSettings.storedServingSize
     @State var starterDoughYield = AppSettings.storedStarterDoughYield
     @State var lievitoMadreDoughYield = AppSettings.storedLievitoMadreDoughYield
@@ -19,8 +20,6 @@ struct SettingsView: View {
     @State var ovenCount = AppSettings.storedOvenCount
     @State var dayStart = AppSettings.storedDayStart
     @State var dayEnd = AppSettings.storedDayEnd
-    /// Whether Firebase answers (step 11b), nil while it is being asked.
-    @State var connection: PublicRecipeService.ConnectionCheck?
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -77,26 +76,15 @@ struct SettingsView: View {
                 Text("Backplanung")
             }
 
-            // For now only shows whether the public recipes can be reached.
+            // Which recipes the list shows, as the iPhone's filter chips.
             Section {
-                switch connection {
-                case nil:
-                    Text("Verbindung wird geprüft …")
-                case .recipes(let count):
-                    valueRow("Anzahl", value: String(count))
-                case .failed(let message):
-                    Text(verbatim: message)
-                        .font(.caption)
-                        .foregroundStyle(Color.red)
-                case .unavailable:
-                    Text(verbatim: "–")
-                }
+                Toggle("Lokal", isOn: Binding(get: { model.showsLocalRecipes },
+                                              set: { model.showsLocalRecipes = $0 }))
+                Toggle("Öffentlich", isOn: Binding(get: { model.showsPublicRecipes },
+                                                   set: { model.showsPublicRecipes = $0 }))
             } header: {
-                Text("Öffentliche Rezepte")
+                Text("Rezeptliste")
             }
-        }
-        .task {
-            connection = await PublicRecipeService.checkConnection()
         }
         .navigationTitle("Einstellungen")
         .toolbar {
