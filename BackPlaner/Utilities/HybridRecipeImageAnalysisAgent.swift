@@ -422,32 +422,7 @@ enum RecipeImportPlan {
     }
 }
 
-/// Step texts and durations as the import stores them.
-enum RecipeImportStepText {
-    /// Minutes a step gets when its source states no duration. One minute
-    /// keeps the step visible in the plan without shifting anything.
-    static let defaultDurationMinutes = 1
-
-    static func applyDefaultDuration(to instructions: [InstructionFB]) {
-        for instruction in instructions where instruction.duration <= 0 {
-            instruction.duration = defaultDurationMinutes
-        }
-    }
-
-    /// "12 Stunden reifen lassen" is the same sentence for every pre-dough,
-    /// and the app shows each step on its own as a reminder. So once a recipe
-    /// has more than one component, a step names its component up front
-    /// unless the text already mentions it.
-    static func text(_ text: String, naming componentName: String?, inMultiComponentRecipe: Bool) -> String {
-        guard inMultiComponentRecipe,
-              let componentName = componentName?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !componentName.isEmpty else { return text }
-        if text.range(of: componentName, options: [.caseInsensitive, .diacriticInsensitive]) != nil {
-            return text
-        }
-        return "\(componentName): \(text)"
-    }
-}
+// RecipeImportStepText lives in BakePlannerCore (RecipeWebPage.swift).
 
 private extension String {
     var describesOvenPreheating: Bool {

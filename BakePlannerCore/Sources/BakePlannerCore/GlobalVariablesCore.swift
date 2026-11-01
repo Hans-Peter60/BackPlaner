@@ -43,6 +43,7 @@ public struct CoreLogger {
     public func debug(_ message: String) {}
     public func info(_ message: String) { write("info", message) }
     public func notice(_ message: String) { write("notice", message) }
+    public func warning(_ message: String) { write("warning", message) }
     public func error(_ message: String) { write("error", message) }
     public func fault(_ message: String) { write("fault", message) }
 
