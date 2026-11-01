@@ -1038,6 +1038,23 @@
         }
       }
     },
+    "Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe was taken from the page’s structured data without AI. Please check the components and durations with particular care."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette a été reprise sans IA à partir des données structurées de la page. Vérifiez tout particulièrement les composants et les durées."
+          }
+        }
+      }
+    },
     "Datum" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1212,6 +1229,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les recettes n’ont pas pu être chargées."
+          }
+        }
+      }
+    },
+    "Die Seite wird auf diesem Gerät geladen. Übernommen werden die Rezeptdaten, die die Seite selbst angibt; anschließend lässt sich alles bearbeiten." : {
+      "comment" : "Web import: how the page is read.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page is loaded on this device. The recipe data the page itself provides is taken over; you can edit everything afterwards."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page est chargée sur cet appareil. Les données de recette fournies par la page sont reprises ; tout reste modifiable ensuite."
           }
         }
       }
@@ -1755,6 +1790,23 @@
         }
       }
     },
+    "https://…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://…"
+          }
+        }
+      }
+    },
     "Import fehlgeschlagen" : {
       "comment" : "Alert title when a backup file could not be imported.",
       "extractionState" : "manual",
@@ -1823,6 +1875,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "dans %@"
+          }
+        }
+      }
+    },
+    "Internetadresse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web address"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse web"
           }
         }
       }
@@ -3006,6 +3075,23 @@
         }
       }
     },
+    "Rezept von einer Internetseite importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe from a web page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer une recette depuis une page web"
+          }
+        }
+      }
+    },
     "Rezept wurde gespeichert" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3747,6 +3833,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes que vous avez signalées"
+          }
+        }
+      }
+    },
+    "Von einer Internetseite" : {
+      "comment" : "New recipe menu: import a recipe from a web page.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From a web page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis une page web"
+          }
+        }
+      }
+    },
+    "Von Hand" : {
+      "comment" : "New recipe menu: enter a recipe yourself.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By hand"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À la main"
           }
         }
       }

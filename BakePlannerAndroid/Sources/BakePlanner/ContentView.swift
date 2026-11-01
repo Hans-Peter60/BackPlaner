@@ -84,6 +84,11 @@ struct RecipeListView: View {
     @State var recipeToDelete: StoredRecipe?
     @State var confirmsDeletion = false
     @State var createsRecipe = false
+    @State var importsFromWeb = false
+    /// A recipe read from a web page, waiting for the editor. Kept apart
+    /// from the editor's visibility, as the dialogs' data is.
+    @State var importedRecipe: RecipeExportData?
+    @State var editsImportedRecipe = false
     @State var recipesToExport: [String]?
     @State var showsSettings = false
     @Environment(\.colorScheme) var colorScheme
@@ -170,8 +175,13 @@ struct RecipeListView: View {
                 }
             }
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    createsRecipe = true
+                Menu {
+                    Button("Von Hand") {
+                        createsRecipe = true
+                    }
+                    Button("Von einer Internetseite") {
+                        importsFromWeb = true
+                    }
                 } label: {
                     Label("Neues Rezept", systemImage: "plus")
                 }
@@ -182,6 +192,28 @@ struct RecipeListView: View {
         .appSheet(isPresented: $showsSettings) {
             NavigationStack {
                 SettingsView(model: model)
+            }
+        }
+        .appSheet(isPresented: $importsFromWeb) {
+            NavigationStack {
+                WebRecipeImportView { content in
+                    importedRecipe = content
+                    // The editor opens once this sheet has gone.
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))
+                        editsImportedRecipe = true
+                    }
+                }
+            }
+        }
+        .appSheet(isPresented: $editsImportedRecipe) {
+            if let importedRecipe {
+                NavigationStack {
+                    RecipeEditor(original: nil, template: importedRecipe,
+                                 notice: "Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen.") { _, content in
+                        model.add(content)
+                    }
+                }
             }
         }
         .appSheet(isPresented: $createsRecipe) {

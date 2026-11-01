@@ -8,18 +8,33 @@ import SwiftUI
 struct RecipeEditor: View {
     /// The recipe as it was, or nil for a new one.
     let original: StoredRecipe?
+    /// A new recipe's content to start from — an imported one — with what
+    /// the editor does not show (picture, link) kept on saving.
+    let template: RecipeExportData?
+    /// Shown above the form: what the import says about its result.
+    let notice: LocalizedStringKey?
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
     @Environment(\.dismiss) var dismiss
 
-    init(original: StoredRecipe?, onSave: @escaping (StoredRecipe?, RecipeExportData) -> Void) {
+    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: LocalizedStringKey? = nil,
+         onSave: @escaping (StoredRecipe?, RecipeExportData) -> Void) {
         self.original = original
+        self.template = original == nil ? template : nil
+        self.notice = notice
         self.onSave = onSave
-        _draft = State(initialValue: RecipeDraft(original?.content))
+        _draft = State(initialValue: RecipeDraft(original?.content ?? template))
     }
 
     var body: some View {
         Form {
+            if let notice {
+                Section {
+                    Text(notice)
+                        .font(.caption)
+                }
+            }
+
             Section {
                 TextField("Rezeptname", text: $draft.name)
             } header: {
@@ -117,7 +132,7 @@ struct RecipeEditor: View {
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Speichern") {
-                    onSave(original, draft.content(keeping: original?.content))
+                    onSave(original, draft.content(keeping: original?.content ?? template))
                     dismiss()
                 }
                 .disabled(!draft.canSave)
