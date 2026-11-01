@@ -1549,6 +1549,40 @@
         }
       }
     },
+    "Dauer ändern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change durations"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les durées"
+          }
+        }
+      }
+    },
+    "Dauer übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply duration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer la durée"
+          }
+        }
+      }
+    },
     "Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird." : {
       "extractionState" : "manual",
       "localizations" : {

@@ -339,11 +339,10 @@ struct StepDraft: Identifiable {
 
     var isValid: Bool { duration != nil }
 
+    /// Minutes, or hours and minutes as a baker writes them ("1:30",
+    /// "1,5 h"), as on the iPhone (DurationInput).
     private var duration: Int? {
-        let trimmed = minutes.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return 0 }
-        guard let value = Int(trimmed), value >= 0 else { return nil }
-        return value
+        DurationInput.minutes(from: minutes)
     }
 
     var instruction: RecipeExportInstruction {

@@ -26,10 +26,48 @@ struct PlanView: View {
     @State var additionalOverlap = ""
     @State var showsAdditionalOverlap = false
     @State var outcome: AppModel.PlanOutcome = .saved
+    /// The recipe as planned, with the durations changed here; an own
+    /// recipe keeps them, as on the iPhone.
+    @State var workingRecipe: StoredRecipe
+    /// "Dauer ändern": a field per step, applied with "Dauer übernehmen".
+    @State var editsDurations = false
+    @State var durationTexts: [String] = []
     @Environment(\.dismiss) var dismiss
 
+    init(model: AppModel, recipe: StoredRecipe, scale: Double, takeOver: (() async -> StoredRecipe?)? = nil) {
+        self.model = model
+        self.recipe = recipe
+        self.scale = scale
+        self.takeOver = takeOver
+        _workingRecipe = State(initialValue: recipe)
+        _durationTexts = State(initialValue: recipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) })
+    }
+
     private var plan: BakePlan {
-        AppModel.plan(of: recipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+        AppModel.plan(of: workingRecipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+    }
+
+    /// Every field holds a duration (empty keeps the step's own).
+    private var durationsAreValid: Bool {
+        durationTexts.allSatisfy { DurationInput.minutes(from: $0) != nil }
+    }
+
+    /// Writes the typed durations into the recipe and works the start
+    /// times out again; an own recipe is saved with them, a public one
+    /// keeps them for this plan only — as on the iPhone.
+    private func applyDurations() {
+        var content = workingRecipe.content
+        for (index, text) in durationTexts.enumerated() where index < content.instructions.count {
+            if let minutes = DurationInput.minutes(from: text), minutes > 0 {
+                content.instructions[index].duration = minutes
+            }
+        }
+        workingRecipe.content = content.recalculated()
+        durationTexts = workingRecipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) }
+        if takeOver == nil {
+            _ = model.save(workingRecipe)
+        }
+        editsDurations = false
     }
 
     var body: some View {
@@ -73,12 +111,36 @@ struct PlanView: View {
             }
 
             Section {
-                ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
-                    HStack(alignment: .top, spacing: 8) {
-                        Text(verbatim: PlanText.dateTime(plan.date(of: step)))
-                            .font(.caption)
-                            .frame(width: 110, alignment: .leading)
-                        Text(verbatim: step.instruction)
+                Toggle("Dauer ändern", isOn: $editsDurations)
+                if editsDurations {
+                    // The recipe's own steps with a field each; the steps the
+                    // plan adds (oven on, bake end) have no duration to change.
+                    ForEach(Array(workingRecipe.content.instructions.enumerated()), id: \.offset) { index, instruction in
+                        HStack(alignment: .top, spacing: 8) {
+                            Text(verbatim: instruction.instruction)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            TextField("Dauer", text: Binding(
+                                get: { index < durationTexts.count ? durationTexts[index] : "" },
+                                set: { value in
+                                    if index < durationTexts.count { durationTexts[index] = value }
+                                }))
+                                .frame(width: 140)
+                                .foregroundStyle(DurationInput.minutes(from: index < durationTexts.count ? durationTexts[index] : "") == nil
+                                                 ? Color.red : Color.primary)
+                        }
+                    }
+                    Button("Dauer übernehmen") {
+                        applyDurations()
+                    }
+                    .disabled(!durationsAreValid)
+                } else {
+                    ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
+                        HStack(alignment: .top, spacing: 8) {
+                            Text(verbatim: PlanText.dateTime(plan.date(of: step)))
+                                .font(.caption)
+                                .frame(width: 110, alignment: .leading)
+                            Text(verbatim: step.instruction)
+                        }
                     }
                 }
             } header: {

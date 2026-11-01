@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18j. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18k. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -261,8 +261,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Rezeptliste | Bild in der Zeile (die Liste lädt bisher keine Bilder) | klein |
 | Rezeptansicht | Mehl ersetzen und Anstellgut-TA anpassen aus der Zutatenzeile, mit „Kopie anlegen“ / „Änderung übernehmen“ (Logik im Paket, iOS-Views 414 und 459 Zeilen) | groß |
 | | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
-| Planen | „Dauer ändern“ vor dem Planen, bei eigenen Rezepten dauerhaft | mittel |
-| | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
+| Planen | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
 | Geplante Schritte | Schritt-Detailansicht beim Antippen (Antippen öffnet bisher „Verschieben“) | klein |
 | | Grafische Timeline mit Balken, Farben, Nachtband (iOS 943 Zeilen) | groß |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
