@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 11d (ungeprüfte Schreibwege, siehe Bestandsaufnahme). Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18u (11d mit ungeprüften Schreibwegen, siehe Bestandsaufnahme). Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -85,6 +85,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **UserDefaults auf Android (gefunden in Schritt 15b):** Was die App in `UserDefaults.standard` schrieb, las das Paket nicht zurück (Backöfen blieben 1), und nach einem Neustart war alles weg. Die Android-App hält ihre Einstellungen deshalb selbst in `settings.json` neben der Datenbank (`SettingsFile`) und gibt dem Paket beim Start einen Leser dafür (`AppSettings.settingsReader`, in `onInit`). Neue Einstellungen immer über `SettingsFile.set`; das iPhone liest weiter `UserDefaults` (Leser nil).
 - **SF-Symbole:** Skip übersetzt nur bekannte Namen (Liste in skip-ui `Image.swift`); „globe“, „flame“, „oven“ fehlen. Bei unbekannten Namen erscheint ein Warndreieck.
 - **`ForEach` über einen Bereich (gefunden in 18a):** `ForEach(1...5, id: \.self)` liefert in Skip Bereichs-Indizes statt Ganzzahlen; der Cast auf `Int` stürzt ab („Could not cast value of type ClosedRange<Int>.Index“). Ein Array nehmen: `ForEach([1, 2, 3, 4, 5], id: \.self)`.
+- **Übersetzte Module und Kotlin (gefunden in 18u):** Ein Swift-Bezeichner, der in Kotlin ein Schlüsselwort ist (`object`), wird von Skip zu `object_` umbenannt, und die weiteren Verwendungen finden ihn nicht mehr — andere Namen wählen. Braucht das Modul eine Android-Bibliothek (`androidx.core` für den FileProvider), steht sie in seiner `Skip/skip.yml` unter `build.contents` als `implementation(…)`. SkipUIs `ShareLink` teilt nur Text; Dateien teilt `ContentFile.share` aus `BakePlannerMedia` über den FileProvider.
 - **Firestore-Daten aus einem `RecipeFB` (gefunden in 11d):** Ein `[String: Any]`, das aus einem `RecipeFB` gebaut wurde, lässt sich im Swift-6-Modus nicht an eine `async`-Methode von skip-firebase geben („sending value of non-Sendable type“): das Wörterbuch hängt an der Region des nicht-Sendable Objekts. Ausweg: alle Dokumente in einen `WriteBatch` legen (`setData(_:forDocument:)` ist synchron) und nur `commit()` abwarten. Für Wörterbücher aus reinen Strings (`reportData`) ging es direkt.
 - **Schrittnummern sind Gleitkommazahlen (gefunden in 18t):** 4,1 + 0,1 ergibt gespeichert 4,1999999. `Rational.decimalPlace(_:10)` schneidet ab und zeigt dafür „4.1“ — auch auf dem iPhone in der Schritt-Detailansicht; für die Anzeige auf Zehntel runden (`StepDraft.numberText(for:)`). Wer `Rational.decimalPlace` ändert, prüft die Tests zur Rechenlogik.
 - **Beobachtetes Singleton aus dem Delegate (gefunden in 18s):** Eine Änderung an einem `@Observable`-Singleton, die aus einer von Kotlin gebrückten Methode (`BakePlannerAppDelegate`) heraus per `Task { @MainActor in }` gesetzt wird, erreichte `onChange(of:)` in der Ansicht nicht. Für solche Übergaben einen Handler registrieren lassen (`SharedImport.setHandler`), der die `@State`-Werte der Ansicht setzt; das kommt an.
@@ -265,7 +266,6 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
-| Rezeptliste | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Geplante Schritte | Timeline im Querformat (Zeilen statt Spalten, iPad) | klein |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
 | Einstellungen | Pro über Play Billing | später |

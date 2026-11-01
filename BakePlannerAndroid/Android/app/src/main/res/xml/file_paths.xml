@@ -5,4 +5,6 @@
      the FileProvider below). -->
 <paths>
     <external-files-path name="pictures" path="Pictures/" />
+    <!-- Files the app hands to other apps (a recipe as PDF). -->
+    <cache-path name="shared" path="shared/" />
 </paths>

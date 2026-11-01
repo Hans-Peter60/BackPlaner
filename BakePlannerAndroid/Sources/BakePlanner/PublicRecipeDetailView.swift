@@ -40,6 +40,7 @@ struct PublicRecipeDetailView: View {
     @State var isWorking = false
     @State var actionFailure: String?
     @State var showsActionFailure = false
+    @State var sharingFailed = false
     @Environment(\.colorScheme) var colorScheme
 
     private var isOwn: Bool { model.isOwn(recipe) }
@@ -71,6 +72,12 @@ struct PublicRecipeDetailView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
+                    if let content {
+                        Button("Rezept teilen") {
+                            sharingFailed = !RecipePDFSharing.share(
+                                RecipePrintData(data: content, scale: scale, bakersPercentages: model.showsBakersPercentages))
+                        }
+                    }
                     if canEdit, content != nil {
                         Button("Rezept bearbeiten") {
                             edits = true
@@ -127,6 +134,12 @@ struct PublicRecipeDetailView: View {
             Button("Abbrechen", role: .cancel) { }
         } message: {
             Text("Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+        }
+        .alert("Teilen fehlgeschlagen", isPresented: $sharingFailed) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
         }
         .alert("Aktion fehlgeschlagen", isPresented: $showsActionFailure) {
             Button {

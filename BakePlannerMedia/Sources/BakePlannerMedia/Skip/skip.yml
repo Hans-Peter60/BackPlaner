@@ -2,3 +2,10 @@
 # its public API bridged to the app's native Swift.
 skip:
   bridging: true
+
+# The FileProvider that hands files to other apps lives in androidx.core.
+build:
+  contents:
+    - block: 'dependencies'
+      contents:
+        - 'implementation("androidx.core:core-ktx:1.13.1")'

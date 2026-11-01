@@ -3074,6 +3074,23 @@
         }
       }
     },
+    "Erstellt mit BakePlanner" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created with BakePlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créé avec BakePlanner"
+          }
+        }
+      }
+    },
     "Falten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5881,6 +5898,23 @@
         }
       }
     },
+    "Rezept teilen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager la recette"
+          }
+        }
+      }
+    },
     "Rezept veröffentlichen?" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7010,6 +7044,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température de la pâte"
+          }
+        }
+      }
+    },
+    "Teilen fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec du partage"
           }
         }
       }

@@ -42,6 +42,7 @@ struct RecipeDetailView: View {
     @State var showsPublishOutcome = false
     @State var needsSignIn = false
     @State var needsImage = false
+    @State var sharingFailed = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -70,6 +71,13 @@ struct RecipeDetailView: View {
                         recipeToExport = [recipeID]
                     } label: {
                         Label("Rezept sichern", systemImage: "square.and.arrow.up")
+                    }
+                    // The page at the amount shown, as the iPhone shares it.
+                    if let recipe {
+                        Button("Rezept teilen") {
+                            sharingFailed = !RecipePDFSharing.share(
+                                RecipePrintData(data: recipe.content, scale: scale, bakersPercentages: model.showsBakersPercentages))
+                        }
                     }
                     // Publishing wants an account of one's own and a picture;
                     // a recipe that is public already is not offered again.
@@ -125,6 +133,12 @@ struct RecipeDetailView: View {
             }
         } message: {
             Text("Zum Veröffentlichen melde Dich in den Einstellungen unter „Konto“ mit Apple an. So gehört das Rezept Dir auf allen Geräten.")
+        }
+        .alert("Teilen fehlgeschlagen", isPresented: $sharingFailed) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
         }
         .alert("Bild erforderlich", isPresented: $needsImage) {
             Button {
