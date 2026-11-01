@@ -77,6 +77,7 @@ struct RecipeListView: View {
     @State var confirmsDeletion = false
     @State var createsRecipe = false
     @State var recipesToExport: [String]?
+    @State var showsSettings = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -127,9 +128,12 @@ struct RecipeListView: View {
         .navigationTitle("Rezepte")
         .toolbar {
             // Android shows two items of the bar and drops further ones, so
-            // reading and writing backups share one menu.
+            // reading and writing backups and the settings share one menu.
             ToolbarItem(placement: .primaryAction) {
                 Menu {
+                    Button("Einstellungen") {
+                        showsSettings = true
+                    }
                     Button("Importieren") {
                         showsPicker = true
                     }
@@ -138,7 +142,7 @@ struct RecipeListView: View {
                     }
                     .disabled(model.recipes.isEmpty)
                 } label: {
-                    Text("Sicherung")
+                    Text("Mehr")
                 }
             }
             ToolbarItem(placement: .primaryAction) {
@@ -151,6 +155,11 @@ struct RecipeListView: View {
         }
         .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName,
                             includesBakeHistory: true)
+        .sheet(isPresented: $showsSettings) {
+            NavigationStack {
+                SettingsView()
+            }
+        }
         .sheet(isPresented: $createsRecipe) {
             NavigationStack {
                 RecipeEditor(original: nil) { _, content in

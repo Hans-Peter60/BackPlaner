@@ -166,6 +166,24 @@
         }
       }
     },
+    "Anstellgut" : {
+      "comment" : "Sauerteig-Anstellgut",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourdough starter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain chef"
+          }
+        }
+      }
+    },
     "Anstellgut %lld : Mehl %lld : Wasser %lld" : {
       "comment" : "A label showing the feeding ratio of a starter recipe. The first argument is the amount of starter. The second argument is the amount of flour. The third argument is the amount of water.",
       "extractionState" : "manual",
@@ -302,6 +320,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Démarrer le mode cuisson"
+          }
+        }
+      }
+    },
+    "Backöfen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovens"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fours"
+          }
+        }
+      }
+    },
+    "Backpause" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking pause"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause de cuisson"
+          }
+        }
+      }
+    },
+    "Backplanung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking schedule"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planification de cuisson"
           }
         }
       }
@@ -935,6 +1004,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Listes de courses"
+          }
+        }
+      }
+    },
+    "Einstellungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
           }
         }
       }
@@ -1590,6 +1676,23 @@
         }
       }
     },
+    "Lievito Madre" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lievito madre"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lievito madre"
+          }
+        }
+      }
+    },
     "Liste" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1657,6 +1760,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Farines & céréales"
+          }
+        }
+      }
+    },
+    "Mehr" : {
+      "comment" : "Menu of the recipe list: settings and backups.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus"
           }
         }
       }
@@ -2585,24 +2706,6 @@
         }
       }
     },
-    "Sicherung" : {
-      "comment" : "Recipe list: menu to import or save a backup file.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Backup"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Sauvegarde"
-          }
-        }
-      }
-    },
     "So beginnt kein Schritt in der Nacht:" : {
       "comment" : "Heading above the suggested dates at which no step begins outside the day window.",
       "extractionState" : "manual",
@@ -2669,6 +2772,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Standard-Portionsgröße" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default serving size"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille de portion par défaut"
           }
         }
       }
@@ -2802,6 +2922,40 @@
         }
       }
     },
+    "Tagesbeginn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start of day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début de journée"
+          }
+        }
+      }
+    },
+    "Tagesende" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End of day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin de journée"
+          }
+        }
+      }
+    },
     "Tags, durch Komma getrennt" : {
       "comment" : "Placeholder of the tags field.",
       "extractionState" : "manual",
@@ -2904,6 +3058,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décalage impossible"
+          }
+        }
+      }
+    },
+    "Vorheizzeit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preheat time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de préchauffage"
           }
         }
       }
