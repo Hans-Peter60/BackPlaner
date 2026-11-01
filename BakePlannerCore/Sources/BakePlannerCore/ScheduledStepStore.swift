@@ -114,6 +114,14 @@ extension BakePlan {
     public func issues(from store: any ScheduledStepStore) -> [BakePlanIssue] {
         issues(existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: recipeName, from: store))
     }
+
+    /// The findings when this plan is kept in addition to the recipe's
+    /// earlier plans ("Zusätzlich planen"): checked against every scheduled
+    /// bake, those of the same recipe included — two loaves of one recipe
+    /// need two ovens as much as two different ones.
+    public func additionalPlanIssues(from store: any ScheduledStepStore) -> [BakePlanIssue] {
+        issues(existingWindows: BakePlanValidator.scheduledBakeWindows(from: store))
+    }
 }
 
 extension BakePlanValidator {
@@ -125,16 +133,34 @@ extension BakePlanValidator {
         from store: any ScheduledStepStore,
         now: Date = Date()
     ) -> [BakeWindow] {
-        Dictionary(grouping: store.steps(excludingRecipe: recipeName), by: \.recipeName)
-            .compactMap { name, steps in
+        bakeWindows(of: store.steps(excludingRecipe: recipeName), now: now)
+    }
+
+    /// The oven phases of all plans that are currently scheduled, every
+    /// recipe's, without bakes that are already over.
+    public static func scheduledBakeWindows(
+        from store: any ScheduledStepStore,
+        now: Date = Date()
+    ) -> [BakeWindow] {
+        bakeWindows(of: store.allSteps().map(\.data), now: now)
+    }
+
+    /// One oven phase per plan, by its plan ID. Grouping by recipe name, as
+    /// before, mixed two plans of one recipe into a single phase — the bake
+    /// of one and the end of the other, or none at all. Steps planned before
+    /// plans had an ID still belong together by recipe.
+    static func bakeWindows(of steps: [ScheduledStepData], now: Date) -> [BakeWindow] {
+        Dictionary(grouping: steps, by: { $0.planID?.uuidString ?? "recipe:" + $0.recipeName })
+            .compactMap { _, steps in
                 bakeWindow(
-                    recipeName: name,
+                    recipeName: steps[0].recipeName,
                     steps: steps.map {
                         PlannedStep(instruction: $0.instruction, step: $0.step, date: $0.date)
                     }
                 )
             }
             .filter { $0.end > now }
+            .sorted { $0.start < $1.start }
     }
 }
 

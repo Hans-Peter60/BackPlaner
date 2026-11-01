@@ -197,7 +197,10 @@ public enum BakePlanValidator {
         let ovens = max(1, ovenCount)
         let pause = TimeInterval(max(0, bakePause) * 60)
 
-        let others      = existingWindows.filter { $0.recipeName != window.recipeName }
+        // The callers decide which plans count: a plan about to be replaced
+        // is left out by them, an earlier plan of the same recipe stays in
+        // when the new one is planned in addition (additionalPlanIssues).
+        let others      = existingWindows
         let overlapping = others.filter { overlaps($0, window) }
         // Bakes that do not overlap, but end or start within the pause.
         let neighbours  = pause > 0
