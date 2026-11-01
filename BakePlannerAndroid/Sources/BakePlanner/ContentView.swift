@@ -119,23 +119,9 @@ struct RecipeListView: View {
                     }
                     let rows = filteredRows
                     ForEach(rows) { row in
-                        NavigationLink {
-                            switch row {
-                            case .local(let recipe):
-                                RecipeDetailView(model: model, recipeID: recipe.id)
-                            case .shared(let recipe):
-                                PublicRecipeDetailView(model: model, recipe: recipe)
-                            }
-                        } label: {
-                            switch row {
-                            case .local(let recipe):
-                                RecipeRow(recipe: recipe)
-                            case .shared(let recipe):
-                                PublicRecipeRow(recipe: recipe)
-                            }
-                        }
-                        // Only the own recipes can be deleted here.
-                        .deleteDisabled(!row.isLocal)
+                        link(to: row)
+                            // Only the own recipes can be deleted here.
+                            .deleteDisabled(!row.isLocal)
                     }
                     .onDelete { offsets in
                         if let index = offsets.first, case .local(let recipe) = rows[index] {
@@ -228,6 +214,27 @@ struct RecipeListView: View {
         } message: {
             if case .failed(let reason) = model.importOutcome {
                 Text(verbatim: reason)
+            }
+        }
+    }
+
+    /// The list entry and the page it opens. Each kind of recipe has a link
+    /// of its own: with one link whose page switched between the two, Skip
+    /// opened an own recipe as an empty page.
+    @ViewBuilder
+    private func link(to row: Row) -> some View {
+        switch row {
+        case .local(let recipe):
+            NavigationLink {
+                RecipeDetailView(model: model, recipeID: recipe.id)
+            } label: {
+                RecipeRow(recipe: recipe)
+            }
+        case .shared(let recipe):
+            NavigationLink {
+                PublicRecipeDetailView(model: model, recipe: recipe)
+            } label: {
+                PublicRecipeRow(recipe: recipe)
             }
         }
     }
