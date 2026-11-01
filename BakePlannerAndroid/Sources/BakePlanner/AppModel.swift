@@ -283,6 +283,13 @@ final class AppModel {
         return plan.issues(from: store)
     }
 
+    /// The findings when the plan is kept beside the recipe's earlier plans
+    /// ("Zusätzlich planen"), those included.
+    func additionalPlanIssues(of plan: BakePlan) -> [BakePlanIssue] {
+        guard let store = try? openedStepStore() else { return [] }
+        return plan.additionalPlanIssues(from: store)
+    }
+
     /// Dates for which no step falls into the night, when some do.
     func nightFreeDates(for plan: BakePlan) -> [NightFreeDate] {
         guard BakePlanAdvisor.hasNightSteps(plan), let store = try? openedStepStore() else { return [] }

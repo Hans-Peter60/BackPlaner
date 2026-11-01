@@ -451,7 +451,9 @@ struct InstructionsFBView: View {
         // user can accept the overlap and proceed anyway — several doughs
         // sharing one oven at a low proofing temperature is a valid case.
         let plan = bakePlan
-        let issues = plan.issues(in: viewContext)
+        // Planned in addition, the recipe's earlier plans stay and need an
+        // oven too, so they count; a replaced plan does not.
+        let issues = replaceExisting ? plan.issues(in: viewContext) : plan.additionalPlanIssues(in: viewContext)
         planIssues = issues
 
         let planErrors = issues.filter { $0.severity == .error }

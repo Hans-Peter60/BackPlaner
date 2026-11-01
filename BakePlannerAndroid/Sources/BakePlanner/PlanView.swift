@@ -21,6 +21,10 @@ struct PlanView: View {
     @State var showsOverlap = false
     @State var showsPlanChoice = false
     @State var showsSaved = false
+    /// What speaks against keeping the plan beside the recipe's earlier
+    /// ones, for the second overlap question.
+    @State var additionalOverlap = ""
+    @State var showsAdditionalOverlap = false
     @State var outcome: AppModel.PlanOutcome = .saved
     @Environment(\.dismiss) var dismiss
 
@@ -112,11 +116,21 @@ struct PlanView: View {
                 save(replacing: true)
             }
             Button("Zusätzlich planen") {
-                save(replacing: false)
+                planInAddition(alreadyAccepted: issues)
             }
             Button("Abbrechen", role: .cancel) { }
         } message: {
             Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
+        }
+        // Planned in addition, the recipe's earlier plans stay and need an
+        // oven too. Asked only about what was not accepted above already.
+        .alert("Backzeiten überschneiden sich", isPresented: $showsAdditionalOverlap) {
+            Button("Trotzdem planen") {
+                save(replacing: false)
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text(verbatim: additionalOverlap)
         }
         .alert(outcomeTitle, isPresented: $showsSaved) {
             Button {
@@ -129,6 +143,19 @@ struct PlanView: View {
                 Text("Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern.")
             }
         }
+    }
+
+    private func planInAddition(alreadyAccepted: [BakePlanIssue]) {
+        let accepted = Set(alreadyAccepted.filter { $0.severity == .error }.map(\.message))
+        let errors = model.additionalPlanIssues(of: plan)
+            .filter { $0.severity == .error }
+            .map(\.message)
+        guard errors.contains(where: { !accepted.contains($0) }) else {
+            save(replacing: false)
+            return
+        }
+        additionalOverlap = errors.joined(separator: "\n")
+        showsAdditionalOverlap = true
     }
 
     private func choosePlan() {

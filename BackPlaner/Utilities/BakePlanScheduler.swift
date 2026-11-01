@@ -178,6 +178,12 @@ extension BakePlan {
     func issues(in context: NSManagedObjectContext) -> [BakePlanIssue] {
         issues(from: CoreDataScheduledStepStore(context: context))
     }
+
+    /// The findings when the plan is kept beside the recipe's earlier plans
+    /// ("Zusätzlich planen"), those included.
+    func additionalPlanIssues(in context: NSManagedObjectContext) -> [BakePlanIssue] {
+        additionalPlanIssues(from: CoreDataScheduledStepStore(context: context))
+    }
 }
 
 extension BakePlanValidator {
