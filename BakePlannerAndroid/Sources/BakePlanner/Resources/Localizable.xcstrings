@@ -3257,6 +3257,23 @@
         }
       }
     },
+    "Keine passenden Backvorgänge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching bakes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune cuisson correspondante"
+          }
+        }
+      }
+    },
     "Keine passenden Rezepte" : {
       "extractionState" : "manual",
       "localizations" : {

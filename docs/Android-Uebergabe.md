@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18i. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18j. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -271,9 +271,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
 | | Falt-Durchgänge beim Speichern in eigene Schritte auflösen (`TimedFoldExpansion`): prüfen, ob `recalculated()` das tut | prüfen |
 | | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
-| Backhistorie | Suche und Bewertungsfilter | klein |
-| | Galerie und Fotowolke (`BakeHistoryTally`, `CirclePacking` im Paket) | mittel |
-| | Fotos groß durchblättern | klein |
+| Backhistorie | Galerie und Fotowolke (`BakeHistoryTally`, `CirclePacking` im Paket) | mittel |
 | Einstellungen | Eigene Einheiten anlegen und verwalten | mittel |
 | | Pro über Play Billing | später |
 | Öffentliche Rezepte | Eigene veröffentlichte bearbeiten und löschen, Admin löschen und freigeben | 11d/11e |

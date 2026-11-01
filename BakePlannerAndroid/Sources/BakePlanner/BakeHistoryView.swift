@@ -18,13 +18,34 @@ struct BakeHistoryView: View {
     /// runs the chosen button.
     @State var entryToDelete: StoredBakeHistory?
     @State var confirmsDeletion = false
+    /// Search and rating filter, as the iPhone's history has them; they
+    /// look at the recipe of an entry.
+    @State var searchText = ""
+    @State var searchesTags = false
+    @State var minimumRating = 0
     @Environment(\.colorScheme) var colorScheme
+
+    /// The entries that pass search and rating, newest first.
+    private var filteredEntries: [StoredBakeHistory] {
+        let recipes = Dictionary(model.recipes.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return model.shownBakeHistory.filter { entry in
+            let recipe = recipes[entry.recipeID]?.content
+            if minimumRating > 0, (recipe?.rating ?? 0) < minimumRating { return false }
+            if query.isEmpty { return true }
+            if searchesTags {
+                return recipe?.tags.contains { $0.localizedCaseInsensitiveContains(query) } ?? false
+            }
+            return model.recipeName(id: entry.recipeID).localizedCaseInsensitiveContains(query)
+        }
+    }
 
     var body: some View {
         ZStack {
+            // Not ignoring the safe area: the search field sits above the
+            // list, and a gradient reaching into it covered the field.
             LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
                            startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
 
             if model.shownBakeHistory.isEmpty {
                 VStack(spacing: 12) {
@@ -36,14 +57,19 @@ struct BakeHistoryView: View {
                 }
                 .padding()
             } else {
+                let entries = filteredEntries
                 List {
                     Picker("Darstellung", selection: $showsHitList) {
                         Text("Liste").tag(false)
                         Text("Hit-Liste").tag(true)
                     }
                     .pickerStyle(.segmented)
+                    filterRow
 
-                    if showsHitList {
+                    if entries.isEmpty {
+                        Text("Keine passenden Backvorgänge")
+                            .foregroundStyle(.secondary)
+                    } else if showsHitList {
                         ForEach(hitList, id: \.id) { summary in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(verbatim: summary.name)
@@ -54,7 +80,7 @@ struct BakeHistoryView: View {
                             }
                         }
                     } else {
-                        ForEach(model.shownBakeHistory, id: \.id) { entry in
+                        ForEach(entries, id: \.id) { entry in
                             Button {
                                 editedEntry = model.bakeEntry(id: entry.id)
                                 editsEntry = editedEntry != nil
@@ -64,12 +90,13 @@ struct BakeHistoryView: View {
                             }
                         }
                         .onDelete { offsets in
-                            entryToDelete = offsets.first.map { model.shownBakeHistory[$0] }
+                            entryToDelete = offsets.first.map { entries[$0] }
                             confirmsDeletion = entryToDelete != nil
                         }
                     }
                 }
                 .scrollContentBackground(.hidden)
+                .searchable(text: $searchText, prompt: Text("Rezept suchen"))
             }
         }
         .navigationTitle("Backhistorie")
@@ -97,10 +124,45 @@ struct BakeHistoryView: View {
         }
     }
 
-    /// The recipes, most baked first, as the iPhone's hit list has them.
+    /// Where the search looks, and the least rating listed — as in the
+    /// recipe list.
+    private var filterRow: some View {
+        HStack(spacing: 12) {
+            Picker("Suchen in", selection: $searchesTags) {
+                Text("Name").tag(false)
+                Text("Tags").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            Menu {
+                Button("Alle Bewertungen") {
+                    minimumRating = 0
+                }
+                ForEach([1, 2, 3, 4, 5], id: \.self) { stars in
+                    Button {
+                        minimumRating = stars
+                    } label: {
+                        Text("\(stars) Sterne und mehr")
+                    }
+                }
+            } label: {
+                HStack(spacing: 2) {
+                    Image(systemName: "star.fill")
+                    if minimumRating > 0 {
+                        Text(verbatim: "\(minimumRating)+")
+                    }
+                }
+                .foregroundStyle(minimumRating > 0 ? Palette.accent(colorScheme) : Color.secondary)
+                .accessibilityLabel(Text("Nach Bewertung filtern"))
+            }
+        }
+    }
+
+    /// The recipes, most baked first, as the iPhone's hit list has them —
+    /// of the entries that pass search and rating.
     private var hitList: [BakeHistoryTally.Recipe] {
         let ratings = Dictionary(model.recipes.map { ($0.id, $0.content.rating) }, uniquingKeysWith: { first, _ in first })
-        return BakeHistoryTally.recipes(from: model.shownBakeHistory.map { entry in
+        return BakeHistoryTally.recipes(from: filteredEntries.map { entry in
             BakeHistoryTally.Entry(recipeID: entry.recipeID, recipeName: model.recipeName(id: entry.recipeID),
                                    rating: ratings[entry.recipeID] ?? 0, date: entry.date, photos: [])
         })
@@ -284,6 +346,10 @@ struct BakeEntryEditor: View {
     @State var flour: String
     @State var outcome: String
     @State var picksImage = false
+    /// The photo shown large after a tap. Kept apart from the sheet's
+    /// visibility, as the dialogs are.
+    @State var largePhoto: Data?
+    @State var showsLargePhoto = false
     @State var pickedImageURL: URL?
     @State var pickedImageName: String?
     @State var pickedImageType: String?
@@ -335,7 +401,14 @@ struct BakeEntryEditor: View {
             Section {
                 ForEach(Array(images.enumerated()), id: \.offset) { index, data in
                     HStack {
-                        photo(data)
+                        // A tap shows the photo large, as on the iPhone.
+                        Button {
+                            largePhoto = data
+                            showsLargePhoto = true
+                        } label: {
+                            photo(data)
+                        }
+                        .buttonStyle(.plain)
                         Spacer()
                         Button("Bild entfernen", role: .destructive) {
                             images.remove(at: index)
@@ -369,6 +442,15 @@ struct BakeEntryEditor: View {
                     save()
                 }
             }
+        }
+        .appSheet(isPresented: $showsLargePhoto) {
+            #if canImport(UIKit) || os(Android)
+            if let largePhoto, let image = UIImage(data: largePhoto) {
+                NavigationStack {
+                    LargePictureView(image: image)
+                }
+            }
+            #endif
         }
         .withDocumentPicker(isPresented: $picksImage,
                             allowedContentTypes: [.image],
