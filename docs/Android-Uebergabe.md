@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18g. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18h. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -263,11 +263,8 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Planen | „Dauer ändern“ vor dem Planen, bei eigenen Rezepten dauerhaft | mittel |
 | | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
-| Geplante Schritte | i-Symbol für die Zutaten einer Komponente je Schritt (`BakeModeText`) | klein |
-| | Schritt-Detailansicht beim Antippen | klein |
+| Geplante Schritte | Schritt-Detailansicht beim Antippen (Antippen öffnet bisher „Verschieben“) | klein |
 | | Grafische Timeline mit Balken, Farben, Nachtband (iOS 943 Zeilen) | groß |
-| | „Alle löschen“ über alle Pläne | klein |
-| | Leiste „Als Nächstes“ / „Jetzt fällig“ (`CurrentStepRule`) | mittel |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
 | Neues Rezept | Kamera für Rezeptbild, Backhistorie-Fotos und Foto-Import (siehe 17d) | mittel |
 | | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |

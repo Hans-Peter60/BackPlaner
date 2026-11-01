@@ -233,6 +233,23 @@
         }
       }
     },
+    "Alle löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout supprimer"
+          }
+        }
+      }
+    },
     "Alle nachfolgenden" : {
       "comment" : "Text for a notification action that will postpone a task for all following tasks.",
       "extractionState" : "manual",
@@ -247,6 +264,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toutes les suivantes"
+          }
+        }
+      }
+    },
+    "Alle Pläne und ihre Erinnerungen werden entfernt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All plans and their reminders are removed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les plans et leurs rappels sont supprimés."
           }
         }
       }
@@ -281,6 +315,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer comme ma recette"
+          }
+        }
+      }
+    },
+    "Als Nächstes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up next"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À suivre"
           }
         }
       }
@@ -2743,6 +2794,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Noter maintenant"
+          }
+        }
+      }
+    },
+    "Jetzt fällig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À faire maintenant"
           }
         }
       }

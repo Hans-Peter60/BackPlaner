@@ -21,6 +21,13 @@ struct PlanTimelineView: View {
     /// sheet's visibility, as the dialogs are.
     @State var bakeModePlanKey: String?
     @State var showsBakeMode = false
+    /// The step whose component's ingredients are shown. Kept apart from
+    /// the sheet's visibility, as the dialogs are.
+    @State var ingredientStep: StoredScheduledStep?
+    @State var showsIngredients = false
+    @State var confirmsDeleteAll = false
+    /// Refreshed every minute, so the "Als Nächstes" card moves on with time.
+    @State var now = Date()
     @Environment(\.colorScheme) var colorScheme
 
     /// One plan: the steps of one planning run.
@@ -69,6 +76,13 @@ struct PlanTimelineView: View {
                 .padding()
             } else {
                 List {
+                    // The one step that matters right now, as the iPhone's
+                    // "Als Nächstes" bar in the main menu.
+                    if let current = currentStep {
+                        Section {
+                            NextStepCard(step: current, now: now)
+                        }
+                    }
                     ForEach(plans) { plan in
                         Section {
                             ForEach(plan.steps, id: \.key) { step in
@@ -80,13 +94,25 @@ struct PlanTimelineView: View {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(verbatim: PlanText.dateTime(step.data.date))
                                                 .font(.caption)
-                                                .foregroundStyle(step.data.date < Date() ? Color.red : Color.secondary)
+                                                .foregroundStyle(step.data.date < now ? Color.red : Color.secondary)
                                             Text(verbatim: step.data.instruction)
                                                 .foregroundStyle(Color.primary)
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                     .buttonStyle(.borderless)
+                                    // The ingredients of the component this step mixes,
+                                    // as the iPhone's "i" on the card.
+                                    if component(of: step) != nil {
+                                        Button {
+                                            ingredientStep = step
+                                            showsIngredients = true
+                                        } label: {
+                                            Image(systemName: "info.circle")
+                                        }
+                                        .buttonStyle(.borderless)
+                                        .accessibilityLabel(Text("Zutaten"))
+                                    }
                                     Button("Erledigt") {
                                         model.markDone(step)
                                     }
@@ -121,6 +147,37 @@ struct PlanTimelineView: View {
                     Label("Backmodus starten", systemImage: "play.fill")
                 }
                 .disabled(plans.isEmpty)
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    confirmsDeleteAll = true
+                } label: {
+                    Label("Alle löschen", systemImage: "trash")
+                }
+                .disabled(plans.isEmpty)
+            }
+        }
+        .appSheet(isPresented: $showsIngredients) {
+            if let step = ingredientStep, let component = component(of: step) {
+                NavigationStack {
+                    StepIngredientsSheet(step: step, component: component)
+                }
+            }
+        }
+        .alert("Alle löschen", isPresented: $confirmsDeleteAll) {
+            Button("Löschen", role: .destructive) {
+                // Every step of every plan, those not shown yet included.
+                model.deletePlan(model.scheduledSteps)
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Alle Pläne und ihre Erinnerungen werden entfernt.")
+        }
+        .task {
+            // Once a minute, so the card and the red times move with the clock.
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(60))
+                now = Date()
             }
         }
         .appSheet(isPresented: $showsBakeMode) {
@@ -166,6 +223,96 @@ struct PlanTimelineView: View {
         } message: {
             if let plan = planToDelete {
                 Text(verbatim: plan.recipeName)
+            }
+        }
+    }
+}
+
+extension PlanTimelineView {
+    /// The step due within the last hour, else the next one ahead — the rule
+    /// of the iPhone's card, widget and bake mode (CurrentStepRule).
+    var currentStep: StoredScheduledStep? {
+        let visible = model.scheduledSteps.filter { $0.data.isVisible(at: now) }
+        return CurrentStepRule.currentStep(in: visible, at: now, date: { $0.data.date })?.step
+    }
+
+    /// The component a step mixes, when its recipe is on the device and
+    /// the step names one of its components.
+    func component(of step: StoredScheduledStep) -> ComponentColumn? {
+        guard let recipe = model.recipes.first(where: { $0.content.name == step.data.recipeName })?.content,
+              let component = BakeModeText.component(of: step.data, in: recipe),
+              !component.ingredients.isEmpty else { return nil }
+        return component
+    }
+}
+
+/// "Als Nächstes" or "Jetzt fällig": the step that matters right now, with
+/// how far away it is, as the iPhone's NextStepCardView.
+struct NextStepCard: View {
+    let step: StoredScheduledStep
+    let now: Date
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        let isDue = step.data.date <= now
+        let minutes = max(1, Int((abs(step.data.date.timeIntervalSince(now)) / 60).rounded(.up)))
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(isDue ? "Jetzt fällig" : "Als Nächstes")
+                    .font(.caption)
+                    .bold()
+                    .textCase(.uppercase)
+                Spacer()
+                if isDue {
+                    Text("seit \(BakeHistoryFacts.durationText(minutes))")
+                        .font(.caption)
+                        .bold()
+                } else {
+                    Text("in \(BakeHistoryFacts.durationText(minutes))")
+                        .font(.caption)
+                        .bold()
+                }
+            }
+            .foregroundStyle(Palette.accent(colorScheme))
+            Text(verbatim: step.data.instruction)
+                .font(.headline)
+            Text(verbatim: step.data.recipeName + " · " + PlanText.dateTime(step.data.date))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// The ingredients of the component a planned step mixes, in the amount
+/// the plan was made for — the iPhone's sheet behind the "i" on a card.
+struct StepIngredientsSheet: View {
+    let step: StoredScheduledStep
+    let component: ComponentColumn
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        List {
+            Section {
+                Text(verbatim: step.data.instruction)
+                    .foregroundStyle(.secondary)
+            } header: {
+                Text(verbatim: step.data.recipeName)
+            }
+            Section {
+                ForEach(Array(BakeModeText.ingredientLines(of: component, scale: step.data.effectiveServingScale).enumerated()),
+                        id: \.offset) { _, line in
+                    Text(verbatim: line)
+                }
+            } header: {
+                Text("Zutaten für „\(component.name)“")
+            }
+        }
+        .navigationTitle("Zutaten")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Fertig") {
+                    dismiss()
+                }
             }
         }
     }
