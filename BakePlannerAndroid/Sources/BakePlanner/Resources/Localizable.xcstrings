@@ -768,6 +768,23 @@
         }
       }
     },
+    "BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner stores neither the transmitted recipe images nor the page texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes de pages transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
+          }
+        }
+      }
+    },
     "Backplanung" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -922,6 +939,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au-delà de la moitié de seigle, mélangez simplement la pâte au lieu de la pétrir, façonnez-la avec les mains mouillées et acidifiez-la bien."
+          }
+        }
+      }
+    },
+    "Benutzerhandbuch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User manual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuel de l’utilisateur"
           }
         }
       }
@@ -1257,6 +1291,23 @@
         }
       }
     },
+    "Cloud-KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IA cloud"
+          }
+        }
+      }
+    },
     "Darstellung" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1429,6 +1480,40 @@
         }
       }
     },
+    "Datenschutz bei KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI privacy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confidentialité de l’IA"
+          }
+        }
+      }
+    },
+    "Datenschutzerklärung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
+          }
+        }
+      }
+    },
     "Datum" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1460,6 +1545,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée"
+          }
+        }
+      }
+    },
+    "Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recognized recipe draft is only saved once you have reviewed it and explicitly save it. Your choice of whether the recipe stays on the device or is published then applies."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le brouillon de recette reconnu n’est enregistré que lorsque vous l’avez vérifié puis enregistré explicitement. Votre choix — la recette reste sur l’appareil ou est publiée — s’applique alors."
           }
         }
       }
@@ -1548,6 +1650,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’heure décalée doit se situer dans le futur."
+          }
+        }
+      }
+    },
+    "Der Widerruf gilt für alle zukünftigen Analysen. Bereits abgeschlossene Verarbeitungen werden dadurch nicht rückwirkend aufgehoben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdrawal applies to all future analyses. Processing that has already been completed is not undone retroactively."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le retrait s’applique à toutes les analyses futures. Les traitements déjà effectués ne sont pas annulés rétroactivement."
+          }
+        }
+      }
+    },
+    "Die Analyse in der Cloud erfolgt nur auf Grundlage Deiner vorherigen ausdrücklichen Einwilligung. Ohne Einwilligung wird keine Cloud-Analyse gestartet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis in the cloud only takes place on the basis of your prior explicit consent. Without consent, no cloud analysis is started."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse dans le cloud n’a lieu que sur la base de votre consentement préalable et explicite. Sans consentement, aucune analyse cloud n’est lancée."
           }
         }
       }
@@ -1656,6 +1792,40 @@
         }
       }
     },
+    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images or the page text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées ou le texte de la page sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
+          }
+        }
+      }
+    },
+    "Die KI erstellt lediglich einen bearbeitbaren Rezeptentwurf. Sie trifft keine rechtlich oder vergleichbar erheblich wirkende Entscheidung. Du kannst das Ergebnis vollständig prüfen, ändern oder verwerfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The AI only creates an editable recipe draft. It makes no decision with legal or similarly significant effects. You can fully review, change, or discard the result."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA se contente de créer un brouillon de recette modifiable. Elle ne prend aucune décision produisant des effets juridiques ou des effets similaires significatifs. Vous pouvez vérifier, modifier ou rejeter entièrement le résultat."
+          }
+        }
+      }
+    },
     "Die Menge gilt für diese Einkaufsliste. Das Rezept bleibt unverändert." : {
       "comment" : "A description of the effect of changing the amount of a shopping list item.",
       "extractionState" : "manual",
@@ -1758,6 +1928,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le rendement de la pâte compte intégralement les liquides versés, y compris le lait, la bière et le vin, et répartit le levain chef en farine et en eau selon son propre TA. Graines, flocons, matières grasses et œufs ne comptent pas. Le TA d’un levain que la recette ne précise pas se règle dans les réglages."
+          }
+        }
+      }
+    },
+    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern oder dem Seitentext zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images or the page text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images ou le texte de la page, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
           }
         }
       }
@@ -1949,6 +2136,23 @@
         }
       }
     },
+    "Eine Einwilligung kannst Du direkt beim Rezeptimport erteilen, nachdem Dir die Datenübertragung erklärt wurde." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can give consent directly during recipe import, after the data transfer has been explained to you."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez donner votre consentement directement lors de l’importation d’une recette, après que le transfert de données vous a été expliqué."
+          }
+        }
+      }
+    },
     "Einheit" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -2069,6 +2273,40 @@
         }
       }
     },
+    "Einwilligung und Widerruf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consent and withdrawal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consentement et retrait"
+          }
+        }
+      }
+    },
+    "Einwilligung widerrufen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw consent"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer le consentement"
+          }
+        }
+      }
+    },
     "Einwilligung zur Cloud-KI widerrufen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2099,6 +2337,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’emmer a un gluten faible : pétrissez brièvement, gardez une pousse courte et, pour plus de sûreté, cuisez dans un moule à cake."
+          }
+        }
+      }
+    },
+    "Empfänger und Verarbeitungsort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipients and place of processing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinataires et lieu de traitement"
           }
         }
       }
@@ -2340,6 +2595,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus tôt"
+          }
+        }
+      }
+    },
+    "Für die stündliche und die monatliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters, der aktuelle Monat und die Anzahl der Anfragen gespeichert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For the hourly and the monthly usage limit, the start of the current time window, the current month and the number of requests are stored against the pseudonymous user ID."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour la limitation d’utilisation horaire et mensuelle, le début de la fenêtre de temps en cours, le mois en cours et le nombre de requêtes sont enregistrés avec l’identifiant utilisateur pseudonyme."
           }
         }
       }
@@ -2590,6 +2862,23 @@
         }
       }
     },
+    "Google Cloud ist dabei technischer Dienstleister. Eine Weitergabe für Werbung oder Nutzertracking durch BackPlaner findet nicht statt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Cloud acts as a technical service provider. BackPlaner does not share any data for advertising or user tracking."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Cloud agit en tant que prestataire technique. BackPlaner ne transmet aucune donnée à des fins de publicité ou de suivi des utilisateurs."
+          }
+        }
+      }
+    },
     "Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2603,6 +2892,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le blé dur gonfle lentement : prévoyez 30–60 minutes d’autolyse ; la pâte devient plus ferme et jaunâtre."
+          }
+        }
+      }
+    },
+    "Hilfe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide"
+          }
+        }
+      }
+    },
+    "Hilfe und Kontakt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide et contact"
           }
         }
       }
@@ -2729,6 +3052,23 @@
         }
       }
     },
+    "Impressum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legal Notice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentions légales"
+          }
+        }
+      }
+    },
     "in %@" : {
       "comment" : "Countdown on the main-menu card; %@ is a relative duration like '42 min'.",
       "extractionState" : "manual",
@@ -2743,6 +3083,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "dans %@"
+          }
+        }
+      }
+    },
+    "In Firestore verbleibt nur der Datensatz zur Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster, Monat und Anfragezahlen sowie eine Prüfsumme des zuletzt geprüften Kaufbelegs und der Zeitpunkt der Prüfung. Bei einer späteren Analyse werden ein abgelaufenes Zeitfenster und ein vergangener Monat durch die neuen ersetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only the usage-limit record remains in Firestore, with the pseudonymous user ID, time window, month and request counts, plus a checksum of the most recently verified purchase receipt and the time of that check. On a later analysis, an expired time window and a past month are replaced by the new ones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul l’enregistrement de limitation d’utilisation reste dans Firestore, avec l’identifiant utilisateur pseudonyme, la fenêtre de temps, le mois et les nombres de requêtes, ainsi qu’une somme de contrôle du dernier reçu d’achat vérifié et le moment de cette vérification. Lors d’une analyse ultérieure, une fenêtre de temps expirée et un mois passé sont remplacés par les nouveaux."
           }
         }
       }
@@ -2828,6 +3185,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus froid que de l’eau glacée – difficilement atteignable avec ces valeurs."
+          }
+        }
+      }
+    },
+    "Keine automatisierte Entscheidung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No automated decision-making"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune décision automatisée"
           }
         }
       }
@@ -3213,6 +3587,23 @@
         }
       }
     },
+    "Lokale Analyse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local analysis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse locale"
+          }
+        }
+      }
+    },
     "Löschen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -3510,6 +3901,23 @@
         }
       }
     },
+    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Seitentexte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With “On this device only”, neither recipe images nor page texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page; photos cannot be read without the cloud AI yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes de pages ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ; les photos ne peuvent pas encore être lues sans l’IA cloud."
+          }
+        }
+      }
+    },
     "Moderation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3735,6 +4143,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Non comptés"
+          }
+        }
+      }
+    },
+    "Nicht zugelassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non autorisée"
           }
         }
       }
@@ -4068,6 +4493,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvre les réglages Android dans lesquels vous choisissez la langue de BakePlanner indépendamment de celle de l’appareil."
+          }
+        }
+      }
+    },
+    "Öffnet die Seiten im Browser." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the pages in your browser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les pages dans le navigateur."
           }
         }
       }
@@ -4928,6 +5370,23 @@
         }
       }
     },
+    "Speicherung und Löschung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage and deletion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservation et suppression"
+          }
+        }
+      }
+    },
     "Sprache" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5401,6 +5860,23 @@
         }
       }
     },
+    "Umfang der Verarbeitung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scope of processing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étendue du traitement"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -5710,6 +6186,23 @@
         }
       }
     },
+    "Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder oder den Rezepttext und die Adresse der von Dir angegebenen Internetseite sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung, der Nachweis von Firebase App Check und, mit BakePlanner Pro, der vom App Store signierte Kaufbeleg, damit der Server Dein Kontingent zuordnen kann. Der Beleg enthält die Kennung und das Datum des Kaufs, aber keinen Namen und keine Zahlungsdaten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you choose the protected cloud AI, BackPlaner processes the recipe images you selected or the recipe text and the address of the web page you entered, together with technical protection data of the request. These include a pseudonymous Firebase user ID, the Firebase App Check attestation and, with BakePlanner Pro, the purchase receipt signed by the App Store so the server can assign your allowance. The receipt contains the identifier and date of the purchase, but no name and no payment details."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous choisissez l’IA cloud protégée, BackPlaner traite les images de recette que vous avez sélectionnées ou le texte de la recette et l’adresse de la page web que vous avez indiquée, ainsi que des données techniques de protection de la requête. Il s’agit d’un identifiant utilisateur Firebase pseudonyme, de l’attestation Firebase App Check et, avec BakePlanner Pro, du reçu d’achat signé par l’App Store afin que le serveur puisse attribuer votre quota. Le reçu contient l’identifiant et la date de l’achat, mais ni nom ni données de paiement."
+          }
+        }
+      }
+    },
     "Worauf achten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5984,6 +6477,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les ingrédients ont été ajoutés à la liste de courses"
+          }
+        }
+      }
+    },
+    "Zweck und Rechtsgrundlage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purpose and legal basis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalité et base juridique"
           }
         }
       }

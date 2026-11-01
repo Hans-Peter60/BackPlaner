@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18h. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18i. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -275,8 +275,6 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | | Galerie und Fotowolke (`BakeHistoryTally`, `CirclePacking` im Paket) | mittel |
 | | Fotos groß durchblättern | klein |
 | Einstellungen | Eigene Einheiten anlegen und verwalten | mittel |
-| | Seite „Datenschutz bei KI“ mit der ausführlichen Erklärung | klein |
-| | Hilfe: Handbuch, Kontakt, Datenschutzerklärung, Impressum (für den Play Store Pflicht) | klein |
 | | Pro über Play Billing | später |
 | Öffentliche Rezepte | Eigene veröffentlichte bearbeiten und löschen, Admin löschen und freigeben | 11d/11e |
 
