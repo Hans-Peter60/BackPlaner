@@ -9,11 +9,10 @@ import UIKit
 /// size (the amount the rhythm plans), the dough yields of one's starters,
 /// and the planning values (preheat time, bake pause, ovens, day window).
 ///
-/// Stored in UserDefaults.standard under the iPhone's keys, because that is
-/// where the package reads them (AppSettings.stored…), and in a file of
-/// their own, because UserDefaults on Android forgets them when the app
-/// ends (SettingsFile). Not through @AppStorage: on Android it keeps its
-/// values on the Kotlin side, which the package's Foundation does not see.
+/// Stored under the iPhone's keys in the app's own settings file, which the
+/// package reads through AppSettings.settingsReader (SettingsFile): on
+/// Android, UserDefaults was neither shared with the package nor kept
+/// after a restart. Not through @AppStorage either, for the same reason.
 struct SettingsView: View {
     let model: AppModel
     @State var servingSize = AppSettings.storedServingSize

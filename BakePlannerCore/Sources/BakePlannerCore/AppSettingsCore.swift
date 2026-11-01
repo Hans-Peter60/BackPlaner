@@ -121,7 +121,7 @@ public struct AppSettings {
     public static let defaultStarterDoughYieldPresets = "150, 180, 200, 220"
 
     public static var storedStarterDoughYieldPresets: [Int] {
-        starterDoughYieldPresets(from: UserDefaults.standard.string(forKey: AppSettingsKeys.starterDoughYieldPresets) ?? defaultStarterDoughYieldPresets)
+        starterDoughYieldPresets(from: storedString(forKey: AppSettingsKeys.starterDoughYieldPresets) ?? defaultStarterDoughYieldPresets)
     }
 
     /// The numbers in a free-form list, within the range a starter can have,
@@ -314,7 +314,7 @@ public struct AppSettings {
     }
 
     public static var storedLanguage: String {
-        UserDefaults.standard.string(forKey: AppSettingsKeys.selectedLanguage) ?? AppLanguage.system.rawValue
+        storedString(forKey: AppSettingsKeys.selectedLanguage) ?? AppLanguage.system.rawValue
     }
 
     public static var defaultStoragePreference: RecipeStoragePreference {
@@ -323,11 +323,19 @@ public struct AppSettings {
     }
 
     public static var storedServingSize: Int {
-        let value = UserDefaults.standard.integer(forKey: AppSettingsKeys.defaultServingSize)
+        let value: Int
+        if let settingsReader {
+            value = settingsReader(AppSettingsKeys.defaultServingSize) as? Int ?? 0
+        } else {
+            value = UserDefaults.standard.integer(forKey: AppSettingsKeys.defaultServingSize)
+        }
         return value == 0 ? defaultServingSize : value
     }
 
     public static var storedUseDetailView: Bool {
+        if let settingsReader {
+            return settingsReader(AppSettingsKeys.useDetailView) as? Bool ?? defaultUseDetailView
+        }
         if UserDefaults.standard.object(forKey: AppSettingsKeys.useDetailView) == nil {
             return defaultUseDetailView
         }
@@ -359,11 +367,28 @@ public struct AppSettings {
 
     public static var storedBakeEndText: String { defaultBakeEndText }
 
+    /// Where the settings come from when not from UserDefaults.standard: the
+    /// Android app hands in its own store (SettingsFile there), because its
+    /// native Swift and this package do not share UserDefaults reliably and
+    /// UserDefaults on Android forgets the values when the app ends. Nil on
+    /// the iPhone, which reads UserDefaults as always. Set once at start.
+    nonisolated(unsafe) public static var settingsReader: (@Sendable (String) -> Any?)?
+
     private static func storedInt(forKey key: String, defaultValue: Int) -> Int {
+        if let settingsReader {
+            return settingsReader(key) as? Int ?? defaultValue
+        }
         if UserDefaults.standard.object(forKey: key) == nil {
             return defaultValue
         }
         return UserDefaults.standard.integer(forKey: key)
+    }
+
+    private static func storedString(forKey key: String) -> String? {
+        if let settingsReader {
+            return settingsReader(key) as? String
+        }
+        return UserDefaults.standard.string(forKey: key)
     }
 
 }

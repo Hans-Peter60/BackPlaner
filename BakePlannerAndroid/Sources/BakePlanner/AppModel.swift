@@ -94,7 +94,7 @@ final class AppModel {
     private static let reportedRecipesKey = "ugc.hiddenRecipes"
 
     private static func storedIDs(_ key: String) -> Set<String> {
-        let text = UserDefaults.standard.string(forKey: key) ?? ""
+        let text = SettingsFile.value(forKey: key) as? String ?? ""
         return Set(text.split(separator: "\n").map(String.init))
     }
 
@@ -112,7 +112,7 @@ final class AppModel {
     }
 
     private static func storedBool(_ key: String, default defaultValue: Bool) -> Bool {
-        UserDefaults.standard.object(forKey: key) as? Bool ?? defaultValue
+        SettingsFile.value(forKey: key) as? Bool ?? defaultValue
     }
 
     func load() {
