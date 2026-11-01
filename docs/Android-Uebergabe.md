@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18s. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18t. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -85,6 +85,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **UserDefaults auf Android (gefunden in Schritt 15b):** Was die App in `UserDefaults.standard` schrieb, las das Paket nicht zurück (Backöfen blieben 1), und nach einem Neustart war alles weg. Die Android-App hält ihre Einstellungen deshalb selbst in `settings.json` neben der Datenbank (`SettingsFile`) und gibt dem Paket beim Start einen Leser dafür (`AppSettings.settingsReader`, in `onInit`). Neue Einstellungen immer über `SettingsFile.set`; das iPhone liest weiter `UserDefaults` (Leser nil).
 - **SF-Symbole:** Skip übersetzt nur bekannte Namen (Liste in skip-ui `Image.swift`); „globe“, „flame“, „oven“ fehlen. Bei unbekannten Namen erscheint ein Warndreieck.
 - **`ForEach` über einen Bereich (gefunden in 18a):** `ForEach(1...5, id: \.self)` liefert in Skip Bereichs-Indizes statt Ganzzahlen; der Cast auf `Int` stürzt ab („Could not cast value of type ClosedRange<Int>.Index“). Ein Array nehmen: `ForEach([1, 2, 3, 4, 5], id: \.self)`.
+- **Schrittnummern sind Gleitkommazahlen (gefunden in 18t):** 4,1 + 0,1 ergibt gespeichert 4,1999999. `Rational.decimalPlace(_:10)` schneidet ab und zeigt dafür „4.1“ — auch auf dem iPhone in der Schritt-Detailansicht; für die Anzeige auf Zehntel runden (`StepDraft.numberText(for:)`). Wer `Rational.decimalPlace` ändert, prüft die Tests zur Rechenlogik.
 - **Beobachtetes Singleton aus dem Delegate (gefunden in 18s):** Eine Änderung an einem `@Observable`-Singleton, die aus einer von Kotlin gebrückten Methode (`BakePlannerAppDelegate`) heraus per `Task { @MainActor in }` gesetzt wird, erreichte `onChange(of:)` in der Ansicht nicht. Für solche Übergaben einen Handler registrieren lassen (`SharedImport.setHandler`), der die `@State`-Werte der Ansicht setzt; das kommt an.
 - **`Canvas` zeichnet nichts (gefunden in 18q):** SkipUIs `Canvas` ist ein Platzhalter. Schraffuren und ähnliches aus Formen oder einem `LinearGradient` mit harten Farbstopps bauen (`StripedBackground` in `PlanChartView.swift`). Freie Platzierung mit `.frame` und `.offset` in einem `ZStack(alignment: .topLeading)` funktioniert, ebenso `contextMenu` (langes Drücken) und verschachtelte `ScrollView`s in beide Richtungen.
 - **Alert schließt beim Tippen daneben (gefunden in 18q):** Anders als auf dem iPhone verschwindet ein Alert auf Android auch durch Tippen außerhalb; der Code des Knopfs läuft dann nicht. Was nach dem Alert passieren muss (etwa das Blatt schließen), darf nicht nur im „OK“ stehen.
@@ -266,9 +267,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Rezeptliste | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Geplante Schritte | Timeline im Querformat (Zeilen statt Spalten, iPad) | klein |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
-| Neues Rezept | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
-| | Falt-Durchgänge beim Speichern in eigene Schritte auflösen (`TimedFoldExpansion`): prüfen, ob `recalculated()` das tut | prüfen |
-| | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
+| Neues Rezept | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
 | Einstellungen | Pro über Play Billing | später |
 | Öffentliche Rezepte | Eigene veröffentlichte bearbeiten und löschen, Admin löschen und freigeben | 11d/11e |
 

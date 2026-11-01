@@ -68,6 +68,36 @@ public struct IngredientAmountText: Equatable {
 }
 
 extension RecipeExportData {
+    /// The recipe with every instruction that describes repeated
+    /// stretch-and-folds ("nach 30 und 60 Minuten dehnen und falten")
+    /// resolved into one sub-step per fold, as the iOS forms do when a step
+    /// is saved by hand (TimedFoldExpansion). The steps come back in the
+    /// order of their numbers. Nothing to resolve leaves the recipe as it is.
+    public func expandingTimedFolds() -> RecipeExportData {
+        let instructionsFB = instructions.map { instruction -> InstructionFB in
+            let instructionFB = InstructionFB()
+            instructionFB.instruction = instruction.instruction
+            instructionFB.step = instruction.step
+            instructionFB.duration = instruction.duration
+            instructionFB.startTime = instruction.startTime
+            instructionFB.bakeFlag = instruction.bakeFlag
+            instructionFB.componentName = instruction.componentName
+            return instructionFB
+        }
+        var expanded = instructionsFB
+        guard TimedFoldExpansion.expand(&expanded) else { return self }
+        var recipe = self
+        recipe.instructions = expanded
+            .sorted { $0.step < $1.step }
+            .map { instructionFB in
+                RecipeExportInstruction(instruction: instructionFB.instruction, step: instructionFB.step,
+                                        duration: instructionFB.duration, startTime: instructionFB.startTime ?? 0,
+                                        bakeFlag: instructionFB.bakeFlag ?? false,
+                                        componentName: instructionFB.componentName)
+            }
+        return recipe
+    }
+
     /// The recipe with its derived values worked out again after an edit:
     /// each ingredient's weight in grams (`normWeight`), the total weight,
     /// every step's start and the preparation time — the same rules the iOS

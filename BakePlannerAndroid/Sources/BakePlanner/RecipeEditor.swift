@@ -137,19 +137,33 @@ struct RecipeEditor: View {
             Section {
                 ForEach($draft.steps) { $step in
                     VStack(alignment: .leading, spacing: 6) {
-                        TextField("Schritt", text: $step.text, axis: .vertical)
+                        HStack(alignment: .top, spacing: 8) {
+                            // The step's number, editable as on the iPhone:
+                            // 3.1 is a sub-step of 3 (a fold during the rest).
+                            TextField("Nr.", text: $step.numberText)
+                                .keyboardType(.decimalPad)
+                                .frame(width: 64)
+                                .foregroundStyle(step.step == nil ? Color.red : Color.primary)
+                            TextField("Schritt", text: $step.text, axis: .vertical)
+                        }
                         HStack {
                             Text("Minuten")
                             TextField("Dauer", text: $step.minutes)
-                                .foregroundStyle(step.isValid ? Color.primary : Color.red)
+                                .foregroundStyle(step.hasValidDuration ? Color.primary : Color.red)
                         }
                     }
                 }
                 .onDelete { offsets in
                     draft.steps.remove(atOffsets: offsets)
                 }
-                Button("Schritt hinzufügen") {
-                    draft.addStep()
+                HStack(spacing: 16) {
+                    Button("Schritt hinzufügen") {
+                        draft.addStep()
+                    }
+                    Button("Unterschritt hinzufügen") {
+                        draft.addSubStep()
+                    }
+                    .disabled(draft.steps.isEmpty)
                 }
             } header: {
                 Text("Verarbeitungsschritte")
@@ -243,8 +257,15 @@ struct RecipeDraft {
 
     /// A new step after the last, as the next whole step number.
     mutating func addStep() {
-        let next = (steps.map { Int($0.step) }.max() ?? 0) + 1
+        let next = (steps.compactMap { $0.step.map { Int($0) } }.max() ?? 0) + 1
         steps.append(StepDraft(step: Double(next)))
+    }
+
+    /// A sub-step of the last step — 3.1 after 3, 3.2 after 3.1 — as the
+    /// iPhone numbers on after a sub-step.
+    mutating func addSubStep() {
+        guard let last = steps.compactMap(\.step).max() else { return }
+        steps.append(StepDraft(step: (last * 10).rounded() / 10 + 0.1))
     }
 
     /// The recipe this draft describes. What the editor does not show — the
@@ -269,8 +290,12 @@ struct RecipeDraft {
                                           ingredient.ingredient(number: number + 1)
                                       })
             },
-            instructions: steps.sorted { $0.step < $1.step }.map(\.instruction)
-        ).recalculated()
+            instructions: steps.sorted { ($0.step ?? 0) < ($1.step ?? 0) }.map(\.instruction)
+        )
+        // A fold line typed by hand ("nach 30 und 60 Minuten dehnen und
+        // falten") becomes one sub-step per fold, as on the iPhone.
+        .expandingTimedFolds()
+        .recalculated()
     }
 }
 
@@ -328,23 +353,41 @@ struct StepDraft: Identifiable {
     let id = UUID()
     var text = ""
     var minutes = ""
-    var step: Double
+    /// The step number as typed: "3" or "3.1" (a comma does as well).
+    var numberText: String
     var bakeFlag = false
     var componentName: String?
 
     init(step: Double) {
-        self.step = step
+        numberText = Self.numberText(for: step)
     }
 
     init(_ instruction: RecipeExportInstruction) {
         text = instruction.instruction
         minutes = instruction.duration == 0 ? "" : String(instruction.duration)
-        step = instruction.step
+        numberText = Self.numberText(for: instruction.step)
         bakeFlag = instruction.bakeFlag
         componentName = instruction.componentName
     }
 
-    var isValid: Bool { duration != nil }
+    /// "3" or "3.1": the number rounded to a tenth. Rounded, not cut off
+    /// — a stored 4.1999999 is the step 4.2, and cutting it to 4.1 would
+    /// renumber the step on saving.
+    static func numberText(for step: Double) -> String {
+        let tenths = Int((step * 10).rounded())
+        return tenths % 10 == 0 ? "\(tenths / 10)" : "\(tenths / 10).\(tenths % 10)"
+    }
+
+    /// The step number, nil for text that is none.
+    var step: Double? {
+        let trimmed = numberText.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+        guard let value = Double(trimmed), value >= 0 else { return nil }
+        return value
+    }
+
+    var hasValidDuration: Bool { duration != nil }
+
+    var isValid: Bool { hasValidDuration && step != nil }
 
     /// Minutes, or hours and minutes as a baker writes them ("1:30",
     /// "1,5 h"), as on the iPhone (DurationInput).
@@ -353,7 +396,7 @@ struct StepDraft: Identifiable {
     }
 
     var instruction: RecipeExportInstruction {
-        RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step,
+        RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step ?? 0,
                                 duration: duration ?? 0, startTime: 0, bakeFlag: bakeFlag,
                                 componentName: componentName)
     }
