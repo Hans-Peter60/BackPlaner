@@ -241,8 +241,10 @@ struct TabsFBView: View {
             }
         }
         .confirmationDialog("Rezept melden", isPresented: $showReportDialog, titleVisibility: .visible) {
-            ForEach(reportReasons, id: \.self) { reason in
-                Button(reason, role: .destructive) {
+            // Shown in the app's language; stored as the German text the
+            // reviewers read in the Firebase console, as before.
+            ForEach(RecipeFirestoreMapping.reportReasons, id: \.self) { reason in
+                Button(LocalizedStringKey(reason), role: .destructive) {
                     report(reason: reason)
                 }
             }
@@ -392,11 +394,6 @@ struct TabsFBView: View {
         } else {
             translationConfig = configuration
         }
-    }
-
-    /// Reasons offered when reporting a public recipe.
-    private var reportReasons: [String] {
-        ["Anstößig oder beleidigend", "Spam", "Urheberrechtsverletzung", "Sonstiges"]
     }
 
     /// Files the report — which withholds the recipe from every user server-side —

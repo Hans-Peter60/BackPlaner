@@ -1909,6 +1909,24 @@
         }
       }
     },
+    "Anstößig oder beleidigend" : {
+      "comment" : "Reason for reporting a public recipe; the German text is what is stored.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offensive or abusive"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choquant ou injurieux"
+          }
+        }
+      }
+    },
     "Anzahl" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -11923,6 +11941,24 @@
         }
       }
     },
+    "Spam" : {
+      "comment" : "Reason for reporting a public recipe; the German text is what is stored.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spam"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spam"
+          }
+        }
+      }
+    },
     "Später" : {
       "localizations" : {
         "en" : {
@@ -15650,6 +15686,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec du téléversement"
+          }
+        }
+      }
+    },
+    "Urheberrechtsverletzung" : {
+      "comment" : "Reason for reporting a public recipe; the German text is what is stored.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright infringement"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Violation du droit d’auteur"
           }
         }
       }
