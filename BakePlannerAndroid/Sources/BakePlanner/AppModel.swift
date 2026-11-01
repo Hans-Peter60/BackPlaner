@@ -73,11 +73,11 @@ final class AppModel {
     /// account, so none of the public recipes is its own yet.
     var showsLocalRecipes = AppModel.storedBool(AppSettingsKeys.showLocalRecipes,
                                                 default: AppSettings.defaultShowLocalRecipes) {
-        didSet { UserDefaults.standard.set(showsLocalRecipes, forKey: AppSettingsKeys.showLocalRecipes) }
+        didSet { SettingsFile.set(showsLocalRecipes, forKey: AppSettingsKeys.showLocalRecipes) }
     }
     var showsPublicRecipes = AppModel.storedBool(AppSettingsKeys.showPublicCloudRecipes,
                                                  default: AppSettings.defaultShowPublicCloudRecipes) {
-        didSet { UserDefaults.standard.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
+        didSet { SettingsFile.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
     }
 
     /// Authors blocked and recipes reported on this device — the iPhone's
@@ -99,7 +99,7 @@ final class AppModel {
     }
 
     private static func storeIDs(_ ids: Set<String>, _ key: String) {
-        UserDefaults.standard.set(ids.sorted().joined(separator: "\n"), forKey: key)
+        SettingsFile.set(ids.sorted().joined(separator: "\n"), forKey: key)
     }
 
     /// The public recipes the list shows: neither reported here nor by a

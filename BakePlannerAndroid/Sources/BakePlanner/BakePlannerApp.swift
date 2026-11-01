@@ -32,6 +32,8 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.bakeplanner", category: "Bak
     /* SKIP @bridge */public func onInit() {
         logger.debug("onInit")
         PublicRecipeService.configure()
+        // Before any view or the model reads a setting (SettingsFile).
+        SettingsFile.restore()
     }
 
     /* SKIP @bridge */public func onLaunch() {
