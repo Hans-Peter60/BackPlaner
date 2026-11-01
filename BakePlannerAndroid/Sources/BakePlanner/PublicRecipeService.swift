@@ -43,6 +43,37 @@ enum PublicRecipeService {
         #endif
     }
 
+    /// Has the cloud AI read photographed recipe pages (Cloud Function
+    /// analyzeRecipeImages, as the iPhone calls it): up to ten JPEGs, each
+    /// no larger than 3 MB (PhotoShrinker.analysisPhoto), sent as Base64.
+    /// Without Pro the function's monthly allowance applies.
+    @MainActor
+    static func analyzeRecipeImages(_ photos: [Data]) async throws -> CloudRecipeAnalysis {
+        #if os(Android)
+        try await signInIfNeeded()
+        let callable = Functions.functions(region: "europe-west1").httpsCallable("analyzeRecipeImages")
+        callable.timeoutInterval = 250
+        let result = try await callable.call(Self.imagesPayload(photos))
+        guard let analysis = CloudRecipeAnalysis(response: result.data) else {
+            throw ServiceError.invalidResponse
+        }
+        return analysis
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// The function's payload: `images`, each with Base64 data and MIME
+    /// type. Built off the main actor and handed over as `sending`, because
+    /// the strict concurrency check would not let a `[String: Any]` made on
+    /// the main actor go to the SDK's call.
+    nonisolated private static func imagesPayload(_ photos: [Data]) -> sending [String: Any] {
+        let images: [[String: Any]] = photos.map { photo in
+            ["data": photo.base64EncodedString(), "mimeType": "image/jpeg"]
+        }
+        return ["images": images]
+    }
+
     /// Sets Firebase up from google-services.json, with App Check before any
     /// request: Firestore refuses requests without it. The debug provider
     /// prints a token to the log on the first start ("Enter this debug

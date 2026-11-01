@@ -85,7 +85,8 @@ struct RecipeListView: View {
     @State var confirmsDeletion = false
     @State var createsRecipe = false
     @State var importsFromWeb = false
-    /// A recipe read from a web page, waiting for the editor. Kept apart
+    @State var importsFromPhotos = false
+    /// A recipe read from a web page or from photos, waiting for the editor. Kept apart
     /// from the editor's visibility, as the dialogs' data is.
     @State var importedRecipe: RecipeExportData?
     @State var importNotice: Text?
@@ -183,6 +184,9 @@ struct RecipeListView: View {
                     Button("Von einer Internetseite") {
                         importsFromWeb = true
                     }
+                    Button("Aus Fotos") {
+                        importsFromPhotos = true
+                    }
                 } label: {
                     Label("Neues Rezept", systemImage: "plus")
                 }
@@ -197,15 +201,12 @@ struct RecipeListView: View {
         }
         .appSheet(isPresented: $importsFromWeb) {
             NavigationStack {
-                WebRecipeImportView(model: model) { content, notice in
-                    importedRecipe = content
-                    importNotice = notice
-                    // The editor opens once this sheet has gone.
-                    Task {
-                        try? await Task.sleep(for: .milliseconds(400))
-                        editsImportedRecipe = true
-                    }
-                }
+                WebRecipeImportView(model: model, onImport: receiveImport)
+            }
+        }
+        .appSheet(isPresented: $importsFromPhotos) {
+            NavigationStack {
+                PhotoRecipeImportView(model: model, onImport: receiveImport)
             }
         }
         .appSheet(isPresented: $editsImportedRecipe) {
@@ -257,6 +258,17 @@ struct RecipeListView: View {
             if case .failed(let reason) = model.importOutcome {
                 Text(verbatim: reason)
             }
+        }
+    }
+
+    /// Takes an imported recipe from the web or photo import and opens the
+    /// editor with it once the import's sheet has gone.
+    private func receiveImport(_ content: RecipeExportData, _ notice: Text?) {
+        importedRecipe = content
+        importNotice = notice
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            editsImportedRecipe = true
         }
     }
 

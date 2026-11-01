@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 31.10.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 4e.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 17d. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -240,6 +240,48 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
    - **17a (erledigt für die Internetseiten, siehe Bestandsaufnahme; die Cloud-Antwortmodelle folgen mit 17c) (Paket, mit Tests; Cloud-Antwortmodelle mit 17c erledigt):** Das Lesen von Internetseiten ins Paket: strukturierte Rezeptdaten aus JSON-LD, lesbarer Text, Titel, Sprache, Bildadresse, `StructuredWebRecipe` → `RecipeFB`; dazu die Antwort-Modelle der Cloud-KI (`CloudRecipe` → `RecipeFB`) und ihre Prüfung. Reine Foundation-Logik; die iOS-App ruft das Paket auf, ihr Verhalten bleibt gleich.
    - **17b (erledigt, siehe Bestandsaufnahme; „Aus Fotos“ kommt mit 17d ins Menü) (Android): Rezept von einer Internetseite.** „Neues Rezept“ wird zur Auswahl: „Von Hand“, „Von einer Internetseite“, „Aus Fotos“ (17d). Adresse eingeben → Seite laden → strukturierte Daten → Editor mit dem Rezept und Bild, Hinweis wie auf dem iPhone. Seiten ohne strukturierte Daten: „Kein Rezept gefunden“, bis 17c.
    - **17c (erledigt, siehe Bestandsaufnahme) (Android): Cloud-KI.** Einstellungen → „Datenschutz & KI“ wie auf dem iPhone (Zustimmung, Texte aus dem iOS-Katalog). Mit Zustimmung geht der Seitentext an `analyzeRecipeText`; das liest auch Seiten ohne strukturierte Daten und ordnet Komponenten besser zu.
-   - **17d (Android): Rezept aus Fotos.** Fotos wählen (Dateiauswahl) oder aufnehmen, auf die Grenzen der Function verkleinern, an `analyzeRecipeImages`, Ergebnis in den Editor. Nur mit Zustimmung zur Cloud-KI; ohne sie erklärt die App, dass Fotos auf Android (noch) nur über die Cloud gelesen werden.
+   - **17d (erledigt, siehe Bestandsaufnahme; Kamera-Aufnahme offen) (Android): Rezept aus Fotos.** Fotos wählen (Dateiauswahl, bis zu zehn), auf die Grenzen der Function verkleinern, an `analyzeRecipeImages`, Ergebnis in den Editor. Nur mit Zustimmung zur Cloud-KI; ohne sie erklärt die App, dass Fotos auf Android (noch) nur über die Cloud gelesen werden. **Aufnehmen mit der Kamera** fehlt: SkipKits Kamera-Aufnahme liefert eine `content://`-Adresse (FileProvider), die natives Swift nicht lesen kann; Wege: die Datei im Bilder-Ordner der App suchen oder ein kleines übersetztes Modul wie `BakePlannerSpeech`. Dazu `CAMERA` im Manifest.
    - **Später möglich:** Texterkennung auf dem Gerät mit ML Kit (eigenes Kotlin-Modul wie `BakePlannerSpeech`) und den Lesern im Paket, also Fotos ohne Cloud; „Teilen“ aus Chrome an BakePlanner (Intent-Filter), wie die Share-Extension.
    - **Zu bedenken:** Cloud-KI kostet je Aufruf (Vertex AI) und zählt gegen die Monatsgrenze; App Check gilt für die Functions, im Play Store braucht es Play Integrity.
+
+
+## Lücken gegenüber dem iPhone
+
+Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Quellen am 01.11.2026. Reihenfolge-Vorschlag: zuerst die kleinen Lücken in Rezeptliste und Rezeptansicht, dann die Rechner, danach die großen Themen (Timeline, PDF). Was oben unter „Offen“ schon einen eigenen Schritt hat, ist hier nur kurz genannt. Erledigtes bitte hier streichen und in der Bestandsaufnahme eintragen.
+
+| Bereich | Fehlt auf Android | Einordnung |
+|---|---|---|
+| Rezeptliste | Suche nach Tags (Umschalter Name/Tags), Filter Mindestbewertung, Bild in der Zeile | klein |
+| Rezeptansicht | Bild antippen für Großansicht | klein |
+| | Freies Teiggewicht statt nur Faktor 0,5–2,0 (Logik im Paket) | mittel |
+| | TA-Aufschlüsselung beim Tippen auf „TA … · Hydration …“ (`DoughComposition`) | klein |
+| | Bäckerprozente samt Einstellung | klein |
+| | Mehl ersetzen und Anstellgut-TA anpassen aus der Zutatenzeile, mit „Kopie anlegen“ / „Änderung übernehmen“ (Logik im Paket, iOS-Views 414 und 459 Zeilen) | groß |
+| | „Meine Anstellgut-TAs“ in den Einstellungen (gehört zu Anstellgut-TA) | klein |
+| | Link zum Rezept anzeigen und öffnen | klein |
+| | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
+| | Karte „Letztes Mal“ mit „Ergänzen“ | klein |
+| Planen | „Dauer ändern“ vor dem Planen, bei eigenen Rezepten dauerhaft | mittel |
+| | Bestätigung mit „Backofen anstellen um …“, „Fertig um …“ | klein |
+| Geplante Schritte | i-Symbol für die Zutaten einer Komponente je Schritt (`BakeModeText`) | klein |
+| | Schritt-Detailansicht beim Antippen | klein |
+| | Grafische Timeline mit Balken, Farben, Nachtband (iOS 943 Zeilen) | groß |
+| | „Alle löschen“ über alle Pläne | klein |
+| | Leiste „Als Nächstes“ / „Jetzt fällig“ (`CurrentStepRule`) | mittel |
+| | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
+| Neues Rezept | Kamera für Rezeptbild, Backhistorie-Fotos und Foto-Import (siehe 17d) | mittel |
+| | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |
+| | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
+| | Falt-Durchgänge beim Speichern in eigene Schritte auflösen (`TimedFoldExpansion`): prüfen, ob `recalculated()` das tut | prüfen |
+| | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
+| Rechner | Teigtemperatur, Mehl ersetzen, Anstellgut-TA als freie Rechner (Logik komplett im Paket) | mittel |
+| Backhistorie | Suche und Bewertungsfilter | klein |
+| | Galerie und Fotowolke (`BakeHistoryTally`, `CirclePacking` im Paket) | mittel |
+| | Fotos groß durchblättern | klein |
+| Einstellungen | Eigene Einheiten anlegen und verwalten | mittel |
+| | Seite „Datenschutz bei KI“ mit der ausführlichen Erklärung | klein |
+| | Hilfe: Handbuch, Kontakt, Datenschutzerklärung, Impressum (für den Play Store Pflicht) | klein |
+| | Pro über Play Billing | später |
+| Öffentliche Rezepte | Eigene veröffentlichte bearbeiten und löschen, Admin löschen und freigeben | 11d/11e |
+
+Nicht für Android geplant (Bestandsaufnahme): Widget, Live-Aktivität, Siri, Apple Watch, Übersetzung auf dem Gerät, Übersetzung der Einkaufslisten-Zutaten.

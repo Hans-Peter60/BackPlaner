@@ -45,10 +45,43 @@ enum PhotoShrinker {
         #endif
     }
 
+    // MARK: Pages for the cloud AI
+
+    /// What the Cloud Function analyzeRecipeImages accepts per page, as the
+    /// iPhone prepares its pages (FirebaseFunctionsClient): 2000 pixels on
+    /// the longer side, JPEG 0.72, at most 3 MB.
+    static let analysisLongestEdge = 2000.0
+    static let analysisJPEGQuality = 0.72
+    static let analysisMaximumBytes = 3 * 1024 * 1024
+
+    /// A photographed page as it goes to the cloud AI: JPEG, no longer than
+    /// `analysisLongestEdge`, and under the function's size limit — made
+    /// smaller and coarser until it fits. Nil for data that is no picture,
+    /// or one that will not fit even then.
+    static func analysisPhoto(_ data: Data) -> Data? {
+        #if canImport(UIKit) || os(Android)
+        guard let image = UIImage(data: data) else { return nil }
+        var edge = analysisLongestEdge
+        var quality = analysisJPEGQuality
+        for _ in 0..<4 {
+            let kept = smallerImage(of: image, longestEdge: edge) ?? image
+            if let jpeg = kept.jpegData(compressionQuality: .init(quality)),
+               jpeg.count <= analysisMaximumBytes {
+                return jpeg
+            }
+            edge *= 0.75
+            quality = max(0.4, quality - 0.1)
+        }
+        return nil
+        #else
+        return data
+        #endif
+    }
+
     #if canImport(UIKit) || os(Android)
     /// The image scaled down to `longestEdge`, keeping its proportions; nil
     /// when it is that small already.
-    private static func smallerImage(of image: UIImage) -> UIImage? {
+    private static func smallerImage(of image: UIImage, longestEdge: Double = PhotoShrinker.longestEdge) -> UIImage? {
         let scale = Double(image.scale)
         let width = Double(image.size.width) * scale
         let height = Double(image.size.height) * scale

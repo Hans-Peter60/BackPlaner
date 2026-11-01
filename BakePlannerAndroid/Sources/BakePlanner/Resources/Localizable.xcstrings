@@ -409,6 +409,23 @@
         }
       }
     },
+    "Auf Android liest BakePlanner Fotos bisher nur mit der Cloud-KI. Wähle „Geschützte Cloud-KI“, oder lege das Rezept von Hand oder von einer Internetseite an." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On Android, BakePlanner can read photos only with the cloud AI for now. Choose “Protected cloud AI”, or create the recipe by hand or from a web page."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur Android, BakePlanner ne lit les photos qu’avec l’IA cloud pour l’instant. Choisissez « IA cloud protégée », ou créez la recette à la main ou depuis une page web."
+          }
+        }
+      }
+    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -423,6 +440,40 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Repris de la recette — non modifiable ici."
+          }
+        }
+      }
+    },
+    "Aus Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir de photos"
+          }
+        }
+      }
+    },
+    "Ausgewählte Seiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected pages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages sélectionnées"
           }
         }
       }
@@ -865,6 +916,40 @@
         }
       }
     },
+    "Bilder auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select images"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionner des images"
+          }
+        }
+      }
+    },
+    "Bis zu 10 Seiten, in der Reihenfolge der Auswahl." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 10 pages, in the order selected."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’à 10 pages, dans l’ordre de la sélection."
+          }
+        }
+      }
+    },
     "Bisher" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1264,6 +1349,40 @@
         }
       }
     },
+    "Die ausgewählten Bilder werden verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selected images are analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images sélectionnées sont analysées de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
+    "Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The images are analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the images transmitted for analysis in Firebase Storage or in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images sont analysées uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas les images transmises pour l’analyse dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
     "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen." : {
       "comment" : "Web import: cloud AI failed, structured data used.",
       "extractionState" : "manual",
@@ -1384,6 +1503,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La page elle-même est chargée par votre appareil. Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
+    "Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe images you selected are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider in this process. For security and usage limits, a pseudonymous Firebase user ID, the App Check token, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images de recettes que vous avez sélectionnées sont transmises de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis de là à Google Vertex AI. Google intervient ici en tant que fournisseur d’IA externe. Pour la sécurité et la limitation d’utilisation, un identifiant utilisateur Firebase pseudonyme, le jeton App Check ainsi que l’heure et le nombre de requêtes sont également traités."
           }
         }
       }
@@ -1731,6 +1867,23 @@
         }
       }
     },
+    "Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. Beschneide die Bilder so, dass Logos, Kopf- und Fußzeilen möglichst wegfallen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo of every page or select the pages in the correct order. Straight, clearly readable images give the best results. Crop the images so that logos, headers and footers are left out."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photographiez toutes les pages ou sélectionnez-les dans le bon ordre. Des images droites et bien lisibles donnent les meilleurs résultats. Recadrez les images afin d’écarter autant que possible les logos, en-têtes et pieds de page."
+          }
+        }
+      }
+    },
     "Fotos" : {
       "comment" : "Bake history entry: heading above the photos.",
       "extractionState" : "manual",
@@ -1745,6 +1898,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Photos"
+          }
+        }
+      }
+    },
+    "Fotos werden vorbereitet …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing photos …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préparation des photos …"
           }
         }
       }
@@ -3295,6 +3465,23 @@
         }
       }
     },
+    "Rezept aus Bildern importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe from images"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer une recette à partir d’images"
+          }
+        }
+      }
+    },
     "Rezept löschen?" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -3662,6 +3849,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "depuis %@"
+          }
+        }
+      }
+    },
+    "Seite %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page %lld"
+          }
+        }
+      }
+    },
+    "Seite %lld entfernen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove page %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer la page %lld"
           }
         }
       }
