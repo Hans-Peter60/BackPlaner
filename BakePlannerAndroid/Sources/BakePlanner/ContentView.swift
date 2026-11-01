@@ -74,6 +74,12 @@ struct ContentView: View {
 struct RecipeListView: View {
     let model: AppModel
     @State var searchText = ""
+    /// Whether the search looks at the tags instead of the names, as the
+    /// iPhone's search scopes "Name"/"Tags" do. SkipUI has no search scopes,
+    /// so the choice sits in a row above the list.
+    @State var searchesTags = false
+    /// Only recipes rated this or better are listed; 0 lists all.
+    @State var minimumRating = 0
     @State var showsPicker = false
     @State var pickedURL: URL?
     @State var pickedName: String?
@@ -129,7 +135,12 @@ struct RecipeListView: View {
                             .font(.caption)
                             .foregroundStyle(Color.red)
                     }
+                    filterRow
                     let rows = filteredRows
+                    if rows.isEmpty {
+                        Text("Keine passenden Rezepte")
+                            .foregroundStyle(.secondary)
+                    }
                     ForEach(rows) { row in
                         NavigationLink {
                             RecipeListDestination(model: model, row: row)
@@ -149,7 +160,7 @@ struct RecipeListView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                .searchable(text: $searchText)
+                .searchable(text: $searchText, prompt: Text("Rezept suchen"))
                 .refreshable {
                     model.load()
                     await model.loadPublicRecipes()
@@ -272,6 +283,40 @@ struct RecipeListView: View {
         }
     }
 
+    /// Where the search looks, and the least rating listed — the iPhone's
+    /// search scopes and its filter menu, as one row above the recipes.
+    private var filterRow: some View {
+        HStack(spacing: 12) {
+            Picker("Suchen in", selection: $searchesTags) {
+                Text("Name").tag(false)
+                Text("Tags").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            Menu {
+                Button("Alle Bewertungen") {
+                    minimumRating = 0
+                }
+                ForEach(1...5, id: \.self) { stars in
+                    Button {
+                        minimumRating = stars
+                    } label: {
+                        Text("\(stars) Sterne und mehr")
+                    }
+                }
+            } label: {
+                // Skip draws "star" and "star.fill", not the iPhone's filter symbol.
+                HStack(spacing: 2) {
+                    Image(systemName: minimumRating > 0 ? "star.fill" : "star")
+                    if minimumRating > 0 {
+                        Text(verbatim: "\(minimumRating)+")
+                    }
+                }
+                .accessibilityLabel(Text("Nach Bewertung filtern"))
+            }
+        }
+    }
+
     /// One line of the list: an own recipe or a public one.
     enum Row: Identifiable {
         case local(StoredRecipe)
@@ -291,6 +336,20 @@ struct RecipeListView: View {
             }
         }
 
+        var tags: [String] {
+            switch self {
+            case .local(let recipe): return recipe.content.tags
+            case .shared(let recipe): return recipe.tags
+            }
+        }
+
+        var rating: Int {
+            switch self {
+            case .local(let recipe): return recipe.content.rating
+            case .shared(let recipe): return recipe.rating
+            }
+        }
+
         var isLocal: Bool {
             if case .local = self { return true }
             return false
@@ -307,9 +366,16 @@ struct RecipeListView: View {
         if model.showsPublicRecipes {
             rows += model.visiblePublicRecipes.map { Row.shared($0) }
         }
+        if minimumRating > 0 {
+            rows = rows.filter { $0.rating >= minimumRating }
+        }
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {
-            rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
+            if searchesTags {
+                rows = rows.filter { row in row.tags.contains { $0.localizedCaseInsensitiveContains(query) } }
+            } else {
+                rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
+            }
         }
         return rows.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }

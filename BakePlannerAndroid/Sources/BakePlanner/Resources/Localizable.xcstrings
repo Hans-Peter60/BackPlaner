@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%lld Sterne und mehr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stars and up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étoiles et plus"
+          }
+        }
+      }
+    },
     "%lld Zutaten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -177,6 +194,23 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Alle Bewertungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All ratings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les notes"
           }
         }
       }
@@ -2339,6 +2373,23 @@
         }
       }
     },
+    "Keine passenden Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune recette correspondante"
+          }
+        }
+      }
+    },
     "Keine Zutaten vorhanden" : {
       "comment" : "A message that appears when a recipe has no ingredients that can be added to a shopping cart.",
       "extractionState" : "manual",
@@ -2843,6 +2894,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modération"
+          }
+        }
+      }
+    },
+    "Nach Bewertung filtern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter by rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer par note"
           }
         }
       }
@@ -3535,6 +3603,23 @@
         }
       }
     },
+    "Rezept suchen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher une recette"
+          }
+        }
+      }
+    },
     "Rezept von einer Internetseite importieren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4183,6 +4268,23 @@
         }
       }
     },
+    "Suchen in" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search in"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher dans"
+          }
+        }
+      }
+    },
     "TA %lld · Hydration %@" : {
       "comment" : "A label that displays the dough yield and hydration percentage. The first argument is the dough yield, a number. The second argument is the string “%arg %%”.",
       "extractionState" : "manual",
@@ -4237,6 +4339,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fin de journée"
+          }
+        }
+      }
+    },
+    "Tags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
           }
         }
       }

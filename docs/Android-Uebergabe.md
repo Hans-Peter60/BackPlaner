@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 17d. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18a. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -251,7 +251,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
-| Rezeptliste | Suche nach Tags (Umschalter Name/Tags), Filter Mindestbewertung, Bild in der Zeile | klein |
+| Rezeptliste | Bild in der Zeile (die Liste lädt bisher keine Bilder) | klein |
 | Rezeptansicht | Bild antippen für Großansicht | klein |
 | | Freies Teiggewicht statt nur Faktor 0,5–2,0 (Logik im Paket) | mittel |
 | | TA-Aufschlüsselung beim Tippen auf „TA … · Hydration …“ (`DoughComposition`) | klein |
