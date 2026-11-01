@@ -170,6 +170,15 @@ struct RecipeBakeHistorySection: View {
             .buttonStyle(.bordered)
             .tint(Palette.accent(colorScheme))
 
+            // "How did it go last time?" — the newest bake that already
+            // happened, as the iPhone's LastBakeCardView shows it.
+            if let last = BakeHistoryFacts.lastCompleted(entries, date: { $0.date }, now: Date()) {
+                LastBakeCard(entry: last) {
+                    editedEntry = model.bakeEntry(id: last.id)
+                    editsEntry = editedEntry != nil
+                }
+            }
+
             if !entries.isEmpty {
                 Text("Bisherige Backvorgänge")
                     .font(.title3)
@@ -199,6 +208,60 @@ struct RecipeBakeHistorySection: View {
                 }
             }
         }
+    }
+}
+
+/// The last bake that already happened: its date, facts and comment, one
+/// tap away from adding what is still missing (the iPhone's
+/// LastBakeCardView). The entries of the list carry no photos, so a bake
+/// with only photos counts as not noted yet.
+struct LastBakeCard: View {
+    let entry: StoredBakeHistory
+    let onEdit: () -> Void
+    @Environment(\.colorScheme) var colorScheme
+
+    private var hasNotes: Bool {
+        !entry.facts.isEmpty || !BakeHistoryFacts.isPlaceholderComment(entry.comment)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Letztes Mal")
+                    .font(.caption)
+                    .bold()
+                    .textCase(.uppercase)
+                    .foregroundStyle(Palette.accent(colorScheme))
+                Spacer()
+                Text(verbatim: BakeHistoryText.date(entry.date))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if hasNotes {
+                let summary = entry.facts.summaryLine()
+                if !summary.isEmpty {
+                    Text(verbatim: summary)
+                        .font(.subheadline)
+                }
+                if !BakeHistoryFacts.isPlaceholderComment(entry.comment) {
+                    Text(verbatim: entry.comment)
+                }
+                if entry.facts.isEmpty {
+                    Text("Temperaturen, Gare und Mehl sind noch nicht notiert.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Button("Ergänzen", action: onEdit)
+                    .font(.subheadline)
+            } else {
+                Text("Noch nichts notiert. Wie lief es – Raum- und Teigtemperatur, Gare, Mehl, Krume?")
+                Button("Jetzt eintragen", action: onEdit)
+                    .font(.subheadline)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.6), in: RoundedRectangle(cornerRadius: 12))
     }
 }
 

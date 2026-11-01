@@ -1797,6 +1797,23 @@
         }
       }
     },
+    "Ergänzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add details"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compléter"
+          }
+        }
+      }
+    },
     "Ergebnis eintragen" : {
       "comment" : "Starter diary: enter how a feeding went (time to peak, float test, note).",
       "extractionState" : "manual",
@@ -2356,6 +2373,23 @@
         }
       }
     },
+    "Jetzt eintragen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note it now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter maintenant"
+          }
+        }
+      }
+    },
     "Keine Einkaufsliste vorhanden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2648,6 +2682,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Mie / développement"
+          }
+        }
+      }
+    },
+    "Letztes Mal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La dernière fois"
           }
         }
       }
@@ -3226,6 +3277,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Rien de noté pour l’instant"
+          }
+        }
+      }
+    },
+    "Noch nichts notiert. Wie lief es – Raum- und Teigtemperatur, Gare, Mehl, Krume?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing noted yet. How did it go — room and dough temperature, proofing, flour, crumb?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien de noté pour l’instant. Comment cela s’est-il passé : température ambiante et de la pâte, pousse, farine, mie ?"
           }
         }
       }
@@ -4562,6 +4630,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température de la pâte"
+          }
+        }
+      }
+    },
+    "Temperaturen, Gare und Mehl sind noch nicht notiert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperatures, proofing, and flour aren’t noted yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les températures, la pousse et la farine ne sont pas encore notées."
           }
         }
       }
