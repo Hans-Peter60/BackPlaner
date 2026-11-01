@@ -45,6 +45,7 @@ struct ContentView: View {
         }
         // Skip looks every text up in the environment's locale.
         .environment(\.locale, AppSettings.appLocale(forDevice: locale))
+        .compactTextFields()
         // Coming to the foreground plans what is due on a rhythm, as on the
         // iPhone.
         .onChange(of: scenePhase) { _, phase in
