@@ -32,7 +32,8 @@ struct ContentView: View {
                 BakeHistoryView(model: model)
             }
             .tabItem {
-                Label("Backhistorie", systemImage: "clock")
+                // Skip has no clock symbol (it drew a warning triangle).
+                Label("Backhistorie", systemImage: "checkmark.circle")
             }
 
             NavigationStack {
@@ -103,9 +104,11 @@ struct RecipeListView: View {
 
     var body: some View {
         ZStack {
+            // Not ignoring the safe area here: the search field sits in the
+            // area above the list, and a gradient reaching into it covered
+            // the field (taps still went through, so one typed unseen).
             LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
                            startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
 
             if let loadError = model.loadError {
                 VStack(spacing: 12) {
