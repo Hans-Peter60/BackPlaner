@@ -17,6 +17,7 @@ struct RecipeDetailView: View {
     @State var scale = 1.0
     @State var isEditing = false
     @State var picksImage = false
+    @State var takesPhoto = false
     @State var recipeToExport: [String]?
     @State var pickedImageURL: URL?
     @State var pickedImageName: String?
@@ -124,6 +125,9 @@ struct RecipeDetailView: View {
             guard let data = Self.pictureData(at: url) else { return }
             changeImage(to: data)
         }
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            changeImage(to: data)
+        }
         .task {
             recipe = model.recipe(id: recipeID)
         }
@@ -152,6 +156,9 @@ struct RecipeDetailView: View {
                 HStack(spacing: 16) {
                     Button(recipe.content.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
                         picksImage = true
+                    }
+                    Button("Kamera") {
+                        takesPhoto = true
                     }
                     if recipe.content.image != nil {
                         Button("Bild entfernen", role: .destructive) {

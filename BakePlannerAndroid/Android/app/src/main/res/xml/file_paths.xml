@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Where the camera may write the photo it takes for BakePlanner: the
+     Pictures folder of the app's external files (SkipKit's media picker
+     creates the file there and hands the camera a content:// address of
+     the FileProvider below). -->
+<paths>
+    <external-files-path name="pictures" path="Pictures/" />
+</paths>

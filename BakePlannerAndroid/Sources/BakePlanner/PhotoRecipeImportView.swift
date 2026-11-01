@@ -19,6 +19,7 @@ struct PhotoRecipeImportView: View {
     let onImport: (RecipeExportData, Text?) -> Void
     @State var pages: [ImportPage] = []
     @State var picksPages = false
+    @State var takesPhoto = false
     @State var pickedURLs: [URL] = []
     @State var pickedNames: [String] = []
     @State var pickedTypes: [String] = []
@@ -62,8 +63,13 @@ struct PhotoRecipeImportView: View {
                         .accessibilityLabel(Text("Seite \(index + 1) entfernen"))
                     }
                 }
-                Button("Bilder auswählen") {
-                    picksPages = true
+                HStack(spacing: 16) {
+                    Button("Bilder auswählen") {
+                        picksPages = true
+                    }
+                    Button("Aufnehmen") {
+                        takesPhoto = true
+                    }
                 }
                 .disabled(pages.count >= Self.maximumPages || isAnalyzing || isPreparing)
                 if isPreparing {
@@ -154,6 +160,12 @@ struct PhotoRecipeImportView: View {
             guard !urls.isEmpty else { return }
             pickedURLs = []
             Task { await append(urls) }
+        }
+        // A photographed page, taken one at a time.
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            if pages.count < Self.maximumPages {
+                pages.append(ImportPage(data: data))
+            }
         }
     }
 

@@ -583,6 +583,7 @@ struct BakeEntryEditor: View {
     @State var flour: String
     @State var outcome: String
     @State var picksImage = false
+    @State var takesPhoto = false
     /// The photo shown large after a tap. Kept apart from the sheet's
     /// visibility, as the dialogs are.
     @State var largePhoto: Data?
@@ -652,8 +653,13 @@ struct BakeEntryEditor: View {
                         }
                     }
                 }
-                Button("Bild hinzufügen") {
-                    picksImage = true
+                HStack(spacing: 16) {
+                    Button("Bild hinzufügen") {
+                        picksImage = true
+                    }
+                    Button("Kamera") {
+                        takesPhoto = true
+                    }
                 }
             } header: {
                 Text("Fotos")
@@ -701,6 +707,9 @@ struct BakeEntryEditor: View {
             if let data = RecipeDetailView.pictureData(at: url) {
                 images.append(data)
             }
+        }
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            images.append(data)
         }
         .alert("Backvorgang löschen?", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {

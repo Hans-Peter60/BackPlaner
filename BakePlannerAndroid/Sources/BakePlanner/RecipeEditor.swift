@@ -20,6 +20,7 @@ struct RecipeEditor: View {
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
     @State var picksImage = false
+    @State var takesPhoto = false
     @State var pickedImageURL: URL?
     @State var pickedImageName: String?
     @State var pickedImageType: String?
@@ -58,6 +59,9 @@ struct RecipeEditor: View {
                 HStack(spacing: 16) {
                     Button(draft.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
                         picksImage = true
+                    }
+                    Button("Kamera") {
+                        takesPhoto = true
                     }
                     if draft.image != nil {
                         Button("Bild entfernen", role: .destructive) {
@@ -178,6 +182,9 @@ struct RecipeEditor: View {
             if let data = RecipeDetailView.pictureData(at: url) {
                 draft.image = data
             }
+        }
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            draft.image = data
         }
     }
 }

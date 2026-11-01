@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18q. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18r. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -73,7 +73,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **Dateiauswahl:** `fileImporter` ist in Skip auf Android nur ein Platzhalter. Stattdessen `withDocumentPicker` aus **SkipKit**. Auf iOS muss man den Zugriff selbst holen (`startAccessingSecurityScopedResource`), auf Android liefert der Picker eine Kopie.
 - **Dialoge:** Android schließt einen `.alert` vor der Aktion des Knopfes. Die Sichtbarkeit (`isPresented`) gehört deshalb nicht an dieselben Daten, die die Aktion braucht. Sonst sind sie beim Ausführen schon weg, siehe Löschen in `ContentView`.
 - **Leiste oben:** Android zeigt nur zwei Einträge mit `placement: .primaryAction` und lässt weitere ohne Meldung weg. Mehr Aktionen gehören in ein `Menu`.
-- **Bilder:** `UIImage(data:)`, `Image(uiImage:)` und `jpegData` gibt es in Skip Fuse auch auf Android. SkipKits `withMediaPicker` liefert auf Android eine `content://`-Adresse, die Swift nicht lesen kann; für Bilder deshalb `withDocumentPicker` mit `[.image]`.
+- **Bilder:** `UIImage(data:)`, `Image(uiImage:)` und `jpegData` gibt es in Skip Fuse auch auf Android. SkipKits `withMediaPicker` liefert auf Android eine `content://`-Adresse, die Swift nicht lesen kann; für Bilder deshalb `withDocumentPicker` mit `[.image]`. Wo eine `content://`-Adresse unvermeidlich ist (Kamera, von anderen Apps Geteiltes), liest sie `ContentFile` aus dem übersetzten Modul `BakePlannerMedia` über den ContentResolver (seit 18r).
 - **Erinnerungen** (Probe vom 30.10.2026):
   - Es fehlen `UNNotificationAction`, Texteingabe-Aktionen und Kategorien.
   - `UNCalendarNotificationTrigger` stürzt ab, `UNTimeIntervalNotificationTrigger` funktioniert.
@@ -251,7 +251,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
    - **17a (erledigt für die Internetseiten, siehe Bestandsaufnahme; die Cloud-Antwortmodelle folgen mit 17c) (Paket, mit Tests; Cloud-Antwortmodelle mit 17c erledigt):** Das Lesen von Internetseiten ins Paket: strukturierte Rezeptdaten aus JSON-LD, lesbarer Text, Titel, Sprache, Bildadresse, `StructuredWebRecipe` → `RecipeFB`; dazu die Antwort-Modelle der Cloud-KI (`CloudRecipe` → `RecipeFB`) und ihre Prüfung. Reine Foundation-Logik; die iOS-App ruft das Paket auf, ihr Verhalten bleibt gleich.
    - **17b (erledigt, siehe Bestandsaufnahme; „Aus Fotos“ kommt mit 17d ins Menü) (Android): Rezept von einer Internetseite.** „Neues Rezept“ wird zur Auswahl: „Von Hand“, „Von einer Internetseite“, „Aus Fotos“ (17d). Adresse eingeben → Seite laden → strukturierte Daten → Editor mit dem Rezept und Bild, Hinweis wie auf dem iPhone. Seiten ohne strukturierte Daten: „Kein Rezept gefunden“, bis 17c.
    - **17c (erledigt, siehe Bestandsaufnahme) (Android): Cloud-KI.** Einstellungen → „Datenschutz & KI“ wie auf dem iPhone (Zustimmung, Texte aus dem iOS-Katalog). Mit Zustimmung geht der Seitentext an `analyzeRecipeText`; das liest auch Seiten ohne strukturierte Daten und ordnet Komponenten besser zu.
-   - **17d (erledigt, siehe Bestandsaufnahme; Kamera-Aufnahme offen) (Android): Rezept aus Fotos.** Fotos wählen (Dateiauswahl, bis zu zehn), auf die Grenzen der Function verkleinern, an `analyzeRecipeImages`, Ergebnis in den Editor. Nur mit Zustimmung zur Cloud-KI; ohne sie erklärt die App, dass Fotos auf Android (noch) nur über die Cloud gelesen werden. **Aufnehmen mit der Kamera** fehlt: SkipKits Kamera-Aufnahme liefert eine `content://`-Adresse (FileProvider), die natives Swift nicht lesen kann; Wege: die Datei im Bilder-Ordner der App suchen oder ein kleines übersetztes Modul wie `BakePlannerSpeech`. Dazu `CAMERA` im Manifest.
+   - **17d (erledigt, siehe Bestandsaufnahme; Kamera seit 18r) (Android): Rezept aus Fotos.** Fotos wählen (Dateiauswahl, bis zu zehn), auf die Grenzen der Function verkleinern, an `analyzeRecipeImages`, Ergebnis in den Editor. Nur mit Zustimmung zur Cloud-KI; ohne sie erklärt die App, dass Fotos auf Android (noch) nur über die Cloud gelesen werden. **Aufnehmen mit der Kamera** fehlt: SkipKits Kamera-Aufnahme liefert eine `content://`-Adresse (FileProvider), die natives Swift nicht lesen kann; Wege: die Datei im Bilder-Ordner der App suchen oder ein kleines übersetztes Modul wie `BakePlannerSpeech`. Dazu `CAMERA` im Manifest.
    - **Später möglich:** Texterkennung auf dem Gerät mit ML Kit (eigenes Kotlin-Modul wie `BakePlannerSpeech`) und den Lesern im Paket, also Fotos ohne Cloud; „Teilen“ aus Chrome an BakePlanner (Intent-Filter), wie die Share-Extension.
    - **Zu bedenken:** Cloud-KI kostet je Aufruf (Vertex AI) und zählt gegen die Monatsgrenze; App Check gilt für die Functions, im Play Store braucht es Play Integrity.
 
@@ -265,8 +265,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Rezeptliste | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | Geplante Schritte | Timeline im Querformat (Zeilen statt Spalten, iPad) | klein |
 | | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
-| Neues Rezept | Kamera für Rezeptbild, Backhistorie-Fotos und Foto-Import (siehe 17d) | mittel |
-| | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |
+| Neues Rezept | Teilen aus Chrome an BakePlanner (Intent-Filter) | siehe 17 |
 | | Schrittnummern in 0,1-Schritten bei Unterschritten | klein |
 | | Falt-Durchgänge beim Speichern in eigene Schritte auflösen (`TimedFoldExpansion`): prüfen, ob `recalculated()` das tut | prüfen |
 | | Veröffentlichen, Schalter und Nutzungsbedingungen | 11d |
