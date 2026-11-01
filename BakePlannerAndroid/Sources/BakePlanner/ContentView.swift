@@ -464,6 +464,7 @@ struct RecipeRow: View {
 /// without one, so the names line up.
 struct RowThumbnail: View {
     let data: Data?
+    var edge = 48.0
 
     var body: some View {
         Group {
@@ -479,8 +480,8 @@ struct RowThumbnail: View {
             Color.gray.opacity(0.15)
             #endif
         }
-        .frame(width: 48, height: 48)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .frame(width: edge, height: edge)
+        .clipShape(RoundedRectangle(cornerRadius: edge / 6))
     }
 }
 

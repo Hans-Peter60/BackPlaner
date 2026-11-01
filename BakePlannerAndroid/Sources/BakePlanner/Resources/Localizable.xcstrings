@@ -699,6 +699,23 @@
         }
       }
     },
+    "Backen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuire"
+          }
+        }
+      }
+    },
     "Bäckerprozente anzeigen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2853,6 +2870,23 @@
         }
       }
     },
+    "Falten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fold"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rabats"
+          }
+        }
+      }
+    },
     "Fertig" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2917,6 +2951,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un levain chef plus ferme (TA plus basse) travaille plus lentement et acidifie davantage – prévoyez un peu plus de temps de maturation."
+          }
+        }
+      }
+    },
+    "Formen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shape"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Façonnage"
           }
         }
       }
@@ -4496,6 +4547,23 @@
         }
       }
     },
+    "Mischen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mix"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pétrir"
+          }
+        }
+      }
+    },
     "Mit Apple anmelden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5049,6 +5117,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Fruits & légumes"
+          }
+        }
+      }
+    },
+    "Ofen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four"
           }
         }
       }
@@ -5644,6 +5729,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le seigle n’a pas de réseau de gluten : à partir d’environ %@ de seigle, acidifiez la pâte avec du levain, sinon la mie devient collante."
+          }
+        }
+      }
+    },
+    "Ruhen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rest"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repos"
           }
         }
       }
@@ -6521,6 +6623,23 @@
         }
       }
     },
+    "Timeline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        }
+      }
+    },
     "Tippe auf das Anstellgut, um seine TA anzupassen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6673,6 +6792,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
+          }
+        }
+      }
+    },
+    "Verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler"
           }
         }
       }
@@ -7154,6 +7290,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Température cible"
+          }
+        }
+      }
+    },
+    "Zoom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
           }
         }
       }

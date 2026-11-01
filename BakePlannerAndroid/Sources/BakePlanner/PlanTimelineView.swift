@@ -1,12 +1,16 @@
 import BakePlannerCore
 import SwiftUI
 
-/// The planned steps of every plan, plan by plan in the order they begin:
-/// each step with its time, moved with a tap on it, done with "Erledigt";
-/// a whole plan removed after asking. Steps the rhythm queued ahead of time show up two days before
-/// they are due, as on the iPhone.
+/// The planned steps of every plan, as the iPhone's two tabs in one
+/// screen: the project plan (`PlanChartView`) first, or plan by plan as a
+/// list in the order they begin, each step with its time, done with
+/// "Erledigt"; a whole plan removed after asking. Steps the rhythm queued
+/// ahead of time show up two days before they are due, as on the iPhone.
 struct PlanTimelineView: View {
     let model: AppModel
+    /// The project plan, or the list. The iPhone opens the timeline first.
+    @State var showsChart = true
+    @State var zoom = ChartZoom.medium
     /// The plan waiting for the user to confirm its removal. Kept apart from
     /// the dialog's visibility: Android closes the dialog before it runs
     /// the chosen button.
@@ -62,6 +66,26 @@ struct PlanTimelineView: View {
         }
     }
 
+    /// The visible steps as the package's lanes, one per plan.
+    private var lanes: [PlanTimelineLane] {
+        PlanTimelineLane.lanes(from: model.scheduledSteps.filter { $0.data.isVisible() }.map { step in
+            PlanTimelineEntry(id: step.key, recipeName: step.data.recipeName, planID: step.data.planID,
+                              instruction: step.data.instruction, step: step.data.step,
+                              date: step.data.date, duration: step.data.duration)
+        })
+    }
+
+    private func step(withKey key: String) -> StoredScheduledStep? {
+        model.scheduledSteps.first { $0.key == key }
+    }
+
+    /// The column header's picture: the recipe's list thumbnail, when the
+    /// recipe is on the device.
+    private func recipeImage(named name: String) -> Data? {
+        guard let recipe = model.recipes.first(where: { $0.content.name == name }) else { return nil }
+        return model.thumbnail(forRecipe: recipe.id)
+    }
+
     var body: some View {
         let plans = self.plans
         return ZStack {
@@ -79,89 +103,41 @@ struct PlanTimelineView: View {
                 }
                 .padding()
             } else {
-                List {
-                    // The one step that matters right now, as the iPhone's
-                    // "Als Nächstes" bar in the main menu.
-                    if let current = currentStep {
-                        Section {
-                            NextStepCard(step: current, now: now)
-                        }
+                VStack(spacing: 0) {
+                    Picker("Darstellung", selection: $showsChart) {
+                        Text("Timeline").tag(true)
+                        Text("Liste").tag(false)
                     }
-                    ForEach(plans) { plan in
-                        Section {
-                            ForEach(plan.steps, id: \.key) { step in
-                                HStack(alignment: .top, spacing: 8) {
-                                    // A tap opens the step's details, as on the
-                                    // iPhone; moving it is offered there.
-                                    Button {
-                                        detailStep = step
-                                        showsDetail = true
-                                    } label: {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(verbatim: PlanText.dateTime(step.data.date))
-                                                .font(.caption)
-                                                .foregroundStyle(step.data.date < now ? Color.red : Color.secondary)
-                                            Text(verbatim: step.data.instruction)
-                                                .foregroundStyle(Color.primary)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                    .buttonStyle(.borderless)
-                                    // The ingredients of the component this step mixes,
-                                    // as the iPhone's "i" on the card.
-                                    if component(of: step) != nil {
-                                        Button {
-                                            ingredientStep = step
-                                            showsIngredients = true
-                                        } label: {
-                                            Image(systemName: "info.circle")
-                                        }
-                                        .buttonStyle(.borderless)
-                                        .accessibilityLabel(Text("Zutaten"))
-                                    }
-                                    Button("Erledigt") {
-                                        model.markDone(step)
-                                    }
-                                    .buttonStyle(.bordered)
-                                }
-                            }
-                            Button {
-                                bakeModePlanKey = plan.id
-                                showsBakeMode = true
-                            } label: {
-                                Label("Backmodus starten", systemImage: "play.fill")
-                            }
-                            Button("Geplante Schritte löschen", role: .destructive) {
-                                planToDelete = plan
-                                confirmsDeletion = true
-                            }
-                        } header: {
-                            Text(verbatim: plan.recipeName)
-                        }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 4)
+                    if showsChart {
+                        let lanes = self.lanes
+                        ChartControls(zoom: $zoom)
+                        PlanChartView(lanes: lanes,
+                                      scale: ChartMetrics.scale(for: lanes, pointsPerMinute: zoom.pointsPerMinute),
+                                      now: now,
+                                      recipeImage: recipeImage(named:),
+                                      onTap: { key in
+                                          detailStep = step(withKey: key)
+                                          showsDetail = detailStep != nil
+                                      },
+                                      onDone: { key in
+                                          if let step = step(withKey: key) { model.markDone(step) }
+                                      },
+                                      onShift: { key in
+                                          stepToShift = step(withKey: key)
+                                          shiftsStep = stepToShift != nil
+                                      })
+                    } else {
+                        stepList(plans)
                     }
                 }
-                .scrollContentBackground(.hidden)
             }
         }
         .navigationTitle("Geplante nächste Schritte")
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    bakeModePlanKey = nil
-                    showsBakeMode = true
-                } label: {
-                    Label("Backmodus starten", systemImage: "play.fill")
-                }
-                .disabled(plans.isEmpty)
-            }
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    confirmsDeleteAll = true
-                } label: {
-                    Label("Alle löschen", systemImage: "trash")
-                }
-                .disabled(plans.isEmpty)
-            }
+            toolbarItems(plansEmpty: plans.isEmpty)
         }
         .appSheet(isPresented: $showsDetail) {
             if let step = detailStep {
@@ -247,6 +223,92 @@ struct PlanTimelineView: View {
                 Text(verbatim: plan.recipeName)
             }
         }
+    }
+
+    /// The steps plan by plan, as before the chart came.
+    private func stepList(_ plans: [TimelinePlan]) -> some View {
+                List {
+                    // The one step that matters right now, as the iPhone's
+                    // "Als Nächstes" bar in the main menu.
+                    if let current = currentStep {
+                        Section {
+                            NextStepCard(step: current, now: now)
+                        }
+                    }
+                    ForEach(plans) { plan in
+                        Section {
+                            ForEach(plan.steps, id: \.key) { step in
+                                HStack(alignment: .top, spacing: 8) {
+                                    // A tap opens the step's details, as on the
+                                    // iPhone; moving it is offered there.
+                                    Button {
+                                        detailStep = step
+                                        showsDetail = true
+                                    } label: {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(verbatim: PlanText.dateTime(step.data.date))
+                                                .font(.caption)
+                                                .foregroundStyle(step.data.date < now ? Color.red : Color.secondary)
+                                            Text(verbatim: step.data.instruction)
+                                                .foregroundStyle(Color.primary)
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    // The ingredients of the component this step mixes,
+                                    // as the iPhone's "i" on the card.
+                                    if component(of: step) != nil {
+                                        Button {
+                                            ingredientStep = step
+                                            showsIngredients = true
+                                        } label: {
+                                            Image(systemName: "info.circle")
+                                        }
+                                        .buttonStyle(.borderless)
+                                        .accessibilityLabel(Text("Zutaten"))
+                                    }
+                                    Button("Erledigt") {
+                                        model.markDone(step)
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                            }
+                            Button {
+                                bakeModePlanKey = plan.id
+                                showsBakeMode = true
+                            } label: {
+                                Label("Backmodus starten", systemImage: "play.fill")
+                            }
+                            Button("Geplante Schritte löschen", role: .destructive) {
+                                planToDelete = plan
+                                confirmsDeletion = true
+                            }
+                        } header: {
+                            Text(verbatim: plan.recipeName)
+                        }
+                    }
+                }
+                .scrollContentBackground(.hidden)
+    }
+
+    @ToolbarContentBuilder private func toolbarItems(plansEmpty: Bool) -> some ToolbarContent {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    bakeModePlanKey = nil
+                    showsBakeMode = true
+                } label: {
+                    Label("Backmodus starten", systemImage: "play.fill")
+                }
+                .disabled(plansEmpty)
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    confirmsDeleteAll = true
+                } label: {
+                    Label("Alle löschen", systemImage: "trash")
+                }
+                .disabled(plansEmpty)
+            }
     }
 }
 
