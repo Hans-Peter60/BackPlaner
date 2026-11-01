@@ -297,7 +297,9 @@ struct RecipeListView: View {
                 Button("Alle Bewertungen") {
                     minimumRating = 0
                 }
-                ForEach(1...5, id: \.self) { stars in
+                // An array, not 1...5: Skip's ForEach over a ClosedRange hands
+                // out range indices, and casting them to Int crashed the app.
+                ForEach([1, 2, 3, 4, 5], id: \.self) { stars in
                     Button {
                         minimumRating = stars
                     } label: {
@@ -305,13 +307,16 @@ struct RecipeListView: View {
                     }
                 }
             } label: {
-                // Skip draws "star" and "star.fill", not the iPhone's filter symbol.
+                // Skip draws "star.fill" but not the outlined "star" (it would
+                // show a warning triangle), nor the iPhone's filter symbol; the
+                // colour says whether a filter is on.
                 HStack(spacing: 2) {
-                    Image(systemName: minimumRating > 0 ? "star.fill" : "star")
+                    Image(systemName: "star.fill")
                     if minimumRating > 0 {
                         Text(verbatim: "\(minimumRating)+")
                     }
                 }
+                .foregroundStyle(minimumRating > 0 ? Palette.accent(colorScheme) : Color.secondary)
                 .accessibilityLabel(Text("Nach Bewertung filtern"))
             }
         }

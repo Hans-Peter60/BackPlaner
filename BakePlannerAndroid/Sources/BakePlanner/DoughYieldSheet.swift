@@ -50,7 +50,8 @@ struct DoughYieldSheet: View {
             }
 
             Section {
-                ForEach(result.components) { component in
+                ForEach(keyedRows(result.components, prefix: "component")) { row in
+                    let component = row.value
                     VStack(alignment: .leading, spacing: 2) {
                         HStack {
                             Text(verbatim: component.name)
@@ -75,7 +76,8 @@ struct DoughYieldSheet: View {
 
             if !result.starters.isEmpty {
                 Section {
-                    ForEach(result.starters) { starter in
+                    ForEach(keyedRows(result.starters, prefix: "starter")) { row in
+                        let starter = row.value
                         VStack(alignment: .leading, spacing: 2) {
                             HStack {
                                 Text(verbatim: gramsText(starter.grams) + " " + starter.name)
@@ -103,7 +105,8 @@ struct DoughYieldSheet: View {
 
             if !result.uncounted.isEmpty {
                 Section {
-                    ForEach(result.uncounted) { item in
+                    ForEach(keyedRows(result.uncounted, prefix: "uncounted")) { row in
+                        let item = row.value
                         Text(verbatim: gramsText(item.grams) + " " + item.name)
                     }
                 } header: {
@@ -148,4 +151,17 @@ struct DoughYieldSheet: View {
         case .definition: return Text("TA nach Definition")
         }
     }
+}
+
+/// A list row with a key unique across the whole list. The shares of the
+/// composition number their ids from 0 in every group, and Skip's List
+/// keys its rows by id: two rows with id 0 crashed it ("Key was already
+/// used").
+struct Keyed<Value>: Identifiable {
+    let id: String
+    let value: Value
+}
+
+func keyedRows<Item: Identifiable>(_ items: [Item], prefix: String) -> [Keyed<Item>] {
+    items.map { Keyed<Item>(id: prefix + "-" + String(describing: $0.id), value: $0) }
 }
