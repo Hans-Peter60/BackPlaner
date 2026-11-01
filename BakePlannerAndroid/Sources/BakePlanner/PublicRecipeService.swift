@@ -135,7 +135,84 @@ enum PublicRecipeService {
         #endif
     }
 
+    // MARK: Account
+
+    /// Who is signed in: anonymous, or with an Apple account (the same uid
+    /// as on the iPhone, so recipes published there count as one's own).
+    struct Account: Equatable {
+        var isSignedInWithApple = false
+        var isAdmin = false
+    }
+
+    @MainActor
+    static func account() async -> Account {
+        #if os(Android)
+        guard let user = Auth.auth().currentUser, !user.isAnonymous else { return Account() }
+        return Account(isSignedInWithApple: true, isAdmin: await isAdmin(uid: user.uid))
+        #else
+        return Account()
+        #endif
+    }
+
+    /// Signs in with Apple in the browser (Android has no native "Sign in
+    /// with Apple"; Firebase opens Apple's page and comes back). The
+    /// anonymous Android account is left, not linked: it owns nothing but
+    /// reports, and linking an Apple ID already in use would take a second
+    /// pass through the browser. No e-mail is asked for, as on the iPhone.
+    @MainActor
+    static func signInWithApple() async throws {
+        #if os(Android)
+        _ = try await Auth.auth().signIn(with: OAuthProvider(providerID: "apple.com"))
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Signs out and carries on anonymously, as the iPhone does.
+    @MainActor
+    static func signOut() async throws {
+        #if os(Android)
+        try Auth.auth().signOut()
+        _ = try await Auth.auth().signInAnonymously()
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Deletes the Apple account's Firebase account, then carries on
+    /// anonymously. Firebase refuses the deletion when the sign-in is not
+    /// recent; then Apple is asked once more in the browser and the deletion
+    /// tried again. Recipes published under the account stay public.
+    @MainActor
+    static func deleteAccount() async throws {
+        #if os(Android)
+        guard let user = Auth.auth().currentUser, !user.isAnonymous else { return }
+        do {
+            try await user.delete()
+        } catch {
+            logger.info("Account deletion needs a fresh sign-in: \(error)")
+            _ = try await user.reauthenticate(with: OAuthProvider(providerID: "apple.com"))
+            try await user.delete()
+        }
+        _ = try await Auth.auth().signInAnonymously()
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
     #if os(Android)
+    /// An admin has a document under `admins/{uid}`, as on the iPhone; the
+    /// rules let each user read only his own.
+    @MainActor
+    private static func isAdmin(uid: String) async -> Bool {
+        do {
+            return try await Firestore.firestore().collection("admins").document(uid).getDocument().exists
+        } catch {
+            logger.error("Admin status could not be read: \(error)")
+            return false
+        }
+    }
+
     @MainActor
     private static func signInIfNeeded() async throws {
         if Auth.auth().currentUser == nil {

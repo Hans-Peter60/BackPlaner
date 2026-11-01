@@ -53,6 +53,57 @@
         }
       }
     },
+    "Abmelden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter"
+          }
+        }
+      }
+    },
+    "Abmelden fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-out failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la déconnexion"
+          }
+        }
+      }
+    },
+    "Administrator" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrateur"
+          }
+        }
+      }
+    },
     "alle %lld Tage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -183,6 +234,41 @@
         }
       }
     },
+    "Angemeldet als" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in as"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté en tant que"
+          }
+        }
+      }
+    },
+    "Anmeldung fehlgeschlagen" : {
+      "comment" : "Settings: signing in with Apple did not work.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la connexion"
+          }
+        }
+      }
+    },
     "Anstellgut" : {
       "comment" : "Sauerteig-Anstellgut",
       "extractionState" : "manual",
@@ -251,6 +337,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choquant ou injurieux"
+          }
+        }
+      }
+    },
+    "Apple-Konto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte Apple"
           }
         }
       }
@@ -848,6 +951,40 @@
         }
       }
     },
+    "Das Konto und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "The account and the sign-in have been removed. You can keep using the app and sign in again at any time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Le compte et la connexion ont été supprimés. Vous pouvez continuer à utiliser l’app et vous reconnecter à tout moment."
+          }
+        }
+      }
+    },
+    "Das Konto wird gelöscht und die Anmeldung aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar, gehören aber keinem Konto mehr. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "The account is deleted and your Apple Account unlinked. Recipes you’ve published stay visible to all users but no longer belong to any account. Recipes on this device are kept. This can’t be undone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Le compte est supprimé et la connexion dissociée. Les recettes que vous avez publiées restent visibles par tous, mais n’appartiennent plus à aucun compte. Les recettes présentes sur cet appareil sont conservées. Cette action est irréversible."
+          }
+        }
+      }
+    },
     "Das Rezept konnte nicht geladen werden." : {
       "comment" : "Public recipe: its components and steps could not be read.",
       "extractionState" : "manual",
@@ -951,6 +1088,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’heure décalée doit se situer dans le futur."
+          }
+        }
+      }
+    },
+    "Die Anmeldung ist freiwillig. Mit ihr gilt die Autorschaft Deiner veröffentlichten Rezepte auf allen Geräten, auf denen Du angemeldet bist, und bleibt nach einer Neuinstallation erhalten. Administratoren verwalten damit gemeldete Rezepte." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Signing in is voluntary. With it, the authorship of your published recipes applies on every device you’re signed in on and survives a reinstall. Administrators use it to manage reported recipes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "La connexion est facultative. Avec elle, vous êtes l’auteur de vos recettes publiées sur tous les appareils où vous êtes connecté, même après une réinstallation. Les administrateurs l’utilisent pour gérer les recettes signalées."
           }
         }
       }
@@ -1062,6 +1216,23 @@
         }
       }
     },
+    "Du bist abgemeldet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’re signed out"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déconnexion effectuée"
+          }
+        }
+      }
+    },
     "Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1075,6 +1246,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez remplacer le plan existant ou garder les deux — pour deux jours de cuisson, par exemple."
+          }
+        }
+      }
+    },
+    "Du verwendest die App wieder anonym. Rezepte auf diesem Gerät bleiben unberührt. Die unter Deinem Konto veröffentlichten Rezepte kannst Du wieder bearbeiten, sobald Du Dich erneut anmeldest." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "You’re using the app anonymously again. Recipes on this device are untouched. You can edit the recipes published under your account again once you sign in again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Vous utilisez de nouveau l’app de façon anonyme. Les recettes présentes sur cet appareil restent inchangées. Vous pourrez de nouveau modifier les recettes publiées sous votre compte dès que vous vous reconnecterez."
           }
         }
       }
@@ -1797,6 +1985,74 @@
         }
       }
     },
+    "Konto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte"
+          }
+        }
+      }
+    },
+    "Konto endgültig löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently delete account?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer définitivement le compte ?"
+          }
+        }
+      }
+    },
+    "Konto löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le compte"
+          }
+        }
+      }
+    },
+    "Konto wurde gelöscht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account was deleted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le compte a été supprimé"
+          }
+        }
+      }
+    },
     "Krume" : {
       "comment" : "A heading for the crumb keywords.",
       "extractionState" : "manual",
@@ -1898,6 +2154,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer"
+          }
+        }
+      }
+    },
+    "Löschen fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deletion failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la suppression"
           }
         }
       }
@@ -2058,6 +2331,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Minutes"
+          }
+        }
+      }
+    },
+    "Mit Apple anmelden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with Apple"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se connecter avec Apple"
           }
         }
       }

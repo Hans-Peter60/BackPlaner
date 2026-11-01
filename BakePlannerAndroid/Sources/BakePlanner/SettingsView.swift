@@ -21,6 +21,21 @@ struct SettingsView: View {
     @State var dayStart = AppSettings.storedDayStart
     @State var dayEnd = AppSettings.storedDayEnd
     @Environment(\.dismiss) var dismiss
+    /// An account change is under way (the browser may be open).
+    @State var changesAccount = false
+    @State var confirmsAccountDeletion = false
+    /// What the last account change brought, for the alert. Kept apart
+    /// from the alert's visibility: Android closes it before its button.
+    @State var accountOutcome: AccountOutcome?
+    @State var showsAccountOutcome = false
+
+    enum AccountOutcome: Equatable {
+        case signInFailed(String)
+        case signedOut
+        case signOutFailed(String)
+        case deleted
+        case deletionFailed(String)
+    }
 
     var body: some View {
         Form {
@@ -86,6 +101,8 @@ struct SettingsView: View {
                 Text("Rezeptliste")
             }
 
+            accountSection
+
             // Takes back what was blocked or reported on this device, as on
             // the iPhone.
             Section {
@@ -113,6 +130,28 @@ struct SettingsView: View {
                 }
             }
         }
+        .task {
+            await model.refreshAccount()
+        }
+        .confirmationDialog("Konto endgültig löschen?", isPresented: $confirmsAccountDeletion,
+                            titleVisibility: .visible) {
+            Button("Konto löschen", role: .destructive) {
+                changeAccount {
+                    await model.deleteAccount().map { AccountOutcome.deletionFailed($0) } ?? AccountOutcome.deleted
+                }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Das Konto wird gelöscht und die Anmeldung aufgehoben. Rezepte, die Du veröffentlicht hast, bleiben für alle Nutzer sichtbar, gehören aber keinem Konto mehr. Rezepte auf diesem Gerät bleiben erhalten. Das lässt sich nicht widerrufen.")
+        }
+        .alert(accountOutcomeTitle, isPresented: $showsAccountOutcome) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            accountOutcomeMessage
+        }
         .onChange(of: servingSize) { _, value in store(value, AppSettingsKeys.defaultServingSize) }
         .onChange(of: starterDoughYield) { _, value in store(value, AppSettingsKeys.starterDoughYield) }
         .onChange(of: lievitoMadreDoughYield) { _, value in store(value, AppSettingsKeys.lievitoMadreDoughYield) }
@@ -128,6 +167,84 @@ struct SettingsView: View {
             }
         }
         .onChange(of: dayEnd) { _, value in store(value, AppSettingsKeys.dayEnd) }
+    }
+
+    /// Signing in with Apple, as on the iPhone: the same account there and
+    /// here, so recipes published on either count as one's own.
+    @ViewBuilder
+    private var accountSection: some View {
+        Section {
+            if changesAccount {
+                ProgressView()
+            } else if model.account.isSignedInWithApple {
+                HStack {
+                    Text("Angemeldet als")
+                    Spacer()
+                    Text("Apple-Konto")
+                        .foregroundStyle(.secondary)
+                }
+                if model.account.isAdmin {
+                    Text("Administrator")
+                        .foregroundStyle(.secondary)
+                }
+                Button("Abmelden", role: .destructive) {
+                    changeAccount {
+                        await model.signOut().map { AccountOutcome.signOutFailed($0) } ?? AccountOutcome.signedOut
+                    }
+                }
+                Button("Konto löschen", role: .destructive) {
+                    confirmsAccountDeletion = true
+                }
+            } else {
+                Button("Mit Apple anmelden") {
+                    changeAccount {
+                        await model.signInWithApple().map { AccountOutcome.signInFailed($0) }
+                    }
+                }
+            }
+        } header: {
+            Text("Konto")
+        } footer: {
+            Text("Die Anmeldung ist freiwillig. Mit ihr gilt die Autorschaft Deiner veröffentlichten Rezepte auf allen Geräten, auf denen Du angemeldet bist, und bleibt nach einer Neuinstallation erhalten. Administratoren verwalten damit gemeldete Rezepte.")
+        }
+    }
+
+    /// Runs an account change and shows what came of it; nil shows nothing
+    /// (a sign-in that worked speaks for itself).
+    private func changeAccount(_ change: @escaping @MainActor () async -> AccountOutcome?) {
+        changesAccount = true
+        Task {
+            let outcome = await change()
+            changesAccount = false
+            if let outcome {
+                accountOutcome = outcome
+                showsAccountOutcome = true
+            }
+        }
+    }
+
+    private var accountOutcomeTitle: LocalizedStringKey {
+        switch accountOutcome {
+        case .signInFailed: return "Anmeldung fehlgeschlagen"
+        case .signedOut: return "Du bist abgemeldet"
+        case .signOutFailed: return "Abmelden fehlgeschlagen"
+        case .deleted: return "Konto wurde gelöscht"
+        case .deletionFailed, nil: return "Löschen fehlgeschlagen"
+        }
+    }
+
+    @ViewBuilder
+    private var accountOutcomeMessage: some View {
+        switch accountOutcome {
+        case .signInFailed(let reason), .signOutFailed(let reason), .deletionFailed(let reason):
+            Text(verbatim: reason)
+        case .signedOut:
+            Text("Du verwendest die App wieder anonym. Rezepte auf diesem Gerät bleiben unberührt. Die unter Deinem Konto veröffentlichten Rezepte kannst Du wieder bearbeiten, sobald Du Dich erneut anmeldest.")
+        case .deleted:
+            Text("Das Konto und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden.")
+        case nil:
+            EmptyView()
+        }
     }
 
     private func valueRow(_ title: LocalizedStringKey, value: String) -> some View {

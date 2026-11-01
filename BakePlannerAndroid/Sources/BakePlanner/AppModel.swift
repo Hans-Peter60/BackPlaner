@@ -651,6 +651,40 @@ final class AppModel {
         return RecipeExportData(recipeFB: recipe, imageData: publicRecipeImages[id])
     }
 
+    /// Anonymous or signed in with Apple (Settings → "Konto").
+    var account = PublicRecipeService.Account()
+
+    func refreshAccount() async {
+        account = await PublicRecipeService.account()
+    }
+
+    /// Signs in with Apple; nil when it worked, else why not. The public
+    /// recipes are read again under the new account.
+    func signInWithApple() async -> String? {
+        await changeAccount { try await PublicRecipeService.signInWithApple() }
+    }
+
+    func signOut() async -> String? {
+        await changeAccount { try await PublicRecipeService.signOut() }
+    }
+
+    func deleteAccount() async -> String? {
+        await changeAccount { try await PublicRecipeService.deleteAccount() }
+    }
+
+    private func changeAccount(_ change: () async throws -> Void) async -> String? {
+        var failure: String?
+        do {
+            try await change()
+        } catch {
+            logger.error("account change failed: \(error)")
+            failure = error.localizedDescription
+        }
+        await refreshAccount()
+        await loadPublicRecipes()
+        return failure
+    }
+
     /// Reports a public recipe. It leaves this device's list at once, even
     /// should the report not get through (as on the iPhone); the server
     /// withholds it from everybody else.
