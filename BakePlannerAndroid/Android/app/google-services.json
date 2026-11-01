@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936649524074",
+    "project_id": "back-planer",
+    "storage_bucket": "back-planer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936649524074:android:b46e983de39481f7d65b13",
+        "android_client_info": {
+          "package_name": "de.hpm64625.bakeplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD958AwdCJvU7d75PzBemaK2SPa8tnOdrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
