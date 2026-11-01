@@ -563,6 +563,23 @@
         }
       }
     },
+    "Bäckerprozente anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les pourcentages boulanger"
+          }
+        }
+      }
+    },
     "Backhistorie" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4612,6 +4629,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rendement de la pâte et hydratation"
+          }
+        }
+      }
+    },
+    "Teiggewicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough weight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids de pâte"
           }
         }
       }

@@ -91,6 +91,8 @@ struct SettingsView: View {
                         step: 5) {
                     valueRow("Lievito Madre", value: "TA \(lievitoMadreDoughYield)")
                 }
+                Toggle("Bäckerprozente anzeigen", isOn: Binding(get: { model.showsBakersPercentages },
+                                                               set: { model.showsBakersPercentages = $0 }))
             } header: {
                 Text("Rezepte")
             }

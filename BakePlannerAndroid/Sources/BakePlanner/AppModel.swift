@@ -83,6 +83,12 @@ final class AppModel {
     /// Whether the user has agreed to the cloud AI reading recipes, and
     /// whether the import uses it — the iPhone's keys
     /// (Settings → "Datenschutz & KI", the import's "Analyseart").
+    /// Settings → Rezepte → "Bäckerprozente anzeigen": every weighed
+    /// ingredient's share of its component's flour behind the line.
+    var showsBakersPercentages = AppModel.storedBool(AppSettingsKeys.bakersPercentages,
+                                                     default: AppSettings.defaultBakersPercentages) {
+        didSet { SettingsFile.set(showsBakersPercentages, forKey: AppSettingsKeys.bakersPercentages) }
+    }
     var allowsCloudAnalysis = AppModel.storedBool(AppSettingsKeys.cloudRecipeAnalysisConsent, default: false) {
         didSet { SettingsFile.set(allowsCloudAnalysis, forKey: AppSettingsKeys.cloudRecipeAnalysisConsent) }
     }

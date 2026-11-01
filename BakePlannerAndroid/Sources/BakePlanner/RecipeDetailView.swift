@@ -104,7 +104,7 @@ struct RecipeDetailView: View {
     }
 
     private func content(of recipe: StoredRecipe) -> some View {
-        let page = RecipePrintData(data: recipe.content, scale: scale)
+        let page = RecipePrintData(data: recipe.content, scale: scale, bakersPercentages: model.showsBakersPercentages)
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 RecipePicture(data: recipe.content.image)
@@ -127,13 +127,7 @@ struct RecipeDetailView: View {
                 RecipeLinkRow(urlLink: recipe.content.urlLink)
 
                 VStack(alignment: .leading, spacing: 6) {
-                    Stepper(value: $scale, in: 0.5...10, step: 0.5) {
-                        HStack {
-                            Text("Menge")
-                            Text(verbatim: "× " + Self.factorText(scale))
-                                .bold()
-                        }
-                    }
+                    AmountControl(scale: $scale, baseWeight: recipe.content.totalWeight)
                     Text("Gesamtgewicht: \(String(page.totalWeight)) g")
                     if !page.prepTime.isEmpty {
                         Text("Bearbeitungsdauer: \(page.prepTime)")

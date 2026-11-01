@@ -134,3 +134,49 @@ struct RecipeLineSections: View {
         }
     }
 }
+
+/// Portion factor or target dough weight — two ways to the same scale, as
+/// the iPhone's ServingScaleControl: the stepper counts in halves, a weight
+/// typed in scales every amount to it and the factor shows "–"; stepping
+/// again clears the weight.
+struct AmountControl: View {
+    /// The scale in force, 1 being the recipe as stored.
+    @Binding var scale: Double
+    /// The recipe's total weight at factor 1.
+    let baseWeight: Double
+    @State var halves = 2
+    @State var weightText = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Stepper(value: $halves, in: 1...20) {
+                HStack {
+                    Text("Menge")
+                    Text(verbatim: "× " + (weightText.isEmpty ? RecipeDetailView.factorText(scale) : "–"))
+                        .bold()
+                }
+            }
+            .onChange(of: halves) { _, halves in
+                weightText = ""
+                scale = ServingScale.factor(servingSize: halves, targetWeight: nil, baseWeight: baseWeight)
+            }
+            HStack(spacing: 6) {
+                Text("Teiggewicht")
+                // The placeholder is the weight at the current factor, as
+                // on the iPhone; a plain String, so no catalog key arises.
+                TextField(String(Int((baseWeight * scale).rounded())), text: $weightText)
+                    .keyboardType(.numberPad)
+                    .frame(width: 110)
+                Text(verbatim: "g")
+            }
+            .onChange(of: weightText) { _, text in
+                let digits = text.filter(\.isNumber)
+                if digits != text {
+                    weightText = digits
+                    return
+                }
+                scale = ServingScale.factor(servingSize: halves, targetWeight: Int(digits), baseWeight: baseWeight)
+            }
+        }
+    }
+}

@@ -124,18 +124,7 @@ struct ServingSizePicker: View {
     }
 }
 
-/// The scale a recipe is shown at, from either of two inputs.
-enum ServingScale {
-
-    /// A target dough weight wins over the picker; without one the picker's
-    /// half steps apply (2 = 1.0).
-    static func factor(servingSize: Int, targetWeight: Int?, baseWeight: Double) -> Double {
-        if let targetWeight, targetWeight > 0, baseWeight > 0 {
-            return Double(targetWeight) / baseWeight
-        }
-        return Double(servingSize) / 2
-    }
-}
+// ServingScale (the factor from portion or dough weight) lives in BakePlannerCore.
 
 /// Portion factor or target dough weight — two ways to the same scale.
 ///

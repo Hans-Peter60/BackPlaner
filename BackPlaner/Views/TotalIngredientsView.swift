@@ -233,33 +233,3 @@ struct ComponentColumnsView: View {
             + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight)
     }
 }
-
-/// Baker's percentages: every ingredient of a component as a share of that
-/// component's flour, which is how bakers compare and scale formulas. Flour
-/// is recognised by name; a component without any shows no percentages.
-enum BakersPercentage {
-
-    /// The same flour the dough yield counts, so the two never disagree.
-    static func isFlour(_ name: String) -> Bool {
-        DoughComposition.isFlour(name)
-    }
-
-    /// The summed weight of the flours, independent of the scale shown —
-    /// percentages do not change with the batch size.
-    static func flourWeight(of ingredients: [TotalIngredientData]) -> Double {
-        ingredients.filter { isFlour($0.name) && $0.weight > 0 }.map(\.weight).reduce(0, +)
-    }
-
-    /// " · 62 %" for a weighed ingredient; nothing for pieces, for a whole
-    /// component used as an ingredient ("1 gesamtes Brühstück", no unit), or
-    /// when the component has no flour. Non-breaking spaces keep the
-    /// percentage in one piece when a narrow column wraps the line.
-    static func suffix(for ingredient: TotalIngredientData, flourWeight: Double) -> String {
-        guard flourWeight > 0, ingredient.weight > 0,
-              !ingredient.unit.trimmingCharacters(in: .whitespaces).isEmpty
-        else { return "" }
-        let percent = (ingredient.weight / flourWeight * 100).rounded()
-        guard percent >= 1 else { return "" }
-        return " ·\u{00A0}\(Int(percent))\u{00A0}%"
-    }
-}

@@ -45,7 +45,9 @@ public struct RecipePrintData: Sendable {
     public let steps: [Step]
 
     /// A recipe as plain content, at `scale`.
-    public init(data recipe: RecipeExportData, scale: Double) {
+    /// `bakersPercentages` appends every weighed ingredient's share of its
+    /// component's flour to the line, as the iPhone's setting does.
+    public init(data recipe: RecipeExportData, scale: Double, bakersPercentages: Bool = false) {
         name = recipe.name
         summary = recipe.summary
         imageData = recipe.image
@@ -54,7 +56,7 @@ public struct RecipePrintData: Sendable {
         urlLink = recipe.urlLink.flatMap { $0.isEmpty ? nil : $0 }
 
         let columns = ComponentColumn.columns(of: recipe)
-        components = Self.components(from: columns, scale: scale)
+        components = Self.components(from: columns, scale: scale, bakersPercentages: bakersPercentages)
         totalLines = TotalIngredientsList.aggregatedLines(of: columns, scale: scale)
         steps = recipe.instructions.map {
             Step(number: Rational.decimalPlace($0.step, 10),
@@ -64,7 +66,7 @@ public struct RecipePrintData: Sendable {
     }
 
     /// A recipe from the public database, its picture already as JPEG.
-    public init(recipeFB: RecipeFB, imageData: Data?, scale: Double) {
+    public init(recipeFB: RecipeFB, imageData: Data?, scale: Double, bakersPercentages: Bool = false) {
         name = recipeFB.name
         summary = recipeFB.summary
         self.imageData = imageData
@@ -73,7 +75,7 @@ public struct RecipePrintData: Sendable {
         urlLink = recipeFB.urlLink.isEmpty ? nil : recipeFB.urlLink
 
         let columns = ComponentColumn.columns(of: recipeFB.components)
-        components = Self.components(from: columns, scale: scale)
+        components = Self.components(from: columns, scale: scale, bakersPercentages: bakersPercentages)
         totalLines = TotalIngredientsList.aggregatedLines(of: columns, scale: scale)
         steps = recipeFB.instructions
             .sorted { $0.step < $1.step }
@@ -84,9 +86,13 @@ public struct RecipePrintData: Sendable {
             }
     }
 
-    public static func components(from columns: [ComponentColumn], scale: Double) -> [Component] {
+    public static func components(from columns: [ComponentColumn], scale: Double,
+                                  bakersPercentages: Bool = false) -> [Component] {
         columns.map { column in
-            Component(
+            // The flour of the component as stored: percentages do not
+            // change with the amount shown.
+            let flourWeight = bakersPercentages ? BakersPercentage.flourWeight(of: column.ingredients) : 0
+            return Component(
                 name: column.name,
                 lines: column.ingredients.map { ingredient in
                     "• " + Rational.getPortion(unit: ingredient.unit,
@@ -95,6 +101,7 @@ public struct RecipePrintData: Sendable {
                                                denom: ingredient.denominator,
                                                scale: scale)
                         + ingredient.name.trimmingCharacters(in: .whitespaces)
+                        + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight)
                 }
             )
         }
