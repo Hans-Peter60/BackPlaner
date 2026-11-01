@@ -100,6 +100,10 @@ struct RecipeListView: View {
     @State var editsImportedRecipe = false
     @State var recipesToExport: [String]?
     @State var showsSettings = false
+    /// The calculator to show; kept apart from the sheet's visibility, as
+    /// the dialogs' data is.
+    @State var calculator = Calculator.doughTemperature
+    @State var showsCalculator = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -186,6 +190,16 @@ struct RecipeListView: View {
                         recipesToExport = model.recipes.map(\.id)
                     }
                     .disabled(model.recipes.isEmpty)
+                    // The iPhone's three calculators from its main menu.
+                    Button("Teigtemperatur") {
+                        openCalculator(.doughTemperature)
+                    }
+                    Button("Mehl ersetzen") {
+                        openCalculator(.flourSubstitution)
+                    }
+                    Button("Anstellgut-TA") {
+                        openCalculator(.starterYield)
+                    }
                 } label: {
                     Text("Mehr")
                 }
@@ -211,6 +225,11 @@ struct RecipeListView: View {
         .appSheet(isPresented: $showsSettings) {
             NavigationStack {
                 SettingsView(model: model)
+            }
+        }
+        .appSheet(isPresented: $showsCalculator) {
+            NavigationStack {
+                CalculatorSheet(calculator: calculator)
             }
         }
         .appSheet(isPresented: $importsFromWeb) {
@@ -273,6 +292,11 @@ struct RecipeListView: View {
                 Text(verbatim: reason)
             }
         }
+    }
+
+    private func openCalculator(_ which: Calculator) {
+        calculator = which
+        showsCalculator = true
     }
 
     /// Takes an imported recipe from the web or photo import and opens the

@@ -23,6 +23,10 @@ struct SettingsView: View {
     @State var ovenCount = AppSettings.storedOvenCount
     @State var dayStart = AppSettings.storedDayStart
     @State var dayEnd = AppSettings.storedDayEnd
+    /// "Meine Anstellgut-TAs" as typed: the quick picks of the starter TA
+    /// calculator, kept as text under the iPhone's key.
+    @State var starterPresetsText = SettingsFile.value(forKey: AppSettingsKeys.starterDoughYieldPresets) as? String
+        ?? AppSettings.defaultStarterDoughYieldPresets
     @Environment(\.dismiss) var dismiss
     @Environment(\.locale) var locale
     /// An account change is under way (the browser may be open).
@@ -93,6 +97,17 @@ struct SettingsView: View {
                 }
                 Toggle("Bäckerprozente anzeigen", isOn: Binding(get: { model.showsBakersPercentages },
                                                                set: { model.showsBakersPercentages = $0 }))
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("Meine Anstellgut-TAs")
+                        Spacer()
+                        TextField("Meine Anstellgut-TAs", text: $starterPresetsText)
+                            .frame(width: 160)
+                    }
+                    Text("Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
             } header: {
                 Text("Rezepte")
             }
@@ -212,6 +227,9 @@ struct SettingsView: View {
             }
         }
         .onChange(of: dayEnd) { _, value in store(value, AppSettingsKeys.dayEnd) }
+        .onChange(of: starterPresetsText) { _, value in
+            SettingsFile.set(value, forKey: AppSettingsKeys.starterDoughYieldPresets)
+        }
     }
 
     /// Signing in with Apple, as on the iPhone: the same account there and

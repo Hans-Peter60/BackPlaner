@@ -390,6 +390,57 @@
         }
       }
     },
+    "Anstellgut einsetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter to use"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain chef à utiliser"
+          }
+        }
+      }
+    },
+    "Anstellgut-TA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter TA"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA du levain chef"
+          }
+        }
+      }
+    },
+    "Anstellgut-TA anpassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust starter TA"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuster la TA du levain chef"
+          }
+        }
+      }
+    },
     "Anstellgut-Tagebuch" : {
       "comment" : "The title of a screen that logs feeding times.",
       "extractionState" : "manual",
@@ -790,6 +841,40 @@
         }
       }
     },
+    "Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With a big difference in TA it pays to convert the starter to the TA you want beforehand, over one or two feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cas de grand écart de TA, il vaut mieux convertir le levain chef à la TA souhaitée au préalable, en un ou deux rafraîchis."
+          }
+        }
+      }
+    },
+    "Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With more than half rye, just mix the dough instead of kneading, shape it with wet hands, and acidify it well."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au-delà de la moitié de seigle, mélangez simplement la pâte au lieu de la pétrir, façonnez-la avec les mains mouillées et acidifiez-la bien."
+          }
+        }
+      }
+    },
     "Beobachtungen, Geruch, Konsistenz …" : {
       "comment" : "A placeholder text for a text field that lets the user add notes about a feeding.",
       "extractionState" : "manual",
@@ -1172,6 +1257,23 @@
         }
       }
     },
+    "Das Mehl aus dem Anstellgut bleibt gleich; nur Anstellgut und Wasser verschieben sich gegeneinander. Teigausbeute und Gesamtgewicht des Teigs ändern sich dadurch nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The flour from the starter stays the same; only starter and water shift against each other. Dough yield and total weight of the dough do not change."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine apportée par le levain chef reste la même ; seuls le levain chef et l’eau se déplacent l’un contre l’autre. Le rendement de la pâte (TA) et le poids total de la pâte ne changent pas."
+          }
+        }
+      }
+    },
     "Das Rezept konnte nicht geladen werden." : {
       "comment" : "Public recipe: its components and steps could not be read.",
       "extractionState" : "manual",
@@ -1186,6 +1288,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette n’a pas pu être chargée."
+          }
+        }
+      }
+    },
+    "Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe does not state a TA for its starter; the TA from the settings is assumed. If the recipe gives one, write it into the ingredient name, e.g. “Sourdough starter TA 150”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette n’indique pas de TA pour son levain chef ; la TA des réglages est supposée. Si la recette la précise, inscrivez-la dans le nom de l’ingrédient, par exemple « Levain chef TA 150 »."
           }
         }
       }
@@ -1221,6 +1340,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette a été reprise sans IA à partir des données structurées de la page. Vérifiez tout particulièrement les composants et les durées."
+          }
+        }
+      }
+    },
+    "Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work in the extra water bit by bit and adjust by how the dough feels – flours vary with the mill and the harvest."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incorporez l’eau supplémentaire petit à petit et corrigez au toucher de la pâte – les farines varient selon le moulin et la récolte."
           }
         }
       }
@@ -1592,6 +1728,23 @@
         }
       }
     },
+    "Die Wärme, die der Teig zusätzlich beim Kneten aufnimmt. Vergleiche nach dem Kneten die gemessene Teigtemperatur mit der Zieltemperatur und passe den Wert entsprechend an – einmal kalibriert, gilt er für jedes Rezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The extra warmth the dough picks up while kneading. After kneading, compare the measured dough temperature with the target and adjust the value accordingly — once calibrated, it applies to every recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La chaleur supplémentaire que la pâte absorbe en pétrissant. Compare après le pétrissage la température de pâte mesurée à la température cible et ajuste la valeur en conséquence – une fois calibrée, elle vaut pour chaque recette."
+          }
+        }
+      }
+    },
     "Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1605,6 +1758,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cette étape et toutes les étapes suivantes du même plan sont décalées de la même durée."
+          }
+        }
+      }
+    },
+    "Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spelt absorbs water more slowly: a soaker or cooked soaker made from part of the flour keeps the crumb moist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’épeautre absorbe l’eau plus lentement : un trempage ou un empois (tangzhong) préparé avec une partie de la farine garde la mie moelleuse."
+          }
+        }
+      }
+    },
+    "Dinkelteig kürzer und schonender kneten, lieber dehnen und falten – er neigt zum Überkneten und wird sonst trocken." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knead spelt dough for a shorter time and more gently, and prefer stretch and folds – it tends to overknead and turns dry otherwise."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pétrissez la pâte d’épeautre moins longtemps et plus délicatement, privilégiez les rabats (étirer et plier) – elle se surpétrit facilement et devient alors sèche."
           }
         }
       }
@@ -1690,6 +1877,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Vous utilisez de nouveau l’app de façon anonyme. Les recettes présentes sur cet appareil restent inchangées. Vous pourrez de nouveau modifier les recettes publiées sous votre compte dès que vous vous reconnecterez."
+          }
+        }
+      }
+    },
+    "Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separated by commas; offered as quick picks when adjusting the starter TA."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Séparées par des virgules ; proposées comme raccourcis lors de l’ajustement de la TA du levain chef."
           }
         }
       }
@@ -1780,6 +1984,23 @@
         }
       }
     },
+    "Einkorn bindet wenig Wasser und ist klebrig: deutlich weniger Wasser, kaum kneten, Kastenform statt freigeschoben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einkorn absorbs little water and is sticky: use noticeably less water, barely knead, and bake in a loaf tin rather than free-standing."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le petit épeautre absorbe peu d’eau et est collant : mettez nettement moins d’eau, pétrissez à peine et cuisez dans un moule plutôt que sur sole."
+          }
+        }
+      }
+    },
     "Einstellungen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1810,6 +2031,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retirer le consentement à l’IA cloud"
+          }
+        }
+      }
+    },
+    "Emmer hat einen weichen Kleber: kurz kneten, kurze Gare, am sichersten in der Kastenform backen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emmer has a soft gluten: knead briefly, keep the proof short, and bake in a loaf tin to be safe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’emmer a un gluten faible : pétrissez brièvement, gardez une pousse courte et, pour plus de sûreté, cuisez dans un moule à cake."
           }
         }
       }
@@ -1884,6 +2122,23 @@
         }
       }
     },
+    "Ersetzen durch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace with"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacer par"
+          }
+        }
+      }
+    },
     "Erstelle zuerst eine neue Liste." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1948,6 +2203,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé pour"
+          }
+        }
+      }
+    },
+    "Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A firmer starter (lower TA) works more slowly and sours more strongly – allow a little more ripening time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un levain chef plus ferme (TA plus basse) travaille plus lentement et acidifie davantage – prévoyez un peu plus de temps de maturation."
           }
         }
       }
@@ -2093,6 +2365,23 @@
         }
       }
     },
+    "Genauer Wert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exact value"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeur exacte"
+          }
+        }
+      }
+    },
     "geplant" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2215,6 +2504,23 @@
         }
       }
     },
+    "Getreide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grain"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Céréale"
+          }
+        }
+      }
+    },
     "Gewürze & Kräuter" : {
       "comment" : "Text for the category of items that are spices and herbs.",
       "extractionState" : "manual",
@@ -2229,6 +2535,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
+    "Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum wheat hydrates slowly: allow 30–60 minutes of autolyse; the dough turns firmer and yellowish."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le blé dur gonfle lentement : prévoyez 30–60 minutes d’autolyse ; la pâte devient plus ferme et jaunâtre."
           }
         }
       }
@@ -2280,6 +2603,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hydratation"
+          }
+        }
+      }
+    },
+    "Im Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans la recette"
           }
         }
       }
@@ -2403,6 +2743,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Noter maintenant"
+          }
+        }
+      }
+    },
+    "Kälter als Eiswasser – mit diesen Werten kaum erreichbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colder than ice water — barely achievable with these values."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus froid que de l’eau glacée – difficilement atteignable avec ces valeurs."
           }
         }
       }
@@ -2859,6 +3216,40 @@
         }
       }
     },
+    "Mehl ersetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacer la farine"
+          }
+        }
+      }
+    },
+    "Mehl hat Raumtemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flour is at room temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine est à température ambiante"
+          }
+        }
+      }
+    },
     "Mehr" : {
       "comment" : "Menu of the recipe list: settings and backups.",
       "extractionState" : "manual",
@@ -2873,6 +3264,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus"
+          }
+        }
+      }
+    },
+    "Mein Anstellgut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My starter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon levain chef"
+          }
+        }
+      }
+    },
+    "Meine Anstellgut-TAs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My starter TAs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes TA de levain chef"
           }
         }
       }
@@ -2996,6 +3421,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se connecter avec Apple"
+          }
+        }
+      }
+    },
+    "Mit Sauerteig oder Vorteig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With sourdough or a preferment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec levain ou pré-pâte"
           }
         }
       }
@@ -3615,6 +4057,23 @@
         }
       }
     },
+    "Raum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambiante"
+          }
+        }
+      }
+    },
     "Raumtemperatur" : {
       "comment" : "Label of a row in a form or on the \"last time\" card for room temperature.",
       "extractionState" : "manual",
@@ -3664,6 +4123,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planifier régulièrement"
+          }
+        }
+      }
+    },
+    "Reibungswärme" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friction factor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaleur de pétrissage"
           }
         }
       }
@@ -3948,6 +4424,57 @@
         }
       }
     },
+    "Richtwerte: Mehle werden 1:1 nach Gewicht getauscht, nur das Wasser ändert sich. Wie viel ein Mehl bindet, schwankt je nach Mühle und Ernte – der Teig hat das letzte Wort." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rules of thumb: flours are swapped 1:1 by weight; only the water changes. How much a flour absorbs varies with the mill and the harvest – the dough has the final say."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeurs indicatives : les farines s’échangent 1:1 au poids, seule l’eau change. La quantité d’eau qu’une farine absorbe varie selon le moulin et la récolte – la pâte a le dernier mot."
+          }
+        }
+      }
+    },
+    "Roggen hat kein Klebergerüst: Ab etwa %@ Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rye has no gluten structure: from about %@ rye, acidify the dough with sourdough, or the crumb turns gummy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le seigle n’a pas de réseau de gluten : à partir d’environ %@ de seigle, acidifiez la pâte avec du levain, sinon la mie devient collante."
+          }
+        }
+      }
+    },
+    "Sauerteig/Vorteig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourdough/preferment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain/pré-pâte"
+          }
+        }
+      }
+    },
     "Schließen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4036,6 +4563,23 @@
         }
       }
     },
+    "Schüttwassertemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température de l’eau"
+          }
+        }
+      }
+    },
     "Schwimmt" : {
       "comment" : "Text for the \"not checked\" option in the \"float test\" picker.",
       "extractionState" : "manual",
@@ -4086,6 +4630,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Test de flottaison"
+          }
+        }
+      }
+    },
+    "Sehr heißes Wasser nötig – prüfe Ziel- und Reibungswärme." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Very hot water needed — check the target temperature and friction factor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau très chaude nécessaire – vérifie la température cible et la chaleur de pétrissage."
           }
         }
       }
@@ -4513,6 +5074,23 @@
         }
       }
     },
+    "TA im Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA in the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA dans la recette"
+          }
+        }
+      }
+    },
     "TA nach Definition" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4595,6 +5173,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tags, séparés par des virgules"
+          }
+        }
+      }
+    },
+    "Teig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pâte"
           }
         }
       }
@@ -4773,6 +5368,23 @@
         }
       }
     },
+    "Vollkorn braucht Zeit zum Quellen: Autolyse oder ein Brüh-/Quellstück einplanen; die Krume wird dichter." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wholegrain needs time to hydrate: allow an autolyse or a scald or soaker; the crumb turns denser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine complète a besoin de temps pour s’hydrater : prévoyez une autolyse, un échaudage ou un trempage ; la mie sera plus dense."
+          }
+        }
+      }
+    },
     "Von Dir gemeldete Rezepte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4839,6 +5451,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avant la première analyse cloud"
+          }
+        }
+      }
+    },
+    "Vorhanden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On hand"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible"
           }
         }
       }
@@ -4911,6 +5540,57 @@
         }
       }
     },
+    "Wasser anpassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust water"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau à ajuster"
+          }
+        }
+      }
+    },
+    "Wasser im Teig: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water in the dough: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau dans la pâte : %@"
+          }
+        }
+      }
+    },
+    "Weicheres Anstellgut (höhere TA) gärt schneller und säuert milder – die Reifezeit des Sauerteigs eher etwas kürzer ansetzen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A softer starter (higher TA) ferments faster and sours more mildly – allow a little less ripening time for the sourdough."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un levain chef plus souple (TA plus élevée) fermente plus vite et acidifie plus doucement – prévoyez un temps de maturation un peu plus court pour le levain."
+          }
+        }
+      }
+    },
     "Weiter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4941,6 +5621,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus d’actions"
+          }
+        }
+      }
+    },
+    "Weizen hat mehr Kleber als Dinkel, Emmer oder Einkorn: etwas länger kneten, bis der Teig ein Fenster zieht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wheat has more gluten than spelt, emmer, or einkorn: knead a little longer, until the dough passes the windowpane test."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le blé a plus de gluten que l’épeautre, l’emmer ou le petit épeautre : pétrissez un peu plus longtemps, jusqu’à ce que la pâte réussisse le test de la fenêtre."
+          }
+        }
+      }
+    },
+    "Worauf achten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What to watch for"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À surveiller"
           }
         }
       }
@@ -5012,6 +5726,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Destination"
+          }
+        }
+      }
+    },
+    "Zieltemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température cible"
           }
         }
       }
@@ -5134,6 +5865,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter un ingrédient"
+          }
+        }
+      }
+    },
+    "Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients"
           }
         }
       }
