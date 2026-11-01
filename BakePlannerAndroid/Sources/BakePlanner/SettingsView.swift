@@ -19,6 +19,8 @@ struct SettingsView: View {
     @State var ovenCount = AppSettings.storedOvenCount
     @State var dayStart = AppSettings.storedDayStart
     @State var dayEnd = AppSettings.storedDayEnd
+    /// Whether Firebase answers (step 11b), nil while it is being asked.
+    @State var connection: PublicRecipeService.ConnectionCheck?
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -74,6 +76,27 @@ struct SettingsView: View {
             } header: {
                 Text("Backplanung")
             }
+
+            // For now only shows whether the public recipes can be reached.
+            Section {
+                switch connection {
+                case nil:
+                    Text("Verbindung wird geprüft …")
+                case .recipes(let count):
+                    valueRow("Anzahl", value: String(count))
+                case .failed(let message):
+                    Text(verbatim: message)
+                        .font(.caption)
+                        .foregroundStyle(Color.red)
+                case .unavailable:
+                    Text(verbatim: "–")
+                }
+            } header: {
+                Text("Öffentliche Rezepte")
+            }
+        }
+        .task {
+            connection = await PublicRecipeService.checkConnection()
         }
         .navigationTitle("Einstellungen")
         .toolbar {

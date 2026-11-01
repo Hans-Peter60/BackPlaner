@@ -220,6 +220,24 @@
         }
       }
     },
+    "Anzahl" : {
+      "comment" : "Settings: how many public recipes can be read.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Count"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
+          }
+        }
+      }
+    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -2225,6 +2243,24 @@
         }
       }
     },
+    "Öffentliche Rezepte" : {
+      "comment" : "Settings: section about the public recipes.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes publiques"
+          }
+        }
+      }
+    },
     "Öffne ein Rezept und tippe auf „Backvorgang eintragen“." : {
       "comment" : "Bake history, empty: how a bake gets recorded on Android.",
       "extractionState" : "manual",
@@ -3041,6 +3077,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étapes de préparation"
+          }
+        }
+      }
+    },
+    "Verbindung wird geprüft …" : {
+      "comment" : "Settings: while asking the public recipe database.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking the connection …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification de la connexion …"
           }
         }
       }

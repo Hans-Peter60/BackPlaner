@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     id("skip-build-plugin")
+
+    // Reads google-services.json (Firebase project of the public recipes).
+    id("com.google.gms.google-services") version "4.4.2" apply true
 }
 
 skip {
