@@ -229,6 +229,17 @@ final class AppModel {
         }
     }
 
+    /// Every entry with its photos, for the gallery and the photo cloud;
+    /// read on demand, the list itself goes without the photos.
+    func bakeHistoryWithImages() -> [StoredBakeHistory] {
+        do {
+            return try openedHistoryStore().entries(includingImages: true)
+        } catch {
+            logger.error("could not read the bake history with photos: \(error)")
+            return []
+        }
+    }
+
     /// One entry with its photos, read afresh.
     func bakeEntry(id: String) -> StoredBakeHistory? {
         do {

@@ -2888,6 +2888,23 @@
         }
       }
     },
+    "Fotowolke" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo cloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuage de photos"
+          }
+        }
+      }
+    },
     "Früher" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2990,6 +3007,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Ratio de nourrissage"
+          }
+        }
+      }
+    },
+    "Galerie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gallery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
           }
         }
       }

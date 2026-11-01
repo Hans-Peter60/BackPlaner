@@ -10,7 +10,14 @@ import UIKit
 /// removes it.
 struct BakeHistoryView: View {
     let model: AppModel
-    @State var showsHitList = false
+    /// 0 list, 1 gallery, 2 hit list, 3 photo cloud — the iPhone's four views.
+    @State var mode = 0
+    /// The entries with their photos, read when gallery or cloud is shown.
+    @State var entriesWithImages: [StoredBakeHistory] = []
+    /// The recipe to open from the photo cloud. Kept apart from the
+    /// destination's visibility, as the dialogs' data is.
+    @State var cloudRecipeID: String?
+    @State var opensCloudRecipe = false
     @State var editedEntry: StoredBakeHistory?
     @State var editsEntry = false
     /// The entry waiting for the user to confirm its removal. Kept apart
@@ -59,17 +66,24 @@ struct BakeHistoryView: View {
             } else {
                 let entries = filteredEntries
                 List {
-                    Picker("Darstellung", selection: $showsHitList) {
-                        Text("Liste").tag(false)
-                        Text("Hit-Liste").tag(true)
+                    // Four views do not fit as segments on a phone; a menu
+                    // picker names the one shown.
+                    Picker("Darstellung", selection: $mode) {
+                        Text("Liste").tag(0)
+                        Text("Galerie").tag(1)
+                        Text("Hit-Liste").tag(2)
+                        Text("Fotowolke").tag(3)
                     }
-                    .pickerStyle(.segmented)
                     filterRow
 
                     if entries.isEmpty {
                         Text("Keine passenden Backvorgänge")
                             .foregroundStyle(.secondary)
-                    } else if showsHitList {
+                    } else if mode == 1 {
+                        gallery(of: entries)
+                    } else if mode == 3 {
+                        cloud
+                    } else if mode == 2 {
                         ForEach(hitList, id: \.id) { summary in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(verbatim: summary.name)
@@ -100,6 +114,21 @@ struct BakeHistoryView: View {
             }
         }
         .navigationTitle("Backhistorie")
+        // Gallery and cloud need the photos; read once per switch, and
+        // again after an entry was changed.
+        .task(id: mode) {
+            if mode == 1 || mode == 3 {
+                entriesWithImages = model.bakeHistoryWithImages()
+            }
+        }
+        .onChange(of: model.bakeHistory.count) { _, _ in
+            if mode == 1 || mode == 3 {
+                entriesWithImages = model.bakeHistoryWithImages()
+            }
+        }
+        .navigationDestination(isPresented: $opensCloudRecipe) {
+            RecipeDetailView(model: model, recipeID: cloudRecipeID ?? "")
+        }
         .appSheet(isPresented: $editsEntry) {
             if let entry = editedEntry {
                 NavigationStack {
@@ -159,13 +188,221 @@ struct BakeHistoryView: View {
     }
 
     /// The recipes, most baked first, as the iPhone's hit list has them —
-    /// of the entries that pass search and rating.
+    /// of the entries that pass search and rating. With the photos where
+    /// they were read (gallery, cloud).
     private var hitList: [BakeHistoryTally.Recipe] {
         let ratings = Dictionary(model.recipes.map { ($0.id, $0.content.rating) }, uniquingKeysWith: { first, _ in first })
+        let photos = Dictionary(entriesWithImages.map { ($0.id, $0.images) }, uniquingKeysWith: { first, _ in first })
         return BakeHistoryTally.recipes(from: filteredEntries.map { entry in
             BakeHistoryTally.Entry(recipeID: entry.recipeID, recipeName: model.recipeName(id: entry.recipeID),
-                                   rating: ratings[entry.recipeID] ?? 0, date: entry.date, photos: [])
+                                   rating: ratings[entry.recipeID] ?? 0, date: entry.date, photos: photos[entry.id] ?? [])
         })
+    }
+
+    // MARK: - Gallery
+
+    /// Tiles with the first photo of each bake (or the recipe's picture),
+    /// name, date and comment, two to a row — the iPhone's gallery.
+    private func gallery(of entries: [StoredBakeHistory]) -> some View {
+        let photos = Dictionary(entriesWithImages.map { ($0.id, $0.images) }, uniquingKeysWith: { first, _ in first })
+        // Rows of two, not a LazyVGrid: a lazy grid inside a List row gets
+        // no height from Skip and showed nothing.
+        let rows = stride(from: 0, to: entries.count, by: 2).map { Array(entries[$0..<min($0 + 2, entries.count)]) }
+        return ForEach(Array(rows.enumerated()), id: \.offset) { _, pair in
+            HStack(alignment: .top, spacing: 12) {
+                ForEach(pair, id: \.id) { entry in
+                    Button {
+                        editedEntry = model.bakeEntry(id: entry.id)
+                        editsEntry = editedEntry != nil
+                    } label: {
+                        GalleryTile(entry: entry, recipeName: model.recipeName(id: entry.recipeID),
+                                    photos: photos[entry.id] ?? [],
+                                    recipeImage: model.recipe(id: entry.recipeID)?.content.image)
+                    }
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                }
+                if pair.count == 1 {
+                    Spacer()
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
+    // MARK: - Photo cloud
+
+    /// One circle per recipe with its newest bake photo, as big as the
+    /// recipe is often baked, the most baked in the middle and the others
+    /// wound around it (CirclePacking); the cloud scaled to fit. A tap
+    /// opens the recipe.
+    private var cloud: some View {
+        let recipes = hitList
+        let maxCount = recipes.first?.count ?? 1
+        let radii = recipes.map {
+            CirclePacking.radius(count: $0.count, maxCount: maxCount, minimum: 34, maximum: 100)
+        }
+        let packing = CirclePacking(radii: radii, spacing: 6)
+        return GeometryReader { geo in
+            let width = Double(geo.size.width)
+            let height = Double(geo.size.height)
+            let boundsWidth = max(Double(packing.bounds.width), 1)
+            let boundsHeight = max(Double(packing.bounds.height), 1)
+            let scale = min((width - 32) / boundsWidth, (height - 32) / boundsHeight, 1.3)
+            let originX = width / 2 - Double(packing.bounds.midX) * scale
+            let originY = height / 2 - Double(packing.bounds.midY) * scale
+            ZStack(alignment: .topLeading) {
+                ForEach(Array(zip(recipes, packing.placements).enumerated()), id: \.offset) { _, pair in
+                    let (summary, placement) = pair
+                    let diameter = Double(placement.radius) * 2 * scale
+                    Button {
+                        if let id = summary.id.base as? String {
+                            cloudRecipeID = id
+                            opensCloudRecipe = true
+                        }
+                    } label: {
+                        CloudBubble(summary: summary, diameter: diameter,
+                                    recipeImage: (summary.id.base as? String).flatMap { model.recipe(id: $0)?.content.image })
+                    }
+                    .buttonStyle(.plain)
+                    .position(x: originX + Double(placement.center.x) * scale,
+                              y: originY + Double(placement.center.y) * scale)
+                }
+            }
+            .frame(width: width, height: height, alignment: .topLeading)
+        }
+        .frame(height: 460)
+    }
+}
+
+/// One bake as a square tile: the first photo, or the recipe's picture
+/// faded, or a placeholder; under it the recipe, the date and the comment.
+struct GalleryTile: View {
+    let entry: StoredBakeHistory
+    let recipeName: String
+    let photos: [Data]
+    let recipeImage: Data?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ZStack(alignment: .bottomTrailing) {
+                tilePicture
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                if photos.count > 1 {
+                    Text(verbatim: "\(photos.count)")
+                        .font(.caption)
+                        .bold()
+                        .foregroundStyle(Color.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.black.opacity(0.55), in: Capsule())
+                        .padding(8)
+                }
+            }
+            Text(verbatim: recipeName)
+                .font(.headline)
+                .lineLimit(2)
+            Text(verbatim: BakeHistoryText.date(entry.date))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if !BakeHistoryFacts.isPlaceholderComment(entry.comment), !entry.comment.isEmpty {
+                Text(verbatim: entry.comment)
+                    .font(.caption)
+                    .lineLimit(2)
+            }
+        }
+        .foregroundStyle(Color.primary)
+    }
+
+    @ViewBuilder
+    private var tilePicture: some View {
+        #if canImport(UIKit) || os(Android)
+        if let data = photos.first, let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+        } else if let recipeImage, let image = UIImage(data: recipeImage) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .opacity(0.6)
+        } else {
+            Color.gray.opacity(0.2)
+        }
+        #else
+        Color.gray.opacity(0.2)
+        #endif
+    }
+}
+
+/// A recipe's circle in the photo cloud: its newest bake photo (or the
+/// recipe's picture), the count at the top, the name on a dark band when
+/// the circle has room for it.
+struct CloudBubble: View {
+    let summary: BakeHistoryTally.Recipe
+    let diameter: Double
+    let recipeImage: Data?
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        ZStack {
+            picture
+                .frame(width: diameter, height: diameter)
+                .clipShape(Circle())
+            if diameter >= 64 {
+                VStack {
+                    Spacer(minLength: 0)
+                    Text(verbatim: summary.name)
+                        .font(.caption)
+                        .bold()
+                        .foregroundStyle(Color.white)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color.black.opacity(0.45), in: Capsule())
+                        .frame(maxWidth: diameter * 0.9)
+                        .padding(.bottom, diameter * 0.12)
+                }
+                .frame(width: diameter, height: diameter)
+            }
+            VStack {
+                Text(verbatim: "\(summary.count)")
+                    .font(.caption)
+                    .bold()
+                    .foregroundStyle(Color.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Palette.accent(colorScheme), in: Capsule())
+                    .padding(.top, diameter * 0.06)
+                Spacer(minLength: 0)
+            }
+            .frame(width: diameter, height: diameter)
+        }
+        .frame(width: diameter, height: diameter)
+        .overlay(Circle().strokeBorder(Color.white, lineWidth: 3))
+    }
+
+    @ViewBuilder
+    private var picture: some View {
+        #if canImport(UIKit) || os(Android)
+        if let data = summary.photos.first, let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+        } else if let recipeImage, let image = UIImage(data: recipeImage) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+        } else {
+            Color.gray.opacity(0.3)
+        }
+        #else
+        Color.gray.opacity(0.3)
+        #endif
     }
 }
 
