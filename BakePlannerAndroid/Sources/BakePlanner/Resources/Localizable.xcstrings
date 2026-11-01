@@ -271,6 +271,41 @@
         }
       }
     },
+    "Backmodus" : {
+      "comment" : "Title of the kitchen view that shows one planned step at a time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode cuisson"
+          }
+        }
+      }
+    },
+    "Backmodus starten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start bake mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer le mode cuisson"
+          }
+        }
+      }
+    },
     "Backvorgang eintragen" : {
       "comment" : "Recipe detail: button that records a bake in the bake history.",
       "extractionState" : "manual",
@@ -1326,6 +1361,41 @@
         }
       }
     },
+    "in %@" : {
+      "comment" : "Countdown on the main-menu card; %@ is a relative duration like '42 min'.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "in %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %@"
+          }
+        }
+      }
+    },
+    "Jetzt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenant"
+          }
+        }
+      }
+    },
     "Keine Einkaufsliste vorhanden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2337,6 +2407,23 @@
         }
       }
     },
+    "Schließen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        }
+      }
+    },
     "Schritt" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -2351,6 +2438,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étape"
+          }
+        }
+      }
+    },
+    "Schritt %lld von %lld" : {
+      "comment" : "Position of the shown step within the plan, e.g. 'Schritt 3 von 12'.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$lld of %2$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %1$lld sur %2$lld"
           }
         }
       }
@@ -2440,6 +2545,24 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Test de flottaison"
+          }
+        }
+      }
+    },
+    "seit %@" : {
+      "comment" : "Elapsed time on the main-menu card once a step is due; %@ is a relative duration like '5 min'.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ago"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "depuis %@"
           }
         }
       }
@@ -2768,6 +2891,23 @@
         }
       }
     },
+    "Weiter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivant"
+          }
+        }
+      }
+    },
     "z. B. Weizen 550, Dinkel 630" : {
       "comment" : "A hint for the flour field in the bake-history form.",
       "extractionState" : "manual",
@@ -2839,6 +2979,23 @@
         }
       }
     },
+    "Zurück" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        }
+      }
+    },
     "Zusätzlich planen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2906,6 +3063,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter un ingrédient"
+          }
+        }
+      }
+    },
+    "Zutaten für „%@“" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients for “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients pour « %@ »"
           }
         }
       }

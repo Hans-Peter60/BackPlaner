@@ -17,6 +17,10 @@ struct PlanTimelineView: View {
     @State var stepToShift: StoredScheduledStep?
     @State var shiftsStep = false
     @State var showsShiftError = false
+    /// The plan the bake mode shows, nil for all. Kept apart from the
+    /// sheet's visibility, as the dialogs are.
+    @State var bakeModePlanKey: String?
+    @State var showsBakeMode = false
     @Environment(\.colorScheme) var colorScheme
 
     /// One plan: the steps of one planning run.
@@ -89,6 +93,12 @@ struct PlanTimelineView: View {
                                     .buttonStyle(.bordered)
                                 }
                             }
+                            Button {
+                                bakeModePlanKey = plan.id
+                                showsBakeMode = true
+                            } label: {
+                                Label("Backmodus starten", systemImage: "play.fill")
+                            }
                             Button("Geplante Schritte löschen", role: .destructive) {
                                 planToDelete = plan
                                 confirmsDeletion = true
@@ -102,6 +112,22 @@ struct PlanTimelineView: View {
             }
         }
         .navigationTitle("Geplante nächste Schritte")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    bakeModePlanKey = nil
+                    showsBakeMode = true
+                } label: {
+                    Label("Backmodus starten", systemImage: "play.fill")
+                }
+                .disabled(plans.isEmpty)
+            }
+        }
+        .sheet(isPresented: $showsBakeMode) {
+            NavigationStack {
+                BakeModeView(model: model, planKey: bakeModePlanKey)
+            }
+        }
         .task {
             model.loadScheduledSteps()
         }
