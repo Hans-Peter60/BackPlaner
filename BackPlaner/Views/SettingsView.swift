@@ -13,7 +13,6 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.ovenCount) private var ovenCount = AppSettings.defaultOvenCount
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
-    @AppStorage(AppSettingsKeys.speechInBakeMode) private var speechInBakeMode = AppSettings.defaultSpeechInBakeMode
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
     @AppStorage(AppSettingsKeys.bakersPercentages) private var bakersPercentages = AppSettings.defaultBakersPercentages
     @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
@@ -196,9 +195,6 @@ struct SettingsView: View {
                 Stepper(value: $dayEnd, in: dayStart...23) {
                     LabeledContent("Tagesende", value: formattedHour(dayEnd))
                 }
-
-                // Off hides the read-aloud button in the bake mode entirely.
-                Toggle("Sprachausgabe im Backmodus", isOn: $speechInBakeMode)
 
                 // Off ends a running Live Activity right away; on starts one
                 // for the step within reach. A Pro feature: locked, the row

@@ -576,7 +576,7 @@ Pour le travail en cuisine, il y a le bouton **Démarrer le mode cuisson** : dan
 En bas se trouvent de grands boutons que l’on atteint même avec de la farine sur les mains :
 
 - **Retour** et **Suivant** parcourent toutes les étapes du plan.
-- **Lire à voix haute** énonce l’étape et, le cas échéant, les ingrédients par le haut-parleur, dans la langue de l’app choisie. Une seconde pression (**Stop**) interrompt. La lecture fonctionne aussi appareil en mode silencieux. Pour s’en passer, désactivez *Réglages → Planification → Lecture vocale en mode cuisson* ; le bouton disparaît alors.
+- **Lire à voix haute** énonce l’étape et, le cas échéant, les ingrédients par le haut-parleur, dans la langue de l’app choisie. Une seconde pression (**Stop**) interrompt. La lecture fonctionne aussi appareil en mode silencieux.
 - **Terminé** retire l’étape et son rappel du plan et passe à la suivante.
 
 Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de recette de la liste. Tant qu’il est ouvert, l’écran reste allumé. **Fermer** en haut à droite ramène à la liste.
@@ -778,7 +778,6 @@ Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la rec
 | **Fours** | 1 à 6. Nombre de cuissons pouvant se dérouler en même temps. Le contrôle du plan ne signale une erreur que si plus de recettes cuisent en même temps qu’il n’y a de fours ; la pause de cuisson s’applique par four. Par défaut : 1. |
 | **Début de journée** | 0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h. |
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
-| **Lecture vocale en mode cuisson** | Affiche ou masque le bouton « Lire à voix haute » du mode cuisson. Par défaut : activé. |
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 
 > **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).

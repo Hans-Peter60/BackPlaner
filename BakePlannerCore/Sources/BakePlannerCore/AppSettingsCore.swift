@@ -22,7 +22,6 @@ public struct AppSettingsKeys {
     public static let dayEnd = "settings.dayEnd"
     public static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
     public static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
-    public static let speechInBakeMode = "settings.speechInBakeMode"
     public static let liveActivity = "settings.liveActivity"
     public static let bakersPercentages = "settings.bakersPercentages"
     public static let bakeHistoryLayout = "settings.bakeHistoryLayout"
@@ -77,8 +76,6 @@ public struct AppSettings {
     public static let defaultRecipeStorage = RecipeStoragePreference.privateRecipe.rawValue
     public static let defaultServingSize = 2
     public static let defaultUseDetailView = true
-    /// Whether the bake mode offers to read a step aloud.
-    public static let defaultSpeechInBakeMode = true
     /// Whether a running plan shows a Live Activity on the lock screen.
     public static let defaultLiveActivity = true
     /// Whether the component columns add baker's percentages to each weight.
