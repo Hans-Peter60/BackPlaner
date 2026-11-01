@@ -17,6 +17,8 @@ let package = Package(
         // BakePlanner's logic and the SQLite storage, from this repository.
         .package(path: "../BakePlannerCore"),
         .package(path: "../BakePlannerStorage"),
+        // Reading steps aloud in the bake mode (Android's TextToSpeech).
+        .package(path: "../BakePlannerSpeech"),
     ],
     targets: [
         .target(name: "BakePlanner", dependencies: [
@@ -24,6 +26,7 @@ let package = Package(
             .product(name: "SkipKit", package: "skip-kit"),
             .product(name: "BakePlannerCore", package: "BakePlannerCore"),
             .product(name: "BakePlannerStorage", package: "BakePlannerStorage"),
+            .product(name: "BakePlannerSpeech", package: "BakePlannerSpeech"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )

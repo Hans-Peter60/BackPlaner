@@ -1,0 +1,4 @@
+# Skip configuration for the BakePlannerSpeech module: transpiled to Kotlin,
+# its public API bridged to the app's native Swift.
+skip:
+  bridging: true
