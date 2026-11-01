@@ -108,6 +108,11 @@ struct SettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                NavigationLink {
+                    CustomUnitsView()
+                } label: {
+                    valueRow("Eigene Einheiten", value: String(CustomUnitFile.units.count))
+                }
             } header: {
                 Text("Rezepte")
             }

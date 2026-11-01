@@ -1240,6 +1240,40 @@
         }
       }
     },
+    "Bitte ein Kürzel angeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter an abbreviation."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez une abréviation."
+          }
+        }
+      }
+    },
+    "Bitte einen Namen angeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez un nom."
+          }
+        }
+      }
+    },
     "Blockierte Autoren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1355,6 +1389,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Le compte est supprimé et la connexion dissociée. Les recettes que vous avez publiées restent visibles par tous, mais n’appartiennent plus à aucun compte. Les recettes présentes sur cet appareil sont conservées. Cette action est irréversible."
+          }
+        }
+      }
+    },
+    "Das Kürzel „%@“ ist schon vergeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The abbreviation “%@” is already taken."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’abréviation « %@ » est déjà utilisée."
           }
         }
       }
@@ -1966,6 +2017,23 @@
         }
       }
     },
+    "Die Umrechnung muss größer als 0 sein." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The conversion has to be greater than 0."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La conversion doit être supérieure à 0."
+          }
+        }
+      }
+    },
     "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern oder dem Seitentext zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2085,6 +2153,23 @@
         }
       }
     },
+    "Du hast noch keine eigene Einheit angelegt. Die mitgelieferten Einheiten stehen in der Auswahlliste immer zur Verfügung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven’t added a unit of your own yet. The units that come with the app are always available in the list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n’avez pas encore ajouté d’unité personnalisée. Les unités fournies avec l’app sont toujours disponibles dans la liste."
+          }
+        }
+      }
+    },
     "Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2170,6 +2255,40 @@
         }
       }
     },
+    "Eigene Einheiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom units"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unités personnalisées"
+          }
+        }
+      }
+    },
+    "Eine Einheit sagt der App, wie sie eine Menge in ein Gewicht umrechnet. Davon leben die Gesamtzutaten, die Bäckerprozente und die Einkaufsliste. Deshalb braucht auch eine eigene Einheit eine Umrechnung — ohne sie würde „2 Becher Mehl“ als 2 Gramm zählen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A unit tells the app how to turn an amount into a weight. The total ingredients, the baker’s percentages and the shopping list all depend on it, which is why a unit of your own needs a conversion too — without one, “2 cups of flour” would count as 2 grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une unité indique à l’app comment convertir une quantité en poids. Le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent : c’est pourquoi une unité personnalisée a aussi besoin d’une conversion. Sans elle, « 2 tasses de farine » compterait pour 2 grammes."
+          }
+        }
+      }
+    },
     "Eine Einwilligung kannst Du direkt beim Rezeptimport erteilen, nachdem Dir die Datenübertragung erklärt wurde." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2201,6 +2320,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unité"
+          }
+        }
+      }
+    },
+    "Einheit hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une unité"
+          }
+        }
+      }
+    },
+    "Einheit nicht angelegt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unit not added"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unité non ajoutée"
           }
         }
       }
@@ -2722,6 +2875,23 @@
         }
       }
     },
+    "Gemessen in" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measured in"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesurée en"
+          }
+        }
+      }
+    },
     "Genauer Wert" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2896,6 +3066,23 @@
         }
       }
     },
+    "gezählt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "counted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "comptée"
+          }
+        }
+      }
+    },
     "Google Cloud ist dabei technischer Dienstleister. Eine Weitergabe für Werbung oder Nutzertracking durch BackPlaner findet nicht statt." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2909,6 +3096,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Cloud agit en tant que prestataire technique. BackPlaner ne transmet aucune donnée à des fins de publicité ou de suivi des utilisateurs."
+          }
+        }
+      }
+    },
+    "Gramm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grams"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grammes"
           }
         }
       }
@@ -3553,6 +3757,23 @@
         }
       }
     },
+    "Kürzel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbreviation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abréviation"
+          }
+        }
+      }
+    },
     "Letztes Mal" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3900,6 +4121,23 @@
         }
       }
     },
+    "Milliliter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milliliters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Millilitres"
+          }
+        }
+      }
+    },
     "Minuten" : {
       "comment" : "Placeholder text for a text field in a notification.",
       "extractionState" : "manual",
@@ -4106,6 +4344,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouveau"
+          }
+        }
+      }
+    },
+    "Neue Einheit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle unité"
           }
         }
       }
@@ -5559,6 +5814,23 @@
         }
       }
     },
+    "Stück" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieces"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pièces"
+          }
+        }
+      }
+    },
     "Stückgare" : {
       "comment" : "The label of the \"final proof\" row in the \"last time\" card.",
       "extractionState" : "manual",
@@ -5928,6 +6200,23 @@
         }
       }
     },
+    "Umrechnung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -6250,6 +6539,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Si vous choisissez l’IA cloud protégée, BackPlaner traite les images de recette que vous avez sélectionnées ou le texte de la recette et l’adresse de la page web que vous avez indiquée, ainsi que des données techniques de protection de la requête. Il s’agit d’un identifiant utilisateur Firebase pseudonyme, de l’attestation Firebase App Check et, avec BakePlanner Pro, du reçu d’achat signé par l’App Store afin que le serveur puisse attribuer votre quota. Le reçu contient l’identifiant et la date de l’achat, mais ni nom ni données de paiement."
+          }
+        }
+      }
+    },
+    "Wie viel Gramm eine Einheit wiegt. Ein Pfund wären 500." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many grams one unit weighs. A pound would be 500."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de grammes pèse une unité. Une livre correspondrait à 500."
+          }
+        }
+      }
+    },
+    "Wie viele Milliliter eine Einheit enthält. Ein Becher wären etwa 250. Das Gewicht rechnet die App je Zutat daraus." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many milliliters one unit holds. A cup would be about 250. The app works out the weight from that, per ingredient."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de millilitres contient une unité. Une tasse correspondrait à environ 250. L’app en déduit le poids pour chaque ingrédient."
+          }
+        }
+      }
+    },
+    "Wird gezählt, nicht gewogen. Die Umrechnung bleibt 1." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Counted rather than weighed. The conversion stays 1."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comptée, pas pesée. La conversion reste 1."
           }
         }
       }

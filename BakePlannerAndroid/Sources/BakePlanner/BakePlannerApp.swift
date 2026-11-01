@@ -34,6 +34,8 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.bakeplanner", category: "Bak
         PublicRecipeService.configure()
         // Before any view or the model reads a setting (SettingsFile).
         SettingsFile.restore()
+        // The user's own units join the unit table before any amount is weighed.
+        CustomUnitFile.install()
     }
 
     /* SKIP @bridge */public func onLaunch() {

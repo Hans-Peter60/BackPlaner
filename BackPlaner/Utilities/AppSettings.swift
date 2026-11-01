@@ -163,16 +163,7 @@ extension UnitBase {
     }
 }
 
-/// A unit the user defined himself, on top of the ones the app ships with.
-struct CustomUnit: Codable, Identifiable, Hashable {
-    var id = UUID()
-    var name: String
-    var abbreviation: String
-    var factor: Double
-    var baseUnit: String
-
-    var base: UnitBase { UnitBase(rawValue: baseUnit) ?? .gram }
-}
+// CustomUnit (a unit the user defined) lives in BakePlannerCore.
 
 /// Stores the units the user added. The app ships 28 in `UnitSets.json`, which
 /// is part of the bundle and therefore out of reach; anything else — "Becher",
@@ -226,27 +217,21 @@ final class CustomUnitStore: ObservableObject {
         }
     }
 
+    /// Adds the unit the input describes; the rules are the package's
+    /// (CustomUnits.validated), the wording of a refusal is this app's.
     func add(name: String, abbreviation: String, factor: Double?, base: UnitBase) throws {
-        let cleanName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let cleanAbbreviation = abbreviation.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard !cleanName.isEmpty else { throw UnitError.missingName }
-        guard !cleanAbbreviation.isEmpty else { throw UnitError.missingAbbreviation }
-
-        // A piece unit is counted, so its factor is fixed at 1 rather than asked for.
-        let effectiveFactor = base == .piece ? 1 : (factor ?? 0)
-        guard effectiveFactor > 0 else { throw UnitError.factorNotPositive }
-
-        // Units are looked up by name OR abbreviation, so a clash on either
-        // would make one of the two unreachable.
-        guard !isTaken(cleanAbbreviation), !isTaken(cleanName) else {
-            throw UnitError.abbreviationTaken(cleanAbbreviation)
+        do {
+            units.append(try CustomUnits.validated(name: name, abbreviation: abbreviation, factor: factor,
+                                                   base: base, existing: units))
+        } catch CustomUnitError.missingName {
+            throw UnitError.missingName
+        } catch CustomUnitError.missingAbbreviation {
+            throw UnitError.missingAbbreviation
+        } catch CustomUnitError.factorNotPositive {
+            throw UnitError.factorNotPositive
+        } catch CustomUnitError.abbreviationTaken(let abbreviation) {
+            throw UnitError.abbreviationTaken(abbreviation)
         }
-
-        units.append(CustomUnit(name: cleanName,
-                                abbreviation: cleanAbbreviation,
-                                factor: effectiveFactor,
-                                baseUnit: base.rawValue))
         persist()
     }
 
@@ -257,21 +242,7 @@ final class CustomUnitStore: ObservableObject {
 
     /// True when a bundled or custom unit already answers to this text.
     func isTaken(_ text: String) -> Bool {
-        let key = comparable(text)
-        guard !key.isEmpty else { return false }
-
-        return GlobalVariables.bundledUnitSets.contains {
-            comparable($0.abbreviation) == key || comparable($0.name) == key
-        } || units.contains {
-            comparable($0.abbreviation) == key || comparable($0.name) == key
-        }
-    }
-
-    private func comparable(_ value: String) -> String {
-        value
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
-            .localizedLowercase
+        CustomUnits.isTaken(text, among: units)
     }
 
     private func persist() {
@@ -282,14 +253,6 @@ final class CustomUnitStore: ObservableObject {
     }
 
     private func rebuildUnitSets() {
-        unitSets = units.map { custom in
-            let unitSet = UnitSetFB()
-            unitSet.id           = custom.id.uuidString
-            unitSet.name         = custom.name
-            unitSet.abbreviation = custom.abbreviation
-            unitSet.factor       = custom.factor
-            unitSet.baseUnit     = custom.baseUnit
-            return unitSet
-        }
+        unitSets = CustomUnits.unitSets(units)
     }
 }

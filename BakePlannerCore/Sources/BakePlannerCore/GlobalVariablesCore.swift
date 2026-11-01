@@ -82,6 +82,12 @@ public struct GlobalVariables {
     /// when it starts (BackPlanerApp); until then, and wherever no app is
     /// around, there are none.
     public static var customUnitSets: () -> [UnitSetFB] = { [] }
+
+    /// Hands in the user's units from a module under strict concurrency
+    /// checking, which refuses to touch the static closure itself.
+    public static func setCustomUnitSets(_ provider: @escaping () -> [UnitSetFB]) {
+        customUnitSets = provider
+    }
     
     public static var noImage      = "no-image-icon-23494"
     public static var detailView: Bool { AppSettings.storedUseDetailView }
