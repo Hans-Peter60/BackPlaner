@@ -12,12 +12,12 @@ struct RecipeEditor: View {
     /// the editor does not show (picture, link) kept on saving.
     let template: RecipeExportData?
     /// Shown above the form: what the import says about its result.
-    let notice: LocalizedStringKey?
+    let notice: Text?
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
     @Environment(\.dismiss) var dismiss
 
-    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: LocalizedStringKey? = nil,
+    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: Text? = nil,
          onSave: @escaping (StoredRecipe?, RecipeExportData) -> Void) {
         self.original = original
         self.template = original == nil ? template : nil
@@ -30,7 +30,7 @@ struct RecipeEditor: View {
         Form {
             if let notice {
                 Section {
-                    Text(notice)
+                    notice
                         .font(.caption)
                 }
             }

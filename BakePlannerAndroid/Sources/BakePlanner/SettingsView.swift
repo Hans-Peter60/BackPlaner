@@ -129,6 +129,23 @@ struct SettingsView: View {
 
             accountSection
 
+            // The cloud AI reads recipes only with the user's consent, given
+            // in the import; here it is shown and taken back, as on the iPhone.
+            Section {
+                valueRow("KI-Analyse beim Rezeptimport",
+                         localizedValue: model.allowsCloudAnalysis ? "Zugelassen" : "Nur lokal")
+                if model.allowsCloudAnalysis {
+                    Button("Einwilligung zur Cloud-KI widerrufen", role: .destructive) {
+                        model.allowsCloudAnalysis = false
+                        model.usesCloudAnalysis = false
+                    }
+                }
+            } header: {
+                Text("Datenschutz & KI")
+            } footer: {
+                Text("Die Cloud-KI wird nur nach Deiner ausdrücklichen Einwilligung verwendet. Eine lokale Analyse bleibt immer verfügbar.")
+            }
+
             // Takes back what was blocked or reported on this device, as on
             // the iPhone.
             Section {
@@ -270,6 +287,15 @@ struct SettingsView: View {
             Text("Das Konto und die Anmeldung sind entfernt. Du kannst die App weiter verwenden und Dich jederzeit neu anmelden.")
         case nil:
             EmptyView()
+        }
+    }
+
+    private func valueRow(_ title: LocalizedStringKey, localizedValue: LocalizedStringKey) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(localizedValue)
+                .foregroundStyle(.secondary)
         }
     }
 

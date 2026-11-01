@@ -34,6 +34,7 @@ let package = Package(
             .product(name: "SkipFirebaseAppCheck", package: "skip-firebase"),
             .product(name: "SkipFirebaseFirestore", package: "skip-firebase"),
             .product(name: "SkipFirebaseStorage", package: "skip-firebase"),
+            .product(name: "SkipFirebaseFunctions", package: "skip-firebase"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )

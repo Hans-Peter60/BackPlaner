@@ -251,6 +251,40 @@
         }
       }
     },
+    "Analyse mit Google Vertex AI (Gemini)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis with Google Vertex AI (Gemini)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse avec Google Vertex AI (Gemini)"
+          }
+        }
+      }
+    },
+    "Analyseart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode d’analyse"
+          }
+        }
+      }
+    },
     "Angemeldet als" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1055,6 +1089,23 @@
         }
       }
     },
+    "Datenschutz & KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy & AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confidentialité et IA"
+          }
+        }
+      }
+    },
     "Datum" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1108,6 +1159,58 @@
         }
       }
     },
+    "Der Rezepttext der Seite wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page’s recipe text is analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette de la page est analysé de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
+    "Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe text of the web page you entered and its address are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider. To secure the service and limit usage, a pseudonymous Firebase user ID, the App Check attestation, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette de la page web que vous avez indiquée ainsi que son adresse sont transmis de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis à Google Vertex AI. Google est un fournisseur d’IA externe. Pour la sécurisation et la limitation d’usage, un identifiant d’utilisateur Firebase pseudonyme, l’attestation App Check ainsi que l’heure et le nombre des demandes sont également traités."
+          }
+        }
+      }
+    },
+    "Der Seitentext verlässt das Gerät nicht. Übernommen werden nur die strukturierten Rezeptdaten der Seite." : {
+      "comment" : "Web import: what the on-device choice does on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page text does not leave the device. Only the page’s structured recipe data is taken over."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de la page ne quitte pas l’appareil. Seules les données de recette structurées de la page sont reprises."
+          }
+        }
+      }
+    },
     "Der verschobene Zeitpunkt muss in der Zukunft liegen." : {
       "comment" : "Error description for a time that is in the past.",
       "extractionState" : "manual",
@@ -1157,6 +1260,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La modification n’a pas pu être enregistrée."
+          }
+        }
+      }
+    },
+    "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen." : {
+      "comment" : "Web import: cloud AI failed, structured data used.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI could not be reached. The recipe was taken from the page’s structured data without AI. Please check components and durations carefully."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’était pas joignable. La recette a été reprise sans IA à partir des données structurées de la page. Vérifiez attentivement les composants et les durées."
+          }
+        }
+      }
+    },
+    "Die Cloud-KI wird nur nach Deiner ausdrücklichen Einwilligung verwendet. Eine lokale Analyse bleibt immer verfügbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI is only used with your explicit consent. Local analysis always remains available."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’est utilisée qu’avec votre consentement explicite. L’analyse locale reste toujours disponible."
           }
         }
       }
@@ -1233,20 +1371,19 @@
         }
       }
     },
-    "Die Seite wird auf diesem Gerät geladen. Übernommen werden die Rezeptdaten, die die Seite selbst angibt; anschließend lässt sich alles bearbeiten." : {
-      "comment" : "Web import: how the page is read.",
+    "Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The page is loaded on this device. The recipe data the page itself provides is taken over; you can edit everything afterwards."
+            "value" : "The page itself is loaded by your device. The text is analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the transmitted text in Firebase Storage or in the recipe database."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page est chargée sur cet appareil. Les données de recette fournies par la page sont reprises ; tout reste modifiable ensuite."
+            "value" : "La page elle-même est chargée par votre appareil. Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
           }
         }
       }
@@ -1298,6 +1435,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez remplacer le plan existant ou garder les deux — pour deux jours de cuisson, par exemple."
+          }
+        }
+      }
+    },
+    "Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can withdraw your consent later under Settings › Privacy & AI."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez retirer votre consentement plus tard sous Réglages › Confidentialité et IA."
+          }
+        }
+      }
+    },
+    "Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can use the local analysis instead at any time. The page text then does not leave your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte de la page ne quitte alors pas votre appareil."
           }
         }
       }
@@ -1418,6 +1589,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Einwilligung zur Cloud-KI widerrufen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw consent to cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer le consentement à l’IA cloud"
           }
         }
       }
@@ -1737,6 +1925,23 @@
         }
       }
     },
+    "Geschützte Cloud-KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protected cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IA cloud protégée"
+          }
+        }
+      }
+    },
     "Gesichert" : {
       "comment" : "Alert after a backup file was saved.",
       "extractionState" : "manual",
@@ -1978,6 +2183,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun ingrédient disponible"
+          }
+        }
+      }
+    },
+    "KI-Analyse beim Rezeptimport" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI analysis for recipe import"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse IA à l’importation de recettes"
           }
         }
       }
@@ -2720,6 +2942,23 @@
         }
       }
     },
+    "Nur auf diesem Gerät" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On this device only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur cet appareil uniquement"
+          }
+        }
+      }
+    },
     "Nur dieser Schritt" : {
       "comment" : "Title of the scope option for scheduling a step shift.",
       "extractionState" : "manual",
@@ -2751,6 +2990,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seule cette étape est décalée ; toutes les autres étapes du plan restent en place."
+          }
+        }
+      }
+    },
+    "Nur lokal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local uniquement"
+          }
+        }
+      }
+    },
+    "Nur lokal analysieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze locally only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser uniquement en local"
           }
         }
       }
@@ -3092,6 +3365,23 @@
         }
       }
     },
+    "Rezept wird in der Cloud analysiert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzing recipe in the cloud…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse de la recette dans le cloud…"
+          }
+        }
+      }
+    },
     "Rezept wurde gespeichert" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3372,6 +3662,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "depuis %@"
+          }
+        }
+      }
+    },
+    "Seite wird geladen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading page…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement de la page…"
+          }
+        }
+      }
+    },
+    "Seiten mit Anmeldung, Bezahlschranke oder Cookie-Hinweis lassen sich oft nicht auslesen. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages behind a login, paywall, or cookie notice often cannot be read. Importing for private use is fine; publish other people’s recipes only with permission."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les pages avec connexion, paywall ou bandeau de cookies ne peuvent souvent pas être lues. L’importation pour un usage privé ne pose pas de problème ; ne publiez les recettes d’autrui qu’avec leur autorisation."
           }
         }
       }
@@ -3873,6 +4197,23 @@
         }
       }
     },
+    "Vor der ersten Cloud-Analyse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before the first cloud analysis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant la première analyse cloud"
+          }
+        }
+      }
+    },
     "Vorheizzeit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4029,6 +4370,23 @@
         }
       }
     },
+    "Zugelassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisée"
+          }
+        }
+      }
+    },
     "Zurück" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4059,6 +4417,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planifier en plus"
+          }
+        }
+      }
+    },
+    "Zustimmen und mit Cloud-KI analysieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree and analyze with cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter et analyser avec l’IA cloud"
           }
         }
       }

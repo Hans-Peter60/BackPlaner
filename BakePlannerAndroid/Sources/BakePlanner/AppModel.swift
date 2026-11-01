@@ -80,6 +80,19 @@ final class AppModel {
         didSet { SettingsFile.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
     }
 
+    /// Whether the user has agreed to the cloud AI reading recipes, and
+    /// whether the import uses it — the iPhone's keys
+    /// (Settings → "Datenschutz & KI", the import's "Analyseart").
+    var allowsCloudAnalysis = AppModel.storedBool(AppSettingsKeys.cloudRecipeAnalysisConsent, default: false) {
+        didSet { SettingsFile.set(allowsCloudAnalysis, forKey: AppSettingsKeys.cloudRecipeAnalysisConsent) }
+    }
+    var usesCloudAnalysis = SettingsFile.value(forKey: AppSettingsKeys.recipeImageAnalysisMode) as? String == "protectedCloud" {
+        didSet {
+            SettingsFile.set(usesCloudAnalysis ? "protectedCloud" : "localOnly",
+                             forKey: AppSettingsKeys.recipeImageAnalysisMode)
+        }
+    }
+
     /// Authors blocked and recipes reported on this device — the iPhone's
     /// keys (ModerationStore). Their public recipes stay out of the list.
     /// Kept as one text, an id per line: UserDefaults on Android has no

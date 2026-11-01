@@ -88,6 +88,7 @@ struct RecipeListView: View {
     /// A recipe read from a web page, waiting for the editor. Kept apart
     /// from the editor's visibility, as the dialogs' data is.
     @State var importedRecipe: RecipeExportData?
+    @State var importNotice: Text?
     @State var editsImportedRecipe = false
     @State var recipesToExport: [String]?
     @State var showsSettings = false
@@ -196,8 +197,9 @@ struct RecipeListView: View {
         }
         .appSheet(isPresented: $importsFromWeb) {
             NavigationStack {
-                WebRecipeImportView { content in
+                WebRecipeImportView(model: model) { content, notice in
                     importedRecipe = content
+                    importNotice = notice
                     // The editor opens once this sheet has gone.
                     Task {
                         try? await Task.sleep(for: .milliseconds(400))
@@ -209,8 +211,7 @@ struct RecipeListView: View {
         .appSheet(isPresented: $editsImportedRecipe) {
             if let importedRecipe {
                 NavigationStack {
-                    RecipeEditor(original: nil, template: importedRecipe,
-                                 notice: "Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen.") { _, content in
+                    RecipeEditor(original: nil, template: importedRecipe, notice: importNotice) { _, content in
                         model.add(content)
                     }
                 }

@@ -268,15 +268,7 @@ final class HybridRecipeImageAnalysisAgent {
     }
 
     private func validateCloudRecipe(_ recipe: RecipeFB) throws {
-        let name = recipe.name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let ingredientCount = recipe.components.reduce(0) {
-            $0 + $1.ingredients.count
-        }
-        let instructionCount = recipe.instructions.filter {
-            !$0.instruction.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }.count
-
-        guard !name.isEmpty, ingredientCount > 0, instructionCount > 0 else {
+        guard RecipeImportCheck.hasRecipeData(recipe) else {
             throw RecipeImageAnalysisError.insufficientRecipeData
         }
     }
@@ -313,114 +305,7 @@ final class HybridRecipeImageAnalysisAgent {
     }
 }
 
-/// Lays imported steps out the way the app plans a bake: every component
-/// that goes into the final dough (sourdough, pre-dough, soaker …) becomes one
-/// parallel step 1.1, 1.2, … that spans mixing and maturing, and the final
-/// dough's steps follow as 2, 3, 4 …. Sources list the same four sentences
-/// under every pre-dough; as separate sequential steps they would stretch a
-/// 12-hour overnight recipe to two days.
-enum RecipeImportPlan {
-    /// Minutes of handling for each component that is mixed after this one.
-    /// The planner starts parallel preparations this far apart, so an earlier
-    /// one runs correspondingly longer and all of them are ready together for
-    /// the final dough.
-    static let handlingMinutesPerComponent = Rational.preparationStaggerMinutes
-
-    @MainActor
-    static func groupComponentPreparations(in recipe: RecipeFB) {
-        let names = recipe.components.map(\.name)
-        guard names.count > 1 else { return }
-
-        // The final dough is the component that uses others up ("gesamter
-        // Roggensauerteig", weight 0) without being used up itself. Every
-        // component listed before it is a preparation, whether or not its own
-        // "gesamte …" row survived the import; components listed after it
-        // (a glaze, a filling) keep their place in the sequence. Without any
-        // such rows the last component is taken for the final dough.
-        let dependencies = Rational.ComponentDependency.from(recipe.components)
-        let consumed = Set(dependencies.flatMap(\.requires))
-        let consumers = Set(dependencies.filter { !$0.requires.isEmpty }.map(\.name))
-        let finalIndex = names.firstIndex { consumers.contains($0) && !consumed.contains($0) }
-            ?? names.firstIndex { consumers.contains($0) }
-            ?? names.index(before: names.endIndex)
-        let preparationNames = Array(names[..<finalIndex])
-        AppLog.data.debug(
-            "Recipe import plan: components \(names), final \(names[finalIndex]), step components \(recipe.instructions.map { $0.componentName ?? "-" })"
-        )
-
-        var remaining = recipe.instructions
-        var preparations: [InstructionFB] = []
-        var mergedAny = false
-        for name in preparationNames {
-            let own = remaining.filter { belongs($0, to: name) }
-            guard !own.isEmpty else { continue }
-            remaining.removeAll { step in own.contains { $0 === step } }
-            if own.count > 1 { mergedAny = true }
-            preparations.append(merged(own, component: name))
-        }
-        guard !preparations.isEmpty else { return }
-
-        let multiple = preparations.count > 1
-        for (index, step) in preparations.enumerated() {
-            step.step = multiple ? 1 + Double(index + 1) / (preparations.count > 9 ? 100 : 10) : 1
-            if mergedAny, multiple {
-                step.duration += handlingMinutesPerComponent * (preparations.count - 1 - index)
-            }
-        }
-
-        // The final dough's steps keep their order. Only its first step keeps
-        // the component, so a reminder for folding or baking does not list the
-        // whole ingredient table again.
-        var seenComponents = Set<String>()
-        for (index, step) in remaining.enumerated() {
-            step.step = Double(index + 2)
-            if let name = step.componentName {
-                if seenComponents.contains(name) {
-                    step.componentName = nil
-                } else {
-                    seenComponents.insert(name)
-                }
-            }
-        }
-        recipe.instructions = preparations + remaining
-    }
-
-    /// Whether a step prepares the component: by its stored component, or by
-    /// the "Quellstück: …" lead-in when the model named it only in the text.
-    @MainActor
-    private static func belongs(_ step: InstructionFB, to component: String) -> Bool {
-        let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
-        if let stored = step.componentName?.trimmingCharacters(in: .whitespacesAndNewlines),
-           stored.compare(component, options: options) == .orderedSame {
-            return true
-        }
-        let text = step.instruction.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let colon = text.firstIndex(of: ":") else { return false }
-        let leadIn = text[..<colon].trimmingCharacters(in: .whitespaces)
-        return leadIn.compare(component, options: options) == .orderedSame
-    }
-
-    /// One step for a component: the texts in order, named once, with the
-    /// durations added up and the component's bake flag kept.
-    @MainActor
-    private static func merged(_ steps: [InstructionFB], component: String) -> InstructionFB {
-        guard steps.count > 1, let first = steps.first else { return steps[0] }
-        let prefix = "^\\s*" + NSRegularExpression.escapedPattern(for: component) + "\\s*:\\s*"
-        let texts = steps.map {
-            $0.instruction
-                .replacingOccurrences(of: prefix, with: "", options: [.regularExpression, .caseInsensitive])
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-        }.filter { !$0.isEmpty }
-
-        let instruction = InstructionFB()
-        instruction.id = first.id
-        instruction.instruction = "\(component): " + texts.joined(separator: " ")
-        instruction.duration = steps.reduce(0) { $0 + max(0, $1.duration) }
-        instruction.bakeFlag = steps.contains { $0.bakeFlag == true }
-        instruction.componentName = component
-        return instruction
-    }
-}
+// RecipeImportPlan lives in BakePlannerCore (CloudRecipeImport.swift).
 
 // RecipeImportStepText lives in BakePlannerCore (RecipeWebPage.swift).
 

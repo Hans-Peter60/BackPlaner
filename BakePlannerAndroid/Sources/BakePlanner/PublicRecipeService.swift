@@ -6,6 +6,7 @@ import SkipFirebaseAuth
 import SkipFirebaseAppCheck
 @preconcurrency import SkipFirebaseFirestore
 @preconcurrency import SkipFirebaseStorage
+@preconcurrency import SkipFirebaseFunctions
 #endif
 
 /// The public recipes in Firebase, shared with the iPhone: the same project,
@@ -16,6 +17,30 @@ enum PublicRecipeService {
     enum ServiceError: Error {
         /// The Apple build of the Android app has no Firebase.
         case unavailable
+        /// The cloud function answered with something that is no recipe.
+        case invalidResponse
+    }
+
+    /// Has the cloud AI read the text of a recipe page (Cloud Function
+    /// analyzeRecipeText, as the iPhone calls it). The page was loaded on
+    /// the device; only its text and address are sent. Without Pro the
+    /// function's monthly allowance applies.
+    @MainActor
+    static func analyzeRecipeText(_ text: String, sourceURL: URL) async throws -> CloudRecipeAnalysis {
+        #if os(Android)
+        try await signInIfNeeded()
+        let callable = Functions.functions(region: "europe-west1").httpsCallable("analyzeRecipeText")
+        callable.timeoutInterval = 250
+        let address = sourceURL.absoluteString
+        let payload: [String: Any] = ["text": text, "sourceURL": address]
+        let result = try await callable.call(payload)
+        guard let analysis = CloudRecipeAnalysis(response: result.data) else {
+            throw ServiceError.invalidResponse
+        }
+        return analysis
+        #else
+        throw ServiceError.unavailable
+        #endif
     }
 
     /// Sets Firebase up from google-services.json, with App Check before any

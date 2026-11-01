@@ -8,102 +8,8 @@ struct ProtectedConnectionStatus: Sendable {
     let isAppCheckVerified: Bool
 }
 
-struct CloudRecipeAnalysis: Decodable, Sendable {
-    let recipe: CloudRecipe
-    let model: String
-}
-
-struct CloudRecipe: Decodable, Sendable {
-    let title: String
-    let summary: String
-    let sourceLanguage: String
-    let preparationMinutes: Int
-    let components: [CloudRecipeComponent]
-    let instructions: [CloudRecipeInstruction]
-    let warnings: [String]
-
-    @MainActor
-    func makeRecipe() -> RecipeFB {
-        let recipe = RecipeFB()
-        recipe.name = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        recipe.summary = summary.trimmingCharacters(in: .whitespacesAndNewlines)
-        recipe.sourceLanguage = sourceLanguage.trimmingCharacters(in: .whitespacesAndNewlines)
-        recipe.prepTime = max(0, preparationMinutes)
-
-        recipe.components = components.enumerated().compactMap { index, source in
-            let ingredients = source.ingredients.enumerated().compactMap {
-                ingredientIndex, source -> IngredientFB? in
-                let name = source.name.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !name.isEmpty else { return nil }
-
-                let ingredient = IngredientFB()
-                ingredient.id = UUID().uuidString
-                ingredient.number = ingredientIndex + 1
-                ingredient.name = name
-                ingredient.weight = max(0, source.amount)
-                ingredient.normWeight = ingredient.weight
-                ingredient.unit = source.unit.trimmingCharacters(in: .whitespacesAndNewlines)
-                return ingredient
-            }
-            guard !ingredients.isEmpty else { return nil }
-
-            let component = ComponentFB()
-            component.id = UUID().uuidString
-            component.number = index + 1
-            let name = source.name.trimmingCharacters(in: .whitespacesAndNewlines)
-            component.name = name.isEmpty
-                ? String(localized: "Hauptteig", bundle: AppSettings.localizationBundle)
-                : name
-            component.ingredients = ingredients
-            return component
-        }
-
-        let isMultiComponent = recipe.components.count > 1
-        recipe.instructions = instructions.enumerated().compactMap { index, source in
-            let text = source.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !text.isEmpty else { return nil }
-
-            let componentName = source.componentName
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            let instruction = InstructionFB()
-            instruction.id = UUID().uuidString
-            instruction.step = Double(index + 1)
-            instruction.instruction = RecipeImportStepText.text(
-                text, naming: componentName, inMultiComponentRecipe: isMultiComponent
-            )
-            instruction.duration = max(0, source.durationMinutes)
-            if instruction.duration == 0, text.describesOvenPreheating {
-                instruction.duration = GlobalVariables.preheatTime
-            }
-            instruction.componentName = componentName.isEmpty ? nil : componentName
-            instruction.bakeFlag = source.isBaking
-            return instruction
-        }
-
-        recipe.totalWeight = recipe.components
-            .flatMap(\.ingredients)
-            .reduce(0) { $0 + $1.weight }
-        return recipe
-    }
-}
-
-struct CloudRecipeComponent: Decodable, Sendable {
-    let name: String
-    let ingredients: [CloudRecipeIngredient]
-}
-
-struct CloudRecipeIngredient: Decodable, Sendable {
-    let name: String
-    let amount: Double
-    let unit: String
-}
-
-struct CloudRecipeInstruction: Decodable, Sendable {
-    let text: String
-    let durationMinutes: Int
-    let componentName: String
-    let isBaking: Bool
-}
+// The answer models (CloudRecipeAnalysis, CloudRecipe …) live in
+// BakePlannerCore (CloudRecipeImport.swift), so the Android app reads them too.
 
 final class FirebaseFunctionsClient: @unchecked Sendable {
     static let shared = FirebaseFunctionsClient()
@@ -225,19 +131,6 @@ enum FirebaseFunctionsClientError: LocalizedError {
             return String(localized: "Die kostenlosen Cloud-Importe dieses Monats sind aufgebraucht. Das Rezept wurde auf dem Gerät analysiert. Mit BakePlanner Pro gibt es kein Monatslimit.",
                           bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         }
-    }
-}
-
-private extension String {
-    var describesOvenPreheating: Bool {
-        let normalized = folding(
-            options: [.caseInsensitive, .diacriticInsensitive],
-            locale: Locale(identifier: "de_DE")
-        )
-        let ovenTerms = ["ofen", "backofen", "oven", "four", "forno"]
-        let preheatTerms = ["vorheiz", "aufheiz", "preheat", "préchauff", "préchauffer"]
-        return ovenTerms.contains(where: normalized.contains)
-            && preheatTerms.contains(where: normalized.contains)
     }
 }
 
