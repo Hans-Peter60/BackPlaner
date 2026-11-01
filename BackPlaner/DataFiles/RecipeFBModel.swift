@@ -651,7 +651,8 @@ class RecipeFBModel: ObservableObject {
         guard let recipeId = recipe.id, !recipeId.isEmpty else { return }
         let reporter = ModerationStore.shared.authorId
 
-        var report = RecipeFirestoreMapping.reportData(of: recipe, reason: reason, reporter: reporter)
+        var report = RecipeFirestoreMapping.reportData(recipeId: recipeId, authorId: recipe.authorId ?? "",
+                                                       reason: reason, reporter: reporter)
         report["createdAt"] = FieldValue.serverTimestamp()
         db.collection(RecipeFirestoreMapping.reportsCollection)
             .document(RecipeFirestoreMapping.reportID(recipeId: recipeId, reporter: reporter))

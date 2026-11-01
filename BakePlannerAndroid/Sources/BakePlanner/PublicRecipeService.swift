@@ -120,7 +120,9 @@ enum PublicRecipeService {
         guard let recipeID = recipe.id, !recipeID.isEmpty else { return }
         try await signInIfNeeded()
         let reporter = Auth.auth().currentUser?.uid ?? ""
-        var report = RecipeFirestoreMapping.reportData(of: recipe, reason: reason, reporter: reporter)
+        let authorID = recipe.authorId ?? ""
+        var report = RecipeFirestoreMapping.reportData(recipeId: recipeID, authorId: authorID,
+                                                       reason: reason, reporter: reporter)
         report["createdAt"] = Date()
         let firestore = Firestore.firestore()
         try await firestore.collection(RecipeFirestoreMapping.reportsCollection)

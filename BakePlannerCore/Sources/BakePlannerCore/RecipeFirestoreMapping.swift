@@ -193,11 +193,14 @@ public enum RecipeFirestoreMapping {
     }
 
     /// The report's fields, without the time it was filed: that is a server
-    /// timestamp on the iPhone, which each SDK writes in its own way.
-    public static func reportData(of recipe: RecipeFB, reason: String, reporter: String) -> [String: Any] {
+    /// timestamp on the iPhone, which each SDK writes in its own way. Takes
+    /// plain texts, not the recipe: Swift 6 would otherwise tie the new
+    /// document to the recipe object and refuse to hand it to Firestore.
+    public static func reportData(recipeId: String, authorId: String, reason: String,
+                                  reporter: String) -> [String: Any] {
         [
-            "recipeId":   recipe.id ?? "",
-            "authorId":   recipe.authorId ?? "",
+            "recipeId":   recipeId,
+            "authorId":   authorId,
             "reason":     reason,
             "reportedBy": reporter,
             "status":     "open"

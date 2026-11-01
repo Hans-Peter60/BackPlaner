@@ -217,10 +217,8 @@ struct RecipeFirestoreMappingTests {
 
     @Test("A report names recipe, author, reason and reporter, once per reporter")
     func report() {
-        let recipe = RecipeFB()
-        recipe.id = "r9"
-        recipe.authorId = "author"
-        let data = RecipeFirestoreMapping.reportData(of: recipe, reason: "Spam", reporter: "me")
+        let data = RecipeFirestoreMapping.reportData(recipeId: "r9", authorId: "author", reason: "Spam",
+                                                     reporter: "me")
         #expect(data["recipeId"] as? String == "r9")
         #expect(data["authorId"] as? String == "author")
         #expect(data["reason"] as? String == "Spam")
