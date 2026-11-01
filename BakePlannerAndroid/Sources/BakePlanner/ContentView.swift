@@ -255,7 +255,7 @@ struct RecipeListView: View {
             rows += model.recipes.map { Row.local($0) }
         }
         if model.showsPublicRecipes {
-            rows += model.publicRecipes.map { Row.shared($0) }
+            rows += model.visiblePublicRecipes.map { Row.shared($0) }
         }
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {

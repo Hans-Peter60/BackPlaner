@@ -176,6 +176,39 @@ public enum RecipeFirestoreMapping {
         return data
     }
 
+    // MARK: Reports
+
+    /// Where reports of public recipes go (App Store Guideline 1.2; Google
+    /// Play asks the same for content of users).
+    public static let reportsCollection = "reports"
+
+    /// The reasons offered, stored as written here — the German text is
+    /// what reviewers read in the Firebase console.
+    public static let reportReasons = ["Anstößig oder beleidigend", "Spam", "Urheberrechtsverletzung", "Sonstiges"]
+
+    /// One report per reporter and recipe: the rules allow creating it, never
+    /// changing it, so a second report of the same recipe fails.
+    public static func reportID(recipeId: String, reporter: String) -> String {
+        "\(recipeId)_\(reporter)"
+    }
+
+    /// The report's fields, without the time it was filed: that is a server
+    /// timestamp on the iPhone, which each SDK writes in its own way.
+    public static func reportData(of recipe: RecipeFB, reason: String, reporter: String) -> [String: Any] {
+        [
+            "recipeId":   recipe.id ?? "",
+            "authorId":   recipe.authorId ?? "",
+            "reason":     reason,
+            "reportedBy": reporter,
+            "status":     "open"
+        ]
+    }
+
+    /// The only change a reporter may make to the recipe (the rules check
+    /// that `hidden` is the one field changed, to true): it is withheld from
+    /// every user at once, until an admin has looked at it.
+    public static var reportHideData: [String: Any] { ["hidden": true] }
+
     // MARK: Values
 
     // Firestore keeps every number as either a 64-bit integer or a double.

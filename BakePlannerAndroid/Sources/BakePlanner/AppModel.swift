@@ -80,6 +80,26 @@ final class AppModel {
         didSet { UserDefaults.standard.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
     }
 
+    /// Authors blocked and recipes reported on this device — the iPhone's
+    /// keys (ModerationStore). Their public recipes stay out of the list.
+    var blockedAuthors = Set(UserDefaults.standard.stringArray(forKey: AppModel.blockedAuthorsKey) ?? []) {
+        didSet { UserDefaults.standard.set(Array(blockedAuthors), forKey: AppModel.blockedAuthorsKey) }
+    }
+    var reportedRecipeIDs = Set(UserDefaults.standard.stringArray(forKey: AppModel.reportedRecipesKey) ?? []) {
+        didSet { UserDefaults.standard.set(Array(reportedRecipeIDs), forKey: AppModel.reportedRecipesKey) }
+    }
+    private static let blockedAuthorsKey = "ugc.blockedAuthors"
+    private static let reportedRecipesKey = "ugc.hiddenRecipes"
+
+    /// The public recipes the list shows: neither reported here nor by a
+    /// blocked author.
+    var visiblePublicRecipes: [RecipeFB] {
+        publicRecipes.filter { recipe in
+            !(recipe.id.map { reportedRecipeIDs.contains($0) } ?? false)
+                && !(recipe.authorId.map { !$0.isEmpty && blockedAuthors.contains($0) } ?? false)
+        }
+    }
+
     private static func storedBool(_ key: String, default defaultValue: Bool) -> Bool {
         UserDefaults.standard.object(forKey: key) as? Bool ?? defaultValue
     }
@@ -618,6 +638,26 @@ final class AppModel {
             publicRecipeImages[id] = data
         }
         return RecipeExportData(recipeFB: recipe, imageData: publicRecipeImages[id])
+    }
+
+    /// Reports a public recipe. It leaves this device's list at once, even
+    /// should the report not get through (as on the iPhone); the server
+    /// withholds it from everybody else.
+    func report(_ recipe: RecipeFB, reason: String) async {
+        if let id = recipe.id, !id.isEmpty {
+            reportedRecipeIDs.insert(id)
+        }
+        do {
+            try await PublicRecipeService.report(recipe, reason: reason)
+        } catch {
+            logger.error("could not report public recipe \(recipe.id ?? ""): \(error)")
+        }
+    }
+
+    /// Hides every public recipe of the recipe's author, on this device only.
+    func blockAuthor(of recipe: RecipeFB) {
+        guard let author = recipe.authorId, !author.isEmpty else { return }
+        blockedAuthors.insert(author)
     }
 
     /// What the public recipe becomes as an own copy (PublicRecipeCopy):

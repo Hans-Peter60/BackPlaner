@@ -85,6 +85,25 @@ struct SettingsView: View {
             } header: {
                 Text("Rezeptliste")
             }
+
+            // Takes back what was blocked or reported on this device, as on
+            // the iPhone.
+            Section {
+                valueRow("Blockierte Autoren", value: String(model.blockedAuthors.count))
+                Button("Blockierungen aufheben") {
+                    model.blockedAuthors = []
+                }
+                .disabled(model.blockedAuthors.isEmpty)
+                valueRow("Von Dir gemeldete Rezepte", value: String(model.reportedRecipeIDs.count))
+                Button("Meldungen auf diesem Gerät zurücknehmen") {
+                    model.reportedRecipeIDs = []
+                }
+                .disabled(model.reportedRecipeIDs.isEmpty)
+            } header: {
+                Text("Moderation")
+            } footer: {
+                Text("Blockierte Autoren erscheinen sofort wieder in der Rezept-Datenbank. Ein gemeldetes Rezept bleibt dagegen für alle Nutzer ausgeblendet, bis ein Administrator es geprüft hat — das Zurücknehmen wirkt erst danach.")
+            }
         }
         .navigationTitle("Einstellungen")
         .toolbar {

@@ -5,7 +5,8 @@ import SwiftUI
 /// total ingredients and steps, as the own recipes show them. Components,
 /// steps and picture are read when the recipe is first opened. It can be
 /// planned (which keeps an own copy, as on the iPhone), put on a shopping
-/// list, and saved as an own recipe.
+/// list, and saved as an own recipe; reported, or its author blocked, which
+/// takes it out of the list (as the iPhone does, and Google Play asks for).
 struct PublicRecipeDetailView: View {
     let model: AppModel
     let recipe: RecipeFB
@@ -22,7 +23,9 @@ struct PublicRecipeDetailView: View {
     /// visibility: Android closes the alert before it runs its button.
     @State var savedCopy = false
     @State var showsSaveOutcome = false
+    @State var choosesReportReason = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ZStack {
@@ -44,6 +47,34 @@ struct PublicRecipeDetailView: View {
             }
         }
         .navigationTitle(recipe.name)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button("Rezept melden", role: .destructive) {
+                        choosesReportReason = true
+                    }
+                    Button("Autor blockieren", role: .destructive) {
+                        model.blockAuthor(of: recipe)
+                        dismiss()
+                    }
+                } label: {
+                    Label("Weitere Aktionen", systemImage: "ellipsis")
+                }
+            }
+        }
+        .confirmationDialog("Rezept melden", isPresented: $choosesReportReason, titleVisibility: .visible) {
+            ForEach(RecipeFirestoreMapping.reportReasons, id: \.self) { reason in
+                // Shown in the app's language, stored as the German text
+                // reviewers read, as the iPhone stores it.
+                Button(LocalizedStringKey(reason), role: .destructive) {
+                    Task { await model.report(recipe, reason: reason) }
+                    dismiss()
+                }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Warum meldest Du dieses Rezept? Es wird sofort für alle Nutzer ausgeblendet und anschließend geprüft.")
+        }
         .sheet(isPresented: $plans) {
             if let planRecipe {
                 NavigationStack {

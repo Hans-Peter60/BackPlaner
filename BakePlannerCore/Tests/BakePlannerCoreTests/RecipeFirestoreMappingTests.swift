@@ -214,4 +214,20 @@ struct RecipeFirestoreMappingTests {
         #expect(data.instructions[1].startTime == 0)
         #expect(data.instructions[1].bakeFlag == false)
     }
+
+    @Test("A report names recipe, author, reason and reporter, once per reporter")
+    func report() {
+        let recipe = RecipeFB()
+        recipe.id = "r9"
+        recipe.authorId = "author"
+        let data = RecipeFirestoreMapping.reportData(of: recipe, reason: "Spam", reporter: "me")
+        #expect(data["recipeId"] as? String == "r9")
+        #expect(data["authorId"] as? String == "author")
+        #expect(data["reason"] as? String == "Spam")
+        #expect(data["reportedBy"] as? String == "me")
+        #expect(data["status"] as? String == "open")
+        #expect(RecipeFirestoreMapping.reportID(recipeId: "r9", reporter: "me") == "r9_me")
+        #expect(RecipeFirestoreMapping.reportHideData.keys.sorted() == ["hidden"])
+        #expect(RecipeFirestoreMapping.reportReasons.count == 4)
+    }
 }

@@ -651,14 +651,11 @@ class RecipeFBModel: ObservableObject {
         guard let recipeId = recipe.id, !recipeId.isEmpty else { return }
         let reporter = ModerationStore.shared.authorId
 
-        db.collection("reports").document("\(recipeId)_\(reporter)").setData([
-            "recipeId":   recipeId,
-            "authorId":   recipe.authorId ?? "",
-            "reason":     reason,
-            "reportedBy": reporter,
-            "status":     "open",
-            "createdAt":  FieldValue.serverTimestamp()
-        ]) { error in
+        var report = RecipeFirestoreMapping.reportData(of: recipe, reason: reason, reporter: reporter)
+        report["createdAt"] = FieldValue.serverTimestamp()
+        db.collection(RecipeFirestoreMapping.reportsCollection)
+            .document(RecipeFirestoreMapping.reportID(recipeId: recipeId, reporter: reporter))
+            .setData(report) { error in
             if let error {
                 AppLog.firebase.error("Report could not be filed: \(error.localizedDescription)")
             }
@@ -668,9 +665,7 @@ class RecipeFBModel: ObservableObject {
         // match the changed keys exactly, and Firestore sentinels (serverTimestamp,
         // increment) make that condition impossible to verify in the Rules
         // Playground. Timestamps and the report count live in `reports` anyway.
-        db.collection("Recipe").document(recipeId).updateData([
-            "hidden": true
-        ]) { error in
+        db.collection("Recipe").document(recipeId).updateData(RecipeFirestoreMapping.reportHideData) { error in
             if let error {
                 AppLog.firebase.error("Reported recipe could not be hidden: \(error.localizedDescription)")
             } else {

@@ -109,6 +109,30 @@ enum PublicRecipeService {
         #endif
     }
 
+    /// Reports a public recipe, as the iPhone does: the report (once per
+    /// reporter, the rules refuse a second one), and the recipe withheld
+    /// from every user until an admin has looked at it. The time filed is
+    /// the device's: the server-timestamp sentinel of the Android SDK does
+    /// not reach native Swift.
+    @MainActor
+    static func report(_ recipe: RecipeFB, reason: String) async throws {
+        #if os(Android)
+        guard let recipeID = recipe.id, !recipeID.isEmpty else { return }
+        try await signInIfNeeded()
+        let reporter = Auth.auth().currentUser?.uid ?? ""
+        var report = RecipeFirestoreMapping.reportData(of: recipe, reason: reason, reporter: reporter)
+        report["createdAt"] = Date()
+        let firestore = Firestore.firestore()
+        try await firestore.collection(RecipeFirestoreMapping.reportsCollection)
+            .document(RecipeFirestoreMapping.reportID(recipeId: recipeID, reporter: reporter))
+            .setData(report)
+        try await firestore.collection(RecipeFB.collectionName).document(recipeID)
+            .updateData(RecipeFirestoreMapping.reportHideData)
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
     #if os(Android)
     @MainActor
     private static func signInIfNeeded() async throws {

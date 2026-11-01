@@ -237,6 +237,24 @@
         }
       }
     },
+    "Anstößig oder beleidigend" : {
+      "comment" : "Reason for reporting a public recipe.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offensive or abusive"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choquant ou injurieux"
+          }
+        }
+      }
+    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -251,6 +269,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Repris de la recette — non modifiable ici."
+          }
+        }
+      }
+    },
+    "Autor blockieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block author"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquer l'auteur"
           }
         }
       }
@@ -741,6 +776,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Êtes-vous sûr ?"
+          }
+        }
+      }
+    },
+    "Blockierte Autoren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked authors"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auteurs bloqués"
+          }
+        }
+      }
+    },
+    "Blockierte Autoren erscheinen sofort wieder in der Rezept-Datenbank. Ein gemeldetes Rezept bleibt dagegen für alle Nutzer ausgeblendet, bis ein Administrator es geprüft hat — das Zurücknehmen wirkt erst danach." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authors you unblock reappear in the recipe database right away. A reported recipe, however, stays hidden from all users until an administrator has reviewed it — clearing it here only takes effect after that."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les auteurs que vous débloquez réapparaissent immédiatement dans la base de recettes. En revanche, une recette signalée reste masquée pour tous les utilisateurs jusqu’à ce qu’un administrateur l’ait examinée : l’effacement ne prend effet qu’après."
+          }
+        }
+      }
+    },
+    "Blockierungen aufheben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblock all authors"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer tous les auteurs"
           }
         }
       }
@@ -1870,6 +1956,23 @@
         }
       }
     },
+    "Meldungen auf diesem Gerät zurücknehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear reports on this device"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les signalements sur cet appareil"
+          }
+        }
+      }
+    },
     "Menge" : {
       "comment" : "A label displayed above the input field for the amount of a shopping list item.",
       "extractionState" : "manual",
@@ -1955,6 +2058,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Minutes"
+          }
+        }
+      }
+    },
+    "Moderation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modération"
           }
         }
       }
@@ -2526,6 +2646,23 @@
         }
       }
     },
+    "Rezept melden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signaler la recette"
+          }
+        }
+      }
+    },
     "Rezept sichern" : {
       "comment" : "Recipe detail: save this recipe as a backup file.",
       "extractionState" : "manual",
@@ -2881,6 +3018,24 @@
         }
       }
     },
+    "Spam" : {
+      "comment" : "Reason for reporting a public recipe.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spam"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spam"
+          }
+        }
+      }
+    },
     "Später" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3166,6 +3321,24 @@
         }
       }
     },
+    "Urheberrechtsverletzung" : {
+      "comment" : "Reason for reporting a public recipe.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright infringement"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Violation du droit d’auteur"
+          }
+        }
+      }
+    },
     "Übernehmen" : {
       "comment" : "The button that applies the changes made in the sheet.",
       "extractionState" : "manual",
@@ -3219,6 +3392,23 @@
         }
       }
     },
+    "Von Dir gemeldete Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes you reported"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes que vous avez signalées"
+          }
+        }
+      }
+    },
     "Vorheizzeit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3253,6 +3443,23 @@
         }
       }
     },
+    "Warum meldest Du dieses Rezept? Es wird sofort für alle Nutzer ausgeblendet und anschließend geprüft." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why are you reporting this recipe? It will be hidden from all users immediately and then reviewed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pourquoi signalez-vous cette recette ? Elle sera immédiatement masquée pour tous les utilisateurs, puis examinée."
+          }
+        }
+      }
+    },
     "Weiter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3266,6 +3473,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suivant"
+          }
+        }
+      }
+    },
+    "Weitere Aktionen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More actions"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus d’actions"
           }
         }
       }
