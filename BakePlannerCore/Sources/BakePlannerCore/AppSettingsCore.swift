@@ -259,6 +259,30 @@ public struct AppSettings {
     /// anywhere — hence `nonisolated(unsafe)`, so a Swift 6 app may set it.
     nonisolated(unsafe) public static var systemLocale: @Sendable () -> Locale = { Locale.autoupdatingCurrent }
 
+    /// The locale the app speaks on a device set to `device`: the device's
+    /// own when its language is one BakePlanner has (German, English,
+    /// French), else English with the device's region — "es_ES" becomes
+    /// "en_ES": English texts, Spanish number and date formats, as the iPhone
+    /// does for an app without the device's language. The Android app uses
+    /// it; the iPhone gets the same from iOS.
+    public static func appLocale(forDevice device: Locale) -> Locale {
+        let identifier = String(device.identifier.split(separator: "@").first ?? "")
+        let parts = identifier.replacingOccurrences(of: "-", with: "_")
+            .split(separator: "_").map(String.init)
+        let language = parts.first?.lowercased() ?? ""
+        let supported = AppLanguage.allCases.map(\.rawValue).filter { !$0.isEmpty }
+        if supported.contains(language) {
+            return device
+        }
+        // The region is two capital letters or three digits ("419"); a
+        // script such as "Hant" in "zh_Hant_TW" is passed over.
+        let region = parts.dropFirst().first { part in
+            (part.count == 2 && part == part.uppercased() && part.allSatisfy(\.isLetter))
+                || (part.count == 3 && part.allSatisfy(\.isNumber))
+        }
+        return Locale(identifier: region.map { "en_" + $0 } ?? "en")
+    }
+
     public static func localeIdentifier(for selectedLanguage: String = storedLanguage) -> String {
         selectedLanguage.isEmpty ? systemLocale().identifier : selectedLanguage
     }

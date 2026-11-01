@@ -14,6 +14,23 @@ import Testing
 @Suite("Settings")
 struct AppSettingsTests {
 
+    @Test("The app speaks the device's language when it has it, else English with the device's region")
+    func appLocale() {
+        func identifier(_ device: String) -> String {
+            AppSettings.appLocale(forDevice: Locale(identifier: device)).identifier
+        }
+        #expect(identifier("de_DE") == "de_DE")
+        #expect(identifier("fr_CH") == "fr_CH")
+        #expect(identifier("en_GB") == "en_GB")
+        #expect(identifier("de") == "de")
+        #expect(identifier("es_ES") == "en_ES")
+        #expect(identifier("pt") == "en")
+        #expect(identifier("zh_Hant_TW") == "en_TW")
+        #expect(identifier("es_419") == "en_419")
+        #expect(identifier("ja_JP@calendar=japanese") == "en_JP")
+    }
+
+
     @Test("Stored raw values keep their spelling")
     func rawValues() {
         #expect(AppLanguage.allCases.map(\.rawValue) == ["", "de", "en", "fr"])

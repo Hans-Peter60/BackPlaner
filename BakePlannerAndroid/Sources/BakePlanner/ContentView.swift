@@ -4,9 +4,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State var model = AppModel()
-    /// The device's language as SwiftUI shows the texts in. Swift's
-    /// Locale.current does not follow it on Android, so it is handed to the
-    /// package: generated plan steps, plan hints and dates use it.
+    /// The device's language (or the one chosen for the app in Android's
+    /// settings). The app speaks it when BakePlanner has it, else English
+    /// (AppSettings.appLocale): all views get that locale, and so does the
+    /// package — Swift's Locale.current does not follow the device on
+    /// Android — for generated plan steps, plan hints and dates.
     @Environment(\.locale) var locale
     @Environment(\.scenePhase) var scenePhase
 
@@ -40,6 +42,8 @@ struct ContentView: View {
                 Label("Zeitleiste", systemImage: "calendar")
             }
         }
+        // Skip looks every text up in the environment's locale.
+        .environment(\.locale, AppSettings.appLocale(forDevice: locale))
         // Coming to the foreground plans what is due on a rhythm, as on the
         // iPhone.
         .onChange(of: scenePhase) { _, phase in
@@ -48,13 +52,14 @@ struct ContentView: View {
             }
         }
         .onChange(of: locale) { _, newLocale in
-            AppSettings.systemLocale = { newLocale }
+            let appLocale = AppSettings.appLocale(forDevice: newLocale)
+            AppSettings.systemLocale = { appLocale }
             // Public recipes show the translation of the app's language.
             Task { await model.loadPublicRecipes() }
         }
         .task {
-            let current = locale
-            AppSettings.systemLocale = { current }
+            let appLocale = AppSettings.appLocale(forDevice: locale)
+            AppSettings.systemLocale = { appLocale }
             model.load()
             model.loadShoppingLists()
             model.loadBakeHistory()
