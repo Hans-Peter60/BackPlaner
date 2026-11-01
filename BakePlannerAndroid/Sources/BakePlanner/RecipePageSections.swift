@@ -5,22 +5,80 @@ import UIKit
 #endif
 
 /// The parts of a recipe page that own and public recipes share: the
-/// picture, and the components, total ingredients and steps at the amount
-/// chosen (RecipePrintData, the preparation the iOS app prints from).
+/// picture, the link to the recipe's source, and the components, total
+/// ingredients and steps at the amount chosen (RecipePrintData, the
+/// preparation the iOS app prints from).
 struct RecipePicture: View {
     let data: Data?
+    /// A tap shows the picture large, as on the iPhone.
+    @State var showsLarge = false
 
     var body: some View {
         #if canImport(UIKit) || os(Android)
         if let data, let image = UIImage(data: data) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: 220)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            Button {
+                showsLarge = true
+            } label: {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 220)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .buttonStyle(.plain)
+            .appSheet(isPresented: $showsLarge) {
+                NavigationStack {
+                    LargePictureView(image: image)
+                }
+            }
         }
         #endif
+    }
+}
+
+#if canImport(UIKit) || os(Android)
+/// The recipe picture filling the screen, on a dark background.
+struct LargePictureView: View {
+    let image: UIImage
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Schließen") {
+                    dismiss()
+                }
+            }
+        }
+    }
+}
+#endif
+
+/// "Link zum Rezept": opens the recipe's source in the browser, when the
+/// recipe names one. SkipUI has no Link view, so a button opens the address.
+struct RecipeLinkRow: View {
+    let urlLink: String?
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        if let link = urlLink?.trimmingCharacters(in: .whitespacesAndNewlines), !link.isEmpty,
+           let url = URL(string: link), url.scheme != nil {
+            Button {
+                Task { _ = await UIApplication.shared.open(url) }
+            } label: {
+                Label("Link zum Rezept", systemImage: "link")
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Palette.accent(colorScheme))
+            .font(.subheadline)
+        }
     }
 }
 

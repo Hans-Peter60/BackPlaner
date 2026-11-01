@@ -119,6 +119,7 @@ struct RecipeDetailView: View {
                 if !page.summary.isEmpty {
                     Text(verbatim: page.summary)
                 }
+                RecipeLinkRow(urlLink: recipe.content.urlLink)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Stepper(value: $scale, in: 0.5...10, step: 0.5) {
@@ -132,9 +133,7 @@ struct RecipeDetailView: View {
                     if !page.prepTime.isEmpty {
                         Text("Bearbeitungsdauer: \(page.prepTime)")
                     }
-                    if let yield = Self.yieldText(of: recipe.content) {
-                        Text(yield)
-                    }
+                    DoughYieldRow(content: recipe.content)
                     if recipe.content.recurrenceIntervalDays > 0 {
                         Self.nextRhythmText(date: model.nextRhythmStart(of: recipe),
                                             isStarter: StarterRecipe.isStarterFeeding(recipe.content))
@@ -213,14 +212,5 @@ struct RecipeDetailView: View {
     /// "1", "1,5" in the device's language.
     static func factorText(_ scale: Double) -> String {
         scale.formatted(.number.precision(.fractionLength(0...1)))
-    }
-
-    /// "TA 175 · Hydration 75 %", or nil when the recipe names no flour.
-    static func yieldText(of content: RecipeExportData) -> LocalizedStringKey? {
-        guard let result = DoughComposition.compute(DoughComposition.components(of: content)),
-              result.flour > 0 else { return nil }
-        let yield = Int(result.doughYield.rounded())
-        let hydration = result.hydration.formatted(.number.precision(.fractionLength(0))) + " %"
-        return "TA \(yield) · Hydration \(hydration)"
     }
 }

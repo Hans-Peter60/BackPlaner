@@ -126,6 +126,7 @@ struct PublicRecipeDetailView: View {
                 if !page.summary.isEmpty {
                     Text(verbatim: page.summary)
                 }
+                RecipeLinkRow(urlLink: content.urlLink)
 
                 VStack(alignment: .leading, spacing: 6) {
                     Stepper(value: $scale, in: 0.5...10, step: 0.5) {
@@ -139,9 +140,7 @@ struct PublicRecipeDetailView: View {
                     if !page.prepTime.isEmpty {
                         Text("Bearbeitungsdauer: \(page.prepTime)")
                     }
-                    if let yield = RecipeDetailView.yieldText(of: content) {
-                        Text(yield)
-                    }
+                    DoughYieldRow(content: content)
                 }
                 .font(.subheadline)
 

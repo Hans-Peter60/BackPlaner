@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18a. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18b. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -252,13 +252,10 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
 | Rezeptliste | Bild in der Zeile (die Liste lädt bisher keine Bilder) | klein |
-| Rezeptansicht | Bild antippen für Großansicht | klein |
-| | Freies Teiggewicht statt nur Faktor 0,5–2,0 (Logik im Paket) | mittel |
-| | TA-Aufschlüsselung beim Tippen auf „TA … · Hydration …“ (`DoughComposition`) | klein |
+| Rezeptansicht | Freies Teiggewicht statt nur Faktor 0,5–2,0 (Logik im Paket) | mittel |
 | | Bäckerprozente samt Einstellung | klein |
 | | Mehl ersetzen und Anstellgut-TA anpassen aus der Zutatenzeile, mit „Kopie anlegen“ / „Änderung übernehmen“ (Logik im Paket, iOS-Views 414 und 459 Zeilen) | groß |
 | | „Meine Anstellgut-TAs“ in den Einstellungen (gehört zu Anstellgut-TA) | klein |
-| | Link zum Rezept anzeigen und öffnen | klein |
 | | Rezept teilen als PDF (`RecipePrintData` im Paket; Zeichnen auf Android offen) | mittel |
 | | Karte „Letztes Mal“ mit „Ergänzen“ | klein |
 | Planen | „Dauer ändern“ vor dem Planen, bei eigenen Rezepten dauerhaft | mittel |

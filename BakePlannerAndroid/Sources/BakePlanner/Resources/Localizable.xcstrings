@@ -1541,6 +1541,23 @@
         }
       }
     },
+    "Die Teigausbeute zählt Schüttflüssigkeit voll, auch Milch, Bier und Wein, und teilt Anstellgut nach seiner eigenen TA in Mehl und Wasser auf. Saaten, Flocken, Fett und Eier zählen nicht. Die TA eines Anstellguts ohne Angabe im Rezept legst Du in den Einstellungen fest." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dough yield counts poured liquid in full, including milk, beer and wine, and splits sourdough starter into flour and water by its own TA. Seeds, flakes, fat and eggs do not count. The TA of a starter the recipe does not specify is set in the settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le rendement de la pâte compte intégralement les liquides versés, y compris le lait, la bière et le vin, et répartit le levain chef en farine et en eau selon son propre TA. Graines, flocons, matières grasses et œufs ne comptent pas. Le TA d’un levain que la recette ne précise pas se règle dans les réglages."
+          }
+        }
+      }
+    },
     "Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2216,6 +2233,23 @@
         }
       }
     },
+    "Hydration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydratation"
+          }
+        }
+      }
+    },
     "Import fehlgeschlagen" : {
       "comment" : "Alert title when a backup file could not be imported.",
       "extractionState" : "manual",
@@ -2631,6 +2665,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lievito madre"
+          }
+        }
+      }
+    },
+    "Link zum Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe link"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lien vers la recette"
           }
         }
       }
@@ -3089,6 +3140,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Non vérifié"
+          }
+        }
+      }
+    },
+    "Nicht gezählt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not counted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non comptés"
           }
         }
       }
@@ -4309,6 +4377,57 @@
         }
       }
     },
+    "TA aus dem Zutatennamen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA from the ingredient name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA d’après le nom de l’ingrédient"
+          }
+        }
+      }
+    },
+    "TA aus den Einstellungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA from the settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA d’après les réglages"
+          }
+        }
+      }
+    },
+    "TA nach Definition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA by definition"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA par définition"
+          }
+        }
+      }
+    },
     "Tagesbeginn" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4374,6 +4493,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tags, séparés par des virgules"
+          }
+        }
+      }
+    },
+    "Teigausbeute" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough yield"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendement de la pâte (TA)"
+          }
+        }
+      }
+    },
+    "Teigausbeute und Hydration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough yield and hydration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendement de la pâte et hydratation"
           }
         }
       }
@@ -4601,6 +4754,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pourquoi signalez-vous cette recette ? Elle sera immédiatement masquée pour tous les utilisateurs, puis examinée."
+          }
+        }
+      }
+    },
+    "Wasser" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau"
           }
         }
       }
