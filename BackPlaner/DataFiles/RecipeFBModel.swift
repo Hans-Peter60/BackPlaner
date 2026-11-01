@@ -208,26 +208,11 @@ class RecipeFBModel: ObservableObject {
             dependencies: Rational.ComponentDependency.from(r.components)
         )
 
-        // Create a Firebase document
-        var recipeData: [String: Any] = [
-            "name":           r.name,
-            "prepTime":       GlobalVariables.totalDuration,
-            "totalWeight":    r.totalWeight,
-            "summary":        r.summary,
-            "urlLink":        r.urlLink,
-            "image":          r.image,
-            "tags":           r.tags,
-            "authorId":       ModerationStore.shared.authorId,
-            "sourceLanguage": r.sourceLanguage,
-            // The list query asks for `hidden == false`, and Firestore never
-            // matches a missing field, so a recipe has to carry it from the
-            // start. The rules refuse a new recipe without it.
-            "hidden":         false
-        ]
-        let recipeTranslations = r.firestoreTranslationsData
-        if !recipeTranslations.isEmpty {
-            recipeData["translations"] = recipeTranslations
-        }
+        // Create a Firebase document. It carries `hidden == false` from the
+        // start (see RecipeFirestoreMapping.newRecipeData).
+        let recipeData = RecipeFirestoreMapping.newRecipeData(of: r,
+                                                              prepTime: GlobalVariables.totalDuration,
+                                                              authorId: ModerationStore.shared.authorId)
 
         group.enter()
         let cloudRecipe = cloudRecipes.document(r.id ?? UUID().uuidString)
@@ -245,7 +230,7 @@ class RecipeFBModel: ObservableObject {
         // Set the components
         for c in r.components {
 
-            let cloudComponent = cloudRecipe.collection("components").addDocument(data: componentData(for: c))
+            let cloudComponent = cloudRecipe.collection("components").addDocument(data: RecipeFirestoreMapping.componentData(of: c))
 
             for i in c.ingredients {
 
@@ -257,13 +242,13 @@ class RecipeFBModel: ObservableObject {
                 r.totalWeight += i.normWeight
 
                 // Create an ingredient document
-                let _ = cloudComponent.collection("ingredients").addDocument(data: ingredientData(for: i))
+                let _ = cloudComponent.collection("ingredients").addDocument(data: RecipeFirestoreMapping.ingredientData(of: i))
             }
         }
 
         // Set the Instructions
         for i in calculatedInstructions {
-            let _ = cloudRecipe.collection("instructions").addDocument(data: instructionData(for: i))
+            let _ = cloudRecipe.collection("instructions").addDocument(data: RecipeFirestoreMapping.instructionData(of: i))
         }
 
         // Create a Firebase document
@@ -352,53 +337,6 @@ class RecipeFBModel: ObservableObject {
                                                                     num: ingredient.num,
                                                                     denom: ingredient.denom)
         }
-    }
-
-    private func componentData(for component: ComponentFB) -> [String: Any] {
-        var data: [String: Any] = [
-            "name":   component.name,
-            "number": component.number
-        ]
-        let translations = component.firestoreTranslationsData
-        if !translations.isEmpty {
-            data["translations"] = translations
-        }
-        return data
-    }
-
-    private func ingredientData(for ingredient: IngredientFB) -> [String: Any] {
-        var data: [String: Any] = [
-            "name":       ingredient.name,
-            "number":     ingredient.number,
-            "unit":       ingredient.unit,
-            "weight":     ingredient.weight,
-            "normWeight": ingredient.normWeight,
-            "num":        ingredient.num,
-            "denom":      ingredient.denom
-        ]
-        let translations = ingredient.firestoreTranslationsData
-        if !translations.isEmpty {
-            data["translations"] = translations
-        }
-        return data
-    }
-
-    private func instructionData(for instruction: InstructionFB) -> [String: Any] {
-        var data: [String: Any] = [
-            "instruction": instruction.instruction,
-            "step":        instruction.step,
-            "duration":    instruction.duration,
-            "startTime":   instruction.startTime ?? 0,
-            "date":        instruction.date ?? 0
-        ]
-        if let componentName = instruction.componentName {
-            data["componentName"] = componentName
-        }
-        let translations = instruction.firestoreTranslationsData
-        if !translations.isEmpty {
-            data["translations"] = translations
-        }
-        return data
     }
 
     // MARK: - Editing a cloud recipe
@@ -553,34 +491,24 @@ class RecipeFBModel: ObservableObject {
 
             // `authorId` and `hidden` are deliberately left alone: the rules
             // refuse an author who changes them.
-            batch.updateData([
-                "name":           edited.name,
-                "summary":        edited.summary,
-                "urlLink":        edited.urlLink,
-                "image":          edited.image,
-                "tags":           edited.tags,
-                "prepTime":       edited.prepTime,
-                "totalWeight":    edited.totalWeight,
-                "sourceLanguage": edited.sourceLanguage,
-                "translations":   edited.firestoreTranslationsData
-            ], forDocument: recipeRef)
+            batch.updateData(RecipeFirestoreMapping.editedRecipeData(of: edited), forDocument: recipeRef)
 
             for component in edited.components {
                 let componentRef = recipeRef.collection("components").document()
                 component.id = componentRef.documentID
-                batch.setData(self.componentData(for: component), forDocument: componentRef)
+                batch.setData(RecipeFirestoreMapping.componentData(of: component), forDocument: componentRef)
 
                 for ingredient in component.ingredients {
                     let ingredientRef = componentRef.collection("ingredients").document()
                     ingredient.id = ingredientRef.documentID
-                    batch.setData(self.ingredientData(for: ingredient), forDocument: ingredientRef)
+                    batch.setData(RecipeFirestoreMapping.ingredientData(of: ingredient), forDocument: ingredientRef)
                 }
             }
 
             for instruction in edited.instructions {
                 let instructionRef = recipeRef.collection("instructions").document()
                 instruction.id = instructionRef.documentID
-                batch.setData(self.instructionData(for: instruction), forDocument: instructionRef)
+                batch.setData(RecipeFirestoreMapping.instructionData(of: instruction), forDocument: instructionRef)
             }
 
             batch.commit { error in
@@ -684,25 +612,8 @@ class RecipeFBModel: ObservableObject {
                 // (App Store Guideline 1.2). The query already leaves it out
                 // for everyone but admins, and the rules refuse it; this check
                 // only keeps the list right should either ever change.
-                let isHidden = doc["hidden"] as? Bool ?? false
-                if isHidden && !self.isAdmin { continue }
-
-                let r      = RecipeFB()
-
-                r.id          = doc.documentID
-                r.hidden      = isHidden
-                r.authorId    = doc["authorId"]    as? String ?? ""
-                r.name        = doc["name"]        as? String ?? ""
-                r.image       = doc["image"]       as? String ?? ""
-                r.summary     = doc["summary"]     as? String ?? ""
-                r.urlLink     = doc["urlLink"]     as? String ?? ""
-                r.prepTime    = doc["prepTime"]    as? Int    ?? 0
-                r.totalWeight     = doc["totalWeight"]     as? Double ?? 0
-                r.tags            = doc["tags"]            as? [String] ?? [String]()
-                r.sourceLanguage  = doc["sourceLanguage"]  as? String ?? ""
-                if let translations = doc["translations"] as? [String: Any] {
-                    r.translations = translations.mapValues { RecipeTextFB(firestoreData: $0) }
-                }
+                let r = RecipeFirestoreMapping.recipe(id: doc.documentID, data: doc.data())
+                if r.hidden && !self.isAdmin { continue }
                 r.applyPreferredLocalization()
 
                 if GlobalVariables.detailView {
@@ -1130,17 +1041,7 @@ class RecipeFBModel: ObservableObject {
                 // Loop through the documents returned
                 for doc in snapshot.documents {
                     
-                    let i = InstructionFB()
-                    
-                    i.id          = doc.documentID
-                    i.instruction = doc["instruction"] as? String ?? ""
-                    i.duration    = doc["duration"] as? Int ?? 0
-                    i.startTime   = doc["startTime"] as? Int ?? 0
-                    i.step        = doc["step"] as? Double ?? 1
-                    i.componentName = doc["componentName"] as? String
-                    if let translations = doc["translations"] as? [String: Any] {
-                        i.translations = translations.mapValues { InstructionTextFB(firestoreData: $0) }
-                    }
+                    let i = RecipeFirestoreMapping.instruction(id: doc.documentID, data: doc.data())
                     i.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
 
                     r.instructions.append(i)
@@ -1163,14 +1064,7 @@ class RecipeFBModel: ObservableObject {
                 // Loop through the documents returned
                 for doc in snapshot.documents {
 
-                    let c = ComponentFB()
-
-                    c.id     = doc.documentID
-                    c.name   = doc["name"] as? String ?? ""
-                    c.number = doc["number"] as? Int ?? 0
-                    if let translations = doc["translations"] as? [String: Any] {
-                        c.translations = translations.mapValues { NamedTextFB(firestoreData: $0) }
-                    }
+                    let c = RecipeFirestoreMapping.component(id: doc.documentID, data: doc.data())
                     c.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
 
                     ingredientLoads.enter()
@@ -1196,19 +1090,7 @@ class RecipeFBModel: ObservableObject {
                 // Loop through the documents returned
                 for doc in snapshot.documents {
                     
-                    let i = IngredientFB()
-                    
-                    i.id         = doc.documentID
-                    i.name       = doc["name"]       as? String ?? ""
-                    i.number     = doc["number"]     as? Int ?? 0
-                    i.unit       = doc["unit"]       as? String ?? ""
-                    i.weight     = doc["weight"]     as? Double ?? 0
-                    i.normWeight = doc["normWeight"] as? Double ?? i.weight
-                    i.num        = doc["num"]        as? Int ?? 0
-                    i.denom      = doc["denom"]      as? Int ?? 0
-                    if let translations = doc["translations"] as? [String: Any] {
-                        i.translations = translations.mapValues { IngredientTextFB(firestoreData: $0) }
-                    }
+                    let i = RecipeFirestoreMapping.ingredient(id: doc.documentID, data: doc.data())
                     i.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
                     
                     c.ingredients.append(i)
