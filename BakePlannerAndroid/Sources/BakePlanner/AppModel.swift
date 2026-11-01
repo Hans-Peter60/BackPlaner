@@ -678,7 +678,10 @@ final class AppModel {
             try await change()
         } catch {
             logger.error("account change failed: \(error)")
-            failure = error.localizedDescription
+            // The full description: an error coming from Kotlin reads only
+            // "SwiftJNI.ThrowableError error 1." as localizedDescription,
+            // its description carries the Kotlin exception's message.
+            failure = String(describing: error)
         }
         await refreshAccount()
         await loadPublicRecipes()
