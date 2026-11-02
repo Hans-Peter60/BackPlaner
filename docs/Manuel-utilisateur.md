@@ -12,7 +12,7 @@ Révision : 29 octobre 2026 · version 2.1 de l’app
 1. [Ce que fait BakePlanner](#1-ce-que-fait-bakeplanner)
 2. [Configuration requise](#2-configuration-requise)
 3. [Notions de base](#3-notions-de-base)
-4. [Le menu principal](#4-le-menu-principal)
+4. [La barre d’onglets](#4-la-barre-donglets)
 5. [Base de recettes](#5-base-de-recettes)
 6. [Mes recettes](#6-mes-recettes)
 7. [Instructions de cuisson et rappels](#7-instructions-de-cuisson-et-rappels)
@@ -44,10 +44,10 @@ S’y ajoutent : une base de recettes publique commune, vos propres recettes sur
 ### Démarrage rapide : votre premier plan de cuisson en cinq étapes
 
 1. Ouvrez **Base de recettes** et choisissez une recette — ou créez la vôtre sous **Créer une nouvelle recette**.
-2. Dans la recette, ouvrez l’onglet **Cuire** ou **Cuire la recette**.
+2. Dans la recette, touchez **Planifier**.
 3. Choisissez **Commencer à** ou **Terminé pour** et réglez la date et l’heure.
 4. Vérifiez les heures de début calculées, puis touchez **Définir les rappels**.
-5. Ouvrez **Étapes planifiées** pour contrôler tous les horaires sous forme de liste ou de timeline.
+5. Ouvrez l’onglet **Timeline** pour contrôler tous les horaires sous forme de timeline ou de liste.
 
 Les rappels supposent que BakePlanner soit autorisé à envoyer des notifications. Les explications détaillées se trouvent au [chapitre 7](#7-instructions-de-cuisson-et-rappels), au [chapitre 10](#10-étapes-planifiées-liste-et-timeline) et au [chapitre 17](#17-questions-fréquentes-et-dépannage).
 
@@ -93,7 +93,7 @@ Une instruction de travail avec un numéro d’étape et une durée. La durée e
 Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2 h), attribuez-leur les étapes 1.1 et 1.2. L’étape principale suivante, 2, commence après un peu plus de 12 heures et non après 14.
 
 **Taille de portion**
-Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché. Au lieu d’un facteur, vous pouvez saisir un **poids de pâte** en grammes. Le choix vaut pour tous les onglets de la recette ouverte : Détails, Cuire et Liste de courses calculent avec le même facteur (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
+Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché. Au lieu d’un facteur, vous pouvez saisir un **poids de pâte** en grammes. Le choix vaut pour toute la recette ouverte : la page de la recette, les instructions de cuisson et la liste de courses calculent avec le même facteur (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 
 **Emplacement**
 L’endroit où se trouve une recette. Il existe deux possibilités, et le commutateur **Publier** au moment d’enregistrer détermine qui peut la voir :
@@ -107,29 +107,32 @@ Une recette que vous **n’avez pas le droit de publier** — tirée d’un livr
 
 ---
 
-## 4. Le menu principal
+## 4. La barre d’onglets
 
-Au lancement, le menu principal apparaît avec neuf cartes :
+Au lancement, l’app s’ouvre sur l’onglet **Recettes**. Au bord inférieur se trouve la barre d’onglets avec les quatre espaces dont vous avez besoin tous les jours ; chaque onglet retient où vous étiez quand vous passez à un autre :
 
-![Menu principal de BakePlanner avec ses domaines fonctionnels](images/fr/hauptmenue.png)
+![Liste des recettes de BakePlanner avec la barre d’onglets en bas](images/fr/hauptmenue.png)
 
-*Le menu principal est le point de départ pour les recettes, la planification, l’historique et les réglages.*
+*L’onglet « Recettes » est le point de départ : toutes les recettes, le menu « Plus » avec les calculateurs et les réglages, le « + » pour une nouvelle recette.*
 
-| Carte | Rôle |
-|-------|------|
-| **Base de recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** |
-| **Créer une nouvelle recette** | Créer une recette de zéro ou l’importer depuis des photos ou une page web |
-| **Étapes planifiées** | Toutes les étapes de cuisson programmées, en liste ou en timeline |
+| Onglet | Rôle |
+|--------|------|
+| **Recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** (voir [chapitre 5](#5-base-de-recettes)) |
+| **Listes de courses** | Toutes les listes de courses créées |
 | **Historique de cuisson** | Les cuissons passées avec commentaires et photos — en liste, galerie, palmarès ou nuage de photos |
-| **Liste de courses** | Toutes les listes de courses créées |
-| **Température de la pâte** | Calculateur : la température de l’eau de coulage pour une température de pâte souhaitée |
-| **Remplacer la farine** | Calculateur : changer de farine, ajuster l’eau |
-| **TA du levain chef** | Calculateur : utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau |
-| **Réglages** | Langue, valeurs par défaut, planification, sauvegarde, compte |
+| **Timeline** | Toutes les étapes de cuisson programmées, en timeline ou en liste |
 
-**La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte au bord inférieur de l’écran avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les cartes du menu défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre ouvre « Étapes planifiées ». Sans étape à venir, elle reste masquée et le menu ressemble à l’illustration ci-dessus.
+En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 
-La flèche de retour en haut à gauche vous ramène au menu principal depuis n’importe quelle section.
+| Bouton | Rôle |
+|--------|------|
+| **Filtre** | La note minimale pour la liste |
+| **Plus (⋯)** | Les trois calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau) et **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau), **Exporter des recettes** (une sélection de vos propres recettes dans un fichier, voir [chapitre 14](#14-réglages)), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
+| **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos ou une page web |
+
+**La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à l’onglet « Timeline ». Sans étape à venir, elle reste masquée.
+
+La flèche de retour en haut à gauche vous ramène de tout écran ouvert à sa liste. Ce qui se pose en feuille sur une recette — les instructions de cuisson, la liste de courses, la modification — se ferme par **Fermer** en haut à gauche ou par un balayage vers le bas.
 
 ---
 
@@ -155,11 +158,11 @@ Si « Aucune recette chargée » s’affiche, c’est qu’il n’y avait pas de
 
 ### Ouvrir une recette publique
 
-Une recette s’ouvre sur l’onglet **Détails**. Trois onglets figurent en bas :
+Une recette s’ouvre comme **une seule page continue** : en haut l’image, le nom et la description, puis la taille de portion et le poids de pâte, le poids, **Partager la recette** et la ligne de TA, en dessous trois boutons, puis le total des ingrédients, les composants et les étapes de préparation avec leur durée — la même structure que pour vos propres recettes (voir [chapitre 6](#6-mes-recettes)), mais sans note, historique de cuisson ni export.
 
-- **Cuire la recette** — les instructions de cuisson avec la planification (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)). La planification n’est calculée que lorsque vous choisissez cet onglet.
-- **Détails** — un aperçu des ingrédients, des composants et des étapes
-- **Liste de courses** — ajouter les ingrédients à une liste de courses
+- **Planifier** — ouvre les instructions de cuisson avec la planification en feuille sur la recette (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)). La planification n’est calculée que lorsque vous ouvrez la feuille.
+- **Liste de courses** — ajouter les ingrédients à une liste de courses (voir [chapitre 13](#13-liste-de-courses))
+- **Enregistrer comme ma recette** — garder une copie sur votre appareil (voir ci-dessous)
 
 ### Traduire une recette
 
@@ -178,7 +181,7 @@ Remarques :
 
 ### Reprendre une recette
 
-L’onglet **Cuire la recette** propose le bouton **Enregistrer comme ma recette**. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable. Si une copie existe déjà, elle reste telle quelle — avec vos modifications et son historique de cuisson. La recette publique ne l’écrase jamais, même si vous l’enregistrez ou la planifiez à nouveau.
+La page de la recette propose le bouton **Enregistrer comme ma recette**. Une copie complète — image, composants, ingrédients et étapes comprises — arrive alors dans « Mes recettes ». Seule cette copie est modifiable. Si une copie existe déjà, elle reste telle quelle — avec vos modifications et son historique de cuisson. La recette publique ne l’écrase jamais, même si vous l’enregistrez ou la planifiez à nouveau.
 
 L’app le confirme par **« La recette a été enregistrée »** et précise que vous pouvez modifier la copie sans toucher à la recette publique. Si l’enregistrement échoue, un message d’erreur apparaît à la place — rien ne disparaît en silence.
 
@@ -209,15 +212,15 @@ Les deux diffèrent donc par leur portée : **bloquer agit localement, signaler 
 
 ### Fonction d’administrateur
 
-Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de l’onglet **Détails**, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Via **Modifier la recette** dans le même menu, vous pouvez aussi corriger une recette publique — une faute de frappe ou une quantité erronée, par exemple — sans la supprimer. Un administrateur n’a aucun accès aux recettes que les autres utilisateurs conservent sur leurs appareils ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
+Si vous êtes connecté en tant qu’administrateur (voir [chapitre 14](#14-réglages)), vous pouvez retirer n’importe quelle recette publique — prévu pour la modération des contenus signalés. Il existe trois façons de le faire : l’entrée **Supprimer la recette (admin)** dans le menu ⋯ de la recette, le bouton du même nom en bas de la page de la recette, et dans la base de recettes un balayage vers la gauche sur la ligne. Chacune demande d’abord confirmation ; dans la liste, la question nomme la recette. L’image de la recette est supprimée du stockage avec elle. Via **Modifier la recette** dans le même menu, vous pouvez aussi corriger une recette publique — une faute de frappe ou une quantité erronée, par exemple — sans la supprimer. Un administrateur n’a aucun accès aux recettes que les autres utilisateurs conservent sur leurs appareils ; elles ne sont pas partagées et ne relèvent donc pas de la modération.
 
-**Les recettes signalées** restent visibles dans la liste pour les administrateurs, alors qu’elles sont masquées pour tous les autres. En bas de l’onglet **Détails** apparaît alors « Cette recette a été signalée et est masquée pour tous les autres utilisateurs. » Si le signalement est fondé, supprimez la recette. S’il ne l’est pas, **Réafficher la recette** la rend aussitôt de nouveau visible pour tous.
+**Les recettes signalées** restent visibles dans la liste pour les administrateurs, alors qu’elles sont masquées pour tous les autres. En bas de la page de la recette apparaît alors « Cette recette a été signalée et est masquée pour tous les autres utilisateurs. » Si le signalement est fondé, supprimez la recette. S’il ne l’est pas, **Réafficher la recette** la rend aussitôt de nouveau visible pour tous.
 
 ---
 
 ## 6. Mes recettes
 
-Mes recettes sont les recettes de votre appareil : celles que vous avez créées, importées ou reprises de la base. Vous les trouvez sous **Menu principal → Base de recettes** avec la puce de filtre **Local** (voir [chapitre 5](#5-base-de-recettes)) ; désactivez les puces **Publiées par moi** et **Public** et il ne reste que la liste de vos propres recettes.
+Mes recettes sont les recettes de votre appareil : celles que vous avez créées, importées ou reprises de la base. Vous les trouvez dans l’onglet **Recettes** avec la puce de filtre **Local** (voir [chapitre 5](#5-base-de-recettes)) ; désactivez les puces **Publiées par moi** et **Public** et il ne reste que la liste de vos propres recettes.
 
 ![Liste de mes recettes avec image, nom et tags](images/fr/eigene-rezepte.png)
 
@@ -236,44 +239,48 @@ Balayez la ligne vers la gauche → **Supprimer**. Une demande de confirmation s
 
 Les étapes déjà planifiées pour cette recette restent toutefois dans « Étapes planifiées » — supprimez-les séparément si vous n’en avez plus besoin.
 
-### Les onglets d’une de vos recettes
+### La page d’une de vos recettes
 
-| Onglet | Contenu |
-|--------|---------|
-| **Cuire** | Instructions de cuisson avec planification et « Définir les rappels » ; pour les recettes de levain chef, l’onglet s’appelle **Nourrir** |
-| **Détails** | Note, description, total des ingrédients, composants, aperçu des étapes, **Partager la recette** en PDF, **Exporter la recette** en fichier ; les lignes de farine et de levain chef se touchent (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)) |
-| **Modifier** | Modifier la recette (voir [chapitre 9](#9-modifier-une-recette)) |
+Une recette s’ouvre comme **une seule page continue**, de haut en bas :
+
+1. **Image et nom** — toucher l’image l’affiche en grand. En dessous, la **note** (voir [chapitre 9](#9-modifier-une-recette)) et la description.
+2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette**, **Partager la recette** et **Exporter la recette** : le partage produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers » ; l’export écrit la recette dans un fichier (voir [chapitre 14](#14-réglages)). En dessous figure **« TA 172 · hydratation 72 % »**, le rendement de la pâte et l’hydratation sur tous les composants ; un appui ouvre le détail (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)). Pour les recettes planifiées à rythme régulier suit « Prochaine cuisson » ou « Prochain nourrissage ».
+3. **Les boutons** — voir le tableau ci-dessous.
+4. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
+5. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie. Les lignes de farine et de levain chef se touchent (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
+6. **La dernière fois** (dès que la recette a été cuite une fois) — comment s’est passée la dernière cuisson de cette recette : température ambiante et de la pâte, pointage et apprêt réels, farine, mie/développement au four et commentaire de l’historique, avec la date. **Compléter** ouvre l’entrée ; si rien n’est encore noté, la carte le demande et propose **Noter maintenant**. Seule une cuisson déjà passée compte — l’entrée créée en définissant les rappels reste dans le futur jusqu’à la fin de la cuisson.
+7. **Étapes de préparation** — un tableau avec le numéro (N°), la description et la durée ; les heures de début ne sont calculées que par les instructions de cuisson.
+8. **Cuissons précédentes** — toutes les entrées d’historique, la plus récente en premier, chacune avec sa date, les mesures sur une ligne et le commentaire ; une entrée encore à venir est marquée « planifiée ».
+
+| Bouton | Rôle |
+|--------|------|
+| **Planifier** | Instructions de cuisson avec planification et « Définir les rappels », en feuille sur la recette (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)) ; pour les recettes de levain chef, elle planifie le nourrissage |
 | **Liste de courses** | Ajouter les ingrédients de cette recette — dans la taille de portion choisie — à une liste de courses (voir [chapitre 13](#13-liste-de-courses)) |
-| **+ Historique** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) ; pas pour les recettes de levain chef |
-| **Nourrissage** | Uniquement pour les recettes de levain chef, à la place de « + Historique » : le journal du levain chef (voir [chapitre 9](#9-modifier-une-recette)) |
+| **Consigner une cuisson** | Consigner une cuisson avec date, commentaire, photos et mesures (température ambiante et de la pâte, pousse, farine, mie) ; pas pour les recettes de levain chef |
+| **Journal du levain** | Uniquement pour les recettes de levain chef, à la place de « Consigner une cuisson » (voir [chapitre 9](#9-modifier-une-recette)) |
+| **Modifier** (en haut à droite) | Modifier la recette, en feuille sur la recette (voir [chapitre 9](#9-modifier-une-recette)) |
 
-Taille de portion et poids de pâte sont les mêmes dans tous les onglets : ce que vous réglez sous Détails vaut aussi sous Cuire et pour la liste de courses.
+Taille de portion et poids de pâte valent pour toute la recette : ce que vous réglez sur la page vaut aussi dans les instructions de cuisson et pour la liste de courses.
 
-Une recette s’ouvre sur l’onglet **Détails**. La planification de l’onglet **Cuire** n’est calculée que lorsque vous le choisissez ; seul **Replanifier** dans « Étapes planifiées » y mène directement.
-
-Dans l’onglet **Détails**, vous pouvez toucher l’image de la recette pour l’afficher en grand.
+La planification n’est calculée que lorsque vous touchez **Planifier** ; **Replanifier** dans « Étapes planifiées » l’ouvre directement.
 
 ---
 
 ## 7. Instructions de cuisson et rappels
 
-C’est le cœur de l’app. La structure est la même pour vos recettes et pour les recettes publiques.
+C’est le cœur de l’app. **Planifier** sur la page de la recette ouvre les instructions de cuisson en feuille sur la recette ; la structure est la même pour vos recettes et pour les recettes publiques. La feuille calcule avec la taille de portion ou le poids de pâte réglés sur la page de la recette. **Fermer** en haut à gauche la range ; après « Définir les rappels », elle se ferme d’elle-même avec le OK de la confirmation.
 
-![Vue de cuisson d’une recette avec les étapes, la durée et le début calculé](images/fr/rezept-backansicht-zeitplanung.png)
+![Instructions de cuisson d’une recette avec les étapes, la durée et le début calculé](images/fr/rezept-backansicht-zeitplanung.png)
 
-*La vue de cuisson met en regard la durée et le début calculé de chaque étape.*
+*Les instructions de cuisson mettent en regard la durée et le début calculé de chaque étape.*
 
 ### De haut en bas
 
-1. **Image et nom** — toucher l’image l’affiche en grand.
-2. **Taille de portion** (0,5 / 1,0 / 1,5 / 2,0) ou **poids de pâte**, le **poids en grammes** qui en découle, — s’il est renseigné — le **lien vers la recette** et **Partager la recette** : ce dernier produit un PDF avec l’image, les composants et leurs ingrédients, le total des ingrédients et les étapes de préparation, à la taille de portion choisie, et le propose dans la feuille de partage — Messages, Mail, impression ou « Enregistrer dans Fichiers ». La même fonction existe pour vos propres recettes dans l’onglet « Détails ». En dessous figure **« TA 172 · hydratation 72 % »**, le rendement de la pâte et l’hydratation sur tous les composants ; un appui ouvre le détail (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
-3. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
-4. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie.
-5. **La dernière fois** (vos recettes uniquement, dès que la recette a été cuite une fois) — comment s’est passée la dernière cuisson de cette recette : température ambiante et de la pâte, pointage et apprêt réels, farine, mie/développement au four et commentaire de l’historique, avec la date. **Compléter** ouvre l’entrée ; si rien n’est encore noté, la carte le demande et propose **Noter maintenant**. Seule une cuisson déjà passée compte — l’entrée créée en définissant les rappels reste dans le futur jusqu’à la fin de la cuisson.
-6. **Barre de commande** — voir ci-dessous.
-7. **Étapes de préparation** — un tableau avec l’étape, la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
-8. **Cuissons précédentes** (vos recettes uniquement) — toutes les entrées d’historique, la plus récente en premier, chacune avec sa date, les mesures sur une ligne et le commentaire ; une entrée encore à venir est marquée « planifiée ».
-9. **Définir les rappels**.
+1. **Poids** — le poids total à la taille de portion choisie. L’image, les ingrédients, les composants et la carte « La dernière fois » se trouvent sur la page de la recette, derrière la feuille (voir [chapitre 6](#6-mes-recettes)).
+2. **Barre de commande** — voir ci-dessous.
+3. **Remarques** sur le plan — voir « Ce que l’app reproche à un plan ».
+4. **Étapes de préparation** — un tableau avec le numéro (N°), la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
+5. **Définir les rappels**.
 
 ### La barre de commande
 
@@ -353,7 +360,7 @@ Les textes « allumer le four », « baisser le four » et « la cuisson est ter
 
 ## 8. Créer une nouvelle recette
 
-Via **Menu principal → Créer une nouvelle recette**. Le formulaire se parcourt de haut en bas.
+Via **+** en haut à droite de l’onglet **Recettes**. Le formulaire se parcourt de haut en bas.
 
 ![Formulaire de création d’une nouvelle recette : import depuis des images ou une page web, commutateur Publier, image de la recette](images/fr/neues-rezept.png)
 
@@ -471,7 +478,7 @@ Souvenez-vous de la règle du [chapitre 3](#3-notions-de-base) : les étapes dé
 
 ## 9. Modifier une recette
 
-Accessible via **Mes recettes → recette → onglet « Modifier »**.
+Accessible via **Modifier** en haut à droite de la page d’une de vos recettes. Le formulaire s’ouvre en feuille sur la recette ; le **X** en haut à gauche le range.
 
 ### Enregistrement automatique
 
@@ -489,13 +496,13 @@ Pour les recettes que vous cuisez ou lancez à intervalles fixes — le levain c
 
 Pour qu’une date dans deux semaines n’encombre pas les listes, « Étapes planifiées », la timeline, la carte « À suivre », le widget, l’activité en direct et le mode cuisson retiennent les étapes planifiées automatiquement **jusqu’à deux jours avant l’échéance**. Les rappels, eux, arrivent quand même à l’heure. Les étapes planifiées à la main ne sont pas concernées.
 
-La date du prochain rafraîchi s’affiche en haut des onglets **Détails** et **Modifier** sur la ligne **« Prochain nourrissage : Demain 08:00 »** (« Prochaine cuisson : … » pour les pains) — il s’agit du début de la première étape. Tant qu’un plan est encore en cours, la ligne indique déjà la date d’après ; avant le premier nourrissage, on y lit « après le premier nourrissage » (pour les pains, avant la première cuisson, « après la première cuisson »). Pour un levain chef, le rythme compte à partir du début du dernier nourrissage.
+La date du prochain rafraîchi s’affiche en haut de la page de la recette et du formulaire de modification sur la ligne **« Prochain nourrissage : Demain 08:00 »** (« Prochaine cuisson : … » pour les pains) — il s’agit du début de la première étape. Tant qu’un plan est encore en cours, la ligne indique déjà la date d’après ; avant le premier nourrissage, on y lit « après le premier nourrissage » (pour les pains, avant la première cuisson, « après la première cuisson »). Pour un levain chef, le rythme compte à partir du début du dernier nourrissage.
 
 **Ce qui fait d’une recette un levain chef** se décide d’après ses ingrédients, pas d’après le commutateur : ils donnent un ratio de nourrissage de levain chef (ou levain, starter — les noms se valent), de farine et d’eau, et rien n’est cuit. Une recette composée uniquement de ces trois-là est toujours un levain chef, même si une étape mentionne le four (« laisser mûrir dans le four éteint, lumière allumée », « garder au frais jusqu’à la prochaine cuisson »). Seules une température de four ou une étape de préchauffage — ou d’autres ingrédients comme le sel — en font un pain. Un tag comme « Levain chef », « Starter » ou « Rafraîchi » tranche à la main en cas de doute ; un tag « Levain » ne suffit pas, les pains le portent aussi.
 
-À la place de « + Historique », les recettes de levain chef reçoivent l’onglet **Nourrissage** : le **journal du levain chef** — un levain chef se nourrit, il ne se cuit pas. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
+À la place de « Consigner une cuisson », les recettes de levain chef ont le bouton **Journal du levain** — un levain chef se nourrit, il ne se cuit pas. En haut figure le ratio de nourrissage « levain chef : farine : eau », calculé à partir des ingrédients de la recette et donc non modifiable à la main. En dessous, vous notez pour chaque nourrissage le **temps de maturation jusqu’au pic** en minutes, au besoin le **test de flottaison** et une note sur l’odeur et la consistance. Les nourrissages précédents sont listés dessous, les plus récents en premier — vous voyez ainsi si votre levain chef accélère ou ralentit.
 
-Si vous planifiez un levain chef dans l’onglet **Nourrir** (ou si son rythme revient), BakePlanner crée une entrée dans le journal du levain chef au début du nourrissage — « planifiée » tant qu’elle est à venir — et aucune dans l’historique de cuisson. La dernière étape vous le rappelle : « Nourrissage terminé – noter le résultat dans le journal du levain ». Touchez l’entrée et renseignez le temps jusqu’au pic, le test de flottaison et la note sous **Noter le résultat**. Le rythme compte à partir du début du dernier nourrissage.
+Si vous planifiez un levain chef via **Planifier** (ou si son rythme revient), BakePlanner crée une entrée dans le journal du levain chef au début du nourrissage — « planifiée » tant qu’elle est à venir — et aucune dans l’historique de cuisson. La dernière étape vous le rappelle : « Nourrissage terminé – noter le résultat dans le journal du levain ». Touchez l’entrée et renseignez le temps jusqu’au pic, le test de flottaison et la note sous **Noter le résultat**. Le rythme compte à partir du début du dernier nourrissage.
 
 ### Modifier les composants
 
@@ -525,7 +532,7 @@ Si cette copie est supprimée plus tard (par vous ou par la modération), l’ap
 
 ## 10. Étapes planifiées (liste et timeline)
 
-**Menu principal → Étapes planifiées.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En bas, vous passez d’une vue à l’autre ; la timeline s’ouvre en premier. Les rafraîchis planifiés automatiquement (voir [chapitre 9](#9-modifier-une-recette)) n’apparaissent que deux jours avant leur date.
+**Onglet Timeline.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En haut, vous passez d’une vue à l’autre avec **Timeline / Liste** ; la timeline s’ouvre en premier. Les rafraîchis planifiés automatiquement (voir [chapitre 9](#9-modifier-une-recette)) n’apparaissent que deux jours avant leur date.
 
 ![Étapes planifiées en liste : chaque carte montre l’image de la recette, l’heure de début, la durée et le texte de l’étape ; la carte « Weizensauerteig » porte un symbole i pour les ingrédients à côté de l’icône d’horloge](images/fr/geplante-schritte-liste.png)
 
@@ -548,7 +555,7 @@ L’app reconnaît une telle étape de mélange au fait que le nom d’un compos
 
 Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».
 
-**Cocher une étape comme terminée** — via le **symbole de coche** sur la carte, ou en balayant la ligne vers la **droite** et en touchant « Terminé ». L’étape quitte le plan, son rappel est supprimé avec elle, et la carte « À suivre » du menu principal ainsi que le widget passent à l’étape suivante. C’est la même action que « Terminé » dans la notification, mais directement dans la liste.
+**Cocher une étape comme terminée** — via le **symbole de coche** sur la carte, ou en balayant la ligne vers la **droite** et en touchant « Terminé ». L’étape quitte le plan, son rappel est supprimé avec elle, et la barre « À suivre » de l’onglet Recettes ainsi que le widget passent à l’étape suivante. C’est la même action que « Terminé » dans la notification, mais directement dans la liste.
 
 **Supprimer :**
 
@@ -565,7 +572,7 @@ En portrait, le temps s’écoule de haut en bas : l’axe est à gauche, les pl
 
 ![Étapes planifiées en planning de projet : axe du temps à gauche, un plan par colonne, barres à la longueur des étapes](images/fr/geplante-schritte-timeline.png)
 
-*L’onglet du bas permet de passer de la liste à la timeline.*
+*Le sélecteur du haut permet de passer de la timeline à la liste.*
 
 Si aucune étape n’est planifiée, les deux vues indiquent : « Aucune étape planifiée — Définissez un rappel dans les instructions de cuisson d’une recette. »
 
@@ -583,7 +590,7 @@ Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de rece
 
 ### Le widget « Prochaine étape de cuisson »
 
-Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la carte « À suivre » du menu principal — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».
+Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la barre « À suivre » de l’onglet Recettes — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».
 
 - **Petit** : texte de l’étape, jour et heure, compte à rebours.
 - **Moyen** : en plus, le nom de la recette.
@@ -650,7 +657,7 @@ Les mêmes commandes figurent dans l’app **Raccourcis** sous BakePlanner et pe
 
 ### Historique de cuisson
 
-**Menu principal → Historique de cuisson.** Toutes les cuissons en quatre affichages, à choisir par les symboles sous le titre ; le choix est mémorisé. **Liste** : la plus récente en premier, avec date, nom de la recette, commentaire et photos. **Galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. **Palmarès** et **nuage de photos** résument l’historique par recette (voir ci-dessous). La recherche, les tags et le filtre de note s’appliquent aux quatre. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
+**Onglet Historique de cuisson.** Toutes les cuissons en quatre affichages, à choisir par les symboles sous le titre ; le choix est mémorisé. **Liste** : la plus récente en premier, avec date, nom de la recette, commentaire et photos. **Galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. **Palmarès** et **nuage de photos** résument l’historique par recette (voir ci-dessous). La recherche, les tags et le filtre de note s’appliquent aux quatre. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
 
 - **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire, renseigner **Mesures et résultat** (voir ci-dessous) et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
 - **Supprimer une entrée** : balayez la ligne vers la gauche.
@@ -671,13 +678,13 @@ Le texte libre et les étoiles ne suffisent pas pour faire mieux la fois suivant
 
 Les champs numériques n’ont pas de touche Retour ; **Terminé** apparaît à côté du champ en cours de saisie pour fermer le clavier.
 
-La vue de cuisson affiche ces informations dans la carte **La dernière fois** lors de la prochaine planification de la même recette (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+La page de la recette affiche ces informations dans la carte **La dernière fois** (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
 ### Consigner une cuisson après coup
 
-**Mes recettes → recette → onglet « + Historique ».** Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, renseignez les mesures et le résultat, ajoutez des photos depuis la photothèque, **Enregistrer**.
+**Recette → Consigner une cuisson.** Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, renseignez les mesures et le résultat, ajoutez des photos depuis la photothèque, **Enregistrer**.
 
-Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la vue de cuisson vous rappelle de la compléter.
+Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la page de la recette vous rappelle de la compléter. Si vous remplacez ou supprimez le plan avant la cuisson, cette entrée disparaît de nouveau — sauf si vous y avez déjà ajouté un commentaire, une photo ou une mesure. Il en va de même pour le nourrissage que la planification d’un levain chef inscrit dans son journal.
 
 ### Palmarès et nuage de photos
 
@@ -697,7 +704,7 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 
 S’il n’existe encore aucune liste, l’écran vide sous « Liste de courses » explique la marche à suivre et mène directement aux recettes avec **Ouvrir mes recettes**.
 
-**Recette → onglet « Liste de courses »** — pour vos recettes comme pour les recettes publiques.
+**Recette → Liste de courses** — pour vos recettes comme pour les recettes publiques ; la feuille s’ouvre sur la recette.
 
 1. **Taille de portion.** En haut se trouve la même commande de taille de portion que sous Détails et Cuire, avec le poids total. Les ingrédients arrivent sur la liste **avec ce facteur ou ce poids de pâte** ; à ×2, les quantités doublées. Le texte en pied nomme le facteur.
 2. **Nouvelle liste** : choisissez une date, **Créer**. S’il existe déjà une liste pour cette date, les ingrédients y sont ajoutés.
@@ -721,7 +728,7 @@ L’app filtre volontairement, et ce dans toutes les langues :
 
 ### Consulter les listes de courses
 
-**Menu principal → Liste de courses.** Chaque liste indique sa date, les recettes qu’elle contient et, en dessous, les ingrédients avec quantité et unité — **regroupés par rayon**, dans l’ordre d’un tour de magasin : farines & céréales, produits laitiers & œufs, ingrédients de pâtisserie, noix, graines & fruits secs, fruits & légumes, épices & herbes, huiles, matières grasses & liquides, divers. L’app lit le rayon dans le nom de l’ingrédient, de sorte que les listes plus anciennes sont elles aussi regroupées.
+**Onglet Listes de courses.** Chaque liste indique sa date, les recettes qu’elle contient et, en dessous, les ingrédients avec quantité et unité — **regroupés par rayon**, dans l’ordre d’un tour de magasin : farines & céréales, produits laitiers & œufs, ingrédients de pâtisserie, noix, graines & fruits secs, fruits & légumes, épices & herbes, huiles, matières grasses & liquides, divers. L’app lit le rayon dans le nom de l’ingrédient, de sorte que les listes plus anciennes sont elles aussi regroupées.
 
 Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fraction valent alors pour cette liste, la recette reste inchangée ; l’ingrédient peut aussi y être retiré. L’icône de corbeille à côté de la ligne le retire directement. **Supprimer** retire toute la liste après confirmation.
 
@@ -729,7 +736,7 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 ## 14. Réglages
 
-**Menu principal → Réglages.**
+**Onglet Recettes → Plus (⋯) → Réglages.**
 
 ![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
 
@@ -761,7 +768,9 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 | **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images, **historique de cuisson** (ses photos réduites à la taille de l’écran) et **journal du levain chef** compris, dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
 | **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson et le journal du levain chef du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson ou journal du levain chef demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
 
-Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+Une recette seule s’exporte depuis sa page via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+
+**Plusieurs recettes à la fois :** **Recettes → Plus (⋯) → Exporter des recettes** liste vos propres recettes à cocher, avec **Tout sélectionner** en haut à droite. **Exporter** écrit la sélection dans un seul fichier ; l’interrupteur **Avec l’historique de cuisson et le journal du levain** emporte aussi vos entrées si vous le souhaitez — par exemple pour déplacer une partie de vos recettes sur un autre appareil. Comme l’export d’une recette seule, c’est une fonction Pro.
 
 ### Traduction
 
@@ -780,7 +789,7 @@ Une recette seule s’exporte dans l’onglet **Détails** via **Exporter la rec
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 
-> **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans la vue de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+> **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans les instructions de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
 ### Confidentialité et IA
 
@@ -798,7 +807,7 @@ La page **Confidentialité de l’IA** explique quelles données une analyse clo
 C’est ici que vous vous connectez avec Apple. La connexion est **facultative** et sert à deux choses :
 
 - **L’identité d’auteur.** Sans connexion, vos recettes publiées appartiennent à l’identifiant anonyme de cette installation — il disparaît avec l’app et diffère sur un deuxième appareil. Connecté, elles appartiennent à votre compte Apple : vous pouvez les modifier et les supprimer sur chaque appareil où vous êtes connecté, même après une réinstallation.
-- **Les droits de modération.** Si votre identifiant y a été autorisé, la mention **Administrateur** apparaît en plus, et les recettes publiques peuvent être supprimées — via le menu ⋯, l’onglet Détails ou un balayage dans la base de recettes.
+- **Les droits de modération.** Si votre identifiant y a été autorisé, la mention **Administrateur** apparaît en plus, et les recettes publiques peuvent être supprimées — via le menu ⋯, la page de la recette ou un balayage dans la base de recettes.
 
 **Ni votre nom ni votre adresse e-mail ne sont demandés** — l’app n’a besoin que de l’identifiant lui-même. Si votre utilisation était anonyme jusque-là, elle est conservée à la connexion : les recettes déjà publiées depuis cet appareil vous appartiennent toujours ensuite.
 
@@ -848,7 +857,7 @@ Chaque vue de recette met les quantités à l’échelle de deux façons :
 - **Taille de portion** — le facteur 0,5 / 1,0 / 1,5 / 2,0 comme avant ; 1,0 est la recette telle qu’enregistrée.
 - **Poids de pâte** — à côté se trouve un champ qui affiche le poids total actuel en valeur par défaut. Saisissez un poids cible en grammes, par exemple 2000, et l’app recalcule tous les ingrédients pour ce poids de pâte ; le sélecteur de portion n’affiche alors plus de sélection. Toucher un facteur efface le champ.
 
-Les quantités recalculées sont arrondies comme on les pèse : en grammes entiers à partir de 10 g, à une décimale en dessous (« 2,7 g de levure »). Les fractions comme « 1/2 cube » restent des fractions aux facteurs 0,5 à 2,0 (« 3/4 cube ») et deviennent des décimales avec un poids de pâte libre (« 0,7 cube »). Taille de portion et poids de pâte s’appliquent à **tous les onglets de la recette** — Détails, Cuire et Liste de courses —, aux ingrédients des rappels que vous définissez ensuite, et aux fiches « Remplacer la farine » et « Ajuster la TA du levain chef » lorsque vous les ouvrez depuis la recette.
+Les quantités recalculées sont arrondies comme on les pèse : en grammes entiers à partir de 10 g, à une décimale en dessous (« 2,7 g de levure »). Les fractions comme « 1/2 cube » restent des fractions aux facteurs 0,5 à 2,0 (« 3/4 cube ») et deviennent des décimales avec un poids de pâte libre (« 0,7 cube »). Taille de portion et poids de pâte s’appliquent à **toute la recette** — page de la recette, instructions de cuisson et liste de courses —, aux ingrédients des rappels que vous définissez ensuite, et aux fiches « Remplacer la farine » et « Ajuster la TA du levain chef » lorsque vous les ouvrez depuis la recette.
 
 ### Pourcentages boulanger
 
@@ -856,7 +865,7 @@ Sous *Réglages → Recettes → Afficher les pourcentages boulanger*, la vue de
 
 ### Rendement de la pâte et hydratation
 
-Dans l’onglet **Détails**, sous le poids, figure la ligne **« TA 172 · hydratation 72 % »** : le rendement de la pâte (TA, de l’allemand Teigausbeute : farine plus eau pour 100 g de farine) et l’hydratation (eau par rapport à la farine) sur **tous les composants** de la recette. Un appui ouvre le détail avec la farine et l’eau en grammes, la valeur propre de chaque composant, les parts de levain chef et les ingrédients non comptés.
+Sur la page de la recette, sous le poids, figure la ligne **« TA 172 · hydratation 72 % »** : le rendement de la pâte (TA, de l’allemand Teigausbeute : farine plus eau pour 100 g de farine) et l’hydratation (eau par rapport à la farine) sur **tous les composants** de la recette. Un appui ouvre le détail avec la farine et l’eau en grammes, la valeur propre de chaque composant, les parts de levain chef et les ingrédients non comptés.
 
 La convention des boulangers s’applique :
 
@@ -872,8 +881,8 @@ La ligne est absente pour les recettes sans farine reconnue. L’import d’imag
 
 Pas de farine de blé 1050 à la maison, mais de la farine d’épeautre 630 ? Les farines s’échangent **1:1 au poids** ; ce qui change, c’est l’eau, car chaque farine absorbe différemment. Deux voies :
 
-- **Dans la recette :** dans l’onglet **Détails**, les lignes de farine se touchent (icône de flèche derrière). La fiche **Remplacer la farine** montre la farine reconnue, laisse choisir la farine de remplacement par céréale et par type, et calcule : la variation d’eau du composant (« +20 g » ou « −20 g »), rendement de pâte et hydratation avant et après. Si le composant n’a pas d’eau, l’app prend son liquide versé (lait, bière) ; s’il n’en a pas, elle le dit. **Créer une copie avec la substitution** inscrit l’échange dans une nouvelle recette à vous, datée dans son nom (« … – Dinkelmehl 630 (14 oct. 2026) »), et l’ouvre ; l’original reste inchangé. Dans cette copie, le bouton s’appelle **Appliquer la modification** : une deuxième farine ou un ajustement du levain chef modifie la copie elle-même, la mention dans le nom est complétée (« … – Dinkelmehl 630, TA 210 (…) »), et aucune autre copie n’est créée.
-- **Comme calculateur :** **Menu principal → Remplacer la farine** pour une quantité libre — quantité, farine de la recette, farine de remplacement.
+- **Dans la recette :** sur la page de la recette, les lignes de farine se touchent (icône de flèche derrière). La fiche **Remplacer la farine** montre la farine reconnue, laisse choisir la farine de remplacement par céréale et par type, et calcule : la variation d’eau du composant (« +20 g » ou « −20 g »), rendement de pâte et hydratation avant et après. Si le composant n’a pas d’eau, l’app prend son liquide versé (lait, bière) ; s’il n’en a pas, elle le dit. **Créer une copie avec la substitution** inscrit l’échange dans une nouvelle recette à vous, datée dans son nom (« … – Dinkelmehl 630 (14 oct. 2026) »), et l’ouvre ; l’original reste inchangé. Dans cette copie, le bouton s’appelle **Appliquer la modification** : une deuxième farine ou un ajustement du levain chef modifie la copie elle-même, la mention dans le nom est complétée (« … – Dinkelmehl 630, TA 210 (…) »), et aucune autre copie n’est créée.
+- **Comme calculateur :** **Recettes → Plus (⋯) → Remplacer la farine** pour une quantité libre — quantité, farine de la recette, farine de remplacement.
 
 S’y ajoutent des conseils de conduite : pétrir l’épeautre moins longtemps et envisager un trempage ou un empois, acidifier le seigle, cuire l’amidonnier et l’engrain en moule, laisser gonfler la farine complète, incorporer l’eau supplémentaire petit à petit. Les valeurs d’eau sont indicatives, relatives au blé 550 (épeautre 630 −4 %, blé complet +10 %, seigle 1150 +12 % …) — les farines varient selon le moulin et la récolte, la pâte a le dernier mot.
 
@@ -881,14 +890,14 @@ S’y ajoutent des conseils de conduite : pétrir l’épeautre moins longtemps 
 
 Si une recette demande « 100 g de levain chef TA 150 » mais que vous entretenez le vôtre à TA 210, le compte n’y est plus : votre levain chef plus souple apporte moins de farine et plus d’eau. L’app compense pour que **la farine apportée par le levain chef reste la même** : quantité de levain chef = quantité de la recette × TA disponible ÷ TA de la recette, ici 140 g au lieu de 100 g, et les 40 g d’eau en plus sont retirés de l’eau du même composant. Le rendement de pâte et le poids total de la pâte restent ceux de la recette ; avec un levain chef plus ferme, c’est l’inverse.
 
-- **Dans la recette :** dans l’onglet **Détails**, les lignes avec levain chef, levain ou lievito madre se touchent (icône de goutte). La fiche **Ajuster la TA du levain chef** montre la TA reconnue — lue dans le nom de l’ingrédient ou, à défaut, dans les réglages, ce que la fiche précise. En dessous, vous choisissez la TA disponible : vos **TA de levain chef** des réglages comme raccourcis, à côté un pas-à-pas pour toute autre valeur. Le résultat indique le levain chef avant → après, la variation d’eau, le rendement de pâte et l’hydratation. **Créer une copie avec l’ajustement** inscrit le tout dans une nouvelle recette à vous, datée dans son nom, et l’ouvre — dans une copie déjà ajustée, le bouton s’appelle **Appliquer la modification** et modifie la copie elle-même ; la nouvelle TA figure alors dans le nom de l’ingrédient (« Anstellgut TA 210 ») pour que le rendement de pâte continue de la lire correctement.
-- **Comme calculateur :** **Menu principal → TA du levain chef** pour une quantité libre — quantité, TA de la recette, TA disponible.
+- **Dans la recette :** sur la page de la recette, les lignes avec levain chef, levain ou lievito madre se touchent (icône de goutte). La fiche **Ajuster la TA du levain chef** montre la TA reconnue — lue dans le nom de l’ingrédient ou, à défaut, dans les réglages, ce que la fiche précise. En dessous, vous choisissez la TA disponible : vos **TA de levain chef** des réglages comme raccourcis, à côté un pas-à-pas pour toute autre valeur. Le résultat indique le levain chef avant → après, la variation d’eau, le rendement de pâte et l’hydratation. **Créer une copie avec l’ajustement** inscrit le tout dans une nouvelle recette à vous, datée dans son nom, et l’ouvre — dans une copie déjà ajustée, le bouton s’appelle **Appliquer la modification** et modifie la copie elle-même ; la nouvelle TA figure alors dans le nom de l’ingrédient (« Anstellgut TA 210 ») pour que le rendement de pâte continue de la lire correctement.
+- **Comme calculateur :** **Recettes → Plus (⋯) → TA du levain chef** pour une quantité libre — quantité, TA de la recette, TA disponible.
 
 L’ajustement n’est pas proposé pour les lignes qui renvoient à un composant de la recette (« 200 g de levain » avec un composant « Levain ») : sa TA découle du composant lui-même. Poolish et biga ont leur TA par définition. Si l’eau du composant ne suffit pas, l’app ne descend pas sous zéro et indique les grammes manquants. S’y ajoutent des conseils : un levain chef plus souple fermente plus vite et plus doux, un plus ferme plus lentement et plus fort ; en cas de grand écart de TA, convertir d’abord le levain chef en un ou deux rafraîchis.
 
 ### Température de la pâte
 
-**Menu principal → Température de la pâte** calcule, selon la formule des boulangers, la température que doit avoir l’**eau de coulage** pour que la pâte atteigne la température voulue après le pétrissage. Vous saisissez la **température cible** de la pâte, la **température ambiante**, la température de la farine (en général celle de la pièce) et, pour les recettes avec levain ou pré-ferment, sa température. La **chaleur de friction** est la chaleur que la pâte gagne en plus au pétrissage : comparez la température de pâte mesurée après le pétrissage à la cible et ajustez la valeur — calibrée une fois, elle vaut pour toutes les recettes et reste mémorisée. Si le calcul donne une eau trop froide ou trop chaude, le calculateur le signale.
+**Recettes → Plus (⋯) → Température de la pâte** calcule, selon la formule des boulangers, la température que doit avoir l’**eau de coulage** pour que la pâte atteigne la température voulue après le pétrissage. Vous saisissez la **température cible** de la pâte, la **température ambiante**, la température de la farine (en général celle de la pièce) et, pour les recettes avec levain ou pré-ferment, sa température. La **chaleur de friction** est la chaleur que la pâte gagne en plus au pétrissage : comparez la température de pâte mesurée après le pétrissage à la cible et ajustez la valeur — calibrée une fois, elle vaut pour toutes les recettes et reste mémorisée. Si le calcul donne une eau trop froide ou trop chaude, le calculateur le signale.
 
 ### Unités disponibles
 
@@ -1031,13 +1040,13 @@ Au second toucher, l’app demande si le nouveau plan doit remplacer l’existan
 Définissez les rappels pour la première date, réglez ensuite la seconde et touchez de nouveau « Définir les rappels » : l’app demande si le nouveau plan doit remplacer l’existant ou s’y **ajouter** (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
 **Le poids total ne correspond pas.**
-En général, c’est une unité que l’app ne connaît pas — le champ d’unité affiche alors un **triangle d’avertissement** — ou un ingrédient sans unité. Vérifiez les ingrédients dans l’onglet « Modifier » et choisissez l’unité dans le menu. Si elle n’y figure pas, créez-la dans *Réglages → Recettes → Unités personnalisées* (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
+En général, c’est une unité que l’app ne connaît pas — le champ d’unité affiche alors un **triangle d’avertissement** — ou un ingrédient sans unité. Vérifiez les ingrédients sous « Modifier » et choisissez l’unité dans le menu. Si elle n’y figure pas, créez-la dans *Réglages → Recettes → Unités personnalisées* (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 
 **Un ingrédient manque sur la liste de courses.**
 L’eau, le sel et tout ce que l’on prépare soi-même (levain chef, levain, poolish, biga) sont volontairement omis — dans toutes les langues —, de même que les ingrédients sans unité ou sans quantité. Voir [chapitre 13](#13-liste-de-courses).
 
 **Les quantités de la liste de courses ne correspondent pas à la recette.**
-La liste reprend la taille de portion ou le poids de pâte réglés dans la recette — l’onglet « Liste de courses » affiche le facteur en haut. Changez-le là avant de mettre les ingrédients sur la liste.
+La liste reprend la taille de portion ou le poids de pâte réglés dans la recette — la feuille « Liste de courses » affiche le facteur en haut. Changez-le là avant de mettre les ingrédients sur la liste.
 
 **Un terme technique est mal traduit.**
 Les termes de boulangerie comme Brühstück ou Anstellgut sont traduits par un glossaire dans l’app (voir [chapitre 5](#5-base-de-recettes)). Si vous rencontrez malgré tout une traduction fausse, rouvrez la recette une fois : une traduction plus ancienne sans le mot du glossaire est refaite. Si l’erreur persiste, signalez le mot — il entrera dans le glossaire.

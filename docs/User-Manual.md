@@ -12,7 +12,7 @@ Revised: 29 October 2026 · App version 2.1
 1. [What BakePlanner does](#1-what-bakeplanner-does)
 2. [System requirements](#2-system-requirements)
 3. [Key concepts](#3-key-concepts)
-4. [The main menu](#4-the-main-menu)
+4. [The tab bar](#4-the-tab-bar)
 5. [Recipe database](#5-recipe-database)
 6. [My recipes](#6-my-recipes)
 7. [Baking instructions and reminders](#7-baking-instructions-and-reminders)
@@ -44,10 +44,10 @@ On top of that: a shared public recipe database, your own recipes on the device,
 ### Quick start: your first baking plan in five steps
 
 1. Open **Recipe database** and pick a recipe — or create one of your own under **Create new recipe**.
-2. In the recipe, open the **Bake** or **Bake recipe** tab.
+2. In the recipe, tap **Plan**.
 3. Choose **Start from** or **Done by** and set the date and time.
 4. Check the calculated start times and tap **Set reminders**.
-5. Open **Scheduled steps** to review every appointment as a list or a timeline.
+5. Open the **Timeline** tab to review every appointment as a timeline or a list.
 
 Reminders require BakePlanner to be allowed to send notifications. The full explanations are in [chapter 7](#7-baking-instructions-and-reminders), [chapter 10](#10-scheduled-steps-list-and-timeline), and [chapter 17](#17-frequently-asked-questions-and-troubleshooting).
 
@@ -93,7 +93,7 @@ A work instruction with a step number and a duration. The duration is stored in 
 Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. The next main step, 2, begins after a little over 12 hours — not after 14.
 
 **Serving size**
-A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight. Instead of a factor you can enter a **dough weight** in grams. The choice applies to every tab of the open recipe: Details, Bake and Shopping list all use the same factor (see [chapter 15](#15-units-amounts-and-serving-sizes)).
+A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight. Instead of a factor you can enter a **dough weight** in grams. The choice applies to the whole open recipe: the recipe page, the baking instructions and the shopping list all use the same factor (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 
 **Storage**
 Where a recipe lives. There are two options, and the **Publish** switch when saving decides who can see it:
@@ -107,29 +107,32 @@ A recipe you're **not allowed to publish** — out of a book, say — stays on t
 
 ---
 
-## 4. The main menu
+## 4. The tab bar
 
-After launch the main menu appears with nine cards:
+After launch the app opens on the **Recipes** tab. Along the bottom runs the tab bar with the four areas you need every day; each tab remembers where you were when you switch to another:
 
-![BakePlanner's main menu with its functional areas](images/en/hauptmenue.png)
+![BakePlanner's recipe list with the tab bar along the bottom](images/en/hauptmenue.png)
 
-*The main menu is the starting point for recipes, planning, history, and settings.*
+*The "Recipes" tab is the starting point: every recipe, the "More" menu with the calculators and the settings, the "+" for a new recipe.*
 
-| Card | Purpose |
-|------|---------|
-| **Recipe database** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** |
-| **Create new recipe** | Build a recipe from scratch or import one from photos or a web page |
-| **Scheduled steps** | Every scheduled baking step as a list or a timeline |
+| Tab | Purpose |
+|-----|---------|
+| **Recipes** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** (see [chapter 5](#5-recipe-database)) |
+| **Shopping lists** | All the shopping lists you've created |
 | **Baking history** | Past bakes with comments and photos — as a list, gallery, top list or photo cloud |
-| **Shopping list** | All the shopping lists you've created |
-| **Dough temperature** | Calculator: the water temperature for a desired dough temperature |
-| **Replace flour** | Calculator: swap the flour type, adjust the water |
-| **Starter TA** | Calculator: use a starter of a different dough yield, adjust the water |
-| **Settings** | Language, defaults, baking plan, backup, account |
+| **Timeline** | Every scheduled baking step as a timeline or a list |
 
-**The "Up next" bar.** As soon as a baking plan is running, a bar floats over the bottom edge of the screen with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The menu cards scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar opens "Scheduled steps". With no step ahead it stays hidden and the menu looks as pictured above.
+At the top right of the **Recipes** tab sit three buttons:
 
-The back arrow at the top left returns you to the main menu from anywhere.
+| Button | Purpose |
+|--------|---------|
+| **Filter** | The minimum rating for the list |
+| **More (⋯)** | The three baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water) and **Starter TA** (use a starter of a different dough yield, adjust the water), **Export recipes** (a selection of your own recipes as a file, see [chapter 14](#14-settings)), and the **Settings** (language, defaults, baking plan, backup, account) |
+| **+** | **Create new recipe** — from scratch or imported from photos or a web page |
+
+**The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
+
+The back arrow at the top left returns you from any opened screen to its list. Whatever lies as a sheet over a recipe — the baking instructions, the shopping list, editing — is closed with **Close** at the top left or a swipe down.
 
 ---
 
@@ -155,11 +158,11 @@ A symbol before each name shows the source: an iPhone for recipes on the device,
 
 ### Opening a public recipe
 
-A recipe opens on the **Details** tab. Three tabs run along the bottom:
+A recipe opens as **one continuous page**: image, name and description at the top, then serving size and dough weight, the weight, **Share recipe** and the dough-yield line, below them three buttons, then the total ingredients, the components and the processing steps with their durations — the same layout as your own recipes (see [chapter 6](#6-my-recipes)), only without rating, baking history and export.
 
-- **Bake recipe** — the baking instructions with the schedule (see [chapter 7](#7-baking-instructions-and-reminders)). The schedule is only worked out once you choose this tab.
-- **Details** — an overview of ingredients, components, and steps
-- **Shopping list** — put the ingredients on a shopping list
+- **Plan** — opens the baking instructions with the schedule as a sheet over the recipe (see [chapter 7](#7-baking-instructions-and-reminders)). The schedule is only worked out once you open the sheet.
+- **Shopping list** — put the ingredients on a shopping list (see [chapter 13](#13-shopping-list))
+- **Save as my own recipe** — keep a copy on your device (see below)
 
 ### Translating a recipe
 
@@ -178,7 +181,7 @@ Notes:
 
 ### Taking a copy of a recipe
 
-The **Bake recipe** tab has a **Save as my own recipe** button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited. If a copy already exists, it stays as it is — your changes and its baking history included. The public recipe never overwrites it, not even when you save or plan it again.
+The recipe page has a **Save as my own recipe** button. It puts a complete copy — image, components, ingredients, and steps included — into "My recipes". Only that copy can be edited. If a copy already exists, it stays as it is — your changes and its baking history included. The public recipe never overwrites it, not even when you save or plan it again.
 
 The app confirms with **"Recipe was saved"** and a note that you can edit the copy without changing the public recipe. If saving fails, an error message appears instead — nothing disappears silently.
 
@@ -209,15 +212,15 @@ So the two differ in reach: **blocking is local, reporting affects everyone.** B
 
 ### Administrator function
 
-If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the **Details** tab, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to the recipes other users keep on their devices; they aren't shared, so they aren't a moderation matter either.
+If you're signed in as an administrator (see [chapter 14](#14-settings)), you can remove any public recipe — intended for moderating reported content. There are three ways to do it: the **Delete recipe (admin)** entry in the recipe's ⋯ menu, the button of the same name at the bottom of the recipe page, and in the recipe database a swipe to the left across the row. Each asks for confirmation first; in the list the question names the recipe. The recipe's image is removed from storage along with it. Through **Edit recipe** in the same menu you can also correct a public recipe — a typo, say, or a wrong quantity — without deleting it. An administrator has no access to the recipes other users keep on their devices; they aren't shared, so they aren't a moderation matter either.
 
-**Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the **Details** tab it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
+**Reported recipes** stay visible in the list for administrators while they're hidden from everyone else. At the bottom of the recipe page it then says "This recipe has been reported and is hidden from all other users." If the report is justified, delete the recipe. If it isn't, **Unhide recipe** makes it visible to everyone again at once.
 
 ---
 
 ## 6. My recipes
 
-My recipes are the recipes on your device: the ones you created, imported, or copied from the database. You find them under **Main menu → Recipe database** with the filter chip **Local** (see [chapter 5](#5-recipe-database)); switch the chips **Published by me** and **Public** off and the list is your own recipes alone.
+My recipes are the recipes on your device: the ones you created, imported, or copied from the database. You find them on the **Recipes** tab with the filter chip **Local** (see [chapter 5](#5-recipe-database)); switch the chips **Published by me** and **Public** off and the list is your own recipes alone.
 
 ![List of my recipes with image, name, and tags](images/en/eigene-rezepte.png)
 
@@ -236,44 +239,48 @@ Swipe the row left → **Delete**. A confirmation follows, naming the recipe, so
 
 Steps already scheduled for that recipe do stay in "Scheduled steps", though — delete them separately there if you no longer need them.
 
-### The tabs of your own recipe
+### The page of your own recipe
 
-| Tab | Contents |
-|-----|----------|
-| **Bake** | Baking instructions with the schedule and "Set reminders"; for starter recipes the tab is called **Feed** |
-| **Details** | Rating, description, total ingredients, components, step overview, **Share recipe** as PDF, **Export recipe** as a file; flour and starter lines can be tapped (see [chapter 15](#15-units-amounts-and-serving-sizes)) |
-| **Edit** | Edit the recipe (see [chapter 9](#9-editing-a-recipe)) |
+A recipe opens as **one continuous page**, from top to bottom:
+
+1. **Image and name** — tap the image to enlarge it. Below them the **rating** (see [chapter 9](#9-editing-a-recipe)) and the description.
+2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, **Share recipe** and **Export recipe**: sharing produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files"; exporting writes the recipe to a file (see [chapter 14](#14-settings)). Below it stands **"Dough yield 172 · hydration 72 %"**, the dough yield and hydration over all components; a tap opens the breakdown (see [chapter 15](#15-units-amounts-and-serving-sizes)). For recipes planned on a rhythm, "Next bake" or "Next feeding" follows.
+3. **The buttons** — see the table below.
+4. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
+5. **Components** — sorted by number, each with its ingredients at the chosen serving size. Flour and starter lines can be tapped (see [chapter 15](#15-units-amounts-and-serving-sizes)).
+6. **Last time** (once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
+7. **Processing steps** — a table of number (No.), description and duration; the start times are only worked out by the baking instructions.
+8. **Previous bakes** — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
+
+| Button | Purpose |
+|--------|---------|
+| **Plan** | Baking instructions with the schedule and "Set reminders", as a sheet over the recipe (see [chapter 7](#7-baking-instructions-and-reminders)); for starter recipes it plans the feeding |
 | **Shopping list** | Put this recipe's ingredients — at the chosen serving size — on a shopping list (see [chapter 13](#13-shopping-list)) |
-| **+ History** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb); not for starter recipes |
-| **Feeding** | Only for starter recipes, in place of "+ History": the starter diary (see [chapter 9](#9-editing-a-recipe)) |
+| **Log a bake** | Record a bake with date, comment, photos and measurements (room and dough temperature, proofing, flour, crumb); not for starter recipes |
+| **Starter Diary** | Only for starter recipes, in place of "Log a bake" (see [chapter 9](#9-editing-a-recipe)) |
+| **Edit** (top right) | Edit the recipe, as a sheet over the recipe (see [chapter 9](#9-editing-a-recipe)) |
 
-Serving size and dough weight are the same in every tab: what you set under Details also applies under Bake and to the shopping list.
+Serving size and dough weight apply to the whole recipe: what you set on the page also applies in the baking instructions and to the shopping list.
 
-A recipe opens on the **Details** tab. The schedule in the **Bake** tab is only worked out once you choose it; only **Plan again** in Scheduled steps takes you straight there.
-
-In the **Details** tab you can tap the recipe image to see it full size.
+The schedule is only worked out once you tap **Plan**; **Plan again** in Scheduled steps opens it straight away.
 
 ---
 
 ## 7. Baking instructions and reminders
 
-This is the heart of the app. The layout is the same for your own and for public recipes.
+This is the heart of the app. **Plan** on the recipe page opens the baking instructions as a sheet over the recipe; the layout is the same for your own and for public recipes. The sheet works with the serving size or dough weight set on the recipe page. **Close** at the top left puts it away; after "Set reminders" it closes by itself with the OK of the confirmation.
 
-![A recipe's baking view with processing steps, duration, and calculated start](images/en/rezept-backansicht-zeitplanung.png)
+![A recipe's baking instructions with processing steps, duration, and calculated start](images/en/rezept-backansicht-zeitplanung.png)
 
-*The baking view puts each processing step's duration next to its calculated start.*
+*The baking instructions put each processing step's duration next to its calculated start.*
 
 ### From top to bottom
 
-1. **Image and name** — tap the image to enlarge it.
-2. **Serving size** (0.5 / 1.0 / 1.5 / 2.0) or **dough weight**, the **weight in grams** calculated from it, — if one is stored — the **Recipe link**, and **Share recipe**: the latter produces a PDF with the picture, the components and their ingredients, the total ingredients and the processing steps at the serving size currently chosen, and offers it in the share sheet — Messages, Mail, printing or "Save to Files". The same exists for your own recipes on the "Details" tab. Below it stands **"Dough yield 172 · hydration 72 %"**, the dough yield and hydration over all components; a tap opens the breakdown (see [chapter 15](#15-units-amounts-and-serving-sizes)).
-3. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
-4. **Components** — sorted by number, each with its ingredients at the chosen serving size.
-5. **Last time** (your own recipes only, once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
-6. **Control bar** — see below.
-7. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
-8. **Previous bakes** (your own recipes only) — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
-9. **Set reminders**.
+1. **Weight** — the total weight at the chosen serving size. Image, ingredients, components and the "Last time" card are on the recipe page behind the sheet (see [chapter 6](#6-my-recipes)).
+2. **Control bar** — see below.
+3. **Notes** on the plan — see "What the app objects to in a plan".
+4. **Processing steps** — a table of number (No.), description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
+5. **Set reminders**.
 
 ### The control bar
 
@@ -353,7 +360,7 @@ The texts "turn on the oven", "turn the oven down" and "baking is finished" appe
 
 ## 8. Creating a new recipe
 
-Through **Main menu → Create new recipe**. The form is laid out from top to bottom.
+Through **+** at the top right of the **Recipes** tab. The form is laid out from top to bottom.
 
 ![The form for creating a new recipe: import from images or from a web page, Publish switch, recipe image](images/en/neues-rezept.png)
 
@@ -471,7 +478,7 @@ Remember the rule from [chapter 3](#3-key-concepts): decimal steps run in parall
 
 ## 9. Editing a recipe
 
-Reachable through **My recipes → recipe → "Edit" tab**.
+Reachable through **Edit** at the top right of the page of one of your own recipes. The form opens as a sheet over the recipe; the **X** at the top left puts it away again.
 
 ### Automatic saving
 
@@ -489,13 +496,13 @@ For recipes you bake or set up at fixed intervals — the starter above all — 
 
 So that a date two weeks away doesn't clutter the lists, "Scheduled steps", the timeline, the "Up next" card, the widget, the Live Activity and Bake Mode hold automatically planned steps back **until two days before they are due**. The reminders themselves still come on time. Steps you planned by hand are not affected.
 
-When the next refresh is due, the **Details** and **Edit** tabs show at the top as the line **"Next feeding: Tomorrow 08:00"** ("Next bake: …" for breads) — meaning the start of the first step. While a plan is still running, the line already shows the date after it; before the first feeding it reads "after the first feeding" (for breads, before the first bake, "after the first bake"). For a starter the rhythm counts from the start of its last feeding.
+When the next refresh is due, the recipe page and the edit form show at the top as the line **"Next feeding: Tomorrow 08:00"** ("Next bake: …" for breads) — meaning the start of the first step. While a plan is still running, the line already shows the date after it; before the first feeding it reads "after the first feeding" (for breads, before the first bake, "after the first bake"). For a starter the rhythm counts from the start of its last feeding.
 
 **What makes a recipe a starter** is decided by its ingredients, not by the switch: they give a feeding ratio of starter (or sourdough, levain — the names are equivalent), flour and water, and nothing is baked. A recipe of nothing but those three is always a starter, even when a step mentions the oven ("let ripen in the switched-off oven with the light on", "keep cool until the next bake"). Only an oven temperature or a preheating step — or further ingredients such as salt — make it a bread. A tag such as "Starter", "Feeding" or "Refresh" settles it by hand when in doubt; a "Sourdough" tag is not enough, breads carry it too.
 
-Instead of "+ History", starter recipes get the tab **Feeding**: the **starter diary** — a starter is fed, not baked. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
+Instead of "Log a bake", starter recipes have the **Starter Diary** button — a starter is fed, not baked. At the top stands the feeding ratio "starter : flour : water", calculated from the recipe's ingredients and therefore not editable by hand. Below it you record, for every feeding, the **time to peak** in minutes, optionally the **float test**, and a note on smell and consistency. The previous feedings are listed underneath, newest first — so you can see whether your starter is getting faster or slower.
 
-When you plan a starter on the **Feed** tab (or its rhythm comes round), BakePlanner writes an entry into the starter diary at the start of the feeding — "planned" while it lies ahead — and none into the baking history. The last step reminds you: "Feeding finished – record the result in the starter diary". Tap the entry and fill in time to peak, float test and note under **Record result**. The rhythm counts from the start of the last feeding.
+When you plan a starter through **Plan** (or its rhythm comes round), BakePlanner writes an entry into the starter diary at the start of the feeding — "planned" while it lies ahead — and none into the baking history. The last step reminds you: "Feeding finished – record the result in the starter diary". Tap the entry and fill in time to peak, float test and note under **Record result**. The rhythm counts from the start of the last feeding.
 
 ### Changing components
 
@@ -525,7 +532,7 @@ If that copy is later deleted (by you or by moderation), the app notices the nex
 
 ## 10. Scheduled steps (list and timeline)
 
-**Main menu → Scheduled steps.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. You switch between two views at the bottom; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
+**Timeline tab.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. At the top you switch between two views with **Timeline / List**; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
 
 ![Scheduled steps as a list: each card shows the recipe image, start time, duration, and step text; the "Weizensauerteig" card carries an i symbol for the ingredients next to the clock symbol](images/en/geplante-schritte-liste.png)
 
@@ -548,7 +555,7 @@ The app recognises such a mixing step by the name of a recipe component occurrin
 
 The matching reminders move along automatically. If the new time would be in the past, the app refuses with "Unable to reschedule".
 
-**Ticking a step off as done** — through the **checkmark symbol** on the card, or by swiping the row to the **right** and tapping "Done". The step leaves the plan, its reminder is removed with it, and the "Up next" card in the main menu and the widget move on to the next step. It is the same action as "Done" in the notification, just right in the list.
+**Ticking a step off as done** — through the **checkmark symbol** on the card, or by swiping the row to the **right** and tapping "Done". The step leaves the plan, its reminder is removed with it, and the "Up next" bar on the Recipes tab and the widget move on to the next step. It is the same action as "Done" in the notification, just right in the list.
 
 **Deleting:**
 
@@ -565,7 +572,7 @@ In portrait, time runs top-down: the axis stands on the left, the plans are colu
 
 ![Scheduled steps as a project plan: time axis on the left, one plan per column, bars as long as the steps](images/en/geplante-schritte-timeline.png)
 
-*The tab at the bottom switches between list and timeline.*
+*The switch at the top changes between timeline and list.*
 
 With no steps scheduled, both views read: "No scheduled steps — Set a reminder in a recipe's baking instructions."
 
@@ -583,7 +590,7 @@ Bake mode opens on the step that is up right now and respects the list's recipe 
 
 ### The "Next baking step" widget
 
-You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" card in the main menu — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.
+You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" bar on the Recipes tab — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.
 
 - **Small**: step text, day and time, countdown.
 - **Medium**: additionally the recipe name.
@@ -650,7 +657,7 @@ The same commands are listed in the **Shortcuts** app under BakePlanner and can 
 
 ### Baking history
 
-**Main menu → Baking history.** Every bake in four views, switched with the symbols under the title; the choice is remembered. **List**: newest first, with date, recipe name, comment and photos. **Gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. **Top list** and **photo cloud** sum the history up per recipe (see below). Search, tags and the rating filter apply in all four. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
+**Baking history tab.** Every bake in four views, switched with the symbols under the title; the choice is remembered. **List**: newest first, with date, recipe name, comment and photos. **Gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. **Top list** and **photo cloud** sum the history up per recipe (see below). Search, tags and the rating filter apply in all four. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
 - **Tap an entry** (row or tile) → baking notes: edit the comment, fill in **Measurements and result** (see below) and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
@@ -671,13 +678,13 @@ Free text and stars alone are not enough to do better next time. Every entry the
 
 The number fields have no Return key; **Done** appears next to the field being edited to close the keyboard.
 
-The baking view shows these details as the **Last time** card when the same recipe is planned next (see [chapter 7](#7-baking-instructions-and-reminders)).
+The recipe page shows these details as the **Last time** card (see [chapter 7](#7-baking-instructions-and-reminders)).
 
 ### Recording a bake after the fact
 
-**My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, fill in measurements and result, add photos from the library, **Save**.
+**Recipe → Log a bake.** Choose the baking date (up to 10 years back), write a comment, fill in measurements and result, add photos from the library, **Save**.
 
-An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it.
+An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card on the recipe page reminds you to complete it. If you replace or delete the plan before baking, this entry disappears again — unless you have already added a comment, a photo or a measurement. The same applies to the feeding that planning a starter writes into its diary.
 
 ### Top list and photo cloud
 
@@ -697,7 +704,7 @@ An entry is also created automatically when you set reminders in the baking inst
 
 If there is no list yet, the empty screen under "Shopping list" explains the way and leads straight to the recipes with **Open my recipes**.
 
-**Recipe → "Shopping list" tab** — for your own recipes and for public ones alike.
+**Recipe → Shopping list** — for your own recipes and for public ones alike; the sheet opens over the recipe.
 
 1. **Serving size.** At the top sits the same serving-size control as under Details and Bake, with the total weight. The ingredients go on the list **at this factor or dough weight**; at ×2, the doubled amounts. The footer names the factor.
 2. **New list**: choose a date, **Create**. If a list already exists for that date, the ingredients are added to it.
@@ -721,7 +728,7 @@ The app filters deliberately, in every language:
 
 ### Viewing shopping lists
 
-**Main menu → Shopping list.** Each list shows its date, the recipes it contains, and below them the ingredients with amount and unit — **grouped by shelf**, in the order of a walk through the shop: flour & grains, dairy & eggs, baking supplies, nuts, seeds & dried fruit, fruit & vegetables, spices & herbs, oils, fats & liquids, other. The app reads the shelf off the ingredient's name, so older lists are grouped too.
+**Shopping lists tab.** Each list shows its date, the recipes it contains, and below them the ingredients with amount and unit — **grouped by shelf**, in the order of a walk through the shop: flour & grains, dairy & eggs, baking supplies, nuts, seeds & dried fruit, fruit & vegetables, spices & herbs, oils, fats & liquids, other. The app reads the shelf off the ingredient's name, so older lists are grouped too.
 
 Tapping an ingredient opens **Change amount**: amount, unit and fraction then apply to this list, the recipe stays unchanged; the ingredient can be removed there as well. The bin symbol next to the row removes it directly. **Delete** removes the whole list after a confirmation.
 
@@ -729,7 +736,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 ## 14. Settings
 
-**Main menu → Settings.**
+**Recipes tab → More (⋯) → Settings.**
 
 ![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
 
@@ -761,7 +768,9 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 | **Back up all my recipes** | Writes every recipe on the device, images, **baking history** (its photos scaled down to screen size) and **starter diary** included, into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
 | **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history and starter diary from the file; existing ones are never overwritten. A backup with baking history or starter diary needs this version of the app; older ones report that the file comes from a newer version. |
 
-A single recipe is exported on the **Details** tab via **Export recipe** (next to "Share recipe") — without its baking history and starter diary, which are yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
+A single recipe is exported on its page via **Export recipe** (next to "Share recipe") — without its baking history and starter diary, which are yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
+
+**Several recipes at once:** **Recipes → More (⋯) → Export recipes** lists your own recipes to tick, with **Select all** at the top right. **Export** writes the selection to one file; the switch **With baking history and starter diary** takes your entries along if you wish — for moving part of your recipes to another device, say. Like the export of a single recipe, this is a Pro feature.
 
 ### Translation
 
@@ -780,7 +789,7 @@ A single recipe is exported on the **Details** tab via **Export recipe** (next t
 | **End of day** | Between start of day and 23. Default: 23. |
 | **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
 
-> **Note:** Only **Preheat time** actually moves steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking view when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
+> **Note:** Only **Preheat time** actually moves steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking instructions when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
 
 ### Privacy & AI
 
@@ -798,7 +807,7 @@ The **AI privacy** page explains which data a cloud analysis transmits, to whom,
 This is where you sign in with Apple. Signing in is **voluntary** and serves two purposes:
 
 - **Author identity.** Without signing in, your published recipes belong to the anonymous identifier of this installation — it's lost with the app and differs on a second device. Signed in, they belong to your Apple Account: you can edit and delete them on every device you're signed in on, and after a reinstall.
-- **Moderation rights.** If your identifier has been enabled for it, the label **Administrator** appears as well, and public recipes can be deleted — through the ⋯ menu, the Details tab, or a swipe in the recipe database.
+- **Moderation rights.** If your identifier has been enabled for it, the label **Administrator** appears as well, and public recipes can be deleted — through the ⋯ menu, the recipe page, or a swipe in the recipe database.
 
 **Neither your name nor your email address is requested** — the app only needs the identifier itself. If your use has been anonymous so far, it carries over when you sign in: recipes already published from this device still belong to you afterwards.
 
@@ -848,7 +857,7 @@ Every recipe screen scales the amounts in two ways:
 - **Serving size** — the factor 0.5 / 1.0 / 1.5 / 2.0 as before; 1.0 is the recipe as stored.
 - **Dough weight** — next to it sits a field showing the current total weight as a placeholder. Type a target weight in grams, say 2000, and the app scales every ingredient to that dough weight; the serving-size picker then shows no selection. Tapping a factor clears the field again.
 
-Scaled amounts are rounded the way you weigh them: whole grams from 10 g upwards, one decimal below that ("2.7 g yeast"). Fractions such as "1/2 cube" stay fractions at the factors 0.5 to 2.0 ("3/4 cube") and become decimals at a free dough weight ("0.7 cube"). Serving size and dough weight apply to **every tab of the recipe** — Details, Bake and Shopping list —, to the ingredients in the reminders you set afterwards, and to the "Replace flour" and "Adjust starter TA" sheets when you open them from the recipe.
+Scaled amounts are rounded the way you weigh them: whole grams from 10 g upwards, one decimal below that ("2.7 g yeast"). Fractions such as "1/2 cube" stay fractions at the factors 0.5 to 2.0 ("3/4 cube") and become decimals at a free dough weight ("0.7 cube"). Serving size and dough weight apply to **the whole recipe** — recipe page, baking instructions and shopping list —, to the ingredients in the reminders you set afterwards, and to the "Replace flour" and "Adjust starter TA" sheets when you open them from the recipe.
 
 ### Baker's percentages
 
@@ -856,7 +865,7 @@ Under *Settings → Recipes → Show baker's percentages* the component view add
 
 ### Dough yield and hydration
 
-On the **Details** tab, below the weight, stands the line **"Dough yield 172 · hydration 72 %"**: the dough yield (TA, the German Teigausbeute: flour plus water per 100 g of flour) and the hydration (water per flour) over **all components** of the recipe. A tap opens the breakdown with flour and water in grams, each component's own figure, the starter shares and the ingredients that were not counted.
+On the recipe page, below the weight, stands the line **"Dough yield 172 · hydration 72 %"**: the dough yield (TA, the German Teigausbeute: flour plus water per 100 g of flour) and the hydration (water per flour) over **all components** of the recipe. A tap opens the breakdown with flour and water in grams, each component's own figure, the starter shares and the ingredients that were not counted.
 
 The baker's convention applies:
 
@@ -872,8 +881,8 @@ The line is absent for recipes without recognised flour. The image import compar
 
 No wheat flour 1050 in the house, but spelt flour 630? Flours are swapped **1:1 by weight**; what changes is the water, because every flour absorbs differently. Two ways:
 
-- **In the recipe:** on the **Details** tab, flour lines can be tapped (arrow symbol behind them). The **Replace flour** sheet shows the recognised flour, lets you pick the replacement by grain and type, and works it out: the component's water change ("+20 g" or "−20 g"), dough yield and hydration before and after. If the component has no water, the app takes its poured liquid (milk, beer); if it has none, it says so. **Create copy with substitution** writes the swap into a new recipe of your own with today's date in its name ("… – Dinkelmehl 630 (14 Oct 2026)") and opens it; the original stays unchanged. In that copy the button reads **Apply change**: a second flour or a starter adjustment changes the copy itself, the addition in the name is extended ("… – Dinkelmehl 630, TA 210 (…)"), and no further copy is created.
-- **As a calculator:** **Main menu → Replace flour** for a free amount — amount, flour in the recipe, replacement flour.
+- **In the recipe:** on the recipe page, flour lines can be tapped (arrow symbol behind them). The **Replace flour** sheet shows the recognised flour, lets you pick the replacement by grain and type, and works it out: the component's water change ("+20 g" or "−20 g"), dough yield and hydration before and after. If the component has no water, the app takes its poured liquid (milk, beer); if it has none, it says so. **Create copy with substitution** writes the swap into a new recipe of your own with today's date in its name ("… – Dinkelmehl 630 (14 Oct 2026)") and opens it; the original stays unchanged. In that copy the button reads **Apply change**: a second flour or a starter adjustment changes the copy itself, the addition in the name is extended ("… – Dinkelmehl 630, TA 210 (…)"), and no further copy is created.
+- **As a calculator:** **Recipes → More (⋯) → Replace flour** for a free amount — amount, flour in the recipe, replacement flour.
 
 Handling advice comes with it: knead spelt less and consider a soaker or cooked soaker, acidify rye, bake emmer and einkorn in a tin, let wholegrain soak, work extra water in gradually. The water figures are rules of thumb relative to wheat 550 (spelt 630 −4 %, wholewheat +10 %, rye 1150 +12 % …) — flours vary with the mill and the harvest, the dough has the final say.
 
@@ -881,14 +890,14 @@ Handling advice comes with it: knead spelt less and consider a soaker or cooked 
 
 If a recipe asks for "100 g starter TA 150" but you keep yours at TA 210, the sums no longer add up: your softer starter brings less flour and more water. The app evens that out so that **the flour from the starter stays the same**: amount of starter = recipe amount × TA on hand ÷ TA in the recipe, here 140 g instead of 100 g, and the extra 40 g of water come off the water of the same component. Dough yield and total weight of the dough stay as the recipe meant them; with a firmer starter it works the other way round.
 
-- **In the recipe:** on the **Details** tab, lines with sourdough starter, sourdough or lievito madre can be tapped (drop symbol). The **Adjust starter TA** sheet shows the recognised TA — from the ingredient name or, when none is given there, from Settings, which the sheet points out. Below it you choose the TA on hand: your **starter TAs** from Settings as quick picks, next to them a stepper for any other value. The result names starter before → after, the water change, dough yield and hydration. **Create copy with adjustment** writes everything into a new recipe of your own with the date in its name and opens it – in a copy that is already adjusted the button reads **Apply change** and changes the copy itself; the new TA then stands in the ingredient name ("Anstellgut TA 210") so the dough yield keeps reading it correctly.
-- **As a calculator:** **Main menu → Starter TA** for a free amount — amount, TA in the recipe, TA on hand.
+- **In the recipe:** on the recipe page, lines with sourdough starter, sourdough or lievito madre can be tapped (drop symbol). The **Adjust starter TA** sheet shows the recognised TA — from the ingredient name or, when none is given there, from Settings, which the sheet points out. Below it you choose the TA on hand: your **starter TAs** from Settings as quick picks, next to them a stepper for any other value. The result names starter before → after, the water change, dough yield and hydration. **Create copy with adjustment** writes everything into a new recipe of your own with the date in its name and opens it – in a copy that is already adjusted the button reads **Apply change** and changes the copy itself; the new TA then stands in the ingredient name ("Anstellgut TA 210") so the dough yield keeps reading it correctly.
+- **As a calculator:** **Recipes → More (⋯) → Starter TA** for a free amount — amount, TA in the recipe, TA on hand.
 
 The adjustment is not offered for lines that stand for a component of the recipe ("200 g sourdough" with a component called sourdough): its TA follows from the component itself. Poolish and biga have their TA by definition. If the component's water does not suffice, the app does not go below zero and names the missing grams. Advice comes with it: a softer starter ferments faster and milder, a firmer one slower and stronger; with a big jump in TA, convert the starter over one or two feedings first.
 
 ### Dough temperature
 
-**Main menu → Dough temperature** works out, by the baker's formula, how warm the **mixing water** has to be for the dough to reach the desired temperature after kneading. You enter the dough's **target temperature**, the **room temperature**, the flour temperature (usually the room's) and, for recipes with a sourdough or preferment, its temperature. The **friction heat** is the warmth the dough picks up from kneading on top: compare the dough temperature you measure after kneading with the target and adjust the value — calibrated once, it holds for every recipe and is remembered. If the sum calls for water that would be too cold or too hot, the calculator says so.
+**Recipes → More (⋯) → Dough temperature** works out, by the baker's formula, how warm the **mixing water** has to be for the dough to reach the desired temperature after kneading. You enter the dough's **target temperature**, the **room temperature**, the flour temperature (usually the room's) and, for recipes with a sourdough or preferment, its temperature. The **friction heat** is the warmth the dough picks up from kneading on top: compare the dough temperature you measure after kneading with the target and adjust the value — calibrated once, it holds for every recipe and is remembered. If the sum calls for water that would be too cold or too hot, the calculator says so.
 
 ### Available units
 
@@ -1031,13 +1040,13 @@ On the second tap the app asks whether the new plan should replace the existing 
 Set the reminders for the first date, then set the second one and tap "Set reminders" again: the app asks whether the new plan should replace the existing one or be **added** beside it (see [chapter 7](#7-baking-instructions-and-reminders)).
 
 **The total weight is wrong.**
-Usually it's a unit the app doesn't know — the unit field then shows a **warning triangle** — or an ingredient without a unit. Check the ingredients in the "Edit" tab and choose the unit from the menu. If it isn't there, create it under *Settings → Recipes → Custom units* (see [chapter 15](#15-units-amounts-and-serving-sizes)).
+Usually it's a unit the app doesn't know — the unit field then shows a **warning triangle** — or an ingredient without a unit. Check the ingredients under "Edit" and choose the unit from the menu. If it isn't there, create it under *Settings → Recipes → Custom units* (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 
 **An ingredient is missing from the shopping list.**
 Water, salt and everything you make yourself (sourdough starter, sourdough, poolish, biga) are left out deliberately — in every language —, as are ingredients without a unit or without an amount. See [chapter 13](#13-shopping-list).
 
 **The amounts on the shopping list don't match the recipe.**
-The list takes over the serving size or dough weight set in the recipe — the "Shopping list" tab shows the factor at the top. Change it there before you put the ingredients on the list.
+The list takes over the serving size or dough weight set in the recipe — the "Shopping list" sheet shows the factor at the top. Change it there before you put the ingredients on the list.
 
 **A technical term is translated wrongly.**
 Baker's terms such as Brühstück or Anstellgut are translated by a glossary in the app (see [chapter 5](#5-recipe-database)). If you still come across a wrong translation, open the recipe once more: an older translation without the glossary's word is created anew. If the mistake remains, report the word — it then goes into the glossary.

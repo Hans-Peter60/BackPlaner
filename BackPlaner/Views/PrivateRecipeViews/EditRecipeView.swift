@@ -118,14 +118,14 @@ struct EditRecipeView: View {
     /// Step, text and duration of a new instruction, with the button that adds it.
     private var instructionEntryGrid: some View {
         LazyVGrid(columns: instructionGridLayout, spacing: 6) {
-            Text("Schritt").bold()
+            Text("Nr.").bold()
             Text("Beschreibung").bold()
             Text("Dauer").bold()
             Text(verbatim: " ").bold()
 
             NumberField("", value: $step)
                 .textFieldStyle(.roundedBorder)
-                .accessibilityLabel("Schritt")
+                .accessibilityLabel("Nummer")
             TextField(namePlaceholder, text: $instruction)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityLabel("Beschreibung")

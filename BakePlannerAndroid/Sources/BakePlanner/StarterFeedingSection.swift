@@ -25,18 +25,17 @@ struct StarterFeedingSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Anstellgut-Tagebuch")
-                .font(.title3)
-                .bold()
+                .font(AppFont.bold(.title3))
                 .foregroundStyle(Palette.accent(colorScheme))
 
             if let ratio {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Fütterungsverhältnis")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                     Text("Anstellgut \(ratio.starter) : Mehl \(ratio.flour) : Wasser \(ratio.water)")
                     Text("Aus dem Rezept übernommen — hier nicht änderbar.")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -51,7 +50,7 @@ struct StarterFeedingSection: View {
 
             if !feedings.isEmpty {
                 Text("Bisherige Fütterungen")
-                    .font(.headline)
+                    .font(AppFont.headline)
                 ForEach(feedings, id: \.id) { feeding in
                     HStack(alignment: .top) {
                         Button {
@@ -128,7 +127,7 @@ struct StarterFeedingRow: View {
                     .bold()
                 if feeding.date > Date() {
                     Text("geplant")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -140,7 +139,7 @@ struct StarterFeedingRow: View {
                     Text(passed ? LocalizedStringKey("Schwimmt") : LocalizedStringKey("Schwimmt nicht"))
                 }
             }
-            .font(.caption)
+            .font(AppFont.caption)
             .foregroundStyle(.secondary)
             if !feeding.facts.note.isEmpty {
                 Text(verbatim: feeding.facts.note)

@@ -109,7 +109,7 @@ struct EditInstructionView: View {
                 Section {
                     LazyVGrid(columns: gridItemLayoutInstructions, spacing: 6) {
                         
-                        Text("Schritt").bold()
+                        Text("Nr.").bold()
                         Text("Beschreibung").bold()
                         Text("Dauer").bold()
                         
@@ -117,7 +117,7 @@ struct EditInstructionView: View {
                             NumberField("", value: $step)
                                 .textFieldStyle(.roundedBorder)
                                 .padding(.bottom, 150)
-                                .accessibilityLabel("Schritt")
+                                .accessibilityLabel("Nummer")
                             
                             Spacer()
                         }

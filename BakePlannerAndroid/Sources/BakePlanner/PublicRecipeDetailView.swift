@@ -24,13 +24,34 @@ struct PublicRecipeDetailView: View {
     @State var savedCopy = false
     @State var showsSaveOutcome = false
     @State var choosesReportReason = false
+    /// The tapped flour or starter line, on the own copy the adjustment
+    /// would be written into. Kept apart from the sheets' visibility.
+    @State var lineRequest: IngredientLineRequest?
+    @State var substitutesFlour = false
+    @State var adjustsStarter = false
+    /// The adjusted copy to open once its sheet has gone.
+    @State var keptRecipeID: String?
+    @State var opensKeptRecipe = false
+    /// Editing and removing, for the author and for admins. Kept apart
+    /// from the dialogs' visibility, as the dialogs' data is.
+    @State var edits = false
+    @State var confirmsOwnDeletion = false
+    @State var confirmsAdminDeletion = false
+    @State var isWorking = false
+    @State var actionFailure: String?
+    @State var showsActionFailure = false
+    @State var sharingFailed = false
     @Environment(\.colorScheme) var colorScheme
+
+    private var isOwn: Bool { model.isOwn(recipe) }
+    /// An admin may change any recipe, as the rules allow; the author his own.
+    private var canEdit: Bool { isOwn || model.account.isAdmin }
+    private var canDeleteAsAdmin: Bool { model.account.isAdmin && !isOwn }
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if let content {
@@ -39,7 +60,7 @@ struct PublicRecipeDetailView: View {
                 VStack(spacing: 12) {
                     Text("Das Rezept konnte nicht geladen werden.")
                     Text(verbatim: loadError)
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
                 .padding()
             } else {
@@ -50,6 +71,17 @@ struct PublicRecipeDetailView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
+                    if let content {
+                        Button("Rezept teilen") {
+                            sharingFailed = !RecipePDFSharing.share(
+                                RecipePrintData(data: content, scale: scale, bakersPercentages: model.showsBakersPercentages))
+                        }
+                    }
+                    if canEdit, content != nil {
+                        Button("Rezept bearbeiten") {
+                            edits = true
+                        }
+                    }
                     Button("Rezept melden", role: .destructive) {
                         choosesReportReason = true
                     }
@@ -57,10 +89,64 @@ struct PublicRecipeDetailView: View {
                         model.blockAuthor(of: recipe)
                         dismiss()
                     }
+                    if isOwn {
+                        Button("Mein Rezept löschen", role: .destructive) {
+                            confirmsOwnDeletion = true
+                        }
+                    }
+                    if canDeleteAsAdmin {
+                        Button("Rezept löschen (Admin)", role: .destructive) {
+                            confirmsAdminDeletion = true
+                        }
+                    }
                 } label: {
                     Label("Weitere Aktionen", systemImage: "ellipsis")
                 }
+                .disabled(isWorking)
             }
+        }
+        .appSheet(isPresented: $edits) {
+            if let content {
+                NavigationStack {
+                    // The same editor as for an own recipe, on the public
+                    // recipe's content; saving goes to the database.
+                    RecipeEditor(original: nil, template: content, editsPublished: true) { _, edited in
+                        Task { await saveEdits(edited) }
+                    }
+                }
+            }
+        }
+        // Not the iPhone's "Mein Rezept löschen?": Xcode would give it the same
+        // catalog symbol as the menu entry and refuse the build.
+        .confirmationDialog("Mein Rezept endgültig löschen?", isPresented: $confirmsOwnDeletion, titleVisibility: .visible) {
+            Button("Löschen", role: .destructive) {
+                Task { await deleteRecipe() }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+        }
+        .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $confirmsAdminDeletion, titleVisibility: .visible) {
+            Button("Löschen", role: .destructive) {
+                Task { await deleteRecipe() }
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: {
+            Text("Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt.")
+        }
+        .alert("Teilen fehlgeschlagen", isPresented: $sharingFailed) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        }
+        .alert("Aktion fehlgeschlagen", isPresented: $showsActionFailure) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text(verbatim: actionFailure ?? "")
         }
         .confirmationDialog("Rezept melden", isPresented: $choosesReportReason, titleVisibility: .visible) {
             ForEach(RecipeFirestoreMapping.reportReasons, id: \.self) { reason in
@@ -91,6 +177,24 @@ struct PublicRecipeDetailView: View {
                 }
             }
         }
+        .appSheet(isPresented: $substitutesFlour) {
+            if let lineRequest {
+                NavigationStack {
+                    FlourSubstitutionSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        .appSheet(isPresented: $adjustsStarter) {
+            if let lineRequest {
+                NavigationStack {
+                    StarterYieldSheet(model: model, request: lineRequest, onKept: showKept)
+                }
+            }
+        }
+        // The adjusted own copy opens as the next page, as on the iPhone.
+        .navigationDestination(isPresented: $opensKeptRecipe) {
+            RecipeDetailView(model: model, recipeID: keptRecipeID ?? "")
+        }
         .alert(savedCopy ? LocalizedStringKey("Rezept wurde gespeichert") : LocalizedStringKey("Speichern fehlgeschlagen"),
                isPresented: $showsSaveOutcome) {
             Button {
@@ -112,38 +216,85 @@ struct PublicRecipeDetailView: View {
         }
     }
 
+    /// Writes the edit to the database and shows the recipe as edited.
+    private func saveEdits(_ edited: RecipeExportData) async {
+        isWorking = true
+        defer { isWorking = false }
+        if let failure = await model.saveEdits(of: recipe, content: edited) {
+            actionFailure = failure
+            showsActionFailure = true
+            return
+        }
+        content = RecipeExportData(recipeFB: recipe, imageData: model.publicRecipeImages[recipe.id ?? ""])
+    }
+
+    private func deleteRecipe() async {
+        isWorking = true
+        defer { isWorking = false }
+        if let failure = await model.deletePublic(recipe) {
+            actionFailure = failure
+            showsActionFailure = true
+            return
+        }
+        dismiss()
+    }
+
+    private func release() async {
+        isWorking = true
+        defer { isWorking = false }
+        if let failure = await model.release(recipe) {
+            actionFailure = failure
+            showsActionFailure = true
+        }
+    }
+
     private func page(of content: RecipeExportData) -> some View {
-        let page = RecipePrintData(data: content, scale: scale)
+        let page = RecipePrintData(data: content, scale: scale, bakersPercentages: model.showsBakersPercentages)
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 RecipePicture(data: content.image)
 
                 // Skip has no globe symbol; the word says it.
-                Text("Öffentlich")
-                    .font(.caption)
+                Text(isOwn ? LocalizedStringKey("Von mir veröffentlicht") : LocalizedStringKey("Öffentlich"))
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
 
-                if !page.summary.isEmpty {
-                    Text(verbatim: page.summary)
+                if isWorking {
+                    ProgressView()
                 }
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Stepper(value: $scale, in: 0.5...10, step: 0.5) {
-                        HStack {
-                            Text("Menge")
-                            Text(verbatim: "× " + RecipeDetailView.factorText(scale))
-                                .bold()
-                        }
+                // An admin reviews a reported recipe here and can release it.
+                if model.account.isAdmin, recipe.hidden {
+                    Text("Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.")
+                        .font(AppFont.footnote)
+                        .foregroundStyle(Color.red)
+                    Button("Rezept wieder freigeben") {
+                        Task { await release() }
                     }
-                    Text("Gesamtgewicht: \(String(page.totalWeight)) g")
-                    if !page.prepTime.isEmpty {
-                        Text("Bearbeitungsdauer: \(page.prepTime)")
-                    }
-                    if let yield = RecipeDetailView.yieldText(of: content) {
-                        Text(yield)
-                    }
+                    .buttonStyle(.bordered)
+                    .disabled(isWorking)
                 }
-                .font(.subheadline)
+
+                // Description, amount and the facts on one card, as the
+                // iPhone's Details tab has them.
+                VStack(alignment: .leading, spacing: 10) {
+                    if !page.summary.isEmpty {
+                        Text(verbatim: page.summary)
+                            .font(AppFont.body)
+                    }
+                    RecipeLinkRow(urlLink: content.urlLink)
+                    VStack(alignment: .leading, spacing: 6) {
+                        AmountControl(scale: $scale, baseWeight: content.totalWeight)
+                        Text("Gesamtgewicht: \(String(page.totalWeight)) g")
+                        if !page.prepTime.isEmpty {
+                            Text("Bearbeitungsdauer: \(page.prepTime)")
+                        }
+                        DoughYieldRow(content: content)
+                    }
+                    .font(AppFont.subheadline)
+                }
+                .foregroundStyle(Palette.cardTitle(colorScheme))
+                .cardStyle()
 
                 // At the amount chosen above, as on the iPhone.
                 Button {
@@ -175,9 +326,34 @@ struct PublicRecipeDetailView: View {
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))
 
-                RecipeLineSections(page: page)
+                // Flour and starter lines are tappable as on an own recipe;
+                // the adjustment is written into a new own copy, built as
+                // "Als eigenes Rezept speichern" would build it.
+                RecipeLineSections(page: page, content: content, onFlourTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: copyToAdjust(), componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    substitutesFlour = true
+                }, onStarterTap: { component, ingredient in
+                    lineRequest = IngredientLineRequest(recipe: copyToAdjust(), componentIndex: component,
+                                                        ingredientIndex: ingredient, scale: scale)
+                    adjustsStarter = true
+                })
             }
             .padding()
+        }
+    }
+
+    /// The own copy an adjustment starts from: not stored yet (empty key,
+    /// no adjustment date), so the sheet offers "Kopie anlegen".
+    private func copyToAdjust() -> StoredRecipe {
+        StoredRecipe(id: "", content: PublicRecipeCopy.content(of: recipe, imageData: model.publicRecipeImages[recipe.id ?? ""]))
+    }
+
+    private func showKept(_ kept: StoredRecipe) {
+        keptRecipeID = kept.id
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            opensKeptRecipe = true
         }
     }
 }

@@ -2,13 +2,13 @@
 //  NextStepCardView.swift
 //  BackPlaner
 //
-//  The "Als Nächstes" bar at the bottom of the main menu: the one planned
+//  The "Als Nächstes" bar at the bottom of the recipe list: the one planned
 //  step that matters right now, with a live countdown, one tap away from the
 //  full plan. Whoever is in the middle of a bake sees the essential thing
-//  first; without a plan the bar stays away and the menu looks as before.
+//  first; without a plan the bar stays away and the list looks as before.
 //
 //  Rendered in Liquid Glass rather than as a white card: it floats over the
-//  scrolling menu and the bakery photo, which is what the glass is for.
+//  scrolling list and the bakery photo, which is what the glass is for.
 //
 
 import BakePlannerCore
@@ -16,6 +16,9 @@ import SwiftUI
 import CoreData
 
 struct NextStepCardView: View {
+
+    /// What a tap does: the root switches to the planned steps.
+    let onOpen: () -> Void
 
     /// Every planned step, earliest first. Fetched here rather than handed in
     /// so the card keeps itself current when steps are added, shifted, marked
@@ -32,9 +35,7 @@ struct NextStepCardView: View {
         // time merely passes, but which step is "next" does.
         TimelineView(.periodic(from: .now, by: 60)) { context in
             if let step = nextStep(at: context.date) {
-                NavigationLink {
-                    ScheduledTasksTabsView()
-                } label: {
+                Button(action: onOpen) {
                     card(for: step, now: context.date)
                 }
                 .buttonStyle(.plain)

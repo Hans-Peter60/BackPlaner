@@ -104,7 +104,7 @@ struct RecipeListView: View {
                             // AllRecipesListView: the List's disclosure indicator
                             // would sit outside the white card.
                             ZStack {
-                                NavigationLink(destination: TabsView(recipe: r)) { EmptyView() }
+                                NavigationLink(destination: RecipePageView(recipe: r)) { EmptyView() }
                                     .opacity(0)
                                     .accessibilityHidden(true)
 

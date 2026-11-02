@@ -3,9 +3,9 @@ import Foundation
 #if os(Android)
 import SkipFirebaseCore
 import SkipFirebaseAuth
-import SkipFirebaseAppCheck
 @preconcurrency import SkipFirebaseFirestore
 @preconcurrency import SkipFirebaseStorage
+@preconcurrency import SkipFirebaseFunctions
 #endif
 
 /// The public recipes in Firebase, shared with the iPhone: the same project,
@@ -14,19 +14,78 @@ import SkipFirebaseAppCheck
 enum PublicRecipeService {
 
     enum ServiceError: Error {
+        /// Publishing needs an account of one's own (decided for Android: a
+        /// recipe must never hang on an anonymous account).
+        case notSignedIn
         /// The Apple build of the Android app has no Firebase.
         case unavailable
+        /// The cloud function answered with something that is no recipe.
+        case invalidResponse
+    }
+
+    /// Has the cloud AI read the text of a recipe page (Cloud Function
+    /// analyzeRecipeText, as the iPhone calls it). The page was loaded on
+    /// the device; only its text and address are sent. Without Pro the
+    /// function's monthly allowance applies.
+    @MainActor
+    static func analyzeRecipeText(_ text: String, sourceURL: URL) async throws -> CloudRecipeAnalysis {
+        #if os(Android)
+        try await signInIfNeeded()
+        let callable = Functions.functions(region: "europe-west1").httpsCallable("analyzeRecipeText")
+        callable.timeoutInterval = 250
+        let address = sourceURL.absoluteString
+        let payload: [String: Any] = ["text": text, "sourceURL": address]
+        let result = try await callable.call(payload)
+        guard let analysis = CloudRecipeAnalysis(response: result.data) else {
+            throw ServiceError.invalidResponse
+        }
+        return analysis
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Has the cloud AI read photographed recipe pages (Cloud Function
+    /// analyzeRecipeImages, as the iPhone calls it): up to ten JPEGs, each
+    /// no larger than 3 MB (PhotoShrinker.analysisPhoto), sent as Base64.
+    /// Without Pro the function's monthly allowance applies.
+    @MainActor
+    static func analyzeRecipeImages(_ photos: [Data]) async throws -> CloudRecipeAnalysis {
+        #if os(Android)
+        try await signInIfNeeded()
+        let callable = Functions.functions(region: "europe-west1").httpsCallable("analyzeRecipeImages")
+        callable.timeoutInterval = 250
+        let result = try await callable.call(Self.imagesPayload(photos))
+        guard let analysis = CloudRecipeAnalysis(response: result.data) else {
+            throw ServiceError.invalidResponse
+        }
+        return analysis
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// The function's payload: `images`, each with Base64 data and MIME
+    /// type. Built off the main actor and handed over as `sending`, because
+    /// the strict concurrency check would not let a `[String: Any]` made on
+    /// the main actor go to the SDK's call.
+    nonisolated private static func imagesPayload(_ photos: [Data]) -> sending [String: Any] {
+        let images: [[String: Any]] = photos.map { photo in
+            ["data": photo.base64EncodedString(), "mimeType": "image/jpeg"]
+        }
+        return ["images": images]
     }
 
     /// Sets Firebase up from google-services.json, with App Check before any
     /// request: Firestore refuses requests without it. The debug provider
     /// prints a token to the log on the first start ("Enter this debug
     /// secret into the allow list …"), which is registered once in the
-    /// Firebase console; Play Integrity follows with the Play Store release.
+    /// Firebase console; the store build uses Play Integrity. Which one is
+    /// decided in Kotlin (AndroidAppMain.installAppCheck in Main.kt), where
+    /// the build type is known.
     static func configure() {
         #if os(Android)
         FirebaseApp.configure()
-        AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
         #endif
     }
 
@@ -35,12 +94,13 @@ enum PublicRecipeService {
     /// first, as the iPhone does. The rules hand out only recipes that are
     /// not reported, and a query has to ask for exactly these.
     @MainActor
-    static func recipes() async throws -> [RecipeFB] {
+    static func recipes(includingHidden: Bool = false) async throws -> [RecipeFB] {
         #if os(Android)
         try await signInIfNeeded()
-        let snapshot = try await Firestore.firestore()
-            .collection(RecipeFB.collectionName)
-            .whereField("hidden", isEqualTo: false)
+        let collection = Firestore.firestore().collection(RecipeFB.collectionName)
+        // An admin reviews the reported recipes too; the rules let only
+        // admins read them, so everyone else has to ask for the visible ones.
+        let snapshot = try await (includingHidden ? collection : collection.whereField("hidden", isEqualTo: false))
             .getDocuments()
         return snapshot.documents.map { document in
             let recipe = RecipeFirestoreMapping.recipe(id: document.documentID, data: document.data())
@@ -134,6 +194,192 @@ enum PublicRecipeService {
         throw ServiceError.unavailable
         #endif
     }
+
+    // MARK: Publishing
+
+    /// The uid behind the current session, anonymous or not; nil before
+    /// the first sign-in.
+    @MainActor
+    static var currentUID: String? {
+        #if os(Android)
+        Auth.auth().currentUser?.uid
+        #else
+        nil
+        #endif
+    }
+
+    /// Publishes an own recipe into the shared database, as the iPhone's
+    /// editor does (RecipeFBModel.uploadRecipeToFirestore): the picture
+    /// under the author's uid in Storage, the recipe document with
+    /// `hidden == false`, then components, ingredients and steps with their
+    /// start times. Only with an account of one's own. Returns the new
+    /// document's id, which the own recipe remembers.
+    @MainActor
+    static func publish(_ content: RecipeExportData, image: Data) async throws -> String {
+        #if os(Android)
+        guard let user = Auth.auth().currentUser, !user.isAnonymous else { throw ServiceError.notSignedIn }
+        let recipe = RecipeFirestoreMapping.recipeFB(from: content)
+        recipe.id = UUID().uuidString
+        recipe.image = user.uid + "/" + UUID().uuidString
+        let language = RecipeFB.preferredLanguageCode
+        recipe.sourceLanguage = language
+        recipe.storeLocalization(languageCode: language)
+
+        try await uploadImage(image, to: recipe.imageStoragePath)
+
+        let timed = Rational.calculateStartTimes(recipe.instructions, Date(),
+                                                 dependencies: Rational.ComponentDependency.from(recipe.components))
+        // One batch for the document and its children: all or nothing, and
+        // the batch takes the documents' data without crossing a thread
+        // (an async write per document would have to send each dictionary).
+        // The preparation time comes with the content (recalculated in the
+        // package); the package's running total is not read from here.
+        let firestore = Firestore.firestore()
+        let document = firestore.collection(RecipeFB.collectionName).document(recipe.id ?? "")
+        let batch = firestore.batch()
+        batch.setData(RecipeFirestoreMapping.newRecipeData(of: recipe, prepTime: content.prepTime, authorId: user.uid),
+                      forDocument: document)
+        addChildren(of: recipe, instructions: timed, under: document, to: batch)
+        try await batch.commit()
+        return recipe.id ?? ""
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Replaces a published recipe's content with an edit, as the iPhone
+    /// does (RecipeFBModel.saveEdits): a new picture first under the
+    /// caller's uid, then one batch that drops the old components,
+    /// ingredients and steps, updates the document (never `authorId` or
+    /// `hidden`, the rules refuse that) and writes the new children. The
+    /// old picture goes once the document names the new one. The cached
+    /// translations are dropped: they described the old recipe.
+    @MainActor
+    static func saveEdits(of recipe: RecipeFB, content: RecipeExportData, newImage: Data?) async throws {
+        #if os(Android)
+        guard let recipeID = recipe.id, !recipeID.isEmpty, let user = Auth.auth().currentUser else {
+            throw ServiceError.notSignedIn
+        }
+        let edited = RecipeFirestoreMapping.recipeFB(from: content)
+        edited.sourceLanguage = recipe.sourceLanguage
+        edited.resetTranslations(keeping: recipe.sourceLanguage.isEmpty ? RecipeFB.preferredLanguageCode : recipe.sourceLanguage)
+        let previousImage = recipe.image
+        if let newImage {
+            edited.image = user.uid + "/" + UUID().uuidString
+            try await uploadImage(newImage, to: edited.imageStoragePath)
+        } else {
+            edited.image = previousImage
+        }
+        edited.instructions = Rational.calculateStartTimes(edited.instructions, Date(),
+                                                           dependencies: Rational.ComponentDependency.from(edited.components))
+        edited.prepTime = content.prepTime
+
+        let firestore = Firestore.firestore()
+        let document = firestore.collection(RecipeFB.collectionName).document(recipeID)
+        do {
+            let batch = firestore.batch()
+            for child in try await childReferences(of: document) {
+                batch.deleteDocument(child)
+            }
+            batch.updateData(RecipeFirestoreMapping.editedRecipeData(of: edited), forDocument: document)
+            addChildren(of: edited, instructions: edited.instructions, under: document, to: batch)
+            try await batch.commit()
+        } catch {
+            // The document still names the old picture; the new one would
+            // be an orphan.
+            if newImage != nil {
+                try? await Storage.storage().reference().child(edited.imageStoragePath).delete()
+            }
+            throw error
+        }
+        if newImage != nil, !previousImage.isEmpty {
+            try? await Storage.storage().reference().child(recipe.imageStoragePath).delete()
+        }
+        recipe.adopt(edited)
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Removes a published recipe — its steps, components, ingredients,
+    /// picture and document. The rules allow it to the author and to
+    /// admins; anyone else gets an error.
+    @MainActor
+    static func delete(_ recipe: RecipeFB) async throws {
+        #if os(Android)
+        guard let recipeID = recipe.id, !recipeID.isEmpty else { return }
+        try await signInIfNeeded()
+        let document = Firestore.firestore().collection(RecipeFB.collectionName).document(recipeID)
+        for child in try await childReferences(of: document) {
+            try await child.delete()
+        }
+        if !recipe.image.isEmpty {
+            try? await Storage.storage().reference().child(recipe.imageStoragePath).delete()
+        }
+        try await document.delete()
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    /// Hides or releases a reported recipe; the rules allow releasing to
+    /// admins only.
+    @MainActor
+    static func setHidden(_ recipe: RecipeFB, hidden: Bool) async throws {
+        #if os(Android)
+        guard let recipeID = recipe.id, !recipeID.isEmpty else { return }
+        try await signInIfNeeded()
+        try await Firestore.firestore().collection(RecipeFB.collectionName).document(recipeID)
+            .updateData(["hidden": hidden])
+        recipe.hidden = hidden
+        #else
+        throw ServiceError.unavailable
+        #endif
+    }
+
+    #if os(Android)
+    @MainActor
+    private static func uploadImage(_ data: Data, to path: String) async throws {
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        _ = try await Storage.storage().reference().child(path).putDataAsync(data, metadata: metadata)
+    }
+
+    /// Adds the components with their ingredients and the steps as new
+    /// documents under a recipe document to a batch.
+    @MainActor
+    private static func addChildren(of recipe: RecipeFB, instructions: [InstructionFB],
+                                    under document: DocumentReference, to batch: WriteBatch) {
+        for component in recipe.components {
+            let componentDocument = document.collection(RecipeFirestoreMapping.componentsCollection).document()
+            batch.setData(RecipeFirestoreMapping.componentData(of: component), forDocument: componentDocument)
+            for ingredient in component.ingredients {
+                let ingredientDocument = componentDocument.collection(RecipeFirestoreMapping.ingredientsCollection).document()
+                batch.setData(RecipeFirestoreMapping.ingredientData(of: ingredient), forDocument: ingredientDocument)
+            }
+        }
+        for instruction in instructions {
+            let instructionDocument = document.collection(RecipeFirestoreMapping.instructionsCollection).document()
+            batch.setData(RecipeFirestoreMapping.instructionData(of: instruction), forDocument: instructionDocument)
+        }
+    }
+
+    /// Every stored component, ingredient and step document of a recipe.
+    @MainActor
+    private static func childReferences(of document: DocumentReference) async throws -> [DocumentReference] {
+        var references: [DocumentReference] = []
+        let components = try await document.collection(RecipeFirestoreMapping.componentsCollection).getDocuments().documents
+        for component in components {
+            let ingredients = try await component.reference
+                .collection(RecipeFirestoreMapping.ingredientsCollection).getDocuments().documents
+            references.append(contentsOf: ingredients.map(\.reference))
+            references.append(component.reference)
+        }
+        let instructions = try await document.collection(RecipeFirestoreMapping.instructionsCollection).getDocuments().documents
+        references.append(contentsOf: instructions.map(\.reference))
+        return references
+    }
+    #endif
 
     // MARK: Account
 

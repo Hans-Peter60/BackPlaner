@@ -46,23 +46,23 @@ Einstellungen → Apps → BakePlanner → Sprache → Deutsch / English / Fran�
 ## Vor jeder Aufnahme
 
 - [ ] Geplante Schritte leer, Einkaufslisten leer, keine lokale Kopie des Demo-Rezepts
-- [ ] App auf dem Hauptmenü, oben angekommen
+- [ ] App im Tab **Rezepte**, Liste oben angekommen
 - [ ] Fokus „Nicht stören“ an, Kabel sitzt, QuickTime zeigt das iPhone
 - [ ] Sprache der App stimmt mit dem geplanten Video überein
 
 ## Playbook 1 – Planen und backen (Ziel 30 s)
 
-Rezept → „Rezept backen“ → Fertig bis → Erinnerungen → Karte „Als Nächstes“ → Timeline → Backmodus.
+Rezept → „Planen“ → Fertig bis → Erinnerungen → Leiste „Als Nächstes“ → Timeline → Backmodus.
 
 | Ab s | Aktion auf dem iPhone | Was zu sehen ist | Einblendung |
 |---|---|---|---|
-| 0 | Im Hauptmenü **Rezept-Datenbank** tippen, dann **Kartoffelbrot mit Saaten** | Rezept öffnet auf „Details“ mit Bild, Gewicht und Zutaten | – |
-| 3 | Tab **Rezept backen** tippen. Oben in der Steuerung **Bis** wählen, im Datumsfeld **morgen 12:00** einstellen, Picker schließen | Die Schritte zeigen berechnete Beginnzeiten | *Sag, wann das Brot fertig sein soll* |
+| 0 | Im Tab **Rezepte** auf **Kartoffelbrot mit Saaten** tippen | Die Rezeptseite mit Bild, Gewicht, den Schaltflächen und Zutaten | – |
+| 3 | **Planen** tippen; die Backanleitung schiebt sich als Blatt über das Rezept. Oben in der Steuerung **Bis** wählen, im Datumsfeld **morgen 12:00** einstellen, Picker schließen | Die Schritte zeigen berechnete Beginnzeiten | *Sag, wann das Brot fertig sein soll* |
 | 8 | Zwei Sekunden halten, dann langsam nach unten wischen bis zum Knopf **Erinnerungen setzen** | Reihenfolge der Schritte mit Uhrzeiten, Ruhe über Nacht | *BakePlanner rechnet jeden Schritt zurück* |
-| 13 | **Erinnerungen setzen** tippen. Erscheint „Bestehenden Plan ersetzen“, das wählen. Mitteilungs-Erlaubnis bestätigen, falls gefragt | Zusammenfassung: „N Erinnerungen gesetzt. Backofen anstellen um … Fertig um …“, zwei Sekunden halten, **OK** | *Erinnerung für jeden Schritt* |
-| 18 | Zurück zum Hauptmenü (Zurück-Pfeil zweimal) | Karte **Als Nächstes** mit dem ersten Schritt und seiner Uhrzeit, drei Sekunden halten | – |
-| 21 | **Geplante Schritte** tippen, dann Tab **Timeline** | Timeline des Backtags, drei Sekunden halten | – |
-| 25 | Tab **Geplante Schritte**, dann den Knopf **Backmodus** | Ein Schritt in großer Schrift mit Zutaten und „Vorlesen“, vier Sekunden halten | *In der Küche: ein Schritt, große Schrift* |
+| 13 | **Erinnerungen setzen** tippen. Erscheint „Bestehenden Plan ersetzen“, das wählen. Mitteilungs-Erlaubnis bestätigen, falls gefragt | Zusammenfassung: „N Erinnerungen gesetzt. Backofen anstellen um … Fertig um …“, zwei Sekunden halten, **OK** – das Blatt schließt sich mit | *Erinnerung für jeden Schritt* |
+| 18 | Zurück-Pfeil zur Rezeptliste | Leiste **Als Nächstes** über der Tab-Leiste mit dem ersten Schritt und seiner Uhrzeit, drei Sekunden halten | – |
+| 21 | Tab **Zeitleiste** tippen | Timeline des Backtags (sie öffnet zuerst), drei Sekunden halten | – |
+| 25 | Oben **Liste** wählen, dann den Knopf **Backmodus** | Ein Schritt in großer Schrift mit Zutaten und „Vorlesen“, vier Sekunden halten | *In der Küche: ein Schritt, große Schrift* |
 | 30 | **Schließen** (X oben), eine Sekunde, Aufnahme stoppen | | |
 
 Falls im Plan Mond-Symbole (Nacht-Warnungen) auftauchen, statt „Bis morgen 12:00“ **Ab heute 20:00** wählen, so wie der automatisierte Lauf. Der Teig ruht dann über Nacht, und kein Schritt fällt in die Nacht. Die Einblendung bleibt dieselbe.
@@ -73,16 +73,16 @@ Portionsgröße ×2 → Mehl ersetzen → Anstellgut-TA → Teigtemperatur.
 
 | Ab s | Aktion auf dem iPhone | Was zu sehen ist | Einblendung |
 |---|---|---|---|
-| 0 | **Rezept-Datenbank** → **Kartoffelbrot mit Saaten** | Tab „Details“ mit Portionsgröße, Gewicht, Teigausbeute | – |
+| 0 | Im Tab **Rezepte** auf **Kartoffelbrot mit Saaten** tippen | Rezeptseite mit Portionsgröße, Gewicht, Teigausbeute | – |
 | 3 | In der Portionsgröße **2,0** tippen (englisch: 2.0) | Gewicht und alle Zutatenmengen verdoppeln sich, drei Sekunden halten | *Alles rechnet mit* |
 | 7 | Nach unten zur Mehlzeile des Hauptteigs (**Weizenmehl 1050**) wischen und sie antippen | Sheet **Mehl ersetzen** mit „Im Rezept“ und „Ersetzen durch“ | – |
 | 10 | Unter **Ersetzen durch** ein anderes Mehl wählen, z. B. Dinkelmehl 630 | Wasser-Anpassung und Hinweise unter „Worauf achten“ erscheinen, vier Sekunden halten, dann **Abbrechen** | *Mehl tauschen, Wasser folgt* |
 | 15 | Die Anstellgut-Zeile (**… TA150**) antippen | Sheet **Anstellgut-TA anpassen** | – |
 | 17 | Bei „Vorhanden“ **220** tippen | Neue Anstellgut-Menge und „Wasser im Teig: …“ ändern sich, drei Sekunden halten, dann **Abbrechen** | *Dein Anstellgut, Deine TA* |
-| 21 | Zurück zum Hauptmenü, **Teigtemperatur** tippen | Rechner mit Schüttwassertemperatur | – |
+| 21 | Zurück zur Rezeptliste, **Mehr (⋯)** → **Teigtemperatur** tippen | Rechner mit Schüttwassertemperatur | – |
 | 23 | Die Raum- oder Mehltemperatur um ein paar Grad verstellen | Die Wassertemperatur springt mit, vier Sekunden halten, Aufnahme stoppen | *Die richtige Wassertemperatur* |
 
-Die Rechner kommen in der App in zwei Fassungen vor, aus dem Hauptmenü und aus der Zutatenzeile heraus. Im Video zählt die zweite: Sie zeigt, dass der Rechner das Rezept kennt.
+Die Rechner kommen in der App in zwei Fassungen vor, aus dem Menü „Mehr“ der Rezeptliste und aus der Zutatenzeile heraus. Im Video zählt die zweite: Sie zeigt, dass der Rechner das Rezept kennt.
 
 ## Playbook 3 – Rezepte hinein, Einkaufsliste heraus, jede Sprache (Ziel 25 s)
 
@@ -90,11 +90,11 @@ Formular „Neues Rezept“ mit Import → Einkaufsliste nach Regalen → öffen
 
 | Ab s | Aktion auf dem iPhone | Was zu sehen ist | Einblendung |
 |---|---|---|---|
-| 0 | Im Hauptmenü **Neues Rezept anlegen** tippen | Formular mit „Rezept aus Bildern importieren“ und „Rezept von einer Internetseite importieren“, drei Sekunden halten | *Aus dem Buch oder aus dem Netz* |
-| 4 | Zurück, **Rezept-Datenbank** → **Kartoffelbrot mit Saaten** → Tab **Einkaufsliste** | Zutaten zum Einkaufen in der gewählten Portionsgröße | – |
-| 8 | **Einkaufsliste erstellen** tippen, Bestätigung mit **OK** schließen | Kurze Meldung, dass die Liste angelegt ist | – |
-| 11 | Zurück zum Hauptmenü, **Einkaufsliste** tippen | Die Liste nach Regalen gruppiert (Mehl, Kühlregal, …), vier Sekunden halten | *Einkaufsliste nach Regalen* |
-| 16 | Zurück, **Rezept-Datenbank** → **Kartoffelbrot mit Saaten** | Rezept in der App-Sprache, zwei Sekunden halten | – |
+| 0 | Im Tab **Rezepte** auf **+** tippen | Formular mit „Rezept aus Bildern importieren“ und „Rezept von einer Internetseite importieren“, drei Sekunden halten | *Aus dem Buch oder aus dem Netz* |
+| 4 | Zurück, **Kartoffelbrot mit Saaten** → Schaltfläche **Einkaufsliste** | Blatt mit den Zutaten zum Einkaufen in der gewählten Portionsgröße | – |
+| 8 | **Einkaufsliste erstellen** tippen, Bestätigung mit **OK** schließen, dann **Schließen** | Kurze Meldung, dass die Liste angelegt ist | – |
+| 11 | Tab **Einkaufslisten** tippen | Die Liste nach Regalen gruppiert (Mehl, Kühlregal, …), vier Sekunden halten | *Einkaufsliste nach Regalen* |
+| 16 | Tab **Rezepte**, **Kartoffelbrot mit Saaten** | Rezept in der App-Sprache, zwei Sekunden halten | – |
 | 18 | **Globus** oben rechts tippen, eine andere Sprache wählen: im deutschen Video **English**, im englischen und französischen **Deutsch** | Name, Zutaten und Schritte wechseln die Sprache, drei bis vier Sekunden halten, Aufnahme stoppen | *Öffentliche Rezepte in Deiner Sprache* |
 
 Die Übersetzung in Schritt 18 ist nur dann sofort da, wenn sie zuvor einmal auf dem Gerät erzeugt wurde (siehe Vorbereitung, Punkt 6). Erscheint ein Hinweis zum Laden einer Sprache, erlauben, dann ohne Aufnahme warten und die Szene wiederholen.
@@ -123,7 +123,7 @@ Die Texte der Szenen 1 und 2 sind wörtlich die Screenshot-Überschriften aus `c
 
 1. iMovie → **Neu erstellen → App-Vorschau**. iMovie erkennt am importierten Clip das Gerät und stellt das Projekt auf dessen Maße.
 2. Rohvideo importieren (Ablage → Medien importieren) und in die Timeline ziehen.
-3. **Anfang trimmen**: alles bis zum ersten Antippen im Hauptmenü weg, das Video beginnt mit dem Öffnen der Rezept-Datenbank. **Ende trimmen**: nach dem letzten Halten, bevor der Finger wieder etwas tut.
+3. **Anfang trimmen**: alles bis zum ersten Antippen in der Rezeptliste weg, das Video beginnt mit dem Öffnen des Rezepts. **Ende trimmen**: nach dem letzten Halten, bevor der Finger wieder etwas tut.
 4. Lange Wartezeiten (Übersetzung, Sheet-Animationen) herausschneiden: Clip an der Stelle teilen (⌘B), Mittelstück löschen. Harte Schnitte sind in App-Vorschauen üblich, Überblendungen weglassen.
 5. Prüfen, dass die Gesamtlänge zwischen 15 und 30 Sekunden liegt (unten rechts). Lieber 25 bis 28 Sekunden, nicht auf 30,0 zielen.
 6. **Einblendungen als Overlay-Bilder.** iMovies eigene Titelvorlagen werden nicht benutzt: Ihre Namen und Positionen unterscheiden sich je nach Version, und keine sieht aus wie die Überschriften auf den Screenshots. Stattdessen rendert ein Skript jede Einblendung als transparentes PNG in den Farben und der Schrift der Screenshots, das in iMovie über dem Video liegt:

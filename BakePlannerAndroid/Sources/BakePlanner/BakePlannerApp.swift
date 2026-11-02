@@ -34,10 +34,32 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.bakeplanner", category: "Bak
         PublicRecipeService.configure()
         // Before any view or the model reads a setting (SettingsFile).
         SettingsFile.restore()
+        // The user's own units join the unit table before any amount is weighed.
+        CustomUnitFile.install()
     }
 
     /* SKIP @bridge */public func onLaunch() {
         logger.debug("onLaunch")
+    }
+
+    /// A text another app shared with BakePlanner — a recipe page's address
+    /// from the browser. Called by MainActivity (Main.kt) on the main thread.
+    /* SKIP @bridge */public func onSharedText(_ text: String) {
+        logger.debug("onSharedText")
+        Task { @MainActor in
+            SharedImport.shared.receive(text: text)
+        }
+    }
+
+    /// An action taken on a reminder notification — "done", or "postpone"
+    /// by `minutes`, alone or with the plan's later steps. Called by
+    /// ReminderActionReceiver (Reminders.kt), also when the app was not
+    /// running: the Application has set Swift up by then.
+    /* SKIP @bridge */public func onReminderAction(_ identifier: String, action: String, minutes: Int, includeFollowing: Bool) {
+        logger.debug("onReminderAction \(action)")
+        Task { @MainActor in
+            await ReminderActions.perform(identifier: identifier, action: action, minutes: minutes, includeFollowing: includeFollowing)
+        }
     }
 
     /* SKIP @bridge */public func onResume() {

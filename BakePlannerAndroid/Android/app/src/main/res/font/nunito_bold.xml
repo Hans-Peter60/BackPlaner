@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nunito at weight 700, as its own family: Compose does not pick a
+     weight out of a Typeface-backed family, so the app names the weight
+     it wants (AppFont in Theme.swift). -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font android:font="@font/nunito_variable" android:fontWeight="700" android:fontStyle="normal" android:fontVariationSettings="'wght' 700"
+        app:font="@font/nunito_variable" app:fontWeight="700" app:fontStyle="normal" app:fontVariationSettings="'wght' 700" />
+</font-family>

@@ -5,18 +5,30 @@ import SwiftUI
 import UIKit
 #endif
 
-/// "Von einer Internetseite": loads a recipe page on the device and turns
-/// its structured recipe data (schema.org) into a new recipe, which opens
-/// in the editor — as the iPhone does when no AI is used
-/// (RecipeWebPageLoader in BakePlannerCore). Pages without such data are
-/// not read yet; that needs the cloud AI (step 17c).
+/// "Von einer Internetseite": loads a recipe page on the device and turns it
+/// into a new recipe, which opens in the editor — as the iPhone does:
+/// with the cloud AI when the user chose it and agreed to it (Cloud
+/// Function analyzeRecipeText), else, or when the cloud fails, from the
+/// page's own structured recipe data (RecipeWebPageLoader in
+/// BakePlannerCore). Android has no on-device model in between.
 struct WebRecipeImportView: View {
-    /// Hands the imported recipe to the list, which opens the editor with it.
-    let onImport: (RecipeExportData) -> Void
+    let model: AppModel
+    /// Hands the imported recipe and what to say about it to the list,
+    /// which opens the editor with them.
+    let onImport: (RecipeExportData, Text?) -> Void
+    /// The page shared from the browser; the import starts with it at
+    /// once, as the iPhone's does, unless the cloud still needs consent.
+    var initialAddress: String? = nil
     @State var address = ""
     @State var isLoading = false
     @State var failure: String?
     @Environment(\.dismiss) var dismiss
+
+    /// The cloud is chosen but not agreed to yet: the consent replaces the
+    /// import button.
+    private var needsConsent: Bool {
+        model.usesCloudAnalysis && !model.allowsCloudAnalysis
+    }
 
     var body: some View {
         Form {
@@ -26,20 +38,73 @@ struct WebRecipeImportView: View {
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                 if isLoading {
-                    ProgressView()
+                    HStack(spacing: 12) {
+                        ProgressView()
+                        Text(model.usesCloudAnalysis && model.allowsCloudAnalysis
+                             ? LocalizedStringKey("Rezept wird in der Cloud analysiert …")
+                             : LocalizedStringKey("Seite wird geladen …"))
+                    }
                 }
                 if let failure {
                     Text(verbatim: failure)
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(Color.red)
                 }
             } header: {
                 Text("Internetadresse")
             } footer: {
-                Text("Die Seite wird auf diesem Gerät geladen. Übernommen werden die Rezeptdaten, die die Seite selbst angibt; anschließend lässt sich alles bearbeiten.")
+                Text("Seiten mit Anmeldung, Bezahlschranke oder Cookie-Hinweis lassen sich oft nicht auslesen. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis.")
+            }
+
+            Section {
+                Picker("Analyseart", selection: Binding(get: { model.usesCloudAnalysis },
+                                                         set: { model.usesCloudAnalysis = $0 })) {
+                    Text("Geschützte Cloud-KI").tag(true)
+                    Text("Nur auf diesem Gerät").tag(false)
+                }
+                .pickerStyle(.segmented)
+                Text(model.usesCloudAnalysis
+                     ? LocalizedStringKey("Der Rezepttext der Seite wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig.")
+                     : LocalizedStringKey("Der Seitentext verlässt das Gerät nicht. Übernommen werden nur die strukturierten Rezeptdaten der Seite."))
+                    .font(AppFont.caption)
+            } header: {
+                Text("Analyseart")
+            }
+
+            if needsConsent {
+                // The iPhone's consent before the first cloud analysis.
+                Section {
+                    Text("Analyse mit Google Vertex AI (Gemini)")
+                        .font(AppFont.headline)
+                    Text("Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
+                    Text("Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                    Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht.")
+                    Button("Zustimmen und mit Cloud-KI analysieren") {
+                        model.allowsCloudAnalysis = true
+                        Task { await importPage() }
+                    }
+                    .disabled(isLoading || address.trimmingCharacters(in: .whitespaces).isEmpty)
+                    Button("Nur lokal analysieren") {
+                        model.usesCloudAnalysis = false
+                        Task { await importPage() }
+                    }
+                    .disabled(isLoading || address.trimmingCharacters(in: .whitespaces).isEmpty)
+                    Text("Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen.")
+                        .font(AppFont.caption)
+                } header: {
+                    Text("Vor der ersten Cloud-Analyse")
+                }
             }
         }
         .navigationTitle("Rezept von einer Internetseite importieren")
+        .task {
+            if let initialAddress, address.isEmpty {
+                address = initialAddress
+                if !needsConsent {
+                    await importPage()
+                }
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Abbrechen") {
@@ -50,7 +115,7 @@ struct WebRecipeImportView: View {
                 Button("Importieren") {
                     Task { await importPage() }
                 }
-                .disabled(isLoading || address.trimmingCharacters(in: .whitespaces).isEmpty)
+                .disabled(isLoading || needsConsent || address.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
     }
@@ -66,17 +131,43 @@ struct WebRecipeImportView: View {
         do {
             let page = try await RecipeWebPageLoader.load(url)
             logger.info("web import \(page.url.absoluteString): structured recipe \(page.structuredRecipe != nil), \(page.structuredRecipe?.ingredientLines.count ?? 0) ingredients, page text \(page.readableText.count) characters")
-            guard let structured = page.structuredRecipe else {
-                throw RecipeWebImportError.noRecipeFound
+
+            var recipe: RecipeFB?
+            var notice: Text?
+            var cloudFailed = false
+            if model.usesCloudAnalysis && model.allowsCloudAnalysis {
+                do {
+                    let analysis = try await PublicRecipeService.analyzeRecipeText(page.analysisText, sourceURL: page.url)
+                    let cloudRecipe = analysis.recipe.makeRecipe()
+                    if RecipeImportCheck.hasRecipeData(cloudRecipe) {
+                        RecipeImportPlan.groupComponentPreparations(in: cloudRecipe)
+                        recipe = cloudRecipe
+                        let warnings = analysis.recipe.warnings.joined(separator: "\n")
+                        notice = warnings.isEmpty ? nil : Text(verbatim: warnings)
+                    } else {
+                        cloudFailed = true
+                    }
+                } catch {
+                    logger.error("web import \(url.absoluteString): cloud AI failed: \(error)")
+                    cloudFailed = true
+                }
             }
-            let recipe = structured.makeRecipe()
-            recipe.urlLink = page.url.absoluteString
-            if recipe.sourceLanguage.isEmpty { recipe.sourceLanguage = page.language }
-            if recipe.name.isEmpty { recipe.name = page.title }
-            RecipeImportStepText.applyDefaultDuration(to: recipe.instructions)
+            if recipe == nil {
+                guard let structured = page.structuredRecipe else {
+                    throw RecipeWebImportError.noRecipeFound
+                }
+                recipe = structured.makeRecipe()
+                notice = cloudFailed
+                    ? Text("Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen.")
+                    : Text("Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen.")
+            }
+            guard let imported = recipe else { throw RecipeWebImportError.noRecipeFound }
+            imported.urlLink = page.url.absoluteString
+            if imported.sourceLanguage.isEmpty { imported.sourceLanguage = page.language }
+            if imported.name.isEmpty { imported.name = page.title }
+            RecipeImportStepText.applyDefaultDuration(to: imported.instructions)
             let picture = await Self.picture(from: page.imageURL)
-            let content = RecipeExportData(recipeFB: recipe, imageData: picture)
-            onImport(content)
+            onImport(RecipeExportData(recipeFB: imported, imageData: picture), notice)
             dismiss()
         } catch {
             logger.error("web import \(url.absoluteString) failed: \(error)")

@@ -1,0 +1,23 @@
+Quand faut-il lancer le levain pour que le pain sorte du four samedi à 18 h ? BakePlanner le calcule et vous rappelle chaque étape.
+
+Dans BakePlanner, une recette n’est pas qu’une liste d’ingrédients : ce sont des étapes avec des durées. Vous choisissez « Terminé pour » ou « Commencer à », et l’app calcule l’heure de début de l’échaudage, du levain, du pétrissage, des rabats, du façonnage et de la cuisson. « Allumer le four », elle l’ajoute d’elle-même. Chaque étape a son rappel, et la timeline montre votre journée de boulange comme un planning.
+
+EN CUISINE
+Le mode cuisson affiche une étape en grands caractères, avec ses ingrédients à la taille de portion planifiée, et la lit à voix haute si vous le souhaitez. Une étape se marque comme faite ou se décale directement depuis son rappel, sans ouvrir l’app.
+
+CALCULATEURS DE BOULANGER
+• TA du levain chef : la recette demande un levain chef à TA 150 et vous entretenez le vôtre à TA 200 ? L’app recalcule la quantité de levain chef et l’eau de la pâte principale.
+• Remplacer la farine : épeautre au lieu de blé, complète au lieu de blanche. L’eau suit la nouvelle farine, avec des conseils pour la travailler.
+• Température de la pâte : la température de l’eau de coulage pour la température de pâte souhaitée, avec pré-ferment et facteur de friction.
+• Taille de portion ou poids de pâte, au choix. Rendement de pâte, hydratation et pourcentages du boulanger suivent.
+
+ENTRETENIR LE LEVAIN
+Les recettes récurrentes comme le rafraîchi du levain chef, l’app les replanifie d’elle-même après chaque fois. Dans le journal du levain, vous notez le temps jusqu’au pic, le test de flottaison et vos remarques.
+
+RECETTES
+Photographiez une recette dans un livre ou partagez une page web depuis votre navigateur : BakePlanner lit les ingrédients, les composants et les étapes, et transforme « rabattre toutes les 30 minutes, 4x » en étapes minutées. Dans la base de recettes partagée, vous trouvez les recettes d’autres boulangers, dans votre langue lorsqu’une traduction existe. Vos propres recettes restent sur l’appareil jusqu’à ce que vous les publiiez. Aucun compte n’est nécessaire ; la connexion avec Apple est facultative.
+
+COURSES ET SUIVI
+La liste de courses est triée par rayon et reprend les quantités à la taille de portion choisie. L’historique de cuisson garde une photo, les mesures et le résultat de chaque journée de boulange. Partagez une recette en PDF, et le fichier de sauvegarde emporte vos recettes sur un autre appareil – y compris vers et depuis BakePlanner sur iPhone.
+
+BakePlanner – dites quand le pain doit être prêt. L’app calcule le reste.

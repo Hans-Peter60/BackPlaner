@@ -393,21 +393,14 @@ struct ScheduledTasksView: View {
         let names = planFilter.map { [$0.recipeName] } ?? plannedRecipeNames
         return names.compactMap { name in
             guard let recipe = recipes.first(where: { $0.name == name }) else { return nil }
-            let instructions = recipe.instructionsArray
-            // The oven, turn-down and finish steps are generated at planning
-            // time and live only in the plan, never in the recipe.
-            let planned = visibleNextSteps.filter {
-                $0.recipeName == name
-                    && $0.step < 99
-                    && !BakePlanValidator.isPreheatInstruction($0.instruction)
-                    && !BakePlan.isTurnDownInstruction($0.instruction)
-            }
-            let unchanged = planned.allSatisfy { step in
-                instructions.contains {
-                    $0.step == step.step && $0.instruction == step.instruction && $0.duration == step.duration
-                }
-            }
-            return unchanged ? nil : recipe
+            // The rule lives in the package (PlanChangeCheck), shared with
+            // Android: generated oven and finish steps do not count, nor
+            // does a step marked done.
+            let planned = visibleNextSteps
+                .filter { $0.recipeName == name }
+                .map { PlanChangeCheck.PlannedStep(step: $0.step, instruction: $0.instruction, duration: $0.duration) }
+            let instructions = RecipeExportData(recipe: recipe, includingImage: false).instructions
+            return PlanChangeCheck.recipeChanged(instructions: instructions, plannedSteps: planned) ? recipe : nil
         }
     }
 
@@ -425,7 +418,7 @@ struct ScheduledTasksView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 NavigationLink {
-                    TabsView(recipe: recipe, startsInBakingView: true)
+                    RecipePageView(recipe: recipe, startsInBakingView: true)
                 } label: {
                     Label("Neu planen", systemImage: "arrow.clockwise")
                         .font(Theme.brandFont(14))
@@ -653,6 +646,7 @@ struct ScheduledTasksView: View {
         // while the steps still exist.
         NotificationActions.cancelPendingNotifications(for: stepsToDelete)
 
+        let recipeNames = Set(stepsToDelete.map(\.recipeName))
         do {
             for nextStep in stepsToDelete {
                 managedObjectContext.delete(nextStep)
@@ -663,6 +657,13 @@ struct ScheduledTasksView: View {
             managedObjectContext.rollback()
             AppLog.persistence.error("Could not delete next steps")
             return
+        }
+
+        // A recipe without any plan left loses the history entries its plans
+        // wrote, unless someone has written into them.
+        let steps = CoreDataScheduledStepStore(context: managedObjectContext)
+        for recipe in recipes where recipeNames.contains(recipe.name) && !steps.hasSteps(recipeName: recipe.name) {
+            BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: managedObjectContext)
         }
 
         if plan == nil {

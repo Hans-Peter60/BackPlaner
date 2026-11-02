@@ -84,6 +84,28 @@ struct RecipeRecalculationTests {
         #expect(recalculated.totalWeight == 850)
     }
 
+    @Test("A fold line typed by hand becomes one sub-step per fold, in step order")
+    func timedFolds() {
+        var recipe = recipe()
+        recipe.instructions = [
+            RecipeExportInstruction(instruction: "Kneten", step: 1, duration: 10, startTime: 0, bakeFlag: false),
+            RecipeExportInstruction(instruction: "3 Stunden ruhen lassen.", step: 2, duration: 180, startTime: 0, bakeFlag: false),
+            RecipeExportInstruction(instruction: "Nach 30 und 60 Minuten dehnen und falten.", step: 3, duration: 0, startTime: 0, bakeFlag: false),
+            RecipeExportInstruction(instruction: "Backen", step: 4, duration: 40, startTime: 0, bakeFlag: true),
+        ]
+        let expanded = recipe.expandingTimedFolds()
+        #expect(expanded.instructions.map(\.step) == [1, 2, 2.1, 2.2, 3])
+        #expect(expanded.instructions[2].instruction == "Teig dehnen und falten (nach 30 Minuten).")
+        #expect(expanded.instructions.map(\.duration) == [10, 180, 150, 120, 40])
+        // The bake keeps its flag through the round trip.
+        #expect(expanded.instructions[4].bakeFlag == true)
+    }
+
+    @Test("Without a fold line the steps stay exactly as they are")
+    func noFolds() {
+        #expect(recipe().expandingTimedFolds() == recipe())
+    }
+
     @Test("Steps follow one another, and the preparation lasts until the last ends")
     func times() {
         let recalculated = recipe().recalculated()

@@ -1,6 +1,9 @@
 import BakePlannerCore
 import SkipKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct ContentView: View {
     @State var model = AppModel()
@@ -11,6 +14,7 @@ struct ContentView: View {
     /// Android — for generated plan steps, plan hints and dates.
     @Environment(\.locale) var locale
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         TabView {
@@ -32,7 +36,8 @@ struct ContentView: View {
                 BakeHistoryView(model: model)
             }
             .tabItem {
-                Label("Backhistorie", systemImage: "clock")
+                // Skip has no clock symbol (it drew a warning triangle).
+                Label("Backhistorie", systemImage: "checkmark.circle")
             }
 
             NavigationStack {
@@ -42,8 +47,12 @@ struct ContentView: View {
                 Label("Zeitleiste", systemImage: "calendar")
             }
         }
+        // The iPhone's look: the brown accent on every control. Nunito comes
+        // from the Material theme (Main.kt) and from AppFont (Theme.swift).
+        .tint(Palette.accent(colorScheme))
         // Skip looks every text up in the environment's locale.
         .environment(\.locale, AppSettings.appLocale(forDevice: locale))
+        .compactTextFields()
         // Coming to the foreground plans what is due on a rhythm, as on the
         // iPhone.
         .onChange(of: scenePhase) { _, phase in
@@ -74,6 +83,12 @@ struct ContentView: View {
 struct RecipeListView: View {
     let model: AppModel
     @State var searchText = ""
+    /// Whether the search looks at the tags instead of the names, as the
+    /// iPhone's search scopes "Name"/"Tags" do. SkipUI has no search scopes,
+    /// so the choice sits in a row above the list.
+    @State var searchesTags = false
+    /// Only recipes rated this or better are listed; 0 lists all.
+    @State var minimumRating = 0
     @State var showsPicker = false
     @State var pickedURL: URL?
     @State var pickedName: String?
@@ -85,31 +100,44 @@ struct RecipeListView: View {
     @State var confirmsDeletion = false
     @State var createsRecipe = false
     @State var importsFromWeb = false
-    /// A recipe read from a web page, waiting for the editor. Kept apart
+    /// The page another app shared, for the web import it opens.
+    @State var sharedAddress: String?
+    @State var importsFromPhotos = false
+    /// A recipe read from a web page or from photos, waiting for the editor. Kept apart
     /// from the editor's visibility, as the dialogs' data is.
     @State var importedRecipe: RecipeExportData?
+    @State var importNotice: Text?
     @State var editsImportedRecipe = false
     @State var recipesToExport: [String]?
+    /// Whether the export carries the bake history: always for the full
+    /// backup, as chosen for a selection.
+    @State var exportIncludesBakeHistory = true
+    @State var exportsRecipes = false
     @State var showsSettings = false
+    /// The calculator to show; kept apart from the sheet's visibility, as
+    /// the dialogs' data is.
+    @State var calculator = Calculator.doughTemperature
+    @State var showsCalculator = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+            // Not ignoring the safe area here: the search field sits in the
+            // area above the list, and a gradient reaching into it covered
+            // the field (taps still went through, so one typed unseen).
+            WarmBackdrop()
 
             if let loadError = model.loadError {
                 VStack(spacing: 12) {
                     Text("Die Rezepte konnten nicht geladen werden.")
                     Text(verbatim: loadError)
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
                 .padding()
             } else if model.recipes.isEmpty && model.publicRecipes.isEmpty {
                 VStack(spacing: 12) {
                     Text("Noch keine Rezepte")
-                        .font(.title2)
+                        .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
                     Text("Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast.")
                         .multilineTextAlignment(.center)
@@ -122,17 +150,23 @@ struct RecipeListView: View {
                 .padding()
             } else {
                 List {
-                    if model.showsPublicRecipes, model.publicRecipesError != nil {
+                    if model.showsPublicRecipes || model.showsOwnPublishedRecipes, model.publicRecipesError != nil {
                         Text("Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen.")
-                            .font(.caption)
+                            .font(AppFont.caption)
                             .foregroundStyle(Color.red)
                     }
+                    sourceChips
+                    filterRow
                     let rows = filteredRows
+                    if rows.isEmpty {
+                        Text("Keine passenden Rezepte")
+                            .foregroundStyle(.secondary)
+                    }
                     ForEach(rows) { row in
                         NavigationLink {
                             RecipeListDestination(model: model, row: row)
                         } label: {
-                            RecipeListLabel(row: row)
+                            RecipeListLabel(model: model, row: row)
                         }
                         // Only the own recipes can be deleted here.
                         .deleteDisabled(!row.isLocal)
@@ -147,7 +181,7 @@ struct RecipeListView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                .searchable(text: $searchText)
+                .searchable(text: $searchText, prompt: Text("Rezept suchen"))
                 .refreshable {
                     model.load()
                     await model.loadPublicRecipes()
@@ -155,6 +189,9 @@ struct RecipeListView: View {
             }
         }
         .navigationTitle("Rezepte")
+        // Inline, not Material's tall large-title bar: the header took a
+        // third of the screen above the list, as on the other tabs.
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // Android shows two items of the bar and drops further ones, so
             // reading and writing backups and the settings share one menu.
@@ -167,9 +204,24 @@ struct RecipeListView: View {
                         showsPicker = true
                     }
                     Button("Alle eigenen Rezepte sichern") {
+                        exportIncludesBakeHistory = true
                         recipesToExport = model.recipes.map(\.id)
                     }
                     .disabled(model.recipes.isEmpty)
+                    Button("Rezepte exportieren") {
+                        exportsRecipes = true
+                    }
+                    .disabled(model.recipes.isEmpty)
+                    // The iPhone's three calculators from its main menu.
+                    Button("Teigtemperatur") {
+                        openCalculator(.doughTemperature)
+                    }
+                    Button("Mehl ersetzen") {
+                        openCalculator(.flourSubstitution)
+                    }
+                    Button("Anstellgut-TA") {
+                        openCalculator(.starterYield)
+                    }
                 } label: {
                     Text("Mehr")
                 }
@@ -182,35 +234,63 @@ struct RecipeListView: View {
                     Button("Von einer Internetseite") {
                         importsFromWeb = true
                     }
+                    Button("Aus Fotos") {
+                        importsFromPhotos = true
+                    }
                 } label: {
                     Label("Neues Rezept", systemImage: "plus")
                 }
             }
         }
         .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName,
-                            includesBakeHistory: true)
+                            includesBakeHistory: exportIncludesBakeHistory)
+        .appSheet(isPresented: $exportsRecipes) {
+            NavigationStack {
+                RecipeExportSelectionView(model: model) { ids, history in
+                    exportIncludesBakeHistory = history
+                    // After the sheet has gone, so the system's "save as"
+                    // does not open over it.
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))
+                        recipesToExport = ids
+                    }
+                }
+            }
+        }
         .appSheet(isPresented: $showsSettings) {
             NavigationStack {
                 SettingsView(model: model)
             }
         }
+        .appSheet(isPresented: $showsCalculator) {
+            NavigationStack {
+                CalculatorSheet(calculator: calculator)
+            }
+        }
         .appSheet(isPresented: $importsFromWeb) {
             NavigationStack {
-                WebRecipeImportView { content in
-                    importedRecipe = content
-                    // The editor opens once this sheet has gone.
-                    Task {
-                        try? await Task.sleep(for: .milliseconds(400))
-                        editsImportedRecipe = true
-                    }
-                }
+                WebRecipeImportView(model: model, onImport: receiveImport, initialAddress: sharedAddress)
+            }
+        }
+        // A page shared from the browser opens the web import with it:
+        // while the app runs, and when the share started the app (the
+        // address then waits until this view is here).
+        .task {
+            AppModel.current = model
+            SharedImport.shared.setHandler { url in
+                sharedAddress = url.absoluteString
+                importsFromWeb = true
+            }
+        }
+        .appSheet(isPresented: $importsFromPhotos) {
+            NavigationStack {
+                PhotoRecipeImportView(model: model, onImport: receiveImport)
             }
         }
         .appSheet(isPresented: $editsImportedRecipe) {
             if let importedRecipe {
                 NavigationStack {
-                    RecipeEditor(original: nil, template: importedRecipe,
-                                 notice: "Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen.") { _, content in
+                    RecipeEditor(original: nil, template: importedRecipe, notice: importNotice) { _, content in
                         model.add(content)
                     }
                 }
@@ -259,6 +339,91 @@ struct RecipeListView: View {
         }
     }
 
+    private func openCalculator(_ which: Calculator) {
+        calculator = which
+        showsCalculator = true
+    }
+
+    /// Takes an imported recipe from the web or photo import and opens the
+    /// editor with it once the import's sheet has gone.
+    private func receiveImport(_ content: RecipeExportData, _ notice: Text?) {
+        importedRecipe = content
+        importNotice = notice
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            editsImportedRecipe = true
+        }
+    }
+
+    /// The iPhone's three filter chips: the own recipes on the device, the
+    /// public ones published from this account, the public ones of everyone
+    /// else. Independent switches, so any combination is possible; their
+    /// state is kept under the iPhone's settings keys. Text only: SkipUI
+    /// draws neither "globe" nor "person.crop.circle".
+    private var sourceChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                sourceChip("Lokal", isOn: model.showsLocalRecipes) { model.showsLocalRecipes.toggle() }
+                sourceChip("Von mir veröffentlicht", isOn: model.showsOwnPublishedRecipes) { model.showsOwnPublishedRecipes.toggle() }
+                sourceChip("Öffentlich", isOn: model.showsPublicRecipes) { model.showsPublicRecipes.toggle() }
+            }
+            .padding(.vertical, 2)
+        }
+        .listRowBackground(Color.clear)
+    }
+
+    private func sourceChip(_ title: LocalizedStringKey, isOn: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(AppFont.subheadline)
+                .lineLimit(1)
+                .foregroundStyle(isOn ? Color.white : Color.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(Capsule().fill(isOn ? Palette.accent(colorScheme) : Palette.card(colorScheme)))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Where the search looks, and the least rating listed — the iPhone's
+    /// search scopes and its filter menu, as one row above the recipes.
+    private var filterRow: some View {
+        HStack(spacing: 12) {
+            Picker("Suchen in", selection: $searchesTags) {
+                Text("Name").tag(false)
+                Text("Tags").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            Menu {
+                Button("Alle Bewertungen") {
+                    minimumRating = 0
+                }
+                // An array, not 1...5: Skip's ForEach over a ClosedRange hands
+                // out range indices, and casting them to Int crashed the app.
+                ForEach([1, 2, 3, 4, 5], id: \.self) { stars in
+                    Button {
+                        minimumRating = stars
+                    } label: {
+                        Text("\(stars) Sterne und mehr")
+                    }
+                }
+            } label: {
+                // Skip draws "star.fill" but not the outlined "star" (it would
+                // show a warning triangle), nor the iPhone's filter symbol; the
+                // colour says whether a filter is on.
+                HStack(spacing: 2) {
+                    Image(systemName: "star.fill")
+                    if minimumRating > 0 {
+                        Text(verbatim: "\(minimumRating)+")
+                    }
+                }
+                .foregroundStyle(minimumRating > 0 ? Palette.accent(colorScheme) : Color.secondary)
+                .accessibilityLabel(Text("Nach Bewertung filtern"))
+            }
+        }
+    }
+
     /// One line of the list: an own recipe or a public one.
     enum Row: Identifiable {
         case local(StoredRecipe)
@@ -278,6 +443,20 @@ struct RecipeListView: View {
             }
         }
 
+        var tags: [String] {
+            switch self {
+            case .local(let recipe): return recipe.content.tags
+            case .shared(let recipe): return recipe.tags
+            }
+        }
+
+        var rating: Int {
+            switch self {
+            case .local(let recipe): return recipe.content.rating
+            case .shared(let recipe): return recipe.rating
+            }
+        }
+
         var isLocal: Bool {
             if case .local = self { return true }
             return false
@@ -291,12 +470,21 @@ struct RecipeListView: View {
         if model.showsLocalRecipes {
             rows += model.recipes.map { Row.local($0) }
         }
-        if model.showsPublicRecipes {
-            rows += model.visiblePublicRecipes.map { Row.shared($0) }
+        // A public recipe answers to exactly one of the two cloud chips,
+        // depending on who published it.
+        rows += model.visiblePublicRecipes
+            .filter { model.isOwn($0) ? model.showsOwnPublishedRecipes : model.showsPublicRecipes }
+            .map { Row.shared($0) }
+        if minimumRating > 0 {
+            rows = rows.filter { $0.rating >= minimumRating }
         }
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {
-            rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
+            if searchesTags {
+                rows = rows.filter { row in row.tags.contains { $0.localizedCaseInsensitiveContains(query) } }
+            } else {
+                rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
+            }
         }
         return rows.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
@@ -314,26 +502,59 @@ struct RecipeListView: View {
     }
 }
 
-/// One recipe in the list: name, rating, and its tags.
+/// One recipe in the list: its picture small, name, rating, and its tags.
 struct RecipeRow: View {
+    let model: AppModel
     let recipe: StoredRecipe
+    @State var thumbnail: Data?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: recipe.content.name)
-                .font(.headline)
-            HStack(spacing: 8) {
-                if recipe.content.rating > 0 {
-                    Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))
-                        .foregroundStyle(.orange)
-                }
-                if !recipe.content.tags.isEmpty {
-                    Text(verbatim: recipe.content.tags.joined(separator: ", "))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+        HStack(spacing: 12) {
+            RowThumbnail(data: thumbnail)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: recipe.content.name)
+                    .font(AppFont.headline)
+                HStack(spacing: 8) {
+                    if recipe.content.rating > 0 {
+                        Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))
+                            .foregroundStyle(.orange)
+                    }
+                    if !recipe.content.tags.isEmpty {
+                        Text(verbatim: recipe.content.tags.joined(separator: ", "))
+                            .font(AppFont.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
+        .task(id: recipe.id) {
+            thumbnail = model.thumbnail(forRecipe: recipe.id)
+        }
+    }
+}
+
+/// The small picture at the start of a list row, or a plain square
+/// without one, so the names line up.
+struct RowThumbnail: View {
+    let data: Data?
+    var edge = 48.0
+
+    var body: some View {
+        Group {
+            #if canImport(UIKit) || os(Android)
+            if let data, let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Color.gray.opacity(0.15)
+            }
+            #else
+            Color.gray.opacity(0.15)
+            #endif
+        }
+        .frame(width: edge, height: edge)
+        .clipShape(RoundedRectangle(cornerRadius: edge / 6))
     }
 }
 
@@ -357,34 +578,41 @@ struct RecipeListDestination: View {
 
 /// A list entry's line, for either kind of recipe.
 struct RecipeListLabel: View {
+    let model: AppModel
     let row: RecipeListView.Row
 
     var body: some View {
         switch row {
         case .local(let recipe):
-            RecipeRow(recipe: recipe)
+            RecipeRow(model: model, recipe: recipe)
         case .shared(let recipe):
-            PublicRecipeRow(recipe: recipe)
+            PublicRecipeRow(model: model, recipe: recipe)
         }
     }
 }
 
-/// One public recipe in the list: name, tags, and that it is public.
+/// One public recipe in the list: its picture small (loaded as the row
+/// appears), name, tags, and that it is public.
 struct PublicRecipeRow: View {
+    let model: AppModel
     let recipe: RecipeFB
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: recipe.name)
-                .font(.headline)
-            HStack(spacing: 8) {
-                Text("Öffentlich")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                if !recipe.tags.isEmpty {
-                    Text(verbatim: recipe.tags.joined(separator: ", "))
-                        .font(.caption)
+        HStack(spacing: 12) {
+            RowThumbnail(data: model.publicThumbnail(of: recipe))
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: recipe.name)
+                    .font(AppFont.headline)
+                HStack(spacing: 8) {
+                    // Which chip the row answers to.
+                    (model.isOwn(recipe) ? Text("Von mir veröffentlicht") : Text("Öffentlich"))
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
+                    if !recipe.tags.isEmpty {
+                        Text(verbatim: recipe.tags.joined(separator: ", "))
+                            .font(AppFont.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }

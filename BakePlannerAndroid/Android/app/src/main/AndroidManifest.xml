@@ -12,11 +12,17 @@
     <!-- reminders of planned steps (Android 13 and later ask for it) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- taking a recipe or bake photo with the camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- No Android auto backup (allowBackup): it stops at 25 MB, which
+         recipe and bake photos exceed, and a backup that silently fails is
+         worse than none. "Alle eigenen Rezepte sichern" writes the backup. -->
     <application
         android:label="${PRODUCT_NAME}"
         android:name=".AndroidAppMain"
         android:supportsRtl="true"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:localeConfig="@xml/locales_config">
         <!-- WorkManager is configured by AndroidAppMain (Configuration.Provider),
@@ -32,15 +38,38 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+        <!-- The camera writes its photo behind this provider's address
+             (SkipKit's media picker expects the authority ".fileprovider"). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <!-- The buttons on a reminder notification ("Erledigt", "Verschieben
+             um …") report here; see ReminderActionReceiver in Reminders.kt. -->
+        <receiver
+            android:name=".ReminderActionReceiver"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|mnc|colorMode|density|fontScale|fontWeightAdjustment|keyboard|layoutDirection|locale|mcc|navigation|smallestScreenSize|touchscreen|uiMode"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- A page shared from the browser starts the web import. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
     </application>

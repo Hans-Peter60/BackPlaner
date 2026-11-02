@@ -44,13 +44,13 @@ struct AddInstructionDataView: View {
 
         VStack (alignment: .leading) {
 
-            Text("Verarbeitungsschritte:")
+            Text("Verarbeitungsschritte")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
                 .padding(.top, 5)
 
             LazyVGrid(columns: gridItemLayout, spacing: 6) {
-                Text("Schritt").bold()
+                Text("Nr.").bold()
                 Text("Beschreibung").bold()
                 Text("Dauer").bold()
                 Text(verbatim: " ").bold()
@@ -60,7 +60,7 @@ struct AddInstructionDataView: View {
                 NumberField("", value: $step)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .entry)
-                    .accessibilityLabel("Schritt")
+                    .accessibilityLabel("Nummer")
 
                 TextField("", text:  $instruction)
                     .autocapitalization(.none)
@@ -113,7 +113,7 @@ struct AddInstructionDataView: View {
                 NumberField("", value: $instructions[i].step)
                     .textFieldStyle(.roundedBorder)
                     .focused($focusedRow, equals: .instruction(i))
-                    .accessibilityLabel("Schritt")
+                    .accessibilityLabel("Nummer")
                 TextField("", text:  $instructions[i].instruction)
                     .autocapitalization(.none)
                     .textFieldStyle(.roundedBorder)

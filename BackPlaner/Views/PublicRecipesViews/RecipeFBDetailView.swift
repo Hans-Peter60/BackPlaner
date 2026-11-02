@@ -17,13 +17,23 @@ struct RecipeFBDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model: RecipeModel
+
+    // Saving a public recipe onto the device gave no feedback at all, so it
+    // was impossible to tell whether the tap had done anything.
+    @State private var showSavedConfirmation = false
+    @State private var saveErrorMessage: String?
 
     @State private var totalWeight = 0.0
-    /// Owned by TabsFBView and shared with the other tabs, so the factor
-    /// chosen here is the one the shopping list uses.
+    /// Owned by PublicRecipePageView and shared with its sheets, so the
+    /// factor chosen here is the one a plan and the shopping list use.
     @Binding var selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
     @Binding var targetWeight: Int?
+
+    /// What the page's buttons open (sheets of PublicRecipePageView).
+    var onPlan: () -> Void = {}
+    var onShoppingList: () -> Void = {}
 
     /// The flour line tapped for a substitution, while its sheet is up.
     @State private var flourSubstitution: FlourSubstitutionRequest?
@@ -53,7 +63,7 @@ struct RecipeFBDetailView: View {
     // Error message shown when releasing a reported recipe fails.
     @State private var releaseErrorMessage: String?
 
-    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .trailing)]
 
     // At the accessibility text sizes the step table becomes a stacked list
     // and the "Verarbeitungsschritte" header no longer shares its row.
@@ -140,6 +150,22 @@ struct RecipeFBDetailView: View {
                     // MARK: Dough yield and hydration over all components
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipeFB)))
 
+                    // MARK: Actions
+                    // Planning at the amount chosen above, the shopping
+                    // list, and the recipe as one's own — each a sheet or a
+                    // step from this page.
+                    // The two short buttons share a line; the long "Als
+                    // eigenes Rezept speichern" gets a line of its own on a
+                    // phone, all three sit in a row where they fit.
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 10) { planButton; shoppingListButton; saveAsOwnButton }
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack(spacing: 10) { planButton; shoppingListButton }
+                            saveAsOwnButton
+                        }
+                    }
+                    .padding(.vertical, 4)
+
                     TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
                                          scale: servingScale)
 
@@ -171,26 +197,20 @@ struct RecipeFBDetailView: View {
                     
                     // MARK: Instructions
                     VStack(alignment: .leading) {
-                        // Side by side the two headers were squeezed into
-                        // "Verarbeit / ungsschri / tte:" at the accessibility
-                        // sizes; there they stack.
-                        let headerLayout = dynamicTypeSize.isAccessibilitySize
-                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
-                            : AnyLayout(HStackLayout())
-
-                        headerLayout {
-                            Text("Verarbeitungsschritte:")
-                                .font(Theme.brandFont(16))
-                                .foregroundColor(Theme.title)
-                                .padding([.bottom, .top], 5)
-
-                            if !dynamicTypeSize.isAccessibilitySize {
+                        // The heading and the total time share a line where
+                        // both fit whole; otherwise the time goes underneath,
+                        // instead of wrapping to "Bearbeitungsdauer: / 1h 5m"
+                        // beside the heading on a phone.
+                        ViewThatFits(in: .horizontal) {
+                            HStack {
+                                instructionsHeader
                                 Spacer()
+                                processingTimeText.fixedSize()
                             }
-
-                            Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
-                                .font(Theme.bodyFont(16))
-                                .padding([.trailing], 5)
+                            VStack(alignment: .leading, spacing: 2) {
+                                instructionsHeader
+                                processingTimeText
+                            }
                         }
 
                         let sortedInstructions = recipeFB.instructions.sorted(by: { $0.step < $1.step })
@@ -206,7 +226,7 @@ struct RecipeFBDetailView: View {
                             .padding([.bottom, .top], 5)
                         } else {
                             LazyVGrid(columns: gridItemLayout, spacing: 5) {
-                                Text("Schritt").bold()
+                                Text("Nr.").bold()
                                 Text("Beschreibung").bold()
                                 Text("Dauer").bold()
 
@@ -260,6 +280,19 @@ struct RecipeFBDetailView: View {
             }
             .warmBackground()
             .navigationTitle(Text(recipeFB.name))
+            .alert("Rezept wurde gespeichert", isPresented: $showSavedConfirmation) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Das Rezept liegt jetzt unter „Eigene Rezepte“ auf diesem Gerät und wird über Deine iCloud gesichert. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern.")
+            }
+            .alert("Speichern fehlgeschlagen", isPresented: Binding(
+                get: { saveErrorMessage != nil },
+                set: { if !$0 { saveErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { saveErrorMessage = nil }
+            } message: {
+                Text(saveErrorMessage ?? "")
+            }
             .sheet(item: $flourSubstitution, onDismiss: openPendingCopy) { request in
                 FlourSubstitutionSheet(request: request)
             }
@@ -270,7 +303,7 @@ struct RecipeFBDetailView: View {
             // the public one it was made from.
             .navigationDestination(item: $openedCopy) { copy in
                 if let recipe = try? viewContext.existingObject(with: copy.id) as? Recipe {
-                    TabsView(recipe: recipe)
+                    RecipePageView(recipe: recipe)
                 }
             }
             .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
@@ -305,5 +338,48 @@ struct RecipeFBDetailView: View {
                 Text(releaseErrorMessage ?? "")
             }
         }
+    }
+
+    /// The two halves of the step table's header row; see the ViewThatFits
+    /// in body for how they are arranged.
+    private var instructionsHeader: some View {
+        Text("Verarbeitungsschritte")
+            .font(Theme.brandFont(16))
+            .foregroundColor(Theme.title)
+            .padding([.bottom, .top], 5)
+    }
+
+    private var processingTimeText: some View {
+        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
+            .font(Theme.bodyFont(16))
+            .padding([.trailing], 5)
+    }
+
+    // The page's buttons. Stable identifiers for the UI tests.
+
+    private var planButton: some View {
+        IconActionButton(systemImage: "calendar", style: .primary, accessibilityLabel: "Planen",
+                         title: "Planen", controlSize: .regular, action: onPlan)
+            .accessibilityIdentifier("recipe.plan")
+    }
+
+    private var shoppingListButton: some View {
+        IconActionButton(systemImage: "cart.badge.plus", style: .primary, accessibilityLabel: "Einkaufsliste",
+                         title: "Einkaufsliste", controlSize: .regular, action: onShoppingList)
+            .accessibilityIdentifier("recipe.shoppingList")
+    }
+
+    private var saveAsOwnButton: some View {
+        IconActionButton(systemImage: "square.and.arrow.down", style: .primary, accessibilityLabel: "Als eigenes Rezept speichern",
+                         title: "Als eigenes Rezept speichern", controlSize: .regular) {
+            do {
+                _ = try model.uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB, context: viewContext,
+                                                       recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                showSavedConfirmation = true
+            } catch {
+                saveErrorMessage = error.localizedDescription
+            }
+        }
+        .accessibilityIdentifier("recipe.saveAsOwn")
     }
 }

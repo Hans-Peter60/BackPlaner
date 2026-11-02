@@ -26,10 +26,51 @@ struct PlanView: View {
     @State var additionalOverlap = ""
     @State var showsAdditionalOverlap = false
     @State var outcome: AppModel.PlanOutcome = .saved
+    /// What was scheduled, for the confirmation: reminders, oven time with
+    /// temperature, finish, and the plan's hints — as the iPhone's alert.
+    @State var summary: Text?
+    /// The recipe as planned, with the durations changed here; an own
+    /// recipe keeps them, as on the iPhone.
+    @State var workingRecipe: StoredRecipe
+    /// "Dauer ändern": a field per step, applied with "Dauer übernehmen".
+    @State var editsDurations = false
+    @State var durationTexts: [String] = []
     @Environment(\.dismiss) var dismiss
 
+    init(model: AppModel, recipe: StoredRecipe, scale: Double, takeOver: (() async -> StoredRecipe?)? = nil) {
+        self.model = model
+        self.recipe = recipe
+        self.scale = scale
+        self.takeOver = takeOver
+        _workingRecipe = State(initialValue: recipe)
+        _durationTexts = State(initialValue: recipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) })
+    }
+
     private var plan: BakePlan {
-        AppModel.plan(of: recipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+        AppModel.plan(of: workingRecipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+    }
+
+    /// Every field holds a duration (empty keeps the step's own).
+    private var durationsAreValid: Bool {
+        durationTexts.allSatisfy { DurationInput.minutes(from: $0) != nil }
+    }
+
+    /// Writes the typed durations into the recipe and works the start
+    /// times out again; an own recipe is saved with them, a public one
+    /// keeps them for this plan only — as on the iPhone.
+    private func applyDurations() {
+        var content = workingRecipe.content
+        for (index, text) in durationTexts.enumerated() where index < content.instructions.count {
+            if let minutes = DurationInput.minutes(from: text), minutes > 0 {
+                content.instructions[index].duration = minutes
+            }
+        }
+        workingRecipe.content = content.recalculated()
+        durationTexts = workingRecipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) }
+        if takeOver == nil {
+            _ = model.save(workingRecipe)
+        }
+        editsDurations = false
     }
 
     var body: some View {
@@ -46,7 +87,7 @@ struct PlanView: View {
                 DatePicker("Datum", selection: $date, displayedComponents: [.date, .hourAndMinute])
                 if scale != 1 {
                     Text("Die Mengen entsprechen dem Faktor \(RecipeDetailView.factorText(scale)).")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
             }
 
@@ -58,7 +99,7 @@ struct PlanView: View {
                     }
                     if !suggestions.isEmpty {
                         Text("So beginnt kein Schritt in der Nacht:")
-                            .font(.caption)
+                            .font(AppFont.caption)
                         ForEach(suggestions) { suggestion in
                             HStack {
                                 Text(verbatim: PlanText.dateTime(suggestion.start) + " – " + PlanText.dateTime(suggestion.finish))
@@ -73,12 +114,36 @@ struct PlanView: View {
             }
 
             Section {
-                ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
-                    HStack(alignment: .top, spacing: 8) {
-                        Text(verbatim: PlanText.dateTime(plan.date(of: step)))
-                            .font(.caption)
-                            .frame(width: 110, alignment: .leading)
-                        Text(verbatim: step.instruction)
+                Toggle("Dauer ändern", isOn: $editsDurations)
+                if editsDurations {
+                    // The recipe's own steps with a field each; the steps the
+                    // plan adds (oven on, bake end) have no duration to change.
+                    ForEach(Array(workingRecipe.content.instructions.enumerated()), id: \.offset) { index, instruction in
+                        HStack(alignment: .top, spacing: 8) {
+                            Text(verbatim: instruction.instruction)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            TextField("Dauer", text: Binding(
+                                get: { index < durationTexts.count ? durationTexts[index] : "" },
+                                set: { value in
+                                    if index < durationTexts.count { durationTexts[index] = value }
+                                }))
+                                .frame(width: 140)
+                                .foregroundStyle(DurationInput.minutes(from: index < durationTexts.count ? durationTexts[index] : "") == nil
+                                                 ? Color.red : Color.primary)
+                        }
+                    }
+                    Button("Dauer übernehmen") {
+                        applyDurations()
+                    }
+                    .disabled(!durationsAreValid)
+                } else {
+                    ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
+                        HStack(alignment: .top, spacing: 8) {
+                            Text(verbatim: PlanText.dateTime(plan.date(of: step)))
+                                .font(AppFont.caption)
+                                .frame(width: 110, alignment: .leading)
+                            Text(verbatim: step.instruction)
+                        }
                     }
                 }
             } header: {
@@ -141,6 +206,8 @@ struct PlanView: View {
         } message: {
             if outcome == .savedWithoutReminders {
                 Text("Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern.")
+            } else if outcome == .saved, let summary {
+                summary
             }
         }
     }
@@ -174,8 +241,34 @@ struct PlanView: View {
         }
     }
 
+    /// The confirmation's wording, the iPhone's ReminderSummary: no oven
+    /// line for a plan without a bake (feeding a starter). Built line by
+    /// line — the iPhone's whole-text keys would all get the same generated
+    /// catalog symbol here, which Xcode refuses — and SkipFuseUI has no
+    /// Text + Text, so the lines are joined as strings.
+    private func summaryText(of plan: BakePlan, hints: String) -> Text {
+        let count = plan.allSteps.count
+        let finish = PlanText.time(plan.date(of: plan.endStep))
+        var lines = [String(localized: "\(count) Erinnerungen gesetzt.", bundle: .module)]
+        if let ovenStep = plan.ovenOnStep {
+            let ovenOn = PlanText.time(plan.date(of: ovenStep))
+            let temperature = plan.ovenTemperature ?? ""
+            lines.append(temperature.isEmpty
+                ? String(localized: "Backofen anstellen um \(ovenOn) Uhr.", bundle: .module)
+                : String(localized: "Backofen anstellen um \(ovenOn) Uhr mit \(temperature).", bundle: .module))
+        }
+        lines.append(String(localized: "Fertig um \(finish) Uhr.", bundle: .module))
+        var text = lines.joined(separator: "\n")
+        if !hints.isEmpty {
+            text += "\n\n" + hints
+        }
+        return Text(verbatim: text)
+    }
+
     private func save(replacing: Bool) {
         let plan = self.plan
+        let hints = model.issues(of: plan).filter { $0.severity == .hint }.map(\.message).joined(separator: "\n\n")
+        summary = summaryText(of: plan, hints: hints)
         Task {
             var recipeID = recipe.id
             if let takeOver {

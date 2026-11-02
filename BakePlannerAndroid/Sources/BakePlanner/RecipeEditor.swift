@@ -1,5 +1,9 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Changes a recipe — or starts a new one — as a whole: its details, the
 /// components with their ingredients, and the steps. On saving, weights,
@@ -12,16 +16,27 @@ struct RecipeEditor: View {
     /// the editor does not show (picture, link) kept on saving.
     let template: RecipeExportData?
     /// Shown above the form: what the import says about its result.
-    let notice: LocalizedStringKey?
+    let notice: Text?
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
+    @Environment(\.colorScheme) var colorScheme
+    @State var picksImage = false
+    @State var takesPhoto = false
+    @State var pickedImageURL: URL?
+    @State var pickedImageName: String?
+    @State var pickedImageType: String?
     @Environment(\.dismiss) var dismiss
 
-    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: LocalizedStringKey? = nil,
+    /// True when the template is a published recipe being changed, so the
+    /// title says "Bearbeiten" although there is no stored original.
+    let editsPublished: Bool
+
+    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: Text? = nil, editsPublished: Bool = false,
          onSave: @escaping (StoredRecipe?, RecipeExportData) -> Void) {
         self.original = original
         self.template = original == nil ? template : nil
         self.notice = notice
+        self.editsPublished = editsPublished
         self.onSave = onSave
         _draft = State(initialValue: RecipeDraft(original?.content ?? template))
     }
@@ -30,8 +45,8 @@ struct RecipeEditor: View {
         Form {
             if let notice {
                 Section {
-                    Text(notice)
-                        .font(.caption)
+                    notice
+                        .font(AppFont.caption)
                 }
             }
 
@@ -41,6 +56,29 @@ struct RecipeEditor: View {
                 Text("Name")
             }
 
+            // The picture, as the iPhone's form has it; picked through the
+            // system's file chooser like in the recipe view.
+            Section {
+                if let image = draft.image {
+                    EditorPicture(data: image)
+                }
+                HStack(spacing: 16) {
+                    Button(draft.image == nil ? LocalizedStringKey("Bild hinzufügen") : LocalizedStringKey("Bild ändern")) {
+                        picksImage = true
+                    }
+                    Button("Kamera") {
+                        takesPhoto = true
+                    }
+                    if draft.image != nil {
+                        Button("Bild entfernen", role: .destructive) {
+                            draft.image = nil
+                        }
+                    }
+                }
+            } header: {
+                Text("Rezeptbild")
+            }
+
             Section {
                 TextField("Beschreibung", text: $draft.summary, axis: .vertical)
             } header: {
@@ -48,9 +86,22 @@ struct RecipeEditor: View {
             }
 
             Section {
-                Stepper(value: $draft.rating, in: 0...5) {
-                    Text(verbatim: draft.rating == 0 ? "–" : String(repeating: "★", count: draft.rating))
-                        .foregroundStyle(.orange)
+                // Five stars to tap, as the iPhone's RatingStarsView; the
+                // star tapped again takes the rating back.
+                HStack(spacing: 6) {
+                    ForEach(1..<6, id: \.self) { number in
+                        Button {
+                            draft.rating = draft.rating == number ? number - 1 : number
+                        } label: {
+                            // SkipUI has no star symbols; the characters do.
+                            Text(verbatim: number <= draft.rating ? "★" : "☆")
+                                .font(AppFont.title2)
+                                .foregroundStyle(number <= draft.rating
+                                                 ? Palette.accentText(colorScheme) : Palette.subtitle(colorScheme))
+                        }
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel(Text(verbatim: "\(number)"))
+                    }
                 }
                 TextField("Tags, durch Komma getrennt", text: $draft.tags)
             } header: {
@@ -105,25 +156,39 @@ struct RecipeEditor: View {
             Section {
                 ForEach($draft.steps) { $step in
                     VStack(alignment: .leading, spacing: 6) {
-                        TextField("Schritt", text: $step.text, axis: .vertical)
+                        HStack(alignment: .top, spacing: 8) {
+                            // The step's number, editable as on the iPhone:
+                            // 3.1 is a sub-step of 3 (a fold during the rest).
+                            TextField("Nr.", text: $step.numberText)
+                                .keyboardType(.decimalPad)
+                                .frame(width: 64)
+                                .foregroundStyle(step.step == nil ? Color.red : Color.primary)
+                            TextField("Schritt", text: $step.text, axis: .vertical)
+                        }
                         HStack {
                             Text("Minuten")
                             TextField("Dauer", text: $step.minutes)
-                                .foregroundStyle(step.isValid ? Color.primary : Color.red)
+                                .foregroundStyle(step.hasValidDuration ? Color.primary : Color.red)
                         }
                     }
                 }
                 .onDelete { offsets in
                     draft.steps.remove(atOffsets: offsets)
                 }
-                Button("Schritt hinzufügen") {
-                    draft.addStep()
+                HStack(spacing: 16) {
+                    Button("Schritt hinzufügen") {
+                        draft.addStep()
+                    }
+                    Button("Unterschritt hinzufügen") {
+                        draft.addSubStep()
+                    }
+                    .disabled(draft.steps.isEmpty)
                 }
             } header: {
                 Text("Verarbeitungsschritte")
             }
         }
-        .navigationTitle(original == nil ? LocalizedStringKey("Neues Rezept") : LocalizedStringKey("Bearbeiten"))
+        .navigationTitle(original == nil && !editsPublished ? LocalizedStringKey("Neues Rezept") : LocalizedStringKey("Bearbeiten"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Abbrechen") {
@@ -138,6 +203,40 @@ struct RecipeEditor: View {
                 .disabled(!draft.canSave)
             }
         }
+        .withDocumentPicker(isPresented: $picksImage,
+                            allowedContentTypes: [.image],
+                            selectedDocumentURL: $pickedImageURL,
+                            selectedFilename: $pickedImageName,
+                            selectedFileMimeType: $pickedImageType)
+        .onChange(of: pickedImageURL) { _, url in
+            guard let url else { return }
+            pickedImageURL = nil
+            // A file that is no picture leaves the picture as it is.
+            if let data = RecipeDetailView.pictureData(at: url) {
+                draft.image = data
+            }
+        }
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            draft.image = data
+        }
+    }
+}
+
+/// The draft's picture as a small preview in the form.
+struct EditorPicture: View {
+    let data: Data
+
+    var body: some View {
+        #if canImport(UIKit) || os(Android)
+        if let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity)
+                .frame(height: 160)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        #endif
     }
 }
 
@@ -150,6 +249,8 @@ struct RecipeDraft {
     var tags: String
     var components: [ComponentDraft]
     var steps: [StepDraft]
+    /// The recipe's picture, as the app keeps pictures (JPEG, PhotoShrinker).
+    var image: Data?
     /// Days between two plans the app makes on its own; 0 for none.
     var recurrenceIntervalDays: Int
     /// Whether the recipe feeds a starter, for the rhythm's wording.
@@ -159,6 +260,7 @@ struct RecipeDraft {
         recurrenceIntervalDays = content?.recurrenceIntervalDays ?? 0
         isStarter = content.map { StarterRecipe.isStarterFeeding($0) } ?? false
         name = content?.name ?? ""
+        image = content?.image
         summary = content?.summary ?? ""
         rating = content?.rating ?? 0
         tags = content?.tags.joined(separator: ", ") ?? ""
@@ -174,12 +276,19 @@ struct RecipeDraft {
 
     /// A new step after the last, as the next whole step number.
     mutating func addStep() {
-        let next = (steps.map { Int($0.step) }.max() ?? 0) + 1
+        let next = (steps.compactMap { $0.step.map { Int($0) } }.max() ?? 0) + 1
         steps.append(StepDraft(step: Double(next)))
     }
 
+    /// A sub-step of the last step — 3.1 after 3, 3.2 after 3.1 — as the
+    /// iPhone numbers on after a sub-step.
+    mutating func addSubStep() {
+        guard let last = steps.compactMap(\.step).max() else { return }
+        steps.append(StepDraft(step: (last * 10).rounded() / 10 + 0.1))
+    }
+
     /// The recipe this draft describes. What the editor does not show — the
-    /// link, the rhythm, the picture — comes from `original`.
+    /// link, the preparation time — comes from `original`.
     func content(keeping original: RecipeExportData?) -> RecipeExportData {
         RecipeExportData(
             name: name.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -192,7 +301,7 @@ struct RecipeDraft {
                 .filter { !$0.isEmpty },
             rating: rating,
             recurrenceIntervalDays: recurrenceIntervalDays,
-            image: original?.image,
+            image: image,
             components: components.enumerated().map { index, component in
                 RecipeExportComponent(name: component.name.trimmingCharacters(in: .whitespacesAndNewlines),
                                       number: index + 1,
@@ -200,8 +309,12 @@ struct RecipeDraft {
                                           ingredient.ingredient(number: number + 1)
                                       })
             },
-            instructions: steps.sorted { $0.step < $1.step }.map(\.instruction)
-        ).recalculated()
+            instructions: steps.sorted { ($0.step ?? 0) < ($1.step ?? 0) }.map(\.instruction)
+        )
+        // A fold line typed by hand ("nach 30 und 60 Minuten dehnen und
+        // falten") becomes one sub-step per fold, as on the iPhone.
+        .expandingTimedFolds()
+        .recalculated()
     }
 }
 
@@ -259,33 +372,50 @@ struct StepDraft: Identifiable {
     let id = UUID()
     var text = ""
     var minutes = ""
-    var step: Double
+    /// The step number as typed: "3" or "3.1" (a comma does as well).
+    var numberText: String
     var bakeFlag = false
     var componentName: String?
 
     init(step: Double) {
-        self.step = step
+        numberText = Self.numberText(for: step)
     }
 
     init(_ instruction: RecipeExportInstruction) {
         text = instruction.instruction
         minutes = instruction.duration == 0 ? "" : String(instruction.duration)
-        step = instruction.step
+        numberText = Self.numberText(for: instruction.step)
         bakeFlag = instruction.bakeFlag
         componentName = instruction.componentName
     }
 
-    var isValid: Bool { duration != nil }
+    /// "3" or "3.1": the number rounded to a tenth. Rounded, not cut off
+    /// — a stored 4.1999999 is the step 4.2, and cutting it to 4.1 would
+    /// renumber the step on saving.
+    static func numberText(for step: Double) -> String {
+        let tenths = Int((step * 10).rounded())
+        return tenths % 10 == 0 ? "\(tenths / 10)" : "\(tenths / 10).\(tenths % 10)"
+    }
 
-    private var duration: Int? {
-        let trimmed = minutes.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return 0 }
-        guard let value = Int(trimmed), value >= 0 else { return nil }
+    /// The step number, nil for text that is none.
+    var step: Double? {
+        let trimmed = numberText.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+        guard let value = Double(trimmed), value >= 0 else { return nil }
         return value
     }
 
+    var hasValidDuration: Bool { duration != nil }
+
+    var isValid: Bool { hasValidDuration && step != nil }
+
+    /// Minutes, or hours and minutes as a baker writes them ("1:30",
+    /// "1,5 h"), as on the iPhone (DurationInput).
+    private var duration: Int? {
+        DurationInput.minutes(from: minutes)
+    }
+
     var instruction: RecipeExportInstruction {
-        RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step,
+        RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step ?? 0,
                                 duration: duration ?? 0, startTime: 0, bakeFlag: bakeFlag,
                                 componentName: componentName)
     }

@@ -23,6 +23,20 @@ struct CoreDataStarterFeedingLogStoreTests {
         return (CoreDataStarterFeedingLogStore(context: context), CoreDataRecipeStore(context: context))
     }
 
+    @Test("Replacing or deleting a starter's plan takes its untouched feeding, through the Core Data store")
+    func plannedFeedingGoesWithThePlan() throws {
+        let (store, recipes) = newStores()
+        let starter = try recipes.add(RecipeStoreContract.bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        let tomorrow = Date().addingTimeInterval(86_400)
+        _ = try store.add(toRecipe: starter.id, date: tomorrow, facts: StarterFeedingFacts())
+        let kept = try store.add(toRecipe: starter.id, date: tomorrow, facts: StarterFeedingFacts(note: "Blubbert"))
+
+        let recipe = try #require(try store.context.fetch(Recipe.fetchRequest()).first)
+        BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: store.context)
+
+        #expect(try store.feedings(ofRecipe: starter.id).map(\.id) == [kept.id])
+    }
+
     @Test("Every check of the contract", arguments: StarterFeedingLogStoreContract.checks.map(\.name))
     func contract(_ name: String) throws {
         let check = try #require(StarterFeedingLogStoreContract.checks.first { $0.name == name })

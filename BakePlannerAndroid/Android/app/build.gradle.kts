@@ -91,3 +91,13 @@ android {
         }
     }
 }
+
+dependencies {
+    // App Check providers, installed by AndroidAppMain.installAppCheck
+    // (Main.kt): the debug provider for debug builds, Play Integrity for
+    // the store build. The BOM comes from the version catalog that
+    // skip-firebase's Core module declares.
+    implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-appcheck-debug")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+}

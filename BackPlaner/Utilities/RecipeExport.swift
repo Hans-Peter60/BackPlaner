@@ -165,7 +165,9 @@ struct RecipeFileExport: Transferable {
         self.init(recipes: recipes, fileName: fileName, includesBakeHistory: true)
     }
 
-    private init(recipes: [Recipe], fileName: String, includesBakeHistory: Bool) {
+    /// A chosen set of recipes, with or without their bake history and
+    /// feeding diaries (RecipeExportSelectionView).
+    init(recipes: [Recipe], fileName: String, includesBakeHistory: Bool) {
         recipeIDs = recipes.map(\.objectID)
         self.fileName = Self.sanitizedFileName(fileName)
         self.includesBakeHistory = includesBakeHistory

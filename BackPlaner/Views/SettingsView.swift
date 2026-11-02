@@ -621,38 +621,7 @@ struct SettingsView: View {
     }
 }
 
-/// Addresses of the manual and the support page on the BakePlanner website,
-/// in the language the app is running in.
-enum HelpLinks {
-
-    static let site = "https://hans-peter60.github.io/bakeplanner/"
-
-    /// "de", "en" or "fr" — the manual exists in exactly these; anything else
-    /// gets English.
-    static var languageCode: String {
-        let code = AppSettings.locale.language.languageCode?.identifier ?? "en"
-        return ["de", "fr"].contains(code) ? code : "en"
-    }
-
-    static var manual: URL {
-        URL(string: "\(site)manual-\(languageCode).html")!
-    }
-
-    static var support: URL {
-        URL(string: "\(site)index.html#\(languageCode)")!
-    }
-
-    /// The privacy policy, in the language the app runs in. Also the URL to
-    /// give App Store Connect.
-    static var privacy: URL {
-        URL(string: "\(site)privacy.html#\(languageCode)")!
-    }
-
-    /// The legal notice (Impressum) German law requires of a commercial app.
-    static var imprint: URL {
-        URL(string: "\(site)impressum.html#\(languageCode)")!
-    }
-}
+// HelpLinks (the website's addresses) lives in BakePlannerCore.
 
 struct RecipeAIPrivacyView: View {
     @AppStorage(AppSettingsKeys.cloudRecipeAnalysisConsent) private var cloudRecipeAnalysisConsent = false

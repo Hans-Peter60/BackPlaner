@@ -1,1 +1,23 @@
-A great new app built with Skip!
+When does the sourdough have to go on so the bread comes out of the oven at 6 pm on Saturday? BakePlanner works it out and reminds you of every step.
+
+In BakePlanner a recipe is not just a list of ingredients but steps with durations. You choose “Done by” or “Start from”, and the app calculates the start time for the scald, the sourdough, kneading, folding, shaping and baking. “Turn on the oven” it adds by itself. Every step comes with a reminder, and the timeline shows your baking day as a schedule.
+
+IN THE KITCHEN
+Bake Mode shows one step in big type, with its ingredients at the planned serving size, and reads it aloud if you like. A step is marked done or pushed back right on its reminder, without opening the app.
+
+BAKER’S CALCULATORS
+• Starter TA: the recipe wants a starter at TA 150 and you keep yours at TA 200? The app converts the amount of starter and the water in the main dough.
+• Replace flour: spelt instead of wheat, wholegrain instead of white. The water follows the new flour, with advice on handling it.
+• Dough temperature: the water temperature for the dough temperature you want, with preferment and friction factor.
+• Serving size or dough weight, as you like. Dough yield, hydration and baker’s percentages are calculated along.
+
+CARING FOR THE SOURDOUGH
+Recurring recipes such as refreshing the starter are planned anew by the app after each time. In the starter diary you note the time to peak, the float test and remarks.
+
+RECIPES
+Photograph a recipe from a book or share a web page from your browser: BakePlanner reads ingredients, components and steps and turns “fold every 30 minutes, 4x” into timed steps. In the shared recipe database you find recipes from other bakers, in your language where a translation exists. Your own recipes stay on the device until you publish them. No account is needed; signing in with Apple is voluntary.
+
+SHOPPING AND KEEPING RECORDS
+The shopping list is sorted by shelf and takes the amounts at the chosen serving size. The baking history keeps a photo, measurements and the result of every baking day. Share a recipe as a PDF, and the backup file takes your recipes to another device – to and from BakePlanner on the iPhone as well.
+
+BakePlanner – say when the bread should be ready. The app works out the rest.

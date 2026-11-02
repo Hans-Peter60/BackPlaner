@@ -1,0 +1,23 @@
+Wann muss der Sauerteig angesetzt werden, damit das Brot am Samstag um 18 Uhr aus dem Ofen kommt? BakePlanner rechnet es aus und erinnert Dich an jeden Schritt.
+
+Ein Rezept besteht in BakePlanner nicht nur aus Zutaten, sondern aus Arbeitsschritten mit Dauern. Du wählst „Fertig bis“ oder „Starten ab“, und die App berechnet die Beginnzeit für Brühstück, Sauerteig, Kneten, Falten, Formen und Backen. „Backofen anstellen“ setzt sie von selbst dazu. Für jeden Schritt kommt eine Erinnerung, und die Zeitleiste zeigt Deinen Backtag als Ablaufplan.
+
+IN DER KÜCHE
+Der Backmodus zeigt einen Schritt in großer Schrift, mit den Zutaten in der geplanten Portionsgröße, und liest ihn auf Wunsch vor. Erledigt oder verschoben wird ein Schritt direkt an der Erinnerung, ohne die App zu öffnen.
+
+BÄCKERRECHNER
+• Anstellgut-TA: Das Rezept verlangt TA 150, Du führst Deines bei TA 200? Die App rechnet Anstellgutmenge und Wasser im Hauptteig um.
+• Mehl ersetzen: Dinkel statt Weizen, Vollkorn statt Typ 550. Das Wasser folgt dem neuen Mehl, mit Hinweisen zur Verarbeitung.
+• Teigtemperatur: die Schüttwassertemperatur für die gewünschte Teigtemperatur, mit Vorteig und Knetfaktor.
+• Portionsgröße oder Teiggewicht frei wählbar. Teigausbeute, Hydration und Bäckerprozente rechnet die App mit.
+
+SAUERTEIG PFLEGEN
+Wiederkehrende Rezepte wie die Auffrischung des Anstellguts plant die App nach dem letzten Mal von selbst neu. Im Anstellgut-Tagebuch hältst Du Zeit bis zum Höchststand, Schwimmtest und Notizen fest.
+
+REZEPTE
+Fotografiere ein Rezept aus dem Buch oder teile eine Internetseite aus dem Browser: BakePlanner liest Zutaten, Komponenten und Schritte aus und löst „alle 30 Minuten falten, 4x“ in getaktete Schritte auf. In der gemeinsamen Rezept-Datenbank findest Du Rezepte anderer Bäcker, in Deiner Sprache, soweit sie übersetzt sind. Eigene Rezepte bleiben auf dem Gerät, bis Du sie veröffentlichst. Ein Konto ist nicht nötig, die Anmeldung mit Apple ist freiwillig.
+
+EINKAUFEN UND DOKUMENTIEREN
+Die Einkaufsliste ist nach Regalen sortiert und übernimmt die Mengen in der gewählten Portionsgröße. Die Backhistorie hält Foto, Messwerte und Ergebnis jedes Backtags fest. Ein Rezept teilst Du als PDF, und die Sicherungsdatei nimmt Deine Rezepte mit auf ein anderes Gerät – auch von und zu BakePlanner auf dem iPhone.
+
+BakePlanner – sag, wann das Brot fertig sein soll. Den Rest rechnet die App.

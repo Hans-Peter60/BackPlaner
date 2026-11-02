@@ -109,7 +109,8 @@
     <tr>
       <td>Rezepte, die du selbst anlegst, samt Bildern</td>
       <td>Auf deinem Gerät, gesichert über <strong>deine</strong> iCloud
-      (Apple)</td>
+      (Apple). Auf Android nur auf dem Gerät, ohne Cloud-Sicherung; die
+      Sicherungsdatei aus der App ist dort deine Sicherung.</td>
       <td>Abgleich zwischen deinen eigenen Geräten. Ich habe darauf keinen
       Zugriff.</td>
     </tr>
@@ -151,8 +152,8 @@
       erfolgt erst nach deiner ausdrücklichen Einwilligung.</td>
     </tr>
     <tr>
-      <td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis,
-      Anfragezeit und Anfrageanzahl</td>
+      <td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis (auf Android
+      über Google Play Integrity), Anfragezeit und Anfrageanzahl</td>
       <td>Google Firebase; die Cloud Function läuft in
       <code>europe-west1</code>. Für die Analyse wird Google Vertex AI
       mit dem Standort <code>EU</code> verwendet.</td>
@@ -260,7 +261,7 @@
   nächsten Analyse ersetzt. Die Prüfsumme eines geprüften Pro-Kaufbelegs
   wird nach sieben Tagen verworfen.</p>
 
-  <h3>Deine Rechte</h3>
+  <h3 id="konto-loeschen">Deine Rechte</h3>
   <p>Du kannst dein Konto in der App löschen: <em>Einstellungen → Konto →
   Konto löschen</em>. Damit werden das Konto entfernt und die Anmeldung
   aufgehoben.</p>
@@ -308,7 +309,8 @@
     <tr>
       <td>Recipes you create, with their images</td>
       <td>On your device, backed up through <strong>your</strong> iCloud
-      (Apple)</td>
+      (Apple). On Android only on the device, with no cloud backup; the
+      backup file from the app is your backup there.</td>
       <td>Syncing between your own devices. I have no access to it.</td>
     </tr>
     <tr>
@@ -346,8 +348,8 @@
       place after your explicit consent.</td>
     </tr>
     <tr>
-      <td>Pseudonymous Firebase user ID, App Check attestation, request time
-      and request count</td>
+      <td>Pseudonymous Firebase user ID, App Check attestation (through Google
+      Play Integrity on Android), request time and request count</td>
       <td>Google Firebase; the Cloud Function runs in
       <code>europe-west1</code>. Google Vertex AI is configured with the
       <code>EU</code> location for analysis.</td>
@@ -446,7 +448,7 @@
   checksum of a verified Pro proof of purchase is discarded after seven
   days.</p>
 
-  <h3>Your rights</h3>
+  <h3 id="account-deletion">Your rights</h3>
   <p>You can delete your account in the app: <em>Settings → Account → Delete
   account</em>. That removes the account and signs you out.</p>
   <p class="note">Published recipes are <strong>not</strong> deleted, because
@@ -490,7 +492,8 @@
     <tr>
       <td>Les recettes que vous créez, avec leurs images</td>
       <td>Sur votre appareil, sauvegardées via <strong>votre</strong> iCloud
-      (Apple)</td>
+      (Apple). Sur Android uniquement sur l’appareil, sans sauvegarde cloud ;
+      le fichier de sauvegarde de l’app y est votre sauvegarde.</td>
       <td>Synchronisation entre vos propres appareils. Je n’y ai pas
       accès.</td>
     </tr>
@@ -533,8 +536,8 @@
       n’a lieu qu’après votre consentement explicite.</td>
     </tr>
     <tr>
-      <td>Identifiant utilisateur Firebase pseudonyme, attestation App Check,
-      heure et nombre des requêtes</td>
+      <td>Identifiant utilisateur Firebase pseudonyme, attestation App Check
+      (via Google Play Integrity sur Android), heure et nombre des requêtes</td>
       <td>Google Firebase ; la fonction Cloud s’exécute dans
       <code>europe-west1</code>. Google Vertex AI est configuré avec la zone
       <code>EU</code> pour l’analyse.</td>
@@ -643,7 +646,7 @@
   l’analyse suivante. La somme de contrôle d’une preuve d’achat Pro vérifiée
   est effacée au bout de sept jours.</p>
 
-  <h3>Vos droits</h3>
+  <h3 id="suppression-du-compte">Vos droits</h3>
   <p>Vous pouvez supprimer votre compte dans l’app : <em>Réglages → Compte →
   Supprimer le compte</em>. Cela supprime le compte et vous déconnecte.</p>
   <p class="note">Les recettes publiées ne sont

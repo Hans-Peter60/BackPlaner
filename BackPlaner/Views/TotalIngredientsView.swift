@@ -23,7 +23,7 @@ struct TotalIngredientsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Gesamtzutaten:")
+            Text("Gesamtzutaten")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
 
@@ -46,7 +46,7 @@ struct TotalIngredientsView: View {
 }
 
 /// The recipe's components, each with its own ingredient list, side by side —
-/// with "Komponenten:" as the heading of that same card.
+/// with "Komponenten" as the heading of that same card.
 ///
 /// Deliberately a `Grid` and not the `LazyVGrid` this used to be, for two
 /// measured reasons.
@@ -85,17 +85,14 @@ struct ComponentColumnsView: View {
 
     /// How many components stand side by side.
     ///
-    /// Three used to be the answer on every device. That is right for an iPad
-    /// and too optimistic for an iPhone: 440 pt across, minus the card's
-    /// padding and the gaps, leaves about 130 pt per column — narrower than
-    /// several real lines. "• 123 g Weizenvollkornmehl" measures 189.5 pt and a
-    /// component named "Weizensauerteig" measures 125 pt, which is why it used
-    /// to break after "Weizensauertei". Two columns give about 200 pt, enough
-    /// for both; at the accessibility text sizes even that is hopeless, so the
-    /// components simply stack.
+    /// Three on an iPad. On an iPhone the components stack: two columns gave
+    /// about 200 pt each, which wrapped lines like "• 100 ml Weißwein · 50 %"
+    /// after the unit and left the percentages dangling on lines of their
+    /// own — longer to scroll, but every line stays whole. At the
+    /// accessibility text sizes the iPad stacks too.
     private var columnCount: Int {
         if dynamicTypeSize.isAccessibilitySize { return 1 }
-        return hSize == .regular ? 3 : 2
+        return hSize == .regular ? 3 : 1
     }
 
     /// The components chunked into rows, since a `Grid` needs its rows spelled
@@ -108,7 +105,7 @@ struct ComponentColumnsView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Komponenten:")
+            Text("Komponenten")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
                 .padding([.bottom, .top], 5)
@@ -231,35 +228,5 @@ struct ComponentColumnsView: View {
                                    scale: scale)
             + ingredient.name.trimmingCharacters(in: .whitespaces)
             + BakersPercentage.suffix(for: ingredient, flourWeight: flourWeight)
-    }
-}
-
-/// Baker's percentages: every ingredient of a component as a share of that
-/// component's flour, which is how bakers compare and scale formulas. Flour
-/// is recognised by name; a component without any shows no percentages.
-enum BakersPercentage {
-
-    /// The same flour the dough yield counts, so the two never disagree.
-    static func isFlour(_ name: String) -> Bool {
-        DoughComposition.isFlour(name)
-    }
-
-    /// The summed weight of the flours, independent of the scale shown —
-    /// percentages do not change with the batch size.
-    static func flourWeight(of ingredients: [TotalIngredientData]) -> Double {
-        ingredients.filter { isFlour($0.name) && $0.weight > 0 }.map(\.weight).reduce(0, +)
-    }
-
-    /// " · 62 %" for a weighed ingredient; nothing for pieces, for a whole
-    /// component used as an ingredient ("1 gesamtes Brühstück", no unit), or
-    /// when the component has no flour. Non-breaking spaces keep the
-    /// percentage in one piece when a narrow column wraps the line.
-    static func suffix(for ingredient: TotalIngredientData, flourWeight: Double) -> String {
-        guard flourWeight > 0, ingredient.weight > 0,
-              !ingredient.unit.trimmingCharacters(in: .whitespaces).isEmpty
-        else { return "" }
-        let percent = (ingredient.weight / flourWeight * 100).rounded()
-        guard percent >= 1 else { return "" }
-        return " ·\u{00A0}\(Int(percent))\u{00A0}%"
     }
 }

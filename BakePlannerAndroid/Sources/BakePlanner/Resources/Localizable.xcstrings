@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%lld Erinnerungen gesetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld reminders set."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld rappels définis."
+          }
+        }
+      }
+    },
+    "%lld Sterne und mehr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stars and up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étoiles et plus"
+          }
+        }
+      }
+    },
     "%lld Zutaten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -53,6 +87,23 @@
         }
       }
     },
+    "Ablehnen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refuser"
+          }
+        }
+      }
+    },
     "Abmelden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -100,6 +151,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Administrateur"
+          }
+        }
+      }
+    },
+    "Aktion fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Action failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de l’action"
+          }
+        }
+      }
+    },
+    "Akzeptieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter"
           }
         }
       }
@@ -181,6 +266,40 @@
         }
       }
     },
+    "Alle Bewertungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All ratings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les notes"
+          }
+        }
+      }
+    },
+    "Alle auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout sélectionner"
+          }
+        }
+      }
+    },
     "Alle eigenen Rezepte sichern" : {
       "comment" : "Recipe list: save every recipe as one backup file.",
       "extractionState" : "manual",
@@ -199,6 +318,23 @@
         }
       }
     },
+    "Alle löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout supprimer"
+          }
+        }
+      }
+    },
     "Alle nachfolgenden" : {
       "comment" : "Text for a notification action that will postpone a task for all following tasks.",
       "extractionState" : "manual",
@@ -213,6 +349,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toutes les suivantes"
+          }
+        }
+      }
+    },
+    "Alle Pläne und ihre Erinnerungen werden entfernt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All plans and their reminders are removed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les plans et leurs rappels sont supprimés."
           }
         }
       }
@@ -247,6 +400,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer comme ma recette"
+          }
+        }
+      }
+    },
+    "Als Nächstes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up next"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À suivre"
+          }
+        }
+      }
+    },
+    "Analyse mit Google Vertex AI (Gemini)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis with Google Vertex AI (Gemini)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse avec Google Vertex AI (Gemini)"
+          }
+        }
+      }
+    },
+    "Analyseart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode d’analyse"
+          }
+        }
+      }
+    },
+    "Änderung übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply change"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer la modification"
           }
         }
       }
@@ -286,6 +507,23 @@
         }
       }
     },
+    "Anmeldung nötig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in required"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion requise"
+          }
+        }
+      }
+    },
     "Anstellgut" : {
       "comment" : "Sauerteig-Anstellgut",
       "extractionState" : "manual",
@@ -318,6 +556,57 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Levain chef %1$lld : Farine %2$lld : Eau %3$lld"
+          }
+        }
+      }
+    },
+    "Anstellgut einsetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter to use"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain chef à utiliser"
+          }
+        }
+      }
+    },
+    "Anstellgut-TA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter TA"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA du levain chef"
+          }
+        }
+      }
+    },
+    "Anstellgut-TA anpassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust starter TA"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuster la TA du levain chef"
           }
         }
       }
@@ -375,6 +664,40 @@
         }
       }
     },
+    "Auf Android liest BakePlanner Fotos bisher nur mit der Cloud-KI. Wähle „Geschützte Cloud-KI“, oder lege das Rezept von Hand oder von einer Internetseite an." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On Android, BakePlanner can read photos only with the cloud AI for now. Choose “Protected cloud AI”, or create the recipe by hand or from a web page."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur Android, BakePlanner ne lit les photos qu’avec l’IA cloud pour l’instant. Choisissez « IA cloud protégée », ou créez la recette à la main ou depuis une page web."
+          }
+        }
+      }
+    },
+    "Aufnehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prendre une photo"
+          }
+        }
+      }
+    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -389,6 +712,57 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Repris de la recette — non modifiable ici."
+          }
+        }
+      }
+    },
+    "Aus Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir de photos"
+          }
+        }
+      }
+    },
+    "Ausgewählte Seiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected pages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages sélectionnées"
+          }
+        }
+      }
+    },
+    "Auswahl aufheben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout désélectionner"
           }
         }
       }
@@ -440,6 +814,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Date de cuisson"
+          }
+        }
+      }
+    },
+    "Backen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuire"
+          }
+        }
+      }
+    },
+    "Bäckerprozente anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les pourcentages boulanger"
           }
         }
       }
@@ -513,6 +921,40 @@
         }
       }
     },
+    "Backofen anstellen um %@ Uhr mit %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the oven at %1$@ (%2$@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allumer le four à %1$@ (%2$@)."
+          }
+        }
+      }
+    },
+    "Backofen anstellen um %@ Uhr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the oven at %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allumer le four à %@."
+          }
+        }
+      }
+    },
     "Backpause" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -526,6 +968,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause de cuisson"
+          }
+        }
+      }
+    },
+    "BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner stores neither the transmitted recipe images nor the page texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes de pages transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
           }
         }
       }
@@ -654,6 +1113,74 @@
         }
       }
     },
+    "Beginn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début"
+          }
+        }
+      }
+    },
+    "Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With a big difference in TA it pays to convert the starter to the TA you want beforehand, over one or two feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En cas de grand écart de TA, il vaut mieux convertir le levain chef à la TA souhaitée au préalable, en un ou deux rafraîchis."
+          }
+        }
+      }
+    },
+    "Bei über der Hälfte Roggen den Teig nur mischen statt kneten, mit nassen Händen formen und kräftig versäuern." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With more than half rye, just mix the dough instead of kneading, shape it with wet hands, and acidify it well."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au-delà de la moitié de seigle, mélangez simplement la pâte au lieu de la pétrir, façonnez-la avec les mains mouillées et acidifiez-la bien."
+          }
+        }
+      }
+    },
+    "Benutzerhandbuch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User manual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuel de l’utilisateur"
+          }
+        }
+      }
+    },
     "Beobachtungen, Geruch, Konsistenz …" : {
       "comment" : "A placeholder text for a text field that lets the user add notes about a feeding.",
       "extractionState" : "manual",
@@ -759,6 +1286,23 @@
         }
       }
     },
+    "Bevor Du teilst" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before you share"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant de partager"
+          }
+        }
+      }
+    },
     "Bewertung" : {
       "comment" : "A label for the recipe'",
       "extractionState" : "manual",
@@ -813,6 +1357,23 @@
         }
       }
     },
+    "Bild erforderlich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image required"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image requise"
+          }
+        }
+      }
+    },
     "Bild hinzufügen" : {
       "comment" : "Recipe detail: pick a picture for a recipe without one.",
       "extractionState" : "manual",
@@ -827,6 +1388,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une image"
+          }
+        }
+      }
+    },
+    "Bilder auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select images"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionner des images"
+          }
+        }
+      }
+    },
+    "Bis zu 10 Seiten, in der Reihenfolge der Auswahl." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 10 pages, in the order selected."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’à 10 pages, dans l’ordre de la sélection."
           }
         }
       }
@@ -900,6 +1495,40 @@
         }
       }
     },
+    "Bitte ein Kürzel angeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter an abbreviation."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez une abréviation."
+          }
+        }
+      }
+    },
+    "Bitte einen Namen angeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez un nom."
+          }
+        }
+      }
+    },
     "Blockierte Autoren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -947,6 +1576,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Débloquer tous les auteurs"
+          }
+        }
+      }
+    },
+    "Cloud-KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IA cloud"
           }
         }
       }
@@ -1002,6 +1648,74 @@
         }
       }
     },
+    "Das Kürzel „%@“ ist schon vergeben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The abbreviation “%@” is already taken."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’abréviation « %@ » est déjà utilisée."
+          }
+        }
+      }
+    },
+    "Das Mehl aus dem Anstellgut bleibt gleich; nur Anstellgut und Wasser verschieben sich gegeneinander. Teigausbeute und Gesamtgewicht des Teigs ändern sich dadurch nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The flour from the starter stays the same; only starter and water shift against each other. Dough yield and total weight of the dough do not change."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine apportée par le levain chef reste la même ; seuls le levain chef et l’eau se déplacent l’un contre l’autre. Le rendement de la pâte (TA) et le poids total de la pâte ne changent pas."
+          }
+        }
+      }
+    },
+    "Das Rezept ist jetzt für alle Nutzer in der Rezept-Datenbank sichtbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe is now visible to every user in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette est maintenant visible par tous les utilisateurs dans la base de recettes."
+          }
+        }
+      }
+    },
+    "Das Rezept kann nicht gespeichert werden. Bitte füge zuerst ein Rezeptbild hinzu." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe can’t be saved. Add a recipe image first."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette ne peut pas être enregistrée. Ajoutez d’abord une image de recette."
+          }
+        }
+      }
+    },
     "Das Rezept konnte nicht geladen werden." : {
       "comment" : "Public recipe: its components and steps could not be read.",
       "extractionState" : "manual",
@@ -1016,6 +1730,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette n’a pas pu être chargée."
+          }
+        }
+      }
+    },
+    "Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe does not state a TA for its starter; the TA from the settings is assumed. If the recipe gives one, write it into the ingredient name, e.g. “Sourdough starter TA 150”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette n’indique pas de TA pour son levain chef ; la TA des réglages est supposée. Si la recette la précise, inscrivez-la dans le nom de l’ingrédient, par exemple « Levain chef TA 150 »."
           }
         }
       }
@@ -1038,6 +1769,40 @@
         }
       }
     },
+    "Das Rezept wird endgültig aus der öffentlichen Datenbank entfernt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe will be permanently removed from the public database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette sera supprimée définitivement de la base de données publique."
+          }
+        }
+      }
+    },
+    "Das Rezept wird für alle Nutzer sichtbar. Als Autor kannst Du es später in der Rezept-Datenbank bearbeiten oder löschen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe becomes visible to all users. As its author you can edit or delete it later in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette devient visible par tous les utilisateurs. En tant qu’auteur, vous pourrez ensuite la modifier ou la supprimer dans la base de recettes."
+          }
+        }
+      }
+    },
     "Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1051,6 +1816,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La recette a été reprise sans IA à partir des données structurées de la page. Vérifiez tout particulièrement les composants et les durées."
+          }
+        }
+      }
+    },
+    "Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work in the extra water bit by bit and adjust by how the dough feels – flours vary with the mill and the harvest."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incorporez l’eau supplémentaire petit à petit et corrigez au toucher de la pâte – les farines varient selon le moulin et la récolte."
+          }
+        }
+      }
+    },
+    "Datenschutz & KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy & AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confidentialité et IA"
+          }
+        }
+      }
+    },
+    "Datenschutz bei KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI privacy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confidentialité de l’IA"
+          }
+        }
+      }
+    },
+    "Datenschutzerklärung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
           }
         }
       }
@@ -1090,6 +1923,57 @@
         }
       }
     },
+    "Dauer ändern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change durations"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les durées"
+          }
+        }
+      }
+    },
+    "Dauer übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply duration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer la durée"
+          }
+        }
+      }
+    },
+    "Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recognized recipe draft is only saved once you have reviewed it and explicitly save it. Your choice of whether the recipe stays on the device or is published then applies."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le brouillon de recette reconnu n’est enregistré que lorsque vous l’avez vérifié puis enregistré explicitement. Votre choix — la recette reste sur l’appareil ou est publiée — s’applique alors."
+          }
+        }
+      }
+    },
     "Der Plan steht in der Zeitleiste, aber ohne Erinnerungen: BakePlanner darf keine Benachrichtigungen senden. Das lässt sich in den Android-Einstellungen unter Apps ändern." : {
       "comment" : "Planning on Android when notifications are not allowed.",
       "extractionState" : "manual",
@@ -1108,6 +1992,58 @@
         }
       }
     },
+    "Der Rezepttext der Seite wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page’s recipe text is analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette de la page est analysé de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
+    "Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe text of the web page you entered and its address are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider. To secure the service and limit usage, a pseudonymous Firebase user ID, the App Check attestation, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette de la page web que vous avez indiquée ainsi que son adresse sont transmis de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis à Google Vertex AI. Google est un fournisseur d’IA externe. Pour la sécurisation et la limitation d’usage, un identifiant d’utilisateur Firebase pseudonyme, l’attestation App Check ainsi que l’heure et le nombre des demandes sont également traités."
+          }
+        }
+      }
+    },
+    "Der Seitentext verlässt das Gerät nicht. Übernommen werden nur die strukturierten Rezeptdaten der Seite." : {
+      "comment" : "Web import: what the on-device choice does on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page text does not leave the device. Only the page’s structured recipe data is taken over."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de la page ne quitte pas l’appareil. Seules les données de recette structurées de la page sont reprises."
+          }
+        }
+      }
+    },
     "Der verschobene Zeitpunkt muss in der Zukunft liegen." : {
       "comment" : "Error description for a time that is in the past.",
       "extractionState" : "manual",
@@ -1122,6 +2058,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’heure décalée doit se situer dans le futur."
+          }
+        }
+      }
+    },
+    "Der Widerruf gilt für alle zukünftigen Analysen. Bereits abgeschlossene Verarbeitungen werden dadurch nicht rückwirkend aufgehoben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdrawal applies to all future analyses. Processing that has already been completed is not undone retroactively."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le retrait s’applique à toutes les analyses futures. Les traitements déjà effectués ne sont pas annulés rétroactivement."
+          }
+        }
+      }
+    },
+    "Die Analyse in der Cloud erfolgt nur auf Grundlage Deiner vorherigen ausdrücklichen Einwilligung. Ohne Einwilligung wird keine Cloud-Analyse gestartet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis in the cloud only takes place on the basis of your prior explicit consent. Without consent, no cloud analysis is started."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse dans le cloud n’a lieu que sur la base de votre consentement préalable et explicite. Sans consentement, aucune analyse cloud n’est lancée."
           }
         }
       }
@@ -1157,6 +2127,143 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La modification n’a pas pu être enregistrée."
+          }
+        }
+      }
+    },
+    "Die ausgewählten Bilder werden verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selected images are analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images sélectionnées sont analysées de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
+    "Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Aus Sicherung wiederherstellen“ einliest." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selection is exported as one file, which another device – iPhone, iPad or Android – reads in through “Restore from backup”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sélection est exportée dans un seul fichier, qu’un autre appareil – iPhone, iPad ou Android – lit via « Restaurer depuis une sauvegarde »."
+          }
+        }
+      }
+    },
+    "Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The images are analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the images transmitted for analysis in Firebase Storage or in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images sont analysées uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas les images transmises pour l’analyse dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
+    "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI aus den strukturierten Daten der Seite übernommen. Komponenten und Dauern bitte besonders prüfen." : {
+      "comment" : "Web import: cloud AI failed, structured data used.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI could not be reached. The recipe was taken from the page’s structured data without AI. Please check components and durations carefully."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’était pas joignable. La recette a été reprise sans IA à partir des données structurées de la page. Vérifiez attentivement les composants et les durées."
+          }
+        }
+      }
+    },
+    "Die Cloud-KI wird nur nach Deiner ausdrücklichen Einwilligung verwendet. Eine lokale Analyse bleibt immer verfügbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI is only used with your explicit consent. Local analysis always remains available."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’est utilisée qu’avec votre consentement explicite. L’analyse locale reste toujours disponible."
+          }
+        }
+      }
+    },
+    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images or the page text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées ou le texte de la page sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
+          }
+        }
+      }
+    },
+    "Die KI erstellt lediglich einen bearbeitbaren Rezeptentwurf. Sie trifft keine rechtlich oder vergleichbar erheblich wirkende Entscheidung. Du kannst das Ergebnis vollständig prüfen, ändern oder verwerfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The AI only creates an editable recipe draft. It makes no decision with legal or similarly significant effects. You can fully review, change, or discard the result."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA se contente de créer un brouillon de recette modifiable. Elle ne prend aucune décision produisant des effets juridiques ou des effets similaires significatifs. Vous pouvez vérifier, modifier ou rejeter entièrement le résultat."
+          }
+        }
+      }
+    },
+    "Die Komponente hat nicht genug Flüssigkeit, um %@ wegzunehmen – bitte an anderer Stelle im Rezept ausgleichen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The component does not have enough liquid to take away %@ – please compensate elsewhere in the recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le composant ne contient pas assez de liquide pour en retirer %@ – veuillez compenser ailleurs dans la recette."
           }
         }
       }
@@ -1233,20 +2340,138 @@
         }
       }
     },
-    "Die Seite wird auf diesem Gerät geladen. Übernommen werden die Rezeptdaten, die die Seite selbst angibt; anschließend lässt sich alles bearbeiten." : {
-      "comment" : "Web import: how the page is read.",
+    "Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The page is loaded on this device. The recipe data the page itself provides is taken over; you can edit everything afterwards."
+            "value" : "The page itself is loaded by your device. The text is analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the transmitted text in Firebase Storage or in the recipe database."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page est chargée sur cet appareil. Les données de recette fournies par la page sont reprises ; tout reste modifiable ensuite."
+            "value" : "La page elle-même est chargée par votre appareil. Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
+    "Die Teigausbeute zählt Schüttflüssigkeit voll, auch Milch, Bier und Wein, und teilt Anstellgut nach seiner eigenen TA in Mehl und Wasser auf. Saaten, Flocken, Fett und Eier zählen nicht. Die TA eines Anstellguts ohne Angabe im Rezept legst Du in den Einstellungen fest." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dough yield counts poured liquid in full, including milk, beer and wine, and splits sourdough starter into flour and water by its own TA. Seeds, flakes, fat and eggs do not count. The TA of a starter the recipe does not specify is set in the settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le rendement de la pâte compte intégralement les liquides versés, y compris le lait, la bière et le vin, et répartit le levain chef en farine et en eau selon son propre TA. Graines, flocons, matières grasses et œufs ne comptent pas. Le TA d’un levain que la recette ne précise pas se règle dans les réglages."
+          }
+        }
+      }
+    },
+    "Die Umrechnung muss größer als 0 sein." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The conversion has to be greater than 0."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La conversion doit être supérieure à 0."
+          }
+        }
+      }
+    },
+    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern oder dem Seitentext zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images or the page text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images ou le texte de la page, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
+          }
+        }
+      }
+    },
+    "Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe images you selected are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider in this process. For security and usage limits, a pseudonymous Firebase user ID, the App Check token, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les images de recettes que vous avez sélectionnées sont transmises de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis de là à Google Vertex AI. Google intervient ici en tant que fournisseur d’IA externe. Pour la sécurité et la limitation d’utilisation, un identifiant utilisateur Firebase pseudonyme, le jeton App Check ainsi que l’heure et le nombre de requêtes sont également traités."
+          }
+        }
+      }
+    },
+    "Die Wärme, die der Teig zusätzlich beim Kneten aufnimmt. Vergleiche nach dem Kneten die gemessene Teigtemperatur mit der Zieltemperatur und passe den Wert entsprechend an – einmal kalibriert, gilt er für jedes Rezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The extra warmth the dough picks up while kneading. After kneading, compare the measured dough temperature with the target and adjust the value accordingly — once calibrated, it applies to every recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La chaleur supplémentaire que la pâte absorbe en pétrissant. Compare après le pétrissage la température de pâte mesurée à la température cible et ajuste la valeur en conséquence – une fois calibrée, elle vaut pour chaque recette."
+          }
+        }
+      }
+    },
+    "Diese Zutat wird nicht als Anstellgut oder Sauerteig erkannt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This ingredient isn’t recognized as a sourdough starter."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet ingrédient n’est pas reconnu comme un levain chef ou un levain."
+          }
+        }
+      }
+    },
+    "Diese Zutat wird nicht als Mehl erkannt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This ingredient isn’t recognized as flour."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet ingrédient n’est pas reconnu comme une farine."
           }
         }
       }
@@ -1268,6 +2493,74 @@
         }
       }
     },
+    "Dieses Rezept ist bereits eine angepasste Kopie. Die Änderung wird direkt übernommen, es entsteht keine weitere Kopie." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This recipe is already an adjusted copy. The change is applied to it directly; no further copy is created."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette recette est déjà une copie ajustée. La modification lui est appliquée directement ; aucune autre copie n’est créée."
+          }
+        }
+      }
+    },
+    "Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This recipe has been reported and is hidden from all other users."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette recette a été signalée et est masquée pour tous les autres utilisateurs."
+          }
+        }
+      }
+    },
+    "Dinkel bindet Wasser langsamer: Ein Quell- oder Kochstück aus einem Teil des Mehls hält die Krume saftig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spelt absorbs water more slowly: a soaker or cooked soaker made from part of the flour keeps the crumb moist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’épeautre absorbe l’eau plus lentement : un trempage ou un empois (tangzhong) préparé avec une partie de la farine garde la mie moelleuse."
+          }
+        }
+      }
+    },
+    "Dinkelteig kürzer und schonender kneten, lieber dehnen und falten – er neigt zum Überkneten und wird sonst trocken." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knead spelt dough for a shorter time and more gently, and prefer stretch and folds – it tends to overknead and turns dry otherwise."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pétrissez la pâte d’épeautre moins longtemps et plus délicatement, privilégiez les rabats (étirer et plier) – elle se surpétrit facilement et devient alors sèche."
+          }
+        }
+      }
+    },
     "Du bist abgemeldet" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1281,6 +2574,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déconnexion effectuée"
+          }
+        }
+      }
+    },
+    "Du hast noch keine eigene Einheit angelegt. Die mitgelieferten Einheiten stehen in der Auswahlliste immer zur Verfügung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven’t added a unit of your own yet. The units that come with the app are always available in the list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n’avez pas encore ajouté d’unité personnalisée. Les unités fournies avec l’app sont toujours disponibles dans la liste."
           }
         }
       }
@@ -1302,6 +2612,40 @@
         }
       }
     },
+    "Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can withdraw your consent later under Settings › Privacy & AI."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez retirer votre consentement plus tard sous Réglages › Confidentialité et IA."
+          }
+        }
+      }
+    },
+    "Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can use the local analysis instead at any time. The page text then does not leave your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte de la page ne quitte alors pas votre appareil."
+          }
+        }
+      }
+    },
     "Du verwendest die App wieder anonym. Rezepte auf diesem Gerät bleiben unberührt. Die unter Deinem Konto veröffentlichten Rezepte kannst Du wieder bearbeiten, sobald Du Dich erneut anmeldest." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1315,6 +2659,74 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Vous utilisez de nouveau l’app de façon anonyme. Les recettes présentes sur cet appareil restent inchangées. Vous pourrez de nouveau modifier les recettes publiées sous votre compte dès que vous vous reconnecterez."
+          }
+        }
+      }
+    },
+    "Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separated by commas; offered as quick picks when adjusting the starter TA."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Séparées par des virgules ; proposées comme raccourcis lors de l’ajustement de la TA du levain chef."
+          }
+        }
+      }
+    },
+    "Eigene Einheiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom units"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unités personnalisées"
+          }
+        }
+      }
+    },
+    "Eine Einheit sagt der App, wie sie eine Menge in ein Gewicht umrechnet. Davon leben die Gesamtzutaten, die Bäckerprozente und die Einkaufsliste. Deshalb braucht auch eine eigene Einheit eine Umrechnung — ohne sie würde „2 Becher Mehl“ als 2 Gramm zählen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A unit tells the app how to turn an amount into a weight. The total ingredients, the baker’s percentages and the shopping list all depend on it, which is why a unit of your own needs a conversion too — without one, “2 cups of flour” would count as 2 grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une unité indique à l’app comment convertir une quantité en poids. Le total des ingrédients, les pourcentages boulangers et la liste de courses en dépendent : c’est pourquoi une unité personnalisée a aussi besoin d’une conversion. Sans elle, « 2 tasses de farine » compterait pour 2 grammes."
+          }
+        }
+      }
+    },
+    "Eine Einwilligung kannst Du direkt beim Rezeptimport erteilen, nachdem Dir die Datenübertragung erklärt wurde." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can give consent directly during recipe import, after the data transfer has been explained to you."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez donner votre consentement directement lors de l’importation d’une recette, après que le transfert de données vous a été expliqué."
           }
         }
       }
@@ -1333,6 +2745,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unité"
+          }
+        }
+      }
+    },
+    "Einheit hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une unité"
+          }
+        }
+      }
+    },
+    "Einheit nicht angelegt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unit not added"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unité non ajoutée"
           }
         }
       }
@@ -1405,6 +2851,23 @@
         }
       }
     },
+    "Einkorn bindet wenig Wasser und ist klebrig: deutlich weniger Wasser, kaum kneten, Kastenform statt freigeschoben." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einkorn absorbs little water and is sticky: use noticeably less water, barely knead, and bake in a loaf tin rather than free-standing."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le petit épeautre absorbe peu d’eau et est collant : mettez nettement moins d’eau, pétrissez à peine et cuisez dans un moule plutôt que sur sole."
+          }
+        }
+      }
+    },
     "Einstellungen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1418,6 +2881,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Einwilligung und Widerruf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consent and withdrawal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consentement et retrait"
+          }
+        }
+      }
+    },
+    "Einwilligung widerrufen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw consent"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer le consentement"
+          }
+        }
+      }
+    },
+    "Einwilligung zur Cloud-KI widerrufen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Withdraw consent to cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer le consentement à l’IA cloud"
+          }
+        }
+      }
+    },
+    "Emmer hat einen weichen Kleber: kurz kneten, kurze Gare, am sichersten in der Kastenform backen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emmer has a soft gluten: knead briefly, keep the proof short, and bake in a loaf tin to be safe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’emmer a un gluten faible : pétrissez brièvement, gardez une pousse courte et, pour plus de sûreté, cuisez dans un moule à cake."
+          }
+        }
+      }
+    },
+    "Empfänger und Verarbeitungsort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipients and place of processing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinataires et lieu de traitement"
+          }
+        }
+      }
+    },
+    "Ergänzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add details"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compléter"
+          }
+        }
+      }
+    },
+    "Ergebnis" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résultat"
           }
         }
       }
@@ -1440,6 +3022,23 @@
         }
       }
     },
+    "Erinnerung verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule reminder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler le rappel"
+          }
+        }
+      }
+    },
     "Erinnerungen wurden gesetzt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1453,6 +3052,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les rappels ont été définis"
+          }
+        }
+      }
+    },
+    "Erkannt als" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recognized as"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnue comme"
           }
         }
       }
@@ -1471,6 +3087,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marquer comme terminé"
+          }
+        }
+      }
+    },
+    "Ersetzen durch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace with"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacer par"
           }
         }
       }
@@ -1509,6 +3142,57 @@
         }
       }
     },
+    "Erstellt mit BakePlanner" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created with BakePlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créé avec BakePlanner"
+          }
+        }
+      }
+    },
+    "Exportieren (%lld)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export (%lld)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter (%lld)"
+          }
+        }
+      }
+    },
+    "Falten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fold"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rabats"
+          }
+        }
+      }
+    },
     "Fertig" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1543,6 +3227,74 @@
         }
       }
     },
+    "Fertig um %@ Uhr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done at %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé à %@."
+          }
+        }
+      }
+    },
+    "Festeres Anstellgut (niedrigere TA) arbeitet langsamer und säuert kräftiger – etwas mehr Reifezeit einplanen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A firmer starter (lower TA) works more slowly and sours more strongly – allow a little more ripening time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un levain chef plus ferme (TA plus basse) travaille plus lentement et acidifie davantage – prévoyez un peu plus de temps de maturation."
+          }
+        }
+      }
+    },
+    "Formen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shape"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Façonnage"
+          }
+        }
+      }
+    },
+    "Fotografiere alle Seiten oder wähle sie in der richtigen Reihenfolge aus. Gut lesbare, gerade Bilder liefern das beste Ergebnis. Beschneide die Bilder so, dass Logos, Kopf- und Fußzeilen möglichst wegfallen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo of every page or select the pages in the correct order. Straight, clearly readable images give the best results. Crop the images so that logos, headers and footers are left out."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photographiez toutes les pages ou sélectionnez-les dans le bon ordre. Des images droites et bien lisibles donnent les meilleurs résultats. Recadrez les images afin d’écarter autant que possible les logos, en-têtes et pieds de page."
+          }
+        }
+      }
+    },
     "Fotos" : {
       "comment" : "Bake history entry: heading above the photos.",
       "extractionState" : "manual",
@@ -1561,6 +3313,40 @@
         }
       }
     },
+    "Fotos werden vorbereitet …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing photos …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préparation des photos …"
+          }
+        }
+      }
+    },
+    "Fotowolke" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo cloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuage de photos"
+          }
+        }
+      }
+    },
     "Früher" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1574,6 +3360,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus tôt"
+          }
+        }
+      }
+    },
+    "Für die stündliche und die monatliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters, der aktuelle Monat und die Anzahl der Anfragen gespeichert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For the hourly and the monthly usage limit, the start of the current time window, the current month and the number of requests are stored against the pseudonymous user ID."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour la limitation d’utilisation horaire et mensuelle, le début de la fenêtre de temps en cours, le mois en cours et le nombre de requêtes sont enregistrés avec l’identifiant utilisateur pseudonyme."
           }
         }
       }
@@ -1650,6 +3453,57 @@
         }
       }
     },
+    "Galerie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gallery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        }
+      }
+    },
+    "Gemessen in" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measured in"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesurée en"
+          }
+        }
+      }
+    },
+    "Genauer Wert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exact value"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeur exacte"
+          }
+        }
+      }
+    },
     "geplant" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1719,20 +3573,36 @@
         }
       }
     },
-    "Gesamtzutaten:" : {
-      "comment" : "A label displayed above the list of total ingredients.",
+    "Gesamtzutaten" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Total ingredients:"
+            "value" : "Total ingredients"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Total des ingrédients :"
+            "value" : "Total des ingrédients"
+          }
+        }
+      }
+    },
+    "Geschützte Cloud-KI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protected cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IA cloud protégée"
           }
         }
       }
@@ -1755,6 +3625,23 @@
         }
       }
     },
+    "Getreide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grain"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Céréale"
+          }
+        }
+      }
+    },
     "Gewürze & Kräuter" : {
       "comment" : "Text for the category of items that are spices and herbs.",
       "extractionState" : "manual",
@@ -1769,6 +3656,108 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
+    "gezählt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "counted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "comptée"
+          }
+        }
+      }
+    },
+    "Google Cloud ist dabei technischer Dienstleister. Eine Weitergabe für Werbung oder Nutzertracking durch BackPlaner findet nicht statt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Cloud acts as a technical service provider. BackPlaner does not share any data for advertising or user tracking."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Cloud agit en tant que prestataire technique. BackPlaner ne transmet aucune donnée à des fins de publicité ou de suivi des utilisateurs."
+          }
+        }
+      }
+    },
+    "Gramm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grams"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grammes"
+          }
+        }
+      }
+    },
+    "Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum wheat hydrates slowly: allow 30–60 minutes of autolyse; the dough turns firmer and yellowish."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le blé dur gonfle lentement : prévoyez 30–60 minutes d’autolyse ; la pâte devient plus ferme et jaunâtre."
+          }
+        }
+      }
+    },
+    "Hilfe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide"
+          }
+        }
+      }
+    },
+    "Hilfe und Kontakt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide et contact"
           }
         }
       }
@@ -1803,6 +3792,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://…"
+          }
+        }
+      }
+    },
+    "Hydration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydratation"
+          }
+        }
+      }
+    },
+    "Im Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans la recette"
           }
         }
       }
@@ -1861,6 +3884,23 @@
         }
       }
     },
+    "Impressum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legal Notice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentions légales"
+          }
+        }
+      }
+    },
     "in %@" : {
       "comment" : "Countdown on the main-menu card; %@ is a relative duration like '42 min'.",
       "extractionState" : "manual",
@@ -1875,6 +3915,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "dans %@"
+          }
+        }
+      }
+    },
+    "In dieser Komponente gibt es keine Flüssigkeit (Wasser, Milch …) – die Flüssigkeit bitte von Hand anpassen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This component has no liquid (water, milk …) – please adjust the liquid by hand."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce composant ne contient aucun liquide (eau, lait …) – veuillez ajuster le liquide à la main."
+          }
+        }
+      }
+    },
+    "In Firestore verbleibt nur der Datensatz zur Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster, Monat und Anfragezahlen sowie eine Prüfsumme des zuletzt geprüften Kaufbelegs und der Zeitpunkt der Prüfung. Bei einer späteren Analyse werden ein abgelaufenes Zeitfenster und ein vergangener Monat durch die neuen ersetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only the usage-limit record remains in Firestore, with the pseudonymous user ID, time window, month and request counts, plus a checksum of the most recently verified purchase receipt and the time of that check. On a later analysis, an expired time window and a past month are replaced by the new ones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul l’enregistrement de limitation d’utilisation reste dans Firestore, avec l’identifiant utilisateur pseudonyme, la fenêtre de temps, le mois et les nombres de requêtes, ainsi qu’une somme de contrôle du dernier reçu d’achat vérifié et le moment de cette vérification. Lors d’une analyse ultérieure, une fenêtre de temps expirée et un mois passé sont remplacés par les nouveaux."
           }
         }
       }
@@ -1909,6 +3983,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maintenant"
+          }
+        }
+      }
+    },
+    "Jetzt eintragen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note it now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noter maintenant"
+          }
+        }
+      }
+    },
+    "Jetzt fällig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
+    "Kälter als Eiswasser – mit diesen Werten kaum erreichbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colder than ice water — barely achievable with these values."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus froid que de l’eau glacée – difficilement atteignable avec ces valeurs."
+          }
+        }
+      }
+    },
+    "Kamera" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appareil photo"
+          }
+        }
+      }
+    },
+    "Keine automatisierte Entscheidung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No automated decision-making"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune décision automatisée"
           }
         }
       }
@@ -1964,6 +4123,40 @@
         }
       }
     },
+    "Keine passenden Backvorgänge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching bakes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune cuisson correspondante"
+          }
+        }
+      }
+    },
+    "Keine passenden Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune recette correspondante"
+          }
+        }
+      }
+    },
     "Keine Zutaten vorhanden" : {
       "comment" : "A message that appears when a recipe has no ingredients that can be added to a shopping cart.",
       "extractionState" : "manual",
@@ -1978,6 +4171,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun ingrédient disponible"
+          }
+        }
+      }
+    },
+    "KI-Analyse beim Rezeptimport" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI analysis for recipe import"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse IA à l’importation de recettes"
           }
         }
       }
@@ -2139,6 +4349,40 @@
         }
       }
     },
+    "Kopie mit Anpassung anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create copy with adjustment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une copie avec l’ajustement"
+          }
+        }
+      }
+    },
+    "Kopie mit Ersatz anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create copy with substitution"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une copie avec la substitution"
+          }
+        }
+      }
+    },
     "Krume" : {
       "comment" : "A heading for the crumb keywords.",
       "extractionState" : "manual",
@@ -2175,6 +4419,74 @@
         }
       }
     },
+    "Kürzel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbreviation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abréviation"
+          }
+        }
+      }
+    },
+    "Legt unter „Eigene Rezepte“ ein neues Rezept mit dem angepassten Anstellgut und Wasser an, mit dem heutigen Datum im Namen, und öffnet es. Das Original bleibt unverändert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creates a new recipe under “My recipes” with the adjusted starter and water, with today’s date in its name, and opens it. The original stays unchanged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée sous « Mes recettes » une nouvelle recette avec le levain chef et l’eau ajustés, datée d’aujourd’hui dans son nom, et l’ouvre. L’original reste inchangé."
+          }
+        }
+      }
+    },
+    "Legt unter „Eigene Rezepte“ ein neues Rezept mit dem getauschten Mehl und dem angepassten Wasser an, mit dem heutigen Datum im Namen, und öffnet es. Das Original bleibt unverändert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creates a new recipe under “My recipes” with the swapped flour and the adjusted water, with today’s date in its name, and opens it. The original stays unchanged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée sous « Mes recettes » une nouvelle recette avec la farine remplacée et l’eau ajustée, datée d’aujourd’hui dans son nom, et l’ouvre. L’original reste inchangé."
+          }
+        }
+      }
+    },
+    "Letztes Mal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La dernière fois"
+          }
+        }
+      }
+    },
     "Lievito Madre" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2188,6 +4500,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lievito madre"
+          }
+        }
+      }
+    },
+    "Link zum Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe link"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lien vers la recette"
           }
         }
       }
@@ -2222,6 +4551,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Local"
+          }
+        }
+      }
+    },
+    "Lokale Analyse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local analysis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse locale"
           }
         }
       }
@@ -2297,6 +4643,40 @@
         }
       }
     },
+    "Mehl ersetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacer la farine"
+          }
+        }
+      }
+    },
+    "Mehl hat Raumtemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flour is at room temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine est à température ambiante"
+          }
+        }
+      }
+    },
     "Mehr" : {
       "comment" : "Menu of the recipe list: settings and backups.",
       "extractionState" : "manual",
@@ -2311,6 +4691,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus"
+          }
+        }
+      }
+    },
+    "Mein Anstellgut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My starter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon levain chef"
+          }
+        }
+      }
+    },
+    "Mein Rezept endgültig löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my recipe for good?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer définitivement ma recette ?"
+          }
+        }
+      }
+    },
+    "Mein Rezept löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer ma recette"
+          }
+        }
+      }
+    },
+    "Meine Anstellgut-TAs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My starter TAs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes TA de levain chef"
           }
         }
       }
@@ -2368,6 +4816,23 @@
         }
       }
     },
+    "Mengen für Faktor ×%@, also %@ g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amounts for factor ×%@, i.e. %@ g of dough. The copy is created with the recipe’s base amounts and shows the same factor when opened."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantités pour le facteur ×%@, soit %@ g de pâte. La copie est créée avec les quantités de base de la recette et affiche le même facteur à l’ouverture."
+          }
+        }
+      }
+    },
     "Messwerte und Ergebnis" : {
       "comment" : "A section header for the \"facts\" part of a bake-history entry.",
       "extractionState" : "manual",
@@ -2403,6 +4868,23 @@
         }
       }
     },
+    "Milliliter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milliliters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Millilitres"
+          }
+        }
+      }
+    },
     "Minuten" : {
       "comment" : "Placeholder text for a text field in a notification.",
       "extractionState" : "manual",
@@ -2417,6 +4899,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Minutes"
+          }
+        }
+      }
+    },
+    "Mischen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mix"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pétrir"
           }
         }
       }
@@ -2438,6 +4937,57 @@
         }
       }
     },
+    "Mit Backhistorie und Anstellgut-Tagebuch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With baking history and starter diary"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec l’historique de cuisson et le journal du levain"
+          }
+        }
+      }
+    },
+    "Mit Sauerteig oder Vorteig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With sourdough or a preferment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec levain ou pré-pâte"
+          }
+        }
+      }
+    },
+    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Seitentexte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With “On this device only”, neither recipe images nor page texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page; photos cannot be read without the cloud AI yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes de pages ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ; les photos ne peuvent pas encore être lues sans l’IA cloud."
+          }
+        }
+      }
+    },
     "Moderation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2451,6 +5001,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modération"
+          }
+        }
+      }
+    },
+    "Nach Bewertung filtern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter by rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer par note"
           }
         }
       }
@@ -2527,6 +5094,23 @@
         }
       }
     },
+    "Nächster Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine étape"
+          }
+        }
+      }
+    },
     "Name" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -2558,6 +5142,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouveau"
+          }
+        }
+      }
+    },
+    "Neu planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan again"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replanifier"
+          }
+        }
+      }
+    },
+    "Neue Einheit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle unité"
           }
         }
       }
@@ -2633,6 +5251,40 @@
         }
       }
     },
+    "Nicht gezählt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not counted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non comptés"
+          }
+        }
+      }
+    },
+    "Nicht zugelassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non autorisée"
+          }
+        }
+      }
+    },
     "Noch keine Backhistorie" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2702,6 +5354,23 @@
         }
       }
     },
+    "Noch nichts notiert. Wie lief es – Raum- und Teigtemperatur, Gare, Mehl, Krume?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing noted yet. How did it go — room and dough temperature, proofing, flour, crumb?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien de noté pour l’instant. Comment cela s’est-il passé : température ambiante et de la pâte, pousse, farine, mie ?"
+          }
+        }
+      }
+    },
     "Notiz" : {
       "comment" : "A label for a text field that lets the user add notes about a feeding.",
       "extractionState" : "manual",
@@ -2716,6 +5385,75 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Note"
+          }
+        }
+      }
+    },
+    "Nr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N°"
+          }
+        }
+      }
+    },
+    "Nummer" : {
+      "comment" : "Step sheet: the step number of a planned step.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro"
+          }
+        }
+      }
+    },
+    "Nur auf diesem Gerät" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On this device only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur cet appareil uniquement"
+          }
+        }
+      }
+    },
+    "Nur diesen Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only this step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement cette étape"
           }
         }
       }
@@ -2755,6 +5493,40 @@
         }
       }
     },
+    "Nur lokal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local uniquement"
+          }
+        }
+      }
+    },
+    "Nur lokal analysieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze locally only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser uniquement en local"
+          }
+        }
+      }
+    },
     "Nüsse, Saaten & Trockenfrüchte" : {
       "comment" : "Text for the category \"Nüsse, Saaten & Trockenfrüchte\".",
       "extractionState" : "manual",
@@ -2773,6 +5545,23 @@
         }
       }
     },
+    "Nutzungsbedingungen für öffentliche Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of use for public recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conditions d'utilisation des recettes publiques"
+          }
+        }
+      }
+    },
     "Obst & Gemüse" : {
       "comment" : "The heading above the group.",
       "extractionState" : "manual",
@@ -2787,6 +5576,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Fruits & légumes"
+          }
+        }
+      }
+    },
+    "Ofen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four"
           }
         }
       }
@@ -2822,6 +5628,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Public"
+          }
+        }
+      }
+    },
+    "Öffentlich speichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save publicly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer publiquement"
+          }
+        }
+      }
+    },
+    "Öffentliches Rezept löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete public recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette publique ?"
           }
         }
       }
@@ -2898,6 +5738,23 @@
         }
       }
     },
+    "Öffnet die Seiten im Browser." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the pages in your browser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les pages dans le navigateur."
+          }
+        }
+      }
+    },
     "Öle, Fette & Flüssiges" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2947,6 +5804,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planifier"
+          }
+        }
+      }
+    },
+    "Raum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambiante"
           }
         }
       }
@@ -3004,6 +5878,23 @@
         }
       }
     },
+    "Reibungswärme" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friction factor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaleur de pétrissage"
+          }
+        }
+      }
+    },
     "Reifezeit bis zum Höhepunkt" : {
       "comment" : "A label for a text field that lets the user specify the number of minutes it takes for the starter to reach the right consistency.",
       "extractionState" : "manual",
@@ -3018,6 +5909,74 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Temps jusqu’au pic de pousse"
+          }
+        }
+      }
+    },
+    "Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette"
+          }
+        }
+      }
+    },
+    "Rezept aus Bildern importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe from images"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer une recette à partir d’images"
+          }
+        }
+      }
+    },
+    "Rezept bearbeiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier la recette"
+          }
+        }
+      }
+    },
+    "Rezept löschen (Admin)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete recipe (admin)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette (admin)"
           }
         }
       }
@@ -3075,6 +6034,57 @@
         }
       }
     },
+    "Rezept suchen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher une recette"
+          }
+        }
+      }
+    },
+    "Rezept teilen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager la recette"
+          }
+        }
+      }
+    },
+    "Rezept veröffentlichen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publish recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publier la recette ?"
+          }
+        }
+      }
+    },
     "Rezept von einer Internetseite importieren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3088,6 +6098,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer une recette depuis une page web"
+          }
+        }
+      }
+    },
+    "Rezept wieder freigeben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unhide recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réafficher la recette"
+          }
+        }
+      }
+    },
+    "Rezept wird hochgeladen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe is uploading ..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette est en cours de téléversement..."
+          }
+        }
+      }
+    },
+    "Rezept wird in der Cloud analysiert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzing recipe in the cloud…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse de la recette dans le cloud…"
           }
         }
       }
@@ -3126,6 +6187,23 @@
         }
       }
     },
+    "Rezeptbild" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe image"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image de la recette"
+          }
+        }
+      }
+    },
     "Rezepte" : {
       "comment" : "Title of the recipe list.",
       "extractionState" : "manual",
@@ -3140,6 +6218,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes"
+          }
+        }
+      }
+    },
+    "Rezepte exportieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter des recettes"
           }
         }
       }
@@ -3216,6 +6311,74 @@
         }
       }
     },
+    "Richtwerte: Mehle werden 1:1 nach Gewicht getauscht, nur das Wasser ändert sich. Wie viel ein Mehl bindet, schwankt je nach Mühle und Ernte – der Teig hat das letzte Wort." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rules of thumb: flours are swapped 1:1 by weight; only the water changes. How much a flour absorbs varies with the mill and the harvest – the dough has the final say."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeurs indicatives : les farines s’échangent 1:1 au poids, seule l’eau change. La quantité d’eau qu’une farine absorbe varie selon le moulin et la récolte – la pâte a le dernier mot."
+          }
+        }
+      }
+    },
+    "Roggen hat kein Klebergerüst: Ab etwa %@ Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rye has no gluten structure: from about %@ rye, acidify the dough with sourdough, or the crumb turns gummy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le seigle n’a pas de réseau de gluten : à partir d’environ %@ de seigle, acidifiez la pâte avec du levain, sinon la mie devient collante."
+          }
+        }
+      }
+    },
+    "Ruhen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rest"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repos"
+          }
+        }
+      }
+    },
+    "Sauerteig/Vorteig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sourdough/preferment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain/pré-pâte"
+          }
+        }
+      }
+    },
     "Schließen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3269,6 +6432,23 @@
         }
       }
     },
+    "Schritt als erledigt markieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark step as done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer l’étape comme terminée"
+          }
+        }
+      }
+    },
     "Schritt hinzufügen" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -3300,6 +6480,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décaler l’étape"
+          }
+        }
+      }
+    },
+    "Schritt zeitlich verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler l’étape dans le temps"
+          }
+        }
+      }
+    },
+    "Schüttwassertemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température de l’eau"
           }
         }
       }
@@ -3358,6 +6572,23 @@
         }
       }
     },
+    "Sehr heißes Wasser nötig – prüfe Ziel- und Reibungswärme." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Very hot water needed — check the target temperature and friction factor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau très chaude nécessaire – vérifie la température cible et la chaleur de pétrissage."
+          }
+        }
+      }
+    },
     "seit %@" : {
       "comment" : "Elapsed time on the main-menu card once a step is due; %@ is a relative duration like '5 min'.",
       "extractionState" : "manual",
@@ -3372,6 +6603,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "depuis %@"
+          }
+        }
+      }
+    },
+    "Seite %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Page %lld"
+          }
+        }
+      }
+    },
+    "Seite %lld entfernen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove page %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer la page %lld"
+          }
+        }
+      }
+    },
+    "Seite wird geladen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading page…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement de la page…"
+          }
+        }
+      }
+    },
+    "Seiten mit Anmeldung, Bezahlschranke oder Cookie-Hinweis lassen sich oft nicht auslesen. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages behind a login, paywall, or cookie notice often cannot be read. Importing for private use is fine; publish other people’s recipes only with permission."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les pages avec connexion, paywall ou bandeau de cookies ne peuvent souvent pas être lues. L’importation pour un usage privé ne pose pas de problème ; ne publiez les recettes d’autrui qu’avec leur autorisation."
           }
         }
       }
@@ -3408,6 +6707,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour qu’aucune étape ne commence la nuit :"
+          }
+        }
+      }
+    },
+    "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you also want to reschedule all following steps of this recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voulez-vous également décaler toutes les étapes suivantes de cette recette ?"
           }
         }
       }
@@ -3495,6 +6811,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de l’enregistrement"
+          }
+        }
+      }
+    },
+    "Speicherung und Löschung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage and deletion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservation et suppression"
           }
         }
       }
@@ -3620,6 +6953,23 @@
         }
       }
     },
+    "Stück" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pieces"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pièces"
+          }
+        }
+      }
+    },
     "Stückgare" : {
       "comment" : "The label of the \"final proof\" row in the \"last time\" card.",
       "extractionState" : "manual",
@@ -3634,6 +6984,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Apprêt"
+          }
+        }
+      }
+    },
+    "Suchen in" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search in"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher dans"
           }
         }
       }
@@ -3658,6 +7025,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TA %lld · hydratation %@"
+          }
+        }
+      }
+    },
+    "TA aus dem Zutatennamen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA from the ingredient name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA d’après le nom de l’ingrédient"
+          }
+        }
+      }
+    },
+    "TA aus den Einstellungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA from the settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA d’après les réglages"
+          }
+        }
+      }
+    },
+    "TA im Rezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA in the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA dans la recette"
+          }
+        }
+      }
+    },
+    "TA laut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA from"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA selon"
+          }
+        }
+      }
+    },
+    "TA nach Definition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA by definition"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA par définition"
           }
         }
       }
@@ -3696,6 +7148,23 @@
         }
       }
     },
+    "Tags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },
     "Tags, durch Komma getrennt" : {
       "comment" : "Placeholder of the tags field.",
       "extractionState" : "manual",
@@ -3714,6 +7183,74 @@
         }
       }
     },
+    "Teig" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pâte"
+          }
+        }
+      }
+    },
+    "Teigausbeute" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough yield"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendement de la pâte (TA)"
+          }
+        }
+      }
+    },
+    "Teigausbeute und Hydration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough yield and hydration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendement de la pâte et hydratation"
+          }
+        }
+      }
+    },
+    "Teiggewicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough weight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids de pâte"
+          }
+        }
+      }
+    },
     "Teigtemperatur" : {
       "comment" : "Text for the dough temperature.",
       "extractionState" : "manual",
@@ -3728,6 +7265,108 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Température de la pâte"
+          }
+        }
+      }
+    },
+    "Teilen fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec du partage"
+          }
+        }
+      }
+    },
+    "Temperaturen, Gare und Mehl sind noch nicht notiert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperatures, proofing, and flour aren’t noted yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les températures, la pousse et la farine ne sont pas encore notées."
+          }
+        }
+      }
+    },
+    "Timeline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        }
+      }
+    },
+    "Tippe auf das Anstellgut, um seine TA anzupassen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the starter to adjust its TA."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez sur le levain chef pour ajuster sa TA."
+          }
+        }
+      }
+    },
+    "Tippe auf ein Mehl, um es zu ersetzen, oder auf das Anstellgut, um seine TA anzupassen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a flour to replace it, or the starter to adjust its TA."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez sur une farine pour la remplacer, ou sur le levain chef pour ajuster sa TA."
+          }
+        }
+      }
+    },
+    "Tippe auf ein Mehl, um es zu ersetzen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a flour to replace it."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez sur une farine pour la remplacer."
           }
         }
       }
@@ -3785,6 +7424,74 @@
         }
       }
     },
+    "Umfang der Verarbeitung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scope of processing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étendue du traitement"
+          }
+        }
+      }
+    },
+    "Umrechnung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion"
+          }
+        }
+      }
+    },
+    "Unterschritt hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add sub-step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une sous-étape"
+          }
+        }
+      }
+    },
+    "Upload fehlgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec du téléversement"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -3803,6 +7510,57 @@
         }
       }
     },
+    "Veröffentlichen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publier"
+          }
+        }
+      }
+    },
+    "Veröffentlicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publié"
+          }
+        }
+      }
+    },
+    "Verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler"
+          }
+        }
+      }
+    },
     "Verschieben nicht möglich" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3816,6 +7574,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décalage impossible"
+          }
+        }
+      }
+    },
+    "Verschieben um …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule by…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler de…"
+          }
+        }
+      }
+    },
+    "Vollkorn braucht Zeit zum Quellen: Autolyse oder ein Brüh-/Quellstück einplanen; die Krume wird dichter." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wholegrain needs time to hydrate: allow an autolyse or a scald or soaker; the crumb turns denser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La farine complète a besoin de temps pour s’hydrater : prévoyez une autolyse, un échaudage ou un trempage ; la mie sera plus dense."
           }
         }
       }
@@ -3873,6 +7665,74 @@
         }
       }
     },
+    "Von mir veröffentlicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published by me"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publiées par moi"
+          }
+        }
+      }
+    },
+    "Vor der ersten Cloud-Analyse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before the first cloud analysis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant la première analyse cloud"
+          }
+        }
+      }
+    },
+    "Vorhanden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On hand"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible"
+          }
+        }
+      }
+    },
+    "Vorhandenes Anstellgut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter on hand"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain chef disponible"
+          }
+        }
+      }
+    },
     "Vorheizzeit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3924,6 +7784,74 @@
         }
       }
     },
+    "Wasser" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau"
+          }
+        }
+      }
+    },
+    "Wasser anpassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust water"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau à ajuster"
+          }
+        }
+      }
+    },
+    "Wasser im Teig: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water in the dough: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eau dans la pâte : %@"
+          }
+        }
+      }
+    },
+    "Weicheres Anstellgut (höhere TA) gärt schneller und säuert milder – die Reifezeit des Sauerteigs eher etwas kürzer ansetzen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A softer starter (higher TA) ferments faster and sours more mildly – allow a little less ripening time for the sourdough."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un levain chef plus souple (TA plus élevée) fermente plus vite et acidifie plus doucement – prévoyez un temps de maturation un peu plus court pour le levain."
+          }
+        }
+      }
+    },
     "Weiter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3954,6 +7882,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus d’actions"
+          }
+        }
+      }
+    },
+    "Weizen hat mehr Kleber als Dinkel, Emmer oder Einkorn: etwas länger kneten, bis der Teig ein Fenster zieht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wheat has more gluten than spelt, emmer, or einkorn: knead a little longer, until the dough passes the windowpane test."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le blé a plus de gluten que l’épeautre, l’emmer ou le petit épeautre : pétrissez un peu plus longtemps, jusqu’à ce que la pâte réussisse le test de la fenêtre."
+          }
+        }
+      }
+    },
+    "Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder oder den Rezepttext und die Adresse der von Dir angegebenen Internetseite sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung, der Nachweis von Firebase App Check und, mit BakePlanner Pro, der vom App Store signierte Kaufbeleg, damit der Server Dein Kontingent zuordnen kann. Der Beleg enthält die Kennung und das Datum des Kaufs, aber keinen Namen und keine Zahlungsdaten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you choose the protected cloud AI, BackPlaner processes the recipe images you selected or the recipe text and the address of the web page you entered, together with technical protection data of the request. These include a pseudonymous Firebase user ID, the Firebase App Check attestation and, with BakePlanner Pro, the purchase receipt signed by the App Store so the server can assign your allowance. The receipt contains the identifier and date of the purchase, but no name and no payment details."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous choisissez l’IA cloud protégée, BackPlaner traite les images de recette que vous avez sélectionnées ou le texte de la recette et l’adresse de la page web que vous avez indiquée, ainsi que des données techniques de protection de la requête. Il s’agit d’un identifiant utilisateur Firebase pseudonyme, de l’attestation Firebase App Check et, avec BakePlanner Pro, du reçu d’achat signé par l’App Store afin que le serveur puisse attribuer votre quota. Le reçu contient l’identifiant et la date de l’achat, mais ni nom ni données de paiement."
+          }
+        }
+      }
+    },
+    "Wenn Du ein Rezept öffentlich teilst, wird es für alle Nutzer der Rezept-Datenbank sichtbar.\n\nEs gilt eine Null-Toleranz-Politik gegenüber anstößigen, beleidigenden, rechtswidrigen oder urheberrechtsverletzenden Inhalten. Du bist allein verantwortlich für die von Dir geteilten Inhalte.\n\nGemeldete Inhalte werden geprüft und innerhalb von 24 Stunden entfernt. Autoren, die wiederholt gegen diese Regeln verstoßen, können ausgeschlossen werden.\n\nMit „Akzeptieren“ bestätigst Du, dass Du diese Bedingungen einhältst." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you share a recipe publicly, it becomes visible to all users of the recipe database.\n\nThere is a zero-tolerance policy for offensive, abusive, illegal, or copyright-infringing content. You are solely responsible for the content you share.\n\nReported content will be reviewed and removed within 24 hours. Authors who repeatedly violate these rules may be excluded.\n\nBy tapping \"Accept\", you confirm that you will comply with these terms."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous partagez une recette publiquement, elle devient visible par tous les utilisateurs de la base de données de recettes.\n\nUne politique de tolérance zéro s'applique aux contenus offensants, insultants, illégaux ou portant atteinte aux droits d'auteur. Vous êtes seul responsable des contenus que vous partagez.\n\nLes contenus signalés seront examinés et supprimés dans un délai de 24 heures. Les auteurs qui enfreignent ces règles de manière répétée peuvent être exclus.\n\nEn touchant « Accepter », vous confirmez que vous respecterez ces conditions."
+          }
+        }
+      }
+    },
+    "Wie viel Gramm eine Einheit wiegt. Ein Pfund wären 500." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many grams one unit weighs. A pound would be 500."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de grammes pèse une unité. Une livre correspondrait à 500."
+          }
+        }
+      }
+    },
+    "Wie viele Milliliter eine Einheit enthält. Ein Becher wären etwa 250. Das Gewicht rechnet die App je Zutat daraus." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many milliliters one unit holds. A cup would be about 250. The app works out the weight from that, per ingredient."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de millilitres contient une unité. Une tasse correspondrait à environ 250. L’app en déduit le poids pour chaque ingrédient."
+          }
+        }
+      }
+    },
+    "Wird gezählt, nicht gewogen. Die Umrechnung bleibt 1." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Counted rather than weighed. The conversion stays 1."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comptée, pas pesée. La conversion reste 1."
+          }
+        }
+      }
+    },
+    "Worauf achten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What to watch for"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À surveiller"
           }
         }
       }
@@ -3989,7 +8036,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chronologie"
+            "value" : "Timeline"
           }
         }
       }
@@ -4029,6 +8076,74 @@
         }
       }
     },
+    "Zieltemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température cible"
+          }
+        }
+      }
+    },
+    "Zoom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom"
+          }
+        }
+      }
+    },
+    "Zugelassen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisée"
+          }
+        }
+      }
+    },
+    "Zum Veröffentlichen melde Dich in den Einstellungen unter „Konto“ mit Apple an. So gehört das Rezept Dir auf allen Geräten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To publish, sign in with Apple in Settings under “Account”. The recipe then belongs to you on all your devices."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour publier, connecte-toi avec Apple dans les réglages, sous « Compte ». La recette t’appartiendra ainsi sur tous tes appareils."
+          }
+        }
+      }
+    },
     "Zurück" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4059,6 +8174,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planifier en plus"
+          }
+        }
+      }
+    },
+    "Zustimmen und mit Cloud-KI analysieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree and analyze with cloud AI"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter et analyser avec l’IA cloud"
           }
         }
       }
@@ -4117,6 +8249,40 @@
         }
       }
     },
+    "Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients"
+          }
+        }
+      }
+    },
+    "Zutaten der Komponente anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the component's ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les ingrédients du composant"
+          }
+        }
+      }
+    },
     "Zutaten für „%@“" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4147,6 +8313,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les ingrédients ont été ajoutés à la liste de courses"
+          }
+        }
+      }
+    },
+    "Zweck und Rechtsgrundlage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purpose and legal basis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalité et base juridique"
+          }
+        }
+      }
+    },
+    "„%@“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” has changed since it was planned. The plan still shows the old state."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » a été modifiée depuis la planification. Le plan montre encore l’ancien état."
           }
         }
       }

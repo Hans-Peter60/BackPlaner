@@ -507,7 +507,7 @@ struct BakeHistoriesListView: View {
             ForEach(Array(tally.recipes.enumerated()), id: \.element.id) { index, summary in
                 if let recipe = summary.id.base as? NSManagedObjectID, let recipe = tally.byID[recipe] {
                     NavigationLink {
-                        TabsView(recipe: recipe)
+                        RecipePageView(recipe: recipe)
                     } label: {
                         hitListRow(summary, rank: index + 1, recipe: recipe)
                     }
@@ -611,7 +611,7 @@ struct BakeHistoriesListView: View {
                                   y: origin.y + placement.center.y * scale)
                     if let recipe {
                         NavigationLink {
-                            TabsView(recipe: recipe)
+                            RecipePageView(recipe: recipe)
                         } label: {
                             bubble
                         }

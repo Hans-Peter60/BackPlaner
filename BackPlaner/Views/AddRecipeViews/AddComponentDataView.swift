@@ -25,7 +25,7 @@ struct AddComponentDataView: View {
         // because keyboard avoidance scrolls every scroll ancestor at once.
         VStack (alignment: .leading) {
 
-            Text("Komponenten:")
+            Text("Komponenten")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
 

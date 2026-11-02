@@ -58,6 +58,9 @@ final class AppModel {
 
     /// Every scheduled step of every plan, by date.
     var scheduledSteps: [StoredScheduledStep] = []
+    /// The model the app shows, for work that arrives from outside a view
+    /// (an action on a reminder notification); nil while no screen is up.
+    static weak var current: AppModel?
 
     /// The visible public recipes, without components and steps until one
     /// is opened (PublicRecipeService).
@@ -67,17 +70,47 @@ final class AppModel {
     var isLoadingPublicRecipes = false
     /// The pictures of the public recipes opened so far, by recipe id.
     var publicRecipeImages: [String: Data] = [:]
+    /// Small pictures of the public recipes for the list, by recipe id,
+    /// read from Storage as the rows appear (the iPhone's list loads them
+    /// all as well); an empty value marks a recipe without a picture, so
+    /// it is not asked for again.
+    var publicThumbnails: [String: Data] = [:]
+    private var loadingPublicThumbnails: Set<String> = []
 
-    /// Which recipes the list shows — the iPhone's settings keys. "Von mir
-    /// veröffentlicht" counts as public here: Android has its own anonymous
-    /// account, so none of the public recipes is its own yet.
+    /// Which recipes the list shows — the iPhone's three filter chips and
+    /// their settings keys: the own recipes on the device, the public ones
+    /// published from this account (`isOwn`), and the public ones of
+    /// everyone else.
     var showsLocalRecipes = AppModel.storedBool(AppSettingsKeys.showLocalRecipes,
                                                 default: AppSettings.defaultShowLocalRecipes) {
         didSet { SettingsFile.set(showsLocalRecipes, forKey: AppSettingsKeys.showLocalRecipes) }
     }
+    var showsOwnPublishedRecipes = AppModel.storedBool(AppSettingsKeys.showOwnPublishedRecipes,
+                                                       default: AppSettings.defaultShowOwnPublishedRecipes) {
+        didSet { SettingsFile.set(showsOwnPublishedRecipes, forKey: AppSettingsKeys.showOwnPublishedRecipes) }
+    }
     var showsPublicRecipes = AppModel.storedBool(AppSettingsKeys.showPublicCloudRecipes,
                                                  default: AppSettings.defaultShowPublicCloudRecipes) {
         didSet { SettingsFile.set(showsPublicRecipes, forKey: AppSettingsKeys.showPublicCloudRecipes) }
+    }
+
+    /// Whether the user has agreed to the cloud AI reading recipes, and
+    /// whether the import uses it — the iPhone's keys
+    /// (Settings → "Datenschutz & KI", the import's "Analyseart").
+    /// Settings → Rezepte → "Bäckerprozente anzeigen": every weighed
+    /// ingredient's share of its component's flour behind the line.
+    var showsBakersPercentages = AppModel.storedBool(AppSettingsKeys.bakersPercentages,
+                                                     default: AppSettings.defaultBakersPercentages) {
+        didSet { SettingsFile.set(showsBakersPercentages, forKey: AppSettingsKeys.bakersPercentages) }
+    }
+    var allowsCloudAnalysis = AppModel.storedBool(AppSettingsKeys.cloudRecipeAnalysisConsent, default: false) {
+        didSet { SettingsFile.set(allowsCloudAnalysis, forKey: AppSettingsKeys.cloudRecipeAnalysisConsent) }
+    }
+    var usesCloudAnalysis = SettingsFile.value(forKey: AppSettingsKeys.recipeImageAnalysisMode) as? String == "protectedCloud" {
+        didSet {
+            SettingsFile.set(usesCloudAnalysis ? "protectedCloud" : "localOnly",
+                             forKey: AppSettingsKeys.recipeImageAnalysisMode)
+        }
     }
 
     /// Authors blocked and recipes reported on this device — the iPhone's
@@ -162,11 +195,71 @@ final class AppModel {
         }
     }
 
+    /// Keeps a copy a flour substitution or starter adjustment produced,
+    /// marked as adjusted today, and refreshes the list. The copy, or nil.
+    func addAdjustedCopy(_ content: RecipeExportData) -> StoredRecipe? {
+        do {
+            let copy = try openedStore().add(content, firestoreId: nil, adjustedOn: Date(), bakeHistoryFlag: false)
+            load()
+            return copy
+        } catch {
+            logger.error("could not add an adjusted copy: \(error)")
+            return nil
+        }
+    }
+
+    /// Small pictures for the recipe list, made once per recipe from the
+    /// stored picture and kept; the list itself loads no pictures.
+    private var thumbnails: [String: Data] = [:]
+
+    /// The list thumbnail of an own recipe, read and shrunk on first use;
+    /// nil without a picture.
+    func thumbnail(forRecipe id: String) -> Data? {
+        if let cached = thumbnails[id] { return cached.isEmpty ? nil : cached }
+        let data = recipe(id: id)?.content.image.flatMap { PhotoShrinker.thumbnail($0) }
+        thumbnails[id] = data ?? Data()
+        return data
+    }
+
+    /// Forgets a recipe's thumbnail after its picture changed.
+    func forgetThumbnail(forRecipe id: String) {
+        thumbnails[id] = nil
+    }
+
+    /// The list thumbnail of a public recipe: at once when its picture is
+    /// known (opened before, or loaded for the list earlier), else nil now
+    /// and the picture is fetched, which refreshes the row.
+    func publicThumbnail(of recipe: RecipeFB) -> Data? {
+        let id = recipe.id ?? ""
+        if let cached = publicThumbnails[id] { return cached.isEmpty ? nil : cached }
+        if let full = publicRecipeImages[id] {
+            let small = PhotoShrinker.thumbnail(full)
+            publicThumbnails[id] = small ?? Data()
+            return small
+        }
+        guard !recipe.image.isEmpty else {
+            publicThumbnails[id] = Data()
+            return nil
+        }
+        guard !loadingPublicThumbnails.contains(id) else { return nil }
+        loadingPublicThumbnails.insert(id)
+        Task {
+            let data = await PublicRecipeService.imageData(of: recipe)
+            if let data {
+                publicRecipeImages[id] = data
+            }
+            publicThumbnails[id] = data.flatMap { PhotoShrinker.thumbnail($0) } ?? Data()
+            loadingPublicThumbnails.remove(id)
+        }
+        return nil
+    }
+
     /// Gives the recipe a new picture, or none for `nil`. Whether it worked.
     @discardableResult
     func setImage(_ image: Data?, forRecipe id: String) -> Bool {
         do {
             try openedStore().setImage(image, forRecipe: id)
+            forgetThumbnail(forRecipe: id)
             return true
         } catch {
             logger.error("could not change the picture of recipe \(id): \(error)")
@@ -194,6 +287,17 @@ final class AppModel {
             bakeHistory = try openedHistoryStore().entries(includingImages: false)
         } catch {
             logger.error("could not read the bake history: \(error)")
+        }
+    }
+
+    /// Every entry with its photos, for the gallery and the photo cloud;
+    /// read on demand, the list itself goes without the photos.
+    func bakeHistoryWithImages() -> [StoredBakeHistory] {
+        do {
+            return try openedHistoryStore().entries(includingImages: true)
+        } catch {
+            logger.error("could not read the bake history with photos: \(error)")
+            return []
         }
     }
 
@@ -323,6 +427,10 @@ final class AppModel {
             if replacing {
                 Reminders.cancel(scheduledSteps.map(\.data).filter { $0.recipeName == plan.recipeName })
                 steps.removeSteps(recipeName: plan.recipeName)
+                // The replaced plan's history entry or diary feeding goes
+                // with it; the new plan writes its own below.
+                try PlannedBakeEntries.remove(ofRecipe: recipeID, from: openedHistoryStore())
+                try PlannedFeedingEntries.remove(ofRecipe: recipeID, from: openedFeedingStore())
             }
             steps.add(newSteps)
             if StarterRecipe.isStarterFeeding(recipe.content) {
@@ -427,15 +535,27 @@ final class AppModel {
         loadScheduledSteps()
     }
 
-    /// Removes every step of one plan, and their reminders.
+    /// Removes every step of one plan, and their reminders. A recipe
+    /// without any plan left loses the history entries its plans wrote,
+    /// unless someone has written into them (PlannedBakeEntries).
     func deletePlan(_ steps: [StoredScheduledStep]) {
         Reminders.cancel(steps.map(\.data))
         if let store = try? openedStepStore() {
             for step in steps {
                 store.removeStep(key: step.key)
             }
+            for name in Set(steps.map(\.data.recipeName)) where !store.hasSteps(recipeName: name) {
+                guard let recipe = recipes.first(where: { $0.content.name == name }) else { continue }
+                do {
+                    try PlannedBakeEntries.remove(ofRecipe: recipe.id, from: openedHistoryStore())
+                    try PlannedFeedingEntries.remove(ofRecipe: recipe.id, from: openedFeedingStore())
+                } catch {
+                    logger.error("could not remove the planned history entries of \(name): \(error)")
+                }
+            }
         }
         loadScheduledSteps()
+        loadBakeHistory()
     }
 
     // MARK: Starter feeding diary
@@ -636,7 +756,9 @@ final class AppModel {
         isLoadingPublicRecipes = true
         defer { isLoadingPublicRecipes = false }
         do {
-            publicRecipes = try await PublicRecipeService.recipes()
+            // An admin sees the reported recipes too, to review them.
+            await refreshAccount()
+            publicRecipes = try await PublicRecipeService.recipes(includingHidden: account.isAdmin)
             publicRecipesError = nil
         } catch PublicRecipeService.ServiceError.unavailable {
             publicRecipes = []
@@ -645,6 +767,21 @@ final class AppModel {
             logger.error("could not read the public recipes: \(error)")
             publicRecipesError = error.localizedDescription
         }
+    }
+
+    /// The recipe behind a planned step, for its ingredients and picture:
+    /// the own recipe of that name, else the public recipe of that name
+    /// once its components have been read (opening its page does that; a
+    /// plan is made from the page, so they are there). A step planned from
+    /// the database has no copy on the device.
+    func plannedRecipeContent(named name: String) -> RecipeExportData? {
+        if let own = recipes.first(where: { $0.content.name == name }) {
+            return own.content
+        }
+        if let shared = visiblePublicRecipes.first(where: { $0.name == name }), !shared.components.isEmpty {
+            return RecipeExportData(recipeFB: shared, imageData: nil)
+        }
+        return nil
     }
 
     /// A public recipe as the recipe page shows it: components, steps and
@@ -693,6 +830,91 @@ final class AppModel {
         await refreshAccount()
         await loadPublicRecipes()
         return failure
+    }
+
+    // MARK: Publishing
+
+    /// Whether the user has accepted the terms for public recipes, once,
+    /// as on the iPhone (same key).
+    var hasAcceptedTerms: Bool {
+        get { Self.storedBool("ugc.eulaAccepted", default: false) }
+        set { SettingsFile.set(newValue, forKey: "ugc.eulaAccepted") }
+    }
+
+    /// Whether a public recipe is the user's own: published under the
+    /// account signed in here. Empty author ids (old recipes) never match.
+    func isOwn(_ recipe: RecipeFB) -> Bool {
+        guard let author = recipe.authorId, !author.isEmpty, let uid = PublicRecipeService.currentUID else { return false }
+        return author == uid
+    }
+
+    /// Whether an own recipe may be published: not yet, or its public copy
+    /// is gone again (deleted elsewhere), as the iPhone decides.
+    func canPublish(_ recipe: StoredRecipe) -> Bool {
+        guard let firestoreID = recipe.firestoreId, !firestoreID.isEmpty else { return true }
+        return !publicRecipes.contains { $0.id == firestoreID }
+    }
+
+    /// Publishes an own recipe; nil when it worked, else why not. The
+    /// recipe remembers its public id, as on the iPhone, and the public
+    /// list is read again.
+    func publish(recipeID: String) async -> String? {
+        guard var recipe = recipe(id: recipeID), let image = recipe.content.image,
+              let upload = PhotoShrinker.uploadPhoto(image) else { return nil }
+        do {
+            let publicID = try await PublicRecipeService.publish(recipe.content, image: upload)
+            recipe.firestoreId = publicID
+            try openedStore().update(recipe)
+            load()
+        } catch {
+            logger.error("could not publish recipe \(recipeID): \(error)")
+            return String(describing: error)
+        }
+        await loadPublicRecipes()
+        return nil
+    }
+
+    /// Saves an edit of a published recipe; nil when it worked. The new
+    /// picture, if the edit changed it, goes along.
+    func saveEdits(of recipe: RecipeFB, content: RecipeExportData) async -> String? {
+        let id = recipe.id ?? ""
+        let newImage = content.image != publicRecipeImages[id] ? content.image.flatMap { PhotoShrinker.uploadPhoto($0) } : nil
+        do {
+            try await PublicRecipeService.saveEdits(of: recipe, content: content, newImage: newImage)
+            if let newImage {
+                publicRecipeImages[id] = newImage
+                publicThumbnails[id] = nil
+            }
+        } catch {
+            logger.error("could not save edits of public recipe \(id): \(error)")
+            return String(describing: error)
+        }
+        await loadPublicRecipes()
+        return nil
+    }
+
+    /// Removes a published recipe (own, or any as an admin); nil when it
+    /// worked.
+    func deletePublic(_ recipe: RecipeFB) async -> String? {
+        do {
+            try await PublicRecipeService.delete(recipe)
+        } catch {
+            logger.error("could not delete public recipe \(recipe.id ?? ""): \(error)")
+            return String(describing: error)
+        }
+        publicRecipes.removeAll { $0.id == recipe.id }
+        return nil
+    }
+
+    /// Releases a reported recipe again (admins); nil when it worked.
+    func release(_ recipe: RecipeFB) async -> String? {
+        do {
+            try await PublicRecipeService.setHidden(recipe, hidden: false)
+        } catch {
+            logger.error("could not release public recipe \(recipe.id ?? ""): \(error)")
+            return String(describing: error)
+        }
+        return nil
     }
 
     /// Reports a public recipe. It leaves this device's list at once, even

@@ -14,14 +14,13 @@ struct ShoppingListsView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if model.shoppingLists.isEmpty {
                 VStack(spacing: 12) {
                     Text("Keine Einkaufslisten")
-                        .font(.title2)
+                        .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
                     Text("Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“.")
                         .multilineTextAlignment(.center)
@@ -45,6 +44,7 @@ struct ShoppingListsView: View {
             }
         }
         .navigationTitle("Einkaufslisten")
+        .navigationBarTitleDisplayMode(.inline)
         .alert("Einkaufsliste löschen", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {
                 if let list = listToDelete {
@@ -70,13 +70,13 @@ struct ShoppingListRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Einkaufsliste vom \(ShoppingListText.date(list.date))")
-                .font(.headline)
+                .font(AppFont.headline)
             if !list.recipeNames.isEmpty {
                 Text(verbatim: list.recipeNames.joined(separator: ", "))
-                    .font(.caption)
+                    .font(AppFont.caption)
             }
             Text("\(list.items.count) Zutaten")
-                .font(.caption)
+                .font(AppFont.caption)
                 .foregroundStyle(.secondary)
         }
     }
@@ -104,8 +104,7 @@ struct ShoppingListDetailView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if let list {
@@ -197,7 +196,7 @@ struct ShoppingListItemEditor: View {
         Form {
             Section {
                 Text(verbatim: item.name)
-                    .font(.headline)
+                    .font(AppFont.headline)
                 HStack {
                     TextField("Menge", text: $amount)
                         .frame(width: 96)
@@ -205,7 +204,7 @@ struct ShoppingListItemEditor: View {
                     TextField("Einheit", text: $unit)
                 }
                 Text("Die Menge gilt für diese Einkaufsliste. Das Rezept bleibt unverändert.")
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
             }
 

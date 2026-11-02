@@ -89,6 +89,50 @@ public enum RecipeFirestoreMapping {
 
     // MARK: Writing
 
+    /// A recipe of one's own as it is published: the cloud recipe the
+    /// documents are written from, as the iPhone's editor builds it
+    /// (EditRecipeView.recipeFB(from:)). The language of its text is the
+    /// app's; translations start empty.
+    public static func recipeFB(from recipe: RecipeExportData) -> RecipeFB {
+        let publicRecipe = RecipeFB()
+        publicRecipe.name        = recipe.name
+        publicRecipe.summary     = recipe.summary
+        publicRecipe.urlLink     = recipe.urlLink ?? ""
+        publicRecipe.prepTime    = recipe.prepTime
+        publicRecipe.totalWeight = recipe.totalWeight
+        publicRecipe.tags        = recipe.tags
+        publicRecipe.rating      = recipe.rating
+        publicRecipe.components = recipe.components.map { component in
+            let componentFB = ComponentFB()
+            componentFB.name   = component.name
+            componentFB.number = component.number
+            componentFB.ingredients = component.ingredients.map { ingredient in
+                let ingredientFB = IngredientFB()
+                ingredientFB.name       = ingredient.name
+                ingredientFB.number     = ingredient.number
+                ingredientFB.unit       = ingredient.unit ?? ""
+                ingredientFB.weight     = ingredient.weight
+                ingredientFB.normWeight = ingredient.normWeight
+                ingredientFB.num        = ingredient.num
+                ingredientFB.denom      = ingredient.denom
+                return ingredientFB
+            }
+            return componentFB
+        }
+        publicRecipe.instructions = recipe.instructions.map { instruction in
+            let instructionFB = InstructionFB()
+            instructionFB.instruction   = instruction.instruction
+            instructionFB.step          = instruction.step
+            instructionFB.duration      = instruction.duration
+            instructionFB.startTime     = instruction.startTime
+            instructionFB.bakeFlag      = instruction.bakeFlag
+            instructionFB.componentName = instruction.componentName
+            return instructionFB
+        }
+        publicRecipe.capturePreferredLocalization()
+        return publicRecipe
+    }
+
     /// The document of a newly published recipe. `hidden` is false from the
     /// start: the list asks for `hidden == false`, Firestore never matches a
     /// missing field, and the rules refuse a new recipe without it.

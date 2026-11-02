@@ -40,26 +40,42 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     // MARK: - Tests
 
+    /// The root shows its four tabs, and the recipe list its "+" and the
+    /// "Mehr" menu with the calculators and the settings.
     @MainActor
-    func testLaunchShowsEveryMenuEntry() throws {
+    func testLaunchShowsEveryTabAndMenuEntry() throws {
         launch()
 
-        for destination in Self.menuDestinations {
+        for tab in Self.rootTabs {
+            XCTAssertTrue(rootTab(tab).waitForExistence(timeout: 5), "Tab \(tab) is missing")
+        }
+        XCTAssertTrue(menuEntry("newRecipe").waitForExistence(timeout: 5), "The + button is missing")
+        XCTAssertTrue(menuEntry("more").waitForExistence(timeout: 5), "The Mehr menu is missing")
+
+        menuEntry("more").tap()
+        for destination in Self.moreDestinations {
             XCTAssertTrue(menuEntry(destination).waitForExistence(timeout: 5),
                           "Menu entry \(destination) is missing")
         }
     }
 
-    /// Opens each local screen from the menu and returns. The public database is
-    /// left out: it depends on the network, not on the app.
+    /// Switches to each tab, and opens each screen of "+" and "Mehr" and
+    /// returns. The public database is not waited for: it depends on the
+    /// network, not on the app.
     @MainActor
-    func testEveryLocalScreenOpensFromTheMenu() throws {
+    func testEveryLocalScreenOpens() throws {
         launch()
 
-        for destination in Self.menuDestinations where destination != "publicRecipes" {
-            let entry = menuEntry(destination)
-            scrollUntilHittable(entry)
-            entry.tap()
+        for tab in Self.rootTabs {
+            let button = rootTab(tab)
+            XCTAssertTrue(button.waitForExistence(timeout: 5), "Tab \(tab) is missing")
+            button.tap()
+            XCTAssertTrue(button.isSelected, "Tab \(tab) did not become the selected one")
+        }
+        rootTab("Rezepte").tap()
+
+        for destination in ["newRecipe"] + Self.moreDestinations {
+            openMenu(destination)
 
             let back = app.navigationBars.buttons.element(boundBy: 0)
             if !back.waitForExistence(timeout: 5) {
@@ -73,8 +89,8 @@ final class BackPlanerSmokeTests: XCTestCase {
             }
             back.tap()
 
-            XCTAssertTrue(menuEntry(destination).waitForExistence(timeout: 5),
-                          "Could not return to the menu from \(destination)")
+            XCTAssertTrue(menuEntry("more").waitForExistence(timeout: 5),
+                          "Could not return to the recipe list from \(destination)")
         }
     }
 
@@ -132,17 +148,15 @@ final class BackPlanerSmokeTests: XCTestCase {
         app.launchArguments.append("-UITestingSeedRecipe")
         launch()
 
-        openMenu("publicRecipes")
-
         let recipeName = "UI-Test-Brot"
         let row = element(labelBeginningWith: recipeName)
         XCTAssertTrue(row.waitForExistence(timeout: 5), "The seeded recipe is not listed")
         row.tap()
 
-        // A recipe opens on its details; planning happens in "Backen".
-        let bakingTab = app.tabBars.buttons["Backen"]
-        XCTAssertTrue(bakingTab.waitForExistence(timeout: 5), "The recipe has no Backen tab")
-        bakingTab.tap()
+        // A recipe opens as one page; planning is a sheet behind "Planen".
+        let plan = app.buttons["recipe.plan"]
+        XCTAssertTrue(plan.waitForExistence(timeout: 5), "The recipe has no Planen button")
+        plan.tap()
 
         let setReminders = app.buttons["plan.setReminders"]
         scrollUntilHittable(setReminders)
@@ -152,21 +166,18 @@ final class BackPlanerSmokeTests: XCTestCase {
         let confirmation = app.alerts["Erinnerungen wurden gesetzt"]
         XCTAssertTrue(confirmation.waitForExistence(timeout: 5),
                       "Setting the reminders was not confirmed")
+        // OK closes the plan sheet as well.
         confirmation.buttons["OK"].tap()
 
-        // Back out of the recipe to the menu.
-        while !menuEntry("scheduledSteps").exists,
-              app.navigationBars.buttons.element(boundBy: 0).exists {
-            app.navigationBars.buttons.element(boundBy: 0).tap()
-        }
+        // The planned steps have a tab of their own; the timeline opens
+        // first, the steps are checked in the list.
+        let scheduledTab = rootTab("Zeitleiste")
+        XCTAssertTrue(scheduledTab.waitForExistence(timeout: 5), "There is no Zeitleiste tab")
+        scheduledTab.tap()
 
-        openMenu("scheduledSteps")
-
-        // The timeline opens first; the steps are checked in the list.
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.waitForExistence(timeout: 3), tabBar.buttons.count > 0 {
-            tabBar.buttons.element(boundBy: 0).tap()
-        }
+        let display = app.segmentedControls["scheduled.display"]
+        XCTAssertTrue(display.waitForExistence(timeout: 5), "The planned steps have no Timeline/Liste switch")
+        display.buttons["Liste"].tap()
 
         XCTAssertFalse(app.staticTexts["Keine geplanten Schritte"].waitForExistence(timeout: 2),
                        "The plan left no steps behind")
@@ -178,11 +189,13 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     // MARK: - Helpers
 
-    /// Raw values of MenuDestination, which the app uses as identifiers.
-    private static let menuDestinations = [
-        "publicRecipes", "newRecipe", "scheduledSteps",
-        "bakeHistory", "shoppingList", "doughTemperature", "flourSubstitution", "starterYield", "settings"
-    ]
+    /// The tabs of the root, by their German titles (the tab bar's buttons
+    /// carry no identifier of their own).
+    private static let rootTabs = ["Rezepte", "Einkaufslisten", "Backhistorie", "Zeitleiste"]
+
+    /// The entries of the recipe list's "Mehr" menu: raw values of
+    /// MenuDestination, which the app uses as identifiers ("menu.<name>").
+    private static let moreDestinations = ["doughTemperature", "flourSubstitution", "starterYield", "settings"]
 
     private func launch() {
         // The app asks for permission to send notifications on its first start.
@@ -193,14 +206,24 @@ final class BackPlanerSmokeTests: XCTestCase {
         allowSystemAlertIfShown()
     }
 
+    private func rootTab(_ title: String) -> XCUIElement {
+        app.tabBars.buttons[title]
+    }
+
     private func menuEntry(_ destination: String) -> XCUIElement {
         app.buttons["menu.\(destination)"]
     }
 
+    /// Opens a screen from the recipe list: "newRecipe" behind "+", the
+    /// others behind "Mehr".
     private func openMenu(_ destination: String) {
+        if destination != "newRecipe" {
+            let more = menuEntry("more")
+            XCTAssertTrue(more.waitForExistence(timeout: 5), "The Mehr menu is missing")
+            more.tap()
+        }
         let entry = menuEntry(destination)
         XCTAssertTrue(entry.waitForExistence(timeout: 5), "Menu entry \(destination) is missing")
-        scrollUntilHittable(entry)
         entry.tap()
     }
 

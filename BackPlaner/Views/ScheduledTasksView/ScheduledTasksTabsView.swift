@@ -2,12 +2,11 @@
 //  ScheduledTasksTabsView.swift
 //  BackPlaner
 //
-//  Hosts the two "next steps" screens — the plain list and the timeline — in a
-//  single tabbed container, mirroring the public-recipe tabs (Backen/Details).
-//  This lets the main menu offer one entry instead of two, while the user still
-//  switches between "Liste" and "Timeline" at the bottom. The timeline, the
-//  project plan, opens first; the list keeps its place as the first tab so
-//  the two stay where they have always been.
+//  Hosts the two "next steps" screens — the timeline and the plain list —
+//  behind one segmented control, as the Android app has it. The timeline,
+//  the project plan, opens first. Until 2.2 the two were tabs of their own;
+//  with the app's root now a tab bar, a second bar of tabs would stack on
+//  the first.
 //
 
 import BakePlannerCore
@@ -15,29 +14,25 @@ import SwiftUI
 
 struct ScheduledTasksTabsView: View {
 
-    @State private var tabSelection = 1
+    @State private var showsTimeline = true
 
     var body: some View {
-        TabView(selection: $tabSelection) {
+        VStack(spacing: 0) {
+            Picker("Darstellung", selection: $showsTimeline) {
+                Text("Timeline").tag(true)
+                Text("Liste").tag(false)
+            }
+            .pickerStyle(.segmented)
+            .accessibilityIdentifier("scheduled.display")
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
 
-            ScheduledTasksView()
-                .tabItem {
-                    VStack {
-                        Image(systemName: "calendar")
-                        Text("Geplante Schritte")
-                    }
-                }
-                .tag(0)
-
-            ScheduledTasksTimeLineView()
-                .tabItem {
-                    VStack {
-                        Image(systemName: "chart.bar.doc.horizontal.fill")
-                        Text("Timeline")
-                    }
-                }
-                .tag(1)
+            if showsTimeline {
+                ScheduledTasksTimeLineView()
+            } else {
+                ScheduledTasksView()
+            }
         }
-        .tint(Theme.accentText)
+        .warmBackground()
     }
 }
