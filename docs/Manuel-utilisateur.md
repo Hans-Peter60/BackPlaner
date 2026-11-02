@@ -127,7 +127,7 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 | Bouton | Rôle |
 |--------|------|
 | **Filtre** | La note minimale pour la liste |
-| **Plus (⋯)** | Les trois calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau) et **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
+| **Plus (⋯)** | Les trois calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau) et **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau), **Exporter des recettes** (une sélection de vos propres recettes dans un fichier, voir [chapitre 14](#14-réglages)), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
 | **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos ou une page web |
 
 **La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à l’onglet « Timeline ». Sans étape à venir, elle reste masquée.
@@ -769,6 +769,8 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 | **Restaurer depuis une sauvegarde** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson et le journal du levain chef du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson ou journal du levain chef demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
 
 Une recette seule s’exporte depuis sa page via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via « Restaurer depuis une sauvegarde » — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+
+**Plusieurs recettes à la fois :** **Recettes → Plus (⋯) → Exporter des recettes** liste vos propres recettes à cocher, avec **Tout sélectionner** en haut à droite. **Exporter** écrit la sélection dans un seul fichier ; l’interrupteur **Avec l’historique de cuisson et le journal du levain** emporte aussi vos entrées si vous le souhaitez — par exemple pour déplacer une partie de vos recettes sur un autre appareil. Comme l’export d’une recette seule, c’est une fonction Pro.
 
 ### Traduction
 

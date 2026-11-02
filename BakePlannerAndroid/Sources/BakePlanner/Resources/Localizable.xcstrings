@@ -283,6 +283,23 @@
         }
       }
     },
+    "Alle auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout sélectionner"
+          }
+        }
+      }
+    },
     "Alle eigenen Rezepte sichern" : {
       "comment" : "Recipe list: save every recipe as one backup file.",
       "extractionState" : "manual",
@@ -729,6 +746,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pages sélectionnées"
+          }
+        }
+      }
+    },
+    "Auswahl aufheben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deselect all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout désélectionner"
           }
         }
       }
@@ -2114,6 +2148,23 @@
         }
       }
     },
+    "Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Aus Sicherung wiederherstellen“ einliest." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selection is exported as one file, which another device – iPhone, iPad or Android – reads in through “Restore from backup”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sélection est exportée dans un seul fichier, qu’un autre appareil – iPhone, iPad ou Android – lit via « Restaurer depuis une sauvegarde »."
+          }
+        }
+      }
+    },
     "Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3104,6 +3155,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Créé avec BakePlanner"
+          }
+        }
+      }
+    },
+    "Exportieren (%lld)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export (%lld)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter (%lld)"
           }
         }
       }
@@ -4869,6 +4937,23 @@
         }
       }
     },
+    "Mit Backhistorie und Anstellgut-Tagebuch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With baking history and starter diary"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec l’historique de cuisson et le journal du levain"
+          }
+        }
+      }
+    },
     "Mit Sauerteig oder Vorteig" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6133,6 +6218,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recettes"
+          }
+        }
+      }
+    },
+    "Rezepte exportieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporter des recettes"
           }
         }
       }

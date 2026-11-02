@@ -128,6 +128,7 @@
 		6AF9FF6B304997EA00FC72FA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6AF9FF6A304997EA00FC72FA /* FirebaseAuth */; };
 		6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */; };
 		6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */; };
+		EA7B7168E961464F980B1E63 /* RecipeExportSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */; };
 		6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */; };
 		6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */; };
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
@@ -314,6 +315,7 @@
 		6AF9268A3045772B0081227C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculatorView.swift; sourceTree = "<group>"; };
 		6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesListView.swift; sourceTree = "<group>"; };
+		56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExportSelectionView.swift; sourceTree = "<group>"; };
 		6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				6A9181F53049649B0045D7CB /* SettingsView.swift */,
 				6A5055EB304D60BD00F8E804 /* TotalIngredientsView.swift */,
 				6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */,
+				56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */,
 				6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */,
 			);
 			path = Views;
@@ -994,6 +997,7 @@
 				6A4BBD0E8C45C8910044D9E6 /* UITestSupport.swift in Sources */,
 				6AFA48D3307E000100E105F9 /* BakePlanScheduler.swift in Sources */,
 				6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */,
+				EA7B7168E961464F980B1E63 /* RecipeExportSelectionView.swift in Sources */,
 				6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */,
 				6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */,
 				6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */,

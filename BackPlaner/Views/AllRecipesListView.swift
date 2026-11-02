@@ -145,6 +145,8 @@ struct AllRecipesListView: View {
 
     /// What "+" or the "Mehr" menu opened, pushed onto the tab's stack.
     @State private var pushedDestination: MenuDestination?
+    /// "Rezepte exportieren" from the "Mehr" menu, a sheet over the list.
+    @State private var exportsRecipes = false
 
     var body: some View {
 
@@ -231,6 +233,11 @@ struct AllRecipesListView: View {
             .navigationDestination(item: $pushedDestination) { destination in
                 MenuDestinationView(destination: destination)
             }
+            .sheet(isPresented: $exportsRecipes) {
+                NavigationStack {
+                    RecipeExportSelectionView()
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -258,6 +265,12 @@ struct AllRecipesListView: View {
                             Label("Einstellungen", systemImage: "gearshape.fill")
                         }
                         .accessibilityIdentifier("menu.settings")
+                        Button {
+                            exportsRecipes = true
+                        } label: {
+                            Label("Rezepte exportieren", systemImage: "doc.badge.arrow.up")
+                        }
+                        .accessibilityIdentifier("menu.exportRecipes")
                         Divider()
                         Button {
                             pushedDestination = .doughTemperature

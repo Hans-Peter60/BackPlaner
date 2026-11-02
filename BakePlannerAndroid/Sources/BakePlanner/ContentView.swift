@@ -109,6 +109,10 @@ struct RecipeListView: View {
     @State var importNotice: Text?
     @State var editsImportedRecipe = false
     @State var recipesToExport: [String]?
+    /// Whether the export carries the bake history: always for the full
+    /// backup, as chosen for a selection.
+    @State var exportIncludesBakeHistory = true
+    @State var exportsRecipes = false
     @State var showsSettings = false
     /// The calculator to show; kept apart from the sheet's visibility, as
     /// the dialogs' data is.
@@ -200,7 +204,12 @@ struct RecipeListView: View {
                         showsPicker = true
                     }
                     Button("Alle eigenen Rezepte sichern") {
+                        exportIncludesBakeHistory = true
                         recipesToExport = model.recipes.map(\.id)
+                    }
+                    .disabled(model.recipes.isEmpty)
+                    Button("Rezepte exportieren") {
+                        exportsRecipes = true
                     }
                     .disabled(model.recipes.isEmpty)
                     // The iPhone's three calculators from its main menu.
@@ -234,7 +243,20 @@ struct RecipeListView: View {
             }
         }
         .recipeFileExporter(model: model, recipeIDs: $recipesToExport, fileName: AppModel.backupFileName,
-                            includesBakeHistory: true)
+                            includesBakeHistory: exportIncludesBakeHistory)
+        .appSheet(isPresented: $exportsRecipes) {
+            NavigationStack {
+                RecipeExportSelectionView(model: model) { ids, history in
+                    exportIncludesBakeHistory = history
+                    // After the sheet has gone, so the system's "save as"
+                    // does not open over it.
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))
+                        recipesToExport = ids
+                    }
+                }
+            }
+        }
         .appSheet(isPresented: $showsSettings) {
             NavigationStack {
                 SettingsView(model: model)
