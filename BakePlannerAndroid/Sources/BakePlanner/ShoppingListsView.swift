@@ -14,8 +14,7 @@ struct ShoppingListsView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if model.shoppingLists.isEmpty {
@@ -104,8 +103,7 @@ struct ShoppingListDetailView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if let list {

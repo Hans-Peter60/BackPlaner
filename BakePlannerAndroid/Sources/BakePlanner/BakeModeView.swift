@@ -48,8 +48,7 @@ struct BakeModeView: View {
     var body: some View {
         let steps = self.steps
         return ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if let index = currentIndex, steps.indices.contains(index) {

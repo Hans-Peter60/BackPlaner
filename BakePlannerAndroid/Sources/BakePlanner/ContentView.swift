@@ -121,8 +121,7 @@ struct RecipeListView: View {
             // Not ignoring the safe area here: the search field sits in the
             // area above the list, and a gradient reaching into it covered
             // the field (taps still went through, so one typed unseen).
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
 
             if let loadError = model.loadError {
                 VStack(spacing: 12) {

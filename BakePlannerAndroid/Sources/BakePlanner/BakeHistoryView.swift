@@ -51,8 +51,7 @@ struct BakeHistoryView: View {
         ZStack {
             // Not ignoring the safe area: the search field sits above the
             // list, and a gradient reaching into it covered the field.
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
 
             if model.shownBakeHistory.isEmpty {
                 VStack(spacing: 12) {

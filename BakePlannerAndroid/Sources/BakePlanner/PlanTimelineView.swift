@@ -138,8 +138,7 @@ struct PlanTimelineView: View {
     var body: some View {
         let plans = self.plans
         return ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if plans.isEmpty {

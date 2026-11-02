@@ -120,3 +120,63 @@ extension View {
         modifier(CardStyle(cornerRadius: cornerRadius))
     }
 }
+
+/// The soft-focus bakery photograph behind every screen, as on the iPhone
+/// (BakeryBackdropView.swift there): the warm gradient underneath, the
+/// photo aspect-filled with the baker kept in view (he stands at about two
+/// thirds of the picture's width; a centred crop on a phone would show the
+/// stand mixer and cut him off), and a veil that keeps free-standing text
+/// readable — the iPhone's measured 0.45 white by day and 0.50 black at
+/// night, each over its own photo (`BakeryBackdrop`, `BakeryBackdropDark`
+/// in Module.xcassets: Skip knows no dark variant inside one image set).
+/// Not blurred again here: the photos are already soft, and a blur in
+/// Compose would be paid for on every frame.
+///
+/// Callers decide about the safe area: most screens ignore it, the recipe
+/// list does not (its search field sits above the list and was covered).
+struct WarmBackdrop: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    /// The point of the photo that must stay in view when the screen's
+    /// aspect ratio forces a crop, as a fraction of its size.
+    static let focalX = 0.68
+    static let focalY = 0.5
+    /// Both photos are landscape, 1536 × 1024.
+    static let imageWidth = 1536.0
+    static let imageHeight = 1024.0
+
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
+                           startPoint: .top, endPoint: .bottom)
+            GeometryReader { geo in
+                // Filled and centred by SwiftUI, then shifted left so the
+                // baker comes towards the middle — as far as the crop allows
+                // without uncovering the right edge. (An oversized frame
+                // with an offset, the iPhone's way, came out as a slice of
+                // the photo in Compose.)
+                Image(colorScheme == .dark ? "BakeryBackdropDark" : "BakeryBackdrop", bundle: .module)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .offset(x: -Self.focalShift(in: geo.size))
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .clipped()
+            }
+            (colorScheme == .dark ? Color.black : Color.white)
+                .opacity(colorScheme == .dark ? 0.50 : 0.45)
+        }
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+
+    /// How far the filled, centred photo is moved left (in points) so the
+    /// focal point sits as close to the middle as the crop allows.
+    static func focalShift(in container: CGSize) -> Double {
+        let scale = max(container.width / imageWidth, container.height / imageHeight)
+        let scaledWidth = imageWidth * scale
+        let wanted = (focalX - 0.5) * scaledWidth
+        let room = max(0, (scaledWidth - container.width) / 2)
+        return min(wanted, room)
+    }
+}

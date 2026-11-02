@@ -47,8 +47,7 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Palette.backgroundTop(colorScheme), Palette.backgroundBottom(colorScheme)],
-                           startPoint: .top, endPoint: .bottom)
+            WarmBackdrop()
                 .ignoresSafeArea()
 
             if let recipe {
