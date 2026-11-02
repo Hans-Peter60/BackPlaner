@@ -502,6 +502,9 @@ struct InstructionsView: View {
         if replaceExisting {
             BakePlanScheduler.removePlans(recipeName: recipe.name, reminderPrefix: recipe.reminderId,
                                           keeping: planID, in: viewContext)
+            // The replaced plan's history entry goes with it; the new plan
+            // writes its own below.
+            BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: viewContext)
         }
 
         showingNotificationMessage = true

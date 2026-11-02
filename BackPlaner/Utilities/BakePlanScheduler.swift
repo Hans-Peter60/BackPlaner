@@ -164,6 +164,19 @@ struct BakePlanScheduler {
                     from: CoreDataScheduledStepStore(context: context))
     }
 
+    /// Drops the bake-history entries the recipe's plans wrote and nobody
+    /// has touched (PlannedBakeEntries): called when a plan is replaced or
+    /// deleted, so the history does not keep a "geplant" line for a bake
+    /// that will not happen. An entry with a comment, a photo or a
+    /// measurement stays.
+    static func removePlannedBakeEntries(of recipe: Recipe, in context: NSManagedObjectContext) {
+        do {
+            try PlannedBakeEntries.remove(ofRecipe: recipe.storeKey, from: CoreDataBakeHistoryStore(context: context))
+        } catch {
+            AppLog.persistence.error("Could not remove the planned bake-history entries: \(error)")
+        }
+    }
+
     static func removePlans(recipeName: String, reminderPrefix: String,
                             keeping planID: UUID, from store: any ScheduledStepStore) {
         store.removeSteps(recipeName: recipeName)

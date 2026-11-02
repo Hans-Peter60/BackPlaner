@@ -653,6 +653,7 @@ struct ScheduledTasksView: View {
         // while the steps still exist.
         NotificationActions.cancelPendingNotifications(for: stepsToDelete)
 
+        let recipeNames = Set(stepsToDelete.map(\.recipeName))
         do {
             for nextStep in stepsToDelete {
                 managedObjectContext.delete(nextStep)
@@ -663,6 +664,13 @@ struct ScheduledTasksView: View {
             managedObjectContext.rollback()
             AppLog.persistence.error("Could not delete next steps")
             return
+        }
+
+        // A recipe without any plan left loses the history entries its plans
+        // wrote, unless someone has written into them.
+        let steps = CoreDataScheduledStepStore(context: managedObjectContext)
+        for recipe in recipes where recipeNames.contains(recipe.name) && !steps.hasSteps(recipeName: recipe.name) {
+            BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: managedObjectContext)
         }
 
         if plan == nil {

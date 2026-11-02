@@ -677,7 +677,7 @@ La vue de cuisson affiche ces informations dans la carte **La dernière fois** l
 
 **Mes recettes → recette → onglet « + Historique ».** Choisissez la date de cuisson (jusqu’à 10 ans en arrière), écrivez un commentaire, renseignez les mesures et le résultat, ajoutez des photos depuis la photothèque, **Enregistrer**.
 
-Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la vue de cuisson vous rappelle de la compléter.
+Une entrée est en outre créée automatiquement lorsque vous définissez des rappels dans les instructions de cuisson — d’abord avec le texte provisoire « aucun commentaire saisi » et sans mesures. Après la cuisson, la carte « La dernière fois » de la vue de cuisson vous rappelle de la compléter. Si vous remplacez ou supprimez le plan avant la cuisson, cette entrée disparaît de nouveau — sauf si vous y avez déjà ajouté un commentaire, une photo ou une mesure.
 
 ### Palmarès et nuage de photos
 

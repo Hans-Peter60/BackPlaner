@@ -30,6 +30,22 @@ struct CoreDataBakeHistoryStoreTests {
         try check.run(store, recipes)
     }
 
+    @Test("Replacing or deleting a plan takes its untouched history entry, through the Core Data store")
+    func plannedEntryGoesWithThePlan() throws {
+        let (store, recipes) = newStores()
+        let bread = try recipes.add(RecipeStoreContract.bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        let tomorrow = Date().addingTimeInterval(86_400)
+        let placeholder = AppSettings.generatedRecipeTexts().missingComment
+        _ = try store.add(toRecipe: bread.id, date: tomorrow, comment: placeholder, images: [], facts: BakeHistoryFacts())
+        let kept = try store.add(toRecipe: bread.id, date: tomorrow, comment: "Mit Saaten probiert", images: [],
+                                 facts: BakeHistoryFacts())
+
+        let recipe = try #require(try store.context.fetch(Recipe.fetchRequest()).first)
+        BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: store.context)
+
+        #expect(try store.entries(ofRecipe: bread.id, includingImages: false).map(\.id) == [kept.id])
+    }
+
     @Test("An entry written through the store reads the same in the history screens")
     func sameAsCoreData() throws {
         let (store, recipes) = newStores()

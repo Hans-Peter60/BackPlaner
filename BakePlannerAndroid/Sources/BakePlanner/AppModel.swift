@@ -388,6 +388,9 @@ final class AppModel {
             if replacing {
                 Reminders.cancel(scheduledSteps.map(\.data).filter { $0.recipeName == plan.recipeName })
                 steps.removeSteps(recipeName: plan.recipeName)
+                // The replaced plan's history entry goes with it; the new
+                // plan writes its own below.
+                try PlannedBakeEntries.remove(ofRecipe: recipeID, from: openedHistoryStore())
             }
             steps.add(newSteps)
             if StarterRecipe.isStarterFeeding(recipe.content) {
@@ -492,15 +495,26 @@ final class AppModel {
         loadScheduledSteps()
     }
 
-    /// Removes every step of one plan, and their reminders.
+    /// Removes every step of one plan, and their reminders. A recipe
+    /// without any plan left loses the history entries its plans wrote,
+    /// unless someone has written into them (PlannedBakeEntries).
     func deletePlan(_ steps: [StoredScheduledStep]) {
         Reminders.cancel(steps.map(\.data))
         if let store = try? openedStepStore() {
             for step in steps {
                 store.removeStep(key: step.key)
             }
+            for name in Set(steps.map(\.data.recipeName)) where !store.hasSteps(recipeName: name) {
+                guard let recipe = recipes.first(where: { $0.content.name == name }) else { continue }
+                do {
+                    try PlannedBakeEntries.remove(ofRecipe: recipe.id, from: openedHistoryStore())
+                } catch {
+                    logger.error("could not remove the planned history entries of \(name): \(error)")
+                }
+            }
         }
         loadScheduledSteps()
+        loadBakeHistory()
     }
 
     // MARK: Starter feeding diary
