@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The iPhone's app icon as an adaptive icon: the picture at 80 % of the
+     canvas, so the bread stays inside the launcher's mask, on its own black
+     edge colour. No monochrome layer: the picture has no flat silhouette,
+     so a themed launcher shows the normal icon. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

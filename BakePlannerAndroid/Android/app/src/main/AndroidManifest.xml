@@ -15,11 +15,14 @@
     <!-- taking a recipe or bake photo with the camera -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- No Android auto backup (allowBackup): it stops at 25 MB, which
+         recipe and bake photos exceed, and a backup that silently fails is
+         worse than none. "Alle eigenen Rezepte sichern" writes the backup. -->
     <application
         android:label="${PRODUCT_NAME}"
         android:name=".AndroidAppMain"
         android:supportsRtl="true"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:localeConfig="@xml/locales_config">
         <!-- WorkManager is configured by AndroidAppMain (Configuration.Provider),
