@@ -27,6 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.core.app.ActivityCompat
 import androidx.work.Configuration
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 
 internal val logger: SkipLogger = SkipLogger(subsystem = "bake.planner", category = "BakePlanner")
 
@@ -51,6 +54,21 @@ open class AndroidAppMain: Application, Configuration.Provider {
         logger.info("starting app")
         ProcessInfo.launch(applicationContext)
         AppDelegate.shared.onInit()
+        installAppCheck()
+    }
+
+    /// App Check proves to Firebase that requests come from the genuine
+    /// app. A debug build uses the debug provider, whose token (printed to
+    /// the log on the first start) is registered in the Firebase console;
+    /// the store build uses Play Integrity, which Google Play vouches for.
+    /// Installed once the app's Swift has configured Firebase (onInit).
+    private fun installAppCheck() {
+        val factory = if (BuildConfig.DEBUG) {
+            DebugAppCheckProviderFactory.getInstance()
+        } else {
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        }
+        FirebaseAppCheck.getInstance().installAppCheckProviderFactory(factory)
     }
 
     companion object {

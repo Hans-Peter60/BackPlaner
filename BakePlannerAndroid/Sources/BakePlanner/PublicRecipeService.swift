@@ -3,7 +3,6 @@ import Foundation
 #if os(Android)
 import SkipFirebaseCore
 import SkipFirebaseAuth
-import SkipFirebaseAppCheck
 @preconcurrency import SkipFirebaseFirestore
 @preconcurrency import SkipFirebaseStorage
 @preconcurrency import SkipFirebaseFunctions
@@ -81,11 +80,12 @@ enum PublicRecipeService {
     /// request: Firestore refuses requests without it. The debug provider
     /// prints a token to the log on the first start ("Enter this debug
     /// secret into the allow list …"), which is registered once in the
-    /// Firebase console; Play Integrity follows with the Play Store release.
+    /// Firebase console; the store build uses Play Integrity. Which one is
+    /// decided in Kotlin (AndroidAppMain.installAppCheck in Main.kt), where
+    /// the build type is known.
     static func configure() {
         #if os(Android)
         FirebaseApp.configure()
-        AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
         #endif
     }
 
