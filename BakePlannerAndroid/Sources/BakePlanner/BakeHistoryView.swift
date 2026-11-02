@@ -57,7 +57,7 @@ struct BakeHistoryView: View {
             if model.shownBakeHistory.isEmpty {
                 VStack(spacing: 12) {
                     Text("Noch keine Backhistorie")
-                        .font(.title2)
+                        .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
                     Text("Öffne ein Rezept und tippe auf „Backvorgang eintragen“.")
                         .multilineTextAlignment(.center)
@@ -87,9 +87,9 @@ struct BakeHistoryView: View {
                         ForEach(hitList, id: \.id) { summary in
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(verbatim: summary.name)
-                                    .font(.headline)
+                                    .font(AppFont.headline)
                                 Text("\(summary.count)× gebacken · zuletzt \(BakeHistoryText.date(summary.lastDate))")
-                                    .font(.caption)
+                                    .font(AppFont.caption)
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -293,8 +293,7 @@ struct GalleryTile: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 if photos.count > 1 {
                     Text(verbatim: "\(photos.count)")
-                        .font(.caption)
-                        .bold()
+                        .font(AppFont.bold(.caption))
                         .foregroundStyle(Color.white)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
@@ -303,14 +302,14 @@ struct GalleryTile: View {
                 }
             }
             Text(verbatim: recipeName)
-                .font(.headline)
+                .font(AppFont.headline)
                 .lineLimit(2)
             Text(verbatim: BakeHistoryText.date(entry.date))
-                .font(.caption)
+                .font(AppFont.caption)
                 .foregroundStyle(.secondary)
             if !BakeHistoryFacts.isPlaceholderComment(entry.comment), !entry.comment.isEmpty {
                 Text(verbatim: entry.comment)
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .lineLimit(2)
             }
         }
@@ -356,8 +355,7 @@ struct CloudBubble: View {
                 VStack {
                     Spacer(minLength: 0)
                     Text(verbatim: summary.name)
-                        .font(.caption)
-                        .bold()
+                        .font(AppFont.bold(.caption))
                         .foregroundStyle(Color.white)
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
@@ -371,8 +369,7 @@ struct CloudBubble: View {
             }
             VStack {
                 Text(verbatim: "\(summary.count)")
-                    .font(.caption)
-                    .bold()
+                    .font(AppFont.bold(.caption))
                     .foregroundStyle(Color.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
@@ -417,28 +414,28 @@ struct BakeHistoryRow: View {
         VStack(alignment: .leading, spacing: 3) {
             if let recipeName {
                 Text(verbatim: recipeName)
-                    .font(.headline)
+                    .font(AppFont.headline)
             }
             HStack(spacing: 8) {
                 Text(verbatim: BakeHistoryText.date(entry.date))
                     .bold()
                 if entry.date > Date() {
                     Text("geplant")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
             }
             let summary = entry.facts.summaryLine()
             if !summary.isEmpty {
                 Text(verbatim: summary)
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
             }
             if !BakeHistoryFacts.isPlaceholderComment(entry.comment) {
                 Text(verbatim: entry.comment)
             } else if summary.isEmpty && entry.date <= Date() {
                 Text("Noch nichts notiert")
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
             }
         }
@@ -480,8 +477,7 @@ struct RecipeBakeHistorySection: View {
 
             if !entries.isEmpty {
                 Text("Bisherige Backvorgänge")
-                    .font(.title3)
-                    .bold()
+                    .font(AppFont.bold(.title3))
                     .foregroundStyle(Palette.accent(colorScheme))
                 ForEach(entries, id: \.id) { entry in
                     Button {
@@ -527,35 +523,34 @@ struct LastBakeCard: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("Letztes Mal")
-                    .font(.caption)
-                    .bold()
+                    .font(AppFont.bold(.caption))
                     .textCase(.uppercase)
                     .foregroundStyle(Palette.accent(colorScheme))
                 Spacer()
                 Text(verbatim: BakeHistoryText.date(entry.date))
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
             }
             if hasNotes {
                 let summary = entry.facts.summaryLine()
                 if !summary.isEmpty {
                     Text(verbatim: summary)
-                        .font(.subheadline)
+                        .font(AppFont.subheadline)
                 }
                 if !BakeHistoryFacts.isPlaceholderComment(entry.comment) {
                     Text(verbatim: entry.comment)
                 }
                 if entry.facts.isEmpty {
                     Text("Temperaturen, Gare und Mehl sind noch nicht notiert.")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
                 Button("Ergänzen", action: onEdit)
-                    .font(.subheadline)
+                    .font(AppFont.subheadline)
             } else {
                 Text("Noch nichts notiert. Wie lief es – Raum- und Teigtemperatur, Gare, Mehl, Krume?")
                 Button("Jetzt eintragen", action: onEdit)
-                    .font(.subheadline)
+                    .font(AppFont.subheadline)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -765,7 +760,7 @@ struct BakeEntryEditor: View {
     private func keywordRow(_ title: LocalizedStringKey, keywords: [BakeHistoryFacts.OutcomeKeyword]) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.caption)
+                .font(AppFont.caption)
                 .foregroundStyle(.secondary)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -775,7 +770,7 @@ struct BakeEntryEditor: View {
                             outcome = BakeHistoryFacts.toggling(keyword.text, in: outcome)
                         } label: {
                             Text(verbatim: (selected ? "✓ " : "") + keyword.text)
-                                .font(.caption)
+                                .font(AppFont.caption)
                         }
                         .buttonStyle(.bordered)
                     }

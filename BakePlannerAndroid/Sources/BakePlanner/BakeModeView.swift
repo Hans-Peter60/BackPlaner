@@ -56,7 +56,7 @@ struct BakeModeView: View {
                 stepView(steps[index], index: index, count: steps.count)
             } else {
                 Text("Keine geplanten Schritte")
-                    .font(.title2)
+                    .font(AppFont.title2)
                     .foregroundStyle(Palette.accent(colorScheme))
             }
         }
@@ -96,33 +96,36 @@ struct BakeModeView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(verbatim: step.data.recipeName)
-                            .font(.headline)
+                            .font(AppFont.headline)
                             .foregroundStyle(Palette.accent(colorScheme))
                         Text("Schritt \(index + 1) von \(count)")
-                            .font(.subheadline)
+                            .font(AppFont.subheadline)
                         HStack(spacing: 8) {
                             Text(verbatim: PlanText.dateTime(step.data.date))
                             timing(of: step.data.date)
                         }
-                        .font(.subheadline)
+                        .font(AppFont.subheadline)
                         .foregroundStyle(.secondary)
                     }
 
-                    Text(verbatim: step.data.instruction)
-                        .font(.title2)
-
-                    if let component, !component.ingredients.isEmpty {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Zutaten für „\(component.name)“")
-                                .font(.headline)
-                            ForEach(Array(BakeModeText.ingredientLines(of: component,
-                                                                       scale: step.data.effectiveServingScale).enumerated()),
-                                    id: \.offset) { _, line in
-                                Text(verbatim: line)
-                                    .font(.title3)
+                    VStack(alignment: .leading, spacing: 14) {
+                        Text(verbatim: step.data.instruction)
+                            .font(AppFont.title2)
+                        if let component, !component.ingredients.isEmpty {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Zutaten für „\(component.name)“")
+                                    .font(AppFont.headline)
+                                ForEach(Array(BakeModeText.ingredientLines(of: component,
+                                                                           scale: step.data.effectiveServingScale).enumerated()),
+                                        id: \.offset) { _, line in
+                                    Text(verbatim: line)
+                                        .font(AppFont.title3)
+                                }
                             }
                         }
                     }
+                    .foregroundStyle(Palette.cardTitle(colorScheme))
+                    .cardStyle()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()

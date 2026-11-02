@@ -154,7 +154,7 @@ struct FlourSubstitutionSheet: View {
                     if applied.waterDelta != 0, !applied.waterAdjusted {
                         Label("In dieser Komponente gibt es keine Flüssigkeit (Wasser, Milch …) – die Flüssigkeit bitte von Hand anpassen.",
                               systemImage: "exclamationmark.triangle.fill")
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(Color.orange)
                     }
                 } header: {
@@ -205,7 +205,7 @@ struct FlourSubstitutionSheet: View {
 
             Section {
                 Text("Richtwerte: Mehle werden 1:1 nach Gewicht getauscht, nur das Wasser ändert sich. Wie viel ein Mehl bindet, schwankt je nach Mühle und Ernte – der Teig hat das letzte Wort.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }
@@ -352,13 +352,13 @@ struct StarterYieldSheet: View {
                     if applied.waterDelta != 0, !applied.waterAdjusted {
                         Label("In dieser Komponente gibt es keine Flüssigkeit (Wasser, Milch …) – die Flüssigkeit bitte von Hand anpassen.",
                               systemImage: "exclamationmark.triangle.fill")
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(Color.orange)
                     }
                     if applied.waterShortfall > 0 {
                         Label {
                             Text("Die Komponente hat nicht genug Flüssigkeit, um \(shown(applied.waterShortfall)) wegzunehmen – bitte an anderer Stelle im Rezept ausgleichen.")
-                                .font(.footnote)
+                                .font(AppFont.footnote)
                         } icon: {
                             Image(systemName: "exclamationmark.triangle.fill")
                         }
@@ -412,7 +412,7 @@ struct StarterYieldSheet: View {
 
             Section {
                 Text("Das Mehl aus dem Anstellgut bleibt gleich; nur Anstellgut und Wasser verschieben sich gegeneinander. Teigausbeute und Gesamtgewicht des Teigs ändern sich dadurch nicht.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }

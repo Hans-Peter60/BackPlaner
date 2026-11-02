@@ -77,7 +77,7 @@ struct RecipeLinkRow: View {
             }
             .buttonStyle(.plain)
             .foregroundStyle(Palette.accent(colorScheme))
-            .font(.subheadline)
+            .font(AppFont.subheadline)
         }
     }
 }
@@ -117,13 +117,13 @@ struct RecipeLineSections: View {
             section("Komponenten") {
                 if let tapHint {
                     Text(tapHint)
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
                 ForEach(Array(page.components.enumerated()), id: \.offset) { componentIndex, component in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(verbatim: component.name)
-                            .font(.headline)
+                            .font(AppFont.headline)
                         ForEach(Array(component.lines.enumerated()), id: \.offset) { ingredientIndex, line in
                             let ingredient = columns.indices.contains(componentIndex)
                                 && columns[componentIndex].ingredients.indices.contains(ingredientIndex)
@@ -135,7 +135,7 @@ struct RecipeLineSections: View {
                                     HStack(spacing: 4) {
                                         Text(verbatim: line)
                                         Image(systemName: "arrow.forward.square")
-                                            .font(.caption)
+                                            .font(AppFont.caption)
                                             .foregroundStyle(Palette.accent(colorScheme))
                                     }
                                 }
@@ -148,7 +148,7 @@ struct RecipeLineSections: View {
                                     HStack(spacing: 4) {
                                         Text(verbatim: line)
                                         Image(systemName: "arrow.clockwise.circle")
-                                            .font(.caption)
+                                            .font(AppFont.caption)
                                             .foregroundStyle(Palette.accent(colorScheme))
                                     }
                                 }
@@ -176,7 +176,7 @@ struct RecipeLineSections: View {
                         Text(verbatim: step.text)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text(verbatim: step.duration)
-                            .font(.caption)
+                            .font(AppFont.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -184,15 +184,17 @@ struct RecipeLineSections: View {
         }
     }
 
+    /// A block of the recipe page on its own card, as on the iPhone.
     private func section<Content: View>(_ title: LocalizedStringKey,
                                         @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.title3)
-                .bold()
-                .foregroundStyle(Palette.accent(colorScheme))
+                .font(AppFont.bold(.title3))
+                .foregroundStyle(Palette.accentText(colorScheme))
             content()
         }
+        .foregroundStyle(Palette.cardTitle(colorScheme))
+        .cardStyle()
     }
 }
 

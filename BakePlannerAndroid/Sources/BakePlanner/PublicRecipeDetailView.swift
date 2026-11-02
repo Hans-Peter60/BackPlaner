@@ -61,7 +61,7 @@ struct PublicRecipeDetailView: View {
                 VStack(spacing: 12) {
                     Text("Das Rezept konnte nicht geladen werden.")
                     Text(verbatim: loadError)
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
                 .padding()
             } else {
@@ -257,7 +257,7 @@ struct PublicRecipeDetailView: View {
 
                 // Skip has no globe symbol; the word says it.
                 Text(isOwn ? LocalizedStringKey("Von mir veröffentlicht") : LocalizedStringKey("Öffentlich"))
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
 
                 if isWorking {
@@ -267,7 +267,7 @@ struct PublicRecipeDetailView: View {
                 // An admin reviews a reported recipe here and can release it.
                 if model.account.isAdmin, recipe.hidden {
                     Text("Dieses Rezept wurde gemeldet und ist für alle anderen Nutzer ausgeblendet.")
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(Color.red)
                     Button("Rezept wieder freigeben") {
                         Task { await release() }
@@ -276,20 +276,26 @@ struct PublicRecipeDetailView: View {
                     .disabled(isWorking)
                 }
 
-                if !page.summary.isEmpty {
-                    Text(verbatim: page.summary)
-                }
-                RecipeLinkRow(urlLink: content.urlLink)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    AmountControl(scale: $scale, baseWeight: content.totalWeight)
-                    Text("Gesamtgewicht: \(String(page.totalWeight)) g")
-                    if !page.prepTime.isEmpty {
-                        Text("Bearbeitungsdauer: \(page.prepTime)")
+                // Description, amount and the facts on one card, as the
+                // iPhone's Details tab has them.
+                VStack(alignment: .leading, spacing: 10) {
+                    if !page.summary.isEmpty {
+                        Text(verbatim: page.summary)
+                            .font(AppFont.body)
                     }
-                    DoughYieldRow(content: content)
+                    RecipeLinkRow(urlLink: content.urlLink)
+                    VStack(alignment: .leading, spacing: 6) {
+                        AmountControl(scale: $scale, baseWeight: content.totalWeight)
+                        Text("Gesamtgewicht: \(String(page.totalWeight)) g")
+                        if !page.prepTime.isEmpty {
+                            Text("Bearbeitungsdauer: \(page.prepTime)")
+                        }
+                        DoughYieldRow(content: content)
+                    }
+                    .font(AppFont.subheadline)
                 }
-                .font(.subheadline)
+                .foregroundStyle(Palette.cardTitle(colorScheme))
+                .cardStyle()
 
                 // At the amount chosen above, as on the iPhone.
                 Button {

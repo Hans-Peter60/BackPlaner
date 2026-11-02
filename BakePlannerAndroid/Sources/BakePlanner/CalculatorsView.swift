@@ -44,11 +44,10 @@ struct CalculatorResult<Detail: View>: View {
     var body: some View {
         VStack(spacing: 6) {
             Text(title)
-                .font(.subheadline)
+                .font(AppFont.subheadline)
                 .foregroundStyle(.secondary)
             Text(verbatim: value)
-                .font(.largeTitle)
-                .bold()
+                .font(AppFont.bold(.largeTitle))
             detail
         }
         .frame(maxWidth: .infinity)
@@ -112,11 +111,11 @@ struct DoughTemperatureView: View {
                         EmptyView()
                     case .tooCold:
                         Label("Kälter als Eiswasser – mit diesen Werten kaum erreichbar.", systemImage: "exclamationmark.triangle.fill")
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(Color.orange)
                     case .tooHot:
                         Label("Sehr heißes Wasser nötig – prüfe Ziel- und Reibungswärme.", systemImage: "exclamationmark.triangle.fill")
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(Color.orange)
                     }
                 }
@@ -180,7 +179,7 @@ struct FlourChoice: View {
 
     var body: some View {
         Text(title)
-            .font(.headline)
+            .font(AppFont.headline)
         Picker("Getreide", selection: Binding(
             get: { flour.grain.rawValue },
             set: { raw in
@@ -230,7 +229,7 @@ struct FlourSubstitutionCalculator: View {
                 CalculatorResult(title: "Wasser anpassen",
                                  value: gramsDeltaText(FlourSubstitution.waterDelta(grams: grams, from: source, to: target))) {
                     Text(verbatim: "\(source.title) \(extraWaterText(source.extraWater)) → \(target.title) \(extraWaterText(target.extraWater))")
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
@@ -275,7 +274,7 @@ struct FlourSubstitutionCalculator: View {
 
             Section {
                 Text("Richtwerte: Mehle werden 1:1 nach Gewicht getauscht, nur das Wasser ändert sich. Wie viel ein Mehl bindet, schwankt je nach Mühle und Ernte – der Teig hat das letzte Wort.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }
@@ -334,7 +333,7 @@ struct StarterYieldCalculator: View {
                 CalculatorResult(title: "Anstellgut einsetzen", value: "\(Int(starterAfter.rounded())) g") {
                     Text("Wasser im Teig: \(gramsDeltaText(waterDelta))")
                     Text(verbatim: "\(Int(grams.rounded())) g TA \(sourceYield) → TA \(targetYield)")
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -393,7 +392,7 @@ struct StarterYieldCalculator: View {
 
             Section {
                 Text("Das Mehl aus dem Anstellgut bleibt gleich; nur Anstellgut und Wasser verschieben sich gegeneinander. Teigausbeute und Gesamtgewicht des Teigs ändern sich dadurch nicht.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }

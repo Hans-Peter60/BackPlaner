@@ -106,17 +106,17 @@ struct PlanTimelineView: View {
     private func changedBanner(_ recipe: StoredRecipe) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: "exclamationmark.triangle.fill")
-                .font(.title3)
+                .font(AppFont.title3)
                 .foregroundStyle(Color.orange)
             VStack(alignment: .leading, spacing: 6) {
                 Text("„\(recipe.content.name)“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                 Button {
                     replanRecipe = model.recipe(id: recipe.id)
                     replans = replanRecipe != nil
                 } label: {
                     Label("Neu planen", systemImage: "calendar")
-                        .font(.footnote.weight(.semibold))
+                        .font(AppFont.footnote.weight(.semibold))
                 }
                 .buttonStyle(.borderless)
             }
@@ -145,7 +145,7 @@ struct PlanTimelineView: View {
             if plans.isEmpty {
                 VStack(spacing: 12) {
                     Text("Keine geplanten Schritte")
-                        .font(.title2)
+                        .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
                     Text("Öffne ein Rezept und tippe auf „Planen“.")
                         .multilineTextAlignment(.center)
@@ -327,7 +327,7 @@ struct PlanTimelineView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .top, spacing: 8) {
                     Text(verbatim: step.data.recipeName)
-                        .font(.subheadline)
+                        .font(AppFont.subheadline)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     actionButton("checkmark.circle", label: "Schritt als erledigt markieren") {
@@ -346,17 +346,17 @@ struct PlanTimelineView: View {
                 }
                 HStack(spacing: 6) {
                     Text(verbatim: PlanText.time(step.data.date))
-                        .font(.subheadline.weight(.semibold))
+                        .font(AppFont.subheadline.weight(.semibold))
                         .foregroundStyle(step.data.date < now ? Color.red : Palette.accent(colorScheme))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
                         .background(Palette.accent(colorScheme).opacity(0.12), in: Capsule())
                     Text(verbatim: PlanText.day(step.data.date))
-                        .font(.subheadline)
+                        .font(AppFont.subheadline)
                         .foregroundStyle(.secondary)
                     if step.data.duration > 0 {
                         Text(verbatim: Rational.displayHoursMinutes(step.data.duration))
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -365,7 +365,7 @@ struct PlanTimelineView: View {
                     showsDetail = true
                 } label: {
                     Text(verbatim: step.data.instruction)
-                        .font(.body.weight(.medium))
+                        .font(AppFont.body.weight(.medium))
                         .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -380,7 +380,7 @@ struct PlanTimelineView: View {
     private func actionButton(_ systemImage: String, label: LocalizedStringKey, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemImage)
-                .font(.subheadline.weight(.semibold))
+                .font(AppFont.subheadline.weight(.semibold))
                 .foregroundStyle(Palette.accent(colorScheme))
                 .frame(width: 32, height: 32)
                 .background(Palette.accent(colorScheme).opacity(0.12), in: Circle())
@@ -447,25 +447,22 @@ struct NextStepCard: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(isDue ? "Jetzt fällig" : "Als Nächstes")
-                    .font(.caption)
-                    .bold()
+                    .font(AppFont.bold(.caption))
                     .textCase(.uppercase)
                 Spacer()
                 if isDue {
                     Text("seit \(BakeHistoryFacts.durationText(minutes))")
-                        .font(.caption)
-                        .bold()
+                        .font(AppFont.bold(.caption))
                 } else {
                     Text("in \(BakeHistoryFacts.durationText(minutes))")
-                        .font(.caption)
-                        .bold()
+                        .font(AppFont.bold(.caption))
                 }
             }
             .foregroundStyle(Palette.accent(colorScheme))
             Text(verbatim: step.data.instruction)
-                .font(.headline)
+                .font(AppFont.headline)
             Text(verbatim: step.data.recipeName + " · " + PlanText.dateTime(step.data.date))
-                .font(.caption)
+                .font(AppFont.caption)
                 .foregroundStyle(.secondary)
         }
     }
@@ -610,7 +607,7 @@ struct StepShiftSheet: View {
         Form {
             Section {
                 Text(verbatim: step.data.recipeName)
-                    .font(.headline)
+                    .font(AppFont.headline)
                 Text(verbatim: step.data.instruction)
                     .foregroundStyle(.secondary)
                 HStack {
@@ -643,7 +640,7 @@ struct StepShiftSheet: View {
                 Text(withFollowing
                      ? LocalizedStringKey("Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben.")
                      : LocalizedStringKey("Nur dieser Schritt wird verschoben; alle anderen Schritte des Plans bleiben, wo sie sind."))
-                    .font(.caption)
+                    .font(AppFont.caption)
                     .foregroundStyle(.secondary)
             } header: {
                 Text("Zeitverschiebung")

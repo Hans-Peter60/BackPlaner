@@ -28,7 +28,7 @@ struct AddToShoppingListView: View {
 
                 if scale != 1 {
                     Text("Die Mengen entsprechen dem Faktor \(RecipeDetailView.factorText(scale)).")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
             }
 
@@ -37,7 +37,7 @@ struct AddToShoppingListView: View {
                     if model.shoppingLists.isEmpty {
                         Text("Keine Einkaufsliste vorhanden")
                         Text("Erstelle zuerst eine neue Liste.")
-                            .font(.caption)
+                            .font(AppFont.caption)
                     } else {
                         ForEach(model.shoppingLists, id: \.id) { list in
                             Button {

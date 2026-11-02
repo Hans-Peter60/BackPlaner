@@ -86,7 +86,7 @@ struct PhotoRecipeImportView: View {
                 }
                 if let failure {
                     Text(verbatim: failure)
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(Color.red)
                 }
             } header: {
@@ -108,7 +108,7 @@ struct PhotoRecipeImportView: View {
                 Text(model.usesCloudAnalysis
                      ? LocalizedStringKey("Die ausgewählten Bilder werden verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig.")
                      : LocalizedStringKey("Auf Android liest BakePlanner Fotos bisher nur mit der Cloud-KI. Wähle „Geschützte Cloud-KI“, oder lege das Rezept von Hand oder von einer Internetseite an."))
-                    .font(.caption)
+                    .font(AppFont.caption)
             } header: {
                 Text("Analyseart")
             }
@@ -118,7 +118,7 @@ struct PhotoRecipeImportView: View {
                 // is no "only locally" here: Android cannot read photos locally.
                 Section {
                     Text("Analyse mit Google Vertex AI (Gemini)")
-                        .font(.headline)
+                        .font(AppFont.headline)
                     Text("Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
                     Text("Die Bilder werden ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert die zur Analyse übertragenen Bilder nicht in Firebase Storage oder in der Rezept-Datenbank.")
                     Button("Zustimmen und mit Cloud-KI analysieren") {
@@ -127,7 +127,7 @@ struct PhotoRecipeImportView: View {
                     }
                     .disabled(pages.isEmpty || isAnalyzing || isPreparing)
                     Text("Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen.")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 } header: {
                     Text("Vor der ersten Cloud-Analyse")
                 }

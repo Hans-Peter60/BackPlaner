@@ -46,7 +46,7 @@ struct CustomUnitsView: View {
             if units.isEmpty {
                 Section {
                     Text("Du hast noch keine eigene Einheit angelegt. Die mitgelieferten Einheiten stehen in der Auswahlliste immer zur Verfügung.")
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                 }
             } else {
@@ -82,7 +82,7 @@ struct CustomUnitsView: View {
                         .keyboardType(.decimalPad)
                 }
                 factorExplanation(base)
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
                 Button("Einheit hinzufügen") {
                     addUnit()
@@ -93,7 +93,7 @@ struct CustomUnitsView: View {
 
             Section {
                 Text("Eine Einheit sagt der App, wie sie eine Menge in ein Gewicht umrechnet. Davon leben die Gesamtzutaten, die Bäckerprozente und die Einkaufsliste. Deshalb braucht auch eine eigene Einheit eine Umrechnung — ohne sie würde „2 Becher Mehl“ als 2 Gramm zählen.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }

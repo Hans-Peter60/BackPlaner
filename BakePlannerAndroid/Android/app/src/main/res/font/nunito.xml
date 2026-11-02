@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nunito (SIL Open Font License, see assets/licenses/Nunito-OFL.txt), the
+     app's typeface in place of the iPhone's Avenir, which may not ship on
+     Android. One variable file; each weight the app asks for is an entry,
+     so a bold request gets the real bold instead of a thickened regular. -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font android:font="@font/nunito_variable" android:fontWeight="400" android:fontStyle="normal" android:fontVariationSettings="'wght' 400"
+        app:font="@font/nunito_variable" app:fontWeight="400" app:fontStyle="normal" app:fontVariationSettings="'wght' 400" />
+    <font android:font="@font/nunito_variable" android:fontWeight="500" android:fontStyle="normal" android:fontVariationSettings="'wght' 500"
+        app:font="@font/nunito_variable" app:fontWeight="500" app:fontStyle="normal" app:fontVariationSettings="'wght' 500" />
+    <font android:font="@font/nunito_variable" android:fontWeight="600" android:fontStyle="normal" android:fontVariationSettings="'wght' 600"
+        app:font="@font/nunito_variable" app:fontWeight="600" app:fontStyle="normal" app:fontVariationSettings="'wght' 600" />
+    <font android:font="@font/nunito_variable" android:fontWeight="700" android:fontStyle="normal" android:fontVariationSettings="'wght' 700"
+        app:font="@font/nunito_variable" app:fontWeight="700" app:fontStyle="normal" app:fontVariationSettings="'wght' 700" />
+    <font android:font="@font/nunito_variable" android:fontWeight="800" android:fontStyle="normal" android:fontVariationSettings="'wght' 800"
+        app:font="@font/nunito_variable" app:fontWeight="800" app:fontStyle="normal" app:fontVariationSettings="'wght' 800" />
+</font-family>

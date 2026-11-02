@@ -14,6 +14,7 @@ struct ContentView: View {
     /// Android — for generated plan steps, plan hints and dates.
     @Environment(\.locale) var locale
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         TabView {
@@ -46,6 +47,9 @@ struct ContentView: View {
                 Label("Zeitleiste", systemImage: "calendar")
             }
         }
+        // The iPhone's look: the brown accent on every control. Nunito comes
+        // from the Material theme (Main.kt) and from AppFont (Theme.swift).
+        .tint(Palette.accent(colorScheme))
         // Skip looks every text up in the environment's locale.
         .environment(\.locale, AppSettings.appLocale(forDevice: locale))
         .compactTextFields()
@@ -124,13 +128,13 @@ struct RecipeListView: View {
                 VStack(spacing: 12) {
                     Text("Die Rezepte konnten nicht geladen werden.")
                     Text(verbatim: loadError)
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
                 .padding()
             } else if model.recipes.isEmpty && model.publicRecipes.isEmpty {
                 VStack(spacing: 12) {
                     Text("Noch keine Rezepte")
-                        .font(.title2)
+                        .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
                     Text("Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast.")
                         .multilineTextAlignment(.center)
@@ -145,7 +149,7 @@ struct RecipeListView: View {
                 List {
                     if model.showsPublicRecipes, model.publicRecipesError != nil {
                         Text("Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen.")
-                            .font(.caption)
+                            .font(AppFont.caption)
                             .foregroundStyle(Color.red)
                     }
                     filterRow
@@ -452,7 +456,7 @@ struct RecipeRow: View {
             RowThumbnail(data: thumbnail)
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.content.name)
-                    .font(.headline)
+                    .font(AppFont.headline)
                 HStack(spacing: 8) {
                     if recipe.content.rating > 0 {
                         Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))
@@ -460,7 +464,7 @@ struct RecipeRow: View {
                     }
                     if !recipe.content.tags.isEmpty {
                         Text(verbatim: recipe.content.tags.joined(separator: ", "))
-                            .font(.caption)
+                            .font(AppFont.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -541,14 +545,14 @@ struct PublicRecipeRow: View {
             RowThumbnail(data: model.publicRecipeImages[recipe.id ?? ""].flatMap { PhotoShrinker.thumbnail($0) })
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.name)
-                    .font(.headline)
+                    .font(AppFont.headline)
                 HStack(spacing: 8) {
                     Text("Öffentlich")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                     if !recipe.tags.isEmpty {
                         Text(verbatim: recipe.tags.joined(separator: ", "))
-                            .font(.caption)
+                            .font(AppFont.caption)
                             .foregroundStyle(.secondary)
                     }
                 }

@@ -87,7 +87,7 @@ struct PlanView: View {
                 DatePicker("Datum", selection: $date, displayedComponents: [.date, .hourAndMinute])
                 if scale != 1 {
                     Text("Die Mengen entsprechen dem Faktor \(RecipeDetailView.factorText(scale)).")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
             }
 
@@ -99,7 +99,7 @@ struct PlanView: View {
                     }
                     if !suggestions.isEmpty {
                         Text("So beginnt kein Schritt in der Nacht:")
-                            .font(.caption)
+                            .font(AppFont.caption)
                         ForEach(suggestions) { suggestion in
                             HStack {
                                 Text(verbatim: PlanText.dateTime(suggestion.start) + " – " + PlanText.dateTime(suggestion.finish))
@@ -140,7 +140,7 @@ struct PlanView: View {
                     ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
                         HStack(alignment: .top, spacing: 8) {
                             Text(verbatim: PlanText.dateTime(plan.date(of: step)))
-                                .font(.caption)
+                                .font(AppFont.caption)
                                 .frame(width: 110, alignment: .leading)
                             Text(verbatim: step.instruction)
                         }

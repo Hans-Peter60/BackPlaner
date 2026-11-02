@@ -19,7 +19,7 @@ struct DoughYieldRow: View {
                 HStack(spacing: 4) {
                     Text("TA \(doughYield) · Hydration \(hydration)")
                     Image(systemName: "info.circle")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
             }
             .buttonStyle(.plain)
@@ -66,7 +66,7 @@ struct DoughYieldSheet: View {
                             Text(verbatim: gramsText(component.water))
                             Text("Wasser")
                         }
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                     }
                 }
@@ -94,7 +94,7 @@ struct DoughYieldSheet: View {
                                 Text(verbatim: "·")
                                 sourceText(starter.source)
                             }
-                            .font(.footnote)
+                            .font(AppFont.footnote)
                             .foregroundStyle(.secondary)
                         }
                     }
@@ -116,7 +116,7 @@ struct DoughYieldSheet: View {
 
             Section {
                 Text("Die Teigausbeute zählt Schüttflüssigkeit voll, auch Milch, Bier und Wein, und teilt Anstellgut nach seiner eigenen TA in Mehl und Wasser auf. Saaten, Flocken, Fett und Eier zählen nicht. Die TA eines Anstellguts ohne Angabe im Rezept legst Du in den Einstellungen fest.")
-                    .font(.footnote)
+                    .font(AppFont.footnote)
                     .foregroundStyle(.secondary)
             }
         }

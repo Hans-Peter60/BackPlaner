@@ -19,6 +19,7 @@ struct RecipeEditor: View {
     let notice: Text?
     let onSave: (StoredRecipe?, RecipeExportData) -> Void
     @State var draft: RecipeDraft
+    @Environment(\.colorScheme) var colorScheme
     @State var picksImage = false
     @State var takesPhoto = false
     @State var pickedImageURL: URL?
@@ -45,7 +46,7 @@ struct RecipeEditor: View {
             if let notice {
                 Section {
                     notice
-                        .font(.caption)
+                        .font(AppFont.caption)
                 }
             }
 
@@ -85,9 +86,22 @@ struct RecipeEditor: View {
             }
 
             Section {
-                Stepper(value: $draft.rating, in: 0...5) {
-                    Text(verbatim: draft.rating == 0 ? "–" : String(repeating: "★", count: draft.rating))
-                        .foregroundStyle(.orange)
+                // Five stars to tap, as the iPhone's RatingStarsView; the
+                // star tapped again takes the rating back.
+                HStack(spacing: 6) {
+                    ForEach(1..<6, id: \.self) { number in
+                        Button {
+                            draft.rating = draft.rating == number ? number - 1 : number
+                        } label: {
+                            // SkipUI has no star symbols; the characters do.
+                            Text(verbatim: number <= draft.rating ? "★" : "☆")
+                                .font(AppFont.title2)
+                                .foregroundStyle(number <= draft.rating
+                                                 ? Palette.accentText(colorScheme) : Palette.subtitle(colorScheme))
+                        }
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel(Text(verbatim: "\(number)"))
+                    }
                 }
                 TextField("Tags, durch Komma getrennt", text: $draft.tags)
             } header: {

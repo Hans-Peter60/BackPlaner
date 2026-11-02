@@ -47,7 +47,7 @@ struct WebRecipeImportView: View {
                 }
                 if let failure {
                     Text(verbatim: failure)
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(Color.red)
                 }
             } header: {
@@ -66,7 +66,7 @@ struct WebRecipeImportView: View {
                 Text(model.usesCloudAnalysis
                      ? LocalizedStringKey("Der Rezepttext der Seite wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig.")
                      : LocalizedStringKey("Der Seitentext verlässt das Gerät nicht. Übernommen werden nur die strukturierten Rezeptdaten der Seite."))
-                    .font(.caption)
+                    .font(AppFont.caption)
             } header: {
                 Text("Analyseart")
             }
@@ -75,7 +75,7 @@ struct WebRecipeImportView: View {
                 // The iPhone's consent before the first cloud analysis.
                 Section {
                     Text("Analyse mit Google Vertex AI (Gemini)")
-                        .font(.headline)
+                        .font(AppFont.headline)
                     Text("Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
                     Text("Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank.")
                     Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht.")
@@ -90,7 +90,7 @@ struct WebRecipeImportView: View {
                     }
                     .disabled(isLoading || address.trimmingCharacters(in: .whitespaces).isEmpty)
                     Text("Du kannst die Einwilligung später unter Einstellungen › Datenschutz & KI widerrufen.")
-                        .font(.caption)
+                        .font(AppFont.caption)
                 } header: {
                     Text("Vor der ersten Cloud-Analyse")
                 }

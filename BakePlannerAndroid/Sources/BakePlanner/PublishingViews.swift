@@ -12,8 +12,7 @@ struct TermsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Nutzungsbedingungen für öffentliche Rezepte")
-                    .font(.title3)
-                    .bold()
+                    .font(AppFont.bold(.title3))
                 Text("Wenn Du ein Rezept öffentlich teilst, wird es für alle Nutzer der Rezept-Datenbank sichtbar.\n\nEs gilt eine Null-Toleranz-Politik gegenüber anstößigen, beleidigenden, rechtswidrigen oder urheberrechtsverletzenden Inhalten. Du bist allein verantwortlich für die von Dir geteilten Inhalte.\n\nGemeldete Inhalte werden geprüft und innerhalb von 24 Stunden entfernt. Autoren, die wiederholt gegen diese Regeln verstoßen, können ausgeschlossen werden.\n\nMit „Akzeptieren“ bestätigst Du, dass Du diese Bedingungen einhältst.")
                     .foregroundStyle(.secondary)
             }

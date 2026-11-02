@@ -243,12 +243,12 @@ struct RecipeDetailView: View {
                         ProgressView()
                         Text("Rezept wird hochgeladen …")
                     }
-                    .font(.subheadline)
+                    .font(AppFont.subheadline)
                 } else if !model.canPublish(recipe) {
                     // Public already: the word stands where the public
                     // recipe's view says "Öffentlich".
                     Text("Veröffentlicht")
-                        .font(.caption)
+                        .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                 }
 
@@ -265,27 +265,33 @@ struct RecipeDetailView: View {
                         }
                     }
                 }
-                .font(.subheadline)
+                .font(AppFont.subheadline)
 
-                if !page.summary.isEmpty {
-                    Text(verbatim: page.summary)
-                }
-                RecipeLinkRow(urlLink: recipe.content.urlLink)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    AmountControl(scale: $scale, baseWeight: recipe.content.totalWeight)
-                    Text("Gesamtgewicht: \(String(page.totalWeight)) g")
-                    if !page.prepTime.isEmpty {
-                        Text("Bearbeitungsdauer: \(page.prepTime)")
+                // Description, amount and the facts on one card, as the
+                // iPhone's Details tab has them.
+                VStack(alignment: .leading, spacing: 10) {
+                    if !page.summary.isEmpty {
+                        Text(verbatim: page.summary)
+                            .font(AppFont.body)
                     }
-                    DoughYieldRow(content: recipe.content)
-                    if recipe.content.recurrenceIntervalDays > 0 {
-                        Self.nextRhythmText(date: model.nextRhythmStart(of: recipe),
-                                            isStarter: StarterRecipe.isStarterFeeding(recipe.content))
-                            .foregroundStyle(Palette.accent(colorScheme))
+                    RecipeLinkRow(urlLink: recipe.content.urlLink)
+                    VStack(alignment: .leading, spacing: 6) {
+                        AmountControl(scale: $scale, baseWeight: recipe.content.totalWeight)
+                        Text("Gesamtgewicht: \(String(page.totalWeight)) g")
+                        if !page.prepTime.isEmpty {
+                            Text("Bearbeitungsdauer: \(page.prepTime)")
+                        }
+                        DoughYieldRow(content: recipe.content)
+                        if recipe.content.recurrenceIntervalDays > 0 {
+                            Self.nextRhythmText(date: model.nextRhythmStart(of: recipe),
+                                                isStarter: StarterRecipe.isStarterFeeding(recipe.content))
+                                .foregroundStyle(Palette.accentText(colorScheme))
+                        }
                     }
+                    .font(AppFont.subheadline)
                 }
-                .font(.subheadline)
+                .foregroundStyle(Palette.cardTitle(colorScheme))
+                .cardStyle()
 
                 // At the amount chosen above, as on the iPhone.
                 Button {

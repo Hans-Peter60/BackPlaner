@@ -266,7 +266,7 @@ struct PlanChartBody: View {
     private func gapBand(_ gap: PlanTimelineScale.Gap) -> some View {
         let hours = Int((gap.end.timeIntervalSince(gap.start) / 3600).rounded())
         let label = Text(verbatim: "\(PlanText.time(gap.start)) – \(PlanText.time(gap.end)) · \(hours) h")
-            .font(.system(size: 11))
+            .font(AppFont.size(11))
             .foregroundStyle(.secondary)
             .lineLimit(1)
             .fixedSize()
@@ -296,10 +296,10 @@ struct PlanChartBody: View {
             place(VStack(alignment: vertical ? .trailing : .center, spacing: 0) {
                       if tick.startsDay {
                           Text(verbatim: PlanText.day(tick.date))
-                              .font(.system(size: 10, weight: .semibold))
+                              .font(AppFont.size(10, weight: .semibold))
                       }
                       Text(verbatim: PlanText.time(tick.date))
-                          .font(.system(size: 11))
+                          .font(AppFont.size(11))
                   }
                   .foregroundStyle(.secondary)
                   .lineLimit(1)
@@ -317,7 +317,7 @@ struct PlanChartBody: View {
             place(Rectangle().fill(Color.red), position: position - 1, length: 2,
                   crossOffset: 0, crossLength: crossLength)
             place(Text("Jetzt")
-                      .font(.system(size: 10, weight: .semibold))
+                      .font(AppFont.size(10, weight: .semibold))
                       .foregroundStyle(Color.red)
                       .lineLimit(1)
                       .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: vertical ? .trailing : .bottomLeading)
@@ -334,10 +334,10 @@ struct PlanChartBody: View {
             RowThumbnail(data: recipeImage(lane.recipeName), edge: 30)
             VStack(alignment: .leading, spacing: 0) {
                 Text(verbatim: lane.recipeName)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(AppFont.size(14, weight: .semibold))
                     .lineLimit(1)
                 Text(verbatim: "\(PlanText.dateTime(lane.start)) – \(PlanText.time(lane.end))")
-                    .font(.system(size: 11))
+                    .font(AppFont.size(11))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
@@ -417,7 +417,7 @@ struct PlanChartBody: View {
                     .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color.secondary.opacity(0.25), lineWidth: 0.5))
                 if showsTime {
                     Text(verbatim: text)
-                        .font(.system(size: 12))
+                        .font(AppFont.size(12))
                         .foregroundStyle(Color.primary)
                         .lineLimit(lines)
                         .multilineTextAlignment(.leading)
@@ -441,7 +441,7 @@ struct PlanChartBody: View {
         if vertical {
             place(stepButton(marker.entry) {
                       Text(verbatim: "\(PlanText.time(marker.date))  \(marker.entry.instruction)")
-                          .font(.system(size: 11))
+                          .font(AppFont.size(11))
                           .foregroundStyle(Color.primary)
                           .lineLimit(1)
                           .padding(.horizontal, 5)
@@ -454,7 +454,7 @@ struct PlanChartBody: View {
             // text — when the row is not shared and still has a lower third.
             place(stepButton(marker.entry) {
                       Text(verbatim: PlanText.time(marker.date))
-                          .font(.system(size: 10))
+                          .font(AppFont.size(10))
                           .foregroundStyle(Color.primary)
                           .lineLimit(1)
                           .padding(.horizontal, 5)
@@ -475,7 +475,7 @@ struct PlanChartBody: View {
             Image(systemName: "checkmark.circle.fill")
             Text(verbatim: PlanText.time(finish))
         }
-        .font(.system(size: 11, weight: .semibold))
+        .font(AppFont.size(11, weight: .semibold))
         .foregroundStyle(Palette.accent(colorScheme))
         .lineLimit(1)
         .padding(.horizontal, 5)
@@ -582,7 +582,7 @@ struct ChartControls: View {
                     }
                 }
             }
-            .font(.system(size: 11))
+            .font(AppFont.size(11))
             .foregroundStyle(.secondary)
             .lineLimit(1)
             Spacer()

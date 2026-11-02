@@ -25,6 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.font.FontWeight
 import androidx.core.app.ActivityCompat
 import androidx.work.Configuration
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -205,14 +210,50 @@ internal fun SyncSystemBarsWithTheme() {
     }
 }
 
+/// Nunito (res/font, SIL Open Font License) in every weight the app uses,
+/// as a Compose font family that resolves weights itself.
+@OptIn(androidx.compose.ui.text.ExperimentalTextApi::class)
+private val nunito = FontFamily(
+    Font(R.font.nunito_variable, FontWeight.Normal, variationSettings = FontVariation.Settings(FontVariation.weight(400))),
+    Font(R.font.nunito_variable, FontWeight.Medium, variationSettings = FontVariation.Settings(FontVariation.weight(500))),
+    Font(R.font.nunito_variable, FontWeight.SemiBold, variationSettings = FontVariation.Settings(FontVariation.weight(600))),
+    Font(R.font.nunito_variable, FontWeight.Bold, variationSettings = FontVariation.Settings(FontVariation.weight(700))),
+    Font(R.font.nunito_variable, FontWeight.ExtraBold, variationSettings = FontVariation.Settings(FontVariation.weight(800)))
+)
+
+/// Material's type scale set in Nunito: the navigation titles, tab labels,
+/// buttons and form rows that SkipUI draws from the theme, not from a font
+/// the app's Swift names.
+private fun nunitoTypography(base: Typography): Typography = Typography(
+    displayLarge = base.displayLarge.copy(fontFamily = nunito),
+    displayMedium = base.displayMedium.copy(fontFamily = nunito),
+    displaySmall = base.displaySmall.copy(fontFamily = nunito),
+    headlineLarge = base.headlineLarge.copy(fontFamily = nunito),
+    headlineMedium = base.headlineMedium.copy(fontFamily = nunito),
+    headlineSmall = base.headlineSmall.copy(fontFamily = nunito),
+    titleLarge = base.titleLarge.copy(fontFamily = nunito),
+    titleMedium = base.titleMedium.copy(fontFamily = nunito),
+    titleSmall = base.titleSmall.copy(fontFamily = nunito),
+    bodyLarge = base.bodyLarge.copy(fontFamily = nunito),
+    bodyMedium = base.bodyMedium.copy(fontFamily = nunito),
+    bodySmall = base.bodySmall.copy(fontFamily = nunito),
+    labelLarge = base.labelLarge.copy(fontFamily = nunito),
+    labelMedium = base.labelMedium.copy(fontFamily = nunito),
+    labelSmall = base.labelSmall.copy(fontFamily = nunito)
+)
+
 @Composable
 internal fun PresentationRootView(context: ComposeContext) {
     val colorScheme = if (isSystemInDarkTheme()) ColorScheme.dark else ColorScheme.light
-    PresentationRoot(defaultColorScheme = colorScheme, context = context) { ctx ->
-        SyncSystemBarsWithTheme()
-        val contentContext = ctx.content()
-        Box(modifier = ctx.modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            AppRootView().Compose(context = contentContext)
+    // SkipUI's root keeps the typography of the theme around it, so Nunito
+    // set here reaches everything Material draws.
+    MaterialTheme(typography = nunitoTypography(MaterialTheme.typography)) {
+        PresentationRoot(defaultColorScheme = colorScheme, context = context) { ctx ->
+            SyncSystemBarsWithTheme()
+            val contentContext = ctx.content()
+            Box(modifier = ctx.modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                AppRootView().Compose(context = contentContext)
+            }
         }
     }
 }

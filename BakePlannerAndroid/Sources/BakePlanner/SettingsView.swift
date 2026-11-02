@@ -105,7 +105,7 @@ struct SettingsView: View {
                             .frame(width: 160)
                     }
                     Text("Durch Komma getrennt; als Schnellwahl beim Anpassen der Anstellgut-TA.")
-                        .font(.footnote)
+                        .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                 }
                 NavigationLink {
