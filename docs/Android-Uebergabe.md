@@ -117,6 +117,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **Datenschicht:** SkipSQL. Zuerst nur Rezepte, die übrigen Datenarten danach.
 - **Öffentliche Rezepte:** Ein öffentliches Rezept überschreibt seine eigene Kopie nicht. Geplante Schritte suchen zuerst das öffentliche Rezept (`PlannedStepSource`).
 - **Texte im Paket:** Variante A, die Übersetzungen bleiben im App-Katalog.
+- **Pro auf Android (02.11.2026):** Die erste Play-Ausgabe hat alle Funktionen frei. Play Billing wird erst gebaut, wenn die iPhone-App über `config/monetization` auf Pro umgestellt wird; bis dahin keine Sperren und kein Store-Abschnitt auf Android (`docs/Android-Play-Release.md`, Abschnitt 5).
 - **Gleiche Struktur auf beiden Plattformen (seit 19d, 02.11.2026):** Die iOS-App hat die Aufteilung der Android-App übernommen – Tab-Leiste (Rezepte, Einkaufslisten, Backhistorie, Geplante Schritte; Rechner und Einstellungen im Menü „Mehr“ der Rezeptliste, „+“ für ein neues Rezept), ein Rezept als eine durchgehende Seite mit den Schaltflächen Planen / Einkaufsliste / Backvorgang eintragen (bzw. Anstellgut-Tagebuch), die Backanleitung als Blatt über dem Rezept, Timeline und Liste der geplanten Schritte hinter einem Segment-Schalter. Wer eine der beiden Apps umbaut, hält die andere nach; die Handbücher beschreiben seitdem beide gleich.
 
 ## Offen

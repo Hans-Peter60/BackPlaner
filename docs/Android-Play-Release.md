@@ -112,7 +112,7 @@ Grundlage ist die Datenschutzerklärung. Antworten, die zur App passen:
 
 ## 5. Entscheidungen, die noch offen sind
 
-- **Pro / Play Billing.** Auf Android sind heute alle Funktionen frei, die auf dem iPhone zu „BakePlanner Pro“ gehören (PDF, Rezepte weitergeben, wiederkehrende Pläne, Einkaufslisten). Für die erste Ausgabe geht das als Einführungsphase; Play Billing (Einmalkauf wie im App Store, Prüfung der Belege in `proVerification.ts`) ist ein eigener Schritt von mehreren Tagen, siehe Bestandsaufnahme (Pro-Kauf). Soll der Kauf vor der ersten Ausgabe kommen, verschiebt sich die Veröffentlichung entsprechend.
+- **Pro / Play Billing – entschieden am 02.11.2026:** Android erscheint mit allen Funktionen frei („Pro-Modus“ für alle). Play Billing kommt erst, wenn auch die iPhone-App auf Pro umgestellt wird – dort schaltet das Firestore-Dokument `config/monetization` (`proRequired`, `storeVisible`) die Sperre fern, und es steht auf „frei“. Beide Plattformen bleiben so gleich; der Schritt „Pro über Play Billing“ (Bestandsaufnahme, Pro-Kauf) wartet, bis dieser Schalter umgelegt werden soll, und wird dann zusammen mit ihm gebaut.
 - **Funktionsgrafik und Screenshots** (4.2) fehlen; ohne sie lässt sich der Store-Eintrag nicht abschicken.
 - **Echtes Gerät:** der Testtrack ist nur mit einem Android-Telefon zu prüfen (Play Integrity, Kamera, Benachrichtigungen im Doze).
 
