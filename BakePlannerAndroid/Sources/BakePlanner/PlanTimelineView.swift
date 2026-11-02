@@ -495,7 +495,7 @@ struct StepDetailSheet: View {
                         .foregroundStyle(.secondary)
                 }
                 HStack {
-                    Text("Schritt")
+                    Text("Nummer")
                     Spacer()
                     Text(verbatim: Rational.decimalPlace(step.data.step, 10))
                         .foregroundStyle(.secondary)

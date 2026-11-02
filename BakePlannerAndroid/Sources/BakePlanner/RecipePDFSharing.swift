@@ -31,12 +31,10 @@ enum RecipePDFSharing {
             "summary": data.summary,
             "facts": facts.joined(separator: "   ·   "),
             "urlLink": data.urlLink ?? "",
-            // The iPhone's keys with the colon would get the same catalog
-            // symbols as the headings without it, which Xcode refuses; the
-            // colon is added here.
-            "componentsHeading": String(localized: "Komponenten", bundle: .module) + ":",
-            "totalsHeading": String(localized: "Gesamtzutaten", bundle: .module) + ":",
-            "stepsHeading": String(localized: "Verarbeitungsschritte", bundle: .module) + ":",
+            // Without a colon, as the iPhone's PDF since 2.2.
+            "componentsHeading": String(localized: "Komponenten", bundle: .module),
+            "totalsHeading": String(localized: "Gesamtzutaten", bundle: .module),
+            "stepsHeading": String(localized: "Verarbeitungsschritte", bundle: .module),
             "footer": String(localized: "Erstellt mit BakePlanner", bundle: .module),
             "components": data.components.map { ["name": $0.name, "lines": $0.lines] as [String: Any] },
             "totalLines": data.totalLines,

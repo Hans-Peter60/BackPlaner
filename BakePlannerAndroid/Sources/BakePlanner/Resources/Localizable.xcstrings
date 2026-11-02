@@ -5321,6 +5321,24 @@
         }
       }
     },
+    "Nummer" : {
+      "comment" : "Step sheet: the step number of a planned step.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro"
+          }
+        }
+      }
+    },
     "Nur auf diesem Gerät" : {
       "extractionState" : "manual",
       "localizations" : {
