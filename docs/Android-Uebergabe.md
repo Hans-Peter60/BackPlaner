@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 19c (Design: Nunito, Akzent, Karten); 11f wartet auf die Play Console. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 02.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 19d (iOS übernimmt die Android-Struktur: Tab-Leiste, eine Rezeptseite, Backanleitung als Blatt); 11f wartet auf die Play Console. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -115,6 +115,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 - **Datenschicht:** SkipSQL. Zuerst nur Rezepte, die übrigen Datenarten danach.
 - **Öffentliche Rezepte:** Ein öffentliches Rezept überschreibt seine eigene Kopie nicht. Geplante Schritte suchen zuerst das öffentliche Rezept (`PlannedStepSource`).
 - **Texte im Paket:** Variante A, die Übersetzungen bleiben im App-Katalog.
+- **Gleiche Struktur auf beiden Plattformen (seit 19d, 02.11.2026):** Die iOS-App hat die Aufteilung der Android-App übernommen – Tab-Leiste (Rezepte, Einkaufslisten, Backhistorie, Geplante Schritte; Rechner und Einstellungen im Menü „Mehr“ der Rezeptliste, „+“ für ein neues Rezept), ein Rezept als eine durchgehende Seite mit den Schaltflächen Planen / Einkaufsliste / Backvorgang eintragen (bzw. Anstellgut-Tagebuch), die Backanleitung als Blatt über dem Rezept, Timeline und Liste der geplanten Schritte hinter einem Segment-Schalter. Wer eine der beiden Apps umbaut, hält die andere nach; die Handbücher beschreiben seitdem beide gleich.
 
 ## Offen
 
