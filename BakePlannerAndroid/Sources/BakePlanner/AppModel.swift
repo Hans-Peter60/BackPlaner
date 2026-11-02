@@ -77,12 +77,17 @@ final class AppModel {
     var publicThumbnails: [String: Data] = [:]
     private var loadingPublicThumbnails: Set<String> = []
 
-    /// Which recipes the list shows — the iPhone's settings keys. "Von mir
-    /// veröffentlicht" counts as public here: Android has its own anonymous
-    /// account, so none of the public recipes is its own yet.
+    /// Which recipes the list shows — the iPhone's three filter chips and
+    /// their settings keys: the own recipes on the device, the public ones
+    /// published from this account (`isOwn`), and the public ones of
+    /// everyone else.
     var showsLocalRecipes = AppModel.storedBool(AppSettingsKeys.showLocalRecipes,
                                                 default: AppSettings.defaultShowLocalRecipes) {
         didSet { SettingsFile.set(showsLocalRecipes, forKey: AppSettingsKeys.showLocalRecipes) }
+    }
+    var showsOwnPublishedRecipes = AppModel.storedBool(AppSettingsKeys.showOwnPublishedRecipes,
+                                                       default: AppSettings.defaultShowOwnPublishedRecipes) {
+        didSet { SettingsFile.set(showsOwnPublishedRecipes, forKey: AppSettingsKeys.showOwnPublishedRecipes) }
     }
     var showsPublicRecipes = AppModel.storedBool(AppSettingsKeys.showPublicCloudRecipes,
                                                  default: AppSettings.defaultShowPublicCloudRecipes) {

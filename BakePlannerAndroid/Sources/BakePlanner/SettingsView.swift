@@ -139,15 +139,6 @@ struct SettingsView: View {
                 Text("Backplanung")
             }
 
-            // Which recipes the list shows, as the iPhone's filter chips.
-            Section {
-                Toggle("Lokal", isOn: Binding(get: { model.showsLocalRecipes },
-                                              set: { model.showsLocalRecipes = $0 }))
-                Toggle("Öffentlich", isOn: Binding(get: { model.showsPublicRecipes },
-                                                   set: { model.showsPublicRecipes = $0 }))
-            } header: {
-                Text("Rezeptliste")
-            }
 
             accountSection
 

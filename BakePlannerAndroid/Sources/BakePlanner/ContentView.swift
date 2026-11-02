@@ -147,11 +147,12 @@ struct RecipeListView: View {
                 .padding()
             } else {
                 List {
-                    if model.showsPublicRecipes, model.publicRecipesError != nil {
+                    if model.showsPublicRecipes || model.showsOwnPublishedRecipes, model.publicRecipesError != nil {
                         Text("Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen.")
                             .font(AppFont.caption)
                             .foregroundStyle(Color.red)
                     }
+                    sourceChips
                     filterRow
                     let rows = filteredRows
                     if rows.isEmpty {
@@ -330,6 +331,36 @@ struct RecipeListView: View {
         }
     }
 
+    /// The iPhone's three filter chips: the own recipes on the device, the
+    /// public ones published from this account, the public ones of everyone
+    /// else. Independent switches, so any combination is possible; their
+    /// state is kept under the iPhone's settings keys. Text only: SkipUI
+    /// draws neither "globe" nor "person.crop.circle".
+    private var sourceChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                sourceChip("Lokal", isOn: model.showsLocalRecipes) { model.showsLocalRecipes.toggle() }
+                sourceChip("Von mir veröffentlicht", isOn: model.showsOwnPublishedRecipes) { model.showsOwnPublishedRecipes.toggle() }
+                sourceChip("Öffentlich", isOn: model.showsPublicRecipes) { model.showsPublicRecipes.toggle() }
+            }
+            .padding(.vertical, 2)
+        }
+        .listRowBackground(Color.clear)
+    }
+
+    private func sourceChip(_ title: LocalizedStringKey, isOn: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(AppFont.subheadline)
+                .lineLimit(1)
+                .foregroundStyle(isOn ? Color.white : Color.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(Capsule().fill(isOn ? Palette.accent(colorScheme) : Palette.card(colorScheme)))
+        }
+        .buttonStyle(.plain)
+    }
+
     /// Where the search looks, and the least rating listed — the iPhone's
     /// search scopes and its filter menu, as one row above the recipes.
     private var filterRow: some View {
@@ -415,9 +446,11 @@ struct RecipeListView: View {
         if model.showsLocalRecipes {
             rows += model.recipes.map { Row.local($0) }
         }
-        if model.showsPublicRecipes {
-            rows += model.visiblePublicRecipes.map { Row.shared($0) }
-        }
+        // A public recipe answers to exactly one of the two cloud chips,
+        // depending on who published it.
+        rows += model.visiblePublicRecipes
+            .filter { model.isOwn($0) ? model.showsOwnPublishedRecipes : model.showsPublicRecipes }
+            .map { Row.shared($0) }
         if minimumRating > 0 {
             rows = rows.filter { $0.rating >= minimumRating }
         }
@@ -547,7 +580,8 @@ struct PublicRecipeRow: View {
                 Text(verbatim: recipe.name)
                     .font(AppFont.headline)
                 HStack(spacing: 8) {
-                    Text("Öffentlich")
+                    // Which chip the row answers to.
+                    (model.isOwn(recipe) ? Text("Von mir veröffentlicht") : Text("Öffentlich"))
                         .font(AppFont.caption)
                         .foregroundStyle(.secondary)
                     if !recipe.tags.isEmpty {
