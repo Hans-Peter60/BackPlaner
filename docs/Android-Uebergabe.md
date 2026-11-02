@@ -1,6 +1,6 @@
 # Android-Portierung – Übergabe
 
-Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18u; 11d und 11e-1 am 02.11.2026 geprüft. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
+Für jeden, der an der Android-Portierung weiterarbeitet (Mensch oder KI-Agent). Ergänzt `CLAUDE.md` (Konventionen) und `docs/Android-Bestandsaufnahme.md` (Plan, Begründungen, erledigte Schritte). Stand: 01.11.2026, Branch `claude/sleepy-wozniak-9n8mxc`, zuletzt erledigt: Schritt 18v; 11d und 11e-1 am 02.11.2026 geprüft. Was gegenüber dem iPhone noch fehlt, steht am Ende unter „Lücken gegenüber dem iPhone“.
 
 ## Wo was liegt
 
@@ -266,8 +266,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
-| Geplante Schritte | Timeline im Querformat (Zeilen statt Spalten, iPad) | klein |
-| | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
+| Geplante Schritte | Aktionen „Erledigt“/„Verschieben“ in der Mitteilung | nur mit Kotlin, siehe 8d-2 |
 | Einstellungen | Pro über Play Billing | später |
 
 Nicht für Android geplant (Bestandsaufnahme): Widget, Live-Aktivität, Siri, Apple Watch, Übersetzung auf dem Gerät, Übersetzung der Einkaufslisten-Zutaten.

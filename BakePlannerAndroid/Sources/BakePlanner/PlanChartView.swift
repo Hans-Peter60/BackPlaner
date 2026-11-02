@@ -10,7 +10,10 @@ import UIKit
 /// night collapsed to a band, the finish flagged and a red line for now.
 /// `PlanTimelineScale` and `PlanTimelineLane` from the package do the
 /// arithmetic; this file only places what they describe. Only the
-/// top-down layout is drawn — a phone is held upright.
+/// taller-than-wide screen (a phone held upright) reads the plan top-down
+/// with the plans as columns; a wider one (a tablet, a phone on its side)
+/// left to right with a row per plan, the way a project plan is usually
+/// drawn — the iPhone's two layouts.
 ///
 /// CGFloat is not named here (Foundation and SkipFuseUI both define it on
 /// Android): the package's values are read as Double and handed back with
@@ -18,8 +21,12 @@ import UIKit
 enum ChartMetrics {
     /// The time axis on the left.
     static let axisThickness = 54.0
-    /// The row with picture and recipe name above every column.
+    /// The lane headers (picture and recipe name): the row height above the
+    /// columns, the column width beside the rows.
     static let laneHeaderHeight = 48.0
+    static let laneHeaderWidth = 132.0
+    /// Lanes as rows are this high.
+    static let laneHeight = 64.0
     /// Columns are at least this wide and at most that; fewer plans share
     /// the screen width.
     static let minimumLaneWidth = 150.0
@@ -90,62 +97,86 @@ enum ChartZoom: String, CaseIterable, Identifiable {
     }
 }
 
-/// The plan itself. Every element is placed with `place`: `position` and
-/// `length` run down with time, `crossOffset` and `crossLength` across.
+/// The plan itself, drawn along the axis the screen's shape asks for.
 struct PlanChartView: View {
     let lanes: [PlanTimelineLane]
     let scale: PlanTimelineScale
     let now: Date
-    /// The recipe's small picture for the column header, by recipe name.
+    /// The recipe's small picture for the lane header, by recipe name.
     let recipeImage: (String) -> Data?
     /// A tap on a bar or marker, with the step's key.
     let onTap: (String) -> Void
     let onDone: (String) -> Void
     let onShift: (String) -> Void
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         GeometryReader { geo in
             let width = Double(geo.size.width)
             let height = Double(geo.size.height)
-            let laneWidth = laneWidth(in: width)
-            let count = Double(lanes.count)
-            let contentWidth = ChartMetrics.axisThickness + count * laneWidth
-                + ChartMetrics.laneSpacing * (count - 1) + 8
-            let contentLength = Double(scale.length) + ChartMetrics.leadingInset + ChartMetrics.trailingPadding
+            // Taller than wide reads the plan top-down; wider than tall,
+            // left to right.
+            PlanChartBody(lanes: lanes, scale: scale, now: now, recipeImage: recipeImage,
+                          onTap: onTap, onDone: onDone, onShift: onShift,
+                          vertical: height >= width, width: width, height: height)
+        }
+    }
+}
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    // The headers stay put while the plan scrolls down.
-                    HStack(spacing: ChartMetrics.laneSpacing) {
-                        Color.clear.frame(width: ChartMetrics.axisThickness)
-                        ForEach(Array(lanes.enumerated()), id: \.offset) { _, lane in
-                            laneHeader(lane)
-                                .frame(width: laneWidth, alignment: .leading)
-                        }
+/// Every element is placed with `place`: `position` and `length` run with
+/// time, `crossOffset` and `crossLength` across it — so the vertical and
+/// the horizontal layout are the same code with the two directions swapped.
+struct PlanChartBody: View {
+    let lanes: [PlanTimelineLane]
+    let scale: PlanTimelineScale
+    let now: Date
+    let recipeImage: (String) -> Data?
+    let onTap: (String) -> Void
+    let onDone: (String) -> Void
+    let onShift: (String) -> Void
+    /// Time runs down (lanes as columns) or to the right (lanes as rows).
+    let vertical: Bool
+    let width: Double
+    let height: Double
+    @Environment(\.colorScheme) var colorScheme
+
+    private var contentLength: Double {
+        Double(scale.length) + ChartMetrics.leadingInset + ChartMetrics.trailingPadding
+    }
+
+    var body: some View {
+        if vertical {
+            columns
+        } else {
+            rows
+        }
+    }
+
+    // MARK: Vertical: axis on the left, lanes as columns
+
+    private var columns: some View {
+        let laneWidth = laneWidth(in: width)
+        let count = Double(lanes.count)
+        let contentWidth = ChartMetrics.axisThickness + count * laneWidth
+            + ChartMetrics.laneSpacing * (count - 1) + 8
+
+        return ScrollView(.horizontal, showsIndicators: false) {
+            VStack(spacing: 0) {
+                // The headers stay put while the plan scrolls down.
+                HStack(spacing: ChartMetrics.laneSpacing) {
+                    Color.clear.frame(width: ChartMetrics.axisThickness)
+                    ForEach(Array(lanes.enumerated()), id: \.offset) { _, lane in
+                        laneHeader(lane)
+                            .frame(width: laneWidth, alignment: .leading)
                     }
-                    .frame(width: contentWidth, height: ChartMetrics.laneHeaderHeight, alignment: .leading)
-                    ScrollView(.vertical) {
-                        ZStack(alignment: .topLeading) {
-                            tickLines(crossOffset: ChartMetrics.axisThickness,
-                                      crossLength: contentWidth - ChartMetrics.axisThickness)
-                            ForEach(Array(lanes.enumerated()), id: \.offset) { index, lane in
-                                laneContent(lane,
-                                            crossOffset: ChartMetrics.axisThickness
-                                                + Double(index) * (laneWidth + ChartMetrics.laneSpacing),
-                                            crossLength: laneWidth)
-                            }
-                            // The collapsed night lies over the bars it shortens.
-                            gapBands(crossLength: contentWidth)
-                            nowLine(crossLength: contentWidth)
-                            axisLabels()
-                        }
-                        .frame(width: contentWidth, height: contentLength, alignment: .topLeading)
-                    }
-                    .frame(width: contentWidth, height: max(0, height - ChartMetrics.laneHeaderHeight))
                 }
-                .frame(width: max(contentWidth, width), alignment: .leading)
+                .frame(width: contentWidth, height: ChartMetrics.laneHeaderHeight, alignment: .leading)
+                ScrollView(.vertical) {
+                    chart(crossExtent: contentWidth, laneCross: laneWidth)
+                        .frame(width: contentWidth, height: contentLength, alignment: .topLeading)
+                }
+                .frame(width: contentWidth, height: max(0, height - ChartMetrics.laneHeaderHeight))
             }
+            .frame(width: max(contentWidth, width), alignment: .leading)
         }
     }
 
@@ -155,19 +186,70 @@ struct PlanChartView: View {
         return min(ChartMetrics.maximumLaneWidth, max(ChartMetrics.minimumLaneWidth, available / count))
     }
 
+    // MARK: Horizontal: axis on top, lanes as rows
+
+    private var rows: some View {
+        let count = Double(lanes.count)
+        let contentHeight = ChartMetrics.axisThickness + count * ChartMetrics.laneHeight
+            + ChartMetrics.laneSpacing * (count - 1) + 8
+
+        return ScrollView(.vertical, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 0) {
+                // The headers stay put while the plan scrolls sideways.
+                VStack(alignment: .leading, spacing: ChartMetrics.laneSpacing) {
+                    Color.clear.frame(height: ChartMetrics.axisThickness)
+                    ForEach(Array(lanes.enumerated()), id: \.offset) { _, lane in
+                        laneHeader(lane)
+                            .frame(height: ChartMetrics.laneHeight, alignment: .leading)
+                    }
+                }
+                .frame(width: ChartMetrics.laneHeaderWidth, height: contentHeight, alignment: .topLeading)
+                ScrollView(.horizontal) {
+                    chart(crossExtent: contentHeight, laneCross: ChartMetrics.laneHeight)
+                        .frame(width: contentLength, height: contentHeight, alignment: .topLeading)
+                }
+                .frame(width: max(0, width - ChartMetrics.laneHeaderWidth), height: contentHeight)
+            }
+            .frame(height: max(contentHeight, height), alignment: .top)
+        }
+    }
+
+    // MARK: The drawing, shared
+
+    /// Ticks, lanes, the collapsed night, the now line and the axis labels.
+    /// `crossExtent` is the content's size across time, `laneCross` one
+    /// lane's.
+    private func chart(crossExtent: Double, laneCross: Double) -> some View {
+        ZStack(alignment: .topLeading) {
+            tickLines(crossOffset: ChartMetrics.axisThickness,
+                      crossLength: crossExtent - ChartMetrics.axisThickness)
+            ForEach(Array(lanes.enumerated()), id: \.offset) { index, lane in
+                laneContent(lane,
+                            crossOffset: ChartMetrics.axisThickness
+                                + Double(index) * (laneCross + ChartMetrics.laneSpacing),
+                            crossLength: laneCross)
+            }
+            // The collapsed night lies over the bars it shortens.
+            gapBands(crossLength: crossExtent)
+            nowLine(crossLength: crossExtent)
+            axisLabels()
+        }
+    }
+
     private func point(of date: Date) -> Double {
         Double(scale.position(of: date))
     }
 
     // MARK: Placement
 
-    /// Places a view: down the time axis at `position` for `length`, across
+    /// Places a view: along the time axis at `position` for `length`, across
     /// it at `crossOffset` for `crossLength`.
     private func place<Content: View>(_ content: Content, position: Double, length: Double,
                                       crossOffset: Double, crossLength: Double) -> some View {
-        content
-            .frame(width: crossLength, height: length)
-            .offset(x: crossOffset, y: position + ChartMetrics.leadingInset)
+        let position = position + ChartMetrics.leadingInset
+        return content
+            .frame(width: vertical ? crossLength : length, height: vertical ? length : crossLength)
+            .offset(x: vertical ? crossOffset : position, y: vertical ? position : crossOffset)
     }
 
     // MARK: Axis
@@ -179,15 +261,22 @@ struct PlanChartView: View {
         }
     }
 
-    /// The collapsed night: striped, with what it skips written across it.
+    /// The collapsed night: striped, with what it skips written across it
+    /// (along the band when it stands, turned when it lies).
     private func gapBand(_ gap: PlanTimelineScale.Gap) -> some View {
         let hours = Int((gap.end.timeIntervalSince(gap.start) / 3600).rounded())
+        let label = Text(verbatim: "\(PlanText.time(gap.start)) – \(PlanText.time(gap.end)) · \(hours) h")
+            .font(.system(size: 11))
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .fixedSize()
         return ZStack {
             StripedBackground()
-            Text(verbatim: "\(PlanText.time(gap.start)) – \(PlanText.time(gap.end)) · \(hours) h")
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
+            if vertical {
+                label
+            } else {
+                label.rotationEffect(.degrees(-90))
+            }
         }
     }
 
@@ -202,8 +291,9 @@ struct PlanChartView: View {
     /// tick right at the now line gives way to its "Jetzt".
     private func axisLabels() -> some View {
         let nowPoint = now >= scale.start && now <= scale.end ? point(of: now) : -Double.infinity
-        return ForEach(Array(scale.ticks.filter { abs(Double($0.position) - nowPoint) >= 18 }.enumerated()), id: \.offset) { _, tick in
-            place(VStack(alignment: .trailing, spacing: 0) {
+        let margin = vertical ? 18.0 : 36.0
+        return ForEach(Array(scale.ticks.filter { abs(Double($0.position) - nowPoint) >= margin }.enumerated()), id: \.offset) { _, tick in
+            place(VStack(alignment: vertical ? .trailing : .center, spacing: 0) {
                       if tick.startsDay {
                           Text(verbatim: PlanText.day(tick.date))
                               .font(.system(size: 10, weight: .semibold))
@@ -213,9 +303,9 @@ struct PlanChartView: View {
                   }
                   .foregroundStyle(.secondary)
                   .lineLimit(1)
-                  .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                  .padding(.trailing, 6),
-                  position: Double(tick.position) - 15, length: 30,
+                  .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: vertical ? .trailing : .center)
+                  .padding(.trailing, vertical ? 6 : 0),
+                  position: Double(tick.position) - (vertical ? 15 : 32), length: vertical ? 30 : 64,
                   crossOffset: 0, crossLength: ChartMetrics.axisThickness)
         }
     }
@@ -229,9 +319,10 @@ struct PlanChartView: View {
             place(Text("Jetzt")
                       .font(.system(size: 10, weight: .semibold))
                       .foregroundStyle(Color.red)
-                      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                      .padding(.trailing, 6),
-                  position: position + 2, length: 14,
+                      .lineLimit(1)
+                      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: vertical ? .trailing : .bottomLeading)
+                      .padding(.trailing, vertical ? 6 : 0),
+                  position: position + 2, length: vertical ? 14 : 40,
                   crossOffset: 0, crossLength: ChartMetrics.axisThickness)
         }
     }
@@ -274,7 +365,7 @@ struct PlanChartView: View {
             let markerLabels = stackedLabelPositions(markers.map { point(of: $0.date) }, floor: position + 20)
             let textLength = markerLabels.first.map { $0 - position } ?? length
 
-            place(barView(bar, textLength: textLength),
+            place(barView(bar, length: length, textLength: textLength),
                   position: position, length: length, crossOffset: barCross, crossLength: trackLength)
 
             ForEach(Array(zip(markers, markerLabels).enumerated()), id: \.offset) { _, pair in
@@ -297,8 +388,11 @@ struct PlanChartView: View {
     }
 
     /// Where a column of labels goes: each at its own position, but no
-    /// higher than `floor` and never over the label before it.
+    /// higher than `floor` and never over the label before it. In a row
+    /// the labels keep their positions; they sit in the lane's lower band
+    /// and cannot stack.
     private func stackedLabelPositions(_ positions: [Double], floor: Double) -> [Double] {
+        guard vertical else { return positions }
         var result: [Double] = []
         for position in positions {
             let previousEnd = result.last.map { $0 + ChartMetrics.labelHeight } ?? -Double.infinity
@@ -309,43 +403,66 @@ struct PlanChartView: View {
 
     /// A step as a bar: its colour says what kind of step it is, the text
     /// its time and instruction. Tapping opens the detail; a long press
-    /// offers done and shift, as the list's row does.
-    private func barView(_ bar: PlanTimelineBar, textLength: Double) -> some View {
-        let lines = max(1, Int((textLength - 6) / ChartMetrics.barLineHeight))
+    /// offers done and shift, as the list's row does. A short bar in a row
+    /// has room for its time at most.
+    private func barView(_ bar: PlanTimelineBar, length: Double, textLength: Double) -> some View {
+        let lines = vertical ? max(1, Int((textLength - 6) / ChartMetrics.barLineHeight)) : 2
+        let showsTime = vertical || length >= 44
+        let showsText = vertical || length >= 90
+        let text = showsText ? "\(PlanText.time(bar.start))  \(bar.entry.instruction)" : PlanText.time(bar.start)
         return stepButton(bar.entry) {
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: 6)
                     .fill(bar.kind.fill(colorScheme))
                     .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color.secondary.opacity(0.25), lineWidth: 0.5))
-                Text(verbatim: "\(PlanText.time(bar.start))  \(bar.entry.instruction)")
-                    .font(.system(size: 12))
-                    .foregroundStyle(Color.primary)
-                    .lineLimit(lines)
-                    .multilineTextAlignment(.leading)
-                    .padding(.horizontal, 5)
-                    .padding(.vertical, 3)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                if showsTime {
+                    Text(verbatim: text)
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.primary)
+                        .lineLimit(lines)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 3)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                }
             }
         }
     }
 
     /// A sub-step inside its parent's bar, or a step without a duration: a
-    /// line across the lane with the time and text beside it.
+    /// line across the lane with the time and text beside it. In a column
+    /// the text follows the time; in a row the lower band only has room for
+    /// the time — the instruction is in the detail.
     @ViewBuilder private func markerViews(_ marker: PlanTimelineMarker, labelPosition: Double,
                                           crossOffset: Double, crossLength: Double) -> some View {
         let position = point(of: marker.date)
         place(Rectangle().fill(Palette.accent(colorScheme).opacity(0.8)),
               position: position - 1, length: 2, crossOffset: crossOffset, crossLength: crossLength)
-        place(stepButton(marker.entry) {
-                  Text(verbatim: "\(PlanText.time(marker.date))  \(marker.entry.instruction)")
-                      .font(.system(size: 11))
-                      .foregroundStyle(Color.primary)
-                      .lineLimit(1)
-                      .padding(.horizontal, 5)
-                      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-              },
-              position: labelPosition + 2, length: ChartMetrics.labelHeight - 1,
-              crossOffset: crossOffset, crossLength: crossLength)
+        if vertical {
+            place(stepButton(marker.entry) {
+                      Text(verbatim: "\(PlanText.time(marker.date))  \(marker.entry.instruction)")
+                          .font(.system(size: 11))
+                          .foregroundStyle(Color.primary)
+                          .lineLimit(1)
+                          .padding(.horizontal, 5)
+                          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                  },
+                  position: labelPosition + 2, length: ChartMetrics.labelHeight - 1,
+                  crossOffset: crossOffset, crossLength: crossLength)
+        } else if crossLength >= 40 {
+            // In a row the label sits in the lower third, under the bar's
+            // text — when the row is not shared and still has a lower third.
+            place(stepButton(marker.entry) {
+                      Text(verbatim: PlanText.time(marker.date))
+                          .font(.system(size: 10))
+                          .foregroundStyle(Color.primary)
+                          .lineLimit(1)
+                          .padding(.horizontal, 5)
+                          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                  },
+                  position: position + 1, length: 44,
+                  crossOffset: crossOffset + crossLength - 18, crossLength: 16)
+        }
     }
 
     /// "Backvorgang ist beendet": flagged at the plan's end. SkipUI has no
@@ -354,16 +471,21 @@ struct PlanChartView: View {
         let position = point(of: finish)
         place(Rectangle().fill(Palette.accent(colorScheme)),
               position: position - 1, length: 2, crossOffset: crossOffset, crossLength: crossLength)
-        place(HStack(spacing: 3) {
-                  Image(systemName: "checkmark.circle.fill")
-                  Text(verbatim: PlanText.time(finish))
-              }
-              .font(.system(size: 11, weight: .semibold))
-              .foregroundStyle(Palette.accent(colorScheme))
-              .padding(.horizontal, 5)
-              .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading),
-              position: labelPosition + 2, length: ChartMetrics.labelHeight,
-              crossOffset: crossOffset, crossLength: crossLength)
+        let label = HStack(spacing: 3) {
+            Image(systemName: "checkmark.circle.fill")
+            Text(verbatim: PlanText.time(finish))
+        }
+        .font(.system(size: 11, weight: .semibold))
+        .foregroundStyle(Palette.accent(colorScheme))
+        .lineLimit(1)
+        .padding(.horizontal, 5)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        if vertical {
+            place(label, position: labelPosition + 2, length: ChartMetrics.labelHeight,
+                  crossOffset: crossOffset, crossLength: crossLength)
+        } else {
+            place(label, position: position + 2, length: 80, crossOffset: crossOffset, crossLength: 18)
+        }
     }
 
     /// Opens the step's detail on a tap; a long press offers done and shift.
