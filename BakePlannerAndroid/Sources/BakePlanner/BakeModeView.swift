@@ -88,7 +88,7 @@ struct BakeModeView: View {
     }
 
     private func stepView(_ step: StoredScheduledStep, index: Int, count: Int) -> some View {
-        let recipe = model.recipes.first { $0.content.name == step.data.recipeName }?.content
+        let recipe = model.plannedRecipeContent(named: step.data.recipeName)
         let component = recipe.flatMap { BakeModeText.component(of: step.data, in: $0) }
         return VStack(spacing: 16) {
             ScrollView {

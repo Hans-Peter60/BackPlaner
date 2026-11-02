@@ -128,11 +128,11 @@ struct PlanTimelineView: View {
         .padding(.top, 6)
     }
 
-    /// The column header's picture: the recipe's list thumbnail, when the
-    /// recipe is on the device.
+    /// The column header's picture: the recipe's list thumbnail when the
+    /// recipe is on the device, else the public recipe's (a plan made from
+    /// the database has no copy on the device).
     private func recipeImage(named name: String) -> Data? {
-        guard let recipe = model.recipes.first(where: { $0.content.name == name }) else { return nil }
-        return model.thumbnail(forRecipe: recipe.id)
+        recipeThumbnail(named: name)
     }
 
     var body: some View {
@@ -389,10 +389,16 @@ struct PlanTimelineView: View {
         .accessibilityLabel(Text(label))
     }
 
-    /// The recipe's list thumbnail for a card, when the recipe is on the device.
+    /// The recipe's list thumbnail for a card: the recipe on the device,
+    /// else the public recipe of that name.
     private func recipeThumbnail(named name: String) -> Data? {
-        guard let recipe = model.recipes.first(where: { $0.content.name == name }) else { return nil }
-        return model.thumbnail(forRecipe: recipe.id)
+        if let recipe = model.recipes.first(where: { $0.content.name == name }) {
+            return model.thumbnail(forRecipe: recipe.id)
+        }
+        if let shared = model.visiblePublicRecipes.first(where: { $0.name == name }) {
+            return model.publicThumbnail(of: shared)
+        }
+        return nil
     }
 
     @ToolbarContentBuilder private func toolbarItems(plansEmpty: Bool) -> some ToolbarContent {
@@ -424,10 +430,10 @@ extension PlanTimelineView {
         return CurrentStepRule.currentStep(in: visible, at: now, date: { $0.data.date })?.step
     }
 
-    /// The component a step mixes, when its recipe is on the device and
-    /// the step names one of its components.
+    /// The component a step mixes, when its recipe is known (on the device
+    /// or in the database) and the step names one of its components.
     func component(of step: StoredScheduledStep) -> ComponentColumn? {
-        guard let recipe = model.recipes.first(where: { $0.content.name == step.data.recipeName })?.content,
+        guard let recipe = model.plannedRecipeContent(named: step.data.recipeName),
               let component = BakeModeText.component(of: step.data, in: recipe),
               !component.ingredients.isEmpty else { return nil }
         return component

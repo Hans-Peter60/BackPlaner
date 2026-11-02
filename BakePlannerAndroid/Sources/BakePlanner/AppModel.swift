@@ -769,6 +769,21 @@ final class AppModel {
         }
     }
 
+    /// The recipe behind a planned step, for its ingredients and picture:
+    /// the own recipe of that name, else the public recipe of that name
+    /// once its components have been read (opening its page does that; a
+    /// plan is made from the page, so they are there). A step planned from
+    /// the database has no copy on the device.
+    func plannedRecipeContent(named name: String) -> RecipeExportData? {
+        if let own = recipes.first(where: { $0.content.name == name }) {
+            return own.content
+        }
+        if let shared = visiblePublicRecipes.first(where: { $0.name == name }), !shared.components.isEmpty {
+            return RecipeExportData(recipeFB: shared, imageData: nil)
+        }
+        return nil
+    }
+
     /// A public recipe as the recipe page shows it: components, steps and
     /// picture read on first opening, then kept.
     func publicRecipeContent(_ recipe: RecipeFB) async throws -> RecipeExportData {

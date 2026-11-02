@@ -59,9 +59,9 @@ Reihenfolge wie im Dashboard der Play Console. Konto: das Google-Entwicklerkonto
 ### 4.2 Store-Eintrag („Hauptseite des Store-Eintrags“)
 
 - **Texte:** je Sprache aus `Android/fastlane/metadata/android/<Sprache>/` (Titel, Kurzbeschreibung, Vollständige Beschreibung). Sprachen: Deutsch (de-DE), Englisch (en-US), Französisch (fr-FR).
-- **App-Symbol:** 512 × 512 PNG, 32 Bit, ohne Transparenz: `sips -Z 512 BackPlaner/Assets.xcassets/AppIcon.appiconset/icon-light.png --out /tmp/play-icon.png`.
-- **Funktionsgrafik:** 1024 × 500 JPG/PNG, Pflicht. **Noch zu gestalten** – Vorschlag: der Hintergrund aus `bakery-backdrop.jpg`, darauf das Icon und der Satz „Sag, wann das Brot fertig sein soll“ (Nunito ExtraBold, wie die Screenshot-Überschriften in `docs/appstore/captions.json`).
-- **Screenshots:** mindestens 2, höchstens 8 je Gerätetyp, 16:9 bis 9:16, 320 bis 3840 px. Telefon ist Pflicht; 7"- und 10"-Tablet nur, wenn die App dort beworben werden soll. **Noch nicht aufgenommen** (Beschluss 02.11.2026: erst nach den Designänderungen; dieselben Motive wie `docs/AppStore-Screenshots.md`, Emulator „Medium Phone“ 1080 × 2400, `adb exec-out screencap -p`).
+- **App-Symbol:** 512 × 512 PNG, 32 Bit, ohne Transparenz: `docs/appstore/2.2/android/play-icon-512.png` (aus dem iPhone-Icon).
+- **Funktionsgrafik:** 1024 × 500, Pflicht: `docs/appstore/2.2/android/<de|en|fr>/feature-graphic.png` – das Hintergrundfoto der App unter dem Schleier, das Icon links, Name und Satz „Sag, wann das Brot fertig sein soll.“ rechts in der Schrift der Screenshots. Erzeugt mit `swift scripts/play-feature-graphic.swift <de|en|fr> <ziel.png>`; die Texte stehen im Skript. Play nimmt je Sprache eine eigene Grafik.
+- **Screenshots:** mindestens 2, höchstens 8 je Gerätetyp, 16:9 bis 9:16, 320 bis 3840 px. Telefon ist Pflicht; 7"- und 10"-Tablet nur, wenn die App dort beworben werden soll. Aufgenommen am 02.11.2026 im Emulator „Medium Phone“ (1080 × 2400) mit `adb exec-out screencap -p`, je Sprache zehn Bilder in `docs/appstore/2.2/android/<de|en|fr>/` mit denselben Motiven und Nummern wie die iPhone-Bilder (`docs/AppStore-Screenshots.md`); die Rohbilder liegen in `roh/` daneben (git-ignoriert). Die Überschriften stehen in `docs/appstore/play-captions.json` (von `captions.json` abgeleitet, ohne Apple Watch, mit der Rezeptliste als Bild 02) und werden mit `swift scripts/appstore-captions.swift docs/appstore/play-captions.json <sprache> <roh-ordner> <ziel-ordner>` über die Bilder gelegt. Für Play acht davon hochladen, Vorschlag in der Reihenfolge der Nummern 01–08. Die Sprache der App wird im Emulator mit `adb shell cmd locale set-app-locales de.hpm64625.bakeplanner --locales en-US` umgestellt; der Kalender beginnt auf Englisch sonntags, die Tipp-Positionen verschieben sich.
 - **Kategorie:** App → Essen & Trinken. **Tags:** Rezepte, Kochen & Backen.
 - **Kontaktdaten:** E-Mail `BakePlanner@gmx.info`, Website `https://hans-peter60.github.io/bakeplanner/`.
 
@@ -113,7 +113,6 @@ Grundlage ist die Datenschutzerklärung. Antworten, die zur App passen:
 ## 5. Entscheidungen, die noch offen sind
 
 - **Pro / Play Billing – entschieden am 02.11.2026:** Android erscheint mit allen Funktionen frei („Pro-Modus“ für alle). Play Billing kommt erst, wenn auch die iPhone-App auf Pro umgestellt wird – dort schaltet das Firestore-Dokument `config/monetization` (`proRequired`, `storeVisible`) die Sperre fern, und es steht auf „frei“. Beide Plattformen bleiben so gleich; der Schritt „Pro über Play Billing“ (Bestandsaufnahme, Pro-Kauf) wartet, bis dieser Schalter umgelegt werden soll, und wird dann zusammen mit ihm gebaut.
-- **Funktionsgrafik und Screenshots** (4.2) fehlen; ohne sie lässt sich der Store-Eintrag nicht abschicken.
 - **Echtes Gerät:** der Testtrack ist nur mit einem Android-Telefon zu prüfen (Play Integrity, Kamera, Benachrichtigungen im Doze).
 
 ## 6. Letzter Export
