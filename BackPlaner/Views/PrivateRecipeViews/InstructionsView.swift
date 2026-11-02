@@ -51,7 +51,7 @@ struct InstructionsView: View {
     /// The two halves of the step table's header row; see the ViewThatFits
     /// in body for how they are arranged.
     private var instructionsHeader: some View {
-        Text("Verarbeitungsschritte:")
+        Text("Verarbeitungsschritte")
             .font(Theme.brandFont(16))
             .foregroundColor(Theme.title)
             .padding([.bottom, .top], 5)
@@ -168,7 +168,7 @@ struct InstructionsView: View {
 
                     LazyVGrid(columns: gridItemLayoutInstructions, spacing: 6) {
 
-                        Text("S.").bold()
+                        Text("Nr.").bold()
                         Text("Beschreibung").bold()
                         // The fixed columns are sized for the German words;
                         // "Duration" shrinks a little instead of breaking mid-word.

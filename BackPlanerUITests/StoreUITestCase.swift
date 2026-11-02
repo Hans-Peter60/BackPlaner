@@ -131,7 +131,7 @@ class StoreUITestCase: XCTestCase {
             case .recipes:        return ["de": "Rezepte", "en": "Recipes", "fr": "Recettes"]
             case .shoppingLists:  return ["de": "Einkaufslisten", "en": "Shopping lists", "fr": "Listes de courses"]
             case .bakeHistory:    return ["de": "Backhistorie", "en": "Baking history", "fr": "Historique de cuisson"]
-            case .scheduledSteps: return ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]
+            case .scheduledSteps: return ["de": "Zeitleiste", "en": "Timeline", "fr": "Timeline"]
             }
         }
     }

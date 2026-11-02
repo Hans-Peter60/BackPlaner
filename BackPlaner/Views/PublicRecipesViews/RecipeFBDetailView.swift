@@ -63,7 +63,7 @@ struct RecipeFBDetailView: View {
     // Error message shown when releasing a reported recipe fails.
     @State private var releaseErrorMessage: String?
 
-    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
+    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .trailing)]
 
     // At the accessibility text sizes the step table becomes a stacked list
     // and the "Verarbeitungsschritte" header no longer shares its row.
@@ -197,26 +197,20 @@ struct RecipeFBDetailView: View {
                     
                     // MARK: Instructions
                     VStack(alignment: .leading) {
-                        // Side by side the two headers were squeezed into
-                        // "Verarbeit / ungsschri / tte:" at the accessibility
-                        // sizes; there they stack.
-                        let headerLayout = dynamicTypeSize.isAccessibilitySize
-                            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
-                            : AnyLayout(HStackLayout())
-
-                        headerLayout {
-                            Text("Verarbeitungsschritte:")
-                                .font(Theme.brandFont(16))
-                                .foregroundColor(Theme.title)
-                                .padding([.bottom, .top], 5)
-
-                            if !dynamicTypeSize.isAccessibilitySize {
+                        // The heading and the total time share a line where
+                        // both fit whole; otherwise the time goes underneath,
+                        // instead of wrapping to "Bearbeitungsdauer: / 1h 5m"
+                        // beside the heading on a phone.
+                        ViewThatFits(in: .horizontal) {
+                            HStack {
+                                instructionsHeader
                                 Spacer()
+                                processingTimeText.fixedSize()
                             }
-
-                            Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
-                                .font(Theme.bodyFont(16))
-                                .padding([.trailing], 5)
+                            VStack(alignment: .leading, spacing: 2) {
+                                instructionsHeader
+                                processingTimeText
+                            }
                         }
 
                         let sortedInstructions = recipeFB.instructions.sorted(by: { $0.step < $1.step })
@@ -232,7 +226,7 @@ struct RecipeFBDetailView: View {
                             .padding([.bottom, .top], 5)
                         } else {
                             LazyVGrid(columns: gridItemLayout, spacing: 5) {
-                                Text("Schritt").bold()
+                                Text("Nr.").bold()
                                 Text("Beschreibung").bold()
                                 Text("Dauer").bold()
 
@@ -344,6 +338,21 @@ struct RecipeFBDetailView: View {
                 Text(releaseErrorMessage ?? "")
             }
         }
+    }
+
+    /// The two halves of the step table's header row; see the ViewThatFits
+    /// in body for how they are arranged.
+    private var instructionsHeader: some View {
+        Text("Verarbeitungsschritte")
+            .font(Theme.brandFont(16))
+            .foregroundColor(Theme.title)
+            .padding([.bottom, .top], 5)
+    }
+
+    private var processingTimeText: some View {
+        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipeFB.prepTime))")
+            .font(Theme.bodyFont(16))
+            .padding([.trailing], 5)
     }
 
     // The page's buttons. Stable identifiers for the UI tests.

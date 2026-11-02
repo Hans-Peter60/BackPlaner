@@ -44,7 +44,7 @@ Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf d
 2. Tippe im Rezept auf **Planen**.
 3. Wähle **Starten ab** oder **Fertig bis** und stelle Datum und Uhrzeit ein.
 4. Prüfe die berechneten Beginnzeiten und tippe auf **Erinnerungen setzen**.
-5. Öffne den Tab **Geplante Schritte**, um alle Termine als Timeline oder Liste zu kontrollieren.
+5. Öffne den Tab **Zeitleiste**, um alle Termine als Timeline oder Liste zu kontrollieren.
 
 Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlichen Erklärungen findest Du in [Kapitel 7](#7-backanleitung-und-erinnerungen), [Kapitel 10](#10-geplante-schritte-liste-und-timeline) und [Kapitel 17](#17-häufige-fragen-und-fehlerbehebung).
 
@@ -117,7 +117,7 @@ Nach dem Start öffnet sich die App im Tab **Rezepte**. Am unteren Rand liegt di
 | **Rezepte** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, die von Dir veröffentlichten und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Von mir veröffentlicht / Öffentlich** (siehe [Kapitel 5](#5-rezept-datenbank)) |
 | **Einkaufslisten** | Alle angelegten Einkaufslisten |
 | **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos – als Liste, Galerie, Hit-Liste oder Fotowolke |
-| **Geplante Schritte** | Alle terminierten Backschritte als Timeline oder Liste |
+| **Zeitleiste** | Alle geplanten Backschritte als Timeline oder Liste |
 
 Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 
@@ -127,7 +127,7 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 | **Mehr (⋯)** | Die drei Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen) und **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen) sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Sicherung, Konto) |
 | **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos bzw. von einer Internetseite importiert |
 
-**Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt im Tab Rezepte über der Tab-Leiste eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Rezeptzeilen scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste wechselt zu „Geplante Schritte“. Ohne anstehenden Schritt bleibt sie verborgen.
+**Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt im Tab Rezepte über der Tab-Leiste eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Rezeptzeilen scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste wechselt zum Tab „Zeitleiste“. Ohne anstehenden Schritt bleibt sie verborgen.
 
 Mit dem Zurück-Pfeil oben links kommst Du aus jedem geöffneten Bildschirm in seine Liste zurück. Was sich als Blatt über ein Rezept legt – die Backanleitung, die Einkaufsliste, das Bearbeiten –, schließt **Schließen** oben links oder ein Wischen nach unten.
 
@@ -246,7 +246,7 @@ Ein Rezept öffnet sich als **eine durchgehende Seite**, von oben nach unten:
 4. **Gesamtzutaten** – alle Zutaten über alle Komponenten hinweg zusammengefasst. Diese Liste ist zum Einkaufen und Abwiegen gedacht. Wasser wird bewusst weggelassen, ebenso Zutaten, die selbst ein Zwischenprodukt einer Komponente sind (z. B. „Sauerteig“ als Zutat des Hauptteigs) – sonst würden Mengen doppelt zählen.
 5. **Komponenten** – nach Nummer sortiert, jede mit ihren Zutaten in der gewählten Portionsgröße. Mehl- und Anstellgut-Zeilen sind antippbar (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 6. **Letztes Mal** (erst nach dem ersten Backen) – wie der letzte Backvorgang dieses Rezepts lief: Raum- und Teigtemperatur, tatsächliche Stock- und Stückgare, Mehl, Krume/Ofentrieb und Kommentar aus der Backhistorie, mit Datum. **Ergänzen** öffnet den Eintrag zum Nachtragen; ist noch nichts notiert, fragt die Karte danach und bietet **Jetzt eintragen** an. Gezählt wird nur ein Backvorgang, der schon stattgefunden hat – der beim Setzen der Erinnerungen angelegte Eintrag liegt bis zum Backende in der Zukunft.
-7. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung und Dauer; die Beginnzeiten rechnet erst die Backanleitung.
+7. **Verarbeitungsschritte** – Tabelle mit Nummer (Nr.), Beschreibung und Dauer; die Beginnzeiten rechnet erst die Backanleitung.
 8. **Bisherige Backvorgänge** – alle Backhistorien-Einträge, neueste zuerst, je mit Datum, den Messwerten in einer Zeile und dem Kommentar; ein Eintrag in der Zukunft ist als „geplant“ markiert.
 
 | Schaltfläche | Zweck |
@@ -276,7 +276,7 @@ Das ist der Kern der App. **Planen** auf der Rezeptseite öffnet die Backanleitu
 1. **Gewicht** – das Gesamtgewicht in der gewählten Portionsgröße. Bild, Zutaten, Komponenten und die Karte „Letztes Mal“ stehen auf der Rezeptseite dahinter (siehe [Kapitel 6](#6-eigene-rezepte)).
 2. **Steuerleiste** – siehe unten.
 3. **Hinweise** zum Plan – siehe „Was die App am Plan bemängelt“.
-4. **Verarbeitungsschritte** – Tabelle mit Schritt, Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
+4. **Verarbeitungsschritte** – Tabelle mit Nummer (Nr.), Beschreibung, Dauer und berechnetem **Beginn**. Als letzte Zeile erscheint „Fertig“ mit dem Endzeitpunkt.
 5. **Erinnerungen setzen**.
 
 ### Die Steuerleiste
@@ -529,7 +529,7 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 ## 10. Geplante Schritte (Liste und Timeline)
 
-**Tab Geplante Schritte.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Oben wechselst Du mit **Timeline / Liste** zwischen zwei Ansichten; die Timeline öffnet sich zuerst. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
+**Tab Zeitleiste.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Oben wechselst Du mit **Timeline / Liste** zwischen zwei Ansichten; die Timeline öffnet sich zuerst. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
 
 ![Geplante Schritte als Liste: je Karte Rezeptbild, Startzeit, Dauer und Schritttext; die Karte „Weizensauerteig“ trägt neben dem Uhr-Symbol ein i-Symbol für die Zutaten](images/geplante-schritte-liste.png)
 

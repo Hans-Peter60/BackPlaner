@@ -171,8 +171,8 @@ final class BackPlanerSmokeTests: XCTestCase {
 
         // The planned steps have a tab of their own; the timeline opens
         // first, the steps are checked in the list.
-        let scheduledTab = rootTab("Geplante Schritte")
-        XCTAssertTrue(scheduledTab.waitForExistence(timeout: 5), "There is no Geplante Schritte tab")
+        let scheduledTab = rootTab("Zeitleiste")
+        XCTAssertTrue(scheduledTab.waitForExistence(timeout: 5), "There is no Zeitleiste tab")
         scheduledTab.tap()
 
         let display = app.segmentedControls["scheduled.display"]
@@ -191,7 +191,7 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     /// The tabs of the root, by their German titles (the tab bar's buttons
     /// carry no identifier of their own).
-    private static let rootTabs = ["Rezepte", "Einkaufslisten", "Backhistorie", "Geplante Schritte"]
+    private static let rootTabs = ["Rezepte", "Einkaufslisten", "Backhistorie", "Zeitleiste"]
 
     /// The entries of the recipe list's "Mehr" menu: raw values of
     /// MenuDestination, which the app uses as identifiers ("menu.<name>").

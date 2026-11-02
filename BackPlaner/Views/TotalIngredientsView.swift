@@ -23,7 +23,7 @@ struct TotalIngredientsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Gesamtzutaten:")
+            Text("Gesamtzutaten")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
 
@@ -46,7 +46,7 @@ struct TotalIngredientsView: View {
 }
 
 /// The recipe's components, each with its own ingredient list, side by side —
-/// with "Komponenten:" as the heading of that same card.
+/// with "Komponenten" as the heading of that same card.
 ///
 /// Deliberately a `Grid` and not the `LazyVGrid` this used to be, for two
 /// measured reasons.
@@ -85,17 +85,14 @@ struct ComponentColumnsView: View {
 
     /// How many components stand side by side.
     ///
-    /// Three used to be the answer on every device. That is right for an iPad
-    /// and too optimistic for an iPhone: 440 pt across, minus the card's
-    /// padding and the gaps, leaves about 130 pt per column — narrower than
-    /// several real lines. "• 123 g Weizenvollkornmehl" measures 189.5 pt and a
-    /// component named "Weizensauerteig" measures 125 pt, which is why it used
-    /// to break after "Weizensauertei". Two columns give about 200 pt, enough
-    /// for both; at the accessibility text sizes even that is hopeless, so the
-    /// components simply stack.
+    /// Three on an iPad. On an iPhone the components stack: two columns gave
+    /// about 200 pt each, which wrapped lines like "• 100 ml Weißwein · 50 %"
+    /// after the unit and left the percentages dangling on lines of their
+    /// own — longer to scroll, but every line stays whole. At the
+    /// accessibility text sizes the iPad stacks too.
     private var columnCount: Int {
         if dynamicTypeSize.isAccessibilitySize { return 1 }
-        return hSize == .regular ? 3 : 2
+        return hSize == .regular ? 3 : 1
     }
 
     /// The components chunked into rows, since a `Grid` needs its rows spelled
@@ -108,7 +105,7 @@ struct ComponentColumnsView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Komponenten:")
+            Text("Komponenten")
                 .font(Theme.brandFont(16))
                 .foregroundColor(Theme.title)
                 .padding([.bottom, .top], 5)

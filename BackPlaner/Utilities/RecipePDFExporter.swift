@@ -111,7 +111,7 @@ enum RecipePDFRenderer {
 
             // Components, each as its own block.
             if !data.components.isEmpty {
-                page.heading(localized("Komponenten:"))
+                page.heading(localized("Komponenten"))
                 for component in data.components {
                     page.ensureRoom(for: 40)
                     page.draw(component.name, font: .systemFont(ofSize: 13, weight: .semibold), color: ink, width: page.contentWidth)
@@ -125,7 +125,7 @@ enum RecipePDFRenderer {
 
             // Summed ingredients.
             if !data.totalLines.isEmpty {
-                page.heading(localized("Gesamtzutaten:"))
+                page.heading(localized("Gesamtzutaten"))
                 for line in data.totalLines {
                     page.draw(line, font: .systemFont(ofSize: 11), color: ink, width: page.contentWidth, indent: 8)
                 }
@@ -134,7 +134,7 @@ enum RecipePDFRenderer {
 
             // Steps as a three-column table.
             if !data.steps.isEmpty {
-                page.heading(localized("Verarbeitungsschritte:"))
+                page.heading(localized("Verarbeitungsschritte"))
                 let numberWidth: CGFloat = 40
                 let durationWidth: CGFloat = 60
                 let textWidth = page.contentWidth - numberWidth - durationWidth - 16

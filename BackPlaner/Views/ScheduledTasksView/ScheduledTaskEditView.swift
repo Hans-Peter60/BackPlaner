@@ -48,7 +48,7 @@ struct ScheduledTaskDetailView: View {
                         LabeledContent("Beginn") {
                             StackedDateTime(date: nextStep.date, alignment: .trailing)
                         }
-                        LabeledContent("Schritt", value: Rational.decimalPlace(nextStep.step, 10))
+                        LabeledContent("Nummer", value: Rational.decimalPlace(nextStep.step, 10))
                         LabeledContent("Dauer", value: Rational.displayHoursMinutes(nextStep.duration))
                     }
 

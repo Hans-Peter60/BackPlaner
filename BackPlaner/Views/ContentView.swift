@@ -88,7 +88,7 @@ struct ContentView: View {
                 }
             }
 
-            Tab("Geplante Schritte", systemImage: "calendar", value: .scheduledSteps) {
+            Tab("Zeitleiste", systemImage: "calendar", value: .scheduledSteps) {
                 NavigationStack {
                     ScheduledTasksTabsView()
                 }

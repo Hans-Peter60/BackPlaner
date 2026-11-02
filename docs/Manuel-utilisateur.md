@@ -47,7 +47,7 @@ S’y ajoutent : une base de recettes publique commune, vos propres recettes sur
 2. Dans la recette, touchez **Planifier**.
 3. Choisissez **Commencer à** ou **Terminé pour** et réglez la date et l’heure.
 4. Vérifiez les heures de début calculées, puis touchez **Définir les rappels**.
-5. Ouvrez **Étapes planifiées** pour contrôler tous les horaires sous forme de liste ou de timeline.
+5. Ouvrez l’onglet **Timeline** pour contrôler tous les horaires sous forme de timeline ou de liste.
 
 Les rappels supposent que BakePlanner soit autorisé à envoyer des notifications. Les explications détaillées se trouvent au [chapitre 7](#7-instructions-de-cuisson-et-rappels), au [chapitre 10](#10-étapes-planifiées-liste-et-timeline) et au [chapitre 17](#17-questions-fréquentes-et-dépannage).
 
@@ -120,7 +120,7 @@ Au lancement, l’app s’ouvre sur l’onglet **Recettes**. Au bord inférieur 
 | **Recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** (voir [chapitre 5](#5-base-de-recettes)) |
 | **Listes de courses** | Toutes les listes de courses créées |
 | **Historique de cuisson** | Les cuissons passées avec commentaires et photos — en liste, galerie, palmarès ou nuage de photos |
-| **Étapes planifiées** | Toutes les étapes de cuisson programmées, en timeline ou en liste |
+| **Timeline** | Toutes les étapes de cuisson programmées, en timeline ou en liste |
 
 En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 
@@ -130,7 +130,7 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 | **Plus (⋯)** | Les trois calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau) et **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
 | **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos ou une page web |
 
-**La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à « Étapes planifiées ». Sans étape à venir, elle reste masquée.
+**La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à l’onglet « Timeline ». Sans étape à venir, elle reste masquée.
 
 La flèche de retour en haut à gauche vous ramène de tout écran ouvert à sa liste. Ce qui se pose en feuille sur une recette — les instructions de cuisson, la liste de courses, la modification — se ferme par **Fermer** en haut à gauche ou par un balayage vers le bas.
 
@@ -249,7 +249,7 @@ Une recette s’ouvre comme **une seule page continue**, de haut en bas :
 4. **Total des ingrédients** — tous les ingrédients de tous les composants, additionnés. Cette liste sert aux courses et à la pesée. L’eau est volontairement omise, de même que les ingrédients qui sont eux-mêmes un produit intermédiaire d’un composant (« levain » comme ingrédient de la pâte principale, par exemple) — sinon les quantités seraient comptées deux fois.
 5. **Composants** — triés par numéro, chacun avec ses ingrédients à la taille de portion choisie. Les lignes de farine et de levain chef se touchent (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 6. **La dernière fois** (dès que la recette a été cuite une fois) — comment s’est passée la dernière cuisson de cette recette : température ambiante et de la pâte, pointage et apprêt réels, farine, mie/développement au four et commentaire de l’historique, avec la date. **Compléter** ouvre l’entrée ; si rien n’est encore noté, la carte le demande et propose **Noter maintenant**. Seule une cuisson déjà passée compte — l’entrée créée en définissant les rappels reste dans le futur jusqu’à la fin de la cuisson.
-7. **Étapes de préparation** — un tableau avec l’étape, la description et la durée ; les heures de début ne sont calculées que par les instructions de cuisson.
+7. **Étapes de préparation** — un tableau avec le numéro (N°), la description et la durée ; les heures de début ne sont calculées que par les instructions de cuisson.
 8. **Cuissons précédentes** — toutes les entrées d’historique, la plus récente en premier, chacune avec sa date, les mesures sur une ligne et le commentaire ; une entrée encore à venir est marquée « planifiée ».
 
 | Bouton | Rôle |
@@ -279,7 +279,7 @@ C’est le cœur de l’app. **Planifier** sur la page de la recette ouvre les i
 1. **Poids** — le poids total à la taille de portion choisie. L’image, les ingrédients, les composants et la carte « La dernière fois » se trouvent sur la page de la recette, derrière la feuille (voir [chapitre 6](#6-mes-recettes)).
 2. **Barre de commande** — voir ci-dessous.
 3. **Remarques** sur le plan — voir « Ce que l’app reproche à un plan ».
-4. **Étapes de préparation** — un tableau avec l’étape, la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
+4. **Étapes de préparation** — un tableau avec le numéro (N°), la description, la durée et le **début** calculé. La dernière ligne indique « Terminé » avec l’heure de fin.
 5. **Définir les rappels**.
 
 ### La barre de commande
@@ -532,7 +532,7 @@ Si cette copie est supprimée plus tard (par vous ou par la modération), l’ap
 
 ## 10. Étapes planifiées (liste et timeline)
 
-**Onglet Étapes planifiées.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En haut, vous passez d’une vue à l’autre avec **Timeline / Liste** ; la timeline s’ouvre en premier. Les rafraîchis planifiés automatiquement (voir [chapitre 9](#9-modifier-une-recette)) n’apparaissent que deux jours avant leur date.
+**Onglet Timeline.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En haut, vous passez d’une vue à l’autre avec **Timeline / Liste** ; la timeline s’ouvre en premier. Les rafraîchis planifiés automatiquement (voir [chapitre 9](#9-modifier-une-recette)) n’apparaissent que deux jours avant leur date.
 
 ![Étapes planifiées en liste : chaque carte montre l’image de la recette, l’heure de début, la durée et le texte de l’étape ; la carte « Weizensauerteig » porte un symbole i pour les ingrédients à côté de l’icône d’horloge](images/fr/geplante-schritte-liste.png)
 

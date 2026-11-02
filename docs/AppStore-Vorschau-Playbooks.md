@@ -61,7 +61,7 @@ Rezept → „Planen“ → Fertig bis → Erinnerungen → Leiste „Als Nächs
 | 8 | Zwei Sekunden halten, dann langsam nach unten wischen bis zum Knopf **Erinnerungen setzen** | Reihenfolge der Schritte mit Uhrzeiten, Ruhe über Nacht | *BakePlanner rechnet jeden Schritt zurück* |
 | 13 | **Erinnerungen setzen** tippen. Erscheint „Bestehenden Plan ersetzen“, das wählen. Mitteilungs-Erlaubnis bestätigen, falls gefragt | Zusammenfassung: „N Erinnerungen gesetzt. Backofen anstellen um … Fertig um …“, zwei Sekunden halten, **OK** – das Blatt schließt sich mit | *Erinnerung für jeden Schritt* |
 | 18 | Zurück-Pfeil zur Rezeptliste | Leiste **Als Nächstes** über der Tab-Leiste mit dem ersten Schritt und seiner Uhrzeit, drei Sekunden halten | – |
-| 21 | Tab **Geplante Schritte** tippen | Timeline des Backtags (sie öffnet zuerst), drei Sekunden halten | – |
+| 21 | Tab **Zeitleiste** tippen | Timeline des Backtags (sie öffnet zuerst), drei Sekunden halten | – |
 | 25 | Oben **Liste** wählen, dann den Knopf **Backmodus** | Ein Schritt in großer Schrift mit Zutaten und „Vorlesen“, vier Sekunden halten | *In der Küche: ein Schritt, große Schrift* |
 | 30 | **Schließen** (X oben), eine Sekunde, Aufnahme stoppen | | |
 

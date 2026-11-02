@@ -47,7 +47,7 @@ On top of that: a shared public recipe database, your own recipes on the device,
 2. In the recipe, tap **Plan**.
 3. Choose **Start from** or **Done by** and set the date and time.
 4. Check the calculated start times and tap **Set reminders**.
-5. Open **Scheduled steps** to review every appointment as a list or a timeline.
+5. Open the **Timeline** tab to review every appointment as a timeline or a list.
 
 Reminders require BakePlanner to be allowed to send notifications. The full explanations are in [chapter 7](#7-baking-instructions-and-reminders), [chapter 10](#10-scheduled-steps-list-and-timeline), and [chapter 17](#17-frequently-asked-questions-and-troubleshooting).
 
@@ -120,7 +120,7 @@ After launch the app opens on the **Recipes** tab. Along the bottom runs the tab
 | **Recipes** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** (see [chapter 5](#5-recipe-database)) |
 | **Shopping lists** | All the shopping lists you've created |
 | **Baking history** | Past bakes with comments and photos — as a list, gallery, top list or photo cloud |
-| **Scheduled steps** | Every scheduled baking step as a timeline or a list |
+| **Timeline** | Every scheduled baking step as a timeline or a list |
 
 At the top right of the **Recipes** tab sit three buttons:
 
@@ -130,7 +130,7 @@ At the top right of the **Recipes** tab sit three buttons:
 | **More (⋯)** | The three baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water) and **Starter TA** (use a starter of a different dough yield, adjust the water), and the **Settings** (language, defaults, baking plan, backup, account) |
 | **+** | **Create new recipe** — from scratch or imported from photos or a web page |
 
-**The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to "Scheduled steps". With no step ahead it stays hidden.
+**The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
 
 The back arrow at the top left returns you from any opened screen to its list. Whatever lies as a sheet over a recipe — the baking instructions, the shopping list, editing — is closed with **Close** at the top left or a swipe down.
 
@@ -249,7 +249,7 @@ A recipe opens as **one continuous page**, from top to bottom:
 4. **Total ingredients** — every ingredient across all components, added up. This list is meant for shopping and weighing. Water is deliberately left out, as are ingredients that are themselves an intermediate product of a component ("sourdough" as an ingredient of the main dough, say) — otherwise amounts would be counted twice.
 5. **Components** — sorted by number, each with its ingredients at the chosen serving size. Flour and starter lines can be tapped (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 6. **Last time** (once the recipe has been baked) — how the last bake of this recipe went: room and dough temperature, the actual bulk and final proof, flour, crumb/oven spring and the comment from the baking history, with its date. **Add details** opens the entry; if nothing has been noted yet, the card asks and offers **Note it now**. Only a bake that has already happened counts — the entry created when reminders are set lies in the future until the bake ends.
-7. **Processing steps** — a table of step, description and duration; the start times are only worked out by the baking instructions.
+7. **Processing steps** — a table of number (No.), description and duration; the start times are only worked out by the baking instructions.
 8. **Previous bakes** — every baking-history entry, newest first, each with its date, the measurements in one line and the comment; an entry still ahead is marked "planned".
 
 | Button | Purpose |
@@ -279,7 +279,7 @@ This is the heart of the app. **Plan** on the recipe page opens the baking instr
 1. **Weight** — the total weight at the chosen serving size. Image, ingredients, components and the "Last time" card are on the recipe page behind the sheet (see [chapter 6](#6-my-recipes)).
 2. **Control bar** — see below.
 3. **Notes** on the plan — see "What the app objects to in a plan".
-4. **Processing steps** — a table of step, description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
+4. **Processing steps** — a table of number (No.), description, duration, and calculated **Start**. The last row reads "Done", with the finishing time.
 5. **Set reminders**.
 
 ### The control bar
@@ -532,7 +532,7 @@ If that copy is later deleted (by you or by moderation), the app notices the nex
 
 ## 10. Scheduled steps (list and timeline)
 
-**Scheduled steps tab.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. At the top you switch between two views with **Timeline / List**; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
+**Timeline tab.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. At the top you switch between two views with **Timeline / List**; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
 
 ![Scheduled steps as a list: each card shows the recipe image, start time, duration, and step text; the "Weizensauerteig" card carries an i symbol for the ingredients next to the clock symbol](images/en/geplante-schritte-liste.png)
 
