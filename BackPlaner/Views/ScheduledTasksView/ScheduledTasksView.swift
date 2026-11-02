@@ -418,7 +418,7 @@ struct ScheduledTasksView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 NavigationLink {
-                    TabsView(recipe: recipe, startsInBakingView: true)
+                    RecipePageView(recipe: recipe, startsInBakingView: true)
                 } label: {
                     Label("Neu planen", systemImage: "arrow.clockwise")
                         .font(Theme.brandFont(14))

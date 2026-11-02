@@ -17,13 +17,23 @@ struct RecipeFBDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     @EnvironmentObject var modelFB: RecipeFBModel
+    @EnvironmentObject var model: RecipeModel
+
+    // Saving a public recipe onto the device gave no feedback at all, so it
+    // was impossible to tell whether the tap had done anything.
+    @State private var showSavedConfirmation = false
+    @State private var saveErrorMessage: String?
 
     @State private var totalWeight = 0.0
-    /// Owned by TabsFBView and shared with the other tabs, so the factor
-    /// chosen here is the one the shopping list uses.
+    /// Owned by PublicRecipePageView and shared with its sheets, so the
+    /// factor chosen here is the one a plan and the shopping list use.
     @Binding var selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
     @Binding var targetWeight: Int?
+
+    /// What the page's buttons open (sheets of PublicRecipePageView).
+    var onPlan: () -> Void = {}
+    var onShoppingList: () -> Void = {}
 
     /// The flour line tapped for a substitution, while its sheet is up.
     @State private var flourSubstitution: FlourSubstitutionRequest?
@@ -139,6 +149,22 @@ struct RecipeFBDetailView: View {
 
                     // MARK: Dough yield and hydration over all components
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipeFB)))
+
+                    // MARK: Actions
+                    // Planning at the amount chosen above, the shopping
+                    // list, and the recipe as one's own — each a sheet or a
+                    // step from this page.
+                    // The two short buttons share a line; the long "Als
+                    // eigenes Rezept speichern" gets a line of its own on a
+                    // phone, all three sit in a row where they fit.
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 10) { planButton; shoppingListButton; saveAsOwnButton }
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack(spacing: 10) { planButton; shoppingListButton }
+                            saveAsOwnButton
+                        }
+                    }
+                    .padding(.vertical, 4)
 
                     TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
                                          scale: servingScale)
@@ -260,6 +286,19 @@ struct RecipeFBDetailView: View {
             }
             .warmBackground()
             .navigationTitle(Text(recipeFB.name))
+            .alert("Rezept wurde gespeichert", isPresented: $showSavedConfirmation) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Das Rezept liegt jetzt unter „Eigene Rezepte“ auf diesem Gerät und wird über Deine iCloud gesichert. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern.")
+            }
+            .alert("Speichern fehlgeschlagen", isPresented: Binding(
+                get: { saveErrorMessage != nil },
+                set: { if !$0 { saveErrorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) { saveErrorMessage = nil }
+            } message: {
+                Text(saveErrorMessage ?? "")
+            }
             .sheet(item: $flourSubstitution, onDismiss: openPendingCopy) { request in
                 FlourSubstitutionSheet(request: request)
             }
@@ -270,7 +309,7 @@ struct RecipeFBDetailView: View {
             // the public one it was made from.
             .navigationDestination(item: $openedCopy) { copy in
                 if let recipe = try? viewContext.existingObject(with: copy.id) as? Recipe {
-                    TabsView(recipe: recipe)
+                    RecipePageView(recipe: recipe)
                 }
             }
             .confirmationDialog("Öffentliches Rezept löschen?", isPresented: $showAdminDeleteConfirm, titleVisibility: .visible) {
@@ -305,5 +344,33 @@ struct RecipeFBDetailView: View {
                 Text(releaseErrorMessage ?? "")
             }
         }
+    }
+
+    // The page's buttons. Stable identifiers for the UI tests.
+
+    private var planButton: some View {
+        IconActionButton(systemImage: "calendar", style: .primary, accessibilityLabel: "Planen",
+                         title: "Planen", controlSize: .regular, action: onPlan)
+            .accessibilityIdentifier("recipe.plan")
+    }
+
+    private var shoppingListButton: some View {
+        IconActionButton(systemImage: "cart.badge.plus", style: .primary, accessibilityLabel: "Einkaufsliste",
+                         title: "Einkaufsliste", controlSize: .regular, action: onShoppingList)
+            .accessibilityIdentifier("recipe.shoppingList")
+    }
+
+    private var saveAsOwnButton: some View {
+        IconActionButton(systemImage: "square.and.arrow.down", style: .primary, accessibilityLabel: "Als eigenes Rezept speichern",
+                         title: "Als eigenes Rezept speichern", controlSize: .regular) {
+            do {
+                _ = try model.uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB, context: viewContext,
+                                                       recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                showSavedConfirmation = true
+            } catch {
+                saveErrorMessage = error.localizedDescription
+            }
+        }
+        .accessibilityIdentifier("recipe.saveAsOwn")
     }
 }

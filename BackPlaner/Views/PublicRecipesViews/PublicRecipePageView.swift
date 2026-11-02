@@ -1,8 +1,13 @@
 //
-//  TabsFBView.swift
-//  PetersBackPlaner
+//  PublicRecipePageView.swift
+//  BackPlaner
 //
-//  Created by Hans-Peter Müller on 08.12.21.
+//  A public recipe as a single page — picture, amount, ingredients,
+//  components, steps — with planning and the shopping list opened from it
+//  as sheets, and the language, moderation and editing menus in the
+//  navigation bar. Until 2.2 the content was spread over three tabs
+//  (Rezept backen, Details, Einkaufsliste); the Android app showed it as
+//  one page from the start, and that read better.
 //
 
 import BakePlannerCore
@@ -10,19 +15,14 @@ import SwiftUI
 import CoreData
 import Translation
 
-struct TabsFBView: View {
+struct PublicRecipePageView: View {
 
-    /// Tags of the tabs.
-    private static let bakingTab = 0
-    private static let detailsTab = 1
+    /// The plan and the shopping list, as sheets over the page.
+    @State private var showsPlan = false
+    @State private var showsShoppingList = false
 
-    /// A recipe opens on its details. The baking tab works out the plan, so
-    /// it is built only once it is chosen, and then kept.
-    @State private var tabSelection = TabsFBView.detailsTab
-    @State private var bakingTabOpened = false
-
-    /// The serving scale, shared by every tab of this recipe: chosen under
-    /// Details or Backen, it also decides the amounts on the shopping list.
+    /// The serving scale, shared by the page and its sheets: chosen on the
+    /// page, it also decides the amounts a plan and a shopping list carry.
     @State private var selectedServingSize = AppSettings.storedServingSize
     /// A target dough weight in grams; overrides the serving-size factor.
     @State private var targetWeight: Int?
@@ -86,64 +86,41 @@ struct TabsFBView: View {
     }
 
     var body: some View {
-        TabView (selection: $tabSelection) {
-
-            Group {
-                if bakingTabOpened {
-                    InstructionsFBView(recipeFB: recipeFB,
-                                       languageCode: selectedLanguage,
-                                       selectedServingSize: $selectedServingSize,
-                                       targetWeight: $targetWeight)
-                } else {
-                    Color.clear
-                }
-            }
-                .tabItem {
-                    VStack {
-                        Image(systemName: "dial.max.fill")
-                        Text("Rezept backen")
-                    }
-                }
-                .tag(Self.bakingTab)
-
-             RecipeFBDetailView(recipeFB: recipeFB,
-                                selectedServingSize: $selectedServingSize,
-                                targetWeight: $targetWeight)
-                .tabItem {
-                    VStack {
-                        Image(systemName: "list.bullet.rectangle")
-                        Text("Details")
-                    }
-                }
-                .tag(Self.detailsTab)
-
-            // Same place as for a recipe of one's own, so the shopping list is
-            // where people look for it.
+        RecipeFBDetailView(recipeFB: recipeFB,
+                           selectedServingSize: $selectedServingSize,
+                           targetWeight: $targetWeight,
+                           onPlan: { showsPlan = true },
+                           onShoppingList: { showsShoppingList = true })
+        // Planning: the date and mode, the plan's findings, the steps with
+        // their start times, and "Erinnerungen setzen".
+        .sheet(isPresented: $showsPlan) {
             NavigationStack {
-                // Shopping lists are a Pro feature; locked, the tab offers Pro.
+                InstructionsFBView(recipeFB: recipeFB,
+                                   languageCode: selectedLanguage,
+                                   selectedServingSize: $selectedServingSize,
+                                   targetWeight: $targetWeight)
+            }
+        }
+        // Shopping lists are a Pro feature; locked, the sheet offers Pro.
+        .sheet(isPresented: $showsShoppingList) {
+            NavigationStack {
                 ProLockedScreen(.shoppingList) {
                     ShoppingCartSelectFormView(recipeFB: recipeFB,
                                                selectedServingSize: $selectedServingSize,
                                                targetWeight: $targetWeight)
                 }
-            }
-                .tabItem {
-                    VStack {
-                        Image(systemName: "cart")
-                        Text("Einkaufsliste")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Schließen") {
+                            showsShoppingList = false
+                        }
                     }
                 }
-                .tag(2)
-        }
-        // accentText, not accentBottom: the tab bar keeps the system's own
-        // background, so the tint has to be light in dark mode, not dark.
-        .tint(Theme.accentText)
-        .onChange(of: tabSelection) { _, selection in
-            if selection == Self.bakingTab { bakingTabOpened = true }
+            }
         }
         .task {
-            // Load this recipe's components and steps on demand, so both the
-            // baking and the details tab work even when the global "Detailansicht"
+            // Load this recipe's components and steps on demand, so the page
+            // and its plan work even when the global "Detailansicht"
             // prefetch (Settings → Detailansicht verwenden) is off, or hasn't
             // finished yet. The language is settled only once everything is
             // here: a translation started earlier would miss the ingredients
@@ -220,8 +197,7 @@ struct TabsFBView: View {
                         }
                     }
 
-                    // The same action also sits at the bottom of the Details
-                    // tab; here it is reachable from every tab.
+                    // The same action also sits at the bottom of the page.
                     if canDeleteAsAdmin {
                         Button(role: .destructive) {
                             showAdminDeleteConfirm = true

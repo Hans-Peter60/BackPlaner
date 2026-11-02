@@ -17,17 +17,29 @@ struct RecipeDetailView: View {
     /// up without leaving the screen.
     @ObservedObject var recipe: Recipe
 
-    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(100), alignment: .trailing)]
+    // The description column's minimum stays well under a phone's width
+    // less the two fixed columns, the card and the page padding: at 200 pt
+    // the table ran past the right edge and cut "Dauer" to "Daue".
+    var gridItemLayout = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .trailing)]
 
     // At the accessibility text sizes the step table becomes a stacked list
     // and the "Verarbeitungsschritte" header no longer shares its row.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    /// Owned by TabsView and shared with the other tabs, so the factor chosen
-    /// here is the one the shopping list uses.
+    /// Owned by RecipePageView and shared with its sheets, so the factor
+    /// chosen here is the one a plan and the shopping list use.
     @Binding var selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
     @Binding var targetWeight: Int?
+
+    /// What the page's buttons open (sheets of RecipePageView): the plan,
+    /// the shopping list, a bake entry, or a starter's feeding diary.
+    var onPlan: () -> Void = {}
+    var onShoppingList: () -> Void = {}
+    var onBakeEntry: () -> Void = {}
+    var onFeedingDiary: () -> Void = {}
+
+    private let dateFormat = DateFormat()
 
     /// The flour line tapped for a substitution, while its sheet is up.
     @State private var flourSubstitution: FlourSubstitutionRequest?
@@ -182,6 +194,22 @@ struct RecipeDetailView: View {
                     }
                 }
 
+                // MARK: Actions
+                // Planning at the amount chosen above, the shopping list,
+                // and the bake history or the starter's diary — each a
+                // sheet over this page. A starter is fed, not baked.
+                // The two short buttons share a line; the long third one
+                // ("Backvorgang eintragen") gets a line of its own on a
+                // phone, all three sit in a row where they fit.
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 10) { planButton; shoppingListButton; historyButton }
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 10) { planButton; shoppingListButton }
+                        historyButton
+                    }
+                }
+                .padding(.vertical, 4)
+
                 TotalIngredientsView(components: ComponentColumn.columns(of: recipe.componentsArray),
                                      scale: servingScale)
 
@@ -209,6 +237,15 @@ struct RecipeDetailView: View {
                                              updateTarget: adjustmentTarget,
                                              onCopyCreated: { pendingCopy = $0 })
                                      })
+
+                // MARK: Last time
+                // How the last bake of this recipe went, right where the
+                // next one is planned from. Only a bake that already
+                // happened: setting reminders creates an entry dated at the
+                // planned end, which has nothing to say yet.
+                if !StarterRecipe.isStarterFeeding(recipe), let lastBake = recipe.lastCompletedBakeHistory() {
+                    LastBakeCardView(bakeHistory: lastBake, recipeName: recipe.name)
+                }
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
@@ -264,6 +301,53 @@ struct RecipeDetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
+
+                // MARK: Earlier bakes
+                // Every bake of this recipe, newest first: the date, the
+                // recorded facts in one line, and the comment. An entry still
+                // ahead is the one just planned and is marked as such.
+                if !StarterRecipe.isStarterFeeding(recipe), !recipe.bakeHistoriesArray.isEmpty {
+                    VStack(alignment: .leading, spacing: 10) {
+
+                        Text("Bisherige Backvorgänge")
+                            .font(Theme.brandFont(16))
+                            .foregroundColor(Theme.title)
+
+                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
+                            VStack(alignment: .leading, spacing: 3) {
+                                HStack(spacing: 8) {
+                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
+                                        .font(Theme.brandFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                    if bakeHistory.date > Date() {
+                                        Text("geplant")
+                                            .font(Theme.bodyFont(13))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                }
+
+                                BakeHistoryFactsLineView(facts: bakeHistory.facts)
+                                    .font(Theme.bodyFont(14))
+                                    .foregroundColor(Theme.subtitle)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                if !BakeHistoryFacts.isPlaceholderComment(bakeHistory.comment) {
+                                    Text(bakeHistory.comment)
+                                        .font(Theme.bodyFont(15))
+                                        .foregroundColor(Theme.cardTitle)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                } else if !bakeHistory.hasNotes && bakeHistory.date <= Date() {
+                                    Text("Noch nichts notiert")
+                                        .font(Theme.bodyFont(14))
+                                        .foregroundColor(Theme.subtitle)
+                                }
+                            }
+                            .accessibilityElement(children: .combine)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .cardStyle()
+                }
             }
             .padding()
             .frame(width: fullView.size.width, alignment: .leading)
@@ -280,10 +364,38 @@ struct RecipeDetailView: View {
         // the recipe the adjustment started from.
         .navigationDestination(item: $openedCopy) { copy in
             if let recipe = try? viewContext.existingObject(with: copy.id) as? Recipe {
-                TabsView(recipe: recipe)
+                RecipePageView(recipe: recipe)
             }
         }
 
+        }
+    }
+
+    // The page's buttons. Stable identifiers for the UI tests.
+
+    private var planButton: some View {
+        IconActionButton(systemImage: "calendar", style: .primary, accessibilityLabel: "Planen",
+                         title: "Planen", controlSize: .regular, action: onPlan)
+            .accessibilityIdentifier("recipe.plan")
+    }
+
+    private var shoppingListButton: some View {
+        IconActionButton(systemImage: "cart.badge.plus", style: .primary, accessibilityLabel: "Einkaufsliste",
+                         title: "Einkaufsliste", controlSize: .regular, action: onShoppingList)
+            .accessibilityIdentifier("recipe.shoppingList")
+    }
+
+    /// The bake history for a bread, the feeding diary for a starter.
+    @ViewBuilder private var historyButton: some View {
+        if StarterRecipe.isStarterFeeding(recipe) {
+            IconActionButton(systemImage: "drop.degreesign", style: .primary, accessibilityLabel: "Anstellgut-Tagebuch",
+                             title: "Anstellgut-Tagebuch", controlSize: .regular, action: onFeedingDiary)
+                .accessibilityIdentifier("recipe.feedingDiary")
+        } else {
+            IconActionButton(systemImage: "rectangle.and.pencil.and.ellipsis", style: .primary,
+                             accessibilityLabel: "Backvorgang eintragen", title: "Backvorgang eintragen",
+                             controlSize: .regular, action: onBakeEntry)
+                .accessibilityIdentifier("recipe.bakeEntry")
         }
     }
 }

@@ -8,7 +8,7 @@
 //  real data and needs the recipe database online.
 //
 //  The numbers are the order on the product page, which opens with what sets
-//  the app apart: the baking tab planned to a finish time, the next-step card,
+//  the app apart: the plan sheet planned to a finish time, the next-step bar,
 //  the bake mode. The screens the app shares with every recipe app (the recipe
 //  list, the settings) come last or only serve the manuals (numbers from 90
 //  up, which the script keeps out of the App Store folder). The headline of
@@ -31,7 +31,7 @@ import XCTest
 
 final class AppStoreScreenshots: StoreUITestCase {
 
-    /// The baking tab opens on "Fertig bis" (see StoreUITestCase.planFinish).
+    /// The plan sheet opens on "Fertig bis" (see StoreUITestCase.planFinish).
     override var plansToFinish: Bool { true }
 
     override func setUpWithError() throws {
@@ -46,9 +46,8 @@ final class AppStoreScreenshots: StoreUITestCase {
     func testCaptureStoreScreenshots() throws {
         launch()
 
-        // Recipe database (for the manuals), then the recipe's details and
-        // its baking tab, planned to a finish time.
-        openMenu("publicRecipes")
+        // The recipe list (for the manuals), then the recipe's page and
+        // its plan sheet, planned to a finish time.
         let row = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(3) // thumbnails load after the list
@@ -59,12 +58,11 @@ final class AppStoreScreenshots: StoreUITestCase {
         translateIfNeeded()
         capture("07-rezept-details")
 
-        tab(0, titled: ["de": "Rezept backen", "en": "Bake recipe", "fr": "Cuire la recette"]).tap()
+        openPlan()
         let controls = app.descendants(matching: .any)["plan.controls"]
-        XCTAssertTrue(controls.waitForExistence(timeout: 5), "The baking tab did not open")
-        // The tab scrolls the controls to the top by itself (launch argument
-        // -UITestingScrollToPlanControls, see StoreUITestCase.prepare);
-        // scrollToTop only corrects what is left.
+        // The sheet scrolls the controls to the top by itself (launch
+        // argument -UITestingScrollToPlanControls, see
+        // StoreUITestCase.prepare); scrollToTop only corrects what is left.
         settle(2.5)
         scrollToTop(controls)
         settle(1)
@@ -84,16 +82,18 @@ final class AppStoreScreenshots: StoreUITestCase {
             replace.tap()
         }
         allowSystemAlertIfShown()
+        // The confirmation's OK closes the plan sheet as well.
         acknowledgeAlertIfShown(timeout: 5)
 
-        backToMenu()
+        // The recipe list with the next-step bar over its bottom edge.
+        backToRecipeList()
         settle(1)
         capture("02-startbildschirm")
 
         // Bake mode and timeline of the planned steps. The timeline opens
-        // first; the bake mode button of the list is on the first tab.
-        openMenu("scheduledSteps")
-        tab(0, titled: ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]).tap()
+        // first; the bake mode button is on the list.
+        openTab(.scheduledSteps)
+        showScheduledSteps(as: .list)
         let bakeMode = app.buttons["scheduled.bakeMode"]
         if !bakeMode.waitForExistence(timeout: 5) {
             attachHierarchy()
@@ -106,13 +106,12 @@ final class AppStoreScreenshots: StoreUITestCase {
         let close = app.buttons["bakeMode.close"]
         if close.waitForExistence(timeout: 3) { close.tap() }
 
-        tab(1, titled: ["de": "Timeline", "en": "Timeline", "fr": "Timeline"]).tap()
+        showScheduledSteps(as: .timeline)
         settle(2)
         capture("04-timeline")
 
         // Back in the recipe: the flour line opens "Mehl ersetzen", filled
         // with the recipe's flour and water.
-        backToMenu()
         openDemoRecipe()
         let flourLine = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "1050")).firstMatch
         if flourLine.waitForExistence(timeout: 5) {
@@ -125,54 +124,52 @@ final class AppStoreScreenshots: StoreUITestCase {
             cancelSheet()
             settle(1)
         } else {
-            // A recipe without such a line: the calculator from the main menu.
-            backToMenu()
-            openMenu("flourSubstitution")
+            // A recipe without such a line: the calculator from "Mehr".
+            backToRecipeList()
+            openScreen("flourSubstitution")
             settle(1)
             capture("06-mehl-ersetzen")
-            backToMenu()
             openDemoRecipe()
         }
 
         // The recipe's ingredients on a shopping list, then the list itself,
         // grouped by shelf. testPrepare has cleared the earlier lists.
-        tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
-        settle(1)
+        openShoppingListSheet()
         let create = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Einkaufsliste erstellen", "Create shopping list", "Créer une liste de courses"])).firstMatch
-        XCTAssertTrue(create.waitForExistence(timeout: 5), "The shopping-list tab shows no create button")
+        XCTAssertTrue(create.waitForExistence(timeout: 5), "The shopping-list sheet shows no create button")
         scrollUntilHittable(create)
         tapRowButton(create)
         // The names are translated into the app's language first.
         acknowledgeAlertIfShown(timeout: 20)
+        closeSheetIfShown()
 
-        backToMenu()
-        openMenu("shoppingList")
+        openTab(.shoppingLists)
         settle(2)
         capture("09-einkaufsliste")
 
-        // The calculators from the main menu.
-        backToMenu()
-        openMenu("starterYield")
+        // The calculators from the recipe list's "Mehr" menu.
+        backToRecipeList()
+        openScreen("starterYield")
         settle(1)
         capture("05-anstellgut-ta")
 
-        backToMenu()
-        openMenu("doughTemperature")
+        backToRecipeList()
+        openScreen("doughTemperature")
         settle(1)
         capture("10-teigtemperatur")
 
         // The form for a new recipe with its two imports and the
         // "Veröffentlichen" switch: a store picture and a manual picture.
-        backToMenu()
-        openMenu("newRecipe")
+        backToRecipeList()
+        openScreen("newRecipe")
         settle(1)
         capture("08-rezept-import")
         capture("91-neues-rezept")
 
         // The top of the settings, for the manuals only.
-        backToMenu()
-        openMenu("settings")
+        backToRecipeList()
+        openScreen("settings")
         settle(1)
         capture("92-einstellungen")
     }

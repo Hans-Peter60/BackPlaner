@@ -4,7 +4,8 @@
 //
 //  What the App Store screenshots and the App Store previews share: the way
 //  the app is launched in a given language, and the moves through its
-//  screens — opening a menu card, finding the demo recipe, switching tabs,
+//  screens — switching a root tab, opening a screen of the recipe list's
+//  "Mehr" menu, finding the demo recipe, opening its plan sheet,
 //  translating the recipe through the globe menu. Both tests work on the
 //  simulator's real data and the live recipe database, and both skip
 //  themselves in an ordinary test run (the subclasses decide on what).
@@ -45,10 +46,10 @@ class StoreUITestCase: XCTestCase {
     /// so the steps fall as with `planStart`.
     static let planFinish = "15:00"
 
-    /// Whether the baking tab opens on "Fertig bis" with `planFinish` rather
+    /// Whether the plan sheet opens on "Fertig bis" with `planFinish` rather
     /// than on "Starten ab" with `planStart`. The screenshots do, so the
-    /// picture of the baking tab shows a finish time and the start times
-    /// worked back from it; the previews keep the start.
+    /// picture of the plan shows a finish time and the start times worked
+    /// back from it; the previews keep the start.
     var plansToFinish: Bool { false }
 
     var recipeName: String {
@@ -120,14 +121,61 @@ class StoreUITestCase: XCTestCase {
 
     // MARK: - Navigation
 
-    func openMenu(_ destination: String) {
+    /// The tabs of the app's root, with their titles in the three languages
+    /// (the tab bar's buttons carry no identifier of their own).
+    enum RootTab {
+        case recipes, shoppingLists, bakeHistory, scheduledSteps
+
+        var titles: [String: String] {
+            switch self {
+            case .recipes:        return ["de": "Rezepte", "en": "Recipes", "fr": "Recettes"]
+            case .shoppingLists:  return ["de": "Einkaufslisten", "en": "Shopping lists", "fr": "Listes de courses"]
+            case .bakeHistory:    return ["de": "Backhistorie", "en": "Baking history", "fr": "Historique de cuisson"]
+            case .scheduledSteps: return ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]
+            }
+        }
+    }
+
+    /// The button of a root tab: in the tab bar at the bottom on the iPhone,
+    /// in the bar at the top on the iPad.
+    func rootTab(_ tab: RootTab) -> XCUIElement {
+        let title = tab.titles[language] ?? tab.titles["de"] ?? ""
+        let inBar = app.tabBars.buttons[title]
+        if inBar.waitForExistence(timeout: 3) { return inBar }
+        return app.buttons[title]
+    }
+
+    /// Switches to a root tab.
+    func openTab(_ tab: RootTab) {
+        let button = rootTab(tab)
+        if !button.waitForExistence(timeout: 5) {
+            attachHierarchy()
+            XCTFail("There is no \(tab) tab")
+            return
+        }
+        button.tap()
+        settle(0.5)
+    }
+
+    /// Opens a screen reached from the recipe list: "newRecipe" behind "+",
+    /// the calculators and "settings" behind "Mehr". The recipe list has to
+    /// be on screen (see `backToRecipeList`).
+    func openScreen(_ destination: String) {
+        if destination != "newRecipe" {
+            let more = app.buttons["menu.more"]
+            if !more.waitForExistence(timeout: 10) {
+                attachHierarchy()
+                XCTFail("The recipe list's Mehr menu is missing")
+                return
+            }
+            more.tap()
+        }
         let entry = app.buttons["menu.\(destination)"]
         if !entry.waitForExistence(timeout: 10) {
             attachHierarchy()
             XCTFail("Menu entry \(destination) is missing")
             return
         }
-        scrollUntilHittable(entry)
         entry.tap()
     }
 
@@ -141,9 +189,14 @@ class StoreUITestCase: XCTestCase {
         add(hierarchy)
     }
 
-    func backToMenu() {
+    /// Returns to the recipe list, the root of the recipe tab: closes a
+    /// sheet over the recipe (the plan, the shopping list), switches to the
+    /// tab and pops whatever the tab has pushed.
+    func backToRecipeList() {
+        closeSheetIfShown()
+        openTab(.recipes)
         var attempts = 0
-        while !app.buttons["menu.publicRecipes"].exists, attempts < 6 {
+        while !app.buttons["menu.more"].exists, attempts < 6 {
             // The back button sits in a navigation bar on the iPhone and
             // iPad; on the unfolded iPhone Duo (regular width, compact
             // height) the bar is not exposed as one, and the button is
@@ -159,10 +212,20 @@ class StoreUITestCase: XCTestCase {
         }
     }
 
-    /// Opens the demo recipe from the recipe database, translated into the
+    /// Taps the "Schließen" of a sheet of the recipe page, if one is up.
+    func closeSheetIfShown() {
+        let close = app.buttons.matching(NSPredicate(format: "identifier == 'plan.close' OR label IN %@",
+                                                     ["Schließen", "Close", "Fermer"])).firstMatch
+        if close.exists, close.isHittable {
+            close.tap()
+            settle(0.7)
+        }
+    }
+
+    /// Opens the demo recipe from the recipe list, translated into the
     /// run's language.
     func openDemoRecipe() {
-        openMenu("publicRecipes")
+        backToRecipeList()
         let row = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(1)
@@ -171,39 +234,67 @@ class StoreUITestCase: XCTestCase {
         translateIfNeeded()
     }
 
-    /// Waits until the recipe's screen has slid in: its tabs exist, and the
-    /// push animation has had its time. A screenshot taken straight after
-    /// the tap caught the details half-way in from the right.
+    /// Waits until the recipe's page has slid in: its "Planen" button
+    /// exists, and the push animation has had its time. A screenshot taken
+    /// straight after the tap caught the page half-way in from the right.
     func waitForRecipeDetails() {
-        let detailsTab = tab(1, titled: ["de": "Details", "en": "Details", "fr": "Détails"])
-        XCTAssertTrue(detailsTab.waitForExistence(timeout: 10), "The recipe did not open")
+        let plan = app.buttons["recipe.plan"]
+        if !plan.waitForExistence(timeout: 10) {
+            // Something covers the screen, most likely a system sheet. Try
+            // to close it once, then look again.
+            dismissCoveringSheet()
+            if !plan.waitForExistence(timeout: 5) {
+                attachHierarchy()
+                XCTFail("The recipe did not open")
+                return
+            }
+        }
         settle(1.5)
     }
 
-    /// A tab of the recipe or scheduled-steps screen. On the iPhone the tabs
-    /// form a tab bar at the bottom and are found by position; on the iPad
-    /// they float at the top as plain buttons and are found by their title in
-    /// the language of the run.
-    func tab(_ index: Int, titled titles: [String: String]) -> XCUIElement {
-        let bar = app.tabBars.firstMatch
-        if bar.waitForExistence(timeout: 3), bar.buttons.count > index {
-            return bar.buttons.element(boundBy: index)
-        }
-        let title = titles[language] ?? titles["de"] ?? ""
-        let button = app.buttons.matching(NSPredicate(format: "label == %@", title)).firstMatch
-        if button.waitForExistence(timeout: 5) { return button }
+    /// Opens the plan sheet of the recipe on screen and waits for its date
+    /// controls.
+    func openPlan() {
+        let plan = app.buttons["recipe.plan"]
+        XCTAssertTrue(plan.waitForExistence(timeout: 5), "The recipe page has no Planen button")
+        scrollUntilHittable(plan, towards: .top)
+        tapReliably(plan)
+        let controls = app.descendants(matching: .any)["plan.controls"]
+        XCTAssertTrue(controls.waitForExistence(timeout: 5), "The plan sheet did not open")
+    }
 
-        // Something covers the screen, most likely a system sheet. Try to
-        // close it once, then look again.
-        dismissCoveringSheet()
-        if bar.waitForExistence(timeout: 3), bar.buttons.count > index {
-            return bar.buttons.element(boundBy: index)
-        }
-        if button.waitForExistence(timeout: 3) { return button }
+    /// Opens the shopping-list sheet of the recipe on screen.
+    func openShoppingListSheet() {
+        let button = app.buttons["recipe.shoppingList"]
+        XCTAssertTrue(button.waitForExistence(timeout: 5), "The recipe page has no Einkaufsliste button")
+        scrollUntilHittable(button, towards: .top)
+        tapReliably(button)
+        settle(1)
+    }
 
-        attachHierarchy()
-        XCTFail("There is no tab \(index) („\(title)“)")
-        return button
+    /// The two views of the planned steps behind one segmented control.
+    enum ScheduledDisplay: Int {
+        case timeline = 0, list = 1
+    }
+
+    /// Shows the timeline or the list of the planned steps.
+    func showScheduledSteps(as display: ScheduledDisplay) {
+        let control = app.segmentedControls["scheduled.display"]
+        if control.waitForExistence(timeout: 5), control.buttons.count > display.rawValue {
+            control.buttons.element(boundBy: display.rawValue).tap()
+        } else {
+            let titles = display == .timeline
+                ? ["Timeline"]
+                : ["Liste", "List"]
+            let button = app.buttons.matching(NSPredicate(format: "label IN %@", titles)).firstMatch
+            if !button.waitForExistence(timeout: 5) {
+                attachHierarchy()
+                XCTFail("The planned steps show no \(display) switch")
+                return
+            }
+            button.tap()
+        }
+        settle(0.7)
     }
 
     /// Closes a sheet or alert that covers the app: a button that says so,
@@ -271,14 +362,18 @@ class StoreUITestCase: XCTestCase {
         return rows.firstMatch
     }
 
-    func scrollUntilHittable(_ element: XCUIElement, maxSwipes: Int = 12) {
+    enum ScrollTarget { case top, bottom }
+
+    /// Scrolls the page towards its bottom (or its top) until `element` can
+    /// be tapped.
+    func scrollUntilHittable(_ element: XCUIElement, towards target: ScrollTarget = .bottom, maxSwipes: Int = 12) {
         let screen = app.windows.firstMatch.frame
         var swipes = 0
         while !(element.exists && element.isHittable) && swipes < maxSwipes {
             // A measured drag rather than a flick: on the iPhone Duo a
             // `swipeUp` left the page where it was, while the drag from the
             // right-hand margin (see `drag`) moved it.
-            drag(by: -screen.height * 0.5)
+            drag(by: target == .bottom ? -screen.height * 0.5 : screen.height * 0.5)
             swipes += 1
         }
     }

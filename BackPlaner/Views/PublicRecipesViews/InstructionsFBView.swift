@@ -13,18 +13,21 @@ struct InstructionsFBView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.locale) private var locale
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var modelFB:      RecipeFBModel
     @EnvironmentObject var model:        RecipeModel
     
+    /// Shown as a sheet over the recipe's page (PublicRecipePageView): the
+    /// date and mode, the plan's findings, the steps with their start times,
+    /// and "Erinnerungen setzen". Picture and ingredients are on the page.
     var recipeFB: RecipeFB
-    var recipeId: NSManagedObjectID?
     var languageCode = ""
     
     @State private var dateTime = GlobalVariables.dateTimePicker
     // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
     @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
-    /// Owned by TabsFBView and shared with the other tabs, so the factor
-    /// chosen here is the one the shopping list uses.
+    /// Owned by PublicRecipePageView and chosen on the page, so the plan's
+    /// reminders carry the amounts shown there.
     @Binding var         selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
     @Binding var         targetWeight: Int?
@@ -50,14 +53,10 @@ struct InstructionsFBView: View {
     @State private var planErrorMessage           = ""
     @State private var pendingReplaceExisting     = false
     @State private var reminderHintText           = ""
-    // Publishing a so-far private recipe into the shared database.
-
-    // Saving a public recipe onto the device gave no feedback at all, so it
-    // was impossible to tell whether the tap had done anything.
-    @State private var showSavedConfirmation      = false
-    @State private var saveErrorMessage: String?
     /// Asks whether a new plan replaces the recipe's existing one or joins it.
     @State private var showingPlanChoice = false
+    /// Why the bake-history entry of the plan could not be written.
+    @State private var saveErrorMessage: String?
 
     /// Whether the recipe already has planned steps.
     private var hasExistingPlan: Bool {
@@ -122,65 +121,10 @@ struct InstructionsFBView: View {
 
                 VStack (alignment: .leading) {
 
-                    PortraitAdaptiveStack(spacing: 12) {
-                        NavigationLink(
-                            destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
-                        ) {
-                            Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
-                                .resizable()
-                                .scaledToFill()
-                                .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                                .cornerRadius(5)
-                        }
-                        // The image is the link's only content, so without this the
-                        // link would be announced with no name at all.
-                        .accessibilityLabel("Rezeptbild vergrößern")
-
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(recipeFB.name)
-                                .font(Theme.brandFont(18))
-                                .foregroundColor(Theme.title)
-                                .multilineTextAlignment(.leading)
-                                .fixedSize(horizontal: false, vertical: true)
-
-                            IconActionButton(systemImage: "square.and.arrow.down", style: .primary, accessibilityLabel: "Als eigenes Rezept speichern", title: "Als eigenes Rezept speichern", controlSize: .regular) {
-                                do {
-                                    _ = try model.uploadRecipeIntoCoreData(recipeId: recipeId, recipeFB: recipeFB, context: viewContext, recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
-                                    showSavedConfirmation = true
-                                } catch {
-                                    saveErrorMessage = error.localizedDescription
-                                }
-                            }
-                        }
-
-                        Spacer(minLength: 8)
-                    }
-                    
-                    Group {
-                        // MARK: Serving size or target dough weight
-                        ServingScaleControl(selectedServingSize: $selectedServingSize,
-                                            targetWeight: $targetWeight,
-                                            baseWeight: recipeFB.totalWeight)
-
-                        PortraitAdaptiveStack(spacing: 12) {
-                            Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")
-                                .font(Theme.bodyFont(15))
-                            
-                            // MARK: Url-Link
-                            if let url = URL(string: recipeFB.urlLink) {
-                                Link("Link zum Rezept", destination: url)
-                                    .padding(.top, 2)
-                                    .font(Theme.brandFont(15))
-                            }
-                        }
-                    }
-                    
-                    TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
-                                         scale: servingScale)
-
-                    // MARK: Components
-                    ComponentColumnsView(components: ComponentColumn.columns(of: recipeFB.components),
-                                         scale: servingScale)
+                    // The amount the plan is made for, chosen on the recipe's page.
+                    Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")
+                        .font(Theme.bodyFont(15))
+                        .foregroundColor(Theme.subtitle)
 
                     // MARK: Selections
                     InstructionSchedulingControlsView(
@@ -327,7 +271,8 @@ struct InstructionsFBView: View {
                         Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
                     }
                         .alert("Erinnerungen wurden gesetzt", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
+                            // The plan is set; the planned steps show it.
+                            Button("OK", role: .cancel) { dismiss() }
                         } message: {
                             ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
                                                  temperature: reminderOvenTemperature,
@@ -382,11 +327,7 @@ struct InstructionsFBView: View {
             }
             .warmBackground()
             .navigationTitle(recipeFB.name)
-            .alert("Rezept wurde gespeichert", isPresented: $showSavedConfirmation) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text("Das Rezept liegt jetzt unter „Eigene Rezepte“ auf diesem Gerät und wird über Deine iCloud gesichert. Dort kannst Du es bearbeiten, ohne das öffentliche Rezept zu verändern.")
-            }
+            .navigationBarTitleDisplayMode(.inline)
             .alert("Speichern fehlgeschlagen", isPresented: Binding(
                 get: { saveErrorMessage != nil },
                 set: { if !$0 { saveErrorMessage = nil } }
@@ -394,6 +335,14 @@ struct InstructionsFBView: View {
                 Button("OK", role: .cancel) { saveErrorMessage = nil }
             } message: {
                 Text(saveErrorMessage ?? "")
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Schließen") {
+                        dismiss()
+                    }
+                    .accessibilityIdentifier("plan.close")
+                }
             }
             .onAppear {
                 refreshPlanIssues()

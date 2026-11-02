@@ -13,16 +13,21 @@ struct InstructionsView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.locale) private var locale
-    
+    @Environment(\.dismiss) private var dismiss
+
     @EnvironmentObject var model: RecipeModel
-   
+
+    /// Shown as a sheet over the recipe's page (RecipePageView): the date
+    /// and mode, the plan's findings, the steps with their start times, and
+    /// "Erinnerungen setzen". Picture, ingredients and the earlier bakes
+    /// are on the page.
     var recipe: Recipe
     
     @State private var dateTime                   = GlobalVariables.dateTimePicker
     // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
     @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
-    /// Owned by TabsView and shared with the other tabs, so the factor chosen
-    /// here is the one the shopping list uses.
+    /// Owned by RecipePageView and chosen on the page, so the plan's
+    /// reminders carry the amounts shown there.
     @Binding var         selectedServingSize: Int
     /// A target dough weight in grams; overrides the serving-size factor.
     @Binding var         targetWeight: Int?
@@ -116,61 +121,10 @@ struct InstructionsView: View {
 
             VStack (alignment: .leading) {
 
-                PortraitAdaptiveStack(spacing: 12) {
-                    NavigationLink(
-                        destination: ShowBigImageView(image: recipe.image)
-                    ) {
-                        let image = UIImage(data: recipe.image) ?? UIImage()
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
-                            .cornerRadius(5)
-                    }
-                    // The image is the link's only content, so without this the
-                    // link would be announced with no name at all.
-                    .accessibilityLabel("Rezeptbild vergrößern")
-
-                    Text(recipe.name)
-                        .font(Theme.brandFont(18))
-                        .foregroundColor(Theme.title)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                
-                // MARK: Serving size or target dough weight
-                ServingScaleControl(selectedServingSize: $selectedServingSize,
-                                    targetWeight: $targetWeight,
-                                    baseWeight: recipe.totalWeight)
-
-                PortraitAdaptiveStack(spacing: 12) {
-                    Text("Gewicht: \(scaledRecipeWeight) g")
-                            .font(Theme.bodyFont(15))
-
-                    // MARK: Url-Link
-                    Link("Link zum Rezept",
-                         destination: URL(string: (recipe.urlLink ?? "")) ?? URL(string: "https://")!)
-                        .padding(.top, 2)
-                        .font(Theme.brandFont(15))
-                }
-
-                TotalIngredientsView(components: ComponentColumn.columns(of: recipe.componentsArray),
-                                     scale: servingScale)
-
-                // MARK: Components
-                ComponentColumnsView(components: ComponentColumn.columns(of: recipe.componentsArray),
-                                     scale: servingScale)
-
-                // MARK: Last time
-                // How the last bake of this recipe went, right where the
-                // next one is planned. Only a bake that already happened:
-                // setting reminders creates an entry dated at the planned
-                // end, which has nothing to say yet.
-                // A starter is fed, not baked: no "last time" card, and no
-                // list of earlier bakes below.
-                if !StarterRecipe.isStarterFeeding(recipe), let lastBake = recipe.lastCompletedBakeHistory() {
-                    LastBakeCardView(bakeHistory: lastBake, recipeName: recipe.name)
-                }
+                // The amount the plan is made for, chosen on the recipe's page.
+                Text("Gewicht: \(scaledRecipeWeight) g")
+                    .font(Theme.bodyFont(15))
+                    .foregroundColor(Theme.subtitle)
 
                 // MARK: Selections
                 InstructionSchedulingControlsView(
@@ -298,54 +252,6 @@ struct InstructionsView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
                 
-                // MARK: Histories
-
-                // Every bake of this recipe, newest first: the date, the
-                // recorded facts in one line, and the comment. An entry still
-                // ahead is the one just planned and is marked as such.
-                if !StarterRecipe.isStarterFeeding(recipe), !recipe.bakeHistoriesArray.isEmpty {
-                    VStack(alignment: .leading, spacing: 10) {
-
-                        Text("Bisherige Backvorgänge")
-                            .font(Theme.brandFont(16))
-                            .foregroundColor(Theme.title)
-
-                        ForEach(recipe.bakeHistoriesArray) { bakeHistory in
-                            VStack(alignment: .leading, spacing: 3) {
-                                HStack(spacing: 8) {
-                                    Text(dateFormat.calculateDate(dT: bakeHistory.date))
-                                        .font(Theme.brandFont(15))
-                                        .foregroundColor(Theme.cardTitle)
-                                    if bakeHistory.date > Date() {
-                                        Text("geplant")
-                                            .font(Theme.bodyFont(13))
-                                            .foregroundColor(Theme.subtitle)
-                                    }
-                                }
-
-                                BakeHistoryFactsLineView(facts: bakeHistory.facts)
-                                    .font(Theme.bodyFont(14))
-                                    .foregroundColor(Theme.subtitle)
-                                    .fixedSize(horizontal: false, vertical: true)
-
-                                if !BakeHistoryFacts.isPlaceholderComment(bakeHistory.comment) {
-                                    Text(bakeHistory.comment)
-                                        .font(Theme.bodyFont(15))
-                                        .foregroundColor(Theme.cardTitle)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                } else if !bakeHistory.hasNotes && bakeHistory.date <= Date() {
-                                    Text("Noch nichts notiert")
-                                        .font(Theme.bodyFont(14))
-                                        .foregroundColor(Theme.subtitle)
-                                }
-                            }
-                            .accessibilityElement(children: .combine)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .cardStyle()
-                }
-
                 // MARK: Reminder setzen
                 HStack {
                     IconActionButton(systemImage: "bell.badge", style: .primary, accessibilityLabel: "Erinnerungen setzen", title: "Erinnerungen setzen", controlSize: .regular) {
@@ -370,7 +276,9 @@ struct InstructionsView: View {
                         Text("Du kannst den bestehenden Plan ersetzen oder beide behalten – etwa für zwei Backtage.")
                     }
                     .alert("Erinnerungen wurden gesetzt", isPresented: $showingAlert) {
-                        Button("OK", role: .cancel) { }
+                        // The plan is set; the page behind shows it under
+                        // "Letztes Mal" and "Bisherige Backvorgänge".
+                        Button("OK", role: .cancel) { dismiss() }
                     } message: {
                         ReminderSummary.text(count: reminderCount, ovenOn: reminderOvenOnText,
                                              temperature: reminderOvenTemperature,
@@ -434,7 +342,16 @@ struct InstructionsView: View {
             .frame(width: fullView.size.width, alignment: .leading)
         }
         .warmBackground()
-        .navigationTitle("Backanleitung für " + recipe.name)
+        .navigationTitle(recipe.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Schließen") {
+                    dismiss()
+                }
+                .accessibilityIdentifier("plan.close")
+            }
+        }
         .onAppear {
             refreshPlanIssues()
         }

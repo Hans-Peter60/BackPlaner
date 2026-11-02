@@ -143,9 +143,10 @@ struct AllRecipesListView: View {
             || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes
     }
 
-    var body: some View {
+    /// What "+" or the "Mehr" menu opened, pushed onto the tab's stack.
+    @State private var pushedDestination: MenuDestination?
 
-        NavigationStack {
+    var body: some View {
 
             VStack(alignment: .leading, spacing: 0) {
 
@@ -225,8 +226,11 @@ struct AllRecipesListView: View {
                 }
             }
             .warmBackground()
-            .navigationTitle("Rezept-Datenbank")
+            .navigationTitle("Rezepte")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(item: $pushedDestination) { destination in
+                MenuDestinationView(destination: destination)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -240,6 +244,52 @@ struct AllRecipesListView: View {
                         Label("Nach Bewertung filtern",
                               systemImage: rating > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     }
+                }
+
+                // The calculators and the settings: used now and then, so
+                // behind one menu rather than taking a tab each. Stable
+                // identifiers for the UI tests, which would otherwise depend
+                // on the language.
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button {
+                            pushedDestination = .settings
+                        } label: {
+                            Label("Einstellungen", systemImage: "gearshape.fill")
+                        }
+                        .accessibilityIdentifier("menu.settings")
+                        Divider()
+                        Button {
+                            pushedDestination = .doughTemperature
+                        } label: {
+                            Label("Teigtemperatur", systemImage: "thermometer.medium")
+                        }
+                        .accessibilityIdentifier("menu.doughTemperature")
+                        Button {
+                            pushedDestination = .flourSubstitution
+                        } label: {
+                            Label("Mehl ersetzen", systemImage: "arrow.left.arrow.right.circle")
+                        }
+                        .accessibilityIdentifier("menu.flourSubstitution")
+                        Button {
+                            pushedDestination = .starterYield
+                        } label: {
+                            Label("Anstellgut-TA", systemImage: "drop.circle")
+                        }
+                        .accessibilityIdentifier("menu.starterYield")
+                    } label: {
+                        Label("Mehr", systemImage: "ellipsis.circle")
+                    }
+                    .accessibilityIdentifier("menu.more")
+                }
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        pushedDestination = .newRecipe
+                    } label: {
+                        Label("Neues Rezept anlegen", systemImage: "plus")
+                    }
+                    .accessibilityIdentifier("menu.newRecipe")
                 }
             }
             .searchable(text: $filterBy, prompt: "Rezept suchen")
@@ -257,7 +307,6 @@ struct AllRecipesListView: View {
             .translationTask(listTranslationConfig) { session in
                 await translateListEntries(using: session)
             }
-        }
     }
 
     // MARK: - Filter chips
@@ -312,7 +361,7 @@ struct AllRecipesListView: View {
 
     private func localRow(_ r: Recipe) -> some View {
         ZStack {
-            NavigationLink(destination: TabsView(recipe: r)) { EmptyView() }
+            NavigationLink(destination: RecipePageView(recipe: r)) { EmptyView() }
                 .opacity(0)
                 .accessibilityHidden(true)
 
@@ -375,7 +424,7 @@ struct AllRecipesListView: View {
 
     private func cloudRow(_ r: RecipeFB) -> some View {
         ZStack {
-            NavigationLink(destination: TabsFBView(recipeFB: r)) { EmptyView() }
+            NavigationLink(destination: PublicRecipePageView(recipeFB: r)) { EmptyView() }
                 .opacity(0)
                 .accessibilityHidden(true)
 

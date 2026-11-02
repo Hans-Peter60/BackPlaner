@@ -12,7 +12,7 @@
 //    SCREENSHOT_RECIPE  the public recipe to show (see StoreUITestCase)
 //
 //  The app is launched with `-UITestingPlanStart 20:00` (StoreUITestCase,
-//  UITestSupport), so the baking tab opens with this evening as the plan's
+//  UITestSupport), so the plan sheet opens with this evening as the plan's
 //  start.
 //
 //  In a normal test run the tests skip themselves: they work on the
@@ -49,10 +49,9 @@ final class AppPreview: StoreUITestCase {
 
         deleteLocalCopiesOfDemoRecipe()
 
-        backToMenu()
-        openMenu("scheduledSteps")
-        // The timeline opens first; the delete button is on the list tab.
-        tab(0, titled: ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]).tap()
+        openTab(.scheduledSteps)
+        // The timeline opens first; the delete button is on the list.
+        showScheduledSteps(as: .list)
         let deleteSteps = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Geplante Schritte löschen", "Delete scheduled steps", "Supprimer les étapes planifiées"])).firstMatch
         if deleteSteps.waitForExistence(timeout: 5) {
@@ -65,8 +64,7 @@ final class AppPreview: StoreUITestCase {
             settle(1)
         }
 
-        backToMenu()
-        openMenu("shoppingList")
+        openTab(.shoppingLists)
         let deleteList = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Einkaufsliste löschen", "Delete shopping list", "Supprimer la liste de courses"])).firstMatch
         var lists = 0
@@ -89,7 +87,7 @@ final class AppPreview: StoreUITestCase {
     /// the recipe's is taken.
     @MainActor
     private func deleteLocalCopiesOfDemoRecipe() {
-        openMenu("publicRecipes")
+        backToRecipeList()
         // Wait for the list itself, not for the copy: usually there is none.
         _ = app.descendants(matching: .any)
             .matching(NSPredicate(format: "identifier BEGINSWITH 'publicRecipe.row.'"))
@@ -125,8 +123,8 @@ final class AppPreview: StoreUITestCase {
 
     // MARK: - Scene 1: from the recipe to the baking plan
 
-    /// Recipe → baking tab → "finish by" → reminders → the "next step" card
-    /// on the start screen → the timeline → the bake mode. About 30 seconds.
+    /// Recipe → plan sheet → "finish by" → reminders → the "next step" bar
+    /// over the recipe list → the timeline → the bake mode. About 30 seconds.
     @MainActor
     func testPlanScene() throws {
         launch()
@@ -135,9 +133,8 @@ final class AppPreview: StoreUITestCase {
         openDemoRecipe()
         pause(2)
 
-        tab(0, titled: ["de": "Rezept backen", "en": "Bake recipe", "fr": "Cuire la recette"]).tap()
+        openPlan()
         let controls = app.descendants(matching: .any)["plan.controls"]
-        XCTAssertTrue(controls.waitForExistence(timeout: 5), "The baking tab did not open")
         scrollToTop(controls)
         pause(2)
 
@@ -170,14 +167,13 @@ final class AppPreview: StoreUITestCase {
             acknowledgeAlertIfShown(timeout: 1)
         }
 
-        backToMenu()
-        pause(3) // the "next step" card
+        // The confirmation's OK closes the plan sheet as well.
+        backToRecipeList()
+        pause(3) // the "next step" bar
 
-        openMenu("scheduledSteps")
-        pause(2.5)
-        tab(1, titled: ["de": "Timeline", "en": "Timeline", "fr": "Timeline"]).tap()
-        pause(3)
-        tab(0, titled: ["de": "Geplante Schritte", "en": "Scheduled steps", "fr": "Étapes planifiées"]).tap()
+        openTab(.scheduledSteps)
+        pause(3) // the timeline opens first
+        showScheduledSteps(as: .list)
         pause(1)
 
         let bakeMode = app.buttons["scheduled.bakeMode"]
@@ -233,8 +229,8 @@ final class AppPreview: StoreUITestCase {
             pause(1)
         }
 
-        backToMenu()
-        openMenu("doughTemperature")
+        backToRecipeList()
+        openScreen("doughTemperature")
         pause(4)
     }
 
@@ -248,12 +244,12 @@ final class AppPreview: StoreUITestCase {
         launch()
         pause(1)
 
-        openMenu("newRecipe")
+        openScreen("newRecipe")
         pause(3)
-        backToMenu()
+        backToRecipeList()
 
         openDemoRecipe()
-        tab(2, titled: ["de": "Einkaufsliste", "en": "Shopping list", "fr": "Liste de courses"]).tap()
+        openShoppingListSheet()
         pause(2)
         let create = app.buttons.matching(NSPredicate(format: "label IN %@",
             ["Einkaufsliste erstellen", "Create shopping list", "Créer une liste de courses"])).firstMatch
@@ -266,13 +262,12 @@ final class AppPreview: StoreUITestCase {
                 acknowledgeAlertIfShown(timeout: 1)
             }
         }
+        closeSheetIfShown()
 
-        backToMenu()
-        openMenu("shoppingList")
+        openTab(.shoppingLists)
         pause(4)
 
         // The same recipe, read in another language.
-        backToMenu()
         openDemoRecipe()
         pause(1.5)
         chooseLanguage(named: language == "de" ? "English" : "Deutsch")
