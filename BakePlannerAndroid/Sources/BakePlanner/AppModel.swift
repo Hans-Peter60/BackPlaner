@@ -70,6 +70,12 @@ final class AppModel {
     var isLoadingPublicRecipes = false
     /// The pictures of the public recipes opened so far, by recipe id.
     var publicRecipeImages: [String: Data] = [:]
+    /// Small pictures of the public recipes for the list, by recipe id,
+    /// read from Storage as the rows appear (the iPhone's list loads them
+    /// all as well); an empty value marks a recipe without a picture, so
+    /// it is not asked for again.
+    var publicThumbnails: [String: Data] = [:]
+    private var loadingPublicThumbnails: Set<String> = []
 
     /// Which recipes the list shows — the iPhone's settings keys. "Von mir
     /// veröffentlicht" counts as public here: Android has its own anonymous
@@ -213,6 +219,34 @@ final class AppModel {
     /// Forgets a recipe's thumbnail after its picture changed.
     func forgetThumbnail(forRecipe id: String) {
         thumbnails[id] = nil
+    }
+
+    /// The list thumbnail of a public recipe: at once when its picture is
+    /// known (opened before, or loaded for the list earlier), else nil now
+    /// and the picture is fetched, which refreshes the row.
+    func publicThumbnail(of recipe: RecipeFB) -> Data? {
+        let id = recipe.id ?? ""
+        if let cached = publicThumbnails[id] { return cached.isEmpty ? nil : cached }
+        if let full = publicRecipeImages[id] {
+            let small = PhotoShrinker.thumbnail(full)
+            publicThumbnails[id] = small ?? Data()
+            return small
+        }
+        guard !recipe.image.isEmpty else {
+            publicThumbnails[id] = Data()
+            return nil
+        }
+        guard !loadingPublicThumbnails.contains(id) else { return nil }
+        loadingPublicThumbnails.insert(id)
+        Task {
+            let data = await PublicRecipeService.imageData(of: recipe)
+            if let data {
+                publicRecipeImages[id] = data
+            }
+            publicThumbnails[id] = data.flatMap { PhotoShrinker.thumbnail($0) } ?? Data()
+            loadingPublicThumbnails.remove(id)
+        }
+        return nil
     }
 
     /// Gives the recipe a new picture, or none for `nil`. Whether it worked.
@@ -827,7 +861,10 @@ final class AppModel {
         let newImage = content.image != publicRecipeImages[id] ? content.image.flatMap { PhotoShrinker.uploadPhoto($0) } : nil
         do {
             try await PublicRecipeService.saveEdits(of: recipe, content: content, newImage: newImage)
-            if let newImage { publicRecipeImages[id] = newImage }
+            if let newImage {
+                publicRecipeImages[id] = newImage
+                publicThumbnails[id] = nil
+            }
         } catch {
             logger.error("could not save edits of public recipe \(id): \(error)")
             return String(describing: error)

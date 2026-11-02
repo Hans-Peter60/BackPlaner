@@ -534,15 +534,15 @@ struct RecipeListLabel: View {
     }
 }
 
-/// One public recipe in the list: its picture small once it was read for
-/// the detail page, name, tags, and that it is public.
+/// One public recipe in the list: its picture small (loaded as the row
+/// appears), name, tags, and that it is public.
 struct PublicRecipeRow: View {
     let model: AppModel
     let recipe: RecipeFB
 
     var body: some View {
         HStack(spacing: 12) {
-            RowThumbnail(data: model.publicRecipeImages[recipe.id ?? ""].flatMap { PhotoShrinker.thumbnail($0) })
+            RowThumbnail(data: model.publicThumbnail(of: recipe))
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.name)
                     .font(AppFont.headline)
