@@ -187,6 +187,7 @@ struct PlanTimelineView: View {
             }
         }
         .navigationTitle("Geplante nächste Schritte")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarItems(plansEmpty: plans.isEmpty)
         }

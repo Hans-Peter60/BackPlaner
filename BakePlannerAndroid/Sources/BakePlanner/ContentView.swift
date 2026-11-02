@@ -185,6 +185,9 @@ struct RecipeListView: View {
             }
         }
         .navigationTitle("Rezepte")
+        // Inline, not Material's tall large-title bar: the header took a
+        // third of the screen above the list, as on the other tabs.
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // Android shows two items of the bar and drops further ones, so
             // reading and writing backups and the settings share one menu.

@@ -44,6 +44,7 @@ struct ShoppingListsView: View {
             }
         }
         .navigationTitle("Einkaufslisten")
+        .navigationBarTitleDisplayMode(.inline)
         .alert("Einkaufsliste löschen", isPresented: $confirmsDeletion) {
             Button("Löschen", role: .destructive) {
                 if let list = listToDelete {

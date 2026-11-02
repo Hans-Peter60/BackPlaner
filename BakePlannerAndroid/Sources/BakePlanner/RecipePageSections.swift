@@ -73,7 +73,8 @@ struct RecipeLinkRow: View {
             Button {
                 Task { _ = await UIApplication.shared.open(url) }
             } label: {
-                Label("Link zum Rezept", systemImage: "link")
+                // "safari", not "link": SkipUI draws no link symbol (a warning triangle instead).
+                Label("Link zum Rezept", systemImage: "safari")
             }
             .buttonStyle(.plain)
             .foregroundStyle(Palette.accent(colorScheme))

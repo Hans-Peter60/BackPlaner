@@ -113,6 +113,7 @@ struct BakeHistoryView: View {
             }
         }
         .navigationTitle("Backhistorie")
+        .navigationBarTitleDisplayMode(.inline)
         // Gallery and cloud need the photos; read once per switch, and
         // again after an entry was changed.
         .task(id: mode) {
