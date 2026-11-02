@@ -58,6 +58,9 @@ final class AppModel {
 
     /// Every scheduled step of every plan, by date.
     var scheduledSteps: [StoredScheduledStep] = []
+    /// The model the app shows, for work that arrives from outside a view
+    /// (an action on a reminder notification); nil while no screen is up.
+    static weak var current: AppModel?
 
     /// The visible public recipes, without components and steps until one
     /// is opened (PublicRecipeService).

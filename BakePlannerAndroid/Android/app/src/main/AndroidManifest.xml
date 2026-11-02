@@ -46,6 +46,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <!-- The buttons on a reminder notification ("Erledigt", "Verschieben
+             um …") report here; see ReminderActionReceiver in Reminders.kt. -->
+        <receiver
+            android:name=".ReminderActionReceiver"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

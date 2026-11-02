@@ -43,6 +43,19 @@ enum Reminders {
             content.title = PlanReminder.title
             content.body = PlanReminder.body(instruction: step.instruction,
                                              details: recipe.flatMap { PlanReminder.details(of: step, in: $0) })
+            // The buttons on the notification and the question that follows
+            // a postponement, in the app's language: Kotlin posts the
+            // notification (ReminderWorker in Reminders.kt) and has no
+            // catalog of its own.
+            content.userInfo = [
+                "action.done": String(localized: "Erledigt", bundle: .module),
+                "action.postpone": String(localized: "Verschieben um …", bundle: .module),
+                "action.minutes": String(localized: "Minuten", bundle: .module),
+                "action.confirmTitle": String(localized: "Erinnerung verschieben", bundle: .module),
+                "action.confirmBody": String(localized: "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?", bundle: .module),
+                "action.only": String(localized: "Nur diesen Schritt", bundle: .module),
+                "action.following": String(localized: "Alle nachfolgenden", bundle: .module),
+            ]
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: step.date.timeIntervalSince(now),
                                                             repeats: false)
             do {

@@ -247,6 +247,7 @@ struct RecipeListView: View {
         // while the app runs, and when the share started the app (the
         // address then waits until this view is here).
         .task {
+            AppModel.current = model
             SharedImport.shared.setHandler { url in
                 sharedAddress = url.absoluteString
                 importsFromWeb = true

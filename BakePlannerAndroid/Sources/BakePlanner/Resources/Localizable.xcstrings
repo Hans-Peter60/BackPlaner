@@ -2971,6 +2971,23 @@
         }
       }
     },
+    "Erinnerung verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule reminder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler le rappel"
+          }
+        }
+      }
+    },
     "Erinnerungen wurden gesetzt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5305,6 +5322,23 @@
         }
       }
     },
+    "Nur diesen Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only this step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement cette étape"
+          }
+        }
+      }
+    },
     "Nur dieser Schritt" : {
       "comment" : "Title of the scope option for scheduling a step shift.",
       "extractionState" : "manual",
@@ -6507,6 +6541,23 @@
         }
       }
     },
+    "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you also want to reschedule all following steps of this recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voulez-vous également décaler toutes les étapes suivantes de cette recette ?"
+          }
+        }
+      }
+    },
     "Sonstiges" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7353,6 +7404,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décalage impossible"
+          }
+        }
+      }
+    },
+    "Verschieben um …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule by…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler de…"
           }
         }
       }

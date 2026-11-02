@@ -39,4 +39,12 @@ public enum PlanReminder {
     public static func identifier(of step: ScheduledStepData) -> String? {
         step.id.map { "bakeplanner-step-" + $0.uuidString }
     }
+
+    /// The step behind a reminder's identifier, for an action taken on the
+    /// notification; nil for any other identifier.
+    public static func stepID(of identifier: String) -> UUID? {
+        let prefix = "bakeplanner-step-"
+        guard identifier.hasPrefix(prefix) else { return nil }
+        return UUID(uuidString: String(identifier.dropFirst(prefix.count)))
+    }
 }

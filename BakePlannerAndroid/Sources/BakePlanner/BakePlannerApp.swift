@@ -51,6 +51,17 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.bakeplanner", category: "Bak
         }
     }
 
+    /// An action taken on a reminder notification — "done", or "postpone"
+    /// by `minutes`, alone or with the plan's later steps. Called by
+    /// ReminderActionReceiver (Reminders.kt), also when the app was not
+    /// running: the Application has set Swift up by then.
+    /* SKIP @bridge */public func onReminderAction(_ identifier: String, action: String, minutes: Int, includeFollowing: Bool) {
+        logger.debug("onReminderAction \(action)")
+        Task { @MainActor in
+            await ReminderActions.perform(identifier: identifier, action: action, minutes: minutes, includeFollowing: includeFollowing)
+        }
+    }
+
     /* SKIP @bridge */public func onResume() {
         logger.debug("onResume")
     }
