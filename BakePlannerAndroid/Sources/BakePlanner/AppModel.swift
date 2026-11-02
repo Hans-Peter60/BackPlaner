@@ -388,9 +388,10 @@ final class AppModel {
             if replacing {
                 Reminders.cancel(scheduledSteps.map(\.data).filter { $0.recipeName == plan.recipeName })
                 steps.removeSteps(recipeName: plan.recipeName)
-                // The replaced plan's history entry goes with it; the new
-                // plan writes its own below.
+                // The replaced plan's history entry or diary feeding goes
+                // with it; the new plan writes its own below.
                 try PlannedBakeEntries.remove(ofRecipe: recipeID, from: openedHistoryStore())
+                try PlannedFeedingEntries.remove(ofRecipe: recipeID, from: openedFeedingStore())
             }
             steps.add(newSteps)
             if StarterRecipe.isStarterFeeding(recipe.content) {
@@ -508,6 +509,7 @@ final class AppModel {
                 guard let recipe = recipes.first(where: { $0.content.name == name }) else { continue }
                 do {
                     try PlannedBakeEntries.remove(ofRecipe: recipe.id, from: openedHistoryStore())
+                    try PlannedFeedingEntries.remove(ofRecipe: recipe.id, from: openedFeedingStore())
                 } catch {
                     logger.error("could not remove the planned history entries of \(name): \(error)")
                 }

@@ -57,3 +57,39 @@ struct PlannedBakeEntriesTests {
         #expect(try store.entries(ofRecipe: otherBread.id, includingImages: false).map(\.id) == [foreign.id])
     }
 }
+
+@Suite("The feeding a starter's plan writes goes with the plan, unless a result was entered")
+struct PlannedFeedingEntriesTests {
+
+    private let now = Date(timeIntervalSince1970: 1_800_000_000)
+    private var tomorrow: Date { now.addingTimeInterval(86_400) }
+    private var yesterday: Date { now.addingTimeInterval(-86_400) }
+
+    private func feeding(date: Date, facts: StarterFeedingFacts = StarterFeedingFacts()) -> StoredStarterFeeding {
+        StoredStarterFeeding(id: UUID().uuidString, recipeID: "r", date: date, facts: facts)
+    }
+
+    @Test("A future feeding without a result is untouched; a past one or one with a result is not")
+    func untouched() {
+        #expect(PlannedFeedingEntries.isUntouched(feeding(date: tomorrow), now: now))
+        #expect(!PlannedFeedingEntries.isUntouched(feeding(date: yesterday), now: now))
+        #expect(!PlannedFeedingEntries.isUntouched(feeding(date: tomorrow, facts: StarterFeedingFacts(peakMinutes: 300)), now: now))
+        #expect(!PlannedFeedingEntries.isUntouched(feeding(date: tomorrow, facts: StarterFeedingFacts(floatTestPassed: true)), now: now))
+        #expect(!PlannedFeedingEntries.isUntouched(feeding(date: tomorrow, facts: StarterFeedingFacts(note: "riecht gut")), now: now))
+    }
+
+    @Test("Removing from a store takes only the untouched feedings of that recipe")
+    func removeFromStore() throws {
+        let recipes = InMemoryRecipeStore()
+        let store = InMemoryStarterFeedingLogStore(recipes: recipes)
+        let starter = try recipes.add(RecipeStoreContract.bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        _ = try store.add(toRecipe: starter.id, date: tomorrow, facts: StarterFeedingFacts())
+        let kept = try store.add(toRecipe: starter.id, date: tomorrow, facts: StarterFeedingFacts(note: "schon notiert"))
+        let past = try store.add(toRecipe: starter.id, date: yesterday, facts: StarterFeedingFacts())
+
+        let removed = try PlannedFeedingEntries.remove(ofRecipe: starter.id, from: store, now: now)
+
+        #expect(removed == 1)
+        #expect(Set(try store.feedings(ofRecipe: starter.id).map(\.id)) == [kept.id, past.id])
+    }
+}

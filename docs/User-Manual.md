@@ -677,7 +677,7 @@ The baking view shows these details as the **Last time** card when the same reci
 
 **My recipes → recipe → "+ History" tab.** Choose the baking date (up to 10 years back), write a comment, fill in measurements and result, add photos from the library, **Save**.
 
-An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it. If you replace or delete the plan before baking, this entry disappears again — unless you have already added a comment, a photo or a measurement.
+An entry is also created automatically when you set reminders in the baking instructions — initially with the placeholder "no comment recorded" and without measurements. After the bake the "Last time" card in the baking view reminds you to complete it. If you replace or delete the plan before baking, this entry disappears again — unless you have already added a comment, a photo or a measurement. The same applies to the feeding that planning a starter writes into its diary.
 
 ### Top list and photo cloud
 

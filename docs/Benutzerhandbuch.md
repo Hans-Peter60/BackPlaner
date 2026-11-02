@@ -674,7 +674,7 @@ Diese Angaben zeigt die Backansicht beim nächsten Planen desselben Rezepts als 
 
 **Eigene Rezepte → Rezept → Tab „+ Historie“.** Backdatum wählen (bis zu 10 Jahre zurück), Kommentar schreiben, Messwerte und Ergebnis eintragen, Fotos aus der Mediathek hinzufügen, **Speichern**.
 
-Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinnerungen setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“ und ohne Messwerte. Nach dem Backen erinnert die Karte „Letztes Mal“ in der Backansicht daran, ihn zu ergänzen. Ersetzt oder löschst Du den Plan vor dem Backen, verschwindet dieser Eintrag wieder – es sei denn, Du hast schon einen Kommentar, ein Foto oder einen Messwert eingetragen.
+Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinnerungen setzt – zunächst mit dem Platzhalter „kein Kommentar erfasst“ und ohne Messwerte. Nach dem Backen erinnert die Karte „Letztes Mal“ in der Backansicht daran, ihn zu ergänzen. Ersetzt oder löschst Du den Plan vor dem Backen, verschwindet dieser Eintrag wieder – es sei denn, Du hast schon einen Kommentar, ein Foto oder einen Messwert eingetragen. Dasselbe gilt für die Fütterung, die das Planen eines Anstellguts in sein Tagebuch schreibt.
 
 ### Hit-Liste und Fotowolke
 
