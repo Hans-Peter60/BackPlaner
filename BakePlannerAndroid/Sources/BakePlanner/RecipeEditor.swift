@@ -26,11 +26,16 @@ struct RecipeEditor: View {
     @State var pickedImageType: String?
     @Environment(\.dismiss) var dismiss
 
-    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: Text? = nil,
+    /// True when the template is a published recipe being changed, so the
+    /// title says "Bearbeiten" although there is no stored original.
+    let editsPublished: Bool
+
+    init(original: StoredRecipe?, template: RecipeExportData? = nil, notice: Text? = nil, editsPublished: Bool = false,
          onSave: @escaping (StoredRecipe?, RecipeExportData) -> Void) {
         self.original = original
         self.template = original == nil ? template : nil
         self.notice = notice
+        self.editsPublished = editsPublished
         self.onSave = onSave
         _draft = State(initialValue: RecipeDraft(original?.content ?? template))
     }
@@ -169,7 +174,7 @@ struct RecipeEditor: View {
                 Text("Verarbeitungsschritte")
             }
         }
-        .navigationTitle(original == nil ? LocalizedStringKey("Neues Rezept") : LocalizedStringKey("Bearbeiten"))
+        .navigationTitle(original == nil && !editsPublished ? LocalizedStringKey("Neues Rezept") : LocalizedStringKey("Bearbeiten"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Abbrechen") {

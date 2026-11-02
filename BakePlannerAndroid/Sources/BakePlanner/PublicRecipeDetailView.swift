@@ -111,7 +111,7 @@ struct PublicRecipeDetailView: View {
                 NavigationStack {
                     // The same editor as for an own recipe, on the public
                     // recipe's content; saving goes to the database.
-                    RecipeEditor(original: nil, template: content) { _, edited in
+                    RecipeEditor(original: nil, template: content, editsPublished: true) { _, edited in
                         Task { await saveEdits(edited) }
                     }
                 }
