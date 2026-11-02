@@ -35,7 +35,7 @@ enum RecipePDFSharing {
             // symbols as the headings without it, which Xcode refuses; the
             // colon is added here.
             "componentsHeading": String(localized: "Komponenten", bundle: .module) + ":",
-            "totalsHeading": String(localized: "Gesamtzutaten:", bundle: .module),
+            "totalsHeading": String(localized: "Gesamtzutaten", bundle: .module) + ":",
             "stepsHeading": String(localized: "Verarbeitungsschritte", bundle: .module) + ":",
             "footer": String(localized: "Erstellt mit BakePlanner", bundle: .module),
             "components": data.components.map { ["name": $0.name, "lines": $0.lines] as [String: Any] },

@@ -393,21 +393,14 @@ struct ScheduledTasksView: View {
         let names = planFilter.map { [$0.recipeName] } ?? plannedRecipeNames
         return names.compactMap { name in
             guard let recipe = recipes.first(where: { $0.name == name }) else { return nil }
-            let instructions = recipe.instructionsArray
-            // The oven, turn-down and finish steps are generated at planning
-            // time and live only in the plan, never in the recipe.
-            let planned = visibleNextSteps.filter {
-                $0.recipeName == name
-                    && $0.step < 99
-                    && !BakePlanValidator.isPreheatInstruction($0.instruction)
-                    && !BakePlan.isTurnDownInstruction($0.instruction)
-            }
-            let unchanged = planned.allSatisfy { step in
-                instructions.contains {
-                    $0.step == step.step && $0.instruction == step.instruction && $0.duration == step.duration
-                }
-            }
-            return unchanged ? nil : recipe
+            // The rule lives in the package (PlanChangeCheck), shared with
+            // Android: generated oven and finish steps do not count, nor
+            // does a step marked done.
+            let planned = visibleNextSteps
+                .filter { $0.recipeName == name }
+                .map { PlanChangeCheck.PlannedStep(step: $0.step, instruction: $0.instruction, duration: $0.duration) }
+            let instructions = RecipeExportData(recipe: recipe, includingImage: false).instructions
+            return PlanChangeCheck.recipeChanged(instructions: instructions, plannedSteps: planned) ? recipe : nil
         }
     }
 

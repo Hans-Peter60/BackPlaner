@@ -34,6 +34,10 @@ struct PlanTimelineView: View {
     @State var detailStep: StoredScheduledStep?
     @State var showsDetail = false
     @State var confirmsDeleteAll = false
+    /// The recipe to plan again after it was changed ("Neu planen"). Kept
+    /// apart from the sheet's visibility, as the dialogs are.
+    @State var replanRecipe: StoredRecipe?
+    @State var replans = false
     /// Refreshed every minute, so the "Als Nächstes" card moves on with time.
     @State var now = Date()
     @Environment(\.colorScheme) var colorScheme
@@ -79,6 +83,51 @@ struct PlanTimelineView: View {
         model.scheduledSteps.first { $0.key == key }
     }
 
+    /// The own recipes whose plan no longer matches them — a step edited or
+    /// removed after planning (PlanChangeCheck, the iPhone's rule).
+    private var changedRecipes: [StoredRecipe] {
+        let visible = model.scheduledSteps.filter { $0.data.isVisible() }
+        var seen = Set<String>()
+        return visible.compactMap { step -> StoredRecipe? in
+            let name = step.data.recipeName
+            guard seen.insert(name).inserted,
+                  let recipe = model.recipes.first(where: { $0.content.name == name }) else { return nil }
+            let planned = visible.filter { $0.data.recipeName == name }
+                .map { PlanChangeCheck.PlannedStep(step: $0.data.step, instruction: $0.data.instruction,
+                                                   duration: $0.data.duration) }
+            return PlanChangeCheck.recipeChanged(instructions: recipe.content.instructions, plannedSteps: planned)
+                ? recipe : nil
+        }
+    }
+
+    /// "… wurde seit der Planung geändert" with "Neu planen", as on the
+    /// iPhone: the plan is a snapshot, this makes that visible before the
+    /// bake instead of during it.
+    private func changedBanner(_ recipe: StoredRecipe) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.title3)
+                .foregroundStyle(Color.orange)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("„\(recipe.content.name)“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand.")
+                    .font(.footnote)
+                Button {
+                    replanRecipe = model.recipe(id: recipe.id)
+                    replans = replanRecipe != nil
+                } label: {
+                    Label("Neu planen", systemImage: "calendar")
+                        .font(.footnote.weight(.semibold))
+                }
+                .buttonStyle(.borderless)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(12)
+        .background(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.6), in: RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal, 12)
+        .padding(.top, 6)
+    }
+
     /// The column header's picture: the recipe's list thumbnail, when the
     /// recipe is on the device.
     private func recipeImage(named name: String) -> Data? {
@@ -111,6 +160,9 @@ struct PlanTimelineView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal, 12)
                     .padding(.top, 4)
+                    ForEach(changedRecipes, id: \.id) { recipe in
+                        changedBanner(recipe)
+                    }
                     if showsChart {
                         let lanes = self.lanes
                         ChartControls(zoom: $zoom)
@@ -152,6 +204,13 @@ struct PlanTimelineView: View {
                     }, onDone: {
                         model.markDone(step)
                     })
+                }
+            }
+        }
+        .appSheet(isPresented: $replans) {
+            if let replanRecipe {
+                NavigationStack {
+                    PlanView(model: model, recipe: replanRecipe, scale: 1)
                 }
             }
         }
@@ -238,40 +297,7 @@ struct PlanTimelineView: View {
                     ForEach(plans) { plan in
                         Section {
                             ForEach(plan.steps, id: \.key) { step in
-                                HStack(alignment: .top, spacing: 8) {
-                                    // A tap opens the step's details, as on the
-                                    // iPhone; moving it is offered there.
-                                    Button {
-                                        detailStep = step
-                                        showsDetail = true
-                                    } label: {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(verbatim: PlanText.dateTime(step.data.date))
-                                                .font(.caption)
-                                                .foregroundStyle(step.data.date < now ? Color.red : Color.secondary)
-                                            Text(verbatim: step.data.instruction)
-                                                .foregroundStyle(Color.primary)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                    .buttonStyle(.borderless)
-                                    // The ingredients of the component this step mixes,
-                                    // as the iPhone's "i" on the card.
-                                    if component(of: step) != nil {
-                                        Button {
-                                            ingredientStep = step
-                                            showsIngredients = true
-                                        } label: {
-                                            Image(systemName: "info.circle")
-                                        }
-                                        .buttonStyle(.borderless)
-                                        .accessibilityLabel(Text("Zutaten"))
-                                    }
-                                    Button("Erledigt") {
-                                        model.markDone(step)
-                                    }
-                                    .buttonStyle(.bordered)
-                                }
+                                stepRow(step)
                             }
                             Button {
                                 bakeModePlanKey = plan.id
@@ -289,6 +315,84 @@ struct PlanTimelineView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
+    }
+
+    /// One step as the iPhone's card: the recipe's picture, its name with
+    /// the three round actions (done, ingredients, shift), the time in a
+    /// capsule with date and duration, and the instruction. A tap on the
+    /// text opens the step's details.
+    private func stepRow(_ step: StoredScheduledStep) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            RowThumbnail(data: recipeThumbnail(named: step.data.recipeName), edge: 52)
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .top, spacing: 8) {
+                    Text(verbatim: step.data.recipeName)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    actionButton("checkmark.circle", label: "Schritt als erledigt markieren") {
+                        model.markDone(step)
+                    }
+                    if component(of: step) != nil {
+                        actionButton("info.circle", label: "Zutaten der Komponente anzeigen") {
+                            ingredientStep = step
+                            showsIngredients = true
+                        }
+                    }
+                    actionButton("calendar", label: "Schritt zeitlich verschieben") {
+                        stepToShift = step
+                        shiftsStep = true
+                    }
+                }
+                HStack(spacing: 6) {
+                    Text(verbatim: PlanText.time(step.data.date))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(step.data.date < now ? Color.red : Palette.accent(colorScheme))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(Palette.accent(colorScheme).opacity(0.12), in: Capsule())
+                    Text(verbatim: PlanText.day(step.data.date))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    if step.data.duration > 0 {
+                        Text(verbatim: Rational.displayHoursMinutes(step.data.duration))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Button {
+                    detailStep = step
+                    showsDetail = true
+                } label: {
+                    Text(verbatim: step.data.instruction)
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(Color.primary)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    /// A round action on the card, as the iPhone has them.
+    private func actionButton(_ systemImage: String, label: LocalizedStringKey, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Palette.accent(colorScheme))
+                .frame(width: 32, height: 32)
+                .background(Palette.accent(colorScheme).opacity(0.12), in: Circle())
+        }
+        .buttonStyle(.borderless)
+        .accessibilityLabel(Text(label))
+    }
+
+    /// The recipe's list thumbnail for a card, when the recipe is on the device.
+    private func recipeThumbnail(named name: String) -> Data? {
+        guard let recipe = model.recipes.first(where: { $0.content.name == name }) else { return nil }
+        return model.thumbnail(forRecipe: recipe.id)
     }
 
     @ToolbarContentBuilder private func toolbarItems(plansEmpty: Bool) -> some ToolbarContent {

@@ -3505,20 +3505,19 @@
         }
       }
     },
-    "Gesamtzutaten:" : {
-      "comment" : "A label displayed above the list of total ingredients.",
+    "Gesamtzutaten" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Total ingredients:"
+            "value" : "Total ingredients"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Total des ingrédients :"
+            "value" : "Total des ingrédients"
           }
         }
       }
@@ -5062,6 +5061,23 @@
         }
       }
     },
+    "Neu planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan again"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replanifier"
+          }
+        }
+      }
+    },
     "Neue Einheit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6296,6 +6312,23 @@
         }
       }
     },
+    "Schritt als erledigt markieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark step as done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer l’étape comme terminée"
+          }
+        }
+      }
+    },
     "Schritt hinzufügen" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -6327,6 +6360,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décaler l’étape"
+          }
+        }
+      }
+    },
+    "Schritt zeitlich verschieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reschedule step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler l’étape dans le temps"
           }
         }
       }
@@ -8096,6 +8146,23 @@
         }
       }
     },
+    "Zutaten der Komponente anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the component's ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les ingrédients du composant"
+          }
+        }
+      }
+    },
     "Zutaten für „%@“" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8143,6 +8210,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finalité et base juridique"
+          }
+        }
+      }
+    },
+    "„%@“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” has changed since it was planned. The plan still shows the old state."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » a été modifiée depuis la planification. Le plan montre encore l’ancien état."
           }
         }
       }

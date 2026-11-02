@@ -161,7 +161,7 @@ struct RecipeLineSections: View {
                 }
             }
 
-            section("Gesamtzutaten:") {
+            section("Gesamtzutaten") {
                 ForEach(Array(page.totalLines.enumerated()), id: \.offset) { _, line in
                     Text(verbatim: line)
                 }
