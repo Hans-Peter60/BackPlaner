@@ -265,6 +265,16 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
    - **Zu bedenken:** Cloud-KI kostet je Aufruf (Vertex AI) und zählt gegen die Monatsgrenze; App Check gilt für die Functions, im Play Store braucht es Play Integrity.
 
 
+## Größe der Android-App (Stand 02.11.2026)
+
+Gemessen an der Release-APK aus `gradle assembleRelease` (alle Architekturen, 555 MB). Zum Vergleich: die iOS-App im Archiv vom 29.10.2026 hat 20 MB.
+
+- **Warum 555 MB:** vier Architekturen (arm64-v8a 173 MB, x86_64 169 MB, armeabi-v7a 156 MB, x86 11 MB) mal die nativen Bibliotheken, die Android **unkomprimiert** in der APK lässt, weil es sie direkt einblendet (`useLegacyPackaging = false`). Dazu 19 MB Dex und unter 1 MB Ressourcen. Die Bibliotheken sind bereits gestrippt (`llvm-strip` ändert nichts, `keepDebugSymbols` spielt keine Rolle) und Release-Builds (`.build/out/Products/Release-android-aarch64`).
+- **Was ein Gerät bekommt:** Über Google Play (App Bundle) nur seine Architektur: arm64 ≈ 190 MB installiert, ≈ 55–60 MB Download (die Bibliotheken komprimieren 3:1). Für lokale APKs `skip android build --arch aarch64` bzw. `skip export --arch aarch64`.
+- **Woraus arm64 besteht (173 MB):** Swift-Laufzeit und Foundation aus dem Swift-SDK für Android ≈ 105 MB (`lib_FoundationICU` 44 — die ICU-Daten für Datum, Zahlen, Sprachen —, `libFoundationNetworking` 16 für URLSession, `libswiftCore` 11, `libFoundationEssentials` 10, `libFoundation` 9, `libc++_shared` 9, Rest 6); Skip-Frameworks ≈ 43 MB (`libSkipSQLPlus` + `libsqlext` 24, `libSkipFuseUI` 10, `libSkipUI` 5, Brücken 4); eigener Code ≈ 18 MB (`libBakePlanner` 17, Paket-Module klein); skip-firebase ≈ 4 MB.
+- **Was nicht geht:** `SkipSQL` statt `SkipSQLPlus` (24 MB): im nativen Modus hat Skip kein System-SQLite, der Start endet mit `Fatal error: no platform SQLiteCLibrary available; use SkipSQLPlus instead` (am 02.11.2026 ausprobiert und zurückgenommen). ICU und Foundation lassen sich im nativen Modus nicht weglassen; nur der übersetzte Modus (Kotlin statt nativem Swift) käme ohne Swift-Laufzeit aus, das wäre eine andere App.
+- **Einordnung:** 55–60 MB Download sind für eine App mit nativer Laufzeit üblich; der Unterschied zur iOS-App ist der Preis des nativen Skip-Modus. Vor der Veröffentlichung: `skip export --release` erzeugt das AAB; in der Play Console nach dem Hochladen die „Downloadgröße“ je Gerät nachsehen.
+
 ## Lücken gegenüber dem iPhone
 
 Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Quellen am 01.11.2026. Reihenfolge-Vorschlag: zuerst die kleinen Lücken in Rezeptliste und Rezeptansicht, dann die Rechner, danach die großen Themen (Timeline, PDF). Was oben unter „Offen“ schon einen eigenen Schritt hat, ist hier nur kurz genannt. Erledigtes bitte hier streichen und in der Bestandsaufnahme eintragen.
