@@ -134,11 +134,11 @@ Durch Kommas getrennt, ohne Leerzeichen danach, höchstens 100 Zeichen. Name und
 
 ## Neuerungen in dieser Version
 
-Die ausführlichen Texte für 2.1 stehen in [Neuerungen-2.1.md](Neuerungen-2.1.md) (je Sprache unter 4000 Zeichen); die von 2.0 in [Neuerungen-2.0.md](Neuerungen-2.0.md). Reicht ein Satz:
+Die ausführlichen Texte für 2.2 stehen in [Neuerungen-2.2.md](Neuerungen-2.2.md) (je Sprache unter 4000 Zeichen); die von 2.1 in [Neuerungen-2.1.md](Neuerungen-2.1.md), die von 2.0 in [Neuerungen-2.0.md](Neuerungen-2.0.md). Reicht ein Satz:
 
-- DE: `Version 2.1 zeigt den Backtag als Ablaufplan, fasst die Backhistorie mit Hit-Liste und Fotowolke zusammen, erkennt Anstellgut an seinen Zutaten und füttert immer zur selben Uhrzeit. Dazu Korrekturen beim Verschieben von Schritten und beim Zurückdrehen des Ofens.`
-- EN: `Version 2.1 shows your baking day as a project plan, sums the baking history up in a top list and a photo cloud, tells a starter by its ingredients and feeds it at the same time every day. Plus fixes for rescheduling steps and turning the oven down.`
-- FR: `La version 2.1 présente la journée de boulange en planning, résume l’historique en palmarès et nuage de photos, reconnaît le levain chef à ses ingrédients et le nourrit chaque jour à la même heure. Avec des corrections pour le décalage des étapes et la baisse du four.`
+- DE: `Version 2.2 öffnet mit einer Tab-Leiste, zeigt ein Rezept auf einer Seite und die Backanleitung als Blatt darüber. Eigene Rezepte lassen sich ausgewählt als eine Datei weitergeben, Anstellgut wird gefüttert statt gebacken, und ersetzte Pläne hinterlassen keine „geplant“-Einträge mehr.`
+- EN: `Version 2.2 opens on a tab bar, shows a recipe on one page and the baking instructions as a sheet over it. A chosen set of your recipes leaves as one file, a starter is fed instead of baked, and replaced plans no longer leave “planned” entries behind.`
+- FR: `La version 2.2 s’ouvre sur une barre d’onglets, affiche une recette sur une page et les instructions de cuisson en feuille au-dessus. Vos recettes choisies partent en un seul fichier, le levain chef se nourrit au lieu de se cuire, et les plans remplacés ne laissent plus d’entrées « planifié ».`
 
 ## Hinweise für die Prüfung
 
@@ -148,9 +148,9 @@ Im Feld **Hinweise** der Versionsseite (die Prüfer lesen Englisch). Verkürzt d
 
 No account is needed; everything can be tested without signing in. Sign in with Apple is optional and only ties published recipes to the user.
 
-To see the core feature: Main menu → “Recipe database” → open “Kartoffelbrot mit Saaten” (or any public recipe) → tab “Bake recipe” → choose “Done by” and a date two days ahead → the start time of every step is calculated backward → “Set reminders” (allow notifications). The main menu then shows the next step; “Scheduled steps” shows the list, the timeline and “Bake mode”.
+To see the core feature: tab “Recipes” → open “Kartoffelbrot mit Saaten” (or any public recipe; the filter “Public” shows them) → button “Plan” → in the sheet choose “Done by” and a date two days ahead → the start time of every step is calculated backward → “Set reminders” (allow notifications). The “Up next” bar above the recipe list then shows the next step; the tab “Timeline” shows the timeline, the list and “Bake mode”.
 
-The three calculators (dough temperature, replace flour, starter TA) are in the main menu. Recipe import from photos uses an on-device model by default; the cloud option is explained in Settings → Privacy & AI.
+The three calculators (dough temperature, replace flour, starter TA) are in the “More” menu of the recipe list, as are the settings. Recipe import from photos uses an on-device model by default; the cloud option is explained in Settings → Privacy & AI.
 
 ---
 
