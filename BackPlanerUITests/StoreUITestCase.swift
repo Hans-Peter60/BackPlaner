@@ -142,7 +142,10 @@ class StoreUITestCase: XCTestCase {
         let title = tab.titles[language] ?? tab.titles["de"] ?? ""
         let inBar = app.tabBars.buttons[title]
         if inBar.waitForExistence(timeout: 3) { return inBar }
-        return app.buttons[title]
+        // On the iPad the tab bar is not exposed as one, and the back button
+        // of a pushed recipe carries the same label as the tab ("Rezepte");
+        // take the first button with that label that is not the back button.
+        return app.buttons.matching(NSPredicate(format: "label == %@ AND identifier != 'BackButton'", title)).firstMatch
     }
 
     /// Switches to a root tab.
@@ -155,29 +158,81 @@ class StoreUITestCase: XCTestCase {
         }
         button.tap()
         settle(0.5)
+        // On a narrow screen (the folded iPhone Duo in English) the tab
+        // items' frames overlap and the tap can land on the neighbour; tap
+        // the left part of the item until it is the selected one.
+        var attempts = 0
+        while !button.isSelected, attempts < 3 {
+            button.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5)).tap()
+            settle(0.5)
+            attempts += 1
+        }
     }
 
     /// Opens a screen reached from the recipe list: "newRecipe" behind "+",
     /// the calculators and "settings" behind "Mehr". The recipe list has to
     /// be on screen (see `backToRecipeList`).
     func openScreen(_ destination: String) {
+        // When the title bar is short of room (the iPad's top tab bar with
+        // French titles), the toolbar folds "Mehr" and "+" into an overflow
+        // menu; its items carry the labels, not the identifiers.
+        let overflow = app.buttons["OverflowBarButtonItem"]
+        let more = app.buttons["menu.more"]
         if destination != "newRecipe" {
-            let more = app.buttons["menu.more"]
-            if !more.waitForExistence(timeout: 10) {
+            if more.waitForExistence(timeout: 10) {
+                more.tap()
+            } else if overflow.waitForExistence(timeout: 3) {
+                // The menu's entries are not buttons on every system, so any
+                // element with the label counts, except the overflow button.
+                let folded = app.buttons.matching(
+                    NSPredicate(format: "(identifier == 'menu.more' OR label IN %@) AND identifier != 'OverflowBarButtonItem'",
+                                ["Mehr", "More", "Plus"])).firstMatch
+                var tries = 0
+                repeat {
+                    settle(1)
+                    overflow.tap()
+                    tries += 1
+                } while !folded.waitForExistence(timeout: 4) && tries < 3
+                guard folded.exists else {
+                    attachHierarchy()
+                    XCTFail("The overflow menu shows no Mehr entry")
+                    return
+                }
+                folded.tap()
+                settle(0.5)
+            } else {
                 attachHierarchy()
                 XCTFail("The recipe list's Mehr menu is missing")
                 return
             }
-            more.tap()
+        } else if !app.buttons["menu.newRecipe"].waitForExistence(timeout: 10), overflow.exists {
+            overflow.tap()
         }
-        let entry = app.buttons["menu.\(destination)"]
-        if !entry.waitForExistence(timeout: 10) {
-            attachHierarchy()
-            XCTFail("Menu entry \(destination) is missing")
+        let byIdentifier = app.buttons["menu.\(destination)"]
+        if byIdentifier.waitForExistence(timeout: 10) {
+            byIdentifier.tap()
             return
         }
-        entry.tap()
+        let labels = Self.menuLabels[destination] ?? []
+        let byLabel = app.descendants(matching: .any).matching(NSPredicate(format: "label IN %@", labels)).firstMatch
+        if byLabel.waitForExistence(timeout: 5) {
+            byLabel.tap()
+            return
+        }
+        attachHierarchy()
+        XCTFail("Menu entry \(destination) is missing")
     }
+
+    /// The titles of the entries behind "Mehr" and of "+", for the case
+    /// that the toolbar folded them into an overflow menu.
+    static let menuLabels: [String: [String]] = [
+        "settings": ["Einstellungen", "Settings", "Réglages"],
+        "exportRecipes": ["Rezepte exportieren", "Export recipes", "Exporter des recettes"],
+        "doughTemperature": ["Teigtemperatur", "Dough temperature", "Température de la pâte"],
+        "flourSubstitution": ["Mehl ersetzen", "Replace flour", "Remplacer la farine"],
+        "starterYield": ["Anstellgut-TA", "Starter TA", "TA du levain chef"],
+        "newRecipe": ["Neues Rezept anlegen", "Create new recipe", "Créer une nouvelle recette"],
+    ]
 
     /// Leaves the screen's structure behind in the test result, so the
     /// cause of a failure can be read (the screenshot script exports it as
