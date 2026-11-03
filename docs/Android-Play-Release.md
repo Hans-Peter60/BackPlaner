@@ -1,6 +1,6 @@
 # BakePlanner für Google Play – Veröffentlichung
 
-Was für die erste Ausgabe der Android-App im Play Store vorbereitet ist, wie der Store-Build entsteht und was in der Play Console und der Firebase Console noch von Hand zu tun ist. Stand 02.11.2026. Ergänzt `docs/Android-Uebergabe.md` (Arbeitsweise, Stolpersteine) und `docs/AppStore-Beschreibung.md` (die App-Store-Texte, aus denen die Play-Texte abgeleitet sind).
+Was für die erste Ausgabe der Android-App im Play Store vorbereitet ist, wie der Store-Build entsteht und was in der Play Console und der Firebase Console noch von Hand zu tun ist. Stand 03.11.2026 (Fortschritt in Abschnitt 7). Ergänzt `docs/Android-Uebergabe.md` (Arbeitsweise, Stolpersteine) und `docs/AppStore-Beschreibung.md` (die App-Store-Texte, aus denen die Play-Texte abgeleitet sind).
 
 ## 1. Was im Repository vorbereitet ist
 
@@ -98,7 +98,7 @@ Grundlage ist die Datenschutzerklärung. Antworten, die zur App passen:
 
 ### 4.5 Play Integrity und App Check (aus Schritt 11f der Übergabe)
 
-1. Play Console → Testen und veröffentlichen → **App-Integrität** → Play Integrity API mit dem Google-Cloud-Projekt von Firebase („back-planer“) verknüpfen.
+1. Play Console → **Mit Google Play geschützt** (früher „App-Integrität“) → Play Integrity API → „Jetzt loslegen“ → vorhandenes Cloud-Projekt **back-planer** verknüpfen. Die Zertifikate stehen auf derselben Seite unter „App-Signatur“ (Google Play Store-Schutz).
 2. Firebase Console → **App Check → Apps**: bei der Android-App zusätzlich zum Debug-Anbieter **Play Integrity** registrieren; unter Projekteinstellungen → Android-App die SHA-256-Fingerabdrücke des Upload-Schlüssels **und** des Play-App-Signing-Schlüssels eintragen (die Anmeldung mit Apple braucht sie ebenfalls). Den Debug-Anbieter mit dem Emulator-Token stehen lassen, sonst geht der Debug-Build nicht mehr.
 3. Erst wenn die Metriken aus dem Testtrack verifizierte Android-Anfragen zeigen, App Check für Firestore/Storage/Functions „erzwingen“. Stand 02.11.2026 ist es für Firestore **nicht** erzwungen: der Release-Build liest die öffentlichen Rezepte auch im Emulator, wo Play Integrity keinen Nachweis liefern kann. Solange das so bleibt, schützt App Check nur die Cloud Functions.
 
@@ -120,3 +120,10 @@ Grundlage ist die Datenschutzerklärung. Antworten, die zur App passen:
 Wird nach jedem `skip export --release` hier nachgetragen: Datum, Version, Pfad des AAB, Größe, Ergebnis der 16-KB-Prüfung.
 
 - **02.11.2026, Version 2.2 (1):** `skip export --release --no-ios --no-export-project -d .build/export` (5 min 12 s). `BakePlannerAndroid/.build/export/BakePlanner-release.aab` (190 MB, alle Architekturen) und `BakePlanner-release.apk` (558 MB, nur zum Prüfen). `aapt2 dump badging`: `versionCode=1`, `versionName=2.2`, `targetSdkVersion=36`. Signiert mit dem Upload-Schlüssel (SHA-256 `48:32:fe:b6:a4:82:6d:36:81:9f:ab:53:a0:bd:06:16:48:c4:17:d9:db:00:a3:9a:04:3f:4a:2b:b7:30:77:d4`). 16-KB-Prüfung: `LOAD`-Segmente von `libBakePlanner.so`, `libswiftCore.so`, `libFoundation.so` mit `Align 0x4000`; `zipalign -c -P 16 -v 4` meldet „Verification successful“. Im Emulator installiert (nach Deinstallation des Debug-Builds, andere Signatur): startet, Rezeptliste mit öffentlichen Rezepten, Hintergrundfoto, Icon. Das AAB ist bereit für den internen Testtrack.
+
+## 7. Fortschritt in der Play Console
+
+- **03.11.2026 – Konto und App:** Entwicklerkonto „HPM BakePlanner Dev“ (Privatkonto, Google-Konto wie Firebase), Gerätebestätigung über die Play-Console-App auf einem Android-Telefon. App „BakePlanner“ mit Paketname `de.hpm64625.bakeplanner` angelegt, Store-Eintrag in de-DE, en-US, fr-FR mit Icon, Funktionsgrafik und Screenshots 01–08, App-Inhalte-Fragebogen nach Abschnitt 4.3/4.4 ausgefüllt.
+- **03.11.2026 – Geschlossener Test (Alpha):** Release 1 (2.2) mit dem AAB aus Abschnitt 6 hochgeladen, Play App Signing mit von Google erzeugtem Schlüssel, Testerliste „BakePlanner Test“, Feedback `BakePlanner@gmx.info`, Land Deutschland (weitere Länder bei Bedarf nachtragen). Zur Prüfung durch Google eingereicht. **Weil das Konto ein neues Privatkonto ist, gilt die Testpflicht:** 12 Tester 14 Tage durchgehend im geschlossenen Test, erst danach Antrag auf Produktionszugang; der interne Test aus Abschnitt 4.6 entfällt, geprüft wird im Alpha-Track.
+- **03.11.2026 – Play Integrity und App Check (Abschnitt 4.5):** App-Signaturschlüssel von Play (SHA-256 beginnt mit `99:55:49:75`) und Upload-Schlüssel in Firebase unter der Android-App eingetragen, zusätzlich zum Debug-Schlüssel (`3c:45:6e:31…`). In App Check ist die Android-App mit **Play Integrity** registriert (Token 1 h), Debug-Tokens bleiben. Die Play Integrity API ist in der Play Console mit dem Cloud-Projekt `back-planer` verknüpft. App Check wird weiterhin nicht erzwungen (siehe Abschnitt 4.5 Punkt 3).
+- **Offen:** Opt-in-Link nach Freigabe an die Tester, Prüfung auf einem echten Gerät nach Abschnitt 4.6 Punkt 2–4, Produktionszugang nach den 14 Tagen, dann Produktion nach Abschnitt 4.6 Punkt 5.
