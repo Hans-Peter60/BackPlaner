@@ -244,6 +244,12 @@ for role in $DEVICES; do
         xcrun simctl shutdown "$udid" 2>/dev/null || true
         xcrun simctl boot "$udid" 2>/dev/null || true
         xcrun simctl bootstatus "$udid" -b >/dev/null
+        # A fresh install for every language: the local copy that planning
+        # stores keeps the name of the language it was made in, and an
+        # adjusted copy from an earlier run would stay in the list too. The
+        # App Check token reaches the app through the environment, so
+        # nothing is lost with the app's data.
+        xcrun simctl uninstall "$udid" "$BUNDLE_ID" 2>/dev/null || true
         xcrun simctl ui "$udid" appearance light
         xcrun simctl status_bar "$udid" override \
             --time "9:41" \
@@ -264,7 +270,9 @@ for role in $DEVICES; do
             else
                 "$HINGE" -d "$udid" orient portrait >/dev/null
             fi
-            sleep 2
+            # The display switch takes a moment; an app launched too early
+            # came up on the outer display and its pictures were black.
+            sleep 6
         fi
 
         # Clear what earlier runs left behind, as the previews do before each
