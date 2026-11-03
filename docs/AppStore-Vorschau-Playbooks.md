@@ -1,4 +1,4 @@
-# App-Vorschauen 2.0 – Playbooks für die Aufnahme von Hand
+# App-Vorschauen 2.2 – Playbooks für die Aufnahme von Hand
 
 Drei Vorschauen je Sprache (Deutsch, Englisch, Französisch), aufgenommen auf dem iPhone über den QuickTime Player, geschnitten in iMovie. Die Szenen und Einblendungen sind dieselben wie beim automatisierten Lauf (`scripts/appstore-previews.sh`, siehe [AppStore-Screenshots.md](AppStore-Screenshots.md)) und wie die Überschriften der Screenshots (`docs/appstore/captions.json`), damit Bilder und Videos auf der Produktseite eine Sprache sprechen.
 
@@ -19,12 +19,12 @@ Die Vorschau steht in den Suchergebnissen **vor** den Screenshots und läuft dor
 
 **iPhone**
 
-1. BakePlanner 2.0 (Build 8) aus TestFlight oder dem App Store installieren, nicht den Debug-Build. Nur der Store-Build spricht mit der Produktions-iCloud und zeigt die echten Daten.
+1. BakePlanner 2.2 (Build 10) aus TestFlight oder dem App Store installieren, nicht den Debug-Build. Nur der Store-Build spricht mit der Produktions-iCloud und zeigt die echten Daten. Die Vorschauen von 2.1 zeigen noch das Hauptmenü und die Rezept-Tabs; seit 2.2 öffnet die App auf der Tab-Leiste, ein Rezept ist eine Seite, und die Backanleitung ist ein Blatt – die Szenen unten beschreiben diesen Stand.
 2. Fokus „Nicht stören“ einschalten, damit keine Mitteilungsbanner ins Bild fallen. Die Erinnerungen, die Szene 1 setzt, liegen in der Zukunft und stören nicht.
 3. Helligkeit auf etwa 80 % und Auto-Helligkeit aus. Hellen Modus verwenden, so wie die Screenshots.
 4. Textgröße auf Standard (Einstellungen → Anzeige & Helligkeit → Textgröße, Regler in der Mitte).
-5. Aufräumen, was ins Bild käme: unter „Geplante Schritte“ alte Pläne löschen, unter „Einkaufsliste“ alte Listen löschen, in der Rezept-Datenbank unter „Lokal“ eine eventuell vorhandene Kopie von „Kartoffelbrot mit Saaten“ entfernen. Das Setzen der Erinnerungen legt diese Kopie an, sonst steht das Rezept doppelt in der Liste.
-6. Das Demo-Rezept ist das öffentliche **„Kartoffelbrot mit Saaten“** (Rezept-Datenbank → Chip „Öffentlich“). Vor der englischen und französischen Aufnahme einmal in der jeweiligen Sprache öffnen und abwarten, bis die Übersetzung fertig ist (Globus-Symbol ohne Ladekreis). Dann ist sie zwischengespeichert und erscheint im Video ohne Wartezeit.
+5. Aufräumen, was ins Bild käme: im Tab **Zeitleiste** alte Pläne löschen (Liste → Wischen oder „Alle löschen“), im Tab **Einkaufslisten** alte Listen löschen, im Tab **Rezepte** eine eventuell vorhandene lokale Kopie von „Kartoffelbrot mit Saaten“ entfernen (Zeile mit dem iPhone-Symbol, Wischen nach links). Das Setzen der Erinnerungen legt diese Kopie an, sonst steht das Rezept doppelt in der Liste. Auch die Leiste „Als Nächstes“ verschwindet erst, wenn kein Plan mehr läuft.
+6. Das Demo-Rezept ist das öffentliche **„Kartoffelbrot mit Saaten“** (Tab **Rezepte**, Zeile mit dem Globus-Symbol; der Chip „Öffentlich“ blendet die öffentlichen Rezepte ein und aus). Vor der englischen und französischen Aufnahme einmal in der jeweiligen Sprache öffnen und abwarten, bis die Übersetzung fertig ist (Globus-Symbol ohne Ladekreis). Dann ist sie zwischengespeichert und erscheint im Video ohne Wartezeit.
 
 **Sprache der App umstellen**
 
@@ -35,7 +35,7 @@ Einstellungen → Apps → BakePlanner → Sprache → Deutsch / English / Fran�
 1. iPhone per Kabel anschließen, entsperren, dem Mac vertrauen.
 2. QuickTime Player → Ablage → Neue Videoaufnahme. Neben dem roten Aufnahmeknopf den Pfeil aufklappen und als **Kamera das iPhone** wählen. Mikrofon: „Keins“ oder das iPhone, falls Ton gewünscht. Qualität: Maximum.
 3. Das iPhone zeigt jetzt im Spiegelbild die saubere Statusleiste (9:41, voller Akku, volles Netz). Das ist Absicht und erwünscht.
-4. Aufnahme mit dem roten Knopf starten, am Ende wieder stoppen. Sichern unter `docs/appstore/2.1/preview/iphone-6.9/<sprache>/roh/<szene>.mov` (der Ordner `preview` ist git-ignoriert).
+4. Aufnahme mit dem roten Knopf starten, am Ende wieder stoppen. Sichern unter `docs/appstore/2.2/preview/iphone-6.9/<sprache>/roh/<szene>.mov` (der Ordner `preview` ist git-ignoriert).
 
 **Grundregeln beim Tippen**
 
@@ -45,7 +45,7 @@ Einstellungen → Apps → BakePlanner → Sprache → Deutsch / English / Fran�
 
 ## Vor jeder Aufnahme
 
-- [ ] Geplante Schritte leer, Einkaufslisten leer, keine lokale Kopie des Demo-Rezepts
+- [ ] Zeitleiste leer (keine Leiste „Als Nächstes“), Einkaufslisten leer, keine lokale Kopie des Demo-Rezepts
 - [ ] App im Tab **Rezepte**, Liste oben angekommen
 - [ ] Fokus „Nicht stören“ an, Kabel sitzt, QuickTime zeigt das iPhone
 - [ ] Sprache der App stimmt mit dem geplanten Video überein
@@ -128,8 +128,8 @@ Die Texte der Szenen 1 und 2 sind wörtlich die Screenshot-Überschriften aus `c
 5. Prüfen, dass die Gesamtlänge zwischen 15 und 30 Sekunden liegt (unten rechts). Lieber 25 bis 28 Sekunden, nicht auf 30,0 zielen.
 6. **Einblendungen als Overlay-Bilder.** iMovies eigene Titelvorlagen werden nicht benutzt: Ihre Namen und Positionen unterscheiden sich je nach Version, und keine sieht aus wie die Überschriften auf den Screenshots. Stattdessen rendert ein Skript jede Einblendung als transparentes PNG in den Farben und der Schrift der Screenshots, das in iMovie über dem Video liegt:
    ```sh
-   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.1/preview/captions/de
-   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.1/preview/captions/de --position bottom
+   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.2/preview/captions/de
+   swift scripts/appstore-preview-captions.swift docs/appstore/preview-captions.json de docs/appstore/2.2/preview/captions/de --position bottom
    ```
    (genauso für `en` und `fr`). Die Texte stehen in `docs/appstore/preview-captions.json`, die Bilder heißen `1-1-fertig-bis.png`, `1-2-erinnerung.png`, … nach Szene und Reihenfolge; mit `--position bottom` entstehen dieselben als `…-unten.png` für Stellen, an denen oben gerade etwas passiert. Die Bilder sind 886 × 1920 Pixel wie das fertige iPhone-Video (für ein anderes Maß `--size 1200x1600`) und außerhalb der Textkachel durchsichtig. Der Ordner liegt unter `preview/` und ist git-ignoriert; nach einer Textänderung einfach neu rendern.
 
@@ -144,13 +144,13 @@ Die Texte der Szenen 1 und 2 sind wörtlich die Screenshot-Überschriften aus `c
 
    Falls du doch iMovies Titel nehmen willst: im Titelbrowser (⌘5) mit der Maus über die Vorlagen fahren und eine wählen, bei der der Text still steht und oben oder unten sitzt, nicht in der Mitte. Die Namen weichen je nach iMovie-Version ab.
 7. Optional ein leises Musikbett aus den iMovie-Soundeffekten, Lautstärke um 30 %. Bei Ton vom iPhone (Vorlesen in Szene 1) diesen behalten, Musik dort absenken.
-8. **Export**: Ablage → Bereitstellen → **App-Vorschau**. Speichern als `docs/appstore/2.1/preview/iphone-6.9/<sprache>/1-plan.mp4`, `2-calculators.mp4`, `3-shopping.mp4`.
+8. **Export**: Ablage → Bereitstellen → **App-Vorschau**. Speichern als `docs/appstore/2.2/preview/iphone-6.9/<sprache>/1-plan.mp4`, `2-calculators.mp4`, `3-shopping.mp4`.
 
 Für jede Sprache ein eigenes iMovie-Projekt (duplizieren und Clips tauschen geht am schnellsten, die Titelpositionen bleiben dann gleich).
 
 ## Hochladen
 
-App Store Connect → BakePlanner → Version 2.0 → oben rechts die Sprache wählen → **iPhone 6,9"-Display** → die drei Videos vor die Screenshots ziehen, Reihenfolge 1-plan, 2-calculators, 3-shopping. Nach dem Verarbeiten je Video das **Posterbild** wählen (Timeline bzw. Rechner). Danach „Sichern“. Die Vorschauen lassen sich auch zu einer bereits eingereichten Version nachtragen, solange sie noch nicht freigegeben ist, oder nach der Freigabe mit der nächsten Produktseiten-Änderung.
+App Store Connect → BakePlanner → Version 2.2 → oben rechts die Sprache wählen → **iPhone 6,9"-Display** → die drei Videos vor die Screenshots ziehen, Reihenfolge 1-plan, 2-calculators, 3-shopping. Nach dem Verarbeiten je Video das **Posterbild** wählen (Timeline bzw. Rechner). Danach „Sichern“. Die Vorschauen lassen sich auch zu einer bereits eingereichten Version nachtragen, solange sie noch nicht freigegeben ist, oder nach der Freigabe mit der nächsten Produktseiten-Änderung.
 
 Das iPad braucht nur Szene 1. Die Aufnahme läuft genauso über QuickTime mit dem iPad als Kamera; iMovie erkennt das Format.
 
