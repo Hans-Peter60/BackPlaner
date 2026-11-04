@@ -91,17 +91,20 @@ final class PlanSnapshotPublisher {
     /// store, reloading the widgets, when the plan changed. Also called when
     /// the app returns to the foreground, since that is the only time a Live
     /// Activity can be started.
-    /// Carries out what was done on the widget while the app was away:
-    /// a step marked "Erledigt" there leaves the plan here, reminder
-    /// included, before the snapshot is rebuilt from the plan — otherwise
-    /// the rebuild would bring the step back to the widget.
+    /// Carries out what was done on the widget or the Watch while the app
+    /// was away: a step marked "Erledigt" there leaves the plan here,
+    /// reminder included, before the snapshot is rebuilt from the plan —
+    /// otherwise the rebuild would bring the step back.
     private static func applyPendingWidgetActions(in context: NSManagedObjectContext) {
-        let actions = PendingWidgetActions.take()
-        guard !actions.isEmpty else { return }
+        let pending = PendingWidgetActions.load()
+        guard !pending.actions.isEmpty else { return }
         let request = NextStep.fetchRequest()
+        // The store may still be loading when the Watch's note arrives right
+        // after launch: the note stays for the next pass rather than being lost.
         guard let steps = try? context.fetch(request) else { return }
+        var remaining = pending
         var removed = 0
-        for action in actions where action.kind == .done {
+        for action in pending.actions where action.kind == .done {
             guard let step = steps.first(where: { step in
                 step.id?.uuidString == action.stepID
                     || step.objectID.uriRepresentation().absoluteString == action.stepID
@@ -109,7 +112,11 @@ final class PlanSnapshotPublisher {
             NotificationActions.cancelPendingNotification(for: step)
             context.delete(step)
             removed += 1
+            remaining.actions.removeAll { $0 == action }
         }
+        // A note whose step never turned up is dropped after a week.
+        remaining.actions.removeAll { Date().timeIntervalSince($0.date) > 7 * 24 * 60 * 60 }
+        try? remaining.save()
         guard removed > 0 else { return }
         do {
             try context.save()
@@ -118,6 +125,34 @@ final class PlanSnapshotPublisher {
             context.rollback()
             AppLog.persistence.error("Widget actions could not be applied: \(error)")
         }
+    }
+
+    /// What the Watch shows under a step: the ingredients of the component
+    /// the step mixes, at the plan's amount, for steps of the user's own
+    /// recipes. Public recipes live in Firestore, not in this store, so
+    /// their steps go without. Keyed by the step's object ID.
+    private static func ingredientLines(for steps: [NextStep], in context: NSManagedObjectContext)
+        -> [NSManagedObjectID: (name: String, lines: [String])] {
+        var recipes: [String: RecipeExportData?] = [:]
+        var result: [NSManagedObjectID: (name: String, lines: [String])] = [:]
+        for step in steps {
+            let content: RecipeExportData?
+            if let known = recipes[step.recipeName] {
+                content = known
+            } else {
+                let request = Recipe.fetchRequest()
+                request.predicate = NSPredicate(format: "name == %@", step.recipeName)
+                request.fetchLimit = 1
+                content = (try? context.fetch(request))?.first.map { RecipeExportData(recipe: $0, includingImage: false) }
+                recipes[step.recipeName] = content
+            }
+            guard let content,
+                  let column = ScheduledStepComponent.column(for: content, step: step.step, instructionText: step.instruction),
+                  !column.ingredients.isEmpty
+            else { continue }
+            result[step.objectID] = (column.name, BakeModeText.ingredientLines(of: column, scale: step.effectiveServingScale))
+        }
+        return result
     }
 
     func refresh() {
@@ -151,14 +186,19 @@ final class PlanSnapshotPublisher {
             // snapshot, so the widget and Live Activity don't pick them up
             // as "Als Nächstes" long before they're due. Reminders are kept
             // for all steps above — they still have to fire on time.
+            let visible = steps.filter { $0.isVisible() }
+            let ingredients = Self.ingredientLines(for: visible, in: context)
             let snapshot = PlanSnapshot(
-                steps: steps.filter { $0.isVisible() }.map { step in
-                    PlanSnapshot.Step(
+                steps: visible.map { step in
+                    let component = ingredients[step.objectID]
+                    return PlanSnapshot.Step(
                         id: step.id?.uuidString ?? step.objectID.uriRepresentation().absoluteString,
                         recipeName: step.recipeName,
                         instruction: step.instruction,
                         date: step.date,
-                        duration: step.duration
+                        duration: step.duration,
+                        componentName: component?.name,
+                        ingredientLines: component?.lines
                     )
                 },
                 generatedAt: Date()
@@ -177,6 +217,7 @@ final class PlanSnapshotPublisher {
             do {
                 try snapshot.save()
                 WidgetCenter.shared.reloadAllTimelines()
+                WatchPlanSync.shared.send(snapshot)
                 AppLog.persistence.debug("Plan snapshot written with \(snapshot.steps.count) steps")
             } catch {
                 AppLog.persistence.error("Could not write plan snapshot: \(error)")

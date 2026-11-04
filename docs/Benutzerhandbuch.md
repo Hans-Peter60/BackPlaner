@@ -622,6 +622,12 @@ Unten liegen große Tasten, die sich auch mit Mehl an den Händen treffen lassen
 
 Der Backmodus öffnet mit dem Schritt, der gerade dran ist, und respektiert den Rezeptfilter der Liste. Solange er geöffnet ist, bleibt der Bildschirm an. **Schließen** oben rechts führt zurück zur Liste.
 
+### Backmodus auf der Apple Watch
+
+Auf einer gekoppelten Apple Watch gibt es BakePlanner als eigene App: den Backmodus fürs Handgelenk. Sie zeigt die geplanten Schritte so, wie das iPhone sie zuletzt übertragen hat – ein Schritt pro Seite, zu blättern mit der Krone: Rezeptname, „Schritt 3 von 12“, der Schritttext, die Uhrzeit mit „in 42 Min.“ beziehungsweise „seit 5 Min.“ und, wenn der Schritt eine Komponente anmischt, deren Zutaten mit Mengen (bei eigenen Rezepten). Die App öffnet mit dem Schritt, der gerade dran ist.
+
+**Erledigt** nimmt den Schritt auf der Uhr sofort aus dem Plan und meldet ihn ans iPhone, das ihn samt Erinnerung aus dem Plan entfernt – ist das iPhone gerade nicht in Reichweite, holt es das nach, sobald die Verbindung wieder steht. Verschieben und Vorlesen bleiben dem iPhone vorbehalten. Der Plan kommt vom iPhone; auf dem iPad geplante Schritte erreichen die Uhr nicht (siehe Kapitel 11).
+
 ### Widget „Nächster Backschritt“
 
 Den nächsten Schritt siehst Du auch ohne die App zu öffnen: BakePlanner bringt ein Widget für den Homescreen und den Sperrbildschirm mit. Es zeigt dieselbe Information wie die Leiste „Als Nächstes“ im Tab Rezepte – den anstehenden Schritt mit Uhrzeit und einem laufenden Countdown („in 1:42:10“), oder nach Ablauf der Zeit **„Jetzt fällig“** mit der verstrichenen Zeit. Ein Tippen öffnet direkt „Geplante Schritte“.

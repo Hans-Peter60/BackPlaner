@@ -12,7 +12,8 @@
 //  (so the widget moves on) and leaves a note in the App Group; the app
 //  carries it out in Core Data the next time it runs, before it rewrites
 //  the snapshot. "Verschieben" needs the reminders moved, so it opens the
-//  app on the step through a deep link.
+//  app on the step through a deep link. "Erledigt" on the Watch arrives
+//  over Watch Connectivity (WatchPlanSync) and leaves the same note.
 //
 
 import Foundation
@@ -91,11 +92,5 @@ extension PlanSnapshot {
               let id = components.queryItems?.first(where: { $0.name == "shift" })?.value,
               !id.isEmpty else { return nil }
         return id
-    }
-
-    /// The snapshot without the step, for the widget to show the next one
-    /// the moment "Erledigt" is tapped.
-    func removingStep(id: String) -> PlanSnapshot {
-        PlanSnapshot(steps: steps.filter { $0.id != id }, generatedAt: Date())
     }
 }

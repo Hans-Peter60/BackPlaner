@@ -110,4 +110,28 @@ struct WidgetActionTests {
         #expect(remaining.generatedAt >= now)
         #expect(snapshot.removingStep(id: "unknown").steps == steps)
     }
+
+    @Test("A snapshot carries a step's ingredients to the Watch, and reads an older file without them")
+    func ingredientLines() throws {
+        let step = PlanSnapshot.Step(id: "a", recipeName: "Brot", instruction: "Mischen",
+                                     date: Date(timeIntervalSince1970: 1_700_000_000), duration: 10,
+                                     componentName: "Hauptteig", ingredientLines: ["• 500 g Mehl", "• 10 g Salz"])
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        let copy = try decoder.decode(PlanSnapshot.self,
+                                      from: encoder.encode(PlanSnapshot(steps: [step], generatedAt: step.date)))
+        #expect(copy.steps == [step])
+
+        let old = """
+        {"steps":[{"id":"b","recipeName":"Brot","instruction":"Backen","date":"2026-11-04T06:00:00Z","duration":45}],\
+        "generatedAt":"2026-11-04T05:00:00Z"}
+        """
+        let decoded = try decoder.decode(PlanSnapshot.self, from: Data(old.utf8))
+        #expect(decoded.steps.first?.duration == 45)
+        #expect(decoded.steps.first?.ingredientLines == nil)
+        #expect(decoded.steps.first?.componentName == nil)
+    }
 }

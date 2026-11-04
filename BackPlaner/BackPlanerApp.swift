@@ -67,6 +67,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // Mirror the planned steps into the App Group for the widget, now and
     // after every change.
     PlanSnapshotPublisher.shared.start(with: PersistenceController.shared.container)
+    // The same plan goes to the Watch app, which sends back what was done.
+    WatchPlanSync.shared.start()
 
     // Follow the Pro configuration and the App Store. Until the document
     // says otherwise every feature is free, so this never delays the start.

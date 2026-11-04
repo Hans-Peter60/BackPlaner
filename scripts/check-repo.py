@@ -37,6 +37,7 @@ CATALOGS = [
     "BackPlaner/Tabs.xcstrings",
     "BackPlaner/InfoPlist.xcstrings",
     "BackPlanerShare/Localizable.xcstrings",
+    "BakePlannerWatch/Localizable.xcstrings",
     "BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",
 ]
 LANGUAGES = ("en", "fr")

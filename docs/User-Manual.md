@@ -625,6 +625,12 @@ At the bottom sit large buttons that can be hit with flour on your hands:
 
 Bake mode opens on the step that is up right now and respects the list's recipe filter. While it is open, the screen stays on. **Close** at the top right returns to the list.
 
+### Bake mode on the Apple Watch
+
+On a paired Apple Watch, BakePlanner comes as an app of its own: the bake mode for the wrist. It shows the planned steps as the iPhone last passed them on — one step per page, turned with the crown: recipe name, "Step 3 of 12", the step text, the time with "in 42 min" or "for 5 min", and, where the step mixes a component, its ingredients with amounts (for your own recipes). The app opens on the step that is due now.
+
+**Done** takes the step off the plan on the watch at once and reports it to the iPhone, which removes it from the plan together with its reminder — if the iPhone is out of reach right now, it catches up as soon as the connection is back. Shifting and reading aloud stay on the iPhone. The plan comes from the iPhone; steps planned on the iPad do not reach the watch (see chapter 11).
+
 ### The "Next baking step" widget
 
 You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" bar on the Recipes tab — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.
