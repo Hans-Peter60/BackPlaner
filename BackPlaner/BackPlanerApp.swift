@@ -128,6 +128,9 @@ struct BackPlanerApp: App {
 
     let persistenceController = PersistenceController.shared
 
+    /// The window group's id, for "Neues Fenster" (⌥⌘N) on the iPad.
+    static let mainWindowID = "main"
+
     init() {
         // The calculation logic knows only the bundled units on its own;
         // the ones the user added come from the settings store.
@@ -135,7 +138,7 @@ struct BackPlanerApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: Self.mainWindowID) {
             if UITestSupport.isUnitTestHost {
                 // The host of a unit-test run shows nothing: the main menu
                 // would load recipes, plans and the backdrop photo for no one.
@@ -162,6 +165,9 @@ struct BackPlanerApp: App {
                 // was open has to reach Siri's phrase list.
                 BackPlanerShortcuts.updateAppShortcutParameters()
             }
+        }
+        .commands {
+            BakePlannerCommands()
         }
     }
 }

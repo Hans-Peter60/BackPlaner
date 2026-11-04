@@ -19,6 +19,16 @@ import Translation
 
 struct AllRecipesListView: View {
 
+    /// Changes with every ⌘F; the search field takes the focus each time.
+    var searchFocusRequest = 0
+    @FocusState private var searchIsFocused: Bool
+    /// On the iPad the title bar holds the tab bar as well, and in portrait
+    /// four buttons beside it do not fit: the rating filter then lives in
+    /// the "Mehr" menu instead of a button of its own, and the search field
+    /// moves under the bar.
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var filterInMenu: Bool { horizontalSizeClass == .regular }
+
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject var model: RecipeModel
@@ -244,19 +254,14 @@ struct AllRecipesListView: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Picker("Mindestbewertung", selection: $rating) {
-                            Text("Alle Bewertungen").tag(0)
-                            ForEach(1...5, id: \.self) { stars in
-                                Text("\(stars) Sterne und mehr").tag(stars)
-                            }
+                if !filterInMenu {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            filterItems
+                        } label: {
+                            Label("Nach Bewertung filtern",
+                                  systemImage: rating > 0 || !showVariantRecipes ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                         }
-                        Divider()
-                        Toggle("Varianten anzeigen", isOn: $showVariantRecipes)
-                    } label: {
-                        Label("Nach Bewertung filtern",
-                              systemImage: rating > 0 || !showVariantRecipes ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     }
                 }
 
@@ -266,6 +271,10 @@ struct AllRecipesListView: View {
                 // on the language.
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        if filterInMenu {
+                            filterItems
+                            Divider()
+                        }
                         Button {
                             pushedDestination = .settings
                         } label: {
@@ -312,7 +321,16 @@ struct AllRecipesListView: View {
                     .accessibilityIdentifier("menu.newRecipe")
                 }
             }
-            .searchable(text: $filterBy, prompt: "Rezept suchen")
+            // On the iPad the search field sits under the title bar, the
+            // full width of the list: beside the tab bar it took the room
+            // of the buttons, and "+" fell into an overflow menu.
+            .searchable(text: $filterBy,
+                        placement: filterInMenu ? .navigationBarDrawer(displayMode: .always) : .automatic,
+                        prompt: "Rezept suchen")
+            .searchFocused($searchIsFocused)
+            .onChange(of: searchFocusRequest) { _, _ in
+                searchIsFocused = true
+            }
             .searchScopes($nameOrTag) {
                 Text("Name").tag(1)
                 Text("Tags").tag(2)
@@ -327,6 +345,20 @@ struct AllRecipesListView: View {
             .translationTask(listTranslationConfig) { session in
                 await translateListEntries(using: session)
             }
+    }
+
+    // MARK: - Rating filter
+
+    /// The least rating listed and whether variants are listed; a menu of
+    /// its own on the iPhone, part of "Mehr" on the iPad.
+    @ViewBuilder private var filterItems: some View {
+        Picker("Mindestbewertung", selection: $rating) {
+            Text("Alle Bewertungen").tag(0)
+            ForEach(1...5, id: \.self) { stars in
+                Text("\(stars) Sterne und mehr").tag(stars)
+            }
+        }
+        Toggle("Varianten anzeigen", isOn: $showVariantRecipes)
     }
 
     // MARK: - Filter chips
