@@ -8,7 +8,7 @@ import PackageDescription
 
 let package = Package(
     name: "BakePlannerCore",
-    platforms: [.iOS(.v26), .macOS(.v15)],
+    platforms: [.iOS(.v26), .macOS(.v15), .watchOS(.v26)],
     products: [
         .library(name: "BakePlannerCore", targets: ["BakePlannerCore"]),
     ],

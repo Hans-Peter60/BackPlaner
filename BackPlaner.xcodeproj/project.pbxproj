@@ -43,9 +43,8 @@
 		6A261559306FAB78007644AB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A261558306FAB78007644AB /* SwiftUI.framework */; };
 		6A261564306FAB79007644AB /* BackPlanerWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6A261555306FAB78007644AB /* BackPlanerWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
-		6A3D7C2731A2B4C5006E1F42 /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */; };
-		6A3D7C2831A2B4C5006E1F42 /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */; };
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
+		6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C546309B7BB00041298E /* WatchPlanSync.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
@@ -62,6 +61,8 @@
 		6A3D7C2131A2B4C5006E1F42 /* RecipeVariantsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2031A2B4C5006E1F42 /* RecipeVariantsViews.swift */; };
 		6A3D7C2331A2B4C5006E1F42 /* KeyboardCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2231A2B4C5006E1F42 /* KeyboardCommands.swift */; };
 		6A3D7C2531A2B4C5006E1F42 /* Tabs.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2431A2B4C5006E1F42 /* Tabs.xcstrings */; };
+		6A3D7C2731A2B4C5006E1F42 /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */; };
+		6A3D7C2831A2B4C5006E1F42 /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */; };
 		6A4816EE3041D48000011A56 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816ED3041D48000011A56 /* FirebaseFirestore */; };
 		6A4816F03041D49900011A56 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6A4816EF3041D49900011A56 /* FirebaseStorage */; };
 		6A4816F23041DB3600011A56 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A4816F13041DB3600011A56 /* GoogleService-Info.plist */; };
@@ -86,6 +87,11 @@
 		6AA03CE6304F3BC000F60434 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 6AA03CE5304F3BC000F60434 /* FirebaseAppCheck */; };
 		6AA6703930517A4C0074C7E6 /* AppleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */; };
 		6AA6703D3051A1F10074C7E6 /* RecipeLanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */; };
+		6AA6C52D309B7BB00041298E /* BakePlannerWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6AA6C52C309B7BB00041298E /* BakePlannerWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6AA6C541309B7BB00041298E /* BakePlannerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6AA6C540309B7BB00041298E /* BakePlannerCore */; };
+		6AA6C542309B7BB00041298E /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
+		6AA6C544309B7BB00041298E /* BakeActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C543309B7BB00041298E /* BakeActivityAttributes.swift */; };
+		6AA6C545309B7BB00041298E /* BakeActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C543309B7BB00041298E /* BakeActivityAttributes.swift */; };
 		6AA79ECD30777C4E00935F0F /* BakeHistoryFactsFormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA79ECC30777C4E00935F0F /* BakeHistoryFactsFormSection.swift */; };
 		6AA79ECF30777C6400935F0F /* LastBakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA79ECE30777C6400935F0F /* LastBakeCardView.swift */; };
 		6AA79ED1307782E200935F0F /* EditRecipeFBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA79ED0307782E200935F0F /* EditRecipeFBView.swift */; };
@@ -182,6 +188,13 @@
 			remoteGlobalIDString = 6AF754D82B75018E00EADD84;
 			remoteInfo = BackPlaner;
 		};
+		6AA6C52E309B7BB00041298E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF754D12B75018E00EADD84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AA6C52B309B7BB00041298E;
+			remoteInfo = BakePlannerWatch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -195,6 +208,17 @@
 				6A26160A3072A079007644AB /* BackPlanerShare.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA6C53A309B7BB10041298E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				6AA6C52D309B7BB00041298E /* BakePlannerWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -240,8 +264,8 @@
 		6A261558306FAB78007644AB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 		6A26156A306FAB87007644AB /* BackPlanerWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlanerWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
-		6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetActions.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
+		6AA6C546309B7BB00041298E /* WatchPlanSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPlanSync.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
 		6A2615B630706A43007644AB /* RecipePDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePDFExporter.swift; sourceTree = "<group>"; };
@@ -257,6 +281,7 @@
 		6A3D7C2031A2B4C5006E1F42 /* RecipeVariantsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeVariantsViews.swift; sourceTree = "<group>"; };
 		6A3D7C2231A2B4C5006E1F42 /* KeyboardCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCommands.swift; sourceTree = "<group>"; };
 		6A3D7C2431A2B4C5006E1F42 /* Tabs.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Tabs.xcstrings; sourceTree = "<group>"; };
+		6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetActions.swift; sourceTree = "<group>"; };
 		6A4816F13041DB3600011A56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6A481DA83047040500362FFB /* BackPlaner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlaner.entitlements; sourceTree = "<group>"; };
 		6A481DA93047040500362FFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -281,6 +306,8 @@
 		6A9DE1C63046B040000581C7 /* IconActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionButton.swift; sourceTree = "<group>"; };
 		6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInView.swift; sourceTree = "<group>"; };
 		6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLanguageDetector.swift; sourceTree = "<group>"; };
+		6AA6C52C309B7BB00041298E /* BakePlannerWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BakePlannerWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA6C543309B7BB00041298E /* BakeActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityAttributes.swift; sourceTree = "<group>"; };
 		6AA79ECC30777C4E00935F0F /* BakeHistoryFactsFormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeHistoryFactsFormSection.swift; sourceTree = "<group>"; };
 		6AA79ECE30777C6400935F0F /* LastBakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastBakeCardView.swift; sourceTree = "<group>"; };
 		6AA79ED0307782E200935F0F /* EditRecipeFBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecipeFBView.swift; sourceTree = "<group>"; };
@@ -365,6 +392,7 @@
 		6A02A0A0305268C00031651D /* BackPlanerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BackPlanerTests; sourceTree = "<group>"; };
 		6A26155A306FAB78007644AB /* BackPlanerWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6A261565306FAB79007644AB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = BackPlanerWidgets; sourceTree = "<group>"; };
 		6A2615FF3072A079007644AB /* BackPlanerShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6A26160D3072A079007644AB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = BackPlanerShare; sourceTree = "<group>"; };
+		6AA6C530309B7BB00041298E /* BakePlannerWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BakePlannerWatch; sourceTree = "<group>"; };
 		6ACBBFDCADE72A60FDE4015A /* BackPlanerUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BackPlanerUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -391,6 +419,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A2615FE3072A079007644AB /* UniformTypeIdentifiers.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA6C529309B7BB00041298E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AA6C541309B7BB00041298E /* BakePlannerCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,8 +656,10 @@
 				6AEC2C53306E46B50043305A /* HybridRecipeImageAnalysisAgent.swift */,
 				6AEC2C55306E46B50043305A /* FirebaseFunctionsClient.swift */,
 				6A26156B306FB085007644AB /* PlanSnapshot.swift */,
+				6AA6C543309B7BB00041298E /* BakeActivityAttributes.swift */,
 				6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */,
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
+				6AA6C546309B7BB00041298E /* WatchPlanSync.swift */,
 				6A261574306FDC01007644AB /* BakeActivityManager.swift */,
 				6A2615B630706A43007644AB /* RecipePDFExporter.swift */,
 				6A2615D230726171007644AB /* RecipeWebPageLoader.swift */,
@@ -646,6 +684,7 @@
 				6A26155A306FAB78007644AB /* BackPlanerWidgets */,
 				6A2615FF3072A079007644AB /* BackPlanerShare */,
 				6ACBBFDCADE72A60FDE4015A /* BackPlanerUITests */,
+				6AA6C530309B7BB00041298E /* BakePlannerWatch */,
 				6AF754DA2B75018E00EADD84 /* Products */,
 				57CEA1CA35D3B82DCCF4096B /* Frameworks */,
 				6A2616173072A120007644AB /* BackPlanerShare.entitlements */,
@@ -660,6 +699,7 @@
 				6A6037B0F3A9917CA2FF966D /* BackPlanerUITests.xctest */,
 				6A261555306FAB78007644AB /* BackPlanerWidgetsExtension.appex */,
 				6A2615FC3072A079007644AB /* BackPlanerShare.appex */,
+				6AA6C52C309B7BB00041298E /* BakePlannerWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -791,6 +831,29 @@
 			productReference = 6A6037B0F3A9917CA2FF966D /* BackPlanerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		6AA6C52B309B7BB00041298E /* BakePlannerWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AA6C537309B7BB10041298E /* Build configuration list for PBXNativeTarget "BakePlannerWatch" */;
+			buildPhases = (
+				6AA6C528309B7BB00041298E /* Sources */,
+				6AA6C529309B7BB00041298E /* Frameworks */,
+				6AA6C52A309B7BB00041298E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6AA6C530309B7BB00041298E /* BakePlannerWatch */,
+			);
+			name = BakePlannerWatch;
+			packageProductDependencies = (
+				6AA6C540309B7BB00041298E /* BakePlannerCore */,
+			);
+			productName = BakePlannerWatch;
+			productReference = 6AA6C52C309B7BB00041298E /* BakePlannerWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6AF754D82B75018E00EADD84 /* BackPlaner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6AF754EC2B75018F00EADD84 /* Build configuration list for PBXNativeTarget "BackPlaner" */;
@@ -799,12 +862,14 @@
 				6AF754D62B75018E00EADD84 /* Frameworks */,
 				6AF754D72B75018E00EADD84 /* Resources */,
 				6A261569306FAB79007644AB /* Embed Foundation Extensions */,
+				6AA6C53A309B7BB10041298E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				6A261563306FAB79007644AB /* PBXTargetDependency */,
 				6A2616093072A079007644AB /* PBXTargetDependency */,
+				6AA6C52F309B7BB00041298E /* PBXTargetDependency */,
 			);
 			name = BackPlaner;
 			packageProductDependencies = (
@@ -843,6 +908,9 @@
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 6AF754D82B75018E00EADD84;
 					};
+					6AA6C52B309B7BB00041298E = {
+						CreatedOnToolsVersion = 27.0;
+					};
 					6AF754D82B75018E00EADD84 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -872,6 +940,7 @@
 				6A261554306FAB78007644AB /* BackPlanerWidgetsExtension */,
 				6A2615FB3072A079007644AB /* BackPlanerShare */,
 				6A759F6349C5799253EC851C /* BackPlanerUITests */,
+				6AA6C52B309B7BB00041298E /* BakePlannerWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -899,6 +968,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6A3FFDAE2A2505CAC47410DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA6C52A309B7BB00041298E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -936,6 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */,
+				6AA6C545309B7BB00041298E /* BakeActivityAttributes.swift in Sources */,
 				6A3D7C2831A2B4C5006E1F42 /* WidgetActions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -945,6 +1022,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A26FF013072B000007644AB /* PendingWebImport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA6C528309B7BB00041298E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AA6C542309B7BB00041298E /* PlanSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,12 +1112,14 @@
 				6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */,
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,
+				6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */,
 				6AF6395F2B7A4F060070CDC1 /* Ingredient+CoreDataProperties.swift in Sources */,
 				6A99FC0C304B5203008DDA63 /* ScheduledTasksTabsView.swift in Sources */,
 				6AF639642B7A4F060070CDC1 /* ShoppingCart+CoreDataProperties.swift in Sources */,
 				6A1132122B7CF95A00CDF054 /* AddMetaDataView.swift in Sources */,
 				6AF92689304469170081227C /* Theme.swift in Sources */,
 				6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */,
+				6AA6C544309B7BB00041298E /* BakeActivityAttributes.swift in Sources */,
 				6A3D7C2731A2B4C5006E1F42 /* WidgetActions.swift in Sources */,
 				6AF754E92B75018F00EADD84 /* BackPlaner.xcdatamodeld in Sources */,
 				6AF754DD2B75018E00EADD84 /* BackPlanerApp.swift in Sources */,
@@ -1099,6 +1186,11 @@
 			isa = PBXTargetDependency;
 			target = 6A2615FB3072A079007644AB /* BackPlanerShare */;
 			targetProxy = 6A2616083072A079007644AB /* PBXContainerItemProxy */;
+		};
+		6AA6C52F309B7BB00041298E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AA6C52B309B7BB00041298E /* BakePlannerWatch */;
+			targetProxy = 6AA6C52E309B7BB00041298E /* PBXContainerItemProxy */;
 		};
 		6AB23609A860EEF25FB271E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1297,6 +1389,66 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6AA6C538309B7BB10041298E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
+				DEVELOPMENT_TEAM = S3AX38VTCQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BakePlanner;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = de.hpm64625.BackPlaner;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hpm64625.BackPlaner.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		6AA6C539309B7BB10041298E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
+				DEVELOPMENT_TEAM = S3AX38VTCQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BakePlanner;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = de.hpm64625.BackPlaner;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = de.hpm64625.BackPlaner.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -1582,6 +1734,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		6AA6C537309B7BB10041298E /* Build configuration list for PBXNativeTarget "BakePlannerWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AA6C538309B7BB10041298E /* Debug */,
+				6AA6C539309B7BB10041298E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6AF754D42B75018E00EADD84 /* Build configuration list for PBXProject "BackPlaner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1635,6 +1796,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6AD27BCB2B76695E006E2A89 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
+		};
+		6AA6C540309B7BB00041298E /* BakePlannerCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BakePlannerCore;
 		};
 		6AEC2C57306E46B50043305A /* FirebaseFunctions */ = {
 			isa = XCSwiftPackageProductDependency;

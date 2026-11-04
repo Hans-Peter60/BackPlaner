@@ -625,6 +625,12 @@ En bas se trouvent de grands boutons que l’on atteint même avec de la farine 
 
 Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de recette de la liste. Tant qu’il est ouvert, l’écran reste allumé. **Fermer** en haut à droite ramène à la liste.
 
+### Mode cuisson sur l’Apple Watch
+
+Sur une Apple Watch jumelée, BakePlanner existe comme app à part entière : le mode cuisson au poignet. Elle affiche les étapes planifiées telles que l’iPhone les a transmises en dernier – une étape par page, à faire défiler avec la couronne : nom de la recette, « Étape 3 sur 12 », le texte de l’étape, l’heure avec « dans 42 min » ou « depuis 5 min » et, si l’étape mélange un composant, ses ingrédients avec les quantités (pour vos propres recettes). L’app s’ouvre sur l’étape du moment.
+
+**Terminé** retire aussitôt l’étape du plan sur la montre et la signale à l’iPhone, qui la supprime du plan avec son rappel – si l’iPhone n’est pas à portée, il rattrape dès que la connexion revient. Décaler et lire à voix haute restent réservés à l’iPhone. Le plan vient de l’iPhone ; les étapes planifiées sur l’iPad n’atteignent pas la montre (voir chapitre 11).
+
 ### Le widget « Prochaine étape de cuisson »
 
 Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la barre « À suivre » de l’onglet Recettes — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».

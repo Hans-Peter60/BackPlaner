@@ -33,10 +33,10 @@ Bewertungen zu öffentlichen Rezepten und ein Zähler „schon n-mal gebacken“
 
 ## Apple-Seite
 
-- Backmodus als eigene Apple-Watch-App (Erinnerungen kommen schon auf die Uhr).
-- Interaktive Widgets mit „Erledigt“ und „Verschieben“ direkt vom Home-Bildschirm.
-- iPad: Tastaturkürzel, mehrere Fenster, und das Überlauf-Menü der Titelleiste auf Französisch beheben (siehe `docs/AppStore-Screenshots.md`).
-- „Designed for iPad“ auf dem Mac freigeben, nachdem Kamera-Import und Teilen dort geprüft sind.
+- Backmodus als eigene Apple-Watch-App (Erinnerungen kommen schon auf die Uhr). **Umgesetzt (Nov. 2026):** Watch-App `BakePlannerWatch` zeigt den Plan-Schnappschuss des iPhones über Watch Connectivity, „Erledigt“ geht zurück ans iPhone; Vorlesen und Verschieben bleiben auf dem iPhone.
+- Interaktive Widgets mit „Erledigt“ und „Verschieben“ direkt vom Home-Bildschirm. **Umgesetzt (Nov. 2026, #25).**
+- iPad: Tastaturkürzel, mehrere Fenster, und das Überlauf-Menü der Titelleiste auf Französisch beheben (siehe `docs/AppStore-Screenshots.md`). **Umgesetzt (Nov. 2026, #24).**
+- „Designed for iPad“ auf dem Mac freigeben, nachdem Kamera-Import und Teilen dort geprüft sind. **Stand Nov. 2026:** baut und startet auf dem Mac ohne Fehler; die Kamera meldet sich als verfügbar (der Kamera-Knopf erscheint). Die Handprüfung von Kamera-Import und Teilen auf dem Mac und die Freigabe in App Store Connect stehen aus.
 
 ## Vorgeschlagener Schnitt
 
@@ -44,6 +44,6 @@ Bewertungen zu öffentlichen Rezepten und ein Zähler „schon n-mal gebacken“
 |---|---|
 | **2.3 …** | Text-Import; Überlauf-Menü auf dem französischen iPad; iPhone-Duo-Screenshots und neue App-Vorschauen; Texterkennung auf Android; kleine Korrekturen aus dem Play-Testtrack |
 | **3.0** | Konto mit Abgleich über beide Plattformen (Plan: `docs/Konto-und-Abgleich.md`); Pro über StoreKit und Play Billing; Backtag mit mehreren Broten; Teigeinlage aus der Form |
-| **später** | Reifezeit-Vorhersage; Rezept-Varianten mit Verlauf; Bewertungen; Watch-App; interaktive Widgets |
+| **später** | Reifezeit-Vorhersage; Bewertungen öffentlicher Rezepte (Rezept-Varianten, Watch-App und interaktive Widgets sind seit Nov. 2026 umgesetzt) |
 
 Leitlinien bleiben die aus `CLAUDE.md`: kleine Schritte auf eigenen Branches, Rechenlogik nie ohne Test, beide Apps halten einander nach, und Core-Data-Modell, CloudKit-Schema, Firestore-Regeln, Cloud Functions und Sicherungsformat nicht ohne Rückfrage ändern.

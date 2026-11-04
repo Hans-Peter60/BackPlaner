@@ -3,8 +3,9 @@
 //  BackPlaner
 //
 //  The planned steps as a plain file in the App Group container, so the
-//  widget (and later the Live Activity) can read the plan without the Core
-//  Data store. Compiled into both the app and the widget extension.
+//  widget, the Live Activity and the Watch app can show the plan without
+//  the Core Data store. Compiled into the app, the widget extension and
+//  the Watch app.
 //
 //  The app rewrites the file whenever planned steps change; the widget only
 //  ever reads it.
@@ -12,7 +13,6 @@
 
 import BakePlannerCore
 import Foundation
-import ActivityKit
 
 struct PlanSnapshot: Codable, Equatable {
 
@@ -24,6 +24,12 @@ struct PlanSnapshot: Codable, Equatable {
         let date: Date
         /// Minutes.
         let duration: Int
+        /// The component the step mixes and its ingredients, one line each
+        /// ("• 800 g Weizenmehl 550") at the plan's amount — for the Watch,
+        /// which has no recipe to look them up in. Nil when the step mixes
+        /// nothing, or for a step of a public recipe.
+        var componentName: String? = nil
+        var ingredientLines: [String]? = nil
     }
 
     /// Sorted by date, earliest first.
@@ -104,53 +110,9 @@ struct PlanSnapshot: Codable, Equatable {
         return dates.sorted()
     }
 
-    // MARK: Live Activity
-
-    /// How far ahead a step may be for a Live Activity to show it. The system
-    /// ends a Live Activity after eight hours anyway, so one for a step
-    /// further away would only ever show a countdown that never arrives.
-    static let liveActivityHorizon: TimeInterval = 8 * 60 * 60
-
-    /// What the Live Activity should show at `now`, or `nil` when there is
-    /// nothing within reach and any running activity should end.
-    func liveActivityContent(at now: Date) -> (recipeName: String, state: BakeActivityAttributes.ContentState)? {
-        guard let current = currentStep(at: now),
-              current.step.date.timeIntervalSince(now) < Self.liveActivityHorizon
-        else { return nil }
-
-        let following = steps.first { $0.date > current.step.date }
-        let state = BakeActivityAttributes.ContentState(
-            instruction: current.step.instruction,
-            stepDate: current.step.date,
-            isDue: current.isDue,
-            // One line in the activity, so a step like "Weizensauerteig\n
-            // Zutaten mischen …" must not break after its first word.
-            followingInstruction: following?.instruction.replacingOccurrences(of: "\n", with: " "),
-            followingDate: following?.date
-        )
-        return (current.step.recipeName, state)
+    /// The snapshot without the step, for the widget and the Watch to show
+    /// the next one the moment "Erledigt" is tapped.
+    func removingStep(id: String) -> PlanSnapshot {
+        PlanSnapshot(steps: steps.filter { $0.id != id }, generatedAt: Date())
     }
-}
-
-/// The Live Activity of a running plan. The attributes name the recipe; the
-/// state is the step on display and the one after it. Shared by the app,
-/// which starts and updates the activity, and the widget extension, which
-/// draws it.
-struct BakeActivityAttributes: ActivityAttributes {
-
-    struct ContentState: Codable, Hashable {
-        var instruction: String
-        /// When the step is due. Also the activity's stale date while it lies
-        /// ahead, so the view can switch from the countdown to "Jetzt fällig"
-        /// without an update.
-        var stepDate: Date
-        /// Already due when the content was made. An activity whose stale
-        /// date is in the past is born stale and never shown at all, so the
-        /// due state has to travel as a flag instead.
-        var isDue: Bool
-        var followingInstruction: String?
-        var followingDate: Date?
-    }
-
-    var recipeName: String
 }
