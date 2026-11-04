@@ -56,7 +56,7 @@ public enum BakeHistoryStoreContract {
     public static func normalizedFacts(_ store: BakeHistoryStore, _ recipes: RecipeStore) throws {
         let bread = try newRecipe(recipes)
         let raw = BakeHistoryFacts(roomTemperature: 0, doughTemperature: nil, bulkProofMinutes: 0,
-                                   finalProofMinutes: -5, flour: "  Weizen 550 ", outcome: " \n")
+                                   finalProofMinutes: -5, flour: "  Weizen 550 ", outcome: " \n", rating: 7)
         let added = try store.add(toRecipe: bread.id, date: day(10), comment: "", images: [], facts: raw)
 
         let expected = BakeHistoryFacts(roomTemperature: 0, flour: "Weizen 550")
@@ -66,6 +66,7 @@ public enum BakeHistoryStoreContract {
         var changed = added
         changed.facts.outcome = " offen "
         changed.facts.bulkProofMinutes = 0
+        changed.facts.rating = 0
         try store.update(changed)
         try expect(store.entry(id: added.id)?.facts == BakeHistoryFacts(roomTemperature: 0, flour: "Weizen 550",
                                                                        outcome: "offen"),
@@ -179,6 +180,6 @@ public enum BakeHistoryStoreContract {
 
     private static func facts() -> BakeHistoryFacts {
         BakeHistoryFacts(roomTemperature: 22, doughTemperature: 25.5, bulkProofMinutes: 210, finalProofMinutes: 60,
-                         flour: "Weizen 550, Drax-Mühle", outcome: "offen, gute Ofenfeder")
+                         flour: "Weizen 550, Drax-Mühle", outcome: "offen, gute Ofenfeder", rating: 4)
     }
 }

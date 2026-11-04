@@ -35,6 +35,24 @@
         }
       }
     },
+    "%@ statt %@" : {
+      "comment" : "The note of a variant written by an adjustment: new ingredient or TA, old one.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ instead of %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ au lieu de %@"
+          }
+        }
+      }
+    },
     "%@ statt %@ (%@)" : {
       "comment" : "Recipe difference: new ingredient, old ingredient, amount.",
       "extractionState" : "manual",

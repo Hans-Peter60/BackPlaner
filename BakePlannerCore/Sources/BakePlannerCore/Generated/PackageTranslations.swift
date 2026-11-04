@@ -5,6 +5,7 @@
 enum PackageTranslations {
     static let table: [String: [String: String]] = [
         "%@ %@ → %@": ["en": "%@ %@ → %@", "fr": "%@ %@ → %@"],
+        "%@ statt %@": ["en": "%@ instead of %@", "fr": "%@ au lieu de %@"],
         "%@ statt %@ (%@)": ["en": "%@ instead of %@ (%@)", "fr": "%@ au lieu de %@ (%@)"],
         "%@: %@ %@ → %@": ["en": "%@: %@ %@ → %@", "fr": "%@ : %@ %@ → %@"],
         "%@: %@ statt %@ (%@)": ["en": "%@: %@ instead of %@ (%@)", "fr": "%@ : %@ au lieu de %@ (%@)"],

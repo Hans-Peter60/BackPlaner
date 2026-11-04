@@ -196,10 +196,17 @@ final class AppModel {
     }
 
     /// Keeps a copy a flour substitution or starter adjustment produced,
-    /// marked as adjusted today, and refreshes the list. The copy, or nil.
-    func addAdjustedCopy(_ content: RecipeExportData) -> StoredRecipe? {
+    /// marked as adjusted today and, when it was made from an own recipe,
+    /// as that recipe's variant with `note` on what it changes; refreshes
+    /// the list. The copy, or nil.
+    func addAdjustedCopy(_ content: RecipeExportData, originID: String? = nil, note: String? = nil) -> StoredRecipe? {
         do {
-            let copy = try openedStore().add(content, firestoreId: nil, adjustedOn: Date(), bakeHistoryFlag: false)
+            let store = try openedStore()
+            let copy = if let originID {
+                try store.addVariant(content, of: originID, note: note, adjustedOn: Date())
+            } else {
+                try store.add(content, firestoreId: nil, adjustedOn: Date(), bakeHistoryFlag: false)
+            }
             load()
             return copy
         } catch {

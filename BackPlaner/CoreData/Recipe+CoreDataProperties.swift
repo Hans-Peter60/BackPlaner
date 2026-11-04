@@ -33,6 +33,14 @@ extension Recipe {
     /// further adjustment then changes this recipe in place instead of
     /// stacking a copy on a copy. `nil` for every other recipe.
     @NSManaged public var adjustedOn:     Date?
+    /// The recipe this one is a variant of: the recipe a flour substitution,
+    /// a starter adjustment or "Variante anlegen" copied. Nullify on both
+    /// sides, so removing the origin leaves the variant as a recipe of its
+    /// own, and removing a variant leaves the origin alone.
+    @NSManaged public var origin:         Recipe?
+    @NSManaged public var variants:       NSSet?
+    /// What the variant changes, in the baker's words; nil for none.
+    @NSManaged public var variantNote:    String?
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet

@@ -48,9 +48,13 @@ public final class InMemoryRecipeStore: RecipeStore {
 
     public func update(_ recipe: StoredRecipe) throws {
         guard let existing = stored[recipe.id] else { throw RecipeStoreError.unknownRecipe(recipe.id) }
+        if let originID = recipe.originID, stored[originID] == nil || originID == recipe.id {
+            throw RecipeStoreError.unknownRecipe(originID)
+        }
         var updated = recipe
         updated.content = recipe.content.inStoreOrder
         updated.content.image = existing.content.image
+        updated.variantNote = recipe.variantNote?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
         stored[recipe.id] = updated
     }
 
@@ -61,5 +65,9 @@ public final class InMemoryRecipeStore: RecipeStore {
 
     public func delete(id: String) throws {
         stored[id] = nil
+        // The origin is gone: its variants are recipes of their own now.
+        for key in stored.keys where stored[key]?.originID == id {
+            stored[key]?.originID = nil
+        }
     }
 }

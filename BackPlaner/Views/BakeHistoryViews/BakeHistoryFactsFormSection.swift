@@ -225,6 +225,7 @@ extension BakeHistoryFacts.Kind {
         case .finalProof:       return "Stückgare"
         case .flour:            return "Mehl"
         case .outcome:          return "Krume / Ofentrieb"
+        case .rating:           return "Bewertung"
         }
     }
 }

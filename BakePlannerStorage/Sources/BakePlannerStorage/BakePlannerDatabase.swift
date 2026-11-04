@@ -190,5 +190,14 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "CREATE INDEX scheduled_step_recipe ON scheduled_step(recipe_name)")
             try database.exec(sql: "CREATE INDEX scheduled_step_date ON scheduled_step(date)")
         },
+        // 6: recipe variants and the rating of a bake (step 23b). A variant
+        // points at its origin; the origin going leaves the variant on its
+        // own. A rating never given is NULL, as the other facts.
+        { database in
+            try database.exec(sql: "ALTER TABLE recipe ADD COLUMN origin_id INTEGER REFERENCES recipe(id) ON DELETE SET NULL")
+            try database.exec(sql: "ALTER TABLE recipe ADD COLUMN variant_note TEXT")
+            try database.exec(sql: "ALTER TABLE bake_history ADD COLUMN rating INTEGER")
+            try database.exec(sql: "CREATE INDEX recipe_origin ON recipe(origin_id)")
+        },
     ]
 }

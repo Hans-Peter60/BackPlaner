@@ -23,8 +23,11 @@ extension RecipeImport {
             var recipe = recipe
             recipe.bakeHistory = nil
             recipe.starterFeedings = nil
+            recipe.variantOf = nil
+            recipe.variantNote = nil
             return recipe
         })
+        try linkVariants(added, from: file.recipes, in: store)
         for (recipe, content) in zip(added, file.recipes) {
             // Oldest first, so a store that keeps the order of adding has
             // them as the device they came from did.
@@ -38,6 +41,27 @@ extension RecipeImport {
         }
         return added.count
     }
+
+    /// Links each variant in the file to its origin: the recipe of that
+    /// name read from the same file, else one already in the store. A
+    /// variant whose origin is nowhere becomes a recipe of its own, note
+    /// kept.
+    private static func linkVariants(_ added: [StoredRecipe], from contents: [RecipeExportData],
+                                     in store: RecipeStore) throws {
+        guard contents.contains(where: { $0.variantOf != nil || $0.variantNote != nil }) else { return }
+        let existing = try store.recipes(includingImages: false)
+        for (recipe, content) in zip(added, contents) where content.variantOf != nil || content.variantNote != nil {
+            var variant = recipe
+            if let originName = content.variantOf {
+                let fromFile = zip(added, contents).first { $0.0.id != recipe.id && $0.1.name == originName }?.0
+                let addedIDs = Set(added.map(\.id))
+                let fromStore = existing.first { !addedIDs.contains($0.id) && $0.content.name == originName }
+                variant.originID = (fromFile ?? fromStore)?.id
+            }
+            variant.variantNote = content.variantNote
+            try store.update(variant)
+        }
+    }
 }
 
 extension RecipeExportFile {
@@ -45,6 +69,8 @@ extension RecipeExportFile {
     /// included, without bake history — what is shared with someone else.
     /// Keys the store no longer has are left out.
     public init(recipeIDs ids: [String], from store: RecipeStore) throws {
+        // Without origin and note either: a shared recipe stands on its own,
+        // and the file stays at version 1 for older apps.
         self.init(recipes: try ids.compactMap { try store.recipe(id: $0)?.content })
     }
 
@@ -57,7 +83,13 @@ extension RecipeExportFile {
                 starterFeedings: StarterFeedingLogStore, shrinkPhoto: (Data) -> Data = { $0 }) throws {
         var recipes: [RecipeExportData] = []
         for id in ids {
-            guard var content = try store.recipe(id: id)?.content else { continue }
+            guard let recipe = try store.recipe(id: id) else { continue }
+            var content = recipe.content
+            // The origin by name: keys mean nothing on another device.
+            if let originID = recipe.originID, let origin = try store.recipe(id: originID) {
+                content.variantOf = origin.content.name
+            }
+            content.variantNote = recipe.variantNote
             let entries = try bakeHistory.entries(ofRecipe: id, includingImages: true)
             if !entries.isEmpty {
                 content.bakeHistory = entries.map { entry in

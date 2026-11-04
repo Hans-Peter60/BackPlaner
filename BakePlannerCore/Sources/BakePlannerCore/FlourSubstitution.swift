@@ -344,6 +344,10 @@ public enum FlourSubstitution {
         /// beer that stands in for it in a component without water.
         public let adjustedLiquidName: String?
 
+        /// The note of the variant this copy becomes: "Dinkelmehl 630 statt
+        /// Weizenmehl 1050".
+        public var variantNote: String { AdjustedRecipe.variantNote(new: target.title, old: source.title) }
+
         public init(recipe: RecipeExportData, source: Flour, target: Flour, waterDelta: Double, waterAdjusted: Bool, adjustedLiquidName: String?) {
             self.recipe = recipe
             self.source = source

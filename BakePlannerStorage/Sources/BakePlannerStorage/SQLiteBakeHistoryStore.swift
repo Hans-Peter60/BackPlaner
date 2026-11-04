@@ -56,8 +56,8 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
         let rowID: Int64 = try database.transaction {
             try database.exec(sql: """
                 INSERT INTO bake_history (recipe_id, date, comment, room_temperature, dough_temperature,
-                    bulk_proof_minutes, final_proof_minutes, flour, outcome)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    bulk_proof_minutes, final_proof_minutes, flour, outcome, rating)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, parameters: [.long(recipeRowID)] + Self.values(date: date, comment: comment, facts: normalized))
             let rowID = database.lastInsertRowID
             try insertImages(images, entry: rowID)
@@ -78,7 +78,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
         try database.transaction {
             try database.exec(sql: """
                 UPDATE bake_history SET date = ?, comment = ?, room_temperature = ?, dough_temperature = ?,
-                    bulk_proof_minutes = ?, final_proof_minutes = ?, flour = ?, outcome = ?
+                    bulk_proof_minutes = ?, final_proof_minutes = ?, flour = ?, outcome = ?, rating = ?
                 WHERE id = ?
                 """, parameters: Self.values(date: entry.date, comment: entry.comment, facts: entry.facts.normalized)
                     + [.long(rowID)])
@@ -97,7 +97,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
 
     private static let columns = """
         id, recipe_id, date, comment, room_temperature, dough_temperature, bulk_proof_minutes,
-        final_proof_minutes, flour, outcome
+        final_proof_minutes, flour, outcome, rating
         """
 
     private func entry(from row: [SQLValue], includingImages: Bool) throws -> StoredBakeHistory {
@@ -107,7 +107,8 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
                                      bulkProofMinutes: row[6].longValue.map { Int($0) },
                                      finalProofMinutes: row[7].longValue.map { Int($0) },
                                      flour: row[8].textValue ?? "",
-                                     outcome: row[9].textValue ?? "")
+                                     outcome: row[9].textValue ?? "",
+                                     rating: row[10].longValue.map { Int($0) })
         return StoredBakeHistory(id: String(rowID),
                                  recipeID: String(row[1].longValue ?? 0),
                                  date: Date(timeIntervalSinceReferenceDate: row[2].realValue ?? 0),
@@ -143,6 +144,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
             facts.finalProofMinutes.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
             facts.flour.isEmpty ? SQLValue.null : SQLValue.text(facts.flour),
             facts.outcome.isEmpty ? SQLValue.null : SQLValue.text(facts.outcome),
+            facts.rating.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
         ]
     }
 }

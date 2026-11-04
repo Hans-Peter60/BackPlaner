@@ -47,6 +47,19 @@ struct BakeHistoryFactsTests {
         #expect(items[5].value == "offen, guter Ofentrieb")
     }
 
+    @Test("A rating is stars, comes first, and only 1 to 5 count")
+    func rating() {
+        let facts = BakeHistoryFacts(roomTemperature: 22, outcome: "offen", rating: 4)
+        let items = facts.items(locale: german)
+        #expect(items.map(\.kind) == [.rating, .roomTemperature, .outcome])
+        #expect(items[0].value == "★★★★")
+        #expect(facts.summaryLine(locale: german).hasPrefix("★★★★ · "))
+        #expect(BakeHistoryFacts(rating: 0).isEmpty)
+        #expect(BakeHistoryFacts(rating: 6).normalized.rating == nil)
+        #expect(BakeHistoryFacts(rating: 5).normalized.rating == 5)
+        #expect(!BakeHistoryFacts(rating: 1).isEmpty)
+    }
+
     @Test("The one-line summary names the numbers and lists the texts as they are")
     func summaryLine() {
         let facts = BakeHistoryFacts(roomTemperature: 22, bulkProofMinutes: 90, flour: "Weizen 550", outcome: "offen")
