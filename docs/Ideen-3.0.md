@@ -11,18 +11,9 @@ Sammlung vom 03.11.2026, entstanden nach der Vorbereitung von 2.2 für App Store
 
 ## Das große Thema: ein Konto, beide Plattformen
 
-Der Abgleich privater Daten über Firebase: Rezepte, Pläne, Backhistorie und Anstellgut-Tagebuch folgen dem Nutzer auf jedes Gerät, iPhone wie Android. Das wäre die Botschaft einer 3.0 („deine Bäckerei auf jedem Gerät“) und der Grund, warum die Datenschicht seit der Android-Portierung hinter Protokollen mit plattformneutralen Structs liegt.
+**Ausgearbeitet am 04.11.2026 in `docs/Konto-und-Abgleich.md`** (Ist-Stand aus dem Code, Zielbild, Schritte K0–K11, Kostenschätzung, offene Entscheidungen). Kurzfassung: iCloud bleibt der Speicher des iPhones, Firebase wird der Kanal zwischen den Plattformen; ein `SyncEngine` im Paket arbeitet gegen die vorhandenen Speicher-Protokolle; private Dokumente unter `users/{uid}`, Fotos in Storage; Anmeldung mit Apple und Google; Pro-Anspruch als Custom Claim. Pläne bleiben in 3.0 gerätegebunden. Die erste Voraussetzung fehlt noch: gerätestabile UUIDs in beiden Speichern.
 
-Was dazugehört:
-
-- Anmeldung mit Apple **und** Google (heute: anonym, optional mit Apple verknüpft); Kontozusammenführung, wenn ein Nutzer auf beiden Plattformen schon Daten hat.
-- Private Firestore-Sammlungen je Nutzer mit Regeln (`firebase/firestore.rules`, Regel-Tests in `firebase/tests`); Fotos in Storage, verkleinert wie in der Sicherung.
-- Konfliktregeln: zuletzt geschrieben gewinnt je Feld oder je Rezept; Pläne und Erinnerungen bleiben gerätegebunden oder wandern mit (Entscheidung).
-- Auf dem iPhone bleibt iCloud als Speicher, Firebase wird Abgleichkanal; oder iCloud wird abgelöst (Entscheidung mit Migrationsplan, Core-Data-Modell und CloudKit-Schema nicht ohne Rückfrage ändern).
-- Offline-Fähigkeit: Firestore-Cache genügt für Lesen und Schreiben, Fotos brauchen eine Warteschlange.
-- Kosten: Firestore-Lesevorgänge und Storage je Nutzer abschätzen; der Abgleich wäre ein Pro-Merkmal.
-
-Dazu passt **Pro auf beiden Plattformen**: StoreKit 2 und Play Billing mit demselben Umfang (`Utilities/ProFeature.swift`), der Schalter `config/monetization` wird gemeinsam umgelegt. Der Kern (Rezepte, Plan, Erinnerungen, Backmodus, Historie, öffentliche Rezepte, Rechner) bleibt frei.
+Dazu passt **Pro auf beiden Plattformen**: StoreKit 2 und Play Billing mit demselben Umfang (`Utilities/ProFeature.swift`), der Schalter `config/monetization` wird gemeinsam umgelegt. Der Kern (Rezepte, Plan, Erinnerungen, Backmodus, Historie, öffentliche Rezepte, Rechner) bleibt frei. Noch nicht ausgearbeitet; Schnittstelle zum Abgleich ist Schritt K7 des Plans.
 
 ## Bäcker-Funktionen, die zur Rechenstärke der App passen
 
@@ -52,7 +43,7 @@ Bewertungen zu öffentlichen Rezepten und ein Zähler „schon n-mal gebacken“
 | Version | Inhalt |
 |---|---|
 | **2.3 …** | Text-Import; Überlauf-Menü auf dem französischen iPad; iPhone-Duo-Screenshots und neue App-Vorschauen; Texterkennung auf Android; kleine Korrekturen aus dem Play-Testtrack |
-| **3.0** | Konto mit Abgleich über beide Plattformen; Pro über StoreKit und Play Billing; Backtag mit mehreren Broten; Teigeinlage aus der Form |
+| **3.0** | Konto mit Abgleich über beide Plattformen (Plan: `docs/Konto-und-Abgleich.md`); Pro über StoreKit und Play Billing; Backtag mit mehreren Broten; Teigeinlage aus der Form |
 | **später** | Reifezeit-Vorhersage; Rezept-Varianten mit Verlauf; Bewertungen; Watch-App; interaktive Widgets |
 
 Leitlinien bleiben die aus `CLAUDE.md`: kleine Schritte auf eigenen Branches, Rechenlogik nie ohne Test, beide Apps halten einander nach, und Core-Data-Modell, CloudKit-Schema, Firestore-Regeln, Cloud Functions und Sicherungsformat nicht ohne Rückfrage ändern.
