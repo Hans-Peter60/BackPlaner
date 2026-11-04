@@ -17,6 +17,132 @@
         }
       }
     },
+    "%@ %@ → %@" : {
+      "comment" : "Recipe difference: ingredient, amount before, amount after.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ → %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ → %@"
+          }
+        }
+      }
+    },
+    "%@ statt %@ (%@)" : {
+      "comment" : "Recipe difference: new ingredient, old ingredient, amount.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ instead of %@ (%@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ au lieu de %@ (%@)"
+          }
+        }
+      }
+    },
+    "%@: %@ %@ → %@" : {
+      "comment" : "Recipe difference: component, ingredient, amount before, amount after.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ %@ → %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ %@ → %@"
+          }
+        }
+      }
+    },
+    "%@: %@ statt %@ (%@)" : {
+      "comment" : "Recipe difference: component, new ingredient, old ingredient, amount.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ instead of %@ (%@)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ au lieu de %@ (%@)"
+          }
+        }
+      }
+    },
+    "%@: neu %@ %@" : {
+      "comment" : "Recipe difference: component, amount, ingredient added.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: new %@ %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : nouveau %@ %@"
+          }
+        }
+      }
+    },
+    "%@: ohne %@ %@" : {
+      "comment" : "Recipe difference: component, amount, ingredient removed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: without %@ %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : sans %@ %@"
+          }
+        }
+      }
+    },
+    "%lld weitere" : {
+      "comment" : "Recipe difference summary: how many changes are not shown.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld more"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld de plus"
+          }
+        }
+      }
+    },
     "Anderen Text einfügen" : {
       "localizations" : {
         "en" : {
@@ -281,6 +407,24 @@
         }
       }
     },
+    "Hydration %@ → %@" : {
+      "comment" : "Recipe difference: hydration before and after, each with its percent sign.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydration %@ → %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydratation %@ → %@"
+          }
+        }
+      }
+    },
     "Im eingefügten Text wurden keine Zutaten und Arbeitsschritte gefunden. Überschriften wie „Zutaten“ und „Zubereitung“ helfen der Erkennung." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -326,6 +470,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adresse Internet de la source"
+          }
+        }
+      }
+    },
+    "Komponente „%@“ entfällt" : {
+      "comment" : "Recipe difference: a component the variant no longer has.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component “%@” dropped"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composant « %@ » supprimé"
+          }
+        }
+      }
+    },
+    "Komponente „%@“ heißt jetzt „%@“" : {
+      "comment" : "Recipe difference: a renamed component.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component “%@” is now called “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le composant « %@ » s’appelle désormais « %@ »"
           }
         }
       }
@@ -396,6 +576,78 @@
         }
       }
     },
+    "Neu %@ %@" : {
+      "comment" : "Recipe difference: amount, ingredient added.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New %@ %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau %@ %@"
+          }
+        }
+      }
+    },
+    "Neue Komponente „%@“" : {
+      "comment" : "Recipe difference: a component the variant has and the origin has not.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New component “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau composant « %@ »"
+          }
+        }
+      }
+    },
+    "Neuer Schritt %@: %@" : {
+      "comment" : "Recipe difference: a step the variant added.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New step %@: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle étape %@ : %@"
+          }
+        }
+      }
+    },
+    "Ohne %@ %@" : {
+      "comment" : "Recipe difference: amount, ingredient removed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without %@ %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans %@ %@"
+          }
+        }
+      }
+    },
     "Rezept aus Text" : {
       "localizations" : {
         "en" : {
@@ -440,6 +692,96 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Texte de la recette"
+          }
+        }
+      }
+    },
+    "Schritt %@ entfällt: %@" : {
+      "comment" : "Recipe difference: a step the variant no longer has.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %@ dropped: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %@ supprimée : %@"
+          }
+        }
+      }
+    },
+    "Schritt %@ geändert: %@" : {
+      "comment" : "Recipe difference: a step with another wording.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %@ changed: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %@ modifiée : %@"
+          }
+        }
+      }
+    },
+    "Schritt %@: %@ → %@" : {
+      "comment" : "Recipe difference: a step's duration before and after.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %@: %@ → %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape %@ : %@ → %@"
+          }
+        }
+      }
+    },
+    "TA %@ → %@" : {
+      "comment" : "Recipe difference: dough yield before and after.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA %@ → %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TA %@ → %@"
+          }
+        }
+      }
+    },
+    "Teiggewicht %@ g → %@ g" : {
+      "comment" : "Recipe difference: total weight before and after.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough weight %@ g → %@ g"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids de pâte %@ g → %@ g"
           }
         }
       }
