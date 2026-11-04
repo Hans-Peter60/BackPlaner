@@ -32,6 +32,9 @@ struct RecipePageView: View {
     @State private var showsShoppingList = false
     @State private var showsBakeEntry = false
     @State private var showsFeedingDiary = false
+    @State private var showsNewVariant = false
+    /// The variant just made, opened on top of this page.
+    @State private var createdVariant: AdjustedRecipeCopy?
 
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var modelFB: RecipeFBModel
@@ -59,6 +62,31 @@ struct RecipePageView: View {
                     showsEditor = true
                 }
                 .accessibilityIdentifier("recipe.edit")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button {
+                        showsNewVariant = true
+                    } label: {
+                        Label("Variante anlegen", systemImage: "arrow.triangle.branch")
+                    }
+                    .accessibilityIdentifier("recipe.newVariant")
+                } label: {
+                    Label("Weitere Aktionen", systemImage: "ellipsis.circle")
+                }
+                .accessibilityIdentifier("recipe.moreActions")
+            }
+        }
+        // A new variant by hand: the note first, then the copy opens on top
+        // of this page, ready for "Bearbeiten".
+        .sheet(isPresented: $showsNewVariant) {
+            NewVariantSheet(origin: recipe) { id in
+                createdVariant = AdjustedRecipeCopy(id: id)
+            }
+        }
+        .navigationDestination(item: $createdVariant) { variant in
+            if let created = try? viewContext.existingObject(with: variant.id) as? Recipe {
+                RecipePageView(recipe: created)
             }
         }
         // Planning: the date and mode, the plan's findings, the steps with

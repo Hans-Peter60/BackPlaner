@@ -77,6 +77,13 @@ extension Recipe {
         return objectID.uriRepresentation().absoluteString
     }
 
+    /// The variants made from this recipe, by name.
+    public var variantsArray: [Recipe] {
+        let set = variants as? Set<Recipe> ?? []
+        return set.filter { !$0.isDeleted }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
     public var bakeHistoriesArray: [BakeHistory] {
         let set = bakeHistories as? Set<BakeHistory> ?? []
         return set.sorted {

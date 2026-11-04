@@ -99,6 +99,12 @@ final class AppModel {
     /// (Settings → "Datenschutz & KI", the import's "Analyseart").
     /// Settings → Rezepte → "Bäckerprozente anzeigen": every weighed
     /// ingredient's share of its component's flour behind the line.
+    /// Whether the list shows variants of recipes (the iPhone's key), or
+    /// only the recipes of their own.
+    var showsVariantRecipes = AppModel.storedBool(AppSettingsKeys.showVariantRecipes, default: true) {
+        didSet { SettingsFile.set(showsVariantRecipes, forKey: AppSettingsKeys.showVariantRecipes) }
+    }
+
     var showsBakersPercentages = AppModel.storedBool(AppSettingsKeys.bakersPercentages,
                                                      default: AppSettings.defaultBakersPercentages) {
         didSet { SettingsFile.set(showsBakersPercentages, forKey: AppSettingsKeys.bakersPercentages) }
@@ -150,11 +156,65 @@ final class AppModel {
 
     func load() {
         do {
-            recipes = try openedStore().recipes(includingImages: false)
+            let store = try openedStore()
+            linkDatedCopiesIfNeeded(in: store)
+            recipes = try store.recipes(includingImages: false)
             loadError = nil
         } catch {
             logger.error("could not read the recipes: \(error)")
             loadError = "\(error)"
+        }
+    }
+
+    private static let variantLinkKey = "maintenance.variantLinkV1"
+
+    /// Links the copies the flour substitution and the starter adjustment
+    /// wrote before variants existed to their origin, once: a recipe whose
+    /// name carries the dated suffix becomes a variant of the recipe named
+    /// like its base, when there is exactly one — as the iPhone does.
+    private func linkDatedCopiesIfNeeded(in store: RecipeStore) {
+        guard !AppModel.storedBool(AppModel.variantLinkKey, default: false) else { return }
+        do {
+            let all = try store.recipes(includingImages: false)
+            let originals = Dictionary(grouping: all.filter { !AdjustedRecipe.hasDatedSuffix($0.content.name) },
+                                       by: { $0.content.name.trimmingCharacters(in: .whitespaces) })
+            var linked = 0
+            for copy in all where copy.originID == nil {
+                guard let base = AdjustedRecipe.baseName(of: copy.content.name),
+                      let candidates = originals[base], candidates.count == 1,
+                      let origin = candidates.first, origin.id != copy.id else { continue }
+                var variant = copy
+                variant.originID = origin.id
+                try store.update(variant)
+                linked += 1
+            }
+            SettingsFile.set(true, forKey: AppModel.variantLinkKey)
+            logger.info("variant linking attached \(linked) dated copies to their origin")
+        } catch {
+            logger.error("variant linking failed, will retry on next start: \(error)")
+        }
+    }
+
+    /// The variants of recipe `id`, by name, from the loaded list.
+    func variants(of id: String) -> [StoredRecipe] {
+        recipes.filter { $0.originID == id }
+    }
+
+    /// A new variant of `origin` made by hand: a copy named like an
+    /// adjusted one ("Landbrot – Variante (04.11.2026)"), marked as adjusted
+    /// so later adjustments change it in place, with `note` on what it is
+    /// meant to change. The variant, or nil when saving failed.
+    func addVariant(of origin: StoredRecipe, note: String) -> StoredRecipe? {
+        guard let full = recipe(id: origin.id) else { return nil }
+        var content = full.content
+        content.name = AdjustedRecipe.variantName(original: content.name)
+        do {
+            let variant = try openedStore().addVariant(content, of: origin.id, note: note, adjustedOn: Date())
+            load()
+            return variant
+        } catch {
+            logger.error("could not add a variant: \(error)")
+            return nil
         }
     }
 

@@ -32,6 +32,7 @@ struct RecipeDetailView: View {
     /// The adjusted copy to open once its sheet has gone.
     @State var keptRecipeID: String?
     @State var opensKeptRecipe = false
+    @State var createsVariant = false
     /// Publishing: the terms first (once), then the question, then the
     /// upload; what came of it in an alert. Kept apart from the alerts'
     /// visibility, as the dialogs' data is.
@@ -85,6 +86,9 @@ struct RecipeDetailView: View {
                             beginPublishing(recipe)
                         }
                         .disabled(isPublishing)
+                    }
+                    Button("Variante anlegen") {
+                        createsVariant = true
                     }
                 } label: {
                     Label("Weitere Aktionen", systemImage: "ellipsis")
@@ -197,6 +201,17 @@ struct RecipeDetailView: View {
         .navigationDestination(isPresented: $opensKeptRecipe) {
             RecipeDetailView(model: model, recipeID: keptRecipeID ?? recipeID)
         }
+        // A new variant by hand: the note first, then the copy opens on top
+        // of this page, ready for "Bearbeiten".
+        .appSheet(isPresented: $createsVariant) {
+            if let recipe {
+                NavigationStack {
+                    NewVariantSheet(model: model, origin: recipe) { variant in
+                        showKept(variant)
+                    }
+                }
+            }
+        }
         .withDocumentPicker(isPresented: $picksImage,
                             allowedContentTypes: [.image],
                             selectedDocumentURL: $pickedImageURL,
@@ -292,6 +307,11 @@ struct RecipeDetailView: View {
                 .foregroundStyle(Palette.cardTitle(colorScheme))
                 .cardStyle()
 
+                // Where a variant came from, and what it changes.
+                if let originID = recipe.originID, let origin = model.recipe(id: originID) {
+                    VariantOriginRow(recipe: recipe, origin: origin, onOpen: open)
+                }
+
                 // At the amount chosen above, as on the iPhone.
                 Button {
                     plans = true
@@ -327,9 +347,19 @@ struct RecipeDetailView: View {
                 } else {
                     RecipeBakeHistorySection(model: model, recipeID: recipeID)
                 }
+
+                // The recipes made from this one, each with what it changes
+                // and how it baked.
+                VariantsSection(model: model, recipe: recipe, onOpen: open)
             }
             .padding()
         }
+    }
+
+    /// Opens another own recipe — a variant or the origin — as the next page.
+    private func open(_ id: String) {
+        keptRecipeID = id
+        opensKeptRecipe = true
     }
 
     /// Publishing starts with its conditions — signed in, a picture — then

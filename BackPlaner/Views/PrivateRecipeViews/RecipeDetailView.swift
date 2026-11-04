@@ -126,6 +126,11 @@ struct RecipeDetailView: View {
                 Text(recipe.summary)
                     .padding(.top, 2)
                     .font(Theme.bodyFont(15))
+
+                // MARK: Where a variant came from, and what it changes
+                if let origin = recipe.origin, !origin.isDeleted {
+                    VariantOriginRow(recipe: recipe, origin: origin)
+                }
                     
                 // MARK: Serving size or target dough weight
                 ServingScaleControl(selectedServingSize: $selectedServingSize,
@@ -344,6 +349,11 @@ struct RecipeDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
                 }
+
+                // MARK: Variants
+                // The recipes made from this one, each with what it changes
+                // and how it baked, so the results can be compared.
+                VariantsCard(recipe: recipe)
             }
             .padding()
             .frame(width: fullView.size.width, alignment: .leading)

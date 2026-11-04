@@ -28,6 +28,9 @@ struct AllRecipesListView: View {
     @AppStorage(AppSettingsKeys.showLocalRecipes) private var showLocalRecipes = AppSettings.defaultShowLocalRecipes
     @AppStorage(AppSettingsKeys.showOwnPublishedRecipes) private var showOwnPublishedRecipes = AppSettings.defaultShowOwnPublishedRecipes
     @AppStorage(AppSettingsKeys.showPublicCloudRecipes) private var showPublicCloudRecipes = AppSettings.defaultShowPublicCloudRecipes
+    /// Off, the list shows only recipes of their own; their variants are
+    /// reached from the recipe's page.
+    @AppStorage(AppSettingsKeys.showVariantRecipes) private var showVariantRecipes = true
 
     // Settings → Übersetzung: off, the list is left in its recipes' own
     // languages instead of being translated ahead of time.
@@ -103,7 +106,9 @@ struct AllRecipesListView: View {
     private var toggledRows: [Row] {
         var rows: [Row] = []
         if showLocalRecipes {
-            rows += recipes.map(Row.local)
+            rows += recipes
+                .filter { showVariantRecipes || $0.origin == nil }
+                .map(Row.local)
         }
         if showOwnPublishedRecipes || showPublicCloudRecipes {
             let visible = modelFB.recipesFB
@@ -140,7 +145,7 @@ struct AllRecipesListView: View {
     private var isFiltering: Bool {
         !filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             || rating > 0
-            || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes
+            || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes || !showVariantRecipes
     }
 
     /// What "+" or the "Mehr" menu opened, pushed onto the tab's stack.
@@ -247,9 +252,11 @@ struct AllRecipesListView: View {
                                 Text("\(stars) Sterne und mehr").tag(stars)
                             }
                         }
+                        Divider()
+                        Toggle("Varianten anzeigen", isOn: $showVariantRecipes)
                     } label: {
                         Label("Nach Bewertung filtern",
-                              systemImage: rating > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                              systemImage: rating > 0 || !showVariantRecipes ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     }
                 }
 
@@ -399,6 +406,13 @@ struct AllRecipesListView: View {
                         Text(r.name)
                             .font(Theme.brandFont(16))
                             .foregroundColor(Theme.cardTitle)
+                            .multilineTextAlignment(.leading)
+                    }
+
+                    if let origin = r.origin, !origin.isDeleted {
+                        Text("Variante von „\(origin.name)“")
+                            .font(Theme.bodyFont(12))
+                            .foregroundColor(Theme.subtitle)
                             .multilineTextAlignment(.leading)
                     }
 

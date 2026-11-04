@@ -26,6 +26,8 @@ struct AdjustedRecipeTests {
         #expect(name == "Landbrot – Dinkelmehl 630 (\(stamp))")
         #expect(AdjustedRecipe.hasDatedSuffix(name))
         #expect(!AdjustedRecipe.hasDatedSuffix("Landbrot"))
+        #expect(AdjustedRecipe.baseName(of: name) == "Landbrot")
+        #expect(AdjustedRecipe.baseName(of: "Landbrot") == nil)
     }
 
     @Test("A further adjustment of a copy is listed after the first, with a fresh date")
@@ -35,17 +37,20 @@ struct AdjustedRecipeTests {
         let second = AdjustedRecipe.name(original: first, adjustment: "TA 210", on: later)
         let laterStamp = later.formatted(.dateTime.day().month().year().locale(AppSettings.locale))
         #expect(second == "Landbrot – Dinkelmehl 630, TA 210 (\(laterStamp))")
+        #expect(AdjustedRecipe.baseName(of: second) == "Landbrot")
     }
 
     @Test("A dash in the original name is left alone; only the dated suffix is recognised")
     func dashInOriginal() {
         let name = AdjustedRecipe.name(original: "Brot – Sonntag", adjustment: "TA 210", on: date)
         #expect(name == "Brot – Sonntag – TA 210 (\(stamp))")
+        #expect(AdjustedRecipe.baseName(of: name) == "Brot – Sonntag")
     }
 
     @Test("Brackets without a year are part of the name, not a date")
     func bracketsWithoutYear() {
         #expect(!AdjustedRecipe.hasDatedSuffix("Pizza (dünn)"))
+        #expect(AdjustedRecipe.baseName(of: "Pizza (dünn)") == nil)
         let name = AdjustedRecipe.name(original: "Pizza (dünn)", adjustment: "Weizenmehl 550", on: date)
         #expect(name == "Pizza (dünn) – Weizenmehl 550 (\(stamp))")
     }
