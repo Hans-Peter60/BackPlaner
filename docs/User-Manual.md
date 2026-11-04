@@ -128,7 +128,7 @@ At the top right of the **Recipes** tab sit three buttons:
 |--------|---------|
 | **Filter** | The minimum rating for the list |
 | **More (⋯)** | The three baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water) and **Starter TA** (use a starter of a different dough yield, adjust the water), **Export recipes** (a selection of your own recipes as a file, see [chapter 14](#14-settings)), and the **Settings** (language, defaults, baking plan, backup, account) |
-| **+** | **Create new recipe** — from scratch or imported from photos or a web page |
+| **+** | **Create new recipe** — from scratch or imported from photos, a web page, or copied text |
 
 **The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
 
@@ -416,9 +416,21 @@ Below that: **Import recipe from a web page**. It reads a recipe straight from a
 
 **Step numbers:** components that go into the main dough (sourdough, pre-doughs, soakers, and scalds) are each combined by the import into one parallel step 1.1, 1.2, 1.3 … covering mixing and maturing. The main dough's steps follow as 2, 3, 4 …. That way a recipe with four overnight pre-doughs takes twelve hours, not two days. The pre-doughs are started five minutes apart in the plan; the earlier ones get correspondingly more duration so that all are ready together for the main dough. Steps without a recognised duration get one minute.
 
-**What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to import" with the reason. In such cases the image import of a screenshot of the page helps.
+**What doesn't work:** pages behind a login, a paywall, or nothing but a cookie notice deliver no readable text, and some sites block retrieval by apps. BakePlanner then reports "Unable to import" with the reason. In such cases the text import helps (select the recipe on the page, copy, paste — see below), or the image import of a screenshot of the page.
 
 > **Copyright:** for your own use you may import any recipe. That's why the "Publish" switch starts out off. Only publish other people's recipes with the author's permission.
+
+### Importing a recipe from text
+
+Third: **Import recipe from text**. For recipes that exist as text — from a message, a note, or a web page the web import can't read because it loads its recipe only afterwards (it then reports "no recipe found" although you can see it in the browser).
+
+1. **Copy the text:** on the page, select the recipe from the heading to the last step and copy it. The less that comes along (navigation, comments, ads), the better.
+2. **Paste:** tap **Paste** next to "Recipe text" or paste the text into the field. Under **Web address (optional)** you can give the page's address; it goes into the recipe's "URL link" field.
+3. Choose the **Analysis mode** as for the image import. With "On this device only" the text doesn't leave the device; without Apple Intelligence the app reads ingredients and steps by fixed rules.
+4. **Analyze text** — then the same **summary** appears as for the other import routes. **Paste a different text** starts over.
+5. **Check data in the recipe form** transfers everything into the recipe form. The text brings no recipe picture; add one there.
+
+**What the fixed rules need:** headings such as "Ingredients" and "Method" (also "Zutaten"/"Zubereitung", "Ingrédients"/"Préparation"), below them one ingredient with its amount per line ("140 g rye flour") and one step per paragraph. The app recognises components by headings of their own such as "Sourdough" or "For the poolish:". Without headings it tells ingredient lines and sentences apart by their shape. With the cloud AI or Apple Intelligence this matters less. If the text is nothing but a web address, the app points you to the import from a web page.
 
 ### Storage: on the device or published
 
@@ -994,7 +1006,7 @@ The serving size affects the total ingredients, the components' ingredient lists
 - **Your own recipes, scheduled steps, shopping lists, and baking histories** live on the device and in your private iCloud database. They're visible only to you and your own devices, not to other users of the app.
 - **Public recipes** live in the shared cloud database and are visible to every user of the app. No other recipes are kept in the cloud.
 - **Translations** are produced on the device.
-- **Recipe import:** with "On this device only", images and page text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text and address of a web page, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
+- **Recipe import:** with "On this device only", images, page text, and pasted text stay on the device. Only if you've consented to the **protected cloud AI** are the chosen images, or the recipe text (of a web page or pasted by you) and the page's address, sent in encrypted form through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). There they're processed only to create the recipe draft and aren't stored. All that remains stored is a counter for the hourly usage limit, kept with your pseudonymous identifier. You can withdraw your consent under *Settings → Privacy & AI*.
 - The app uses an anonymous identifier so that you can delete your own public recipes and other users can block authors. A user account isn't required for baking. Signing in with Apple is voluntary — it makes your Apple Account the author of your published recipes and enables moderation rights; neither your name nor your email address is requested in the process.
 - **You can delete your account yourself at any time** — Settings → Account → "Delete account". Details in [chapter 14](#14-settings).
 
@@ -1078,7 +1090,7 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - Scheduled steps are matched to recipes by **recipe name**. Two of your own recipes with identical or very similar names can get mixed up over the image and over rescheduling — give them distinct names.
 - **Reminders only reach the Apple Watch from an iPhone.** They're created on the device where you tap "Set reminders", and an iPad isn't paired with the watch. An existing plan can't be moved to another device — set it again there.
 - **The image import** reads cookbook pages, recipe cards, web printouts, and two-column baking-blog pages with a planning example. How much of it arrives depends on the device's text recognition, though: the same file can yield fewer lines on an iPhone than on a Mac, and with web recipes that use pale grey numbered circles, whole paragraphs are sometimes missing. So always check the steps in the recipe form before you save.
-- **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component.
+- **The web page import** only reads what a page delivers to an app without signing in. Pages behind a paywall, a login, or a mandatory cookie consent, and sites that block retrieval by apps, can't be read. Without the cloud AI and without Apple Intelligence only the page's structured recipe data is taken; pre-dough and main dough then often end up in one shared component. If a page loads its recipe only afterwards ("no recipe found" although you can see it), select the recipe on the page, copy it, and use **Import recipe from text**.
 - **Custom units appear in every language as you created them.** Only the bundled ones are translated.
 - **A shopping list keeps the language it was created in.** If you switch the app language afterwards, existing lists stay in the old one; new lists are created in the new one.
 - **Blocked authors** are hidden on the device in question only; on a second device they still appear. A **reported** recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under *Settings → Moderation*.

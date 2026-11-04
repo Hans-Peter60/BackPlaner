@@ -103,6 +103,9 @@ struct RecipeListView: View {
     /// The page another app shared, for the web import it opens.
     @State var sharedAddress: String?
     @State var importsFromPhotos = false
+    @State var importsFromText = false
+    /// The recipe text another app shared, for the text import it opens.
+    @State var sharedText: String?
     /// A recipe read from a web page or from photos, waiting for the editor. Kept apart
     /// from the editor's visibility, as the dialogs' data is.
     @State var importedRecipe: RecipeExportData?
@@ -237,6 +240,10 @@ struct RecipeListView: View {
                     Button("Aus Fotos") {
                         importsFromPhotos = true
                     }
+                    Button("Aus Text") {
+                        sharedText = nil
+                        importsFromText = true
+                    }
                 } label: {
                     Label("Neues Rezept", systemImage: "plus")
                 }
@@ -272,19 +279,30 @@ struct RecipeListView: View {
                 WebRecipeImportView(model: model, onImport: receiveImport, initialAddress: sharedAddress)
             }
         }
-        // A page shared from the browser opens the web import with it:
-        // while the app runs, and when the share started the app (the
-        // address then waits until this view is here).
+        // A page shared from the browser opens the web import with it, a
+        // selected text the text import: while the app runs, and when the
+        // share started the app (it then waits until this view is here).
         .task {
             AppModel.current = model
-            SharedImport.shared.setHandler { url in
-                sharedAddress = url.absoluteString
-                importsFromWeb = true
+            SharedImport.shared.setHandler { kind in
+                switch kind {
+                case .page(let url):
+                    sharedAddress = url.absoluteString
+                    importsFromWeb = true
+                case .text(let text):
+                    sharedText = text
+                    importsFromText = true
+                }
             }
         }
         .appSheet(isPresented: $importsFromPhotos) {
             NavigationStack {
                 PhotoRecipeImportView(model: model, onImport: receiveImport)
+            }
+        }
+        .appSheet(isPresented: $importsFromText) {
+            NavigationStack {
+                TextRecipeImportView(model: model, onImport: receiveImport, initialText: sharedText)
             }
         }
         .appSheet(isPresented: $editsImportedRecipe) {

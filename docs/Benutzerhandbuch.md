@@ -125,7 +125,7 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 |--------------|-------|
 | **Filter** | Mindestbewertung für die Liste |
 | **Mehr (⋯)** | Die drei Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen) und **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen), **Rezepte exportieren** (eine Auswahl eigener Rezepte als Datei, siehe [Kapitel 14](#14-einstellungen)) sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Sicherung, Konto) |
-| **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos bzw. von einer Internetseite importiert |
+| **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos, von einer Internetseite oder aus kopiertem Text importiert |
 
 **Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt im Tab Rezepte über der Tab-Leiste eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Rezeptzeilen scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste wechselt zum Tab „Zeitleiste“. Ohne anstehenden Schritt bleibt sie verborgen.
 
@@ -413,9 +413,21 @@ Darunter: **„Rezept von einer Internetseite importieren“**. Damit liest Bake
 
 **Schrittnummern:** Komponenten, die in den Hauptteig eingehen (Sauerteig, Vorteige, Quell- und Brühstücke), fasst der Import je zu einem Parallelschritt 1.1, 1.2, 1.3 … zusammen, der Herstellung und Reifung umfasst. Die Schritte des Hauptteigs folgen als 2, 3, 4 …. So dauert ein Rezept mit vier Vorstufen über Nacht zwölf Stunden und nicht zwei Tage. Die Vorstufen werden im Plan im Abstand von fünf Minuten nacheinander angesetzt; die früher angesetzten bekommen entsprechend mehr Dauer, sodass alle zusammen für den Hauptteig fertig sind. Schritte ohne erkannte Dauer erhalten eine Minute.
 
-**Was nicht geht:** Seiten mit Anmeldung, Bezahlschranke oder reinem Cookie-Hinweis liefern keinen lesbaren Text, und manche Seiten sperren den Abruf durch Apps. Dann meldet BakePlanner „Import nicht möglich“ mit dem Grund. In solchen Fällen hilft der Bild-Import über einen Screenshot der Seite.
+**Was nicht geht:** Seiten mit Anmeldung, Bezahlschranke oder reinem Cookie-Hinweis liefern keinen lesbaren Text, und manche Seiten sperren den Abruf durch Apps. Dann meldet BakePlanner „Import nicht möglich“ mit dem Grund. In solchen Fällen hilft der Text-Import (Rezept auf der Seite markieren, kopieren, einfügen – siehe unten) oder der Bild-Import über einen Screenshot der Seite.
 
 > **Urheberrecht:** Für den eigenen Gebrauch darfst Du jedes Rezept importieren. Der Schalter „Veröffentlichen“ ist deshalb zunächst aus. Veröffentliche fremde Rezepte nur mit Erlaubnis der Urheber.
+
+### Rezept aus Text importieren
+
+Als Drittes: **„Rezept aus Text importieren“**. Für Rezepte, die als Text vorliegen – aus einer Nachricht, einer Notiz oder von einer Internetseite, die der Web-Import nicht lesen kann, weil sie ihr Rezept erst nachlädt (er meldet dann „kein Rezept gefunden“, obwohl Du es im Browser siehst).
+
+1. **Text kopieren:** Markiere auf der Seite das Rezept von der Überschrift bis zum letzten Arbeitsschritt und kopiere es. Je weniger Drumherum (Navigation, Kommentare, Werbung) mitkommt, desto besser.
+2. **Einfügen:** Tippe auf **Einfügen** neben „Rezepttext“ oder füge den Text in das Feld ein. Unter **Internetadresse (optional)** kannst Du die Adresse der Seite angeben; sie landet im Feld „Link“ des Rezepts.
+3. **Analyseart** wählen wie beim Bild-Import. Bei „Nur auf diesem Gerät“ verlässt der Text das Gerät nicht; ohne Apple Intelligence liest die App Zutaten und Schritte nach festen Regeln.
+4. **„Text analysieren“** – danach erscheint dieselbe **Zusammenfassung** wie bei den anderen Importwegen. **„Anderen Text einfügen“** startet neu.
+5. **„Daten im Rezeptformular prüfen“** übernimmt alles ins Rezeptformular. Ein Rezeptbild bringt der Text nicht mit; füge es dort hinzu.
+
+**Was die festen Regeln brauchen:** Überschriften wie „Zutaten“ und „Zubereitung“ (auch „Ingredients“/„Method“, „Ingrédients“/„Préparation“), darunter je Zeile eine Zutat mit Menge („140 g Roggenmehl 1150“) und je Absatz ein Arbeitsschritt. Komponenten erkennt die App an eigenen Überschriften wie „Sauerteig“ oder „Für den Vorteig:“. Fehlen die Überschriften, unterscheidet sie Zutatenzeilen und Sätze nach ihrer Form. Mit Cloud-KI oder Apple Intelligence spielt das eine kleinere Rolle. Ist der Text nur eine Internetadresse, verweist die App auf den Import von einer Internetseite.
 
 ### Ablage: auf dem Gerät oder veröffentlicht
 
@@ -991,7 +1003,7 @@ Die Portionsgröße wirkt auf Gesamtzutaten, Komponenten-Zutatenlisten und das a
 - **Eigene Rezepte, geplante Schritte, Einkaufslisten und Backhistorien** liegen auf dem Gerät und in Deiner privaten iCloud-Datenbank. Sie sind nur für Dich und Deine eigenen Geräte sichtbar, nicht für andere Nutzer der App.
 - **Öffentliche Rezepte** liegen in der gemeinsamen Cloud-Datenbank und sind für alle Nutzer der App sichtbar. Andere Rezepte liegen nicht in der Cloud.
 - **Übersetzungen** entstehen auf dem Gerät.
-- **Rezeptimport:** Mit „Nur auf diesem Gerät“ bleiben Bilder und Seitentext auf dem Gerät. Nur wenn Du der **geschützten Cloud-KI** zugestimmt hast, gehen die gewählten Bilder bzw. der Rezepttext und die Adresse einer Internetseite verschlüsselt über eine Firebase-Funktion von BackPlaner (Region europe-west1) an Google Vertex AI (Gemini, Standort EU). Dort werden sie nur für den Rezeptentwurf verarbeitet und nicht gespeichert. Gespeichert bleibt allein ein Zähler für die stündliche Nutzungsbegrenzung mit Deiner pseudonymen Kennung. Widerrufen kannst Du die Einwilligung unter *Einstellungen → Datenschutz & KI*.
+- **Rezeptimport:** Mit „Nur auf diesem Gerät“ bleiben Bilder, Seitentext und eingefügter Text auf dem Gerät. Nur wenn Du der **geschützten Cloud-KI** zugestimmt hast, gehen die gewählten Bilder bzw. der Rezepttext (einer Internetseite oder von Dir eingefügt) und die Adresse der Seite verschlüsselt über eine Firebase-Funktion von BackPlaner (Region europe-west1) an Google Vertex AI (Gemini, Standort EU). Dort werden sie nur für den Rezeptentwurf verarbeitet und nicht gespeichert. Gespeichert bleibt allein ein Zähler für die stündliche Nutzungsbegrenzung mit Deiner pseudonymen Kennung. Widerrufen kannst Du die Einwilligung unter *Einstellungen → Datenschutz & KI*.
 - Die App verwendet eine anonyme Kennung, damit Du eigene öffentliche Rezepte löschen kannst und andere Nutzer Autoren blockieren können. Ein Benutzerkonto ist für das Backen nicht erforderlich. Die Anmeldung mit Apple ist freiwillig – sie macht Dein Apple-Konto zum Autor Deiner veröffentlichten Rezepte und schaltet Moderationsrechte frei; dabei werden weder Name noch E-Mail-Adresse abgefragt.
 - **Dein Konto kannst Du jederzeit selbst löschen** – Einstellungen → Konto → „Konto löschen“. Details in [Kapitel 14](#14-einstellungen).
 
@@ -1075,7 +1087,7 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - Die Zuordnung von geplanten Schritten zu Rezepten erfolgt über den **Rezeptnamen**. Zwei eigene Rezepte mit identischem oder stark ähnlichem Namen können bei Bild und Verschieben durcheinandergeraten – vergib eindeutige Namen.
 - **Erinnerungen erreichen die Apple Watch nur vom iPhone aus.** Sie entstehen auf dem Gerät, auf dem Du „Erinnerungen setzen“ tippst, und ein iPad ist mit der Uhr nicht gekoppelt. Ein bestehender Plan lässt sich nicht auf ein anderes Gerät umziehen – dort neu setzen.
 - **Der Import aus Bildern** liest Kochbuchseiten, Rezeptkarten, Web-Ausdrucke und zweispaltige Backblog-Seiten mit Planungsbeispiel. Wie viel davon ankommt, hängt aber von der Texterkennung des Geräts ab: Dieselbe Datei kann auf dem iPhone weniger Zeilen ergeben als auf dem Mac, und bei Web-Rezepten mit hellgrauen Nummern-Kreisen fehlen mitunter ganze Absätze. Prüfe die Schritte deshalb immer im Rezeptformular, bevor Du speicherst.
-- **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente.
+- **Der Import von einer Internetseite** liest nur, was die Seite ohne Anmeldung an eine App ausliefert. Seiten mit Bezahlschranke, Login oder Cookie-Pflicht und Seiten, die den Abruf durch Apps sperren, lassen sich nicht einlesen. Ohne Cloud-KI und ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen; Vorteig und Hauptteig landen dann oft in einer gemeinsamen Komponente. Lädt eine Seite ihr Rezept erst nach („kein Rezept gefunden“, obwohl Du es siehst), markiere das Rezept auf der Seite, kopiere es und nimm **Rezept aus Text importieren**.
 - **Eigene Einheiten erscheinen in jeder Sprache so, wie Du sie angelegt hast.** Übersetzt werden nur die mitgelieferten.
 - **Eine Einkaufsliste behält die Sprache, in der sie erstellt wurde.** Wechselst Du danach die App-Sprache, bleiben bestehende Listen in der alten; neue Listen entstehen in der neuen.
 - **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.

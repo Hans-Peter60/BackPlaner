@@ -455,6 +455,329 @@
         }
       }
     },
+    "Aus Text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir d’un texte"
+          }
+        }
+      }
+    },
+    "BackPlaner speichert die übertragenen Rezeptbilder und Texte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner stores neither the transmitted recipe images nor the texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
+          }
+        }
+      }
+    },
+    "Das ist noch zu wenig Text für ein Rezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That is not enough text for a recipe yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas encore assez de texte pour une recette."
+          }
+        }
+      }
+    },
+    "Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
+          }
+        }
+      }
+    },
+    "Der eingefügte Text wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The pasted text is analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte collé est analysé de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
+    "Der Text verlässt das Gerät nicht. Die App liest Zutaten und Schritte nach festen Regeln; Überschriften wie „Zutaten“ und „Zubereitung“ helfen dabei." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text does not leave the device. The app reads ingredients and steps by fixed rules; headings such as “Ingredients” and “Method” help with that."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte ne quitte pas l’appareil. L’app lit les ingrédients et les étapes selon des règles fixes ; des titres comme « Ingrédients » et « Préparation » l’y aident."
+          }
+        }
+      }
+    },
+    "Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text is analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the transmitted text in Firebase Storage or in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
+    "Der von Dir eingefügte Rezepttext und, falls angegeben, die Adresse seiner Quelle werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe text you pasted and, if given, the address of its source are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider. To secure the service and limit usage, a pseudonymous Firebase user ID, the App Check attestation, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette que vous avez collé ainsi que, le cas échéant, l’adresse de sa source sont transmis de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis à Google Vertex AI. Google est un fournisseur d’IA externe. Pour la sécurisation et la limitation d’usage, un identifiant d’utilisateur Firebase pseudonyme, l’attestation App Check ainsi que l’heure et le nombre des demandes sont également traités."
+          }
+        }
+      }
+    },
+    "Die Adresse wird als Link im Rezept gespeichert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The address is saved as the recipe’s link."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’adresse est enregistrée comme lien de la recette."
+          }
+        }
+      }
+    },
+    "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI could not be reached. The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’était pas joignable. La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
+          }
+        }
+      }
+    },
+    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext oder der eingefügte Text werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images, the page text, or the pasted text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées, le texte de la page ou le texte collé sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
+          }
+        }
+      }
+    },
+    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern, dem Seitentext oder dem eingefügten Text zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images, the page text, or the pasted text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images, le texte de la page ou le texte collé, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
+          }
+        }
+      }
+    },
+    "Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Text Dein Gerät nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can use the local analysis instead at any time. The text then does not leave your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte ne quitte alors pas votre appareil."
+          }
+        }
+      }
+    },
+    "Internetadresse (optional)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web address (optional)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse Internet (facultative)"
+          }
+        }
+      }
+    },
+    "Markiere auf der Seite am besten nur das Rezept, von der Überschrift bis zum letzten Arbeitsschritt. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ideally select only the recipe on the page, from the heading to the last step. Importing for private use is fine; publish other people’s recipes only with permission."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez de préférence uniquement la recette sur la page, du titre à la dernière étape. L’importation pour un usage privé ne pose pas de problème ; ne publiez les recettes d’autrui qu’avec leur autorisation."
+          }
+        }
+      }
+    },
+    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Texte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite oder liest eingefügten Text nach festen Regeln; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With “On this device only”, neither recipe images nor texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page or reads pasted text by fixed rules; photos cannot be read without the cloud AI yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ou lit le texte collé selon des règles fixes ; les photos ne peuvent pas encore être lues sans l’IA cloud."
+          }
+        }
+      }
+    },
+    "Rezept aus Text importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe from text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer une recette depuis un texte"
+          }
+        }
+      }
+    },
+    "Rezepttext" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de la recette"
+          }
+        }
+      }
+    },
+    "Text wird analysiert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzing text…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse du texte…"
+          }
+        }
+      }
+    },
     "Änderung übernehmen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -968,23 +1291,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause de cuisson"
-          }
-        }
-      }
-    },
-    "BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner stores neither the transmitted recipe images nor the page texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes de pages transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
           }
         }
       }
@@ -2217,23 +2523,6 @@
         }
       }
     },
-    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images or the page text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées ou le texte de la page sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
-          }
-        }
-      }
-    },
     "Die KI erstellt lediglich einen bearbeitbaren Rezeptentwurf. Sie trifft keine rechtlich oder vergleichbar erheblich wirkende Entscheidung. Du kannst das Ergebnis vollständig prüfen, ändern oder verwerfen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2387,23 +2676,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La conversion doit être supérieure à 0."
-          }
-        }
-      }
-    },
-    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern oder dem Seitentext zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images or the page text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images ou le texte de la page, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
           }
         }
       }
@@ -4967,23 +5239,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec levain ou pré-pâte"
-          }
-        }
-      }
-    },
-    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Seitentexte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With “On this device only”, neither recipe images nor page texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page; photos cannot be read without the cloud AI yet."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes de pages ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ; les photos ne peuvent pas encore être lues sans l’IA cloud."
           }
         }
       }

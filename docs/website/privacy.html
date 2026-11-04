@@ -142,12 +142,12 @@
       Einwilligung.</td>
     </tr>
     <tr>
-      <td>Adresse und Text einer Rezeptseite, die du importierst</td>
+      <td>Adresse und Text einer Rezeptseite, die du importierst, oder Rezepttext, den du einfügst</td>
       <td>Die Seite lädt dein Gerät direkt beim Anbieter der Seite. Bei
       lokaler Analyse bleibt ihr Text auf dem Gerät. Bei ausdrücklich
-      ausgewählter Cloud-KI werden der Rezepttext der Seite und ihre Adresse
-      über eine geschützte Firebase Cloud Function an Google Vertex AI
-      übertragen.</td>
+      ausgewählter Cloud-KI werden der Rezepttext der Seite (oder der von dir
+      eingefügte Text) und ihre Adresse über eine geschützte Firebase Cloud
+      Function an Google Vertex AI übertragen.</td>
       <td>Einlesen von Rezepten aus dem Internet. Eine Cloud-Übertragung
       erfolgt erst nach deiner ausdrücklichen Einwilligung.</td>
     </tr>
@@ -253,7 +253,7 @@
   <h3>Speicherdauer</h3>
   <p>Veröffentlichte Rezepte bleiben, bis sie gelöscht werden – von dir oder
   nach einer Meldung. Auf dem Gerät gespeicherte Daten verschwinden mit dem
-  Löschen der App. Die an die Cloud-KI übertragenen Bilder und Seitentexte
+  Löschen der App. Die an die Cloud-KI übertragenen Bilder und Texte
   werden von BakePlanner nicht dauerhaft abgelegt. Für die stündliche Nutzungsbegrenzung
   und die monatliche Begrenzung speichert Firestore zur pseudonymen
   Nutzerkennung nur den Beginn des aktuellen Zeitfensters, den aktuellen
@@ -339,11 +339,12 @@
       only takes place after your explicit consent.</td>
     </tr>
     <tr>
-      <td>Address and text of a recipe page you import</td>
+      <td>Address and text of a recipe page you import, or recipe text you paste</td>
       <td>Your device loads the page directly from the site that hosts it.
       With local analysis its text stays on the device. If you explicitly
-      select Cloud AI, the page's recipe text and its address are sent
-      through a protected Firebase Cloud Function to Google Vertex AI.</td>
+      select Cloud AI, the page's recipe text (or the text you pasted) and
+      its address are sent through a protected Firebase Cloud Function to
+      Google Vertex AI.</td>
       <td>Importing recipes from the web. Cloud transmission only takes
       place after your explicit consent.</td>
     </tr>
@@ -441,7 +442,7 @@
   <h3>Retention</h3>
   <p>Published recipes remain until deleted — by you or after a report. Data
   held on the device goes when you delete the app. BakePlanner does not retain
-  images or page texts sent to Cloud AI. For the hourly usage limit,
+  images or texts sent to Cloud AI. For the hourly usage limit,
   and the monthly limit, Firestore stores only the start of the current
   window, the current month and the request counts against the pseudonymous
   user ID; an expired window is replaced when the next analysis is made. The
@@ -526,12 +527,12 @@
       transmission au cloud n’a lieu qu’après votre consentement explicite.</td>
     </tr>
     <tr>
-      <td>Adresse et texte d’une page de recette que vous importez</td>
+      <td>Adresse et texte d’une page de recette que vous importez, ou texte de recette que vous collez</td>
       <td>Votre appareil charge la page directement auprès du site qui
       l’héberge. Lors de l’analyse locale, son texte reste sur l’appareil. Si
       vous choisissez expressément l’IA cloud, le texte de recette de la page
-      et son adresse sont transmis à Google Vertex AI via une fonction
-      Firebase Cloud protégée.</td>
+      (ou le texte que vous avez collé) et son adresse sont transmis à Google
+      Vertex AI via une fonction Firebase Cloud protégée.</td>
       <td>Importation de recettes depuis le Web. La transmission au cloud
       n’a lieu qu’après votre consentement explicite.</td>
     </tr>
@@ -639,7 +640,7 @@
   <p>Les recettes publiées subsistent jusqu’à leur suppression — par vous ou
   après un signalement. Les données présentes sur l’appareil
   disparaissent avec la suppression de l’app. BakePlanner ne conserve pas les
-  images ni les textes de pages transmis à l’IA cloud. Pour la limite
+  images ni les textes transmis à l’IA cloud. Pour la limite
   horaire et la limite mensuelle, Firestore stocke uniquement le début de la
   période en cours, le mois en cours et le nombre de requêtes avec
   l’identifiant pseudonyme ; une période expirée est remplacée lors de

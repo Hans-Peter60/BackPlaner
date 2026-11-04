@@ -13,6 +13,8 @@ private struct SelectedRecipeImage: Identifiable {
 enum CloudAnalysisSubject {
     case images
     case webPage
+    /// Recipe text the person pasted.
+    case text
 }
 
 /// Shared by the image and the web import; the choice is persisted once.
@@ -39,6 +41,10 @@ enum RecipeImageAnalysisMode: String, CaseIterable, Identifiable {
             "Die Bilder verlassen das Gerät nicht. Die Erkennung kann weniger genau sein als mit der Cloud-KI."
         case (.localOnly, .webPage):
             "Der Seitentext verlässt das Gerät nicht. Ohne Apple Intelligence werden nur die strukturierten Rezeptdaten der Seite übernommen."
+        case (.protectedCloud, .text):
+            "Der eingefügte Text wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig."
+        case (.localOnly, .text):
+            "Der Text verlässt das Gerät nicht. Ohne Apple Intelligence liest die App Zutaten und Schritte nach festen Regeln; Überschriften wie „Zutaten“ und „Zubereitung“ helfen dabei."
         }
     }
 }
@@ -329,6 +335,9 @@ struct CloudRecipeAnalysisConsentView: View {
                     case .webPage:
                         Text("Der Rezepttext der von Dir angegebenen Internetseite und ihre Adresse werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
                         Text("Die Seite selbst wird von Deinem Gerät geladen. Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank.")
+                    case .text:
+                        Text("Der von Dir eingefügte Rezepttext und, falls angegeben, die Adresse seiner Quelle werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet.")
+                        Text("Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank.")
                     }
                 } header: {
                     Text("Vor der ersten Cloud-Analyse")
@@ -340,6 +349,8 @@ struct CloudRecipeAnalysisConsentView: View {
                         Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlassen die Bilder Dein Gerät nicht.")
                     case .webPage:
                         Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Seitentext Dein Gerät nicht.")
+                    case .text:
+                        Text("Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Text Dein Gerät nicht.")
                     }
 
                     Button("Zustimmen und mit Cloud-KI analysieren") {
