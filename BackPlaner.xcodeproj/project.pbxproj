@@ -51,6 +51,7 @@
 		6A2615BB3070FE15007644AB /* BakeryBackdropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2615BA3070FE15007644AB /* BakeryBackdropView.swift */; };
 		6A2615D330726171007644AB /* RecipeWebPageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2615D230726171007644AB /* RecipeWebPageLoader.swift */; };
 		6A2615D530726203007644AB /* RecipeWebImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2615D430726203007644AB /* RecipeWebImportView.swift */; };
+		6A3D7C2331A2B4C5006E1F42 /* KeyboardCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2231A2B4C5006E1F42 /* KeyboardCommands.swift */; };
 		6A3D7C2131A2B4C5006E1F42 /* RecipeVariantsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2031A2B4C5006E1F42 /* RecipeVariantsViews.swift */; };
 		6A3D7C1F31A2B4C5006E1F42 /* RecipeTextImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D7C1E31A2B4C5006E1F42 /* RecipeTextImportView.swift */; };
 		6A2615FE3072A079007644AB /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2615FD3072A079007644AB /* UniformTypeIdentifiers.framework */; };
@@ -75,6 +76,7 @@
 		6A8805DA308CB64C00EB2187 /* NextFeedingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8805D9308CB64C00EB2187 /* NextFeedingView.swift */; };
 		6A895D19304BC2EA00603AA5 /* AdaptiveLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */; };
 		6A9181F1304961530045D7CB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9181F0304961530045D7CB /* Localizable.xcstrings */; };
+		6A3D7C2531A2B4C5006E1F42 /* Tabs.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6A3D7C2431A2B4C5006E1F42 /* Tabs.xcstrings */; };
 		6A9181F2304961530045D7CB /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9181EF304961530045D7CB /* InfoPlist.xcstrings */; };
 		6A9181F43049649A0045D7CB /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9181F33049649A0045D7CB /* AppSettings.swift */; };
 		6A9181F63049649B0045D7CB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9181F53049649B0045D7CB /* SettingsView.swift */; };
@@ -242,6 +244,7 @@
 		6A2615BA3070FE15007644AB /* BakeryBackdropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeryBackdropView.swift; sourceTree = "<group>"; };
 		6A2615D230726171007644AB /* RecipeWebPageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeWebPageLoader.swift; sourceTree = "<group>"; };
 		6A2615D430726203007644AB /* RecipeWebImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeWebImportView.swift; sourceTree = "<group>"; };
+		6A3D7C2231A2B4C5006E1F42 /* KeyboardCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCommands.swift; sourceTree = "<group>"; };
 		6A3D7C2031A2B4C5006E1F42 /* RecipeVariantsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeVariantsViews.swift; sourceTree = "<group>"; };
 		6A3D7C1E31A2B4C5006E1F42 /* RecipeTextImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTextImportView.swift; sourceTree = "<group>"; };
 		6A2615FC3072A079007644AB /* BackPlanerShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BackPlanerShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +269,7 @@
 		6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveLayout.swift; sourceTree = "<group>"; };
 		6A9181EF304961530045D7CB /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		6A9181F0304961530045D7CB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		6A3D7C2431A2B4C5006E1F42 /* Tabs.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Tabs.xcstrings; sourceTree = "<group>"; };
 		6A9181F33049649A0045D7CB /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		6A9181F53049649B0045D7CB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSupport.swift; sourceTree = "<group>"; };
@@ -604,6 +608,7 @@
 				6A9181F33049649A0045D7CB /* AppSettings.swift */,
 				6A2FC159304ACE2C0084866D /* RecipeTranslator.swift */,
 				6A895D18304BC2EA00603AA5 /* AdaptiveLayout.swift */,
+				6A3D7C2231A2B4C5006E1F42 /* KeyboardCommands.swift */,
 				6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */,
 				6A1E80EFF2BE162FF4DF2AD5 /* RecipeImageAnalysisModels.swift */,
 				6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */,
@@ -660,6 +665,7 @@
 			children = (
 				6A9181EF304961530045D7CB /* InfoPlist.xcstrings */,
 				6A9181F0304961530045D7CB /* Localizable.xcstrings */,
+				6A3D7C2431A2B4C5006E1F42 /* Tabs.xcstrings */,
 				6A481DA93047040500362FFB /* Info.plist */,
 				6A481DA83047040500362FFB /* BackPlaner.entitlements */,
 				6AF639652B7A4F890070CDC1 /* Views */,
@@ -900,6 +906,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9181F1304961530045D7CB /* Localizable.xcstrings in Resources */,
+				6A3D7C2531A2B4C5006E1F42 /* Tabs.xcstrings in Resources */,
 				6ADBF507308BA89B00BB7789 /* AppShortcuts.xcstrings in Resources */,
 				6A9181F2304961530045D7CB /* InfoPlist.xcstrings in Resources */,
 				6AF9268B3045772B0081227C /* PrivacyInfo.xcprivacy in Resources */,
@@ -1060,6 +1067,7 @@
 				6A261550306FA8CD007644AB /* NextStepCardView.swift in Sources */,
 				6A11320E2B7CF95A00CDF054 /* AddRecipeView.swift in Sources */,
 				6A895D19304BC2EA00603AA5 /* AdaptiveLayout.swift in Sources */,
+				6A3D7C2331A2B4C5006E1F42 /* KeyboardCommands.swift in Sources */,
 				6A11320D2B7CF95A00CDF054 /* AddInstructionDataView.swift in Sources */,
 				6AF639632B7A4F060070CDC1 /* Component+CoreDataProperties.swift in Sources */,
 				6AF639472B7A4ED90070CDC1 /* Item+CoreDataClass.swift in Sources */,
@@ -1467,6 +1475,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsMultipleScenes = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1507,6 +1516,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "BakePlanner accesses your photo library so you can add pictures of your recipes and bakes.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsMultipleScenes = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

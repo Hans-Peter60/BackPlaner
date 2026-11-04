@@ -131,6 +131,20 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 
 Mit dem Zurück-Pfeil oben links kommst Du aus jedem geöffneten Bildschirm in seine Liste zurück. Was sich als Blatt über ein Rezept legt – die Backanleitung, die Einkaufsliste, das Bearbeiten –, schließt **Schließen** oben links oder ein Wischen nach unten.
 
+### Auf dem iPad
+
+Auf dem iPad liegt die Tab-Leiste oben in der Titelleiste, das Suchfeld darunter in voller Breite, und der Bewertungsfilter steht im Menü **Mehr**. Die App lässt sich in **mehreren Fenstern** nebeneinander öffnen (über die App-Übersicht oder ⌥⌘N), etwa das Rezept links und die Zeitleiste rechts.
+
+Mit einer Tastatur gelten diese Kurzbefehle (⌘ gedrückt halten zeigt sie an):
+
+| Kurzbefehl | Wirkung |
+|---|---|
+| ⌘1, ⌘2, ⌘3, ⌘4 | Tab Rezepte, Einkaufslisten, Backhistorie, Zeitleiste |
+| ⌘N | Neues Rezept anlegen |
+| ⌘F | Rezept suchen |
+| ⌘, | Einstellungen |
+| ⌥⌘N | Neues Fenster |
+
 ---
 
 ## 5. Rezept-Datenbank

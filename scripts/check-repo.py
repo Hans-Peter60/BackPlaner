@@ -34,6 +34,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CATALOGS = [
     "BackPlaner/Localizable.xcstrings",
+    "BackPlaner/Tabs.xcstrings",
     "BackPlaner/InfoPlist.xcstrings",
     "BackPlanerShare/Localizable.xcstrings",
     "BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",

@@ -43,6 +43,10 @@ struct ContentView: View {
     /// the app runs on an empty one (see PersistenceController.loadError).
     @State private var showStoreError = PersistenceController.shared.loadError != nil
 
+    /// Counts the ⌘F presses; the recipe list focuses its search field on
+    /// each change.
+    @State private var searchFocusRequest = 0
+
     var manager:LocalNotificationManager = LocalNotificationManager()
 
     init() {
@@ -51,11 +55,14 @@ struct ContentView: View {
 
     var body: some View {
 
+        // The tab titles come from their own table (Tabs.xcstrings): on the
+        // iPad the tab bar shares the title bar with the toolbar, and the
+        // French screen titles were too wide for both.
         TabView(selection: $selectedTab) {
 
-            Tab("Rezepte", systemImage: "books.vertical.fill", value: .recipes) {
+            Tab(value: .recipes) {
                 NavigationStack(path: $recipesPath) {
-                    AllRecipesListView()
+                    AllRecipesListView(searchFocusRequest: searchFocusRequest)
                         // The next planned step floats as a Liquid Glass
                         // bar over the bottom edge of the recipe list: the
                         // rows scroll underneath it, and the countdown stays
@@ -73,30 +80,56 @@ struct ContentView: View {
                             MenuDestinationView(destination: destination)
                         }
                 }
+            } label: {
+                Label { Text("Rezepte", tableName: "Tabs") } icon: { Image(systemName: "books.vertical.fill") }
             }
 
-            Tab("Einkaufslisten", systemImage: "cart.fill", value: .shoppingLists) {
+            Tab(value: .shoppingLists) {
                 NavigationStack {
                     // Shopping lists are a Pro feature; locked, the tab offers Pro.
                     ProLockedScreen(.shoppingList) { ShoppingCartsView() }
                 }
+            } label: {
+                Label { Text("Einkaufslisten", tableName: "Tabs") } icon: { Image(systemName: "cart.fill") }
             }
 
-            Tab("Backhistorie", systemImage: "clock.arrow.circlepath", value: .bakeHistory) {
+            Tab(value: .bakeHistory) {
                 NavigationStack {
                     BakeHistoriesListView()
                 }
+            } label: {
+                Label { Text("Backhistorie", tableName: "Tabs") } icon: { Image(systemName: "clock.arrow.circlepath") }
             }
 
-            Tab("Zeitleiste", systemImage: "calendar", value: .scheduledSteps) {
+            Tab(value: .scheduledSteps) {
                 NavigationStack {
                     ScheduledTasksTabsView()
                 }
+            } label: {
+                Label { Text("Zeitleiste", tableName: "Tabs") } icon: { Image(systemName: "calendar") }
             }
         }
         // accentText, not accentBottom: the tab bar keeps the system's own
         // background, so the tint has to be light in dark mode, not dark.
         .tint(Theme.accentText)
+        // The keyboard shortcuts (BakePlannerCommands) reach the window
+        // that has the focus through this value.
+        .focusedSceneValue(\.commandTarget, CommandTarget(
+            showTab: { selectedTab = $0 },
+            newRecipe: {
+                selectedTab = .recipes
+                recipesPath = NavigationPath([MenuDestination.newRecipe])
+            },
+            focusSearch: {
+                selectedTab = .recipes
+                recipesPath = NavigationPath()
+                searchFocusRequest += 1
+            },
+            settings: {
+                selectedTab = .recipes
+                recipesPath = NavigationPath([MenuDestination.settings])
+            }
+        ))
         // The widget's deep link goes straight to the planned steps; the
         // share extension's carries a page address for the web import.
         .onOpenURL { url in

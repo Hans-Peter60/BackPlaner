@@ -134,6 +134,20 @@ At the top right of the **Recipes** tab sit three buttons:
 
 The back arrow at the top left returns you from any opened screen to its list. Whatever lies as a sheet over a recipe — the baking instructions, the shopping list, editing — is closed with **Close** at the top left or a swipe down.
 
+### On the iPad
+
+On the iPad the tab bar sits at the top in the title bar, the search field below it across the full width, and the rating filter lives in the **More** menu. The app can be opened in **several windows** side by side (from the app switcher or with ⌥⌘N), say the recipe on the left and the timeline on the right.
+
+With a keyboard these shortcuts apply (holding ⌘ shows them):
+
+| Shortcut | Effect |
+|---|---|
+| ⌘1, ⌘2, ⌘3, ⌘4 | Recipes, Shopping lists, Baking history, Timeline tab |
+| ⌘N | Create new recipe |
+| ⌘F | Search recipe |
+| ⌘, | Settings |
+| ⌥⌘N | New window |
+
 ---
 
 ## 5. Recipe database

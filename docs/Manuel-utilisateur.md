@@ -134,6 +134,20 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 
 La flèche de retour en haut à gauche vous ramène de tout écran ouvert à sa liste. Ce qui se pose en feuille sur une recette — les instructions de cuisson, la liste de courses, la modification — se ferme par **Fermer** en haut à gauche ou par un balayage vers le bas.
 
+### Sur l’iPad
+
+Sur l’iPad, la barre d’onglets se trouve en haut dans la barre de titre, le champ de recherche en dessous sur toute la largeur, et le filtre par note se trouve dans le menu **Plus**. L’app peut s’ouvrir dans **plusieurs fenêtres** côte à côte (depuis le sélecteur d’apps ou avec ⌥⌘N), par exemple la recette à gauche et la timeline à droite.
+
+Avec un clavier, ces raccourcis s’appliquent (maintenir ⌘ les affiche) :
+
+| Raccourci | Effet |
+|---|---|
+| ⌘1, ⌘2, ⌘3, ⌘4 | Onglet Recettes, Courses, Historique, Timeline |
+| ⌘N | Créer une nouvelle recette |
+| ⌘F | Rechercher une recette |
+| ⌘, | Réglages |
+| ⌥⌘N | Nouvelle fenêtre |
+
 ---
 
 ## 5. Base de recettes
