@@ -44,6 +44,20 @@ public enum AdjustedRecipe {
         datedSuffixRange(in: name.trimmingCharacters(in: .whitespaces)) != nil
     }
 
+    /// The name of the recipe a dated copy was made from: "Landbrot" for
+    /// "Landbrot – Dinkelmehl 630 (14.10.2026)". Nil for a name without the
+    /// dated suffix. How copies made before variants were linked find their
+    /// origin once.
+    public static func baseName(of name: String) -> String? {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard let range = datedSuffixRange(in: trimmed) else { return nil }
+        let withoutDate = String(trimmed[..<range.lowerBound])
+        // The last dash: a dash in the original name stays part of it.
+        guard let dash = withoutDate.range(of: " – ", options: .backwards) else { return nil }
+        let base = String(withoutDate[..<dash.lowerBound]).trimmingCharacters(in: .whitespaces)
+        return base.isEmpty ? nil : base
+    }
+
     /// The range of a trailing " (…2026…)" — a bracketed chunk holding a
     /// four-digit year, whatever the locale's date format put around it.
     private static func datedSuffixRange(in name: String) -> Range<String.Index>? {

@@ -539,6 +539,17 @@ Wurde diese Kopie später gelöscht (durch Dich oder die Moderation), erkennt di
 
 ---
 
+### Rezept-Varianten
+
+Wer ein Rezept abwandelt, will später wissen, was anders war und wie es geworden ist. Dafür gibt es Varianten: eigene Rezepte, die mit ihrem Ursprungsrezept verbunden bleiben.
+
+- **Woher Varianten kommen:** **Mehl ersetzen** und **Anstellgut-TA anpassen** (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)) legen ihre Kopie als Variante an und schreiben dazu, was sie geändert haben („Dinkelmehl 630 statt Weizenmehl 1050“, „TA 170 statt TA 172“). Für alles andere steht auf der Rezeptseite oben rechts unter **⋯ → Variante anlegen** ein Blatt: Du schreibst in einem Satz, was Du ändern willst (optional), **Anlegen** kopiert das Rezept als „… – Variante (Datum)“ und öffnet es; die Änderung selbst machst Du dann mit **Bearbeiten**. Kopien aus früheren Versionen verbindet die App beim ersten Start von selbst mit dem Rezept, dessen Namen sie tragen.
+- **Auf der Variante** steht unter der Beschreibung **„Variante von …“** mit Deiner Notiz; Antippen öffnet das Ursprungsrezept. **Vergleichen** zeigt, was die App an Unterschieden findet: ersetzte, neue, weggefallene und anders gewogene Zutaten je Komponente, TA, Hydration und Teiggewicht vorher → nachher, Schritte mit anderer Dauer oder anderem Text.
+- **Auf dem Ursprungsrezept** erscheint unten die Karte **Varianten**: je Variante der Name, die Notiz (oder der gefundene Unterschied) und das Ergebnis aus ihrer Backhistorie – wie oft gebacken, zuletzt wann und mit welcher Bewertung und welchen Stichworten. So siehst Du auf einen Blick, welche Abwandlung besser war.
+- **In der Rezeptliste** steht unter dem Namen einer Variante „Variante von …“. Im Filtermenü (Sterne-Symbol) lässt sich **Varianten anzeigen** ausschalten; dann zeigt die Liste nur die Rezepte selbst, ihre Varianten erreichst Du über die Rezeptseite.
+- Löschst Du das Ursprungsrezept, bleiben die Varianten als eigenständige Rezepte erhalten. Eine Variante lässt sich wie jedes Rezept löschen.
+- Die Sicherungsdatei (Formatversion 3) nimmt die Verbindung und die Notiz mit; ein einzeln geteiltes Rezept steht für sich.
+
 ## 10. Geplante Schritte (Liste und Timeline)
 
 **Tab Zeitleiste.** Hier stehen alle Backschritte aus allen Rezepten, für die Du Erinnerungen gesetzt hast – chronologisch, rezeptübergreifend. Oben wechselst Du mit **Timeline / Liste** zwischen zwei Ansichten; die Timeline öffnet sich zuerst. Automatisch geplante Auffrischungen (siehe [Kapitel 9](#9-rezept-bearbeiten)) erscheinen erst zwei Tage vor ihrem Termin.
@@ -680,6 +691,7 @@ Freitext und Sterne allein reichen nicht, um beim nächsten Mal besser zu werden
 
 | Feld | Inhalt |
 |------|--------|
+| **Bewertung** | 1 bis 5 Sterne für diesen Backvorgang, unabhängig von den Sternen des Rezepts. Nochmaliges Tippen auf den gewählten Stern nimmt die Bewertung zurück. Die Sterne stehen in der Historie vorn in der Zeile der Messwerte und bei den **Varianten** eines Rezepts, damit sich deren Ergebnisse vergleichen lassen. |
 | **Raumtemperatur**, **Teigtemperatur** | In °C, mit Komma oder Punkt („22,5“). Leer heißt „nicht gemessen“. |
 | **Stockgare**, **Stückgare** | Die tatsächliche Dauer in Minuten; ab 60 Minuten wird darunter die Umrechnung gezeigt („= 3h 30m“). |
 | **Mehl** | Das verwendete Mehl, als Freitext („Weizen 550, Dinkel 630“). |

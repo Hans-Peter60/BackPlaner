@@ -542,6 +542,17 @@ If that copy is later deleted (by you or by moderation), the app notices the nex
 
 ---
 
+### Recipe variants
+
+Whoever alters a recipe wants to know later what was different and how it turned out. That is what variants are for: recipes of your own that stay linked to the recipe they came from.
+
+- **Where variants come from:** **Replace flour** and **Adjust starter TA** (see [chapter 15](#15-units-amounts-and-serving-sizes)) create their copy as a variant and note what they changed ("Dinkelmehl 630 instead of Weizenmehl 1050", "TA 170 instead of TA 172"). For everything else, the recipe page offers **⋯ → Create variant** at the top right: you write in a sentence what you mean to change (optional), **Create** copies the recipe as "… – Variant (date)" and opens it; the change itself you then make with **Edit**. Copies from earlier versions are linked by the app on its first start to the recipe whose name they carry.
+- **On the variant**, below the description, stands **"Variant of …"** with your note; tapping it opens the original recipe. **Compare** shows the differences the app finds: ingredients replaced, added, removed or weighed differently per component, TA, hydration and dough weight before → after, steps with another duration or wording.
+- **On the original recipe** a **Variants** card appears at the bottom: per variant its name, the note (or the difference found) and the result from its baking history — how often baked, when last, and with which rating and keywords. So you see at a glance which alteration was better.
+- **In the recipe list** a variant shows "Variant of …" under its name. In the filter menu (star symbol) **Show variants** can be switched off; the list then shows only the recipes themselves, their variants are reached from the recipe page.
+- If you delete the original recipe, the variants remain as recipes of their own. A variant can be deleted like any recipe.
+- The backup file (format version 3) carries the link and the note along; a recipe shared on its own stands alone.
+
 ## 10. Scheduled steps (list and timeline)
 
 **Timeline tab.** This is every baking step from every recipe you've set reminders for — in chronological order, across recipes. At the top you switch between two views with **Timeline / List**; the timeline opens first. Automatically planned refreshes (see [chapter 9](#9-editing-a-recipe)) only appear two days before their date.
@@ -683,6 +694,7 @@ Free text and stars alone are not enough to do better next time. Every entry the
 
 | Field | Content |
 |-------|---------|
+| **Rating** | 1 to 5 stars for this bake, independent of the recipe's stars. Tapping the chosen star again takes the rating back. The stars come first in the history's line of measurements and with the **Variants** of a recipe, so their results can be compared. |
 | **Room temperature**, **Dough temperature** | In °C, with comma or point ("22.5"). Empty means "not measured". |
 | **Bulk proof**, **Final proof** | The actual duration in minutes; from 60 minutes on the conversion is shown underneath ("= 3h 30m"). |
 | **Flour** | The flour used, as free text ("Wheat 550, spelt 630"). |

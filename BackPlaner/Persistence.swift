@@ -176,6 +176,47 @@ extension PersistenceController {
         }
     }
 
+    private static let variantLinkKey = "maintenance.variantLinkV1"
+
+    /// Links the copies the flour substitution and the starter adjustment
+    /// wrote before variants existed to their origin: a recipe whose name
+    /// carries the dated suffix ("Landbrot – Dinkelmehl 630 (14.10.2026)")
+    /// becomes a variant of the recipe named "Landbrot", when there is
+    /// exactly one. Runs once; a failed pass is retried on the next launch.
+    func linkDatedCopiesIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: Self.variantLinkKey), loadError == nil else { return }
+
+        let context = container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.perform {
+            guard let recipes = try? context.fetch(Recipe.fetchRequest()) else { return }
+            let originals = Dictionary(grouping: recipes.filter { !AdjustedRecipe.hasDatedSuffix($0.name) },
+                                       by: { $0.name.trimmingCharacters(in: .whitespaces) })
+            var linked = 0
+            for copy in recipes where copy.origin == nil {
+                guard let base = AdjustedRecipe.baseName(of: copy.name),
+                      let candidates = originals[base], candidates.count == 1,
+                      let origin = candidates.first, origin != copy else { continue }
+                copy.origin = origin
+                linked += 1
+            }
+            guard context.hasChanges else {
+                defaults.set(true, forKey: Self.variantLinkKey)
+                AppLog.persistence.info("Variant linking found no dated copies to link")
+                return
+            }
+            do {
+                try context.save()
+                defaults.set(true, forKey: Self.variantLinkKey)
+                AppLog.persistence.info("Variant linking attached \(linked) dated copies to their origin")
+            } catch {
+                context.rollback()
+                AppLog.persistence.error("Variant linking failed, will retry on next launch: \(error)")
+            }
+        }
+    }
+
     /// Deletes every object matching `predicateFormat` and returns how many were
     /// marked for deletion. Uses ordinary deletes instead of an
     /// `NSBatchDeleteRequest` so the model's cascade rules apply and the changes

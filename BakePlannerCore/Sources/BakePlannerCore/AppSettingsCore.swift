@@ -32,6 +32,9 @@ public struct AppSettingsKeys {
     public static let doughFrictionFactor = "settings.doughFrictionFactor"
     public static let showLocalRecipes = "settings.recipeList.showLocal"
     public static let showOwnPublishedRecipes = "settings.recipeList.showOwnPublished"
+    /// Whether the recipe list shows variants of recipes (true) or only the
+    /// recipes of their own.
+    public static let showVariantRecipes = "settings.recipeList.showVariants"
     public static let showPublicCloudRecipes = "settings.recipeList.showPublicCloud"
 }
 

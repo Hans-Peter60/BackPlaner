@@ -455,6 +455,23 @@
         }
       }
     },
+    "Anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer"
+          }
+        }
+      }
+    },
     "Aus Text" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -642,6 +659,23 @@
         }
       }
     },
+    "Die Variante wird als Kopie von „%@“ angelegt und bleibt mit dem Rezept verbunden: Ihre Backvorgänge erscheinen dort unter „Varianten“. Die Änderung selbst machst Du danach mit „Bearbeiten“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The variant is created as a copy of “%@” and stays linked to the recipe: its bakes appear there under “Variants”. The change itself you make afterwards with “Edit”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La variante est créée comme copie de « %@ » et reste liée à la recette : ses cuissons y apparaissent sous « Variantes ». La modification elle-même se fait ensuite avec « Modifier »."
+          }
+        }
+      }
+    },
     "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern, dem Seitentext oder dem eingefügten Text zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -693,6 +727,23 @@
         }
       }
     },
+    "Kein Unterschied zum Ursprungsrezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No difference to the original recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune différence avec la recette d’origine."
+          }
+        }
+      }
+    },
     "Markiere auf der Seite am besten nur das Rezept, von der Überschrift bis zum letzten Arbeitsschritt. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -723,6 +774,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ou lit le texte collé selon des règles fixes ; les photos ne peuvent pas encore être lues sans l’IA cloud."
+          }
+        }
+      }
+    },
+    "Neue Variante" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New variant"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle variante"
           }
         }
       }
@@ -774,6 +842,176 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyse du texte…"
+          }
+        }
+      }
+    },
+    "Unterschiede zu „%@“" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Differences to “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Différences avec « %@ »"
+          }
+        }
+      }
+    },
+    "Variante anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create variant"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une variante"
+          }
+        }
+      }
+    },
+    "Variante von „%@“" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variant of “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variante de « %@ »"
+          }
+        }
+      }
+    },
+    "Varianten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variantes"
+          }
+        }
+      }
+    },
+    "Varianten anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les variantes"
+          }
+        }
+      }
+    },
+    "Varianten ausblenden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les variantes"
+          }
+        }
+      }
+    },
+    "Vergleichen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparer"
+          }
+        }
+      }
+    },
+    "Was ist anders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is different"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui change"
+          }
+        }
+      }
+    },
+    "Was ist anders? (optional)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is different? (optional)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui change ? (facultatif)"
+          }
+        }
+      }
+    },
+    "z. B. mehr Salz, längere Stockgare" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. more salt, longer bulk proof"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "p. ex. plus de sel, pointage plus long"
           }
         }
       }

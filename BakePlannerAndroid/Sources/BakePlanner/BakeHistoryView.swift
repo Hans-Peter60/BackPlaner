@@ -577,6 +577,8 @@ struct BakeEntryEditor: View {
     @State var finalText: String
     @State var flour: String
     @State var outcome: String
+    /// 0 for "not rated".
+    @State var rating: Int
     @State var picksImage = false
     @State var takesPhoto = false
     /// The photo shown large after a tap. Kept apart from the sheet's
@@ -603,6 +605,7 @@ struct BakeEntryEditor: View {
         _finalText = State(initialValue: BakeHistoryFacts.minutesInput(facts.finalProofMinutes))
         _flour = State(initialValue: facts.flour)
         _outcome = State(initialValue: facts.outcome)
+        _rating = State(initialValue: facts.rating ?? 0)
     }
 
     var body: some View {
@@ -613,6 +616,25 @@ struct BakeEntryEditor: View {
             }
 
             Section {
+                // How the bake turned out, first: the one figure that lets
+                // the variants of a recipe be compared. Tapping the chosen
+                // star again takes the rating back, as in the recipe editor.
+                HStack {
+                    Text("Bewertung")
+                    Spacer()
+                    HStack(spacing: 6) {
+                        ForEach([1, 2, 3, 4, 5], id: \.self) { number in
+                            Button {
+                                rating = rating == number ? 0 : number
+                            } label: {
+                                Text(verbatim: number <= rating ? "★" : "☆")
+                                    .font(AppFont.title3)
+                                    .foregroundStyle(.orange)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
                 numberRow("Raumtemperatur", text: $roomText, unit: "°C")
                 numberRow("Teigtemperatur", text: $doughText, unit: "°C")
                 numberRow("Stockgare", text: $bulkText, unit: "min")
@@ -723,7 +745,8 @@ struct BakeEntryEditor: View {
                          bulkProofMinutes: BakeHistoryFacts.parseMinutes(bulkText),
                          finalProofMinutes: BakeHistoryFacts.parseMinutes(finalText),
                          flour: flour,
-                         outcome: outcome)
+                         outcome: outcome,
+                         rating: rating > 0 ? rating : nil)
     }
 
     private func save() {

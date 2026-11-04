@@ -33,8 +33,25 @@ struct BakeHistoryFactsFormSection: View {
     @State private var bulkText  = ""
     @State private var finalText = ""
 
+    /// The bake's stars as the star row edits them: 0 for "not rated".
+    private var ratingBinding: Binding<Int> {
+        Binding(get: { facts.rating ?? 0 },
+                set: { facts.rating = $0 > 0 ? $0 : nil })
+    }
+
     var body: some View {
         Section {
+            // How the bake turned out, first: the one figure that lets the
+            // variants of a recipe be compared at a glance.
+            HStack {
+                Text(BakeHistoryFacts.Kind.rating.title)
+                    .foregroundColor(Theme.cardTitle)
+                Spacer()
+                RatingStarsUpdateView(rating: ratingBinding, label: "")
+                    .font(.title3)
+                    .accessibilityIdentifier("bake.rating")
+            }
+
             numberRow(.roomTemperature, text: $roomText, field: .roomTemperature,
                       unit: "°C", keyboard: .decimalPad)
             numberRow(.doughTemperature, text: $doughText, field: .doughTemperature,

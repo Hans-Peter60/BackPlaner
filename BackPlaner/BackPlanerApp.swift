@@ -51,6 +51,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // One-time store maintenance: remove objects that were orphaned while the
     // Core Data model still used Nullify delete rules.
     PersistenceController.shared.cleanUpOrphanedObjectsIfNeeded()
+    // One-time: the dated copies made before 3.0 become variants of the
+    // recipe they were copied from.
+    PersistenceController.shared.linkDatedCopiesIfNeeded()
 
     if UITestSupport.seedsRecipe {
       UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)

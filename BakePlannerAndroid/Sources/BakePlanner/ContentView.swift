@@ -426,6 +426,10 @@ struct RecipeListView: View {
                         Text("\(stars) Sterne und mehr")
                     }
                 }
+                Divider()
+                Button(model.showsVariantRecipes ? LocalizedStringKey("Varianten ausblenden") : LocalizedStringKey("Varianten anzeigen")) {
+                    model.showsVariantRecipes.toggle()
+                }
             } label: {
                 // Skip draws "star.fill" but not the outlined "star" (it would
                 // show a warning triangle), nor the iPhone's filter symbol; the
@@ -436,7 +440,7 @@ struct RecipeListView: View {
                         Text(verbatim: "\(minimumRating)+")
                     }
                 }
-                .foregroundStyle(minimumRating > 0 ? Palette.accent(colorScheme) : Color.secondary)
+                .foregroundStyle(minimumRating > 0 || !model.showsVariantRecipes ? Palette.accent(colorScheme) : Color.secondary)
                 .accessibilityLabel(Text("Nach Bewertung filtern"))
             }
         }
@@ -486,7 +490,9 @@ struct RecipeListView: View {
     private var filteredRows: [Row] {
         var rows: [Row] = []
         if model.showsLocalRecipes {
-            rows += model.recipes.map { Row.local($0) }
+            rows += model.recipes
+                .filter { model.showsVariantRecipes || $0.originID == nil }
+                .map { Row.local($0) }
         }
         // A public recipe answers to exactly one of the two cloud chips,
         // depending on who published it.
@@ -532,6 +538,12 @@ struct RecipeRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.content.name)
                     .font(AppFont.headline)
+                if let originID = recipe.originID,
+                   let origin = model.recipes.first(where: { $0.id == originID }) {
+                    Text("Variante von „\(origin.content.name)“")
+                        .font(AppFont.caption)
+                        .foregroundStyle(.secondary)
+                }
                 HStack(spacing: 8) {
                     if recipe.content.rating > 0 {
                         Text(verbatim: String(repeating: "★", count: min(recipe.content.rating, 5)))

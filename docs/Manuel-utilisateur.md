@@ -542,6 +542,17 @@ Si cette copie est supprimée plus tard (par vous ou par la modération), l’ap
 
 ---
 
+### Variantes de recette
+
+Qui modifie une recette veut savoir plus tard ce qui était différent et ce que cela a donné. C’est à cela que servent les variantes : des recettes à vous qui restent liées à la recette dont elles viennent.
+
+- **D’où viennent les variantes :** **Remplacer la farine** et **Adapter la TA du levain chef** (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)) créent leur copie comme variante et notent ce qu’elles ont changé (« Dinkelmehl 630 au lieu de Weizenmehl 1050 », « TA 170 au lieu de TA 172 »). Pour tout le reste, la page de recette propose en haut à droite **⋯ → Créer une variante** : vous écrivez en une phrase ce que vous voulez changer (facultatif), **Créer** copie la recette sous « … – Variante (date) » et l’ouvre ; la modification elle-même se fait ensuite avec **Modifier**. Les copies des versions précédentes sont reliées par l’app, au premier démarrage, à la recette dont elles portent le nom.
+- **Sur la variante**, sous la description, figure **« Variante de … »** avec votre note ; la toucher ouvre la recette d’origine. **Comparer** montre les différences que l’app trouve : ingrédients remplacés, ajoutés, supprimés ou pesés autrement par composant, TA, hydratation et poids de pâte avant → après, étapes avec une autre durée ou un autre texte.
+- **Sur la recette d’origine** apparaît en bas la carte **Variantes** : pour chaque variante son nom, la note (ou la différence trouvée) et le résultat tiré de son historique de cuisson — combien de fois cuite, la dernière fois quand, avec quelle note et quels mots-clés. Vous voyez ainsi d’un coup d’œil quelle modification était la meilleure.
+- **Dans la liste des recettes**, une variante affiche « Variante de … » sous son nom. Dans le menu de filtre (symbole étoile), **Afficher les variantes** peut être désactivé ; la liste ne montre alors que les recettes elles-mêmes, leurs variantes sont accessibles depuis la page de recette.
+- Si vous supprimez la recette d’origine, les variantes restent comme recettes à part entière. Une variante se supprime comme toute recette.
+- Le fichier de sauvegarde (version de format 3) emporte le lien et la note ; une recette partagée seule reste indépendante.
+
 ## 10. Étapes planifiées (liste et timeline)
 
 **Onglet Timeline.** On trouve ici toutes les étapes de cuisson de toutes les recettes pour lesquelles vous avez défini des rappels — dans l’ordre chronologique, toutes recettes confondues. En haut, vous passez d’une vue à l’autre avec **Timeline / Liste** ; la timeline s’ouvre en premier. Les rafraîchis planifiés automatiquement (voir [chapitre 9](#9-modifier-une-recette)) n’apparaissent que deux jours avant leur date.
@@ -683,6 +694,7 @@ Le texte libre et les étoiles ne suffisent pas pour faire mieux la fois suivant
 
 | Champ | Contenu |
 |-------|---------|
+| **Note** | 1 à 5 étoiles pour cette cuisson, indépendamment des étoiles de la recette. Toucher à nouveau l’étoile choisie retire la note. Les étoiles figurent en tête de la ligne des mesures dans l’historique et auprès des **Variantes** d’une recette, afin de comparer leurs résultats. |
 | **Température ambiante**, **Température de la pâte** | En °C, avec virgule ou point (« 22,5 »). Vide signifie « non mesurée ». |
 | **Pointage**, **Apprêt** | La durée réelle en minutes ; à partir de 60 minutes, la conversion s’affiche dessous (« = 3h 30m »). |
 | **Farine** | La farine utilisée, en texte libre (« Blé T55, épeautre T80 »). |
