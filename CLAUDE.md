@@ -9,7 +9,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - `BackPlanerTests/` – ca. 285 Unit-Tests (`UnitTests.xctestplan`, Standard für ⌘U). `BackPlanerUITests/` – UI-Tests (`AllTests.xctestplan`).
 - `functions/` – Cloud Functions (TypeScript): KI-Rezeptimport (`analyzeRecipeImages`, `analyzeRecipeText`), Pro-Prüfung (`proVerification.ts`).
 - `firebase/` – Firestore- und Storage-Regeln, Regel-Tests im Emulator (`firebase/tests`).
-- `docs/` – Handbücher (DE/EN/FR, HTML wird mit `docs/build-manual-html.py` erzeugt), App-Store-Texte, CI-Doku (`docs/CI.md`), Android-Bestandsaufnahme.
+- `docs/` – Handbücher (DE/EN/FR, HTML wird mit `docs/build-manual-html.py` erzeugt), App-Store-Texte, CI-Doku (`docs/CI.md`), Android-Bestandsaufnahme, Ideen für 3.0 (`docs/Ideen-3.0.md`).
 
 ## Daten
 - **Private Daten:** Core Data mit `NSPersistentCloudKitContainer` (iCloud-Container `iCloud.de.hpm64625.BackPlaner`). Entitäten: Recipe, Component, Ingredient, Instruction, NextStep, BakeHistory, ShoppingCart, Item, StarterFeedingLog.
