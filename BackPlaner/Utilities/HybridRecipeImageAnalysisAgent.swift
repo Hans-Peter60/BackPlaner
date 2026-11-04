@@ -198,6 +198,100 @@ final class HybridRecipeImageAnalysisAgent {
         ), groupingComponents: true)
     }
 
+    // MARK: - Pasted text
+
+    /// Structures recipe text the person pasted, for pages that give the
+    /// web import nothing. The stages are those of a web page's text: cloud
+    /// first when allowed, then Apple Intelligence, and finally the reading
+    /// by headings (PastedRecipeText), which needs no model at all.
+    func analyzeText(
+        _ pastedText: String,
+        sourceURL: URL?,
+        allowCloud: Bool,
+        progress: @escaping @MainActor (String) -> Void = { _ in }
+    ) async throws -> RecipeImageAnalysisResult {
+        let text = try PastedRecipeText.validated(pastedText)
+        // The first line is the name when no stage finds a better one.
+        let firstLine = String((text.components(separatedBy: "\n").first ?? "").prefix(80))
+        let baseline = PastedRecipeText.structuredRecipe(from: text)?.makeRecipe()
+        if let baseline, baseline.name.isEmpty { baseline.name = firstLine }
+
+        var result: RecipeImageAnalysisResult?
+        var cloudLimitNotice: String?
+        if allowCloud {
+            progress(String(localized: "Rezept wird in der Cloud analysiert …", bundle: AppSettings.localizationBundle))
+            do {
+                let cloudResult = try await FirebaseFunctionsClient.shared
+                    .analyzeRecipeText(text, sourceURL: sourceURL)
+                let recipe = cloudResult.recipe.makeRecipe()
+                if recipe.name.isEmpty { recipe.name = firstLine }
+                try validateCloudRecipe(recipe)
+                AppLog.data.debug("Recipe text import: cloud AI result accepted (\(cloudResult.model))")
+                result = RecipeImageAnalysisResult(
+                    recipe: recipe,
+                    recognizedText: text,
+                    warnings: cloudResult.recipe.warnings,
+                    analysisSource: .cloudAI
+                )
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                AppLog.data.warning("Recipe text import: cloud AI unavailable or rejected; using local analysis: \(error.localizedDescription)")
+                if case FirebaseFunctionsClientError.monthlyLimitReached = error {
+                    cloudLimitNotice = error.localizedDescription
+                }
+            }
+        }
+
+        if result == nil, SystemLanguageModel.default.isAvailable {
+            progress(String(localized: "Rezept wird auf dem Gerät analysiert …", bundle: AppSettings.localizationBundle))
+            do {
+                let (recipe, warnings) = try await generateRecipeOnDevice(
+                    from: text,
+                    sourceDescription: "eingefügtem Rezepttext"
+                )
+                if recipe.name.isEmpty { recipe.name = firstLine }
+                try validate(recipe: recipe, comparedWith: baseline)
+                AppLog.data.debug("Recipe text import: on-device AI result accepted")
+                result = RecipeImageAnalysisResult(
+                    recipe: recipe,
+                    recognizedText: text,
+                    warnings: warnings,
+                    analysisSource: .onDeviceAI
+                )
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                AppLog.data.warning("Recipe text import: on-device AI unavailable or rejected: \(error.localizedDescription)")
+            }
+        }
+
+        if result == nil {
+            guard let baseline else { throw RecipeTextImportError.noRecipeFound }
+            try validateCloudRecipe(baseline)
+            let warning = String(localized: "Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen.", bundle: AppSettings.localizationBundle)
+            result = RecipeImageAnalysisResult(
+                recipe: baseline,
+                recognizedText: text,
+                warnings: [warning],
+                analysisSource: .localRules
+            )
+        }
+
+        guard let result else { throw RecipeTextImportError.noRecipeFound }
+        let recipe = result.recipe
+        if let sourceURL { recipe.urlLink = sourceURL.absoluteString }
+        if recipe.sourceLanguage.isEmpty, let language = baseline?.sourceLanguage, !language.isEmpty {
+            recipe.sourceLanguage = language
+        }
+        return withDefaultDurations(RecipeImageAnalysisResult(
+            recipe: recipe,
+            recognizedText: result.recognizedText,
+            warnings: result.warnings + (cloudLimitNotice.map { [$0] } ?? []),
+            analysisSource: result.analysisSource
+        ), groupingComponents: true)
+    }
+
     // MARK: - On-device model
 
     private func analyzeWithOnDeviceModel(

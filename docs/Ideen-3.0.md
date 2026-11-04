@@ -33,7 +33,7 @@ Dazu passt **Pro auf beiden Plattformen**: StoreKit 2 und Play Billing mit demse
 
 ## Rezepte hinein
 
-- **Text einfügen** als dritte Importart (iPhone und Android): für Seiten, die ihr Rezept erst per JavaScript nachladen (beobachtet am 01.11.2026 beim Plötzblog: der Web-Import scheitert dort auf iPhone und Android, auch mit Cloud-KI, weil die Seite nur ein Gerüst liefert). Die Leser im Paket arbeiten auf Text, die Function `analyzeRecipeText` gibt es. Klein, gehört eher in 2.x.
+- ~~**Text einfügen** als dritte Importart (iPhone und Android)~~ – **umgesetzt am 04.11.2026** (Schritt 22a in `docs/Android-Bestandsaufnahme.md`): „Rezept aus Text importieren“ auf dem iPhone, „Aus Text“ auf Android, dazu geteilter Text aus dem Android-Browser. Anlass waren Seiten, die ihr Rezept erst per JavaScript nachladen (Plötzblog, 01.11.2026).
 - **Texterkennung auf dem Gerät für Android** (ML Kit als eigenes Kotlin-Modul wie `BakePlannerSpeech`), damit Fotos dort ohne Cloud gelesen werden, wie auf dem iPhone mit dem Modell auf dem Gerät.
 
 ## Gemeinschaft, mit Vorsicht

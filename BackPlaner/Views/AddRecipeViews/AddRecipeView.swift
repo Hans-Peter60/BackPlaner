@@ -126,8 +126,13 @@ struct AddRecipeView: View {
                 } label: {
                     Label("Rezept von einer Internetseite importieren", systemImage: "globe")
                 }
+                NavigationLink {
+                    RecipeTextImportView()
+                } label: {
+                    Label("Rezept aus Text importieren", systemImage: "text.quote")
+                }
             } footer: {
-                Text("Mehrere Seiten können gemeinsam analysiert werden; von einer Internetseite genügt die Adresse. Anschließend lässt sich alles bearbeiten.")
+                Text("Mehrere Seiten können gemeinsam analysiert werden; von einer Internetseite genügt die Adresse, von einer Seite ohne lesbare Daten der kopierte Text. Anschließend lässt sich alles bearbeiten.")
             }
             
             Section("Speichern") {

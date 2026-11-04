@@ -635,23 +635,23 @@ struct RecipeAIPrivacyView: View {
             }
 
             Section("Zweck und Rechtsgrundlage") {
-                Text("Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern oder dem Seitentext zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung.")
+                Text("Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern, dem Seitentext oder dem eingefügten Text zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung.")
                 Text("Die Analyse in der Cloud erfolgt nur auf Grundlage Deiner vorherigen ausdrücklichen Einwilligung. Ohne Einwilligung wird keine Cloud-Analyse gestartet.")
             }
 
             Section("Empfänger und Verarbeitungsort") {
-                Text("Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt.")
+                Text("Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext oder der eingefügte Text werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt.")
                 Text("Google Cloud ist dabei technischer Dienstleister. Eine Weitergabe für Werbung oder Nutzertracking durch BackPlaner findet nicht statt.")
             }
 
             Section("Speicherung und Löschung") {
-                Text("BackPlaner speichert die übertragenen Rezeptbilder und Seitentexte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt.")
+                Text("BackPlaner speichert die übertragenen Rezeptbilder und Texte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt.")
                 Text("In Firestore verbleibt nur der Datensatz zur Nutzungsbegrenzung mit pseudonymer Nutzerkennung, Zeitfenster, Monat und Anfragezahlen sowie eine Prüfsumme des zuletzt geprüften Kaufbelegs und der Zeitpunkt der Prüfung. Bei einer späteren Analyse werden ein abgelaufenes Zeitfenster und ein vergangener Monat durch die neuen ersetzt.")
                 Text("Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird.")
             }
 
             Section("Lokale Analyse") {
-                Text("Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Seitentexte an Firebase oder Google Vertex AI übertragen. Je nach Verfügbarkeit verwendet die App Apple Intelligence auf dem Gerät, die lokale Texterkennung oder die strukturierten Rezeptdaten der Seite.")
+                Text("Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Texte an Firebase oder Google Vertex AI übertragen. Je nach Verfügbarkeit verwendet die App Apple Intelligence auf dem Gerät, die lokale Texterkennung, die strukturierten Rezeptdaten der Seite oder feste Regeln für eingefügten Text.")
             }
 
             Section("Einwilligung und Widerruf") {

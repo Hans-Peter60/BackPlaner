@@ -23,18 +23,20 @@ enum PublicRecipeService {
         case invalidResponse
     }
 
-    /// Has the cloud AI read the text of a recipe page (Cloud Function
-    /// analyzeRecipeText, as the iPhone calls it). The page was loaded on
-    /// the device; only its text and address are sent. Without Pro the
-    /// function's monthly allowance applies.
+    /// Has the cloud AI read the text of a recipe page or pasted recipe
+    /// text (Cloud Function analyzeRecipeText, as the iPhone calls it). A
+    /// page was loaded on the device; only its text and address are sent.
+    /// Without Pro the function's monthly allowance applies.
     @MainActor
-    static func analyzeRecipeText(_ text: String, sourceURL: URL) async throws -> CloudRecipeAnalysis {
+    static func analyzeRecipeText(_ text: String, sourceURL: URL?) async throws -> CloudRecipeAnalysis {
         #if os(Android)
         try await signInIfNeeded()
         let callable = Functions.functions(region: "europe-west1").httpsCallable("analyzeRecipeText")
         callable.timeoutInterval = 250
-        let address = sourceURL.absoluteString
-        let payload: [String: Any] = ["text": text, "sourceURL": address]
+        var payload: [String: Any] = ["text": text]
+        if let sourceURL {
+            payload["sourceURL"] = sourceURL.absoluteString
+        }
         let result = try await callable.call(payload)
         guard let analysis = CloudRecipeAnalysis(response: result.data) else {
             throw ServiceError.invalidResponse
