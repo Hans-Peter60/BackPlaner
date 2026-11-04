@@ -630,7 +630,7 @@ Bake mode opens on the step that is up right now and respects the list's recipe 
 You can see the next step without opening the app: BakePlanner comes with a widget for the Home Screen and the Lock Screen. It shows the same information as the "Up next" bar on the Recipes tab — the upcoming step with its time and a running countdown ("in 1:42:10"), or, once the time has come, **"Due now"** with the elapsed time. Tapping it opens "Scheduled steps" directly.
 
 - **Small**: step text, day and time, countdown.
-- **Medium**: additionally the recipe name.
+- **Medium**: the recipe name in addition, and two buttons: **Done** ticks the step off without opening the app – the widget moves on to the next step at once, and the app takes the step out of the plan and removes its reminder the next time it opens. **Postpone** opens the app with the "Shift step" sheet for this step, because the reminders have to move with it.
 - **Lock Screen**: as a rectangular widget with step text and countdown, or as a one-line display next to the clock.
 
 To add it: press and hold the Home Screen → **Edit** → **Add Widget** → choose **BakePlanner** → pick a size → **Add Widget**. The widget updates by itself whenever a step starts or falls due, and whenever the plan changes in the app. With no planned steps it reads "No step planned".

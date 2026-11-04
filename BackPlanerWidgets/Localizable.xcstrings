@@ -84,6 +84,22 @@
         }
       }
     },
+    "Erledigt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        }
+      }
+    },
     "Heute" : {
       "localizations" : {
         "de" : {
@@ -173,6 +189,22 @@
         }
       }
     },
+    "Markiert den Schritt im Widget als erledigt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marks the step on the widget as done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marque l’étape du widget comme terminée."
+          }
+        }
+      }
+    },
     "Morgen" : {
       "localizations" : {
         "de" : {
@@ -218,6 +250,38 @@
         }
       }
     },
+    "Schritt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape"
+          }
+        }
+      }
+    },
+    "Schritt erledigt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape terminée"
+          }
+        }
+      }
+    },
     "seit %@" : {
       "comment" : "Elapsed time once a step is due; %@ is a running timer such as '5:12'.",
       "localizations" : {
@@ -259,6 +323,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Définissez un rappel dans les instructions de cuisson d’une recette."
+          }
+        }
+      }
+    },
+    "Verschieben" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Postpone"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décaler"
           }
         }
       }

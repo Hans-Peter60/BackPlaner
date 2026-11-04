@@ -12,7 +12,10 @@ import Foundation
 import os
 
 struct ScheduledTasksView: View {
-    
+
+    /// From the widget: the step whose shift sheet opens with the list.
+    var shiftRequest: ScheduledStepShiftRequest?
+
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.locale) private var locale
     // At the accessibility text sizes the recipe name and its three buttons
@@ -37,7 +40,8 @@ struct ScheduledTasksView: View {
     
     @State private var name = ""
     
-    init() {
+    init(shiftRequest: ScheduledStepShiftRequest? = nil) {
+        self.shiftRequest = shiftRequest
         self.nextStepsRequest = FetchRequest(entity: NextStep.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     }
 
@@ -334,6 +338,9 @@ struct ScheduledTasksView: View {
         .warmBackground()
         .navigationTitle("Liste der nächsten Schritte")
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: shiftRequest, initial: true) { _, request in
+            beginShifting(requested: request)
+        }
         .sheet(item: $shiftSelection) { selection in
             ScheduledStepShiftSheet(
                 recipeName: selection.recipeName,
@@ -591,6 +598,17 @@ struct ScheduledTasksView: View {
         case nil:
             return nil
         }
+    }
+
+    /// Opens the shift sheet for the step the widget named, once its steps
+    /// are loaded; a step that is gone by then opens nothing.
+    private func beginShifting(requested request: ScheduledStepShiftRequest?) {
+        guard let request,
+              let step = nextSteps.first(where: {
+                  $0.id?.uuidString == request.stepID
+                      || $0.objectID.uriRepresentation().absoluteString == request.stepID
+              }) else { return }
+        beginShifting(step)
     }
 
     private func beginShifting(_ step: NextStep) {
