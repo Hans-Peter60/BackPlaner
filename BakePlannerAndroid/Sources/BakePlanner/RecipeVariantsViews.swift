@@ -30,12 +30,13 @@ struct VariantOriginRow: View {
                 Text(verbatim: note)
                     .font(AppFont.body)
             }
-            Button {
+            // Plain text: Skip draws no "arrow.left.arrow.right", only a
+            // warning triangle in its place.
+            Button("Vergleichen") {
                 showsComparison = true
-            } label: {
-                Label("Vergleichen", systemImage: "arrow.left.arrow.right")
             }
             .font(AppFont.subheadline)
+            .foregroundStyle(Palette.accentText(colorScheme))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .foregroundStyle(Palette.cardTitle(colorScheme))
