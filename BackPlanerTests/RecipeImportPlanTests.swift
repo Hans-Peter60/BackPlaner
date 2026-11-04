@@ -88,6 +88,46 @@ struct RecipeImportPlanTests {
         #expect(main.map(\.duration) == [0, 10, 60, 5, 70])
         #expect(main.map(\.componentName) == ["Hauptteig", nil, nil, nil, nil])
         #expect(main.last?.bakeFlag == true)
+        // The lead-in goes with it: the first step says which dough, the
+        // following ones are plainly its steps.
+        #expect(main.map(\.instruction) == [
+            "Hauptteig: Die Zutaten in die Schüssel wiegen.",
+            "Kneten, bis der Teig glatt ist.",
+            "1 Stunde bei 20 °C reifen lassen.",
+            "Den Teigling rundwirken.",
+            "70 Minuten ausbacken.",
+        ])
+    }
+
+    @Test("A change of component names the next step again, also when the model named it only in the text")
+    func leadInReturnsAfterAnotherComponent() {
+        let recipe = RecipeFB()
+        recipe.components = [
+            component("Füllung", ingredients: [("Haselnüsse", 100), ("Zucker", 50)]),
+            component("Hauptteig", ingredients: [("Weizenmehl 550", 500), ("Milch", 250), ("gesamte Füllung", 0)]),
+            component("Glasur", ingredients: [("Puderzucker", 50), ("Wasser", 10)]),
+        ]
+        recipe.instructions = [
+            step("Nüsse und Zucker mischen.", "Füllung", minutes: 5),
+            step("Alle Zutaten 8 Minuten kneten.", "Hauptteig", minutes: 8),
+            step("60 Minuten reifen lassen.", "Hauptteig", minutes: 60),
+            step("Zucker und Wasser verrühren.", "Glasur", minutes: 2),
+            step("Ausrollen, füllen und flechten.", nil, minutes: 15),
+            step("25 Minuten backen.", "Hauptteig", minutes: 25, bakes: true),
+        ]
+        // The fifth step names its component only in the text, as a model may.
+        recipe.instructions[4].instruction = "Hauptteig: Ausrollen, füllen und flechten."
+        RecipeImportPlan.groupComponentPreparations(in: recipe)
+
+        #expect(recipe.instructions.map(\.step) == [1, 2, 3, 4, 5, 6])
+        #expect(recipe.instructions.map(\.instruction) == [
+            "Füllung: Nüsse und Zucker mischen.",
+            "Hauptteig: Alle Zutaten 8 Minuten kneten.",
+            "60 Minuten reifen lassen.",
+            "Glasur: Zucker und Wasser verrühren.",
+            "Hauptteig: Ausrollen, füllen und flechten.",
+            "25 Minuten backen.",
+        ])
     }
 
     @Test("A preparation whose 'gesamte …' row went missing is still laid out in parallel")
