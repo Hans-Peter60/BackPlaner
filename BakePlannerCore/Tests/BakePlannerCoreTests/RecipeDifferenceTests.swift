@@ -144,6 +144,10 @@ struct RecipeDifferenceTests {
         #expect(lines.first == "Hauptteig: Salz 12 g → 14 g")
         #expect(lines.contains("Hauptteig: Dinkelmehl 630 statt Weizenmehl 1050 (400 g)"))
         #expect(lines.contains { $0.hasPrefix("Schritt 3: 1 h 30 min → 2 h") })
+        // A sub-step keeps the point of the step tables, whatever the language.
+        var withSubStep = variant
+        withSubStep.instructions.insert(step(3.1, "Nach 30 Minuten dehnen und falten.", minutes: 1), at: 3)
+        #expect(RecipeDifference.between(original, withSubStep).lines().contains("Neuer Schritt 3.1: Nach 30 Minuten dehnen und falten."))
         let summary = RecipeDifference.between(original, variant).summary(maximumItems: 2)
         #expect(summary.hasPrefix("Hauptteig: Salz 12 g → 14 g · Hauptteig: Dinkelmehl 630 statt Weizenmehl 1050 (400 g) · "))
         #expect(summary.hasSuffix("weitere"))

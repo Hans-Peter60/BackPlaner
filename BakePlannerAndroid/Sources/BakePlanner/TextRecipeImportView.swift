@@ -35,8 +35,19 @@ struct TextRecipeImportView: View {
     var body: some View {
         Form {
             Section {
-                TextEditor(text: $text)
-                    .frame(minHeight: 180)
+                // A TextEditor has no prompt of its own; the hint sits over
+                // it until the first character and lets taps through.
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $text)
+                        .frame(minHeight: 180)
+                    if text.isEmpty {
+                        Text("Hier den Rezepttext einfügen …")
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 8)
+                            .padding(.leading, 4)
+                            .allowsHitTesting(false)
+                    }
+                }
                 if !text.isEmpty, !hasEnoughText {
                     Text("Das ist noch zu wenig Text für ein Rezept.")
                         .font(AppFont.caption)

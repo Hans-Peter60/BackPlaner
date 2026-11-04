@@ -710,6 +710,23 @@
         }
       }
     },
+    "Hier den Rezepttext einfügen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste the recipe text here…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collez ici le texte de la recette…"
+          }
+        }
+      }
+    },
     "Internetadresse (optional)" : {
       "extractionState" : "manual",
       "localizations" : {

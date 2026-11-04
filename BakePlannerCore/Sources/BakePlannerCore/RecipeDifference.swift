@@ -258,13 +258,13 @@ public struct RecipeDifference: Equatable {
         for change in steps {
             switch change {
             case .durationChanged(let step, _, let from, let to):
-                lines.append(String(localized: "Schritt \(Self.number(step)): \(DurationInput.text(forMinutes: from)) → \(DurationInput.text(forMinutes: to))", bundle: bundle))
+                lines.append(String(localized: "Schritt \(Self.stepText(step)): \(DurationInput.text(forMinutes: from)) → \(DurationInput.text(forMinutes: to))", bundle: bundle))
             case .textChanged(let step, _, let to):
-                lines.append(String(localized: "Schritt \(Self.number(step)) geändert: \(to)", bundle: bundle))
+                lines.append(String(localized: "Schritt \(Self.stepText(step)) geändert: \(to)", bundle: bundle))
             case .added(let step, let text):
-                lines.append(String(localized: "Neuer Schritt \(Self.number(step)): \(text)", bundle: bundle))
+                lines.append(String(localized: "Neuer Schritt \(Self.stepText(step)): \(text)", bundle: bundle))
             case .removed(let step, let text):
-                lines.append(String(localized: "Schritt \(Self.number(step)) entfällt: \(text)", bundle: bundle))
+                lines.append(String(localized: "Schritt \(Self.stepText(step)) entfällt: \(text)", bundle: bundle))
             }
         }
         return lines
@@ -299,6 +299,12 @@ public struct RecipeDifference: Equatable {
                 ? String(localized: "\(component): \(name) \(from) → \(to)", bundle: bundle)
                 : String(localized: "\(name) \(from) → \(to)", bundle: bundle)
         }
+    }
+
+    /// A step number as the step tables print it: "4", "4.1" — with a
+    /// point whatever the language, like the tables.
+    static func stepText(_ step: Double) -> String {
+        Rational.decimalPlace(step, 10)
     }
 
     /// 165, 2.1, 72.5 — whole numbers without a decimal, others with the
