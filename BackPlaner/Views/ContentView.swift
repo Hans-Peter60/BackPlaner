@@ -47,6 +47,10 @@ struct ContentView: View {
     /// each change.
     @State private var searchFocusRequest = 0
 
+    /// The step the widget's "Verschieben" named, for the steps tab to open
+    /// its shift sheet; a new token for every tap, also on the same step.
+    @State private var shiftRequest: ScheduledStepShiftRequest?
+
     var manager:LocalNotificationManager = LocalNotificationManager()
 
     init() {
@@ -103,7 +107,7 @@ struct ContentView: View {
 
             Tab(value: .scheduledSteps) {
                 NavigationStack {
-                    ScheduledTasksTabsView()
+                    ScheduledTasksTabsView(shiftRequest: shiftRequest)
                 }
             } label: {
                 Label { Text("Zeitleiste", tableName: "Tabs") } icon: { Image(systemName: "calendar") }
@@ -133,7 +137,10 @@ struct ContentView: View {
         // The widget's deep link goes straight to the planned steps; the
         // share extension's carries a page address for the web import.
         .onOpenURL { url in
-            if url == PlanSnapshot.scheduledStepsURL {
+            if let stepID = PlanSnapshot.shiftStepID(from: url) {
+                selectedTab = .scheduledSteps
+                shiftRequest = ScheduledStepShiftRequest(stepID: stepID)
+            } else if url == PlanSnapshot.scheduledStepsURL {
                 selectedTab = .scheduledSteps
             } else if let pageURL = PendingWebImport.url(fromDeepLink: url) {
                 // The same address is parked in the App Group; take it so it

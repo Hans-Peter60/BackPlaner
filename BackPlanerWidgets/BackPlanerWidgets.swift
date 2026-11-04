@@ -11,6 +11,7 @@
 //  plan itself changes.
 //
 
+import AppIntents
 import WidgetKit
 import SwiftUI
 
@@ -263,6 +264,29 @@ struct NextStepWidgetView: View {
                     .lineLimit(1)
                     .multilineTextAlignment(.trailing)
             }
+
+            // Done without opening the app; shifting opens the app on the
+            // step, since the reminders have to move with it.
+            HStack(spacing: 8) {
+                Button(intent: MarkStepDoneWidgetIntent(stepID: step.id)) {
+                    Label("Erledigt", systemImage: "checkmark")
+                        .font(.caption.weight(.semibold))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(accentColor)
+                Link(destination: PlanSnapshot.shiftURL(for: step.id)) {
+                    Label("Verschieben", systemImage: "clock.arrow.circlepath")
+                        .font(.caption.weight(.semibold))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 6)
+                        .background(accentColor.opacity(0.15), in: Capsule())
+                        .foregroundStyle(accentColor)
+                }
+            }
+            .padding(.top, 2)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }

@@ -627,7 +627,7 @@ Der Backmodus öffnet mit dem Schritt, der gerade dran ist, und respektiert den 
 Den nächsten Schritt siehst Du auch ohne die App zu öffnen: BakePlanner bringt ein Widget für den Homescreen und den Sperrbildschirm mit. Es zeigt dieselbe Information wie die Leiste „Als Nächstes“ im Tab Rezepte – den anstehenden Schritt mit Uhrzeit und einem laufenden Countdown („in 1:42:10“), oder nach Ablauf der Zeit **„Jetzt fällig“** mit der verstrichenen Zeit. Ein Tippen öffnet direkt „Geplante Schritte“.
 
 - **Klein**: Schritttext, Tag und Uhrzeit, Countdown.
-- **Mittel**: zusätzlich der Rezeptname.
+- **Mittel**: zusätzlich der Rezeptname und zwei Knöpfe: **Erledigt** hakt den Schritt ab, ohne die App zu öffnen – das Widget rückt sofort zum nächsten Schritt weiter, die App nimmt den Schritt beim nächsten Öffnen aus dem Plan und entfernt seine Erinnerung. **Verschieben** öffnet die App mit dem Blatt „Schritt verschieben“ für diesen Schritt, weil die Erinnerungen mitwandern müssen.
 - **Sperrbildschirm**: als rechteckiges Widget mit Schritttext und Countdown oder als einzeilige Anzeige neben der Uhr.
 
 So fügst Du es hinzu: Homescreen lange gedrückt halten → **Bearbeiten** → **Widget hinzufügen** → **BakePlanner** auswählen → Größe wählen → **Widget hinzufügen**. Das Widget aktualisiert sich von selbst, sobald ein Schritt beginnt oder fällig wird, und bei jeder Änderung am Plan in der App. Ohne geplante Schritte zeigt es „Kein Schritt geplant“.

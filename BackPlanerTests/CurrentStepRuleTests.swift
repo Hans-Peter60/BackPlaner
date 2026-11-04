@@ -79,3 +79,35 @@ struct CurrentStepRuleTests {
         #expect(step.isVisible(at: minutes(1)))
     }
 }
+
+@Suite("What the widget's buttons hand to the app")
+struct WidgetActionTests {
+
+    @Test("The shift link names the step, other links name none")
+    func shiftLink() {
+        let id = UUID().uuidString
+        let url = PlanSnapshot.shiftURL(for: id)
+        #expect(url.scheme == "bakeplanner")
+        #expect(url.host() == "scheduled-steps")
+        #expect(PlanSnapshot.shiftStepID(from: url) == id)
+
+        #expect(PlanSnapshot.shiftStepID(from: PlanSnapshot.scheduledStepsURL) == nil)
+        #expect(PlanSnapshot.shiftStepID(from: URL(string: "bakeplanner://scheduled-steps?shift=")!) == nil)
+        #expect(PlanSnapshot.shiftStepID(from: URL(string: "https://example.com/?shift=\(id)")!) == nil)
+    }
+
+    @Test("A step the widget marks done leaves the snapshot, the others stay in order")
+    func removingStep() {
+        let now = Date()
+        let steps = (1...3).map {
+            PlanSnapshot.Step(id: "step-\($0)", recipeName: "Brot", instruction: "Schritt \($0)",
+                              date: now.addingTimeInterval(Double($0) * 600), duration: 10)
+        }
+        let snapshot = PlanSnapshot(steps: steps, generatedAt: now.addingTimeInterval(-60))
+
+        let remaining = snapshot.removingStep(id: "step-2")
+        #expect(remaining.steps.map(\.id) == ["step-1", "step-3"])
+        #expect(remaining.generatedAt >= now)
+        #expect(snapshot.removingStep(id: "unknown").steps == steps)
+    }
+}

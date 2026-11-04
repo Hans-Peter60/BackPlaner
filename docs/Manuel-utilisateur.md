@@ -630,7 +630,7 @@ Le mode cuisson s’ouvre sur l’étape du moment et respecte le filtre de rece
 Vous voyez la prochaine étape sans ouvrir l’app : BakePlanner fournit un widget pour l’écran d’accueil et l’écran verrouillé. Il affiche la même information que la barre « À suivre » de l’onglet Recettes — l’étape à venir avec son heure et un compte à rebours en cours (« dans 1:42:10 »), ou, une fois l’heure arrivée, **« À faire maintenant »** avec le temps écoulé. Le toucher ouvre directement « Étapes planifiées ».
 
 - **Petit** : texte de l’étape, jour et heure, compte à rebours.
-- **Moyen** : en plus, le nom de la recette.
+- **Moyen** : en plus, le nom de la recette et deux boutons : **Terminé** coche l’étape sans ouvrir l’app – le widget passe aussitôt à l’étape suivante, et l’app retire l’étape du plan et supprime son rappel à la prochaine ouverture. **Décaler** ouvre l’app avec la feuille « Décaler l’étape » pour cette étape, car les rappels doivent suivre.
 - **Écran verrouillé** : en widget rectangulaire avec le texte de l’étape et le compte à rebours, ou en affichage sur une ligne à côté de l’horloge.
 
 Pour l’ajouter : maintenez l’écran d’accueil → **Modifier** → **Ajouter un widget** → choisissez **BakePlanner** → choisissez la taille → **Ajouter le widget**. Le widget se met à jour de lui-même dès qu’une étape commence ou devient due, et à chaque modification du plan dans l’app. Sans étape planifiée, il indique « Aucune étape planifiée ».

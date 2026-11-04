@@ -91,11 +91,42 @@ final class PlanSnapshotPublisher {
     /// store, reloading the widgets, when the plan changed. Also called when
     /// the app returns to the foreground, since that is the only time a Live
     /// Activity can be started.
+    /// Carries out what was done on the widget while the app was away:
+    /// a step marked "Erledigt" there leaves the plan here, reminder
+    /// included, before the snapshot is rebuilt from the plan — otherwise
+    /// the rebuild would bring the step back to the widget.
+    private static func applyPendingWidgetActions(in context: NSManagedObjectContext) {
+        let actions = PendingWidgetActions.take()
+        guard !actions.isEmpty else { return }
+        let request = NextStep.fetchRequest()
+        guard let steps = try? context.fetch(request) else { return }
+        var removed = 0
+        for action in actions where action.kind == .done {
+            guard let step = steps.first(where: { step in
+                step.id?.uuidString == action.stepID
+                    || step.objectID.uriRepresentation().absoluteString == action.stepID
+            }) else { continue }
+            NotificationActions.cancelPendingNotification(for: step)
+            context.delete(step)
+            removed += 1
+        }
+        guard removed > 0 else { return }
+        do {
+            try context.save()
+            AppLog.persistence.info("Widget: \(removed) step(s) marked done on the widget removed from the plan")
+        } catch {
+            context.rollback()
+            AppLog.persistence.error("Widget actions could not be applied: \(error)")
+        }
+    }
+
     func refresh() {
         guard let container else { return }
 
         let context = container.newBackgroundContext()
         context.perform {
+            Self.applyPendingWidgetActions(in: context)
+
             let request = NextStep.fetchRequest()
             request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
             let steps = (try? context.fetch(request)) ?? []
