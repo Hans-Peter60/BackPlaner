@@ -15,8 +15,13 @@ import Foundation
 public struct RecipeExportFile: Codable, Equatable {
     /// The newest version this app writes and reads. Version 2 added the
     /// bake history and the starter feeding diary of each recipe
-    /// (`RecipeExportData.bakeHistory`, `.starterFeedings`).
-    public static let currentFormatVersion = 2
+    /// (`RecipeExportData.bakeHistory`, `.starterFeedings`); version 3 the
+    /// variants (`variantOf`, `variantNote`) and the rating of a bake
+    /// (`RecipeExportBakeEntry.rating`).
+    public static let currentFormatVersion = 3
+    /// The version of a file with bake history and feedings but without
+    /// variants or ratings, as apps up to 2.2 write and read it.
+    public static let historyFormatVersion = 2
     /// The version of a file without bake history: unchanged since the
     /// first version, so an older app still reads such a file — a recipe
     /// shared with someone else, for instance.
@@ -32,14 +37,24 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    /// A file of `recipes`, at the lowest version that holds them: 2 when
-    /// a recipe carries bake history or feedings, 1 otherwise. An older app
-    /// refuses a version-2 file instead of dropping them unnoticed.
+    /// A file of `recipes`, at the lowest version that holds them: 3 when a
+    /// recipe is a variant or a bake carries a rating, 2 when a recipe
+    /// carries bake history or feedings, 1 otherwise. An older app refuses
+    /// a newer file instead of dropping what it does not know unnoticed.
     public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
-        self.formatVersion = formatVersion
-            ?? (recipes.contains { $0.bakeHistory != nil || $0.starterFeedings != nil }
-                ? Self.currentFormatVersion : Self.plainFormatVersion)
+        self.formatVersion = formatVersion ?? Self.lowestVersion(holding: recipes)
         self.recipes = recipes
+    }
+
+    static func lowestVersion(holding recipes: [RecipeExportData]) -> Int {
+        if recipes.contains(where: { $0.variantOf != nil || $0.variantNote != nil
+                                     || ($0.bakeHistory ?? []).contains { $0.rating != nil } }) {
+            return currentFormatVersion
+        }
+        if recipes.contains(where: { $0.bakeHistory != nil || $0.starterFeedings != nil }) {
+            return historyFormatVersion
+        }
+        return plainFormatVersion
     }
 }
 
@@ -63,8 +78,15 @@ public struct RecipeExportData: Codable, Equatable {
     /// The starter's feedings, newest first — likewise only in a full
     /// backup, nil otherwise.
     public var starterFeedings: [RecipeExportStarterFeeding]?
+    /// The name of the recipe this one is a variant of (format version 3),
+    /// nil for a recipe of its own. A name, not a key: keys mean nothing
+    /// on another device; reading the file links the variant to the recipe
+    /// of that name in the same file, else to one already on the device.
+    public var variantOf: String?
+    /// What the variant changes, in the baker's words (format version 3).
+    public var variantNote: String?
 
-    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil, starterFeedings: [RecipeExportStarterFeeding]? = nil) {
+    public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil, starterFeedings: [RecipeExportStarterFeeding]? = nil, variantOf: String? = nil, variantNote: String? = nil) {
         self.name = name
         self.summary = summary
         self.urlLink = urlLink
@@ -78,6 +100,8 @@ public struct RecipeExportData: Codable, Equatable {
         self.instructions = instructions
         self.bakeHistory = bakeHistory
         self.starterFeedings = starterFeedings
+        self.variantOf = variantOf
+        self.variantNote = variantNote
     }
 }
 
@@ -117,6 +141,8 @@ public struct RecipeExportBakeEntry: Codable, Equatable {
     public var finalProofMinutes: Int?
     public var flour: String?
     public var outcome: String?
+    /// 1 to 5 stars for this bake (format version 3); left out when not rated.
+    public var rating: Int?
 
     public init(date: Date, comment: String, images: [Data], facts: BakeHistoryFacts) {
         let facts = facts.normalized
@@ -129,12 +155,13 @@ public struct RecipeExportBakeEntry: Codable, Equatable {
         finalProofMinutes = facts.finalProofMinutes
         flour = facts.flour.isEmpty ? nil : facts.flour
         outcome = facts.outcome.isEmpty ? nil : facts.outcome
+        rating = facts.rating
     }
 
     public var facts: BakeHistoryFacts {
         BakeHistoryFacts(roomTemperature: roomTemperature, doughTemperature: doughTemperature,
                          bulkProofMinutes: bulkProofMinutes, finalProofMinutes: finalProofMinutes,
-                         flour: flour ?? "", outcome: outcome ?? "").normalized
+                         flour: flour ?? "", outcome: outcome ?? "", rating: rating).normalized
     }
 }
 

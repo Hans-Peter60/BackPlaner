@@ -100,7 +100,8 @@ extension BakeHistory {
                              bulkProofMinutes: bulkProofMinutes?.intValue,
                              finalProofMinutes: finalProofMinutes?.intValue,
                              flour: flour ?? "",
-                             outcome: outcome ?? "")
+                             outcome: outcome ?? "",
+                             rating: rating?.intValue)
         }
         set {
             let facts = newValue.normalized
@@ -110,6 +111,7 @@ extension BakeHistory {
             finalProofMinutes = facts.finalProofMinutes.map { NSNumber(value: $0) }
             flour   = facts.flour.isEmpty ? nil : facts.flour
             outcome = facts.outcome.isEmpty ? nil : facts.outcome
+            rating  = facts.rating.map { NSNumber(value: $0) }
         }
     }
 

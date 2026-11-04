@@ -32,6 +32,12 @@ public enum AdjustedRecipe {
         return "\(trimmed) – \(adjustment) (\(stamp))"
     }
 
+    /// What a variant changes, as the adjustments write it into the
+    /// variant's note: "Dinkelmehl 630 statt Weizenmehl 1050".
+    public static func variantNote(new: String, old: String) -> String {
+        String(localized: "\(new) statt \(old)", bundle: AppSettings.localizationBundle)
+    }
+
     /// Whether the name ends in the dated suffix `name(original:adjustment:on:)`
     /// writes.
     public static func hasDatedSuffix(_ name: String) -> Bool {

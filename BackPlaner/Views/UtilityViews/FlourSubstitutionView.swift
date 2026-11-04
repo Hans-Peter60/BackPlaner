@@ -172,6 +172,9 @@ struct FlourSubstitutionRequest: Identifiable {
     /// itself an adjusted copy, so a second adjustment does not stack a copy
     /// on a copy. `nil` writes a new copy.
     var updateTarget: NSManagedObjectID? = nil
+    /// The recipe on screen, which a new copy becomes a variant of; nil for
+    /// a public recipe, whose copy stands on its own.
+    var origin: NSManagedObjectID? = nil
     /// Told about the new copy, so the screen can open it.
     var onCopyCreated: ((NSManagedObjectID) -> Void)? = nil
 }
@@ -345,6 +348,12 @@ struct FlourSubstitutionSheet: View {
     private func createCopy(_ applied: FlourSubstitution.Applied) {
         let copy = applied.recipe.makeRecipe(in: viewContext)
         copy.adjustedOn = Date()
+        // A variant of the recipe it was made from, with what it changes.
+        if let origin = request.origin,
+           let original = try? viewContext.existingObject(with: origin) as? Recipe {
+            copy.origin = original
+            copy.variantNote = applied.variantNote
+        }
         do {
             try viewContext.save()
             request.onCopyCreated?(copy.objectID)

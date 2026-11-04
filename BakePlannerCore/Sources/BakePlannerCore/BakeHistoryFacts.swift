@@ -24,19 +24,28 @@ public struct BakeHistoryFacts: Equatable {
     public var flour: String = ""
     /// Crumb and oven spring in a few keywords, comma-separated.
     public var outcome: String = ""
+    /// How the bake turned out, 1 to 5 stars; nil when not rated. The
+    /// recipe's own stars rate the recipe, this rates the one bake, so
+    /// variants of a recipe can be told apart by their results.
+    public var rating: Int?
+
+    /// The stars a bake can get at most.
+    public static let maximumRating = 5
 
     public init(roomTemperature: Double? = nil,
          doughTemperature: Double? = nil,
          bulkProofMinutes: Int? = nil,
          finalProofMinutes: Int? = nil,
          flour: String = "",
-         outcome: String = "") {
+         outcome: String = "",
+         rating: Int? = nil) {
         self.roomTemperature = roomTemperature
         self.doughTemperature = doughTemperature
         self.bulkProofMinutes = bulkProofMinutes
         self.finalProofMinutes = finalProofMinutes
         self.flour = flour
         self.outcome = outcome
+        self.rating = rating
     }
 
     /// True when nothing at all was recorded.
@@ -45,21 +54,23 @@ public struct BakeHistoryFacts: Equatable {
     }
 
     /// The facts as every store keeps them: flour and outcome trimmed, a
-    /// proof of zero minutes or less as not recorded. Temperatures stay as
-    /// they are — 0 °C is a measurement.
+    /// proof of zero minutes or less as not recorded, a rating outside 1 to
+    /// 5 stars as none. Temperatures stay as they are — 0 °C is a measurement.
     public var normalized: BakeHistoryFacts {
         BakeHistoryFacts(roomTemperature: roomTemperature,
                          doughTemperature: doughTemperature,
                          bulkProofMinutes: bulkProofMinutes.flatMap { $0 > 0 ? $0 : nil },
                          finalProofMinutes: finalProofMinutes.flatMap { $0 > 0 ? $0 : nil },
                          flour: flour.trimmingCharacters(in: .whitespacesAndNewlines),
-                         outcome: outcome.trimmingCharacters(in: .whitespacesAndNewlines))
+                         outcome: outcome.trimmingCharacters(in: .whitespacesAndNewlines),
+                         rating: rating.flatMap { (1...Self.maximumRating).contains($0) ? $0 : nil })
     }
 
     // MARK: - Items
 
     /// The kinds of fact, in the order they are shown.
     public enum Kind: CaseIterable, Hashable {
+        case rating
         case roomTemperature
         case doughTemperature
         case bulkProof
@@ -79,12 +90,13 @@ public struct BakeHistoryFacts: Equatable {
             case .doughTemperature: return String(localized: "Teig", bundle: bundle, locale: locale, comment: "Kurz für Teigtemperatur")
             case .bulkProof:        return String(localized: "Stockgare", bundle: bundle, locale: locale)
             case .finalProof:       return String(localized: "Stückgare", bundle: bundle, locale: locale)
-            case .flour, .outcome:  return nil
+            case .flour, .outcome, .rating: return nil
             }
         }
 
         public var systemImage: String {
             switch self {
+            case .rating:           return "star.fill"
             case .roomTemperature:  return "thermometer.medium"
             case .doughTemperature: return "thermometer.variable"
             case .bulkProof:        return "hourglass"
@@ -111,6 +123,9 @@ public struct BakeHistoryFacts: Equatable {
     /// follow `locale`; the free texts are shown as typed.
     public func items(locale: Locale = AppSettings.locale) -> [Item] {
         var items = [Item]()
+        if let rating, (1...Self.maximumRating).contains(rating) {
+            items.append(Item(kind: .rating, value: Self.starsText(rating)))
+        }
         if let roomTemperature {
             items.append(Item(kind: .roomTemperature, value: Self.temperatureText(roomTemperature, locale: locale)))
         }
@@ -149,6 +164,11 @@ public struct BakeHistoryFacts: Equatable {
     }
 
     // MARK: - Formatting and parsing
+
+    /// "★★★★" — the rating as stars, the same in every language.
+    public static func starsText(_ rating: Int) -> String {
+        String(repeating: "★", count: max(0, min(maximumRating, rating)))
+    }
 
     /// "22 °C", "22,5 °C" — never converted to Fahrenheit, whatever the
     /// locale: the value was measured in Celsius and is shown as such.

@@ -31,6 +31,7 @@ public enum RecipeStoreContract {
         ("adding the same content twice keeps two recipes", noMerging),
         ("unknown keys are reported, not ignored", unknownKeys),
         ("several recipes are added at once, in order", addSeveral),
+        ("a variant keeps its origin and note, and outlives the origin", variants),
     ]
 
     // MARK: Checks
@@ -168,6 +169,57 @@ public enum RecipeStoreContract {
         }
         try expect(store.add(contentsOf: []).isEmpty, "adding nothing added something")
         try expect(store.recipes(includingImages: false).count == 2, "adding nothing changed the store")
+    }
+
+    public static func variants(_ store: RecipeStore) throws {
+        let origin = try store.add(bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        try expect(!origin.isVariant && origin.variantNote == nil, "a plain recipe counts as a variant")
+
+        var changed = bread()
+        changed.name = "Landbrot – Dinkelmehl 630 (14.10.2026)"
+        changed.components[1].ingredients[1].name = "Dinkelmehl 630"
+        let adjusted = Date(timeIntervalSince1970: 1_800_000_000)
+        let variant = try store.addVariant(changed, of: origin.id, note: "  Dinkelmehl 630 statt Weizenmehl 550 ", adjustedOn: adjusted)
+
+        try expect(variant.originID == origin.id && variant.variantNote == "Dinkelmehl 630 statt Weizenmehl 550"
+                   && variant.adjustedOn == adjusted && variant.content == changed,
+                   "the variant does not carry origin, trimmed note and content: \(variant)")
+        try expect(store.recipe(id: variant.id) == variant, "the variant read by key differs")
+        try expect(store.recipe(id: origin.id)?.originID == nil, "the origin became a variant")
+        try expect(store.variants(of: origin.id).map(\.id) == [variant.id], "the origin does not list its variant")
+        try expect(store.recipes(includingImages: false).first { $0.id == variant.id }?.originID == origin.id,
+                   "the list leaves the origin out")
+
+        // The note can be changed and removed; the origin can be set later.
+        var edited = variant
+        edited.variantNote = ""
+        try store.update(edited)
+        try expect(store.recipe(id: variant.id)?.variantNote == nil, "an empty note was kept")
+        var ownRecipe = try store.add(bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        ownRecipe.originID = origin.id
+        ownRecipe.variantNote = "mehr Salz"
+        try store.update(ownRecipe)
+        try expect(store.variants(of: origin.id).count == 2, "a recipe made a variant later is not listed")
+
+        // An origin the store does not have is refused; so is a recipe as
+        // its own origin.
+        do {
+            var ghost = ownRecipe
+            ghost.originID = "none"
+            try store.update(ghost)
+            throw ContractViolation(description: "an unknown origin was accepted")
+        } catch RecipeStoreError.unknownRecipe {}
+        do {
+            _ = try store.addVariant(bread(), of: "none", note: nil)
+            throw ContractViolation(description: "a variant of an unknown recipe was added")
+        } catch RecipeStoreError.unknownRecipe {}
+        try expect(store.recipes(includingImages: false).count == 3, "a refused variant was kept")
+
+        // The origin goes: the variants stay, as recipes of their own.
+        try store.delete(id: origin.id)
+        try expect(store.recipe(id: variant.id)?.originID == nil && store.recipe(id: ownRecipe.id)?.originID == nil,
+                   "the variants still point at the removed origin")
+        try expect(store.recipes(includingImages: false).count == 2, "removing the origin removed a variant")
     }
 
     // MARK: Helpers

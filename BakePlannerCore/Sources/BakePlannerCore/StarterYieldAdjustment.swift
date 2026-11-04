@@ -163,6 +163,11 @@ public enum StarterYieldAdjustment {
         /// The line that was moved: "Wasser", or the milk or beer standing
         /// in for it in a component without water.
         public let adjustedLiquidName: String?
+
+        /// The note of the variant this copy becomes: "TA 170 statt TA 172".
+        public var variantNote: String {
+            AdjustedRecipe.variantNote(new: "TA \(Int(targetYield.rounded()))", old: "TA \(Int(source.doughYield.rounded()))")
+        }
         /// Grams that could not be taken away because the liquid line had
         /// less than that; zero when everything fitted.
         public let waterShortfall: Double

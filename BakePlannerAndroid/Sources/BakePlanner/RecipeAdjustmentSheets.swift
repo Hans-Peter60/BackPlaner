@@ -18,14 +18,17 @@ struct IngredientLineRequest {
 /// change into that copy, so a second adjustment does not stack copies.
 /// Hands back the recipe to show afterwards, nil when saving failed.
 @MainActor
-private func keepAdjusted(_ content: RecipeExportData, of recipe: StoredRecipe, in model: AppModel) -> StoredRecipe? {
+private func keepAdjusted(_ content: RecipeExportData, note: String, of recipe: StoredRecipe, in model: AppModel) -> StoredRecipe? {
     if recipe.adjustedOn != nil {
         var changed = recipe
         changed.content = content
         changed.adjustedOn = Date()
         return model.save(changed) ? model.recipe(id: recipe.id) : nil
     }
-    return model.addAdjustedCopy(content)
+    // A copy of an own recipe is its variant; a public recipe's copy (no
+    // store key of its own yet) stands on its own.
+    let origin = model.recipe(id: recipe.id) != nil ? recipe.id : nil
+    return model.addAdjustedCopy(content, originID: origin, note: note)
 }
 
 /// Common pieces of both sheets: dough yield before and after, the warning
@@ -182,11 +185,11 @@ struct FlourSubstitutionSheet: View {
                 Section {
                     if request.recipe.adjustedOn != nil {
                         Button("Änderung übernehmen") {
-                            keep(applied.recipe)
+                            keep(applied.recipe, note: applied.variantNote)
                         }
                     } else {
                         Button("Kopie mit Ersatz anlegen") {
-                            keep(applied.recipe)
+                            keep(applied.recipe, note: applied.variantNote)
                         }
                     }
                 } footer: {
@@ -225,8 +228,8 @@ struct FlourSubstitutionSheet: View {
         }
     }
 
-    private func keep(_ content: RecipeExportData) {
-        if let kept = keepAdjusted(content, of: request.recipe, in: model) {
+    private func keep(_ content: RecipeExportData, note: String) {
+        if let kept = keepAdjusted(content, note: note, of: request.recipe, in: model) {
             onKept(kept)
             dismiss()
         } else {
@@ -389,11 +392,11 @@ struct StarterYieldSheet: View {
                 Section {
                     if request.recipe.adjustedOn != nil {
                         Button("Änderung übernehmen") {
-                            keep(applied.recipe)
+                            keep(applied.recipe, note: applied.variantNote)
                         }
                     } else {
                         Button("Kopie mit Anpassung anlegen") {
-                            keep(applied.recipe)
+                            keep(applied.recipe, note: applied.variantNote)
                         }
                     }
                 } footer: {
@@ -432,8 +435,8 @@ struct StarterYieldSheet: View {
         }
     }
 
-    private func keep(_ content: RecipeExportData) {
-        if let kept = keepAdjusted(content, of: request.recipe, in: model) {
+    private func keep(_ content: RecipeExportData, note: String) {
+        if let kept = keepAdjusted(content, note: note, of: request.recipe, in: model) {
             onKept(kept)
             dismiss()
         } else {

@@ -226,6 +226,7 @@ struct RecipeDetailView: View {
                                              ingredientIndex: ingredientIndex,
                                              scale: servingScale,
                                              updateTarget: adjustmentTarget,
+                                             origin: recipe.objectID,
                                              onCopyCreated: { pendingCopy = $0 })
                                      },
                                      onStarterTap: { componentIndex, ingredientIndex in
@@ -235,6 +236,7 @@ struct RecipeDetailView: View {
                                              ingredientIndex: ingredientIndex,
                                              scale: servingScale,
                                              updateTarget: adjustmentTarget,
+                                             origin: recipe.objectID,
                                              onCopyCreated: { pendingCopy = $0 })
                                      })
 

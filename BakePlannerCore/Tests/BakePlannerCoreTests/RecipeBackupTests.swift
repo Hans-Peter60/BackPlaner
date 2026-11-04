@@ -129,11 +129,69 @@ struct RecipeBackupTests {
         #expect(entries[0].facts == BakeHistoryFacts() && entries[0].comment == "")
     }
 
-    @Test("A version-2 file is read; the version after it is refused")
+    @Test("Files up to version 3 are read; the version after it is refused")
     func versions() throws {
         #expect(RecipeExportFile.isSupported(formatVersion: 1))
         #expect(RecipeExportFile.isSupported(formatVersion: 2))
-        #expect(!RecipeExportFile.isSupported(formatVersion: 3))
+        #expect(RecipeExportFile.isSupported(formatVersion: 3))
+        #expect(!RecipeExportFile.isSupported(formatVersion: 4))
+    }
+
+    @Test("A backup carries variants by their origin's name, and a rated bake makes it version 3")
+    func variantsRoundTrip() throws {
+        let source = InMemoryRecipeStore()
+        let sourceHistory = InMemoryBakeHistoryStore(recipes: source)
+        let added = try source.add(contentsOf: twoRecipes())
+        var changed = RecipeStoreContract.bread()
+        changed.name = "Landbrot – Dinkelmehl 630 (14.10.2026)"
+        let variant = try source.addVariant(changed, of: added[0].id, note: "Dinkelmehl 630 statt Weizenmehl 550")
+        _ = try sourceHistory.add(toRecipe: variant.id, date: Date(timeIntervalSinceReferenceDate: 800_000_000),
+                                  comment: "Besser", images: [], facts: BakeHistoryFacts(rating: 5))
+        let feedings = InMemoryStarterFeedingLogStore(recipes: source)
+
+        // Shared on its own, a variant is a plain recipe in a version-1 file.
+        let shared = try RecipeExportFile(recipeIDs: [variant.id], from: source)
+        #expect(shared.formatVersion == 1)
+        #expect(shared.recipes[0].variantOf == nil && shared.recipes[0].variantNote == nil)
+
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id) + [variant.id], from: source,
+                                        bakeHistory: sourceHistory, starterFeedings: feedings)
+        #expect(file.formatVersion == 3)
+        #expect(file.recipes[2].variantOf == "Landbrot")
+        #expect(file.recipes[2].variantNote == "Dinkelmehl 630 statt Weizenmehl 550")
+        #expect(file.recipes[2].bakeHistory?.first?.rating == 5)
+        #expect(file.recipes[0].variantOf == nil)
+
+        // Read into another device: the variant hangs on the Landbrot read
+        // from the same file, not on a Landbrot already there.
+        let target = InMemoryRecipeStore()
+        let targetHistory = InMemoryBakeHistoryStore(recipes: target)
+        let older = try target.add(RecipeStoreContract.bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        #expect(try RecipeImport.importFile(try file.encoded(), into: target, bakeHistory: targetHistory,
+                                            starterFeedings: InMemoryStarterFeedingLogStore(recipes: target)) == 3)
+        let recipes = try target.recipes(includingImages: false)
+        let read = try #require(recipes.first { $0.content.name == changed.name })
+        let origin = try #require(recipes.first { $0.content.name == "Landbrot" && $0.id != older.id })
+        #expect(read.originID == origin.id)
+        #expect(read.variantNote == "Dinkelmehl 630 statt Weizenmehl 550")
+        #expect(read.content.variantOf == nil && read.content.variantNote == nil)
+        #expect(try targetHistory.entries(ofRecipe: read.id, includingImages: false).first?.facts.rating == 5)
+
+        // Without its origin in the file, a variant hangs on the recipe of
+        // that name already on the device; without any, it stands alone.
+        let alone = try RecipeExportFile(recipeIDs: [variant.id], from: source, bakeHistory: sourceHistory,
+                                         starterFeedings: feedings)
+        #expect(alone.formatVersion == 3)
+        let second = InMemoryRecipeStore()
+        let existing = try second.add(RecipeStoreContract.bread(), firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false)
+        _ = try RecipeImport.importFile(try alone.encoded(), into: second, bakeHistory: InMemoryBakeHistoryStore(recipes: second),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: second))
+        #expect(try second.recipes(includingImages: false).first { $0.content.name == changed.name }?.originID == existing.id)
+        let third = InMemoryRecipeStore()
+        _ = try RecipeImport.importFile(try alone.encoded(), into: third, bakeHistory: InMemoryBakeHistoryStore(recipes: third),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: third))
+        let lone = try #require(try third.recipes(includingImages: false).first)
+        #expect(lone.originID == nil && lone.variantNote == "Dinkelmehl 630 statt Weizenmehl 550")
     }
 
     @Test("A backup carries a starter's feedings into another store; a failed float test stays failed")

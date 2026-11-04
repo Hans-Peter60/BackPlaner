@@ -74,17 +74,29 @@ public final class SQLiteRecipeStore: RecipeStore {
         guard let rowID = Int64(recipe.id), try exists(rowID) else {
             throw RecipeStoreError.unknownRecipe(recipe.id)
         }
+        var originRowID: Int64?
+        if let originID = recipe.originID {
+            guard let candidate = Int64(originID), candidate != rowID, try exists(candidate) else {
+                throw RecipeStoreError.unknownRecipe(originID)
+            }
+            originRowID = candidate
+        }
+        let note = recipe.variantNote?.trimmingCharacters(in: .whitespacesAndNewlines)
         let content = recipe.content
         try database.transaction {
             try database.exec(sql: """
                 UPDATE recipe SET firestore_id = ?, adjusted_on = ?, bake_history_flag = ?, name = ?, summary = ?,
-                    url_link = ?, prep_time = ?, total_weight = ?, tags = ?, rating = ?, recurrence_interval_days = ?
+                    url_link = ?, prep_time = ?, total_weight = ?, tags = ?, rating = ?, recurrence_interval_days = ?,
+                    origin_id = ?, variant_note = ?
                 WHERE id = ?
                 """, parameters: [
                     Self.value(recipe.firestoreId), Self.value(recipe.adjustedOn), Self.value(recipe.bakeHistoryFlag),
                     .text(content.name), .text(content.summary), Self.value(content.urlLink),
                     .long(Int64(content.prepTime)), .real(content.totalWeight), .text(try Self.tagsText(content.tags)),
-                    .long(Int64(content.rating)), .long(Int64(content.recurrenceIntervalDays)), .long(rowID),
+                    .long(Int64(content.rating)), .long(Int64(content.recurrenceIntervalDays)),
+                    originRowID.map { SQLValue.long($0) } ?? SQLValue.null,
+                    (note?.isEmpty == false) ? SQLValue.text(note!) : SQLValue.null,
+                    .long(rowID),
                 ])
             try database.exec(sql: "DELETE FROM component WHERE recipe_id = ?", parameters: [.long(rowID)])
             try database.exec(sql: "DELETE FROM instruction WHERE recipe_id = ?", parameters: [.long(rowID)])
@@ -159,7 +171,7 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     private static let recipeColumns = """
         id, firestore_id, adjusted_on, bake_history_flag, name, summary, url_link, prep_time, total_weight, tags,
-        rating, recurrence_interval_days, image
+        rating, recurrence_interval_days, image, origin_id, variant_note
         """
 
     private func recipe(from row: [SQLValue], includingImage: Bool) throws -> StoredRecipe {
@@ -180,6 +192,8 @@ public final class SQLiteRecipeStore: RecipeStore {
                             firestoreId: row[1].textValue,
                             adjustedOn: row[2].realValue.map { Date(timeIntervalSinceReferenceDate: $0) },
                             bakeHistoryFlag: (row[3].longValue ?? 0) != 0,
+                            originID: row[13].longValue.map { String($0) },
+                            variantNote: row[14].textValue,
                             content: content)
     }
 

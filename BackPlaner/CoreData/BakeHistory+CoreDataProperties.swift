@@ -32,6 +32,8 @@ extension BakeHistory {
     @NSManaged public var finalProofMinutes: NSNumber?
     @NSManaged public var flour:   String?
     @NSManaged public var outcome: String?
+    /// 1 to 5 stars for this bake; nil when not rated.
+    @NSManaged public var rating:  NSNumber?
 
 }
 

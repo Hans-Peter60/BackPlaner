@@ -66,6 +66,18 @@ struct CoreDataRecipeStore: RecipeStore {
         recipe.firestoreId            = updated.firestoreId
         recipe.adjustedOn             = updated.adjustedOn
         recipe.bakeHistoryFlag        = updated.bakeHistoryFlag
+        // The origin by key; one the store does not have, or the recipe
+        // itself, is refused before anything is written.
+        if let originID = updated.originID {
+            guard let origin = managedRecipe(id: originID), origin != recipe else {
+                throw RecipeStoreError.unknownRecipe(originID)
+            }
+            if recipe.origin != origin { recipe.origin = origin }
+        } else if recipe.origin != nil {
+            recipe.origin = nil
+        }
+        let note = updated.variantNote?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
+        if recipe.variantNote != note { recipe.variantNote = note }
 
         // Components and steps are rebuilt only when they changed: their
         // objects carry nothing else, but rewriting them for a new name
@@ -98,6 +110,8 @@ struct CoreDataRecipeStore: RecipeStore {
                      firestoreId: recipe.firestoreId,
                      adjustedOn: recipe.adjustedOn,
                      bakeHistoryFlag: recipe.bakeHistoryFlag,
+                     originID: recipe.origin.flatMap { $0.isDeleted ? nil : $0.objectID.uriRepresentation().absoluteString },
+                     variantNote: recipe.variantNote,
                      content: RecipeExportData(recipe: recipe, includingImage: includingImage))
     }
 
@@ -115,4 +129,8 @@ struct CoreDataRecipeStore: RecipeStore {
         guard context.hasChanges else { return }
         try context.save()
     }
+}
+
+private extension String {
+    var nilIfEmpty: String? { isEmpty ? nil : self }
 }
