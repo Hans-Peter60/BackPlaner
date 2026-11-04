@@ -239,10 +239,21 @@ public enum RecipeImportPlan {
 
         // The final dough's steps keep their order. Only its first step keeps
         // the component, so a reminder for folding or baking does not list the
-        // whole ingredient table again.
+        // whole ingredient table again. And only the first of a run of steps
+        // on the same component names it in its text: "Hauptteig: kneten",
+        // then "falten", "formen", "backen" — not "Hauptteig: …" five times
+        // over, which is how the models deliver them. A change of component
+        // in between (a filling, a glaze) names the next one again.
         var seenComponents = Set<String>()
+        var previousComponent: String?
         for (index, step) in remaining.enumerated() {
             step.step = Double(index + 2)
+            let component = step.componentName ?? names.first { belongs(step, to: $0) }
+            if let component, let previousComponent,
+               component.compare(previousComponent, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame {
+                step.instruction = withoutLeadIn(step.instruction, component: component)
+            }
+            previousComponent = component
             if let name = step.componentName {
                 if seenComponents.contains(name) {
                     step.componentName = nil
@@ -252,6 +263,16 @@ public enum RecipeImportPlan {
             }
         }
         recipe.instructions = preparations + remaining
+    }
+
+    /// The text without its "Hauptteig: " lead-in; unchanged when nothing
+    /// else would be left.
+    private static func withoutLeadIn(_ text: String, component: String) -> String {
+        let prefix = "^\\s*" + NSRegularExpression.escapedPattern(for: component) + "\\s*:\\s*"
+        let stripped = text
+            .replacingOccurrences(of: prefix, with: "", options: [.regularExpression, .caseInsensitive])
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return stripped.isEmpty ? text : stripped
     }
 
     /// Whether a step prepares the component: by its stored component, or by
