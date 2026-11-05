@@ -26,6 +26,9 @@ struct DoughWeightFromTinView: View {
     /// Set when the calculator was opened from a recipe: called with the
     /// dough weight to take over, instead of picking a recipe to open.
     var onApply: ((Int) -> Void)? = nil
+    /// What the recipe's flours and seeds say the dough is; preselects the
+    /// dough type when the calculator opens from a recipe.
+    var suggestedDoughType: DoughWeightFromTin.DoughType? = nil
 
     @AppStorage(AppSettingsKeys.tinShape) private var shapeRaw = Shape.loafTin.rawValue
     @AppStorage(AppSettingsKeys.tinLengthCm) private var lengthCm = 30
@@ -156,6 +159,10 @@ struct DoughWeightFromTinView: View {
             } header: {
                 Text("Teig")
             } footer: {
+                if suggestedDoughType != nil {
+                    Text("Die Teigart ist aus den Mehlen und Saaten des Rezepts vorbelegt.")
+                        .padding(.bottom, 4)
+                }
                 if isBasket {
                     Text("Nennwerte, wie Körbchen-Anbieter sie angeben: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval entsprechend 22, 25, 28, 32 und 35 cm Länge. Dazwischen rechnet die App linear. Roggenteig darf schwerer sein, lockerer Weizenteig leichter.")
                 } else {
@@ -193,6 +200,12 @@ struct DoughWeightFromTinView: View {
         .warmBackground()
         .navigationTitle("Teigeinlage aus der Form")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            if let suggestedDoughType {
+                doughTypeRaw = suggestedDoughType.rawValue
+                fillPercent = Int((suggestedDoughType.fillFactor * 100).rounded())
+            }
+        }
         .sheet(isPresented: $showsRecipePicker) {
             RecipeChoiceSheet { recipe in
                 scaledRecipe = ScaledRecipe(recipe: recipe, grams: doughGrams)
@@ -231,16 +244,17 @@ struct DoughWeightFromTinView: View {
 /// hands the weight to `onApply` and closes the sheet; "Abbrechen" just
 /// closes it.
 struct DoughWeightFromTinSheet: View {
+    var suggestedDoughType: DoughWeightFromTin.DoughType? = nil
     let onApply: (Int) -> Void
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
-            DoughWeightFromTinView { grams in
+            DoughWeightFromTinView(onApply: { grams in
                 onApply(grams)
                 dismiss()
-            }
+            }, suggestedDoughType: suggestedDoughType)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Abbrechen") { dismiss() }

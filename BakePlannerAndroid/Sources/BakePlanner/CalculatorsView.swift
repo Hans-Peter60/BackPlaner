@@ -428,6 +428,9 @@ func starterHintText(_ hint: StarterYieldAdjustment.Hint) -> Text {
 /// (`onApply` set) it hands the weight back into that field.
 struct DoughWeightFromTinCalculator: View {
     var onApply: ((Int) -> Void)? = nil
+    /// What the recipe's flours and seeds say the dough is; preselects the
+    /// dough type when the calculator opens from a recipe.
+    var suggestedDoughType: DoughWeightFromTin.DoughType? = nil
     /// 0 loaf tin, 1 round tin, 2 round basket, 3 oval basket.
     @State var shape = 0
     @State var lengthCm = 30
@@ -549,6 +552,9 @@ struct DoughWeightFromTinCalculator: View {
             } header: {
                 Text("Teig")
             } footer: {
+                if suggestedDoughType != nil {
+                    Text("Die Teigart ist aus den Mehlen und Saaten des Rezepts vorbelegt.")
+                }
                 if isBasket {
                     Text("Nennwerte, wie Körbchen-Anbieter sie angeben: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval entsprechend 22, 25, 28, 32 und 35 cm Länge. Dazwischen rechnet die App linear. Roggenteig darf schwerer sein, lockerer Weizenteig leichter.")
                 } else {
@@ -570,5 +576,11 @@ struct DoughWeightFromTinCalculator: View {
             }
         }
         .navigationTitle("Teigeinlage aus der Form")
+        .onAppear {
+            if let suggestedDoughType {
+                doughTypeRaw = suggestedDoughType.rawValue
+                fillPercent = Int((suggestedDoughType.fillFactor * 100.0).rounded())
+            }
+        }
     }
 }
