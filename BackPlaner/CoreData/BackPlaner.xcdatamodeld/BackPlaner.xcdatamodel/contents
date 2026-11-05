@@ -88,6 +88,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="peakMinutes" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="roomTemperature" optional="YES" attributeType="Double" usesScalarValueType="NO"/>
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="starterFeedingLogs" inverseEntity="Recipe"/>
     </entity>
     <entity name="ShoppingCart" representedClassName="ShoppingCart" syncable="YES">

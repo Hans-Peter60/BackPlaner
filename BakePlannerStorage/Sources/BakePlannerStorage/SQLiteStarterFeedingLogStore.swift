@@ -28,7 +28,7 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
     public func feedings(ofRecipe recipeID: String) throws -> [StoredStarterFeeding] {
         guard let recipeRowID = Int64(recipeID) else { return [] }
         return try database.selectAll(sql: """
-            SELECT id, date, peak_minutes, float_test_passed, note FROM starter_feeding
+            SELECT id, date, peak_minutes, float_test_passed, note, room_temperature FROM starter_feeding
             WHERE recipe_id = ? ORDER BY date DESC, id
             """, parameters: [.long(recipeRowID)])
             .map { row in
@@ -38,7 +38,8 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
                     date: Date(timeIntervalSinceReferenceDate: row[1].realValue ?? 0),
                     facts: StarterFeedingFacts(peakMinutes: row[2].longValue.map { Int($0) },
                                                floatTestPassed: row[3].longValue.map { $0 != 0 },
-                                               note: row[4].textValue ?? ""))
+                                               note: row[4].textValue ?? "",
+                                               roomTemperature: row[5].realValue))
             }
     }
 
@@ -50,8 +51,8 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
         }
         let normalized = facts.normalized
         try database.exec(sql: """
-            INSERT INTO starter_feeding (recipe_id, date, peak_minutes, float_test_passed, note)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO starter_feeding (recipe_id, date, peak_minutes, float_test_passed, note, room_temperature)
+            VALUES (?, ?, ?, ?, ?, ?)
             """, parameters: [
                 .long(recipeRowID),
                 // Seconds since 2001, the way Date keeps them, so a date
@@ -60,6 +61,7 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
                 normalized.peakMinutes.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
                 normalized.floatTestPassed.map { SQLValue.long($0 ? 1 : 0) } ?? SQLValue.null,
                 normalized.note.isEmpty ? SQLValue.null : SQLValue.text(normalized.note),
+                normalized.roomTemperature.map { SQLValue.real($0) } ?? SQLValue.null,
             ])
         return StoredStarterFeeding(id: String(database.lastInsertRowID), recipeID: recipeID, date: date,
                                     facts: normalized)
@@ -73,11 +75,12 @@ public final class SQLiteStarterFeedingLogStore: StarterFeedingLogStore {
         }
         let facts = feeding.facts.normalized
         try database.exec(sql: """
-            UPDATE starter_feeding SET peak_minutes = ?, float_test_passed = ?, note = ? WHERE id = ?
+            UPDATE starter_feeding SET peak_minutes = ?, float_test_passed = ?, note = ?, room_temperature = ? WHERE id = ?
             """, parameters: [
                 facts.peakMinutes.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
                 facts.floatTestPassed.map { SQLValue.long($0 ? 1 : 0) } ?? SQLValue.null,
                 facts.note.isEmpty ? SQLValue.null : SQLValue.text(facts.note),
+                facts.roomTemperature.map { SQLValue.real($0) } ?? SQLValue.null,
                 .long(rowID),
             ])
     }

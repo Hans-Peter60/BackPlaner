@@ -715,6 +715,23 @@
         }
       }
     },
+    "aus %lld Fütterungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from %lld feedings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "d’après %lld rafraîchis"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Aus dem Rezept übernommen — hier nicht änderbar." : {
       "comment" : "A note that a value is taken from the recipe, and cannot be changed here.",
       "extractionState" : "manual",
@@ -732,6 +749,23 @@
           }
         }
       }
+    },
+    "aus einer Fütterung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from one feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "d’après un rafraîchi"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Aus Fotos" : {
       "extractionState" : "manual",
@@ -1146,6 +1180,23 @@
           }
         }
       }
+    },
+    "Bei %@ reif nach etwa %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At %@ ripe after about %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À %@, mûr après environ %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Bei großen TA-Unterschieden lohnt es sich, das Anstellgut vorher mit ein bis zwei Fütterungen auf die gewünschte TA umzustellen." : {
       "extractionState" : "manual",
@@ -6213,6 +6264,23 @@
         }
       }
     },
+    "Raumtemperatur heute" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room temperature today"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température ambiante aujourd’hui"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Regelmäßig auffrischen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6282,6 +6350,23 @@
           }
         }
       }
+    },
+    "Reifezeit-Schätzung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening estimate"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimation de la maturation"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Rezept" : {
       "extractionState" : "manual",
@@ -7911,6 +7996,23 @@
           }
         }
       }
+    },
+    "Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann schätzt die App, wann das Anstellgut bei der heutigen Temperatur reif ist." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note the time to peak and the room temperature with your feedings, and the app estimates when the starter is ripe at today's temperature."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notez le temps jusqu’au pic et la température ambiante lors de vos rafraîchis ; l’app estime alors quand le levain chef est mûr à la température du jour."
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Trotzdem planen" : {
       "extractionState" : "manual",

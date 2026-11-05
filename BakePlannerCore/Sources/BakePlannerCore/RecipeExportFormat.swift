@@ -17,8 +17,12 @@ public struct RecipeExportFile: Codable, Equatable {
     /// bake history and the starter feeding diary of each recipe
     /// (`RecipeExportData.bakeHistory`, `.starterFeedings`); version 3 the
     /// variants (`variantOf`, `variantNote`) and the rating of a bake
-    /// (`RecipeExportBakeEntry.rating`).
-    public static let currentFormatVersion = 3
+    /// (`RecipeExportBakeEntry.rating`); version 4 the room temperature of
+    /// a feeding (`RecipeExportStarterFeeding.roomTemperature`).
+    public static let currentFormatVersion = 4
+    /// The version of a file with variants and ratings but without feeding
+    /// temperatures, as apps up to 2.3 (12) write and read it.
+    public static let variantFormatVersion = 3
     /// The version of a file with bake history and feedings but without
     /// variants or ratings, as apps up to 2.2 write and read it.
     public static let historyFormatVersion = 2
@@ -37,19 +41,23 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    /// A file of `recipes`, at the lowest version that holds them: 3 when a
-    /// recipe is a variant or a bake carries a rating, 2 when a recipe
-    /// carries bake history or feedings, 1 otherwise. An older app refuses
-    /// a newer file instead of dropping what it does not know unnoticed.
+    /// A file of `recipes`, at the lowest version that holds them: 4 when a
+    /// feeding notes its temperature, 3 when a recipe is a variant or a bake
+    /// carries a rating, 2 when a recipe carries bake history or feedings,
+    /// 1 otherwise. An older app refuses a newer file instead of dropping
+    /// what it does not know unnoticed.
     public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
         self.formatVersion = formatVersion ?? Self.lowestVersion(holding: recipes)
         self.recipes = recipes
     }
 
     static func lowestVersion(holding recipes: [RecipeExportData]) -> Int {
+        if recipes.contains(where: { ($0.starterFeedings ?? []).contains { $0.roomTemperature != nil } }) {
+            return currentFormatVersion
+        }
         if recipes.contains(where: { $0.variantOf != nil || $0.variantNote != nil
                                      || ($0.bakeHistory ?? []).contains { $0.rating != nil } }) {
-            return currentFormatVersion
+            return variantFormatVersion
         }
         if recipes.contains(where: { $0.bakeHistory != nil || $0.starterFeedings != nil }) {
             return historyFormatVersion
@@ -105,14 +113,16 @@ public struct RecipeExportData: Codable, Equatable {
     }
 }
 
-/// One feeding of a starter in a backup file (format version 2). Values not
-/// measured are left out; a failed float test is `false`.
+/// One feeding of a starter in a backup file (format version 2; the room
+/// temperature since version 4). Values not measured are left out; a failed
+/// float test is `false`.
 public struct RecipeExportStarterFeeding: Codable, Equatable {
     /// Seconds since 2001, as JSONEncoder writes a Date by default.
     public var date: Date
     public var peakMinutes: Int?
     public var floatTestPassed: Bool?
     public var note: String?
+    public var roomTemperature: Double?
 
     public init(date: Date, facts: StarterFeedingFacts) {
         let facts = facts.normalized
@@ -120,10 +130,12 @@ public struct RecipeExportStarterFeeding: Codable, Equatable {
         peakMinutes = facts.peakMinutes
         floatTestPassed = facts.floatTestPassed
         note = facts.note.isEmpty ? nil : facts.note
+        roomTemperature = facts.roomTemperature
     }
 
     public var facts: StarterFeedingFacts {
-        StarterFeedingFacts(peakMinutes: peakMinutes, floatTestPassed: floatTestPassed, note: note ?? "").normalized
+        StarterFeedingFacts(peakMinutes: peakMinutes, floatTestPassed: floatTestPassed, note: note ?? "",
+                            roomTemperature: roomTemperature).normalized
     }
 }
 

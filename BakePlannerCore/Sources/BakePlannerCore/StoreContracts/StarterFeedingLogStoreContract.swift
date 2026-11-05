@@ -36,7 +36,7 @@ public enum StarterFeedingLogStoreContract {
 
     public static func addAndRead(_ store: StarterFeedingLogStore, _ recipes: RecipeStore) throws {
         let starter = try newRecipe(recipes)
-        let facts = StarterFeedingFacts(peakMinutes: 270, floatTestPassed: true, note: "Riecht säuerlich – „gut“")
+        let facts = StarterFeedingFacts(peakMinutes: 270, floatTestPassed: true, note: "Riecht säuerlich – „gut“", roomTemperature: 22.5)
         let added = try store.add(toRecipe: starter.id, date: moment(10), facts: facts)
 
         try expect(!added.id.isEmpty, "the new feeding has no key")
@@ -49,7 +49,7 @@ public enum StarterFeedingLogStoreContract {
     public static func normalizedFacts(_ store: StarterFeedingLogStore, _ recipes: RecipeStore) throws {
         let starter = try newRecipe(recipes)
         let failed = try store.add(toRecipe: starter.id, date: moment(10),
-                                   facts: StarterFeedingFacts(peakMinutes: 0, floatTestPassed: false, note: "  träge \n"))
+                                   facts: StarterFeedingFacts(peakMinutes: 0, floatTestPassed: false, note: "  träge \n", roomTemperature: 99))
         let untested = try store.add(toRecipe: starter.id, date: moment(11),
                                      facts: StarterFeedingFacts(peakMinutes: -3, floatTestPassed: nil, note: ""))
 

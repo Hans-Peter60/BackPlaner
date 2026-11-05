@@ -28,13 +28,17 @@ struct StarterFeedingLogView: View {
 
     @State private var date = Date()
     @State private var peakMinutesText = ""
+    @State private var roomText = ""
     @State private var floatTest = FloatTestChoice.notChecked
     @State private var note = ""
+    /// Today's room temperature for the ripeness estimate; starts at the
+    /// last one noted in the diary.
+    @State private var todayTemperature = 22
     /// The feeding whose result is being entered.
     @State private var entryForResult: StarterFeedingLog?
 
     private enum Field: Hashable {
-        case peakMinutes, note
+        case peakMinutes, roomTemperature, note
     }
 
     // A keyboard toolbar never shows inside the recipe TabView (see
@@ -72,6 +76,13 @@ struct StarterFeedingLogView: View {
 
     var dateFormat: DateFormat = DateFormat()
 
+    /// When the starter is ripe at today's temperature, from the feedings
+    /// that noted both peak time and temperature (StarterRipeness).
+    private var ripenessEstimate: StarterRipeness.Estimate? {
+        StarterRipeness.estimate(from: StarterFeedingFacts.ripenessObservations(entries.map(\.facts)),
+                                 at: Double(todayTemperature))
+    }
+
     var body: some View {
         Form {
             Text(recipeName)
@@ -86,6 +97,33 @@ struct StarterFeedingLogView: View {
                 } footer: {
                     Text("Aus dem Rezept übernommen — hier nicht änderbar.")
                 }
+            }
+
+            Section {
+                if let estimate = ripenessEstimate {
+                    Text("Bei \(BakeHistoryFacts.temperatureText(Double(todayTemperature), locale: AppSettings.locale)) reif nach etwa \(BakeHistoryFacts.durationText(estimate.minutes))")
+                        .font(Theme.bodyFont(16))
+                        .fixedSize(horizontal: false, vertical: true)
+                    Group {
+                        if estimate.observations == 1 {
+                            Text("aus einer Fütterung")
+                        } else {
+                            Text("aus \(estimate.observations) Fütterungen")
+                        }
+                    }
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+                } else {
+                    Text("Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann schätzt die App, wann das Anstellgut bei der heutigen Temperatur reif ist.")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.subtitle)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Stepper(value: $todayTemperature, in: 10...35) {
+                    LabeledContent("Raumtemperatur heute", value: "\(todayTemperature) °C")
+                }
+            } header: {
+                Text("Reifezeit-Schätzung")
             }
 
             Section {
@@ -104,6 +142,24 @@ struct StarterFeedingLogView: View {
                     Text("Min")
                         .foregroundColor(Theme.subtitle)
                     if focusedField == .peakMinutes {
+                        Button("Fertig") { focusedField = nil }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                    }
+                }
+
+                HStack {
+                    Text("Raumtemperatur")
+                    Spacer()
+                    TextField("", text: $roomText, prompt: Text(verbatim: "–"))
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .frame(minWidth: 50, maxWidth: 70)
+                        .focused($focusedField, equals: .roomTemperature)
+                        .accessibilityLabel(Text("Raumtemperatur"))
+                    Text("°C")
+                        .foregroundColor(Theme.subtitle)
+                    if focusedField == .roomTemperature {
                         Button("Fertig") { focusedField = nil }
                             .buttonStyle(.bordered)
                             .controlSize(.small)
@@ -184,6 +240,10 @@ struct StarterFeedingLogView: View {
                 if let peakMinutes = facts.peakMinutes {
                     Label(BakeHistoryFacts.durationText(peakMinutes), systemImage: "hourglass")
                 }
+                if let roomTemperature = facts.roomTemperature {
+                    Label(BakeHistoryFacts.temperatureText(roomTemperature, locale: AppSettings.locale),
+                          systemImage: "thermometer.medium")
+                }
                 if let floatTestPassed = facts.floatTestPassed {
                     Label(floatTestPassed ? "Schwimmt" : "Schwimmt nicht",
                           systemImage: floatTestPassed ? "checkmark.circle" : "xmark.circle")
@@ -209,6 +269,9 @@ struct StarterFeedingLogView: View {
         recipeName = recipe.name
         ratio      = StarterFeedingRatio.ratio(for: recipe)
         entries    = recipe.starterFeedingLogsArray
+        if let lastNoted = entries.compactMap(\.facts.roomTemperature).first {
+            todayTemperature = Int(lastNoted.rounded())
+        }
     }
 
     private func save() {
@@ -224,7 +287,8 @@ struct StarterFeedingLogView: View {
         entry.date = date
         entry.facts = StarterFeedingFacts(peakMinutes: StarterFeedingFacts.parseMinutes(peakMinutesText),
                                            floatTestPassed: floatTest.floatTestPassed,
-                                           note: note)
+                                           note: note,
+                                           roomTemperature: BakeHistoryFacts.parseTemperature(roomText))
         recipe.addToStarterFeedingLogs(entry)
 
         do {
@@ -235,6 +299,7 @@ struct StarterFeedingLogView: View {
 
         date             = Date()
         peakMinutesText  = ""
+        roomText         = ""
         floatTest        = .notChecked
         note             = ""
         focusedField     = nil
@@ -271,6 +336,7 @@ extension StarterFeedingLogView {
         @Environment(\.managedObjectContext) private var viewContext
 
         @State private var peakMinutesText: String
+        @State private var roomText: String
         @State private var floatTest: FloatTestChoice
         @State private var note: String
 
@@ -281,6 +347,7 @@ extension StarterFeedingLogView {
             self.onSave = onSave
             let facts = entry.facts
             _peakMinutesText = State(initialValue: StarterFeedingFacts.minutesInput(facts.peakMinutes))
+            _roomText = State(initialValue: BakeHistoryFacts.temperatureInput(facts.roomTemperature))
             _floatTest = State(initialValue: FloatTestChoice(facts.floatTestPassed))
             _note = State(initialValue: facts.note)
         }
@@ -301,6 +368,18 @@ extension StarterFeedingLogView {
                                 .frame(minWidth: 50, maxWidth: 70)
                                 .accessibilityLabel(Text("Reifezeit bis zum Höhepunkt"))
                             Text("Min")
+                                .foregroundColor(Theme.subtitle)
+                        }
+
+                        HStack {
+                            Text("Raumtemperatur")
+                            Spacer()
+                            TextField("", text: $roomText, prompt: Text(verbatim: "–"))
+                                .keyboardType(.decimalPad)
+                                .multilineTextAlignment(.trailing)
+                                .frame(minWidth: 50, maxWidth: 70)
+                                .accessibilityLabel(Text("Raumtemperatur"))
+                            Text("°C")
                                 .foregroundColor(Theme.subtitle)
                         }
 
@@ -332,7 +411,8 @@ extension StarterFeedingLogView {
         private func save() {
             entry.facts = StarterFeedingFacts(peakMinutes: StarterFeedingFacts.parseMinutes(peakMinutesText),
                                               floatTestPassed: floatTest.floatTestPassed,
-                                              note: note)
+                                              note: note,
+                                              roomTemperature: BakeHistoryFacts.parseTemperature(roomText))
             do {
                 try viewContext.save()
             } catch {

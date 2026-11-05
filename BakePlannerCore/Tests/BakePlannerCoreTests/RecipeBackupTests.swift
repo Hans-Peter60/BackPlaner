@@ -129,12 +129,13 @@ struct RecipeBackupTests {
         #expect(entries[0].facts == BakeHistoryFacts() && entries[0].comment == "")
     }
 
-    @Test("Files up to version 3 are read; the version after it is refused")
+    @Test("Files up to version 4 are read; the version after it is refused")
     func versions() throws {
         #expect(RecipeExportFile.isSupported(formatVersion: 1))
         #expect(RecipeExportFile.isSupported(formatVersion: 2))
         #expect(RecipeExportFile.isSupported(formatVersion: 3))
-        #expect(!RecipeExportFile.isSupported(formatVersion: 4))
+        #expect(RecipeExportFile.isSupported(formatVersion: 4))
+        #expect(!RecipeExportFile.isSupported(formatVersion: 5))
     }
 
     @Test("A backup carries variants by their origin's name, and a rated bake makes it version 3")
@@ -224,5 +225,28 @@ struct RecipeBackupTests {
         let feedings = try targetFeedings.feedings(ofRecipe: zopf.id)
         #expect(feedings.map(\.date) == [untested.date, failed.date])
         #expect(feedings.map(\.facts) == [untested.facts, failed.facts])
+    }
+
+    @Test("A feeding with its room temperature makes the file version 4 and comes back with it")
+    func feedingTemperatureRoundTrip() throws {
+        let source = InMemoryRecipeStore()
+        let sourceFeedings = InMemoryStarterFeedingLogStore(recipes: source)
+        let added = try source.add(contentsOf: twoRecipes())
+        let warm = try sourceFeedings.add(toRecipe: added[1].id, date: Date(timeIntervalSinceReferenceDate: 800_000_000),
+                                          facts: StarterFeedingFacts(peakMinutes: 240, roomTemperature: 24.5))
+
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id), from: source,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: source),
+                                        starterFeedings: sourceFeedings)
+        #expect(file.formatVersion == 4)
+
+        let target = InMemoryRecipeStore()
+        let targetFeedings = InMemoryStarterFeedingLogStore(recipes: target)
+        _ = try RecipeImport.importFile(try file.encoded(), into: target,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                        starterFeedings: targetFeedings)
+        let zopf = try #require(try target.recipes(includingImages: false).first { $0.content.name == "Zopf" })
+        #expect(try targetFeedings.feedings(ofRecipe: zopf.id).map(\.facts) == [warm.facts])
+        #expect(warm.facts.roomTemperature == 24.5)
     }
 }
