@@ -45,6 +45,7 @@
 		6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
 		6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C546309B7BB00041298E /* WatchPlanSync.swift */; };
+		6AA6C549309B7BB00041298E /* RecipeImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C548309B7BB00041298E /* RecipeImageCache.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
@@ -266,6 +267,7 @@
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
 		6AA6C546309B7BB00041298E /* WatchPlanSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPlanSync.swift; sourceTree = "<group>"; };
+		6AA6C548309B7BB00041298E /* RecipeImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageCache.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
 		6A2615B630706A43007644AB /* RecipePDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePDFExporter.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 				6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */,
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
 				6AA6C546309B7BB00041298E /* WatchPlanSync.swift */,
+				6AA6C548309B7BB00041298E /* RecipeImageCache.swift */,
 				6A261574306FDC01007644AB /* BakeActivityManager.swift */,
 				6A2615B630706A43007644AB /* RecipePDFExporter.swift */,
 				6A2615D230726171007644AB /* RecipeWebPageLoader.swift */,
@@ -1113,6 +1116,7 @@
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,
 				6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */,
+				6AA6C549309B7BB00041298E /* RecipeImageCache.swift in Sources */,
 				6AF6395F2B7A4F060070CDC1 /* Ingredient+CoreDataProperties.swift in Sources */,
 				6A99FC0C304B5203008DDA63 /* ScheduledTasksTabsView.swift in Sources */,
 				6AF639642B7A4F060070CDC1 /* ShoppingCart+CoreDataProperties.swift in Sources */,

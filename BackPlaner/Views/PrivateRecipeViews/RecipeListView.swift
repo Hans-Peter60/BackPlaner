@@ -111,8 +111,7 @@ struct RecipeListView: View {
                                 HStack(spacing: 12.0) {
 
                                     if !dynamicTypeSize.isAccessibilitySize {
-                                        let image = UIImage(data: r.image) ?? UIImage()
-                                        Image(uiImage: image)
+                                        Image(uiImage: RecipeThumbnails.shared.image(for: r) ?? UIImage())
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 50, height: 50, alignment: .center)

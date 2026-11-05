@@ -11,7 +11,10 @@ import SwiftUI
 
 extension GlobalVariables {
 
-    static var recipesImage = [String : UIImage]()
+    /// The pictures of public recipes, as PublicRecipeImages holds them;
+    /// read here by the views, written through the store so the disk cache
+    /// and the redraw of the rows come along.
+    static var recipesImage: [String: UIImage] { PublicRecipeImages.shared.images }
 
     // These three are computed, not stored: `scaledLayoutValue` reads the
     // current text size, and a stored `static var` would freeze whatever it

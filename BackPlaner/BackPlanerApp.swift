@@ -70,6 +70,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // The same plan goes to the Watch app, which sends back what was done.
     WatchPlanSync.shared.start()
 
+    // The public recipes' pictures from the last run, so the list shows
+    // them before the downloads arrive.
+    PublicRecipeImages.shared.preload()
+
     // Follow the Pro configuration and the App Store. Until the document
     // says otherwise every feature is free, so this never delays the start.
     Entitlements.shared.start()
