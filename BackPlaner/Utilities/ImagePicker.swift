@@ -8,6 +8,15 @@
 import BakePlannerCore
 import SwiftUI
 
+/// The source as the item of a `.sheet(item:)`. Presented with
+/// `isPresented` and a separate source state, the sheet was built with
+/// the source of the previous tap — "Kamera" opened the photo library the
+/// first time, the camera only the second — because both states changed
+/// in the same turn and the sheet's content read the old one.
+extension UIImagePickerController.SourceType: @retroactive Identifiable {
+    public var id: Int { rawValue }
+}
+
 struct ImagePicker: UIViewControllerRepresentable {
     
     @Environment(\.presentationMode) var presentationMode

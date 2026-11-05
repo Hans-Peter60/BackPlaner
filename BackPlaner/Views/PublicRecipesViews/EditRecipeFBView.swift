@@ -24,8 +24,8 @@ struct EditRecipeFBView: View {
 
     /// A replacement picture; nil while the stored one is kept.
     @State private var recipeImage: UIImage?
-    @State private var isShowingImagePicker = false
-    @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
+    /// The picker on screen, by its source; nil while none is up.
+    @State private var imagePickerSource: UIImagePickerController.SourceType?
 
     @State private var newTag = ""
 
@@ -109,8 +109,7 @@ struct EditRecipeFBView: View {
 
                 HStack {
                     IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .regular) {
-                        selectedImageSource  = .photoLibrary
-                        isShowingImagePicker = true
+                        imagePickerSource = .photoLibrary
                     }
 
                     // Only where a camera exists (never on the Simulator).
@@ -118,13 +117,12 @@ struct EditRecipeFBView: View {
                         Spacer()
 
                         IconActionButton(systemImage: "camera", style: .primary, accessibilityLabel: "Kamera öffnen", title: "Kamera", controlSize: .regular) {
-                            selectedImageSource  = .camera
-                            isShowingImagePicker = true
+                            imagePickerSource = .camera
                         }
                     }
                 }
-                .sheet(isPresented: $isShowingImagePicker) {
-                    ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                .sheet(item: $imagePickerSource) { source in
+                    ImagePicker(selectedSource: source, recipeImage: $recipeImage)
                 }
             } footer: {
                 Text("Die Änderungen werden in der Rezept-Datenbank gespeichert. Vorhandene Übersetzungen werden danach neu erstellt.")
