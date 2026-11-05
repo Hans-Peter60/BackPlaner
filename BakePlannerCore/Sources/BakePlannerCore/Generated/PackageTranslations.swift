@@ -65,7 +65,6 @@ enum PackageTranslations {
         "Teig": ["en": "Dough", "fr": "Pâte"],
         "Teiggewicht %@ g → %@ g": ["en": "Dough weight %@ g → %@ g", "fr": "Poids de pâte %@ g → %@ g"],
         "Unter dieser Adresse liegt keine Internetseite, sondern zum Beispiel eine PDF- oder Bilddatei.": ["en": "This address does not lead to a web page but, for example, to a PDF or image file.", "fr": "Cette adresse ne mène pas à une page web, mais par exemple à un fichier PDF ou image."],
-        "Variante": ["en": "Variant", "fr": "Variante"],
         "Vollkorn": ["en": "wholegrain", "fr": "complète"],
         "Weizen": ["en": "Wheat", "fr": "Blé"],
         "Weizenmehl": ["en": "Wheat flour", "fr": "Farine de blé"],

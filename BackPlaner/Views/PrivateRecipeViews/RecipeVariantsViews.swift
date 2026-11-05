@@ -224,7 +224,7 @@ struct NewVariantSheet: View {
 
     private func create() {
         let copy = RecipeExportData(recipe: origin).makeRecipe(in: viewContext)
-        copy.name = AdjustedRecipe.variantName(original: origin.name)
+        copy.name = AdjustedRecipe.variantName(original: origin.name, among: Recipe.allNames(in: viewContext))
         copy.origin = origin
         let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
         copy.variantNote = trimmed.isEmpty ? nil : trimmed
