@@ -144,7 +144,7 @@ With a keyboard these shortcuts apply (holding ⌘ shows them):
 |---|---|
 | ⌘1, ⌘2, ⌘3, ⌘4 | Recipes, Shopping lists, Baking history, Timeline tab |
 | ⌘N | Create new recipe |
-| ⌘F | Search recipe |
+| ⇧⌘F | Search recipe |
 | ⌘, | Settings |
 | ⌥⌘N | New window |
 

@@ -3,7 +3,8 @@
 //  BackPlaner
 //
 //  The keyboard shortcuts of the iPad with a keyboard (and of the Mac):
-//  ⌘1–⌘4 for the tabs, ⌘N for a new recipe, ⌘F for the search, ⌘, for
+//  ⌘1–⌘4 for the tabs, ⌘N for a new recipe, ⇧⌘F for the search (⌘F is
+//  the system's own Find on the Mac and in text fields), ⌘, for
 //  the settings, ⌥⌘N for a second window. They are App commands, so the
 //  iPad lists them when ⌘ is held, and they reach the window that has the
 //  focus through a focused scene value — with several windows open, only
@@ -51,7 +52,7 @@ struct BakePlannerCommands: Commands {
         }
         CommandGroup(after: .textEditing) {
             Button("Rezept suchen") { target?.focusSearch() }
-                .keyboardShortcut("f", modifiers: .command)
+                .keyboardShortcut("f", modifiers: [.command, .shift])
                 .disabled(target == nil)
         }
         CommandMenu("Ansicht") {
