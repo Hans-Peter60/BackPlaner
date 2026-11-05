@@ -3844,6 +3844,23 @@
         }
       }
     },
+    "Geplante Dauer: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planned duration: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée planifiée : %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Geplante nächste Schritte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6333,6 +6350,23 @@
         }
       }
     },
+    "Reifezeit als Dauer übernehmen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the ripening time as the duration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre la maturation comme durée"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Reifezeit bis zum Höhepunkt" : {
       "comment" : "A label for a text field that lets the user specify the number of minutes it takes for the starter to reach the right consistency.",
       "extractionState" : "manual",
@@ -6350,6 +6384,23 @@
           }
         }
       }
+    },
+    "Reifezeit heute" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening today"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maturation aujourd’hui"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Reifezeit-Schätzung" : {
       "localizations" : {

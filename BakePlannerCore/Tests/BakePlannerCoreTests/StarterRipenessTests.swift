@@ -80,6 +80,14 @@ struct StarterRipenessTests {
         #expect(StarterRipeness.estimate(from: [Observation(temperature: 22, peakMinutes: 0)], at: 22) == nil)
     }
 
+    @Test("The ripening step of a starter recipe is its longest one")
+    func ripeningStep() {
+        #expect(StarterRipeness.ripeningStepIndex(durations: [10, 480, 5]) == 1)
+        #expect(StarterRipeness.ripeningStepIndex(durations: [300, 300]) == 0)
+        #expect(StarterRipeness.ripeningStepIndex(durations: [0, 0]) == nil)
+        #expect(StarterRipeness.ripeningStepIndex(durations: []) == nil)
+    }
+
     @Test("The ready time follows from the feeding time")
     func readyDate() throws {
         let estimate = try #require(StarterRipeness.estimate(from: [Observation(temperature: 22, peakMinutes: 300)], at: 22))

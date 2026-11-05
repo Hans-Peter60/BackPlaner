@@ -317,6 +317,8 @@ Modifiez l’heure et observez la colonne « Début » s’ajuster immédiatemen
 
 L’app recalcule alors toutes les heures de début et la durée de travail totale. Pour vos recettes, les nouvelles durées sont enregistrées durablement ; pour les recettes publiques, elles ne valent que pour la planification en cours.
 
+**Maturation aujourd’hui pour les recettes de levain chef.** Si vous planifiez un levain chef dont le journal contient des nourrissages avec temps jusqu’au pic et température ambiante (voir le journal du levain au [chapitre 9](#9-modifier-une-recette)), la fiche de planification affiche la carte **Maturation aujourd’hui** : le temps estimé jusqu’à maturité à la température ambiante réglée, à côté de la durée planifiée de l’étape de maturation, c’est-à-dire la plus longue. **Reprendre la maturation comme durée** règle cette étape dessus ; les heures de début et la fin suivent, et avec « Prêt pour » le début du nourrissage se décale d’autant. Comme toute modification de durée, elle reste dans la recette jusqu’au prochain ajustement.
+
 ### Ce que l’app reproche à un plan
 
 Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure choisie aboutit à un plan peu pratique. Elles se mettent à jour à chaque modification de la date, de l’heure ou des durées — avant même que vous ne touchiez « Définir les rappels ».
