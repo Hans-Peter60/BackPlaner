@@ -127,7 +127,7 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 | Bouton | Rôle |
 |--------|------|
 | **Filtre** | La note minimale pour la liste |
-| **Plus (⋯)** | Les trois calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau) et **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau), **Exporter des recettes** (une sélection de vos propres recettes dans un fichier, voir [chapitre 14](#14-réglages)), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
+| **Plus (⋯)** | Les quatre calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau), **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau) et **Poids de pâte** (la pâte qu’un moule à cake ou un banneton accepte), **Exporter des recettes** (une sélection de vos propres recettes dans un fichier, voir [chapitre 14](#14-réglages)), ainsi que les **Réglages** (langue, valeurs par défaut, planification, sauvegarde, compte) |
 | **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos, une page web ou un texte copié |
 
 **La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à l’onglet « Timeline ». Sans étape à venir, elle reste masquée.
@@ -944,6 +944,16 @@ L’ajustement n’est pas proposé pour les lignes qui renvoient à un composan
 ### Température de la pâte
 
 **Recettes → Plus (⋯) → Température de la pâte** calcule, selon la formule des boulangers, la température que doit avoir l’**eau de coulage** pour que la pâte atteigne la température voulue après le pétrissage. Vous saisissez la **température cible** de la pâte, la **température ambiante**, la température de la farine (en général celle de la pièce) et, pour les recettes avec levain ou pré-ferment, sa température. La **chaleur de friction** est la chaleur que la pâte gagne en plus au pétrissage : comparez la température de pâte mesurée après le pétrissage à la cible et ajustez la valeur — calibrée une fois, elle vaut pour toutes les recettes et reste mémorisée. Si le calcul donne une eau trop froide ou trop chaude, le calculateur le signale.
+
+### Poids de pâte d’après le moule
+
+**Recettes → Plus (⋯) → Poids de pâte** calcule la quantité de pâte qu’un moule accepte et, si vous le souhaitez, ouvre aussitôt une recette adaptée à ce poids.
+
+- **Moule à cake et moule rond :** dimensions intérieures en centimètres (longueur, largeur, hauteur, ou diamètre et hauteur) ; si les parois sont inclinées, prenez la largeur à mi-hauteur. L’app en déduit le volume et, avec le **facteur de remplissage**, le poids de pâte : blé clair et pain de mie environ 0,35–0,40 g par ml, pain mixte 0,45, seigle, complet et graines 0,50–0,55. Le **type de pâte** règle le facteur, un pas-à-pas permet de l’affiner – après la première cuisson, vous savez si votre moule en prend plus ou moins. Exemple : 30 × 11 × 8 cm font 2,6 l, soit environ 1 190 g de pâte pour un pain mixte.
+- **Bannetons ronds et ovales :** pas de formule ici, mais les valeurs nominales des fabricants, selon le diamètre (rond) ou la longueur (ovale) au bord supérieur : 500 g pour Ø 18 cm, 750 g pour Ø 20 cm, 1 000 g pour Ø 22 cm, 1 500 g pour Ø 25 cm, 2 000 g pour Ø 28 cm ; ovales 22, 25, 28, 32 et 35 cm. Entre les tailles, l’app interpole. Le type de pâte corrige la valeur nominale : pâte de seigle et complète +20 %, pâte de blé aérée −10 %.
+- **Adapter une recette à ce poids** ouvre l’une de vos recettes avec ce poids de pâte comme poids cible ; ingrédients, plan et liste de courses en tiennent compte, la recette elle-même reste inchangée.
+
+L’app retient les dimensions et le type de pâte : on possède quelques moules, pas un nouveau à chaque fois.
 
 ### Unités disponibles
 

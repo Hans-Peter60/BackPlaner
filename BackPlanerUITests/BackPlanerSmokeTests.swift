@@ -195,7 +195,7 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     /// The entries of the recipe list's "Mehr" menu: raw values of
     /// MenuDestination, which the app uses as identifiers ("menu.<name>").
-    private static let moreDestinations = ["doughTemperature", "flourSubstitution", "starterYield", "settings"]
+    private static let moreDestinations = ["doughTemperature", "flourSubstitution", "starterYield", "doughWeightFromTin", "settings"]
 
     private func launch() {
         // The app asks for permission to send notifications on its first start.

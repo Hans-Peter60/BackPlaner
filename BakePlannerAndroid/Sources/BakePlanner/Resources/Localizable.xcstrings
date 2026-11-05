@@ -524,6 +524,23 @@
         }
       }
     },
+    "Anpassung für die Teigart: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjustment for the dough type: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustement selon la pâte : %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Anstellgut" : {
       "comment" : "Sauerteig-Anstellgut",
       "extractionState" : "manual",
@@ -1579,6 +1596,23 @@
           }
         }
       }
+    },
+    "Breite" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Width"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Bäckerprozente anzeigen" : {
       "extractionState" : "manual",
@@ -2867,6 +2901,23 @@
         }
       }
     },
+    "Durchmesser" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diameter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diamètre"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Eigene Einheiten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3448,6 +3499,23 @@
         }
       }
     },
+    "Form" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moule"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Formen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3550,6 +3618,23 @@
           }
         }
       }
+    },
+    "Füllfaktor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill factor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facteur de remplissage"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Für die stündliche und die monatliche Nutzungsbegrenzung werden zur pseudonymen Nutzerkennung der Beginn des aktuellen Zeitfensters, der aktuelle Monat und die Anzahl der Anfragen gespeichert." : {
       "extractionState" : "manual",
@@ -3898,6 +3983,40 @@
         }
       }
     },
+    "Gärkörbchen oval" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oval proofing basket"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banneton ovale"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "Gärkörbchen rund" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Round proofing basket"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banneton rond"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Hartweizen quillt langsam: 30–60 Minuten Autolyse einplanen; der Teig wird fester und gelblich." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4016,6 +4135,23 @@
           }
         }
       }
+    },
+    "Höhe" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Height"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hauteur"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Im Rezept" : {
       "extractionState" : "manual",
@@ -4157,6 +4293,23 @@
         }
       }
     },
+    "Innenmaße" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inside measurements"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimensions intérieures"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Internetadresse" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4258,6 +4411,23 @@
           }
         }
       }
+    },
+    "Kastenform" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loaf tin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moule à cake"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Kein Unterschied zum Ursprungsrezept." : {
       "extractionState" : "manual",
@@ -4810,6 +4980,23 @@
         }
       }
     },
+    "Länge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Length"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longueur"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Löschen" : {
       "comment" : "Recipe editing.",
       "extractionState" : "manual",
@@ -4861,6 +5048,23 @@
           }
         }
       }
+    },
+    "Maß am oberen Rand" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measure at the rim"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesure au bord supérieur"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Mehl" : {
       "comment" : "Label for the flour field in the \"last time\" card.",
@@ -5158,6 +5362,23 @@
         }
       }
     },
+    "Mischbrot" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mixed bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pain mixte"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Mischen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5294,6 +5515,40 @@
           }
         }
       }
+    },
+    "Nennwert des Körbchens: %@ g" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basket rating: %@ g"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeur nominale du banneton : %@ g"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "Nennwerte, wie Körbchen-Anbieter sie angeben: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval entsprechend 22, 25, 28, 32 und 35 cm Länge. Dazwischen rechnet die App linear. Roggenteig darf schwerer sein, lockerer Weizenteig leichter." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ratings as basket makers give them: 500 g at Ø 18 cm, 750 g at Ø 20 cm, 1,000 g at Ø 22 cm, 1,500 g at Ø 25 cm, 2,000 g at Ø 28 cm; oval baskets likewise at 22, 25, 28, 32 and 35 cm length. In between, the app interpolates. Rye dough may be heavier, airy wheat dough lighter."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeurs nominales telles que les fabricants de bannetons les indiquent : 500 g pour Ø 18 cm, 750 g pour Ø 20 cm, 1 000 g pour Ø 22 cm, 1 500 g pour Ø 25 cm, 2 000 g pour Ø 28 cm ; ovales de même pour 22, 25, 28, 32 et 35 cm de long. Entre deux, l’app interpole. Une pâte de seigle peut être plus lourde, une pâte de blé aérée plus légère."
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Neu" : {
       "extractionState" : "manual",
@@ -6477,6 +6732,23 @@
         }
       }
     },
+    "Richtwerte: Weizen hell und Toast 0,35–0,40 g je ml, Mischbrot etwa 0,45, Roggen, Vollkorn und Saaten 0,50–0,55. Innen messen, bei schrägen Wänden die Breite auf halber Höhe. Nach dem ersten Backen den Füllfaktor an Dein Ergebnis anpassen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guide values: light wheat and toast 0.35–0.40 g per ml, mixed bread about 0.45, rye, wholegrain and seeds 0.50–0.55. Measure inside; with slanted walls, take the width at half height. After the first bake, adjust the fill factor to your result."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valeurs indicatives : blé clair et pain de mie 0,35–0,40 g par ml, pain mixte environ 0,45, seigle, complet et graines 0,50–0,55. Mesurez à l’intérieur ; si les parois sont inclinées, prenez la largeur à mi-hauteur. Après la première cuisson, ajustez le facteur de remplissage à votre résultat."
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Roggen hat kein Klebergerüst: Ab etwa %@ Roggenanteil den Teig mit Sauerteig versäuern, sonst wird die Krume klitschig." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6494,6 +6766,23 @@
         }
       }
     },
+    "Roggen, Vollkorn, Saaten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rye, wholegrain, seeds"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seigle, complet, graines"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Ruhen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6510,6 +6799,23 @@
           }
         }
       }
+    },
+    "Runde Form" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Round tin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moule rond"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Sauerteig/Vorteig" : {
       "extractionState" : "manual",
@@ -7367,6 +7673,23 @@
         }
       }
     },
+    "Teigart" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough type"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type de pâte"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Teigausbeute" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7400,6 +7723,40 @@
           }
         }
       }
+    },
+    "Teigeinlage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough weight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids de pâte"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "Teigeinlage aus der Form" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough weight from the tin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poids de pâte d’après le moule"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Teiggewicht" : {
       "extractionState" : "manual",
@@ -7897,6 +8254,23 @@
         }
       }
     },
+    "Volumen %@ × %@ g/ml" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume %@ × %@ g/ml"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume %@ × %@ g/ml"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Von Dir gemeldete Rezepte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8221,6 +8595,23 @@
           }
         }
       }
+    },
+    "Weizen hell, Toast" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light wheat, toast"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blé clair, pain de mie"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Wenn Du die geschützte Cloud-KI auswählst, verarbeitet BackPlaner die von Dir ausgewählten Rezeptbilder oder den Rezepttext und die Adresse der von Dir angegebenen Internetseite sowie technische Schutzdaten der Anfrage. Dazu gehören eine pseudonyme Firebase-Nutzerkennung, der Nachweis von Firebase App Check und, mit BakePlanner Pro, der vom App Store signierte Kaufbeleg, damit der Server Dein Kontingent zuordnen kann. Der Beleg enthält die Kennung und das Datum des Kaufs, aber keinen Namen und keine Zahlungsdaten." : {
       "extractionState" : "manual",

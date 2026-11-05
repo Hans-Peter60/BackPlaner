@@ -124,7 +124,7 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 | Schaltfläche | Zweck |
 |--------------|-------|
 | **Filter** | Mindestbewertung für die Liste |
-| **Mehr (⋯)** | Die drei Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen) und **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen), **Rezepte exportieren** (eine Auswahl eigener Rezepte als Datei, siehe [Kapitel 14](#14-einstellungen)) sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Sicherung, Konto) |
+| **Mehr (⋯)** | Die vier Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen), **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen) und **Teigeinlage** (Teiggewicht aus Kastenform oder Gärkörbchen), **Rezepte exportieren** (eine Auswahl eigener Rezepte als Datei, siehe [Kapitel 14](#14-einstellungen)) sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Sicherung, Konto) |
 | **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos, von einer Internetseite oder aus kopiertem Text importiert |
 
 **Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt im Tab Rezepte über der Tab-Leiste eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Rezeptzeilen scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste wechselt zum Tab „Zeitleiste“. Ohne anstehenden Schritt bleibt sie verborgen.
@@ -941,6 +941,16 @@ Nicht angeboten wird die Anpassung bei Zeilen, die auf eine Komponente des Rezep
 ### Teigtemperatur
 
 **Rezepte → Mehr (⋯) → Teigtemperatur** rechnet nach der Bäckerformel aus, wie warm das **Schüttwasser** sein muss, damit der Teig nach dem Kneten die gewünschte Temperatur hat. Du gibst die **Zieltemperatur** des Teigs ein, die **Raumtemperatur**, die Mehltemperatur (meist gleich der Raumtemperatur) und bei Rezepten mit Sauerteig oder Vorteig dessen Temperatur. Die **Reibungswärme** ist die Wärme, die der Teig beim Kneten zusätzlich aufnimmt: Vergleiche nach dem Kneten die gemessene Teigtemperatur mit der Zieltemperatur und passe den Wert an – einmal kalibriert, gilt er für jedes Rezept und bleibt gespeichert. Ergibt die Rechnung Wasser, das zu kalt oder zu heiß wäre, sagt der Rechner das.
+
+### Teigeinlage aus der Form
+
+**Rezepte → Mehr (⋯) → Teigeinlage** rechnet aus, wie viel Teig in eine Form passt, und öffnet auf Wunsch ein Rezept gleich auf dieses Gewicht skaliert.
+
+- **Kastenform und runde Form:** Innenmaße in Zentimetern (Länge, Breite, Höhe beziehungsweise Durchmesser und Höhe); bei schrägen Wänden die Breite auf halber Höhe. Daraus das Volumen und mit dem **Füllfaktor** die Teigeinlage: Weizen hell und Toast etwa 0,35–0,40 g je ml, Mischbrot 0,45, Roggen, Vollkorn und Saaten 0,50–0,55. Die **Teigart** setzt den Faktor, ein Stepper lässt ihn Dich feinjustieren – nach dem ersten Backen weißt Du, ob Deine Form mehr oder weniger verträgt. Beispiel: 30 × 11 × 8 cm sind 2,6 l, für Mischbrot etwa 1.190 g Teig.
+- **Gärkörbchen rund und oval:** Hier gibt es keine Formel, sondern die Nennwerte der Anbieter, nach dem Durchmesser (rund) beziehungsweise der Länge (oval) am oberen Rand: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval 22, 25, 28, 32 und 35 cm. Zwischen den Größen rechnet die App linear. Die Teigart korrigiert den Nennwert: Roggen- und Vollkornteig +20 %, lockerer Weizenteig −10 %.
+- **Rezept auf dieses Gewicht skalieren** öffnet eines Deiner Rezepte mit der Teigeinlage als Zielgewicht; Zutaten, Plan und Einkaufsliste rechnen damit, das Rezept selbst bleibt unverändert.
+
+Die Maße und die Teigart merkt sich die App, denn man hat ein paar Formen, nicht jedes Mal eine neue.
 
 ### Verfügbare Einheiten
 

@@ -225,6 +225,9 @@ struct RecipeListView: View {
                     Button("Anstellgut-TA") {
                         openCalculator(.starterYield)
                     }
+                    Button("Teigeinlage") {
+                        openCalculator(.doughWeightFromTin)
+                    }
                 } label: {
                     Text("Mehr")
                 }

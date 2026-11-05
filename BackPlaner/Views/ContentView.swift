@@ -188,6 +188,7 @@ enum MenuDestination: Hashable {
     case doughTemperature
     case flourSubstitution
     case starterYield
+    case doughWeightFromTin
     case settings
     /// Not a menu entry: reached through the share extension, with the page
     /// to import. The hand-off id makes every share a new screen, so the
@@ -205,6 +206,7 @@ struct MenuDestinationView: View {
         case .doughTemperature:  DoughTemperatureCalculatorView()
         case .flourSubstitution: FlourSubstitutionCalculatorView()
         case .starterYield:      StarterYieldCalculatorView()
+        case .doughWeightFromTin: DoughWeightFromTinView()
         case .settings:          SettingsView()
         case .webImport(let pageURL, let handoff):
             // Without an explicit identity the stack keeps the previous

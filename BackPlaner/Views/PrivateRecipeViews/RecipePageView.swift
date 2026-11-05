@@ -40,10 +40,13 @@ struct RecipePageView: View {
     @EnvironmentObject var modelFB: RecipeFBModel
 
     /// `startsInBakingView` for the way in from "Neu planen", where planning
-    /// is the point: the plan sheet opens with the page.
-    init(recipe: Recipe, startsInBakingView: Bool = false) {
+    /// is the point: the plan sheet opens with the page. `initialTargetWeight`
+    /// for the way in from the tin calculator: the page opens scaled to that
+    /// dough weight.
+    init(recipe: Recipe, startsInBakingView: Bool = false, initialTargetWeight: Int? = nil) {
         self.recipe = recipe
         _showsPlan = State(initialValue: startsInBakingView)
+        _targetWeight = State(initialValue: initialTargetWeight)
     }
 
     private var isStarter: Bool { StarterRecipe.isStarterFeeding(recipe) }
