@@ -424,8 +424,10 @@ func starterHintText(_ hint: StarterYieldAdjustment.Hint) -> Text {
 /// How much dough a tin or a proofing basket takes (DoughWeightFromTin):
 /// a loaf or round tin by its inside measures and a fill factor per dough
 /// type, a basket by the makers' ratings. The iPhone's calculator without
-/// the jump into a scaled recipe.
+/// the jump into a scaled recipe; opened from a recipe's dough weight field
+/// (`onApply` set) it hands the weight back into that field.
 struct DoughWeightFromTinCalculator: View {
+    var onApply: ((Int) -> Void)? = nil
     /// 0 loaf tin, 1 round tin, 2 round basket, 3 oval basket.
     @State var shape = 0
     @State var lengthCm = 30
@@ -551,6 +553,19 @@ struct DoughWeightFromTinCalculator: View {
                     Text("Nennwerte, wie Körbchen-Anbieter sie angeben: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval entsprechend 22, 25, 28, 32 und 35 cm Länge. Dazwischen rechnet die App linear. Roggenteig darf schwerer sein, lockerer Weizenteig leichter.")
                 } else {
                     Text("Richtwerte: Weizen hell und Toast 0,35–0,40 g je ml, Mischbrot etwa 0,45, Roggen, Vollkorn und Saaten 0,50–0,55. Innen messen, bei schrägen Wänden die Breite auf halber Höhe. Nach dem ersten Backen den Füllfaktor an Dein Ergebnis anpassen.")
+                }
+            }
+
+            if let onApply {
+                Section {
+                    Button {
+                        onApply(grams)
+                    } label: {
+                        Label("Als Teiggewicht übernehmen", systemImage: "scalemass")
+                    }
+                    .disabled(grams <= 0)
+                } footer: {
+                    Text("Übernimmt dieses Gewicht als Teiggewicht des geöffneten Rezepts; Zutaten, Plan und Einkaufsliste rechnen damit.")
                 }
             }
         }

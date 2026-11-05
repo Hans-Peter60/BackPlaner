@@ -93,7 +93,7 @@ Une instruction de travail avec un numéro d’étape et une durée. La durée e
 Exemple : si vous lancez en même temps un levain (12 h) et un ébouillantage (2 h), attribuez-leur les étapes 1.1 et 1.2. L’étape principale suivante, 2, commence après un peu plus de 12 heures et non après 14.
 
 **Taille de portion**
-Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché. Au lieu d’un facteur, vous pouvez saisir un **poids de pâte** en grammes. Le choix vaut pour toute la recette ouverte : la page de la recette, les instructions de cuisson et la liste de courses calculent avec le même facteur (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
+Un facteur d’échelle pour toutes les quantités : 0,5 / 1,0 / 1,5 / 2,0. **1,0 correspond à la recette telle qu’elle est enregistrée.** 2,0 double toutes les quantités et le poids total affiché. Au lieu d’un facteur, vous pouvez saisir un **poids de pâte** en grammes ou le faire calculer d’après votre moule avec le symbole de balance à côté du champ (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)). Le choix vaut pour toute la recette ouverte : la page de la recette, les instructions de cuisson et la liste de courses calculent avec le même facteur (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
 
 **Emplacement**
 L’endroit où se trouve une recette. Il existe deux possibilités, et le commutateur **Publier** au moment d’enregistrer détermine qui peut la voir :
@@ -956,6 +956,7 @@ L’ajustement n’est pas proposé pour les lignes qui renvoient à un composan
 - **Moule à cake et moule rond :** dimensions intérieures en centimètres (longueur, largeur, hauteur, ou diamètre et hauteur) ; si les parois sont inclinées, prenez la largeur à mi-hauteur. L’app en déduit le volume et, avec le **facteur de remplissage**, le poids de pâte : blé clair et pain de mie environ 0,35–0,40 g par ml, pain mixte 0,45, seigle, complet et graines 0,50–0,55. Le **type de pâte** règle le facteur, un pas-à-pas permet de l’affiner – après la première cuisson, vous savez si votre moule en prend plus ou moins. Exemple : 30 × 11 × 8 cm font 2,6 l, soit environ 1 190 g de pâte pour un pain mixte.
 - **Bannetons ronds et ovales :** pas de formule ici, mais les valeurs nominales des fabricants, selon le diamètre (rond) ou la longueur (ovale) au bord supérieur : 500 g pour Ø 18 cm, 750 g pour Ø 20 cm, 1 000 g pour Ø 22 cm, 1 500 g pour Ø 25 cm, 2 000 g pour Ø 28 cm ; ovales 22, 25, 28, 32 et 35 cm. Entre les tailles, l’app interpole. Le type de pâte corrige la valeur nominale : pâte de seigle et complète +20 %, pâte de blé aérée −10 %.
 - **Adapter une recette à ce poids** ouvre l’une de vos recettes avec ce poids de pâte comme poids cible ; ingrédients, plan et liste de courses en tiennent compte, la recette elle-même reste inchangée.
+- **Depuis la recette :** Le symbole de balance à côté du champ **Poids de pâte** sur la page de recette ouvre le même calculateur dans une feuille, aussi pour les recettes publiques. **Reprendre comme poids de pâte** inscrit le résultat dans le champ et ferme la feuille.
 
 L’app retient les dimensions et le type de pâte : on possède quelques moules, pas un nouveau à chaque fois.
 
