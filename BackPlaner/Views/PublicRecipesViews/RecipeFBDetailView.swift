@@ -111,7 +111,8 @@ struct RecipeFBDetailView: View {
                     // MARK: Serving size or target dough weight
                     ServingScaleControl(selectedServingSize: $selectedServingSize,
                                         targetWeight: $targetWeight,
-                                        baseWeight: recipeFB.totalWeight)
+                                        baseWeight: recipeFB.totalWeight,
+                                        suggestedDoughType: DoughWeightFromTin.doughType(for: DoughComposition.components(of: recipeFB)))
 
                     HStack {
                         Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")

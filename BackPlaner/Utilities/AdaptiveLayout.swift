@@ -137,6 +137,8 @@ struct ServingScaleControl: View {
     @Binding var targetWeight: Int?
     /// The recipe's total weight at factor 1.0.
     let baseWeight: Double
+    /// The dough type the tin calculator starts with, read from the recipe.
+    var suggestedDoughType: DoughWeightFromTin.DoughType? = nil
 
     @State private var weightText = ""
     @FocusState private var weightFieldFocused: Bool
@@ -217,7 +219,7 @@ struct ServingScaleControl: View {
                 .accessibilityLabel("Teigeinlage aus der Form")
                 .accessibilityIdentifier("recipe.tinCalculator")
                 .sheet(isPresented: $showsTinCalculator) {
-                    DoughWeightFromTinSheet { grams in
+                    DoughWeightFromTinSheet(suggestedDoughType: suggestedDoughType) { grams in
                         targetWeight = grams
                     }
                 }

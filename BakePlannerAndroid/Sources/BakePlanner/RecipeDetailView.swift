@@ -290,7 +290,7 @@ struct RecipeDetailView: View {
                     }
                     RecipeLinkRow(urlLink: recipe.content.urlLink)
                     VStack(alignment: .leading, spacing: 6) {
-                        AmountControl(scale: $scale, baseWeight: recipe.content.totalWeight)
+                        AmountControl(scale: $scale, baseWeight: recipe.content.totalWeight, suggestedDoughType: DoughWeightFromTin.doughType(for: DoughComposition.components(of: recipe.content)))
                         Text("Gesamtgewicht: \(String(page.totalWeight)) g")
                         if !page.prepTime.isEmpty {
                             Text("Bearbeitungsdauer: \(page.prepTime)")

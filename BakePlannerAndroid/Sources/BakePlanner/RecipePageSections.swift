@@ -208,6 +208,8 @@ struct AmountControl: View {
     @Binding var scale: Double
     /// The recipe's total weight at factor 1.
     let baseWeight: Double
+    /// The dough type the tin calculator starts with, read from the recipe.
+    var suggestedDoughType: DoughWeightFromTin.DoughType? = nil
     @State var halves = 2
     @State var weightText = ""
     /// The tin calculator as a sheet; its result lands in the weight field.
@@ -258,7 +260,7 @@ struct AmountControl: View {
                 DoughWeightFromTinCalculator(onApply: { grams in
                     weightText = String(grams)
                     showsTinCalculator = false
-                })
+                }, suggestedDoughType: suggestedDoughType)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Abbrechen") {

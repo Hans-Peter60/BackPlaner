@@ -2576,6 +2576,23 @@
         }
       }
     },
+    "Die Teigart ist aus den Mehlen und Saaten des Rezepts vorbelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dough type is preset from the recipe’s flours and seeds."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le type de pâte est prérempli d’après les farines et les graines de la recette."
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Die Teigausbeute zählt Schüttflüssigkeit voll, auch Milch, Bier und Wein, und teilt Anstellgut nach seiner eigenen TA in Mehl und Wasser auf. Saaten, Flocken, Fett und Eier zählen nicht. Die TA eines Anstellguts ohne Angabe im Rezept legst Du in den Einstellungen fest." : {
       "extractionState" : "manual",
       "localizations" : {

@@ -25,7 +25,7 @@ ANSTELLGUT
 • Beim Planen eines Anstellguts setzt „Reifezeit als Dauer übernehmen“ den Reifeschritt auf die Schätzung.
 
 TEIGEINLAGE AUS DER FORM
-• Der vierte Rechner: Kastenform oder runde Form nach Innenmaßen und Teigart, Gärkörbchen rund oder oval nach den üblichen Nennwerten. „Rezept auf dieses Gewicht skalieren“ öffnet ein Rezept gleich mit dem passenden Teiggewicht, und im Rezept öffnet das Waagen-Symbol neben dem Teiggewicht den Rechner, dessen Ergebnis Du direkt übernimmst.
+• Der vierte Rechner: Kastenform oder runde Form nach Innenmaßen und Teigart, Gärkörbchen rund oder oval nach den üblichen Nennwerten. „Rezept auf dieses Gewicht skalieren“ öffnet ein Rezept gleich mit dem passenden Teiggewicht, und im Rezept öffnet das Waagen-Symbol neben dem Teiggewicht den Rechner mit der Teigart aus den Zutaten des Rezepts, und das Ergebnis übernimmst Du direkt.
 
 REZEPT AUS TEXT
 • Die dritte Importart: Rezepttext aus der Zwischenablage einfügen, etwa von Seiten, die ihr Rezept erst per JavaScript nachladen. Zutaten, Komponenten und Schritte werden erkannt wie beim Foto- und Web-Import.
@@ -64,7 +64,7 @@ STARTER
 • When planning a starter, “Use the ripening time as the duration” sets the ripening step to the estimate.
 
 DOUGH WEIGHT FROM THE TIN
-• The fourth calculator: loaf or round tin by inside measures and dough type, round or oval proofing basket by the usual ratings. “Scale a recipe to this weight” opens a recipe with the matching dough weight right away, and in a recipe the scale symbol next to the dough weight opens the calculator, whose result you take over directly.
+• The fourth calculator: loaf or round tin by inside measures and dough type, round or oval proofing basket by the usual ratings. “Scale a recipe to this weight” opens a recipe with the matching dough weight right away, and in a recipe the scale symbol next to the dough weight opens the calculator with the dough type read from the recipe's ingredients, and you take the result over directly.
 
 RECIPE FROM TEXT
 • The third way to import: paste recipe text from the clipboard, for instance from pages that load their recipe by JavaScript. Ingredients, components and steps are recognised as with the photo and web import.
@@ -103,7 +103,7 @@ LEVAIN CHEF
 • En planifiant un levain chef, « Reprendre la maturation comme durée » règle l’étape de maturation sur l’estimation.
 
 POIDS DE PÂTE D’APRÈS LE MOULE
-• Le quatrième calculateur : moule à cake ou moule rond d’après les dimensions intérieures et le type de pâte, banneton rond ou ovale d’après les valeurs nominales usuelles. « Adapter une recette à ce poids » ouvre aussitôt une recette au bon poids de pâte, et dans une recette le symbole de balance à côté du poids de pâte ouvre le calculateur, dont vous reprenez directement le résultat.
+• Le quatrième calculateur : moule à cake ou moule rond d’après les dimensions intérieures et le type de pâte, banneton rond ou ovale d’après les valeurs nominales usuelles. « Adapter une recette à ce poids » ouvre aussitôt une recette au bon poids de pâte, et dans une recette le symbole de balance à côté du poids de pâte ouvre le calculateur avec le type de pâte lu dans les ingrédients de la recette, et vous en reprenez directement le résultat.
 
 RECETTE DEPUIS UN TEXTE
 • La troisième voie d’import : coller le texte d’une recette depuis le presse-papiers, par exemple depuis des pages qui chargent leur recette en JavaScript. Ingrédients, composants et étapes sont reconnus comme pour l’import photo et web.
