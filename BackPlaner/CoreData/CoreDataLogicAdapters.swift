@@ -144,13 +144,15 @@ extension StarterFeedingLog {
         get {
             StarterFeedingFacts(peakMinutes: peakMinutes?.intValue,
                                  floatTestPassed: floatTestPassed?.boolValue,
-                                 note: note ?? "")
+                                 note: note ?? "",
+                                 roomTemperature: roomTemperature?.doubleValue)
         }
         set {
             let facts = newValue.normalized
             peakMinutes = facts.peakMinutes.map { NSNumber(value: $0) }
             floatTestPassed = facts.floatTestPassed.map { NSNumber(value: $0) }
             note = facts.note.isEmpty ? nil : facts.note
+            roomTemperature = facts.roomTemperature.map { NSNumber(value: $0) }
         }
     }
 }

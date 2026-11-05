@@ -20,7 +20,16 @@ struct StarterFeedingSection: View {
     /// visibility, as the dialogs are.
     @State var feedingForResult: StoredStarterFeeding?
     @State var entersResult = false
+    /// Today's room temperature for the ripeness estimate.
+    @State var todayTemperature = 22
     @Environment(\.colorScheme) var colorScheme
+
+    /// When the starter is ripe at today's temperature (StarterRipeness),
+    /// from the feedings that noted both peak time and temperature.
+    private var ripenessEstimate: StarterRipeness.Estimate? {
+        StarterRipeness.estimate(from: StarterFeedingFacts.ripenessObservations(feedings.map { $0.facts }),
+                                 at: Double(todayTemperature))
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -37,6 +46,31 @@ struct StarterFeedingSection: View {
                     Text("Aus dem Rezept übernommen — hier nicht änderbar.")
                         .font(AppFont.caption)
                         .foregroundStyle(.secondary)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Reifezeit-Schätzung")
+                    .font(AppFont.caption)
+                    .foregroundStyle(.secondary)
+                if let estimate = ripenessEstimate {
+                    Text("Bei \(BakeHistoryFacts.temperatureText(Double(todayTemperature), locale: AppSettings.locale)) reif nach etwa \(BakeHistoryFacts.durationText(estimate.minutes))")
+                    if estimate.observations == 1 {
+                        Text("aus einer Fütterung")
+                            .font(AppFont.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text("aus \(estimate.observations) Fütterungen")
+                            .font(AppFont.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } else {
+                    Text("Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann schätzt die App, wann das Anstellgut bei der heutigen Temperatur reif ist.")
+                        .font(AppFont.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Stepper(value: $todayTemperature, in: 10...35) {
+                    ValueLabel(title: "Raumtemperatur heute", value: "\(todayTemperature) °C")
                 }
             }
 
@@ -74,6 +108,9 @@ struct StarterFeedingSection: View {
         }
         .task {
             feedings = model.feedings(ofRecipe: recipeID)
+            if let lastNoted = feedings.compactMap({ $0.facts.roomTemperature }).first {
+                todayTemperature = Int(lastNoted.rounded())
+            }
         }
         .appSheet(isPresented: $addsFeeding) {
             NavigationStack {
@@ -135,6 +172,9 @@ struct StarterFeedingRow: View {
                 if let peakMinutes = feeding.facts.peakMinutes {
                     Text(verbatim: "⏳ " + BakeHistoryFacts.durationText(peakMinutes))
                 }
+                if let roomTemperature = feeding.facts.roomTemperature {
+                    Text(verbatim: "🌡 " + BakeHistoryFacts.temperatureText(roomTemperature, locale: AppSettings.locale))
+                }
                 if let passed = feeding.facts.floatTestPassed {
                     Text(passed ? LocalizedStringKey("Schwimmt") : LocalizedStringKey("Schwimmt nicht"))
                 }
@@ -156,6 +196,7 @@ struct StarterFeedingEditor: View {
     let onSave: (Date, StarterFeedingFacts) -> Void
     @State var date: Date
     @State var peakText: String
+    @State var roomText: String
     /// 0 not checked, 1 floats, 2 does not float.
     @State var floatTest: Int
     @State var note: String
@@ -167,6 +208,7 @@ struct StarterFeedingEditor: View {
         let facts = original?.facts ?? StarterFeedingFacts()
         _date = State(initialValue: original?.date ?? Date())
         _peakText = State(initialValue: StarterFeedingFacts.minutesInput(facts.peakMinutes))
+        _roomText = State(initialValue: BakeHistoryFacts.temperatureInput(facts.roomTemperature))
         _floatTest = State(initialValue: facts.floatTestPassed.map { $0 ? 1 : 2 } ?? 0)
         _note = State(initialValue: facts.note)
     }
@@ -187,6 +229,15 @@ struct StarterFeedingEditor: View {
                         .multilineTextAlignment(.trailing)
                         .frame(width: 72)
                     Text(verbatim: "min")
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("Raumtemperatur")
+                    Spacer()
+                    TextField("Raumtemperatur", text: $roomText)
+                        .multilineTextAlignment(.trailing)
+                        .frame(width: 72)
+                    Text(verbatim: "°C")
                         .foregroundStyle(.secondary)
                 }
                 Picker("Schwimmtest", selection: $floatTest) {
@@ -212,7 +263,8 @@ struct StarterFeedingEditor: View {
                 Button("Speichern") {
                     onSave(date, StarterFeedingFacts(peakMinutes: StarterFeedingFacts.parseMinutes(peakText),
                                                      floatTestPassed: floatTest == 0 ? nil : floatTest == 1,
-                                                     note: note))
+                                                     note: note,
+                                                     roomTemperature: BakeHistoryFacts.parseTemperature(roomText)))
                     dismiss()
                 }
             }

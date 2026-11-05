@@ -24,6 +24,8 @@ extension StarterFeedingLog {
     // (StarterFeedingFacts.swift).
     @NSManaged public var peakMinutes:    NSNumber?
     @NSManaged public var floatTestPassed: NSNumber?
+    /// Room temperature in °C during the feeding; nil when not noted.
+    @NSManaged public var roomTemperature: NSNumber?
 
 }
 

@@ -199,5 +199,10 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "ALTER TABLE bake_history ADD COLUMN rating INTEGER")
             try database.exec(sql: "CREATE INDEX recipe_origin ON recipe(origin_id)")
         },
+        // 7: the room temperature of a feeding (step 26), for the ripeness
+        // estimate. NULL when not noted, like the other facts.
+        { database in
+            try database.exec(sql: "ALTER TABLE starter_feeding ADD COLUMN room_temperature REAL")
+        },
     ]
 }
