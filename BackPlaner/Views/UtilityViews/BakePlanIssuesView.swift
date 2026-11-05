@@ -4,14 +4,18 @@ import SwiftUI
 /// Shows the findings of ``BakePlanValidator`` for the plan currently set up in
 /// the scheduling controls: errors (overlapping bakes) in red, hints (steps
 /// outside the day window, a too short baking pause) in orange. When steps
-/// fall into the night, the dates ``BakePlanAdvisor`` found follow, each one
-/// a tap away.
+/// fall into the night, or the bake clashes with another one for the oven,
+/// the dates ``BakePlanAdvisor`` found follow, each one a tap away.
 struct BakePlanIssuesView: View {
 
     let issues: [BakePlanIssue]
     /// Whether a step begins outside the day window.
     var hasNightSteps = false
-    var suggestions: [NightFreeDate] = []
+    var suggestions: [PlanDateSuggestion] = []
+    /// Whether the bake needs an oven that is taken, or follows another
+    /// bake too closely — the baking-day case.
+    var hasOvenConflict = false
+    var ovenSuggestions: [PlanDateSuggestion] = []
     /// How the picker reads its date, which decides the wording.
     var anchor: PlanAnchor = .startsAt
     var onApply: (Date) -> Void = { _ in }
@@ -32,8 +36,20 @@ struct BakePlanIssuesView: View {
                     }
                 }
 
+                if hasOvenConflict {
+                    suggestionBlock(
+                        heading: "So werden die Backöfen nacheinander frei:",
+                        nothingFound: "Innerhalb eines Tages gibt es keinen Zeitpunkt, zu dem ein Backofen für diesen Backvorgang frei ist.",
+                        suggestions: ovenSuggestions
+                    )
+                }
+
                 if hasNightSteps {
-                    nightFreeDates
+                    suggestionBlock(
+                        heading: "So beginnt kein Schritt in der Nacht:",
+                        nothingFound: "Innerhalb eines Tages gibt es keinen Zeitpunkt, zu dem alle Schritte in Deinen Tag fallen.",
+                        suggestions: suggestions
+                    )
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -42,16 +58,17 @@ struct BakePlanIssuesView: View {
     }
 
     @ViewBuilder
-    private var nightFreeDates: some View {
+    private func suggestionBlock(heading: LocalizedStringKey, nothingFound: LocalizedStringKey,
+                                 suggestions: [PlanDateSuggestion]) -> some View {
         Divider()
 
         if suggestions.isEmpty {
-            Text("Innerhalb eines Tages gibt es keinen Zeitpunkt, zu dem alle Schritte in Deinen Tag fallen.")
+            Text(nothingFound)
                 .font(Theme.bodyFont(14))
                 .foregroundColor(Theme.subtitle)
                 .fixedSize(horizontal: false, vertical: true)
         } else {
-            Text("So beginnt kein Schritt in der Nacht:")
+            Text(heading)
                 .font(Theme.bodyFont(14).weight(.semibold))
                 .foregroundColor(Theme.cardTitle)
                 .fixedSize(horizontal: false, vertical: true)
@@ -85,7 +102,7 @@ struct BakePlanIssuesView: View {
     }
 
     /// "Fertig bis Sa., 10.10., 13:45" or "Starten ab …", as the picker reads it.
-    private func title(for suggestion: NightFreeDate) -> String {
+    private func title(for suggestion: PlanDateSuggestion) -> String {
         let date = dateText(suggestion.date)
         switch anchor {
         case .startsAt:   return String(localized: "Starten ab \(date)", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
@@ -94,7 +111,7 @@ struct BakePlanIssuesView: View {
     }
 
     /// "1 Std., 45 Min. später · Beginn Fr., 9.10., 18:05 · fertig Sa., 10.10., 13:45"
-    private func detail(for suggestion: NightFreeDate) -> String {
+    private func detail(for suggestion: PlanDateSuggestion) -> String {
         let amount = Duration.seconds(abs(suggestion.shift) * 60)
             .formatted(.units(allowed: [.hours, .minutes], width: .abbreviated).locale(AppSettings.locale))
         let shift = suggestion.shift < 0

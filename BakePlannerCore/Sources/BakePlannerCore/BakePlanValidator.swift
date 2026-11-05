@@ -287,6 +287,26 @@ public enum BakePlanValidator {
         return issues
     }
 
+    /// Whether `window` fits the ovens beside the bakes already scheduled: no
+    /// more bakes at once than there are ovens, and the pause between two
+    /// bakes in one oven kept — the conditions of the overlap error and the
+    /// pause hint above, without their messages. What BakePlanAdvisor looks
+    /// for when it suggests a date for a second loaf on a baking day.
+    public static func fitsOvens(
+        _ window: BakeWindow,
+        existingWindows: [BakeWindow],
+        ovenCount: Int = GlobalVariables.ovenCount,
+        bakePause: Int = GlobalVariables.bakePause
+    ) -> Bool {
+        let ovens = max(1, ovenCount)
+        let pause = TimeInterval(max(0, bakePause) * 60)
+        let overlapping = existingWindows.filter { overlaps($0, window) }
+        guard peakConcurrency(of: overlapping, within: window, padding: 0) + 1 <= ovens else { return false }
+        guard pause > 0 else { return true }
+        let neighbours = existingWindows.filter { !overlaps($0, window) && gap(between: $0, and: window) < pause }
+        return peakConcurrency(of: overlapping + neighbours, within: window, padding: pause) + 1 <= ovens
+    }
+
     /// Whether `window` would need more ovens than there are, given the bakes
     /// already scheduled: the condition of the overlap error above, without
     /// its message.

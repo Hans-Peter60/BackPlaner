@@ -213,8 +213,18 @@ extension BakePlanValidator {
 
 extension BakePlanAdvisor {
     static func nightFreeDates(for plan: BakePlan, in context: NSManagedObjectContext,
-                               now: Date = Date()) -> [NightFreeDate] {
+                               now: Date = Date()) -> [PlanDateSuggestion] {
         nightFreeDates(for: plan, from: CoreDataScheduledStepStore(context: context), now: now)
+    }
+
+    static func hasOvenConflict(_ plan: BakePlan, in context: NSManagedObjectContext,
+                                now: Date = Date()) -> Bool {
+        hasOvenConflict(plan, from: CoreDataScheduledStepStore(context: context), now: now)
+    }
+
+    static func ovenFreeDates(for plan: BakePlan, in context: NSManagedObjectContext,
+                              now: Date = Date()) -> [PlanDateSuggestion] {
+        ovenFreeDates(for: plan, from: CoreDataScheduledStepStore(context: context), now: now)
     }
 }
 

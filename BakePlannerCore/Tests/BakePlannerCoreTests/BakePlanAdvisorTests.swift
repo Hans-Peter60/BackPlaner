@@ -109,4 +109,69 @@ struct BakePlanAdvisorTests {
         #expect(BakePlanValidator.isOutsideDay(time(5, 59), dayStart: 6, dayEnd: 22, calendar: calendar))
         #expect(BakePlanValidator.isOutsideDay(time(22, 1), dayStart: 6, dayEnd: 22, calendar: calendar))
     }
+
+    // MARK: Baking day
+
+    private func ovenSuggestions(for plan: BakePlan, existing: [BakeWindow],
+                                 ovens: Int = 1, pause: Int = 0) -> [PlanDateSuggestion] {
+        BakePlanAdvisor.ovenFreeDates(for: plan, dayStart: 6, dayEnd: 22, allowedDates: anyDate,
+                                      existingWindows: existing, ovenCount: ovens, bakePause: pause)
+    }
+
+    @Test("A second loaf is moved until the oven is free, the closer date first")
+    func secondLoafWaitsForTheOven() {
+        // Planned at 9:00 the loaf bakes 10:10–11:20, right inside the Zopf.
+        let zopf = BakeWindow(recipeName: "Zopf", start: time(10), end: time(11))
+        let found = ovenSuggestions(for: plan(loaf, prepTime: 140, anchor: .startsAt, at: time(9)), existing: [zopf])
+        // Later: from 10:00 the bake begins at 11:10, after the Zopf. Earlier:
+        // at 7:30 it is over at 9:50, before it.
+        #expect(found.map(\.date) == [time(10), time(7, 30)])
+        #expect(found.map(\.shift) == [60, -90])
+        #expect(found.first?.start == time(10))
+        #expect(found.first?.finish == time(12, 20))
+    }
+
+    @Test("The pause between two bakes in one oven is kept")
+    func keepsTheBakePause() {
+        let zopf = BakeWindow(recipeName: "Zopf", start: time(10), end: time(11))
+        let found = ovenSuggestions(for: plan(loaf, prepTime: 140, anchor: .startsAt, at: time(9)),
+                                    existing: [zopf], pause: 30)
+        // The bake has to begin at 11:30 or end by 9:30.
+        #expect(found.map(\.date) == [time(10, 30), time(7)])
+    }
+
+    @Test("A date in the night is only suggested when none in the day fits")
+    func prefersTheDay() {
+        // Planned at 7:00 the loaf bakes 8:10–9:20, inside the Zopf. The
+        // nearest earlier date with a free oven, 5:30, kneads before the day
+        // begins and is passed over for the evening before; later, 8:30
+        // bakes after the Zopf.
+        let zopf = BakeWindow(recipeName: "Zopf", start: time(8), end: time(9, 30))
+        let found = ovenSuggestions(for: plan(loaf, prepTime: 140, anchor: .startsAt, at: time(7)), existing: [zopf])
+        #expect(found.map(\.date) == [time(8, 30), time(19, 30, day: 9)])
+    }
+
+    @Test("With a second oven, or without a clash, there is nothing to suggest")
+    func nothingWithoutAClash() {
+        let zopf = BakeWindow(recipeName: "Zopf", start: time(10), end: time(11))
+        let clashing = plan(loaf, prepTime: 140, anchor: .startsAt, at: time(9))
+        #expect(ovenSuggestions(for: clashing, existing: [zopf], ovens: 2).isEmpty)
+        #expect(ovenSuggestions(for: clashing, existing: []).isEmpty)
+        #expect(BakePlanAdvisor.hasOvenConflict(clashing, existingWindows: [zopf], ovenCount: 1, bakePause: 0))
+        #expect(!BakePlanAdvisor.hasOvenConflict(clashing, existingWindows: [zopf], ovenCount: 2, bakePause: 0))
+    }
+
+    @Test("Whether a bake fits the ovens: overlap, pause, and a spare oven")
+    func fitsOvens() {
+        let zopf = BakeWindow(recipeName: "Zopf", start: time(10), end: time(11))
+        let during = BakeWindow(recipeName: "Brot", start: time(10, 30), end: time(11, 30))
+        let after = BakeWindow(recipeName: "Brot", start: time(11, 10), end: time(12))
+        let later = BakeWindow(recipeName: "Brot", start: time(11, 30), end: time(12, 20))
+        #expect(!BakePlanValidator.fitsOvens(during, existingWindows: [zopf], ovenCount: 1, bakePause: 0))
+        #expect(BakePlanValidator.fitsOvens(during, existingWindows: [zopf], ovenCount: 2, bakePause: 0))
+        #expect(BakePlanValidator.fitsOvens(after, existingWindows: [zopf], ovenCount: 1, bakePause: 0))
+        #expect(!BakePlanValidator.fitsOvens(after, existingWindows: [zopf], ovenCount: 1, bakePause: 30))
+        #expect(BakePlanValidator.fitsOvens(after, existingWindows: [zopf], ovenCount: 2, bakePause: 30))
+        #expect(BakePlanValidator.fitsOvens(later, existingWindows: [zopf], ovenCount: 1, bakePause: 30))
+    }
 }

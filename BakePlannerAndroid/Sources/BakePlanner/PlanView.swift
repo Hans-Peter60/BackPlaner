@@ -77,6 +77,7 @@ struct PlanView: View {
         let plan = self.plan
         let issues = model.issues(of: plan)
         let suggestions = model.nightFreeDates(for: plan)
+        let ovenSuggestions = model.ovenFreeDates(for: plan)
         return Form {
             Section {
                 Picker("Startzeit", selection: $anchorSelection) {
@@ -91,11 +92,24 @@ struct PlanView: View {
                 }
             }
 
-            if !issues.isEmpty || !suggestions.isEmpty {
+            if !issues.isEmpty || !suggestions.isEmpty || !ovenSuggestions.isEmpty {
                 Section {
                     ForEach(issues) { issue in
                         Text(verbatim: issue.message)
                             .foregroundStyle(issue.severity == .error ? Color.red : Color.primary)
+                    }
+                    if !ovenSuggestions.isEmpty {
+                        Text("So werden die Backöfen nacheinander frei:")
+                            .font(AppFont.caption)
+                        ForEach(ovenSuggestions) { suggestion in
+                            HStack {
+                                Text(verbatim: PlanText.dateTime(suggestion.start) + " – " + PlanText.dateTime(suggestion.finish))
+                                Spacer()
+                                Button("Übernehmen") {
+                                    date = suggestion.date
+                                }
+                            }
+                        }
                     }
                     if !suggestions.isEmpty {
                         Text("So beginnt kein Schritt in der Nacht:")

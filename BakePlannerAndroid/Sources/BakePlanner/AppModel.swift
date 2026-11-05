@@ -474,6 +474,13 @@ final class AppModel {
         return BakePlanAdvisor.nightFreeDates(for: plan, from: store)
     }
 
+    /// Dates at which the oven is free for the plan's bake, when it clashes
+    /// with another scheduled bake — the baking day with several loaves.
+    func ovenFreeDates(for plan: BakePlan) -> [PlanDateSuggestion] {
+        guard let store = try? openedStepStore(), BakePlanAdvisor.hasOvenConflict(plan, from: store) else { return [] }
+        return BakePlanAdvisor.ovenFreeDates(for: plan, from: store)
+    }
+
     func hasPlan(recipeName: String) -> Bool {
         (try? openedStepStore().hasSteps(recipeName: recipeName)) ?? false
     }

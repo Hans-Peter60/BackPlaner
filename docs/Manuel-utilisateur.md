@@ -341,6 +341,8 @@ Les remarques n’empêchent rien — vous pouvez définir le plan quand même. 
 
 **Appliquer** règle la date et l’heure ci-dessus en conséquence ; la recette reste inchangée. La recherche avance par quarts d’heure jusqu’à un jour plus tôt ou plus tard, jamais avant maintenant, et jamais de sorte que la cuisson demande plus de fours que vous n’en avez. S’il n’existe aucun horaire de ce type — par exemple parce que la pâte demande plus de temps que votre journée —, l’app vous le signale.
 
+**Suggestions pour une journée de cuisson.** Si la cuisson chevauche une autre recette planifiée ou si la pause entre deux cuissons est trop courte, l’app cherche de même le moment le plus proche, avant et après, où un four est libre : pas plus de cuissons en même temps que vous n’avez de fours, et la pause réglée entre elles. Les moments où aucune étape ne tombe la nuit passent en premier ; ce n’est que s’il n’y en a pas que l’app propose aussi un moment avec des étapes nocturnes. C’est ainsi que l’on planifie un deuxième et un troisième pain le jour de cuisson sans calculer soi-même.
+
 ### Définir les rappels
 
 Toucher **Définir les rappels** déclenche plusieurs choses à la fois :

@@ -341,6 +341,8 @@ The notes don't prevent anything — you can still set the plan. They only spare
 
 **Apply** sets the date and time above accordingly; the recipe stays as it is. The search goes in quarter-hour steps up to a day earlier or later, never before now, and never so that the bake would need more ovens than you have. If there is no such time — say, because the dough takes longer than your day — the app tells you so.
 
+**Suggestions for a baking day.** If the oven time overlaps with another planned recipe or the baking pause is too short, the app likewise looks for the nearest earlier and the nearest later time at which an oven is free: no more bakes at once than you have ovens, and the set pause between them. Times at which no step falls into the night either come first; only when there is none does the app also suggest one with night steps. That is how a second and a third loaf are planned on a baking day without doing the sums yourself.
+
 ### Setting reminders
 
 Tapping **Set reminders** does several things at once:
