@@ -72,6 +72,8 @@ struct InstructionsView: View {
     // Dates at which no step falls into the night (BakePlanAdvisor).
     @State private var planHasNightSteps          = false
     @State private var nightFreeDates             = [NightFreeDate]()
+    @State private var planHasOvenConflict = false
+    @State private var ovenFreeDates = [PlanDateSuggestion]()
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var pendingReplaceExisting     = false
@@ -144,6 +146,8 @@ struct InstructionsView: View {
                 BakePlanIssuesView(issues: planIssues,
                                    hasNightSteps: planHasNightSteps,
                                    suggestions: nightFreeDates,
+                                   hasOvenConflict: planHasOvenConflict,
+                                   ovenSuggestions: ovenFreeDates,
                                    anchor: PlanAnchor(selection: dateTimeStartSelection),
                                    onApply: { dateTime = $0 })
 
@@ -385,6 +389,8 @@ struct InstructionsView: View {
         planIssues = plan.issues(in: viewContext)
         planHasNightSteps = BakePlanAdvisor.hasNightSteps(plan)
         nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
+        planHasOvenConflict = BakePlanAdvisor.hasOvenConflict(plan, in: viewContext)
+        ovenFreeDates = planHasOvenConflict ? BakePlanAdvisor.ovenFreeDates(for: plan, in: viewContext) : []
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

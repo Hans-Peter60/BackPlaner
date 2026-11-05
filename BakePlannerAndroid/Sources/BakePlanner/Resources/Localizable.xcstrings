@@ -266,23 +266,6 @@
         }
       }
     },
-    "Alle Bewertungen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All ratings"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toutes les notes"
-          }
-        }
-      }
-    },
     "Alle auswählen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -296,6 +279,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tout sélectionner"
+          }
+        }
+      }
+    },
+    "Alle Bewertungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All ratings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toutes les notes"
           }
         }
       }
@@ -455,601 +455,6 @@
         }
       }
     },
-    "Anlegen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Créer"
-          }
-        }
-      }
-    },
-    "Aus Text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "From text"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À partir d’un texte"
-          }
-        }
-      }
-    },
-    "BackPlaner speichert die übertragenen Rezeptbilder und Texte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner stores neither the transmitted recipe images nor the texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
-          }
-        }
-      }
-    },
-    "Das ist noch zu wenig Text für ein Rezept." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "That is not enough text for a recipe yet."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce n’est pas encore assez de texte pour une recette."
-          }
-        }
-      }
-    },
-    "Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
-          }
-        }
-      }
-    },
-    "Der eingefügte Text wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The pasted text is analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le texte collé est analysé de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
-          }
-        }
-      }
-    },
-    "Der Text verlässt das Gerät nicht. Die App liest Zutaten und Schritte nach festen Regeln; Überschriften wie „Zutaten“ und „Zubereitung“ helfen dabei." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The text does not leave the device. The app reads ingredients and steps by fixed rules; headings such as “Ingredients” and “Method” help with that."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le texte ne quitte pas l’appareil. L’app lit les ingrédients et les étapes selon des règles fixes ; des titres comme « Ingrédients » et « Préparation » l’y aident."
-          }
-        }
-      }
-    },
-    "Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The text is analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the transmitted text in Firebase Storage or in the recipe database."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
-          }
-        }
-      }
-    },
-    "Der von Dir eingefügte Rezepttext und, falls angegeben, die Adresse seiner Quelle werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The recipe text you pasted and, if given, the address of its source are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider. To secure the service and limit usage, a pseudonymous Firebase user ID, the App Check attestation, and the time and number of requests are also processed."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le texte de recette que vous avez collé ainsi que, le cas échéant, l’adresse de sa source sont transmis de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis à Google Vertex AI. Google est un fournisseur d’IA externe. Pour la sécurisation et la limitation d’usage, un identifiant d’utilisateur Firebase pseudonyme, l’attestation App Check ainsi que l’heure et le nombre des demandes sont également traités."
-          }
-        }
-      }
-    },
-    "Die Adresse wird als Link im Rezept gespeichert." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The address is saved as the recipe’s link."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’adresse est enregistrée comme lien de la recette."
-          }
-        }
-      }
-    },
-    "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The cloud AI could not be reached. The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’IA cloud n’était pas joignable. La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
-          }
-        }
-      }
-    },
-    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext oder der eingefügte Text werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images, the page text, or the pasted text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées, le texte de la page ou le texte collé sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
-          }
-        }
-      }
-    },
-    "Die Variante wird als Kopie von „%@“ angelegt und bleibt mit dem Rezept verbunden: Ihre Backvorgänge erscheinen dort unter „Varianten“. Die Änderung selbst machst Du danach mit „Bearbeiten“." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The variant is created as a copy of “%@” and stays linked to the recipe: its bakes appear there under “Variants”. The change itself you make afterwards with “Edit”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La variante est créée comme copie de « %@ » et reste liée à la recette : ses cuissons y apparaissent sous « Variantes ». La modification elle-même se fait ensuite avec « Modifier »."
-          }
-        }
-      }
-    },
-    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern, dem Seitentext oder dem eingefügten Text zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images, the page text, or the pasted text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images, le texte de la page ou le texte collé, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
-          }
-        }
-      }
-    },
-    "Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Text Dein Gerät nicht." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can use the local analysis instead at any time. The text then does not leave your device."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte ne quitte alors pas votre appareil."
-          }
-        }
-      }
-    },
-    "Hier den Rezepttext einfügen …" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paste the recipe text here…"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collez ici le texte de la recette…"
-          }
-        }
-      }
-    },
-    "Internetadresse (optional)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Web address (optional)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adresse Internet (facultative)"
-          }
-        }
-      }
-    },
-    "Kein Unterschied zum Ursprungsrezept." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No difference to the original recipe."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucune différence avec la recette d’origine."
-          }
-        }
-      }
-    },
-    "Markiere auf der Seite am besten nur das Rezept, von der Überschrift bis zum letzten Arbeitsschritt. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ideally select only the recipe on the page, from the heading to the last step. Importing for private use is fine; publish other people’s recipes only with permission."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sélectionnez de préférence uniquement la recette sur la page, du titre à la dernière étape. L’importation pour un usage privé ne pose pas de problème ; ne publiez les recettes d’autrui qu’avec leur autorisation."
-          }
-        }
-      }
-    },
-    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Texte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite oder liest eingefügten Text nach festen Regeln; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With “On this device only”, neither recipe images nor texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page or reads pasted text by fixed rules; photos cannot be read without the cloud AI yet."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ou lit le texte collé selon des règles fixes ; les photos ne peuvent pas encore être lues sans l’IA cloud."
-          }
-        }
-      }
-    },
-    "Neue Variante" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New variant"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nouvelle variante"
-          }
-        }
-      }
-    },
-    "Rezept aus Text importieren" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import recipe from text"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importer une recette depuis un texte"
-          }
-        }
-      }
-    },
-    "Rezepttext" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recipe text"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Texte de la recette"
-          }
-        }
-      }
-    },
-    "Text wird analysiert …" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Analyzing text…"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Analyse du texte…"
-          }
-        }
-      }
-    },
-    "Unterschiede zu „%@“" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Differences to “%@”"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Différences avec « %@ »"
-          }
-        }
-      }
-    },
-    "Variante anlegen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create variant"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Créer une variante"
-          }
-        }
-      }
-    },
-    "Variante von „%@“" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Variant of “%@”"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Variante de « %@ »"
-          }
-        }
-      }
-    },
-    "Varianten" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Variants"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Variantes"
-          }
-        }
-      }
-    },
-    "Varianten anzeigen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show variants"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher les variantes"
-          }
-        }
-      }
-    },
-    "Varianten ausblenden" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide variants"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masquer les variantes"
-          }
-        }
-      }
-    },
-    "Vergleichen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compare"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comparer"
-          }
-        }
-      }
-    },
-    "Was ist anders" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is different"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce qui change"
-          }
-        }
-      }
-    },
-    "Was ist anders? (optional)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What is different? (optional)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce qui change ? (facultatif)"
-          }
-        }
-      }
-    },
-    "z. B. mehr Salz, längere Stockgare" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "e.g. more salt, longer bulk proof"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "p. ex. plus de sel, pointage plus long"
-          }
-        }
-      }
-    },
-    "Änderung übernehmen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apply change"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appliquer la modification"
-          }
-        }
-      }
-    },
     "Angemeldet als" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1063,6 +468,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connecté en tant que"
+          }
+        }
+      }
+    },
+    "Anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer"
           }
         }
       }
@@ -1311,6 +733,23 @@
         }
       }
     },
+    "Aus Text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir d’un texte"
+          }
+        }
+      }
+    },
     "Ausgewählte Seiten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1413,23 +852,6 @@
         }
       }
     },
-    "Bäckerprozente anzeigen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show baker's percentages"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher les pourcentages boulanger"
-          }
-        }
-      }
-    },
     "Backhistorie" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1482,23 +904,6 @@
         }
       }
     },
-    "Backöfen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ovens"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fours"
-          }
-        }
-      }
-    },
     "Backofen anstellen um %@ Uhr mit %@." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1546,6 +951,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause de cuisson"
+          }
+        }
+      }
+    },
+    "BackPlaner speichert die übertragenen Rezeptbilder und Texte weder in Firebase Storage noch in der Rezept-Datenbank. Sie werden innerhalb der Analyseanfrage verarbeitet und nicht dauerhaft abgelegt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner stores neither the transmitted recipe images nor the texts in Firebase Storage or in the recipe database. They are processed within the analysis request and are not kept permanently."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackPlaner n’enregistre ni les images de recettes ni les textes transmis, que ce soit dans Firebase Storage ou dans la base de données de recettes. Ils sont traités dans le cadre de la demande d’analyse et ne sont pas conservés durablement."
           }
         }
       }
@@ -1634,6 +1056,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Ingrédients de pâtisserie"
+          }
+        }
+      }
+    },
+    "Backöfen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovens"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fours"
           }
         }
       }
@@ -1882,24 +1321,6 @@
         }
       }
     },
-    "Bild ändern" : {
-      "comment" : "Recipe detail: pick another picture.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change picture"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Changer l’image"
-          }
-        }
-      }
-    },
     "Bild entfernen" : {
       "comment" : "Recipe detail: remove the recipe's picture.",
       "extractionState" : "manual",
@@ -1949,6 +1370,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter une image"
+          }
+        }
+      }
+    },
+    "Bild ändern" : {
+      "comment" : "Recipe detail: pick another picture.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changer l’image"
           }
         }
       }
@@ -2141,6 +1580,23 @@
         }
       }
     },
+    "Bäckerprozente anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les pourcentages boulanger"
+          }
+        }
+      }
+    },
     "Cloud-KI" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2171,6 +1627,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Affichage"
+          }
+        }
+      }
+    },
+    "Das ist noch zu wenig Text für ein Rezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That is not enough text for a recipe yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas encore assez de texte pour une recette."
           }
         }
       }
@@ -2381,6 +1854,23 @@
         }
       }
     },
+    "Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
+          }
+        }
+      }
+    },
     "Das zusätzliche Wasser nach und nach einarbeiten und nach Teiggefühl korrigieren – Mehle schwanken je nach Mühle und Ernte." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2518,6 +2008,23 @@
         }
       }
     },
+    "Der eingefügte Text wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The pasted text is analyzed by Google Vertex AI through the protected BackPlaner server, in encrypted form. This requires your consent once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte collé est analysé de manière chiffrée par Google Vertex AI via le serveur protégé de BackPlaner. Votre consentement est nécessaire une seule fois."
+          }
+        }
+      }
+    },
     "Der erkannte Rezeptentwurf wird erst gespeichert, wenn Du ihn anschließend prüfst und ausdrücklich speicherst. Dabei gilt Deine Wahl, ob das Rezept auf dem Gerät bleibt oder veröffentlicht wird." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2605,6 +2112,40 @@
         }
       }
     },
+    "Der Text verlässt das Gerät nicht. Die App liest Zutaten und Schritte nach festen Regeln; Überschriften wie „Zutaten“ und „Zubereitung“ helfen dabei." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text does not leave the device. The app reads ingredients and steps by fixed rules; headings such as “Ingredients” and “Method” help with that."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte ne quitte pas l’appareil. L’app lit les ingrédients et les étapes selon des règles fixes ; des titres comme « Ingrédients » et « Préparation » l’y aident."
+          }
+        }
+      }
+    },
+    "Der Text wird ausschließlich analysiert, um daraus einen Rezeptentwurf mit Zutaten und Arbeitsschritten zu erstellen. BackPlaner speichert den übertragenen Text nicht in Firebase Storage oder in der Rezept-Datenbank." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text is analyzed solely to create a recipe draft with ingredients and steps. BackPlaner does not store the transmitted text in Firebase Storage or in the recipe database."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
     "Der verschobene Zeitpunkt muss in der Zukunft liegen." : {
       "comment" : "Error description for a time that is in the past.",
       "extractionState" : "manual",
@@ -2623,6 +2164,23 @@
         }
       }
     },
+    "Der von Dir eingefügte Rezepttext und, falls angegeben, die Adresse seiner Quelle werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe text you pasted and, if given, the address of its source are transmitted in encrypted form to BackPlaner’s protected Firebase endpoint and from there to Google Vertex AI. Google is an external AI provider. To secure the service and limit usage, a pseudonymous Firebase user ID, the App Check attestation, and the time and number of requests are also processed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte de recette que vous avez collé ainsi que, le cas échéant, l’adresse de sa source sont transmis de manière chiffrée au point de terminaison Firebase protégé de BackPlaner, puis à Google Vertex AI. Google est un fournisseur d’IA externe. Pour la sécurisation et la limitation d’usage, un identifiant d’utilisateur Firebase pseudonyme, l’attestation App Check ainsi que l’heure et le nombre des demandes sont également traités."
+          }
+        }
+      }
+    },
     "Der Widerruf gilt für alle zukünftigen Analysen. Bereits abgeschlossene Verarbeitungen werden dadurch nicht rückwirkend aufgehoben." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2636,6 +2194,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le retrait s’applique à toutes les analyses futures. Les traitements déjà effectués ne sont pas annulés rétroactivement."
+          }
+        }
+      }
+    },
+    "Die Adresse wird als Link im Rezept gespeichert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The address is saved as the recipe’s link."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’adresse est enregistrée comme lien de la recette."
           }
         }
       }
@@ -2670,24 +2245,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "La connexion est facultative. Avec elle, vous êtes l’auteur de vos recettes publiées sur tous les appareils où vous êtes connecté, même après une réinstallation. Les administrateurs l’utilisent pour gérer les recettes signalées."
-          }
-        }
-      }
-    },
-    "Die Änderung konnte nicht gespeichert werden." : {
-      "comment" : "Error message when a change could not be saved.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The change could not be saved."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La modification n’a pas pu être enregistrée."
           }
         }
       }
@@ -2761,6 +2318,23 @@
         }
       }
     },
+    "Die Cloud-KI war nicht erreichbar. Das Rezept wurde ohne KI nach festen Regeln aus dem Text übernommen. Komponenten, Zutaten und Dauern bitte besonders prüfen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cloud AI could not be reached. The recipe was taken from the text by fixed rules without AI. Please check the components, ingredients and durations with particular care."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’IA cloud n’était pas joignable. La recette a été reprise sans IA à partir du texte selon des règles fixes. Vérifiez tout particulièrement les composants, les ingrédients et les durées."
+          }
+        }
+      }
+    },
     "Die Cloud-KI wird nur nach Deiner ausdrücklichen Einwilligung verwendet. Eine lokale Analyse bleibt immer verfügbar." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2774,6 +2348,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’IA cloud n’est utilisée qu’avec votre consentement explicite. L’analyse locale reste toujours disponible."
+          }
+        }
+      }
+    },
+    "Die Daten werden verschlüsselt an eine geschützte Google Firebase Cloud Function von BackPlaner in der Region europe-west1 übertragen. Die ausgewählten Bilder beziehungsweise der Seitentext oder der eingefügte Text werden von dort an Google Vertex AI (Gemini) am Standort EU zur Analyse weitergegeben. Die Internetseite selbst lädt Dein Gerät direkt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The data is transmitted in encrypted form to a protected Google Firebase Cloud Function of BackPlaner in the europe-west1 region. From there, the selected images, the page text, or the pasted text are passed on to Google Vertex AI (Gemini) in the EU for analysis. The web page itself is loaded directly by your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données sont transmises de manière chiffrée à une Cloud Function Google Firebase protégée de BackPlaner dans la région europe-west1. De là, les images sélectionnées, le texte de la page ou le texte collé sont transmis à Google Vertex AI (Gemini), situé dans l’UE, pour analyse. La page web elle-même est chargée directement par votre appareil."
           }
         }
       }
@@ -2848,24 +2439,6 @@
         }
       }
     },
-    "Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen." : {
-      "comment" : "Recipe list: reading the public recipes failed.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The public recipes could not be loaded. Pull the list down to try again."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les recettes publiques n’ont pas pu être chargées. Tirez la liste vers le bas pour réessayer."
-          }
-        }
-      }
-    },
     "Die Rezepte konnten nicht geladen werden." : {
       "comment" : "When the recipe database cannot be read.",
       "extractionState" : "manual",
@@ -2935,6 +2508,40 @@
         }
       }
     },
+    "Die Variante wird als Kopie von „%@“ angelegt und bleibt mit dem Rezept verbunden: Ihre Backvorgänge erscheinen dort unter „Varianten“. Die Änderung selbst machst Du danach mit „Bearbeiten“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The variant is created as a copy of “%@” and stays linked to the recipe: its bakes appear there under “Variants”. The change itself you make afterwards with “Edit”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La variante est créée comme copie de « %@ » et reste liée à la recette : ses cuissons y apparaissent sous « Variantes ». La modification elle-même se fait ensuite avec « Modifier »."
+          }
+        }
+      }
+    },
+    "Die Verarbeitung erfolgt ausschließlich, um Zutaten, Mengen, Zeiten und Arbeitsschritte aus den Bildern, dem Seitentext oder dem eingefügten Text zu erkennen und daraus einen Rezeptentwurf zu erstellen. Die technischen Daten dienen der Absicherung des Endpunkts und dem Schutz vor missbräuchlicher oder übermäßiger Nutzung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing takes place solely to recognize ingredients, amounts, times, and steps in the images, the page text, or the pasted text and to create a recipe draft from them. The technical data serves to secure the endpoint and to protect against abusive or excessive use."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le traitement sert exclusivement à reconnaître les ingrédients, les quantités, les durées et les étapes dans les images, le texte de la page ou le texte collé, puis à en créer un brouillon de recette. Les données techniques servent à sécuriser le point de terminaison et à le protéger contre une utilisation abusive ou excessive."
+          }
+        }
+      }
+    },
     "Die von Dir ausgewählten Rezeptbilder werden verschlüsselt an den geschützten Firebase-Endpunkt von BackPlaner und von dort an Google Vertex AI übertragen. Google ist dabei ein externer KI-Anbieter. Zur Absicherung und Nutzungsbegrenzung werden außerdem eine pseudonyme Firebase-Nutzerkennung, der App-Check-Nachweis sowie Anfragezeit und -anzahl verarbeitet." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2965,6 +2572,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La chaleur supplémentaire que la pâte absorbe en pétrissant. Compare après le pétrissage la température de pâte mesurée à la température cible et ajuste la valeur en conséquence – une fois calibrée, elle vaut pour chaque recette."
+          }
+        }
+      }
+    },
+    "Die Änderung konnte nicht gespeichert werden." : {
+      "comment" : "Error message when a change could not be saved.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The change could not be saved."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modification n’a pas pu être enregistrée."
+          }
+        }
+      }
+    },
+    "Die öffentlichen Rezepte konnten nicht geladen werden. Zum erneuten Versuch die Liste herunterziehen." : {
+      "comment" : "Recipe list: reading the public recipes failed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The public recipes could not be loaded. Pull the list down to try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les recettes publiques n’ont pas pu être chargées. Tirez la liste vers le bas pour réessayer."
           }
         }
       }
@@ -3169,6 +2812,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte de la page ne quitte alors pas votre appareil."
+          }
+        }
+      }
+    },
+    "Du kannst stattdessen jederzeit die lokale Analyse verwenden. Dann verlässt der Text Dein Gerät nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can use the local analysis instead at any time. The text then does not leave your device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez à tout moment utiliser l’analyse locale à la place. Le texte ne quitte alors pas votre appareil."
           }
         }
       }
@@ -3497,23 +3157,6 @@
         }
       }
     },
-    "Ergänzen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add details"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compléter"
-          }
-        }
-      }
-    },
     "Ergebnis" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3545,6 +3188,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Noter le résultat"
+          }
+        }
+      }
+    },
+    "Ergänzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add details"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compléter"
           }
         }
       }
@@ -4255,6 +3915,23 @@
         }
       }
     },
+    "Hier den Rezepttext einfügen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste the recipe text here…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collez ici le texte de la recette…"
+          }
+        }
+      }
+    },
     "Hilfe" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4497,6 +4174,23 @@
         }
       }
     },
+    "Internetadresse (optional)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web address (optional)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse Internet (facultative)"
+          }
+        }
+      }
+    },
     "Jetzt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4548,23 +4242,6 @@
         }
       }
     },
-    "Kälter als Eiswasser – mit diesen Werten kaum erreichbar." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colder than ice water — barely achievable with these values."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plus froid que de l’eau glacée – difficilement atteignable avec ces valeurs."
-          }
-        }
-      }
-    },
     "Kamera" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4578,6 +4255,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Appareil photo"
+          }
+        }
+      }
+    },
+    "Kein Unterschied zum Ursprungsrezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No difference to the original recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune différence avec la recette d’origine."
           }
         }
       }
@@ -4946,6 +4640,23 @@
         }
       }
     },
+    "Kälter als Eiswasser – mit diesen Werten kaum erreichbar." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colder than ice water — barely achievable with these values."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus froid que de l’eau glacée – difficilement atteignable avec ces valeurs."
+          }
+        }
+      }
+    },
     "Kürzel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5130,6 +4841,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de la suppression"
+          }
+        }
+      }
+    },
+    "Markiere auf der Seite am besten nur das Rezept, von der Überschrift bis zum letzten Arbeitsschritt. Für den privaten Gebrauch ist der Import unbedenklich; veröffentliche fremde Rezepte nur mit Erlaubnis." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ideally select only the recipe on the page, from the heading to the last step. Importing for private use is fine; publish other people’s recipes only with permission."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez de préférence uniquement la recette sur la page, du titre à la dernière étape. L’importation pour un usage privé ne pose pas de problème ; ne publiez les recettes d’autrui qu’avec leur autorisation."
           }
         }
       }
@@ -5498,6 +5226,23 @@
         }
       }
     },
+    "Mit „Nur auf diesem Gerät“ werden weder Rezeptbilder noch Texte an Firebase oder Google Vertex AI übertragen. Auf Android übernimmt die App dann nur die strukturierten Rezeptdaten einer Internetseite oder liest eingefügten Text nach festen Regeln; Fotos lassen sich ohne die Cloud-KI bisher nicht lesen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With “On this device only”, neither recipe images nor texts are sent to Firebase or Google Vertex AI. On Android the app then takes over only the structured recipe data of a web page or reads pasted text by fixed rules; photos cannot be read without the cloud AI yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec « Sur cet appareil uniquement », ni les images de recettes ni les textes ne sont transmis à Firebase ou à Google Vertex AI. Sur Android, l’app ne reprend alors que les données de recette structurées d’une page web ou lit le texte collé selon des règles fixes ; les photos ne peuvent pas encore être lues sans l’IA cloud."
+          }
+        }
+      }
+    },
     "Moderation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5528,95 +5273,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtrer par note"
-          }
-        }
-      }
-    },
-    "Nächste Fütterung: %@ %@" : {
-      "comment" : "Next feeding date: day label (Heute/Morgen/date) and time.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next feeding: %1$@ %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochain nourrissage : %1$@ %2$@"
-          }
-        }
-      }
-    },
-    "Nächste Fütterung: nach der ersten Fütterung" : {
-      "comment" : "Recipe that feeds a starter, on a rhythm, before its first feeding: when the next one is due.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next feeding: after the first feeding"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochain nourrissage : après le premier nourrissage"
-          }
-        }
-      }
-    },
-    "Nächster Backtermin: %@ %@" : {
-      "comment" : "Next date of a bread planned on a rhythm: day label (Heute/Morgen/date) and time.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next bake: %1$@ %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochaine cuisson : %1$@ %2$@"
-          }
-        }
-      }
-    },
-    "Nächster Backtermin: nach dem ersten Backen" : {
-      "comment" : "Next date of a bread planned on a rhythm, before any bake has been recorded.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next bake: after the first bake"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochaine cuisson : après la première cuisson"
-          }
-        }
-      }
-    },
-    "Nächster Schritt" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next step"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochaine étape"
           }
         }
       }
@@ -5721,6 +5377,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouvelle liste"
+          }
+        }
+      }
+    },
+    "Neue Variante" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New variant"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle variante"
           }
         }
       }
@@ -6037,6 +5710,112 @@
         }
       }
     },
+    "Nutzungsbedingungen für öffentliche Rezepte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of use for public recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conditions d'utilisation des recettes publiques"
+          }
+        }
+      }
+    },
+    "Nächste Fütterung: %@ %@" : {
+      "comment" : "Next feeding date: day label (Heute/Morgen/date) and time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding: %1$@ %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage : %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Nächste Fütterung: nach der ersten Fütterung" : {
+      "comment" : "Recipe that feeds a starter, on a rhythm, before its first feeding: when the next one is due.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding: after the first feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage : après le premier nourrissage"
+          }
+        }
+      }
+    },
+    "Nächster Backtermin: %@ %@" : {
+      "comment" : "Next date of a bread planned on a rhythm: day label (Heute/Morgen/date) and time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next bake: %1$@ %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine cuisson : %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Nächster Backtermin: nach dem ersten Backen" : {
+      "comment" : "Next date of a bread planned on a rhythm, before any bake has been recorded.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next bake: after the first bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine cuisson : après la première cuisson"
+          }
+        }
+      }
+    },
+    "Nächster Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaine étape"
+          }
+        }
+      }
+    },
     "Nüsse, Saaten & Trockenfrüchte" : {
       "comment" : "Text for the category \"Nüsse, Saaten & Trockenfrüchte\".",
       "extractionState" : "manual",
@@ -6051,23 +5830,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Noix, graines & fruits secs"
-          }
-        }
-      }
-    },
-    "Nutzungsbedingungen für öffentliche Rezepte" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terms of use for public recipes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conditions d'utilisation des recettes publiques"
           }
         }
       }
@@ -6121,163 +5883,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Développement au four"
-          }
-        }
-      }
-    },
-    "Öffentlich" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Public"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Public"
-          }
-        }
-      }
-    },
-    "Öffentlich speichern" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save publicly"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer publiquement"
-          }
-        }
-      }
-    },
-    "Öffentliches Rezept löschen?" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete public recipe?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer la recette publique ?"
-          }
-        }
-      }
-    },
-    "Öffne ein Rezept und tippe auf „Backvorgang eintragen“." : {
-      "comment" : "Bake history, empty: how a bake gets recorded on Android.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open a recipe and tap “Record a bake”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrez une recette et touchez « Noter une cuisson »."
-          }
-        }
-      }
-    },
-    "Öffne ein Rezept und tippe auf „Planen“." : {
-      "comment" : "Timeline, empty: how a recipe gets planned on Android.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open a recipe and tap “Plan”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrez une recette et touchez « Planifier »."
-          }
-        }
-      }
-    },
-    "Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“." : {
-      "comment" : "Shopping lists, empty: how a recipe gets onto a list on Android.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open a recipe and tap “Add recipe to shopping list”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrez une recette et touchez « Ajouter la recette à la liste de courses »."
-          }
-        }
-      }
-    },
-    "Öffnet die Android-Einstellungen, in denen Du die Sprache von BakePlanner unabhängig von der Gerätesprache wählst." : {
-      "comment" : "Settings: the language row opens Android's per-app language page.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens the Android settings where you choose BakePlanner’s language independently of the device language."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre les réglages Android dans lesquels vous choisissez la langue de BakePlanner indépendamment de celle de l’appareil."
-          }
-        }
-      }
-    },
-    "Öffnet die Seiten im Browser." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens the pages in your browser."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre les pages dans le navigateur."
-          }
-        }
-      }
-    },
-    "Öle, Fette & Flüssiges" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Oils, fats & liquids"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Huiles, matières grasses & liquides"
           }
         }
       }
@@ -6453,6 +6058,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer une recette à partir d’images"
+          }
+        }
+      }
+    },
+    "Rezept aus Text importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipe from text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer une recette depuis un texte"
           }
         }
       }
@@ -6803,6 +6425,23 @@
         }
       }
     },
+    "Rezepttext" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de la recette"
+          }
+        }
+      }
+    },
     "Richtung" : {
       "comment" : "A label for the direction of the time shift.",
       "extractionState" : "manual",
@@ -7011,23 +6650,6 @@
         }
       }
     },
-    "Schüttwassertemperatur" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Water temperature"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Température de l’eau"
-          }
-        }
-      }
-    },
     "Schwimmt" : {
       "comment" : "Text for the \"not checked\" option in the \"float test\" picker.",
       "extractionState" : "manual",
@@ -7078,6 +6700,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Test de flottaison"
+          }
+        }
+      }
+    },
+    "Schüttwassertemperatur" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température de l’eau"
           }
         }
       }
@@ -7221,6 +6860,24 @@
         }
       }
     },
+    "So werden die Backöfen nacheinander frei:" : {
+      "comment" : "Heading above the suggested dates at which the bake fits the ovens beside the scheduled bakes (baking day).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So that the ovens come free one after another:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que les fours se libèrent l’un après l’autre :"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7269,23 +6926,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spam"
-          }
-        }
-      }
-    },
-    "Später" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Later"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plus tard"
           }
         }
       }
@@ -7355,6 +6995,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Langue"
+          }
+        }
+      }
+    },
+    "Später" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
           }
         }
       }
@@ -7813,6 +7470,23 @@
         }
       }
     },
+    "Text wird analysiert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzing text…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse du texte…"
+          }
+        }
+      }
+    },
     "Timeline" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7898,42 +7572,6 @@
         }
       }
     },
-    "Urheberrechtsverletzung" : {
-      "comment" : "Reason for reporting a public recipe.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copyright infringement"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Violation du droit d’auteur"
-          }
-        }
-      }
-    },
-    "Übernehmen" : {
-      "comment" : "The button that applies the changes made in the sheet.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apply"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appliquer"
-          }
-        }
-      }
-    },
     "Umfang der Verarbeitung" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7964,6 +7602,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conversion"
+          }
+        }
+      }
+    },
+    "Unterschiede zu „%@“" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Differences to “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Différences avec « %@ »"
           }
         }
       }
@@ -8002,6 +7657,109 @@
         }
       }
     },
+    "Urheberrechtsverletzung" : {
+      "comment" : "Reason for reporting a public recipe.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright infringement"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Violation du droit d’auteur"
+          }
+        }
+      }
+    },
+    "Variante anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create variant"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une variante"
+          }
+        }
+      }
+    },
+    "Variante von „%@“" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variant of “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variante de « %@ »"
+          }
+        }
+      }
+    },
+    "Varianten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Variantes"
+          }
+        }
+      }
+    },
+    "Varianten anzeigen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les variantes"
+          }
+        }
+      }
+    },
+    "Varianten ausblenden" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide variants"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les variantes"
+          }
+        }
+      }
+    },
     "Verarbeitungsschritte" : {
       "comment" : "Recipe editor.",
       "extractionState" : "manual",
@@ -8020,36 +7778,19 @@
         }
       }
     },
-    "Veröffentlichen" : {
+    "Vergleichen" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Publish"
+            "value" : "Compare"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Publier"
-          }
-        }
-      }
-    },
-    "Veröffentlicht" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Published"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Publié"
+            "value" : "Comparer"
           }
         }
       }
@@ -8101,6 +7842,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décaler de…"
+          }
+        }
+      }
+    },
+    "Veröffentlichen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publier"
+          }
+        }
+      }
+    },
+    "Veröffentlicht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Publié"
           }
         }
       }
@@ -8290,6 +8065,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pourquoi signalez-vous cette recette ? Elle sera immédiatement masquée pour tous les utilisateurs, puis examinée."
+          }
+        }
+      }
+    },
+    "Was ist anders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is different"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui change"
+          }
+        }
+      }
+    },
+    "Was ist anders? (optional)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is different? (optional)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui change ? (facultatif)"
           }
         }
       }
@@ -8515,6 +8324,23 @@
         }
       }
     },
+    "z. B. mehr Salz, längere Stockgare" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. more salt, longer bulk proof"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "p. ex. plus de sel, pointage plus long"
+          }
+        }
+      }
+    },
     "z. B. Weizen 550, Dinkel 630" : {
       "comment" : "A hint for the flour field in the bake-history form.",
       "extractionState" : "manual",
@@ -8671,23 +8497,6 @@
         }
       }
     },
-    "Zusätzlich planen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add as a second plan"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planifier en plus"
-          }
-        }
-      }
-    },
     "Zustimmen und mit Cloud-KI analysieren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8701,6 +8510,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accepter et analyser avec l’IA cloud"
+          }
+        }
+      }
+    },
+    "Zusätzlich planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add as a second plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier en plus"
           }
         }
       }
@@ -8840,6 +8666,198 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finalité et base juridique"
+          }
+        }
+      }
+    },
+    "Änderung übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply change"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer la modification"
+          }
+        }
+      }
+    },
+    "Öffentlich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public"
+          }
+        }
+      }
+    },
+    "Öffentlich speichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save publicly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer publiquement"
+          }
+        }
+      }
+    },
+    "Öffentliches Rezept löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete public recipe?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la recette publique ?"
+          }
+        }
+      }
+    },
+    "Öffne ein Rezept und tippe auf „Backvorgang eintragen“." : {
+      "comment" : "Bake history, empty: how a bake gets recorded on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Record a bake”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Noter une cuisson »."
+          }
+        }
+      }
+    },
+    "Öffne ein Rezept und tippe auf „Planen“." : {
+      "comment" : "Timeline, empty: how a recipe gets planned on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Plan”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Planifier »."
+          }
+        }
+      }
+    },
+    "Öffne ein Rezept und tippe auf „Rezept zur Einkaufsliste hinzufügen“." : {
+      "comment" : "Shopping lists, empty: how a recipe gets onto a list on Android.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a recipe and tap “Add recipe to shopping list”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez une recette et touchez « Ajouter la recette à la liste de courses »."
+          }
+        }
+      }
+    },
+    "Öffnet die Android-Einstellungen, in denen Du die Sprache von BakePlanner unabhängig von der Gerätesprache wählst." : {
+      "comment" : "Settings: the language row opens Android's per-app language page.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the Android settings where you choose BakePlanner’s language independently of the device language."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les réglages Android dans lesquels vous choisissez la langue de BakePlanner indépendamment de celle de l’appareil."
+          }
+        }
+      }
+    },
+    "Öffnet die Seiten im Browser." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the pages in your browser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les pages dans le navigateur."
+          }
+        }
+      }
+    },
+    "Öle, Fette & Flüssiges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Oils, fats & liquids"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
+    "Übernehmen" : {
+      "comment" : "The button that applies the changes made in the sheet.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer"
           }
         }
       }

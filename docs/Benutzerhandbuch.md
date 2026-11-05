@@ -338,6 +338,8 @@ Die Hinweise verhindern nichts – Du kannst den Plan trotzdem setzen. Sie erspa
 
 **Übernehmen** stellt Datum und Uhrzeit oben entsprechend ein; das Rezept bleibt, wie es ist. Gesucht wird in Viertelstunden-Schritten bis zu einem Tag früher oder später, nie vor jetzt und nie so, dass der Backvorgang mehr Backöfen bräuchte, als Du hast. Gibt es keinen solchen Zeitpunkt – etwa weil die Teigführung länger dauert als Dein Tag –, sagt die App das.
 
+**Vorschläge für den Backtag.** Überschneidet sich die Backzeit mit einem anderen geplanten Rezept oder ist die Backpause zu kurz, sucht die App ebenso den nächstfrüheren und den nächstspäteren Zeitpunkt, zu dem ein Backofen frei ist: so viele Backvorgänge gleichzeitig, wie Du Backöfen hast, und die eingestellte Backpause dazwischen. Zeitpunkte, zu denen zugleich kein Schritt in die Nacht fällt, haben Vorrang; erst wenn es keinen gibt, schlägt die App auch einen mit Nachtschritten vor. So planst Du am Backtag ein zweites und drittes Brot, ohne selbst zu rechnen.
+
 ### Erinnerungen setzen
 
 Ein Tippen auf **Erinnerungen setzen** löst mehrere Dinge gleichzeitig aus:

@@ -180,4 +180,35 @@ extension BakePlanAdvisor {
             ovenCount: GlobalVariables.ovenCount
         )
     }
+
+    /// Whether the plan's bake clashes with the scheduled ones, judged like
+    /// the findings shown while planning: against every other recipe's
+    /// plans, the recipe's own earlier plans left out as they are replaced.
+    public static func hasOvenConflict(_ plan: BakePlan, from store: any ScheduledStepStore,
+                                       now: Date = Date()) -> Bool {
+        hasOvenConflict(
+            plan,
+            existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: plan.recipeName, from: store, now: now),
+            ovenCount: GlobalVariables.ovenCount,
+            bakePause: GlobalVariables.bakePause
+        )
+    }
+
+    /// The baking-day suggestions for the baking views: the ovens and the
+    /// pause from the settings, the day window for the preference, nothing
+    /// before now or beyond the picker's range, and the bakes already
+    /// scheduled for other recipes.
+    public static func ovenFreeDates(for plan: BakePlan, from store: any ScheduledStepStore,
+                                     now: Date = Date()) -> [PlanDateSuggestion] {
+        let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
+        let range = GlobalVariables.planningDateRange(around: now)
+        guard now < range.upperBound else { return [] }
+        return ovenFreeDates(
+            for: plan, dayStart: dayStart, dayEnd: dayEnd,
+            allowedDates: now...range.upperBound,
+            existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: plan.recipeName, from: store, now: now),
+            ovenCount: GlobalVariables.ovenCount,
+            bakePause: GlobalVariables.bakePause
+        )
+    }
 }
