@@ -2,20 +2,47 @@
 //  RecipeVariants.swift
 //  BakePlannerCore
 //
-//  The texts both apps show for recipe variants, so they are worded once
-//  and translated once: the name of a variant made by hand, and the line
-//  that says how often and how well a variant baked.
+//  What both apps share about recipe variants, so it is decided once: how a
+//  variant is named ("Landbrot V1", "Landbrot V2", …) and the line that says
+//  how often and how well a variant baked.
 //
 
 import Foundation
 
 extension AdjustedRecipe {
-    /// The name of a variant made by hand: "Landbrot – Variante (04.11.2026)",
-    /// the dated form every copy of a recipe carries.
-    public static func variantName(original: String, on date: Date = Date()) -> String {
-        name(original: original,
-             adjustment: String(localized: "Variante", bundle: AppSettings.localizationBundle),
-             on: date)
+
+    /// The suffix a variant's name ends in: a space, "V" and a number.
+    private static let variantSuffix = #"\sV(\d+)$"#
+
+    /// "Landbrot" for "Landbrot V2", and for "Landbrot" itself: the name a
+    /// recipe and its variants share.
+    public static func familyName(of name: String) -> String {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard let range = trimmed.range(of: variantSuffix, options: .regularExpression) else { return trimmed }
+        return String(trimmed[..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
+    }
+
+    /// 2 for "Landbrot V2"; nil for a name without the suffix.
+    public static func variantNumber(of name: String) -> Int? {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        guard let range = trimmed.range(of: variantSuffix, options: .regularExpression) else { return nil }
+        return Int(trimmed[range].drop { !$0.isNumber })
+    }
+
+    /// "Landbrot V3": the name of a new variant of `original`, numbered after
+    /// every recipe of the same family among `existingNames` — all of the
+    /// user's recipes. A number is never handed out twice, so a deleted V2
+    /// does not come back under another recipe, and a variant made from
+    /// "Landbrot V1" joins the family as "Landbrot V3", not "Landbrot V1 V1".
+    /// The variant knows its origin, its note says what it changes and the
+    /// history says when it baked, so the name carries none of that any more.
+    public static func variantName(original: String, among existingNames: [String]) -> String {
+        let family = familyName(of: original)
+        let highest = existingNames
+            .filter { familyName(of: $0) == family }
+            .compactMap(variantNumber(of:))
+            .max() ?? 0
+        return "\(family) V\(highest + 1)"
     }
 }
 

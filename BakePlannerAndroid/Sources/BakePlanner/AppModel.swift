@@ -200,14 +200,14 @@ final class AppModel {
         recipes.filter { $0.originID == id }
     }
 
-    /// A new variant of `origin` made by hand: a copy named like an
-    /// adjusted one ("Landbrot – Variante (04.11.2026)"), marked as adjusted
-    /// so later adjustments change it in place, with `note` on what it is
-    /// meant to change. The variant, or nil when saving failed.
+    /// A new variant of `origin` made by hand: a copy numbered within its
+    /// family ("Landbrot V2"), marked as adjusted so later adjustments change
+    /// it in place, with `note` on what it is meant to change. The variant,
+    /// or nil when saving failed.
     func addVariant(of origin: StoredRecipe, note: String) -> StoredRecipe? {
         guard let full = recipe(id: origin.id) else { return nil }
         var content = full.content
-        content.name = AdjustedRecipe.variantName(original: content.name)
+        content.name = AdjustedRecipe.variantName(original: content.name, among: recipes.map { $0.content.name })
         do {
             let variant = try openedStore().addVariant(content, of: origin.id, note: note, adjustedOn: Date())
             load()
@@ -262,6 +262,13 @@ final class AppModel {
     func addAdjustedCopy(_ content: RecipeExportData, originID: String? = nil, note: String? = nil) -> StoredRecipe? {
         do {
             let store = try openedStore()
+            var content = content
+            // A variant is numbered within its family; a copy of a public
+            // recipe keeps the dated name the adjustment gave it.
+            if let originID, let origin = recipes.first(where: { $0.id == originID }) {
+                content.name = AdjustedRecipe.variantName(original: origin.content.name,
+                                                          among: recipes.map { $0.content.name })
+            }
             let copy = if let originID {
                 try store.addVariant(content, of: originID, note: note, adjustedOn: Date())
             } else {

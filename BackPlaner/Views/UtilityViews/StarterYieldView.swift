@@ -406,11 +406,14 @@ struct StarterYieldSheet: View {
     private func createCopy(_ applied: StarterYieldAdjustment.Applied) {
         let copy = applied.recipe.makeRecipe(in: viewContext)
         copy.adjustedOn = Date()
-        // A variant of the recipe it was made from, with what it changes.
+        // A variant of the recipe it was made from, numbered within its
+        // family and with what it changes in its note; a copy of a public
+        // recipe keeps the dated name the adjustment gave it.
         if let origin = request.origin,
            let original = try? viewContext.existingObject(with: origin) as? Recipe {
             copy.origin = original
             copy.variantNote = applied.variantNote
+            copy.name = AdjustedRecipe.variantName(original: original.name, among: Recipe.allNames(in: viewContext))
         }
         do {
             try viewContext.save()
