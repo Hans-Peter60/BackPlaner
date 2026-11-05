@@ -39,7 +39,7 @@ BakePlanner is a baking scheduler for bread, rolls, and pastry. What sets it apa
 - You can plan backwards: "the bread should be ready at 6:00 p.m." — and the app tells you when to start the sourdough.
 - Every step gets a **local reminder**, including the automatically inserted steps "turn on the oven" and "baking is finished".
 
-On top of that: a shared public recipe database, your own recipes on the device, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule, three baker's calculators (dough temperature, replace flour, starter TA), on-device translation of public recipes with a glossary of baker's terms, and Siri commands for the next step and starter feedings (see [chapter 11](#11-reminders-on-the-lock-screen)).
+On top of that: a shared public recipe database, your own recipes on the device, ingredient import from photos and web pages, shopping lists sorted by shelf, a baking history with photos and measurements, a starter diary for sourdoughs refreshed on a schedule with a ripening estimate, recipe variants with comparison and bake results, four baker's calculators (dough temperature, replace flour, starter TA, dough weight), the bake mode on the Apple Watch, widgets with “Done” and “Shift”, on-device translation of public recipes with a glossary of baker's terms, and Siri commands for the next step and starter feedings (see [chapter 11](#11-reminders-on-the-lock-screen)).
 
 ### Quick start: your first baking plan in five steps
 
