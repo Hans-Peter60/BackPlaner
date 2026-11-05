@@ -399,7 +399,7 @@ class RecipeFBModel: ObservableObject {
                                     .child(RecipeFB.imageFolder + "/" + previousImagePath + ".jpg")
                                     .delete { _ in }
                             }
-                            GlobalVariables.recipesImage[recipeId] = newImage
+                            PublicRecipeImages.shared.store(newImage, for: recipeId)
                         }
                         recipe.adopt(edited)
                         completion(.success(()))
@@ -624,14 +624,14 @@ class RecipeFBModel: ObservableObject {
 
                 let imageRef = storageRef.child(r.imageStoragePath)
 
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+                // Download in memory, at most 4 MB. The store keeps the picture
+                // on disk, so the next launch shows it before this download
+                // arrives; the same bytes again change nothing on screen.
                 imageRef.getData(maxSize: 1 * 2048 * 2048) { data, error in
-                    if error != nil {
-                        // Uh-oh, an error occurred!
-                        AppLog.firebase.error("Error - no image found")
+                    if let data, error == nil {
+                        PublicRecipeImages.shared.store(data, for: r.id ?? "")
                     } else {
-                        // Data is returned
-                        GlobalVariables.recipesImage[r.id ?? ""] = UIImage(data: data!) ?? UIImage()
+                        AppLog.firebase.error("Error - no image found")
                     }
                 }
             }
@@ -976,6 +976,7 @@ class RecipeFBModel: ObservableObject {
             if !recipe.image.isEmpty {
                 self.storage.reference().child(recipe.imageStoragePath).delete { _ in }
             }
+            PublicRecipeImages.shared.remove(id: recipe.id ?? "")
             recipeRef.delete { error in
                 if let error {
                     // The recipe was NOT removed server-side, so leave it in the
