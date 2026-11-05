@@ -210,6 +210,8 @@ struct AmountControl: View {
     let baseWeight: Double
     @State var halves = 2
     @State var weightText = ""
+    /// The tin calculator as a sheet; its result lands in the weight field.
+    @State var showsTinCalculator = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -232,6 +234,15 @@ struct AmountControl: View {
                     .keyboardType(.numberPad)
                     .frame(width: 110)
                 Text(verbatim: "g")
+                // The weight from a tin or a basket, without leaving the
+                // recipe: the calculator opens as a sheet and fills the field.
+                Button {
+                    showsTinCalculator = true
+                } label: {
+                    Image(systemName: "scalemass")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Teigeinlage aus der Form")
             }
             .onChange(of: weightText) { _, text in
                 let digits = text.filter(\.isNumber)
@@ -240,6 +251,21 @@ struct AmountControl: View {
                     return
                 }
                 scale = ServingScale.factor(servingSize: halves, targetWeight: Int(digits), baseWeight: baseWeight)
+            }
+        }
+        .appSheet(isPresented: $showsTinCalculator) {
+            NavigationStack {
+                DoughWeightFromTinCalculator(onApply: { grams in
+                    weightText = String(grams)
+                    showsTinCalculator = false
+                })
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Abbrechen") {
+                            showsTinCalculator = false
+                        }
+                    }
+                }
             }
         }
     }

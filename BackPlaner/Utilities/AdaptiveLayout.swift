@@ -140,6 +140,8 @@ struct ServingScaleControl: View {
 
     @State private var weightText = ""
     @FocusState private var weightFieldFocused: Bool
+    /// The tin calculator as a sheet; its result lands in the weight field.
+    @State private var showsTinCalculator = false
 
     // 76 pt holds "1.332" at the default size; at the large sizes the
     // field kept that width and showed its digits visibly smaller than
@@ -201,6 +203,24 @@ struct ServingScaleControl: View {
                 }
                 Text(verbatim: "g")
                     .font(Theme.bodyFont(15))
+
+                // The weight from a tin or a basket, without leaving the
+                // recipe: the calculator opens as a sheet and fills the field.
+                Button {
+                    weightFieldFocused = false
+                    showsTinCalculator = true
+                } label: {
+                    Image(systemName: "scalemass")
+                        .font(Theme.bodyFont(15))
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Teigeinlage aus der Form")
+                .accessibilityIdentifier("recipe.tinCalculator")
+                .sheet(isPresented: $showsTinCalculator) {
+                    DoughWeightFromTinSheet { grams in
+                        targetWeight = grams
+                    }
+                }
 
                 // The number pad has no Return key, and neither a tap beside
                 // the field nor scrolling closes it. A keyboard toolbar would

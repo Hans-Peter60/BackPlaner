@@ -93,7 +93,7 @@ A work instruction with a step number and a duration. The duration is stored in 
 Example: if you start a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. The next main step, 2, begins after a little over 12 hours — not after 14.
 
 **Serving size**
-A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight. Instead of a factor you can enter a **dough weight** in grams. The choice applies to the whole open recipe: the recipe page, the baking instructions and the shopping list all use the same factor (see [chapter 15](#15-units-amounts-and-serving-sizes)).
+A scaling factor for every amount: 0.5 / 1.0 / 1.5 / 2.0. **1.0 is the recipe exactly as stored.** 2.0 doubles every amount and the displayed total weight. Instead of a factor you can enter a **dough weight** in grams or have it worked out from your tin with the scale symbol next to the field (see [chapter 15](#15-units-amounts-and-serving-sizes)). The choice applies to the whole open recipe: the recipe page, the baking instructions and the shopping list all use the same factor (see [chapter 15](#15-units-amounts-and-serving-sizes)).
 
 **Storage**
 Where a recipe lives. There are two options, and the **Publish** switch when saving decides who can see it:
@@ -956,6 +956,7 @@ The adjustment is not offered for lines that stand for a component of the recipe
 - **Loaf tin and round tin:** inside measures in centimetres (length, width, height, or diameter and height); with slanted walls take the width at half height. From that the volume and, with the **fill factor**, the dough weight: light wheat and toast about 0.35–0.40 g per ml, mixed bread 0.45, rye, wholegrain and seeds 0.50–0.55. The **dough type** sets the factor, a stepper lets you fine-tune it — after the first bake you know whether your tin takes more or less. Example: 30 × 11 × 8 cm is 2.6 l, about 1,190 g of dough for a mixed bread.
 - **Round and oval proofing baskets:** there is no formula here, only the makers' ratings by the diameter (round) or the length (oval) at the rim: 500 g at Ø 18 cm, 750 g at Ø 20 cm, 1,000 g at Ø 22 cm, 1,500 g at Ø 25 cm, 2,000 g at Ø 28 cm; oval 22, 25, 28, 32 and 35 cm. Between the sizes the app interpolates. The dough type corrects the rating: rye and wholegrain dough +20 %, airy wheat dough −10 %.
 - **Scale a recipe to this weight** opens one of your recipes with the dough weight as its target weight; ingredients, plan and shopping list use it, the recipe itself stays unchanged.
+- **From the recipe:** The scale symbol next to the **Dough weight** field on the recipe page opens the same calculator as a sheet, for public recipes too. **Use as dough weight** puts the result into the field and closes the sheet.
 
 The app remembers the measures and the dough type: one owns a few tins, not a new one every time.
 

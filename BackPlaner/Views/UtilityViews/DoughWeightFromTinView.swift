@@ -7,6 +7,10 @@
 //  dough type are kept between visits: a baker has a few tins, not a new
 //  one each time.
 //
+//  Opened from the main menu, the calculator picks a recipe and opens it
+//  scaled. Opened from a recipe's dough weight field (`onApply` set), it
+//  hands the weight back into that field instead.
+//
 
 import BakePlannerCore
 import CoreData
@@ -18,6 +22,10 @@ struct DoughWeightFromTinView: View {
         case loafTin, roundTin, roundBasket, ovalBasket
         var id: String { rawValue }
     }
+
+    /// Set when the calculator was opened from a recipe: called with the
+    /// dough weight to take over, instead of picking a recipe to open.
+    var onApply: ((Int) -> Void)? = nil
 
     @AppStorage(AppSettingsKeys.tinShape) private var shapeRaw = Shape.loafTin.rawValue
     @AppStorage(AppSettingsKeys.tinLengthCm) private var lengthCm = 30
@@ -155,16 +163,30 @@ struct DoughWeightFromTinView: View {
                 }
             }
 
-            Section {
-                Button {
-                    showsRecipePicker = true
-                } label: {
-                    Label("Rezept auf dieses Gewicht skalieren", systemImage: "scalemass")
+            if let onApply {
+                Section {
+                    Button {
+                        onApply(doughGrams)
+                    } label: {
+                        Label("Als Teiggewicht übernehmen", systemImage: "scalemass")
+                    }
+                    .disabled(doughGrams <= 0)
+                    .accessibilityIdentifier("tin.apply")
+                } footer: {
+                    Text("Übernimmt dieses Gewicht als Teiggewicht des geöffneten Rezepts; Zutaten, Plan und Einkaufsliste rechnen damit.")
                 }
-                .disabled(doughGrams <= 0)
-                .accessibilityIdentifier("tin.scaleRecipe")
-            } footer: {
-                Text("Öffnet das Rezept mit diesem Teiggewicht als Zielgewicht; Zutaten, Plan und Einkaufsliste rechnen damit.")
+            } else {
+                Section {
+                    Button {
+                        showsRecipePicker = true
+                    } label: {
+                        Label("Rezept auf dieses Gewicht skalieren", systemImage: "scalemass")
+                    }
+                    .disabled(doughGrams <= 0)
+                    .accessibilityIdentifier("tin.scaleRecipe")
+                } footer: {
+                    Text("Öffnet das Rezept mit diesem Teiggewicht als Zielgewicht; Zutaten, Plan und Einkaufsliste rechnen damit.")
+                }
             }
         }
         .clearScrollBackground()
@@ -202,6 +224,29 @@ struct DoughWeightFromTinView: View {
         let percent = Int(((factor - 1) * 100).rounded())
         if percent == 0 { return "±0\u{00A0}%" }
         return percent > 0 ? "+\(percent)\u{00A0}%" : "−\(-percent)\u{00A0}%"
+    }
+}
+
+/// The calculator as a sheet over a recipe: "Als Teiggewicht übernehmen"
+/// hands the weight to `onApply` and closes the sheet; "Abbrechen" just
+/// closes it.
+struct DoughWeightFromTinSheet: View {
+    let onApply: (Int) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            DoughWeightFromTinView { grams in
+                onApply(grams)
+                dismiss()
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") { dismiss() }
+                }
+            }
+        }
     }
 }
 

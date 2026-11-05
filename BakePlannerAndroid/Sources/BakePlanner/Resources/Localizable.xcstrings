@@ -421,6 +421,23 @@
         }
       }
     },
+    "Als Teiggewicht übernehmen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use as dough weight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre comme poids de pâte"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Analyse mit Google Vertex AI (Gemini)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -9405,6 +9422,23 @@
           }
         }
       }
+    },
+    "Übernimmt dieses Gewicht als Teiggewicht des geöffneten Rezepts; Zutaten, Plan und Einkaufsliste rechnen damit." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sets this weight as the dough weight of the open recipe; ingredients, plan and shopping list use it."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprend ce poids comme poids de pâte de la recette ouverte ; ingrédients, plan et liste de courses en tiennent compte."
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "„%@“ wurde seit der Planung geändert. Der Plan zeigt noch den alten Stand." : {
       "extractionState" : "manual",

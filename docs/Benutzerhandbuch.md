@@ -90,7 +90,7 @@ Eine Arbeitsanweisung mit Schrittnummer und Dauer. Gespeichert wird die Dauer in
 Beispiel: Wenn Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig ansetzt, gib beiden Schritt 1.1 und 1.2. Der nächste Hauptschritt 2 beginnt nach gut 12 Stunden, nicht nach 14.
 
 **Portionsgröße**
-Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht. Statt eines Faktors kannst Du ein **Teiggewicht** in Gramm eingeben. Die Wahl gilt für das ganze geöffnete Rezept: Rezeptseite, Backanleitung und Einkaufsliste rechnen mit demselben Faktor (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
+Ein Skalierungsfaktor für alle Mengen: 0,5 / 1,0 / 1,5 / 2,0. **1,0 entspricht dem Rezept, wie es gespeichert ist.** 2,0 verdoppelt alle Mengen und das angezeigte Gesamtgewicht. Statt eines Faktors kannst Du ein **Teiggewicht** in Gramm eingeben oder es mit dem Waagen-Symbol daneben aus Deiner Form berechnen lassen (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)). Die Wahl gilt für das ganze geöffnete Rezept: Rezeptseite, Backanleitung und Einkaufsliste rechnen mit demselben Faktor (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
 
 **Ablage**
 Wo ein Rezept liegt. Es gibt zwei Möglichkeiten, und der Schalter **Veröffentlichen** beim Speichern entscheidet, wer das Rezept sehen kann:
@@ -953,6 +953,7 @@ Nicht angeboten wird die Anpassung bei Zeilen, die auf eine Komponente des Rezep
 - **Kastenform und runde Form:** Innenmaße in Zentimetern (Länge, Breite, Höhe beziehungsweise Durchmesser und Höhe); bei schrägen Wänden die Breite auf halber Höhe. Daraus das Volumen und mit dem **Füllfaktor** die Teigeinlage: Weizen hell und Toast etwa 0,35–0,40 g je ml, Mischbrot 0,45, Roggen, Vollkorn und Saaten 0,50–0,55. Die **Teigart** setzt den Faktor, ein Stepper lässt ihn Dich feinjustieren – nach dem ersten Backen weißt Du, ob Deine Form mehr oder weniger verträgt. Beispiel: 30 × 11 × 8 cm sind 2,6 l, für Mischbrot etwa 1.190 g Teig.
 - **Gärkörbchen rund und oval:** Hier gibt es keine Formel, sondern die Nennwerte der Anbieter, nach dem Durchmesser (rund) beziehungsweise der Länge (oval) am oberen Rand: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval 22, 25, 28, 32 und 35 cm. Zwischen den Größen rechnet die App linear. Die Teigart korrigiert den Nennwert: Roggen- und Vollkornteig +20 %, lockerer Weizenteig −10 %.
 - **Rezept auf dieses Gewicht skalieren** öffnet eines Deiner Rezepte mit der Teigeinlage als Zielgewicht; Zutaten, Plan und Einkaufsliste rechnen damit, das Rezept selbst bleibt unverändert.
+- **Vom Rezept aus:** Das Waagen-Symbol neben dem Feld **Teiggewicht** auf der Rezeptseite öffnet denselben Rechner als Blatt, auch bei öffentlichen Rezepten. **Als Teiggewicht übernehmen** trägt das Ergebnis in das Feld ein und schließt das Blatt.
 
 Die Maße und die Teigart merkt sich die App, denn man hat ein paar Formen, nicht jedes Mal eine neue.
 
