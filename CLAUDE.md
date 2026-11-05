@@ -26,6 +26,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 ## Konventionen
 - Quelltext-Kommentare und Commit-Nachrichten auf Englisch; Commit-Betreff beschreibt das Ergebnis für den Nutzer (z. B. „The timeline opens first under …").
 - UI-Texte auf Deutsch als Schlüssel in `Localizable.xcstrings`; **jeder neue Text braucht en und fr**, sonst schlägt `check-repo.py` fehl.
+- Ein **neuer String-Katalog** (eigenes Target oder eigene Tabelle, z. B. `Tabs.xcstrings`, `BakePlannerWatch/Localizable.xcstrings`) braucht zusätzlich **explizite `de`-Einträge** (Wert = Schlüssel): Die Entwicklungsregion des Projekts ist `en`, ohne `de`-Einträge entsteht kein `de.lproj`, und ein deutsches Gerät fällt auf Englisch oder die zweite Systemsprache zurück.
 - Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
 - Für Android bringt das Paket Übersetzungen und Einheiten als erzeugte Dateien mit (`BakePlannerCore/Sources/BakePlannerCore/Generated/`). Nach Änderungen an diesen Katalogeinträgen, an `unit.*`-Einträgen oder an `UnitSets.json`: `python3 scripts/generate-package-data.py` ausführen; `check-repo.py` prüft, dass die Dateien aktuell sind.
 - Neue Swift-Dateien müssen in `project.pbxproj` eingetragen sein.
