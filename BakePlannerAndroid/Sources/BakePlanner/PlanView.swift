@@ -35,7 +35,22 @@ struct PlanView: View {
     /// "Dauer ändern": a field per step, applied with "Dauer übernehmen".
     @State var editsDurations = false
     @State var durationTexts: [String] = []
+    /// The starter's diary, for the ripeness estimate; empty for a bread.
+    @State var feedingFacts: [StarterFeedingFacts] = []
+    @State var ripenessTemperature = 22
     @Environment(\.dismiss) var dismiss
+
+    /// The step whose duration is the ripening: a starter recipe's longest.
+    private var ripeningStepIndex: Int? {
+        StarterRipeness.ripeningStepIndex(durations: workingRecipe.content.instructions.map { $0.duration })
+    }
+
+    /// When the starter is ripe at today's temperature, from its diary.
+    private var ripenessEstimate: StarterRipeness.Estimate? {
+        guard StarterRecipe.isStarterFeeding(workingRecipe.content) else { return nil }
+        return StarterRipeness.estimate(from: StarterFeedingFacts.ripenessObservations(feedingFacts),
+                                        at: Double(ripenessTemperature))
+    }
 
     init(model: AppModel, recipe: StoredRecipe, scale: Double, takeOver: (() async -> StoredRecipe?)? = nil) {
         self.model = model
@@ -127,6 +142,29 @@ struct PlanView: View {
                 }
             }
 
+            if let estimate = ripenessEstimate, let stepIndex = ripeningStepIndex {
+                let plannedMinutes = workingRecipe.content.instructions[stepIndex].duration
+                Section {
+                    Text("Bei \(BakeHistoryFacts.temperatureText(Double(ripenessTemperature), locale: AppSettings.locale)) reif nach etwa \(BakeHistoryFacts.durationText(estimate.minutes))")
+                    Text("Geplante Dauer: \(Rational.displayHoursMinutes(plannedMinutes))")
+                        .font(AppFont.caption)
+                        .foregroundStyle(.secondary)
+                    Stepper(value: $ripenessTemperature, in: 10...35) {
+                        ValueLabel(title: "Raumtemperatur heute", value: "\(ripenessTemperature) °C")
+                    }
+                    if plannedMinutes != estimate.minutes {
+                        Button("Reifezeit als Dauer übernehmen") {
+                            if stepIndex < durationTexts.count {
+                                durationTexts[stepIndex] = DurationInput.text(forMinutes: estimate.minutes)
+                                applyDurations()
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Reifezeit heute")
+                }
+            }
+
             Section {
                 Toggle("Dauer ändern", isOn: $editsDurations)
                 if editsDurations {
@@ -210,6 +248,12 @@ struct PlanView: View {
             Button("Abbrechen", role: .cancel) { }
         } message: {
             Text(verbatim: additionalOverlap)
+        }
+        .task {
+            feedingFacts = model.feedings(ofRecipe: recipe.id).map { $0.facts }
+            if let lastNoted = feedingFacts.compactMap({ $0.roomTemperature }).first {
+                ripenessTemperature = Int(lastNoted.rounded())
+            }
         }
         .alert(outcomeTitle, isPresented: $showsSaved) {
             Button {

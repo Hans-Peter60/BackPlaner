@@ -317,6 +317,8 @@ Change the time and watch the "Start" column adjust immediately. Nothing is save
 
 The app then recalculates every start time and the total working time. For your own recipes the new durations are saved permanently; for public recipes they apply only to the current plan.
 
+**Ripening today for starter recipes.** When you plan a starter whose diary holds feedings with time to peak and room temperature (see the starter diary in [chapter 9](#9-editing-a-recipe)), the planning sheet shows a **Ripening today** card: the estimated time to ripeness at the room temperature you set, next to the planned duration of the ripening step, that is the longest one. **Use the ripening time as the duration** sets that step to it; start times and the finish follow, and with "Finish by" the start of the feeding moves accordingly. Like every change of a duration it stays in the recipe until you adjust it again.
+
 ### What the app objects to in a plan
 
 Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminders".

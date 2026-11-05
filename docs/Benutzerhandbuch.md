@@ -314,6 +314,8 @@ Das ist der Kern der App. **Planen** auf der Rezeptseite öffnet die Backanleitu
 
 Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer neu. Bei eigenen Rezepten werden die neuen Dauern dauerhaft gespeichert; bei öffentlichen Rezepten gelten sie nur für die aktuelle Planung.
 
+**Reifezeit heute bei Anstellgut-Rezepten.** Planst Du ein Anstellgut, dessen Tagebuch Fütterungen mit Reifezeit und Raumtemperatur enthält (siehe Anstellgut-Tagebuch in [Kapitel 9](#9-rezept-bearbeiten)), zeigt das Planungsblatt die Karte **Reifezeit heute**: die geschätzte Zeit bis zur Reife bei der eingestellten Raumtemperatur neben der geplanten Dauer des Reifeschritts, also des längsten Schritts. **Reifezeit als Dauer übernehmen** setzt dessen Dauer darauf; Startzeiten und Ende folgen, und bei „Fertig bis“ rückt der Beginn der Fütterung entsprechend. Wie jede Dauer-Änderung bleibt sie im Rezept gespeichert, bis Du sie das nächste Mal anpasst.
+
 ### Was die App am Plan bemängelt
 
 Über der Schritttabelle erscheinen Hinweise, sobald der eingestellte Zeitpunkt zu einem unpraktischen Plan führt. Sie aktualisieren sich mit jeder Änderung an Datum, Uhrzeit oder Dauern – noch bevor Du „Erinnerungen setzen“ tippst.

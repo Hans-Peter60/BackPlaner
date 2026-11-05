@@ -104,6 +104,13 @@ public enum StarterRipeness {
         return (min(max(q10, q10Range.lowerBound), q10Range.upperBound), true)
     }
 
+    /// The step of a starter recipe that is the ripening: the longest one.
+    /// Nil for a recipe without steps or without any duration.
+    public static func ripeningStepIndex(durations: [Int]) -> Int? {
+        guard let longest = durations.max(), longest > 0 else { return nil }
+        return durations.firstIndex(of: longest)
+    }
+
     private static func median(_ values: [Double]) -> Double {
         let sorted = values.sorted()
         let middle = sorted.count / 2

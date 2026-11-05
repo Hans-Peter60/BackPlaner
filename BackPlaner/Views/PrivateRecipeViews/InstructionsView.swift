@@ -80,6 +80,9 @@ struct InstructionsView: View {
     @State private var reminderHintText           = ""
     
     @State private var durations: [String] = []
+    /// Today's room temperature for the ripeness estimate of a starter
+    /// recipe; starts at the last one noted in its diary.
+    @State private var ripenessTemperature = 22
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
@@ -150,6 +153,43 @@ struct InstructionsView: View {
                                    ovenSuggestions: ovenFreeDates,
                                    anchor: PlanAnchor(selection: dateTimeStartSelection),
                                    onApply: { dateTime = $0 })
+
+                // MARK: Ripeness today — a starter whose diary knows how it ripens
+                if let estimate = ripenessEstimate, let stepIndex = ripeningStepIndex {
+                    let plannedMinutes = recipe.instructionsArray[stepIndex].duration
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Reifezeit heute")
+                            .font(Theme.bodyFont(14).weight(.semibold))
+                            .foregroundColor(Theme.cardTitle)
+                        Text("Bei \(BakeHistoryFacts.temperatureText(Double(ripenessTemperature), locale: AppSettings.locale)) reif nach etwa \(BakeHistoryFacts.durationText(estimate.minutes))")
+                            .font(Theme.bodyFont(14))
+                            .foregroundColor(Theme.cardTitle)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Text("Geplante Dauer: \(Rational.displayHoursMinutes(plannedMinutes))")
+                            .font(Theme.bodyFont(13))
+                            .foregroundColor(Theme.subtitle)
+                        Stepper(value: $ripenessTemperature, in: 10...35) {
+                            LabeledContent("Raumtemperatur heute", value: "\(ripenessTemperature) °C")
+                                .font(Theme.bodyFont(14))
+                        }
+                        if plannedMinutes != estimate.minutes {
+                            Button {
+                                applyDurations([stepIndex: estimate.minutes])
+                            } label: {
+                                Label("Reifezeit als Dauer übernehmen", systemImage: "hourglass")
+                                    .font(Theme.bodyFont(14).weight(.semibold))
+                            }
+                            .accessibilityIdentifier("plan.applyRipeness")
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .cardStyle()
+                    .onAppear {
+                        if let lastNoted = recipe.starterFeedingLogsArray.compactMap(\.facts.roomTemperature).first {
+                            ripenessTemperature = Int(lastNoted.rounded())
+                        }
+                    }
+                }
 
 
                 // MARK: Instructions
@@ -301,42 +341,7 @@ struct InstructionsView: View {
                     if changeDurationsFlag {
 
                         IconActionButton(systemImage: "checkmark", style: .primary, accessibilityLabel: "Dauer übernehmen", title: "Dauer übernehmen", controlSize: .regular) {
-
-                            var instructionsFB = [InstructionFB]()
-                            
-                            for i in 0..<recipe.instructionsArray.count {
-
-                                let cleanedDuration = (i < durations.count ? durations[i] : "").trimmingCharacters(in: .whitespacesAndNewlines)
-                                if let minutes = DurationInput.minutes(from: cleanedDuration), minutes > 0 { recipe.instructionsArray[i].duration = minutes }
-                                
-                                let instruction = InstructionFB()
-                                instruction.instruction = recipe.instructionsArray[i].instruction
-                                instruction.step        = recipe.instructionsArray[i].step
-                                instruction.startTime   = recipe.instructionsArray[i].startTime
-                                instruction.duration    = recipe.instructionsArray[i].duration
-                                instruction.componentName = recipe.instructionsArray[i].componentName
-                                instructionsFB.append(instruction)
-
-                            }
-                            instructionsFB = Rational.calculateStartTimes(
-                                instructionsFB,
-                                dateTime,
-                                dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
-                            )
-                            
-                            for i in 0..<recipe.instructionsArray.count {
-                                recipe.instructionsArray[i].instruction = instructionsFB[i].instruction
-                                recipe.instructionsArray[i].step        = instructionsFB[i].step
-                                recipe.instructionsArray[i].startTime   = instructionsFB[i].startTime ?? 0
-                                recipe.instructionsArray[i].duration    = instructionsFB[i].duration
-                            }
-                            if let last = recipe.instructionsArray.last {
-                                recipe.prepTime = last.startTime + last.duration
-                            }
-                            
-                            changeDurationsFlag = false
-                            try? viewContext.save()
-                            refreshPlanIssues()
+                            applyDurations(typedDurations())
                         }
                         .padding()
                     }
@@ -382,6 +387,74 @@ struct InstructionsView: View {
                  date: dateTime,
                  languageCode: locale.identifier,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
+    }
+
+    // MARK: Durations
+
+    /// The durations typed under "Dauer ändern", by step index; an empty
+    /// field or a value of no length keeps the step's own.
+    private func typedDurations() -> [Int: Int] {
+        var minutesByIndex: [Int: Int] = [:]
+        for i in 0..<recipe.instructionsArray.count {
+            let cleaned = (i < durations.count ? durations[i] : "").trimmingCharacters(in: .whitespacesAndNewlines)
+            if let minutes = DurationInput.minutes(from: cleaned), minutes > 0 {
+                minutesByIndex[i] = minutes
+            }
+        }
+        return minutesByIndex
+    }
+
+    /// Writes `minutesByIndex` into the recipe's steps, works the start
+    /// times and the total out again and saves — "Dauer übernehmen", and
+    /// the ripeness estimate's way into the plan.
+    private func applyDurations(_ minutesByIndex: [Int: Int]) {
+        var instructionsFB = [InstructionFB]()
+        for i in 0..<recipe.instructionsArray.count {
+            if let minutes = minutesByIndex[i] { recipe.instructionsArray[i].duration = minutes }
+
+            let instruction = InstructionFB()
+            instruction.instruction = recipe.instructionsArray[i].instruction
+            instruction.step        = recipe.instructionsArray[i].step
+            instruction.startTime   = recipe.instructionsArray[i].startTime
+            instruction.duration    = recipe.instructionsArray[i].duration
+            instruction.componentName = recipe.instructionsArray[i].componentName
+            instructionsFB.append(instruction)
+        }
+        instructionsFB = Rational.calculateStartTimes(
+            instructionsFB,
+            dateTime,
+            dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
+        )
+        for i in 0..<recipe.instructionsArray.count {
+            recipe.instructionsArray[i].instruction = instructionsFB[i].instruction
+            recipe.instructionsArray[i].step        = instructionsFB[i].step
+            recipe.instructionsArray[i].startTime   = instructionsFB[i].startTime ?? 0
+            recipe.instructionsArray[i].duration    = instructionsFB[i].duration
+        }
+        if let last = recipe.instructionsArray.last {
+            recipe.prepTime = last.startTime + last.duration
+        }
+
+        changeDurationsFlag = false
+        try? viewContext.save()
+        refreshPlanIssues()
+    }
+
+    // MARK: Ripeness
+
+    /// The step whose duration is the ripening: a starter recipe's longest.
+    private var ripeningStepIndex: Int? {
+        StarterRipeness.ripeningStepIndex(durations: recipe.instructionsArray.map(\.duration))
+    }
+
+    /// When a starter is ripe at today's temperature, from its diary; nil
+    /// for a bread, or a starter whose diary measured nothing yet.
+    private var ripenessEstimate: StarterRipeness.Estimate? {
+        guard StarterRecipe.isStarterFeeding(recipe) else { return nil }
+        return StarterRipeness.estimate(
+            from: StarterFeedingFacts.ripenessObservations(recipe.starterFeedingLogsArray.map(\.facts)),
+            at: Double(ripenessTemperature)
+        )
     }
 
     private func refreshPlanIssues() {
