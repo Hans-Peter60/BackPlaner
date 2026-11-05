@@ -380,7 +380,7 @@ Les textes « allumer le four », « baisser le four » et « la cuisson est ter
 
 Via **+** en haut à droite de l’onglet **Recettes**. Le formulaire se parcourt de haut en bas.
 
-![Formulaire de création d’une nouvelle recette : import depuis des images ou une page web, commutateur Publier, image de la recette](images/fr/neues-rezept.png)
+![Formulaire de création d’une nouvelle recette : import depuis des images, une page web ou un texte, commutateur Publier, image de la recette](images/fr/neues-rezept.png)
 
 *Dans le formulaire de recette, vous pouvez importer une recette depuis des images ou une page web, ou tout saisir manuellement.*
 

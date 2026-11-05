@@ -377,7 +377,7 @@ Die Texte „Backofen anstellen“, „Backofen zurückdrehen“ und „Backvorg
 
 Über **+** oben rechts im Tab **Rezepte**. Das Formular ist von oben nach unten aufgebaut.
 
-![Formular zum Anlegen eines neuen Rezepts: Import aus Bildern oder von einer Internetseite, Schalter Veröffentlichen, Rezeptbild](images/neues-rezept.png)
+![Formular zum Anlegen eines neuen Rezepts: Import aus Bildern, von einer Internetseite oder aus Text, Schalter Veröffentlichen, Rezeptbild](images/neues-rezept.png)
 
 *Im Rezeptformular kannst Du ein Rezept aus Bildern oder von einer Internetseite importieren oder alle Angaben manuell erfassen.*
 
