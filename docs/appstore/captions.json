@@ -7,7 +7,7 @@
     "anstellgut-ta": "Dein Anstellgut, Deine TA|Die App rechnet Anstellgut und Wasser um",
     "mehl-ersetzen": "Mehl tauschen, Wasser folgt|Dinkel, Roggen, Vollkorn: mit Hinweisen",
     "rezept-details": "Portionsgröße, Teiggewicht, Teigausbeute|Alles rechnet mit",
-    "rezept-import": "Aus dem Buch oder aus dem Netz|Foto oder Link: die App liest das Rezept aus",
+    "rezept-import": "Aus dem Buch oder aus dem Netz|Foto, Link oder Text: die App liest das Rezept aus",
     "einkaufsliste": "Einkaufsliste nach Regalen|In der gewählten Portionsgröße",
     "teigtemperatur": "Die richtige Wassertemperatur|Für die Teigtemperatur, die das Rezept will"
   },
@@ -19,7 +19,7 @@
     "anstellgut-ta": "Your starter, your TA|The app adjusts starter and water",
     "mehl-ersetzen": "Swap the flour, the water follows|Spelt, rye, wholegrain: with advice",
     "rezept-details": "Serving size, dough weight, dough yield|Everything scales along",
-    "rezept-import": "From the book or from the web|Photo or link: the app reads the recipe",
+    "rezept-import": "From the book or from the web|Photo, link or text: the app reads the recipe",
     "einkaufsliste": "Shopping list by shelf|At the serving size you chose",
     "teigtemperatur": "The right water temperature|For the dough temperature the recipe wants"
   },
@@ -31,7 +31,7 @@
     "anstellgut-ta": "Votre levain chef, votre TA|L’app recalcule levain chef et eau",
     "mehl-ersetzen": "Changez de farine, l’eau suit|Épeautre, seigle, complète : avec conseils",
     "rezept-details": "Portion, poids de pâte, rendement|Tout se recalcule",
-    "rezept-import": "Du livre ou du web|Photo ou lien : l’app lit la recette",
+    "rezept-import": "Du livre ou du web|Photo, lien ou texte : l’app lit la recette",
     "einkaufsliste": "Liste de courses par rayon|À la taille de portion choisie",
     "teigtemperatur": "La bonne température de l’eau|Pour la température de pâte voulue"
   }

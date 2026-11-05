@@ -51,6 +51,12 @@ final class AppStoreScreenshots: StoreUITestCase {
         let row = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(3) // thumbnails load after the list
+        // The simulator's iCloud prompt comes up a moment after launch;
+        // cancelling it makes the list load once more, so wait for the
+        // row and the thumbnails again.
+        allowSystemAlertIfShown()
+        XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes after the iCloud prompt")
+        settle(3)
         capture("93-rezept-datenbank")
 
         tapReliably(row)

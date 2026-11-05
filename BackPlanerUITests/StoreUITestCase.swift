@@ -129,8 +129,8 @@ class StoreUITestCase: XCTestCase {
         var titles: [String: String] {
             switch self {
             case .recipes:        return ["de": "Rezepte", "en": "Recipes", "fr": "Recettes"]
-            case .shoppingLists:  return ["de": "Einkaufslisten", "en": "Shopping lists", "fr": "Listes de courses"]
-            case .bakeHistory:    return ["de": "Backhistorie", "en": "Baking history", "fr": "Historique de cuisson"]
+            case .shoppingLists:  return ["de": "Einkaufslisten", "en": "Shopping lists", "fr": "Courses"]
+            case .bakeHistory:    return ["de": "Backhistorie", "en": "Baking history", "fr": "Historique"]
             case .scheduledSteps: return ["de": "Zeitleiste", "en": "Timeline", "fr": "Timeline"]
             }
         }
@@ -625,9 +625,18 @@ class StoreUITestCase: XCTestCase {
         }
     }
 
+    /// Permission prompts are allowed. The simulator's iCloud sign-in
+    /// prompt ("Du musst deinen Apple Account und dein Passwort eingeben",
+    /// with "Erneut versuchen" and "Abbrechen") has nothing to allow and
+    /// is cancelled, so that it does not sit over the recipe list in the
+    /// manual's picture.
     @discardableResult
     static func allow(_ alert: XCUIElement) -> Bool {
         for title in ["Erlauben", "Allow", "Autoriser", "OK"] where alert.buttons[title].exists {
+            alert.buttons[title].tap()
+            return true
+        }
+        for title in ["Abbrechen", "Cancel", "Annuler", "Nicht jetzt", "Not Now", "Plus tard"] where alert.buttons[title].exists {
             alert.buttons[title].tap()
             return true
         }

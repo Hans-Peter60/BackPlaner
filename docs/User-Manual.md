@@ -380,7 +380,7 @@ The texts "turn on the oven", "turn the oven down" and "baking is finished" appe
 
 Through **+** at the top right of the **Recipes** tab. The form is laid out from top to bottom.
 
-![The form for creating a new recipe: import from images or from a web page, Publish switch, recipe image](images/en/neues-rezept.png)
+![The form for creating a new recipe: import from images, from a web page or from text, Publish switch, recipe image](images/en/neues-rezept.png)
 
 *In the recipe form you can import a recipe from images or from a web page, or enter everything by hand.*
 
