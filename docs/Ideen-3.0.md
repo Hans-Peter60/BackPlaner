@@ -36,7 +36,7 @@ Bewertungen zu öffentlichen Rezepten und ein Zähler „schon n-mal gebacken“
 - Backmodus als eigene Apple-Watch-App (Erinnerungen kommen schon auf die Uhr). **Umgesetzt (Nov. 2026):** Watch-App `BakePlannerWatch` zeigt den Plan-Schnappschuss des iPhones über Watch Connectivity, „Erledigt“ geht zurück ans iPhone; Vorlesen und Verschieben bleiben auf dem iPhone.
 - Interaktive Widgets mit „Erledigt“ und „Verschieben“ direkt vom Home-Bildschirm. **Umgesetzt (Nov. 2026, #25).**
 - iPad: Tastaturkürzel, mehrere Fenster, und das Überlauf-Menü der Titelleiste auf Französisch beheben (siehe `docs/AppStore-Screenshots.md`). **Umgesetzt (Nov. 2026, #24).**
-- „Designed for iPad“ auf dem Mac freigeben, nachdem Kamera-Import und Teilen dort geprüft sind. **Stand Nov. 2026:** baut und startet auf dem Mac ohne Fehler; die Kamera meldet sich als verfügbar (der Kamera-Knopf erscheint). Die Handprüfung von Kamera-Import und Teilen auf dem Mac und die Freigabe in App Store Connect stehen aus.
+- „Designed for iPad“ auf dem Mac freigeben, nachdem Kamera-Import und Teilen dort geprüft sind. **Stand Nov. 2026:** baut und startet auf dem Mac ohne Fehler; die Kamera meldet sich als verfügbar (der Kamera-Knopf erscheint). Kamera-Import und Teilen auf dem Mac am 05.11.2026 von Hand geprüft, Freigabe in App Store Connect gesetzt.
 
 ## Vorgeschlagener Schnitt
 

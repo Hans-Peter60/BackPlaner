@@ -54,8 +54,8 @@ Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlich
 
 | Punkt | Wert |
 |-------|------|
-| Geräte | iPhone (auch iPhone Duo, zugeklappt und aufgeklappt) und iPad |
-| Betriebssystem | iOS/iPadOS 26.0 oder neuer |
+| Geräte | iPhone (auch iPhone Duo, zugeklappt und aufgeklappt), iPad und Apple Watch (Backmodus, siehe Kapitel 10). Auf einem Mac mit Apple-Chip läuft die iPad-Fassung aus dem Mac App Store („Für iPad entwickelt“) |
+| Betriebssystem | iOS/iPadOS 26.0 oder neuer; watchOS 26 für die Uhr-App; macOS 26 für die Mac-Fassung |
 | Ausrichtung | iPhone: Hoch- und Querformat · iPad: alle Ausrichtungen |
 | Sprachen | Deutsch, Englisch, Französisch (umschaltbar in den Einstellungen) |
 | Darstellung | Hell- und Dunkelmodus, Dynamische Schriftgrößen |

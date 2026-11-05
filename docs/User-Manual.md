@@ -57,8 +57,8 @@ Reminders require BakePlanner to be allowed to send notifications. The full expl
 
 | Item | Value |
 |------|-------|
-| Devices | iPhone (including iPhone Duo, folded and unfolded) and iPad |
-| Operating system | iOS/iPadOS 26.0 or later |
+| Devices | iPhone (including iPhone Duo, folded and unfolded), iPad and Apple Watch (bake mode, see chapter 10). On a Mac with Apple silicon the iPad version runs from the Mac App Store ("Designed for iPad") |
+| Operating system | iOS/iPadOS 26.0 or later; watchOS 26 for the watch app; macOS 26 for the Mac version |
 | Orientation | iPhone: portrait and landscape · iPad: all orientations |
 | Languages | German, English, French (switchable in Settings) |
 | Appearance | Light and dark mode, Dynamic Type |

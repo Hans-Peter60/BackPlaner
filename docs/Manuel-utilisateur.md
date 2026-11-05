@@ -57,7 +57,7 @@ Les rappels supposent que BakePlanner soit autorisé à envoyer des notification
 
 | Élément | Valeur |
 |---------|--------|
-| Appareils | iPhone (y compris iPhone Duo, plié et déplié) et iPad |
+| Appareils | iPhone (y compris iPhone Duo, plié et déplié), iPad et Apple Watch (mode cuisson, voir chapitre 10). Sur un Mac à puce Apple, la version iPad s’installe depuis le Mac App Store (« Conçu pour iPad ») |
 | Système d’exploitation | iOS/iPadOS 26.0 ou ultérieur |
 | Orientation | iPhone : portrait et paysage · iPad : toutes les orientations |
 | Langues | allemand, anglais, français (commutables dans les Réglages) |
