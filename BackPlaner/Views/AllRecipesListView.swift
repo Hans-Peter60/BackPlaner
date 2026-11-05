@@ -306,6 +306,12 @@ struct AllRecipesListView: View {
                             Label("Anstellgut-TA", systemImage: "drop.circle")
                         }
                         .accessibilityIdentifier("menu.starterYield")
+                        Button {
+                            pushedDestination = .doughWeightFromTin
+                        } label: {
+                            Label("Teigeinlage", systemImage: "scalemass")
+                        }
+                        .accessibilityIdentifier("menu.doughWeightFromTin")
                     } label: {
                         Label("Mehr", systemImage: "ellipsis.circle")
                     }

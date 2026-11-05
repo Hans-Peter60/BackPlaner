@@ -140,6 +140,7 @@
 		6AF9268B3045772B0081227C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6AF9268A3045772B0081227C /* PrivacyInfo.xcprivacy */; };
 		6AF9FF6B304997EA00FC72FA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6AF9FF6A304997EA00FC72FA /* FirebaseAuth */; };
 		6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */; };
+		6AA6C54B309B7BB00041298E /* DoughWeightFromTinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6C54A309B7BB00041298E /* DoughWeightFromTinView.swift */; };
 		6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */; };
 		6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */; };
 		6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */; };
@@ -355,6 +356,7 @@
 		6AF92688304469170081227C /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		6AF9268A3045772B0081227C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculatorView.swift; sourceTree = "<group>"; };
+		6AA6C54A309B7BB00041298E /* DoughWeightFromTinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughWeightFromTinView.swift; sourceTree = "<group>"; };
 		6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesListView.swift; sourceTree = "<group>"; };
 		6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				6A2615BA3070FE15007644AB /* BakeryBackdropView.swift */,
 				6AA79ED630778A9C00935F0F /* DoughYieldView.swift */,
 				6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */,
+				6AA6C54A309B7BB00041298E /* DoughWeightFromTinView.swift */,
 				6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */,
 				19FF11E946F59F79709D8C92 /* StarterYieldView.swift */,
 				6A8805D9308CB64C00EB2187 /* NextFeedingView.swift */,
@@ -1090,6 +1093,7 @@
 				6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */,
 				6A86A993308E51B200BA0CF2 /* Entitlements.swift in Sources */,
 				6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */,
+				6AA6C54B309B7BB00041298E /* DoughWeightFromTinView.swift in Sources */,
 				6A1132002B7CF94600CDF054 /* EditRecipeView.swift in Sources */,
 				6A9181F63049649B0045D7CB /* SettingsView.swift in Sources */,
 				6AF639772B7A51340070CDC1 /* RecipeFBModel.swift in Sources */,

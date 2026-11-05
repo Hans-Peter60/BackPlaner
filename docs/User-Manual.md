@@ -127,7 +127,7 @@ At the top right of the **Recipes** tab sit three buttons:
 | Button | Purpose |
 |--------|---------|
 | **Filter** | The minimum rating for the list |
-| **More (⋯)** | The three baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water) and **Starter TA** (use a starter of a different dough yield, adjust the water), **Export recipes** (a selection of your own recipes as a file, see [chapter 14](#14-settings)), and the **Settings** (language, defaults, baking plan, backup, account) |
+| **More (⋯)** | The four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), **Export recipes** (a selection of your own recipes as a file, see [chapter 14](#14-settings)), and the **Settings** (language, defaults, baking plan, backup, account) |
 | **+** | **Create new recipe** — from scratch or imported from photos, a web page, or copied text |
 
 **The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
@@ -944,6 +944,16 @@ The adjustment is not offered for lines that stand for a component of the recipe
 ### Dough temperature
 
 **Recipes → More (⋯) → Dough temperature** works out, by the baker's formula, how warm the **mixing water** has to be for the dough to reach the desired temperature after kneading. You enter the dough's **target temperature**, the **room temperature**, the flour temperature (usually the room's) and, for recipes with a sourdough or preferment, its temperature. The **friction heat** is the warmth the dough picks up from kneading on top: compare the dough temperature you measure after kneading with the target and adjust the value — calibrated once, it holds for every recipe and is remembered. If the sum calls for water that would be too cold or too hot, the calculator says so.
+
+### Dough weight from the tin
+
+**Recipes → More (⋯) → Dough weight** works out how much dough a tin takes and, if you like, opens a recipe scaled to that weight right away.
+
+- **Loaf tin and round tin:** inside measures in centimetres (length, width, height, or diameter and height); with slanted walls take the width at half height. From that the volume and, with the **fill factor**, the dough weight: light wheat and toast about 0.35–0.40 g per ml, mixed bread 0.45, rye, wholegrain and seeds 0.50–0.55. The **dough type** sets the factor, a stepper lets you fine-tune it — after the first bake you know whether your tin takes more or less. Example: 30 × 11 × 8 cm is 2.6 l, about 1,190 g of dough for a mixed bread.
+- **Round and oval proofing baskets:** there is no formula here, only the makers' ratings by the diameter (round) or the length (oval) at the rim: 500 g at Ø 18 cm, 750 g at Ø 20 cm, 1,000 g at Ø 22 cm, 1,500 g at Ø 25 cm, 2,000 g at Ø 28 cm; oval 22, 25, 28, 32 and 35 cm. Between the sizes the app interpolates. The dough type corrects the rating: rye and wholegrain dough +20 %, airy wheat dough −10 %.
+- **Scale a recipe to this weight** opens one of your recipes with the dough weight as its target weight; ingredients, plan and shopping list use it, the recipe itself stays unchanged.
+
+The app remembers the measures and the dough type: one owns a few tins, not a new one every time.
 
 ### Available units
 

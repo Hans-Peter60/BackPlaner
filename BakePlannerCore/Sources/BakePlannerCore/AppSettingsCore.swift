@@ -30,6 +30,14 @@ public struct AppSettingsKeys {
     public static let starterDoughYieldPresets = "settings.starterDoughYieldPresets"
     public static let automaticTranslation = "settings.automaticTranslation"
     public static let doughFrictionFactor = "settings.doughFrictionFactor"
+    /// The tin calculator's last inputs ("Teigeinlage aus der Form").
+    public static let tinShape = "calculator.tin.shape"
+    public static let tinLengthCm = "calculator.tin.lengthCm"
+    public static let tinWidthCm = "calculator.tin.widthCm"
+    public static let tinHeightCm = "calculator.tin.heightCm"
+    public static let tinDiameterCm = "calculator.tin.diameterCm"
+    public static let tinDoughType = "calculator.tin.doughType"
+    public static let tinFillPercent = "calculator.tin.fillPercent"
     public static let showLocalRecipes = "settings.recipeList.showLocal"
     public static let showOwnPublishedRecipes = "settings.recipeList.showOwnPublished"
     /// Whether the recipe list shows variants of recipes (true) or only the

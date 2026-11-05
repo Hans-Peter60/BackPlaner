@@ -11,6 +11,7 @@ enum Calculator: Int {
     case doughTemperature
     case flourSubstitution
     case starterYield
+    case doughWeightFromTin
 }
 
 struct CalculatorSheet: View {
@@ -23,6 +24,7 @@ struct CalculatorSheet: View {
             case .doughTemperature: DoughTemperatureView()
             case .flourSubstitution: FlourSubstitutionCalculator()
             case .starterYield: StarterYieldCalculator()
+            case .doughWeightFromTin: DoughWeightFromTinCalculator()
             }
         }
         .toolbar {
@@ -415,4 +417,143 @@ func starterHintText(_ hint: StarterYieldAdjustment.Hint) -> Text {
         return Text("Das Rezept nennt keine TA für sein Anstellgut; angenommen ist die TA aus den Einstellungen. Steht sie im Rezept, trage sie in den Zutatennamen ein, etwa „Anstellgut TA 150“.")
     }
 
+}
+
+// MARK: - Dough weight from the tin
+
+/// How much dough a tin or a proofing basket takes (DoughWeightFromTin):
+/// a loaf or round tin by its inside measures and a fill factor per dough
+/// type, a basket by the makers' ratings. The iPhone's calculator without
+/// the jump into a scaled recipe.
+struct DoughWeightFromTinCalculator: View {
+    /// 0 loaf tin, 1 round tin, 2 round basket, 3 oval basket.
+    @State var shape = 0
+    @State var lengthCm = 30
+    @State var widthCm = 11
+    @State var heightCm = 8
+    @State var diameterCm = 22
+    @State var doughTypeRaw = DoughWeightFromTin.DoughType.mixed.rawValue
+    @State var fillPercent = 45
+
+    private var doughType: DoughWeightFromTin.DoughType {
+        DoughWeightFromTin.DoughType(rawValue: doughTypeRaw) ?? DoughWeightFromTin.DoughType.mixed
+    }
+    private var isBasket: Bool { shape >= 2 }
+
+    private var volume: Double {
+        if shape == 0 {
+            return DoughWeightFromTin.volumeMilliliters(lengthCm: Double(lengthCm), widthCm: Double(widthCm), heightCm: Double(heightCm))
+        }
+        if shape == 1 {
+            return DoughWeightFromTin.volumeMilliliters(diameterCm: Double(diameterCm), heightCm: Double(heightCm))
+        }
+        return 0.0
+    }
+
+    private var nominal: Int {
+        if shape == 2 { return DoughWeightFromTin.basketNominalGrams(shape: .round, measureCm: Double(diameterCm)) }
+        if shape == 3 { return DoughWeightFromTin.basketNominalGrams(shape: .oval, measureCm: Double(lengthCm)) }
+        return 0
+    }
+
+    private var grams: Int {
+        isBasket
+            ? DoughWeightFromTin.basketDoughGrams(nominalGrams: nominal, doughType: doughType)
+            : DoughWeightFromTin.doughGrams(volumeMilliliters: volume, fillFactor: Double(fillPercent) / 100.0)
+    }
+
+    /// "0.45" from the whole percentage, without a number formatter.
+    private var fillFactorText: String {
+        "0." + (fillPercent < 10 ? "0" : "") + String(fillPercent)
+    }
+
+    /// "2.6 l" from millilitres.
+    private var litresText: String {
+        let tenths = Int((volume / 100.0).rounded())
+        return "\(tenths / 10).\(tenths % 10) l"
+    }
+
+    private var basketAdjustmentText: String {
+        let percent = Int(((doughType.basketFactor - 1.0) * 100.0).rounded())
+        if percent == 0 { return "±0 %" }
+        return percent > 0 ? "+\(percent) %" : "−\(-percent) %"
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                CalculatorResult(title: "Teigeinlage", value: "\(grams) g") {
+                    if isBasket {
+                        Text("Nennwert des Körbchens: \(String(nominal)) g")
+                            .font(AppFont.footnote)
+                            .foregroundStyle(.secondary)
+                        Text("Anpassung für die Teigart: \(basketAdjustmentText)")
+                            .font(AppFont.footnote)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text("Volumen \(litresText) × \(fillFactorText) g/ml")
+                            .font(AppFont.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            Section {
+                Picker("Form", selection: $shape) {
+                    Text("Kastenform").tag(0)
+                    Text("Runde Form").tag(1)
+                    Text("Gärkörbchen rund").tag(2)
+                    Text("Gärkörbchen oval").tag(3)
+                }
+            } header: {
+                Text("Form")
+            }
+
+            Section {
+                if shape == 0 || shape == 3 {
+                    Stepper(value: $lengthCm, in: 10...50) { ValueLabel(title: "Länge", value: "\(lengthCm) cm") }
+                }
+                if shape == 0 {
+                    Stepper(value: $widthCm, in: 5...30) { ValueLabel(title: "Breite", value: "\(widthCm) cm") }
+                }
+                if shape == 1 || shape == 2 {
+                    Stepper(value: $diameterCm, in: 10...40) { ValueLabel(title: "Durchmesser", value: "\(diameterCm) cm") }
+                }
+                if shape == 0 || shape == 1 {
+                    Stepper(value: $heightCm, in: 4...20) { ValueLabel(title: "Höhe", value: "\(heightCm) cm") }
+                }
+            } header: {
+                if isBasket {
+                    Text("Maß am oberen Rand")
+                } else {
+                    Text("Innenmaße")
+                }
+            }
+
+            Section {
+                Picker("Teigart", selection: $doughTypeRaw) {
+                    Text("Weizen hell, Toast").tag(DoughWeightFromTin.DoughType.lightWheat.rawValue)
+                    Text("Mischbrot").tag(DoughWeightFromTin.DoughType.mixed.rawValue)
+                    Text("Roggen, Vollkorn, Saaten").tag(DoughWeightFromTin.DoughType.ryeWholeGrain.rawValue)
+                }
+                .onChange(of: doughTypeRaw) { _, _ in
+                    fillPercent = Int((doughType.fillFactor * 100.0).rounded())
+                }
+                if !isBasket {
+                    Stepper(value: $fillPercent, in: 30...60) {
+                        ValueLabel(title: "Füllfaktor", value: "\(fillFactorText) g/ml")
+                    }
+                }
+            } header: {
+                Text("Teig")
+            } footer: {
+                if isBasket {
+                    Text("Nennwerte, wie Körbchen-Anbieter sie angeben: 500 g bei Ø 18 cm, 750 g bei Ø 20 cm, 1.000 g bei Ø 22 cm, 1.500 g bei Ø 25 cm, 2.000 g bei Ø 28 cm; oval entsprechend 22, 25, 28, 32 und 35 cm Länge. Dazwischen rechnet die App linear. Roggenteig darf schwerer sein, lockerer Weizenteig leichter.")
+                } else {
+                    Text("Richtwerte: Weizen hell und Toast 0,35–0,40 g je ml, Mischbrot etwa 0,45, Roggen, Vollkorn und Saaten 0,50–0,55. Innen messen, bei schrägen Wänden die Breite auf halber Höhe. Nach dem ersten Backen den Füllfaktor an Dein Ergebnis anpassen.")
+                }
+            }
+        }
+        .navigationTitle("Teigeinlage aus der Form")
+    }
 }
