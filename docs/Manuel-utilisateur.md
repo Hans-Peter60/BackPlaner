@@ -144,7 +144,7 @@ Avec un clavier, ces raccourcis s’appliquent (maintenir ⌘ les affiche) :
 |---|---|
 | ⌘1, ⌘2, ⌘3, ⌘4 | Onglet Recettes, Courses, Historique, Timeline |
 | ⌘N | Créer une nouvelle recette |
-| ⌘F | Rechercher une recette |
+| ⇧⌘F | Rechercher une recette |
 | ⌘, | Réglages |
 | ⌥⌘N | Nouvelle fenêtre |
 

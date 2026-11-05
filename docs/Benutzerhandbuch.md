@@ -141,7 +141,7 @@ Mit einer Tastatur gelten diese Kurzbefehle (⌘ gedrückt halten zeigt sie an):
 |---|---|
 | ⌘1, ⌘2, ⌘3, ⌘4 | Tab Rezepte, Einkaufslisten, Backhistorie, Zeitleiste |
 | ⌘N | Neues Rezept anlegen |
-| ⌘F | Rezept suchen |
+| ⇧⌘F | Rezept suchen |
 | ⌘, | Einstellungen |
 | ⌥⌘N | Neues Fenster |
 
