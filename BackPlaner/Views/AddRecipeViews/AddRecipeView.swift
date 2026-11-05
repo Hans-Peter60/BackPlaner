@@ -21,8 +21,8 @@ struct AddRecipeView: View {
     @State private var recipeImage: UIImage?
     
     // Image Picker
-    @State private var isShowingImagePicker = false
-    @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
+    /// The picker on screen, by its source; nil while none is up.
+    @State private var imagePickerSource: UIImagePickerController.SourceType?
     @State private var placeHolderImage: Image
     @State private var showingAlert         = false
     @State private var storage              = AppSettings.defaultStoragePreference
@@ -178,8 +178,7 @@ struct AddRecipeView: View {
                 
                 HStack {
                     IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .regular) {
-                        selectedImageSource  = .photoLibrary
-                        isShowingImagePicker = true
+                        imagePickerSource = .photoLibrary
                     }
 
                     // Offer direct camera capture too, but only on devices that
@@ -188,13 +187,12 @@ struct AddRecipeView: View {
                         Spacer()
 
                         IconActionButton(systemImage: "camera", style: .primary, accessibilityLabel: "Kamera öffnen", title: "Kamera", controlSize: .regular) {
-                            selectedImageSource  = .camera
-                            isShowingImagePicker = true
+                            imagePickerSource = .camera
                         }
                     }
                 }
-                .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                    ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                .sheet(item: $imagePickerSource, onDismiss: loadImage) { source in
+                    ImagePicker(selectedSource: source, recipeImage: $recipeImage)
                 }
             }
                     
