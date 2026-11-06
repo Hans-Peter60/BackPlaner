@@ -946,6 +946,8 @@ The baker's convention applies:
 
 The line is absent for recipes without recognised flour. The image import compares the same calculation with the dough yield printed in the book and warns when they differ.
 
+**Pre-fermented flour and notes.** The breakdown also says how much flour ferments before the main dough – in the sourdough, poolish, biga or Vorteig and in the starter itself – in grams and as a share of all the flour; soakers do not count. Below it, **Notes** appear when salt or yeast are far from the usual baker's percentages: salt under 1.5 or over 2.5 percent of the flour (the usual is 1.8 to 2.2), fresh yeast over 2 percent, dry yeast over 1 percent. After an import that catches a misread amount; in a recipe of your own it is just a nudge. A recipe without any salt gets no note.
+
 ### Replace flour
 
 No wheat flour 1050 in the house, but spelt flour 630? Flours are swapped **1:1 by weight**; what changes is the water, because every flour absorbs differently. Two ways:

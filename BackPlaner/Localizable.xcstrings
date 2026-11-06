@@ -19485,6 +19485,106 @@
           }
         }
       }
+    },
+    "Wenig Salz: %@ des Mehls, üblich sind %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Little salt: %@ of the flour; the usual is %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peu de sel : %@ de la farine, l’usage est %@."
+          }
+        }
+      }
+    },
+    "Viel Salz: %@ des Mehls, üblich sind %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lot of salt: %@ of the flour; the usual is %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beaucoup de sel : %@ de la farine, l’usage est %@."
+          }
+        }
+      }
+    },
+    "Viel Frischhefe: %@ des Mehls; bei langer Führung reichen %@ und weniger." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lot of fresh yeast: %@ of the flour; a long fermentation manages with %@ and less."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beaucoup de levure fraîche : %@ de la farine ; une longue fermentation se contente de %@ et moins."
+          }
+        }
+      }
+    },
+    "Viel Trockenhefe: %@ des Mehls; bei langer Führung reichen %@ und weniger." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lot of dry yeast: %@ of the flour; a long fermentation manages with %@ and less."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beaucoup de levure sèche : %@ de la farine ; une longue fermentation se contente de %@ et moins."
+          }
+        }
+      }
+    },
+    "Vorfermentiertes Mehl" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pre-fermented flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine préfermentée"
+          }
+        }
+      }
+    },
+    "Hinweise" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remarques"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
