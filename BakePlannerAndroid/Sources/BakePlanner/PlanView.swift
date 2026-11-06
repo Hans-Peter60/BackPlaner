@@ -38,6 +38,15 @@ struct PlanView: View {
     /// The starter's diary, for the ripeness estimate; empty for a bread.
     @State var feedingFacts: [StarterFeedingFacts] = []
     @State var ripenessTemperature = 22
+    /// The facts of the recipe's bakes that took place, newest first, for
+    /// the proof estimate; empty for a public recipe.
+    @State var bakeFacts: [BakeHistoryFacts] = []
+    @State var proofTemperature = 22
+    /// The durations the proof estimate starts from: the recipe's as
+    /// stored, or as last taken over with "Dauer übernehmen". "Gare an
+    /// heutige Temperatur anpassen" changes the working recipe only, as
+    /// on the iPhone.
+    @State var baselineDurations: [Int]
     @Environment(\.dismiss) var dismiss
 
     /// The step whose duration is the ripening: a starter recipe's longest.
@@ -59,6 +68,72 @@ struct PlanView: View {
         self.takeOver = takeOver
         _workingRecipe = State(initialValue: recipe)
         _durationTexts = State(initialValue: recipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) })
+        _baselineDurations = State(initialValue: recipe.content.instructions.map { $0.duration })
+    }
+
+    // MARK: Proof today
+
+    /// The recipe's fermentation steps; none for a starter, whose
+    /// ripening the diary estimates.
+    private var proofSteps: [ProofTiming.Step] {
+        guard !StarterRecipe.isStarterFeeding(workingRecipe.content) else { return [] }
+        return ProofTiming.steps(instructions: workingRecipe.content.instructions.map { $0.instruction },
+                                 durations: baselineDurations)
+    }
+
+    private var proofAdjustments: [ProofTiming.Adjustment] {
+        ProofTiming.adjustments(steps: proofSteps, history: bakeFacts, at: Double(proofTemperature))
+    }
+
+    /// What the bakes say the recipe's durations should be, where that
+    /// differs from the recipe.
+    private var proofRecipeDurations: [ProofTiming.RecipeDurations] {
+        ProofTiming.recipeDurations(steps: proofSteps, history: bakeFacts).filter { $0.differs }
+    }
+
+    private var proofIsAdjusted: Bool {
+        workingRecipe.content.instructions.map { $0.duration } != baselineDurations
+    }
+
+    private func isProofApplied(_ adjustment: ProofTiming.Adjustment) -> Bool {
+        adjustment.minutesByIndex.allSatisfy { index, minutes in
+            index < workingRecipe.content.instructions.count && workingRecipe.content.instructions[index].duration == minutes
+        }
+    }
+
+    /// Gives the working recipe the durations of today's proof, start
+    /// times worked out again; nothing is saved.
+    private func applyProofToday() {
+        var content = workingRecipe.content
+        for (index, minutes) in baselineDurations.enumerated() where index < content.instructions.count {
+            content.instructions[index].duration = minutes
+        }
+        for adjustment in proofAdjustments {
+            for (index, minutes) in adjustment.minutesByIndex where index < content.instructions.count {
+                content.instructions[index].duration = minutes
+            }
+        }
+        workingRecipe.content = content.recalculated()
+    }
+
+    /// Back to the recipe's durations.
+    private func resetProof() {
+        var content = workingRecipe.content
+        for (index, minutes) in baselineDurations.enumerated() where index < content.instructions.count {
+            content.instructions[index].duration = minutes
+        }
+        workingRecipe.content = content.recalculated()
+    }
+
+    /// Writes the durations the bakes measured into the recipe, brought to
+    /// its reference temperature — "Dauer übernehmen" with those values.
+    private func applyProofHistory() {
+        for durations in proofRecipeDurations {
+            for (index, minutes) in durations.minutesByIndex where index < durationTexts.count {
+                durationTexts[index] = DurationInput.text(forMinutes: minutes)
+            }
+        }
+        applyDurations()
     }
 
     private var plan: BakePlan {
@@ -82,6 +157,7 @@ struct PlanView: View {
         }
         workingRecipe.content = content.recalculated()
         durationTexts = workingRecipe.content.instructions.map { DurationInput.text(forMinutes: $0.duration) }
+        baselineDurations = workingRecipe.content.instructions.map { $0.duration }
         if takeOver == nil {
             _ = model.save(workingRecipe)
         }
@@ -162,6 +238,47 @@ struct PlanView: View {
                     }
                 } header: {
                     Text("Reifezeit heute")
+                }
+            }
+
+            // A bread's fermentation steps at today's temperature, as the
+            // iPhone's card "Gare heute".
+            if !proofAdjustments.isEmpty {
+                Section {
+                    Stepper(value: $proofTemperature, in: ProofTiming.temperatureRange) {
+                        ValueLabel(title: "Raumtemperatur heute", value: "\(proofTemperature) °C")
+                    }
+                    ForEach(Array(proofAdjustments.enumerated()), id: \.offset) { _, adjustment in
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(adjustment.phase.title()): geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
+                            Text(verbatim: adjustment.sourceText())
+                                .font(AppFont.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    if proofAdjustments.contains(where: { !isProofApplied($0) }) {
+                        Button("Gare an heutige Temperatur anpassen") {
+                            applyProofToday()
+                        }
+                    }
+                    if proofIsAdjusted {
+                        Text("Für diesen Plan angepasst; das Rezept bleibt unverändert.")
+                            .font(AppFont.caption)
+                            .foregroundStyle(.secondary)
+                        Button("Dauern des Rezepts verwenden") {
+                            resetProof()
+                        }
+                    }
+                    if !proofRecipeDurations.isEmpty {
+                        ForEach(Array(proofRecipeDurations.enumerated()), id: \.offset) { _, durations in
+                            Text("\(durations.phase.title()): \(BakeHistoryFacts.durationText(durations.minutes)) bei \(BakeHistoryFacts.temperatureText(durations.referenceTemperature, locale: AppSettings.locale)) \(ProofTiming.bakesText(durations.bakes)), im Rezept \(BakeHistoryFacts.durationText(durations.plannedMinutes))")
+                        }
+                        Button("Dauern aus den Backvorgängen ins Rezept übernehmen") {
+                            applyProofHistory()
+                        }
+                    }
+                } header: {
+                    Text("Gare heute")
                 }
             }
 
@@ -253,6 +370,15 @@ struct PlanView: View {
             feedingFacts = model.feedings(ofRecipe: recipe.id).map { $0.facts }
             if let lastNoted = feedingFacts.compactMap({ $0.roomTemperature }).first {
                 ripenessTemperature = Int(lastNoted.rounded())
+            }
+            // The bakes that took place; a plan's entry lies in the future
+            // and measured nothing yet. The model's list is newest first.
+            let now = Date()
+            bakeFacts = model.bakeHistory
+                .filter { $0.recipeID == recipe.id && $0.date <= now }
+                .map { $0.facts }
+            if let lastNoted = bakeFacts.compactMap({ $0.roomTemperature }).first {
+                proofTemperature = Int(lastNoted.rounded())
             }
         }
         .alert(outcomeTitle, isPresented: $showsSaved) {

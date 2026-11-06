@@ -319,6 +319,8 @@ L’app recalcule alors toutes les heures de début et la durée de travail tota
 
 **Maturation aujourd’hui pour les recettes de levain chef.** Si vous planifiez un levain chef dont le journal contient des nourrissages avec temps jusqu’au pic et température ambiante (voir le journal du levain au [chapitre 9](#9-modifier-une-recette)), la fiche de planification affiche la carte **Maturation aujourd’hui** : le temps estimé jusqu’à maturité à la température ambiante réglée, à côté de la durée planifiée de l’étape de maturation, c’est-à-dire la plus longue. **Reprendre la maturation comme durée** règle cette étape dessus ; les heures de début et la fin suivent, et avec « Prêt pour » le début du nourrissage se décale d’autant. Comme toute modification de durée, elle reste dans la recette jusqu’au prochain ajustement.
 
+**Pousse aujourd’hui pour les pains.** Pour un pain, la fiche de planification reconnaît les étapes de fermentation à leur formulation – la maturation d’un préferment (« laisser fermenter le levain »), le pointage avant le façonnage et l’apprêt après – et affiche la carte **Pousse aujourd’hui** : pour chaque phase, la durée prévue et la durée à la **Température ambiante aujourd’hui** que vous réglez, préréglée sur celle notée lors de la dernière cuisson. Le calcul est celui de l’estimation de maturation du levain chef : la fermentation va environ deux fois et demie plus vite par 10 °C. Les durées de la recette sont lues comme prévues pour 22 °C, sauf si l’étape nomme une température (« à 26 °C »). Dès que vos cuissons ont noté le pointage ou l’apprêt avec la température ambiante (voir [chapitre 12](#12-historique-de-cuisson)), l’app utilise ces mesures à la place (« d’après 3 cuissons »). Les étapes au réfrigérateur, les trempages et l’autolyse restent tels quels. **Adapter la pousse à la température du jour** donne à ce plan les durées adaptées ; la recette reste inchangée, et **Utiliser les durées de la recette** annule l’adaptation. Si les pousses mesurées diffèrent de la recette, la carte propose aussi **Reporter les durées des cuissons dans la recette** : cela inscrit durablement les mesures, ramenées à 22 °C, dans la recette, comme une durée saisie. Les recettes publiques ont la carte sans mesures ; l’adaptation n’y vaut de toute façon que pour la planification en cours.
+
 ### Ce que l’app reproche à un plan
 
 Des remarques apparaissent au-dessus du tableau des étapes dès que l’heure choisie aboutit à un plan peu pratique. Elles se mettent à jour à chaque modification de la date, de l’heure ou des durées — avant même que vous ne touchiez « Définir les rappels ».
@@ -728,7 +730,7 @@ Le texte libre et les étoiles ne suffisent pas pour faire mieux la fois suivant
 
 Les champs numériques n’ont pas de touche Retour ; **Terminé** apparaît à côté du champ en cours de saisie pour fermer le clavier.
 
-La page de la recette affiche ces informations dans la carte **La dernière fois** (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+La page de la recette affiche ces informations dans la carte **La dernière fois** (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)). Le pointage et l’apprêt avec la température ambiante alimentent la carte **Pousse aujourd’hui** à la prochaine planification, qui en estime les temps de pousse pour la température du jour et les inscrit dans la recette si vous le souhaitez.
 
 ### Consigner une cuisson après coup
 

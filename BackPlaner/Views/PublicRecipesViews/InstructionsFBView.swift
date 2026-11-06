@@ -90,6 +90,13 @@ struct InstructionsFBView: View {
     @State private var index         = -1
 
     @State private var durations: [String] = []
+    /// Today's room temperature for the proofing steps ("Gare heute").
+    @State private var proofTemperature = 22
+    /// The durations the proof estimate starts from: the recipe's, or as
+    /// last typed under "Dauer übernehmen". An adjustment for today changes
+    /// the copy planned here only, as every duration change of a public
+    /// recipe does. Empty until the first adjustment.
+    @State private var referenceDurations: [Int] = []
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
@@ -152,6 +159,17 @@ struct InstructionsFBView: View {
                                        anchor: PlanAnchor(selection: dateTimeStartSelection),
                                        onApply: { dateTime = $0 })
 
+                    // MARK: Proof today — the fermentation steps at today's temperature
+                    if !proofAdjustments.isEmpty {
+                        ProofTodayCardView(temperature: $proofTemperature,
+                                           adjustments: proofAdjustments,
+                                           isApplied: isProofApplied,
+                                           isAdjusted: proofIsAdjusted,
+                                           recipeDurations: [],
+                                           onApplyToday: applyProofToday,
+                                           onReset: resetProof,
+                                           onApplyHistory: { })
+                    }
 
                     // MARK: Instructions
                     VStack(alignment: .leading) {
@@ -309,7 +327,10 @@ struct InstructionsFBView: View {
                                 if let lastInstruction = recipeFB.instructions.last {
                                     recipeFB.prepTime = (lastInstruction.startTime ?? 0) + lastInstruction.duration
                                 }
-                                
+                                // Typed durations are what the proof estimate
+                                // starts from now.
+                                referenceDurations = recipeFB.instructions.map(\.duration)
+
                                 changeDurationsFlag = false
                                 refreshPlanIssues()
                             }
@@ -385,6 +406,68 @@ struct InstructionsFBView: View {
                  date: dateTime,
                  languageCode: languageCode.isEmpty ? locale.identifier : languageCode,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipeFB))
+    }
+
+    // MARK: Proof today
+
+    /// The recipe's durations the proof estimate starts from.
+    private var baseDurations: [Int] {
+        referenceDurations.isEmpty ? recipeFB.instructions.map(\.duration) : referenceDurations
+    }
+
+    /// The recipe's fermentation steps; none for a starter.
+    private var proofSteps: [ProofTiming.Step] {
+        guard !StarterRecipe.isStarterFeeding(recipeFB) else { return [] }
+        return ProofTiming.steps(instructions: recipeFB.instructions.map(\.instruction), durations: baseDurations)
+    }
+
+    /// A public recipe has no bakes to learn from: its durations, scaled.
+    private var proofAdjustments: [ProofTiming.Adjustment] {
+        ProofTiming.adjustments(steps: proofSteps, history: [], at: Double(proofTemperature))
+    }
+
+    private var proofIsAdjusted: Bool {
+        recipeFB.instructions.map(\.duration) != baseDurations
+    }
+
+    private func isProofApplied(_ adjustment: ProofTiming.Adjustment) -> Bool {
+        adjustment.minutesByIndex.allSatisfy { index, minutes in
+            index < recipeFB.instructions.count && recipeFB.instructions[index].duration == minutes
+        }
+    }
+
+    /// Gives the copy planned here the durations of today's proof.
+    private func applyProofToday() {
+        let base = baseDurations
+        referenceDurations = base
+        var byIndex = [Int: Int]()
+        for adjustment in proofAdjustments {
+            byIndex.merge(adjustment.minutesByIndex) { _, new in new }
+        }
+        setPlanDurations { index in byIndex[index] ?? (index < base.count ? base[index] : recipeFB.instructions[index].duration) }
+    }
+
+    /// Back to the recipe's durations.
+    private func resetProof() {
+        let base = baseDurations
+        setPlanDurations { index in index < base.count ? base[index] : recipeFB.instructions[index].duration }
+    }
+
+    /// New durations for the copy planned here, start times and total
+    /// worked out again — what "Dauer übernehmen" does with typed ones.
+    private func setPlanDurations(_ minutes: (Int) -> Int) {
+        for index in recipeFB.instructions.indices {
+            recipeFB.instructions[index].duration = minutes(index)
+        }
+        recipeFB.instructions = Rational.calculateStartTimes(
+            recipeFB.instructions,
+            dateTime,
+            dependencies: Rational.ComponentDependency.from(recipeFB.components)
+        )
+        if let lastInstruction = recipeFB.instructions.last {
+            recipeFB.prepTime = (lastInstruction.startTime ?? 0) + lastInstruction.duration
+        }
+        refreshPlanIssues()
     }
 
     private func refreshPlanIssues() {

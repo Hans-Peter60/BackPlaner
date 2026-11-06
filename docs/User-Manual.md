@@ -319,6 +319,8 @@ The app then recalculates every start time and the total working time. For your 
 
 **Ripening today for starter recipes.** When you plan a starter whose diary holds feedings with time to peak and room temperature (see the starter diary in [chapter 9](#9-editing-a-recipe)), the planning sheet shows a **Ripening today** card: the estimated time to ripeness at the room temperature you set, next to the planned duration of the ripening step, that is the longest one. **Use the ripening time as the duration** sets that step to it; start times and the finish follow, and with "Finish by" the start of the feeding moves accordingly. Like every change of a duration it stays in the recipe until you adjust it again.
 
+**Proofing today for breads.** For a bread the planning sheet recognises the fermentation steps by their wording – a preferment ripening ("let the levain ferment"), the bulk proof before shaping and the final proof after it – and shows a **Proofing today** card: for each phase the planned duration and the duration at the **Room temperature today** you set, which starts at the one noted with the last bake. The arithmetic is that of the starter's ripening estimate: fermentation runs about two and a half times as fast for every 10 °C. The recipe's durations are read as written for 22 °C unless the step names a temperature ("at 26 °C"). Once your bakes recorded the bulk or final proof with the room temperature (see [chapter 12](#12-baking-history)), the app uses those measurements instead ("from 3 bakes"). Steps in the fridge, soakers and the autolyse stay as they are. **Adjust the proof to today's temperature** gives this plan the adjusted durations; the recipe stays as it is, and **Use the recipe's durations** takes the adjustment back. Where the measured proofs differ from the recipe, the card also offers **Write the durations from the bakes into the recipe**: that stores the measurements, converted to 22 °C, in the recipe for good, like a typed duration. Public recipes get the card without measurements; there the adjustment only applies to the current plan anyway.
+
 ### What the app objects to in a plan
 
 Notes appear above the step table as soon as the time you've set produces an impractical plan. They refresh with every change to date, time, or durations — before you tap "Set reminders".
@@ -728,7 +730,7 @@ Free text and stars alone are not enough to do better next time. Every entry the
 
 The number fields have no Return key; **Done** appears next to the field being edited to close the keyboard.
 
-The recipe page shows these details as the **Last time** card (see [chapter 7](#7-baking-instructions-and-reminders)).
+The recipe page shows these details as the **Last time** card (see [chapter 7](#7-baking-instructions-and-reminders)). The bulk and final proof with the room temperature feed the **Proofing today** card the next time you plan, which estimates the proofing times for today's temperature from them and writes them into the recipe on request.
 
 ### Recording a bake after the fact
 

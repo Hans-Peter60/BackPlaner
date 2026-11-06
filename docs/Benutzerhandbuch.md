@@ -316,6 +316,8 @@ Die App berechnet daraufhin alle Startzeiten und die Gesamt-Bearbeitungsdauer ne
 
 **Reifezeit heute bei Anstellgut-Rezepten.** Planst Du ein Anstellgut, dessen Tagebuch Fütterungen mit Reifezeit und Raumtemperatur enthält (siehe Anstellgut-Tagebuch in [Kapitel 9](#9-rezept-bearbeiten)), zeigt das Planungsblatt die Karte **Reifezeit heute**: die geschätzte Zeit bis zur Reife bei der eingestellten Raumtemperatur neben der geplanten Dauer des Reifeschritts, also des längsten Schritts. **Reifezeit als Dauer übernehmen** setzt dessen Dauer darauf; Startzeiten und Ende folgen, und bei „Fertig bis“ rückt der Beginn der Fütterung entsprechend. Wie jede Dauer-Änderung bleibt sie im Rezept gespeichert, bis Du sie das nächste Mal anpasst.
 
+**Gare heute bei Broten.** Bei einem Brot erkennt das Planungsblatt die Gärschritte am Wortlaut – die Reife eines Vorteigs („Sauerteig … reifen lassen“), die Stockgare vor dem Formen und die Stückgare danach – und zeigt die Karte **Gare heute**: zu jeder Phase die geplante Dauer und die Dauer bei der eingestellten **Raumtemperatur heute**, vorbelegt mit der beim letzten Backen notierten. Gerechnet wird wie bei der Reifezeit-Schätzung des Anstellguts: Gärung läuft je 10 °C etwa zweieinhalbmal so schnell. Die Dauern des Rezepts gelten als für 22 °C geschrieben, es sei denn, der Schritt nennt eine Temperatur („bei 26 °C“). Haben Deine Backvorgänge Stock- oder Stückgare samt Raumtemperatur festgehalten (siehe [Kapitel 12](#12-backhistorie)), rechnet die App stattdessen mit diesen Messungen („aus 3 Backvorgängen“). Schritte im Kühlschrank, Brüh- und Quellstücke und die Autolyse bleiben, wie sie sind. **Gare an heutige Temperatur anpassen** gibt diesem Plan die angepassten Dauern; das Rezept bleibt unverändert, und **Dauern des Rezepts verwenden** nimmt die Anpassung zurück. Weichen die gemessenen Gärzeiten von denen im Rezept ab, bietet die Karte außerdem **Dauern aus den Backvorgängen ins Rezept übernehmen** an: Das schreibt die auf 22 °C umgerechneten Messwerte dauerhaft ins Rezept, wie „Dauer übernehmen“. Bei öffentlichen Rezepten gibt es die Karte ohne Messwerte; die Anpassung gilt dort ohnehin nur für die aktuelle Planung.
+
 ### Was die App am Plan bemängelt
 
 Über der Schritttabelle erscheinen Hinweise, sobald der eingestellte Zeitpunkt zu einem unpraktischen Plan führt. Sie aktualisieren sich mit jeder Änderung an Datum, Uhrzeit oder Dauern – noch bevor Du „Erinnerungen setzen“ tippst.
@@ -725,7 +727,7 @@ Freitext und Sterne allein reichen nicht, um beim nächsten Mal besser zu werden
 
 Die Zahlenfelder haben keine Return-Taste; neben dem gerade bearbeiteten Feld erscheint **Fertig**, um die Tastatur zu schließen.
 
-Diese Angaben zeigt die Rezeptseite als Karte **Letztes Mal** (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
+Diese Angaben zeigt die Rezeptseite als Karte **Letztes Mal** (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)). Stock- und Stückgare samt Raumtemperatur fließen beim nächsten Planen in die Karte **Gare heute** ein, die daraus die Gärzeiten für die heutige Temperatur schätzt und sie auf Wunsch ins Rezept schreibt.
 
 ### Einen Backvorgang nachtragen
 

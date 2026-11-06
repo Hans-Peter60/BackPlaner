@@ -58,7 +58,7 @@ struct InstructionsView: View {
     }
 
     private var processingTimeText: some View {
-        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(recipe.prepTime))")
+        Text("Bearbeitungsdauer: \(Rational.displayHoursMinutes(planPrepTime))")
             .font(Theme.bodyFont(16))
             .padding([.trailing], 5)
     }
@@ -83,6 +83,17 @@ struct InstructionsView: View {
     /// Today's room temperature for the ripeness estimate of a starter
     /// recipe; starts at the last one noted in its diary.
     @State private var ripenessTemperature = 22
+    /// Today's room temperature for a bread's proofing steps; starts at
+    /// the one noted with its last bake.
+    @State private var proofTemperature = 22
+    /// The steps as this plan uses them once the proof was adjusted for
+    /// today: the durations by step index, and the steps with their start
+    /// times worked out again. The recipe keeps its own durations — they
+    /// are what the next adjustment starts from. Empty while the plan uses
+    /// the recipe's durations.
+    @State private var adjustedDurations: [Int: Int] = [:]
+    @State private var adjustedSteps: [PlanStep] = []
+    @State private var adjustedPrepTime = 0
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
@@ -191,6 +202,23 @@ struct InstructionsView: View {
                     }
                 }
 
+                // MARK: Proof today — a bread's fermentation steps at today's temperature
+                if !proofAdjustments.isEmpty {
+                    ProofTodayCardView(temperature: $proofTemperature,
+                                       adjustments: proofAdjustments,
+                                       isApplied: isProofApplied,
+                                       isAdjusted: !adjustedSteps.isEmpty,
+                                       recipeDurations: proofRecipeDurations,
+                                       onApplyToday: applyProofToday,
+                                       onReset: resetAdjustedDurations,
+                                       onApplyHistory: applyProofHistory)
+                    .onAppear {
+                        if let lastNoted = completedBakeFacts.compactMap(\.roomTemperature).first {
+                            proofTemperature = Int(lastNoted.rounded())
+                        }
+                    }
+                }
+
 
                 // MARK: Instructions
                 VStack(alignment: .leading) {
@@ -253,34 +281,37 @@ struct InstructionsView: View {
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.7)
 
-                                ForEach(recipe.instructionsArray.indices, id: \.self) { index in
+                                // The steps as the plan uses them: the recipe's, or
+                                // with the proof adjusted for today.
+                                let steps = planSteps
+                                ForEach(steps.indices, id: \.self) { index in
 
-                                    let step = Rational.decimalPlace(recipe.instructionsArray[index].step, 10)
+                                    let step = Rational.decimalPlace(steps[index].step, 10)
 
                                     Text(step)
                                         .font(Theme.bodyFont(15))
-                                    Text(recipe.instructionsArray[index].instruction)
+                                    Text(steps[index].instruction)
                                         .font(Theme.bodyFont(15))
-                                    Text(Rational.displayHoursMinutes(recipe.instructionsArray[index].duration))
+                                    Text(Rational.displayHoursMinutes(steps[index].duration))
                                         .font(Theme.bodyFont(15))
 
                                     if dateTimeStartSelection == 0 {
-                                        let date = manager.setNotification(recipe.reminderId, recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime, dateTime, false)
+                                        let date = manager.setNotification(recipe.reminderId, steps[index].instruction, step, steps[index].startTime, dateTime, false)
                                         StackedDateTime(date: date, alignment: .trailing)
                                     }
                                     else {
-                                        let date = manager.setNotification(recipe.reminderId, recipe.instructionsArray[index].instruction, step, recipe.instructionsArray[index].startTime - recipe.prepTime, dateTime, false)
+                                        let date = manager.setNotification(recipe.reminderId, steps[index].instruction, step, steps[index].startTime - planPrepTime, dateTime, false)
                                         StackedDateTime(date: date, alignment: .trailing)
                                     }
                                 }
 
                                 // Guard against an empty instructions array (count - 1 would be out of range)
-                                if let lastInstruction = recipe.instructionsArray.last {
+                                if let lastInstruction = steps.last {
                                     Text(String(Int(lastInstruction.step + 1)))
                                     Text("Fertig")
                                     Text(verbatim: "")
                                     if dateTimeStartSelection == 0 {
-                                        let date = Calendar.current.date(byAdding: .minute, value: recipe.prepTime, to: dateTime) ?? dateTime
+                                        let date = Calendar.current.date(byAdding: .minute, value: planPrepTime, to: dateTime) ?? dateTime
                                         StackedDateTime(date: date, alignment: .trailing)
                                     }
                                     else {
@@ -378,15 +409,26 @@ struct InstructionsView: View {
     /// which the baking view of public recipes shares.
     private var bakePlan: BakePlan {
         BakePlan(recipeName: recipe.name,
-                 steps: recipe.instructionsArray.map {
-                     PlanStep(instruction: $0.instruction, step: $0.step,
-                              startTime: $0.startTime, duration: $0.duration)
-                 },
-                 prepTime: recipe.prepTime,
+                 steps: planSteps,
+                 prepTime: planPrepTime,
                  anchor: PlanAnchor(selection: dateTimeStartSelection),
                  date: dateTime,
                  languageCode: locale.identifier,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
+    }
+
+    /// The recipe's steps as this plan uses them: with the proof adjusted
+    /// for today when it was, else as stored.
+    private var planSteps: [PlanStep] {
+        guard adjustedSteps.isEmpty else { return adjustedSteps }
+        return recipe.instructionsArray.map {
+            PlanStep(instruction: $0.instruction, step: $0.step,
+                     startTime: $0.startTime, duration: $0.duration)
+        }
+    }
+
+    private var planPrepTime: Int {
+        adjustedSteps.isEmpty ? recipe.prepTime : adjustedPrepTime
     }
 
     // MARK: Durations
@@ -437,7 +479,90 @@ struct InstructionsView: View {
 
         changeDurationsFlag = false
         try? viewContext.save()
+        // The recipe's durations changed; an adjustment for today was made
+        // from the old ones.
+        resetAdjustedDurations()
+    }
+
+    // MARK: Proof today
+
+    /// The recipe's fermentation steps — none for a starter, whose
+    /// ripening the diary estimates.
+    private var proofSteps: [ProofTiming.Step] {
+        guard !StarterRecipe.isStarterFeeding(recipe) else { return [] }
+        return ProofTiming.steps(instructions: recipe.instructionsArray.map(\.instruction),
+                                 durations: recipe.instructionsArray.map(\.duration))
+    }
+
+    /// The facts of the recipe's bakes that already took place, newest
+    /// first; a plan's entry lies in the future and measured nothing yet.
+    private var completedBakeFacts: [BakeHistoryFacts] {
+        let now = Date()
+        return recipe.bakeHistoriesArray.filter { $0.date <= now }.map(\.facts)
+    }
+
+    private var proofAdjustments: [ProofTiming.Adjustment] {
+        ProofTiming.adjustments(steps: proofSteps, history: completedBakeFacts, at: Double(proofTemperature))
+    }
+
+    /// What the bakes say the recipe's durations should be, where that
+    /// differs from the recipe.
+    private var proofRecipeDurations: [ProofTiming.RecipeDurations] {
+        ProofTiming.recipeDurations(steps: proofSteps, history: completedBakeFacts).filter(\.differs)
+    }
+
+    private func isProofApplied(_ adjustment: ProofTiming.Adjustment) -> Bool {
+        adjustment.minutesByIndex.allSatisfy { adjustedDurations[$0.key] == $0.value }
+    }
+
+    /// Gives this plan the durations of today's proof, start times worked
+    /// out again; the recipe stays as it is.
+    private func applyProofToday() {
+        var byIndex = [Int: Int]()
+        for adjustment in proofAdjustments {
+            byIndex.merge(adjustment.minutesByIndex) { _, new in new }
+        }
+        var instructionsFB = [InstructionFB]()
+        for (index, stored) in recipe.instructionsArray.enumerated() {
+            let instruction = InstructionFB()
+            instruction.instruction = stored.instruction
+            instruction.step        = stored.step
+            instruction.startTime   = stored.startTime
+            instruction.duration    = byIndex[index] ?? stored.duration
+            instruction.componentName = stored.componentName
+            instructionsFB.append(instruction)
+        }
+        instructionsFB = Rational.calculateStartTimes(
+            instructionsFB,
+            dateTime,
+            dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
+        )
+        adjustedDurations = byIndex
+        adjustedSteps = instructionsFB.map {
+            PlanStep(instruction: $0.instruction, step: $0.step,
+                     startTime: $0.startTime ?? 0, duration: $0.duration)
+        }
+        adjustedPrepTime = instructionsFB.last.map { ($0.startTime ?? 0) + $0.duration } ?? recipe.prepTime
         refreshPlanIssues()
+    }
+
+    /// Back to the recipe's durations for this plan.
+    private func resetAdjustedDurations() {
+        adjustedDurations = [:]
+        adjustedSteps = []
+        adjustedPrepTime = 0
+        refreshPlanIssues()
+    }
+
+    /// Writes the durations the bakes measured into the recipe, brought to
+    /// its reference temperature — "Dauer übernehmen" with those values.
+    private func applyProofHistory() {
+        var byIndex = [Int: Int]()
+        for durations in proofRecipeDurations {
+            byIndex.merge(durations.minutesByIndex) { _, new in new }
+        }
+        guard !byIndex.isEmpty else { return }
+        applyDurations(byIndex)
     }
 
     // MARK: Ripeness

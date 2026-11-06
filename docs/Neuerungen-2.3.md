@@ -24,6 +24,10 @@ ANSTELLGUT
 • Jede Fütterung kann die Raumtemperatur festhalten. Daraus schätzt das Tagebuch, wann das Anstellgut bei der heutigen Temperatur reif ist, und lernt mit der Zeit, wie stark Deines auf Wärme reagiert.
 • Beim Planen eines Anstellguts setzt „Reifezeit als Dauer übernehmen“ den Reifeschritt auf die Schätzung.
 
+GARE HEUTE
+• Beim Planen eines Brots zeigt die Karte „Gare heute“, wie lange Vorteig-Reife, Stockgare und Stückgare bei der heutigen Raumtemperatur dauern – aus den Dauern des Rezepts oder, sobald Deine Backvorgänge die Gare gemessen haben, aus diesen Messungen. „Gare an heutige Temperatur anpassen“ gilt nur für diesen Plan; das Rezept bleibt, wie es ist.
+• Weichen die gemessenen Gärzeiten vom Rezept ab, schreibt „Dauern aus den Backvorgängen ins Rezept übernehmen“ sie auf 22 °C umgerechnet ins Rezept.
+
 TEIGEINLAGE AUS DER FORM
 • Der vierte Rechner: Kastenform oder runde Form nach Innenmaßen und Teigart, Gärkörbchen rund oder oval nach den üblichen Nennwerten. „Rezept auf dieses Gewicht skalieren“ öffnet ein Rezept gleich mit dem passenden Teiggewicht, und im Rezept öffnet das Waagen-Symbol neben dem Teiggewicht den Rechner mit der Teigart aus den Zutaten des Rezepts, und das Ergebnis übernimmst Du direkt.
 
@@ -64,6 +68,10 @@ STARTER
 • Every feeding can note the room temperature. From that the diary estimates when the starter is ripe at today’s temperature, and learns over time how strongly yours reacts to warmth.
 • When planning a starter, “Use the ripening time as the duration” sets the ripening step to the estimate.
 
+PROOFING TODAY
+• When you plan a bread, the “Proofing today” card shows how long the preferment, the bulk proof and the final proof take at today’s room temperature – from the recipe’s durations or, once your bakes have measured the proof, from those measurements. “Adjust the proof to today’s temperature” applies to this plan only; the recipe stays as it is.
+• Where the measured proofs differ from the recipe, “Write the durations from the bakes into the recipe” stores them in the recipe, converted to 22 °C.
+
 DOUGH WEIGHT FROM THE TIN
 • The fourth calculator: loaf or round tin by inside measures and dough type, round or oval proofing basket by the usual ratings. “Scale a recipe to this weight” opens a recipe with the matching dough weight right away, and in a recipe the scale symbol next to the dough weight opens the calculator with the dough type read from the recipe's ingredients, and you take the result over directly.
 
@@ -103,6 +111,10 @@ UNE JOURNÉE DE CUISSON À PLUSIEURS PAINS
 LEVAIN CHEF
 • Chaque rafraîchi peut noter la température ambiante. Le journal en déduit quand le levain chef est mûr à la température du jour et apprend avec le temps à quel point le vôtre réagit à la chaleur.
 • En planifiant un levain chef, « Reprendre la maturation comme durée » règle l’étape de maturation sur l’estimation.
+
+POUSSE AUJOURD’HUI
+• En planifiant un pain, la carte « Pousse aujourd’hui » indique combien de temps durent la maturation du préferment, le pointage et l’apprêt à la température ambiante du jour – d’après les durées de la recette ou, dès que vos cuissons ont mesuré la pousse, d’après ces mesures. « Adapter la pousse à la température du jour » ne vaut que pour ce plan ; la recette reste inchangée.
+• Si les pousses mesurées diffèrent de la recette, « Reporter les durées des cuissons dans la recette » les inscrit dans la recette, ramenées à 22 °C.
 
 POIDS DE PÂTE D’APRÈS LE MOULE
 • Le quatrième calculateur : moule à cake ou moule rond d’après les dimensions intérieures et le type de pâte, banneton rond ou ovale d’après les valeurs nominales usuelles. « Adapter une recette à ce poids » ouvre aussitôt une recette au bon poids de pâte, et dans une recette le symbole de balance à côté du poids de pâte ouvre le calculateur avec le type de pâte lu dans les ingrédients de la recette, et vous en reprenez directement le résultat.
