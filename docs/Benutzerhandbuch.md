@@ -652,6 +652,12 @@ Das Widget verwendet die **Systemsprache** des Geräts, nicht die in den Einstel
 
 ---
 
+### Steuerelemente im Kontrollzentrum und auf der Aktionstaste
+
+BakePlanner bringt zwei **Steuerelemente** mit, die Du im Kontrollzentrum, auf dem Sperrbildschirm oder auf der Aktionstaste ablegen kannst (Kontrollzentrum bearbeiten → Steuerelement hinzufügen → BakePlanner): **Schritt erledigt** hakt den gerade fälligen Schritt ab, genau wie der Knopf auf dem Widget, und **Geplante Schritte** öffnet die App bei den geplanten Schritten. Ist kein Schritt fällig oder in Reichweite, tut „Schritt erledigt“ nichts.
+
+---
+
 ## 11. Erinnerungen auf dem Sperrbildschirm
 
 Jede Erinnerung erscheint als Mitteilung mit dem Titel **„Backhinweis“**, dem Untertitel „Gedrückt halten für Erledigt oder Verschieben“ und dem Schritttext als Inhalt.
