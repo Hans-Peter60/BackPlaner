@@ -228,8 +228,30 @@ extension Recipe {
             instruction.startTime     = instructionData.startTime
             instruction.bakeFlag      = instructionData.bakeFlag
             instruction.componentName = instructionData.componentName
+            instruction.durationWindow = instructionData.durationWindow
             addToInstructions(instruction)
         }
+    }
+}
+
+// MARK: - Step windows
+
+extension Instruction {
+
+    /// The step's duration window as a range; nil without one. Setting nil
+    /// clears both bounds.
+    var durationWindow: ClosedRange<Int>? {
+        get { DurationWindow.range(minimum: minDuration?.intValue, maximum: maxDuration?.intValue) }
+        set {
+            minDuration = newValue.map { NSNumber(value: $0.lowerBound) }
+            maxDuration = newValue.map { NSNumber(value: $0.upperBound) }
+        }
+    }
+
+    /// The window the plan may use: the stored one, else the one the
+    /// wording gives around the step's duration (DurationWindow.effective).
+    var planDurationWindow: ClosedRange<Int>? {
+        DurationWindow.effective(stored: durationWindow, instruction: instruction, duration: duration)
     }
 }
 
@@ -252,6 +274,7 @@ extension TimedFoldExpansion {
             instructionFB.duration = instruction.duration
             instructionFB.startTime = instruction.startTime
             instructionFB.componentName = instruction.componentName
+            instructionFB.durationWindow = instruction.durationWindow
             working.append(instructionFB)
             origin[ObjectIdentifier(instructionFB)] = instruction
         }
@@ -271,6 +294,7 @@ extension TimedFoldExpansion {
                 instruction.step = instructionFB.step
                 instruction.duration = instructionFB.duration
                 instruction.componentName = instructionFB.componentName
+                instruction.durationWindow = instructionFB.durationWindow
                 recipe.addToInstructions(instruction)
             }
         }

@@ -204,5 +204,11 @@ public final class BakePlannerDatabase {
         { database in
             try database.exec(sql: "ALTER TABLE starter_feeding ADD COLUMN room_temperature REAL")
         },
+        // 8: a step's duration window (step 28), the shortest and the
+        // longest it may take in minutes. Both NULL without a window.
+        { database in
+            try database.exec(sql: "ALTER TABLE instruction ADD COLUMN min_duration INTEGER")
+            try database.exec(sql: "ALTER TABLE instruction ADD COLUMN max_duration INTEGER")
+        },
     ]
 }

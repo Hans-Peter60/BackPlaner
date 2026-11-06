@@ -153,12 +153,15 @@ public final class SQLiteRecipeStore: RecipeStore {
         }
         for instruction in content.instructions {
             try database.exec(sql: """
-                INSERT INTO instruction (recipe_id, instruction, step, duration, start_time, bake_flag, component_name)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO instruction (recipe_id, instruction, step, duration, start_time, bake_flag, component_name,
+                                         min_duration, max_duration)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, parameters: [
                     .long(rowID), .text(instruction.instruction), .real(instruction.step),
                     .long(Int64(instruction.duration)), .long(Int64(instruction.startTime)),
                     Self.value(instruction.bakeFlag), Self.value(instruction.componentName),
+                    instruction.durationWindow.map { SQLValue.long(Int64($0.lowerBound)) } ?? SQLValue.null,
+                    instruction.durationWindow.map { SQLValue.long(Int64($0.upperBound)) } ?? SQLValue.null,
                 ])
         }
     }
@@ -225,7 +228,8 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     private func instructions(of rowID: Int64) throws -> [RecipeExportInstruction] {
         try database.selectAll(sql: """
-            SELECT instruction, step, duration, start_time, bake_flag, component_name FROM instruction
+            SELECT instruction, step, duration, start_time, bake_flag, component_name, min_duration, max_duration
+            FROM instruction
             WHERE recipe_id = ? ORDER BY step, id
             """, parameters: [.long(rowID)])
             .map { row in
@@ -234,7 +238,9 @@ public final class SQLiteRecipeStore: RecipeStore {
                                         duration: Int(row[2].longValue ?? 0),
                                         startTime: Int(row[3].longValue ?? 0),
                                         bakeFlag: (row[4].longValue ?? 0) != 0,
-                                        componentName: row[5].textValue)
+                                        componentName: row[5].textValue,
+                                        minDuration: row[6].longValue.map { Int($0) },
+                                        maxDuration: row[7].longValue.map { Int($0) })
             }
     }
 

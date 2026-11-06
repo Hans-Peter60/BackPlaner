@@ -421,10 +421,14 @@ struct InstructionsView: View {
     /// for today when it was, else as stored.
     private var planSteps: [PlanStep] {
         guard adjustedSteps.isEmpty else { return adjustedSteps }
-        return recipe.instructionsArray.map {
-            PlanStep(instruction: $0.instruction, step: $0.step,
-                     startTime: $0.startTime, duration: $0.duration)
-        }
+        return recipe.instructionsArray.map { planStep(for: $0, startTime: $0.startTime, duration: $0.duration) }
+    }
+
+    /// A plan step of a stored one, with the component and the duration
+    /// window the advisor needs.
+    private func planStep(for stored: Instruction, startTime: Int, duration: Int) -> PlanStep {
+        PlanStep(instruction: stored.instruction, step: stored.step, startTime: startTime, duration: duration,
+                 componentName: stored.componentName, durationWindow: stored.planDurationWindow)
     }
 
     private var planPrepTime: Int {
@@ -538,9 +542,8 @@ struct InstructionsView: View {
             dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
         )
         adjustedDurations = byIndex
-        adjustedSteps = instructionsFB.map {
-            PlanStep(instruction: $0.instruction, step: $0.step,
-                     startTime: $0.startTime ?? 0, duration: $0.duration)
+        adjustedSteps = zip(recipe.instructionsArray, instructionsFB).map { stored, instructionFB in
+            planStep(for: stored, startTime: instructionFB.startTime ?? 0, duration: instructionFB.duration)
         }
         adjustedPrepTime = instructionsFB.last.map { ($0.startTime ?? 0) + $0.duration } ?? recipe.prepTime
         refreshPlanIssues()

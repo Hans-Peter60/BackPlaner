@@ -399,7 +399,11 @@ struct InstructionsFBView: View {
         BakePlan(recipeName: recipeFB.name,
                  steps: recipeFB.instructions.map {
                      PlanStep(instruction: $0.instruction, step: $0.step,
-                              startTime: $0.startTime ?? 0, duration: $0.duration)
+                              startTime: $0.startTime ?? 0, duration: $0.duration,
+                              componentName: $0.componentName,
+                              durationWindow: DurationWindow.effective(stored: $0.durationWindow,
+                                                                       instruction: $0.instruction,
+                                                                       duration: $0.duration))
                  },
                  prepTime: recipeFB.prepTime,
                  anchor: PlanAnchor(selection: dateTimeStartSelection),

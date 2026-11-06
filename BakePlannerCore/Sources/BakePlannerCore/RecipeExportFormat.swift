@@ -18,8 +18,13 @@ public struct RecipeExportFile: Codable, Equatable {
     /// (`RecipeExportData.bakeHistory`, `.starterFeedings`); version 3 the
     /// variants (`variantOf`, `variantNote`) and the rating of a bake
     /// (`RecipeExportBakeEntry.rating`); version 4 the room temperature of
-    /// a feeding (`RecipeExportStarterFeeding.roomTemperature`).
-    public static let currentFormatVersion = 4
+    /// a feeding (`RecipeExportStarterFeeding.roomTemperature`); version 5
+    /// the duration window of a step (`RecipeExportInstruction.minDuration`,
+    /// `.maxDuration`).
+    public static let currentFormatVersion = 5
+    /// The version of a file with feeding temperatures but without step
+    /// windows, as apps up to 2.3 (15) write and read it.
+    public static let feedingTemperatureFormatVersion = 4
     /// The version of a file with variants and ratings but without feeding
     /// temperatures, as apps up to 2.3 (12) write and read it.
     public static let variantFormatVersion = 3
@@ -41,19 +46,23 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    /// A file of `recipes`, at the lowest version that holds them: 4 when a
-    /// feeding notes its temperature, 3 when a recipe is a variant or a bake
-    /// carries a rating, 2 when a recipe carries bake history or feedings,
-    /// 1 otherwise. An older app refuses a newer file instead of dropping
-    /// what it does not know unnoticed.
+    /// A file of `recipes`, at the lowest version that holds them: 5 when a
+    /// step has a duration window, 4 when a feeding notes its temperature,
+    /// 3 when a recipe is a variant or a bake carries a rating, 2 when a
+    /// recipe carries bake history or feedings, 1 otherwise. An older app
+    /// refuses a newer file instead of dropping what it does not know
+    /// unnoticed.
     public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
         self.formatVersion = formatVersion ?? Self.lowestVersion(holding: recipes)
         self.recipes = recipes
     }
 
     static func lowestVersion(holding recipes: [RecipeExportData]) -> Int {
-        if recipes.contains(where: { ($0.starterFeedings ?? []).contains { $0.roomTemperature != nil } }) {
+        if recipes.contains(where: { $0.instructions.contains { $0.minDuration != nil || $0.maxDuration != nil } }) {
             return currentFormatVersion
+        }
+        if recipes.contains(where: { ($0.starterFeedings ?? []).contains { $0.roomTemperature != nil } }) {
+            return feedingTemperatureFormatVersion
         }
         if recipes.contains(where: { $0.variantOf != nil || $0.variantNote != nil
                                      || ($0.bakeHistory ?? []).contains { $0.rating != nil } }) {
@@ -216,14 +225,33 @@ public struct RecipeExportInstruction: Codable, Equatable {
     public var startTime: Int
     public var bakeFlag: Bool
     public var componentName: String?
+    /// The shortest and the longest the step may take, in minutes, when the
+    /// recipe gives a window ("12–18 Stunden im Kühlschrank"); the plan may
+    /// stretch or shorten the step within it. Both nil without a window
+    /// (format version 5; left out of the file when nil).
+    public var minDuration: Int?
+    public var maxDuration: Int?
 
-    public init(instruction: String, step: Double, duration: Int, startTime: Int, bakeFlag: Bool, componentName: String? = nil) {
+    public init(instruction: String, step: Double, duration: Int, startTime: Int, bakeFlag: Bool,
+                componentName: String? = nil, minDuration: Int? = nil, maxDuration: Int? = nil) {
         self.instruction = instruction
         self.step = step
         self.duration = duration
         self.startTime = startTime
         self.bakeFlag = bakeFlag
         self.componentName = componentName
+        self.minDuration = minDuration
+        self.maxDuration = maxDuration
+    }
+
+    /// The window as a range, when both bounds are there and the window
+    /// has a width; setting nil clears both.
+    public var durationWindow: ClosedRange<Int>? {
+        get { DurationWindow.range(minimum: minDuration, maximum: maxDuration) }
+        set {
+            minDuration = newValue?.lowerBound
+            maxDuration = newValue?.upperBound
+        }
     }
 }
 

@@ -445,7 +445,10 @@ final class AppModel {
         BakePlan(recipeName: recipe.content.name,
                  steps: recipe.content.instructions.map {
                      PlanStep(instruction: $0.instruction, step: $0.step, startTime: $0.startTime,
-                              duration: $0.duration)
+                              duration: $0.duration, componentName: $0.componentName,
+                              durationWindow: DurationWindow.effective(stored: $0.durationWindow,
+                                                                       instruction: $0.instruction,
+                                                                       duration: $0.duration))
                  },
                  prepTime: recipe.content.prepTime,
                  anchor: anchor,
@@ -479,6 +482,15 @@ final class AppModel {
     func ovenFreeDates(for plan: BakePlan) -> [PlanDateSuggestion] {
         guard let store = try? openedStepStore(), BakePlanAdvisor.hasOvenConflict(plan, from: store) else { return [] }
         return BakePlanAdvisor.ovenFreeDates(for: plan, from: store)
+    }
+
+    /// The smallest change to the steps with a duration window that fits
+    /// the plan into the day and the ovens, the date left as chosen.
+    func windowSuggestion(for plan: BakePlan, of recipe: StoredRecipe) -> PlanWindowSuggestion? {
+        guard let store = try? openedStepStore() else { return nil }
+        return BakePlanAdvisor.windowSuggestion(for: plan,
+                                                dependencies: Rational.ComponentDependency.from(recipe.content.components),
+                                                from: store)
     }
 
     func hasPlan(recipeName: String) -> Bool {

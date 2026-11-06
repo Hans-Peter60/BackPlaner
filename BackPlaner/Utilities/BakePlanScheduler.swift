@@ -278,7 +278,9 @@ extension RecurringBakePlanner {
             let plan = BakePlan(recipeName: recipe.name,
                                 steps: recipe.instructionsArray.map {
                                     PlanStep(instruction: $0.instruction, step: $0.step,
-                                             startTime: $0.startTime, duration: $0.duration)
+                                             startTime: $0.startTime, duration: $0.duration,
+                                             componentName: $0.componentName,
+                                             durationWindow: $0.planDurationWindow)
                                 },
                                 prepTime: recipe.prepTime,
                                 anchor: .startsAt,
@@ -309,5 +311,14 @@ extension NextStep {
     /// `RecurringBakePlanner` queued ahead of time are held back.
     func isVisible(at now: Date = Date()) -> Bool {
         RecurringBakePlanner.isVisible(date: date, isAutomaticRecurrence: isAutomaticRecurrence, at: now)
+    }
+}
+
+extension BakePlanAdvisor {
+    /// The smallest change to the windowed steps that fits the plan into
+    /// the day and the ovens, against the plans scheduled in `context`.
+    static func windowSuggestion(for plan: BakePlan, dependencies: [Rational.ComponentDependency],
+                                 in context: NSManagedObjectContext, now: Date = Date()) -> PlanWindowSuggestion? {
+        windowSuggestion(for: plan, dependencies: dependencies, from: CoreDataScheduledStepStore(context: context), now: now)
     }
 }
