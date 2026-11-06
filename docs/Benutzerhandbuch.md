@@ -608,6 +608,8 @@ Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Z
 - **Einzelner Schritt**: Zeile nach links wischen. Die zugehörige Erinnerung wird mit entfernt.
 - **Alle Schritte**: Papierkorb-Schaltfläche unten rechts, dann „Alle löschen“. Das entfernt alle geplanten Schritte **und** alle anstehenden Erinnerungen – auch die von Rezepten, die Du nicht mehr backen willst.
 
+**In Kalender eintragen.** Der Kalender-Knopf in der Leiste unten trägt die geplanten Schritte in Deinen Standardkalender ein, je Schritt einen Termin „Rezept: Schritt“ in seiner Dauer, mindestens eine Viertelstunde – so sieht der Haushalt, wann der Ofen belegt ist. Mit aktivem Rezeptfilter kannst Du nur dieses Rezept eintragen, sonst alle Pläne. iOS fragt beim ersten Mal um Erlaubnis; BakePlanner braucht nur Schreibzugriff und sieht Deine Termine nicht. Deshalb legt ein erneutes Eintragen neue Termine an statt alte zu ändern; verschobene Schritte trägst Du bei Bedarf noch einmal ein und löschst die alten Termine im Kalender.
+
 ### Ansicht „Timeline“
 
 Dieselben Schritte als **Ablaufplan**, wie ein Projektplan: Jeder Plan bekommt eine eigene Spur mit Rezeptbild und Name, jeder Schritt einen Balken, der so lang ist, wie der Schritt dauert. Die Farbe sagt, was zu tun ist – Mischen grün, Ruhen und Gare grau, Formen violett, Ofen blau, Backen gelb; eine Legende steht oben. Im Balken stehen Uhrzeit und Anweisung. Teilschritte, die in einen anderen Schritt fallen – das Dehnen und Falten während der Teigruhe, „Backofen anstellen“ während der Stückgare, das Zurückdrehen beim Einschießen –, erscheinen als Marke mit Uhrzeit auf dem Balken ihres Schritts. Eine karierte Fahne markiert „Backvorgang ist beendet“, eine rote Linie den jetzigen Zeitpunkt.
@@ -806,6 +808,8 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 ![Einstellungen von BakePlanner: Allgemein mit Sprache und dem Schalter „Neue Rezepte veröffentlichen“, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
+
+**An Erinnerungen senden.** Der Checklisten-Knopf neben „Löschen“ (**Einkaufsliste an Erinnerungen senden**) schickt alle Einträge der Liste in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die beim ersten Mal angelegt wird. Dort lässt sich die Liste mit der Familie teilen und beim Einkaufen abhaken. iOS fragt einmal um Erlaubnis für die Erinnerungen; jedes Senden legt neue Einträge an.
 
 ### Allgemein
 

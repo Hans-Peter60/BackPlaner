@@ -28,6 +28,11 @@ struct ShoppingCartsView: View {
 
     /// The shopping-list entry being edited, shown in a sheet.
     @State private var selectedIngredient: Ingredient?
+
+    // "An Erinnerungen senden": the count afterwards, or the refusal.
+    @State private var reminderCount = 0
+    @State private var showingRemindersResult = false
+    @State private var showingRemindersDenied = false
     
     var body: some View {
         Group {
@@ -56,7 +61,15 @@ struct ShoppingCartsView: View {
                                     .font(Theme.brandFont(20))
                                 
                                 Spacer()
-                                
+
+                                // The list into Apple Reminders, which can be
+                                // shared with the family. Icon only: with a
+                                // title the header wrapped on an iPhone.
+                                IconActionButton(systemImage: "checklist", style: .neutral, accessibilityLabel: "Einkaufsliste an Erinnerungen senden", controlSize: .regular) {
+                                    sendToReminders(shoppingCart)
+                                }
+                                .accessibilityIdentifier("shopping.reminders")
+
                                 IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Einkaufsliste löschen", title: "Löschen", controlSize: .regular) {
                                     cartPendingDeletion = shoppingCart
                                 }
@@ -129,6 +142,33 @@ struct ShoppingCartsView: View {
                 delete(shoppingCart)
             }
             Button("Nein", role: .cancel) { }
+        }
+        .alert("An Erinnerungen gesendet", isPresented: $showingRemindersResult) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("\(reminderCount) Einträge in der Liste „BakePlanner“ angelegt.")
+        }
+        .alert("Kein Zugriff auf Erinnerungen", isPresented: $showingRemindersDenied) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("BakePlanner darf keine Erinnerungen anlegen. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern.")
+        }
+    }
+
+    /// Every item of the list as an open reminder, worded as the row shows it.
+    private func sendToReminders(_ shoppingCart: ShoppingCart) {
+        let items = shoppingCart.ingredientsArray.map { ingredient in
+            Rational.getPortion(unit: ingredient.unit ?? "", weight: ingredient.weight,
+                                num: ingredient.num, denom: ingredient.denom, targetServings: 2) + ingredient.name
+        }
+        guard !items.isEmpty else { return }
+        Task { @MainActor in
+            do {
+                reminderCount = try await RemindersExport.send(items)
+                showingRemindersResult = true
+            } catch {
+                showingRemindersDenied = true
+            }
         }
     }
 

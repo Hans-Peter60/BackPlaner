@@ -28,6 +28,9 @@ GARE HEUTE
 • Beim Planen eines Brots zeigt die Karte „Gare heute“, wie lange Vorteig-Reife, Stockgare und Stückgare bei der heutigen Raumtemperatur dauern – aus den Dauern des Rezepts oder, sobald Deine Backvorgänge die Gare gemessen haben, aus diesen Messungen. „Gare an heutige Temperatur anpassen“ gilt nur für diesen Plan; das Rezept bleibt, wie es ist.
 • Weichen die gemessenen Gärzeiten vom Rezept ab, schreibt „Dauern aus den Backvorgängen ins Rezept übernehmen“ sie auf 22 °C umgerechnet ins Rezept.
 
+KALENDER UND ERINNERUNGEN
+• Die geplanten Schritte lassen sich in den Kalender eintragen, damit der Haushalt sieht, wann der Ofen belegt ist. Eine Einkaufsliste geht auf Knopfdruck in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die sich mit der Familie teilen lässt.
+
 VORFERMENTIERTES MEHL UND HINWEISE
 • Die TA-Aufschlüsselung nennt, wie viel Mehl schon im Vorteig oder Sauerteig gärt, und warnt, wenn Salz oder Hefe weit von den üblichen Bäckerprozenten abweichen – etwa nach einem Import.
 
@@ -88,6 +91,9 @@ PROOFING TODAY
 • When you plan a bread, the “Proofing today” card shows how long the preferment, the bulk proof and the final proof take at today’s room temperature – from the recipe’s durations or, once your bakes have measured the proof, from those measurements. “Adjust the proof to today’s temperature” applies to this plan only; the recipe stays as it is.
 • Where the measured proofs differ from the recipe, “Write the durations from the bakes into the recipe” stores them in the recipe, converted to 22 °C.
 
+CALENDAR AND REMINDERS
+• The scheduled steps can be added to the calendar, so the household sees when the oven is taken. A shopping list goes to the Reminders app at a tap, into a list of its own called “BakePlanner” that can be shared with the family.
+
 PRE-FERMENTED FLOUR AND NOTES
 • The TA breakdown says how much flour already ferments in the preferment or sourdough, and warns when salt or yeast are far from the usual baker’s percentages – after an import, for instance.
 
@@ -147,6 +153,9 @@ LEVAIN CHEF
 POUSSE AUJOURD’HUI
 • En planifiant un pain, la carte « Pousse aujourd’hui » indique combien de temps durent la maturation du préferment, le pointage et l’apprêt à la température ambiante du jour – d’après les durées de la recette ou, dès que vos cuissons ont mesuré la pousse, d’après ces mesures. « Adapter la pousse à la température du jour » ne vaut que pour ce plan ; la recette reste inchangée.
 • Si les pousses mesurées diffèrent de la recette, « Reporter les durées des cuissons dans la recette » les inscrit dans la recette, ramenées à 22 °C.
+
+CALENDRIER ET RAPPELS
+• Les étapes planifiées peuvent être ajoutées au calendrier, pour que la maisonnée voie quand le four est occupé. Une liste de courses part d’un geste dans l’app Rappels, dans une liste propre « BakePlanner » à partager avec la famille.
 
 FARINE PRÉFERMENTÉE ET REMARQUES
 • Le détail de la TA indique combien de farine fermente déjà dans le préferment ou le levain, et avertit si le sel ou la levure s’écartent nettement des pourcentages boulangers habituels – après un import, par exemple.

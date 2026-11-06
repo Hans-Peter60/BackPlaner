@@ -22,6 +22,10 @@
 			<string>BakePlannerPronunciationHint</string>
 		</dict>
 	</array>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>BakePlanner enters the steps of a plan into your calendar on request, so everyone sees when the oven is taken.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>BakePlanner sends a shopping list to Reminders on request, into its own list “BakePlanner”.</string>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>BakePlanner sets alarms for the steps of your bake on request, which ring even when the iPhone is on silent.</string>
 	<key>UIBackgroundModes</key>

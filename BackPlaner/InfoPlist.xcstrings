@@ -164,6 +164,54 @@
           }
         }
       }
+    },
+    "NSCalendarsWriteOnlyAccessUsageDescription" : {
+      "comment" : "Privacy usage description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner trägt auf Wunsch die Schritte eines Plans in Deinen Kalender ein, damit alle sehen, wann der Ofen belegt ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner enters the steps of a plan into your calendar on request, so everyone sees when the oven is taken."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner inscrit sur demande les étapes d’un plan dans votre calendrier, pour que chacun voie quand le four est occupé."
+          }
+        }
+      }
+    },
+    "NSRemindersFullAccessUsageDescription" : {
+      "comment" : "Privacy usage description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner schickt auf Wunsch eine Einkaufsliste in die Erinnerungen, in eine eigene Liste „BakePlanner“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner sends a shopping list to Reminders on request, into its own list “BakePlanner”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner envoie sur demande une liste de courses dans Rappels, dans sa propre liste « BakePlanner »."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
