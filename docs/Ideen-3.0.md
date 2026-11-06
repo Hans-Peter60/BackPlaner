@@ -35,7 +35,7 @@ Gesammelt nach der Siri-Aussprache; nichts davon ist beschlossen.
 - **Kalender und Erinnerungen.** **Umgesetzt am 06.11.2026 (Schritt 33, iPhone):** Kalender-Knopf in „Geplante Schritte“, Knopf „Erinnerungen“ je Einkaufsliste.
 - **Kontrollzentrum und Aktionstaste.** **Umgesetzt am 06.11.2026 (Schritt 30):** Steuerelemente „Schritt erledigt“ und „Geplante Schritte“ im Widget-Target. Offen: Watch-Komplikation mit der Uhrzeit des nächsten Schritts.
 - **Rezepte in Spotlight** als indizierte App-Entitäten. **Umgesetzt am 06.11.2026 (Schritt 31).**
-- **Backtag-Zettel:** PDF mit der Zeitleiste aller geplanten Rezepte des Tages.
+- **Backtag-Zettel:** PDF mit der Zeitleiste aller geplanten Rezepte des Tages. **Umgesetzt am 06.11.2026 (Schritt 34, iPhone).**
 
 ## Rezepte hinein
 

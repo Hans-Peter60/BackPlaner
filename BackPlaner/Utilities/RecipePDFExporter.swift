@@ -247,3 +247,79 @@ enum RecipePDFRenderer {
         }
     }
 }
+
+// MARK: - Backtag-Zettel
+
+/// The scheduled steps day by day as a PDF, shared from the list of
+/// planned steps; rendered only when the share sheet asks for the file,
+/// like the recipe PDF.
+struct BakeDayPDFExport: Transferable {
+    let sheet: BakeDaySheet
+
+    static var transferRepresentation: some TransferRepresentation {
+        FileRepresentation(exportedContentType: .pdf) { export in
+            SentTransferredFile(try RecipePDFRenderer.writePDF(for: export.sheet))
+        }
+    }
+}
+
+extension RecipePDFRenderer {
+
+    static func writePDF(for sheet: BakeDaySheet) throws -> URL {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent(sheet.title.replacingOccurrences(of: "/", with: "-"))
+            .appendingPathExtension("pdf")
+        try render(sheet).write(to: url, options: .atomic)
+        return url
+    }
+
+    /// Title and stand, then a heading per day and a row per step: the
+    /// time on the left, recipe and step in the middle, the duration on
+    /// the right, the ingredients a step mixes indented beneath it.
+    static func render(_ sheet: BakeDaySheet) -> Data {
+        let format = UIGraphicsPDFRendererFormat()
+        format.documentInfo = [
+            kCGPDFContextTitle as String: sheet.title,
+            kCGPDFContextCreator as String: "BakePlanner"
+        ]
+        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: pageSize), format: format)
+
+        return renderer.pdfData { context in
+            var page = Page(context: context)
+            page.begin()
+            page.draw(sheet.title, font: .systemFont(ofSize: 24, weight: .bold), color: ink, width: page.contentWidth)
+            page.y += 4
+            page.draw(sheet.subtitle, font: .systemFont(ofSize: 11), color: muted, width: page.contentWidth)
+            page.y += 14
+
+            let timeWidth: CGFloat = 48
+            let durationWidth: CGFloat = 60
+            let textWidth = page.contentWidth - timeWidth - durationWidth - 16
+            for day in sheet.days {
+                page.heading(day.title)
+                for row in day.rows {
+                    let recipeHeight = Page.height(of: row.recipeName, font: .systemFont(ofSize: 10, weight: .semibold), width: textWidth)
+                    let textHeight = Page.height(of: row.instruction, font: .systemFont(ofSize: 11), width: textWidth)
+                    page.ensureRoom(for: recipeHeight + textHeight + 8)
+                    let rowY = page.y
+                    page.drawAt(row.time, x: margin, y: rowY, font: .systemFont(ofSize: 11, weight: .semibold), color: accent, width: timeWidth)
+                    page.drawAt(row.recipeName, x: margin + timeWidth + 8, y: rowY, font: .systemFont(ofSize: 10, weight: .semibold), color: muted, width: textWidth)
+                    page.drawAt(row.instruction, x: margin + timeWidth + 8, y: rowY + recipeHeight, font: .systemFont(ofSize: 11), color: ink, width: textWidth)
+                    page.drawAt(row.duration, x: pageSize.width - margin - durationWidth, y: rowY, font: .systemFont(ofSize: 11), color: muted, width: durationWidth, alignment: .right)
+                    page.y = rowY + recipeHeight + textHeight + 2
+                    if let componentName = row.componentName, !row.ingredientLines.isEmpty {
+                        page.draw(String(format: localized("Zutaten für „%@“:"), componentName),
+                                  font: .systemFont(ofSize: 10, weight: .semibold), color: muted, width: textWidth, indent: timeWidth + 8)
+                        for line in row.ingredientLines {
+                            page.draw(line, font: .systemFont(ofSize: 10), color: ink, width: textWidth, indent: timeWidth + 16)
+                        }
+                    }
+                    page.y += 6
+                }
+                page.y += 8
+            }
+
+            page.finishFooter()
+        }
+    }
+}
