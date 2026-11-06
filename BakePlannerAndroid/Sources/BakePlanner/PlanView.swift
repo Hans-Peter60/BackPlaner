@@ -116,6 +116,16 @@ struct PlanView: View {
         workingRecipe.content = content.recalculated()
     }
 
+    /// Gives the working recipe the durations in `byIndex`, start times
+    /// worked out again; nothing is saved — the advisor's window suggestion.
+    private func applyPlanDurations(_ byIndex: [Int: Int]) {
+        var content = workingRecipe.content
+        for (index, minutes) in byIndex where index < content.instructions.count {
+            content.instructions[index].duration = minutes
+        }
+        workingRecipe.content = content.recalculated()
+    }
+
     /// Back to the recipe's durations.
     private func resetProof() {
         var content = workingRecipe.content
@@ -169,6 +179,7 @@ struct PlanView: View {
         let issues = model.issues(of: plan)
         let suggestions = model.nightFreeDates(for: plan)
         let ovenSuggestions = model.ovenFreeDates(for: plan)
+        let windowSuggestion = model.windowSuggestion(for: plan, of: workingRecipe)
         return Form {
             Section {
                 Picker("Startzeit", selection: $anchorSelection) {
@@ -183,11 +194,27 @@ struct PlanView: View {
                 }
             }
 
-            if !issues.isEmpty || !suggestions.isEmpty || !ovenSuggestions.isEmpty {
+            if !issues.isEmpty || !suggestions.isEmpty || !ovenSuggestions.isEmpty || windowSuggestion != nil {
                 Section {
                     ForEach(issues) { issue in
                         Text(verbatim: issue.message)
                             .foregroundStyle(issue.severity == .error ? Color.red : Color.primary)
+                    }
+                    // Steps with a time window stretched or shortened, the
+                    // date kept — offered before moving the date.
+                    if let windowSuggestion {
+                        Text("So passt es mit den Zeitfenstern der Schritte:")
+                            .font(AppFont.caption)
+                        ForEach(Array(windowSuggestion.changes.enumerated()), id: \.offset) { _, change in
+                            Text("\(change.shortInstruction): \(Rational.displayHoursMinutes(change.to)) statt \(Rational.displayHoursMinutes(change.from))")
+                        }
+                        HStack {
+                            Text(verbatim: PlanText.dateTime(windowSuggestion.start) + " – " + PlanText.dateTime(windowSuggestion.finish))
+                            Spacer()
+                            Button("Übernehmen") {
+                                applyPlanDurations(windowSuggestion.durations)
+                            }
+                        }
                     }
                     if !ovenSuggestions.isEmpty {
                         Text("So werden die Backöfen nacheinander frei:")

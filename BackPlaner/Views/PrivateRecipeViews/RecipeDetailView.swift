@@ -278,7 +278,9 @@ struct RecipeDetailView: View {
                             InstructionStepRow(id: index,
                                                step: Rational.decimalPlace(i.step, 10),
                                                instruction: i.instruction,
-                                               duration: Rational.displayHoursMinutes(i.duration))
+                                               duration: i.planDurationWindow.map {
+                                                   "\(Rational.displayHoursMinutes(i.duration)) (\(DurationWindow.text($0)))"
+                                               } ?? Rational.displayHoursMinutes(i.duration))
                         })
                         .font(Theme.bodyFont(16))
                         .padding([.bottom, .top], 5)
@@ -293,7 +295,16 @@ struct RecipeDetailView: View {
                                 let step = Rational.decimalPlace(i.step, 10)
                                 Text(step)
                                 Text(i.instruction)
-                                Text(Rational.displayHoursMinutes(i.duration))
+                                VStack(alignment: .trailing, spacing: 0) {
+                                    Text(Rational.displayHoursMinutes(i.duration))
+                                    // The window the plan may use: stored, or
+                                    // read from the wording ("12–18 Stunden").
+                                    if let window = i.planDurationWindow {
+                                        Text(DurationWindow.text(window))
+                                            .font(Theme.bodyFont(11))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                }
                             }
                             .padding(.horizontal)
                         }

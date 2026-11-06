@@ -74,6 +74,8 @@ struct InstructionsView: View {
     @State private var nightFreeDates             = [NightFreeDate]()
     @State private var planHasOvenConflict = false
     @State private var ovenFreeDates = [PlanDateSuggestion]()
+    // How the plan fits by stretching or shortening steps with a time window.
+    @State private var windowSuggestion: PlanWindowSuggestion?
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var pendingReplaceExisting     = false
@@ -163,7 +165,9 @@ struct InstructionsView: View {
                                    hasOvenConflict: planHasOvenConflict,
                                    ovenSuggestions: ovenFreeDates,
                                    anchor: PlanAnchor(selection: dateTimeStartSelection),
-                                   onApply: { dateTime = $0 })
+                                   onApply: { dateTime = $0 },
+                                   windowSuggestion: windowSuggestion,
+                                   onApplyDurations: applyPlanDurations)
 
                 // MARK: Ripeness today — a starter whose diary knows how it ripens
                 if let estimate = ripenessEstimate, let stepIndex = ripeningStepIndex {
@@ -519,20 +523,29 @@ struct InstructionsView: View {
         adjustment.minutesByIndex.allSatisfy { adjustedDurations[$0.key] == $0.value }
     }
 
-    /// Gives this plan the durations of today's proof, start times worked
-    /// out again; the recipe stays as it is.
+    /// Gives this plan the durations of today's proof; the recipe stays as
+    /// it is.
     private func applyProofToday() {
         var byIndex = [Int: Int]()
         for adjustment in proofAdjustments {
             byIndex.merge(adjustment.minutesByIndex) { _, new in new }
         }
+        applyPlanDurations(byIndex)
+    }
+
+    /// Gives this plan new durations for the steps in `byIndex`, on top of
+    /// the ones adjusted before, start times worked out again; the recipe
+    /// stays as it is. Today's proof and the advisor's window suggestion
+    /// both come in here.
+    private func applyPlanDurations(_ byIndex: [Int: Int]) {
+        adjustedDurations.merge(byIndex) { _, new in new }
         var instructionsFB = [InstructionFB]()
         for (index, stored) in recipe.instructionsArray.enumerated() {
             let instruction = InstructionFB()
             instruction.instruction = stored.instruction
             instruction.step        = stored.step
             instruction.startTime   = stored.startTime
-            instruction.duration    = byIndex[index] ?? stored.duration
+            instruction.duration    = adjustedDurations[index] ?? stored.duration
             instruction.componentName = stored.componentName
             instructionsFB.append(instruction)
         }
@@ -541,7 +554,6 @@ struct InstructionsView: View {
             dateTime,
             dependencies: Rational.ComponentDependency.from(recipe.componentsArray)
         )
-        adjustedDurations = byIndex
         adjustedSteps = zip(recipe.instructionsArray, instructionsFB).map { stored, instructionFB in
             planStep(for: stored, startTime: instructionFB.startTime ?? 0, duration: instructionFB.duration)
         }
@@ -592,6 +604,8 @@ struct InstructionsView: View {
         nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
         planHasOvenConflict = BakePlanAdvisor.hasOvenConflict(plan, in: viewContext)
         ovenFreeDates = planHasOvenConflict ? BakePlanAdvisor.ovenFreeDates(for: plan, in: viewContext) : []
+        windowSuggestion = BakePlanAdvisor.windowSuggestion(
+            for: plan, dependencies: Rational.ComponentDependency.from(recipe.componentsArray), in: viewContext)
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

@@ -344,6 +344,8 @@ Die Hinweise verhindern nichts – Du kannst den Plan trotzdem setzen. Sie erspa
 
 **Vorschläge für den Backtag.** Überschneidet sich die Backzeit mit einem anderen geplanten Rezept oder ist die Backpause zu kurz, sucht die App ebenso den nächstfrüheren und den nächstspäteren Zeitpunkt, zu dem ein Backofen frei ist: so viele Backvorgänge gleichzeitig, wie Du Backöfen hast, und die eingestellte Backpause dazwischen. Zeitpunkte, zu denen zugleich kein Schritt in die Nacht fällt, haben Vorrang; erst wenn es keinen gibt, schlägt die App auch einen mit Nachtschritten vor. So planst Du am Backtag ein zweites und drittes Brot, ohne selbst zu rechnen.
 
+**Schritte mit Zeitfenster.** Manche Schritte vertragen Spielraum: eine Kühlschrankgare von 12 bis 18 Stunden, eine Stockgare von 3 bis 4 Stunden. Trägst Du für einen Schritt ein **Zeitfenster** ein (Mindestens und Höchstens, siehe [Kapitel 9](#9-rezept-bearbeiten)) oder steht es im Wortlaut („12–18 Stunden im Kühlschrank“, „30 bis 60 Minuten gehen lassen“), darf die Backanleitung diesen Schritt innerhalb des Fensters dehnen oder kürzen. Fällt ein Schritt in die Nacht oder ist der Ofen belegt, sucht sie zuerst die kleinste Änderung an solchen Schritten – nach Minuten insgesamt, dann nach Anzahl der Schritte –, mit der alles in Deinen Tag und in die Öfen passt, und zeigt sie vor den Datumsvorschlägen: „So passt es mit den Zeitfenstern der Schritte: Kühlschrankgare: 16h 00m statt 12h 00m“, mit Beginn und Ende. **Übernehmen** gibt diesem Plan die neuen Dauern; Datum und Uhrzeit bleiben, und das Rezept bleibt unverändert – wie bei „Gare heute“ nimmt **Dauern des Rezepts verwenden** die Anpassung zurück. Aus dem Wortlaut gelesene Fenster gelten nur, wenn die Dauer des Schritts darin liegt; Backen und Vorheizen bekommen nie eines, ihre Zeit gehört dem Ofen. Das wirksame Fenster steht auf der Rezeptseite klein unter der Dauer.
+
 ### Erinnerungen setzen
 
 Ein Tippen auf **Erinnerungen setzen** löst mehrere Dinge gleichzeitig aus:
@@ -544,7 +546,7 @@ Planst Du ein Anstellgut über **Planen** (oder läuft sein Rhythmus), legt Bake
 ### Verarbeitungsschritte ändern
 
 - **Hinzufügen**: Schritt, Beschreibung, Dauer eingeben, **+**. Die Dauer wie beim Anlegen in Minuten oder Stunden („1:30“, „1,5 h“). Startzeiten werden automatisch neu berechnet.
-- **Bearbeiten**: Schrittzeile antippen → „Verarbeitungsschritt ändern“. Nach **Fertig** rechnet die App alle Startzeiten und die Bearbeitungsdauer neu. Beschreibt der Schritt Falt-Durchgänge während einer Ruhe („nach 30 und 60 Minuten dehnen und falten“), entstehen dabei die Falt-Schritte aus [Kapitel 8](#8-neues-rezept-anlegen) – auch bei einem alten Rezept, wenn Du den Schritt einmal öffnest und mit **Fertig** bestätigst.
+- **Bearbeiten**: Schrittzeile antippen → „Verarbeitungsschritt ändern“. Unter **Zeitfenster** gibst Du mit **Mindestens** und **Höchstens** an, wie kurz und wie lang der Schritt dauern darf („12 h“ und „18 h“); leer gelassen ist die Dauer fest, und ein Fenster braucht beide Werte in der richtigen Reihenfolge. Was die Backanleitung damit macht, steht in [Kapitel 7](#7-backanleitung-und-erinnerungen). Nach **Fertig** rechnet die App alle Startzeiten und die Bearbeitungsdauer neu. Beschreibt der Schritt Falt-Durchgänge während einer Ruhe („nach 30 und 60 Minuten dehnen und falten“), entstehen dabei die Falt-Schritte aus [Kapitel 8](#8-neues-rezept-anlegen) – auch bei einem alten Rezept, wenn Du den Schritt einmal öffnest und mit **Fertig** bestätigst.
 - **Löschen**: Papierkorb neben der Zeile.
 
 ### Manuell speichern

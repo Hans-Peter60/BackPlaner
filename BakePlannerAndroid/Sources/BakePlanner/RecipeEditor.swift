@@ -170,6 +170,16 @@ struct RecipeEditor: View {
                             TextField("Dauer", text: $step.minutes)
                                 .foregroundStyle(step.hasValidDuration ? Color.primary : Color.red)
                         }
+                        // The step's time window, as on the iPhone: how
+                        // short and how long it may take; both empty for a
+                        // fixed duration.
+                        HStack {
+                            Text("Zeitfenster")
+                            TextField("Mindestens", text: $step.minimumText)
+                                .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
+                            TextField("Höchstens", text: $step.maximumText)
+                                .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
+                        }
                     }
                 }
                 .onDelete { offsets in
@@ -374,6 +384,9 @@ struct StepDraft: Identifiable {
     var minutes = ""
     /// The step number as typed: "3" or "3.1" (a comma does as well).
     var numberText: String
+    /// The step's time window as typed, both empty for a fixed duration.
+    var minimumText = ""
+    var maximumText = ""
     var bakeFlag = false
     var componentName: String?
 
@@ -385,8 +398,30 @@ struct StepDraft: Identifiable {
         text = instruction.instruction
         minutes = instruction.duration == 0 ? "" : String(instruction.duration)
         numberText = Self.numberText(for: instruction.step)
+        minimumText = instruction.durationWindow.map { String($0.lowerBound) } ?? ""
+        maximumText = instruction.durationWindow.map { String($0.upperBound) } ?? ""
         bakeFlag = instruction.bakeFlag
         componentName = instruction.componentName
+    }
+
+    /// The window typed, when both bounds are there and in order.
+    var durationWindow: ClosedRange<Int>? {
+        DurationWindow.range(minimum: Self.bound(minimumText), maximum: Self.bound(maximumText))
+    }
+
+    /// Both bounds empty, or both durations in order.
+    var hasValidWindow: Bool {
+        let minimumEmpty = minimumText.trimmingCharacters(in: .whitespaces).isEmpty
+        let maximumEmpty = maximumText.trimmingCharacters(in: .whitespaces).isEmpty
+        if minimumEmpty && maximumEmpty { return true }
+        return durationWindow != nil
+    }
+
+    /// A bound as typed, nil when empty or no duration.
+    private static func bound(_ text: String) -> Int? {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty, let minutes = DurationInput.minutes(from: trimmed), minutes > 0 else { return nil }
+        return minutes
     }
 
     /// "3" or "3.1": the number rounded to a tenth. Rounded, not cut off
@@ -406,7 +441,7 @@ struct StepDraft: Identifiable {
 
     var hasValidDuration: Bool { duration != nil }
 
-    var isValid: Bool { hasValidDuration && step != nil }
+    var isValid: Bool { hasValidDuration && hasValidWindow && step != nil }
 
     /// Minutes, or hours and minutes as a baker writes them ("1:30",
     /// "1,5 h"), as on the iPhone (DurationInput).
@@ -417,6 +452,7 @@ struct StepDraft: Identifiable {
     var instruction: RecipeExportInstruction {
         RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step ?? 0,
                                 duration: duration ?? 0, startTime: 0, bakeFlag: bakeFlag,
-                                componentName: componentName)
+                                componentName: componentName,
+                                minDuration: durationWindow?.lowerBound, maxDuration: durationWindow?.upperBound)
     }
 }

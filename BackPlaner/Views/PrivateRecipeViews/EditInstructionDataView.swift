@@ -93,12 +93,17 @@ struct EditInstructionView: View {
     @State private var instruction: String
     @State private var step: Double
     @State private var duration: Int
-    
+    /// The step's time window, both empty for a fixed duration.
+    @State private var minimumMinutes: Int?
+    @State private var maximumMinutes: Int?
+
     init(instruction: Instruction) {
         self.instructions = instruction
         _instruction = State(initialValue: instruction.instruction)
         _step = State(initialValue: instruction.step)
         _duration = State(initialValue: instruction.duration)
+        _minimumMinutes = State(initialValue: instruction.durationWindow?.lowerBound)
+        _maximumMinutes = State(initialValue: instruction.durationWindow?.upperBound)
     }
     
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .leading)]
@@ -142,6 +147,24 @@ struct EditInstructionView: View {
                     }
                     .scrollsSidewaysAtLargeText()
                 }
+
+                // MARK: Time window — how short and how long the step may take
+                Section {
+                    LabeledContent("Mindestens") {
+                        OptionalDurationField(minutes: $minimumMinutes)
+                            .multilineTextAlignment(.trailing)
+                            .accessibilityLabel("Mindestens")
+                    }
+                    LabeledContent("Höchstens") {
+                        OptionalDurationField(minutes: $maximumMinutes)
+                            .multilineTextAlignment(.trailing)
+                            .accessibilityLabel("Höchstens")
+                    }
+                } header: {
+                    Text("Zeitfenster")
+                } footer: {
+                    Text("Der Planer darf den Schritt innerhalb des Fensters dehnen oder kürzen, etwa eine Kühlschrankgare von 12 bis 18 Stunden. Leer lassen, wenn die Dauer fest ist.")
+                }
                 .navigationTitle(Text("Verarbeitungsschritt ändern"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -156,6 +179,9 @@ struct EditInstructionView: View {
                             self.instructions.instruction = self.instruction
                             self.instructions.step        = self.step
                             self.instructions.duration    = self.duration
+                            // Both bounds, in order, or no window at all.
+                            self.instructions.durationWindow = DurationWindow.range(minimum: minimumMinutes,
+                                                                                    maximum: maximumMinutes)
 
                             if let recipe = self.instructions.recipe {
                                 // An edited step that now describes repeated
@@ -206,6 +232,14 @@ struct InstructionRowView: View {
         let step = Rational.decimalPlace(instruction.step, 10)
         Text(step)
         Text(instruction.instruction)
-        Text(Rational.displayHoursMinutes(instruction.duration))
+        VStack(alignment: .trailing, spacing: 0) {
+            Text(Rational.displayHoursMinutes(instruction.duration))
+            // The step's time window, when it has one.
+            if let window = instruction.durationWindow {
+                Text(DurationWindow.text(window))
+                    .font(Theme.bodyFont(11))
+                    .foregroundColor(Theme.subtitle)
+            }
+        }
     }
 }

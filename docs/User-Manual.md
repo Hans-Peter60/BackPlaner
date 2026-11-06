@@ -347,6 +347,8 @@ The notes don't prevent anything — you can still set the plan. They only spare
 
 **Suggestions for a baking day.** If the oven time overlaps with another planned recipe or the baking pause is too short, the app likewise looks for the nearest earlier and the nearest later time at which an oven is free: no more bakes at once than you have ovens, and the set pause between them. Times at which no step falls into the night either come first; only when there is none does the app also suggest one with night steps. That is how a second and a third loaf are planned on a baking day without doing the sums yourself.
 
+**Steps with a time window.** Some steps allow leeway: a cold proof of 12 to 18 hours, a bulk proof of 3 to 4 hours. If you enter a **Time window** for a step (At least and At most, see [chapter 9](#9-editing-a-recipe)) or the wording gives one ("12–18 hours in the fridge", "let rise for 30 to 60 minutes"), the baking instructions may stretch or shorten that step within the window. When a step falls into the night or the oven is taken, they first look for the smallest change to such steps – by minutes in all, then by the number of steps – with which everything fits into your day and the ovens, and show it before the date suggestions: "This is how it fits within the steps' time windows: Cold proof: 16h 00m instead of 12h 00m", with start and finish. **Apply** gives this plan the new durations; the date and time stay, and the recipe stays as it is – as with "Proofing today", **Use the recipe's durations** takes the adjustment back. A window read from the wording only counts when the step's duration lies within it; baking and preheating never get one, their time is the oven's. The window in effect is shown on the recipe page in small print under the duration.
+
 ### Setting reminders
 
 Tapping **Set reminders** does several things at once:
@@ -547,7 +549,7 @@ When you plan a starter through **Plan** (or its rhythm comes round), BakePlanne
 ### Changing processing steps
 
 - **Adding**: enter step, description, duration, **+**. The duration as when creating, in minutes or hours ("1:30", "1.5 h"). Start times are recalculated automatically.
-- **Editing**: tap the step's row → "Edit processing step". After **Done** the app recalculates every start time and the working time. If the step describes folds during a rest ("stretch and fold after 30 and 60 minutes"), the fold steps from [chapter 8](#8-creating-a-new-recipe) are created at that point — for an older recipe too, once you open the step and confirm it with **Done**.
+- **Editing**: tap the step's row → "Edit processing step". Under **Time window**, **At least** and **At most** say how short and how long the step may take ("12 h" and "18 h"); left empty, the duration is fixed, and a window needs both values in the right order. What the baking instructions do with it is in [chapter 7](#7-baking-instructions-and-reminders). After **Done** the app recalculates every start time and the working time. If the step describes folds during a rest ("stretch and fold after 30 and 60 minutes"), the fold steps from [chapter 8](#8-creating-a-new-recipe) are created at that point — for an older recipe too, once you open the step and confirm it with **Done**.
 - **Deleting**: the bin next to the row.
 
 ### Saving manually

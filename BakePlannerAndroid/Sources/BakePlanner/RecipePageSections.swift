@@ -176,9 +176,18 @@ struct RecipeLineSections: View {
                             .frame(width: 36, alignment: .leading)
                         Text(verbatim: step.text)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(verbatim: step.duration)
-                            .font(AppFont.caption)
-                            .foregroundStyle(.secondary)
+                        VStack(alignment: .trailing, spacing: 0) {
+                            Text(verbatim: step.duration)
+                                .font(AppFont.caption)
+                                .foregroundStyle(.secondary)
+                            // The step's time window, when the plan may
+                            // stretch or shorten it.
+                            if let window = step.window {
+                                Text(verbatim: window)
+                                    .font(AppFont.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
                 }
             }
