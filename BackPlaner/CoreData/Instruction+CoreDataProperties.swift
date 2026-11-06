@@ -27,6 +27,11 @@ extension Instruction {
     /// per component. The bake plan schedules those in dependency order, and
     /// reads the dependency from here instead of from the step's wording.
     @NSManaged public var componentName: String?
+    /// The shortest and the longest the step may take, in minutes, when the
+    /// recipe gives a window; nil without one. `durationWindow` in
+    /// CoreDataLogicAdapters reads and writes both as a range.
+    @NSManaged public var minDuration: NSNumber?
+    @NSManaged public var maxDuration: NSNumber?
     @NSManaged public var recipe:     Recipe?
     
 }

@@ -82,6 +82,8 @@ extension RecipeExportData {
             instructionFB.startTime = instruction.startTime
             instructionFB.bakeFlag = instruction.bakeFlag
             instructionFB.componentName = instruction.componentName
+            instructionFB.minDuration = instruction.minDuration
+            instructionFB.maxDuration = instruction.maxDuration
             return instructionFB
         }
         var expanded = instructionsFB
@@ -93,7 +95,9 @@ extension RecipeExportData {
                 RecipeExportInstruction(instruction: instructionFB.instruction, step: instructionFB.step,
                                         duration: instructionFB.duration, startTime: instructionFB.startTime ?? 0,
                                         bakeFlag: instructionFB.bakeFlag ?? false,
-                                        componentName: instructionFB.componentName)
+                                        componentName: instructionFB.componentName,
+                                        minDuration: instructionFB.durationWindow?.lowerBound,
+                                        maxDuration: instructionFB.durationWindow?.upperBound)
             }
         return recipe
     }

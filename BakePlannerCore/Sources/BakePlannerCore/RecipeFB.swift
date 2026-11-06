@@ -235,13 +235,27 @@ public class InstructionFB: Identifiable, Decodable {
     /// per component. The bake plan schedules those in dependency order, and
     /// reads the dependency from here instead of from the step's wording.
     public var componentName: String?
+    /// The shortest and the longest the step may take, in minutes, when the
+    /// recipe gives a window; see `RecipeExportInstruction.minDuration`.
+    public var minDuration: Int?
+    public var maxDuration: Int?
     public var translations: [String: InstructionTextFB] = [:]
 
     public init() {}
 
+    /// The window as a range, when both bounds are there and the window
+    /// has a width; setting nil clears both.
+    public var durationWindow: ClosedRange<Int>? {
+        get { DurationWindow.range(minimum: minDuration, maximum: maxDuration) }
+        set {
+            minDuration = newValue?.lowerBound
+            maxDuration = newValue?.upperBound
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case id, step, instruction, duration, startTime, date, bakeFlag
-        case componentName, translations
+        case componentName, minDuration, maxDuration, translations
     }
 
     public required init(from decoder: Decoder) throws {
@@ -254,6 +268,8 @@ public class InstructionFB: Identifiable, Decodable {
         date          = try c.decodeIfPresent(Date.self, forKey: .date)
         bakeFlag      = try c.decodeIfPresent(Bool.self, forKey: .bakeFlag)
         componentName = try c.decodeIfPresent(String.self, forKey: .componentName)
+        minDuration   = try c.decodeIfPresent(Int.self, forKey: .minDuration)
+        maxDuration   = try c.decodeIfPresent(Int.self, forKey: .maxDuration)
         translations  = try c.decodeIfPresent([String: InstructionTextFB].self, forKey: .translations) ?? [:]
     }
 }
@@ -464,6 +480,8 @@ extension RecipeFB {
             instructionCopy.date          = instruction.date
             instructionCopy.bakeFlag      = instruction.bakeFlag
             instructionCopy.componentName = instruction.componentName
+            instructionCopy.minDuration   = instruction.minDuration
+            instructionCopy.maxDuration   = instruction.maxDuration
             instructionCopy.translations   = instruction.translations
             return instructionCopy
         }

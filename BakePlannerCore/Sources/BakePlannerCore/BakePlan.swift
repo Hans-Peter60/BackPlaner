@@ -14,12 +14,21 @@ public struct PlanStep: Equatable {
     /// Minutes after the plan's start.
     public let startTime: Int
     public let duration: Int
+    /// The component the step prepares, for the start times when a
+    /// duration changes (`BakePlan.withDurations`).
+    public let componentName: String?
+    /// The shortest and the longest the step may take, when the recipe
+    /// gives a window; the advisor may stretch or shorten it within.
+    public let durationWindow: ClosedRange<Int>?
 
-    public init(instruction: String, step: Double, startTime: Int, duration: Int) {
+    public init(instruction: String, step: Double, startTime: Int, duration: Int,
+                componentName: String? = nil, durationWindow: ClosedRange<Int>? = nil) {
         self.instruction = instruction
         self.step = step
         self.startTime = startTime
         self.duration = duration
+        self.componentName = componentName
+        self.durationWindow = durationWindow
     }
 }
 
@@ -222,8 +231,35 @@ public struct BakePlan {
         return steps.map { step in
             guard step == preheat else { return step }
             return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature),
-                            step: step.step, startTime: step.startTime, duration: step.duration)
+                            step: step.step, startTime: step.startTime, duration: step.duration,
+                            componentName: step.componentName, durationWindow: step.durationWindow)
         }
+    }
+
+    /// The plan with the durations in `minutesByIndex` (by step index)
+    /// changed, the start times worked out again as the recipe editor does
+    /// and the total with them; the date and the anchor stay.
+    public func withDurations(_ minutesByIndex: [Int: Int],
+                              dependencies: [Rational.ComponentDependency] = []) -> BakePlan {
+        let instructionsFB = steps.enumerated().map { index, step -> InstructionFB in
+            let instructionFB = InstructionFB()
+            instructionFB.instruction   = step.instruction
+            instructionFB.step          = step.step
+            instructionFB.startTime     = step.startTime
+            instructionFB.duration      = minutesByIndex[index] ?? step.duration
+            instructionFB.componentName = step.componentName
+            return instructionFB
+        }
+        let timed = Rational.calculateStartTimes(instructionsFB, baseDate, dependencies: dependencies)
+        let newSteps = zip(steps, timed).map { step, instructionFB in
+            PlanStep(instruction: step.instruction, step: step.step,
+                     startTime: instructionFB.startTime ?? 0, duration: instructionFB.duration,
+                     componentName: step.componentName, durationWindow: step.durationWindow)
+        }
+        let total = newSteps.map { $0.startTime + $0.duration }.max() ?? 0
+        return BakePlan(recipeName: recipeName, steps: newSteps, prepTime: total, anchor: anchor,
+                        date: date, languageCode: languageCode, preheatTime: preheatTime,
+                        calendar: calendar, isStarterFeeding: isStarterFeeding)
     }
 
     /// Every step the plan writes, generated ones included.

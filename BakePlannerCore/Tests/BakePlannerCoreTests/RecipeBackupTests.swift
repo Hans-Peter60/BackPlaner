@@ -135,7 +135,29 @@ struct RecipeBackupTests {
         #expect(RecipeExportFile.isSupported(formatVersion: 2))
         #expect(RecipeExportFile.isSupported(formatVersion: 3))
         #expect(RecipeExportFile.isSupported(formatVersion: 4))
-        #expect(!RecipeExportFile.isSupported(formatVersion: 5))
+        #expect(RecipeExportFile.isSupported(formatVersion: 5))
+        #expect(!RecipeExportFile.isSupported(formatVersion: 6))
+    }
+
+    @Test("A step with a duration window makes the file version 5 and comes back with it")
+    func windowRoundTrip() throws {
+        let source = InMemoryRecipeStore()
+        var recipes = twoRecipes()
+        recipes[0].instructions[0].durationWindow = 600...840
+        let added = try source.add(contentsOf: recipes)
+
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id), from: source,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: source),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: source))
+        #expect(file.formatVersion == 5)
+
+        let target = InMemoryRecipeStore()
+        _ = try RecipeImport.importFile(try file.encoded(), into: target,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: target))
+        let bread = try #require(try target.recipes(includingImages: false).first { $0.content.name != "Zopf" })
+        #expect(bread.content.instructions[0].durationWindow == 600...840)
+        #expect(bread.content.instructions[1].durationWindow == nil)
     }
 
     @Test("A backup carries variants by their origin's name, and a rated bake makes it version 3")

@@ -81,6 +81,8 @@ public enum RecipeFirestoreMapping {
         instruction.startTime     = int(data["startTime"]) ?? 0
         instruction.step          = double(data["step"]) ?? 1
         instruction.componentName = data["componentName"] as? String
+        instruction.minDuration   = int(data["minDuration"])
+        instruction.maxDuration   = int(data["maxDuration"])
         if let translations = data["translations"] as? [String: Any] {
             instruction.translations = translations.mapValues { InstructionTextFB(firestoreData: $0) }
         }
@@ -127,6 +129,8 @@ public enum RecipeFirestoreMapping {
             instructionFB.startTime     = instruction.startTime
             instructionFB.bakeFlag      = instruction.bakeFlag
             instructionFB.componentName = instruction.componentName
+            instructionFB.minDuration   = instruction.minDuration
+            instructionFB.maxDuration   = instruction.maxDuration
             return instructionFB
         }
         publicRecipe.capturePreferredLocalization()
@@ -212,6 +216,10 @@ public enum RecipeFirestoreMapping {
         ]
         if let componentName = instruction.componentName {
             data["componentName"] = componentName
+        }
+        if let window = instruction.durationWindow {
+            data["minDuration"] = window.lowerBound
+            data["maxDuration"] = window.upperBound
         }
         let translations = instruction.firestoreTranslationsData
         if !translations.isEmpty {
@@ -331,7 +339,9 @@ extension RecipeExportData {
                         duration: instruction.duration,
                         startTime: instruction.startTime ?? 0,
                         bakeFlag: instruction.bakeFlag ?? false,
-                        componentName: instruction.componentName
+                        componentName: instruction.componentName,
+                        minDuration: instruction.durationWindow?.lowerBound,
+                        maxDuration: instruction.durationWindow?.upperBound
                     )
                 }
         )

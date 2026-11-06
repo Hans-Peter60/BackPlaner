@@ -655,6 +655,7 @@ struct EditRecipeView: View {
             instructionFB.date        = instruction.date
             instructionFB.bakeFlag    = instruction.bakeFlag
             instructionFB.componentName = instruction.componentName
+            instructionFB.durationWindow = instruction.durationWindow
             return instructionFB
         }
 

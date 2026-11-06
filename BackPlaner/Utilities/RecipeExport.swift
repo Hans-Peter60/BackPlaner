@@ -65,7 +65,9 @@ extension RecipeExportData {
                     duration: instruction.duration,
                     startTime: instruction.startTime,
                     bakeFlag: instruction.bakeFlag,
-                    componentName: instruction.componentName
+                    componentName: instruction.componentName,
+                    minDuration: instruction.durationWindow?.lowerBound,
+                    maxDuration: instruction.durationWindow?.upperBound
                 )
             }
         )
@@ -131,6 +133,7 @@ extension RecipeExportData {
             instruction.startTime     = instructionData.startTime
             instruction.bakeFlag      = instructionData.bakeFlag
             instruction.componentName = instructionData.componentName
+            instruction.durationWindow = instructionData.durationWindow
             recipe.addToInstructions(instruction)
         }
 

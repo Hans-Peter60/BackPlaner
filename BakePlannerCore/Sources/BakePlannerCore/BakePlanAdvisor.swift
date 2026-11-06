@@ -197,3 +197,164 @@ public enum BakePlanAdvisor {
         return calendar.date(from: rounded) ?? date
     }
 }
+
+// MARK: - Steps with a window
+
+/// How a plan fits into the day and the ovens by stretching or shortening
+/// the steps that have a duration window, the date left as chosen.
+public struct PlanWindowSuggestion: Equatable {
+    public struct Change: Equatable {
+        public let index: Int
+        public let instruction: String
+        /// Minutes before and after.
+        public let from: Int
+        public let to: Int
+
+        public init(index: Int, instruction: String, from: Int, to: Int) {
+            self.index = index
+            self.instruction = instruction
+            self.from = from
+            self.to = to
+        }
+    }
+
+    /// The changed durations by step index — what `BakePlan.withDurations`
+    /// takes.
+    public let durations: [Int: Int]
+    public let changes: [Change]
+    /// Start and finish of the plan with the changes.
+    public let start: Date
+    public let finish: Date
+
+    public init(durations: [Int: Int], changes: [Change], start: Date, finish: Date) {
+        self.durations = durations
+        self.changes = changes
+        self.start = start
+        self.finish = finish
+    }
+}
+
+extension BakePlanAdvisor {
+
+    /// At most this many combinations of window durations are tried; the
+    /// grid widens until they fit.
+    public static let maximumWindowCombinations = 4000
+    /// Steps with a window the search varies at most; with more, the
+    /// widest windows count.
+    public static let maximumWindowedSteps = 4
+
+    /// The smallest change to the windowed steps' durations with which no
+    /// step falls into the night and the bake fits the ovens — smallest by
+    /// the minutes changed in all, then by the steps changed. Nil when
+    /// nothing speaks against the plan, no step has a window, or no
+    /// combination within the windows helps.
+    public static func windowSuggestion(
+        for plan: BakePlan,
+        dependencies: [Rational.ComponentDependency] = [],
+        dayStart: Int,
+        dayEnd: Int,
+        allowedDates: ClosedRange<Date>,
+        existingWindows: [BakeWindow],
+        ovenCount: Int,
+        bakePause: Int
+    ) -> PlanWindowSuggestion? {
+        let hadNight = hasNightSteps(plan, dayStart: dayStart, dayEnd: dayEnd)
+        let hadConflict = hasOvenConflict(plan, existingWindows: existingWindows, ovenCount: ovenCount, bakePause: bakePause)
+        guard hadNight || hadConflict else { return nil }
+
+        var windowed = plan.steps.enumerated().compactMap { index, step -> (index: Int, window: ClosedRange<Int>, nominal: Int)? in
+            guard let window = step.durationWindow else { return nil }
+            return (index, window, step.duration)
+        }
+        guard !windowed.isEmpty else { return nil }
+        if windowed.count > maximumWindowedSteps {
+            windowed = windowed
+                .sorted { ($0.window.upperBound - $0.window.lowerBound) > ($1.window.upperBound - $1.window.lowerBound) }
+                .prefix(maximumWindowedSteps)
+                .sorted { $0.index < $1.index }
+        }
+
+        // The durations tried per step: the bounds, the step's own, and the
+        // grid between, widened until the combinations stay within bounds.
+        var grid = gridMinutes
+        var candidates = windowed.map { windowValues(in: $0.window, nominal: $0.nominal, grid: grid) }
+        while candidates.reduce(1, { $0 * $1.count }) > maximumWindowCombinations, grid < 24 * 60 {
+            grid *= 2
+            candidates = windowed.map { windowValues(in: $0.window, nominal: $0.nominal, grid: grid) }
+        }
+
+        func fits(_ candidate: BakePlan) -> Bool {
+            guard allowedDates.contains(candidate.baseDate),
+                  !hasNightSteps(candidate, dayStart: dayStart, dayEnd: dayEnd) else { return false }
+            guard let window = candidate.bakeWindow else { return true }
+            return BakePlanValidator.fitsOvens(window, existingWindows: existingWindows,
+                                               ovenCount: ovenCount, bakePause: bakePause)
+        }
+
+        var best: (cost: Int, changes: Int, durations: [Int: Int], plan: BakePlan)?
+        var indices = [Int](repeating: 0, count: candidates.count)
+        while true {
+            var durations = [Int: Int]()
+            var cost = 0
+            for (position, entry) in windowed.enumerated() {
+                let minutes = candidates[position][indices[position]]
+                if minutes != entry.nominal {
+                    durations[entry.index] = minutes
+                    cost += abs(minutes - entry.nominal)
+                }
+            }
+            let better = best.map { (cost, durations.count) < ($0.cost, $0.changes) } ?? true
+            if !durations.isEmpty, better {
+                let candidate = plan.withDurations(durations, dependencies: dependencies)
+                if fits(candidate) { best = (cost, durations.count, durations, candidate) }
+            }
+
+            // The next combination, as a counter over the candidate lists.
+            var position = 0
+            while position < indices.count {
+                indices[position] += 1
+                if indices[position] < candidates[position].count { break }
+                indices[position] = 0
+                position += 1
+            }
+            if position == indices.count { break }
+        }
+
+        guard let best else { return nil }
+        let changes = windowed.compactMap { entry -> PlanWindowSuggestion.Change? in
+            guard let to = best.durations[entry.index] else { return nil }
+            return PlanWindowSuggestion.Change(index: entry.index, instruction: plan.steps[entry.index].instruction,
+                                               from: entry.nominal, to: to)
+        }
+        return PlanWindowSuggestion(durations: best.durations, changes: changes,
+                                    start: best.plan.baseDate, finish: best.plan.date(of: best.plan.endStep))
+    }
+
+    /// The window's bounds, the step's own duration and the multiples of
+    /// `grid` between them, ascending.
+    static func windowValues(in window: ClosedRange<Int>, nominal: Int, grid: Int) -> [Int] {
+        var values = Set([window.lowerBound, window.upperBound])
+        if window.contains(nominal) { values.insert(nominal) }
+        var value = ((window.lowerBound + grid - 1) / grid) * grid
+        while value <= window.upperBound {
+            values.insert(value)
+            value += grid
+        }
+        return values.sorted()
+    }
+
+    /// The suggestion for the baking views: the day window from the
+    /// settings, nothing before now or beyond the picker's range, and the
+    /// bakes already scheduled.
+    public static func windowSuggestion(for plan: BakePlan, dependencies: [Rational.ComponentDependency] = [],
+                                        from store: any ScheduledStepStore, now: Date = Date()) -> PlanWindowSuggestion? {
+        let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
+        let range = GlobalVariables.planningDateRange(around: now)
+        guard now < range.upperBound else { return nil }
+        return windowSuggestion(for: plan, dependencies: dependencies, dayStart: dayStart, dayEnd: dayEnd,
+                                allowedDates: now...range.upperBound,
+                                existingWindows: BakePlanValidator.scheduledBakeWindows(excluding: plan.recipeName,
+                                                                                        from: store, now: now),
+                                ovenCount: GlobalVariables.ovenCount, bakePause: GlobalVariables.bakePause)
+    }
+}
