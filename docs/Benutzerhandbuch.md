@@ -244,6 +244,8 @@ Wo nur eigene Rezepte infrage kommen – in den leeren Ansichten von Einkaufslis
 
 Die Suche ignoriert Groß- und Kleinschreibung und findet auch Wortteile: „roggen“ findet „Roggenbrot“, und bei Tags genügt ein Teil des Schlagworts. Such- und Bewertungsfilter lassen sich kombinieren.
 
+**Spotlight.** Deine eigenen Rezepte stehen auch in der iPhone-Suche: Wische auf dem Home-Bildschirm nach unten und tippe „Landbrot“, und BakePlanner öffnet das Rezept direkt. Gefunden wird nach Name, Tags und Beschreibung; der Index wird beim Start und bei jeder Änderung an Rezepten aufgefrischt.
+
 ### Rezept löschen
 
 Zeile nach links wischen → **Löschen**. Es folgt eine Sicherheitsabfrage mit dem Rezeptnamen, damit ein versehentliches Wischen kein Rezept vernichtet. Mit dem Rezept werden auch seine Komponenten, Zutaten, Verarbeitungsschritte und Backhistorien-Einträge gelöscht.

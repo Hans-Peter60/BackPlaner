@@ -247,6 +247,8 @@ Where only your own recipes come into question — the empty screens of the shop
 
 The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search and rating filters can be combined.
 
+**Spotlight.** Your own recipes are in the iPhone's search as well: swipe down on the Home Screen, type "Landbrot", and BakePlanner opens the recipe directly. They are found by name, tags and description; the index is refreshed at launch and whenever a recipe changes.
+
 ### Deleting a recipe
 
 Swipe the row left → **Delete**. A confirmation follows, naming the recipe, so that an accidental swipe can't destroy one. Deleting a recipe also deletes its components, ingredients, processing steps, and baking-history entries.

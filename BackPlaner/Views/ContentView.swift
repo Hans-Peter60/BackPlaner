@@ -142,6 +142,10 @@ struct ContentView: View {
                 shiftRequest = ScheduledStepShiftRequest(stepID: stepID)
             } else if url == PlanSnapshot.scheduledStepsURL {
                 selectedTab = .scheduledSteps
+            } else if let recipeID = RecipeDeepLink.recipeID(from: url) {
+                // Spotlight (OpenRecipeIntent) and links to a recipe.
+                selectedTab = .recipes
+                recipesPath = NavigationPath([MenuDestination.recipe(id: recipeID)])
             } else if let pageURL = PendingWebImport.url(fromDeepLink: url) {
                 // The same address is parked in the App Group; take it so it
                 // does not start a second import on the next activation.
@@ -194,6 +198,9 @@ enum MenuDestination: Hashable {
     /// to import. The hand-off id makes every share a new screen, so the
     /// same page shared twice is analysed twice instead of being ignored.
     case webImport(URL, handoff: UUID)
+    /// Not a menu entry either: a recipe opened from Spotlight or a link,
+    /// by its id (`Recipe.reminderId`).
+    case recipe(id: String)
 }
 
 /// The screen behind a `MenuDestination`.
@@ -213,6 +220,22 @@ struct MenuDestinationView: View {
             // import screen's state when one hand-off replaces another, and
             // the new address is never analysed.
             RecipeWebImportView(initialURL: pageURL).id(handoff)
+        case .recipe(let id):
+            LinkedRecipeView(recipeID: id)
+        }
+    }
+}
+
+/// The page of the recipe a link names, or a word when it is gone.
+struct LinkedRecipeView: View {
+    let recipeID: String
+
+    var body: some View {
+        if let recipe = try? RecipeLookup.recipe(withID: recipeID) {
+            RecipePageView(recipe: recipe)
+        } else {
+            ContentUnavailableView("Rezept nicht gefunden", systemImage: "magnifyingglass",
+                                   description: Text("Das Rezept gibt es nicht mehr oder es ist noch nicht auf diesem Gerät angekommen."))
         }
     }
 }
