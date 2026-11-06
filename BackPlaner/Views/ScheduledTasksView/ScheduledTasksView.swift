@@ -497,17 +497,31 @@ struct ScheduledTasksView: View {
 
                 // The plan's steps into the calendar, so the household sees
                 // when the oven is taken.
-                Button {
-                    calendarChoiceShown = true
+                Menu {
+                    // The steps day by day as a PDF for the kitchen wall —
+                    // a Pro feature like the recipe PDF.
+                    ProGate(.pdfExport) {
+                        ShareLink(item: BakeDayPDFExport(sheet: bakeDaySheet),
+                                  preview: SharePreview(Text("Backtag-Zettel"), image: Image(systemName: "doc.richtext"))) {
+                            Label("Backtag-Zettel teilen", systemImage: "doc.richtext")
+                        }
+                    } label: {
+                        Label("Backtag-Zettel teilen", systemImage: "doc.richtext")
+                    }
+                    Button {
+                        calendarChoiceShown = true
+                    } label: {
+                        Label("In Kalender eintragen", systemImage: "calendar.badge.plus")
+                    }
                 } label: {
-                    Image(systemName: "calendar.badge.plus")
+                    Image(systemName: "square.and.arrow.up")
                         .font(.title3.weight(.semibold))
                         .foregroundStyle(Theme.accentText)
                         .frame(width: 44, height: 44)
                 }
                 .buttonStyle(.glass)
-                .accessibilityLabel("In Kalender eintragen")
-                .accessibilityIdentifier("scheduled.calendar")
+                .accessibilityLabel("Teilen und eintragen")
+                .accessibilityIdentifier("scheduled.share")
                 .confirmationDialog("In Kalender eintragen?", isPresented: $calendarChoiceShown, titleVisibility: .visible) {
                     if let planFilter {
                         Button("Nur „\(planFilter.recipeName)“ eintragen") {
@@ -535,6 +549,15 @@ struct ScheduledTasksView: View {
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 8)
+    }
+
+    /// The Backtag-Zettel of the steps on screen: the filtered plan, or all.
+    private var bakeDaySheet: BakeDaySheet {
+        BakeDaySheet(steps: visibleSteps.map { ScheduledStepData($0) }, ingredients: { step in
+            guard let nextStep = visibleSteps.first(where: { $0.id == step.id }),
+                  let component = component(for: nextStep) else { return nil }
+            return (component.name, BakeModeText.ingredientLines(of: component, scale: step.effectiveServingScale))
+        })
     }
 
     /// The steps of `plan` — every plan for nil — as calendar entries.

@@ -611,7 +611,9 @@ The matching reminders move along automatically. If the new time would be in the
 - **A single step**: swipe the row left. Its reminder is removed with it.
 - **All steps**: the bin button at the bottom right, then "Delete all". That removes every scheduled step **and** every pending reminder — including those for recipes you no longer want to bake.
 
-**Add to calendar.** The calendar button in the bar at the bottom enters the scheduled steps into your default calendar, one event "Recipe: Step" per step for its duration, at least a quarter of an hour – so the household sees when the oven is taken. With a recipe filter active you can add just that recipe, otherwise all plans. iOS asks for permission the first time; BakePlanner only needs write access and cannot see your events. That is why adding again creates new events instead of changing old ones; after moving steps, add them again if you like and delete the old events in the calendar.
+**Add to calendar.** "Add to calendar" in the share button of the bar at the bottom enters the scheduled steps into your default calendar, one event "Recipe: Step" per step for its duration, at least a quarter of an hour – so the household sees when the oven is taken. With a recipe filter active you can add just that recipe, otherwise all plans. iOS asks for permission the first time; BakePlanner only needs write access and cannot see your events. That is why adding again creates new events instead of changing old ones; after moving steps, add them again if you like and delete the old events in the calendar.
+
+**Baking day sheet.** The share button in the bar at the bottom (it also holds "Add to calendar") offers **Share baking day sheet**: a PDF with every scheduled step, day by day – time, recipe, step, duration and, under a mixing step, the ingredients at the planned amount. For the kitchen wall when several loaves are baked on one day. With a recipe filter active the sheet holds only that recipe. Like the recipe PDF it belongs to BakePlanner Pro.
 
 ### The "Timeline" view
 

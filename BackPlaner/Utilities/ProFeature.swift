@@ -44,7 +44,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     /// One line on what the feature does, for the paywall.
     var detail: LocalizedStringKey {
         switch self {
-        case .pdfExport:      return "Ein Rezept in der gezeigten Portionsgröße als PDF drucken oder verschicken."
+        case .pdfExport:      return "Ein Rezept in der gezeigten Portionsgröße oder den Backtag-Zettel der geplanten Schritte als PDF drucken oder verschicken."
         case .recipeSharing:  return "Ein einzelnes Rezept als Datei weitergeben, die sich wieder importieren lässt."
         case .recurringPlans: return "Ein Rezept plant sich in seinem Rhythmus von selbst, etwa das Füttern des Anstellguts."
         case .shoppingList:   return "Die Zutaten eines Rezepts auf eine Einkaufsliste setzen und abhaken."

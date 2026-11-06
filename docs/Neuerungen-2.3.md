@@ -28,6 +28,9 @@ GARE HEUTE
 • Beim Planen eines Brots zeigt die Karte „Gare heute“, wie lange Vorteig-Reife, Stockgare und Stückgare bei der heutigen Raumtemperatur dauern – aus den Dauern des Rezepts oder, sobald Deine Backvorgänge die Gare gemessen haben, aus diesen Messungen. „Gare an heutige Temperatur anpassen“ gilt nur für diesen Plan; das Rezept bleibt, wie es ist.
 • Weichen die gemessenen Gärzeiten vom Rezept ab, schreibt „Dauern aus den Backvorgängen ins Rezept übernehmen“ sie auf 22 °C umgerechnet ins Rezept.
 
+BACKTAG-ZETTEL
+• „Backtag-Zettel teilen“ in den geplanten Schritten: alle Schritte des Backtags als PDF, Tag für Tag mit Uhrzeit, Rezept, Dauer und Zutaten – zum Aufhängen in der Küche.
+
 KALENDER UND ERINNERUNGEN
 • Die geplanten Schritte lassen sich in den Kalender eintragen, damit der Haushalt sieht, wann der Ofen belegt ist. Eine Einkaufsliste geht auf Knopfdruck in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die sich mit der Familie teilen lässt.
 
@@ -91,6 +94,9 @@ PROOFING TODAY
 • When you plan a bread, the “Proofing today” card shows how long the preferment, the bulk proof and the final proof take at today’s room temperature – from the recipe’s durations or, once your bakes have measured the proof, from those measurements. “Adjust the proof to today’s temperature” applies to this plan only; the recipe stays as it is.
 • Where the measured proofs differ from the recipe, “Write the durations from the bakes into the recipe” stores them in the recipe, converted to 22 °C.
 
+BAKING DAY SHEET
+• “Share baking day sheet” in the scheduled steps: every step of the baking day as a PDF, day by day with time, recipe, duration and ingredients – for the kitchen wall.
+
 CALENDAR AND REMINDERS
 • The scheduled steps can be added to the calendar, so the household sees when the oven is taken. A shopping list goes to the Reminders app at a tap, into a list of its own called “BakePlanner” that can be shared with the family.
 
@@ -153,6 +159,9 @@ LEVAIN CHEF
 POUSSE AUJOURD’HUI
 • En planifiant un pain, la carte « Pousse aujourd’hui » indique combien de temps durent la maturation du préferment, le pointage et l’apprêt à la température ambiante du jour – d’après les durées de la recette ou, dès que vos cuissons ont mesuré la pousse, d’après ces mesures. « Adapter la pousse à la température du jour » ne vaut que pour ce plan ; la recette reste inchangée.
 • Si les pousses mesurées diffèrent de la recette, « Reporter les durées des cuissons dans la recette » les inscrit dans la recette, ramenées à 22 °C.
+
+FEUILLE DE LA JOURNÉE DE CUISSON
+• « Partager la feuille de la journée » dans les étapes planifiées : toutes les étapes de la journée en PDF, jour par jour avec heure, recette, durée et ingrédients – à afficher dans la cuisine.
 
 CALENDRIER ET RAPPELS
 • Les étapes planifiées peuvent être ajoutées au calendrier, pour que la maisonnée voie quand le four est occupé. Une liste de courses part d’un geste dans l’app Rappels, dans une liste propre « BakePlanner » à partager avec la famille.
