@@ -809,7 +809,7 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 
-**An Erinnerungen senden.** Der Knopf **Erinnerungen** neben „Löschen“ schickt alle Einträge der Liste in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die beim ersten Mal angelegt wird. Dort lässt sich die Liste mit der Familie teilen und beim Einkaufen abhaken. iOS fragt einmal um Erlaubnis für die Erinnerungen; jedes Senden legt neue Einträge an.
+**An Erinnerungen senden.** Der Checklisten-Knopf neben „Löschen“ (**Einkaufsliste an Erinnerungen senden**) schickt alle Einträge der Liste in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die beim ersten Mal angelegt wird. Dort lässt sich die Liste mit der Familie teilen und beim Einkaufen abhaken. iOS fragt einmal um Erlaubnis für die Erinnerungen; jedes Senden legt neue Einträge an.
 
 ### Allgemein
 

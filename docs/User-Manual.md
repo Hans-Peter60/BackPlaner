@@ -812,7 +812,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 
-**Send to Reminders.** The **Reminders** button next to "Delete" sends every item of the list to the Reminders app, into a list of its own called "BakePlanner", created the first time. There the list can be shared with the family and ticked off while shopping. iOS asks for permission to Reminders once; every send creates new items.
+**Send to Reminders.** The checklist button next to "Delete" (**Send shopping list to Reminders**) sends every item of the list to the Reminders app, into a list of its own called "BakePlanner", created the first time. There the list can be shared with the family and ticked off while shopping. iOS asks for permission to Reminders once; every send creates new items.
 
 ### General
 

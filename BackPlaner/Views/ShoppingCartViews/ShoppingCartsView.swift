@@ -63,8 +63,9 @@ struct ShoppingCartsView: View {
                                 Spacer()
 
                                 // The list into Apple Reminders, which can be
-                                // shared with the family.
-                                IconActionButton(systemImage: "checklist", style: .neutral, accessibilityLabel: "Einkaufsliste an Erinnerungen senden", title: "Erinnerungen", controlSize: .regular) {
+                                // shared with the family. Icon only: with a
+                                // title the header wrapped on an iPhone.
+                                IconActionButton(systemImage: "checklist", style: .neutral, accessibilityLabel: "Einkaufsliste an Erinnerungen senden", controlSize: .regular) {
                                     sendToReminders(shoppingCart)
                                 }
                                 .accessibilityIdentifier("shopping.reminders")

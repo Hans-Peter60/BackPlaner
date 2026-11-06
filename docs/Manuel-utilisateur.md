@@ -812,7 +812,7 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
-**Envoyer dans Rappels.** Le bouton **Rappels** à côté de « Supprimer » envoie tous les éléments de la liste dans l’app Rappels, dans une liste propre « BakePlanner », créée la première fois. Là, la liste peut être partagée avec la famille et cochée pendant les courses. iOS demande une fois l’autorisation pour Rappels ; chaque envoi crée de nouveaux éléments.
+**Envoyer dans Rappels.** Le bouton en forme de liste à cocher à côté de « Supprimer » (**Envoyer la liste de courses dans Rappels**) envoie tous les éléments de la liste dans l’app Rappels, dans une liste propre « BakePlanner », créée la première fois. Là, la liste peut être partagée avec la famille et cochée pendant les courses. iOS demande une fois l’autorisation pour Rappels ; chaque envoi crée de nouveaux éléments.
 
 ### Général
 
