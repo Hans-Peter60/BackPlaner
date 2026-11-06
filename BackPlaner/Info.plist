@@ -22,6 +22,8 @@
 			<string>BakePlannerPronunciationHint</string>
 		</dict>
 	</array>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>BakePlanner sets alarms for the steps of your bake on request, which ring even when the iPhone is on silent.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

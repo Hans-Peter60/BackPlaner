@@ -14,6 +14,10 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
+    /// Which steps ring as an alarm, as AlarmStepScope's raw value.
+    @AppStorage(AppSettingsKeys.alarmSteps) private var alarmScope = AppSettings.defaultAlarmScope.rawValue
+    /// Set when iOS refused alarms for the app.
+    @State private var alarmsDenied = false
     @AppStorage(AppSettingsKeys.bakersPercentages) private var bakersPercentages = AppSettings.defaultBakersPercentages
     @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
     @AppStorage(AppSettingsKeys.starterDoughYield) private var starterDoughYield = AppSettings.defaultStarterDoughYield
@@ -208,6 +212,39 @@ struct SettingsView: View {
                     Text("Live-Aktivität auf dem Sperrbildschirm")
                         .foregroundStyle(.primary)
                     Spacer()
+                }
+
+                // Real alarms beside the reminders: they ring through silent
+                // mode and a Focus. iOS asks for permission the first time;
+                // refused, the setting falls back to off and says so.
+                Picker("Wecker", selection: $alarmScope) {
+                    Text("Aus").tag(AlarmStepScope.off.rawValue)
+                    Text("Ofenschritte").tag(AlarmStepScope.oven.rawValue)
+                    Text("Alle Schritte").tag(AlarmStepScope.all.rawValue)
+                }
+                .onChange(of: alarmScope) { _, newValue in
+                    alarmsDenied = false
+                    guard newValue != AlarmStepScope.off.rawValue else {
+                        BakeAlarmManager.shared.cancelAll()
+                        return
+                    }
+                    Task { @MainActor in
+                        if await BakeAlarmManager.shared.requestAuthorization() {
+                            PlanSnapshotPublisher.shared.refresh()
+                        } else {
+                            alarmsDenied = true
+                            alarmScope = AlarmStepScope.off.rawValue
+                        }
+                    }
+                }
+                if alarmsDenied {
+                    Text("Wecker sind für BakePlanner nicht erlaubt. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text("Wecker klingeln auch bei Stumm und in einem Fokus. Ofenschritte sind „Backofen anstellen“, „in den Ofen“ und das Backende.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
             }
 

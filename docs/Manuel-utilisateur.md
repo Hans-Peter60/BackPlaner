@@ -680,6 +680,12 @@ Le décalage est toujours compté à partir de **maintenant** : « 30 minutes »
 
 Les notifications s’affichent aussi lorsque l’app est au premier plan.
 
+### Alarmes
+
+Une notification reste silencieuse lorsque l’iPhone est en mode silencieux ou dans un mode de concentration – à trois heures du matin, le pain reste alors au four. Sous *Réglages → Planification → Alarmes*, vous faites sonner certaines étapes aussi comme **alarmes**, qui passent outre le mode silencieux et la concentration : **Étapes du four** sont « allumer le four », l’étape qui enfourne la pâte et la fin de la cuisson (un nourrissage de levain chef ne sonne pas) ; **Toutes les étapes** vous réveille à chaque étape de chaque plan. À l’activation, iOS demande une fois l’autorisation ; si vous refusez, le réglage revient sur Désactivé et indique où le changer.
+
+L’alarme affiche la recette et l’étape, **Arrêter** et **Terminé**. Terminé arrête l’alarme et retire l’étape du plan, rappel compris, comme sur le widget. Les alarmes suivent le plan : décalez une étape et son alarme suit ; supprimez le plan ou cochez une étape et l’alarme disparaît. Une alarme dont l’heure est passée n’est pas reprogrammée. Les alarmes n’existent que sur l’appareil qui a établi le plan, comme les rappels.
+
 ### Activité en direct
 
 Pendant qu’un plan est en cours, BakePlanner affiche aussi l’étape à venir comme **activité en direct** : en vignette sur l’écran verrouillé, et en haut de l’écran sur les iPhone à Dynamic Island. On y voit le texte de l’étape, le nom de la recette, l’heure, l’étape suivante (« Ensuite 00:36 · Weizensauerteig … ») et un compte à rebours en cours. Quand l’heure est arrivée, la vignette passe à **« À faire maintenant »** et compte le temps écoulé. Un toucher ouvre « Étapes planifiées » ; sur la Dynamic Island, un appui long déplie la vue.
@@ -842,6 +848,7 @@ Une recette seule s’exporte depuis sa page via **Exporter la recette** (à cô
 | **Début de journée** | 0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h. |
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
+| **Alarmes** | Désactivé, Étapes du four ou Toutes les étapes : quelles étapes sonnent comme alarme en plus de leur rappel, même en mode silencieux et dans un mode de concentration (voir [chapitre 11](#11-rappels-sur-lécran-verrouillé)). À l’activation, iOS demande une fois l’autorisation. Par défaut : désactivé. |
 
 > **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans les instructions de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
