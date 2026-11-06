@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%@: %@ bei %@ %@, im Rezept %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ at %@ %@, in the recipe %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ à %@ %@, dans la recette %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "%@: geplant %@ · heute etwa %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: planned %@ · today about %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : prévu %@ · aujourd’hui environ %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "%lld Erinnerungen gesetzt." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2110,6 +2144,40 @@
         }
       }
     },
+    "Dauern aus den Backvorgängen ins Rezept übernehmen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Write the durations from the bakes into the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reporter les durées des cuissons dans la recette"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "Dauern des Rezepts verwenden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the recipe’s durations"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser les durées de la recette"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Der eingefügte Text wird verschlüsselt über den geschützten BackPlaner-Server von Google Vertex AI analysiert. Dafür ist einmalig Deine Einwilligung nötig." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3738,6 +3806,23 @@
         }
       }
     },
+    "Für diesen Plan angepasst; das Rezept bleibt unverändert." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjusted for this plan; the recipe stays as it is."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapté pour ce plan ; la recette reste inchangée."
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Für dieses Rezept gibt es schon einen Plan" : {
       "comment" : "Title of the dialog when reminders are set for a recipe that already has planned steps.",
       "extractionState" : "manual",
@@ -3826,6 +3911,40 @@
           }
         }
       }
+    },
+    "Gare an heutige Temperatur anpassen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the proof to today’s temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter la pousse à la température du jour"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
+    "Gare heute" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proofing today"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pousse aujourd’hui"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Gemessen in" : {
       "extractionState" : "manual",

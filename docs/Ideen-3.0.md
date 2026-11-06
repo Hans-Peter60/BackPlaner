@@ -22,6 +22,21 @@ Dazu passt **Pro auf beiden Plattformen**: StoreKit 2 und Play Billing mit demse
 - **Teigeinlage aus der Form.** Kastenform in Zentimetern oder Gärkörbchen-Größe eingeben, die App rechnet das Teiggewicht und skaliert das Rezept. Teiggewicht als Eingabe gibt es, die Form fehlt; Faustformeln für Kasten (Volumen × Faktor je Teigart) und runde Körbchen. **Umgesetzt am 05.11.2026:** Rechner „Teigeinlage aus der Form“ in beiden Apps (`DoughWeightFromTin` im Paket): Kastenform und runde Form über Innenmaße und Füllfaktor je Teigart, Gärkörbchen rund und oval über die Nennwerte der Anbieter mit linearer Zwischenrechnung; auf dem iPhone öffnet „Rezept auf dieses Gewicht skalieren“ ein Rezept mit der Teigeinlage als Zielgewicht.
 - **Rezept-Varianten mit Verlauf.** Angepasste Kopien entstehen heute beim Mehltausch und bei der Anstellgut-TA. Varianten werden an ihr Ursprungsrezept gehängt, mit „was ist anders“ und dem Backergebnis je Variante aus der Historie. **In Arbeit seit 04.11.2026** (beschlossen: gespeicherter Ursprungsverweis mit Notiz, dazu eine Bewertung je Backvorgang): Teil 1, die Unterschiedsberechnung `RecipeDifference`, liegt im Paket (Schritt 23a in `docs/Android-Bestandsaufnahme.md`); Teil 2, das Datenmodell mit Ursprungsverweis, Notiz, Bewertung je Backvorgang und Formatversion 3, ist Schritt 23b; Teil 3, die Oberfläche auf beiden Plattformen (Karte „Varianten“, Zeile „Variante von“, Vergleichsblatt, „Variante anlegen“, Sterne je Backvorgang, Listenfilter), ist Schritt 23c. Offen bleiben „Varianten im Vergleich“ als Tabelle und „Zur Hauptfassung machen“.
 
+- **Temperaturabhängige Gare für Brote und Rückkopplung aus der Historie.** **Umgesetzt am 06.11.2026 (Schritt 27):** `ProofTiming` im Paket erkennt Vorteig-Reife, Stockgare und Stückgare am Wortlaut und rechnet sie mit der Q10-Regel des Anstellguts auf die heutige Raumtemperatur um – aus dem Rezept oder aus den Backvorgängen, die Stock-/Stückgare mit Raumtemperatur gemessen haben. Beide Apps zeigen im Planungsblatt die Karte „Gare heute“: Anpassung nur für diesen Plan, und auf Wunsch die gemessenen Gärzeiten (auf 22 °C zurückgerechnet) ins Rezept.
+
+## Vorschläge vom 06.11.2026
+
+Gesammelt nach der Siri-Aussprache; nichts davon ist beschlossen.
+
+- **Schritte mit Zeitfenster.** Kühlschrankgare „12 bis 18 Stunden“ oder Autolyse „30 bis 60 Minuten“ als Minimum und Maximum je Schritt; der Planer dehnt zuerst innerhalb der Fenster, bevor er den ganzen Plan verschiebt. Macht die Vorschläge gegen die Nacht und für den Backtag treffsicherer. Braucht ein Modellfeld (Rückfrage).
+- **Vorteig-Anteil und Plausibilität.** Anteil vorfermentierten Mehls in der TA-Aufschlüsselung; Hinweise bei Salz unter 1,8 oder über 2,5 % und bei ungewöhnlichen Hefemengen, besonders nach dem Import.
+- **Ofenangaben je Schritt strukturiert.** Temperatur, fallend auf, Schwaden als Felder; „Backofen anstellen“ und die Live-Aktivität kennen die Temperatur, und die Backtag-Prüfung lässt zwei Brote bei gleicher Temperatur in denselben Ofen.
+- **Echte Wecker mit AlarmKit (iOS 26).** Als Option je Schritt, etwa „in den Ofen“ und „aus dem Ofen“; klingeln auch bei Stumm und Fokus.
+- **Kalender und Erinnerungen.** Plan als Kalendereinträge (Ofen belegt); Einkaufsliste nach Apple Erinnerungen (teilbar).
+- **Kontrollzentrum und Aktionstaste.** „Schritt erledigt“ und „Nächster Schritt“ als Control Widget; Watch-Komplikation mit der Uhrzeit des nächsten Schritts.
+- **Rezepte in Spotlight** als indizierte App-Entitäten.
+- **Backtag-Zettel:** PDF mit der Zeitleiste aller geplanten Rezepte des Tages.
+
 ## Rezepte hinein
 
 - ~~**Text einfügen** als dritte Importart (iPhone und Android)~~ – **umgesetzt am 04.11.2026** (Schritt 22a in `docs/Android-Bestandsaufnahme.md`): „Rezept aus Text importieren“ auf dem iPhone, „Aus Text“ auf Android, dazu geteilter Text aus dem Android-Browser. Anlass waren Seiten, die ihr Rezept erst per JavaScript nachladen (Plötzblog, 01.11.2026).
