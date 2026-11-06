@@ -19585,6 +19585,263 @@
           }
         }
       }
+    },
+    "Geplant mit BakePlanner." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planned with BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifié avec BakePlanner."
+          }
+        }
+      }
+    },
+    "In Kalender eintragen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to calendar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter au calendrier"
+          }
+        }
+      }
+    },
+    "In Kalender eintragen?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to calendar?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter au calendrier ?"
+          }
+        }
+      }
+    },
+    "Nur „%@“ eintragen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add only “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter seulement « %@ »"
+          }
+        }
+      }
+    },
+    "Alle Pläne eintragen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add all plans"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter tous les plans"
+          }
+        }
+      }
+    },
+    "Jeder geplante Schritt wird ein Termin in Deinem Standardkalender. Ein erneutes Eintragen legt neue Termine an." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every scheduled step becomes an event in your default calendar. Adding again creates new events."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque étape planifiée devient un événement dans votre calendrier par défaut. Ajouter à nouveau crée de nouveaux événements."
+          }
+        }
+      }
+    },
+    "In den Kalender eingetragen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to the calendar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouté au calendrier"
+          }
+        }
+      }
+    },
+    "%lld Termine angelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld events created."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld événements créés."
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf den Kalender" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No access to the calendar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas d’accès au calendrier"
+          }
+        }
+      }
+    },
+    "BakePlanner darf keine Termine anlegen. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner may not create events. You can change that in the iOS Settings under BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner ne peut pas créer d’événements. Vous pouvez changer cela dans les Réglages iOS sous BakePlanner."
+          }
+        }
+      }
+    },
+    "Einkaufsliste an Erinnerungen senden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send shopping list to Reminders"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyer la liste de courses dans Rappels"
+          }
+        }
+      }
+    },
+    "Erinnerungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappels"
+          }
+        }
+      }
+    },
+    "An Erinnerungen gesendet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent to Reminders"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyé dans Rappels"
+          }
+        }
+      }
+    },
+    "%lld Einträge in der Liste „BakePlanner“ angelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld items created in the list “BakePlanner”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld éléments créés dans la liste « BakePlanner »."
+          }
+        }
+      }
+    },
+    "Kein Zugriff auf Erinnerungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No access to Reminders"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas d’accès à Rappels"
+          }
+        }
+      }
+    },
+    "BakePlanner darf keine Erinnerungen anlegen. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner may not create reminders. You can change that in the iOS Settings under BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner ne peut pas créer de rappels. Vous pouvez changer cela dans les Réglages iOS sous BakePlanner."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

@@ -611,6 +611,8 @@ Les rappels correspondants se décalent automatiquement. Si le nouveau moment es
 - **Une seule étape** : balayez la ligne vers la gauche. Le rappel associé est supprimé avec elle.
 - **Toutes les étapes** : le bouton corbeille en bas à droite, puis « Tout supprimer ». Cela retire toutes les étapes planifiées **et** tous les rappels en attente — y compris ceux de recettes que vous ne voulez plus cuire.
 
+**Ajouter au calendrier.** Le bouton calendrier dans la barre du bas inscrit les étapes planifiées dans votre calendrier par défaut, un événement « Recette : étape » par étape pour sa durée, au moins un quart d’heure – ainsi la maisonnée voit quand le four est occupé. Avec un filtre de recette actif, vous pouvez n’ajouter que cette recette, sinon tous les plans. iOS demande l’autorisation la première fois ; BakePlanner n’a besoin que d’un accès en écriture et ne voit pas vos événements. C’est pourquoi ajouter à nouveau crée de nouveaux événements au lieu de modifier les anciens ; après avoir décalé des étapes, ajoutez-les à nouveau si vous le souhaitez et supprimez les anciens événements dans le calendrier.
+
 ### La vue « Timeline »
 
 Les mêmes étapes sous forme de **planning de projet** : chaque plan a sa propre voie avec l’image et le nom de la recette, chaque étape une barre aussi longue que dure l’étape. La couleur dit ce qu’il y a à faire — pétrissage en vert, repos et apprêt en gris, façonnage en violet, four en bleu, cuisson en jaune ; une légende figure en haut. La barre porte l’heure et l’instruction. Les sous-étapes qui tombent dans une autre étape — les rabats pendant le pointage, « Allumer le four » pendant l’apprêt, la baisse du four à l’enfournement — apparaissent comme un repère avec leur heure sur la barre de leur étape. Un drapeau à damier marque « La cuisson est terminée », une ligne rouge l’instant présent.
@@ -809,6 +811,8 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 ![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
+
+**Envoyer dans Rappels.** Le bouton **Rappels** à côté de « Supprimer » envoie tous les éléments de la liste dans l’app Rappels, dans une liste propre « BakePlanner », créée la première fois. Là, la liste peut être partagée avec la famille et cochée pendant les courses. iOS demande une fois l’autorisation pour Rappels ; chaque envoi crée de nouveaux éléments.
 
 ### Général
 

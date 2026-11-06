@@ -611,6 +611,8 @@ The matching reminders move along automatically. If the new time would be in the
 - **A single step**: swipe the row left. Its reminder is removed with it.
 - **All steps**: the bin button at the bottom right, then "Delete all". That removes every scheduled step **and** every pending reminder — including those for recipes you no longer want to bake.
 
+**Add to calendar.** The calendar button in the bar at the bottom enters the scheduled steps into your default calendar, one event "Recipe: Step" per step for its duration, at least a quarter of an hour – so the household sees when the oven is taken. With a recipe filter active you can add just that recipe, otherwise all plans. iOS asks for permission the first time; BakePlanner only needs write access and cannot see your events. That is why adding again creates new events instead of changing old ones; after moving steps, add them again if you like and delete the old events in the calendar.
+
 ### The "Timeline" view
 
 The same steps as a **project plan**: every plan gets a lane of its own with the recipe image and name, every step a bar as long as the step takes. The colour says what is to be done — mixing green, resting and proofing grey, shaping purple, oven blue, baking yellow; a legend sits at the top. The bar carries the time and the instruction. Sub-steps that fall inside another step — the stretch and fold during the bulk rest, "Turn on the oven" during the final proof, the turn-down as the loaf goes in — appear as a marker with their time on their step's bar. A checkered flag marks "Baking is finished", a red line the present moment.
@@ -809,6 +811,8 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 ![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
+
+**Send to Reminders.** The **Reminders** button next to "Delete" sends every item of the list to the Reminders app, into a list of its own called "BakePlanner", created the first time. There the list can be shared with the family and ticked off while shopping. iOS asks for permission to Reminders once; every send creates new items.
 
 ### General
 

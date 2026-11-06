@@ -38,6 +38,7 @@ enum PackageTranslations {
         "Emmer": ["en": "Emmer", "fr": "Emmer"],
         "Emmermehl": ["en": "Emmer flour", "fr": "Farine d’emmer"],
         "Es konnten keine eindeutigen Zutaten oder Zubereitungsschritte erkannt werden. Bitte verwende ein gerades, gut lesbares Bild.": ["en": "No clear ingredients or preparation steps were detected. Use a straight, clearly readable image.", "fr": "Aucun ingrédient ni étape de préparation n’a pu être détecté clairement. Utilisez une image droite et bien lisible."],
+        "Geplant mit BakePlanner.": ["en": "Planned with BakePlanner.", "fr": "Planifié avec BakePlanner."],
         "Grieß": ["en": "semolina", "fr": "semoule"],
         "Hartweizen": ["en": "Durum wheat", "fr": "Blé dur"],
         "Hartweizengrieß": ["en": "Durum semolina", "fr": "Semoule de blé dur"],

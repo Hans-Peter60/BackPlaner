@@ -58,6 +58,13 @@ struct ScheduledTasksView: View {
     /// The plan the list is narrowed down to; `nil` shows every planned step.
     @State private var planFilter: PlanKey?
 
+    // "In Kalender eintragen": the choice of plan, the count afterwards, or
+    // the refusal.
+    @State private var calendarChoiceShown = false
+    @State private var calendarEntryCount = 0
+    @State private var showingCalendarResult = false
+    @State private var showingCalendarDenied = false
+
     /// `nextSteps` with automatically-queued steps left out while they're
     /// more than `RecurringBakePlanner.visibilityLeadTime` away, so a
     /// periodic plan doesn't clutter the list for its full interval. Deleting
@@ -487,10 +494,62 @@ struct ScheduledTasksView: View {
                     }
                 }
                 .sensoryFeedback(.success, trigger: deleteHaptic)
+
+                // The plan's steps into the calendar, so the household sees
+                // when the oven is taken.
+                Button {
+                    calendarChoiceShown = true
+                } label: {
+                    Image(systemName: "calendar.badge.plus")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(Theme.accentText)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.glass)
+                .accessibilityLabel("In Kalender eintragen")
+                .accessibilityIdentifier("scheduled.calendar")
+                .confirmationDialog("In Kalender eintragen?", isPresented: $calendarChoiceShown, titleVisibility: .visible) {
+                    if let planFilter {
+                        Button("Nur „\(planFilter.recipeName)“ eintragen") {
+                            exportToCalendar(plan: planFilter)
+                        }
+                    }
+                    Button("Alle Pläne eintragen") {
+                        exportToCalendar(plan: nil)
+                    }
+                    Button("Abbrechen", role: .cancel) { }
+                } message: {
+                    Text("Jeder geplante Schritt wird ein Termin in Deinem Standardkalender. Ein erneutes Eintragen legt neue Termine an.")
+                }
+                .alert("In den Kalender eingetragen", isPresented: $showingCalendarResult) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("\(calendarEntryCount) Termine angelegt.")
+                }
+                .alert("Kein Zugriff auf den Kalender", isPresented: $showingCalendarDenied) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("BakePlanner darf keine Termine anlegen. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern.")
+                }
             }
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 8)
+    }
+
+    /// The steps of `plan` — every plan for nil — as calendar entries.
+    private func exportToCalendar(plan: PlanKey?) {
+        let steps = plan == nil ? Array(nextSteps) : nextSteps.filter { $0.planKey == plan }
+        let entries = PlanCalendarEntry.entries(for: steps.map { ScheduledStepData($0) })
+        guard !entries.isEmpty else { return }
+        Task { @MainActor in
+            do {
+                calendarEntryCount = try await CalendarExport.add(entries)
+                showingCalendarResult = true
+            } catch {
+                showingCalendarDenied = true
+            }
+        }
     }
 
     /// Horizontal chips to narrow the list down to a single planned recipe.

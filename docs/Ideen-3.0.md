@@ -32,7 +32,7 @@ Gesammelt nach der Siri-Aussprache; nichts davon ist beschlossen.
 - **Vorteig-Anteil und Plausibilität.** **Umgesetzt am 06.11.2026 (Schritt 32):** „Vorfermentiertes Mehl“ und „Hinweise“ (Salz, Frisch- und Trockenhefe) in der TA-Aufschlüsselung beider Apps.
 - **Ofenangaben je Schritt strukturiert.** Temperatur, fallend auf, Schwaden als Felder; „Backofen anstellen“ und die Live-Aktivität kennen die Temperatur, und die Backtag-Prüfung lässt zwei Brote bei gleicher Temperatur in denselben Ofen.
 - **Echte Wecker mit AlarmKit (iOS 26).** Klingeln auch bei Stumm und Fokus. **Umgesetzt am 06.11.2026 (Schritt 29, iPhone):** Einstellung „Wecker“ mit Aus / Ofenschritte / Alle Schritte statt je Schritt; `BakeAlarmManager` gleicht die Wecker bei jeder Planänderung ab, „Erledigt“ auf dem Wecker nimmt den Schritt aus dem Plan. Offen: ein Gegenstück auf Android.
-- **Kalender und Erinnerungen.** Plan als Kalendereinträge (Ofen belegt); Einkaufsliste nach Apple Erinnerungen (teilbar).
+- **Kalender und Erinnerungen.** **Umgesetzt am 06.11.2026 (Schritt 33, iPhone):** Kalender-Knopf in „Geplante Schritte“, Knopf „Erinnerungen“ je Einkaufsliste.
 - **Kontrollzentrum und Aktionstaste.** **Umgesetzt am 06.11.2026 (Schritt 30):** Steuerelemente „Schritt erledigt“ und „Geplante Schritte“ im Widget-Target. Offen: Watch-Komplikation mit der Uhrzeit des nächsten Schritts.
 - **Rezepte in Spotlight** als indizierte App-Entitäten. **Umgesetzt am 06.11.2026 (Schritt 31).**
 - **Backtag-Zettel:** PDF mit der Zeitleiste aller geplanten Rezepte des Tages.
