@@ -19421,6 +19421,70 @@
           }
         }
       }
+    },
+    "Das Rezept gibt es nicht mehr oder es ist noch nicht auf diesem Gerät angekommen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe no longer exists or has not reached this device yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette n’existe plus ou n’est pas encore arrivée sur cet appareil."
+          }
+        }
+      }
+    },
+    "Rezept nicht gefunden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe not found"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette introuvable"
+          }
+        }
+      }
+    },
+    "Rezept öffnen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la recette"
+          }
+        }
+      }
+    },
+    "Öffnet ein eigenes Rezept in BakePlanner." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens one of your own recipes in BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre une de vos recettes dans BakePlanner."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

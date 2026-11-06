@@ -28,6 +28,9 @@ GARE HEUTE
 • Beim Planen eines Brots zeigt die Karte „Gare heute“, wie lange Vorteig-Reife, Stockgare und Stückgare bei der heutigen Raumtemperatur dauern – aus den Dauern des Rezepts oder, sobald Deine Backvorgänge die Gare gemessen haben, aus diesen Messungen. „Gare an heutige Temperatur anpassen“ gilt nur für diesen Plan; das Rezept bleibt, wie es ist.
 • Weichen die gemessenen Gärzeiten vom Rezept ab, schreibt „Dauern aus den Backvorgängen ins Rezept übernehmen“ sie auf 22 °C umgerechnet ins Rezept.
 
+REZEPTE IN SPOTLIGHT
+• Deine Rezepte stehen in der iPhone-Suche: „Landbrot“ eintippen, Rezept öffnen.
+
 KONTROLLZENTRUM UND AKTIONSTASTE
 • Zwei Steuerelemente: „Schritt erledigt“ hakt den fälligen Schritt ab, „Geplante Schritte“ öffnet den Plan – im Kontrollzentrum, auf dem Sperrbildschirm oder auf der Aktionstaste.
 
@@ -82,6 +85,9 @@ PROOFING TODAY
 • When you plan a bread, the “Proofing today” card shows how long the preferment, the bulk proof and the final proof take at today’s room temperature – from the recipe’s durations or, once your bakes have measured the proof, from those measurements. “Adjust the proof to today’s temperature” applies to this plan only; the recipe stays as it is.
 • Where the measured proofs differ from the recipe, “Write the durations from the bakes into the recipe” stores them in the recipe, converted to 22 °C.
 
+RECIPES IN SPOTLIGHT
+• Your recipes are in the iPhone’s search: type “Landbrot”, open the recipe.
+
 CONTROL CENTER AND ACTION BUTTON
 • Two controls: “Step done” ticks off the due step, “Scheduled steps” opens the plan – in Control Center, on the Lock Screen or on the Action button.
 
@@ -135,6 +141,9 @@ LEVAIN CHEF
 POUSSE AUJOURD’HUI
 • En planifiant un pain, la carte « Pousse aujourd’hui » indique combien de temps durent la maturation du préferment, le pointage et l’apprêt à la température ambiante du jour – d’après les durées de la recette ou, dès que vos cuissons ont mesuré la pousse, d’après ces mesures. « Adapter la pousse à la température du jour » ne vaut que pour ce plan ; la recette reste inchangée.
 • Si les pousses mesurées diffèrent de la recette, « Reporter les durées des cuissons dans la recette » les inscrit dans la recette, ramenées à 22 °C.
+
+RECETTES DANS SPOTLIGHT
+• Vos recettes figurent dans la recherche de l’iPhone : tapez « Landbrot », ouvrez la recette.
 
 CENTRE DE CONTRÔLE ET BOUTON ACTION
 • Deux commandes : « Étape terminée » coche l’étape due, « Étapes planifiées » ouvre le plan – dans le centre de contrôle, sur l’écran verrouillé ou sur le bouton Action.

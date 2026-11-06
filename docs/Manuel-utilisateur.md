@@ -247,6 +247,8 @@ Là où seules vos propres recettes entrent en ligne de compte — les écrans v
 
 La recherche ignore les majuscules et trouve aussi des fragments de mots : « seigle » trouve « Pain de seigle », et pour les tags une partie du mot-clé suffit. Les filtres de recherche et de note se combinent.
 
+**Spotlight.** Vos propres recettes figurent aussi dans la recherche de l’iPhone : balayez l’écran d’accueil vers le bas, tapez « Landbrot », et BakePlanner ouvre directement la recette. Elles sont trouvées par nom, tags et description ; l’index est rafraîchi au lancement et à chaque modification d’une recette.
+
 ### Supprimer une recette
 
 Balayez la ligne vers la gauche → **Supprimer**. Une demande de confirmation suit, avec le nom de la recette, afin qu’un balayage involontaire ne détruise rien. Supprimer une recette supprime aussi ses composants, ses ingrédients, ses étapes de préparation et ses entrées d’historique.
