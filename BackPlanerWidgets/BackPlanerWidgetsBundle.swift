@@ -13,5 +13,8 @@ struct BackPlanerWidgetsBundle: WidgetBundle {
     var body: some Widget {
         BackPlanerWidgets()
         BakeActivityWidget()
+        // Control Center, Lock Screen and Action button.
+        MarkStepDoneControl()
+        OpenPlanControl()
     }
 }

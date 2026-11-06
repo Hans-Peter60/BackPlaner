@@ -655,6 +655,12 @@ The widget uses the device's **system language**, not the app language chosen in
 
 ---
 
+### Controls in Control Center and on the Action button
+
+BakePlanner comes with two **controls** you can place in Control Center, on the Lock Screen or on the Action button (edit Control Center → add a control → BakePlanner): **Step done** ticks off the step that is due right now, exactly like the button on the widget, and **Scheduled steps** opens the app at the scheduled steps. With no step due or within reach, "Step done" does nothing.
+
+---
+
 ## 11. Reminders on the Lock Screen
 
 Every reminder appears as a notification titled **"Baking reminder"**, with the subtitle "Press and hold for Done or Reschedule" and the step text as its content.

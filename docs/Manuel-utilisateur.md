@@ -655,6 +655,12 @@ Le widget utilise la **langue du système** de l’appareil, et non la langue de
 
 ---
 
+### Commandes dans le centre de contrôle et sur le bouton Action
+
+BakePlanner apporte deux **commandes** que vous pouvez placer dans le centre de contrôle, sur l’écran verrouillé ou sur le bouton Action (modifier le centre de contrôle → ajouter une commande → BakePlanner) : **Étape terminée** coche l’étape due à l’instant, exactement comme le bouton du widget, et **Étapes planifiées** ouvre l’app sur les étapes planifiées. Sans étape due ou à portée, « Étape terminée » ne fait rien.
+
+---
+
 ## 11. Rappels sur l’écran verrouillé
 
 Chaque rappel apparaît comme une notification intitulée **« Rappel de cuisson »**, avec le sous-titre « Maintenez pour Terminé ou Décaler » et le texte de l’étape comme contenu.
