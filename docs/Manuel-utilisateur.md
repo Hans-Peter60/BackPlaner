@@ -686,7 +686,7 @@ L’activité en direct apparaît dès qu’une étape est à moins de huit heur
 
 ### Siri
 
-Les mains dans la pâte, vous n’avez pas à toucher l’appareil : BakePlanner comprend quelques phrases via **Siri**, sans rien configurer. Chaque phrase nomme l’app, c’est ainsi que Siri sait qu’il s’agit de BakePlanner. Les phrases existent en allemand, en anglais et en français ; Siri comprend celles de sa propre langue.
+Les mains dans la pâte, vous n’avez pas à toucher l’appareil : BakePlanner comprend quelques phrases via **Siri**, sans rien configurer. Chaque phrase nomme l’app, c’est ainsi que Siri sait qu’il s’agit de BakePlanner. Vous pouvez prononcer le nom à la française ou à l’anglaise (« Béïk Planeur »). Les phrases existent en allemand, en anglais et en français ; Siri comprend celles de sa propre langue.
 
 | Ce que vous dites | Ce qui se passe |
 |---|---|

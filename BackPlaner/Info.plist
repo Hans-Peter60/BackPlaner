@@ -13,6 +13,15 @@
 			</array>
 		</dict>
 	</array>
+	<key>INAlternativeAppNames</key>
+	<array>
+		<dict>
+			<key>INAlternativeAppName</key>
+			<string>BakePlannerSpokenName</string>
+			<key>INAlternativeAppNamePronunciationHint</key>
+			<string>BakePlannerPronunciationHint</string>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

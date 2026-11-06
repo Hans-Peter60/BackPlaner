@@ -7,6 +7,11 @@
 //  from every other app's; the ones with `\(\.$starter)` expand to one
 //  phrase per starter, so "Roggensauer gefüttert" works by name.
 //
+//  `.applicationName` also matches the alternative name from Info.plist
+//  (`INAlternativeAppNames`, localised in InfoPlist.xcstrings), whose
+//  pronunciation hint lets German and French Siri accept the English
+//  pronunciation "Beik Plänner" next to the one read in their own language.
+//
 //  The phrases are a contract with whoever has learnt them: new ones may be
 //  added, shipped ones should stay. Their translations live in
 //  AppShortcuts.xcstrings.

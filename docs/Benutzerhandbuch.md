@@ -683,7 +683,7 @@ Die Live-Aktivität erscheint, sobald ein Schritt weniger als acht Stunden entfe
 
 ### Siri
 
-Mit Teig an den Händen musst Du das Gerät nicht anfassen: BakePlanner versteht einige Sätze über **Siri**, ohne dass Du etwas einrichtest. Jeder Satz nennt den App-Namen, daran erkennt Siri, dass BakePlanner gemeint ist. Die Sätze gibt es auf Deutsch, Englisch und Französisch; Siri versteht die in ihrer eigenen Sprache.
+Mit Teig an den Händen musst Du das Gerät nicht anfassen: BakePlanner versteht einige Sätze über **Siri**, ohne dass Du etwas einrichtest. Jeder Satz nennt den App-Namen, daran erkennt Siri, dass BakePlanner gemeint ist. Den Namen darfst Du deutsch oder englisch („Beik-Plänner“) aussprechen. Die Sätze gibt es auf Deutsch, Englisch und Französisch; Siri versteht die in ihrer eigenen Sprache.
 
 | Was Du sagst | Was passiert |
 |---|---|

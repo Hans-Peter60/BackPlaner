@@ -686,7 +686,7 @@ The Live Activity appears as soon as a step is less than eight hours away — iO
 
 ### Siri
 
-With dough on your hands you need not touch the device: BakePlanner understands a few phrases through **Siri**, with nothing to set up. Every phrase names the app, which is how Siri knows BakePlanner is meant. The phrases exist in German, English and French; Siri understands the ones in its own language.
+With dough on your hands you need not touch the device: BakePlanner understands a few phrases through **Siri**, with nothing to set up. Every phrase names the app, which is how Siri knows BakePlanner is meant. German and French Siri accept the name pronounced the English way as well. The phrases exist in German, English and French; Siri understands the ones in its own language.
 
 | What you say | What happens |
 |---|---|

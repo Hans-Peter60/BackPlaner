@@ -37,6 +37,7 @@ IPAD UND MAC
 KLEINERES
 • Die Rezeptliste zeigt ihre Bilder sofort nach dem Start.
 • „Kamera“ beim neuen Rezept öffnet beim ersten Tipp die Kamera.
+• Siri versteht den App-Namen auch englisch ausgesprochen („Beik-Plänner“).
 • Sicherungsdatei Version 4 (Varianten, Bewertungen, Raumtemperatur); ältere Dateien werden weiter gelesen.
 
 ---
@@ -76,6 +77,7 @@ IPAD AND MAC
 SMALLER THINGS
 • The recipe list shows its pictures right after launch.
 • “Camera” in a new recipe opens the camera at the first tap.
+• German and French Siri understand the app name pronounced the English way too.
 • Backup file version 4 (variants, ratings, room temperature); older files are still read.
 
 ---
@@ -115,6 +117,7 @@ IPAD ET MAC
 PLUS PETIT
 • La liste des recettes affiche ses images dès le lancement.
 • « Appareil photo » dans une nouvelle recette ouvre l’appareil photo au premier appui.
+• Siri comprend aussi le nom de l’app prononcé à l’anglaise (« Béïk Planeur »).
 • Fichier de sauvegarde version 4 (variantes, notes, température ambiante) ; les fichiers plus anciens restent lisibles.
 
 ---
