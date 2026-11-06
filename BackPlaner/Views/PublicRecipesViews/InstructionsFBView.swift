@@ -51,6 +51,8 @@ struct InstructionsFBView: View {
     @State private var nightFreeDates             = [NightFreeDate]()
     @State private var planHasOvenConflict = false
     @State private var ovenFreeDates = [PlanDateSuggestion]()
+    // How the plan fits by stretching or shortening steps with a time window.
+    @State private var windowSuggestion: PlanWindowSuggestion?
     @State private var showingPlanError           = false
     @State private var planErrorMessage           = ""
     @State private var pendingReplaceExisting     = false
@@ -157,7 +159,11 @@ struct InstructionsFBView: View {
                                        hasOvenConflict: planHasOvenConflict,
                                        ovenSuggestions: ovenFreeDates,
                                        anchor: PlanAnchor(selection: dateTimeStartSelection),
-                                       onApply: { dateTime = $0 })
+                                       onApply: { dateTime = $0 },
+                                       windowSuggestion: windowSuggestion,
+                                       onApplyDurations: { durations in
+                                           setPlanDurations { durations[$0] ?? recipeFB.instructions[$0].duration }
+                                       })
 
                     // MARK: Proof today — the fermentation steps at today's temperature
                     if !proofAdjustments.isEmpty {
@@ -481,6 +487,8 @@ struct InstructionsFBView: View {
         nightFreeDates = planHasNightSteps ? BakePlanAdvisor.nightFreeDates(for: plan, in: viewContext) : []
         planHasOvenConflict = BakePlanAdvisor.hasOvenConflict(plan, in: viewContext)
         ovenFreeDates = planHasOvenConflict ? BakePlanAdvisor.ovenFreeDates(for: plan, in: viewContext) : []
+        windowSuggestion = BakePlanAdvisor.windowSuggestion(
+            for: plan, dependencies: Rational.ComponentDependency.from(recipeFB.components), in: viewContext)
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.

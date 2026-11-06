@@ -18,6 +18,23 @@
       },
       "extractionState" : "manual"
     },
+    "%@: %@ statt %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ instead of %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ au lieu de %@"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "%@: geplant %@ · heute etwa %@" : {
       "localizations" : {
         "en" : {
@@ -4357,6 +4374,23 @@
         }
       }
     },
+    "Höchstens" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At most"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au plus"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Höhe" : {
       "localizations" : {
         "en" : {
@@ -5564,6 +5598,23 @@
           }
         }
       }
+    },
+    "Mindestens" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au moins"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Minuten" : {
       "comment" : "Placeholder text for a text field in a notification.",
@@ -7455,6 +7506,23 @@
         }
       }
     },
+    "So passt es mit den Zeitfenstern der Schritte:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is how it fits within the steps’ time windows:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voici comment cela tient dans les plages de durée des étapes :"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "So werden die Backöfen nacheinander frei:" : {
       "comment" : "Heading above the suggested dates at which the bake fits the ovens beside the scheduled bakes (baking day).",
       "localizations" : {
@@ -9055,6 +9123,23 @@
           }
         }
       }
+    },
+    "Zeitfenster" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time window"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage de durée"
+          }
+        }
+      },
+      "extractionState" : "manual"
     },
     "Zeitleiste" : {
       "comment" : "Tab with the planned steps of every plan.",

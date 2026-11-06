@@ -216,6 +216,16 @@ public struct PlanWindowSuggestion: Equatable {
             self.from = from
             self.to = to
         }
+
+        /// The step's wording for one line: the first 40 characters, cut
+        /// at a word.
+        public var shortInstruction: String {
+            let trimmed = instruction.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard trimmed.count > 40 else { return trimmed }
+            let head = trimmed.prefix(40)
+            let atWord = head.lastIndex(of: " ").map { head[..<$0] } ?? head
+            return String(atWord).trimmingCharacters(in: .punctuationCharacters.union(.whitespaces)) + "…"
+        }
     }
 
     /// The changed durations by step index — what `BakePlan.withDurations`

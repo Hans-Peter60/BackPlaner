@@ -559,6 +559,22 @@
         }
       }
     },
+    "%@: %@ statt %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ instead of %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ au lieu de %@"
+          }
+        }
+      }
+    },
     "%@: %@ statt %@ (%@)" : {
       "comment" : "Recipe difference: component, new ingredient, old ingredient, amount.",
       "extractionState" : "manual",
@@ -4101,6 +4117,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "La prochaine étape sur l’écran d’accueil et l’écran verrouillé."
+          }
+        }
+      }
+    },
+    "Der Planer darf den Schritt innerhalb des Fensters dehnen oder kürzen, etwa eine Kühlschrankgare von 12 bis 18 Stunden. Leer lassen, wenn die Dauer fest ist." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The planner may stretch or shorten the step within the window, say a cold proof of 12 to 18 hours. Leave it empty when the duration is fixed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le planificateur peut allonger ou raccourcir l’étape dans cette plage, par exemple une pousse au froid de 12 à 18 heures. Laisser vide si la durée est fixe."
           }
         }
       }
@@ -7966,6 +7998,22 @@
         }
       }
     },
+    "Höchstens" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At most"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au plus"
+          }
+        }
+      }
+    },
     "Höhe" : {
       "localizations" : {
         "en" : {
@@ -9911,6 +9959,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Note minimale"
+          }
+        }
+      }
+    },
+    "Mindestens" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au moins"
           }
         }
       }
@@ -13161,6 +13225,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour qu’aucune étape ne commence la nuit :"
+          }
+        }
+      }
+    },
+    "So passt es mit den Zeitfenstern der Schritte:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is how it fits within the steps’ time windows:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voici comment cela tient dans les plages de durée des étapes :"
           }
         }
       }
@@ -18260,6 +18340,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Affiche la farine et l’eau par composant"
+          }
+        }
+      }
+    },
+    "Zeitfenster" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time window"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plage de durée"
           }
         }
       }

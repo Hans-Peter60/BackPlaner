@@ -26,11 +26,15 @@ public struct RecipePrintData: Sendable {
         public let number: String
         public let text: String
         public let duration: String
+        /// The step's time window as the tables show it ("12h 00m – 18h
+        /// 00m"), when the plan may stretch or shorten the step.
+        public let window: String?
 
-        public init(number: String, text: String, duration: String) {
+        public init(number: String, text: String, duration: String, window: String? = nil) {
             self.number = number
             self.text = text
             self.duration = duration
+            self.window = window
         }
     }
 
@@ -61,7 +65,9 @@ public struct RecipePrintData: Sendable {
         steps = recipe.instructions.map {
             Step(number: Rational.decimalPlace($0.step, 10),
                  text: $0.instruction,
-                 duration: Rational.displayHoursMinutes($0.duration))
+                 duration: Rational.displayHoursMinutes($0.duration),
+                 window: DurationWindow.effective(stored: $0.durationWindow, instruction: $0.instruction,
+                                                  duration: $0.duration).map(DurationWindow.text))
         }
     }
 
@@ -82,7 +88,9 @@ public struct RecipePrintData: Sendable {
             .map {
                 Step(number: Rational.decimalPlace($0.step, 10),
                      text: $0.instruction,
-                     duration: Rational.displayHoursMinutes($0.duration))
+                     duration: Rational.displayHoursMinutes($0.duration),
+                     window: DurationWindow.effective(stored: $0.durationWindow, instruction: $0.instruction,
+                                                      duration: $0.duration).map(DurationWindow.text))
             }
     }
 

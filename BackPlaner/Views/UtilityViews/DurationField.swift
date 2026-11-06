@@ -52,3 +52,47 @@ struct DurationField: View {
         }
     }
 }
+
+/// A duration field that may stay empty — the bounds of a step's time
+/// window, which most steps do not have. Empty is nil; a typed duration
+/// of no length is nil as well.
+struct OptionalDurationField: View {
+
+    @Binding private var minutes: Int?
+
+    @State private var text: String
+    @FocusState private var isFocused: Bool
+
+    init(minutes: Binding<Int?>) {
+        _minutes = minutes
+        _text = State(initialValue: minutes.wrappedValue.map(DurationInput.text(forMinutes:)) ?? "")
+    }
+
+    var body: some View {
+        TextField(text: $text) {
+            Text("min · h:mm")
+        }
+        .keyboardType(.numbersAndPunctuation)
+        .autocorrectionDisabled()
+        .focused($isFocused)
+        .onChange(of: text) { _, newText in
+            let trimmed = newText.trimmingCharacters(in: .whitespaces)
+            if trimmed.isEmpty {
+                if minutes != nil { minutes = nil }
+                return
+            }
+            guard let typed = DurationInput.minutes(from: trimmed) else { return }
+            let value: Int? = typed > 0 ? typed : nil
+            if value != minutes { minutes = value }
+        }
+        .onChange(of: minutes) { _, newValue in
+            let shown = text.trimmingCharacters(in: .whitespaces).isEmpty ? nil : DurationInput.minutes(from: text)
+            if shown != newValue {
+                text = newValue.map(DurationInput.text(forMinutes:)) ?? ""
+            }
+        }
+        .onChange(of: isFocused) { _, focused in
+            if !focused { text = minutes.map(DurationInput.text(forMinutes:)) ?? "" }
+        }
+    }
+}
