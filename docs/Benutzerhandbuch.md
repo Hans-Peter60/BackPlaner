@@ -677,6 +677,12 @@ Beim Verschieben wird immer ab **jetzt** gerechnet: „30 Minuten“ heißt „i
 
 Mitteilungen werden auch angezeigt, während die App im Vordergrund läuft.
 
+### Wecker
+
+Eine Mitteilung ist leise, wenn das iPhone stumm oder in einem Fokus ist – um drei Uhr nachts bleibt das Brot dann im Ofen. Unter *Einstellungen → Backplanung → Wecker* lässt Du ausgewählte Schritte zusätzlich als **Wecker** klingeln, die durch Stumm und Fokus hindurchgehen: **Ofenschritte** sind „Backofen anstellen“, der Schritt, mit dem der Teig in den Ofen kommt, und das Backende (bei einer Anstellgut-Fütterung klingelt nichts); **Alle Schritte** weckt bei jedem Schritt jedes Plans. Beim Einschalten fragt iOS einmal um Erlaubnis; lehnst Du ab, springt die Einstellung auf Aus zurück und sagt, wo Du es ändern kannst.
+
+Der Wecker zeigt Rezept und Schritt, **Stopp** und **Erledigt**. Erledigt stoppt den Wecker und nimmt den Schritt aus dem Plan, samt Erinnerung, wie auf dem Widget. Die Wecker folgen dem Plan: Verschiebst Du einen Schritt, wandert sein Wecker mit; löschst Du den Plan oder hakst einen Schritt ab, ist der Wecker weg. Ein Wecker, dessen Zeit schon vorbei ist, wird nicht neu gestellt. Wecker gibt es nur auf dem Gerät, das den Plan gesetzt hat, wie die Erinnerungen.
+
 ### Live-Aktivität
 
 Läuft ein Plan, zeigt BakePlanner den anstehenden Schritt zusätzlich als **Live-Aktivität**: auf dem Sperrbildschirm als eigene Kachel und auf iPhones mit Dynamic Island oben am Display. Zu sehen sind Schritttext, Rezeptname, Uhrzeit, der nächste Schritt danach („Danach 00:36 · Weizensauerteig …“) und ein laufender Countdown. Ist die Zeit gekommen, wechselt die Kachel auf **„Jetzt fällig“** und zählt die verstrichene Zeit hoch. Ein Tipp öffnet „Geplante Schritte“; auf der Dynamic Island klappt ein langer Druck die Ansicht auf.
@@ -839,6 +845,7 @@ Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren*
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
+| **Wecker** | Aus, Ofenschritte oder Alle Schritte: Welche Schritte zusätzlich zur Erinnerung als Wecker klingeln, auch bei Stumm und in einem Fokus (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)). Beim Einschalten fragt iOS einmal um Erlaubnis. Standard: aus. |
 
 > **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backanleitung, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
 

@@ -680,6 +680,12 @@ Rescheduling is always counted from **now**: "30 minutes" means "30 minutes from
 
 Notifications are shown while the app is in the foreground too.
 
+### Alarms
+
+A notification is quiet when the iPhone is on silent or in a Focus – at three in the morning the bread then stays in the oven. Under *Settings → Baking plan → Alarms* you let selected steps ring as **alarms** as well, which get through silent mode and a Focus: **Oven steps** are "oven on", the step that puts the dough into the oven, and the end of the bake (feeding a starter rings nothing); **All steps** wakes you for every step of every plan. When you turn it on, iOS asks for permission once; if you refuse, the setting falls back to Off and says where to change it.
+
+The alarm shows the recipe and the step, **Stop** and **Done**. Done stops the alarm and takes the step off the plan, reminder included, as on the widget. The alarms follow the plan: move a step and its alarm moves along; delete the plan or tick a step off and the alarm is gone. An alarm whose time has passed is not set again. Alarms exist only on the device that set the plan, like the reminders.
+
 ### Live Activity
 
 While a plan is running, BakePlanner also shows the upcoming step as a **Live Activity**: as its own tile on the Lock Screen, and at the top of the display on iPhones with a Dynamic Island. It shows the step text, the recipe name, the time, the step after it ("Then 00:36 · Weizensauerteig …") and a running countdown. When the time has come, the tile switches to **"Due now"** and counts the elapsed time up. A tap opens "Scheduled steps"; on the Dynamic Island a long press expands the view.
@@ -842,6 +848,7 @@ A single recipe is exported on its page via **Export recipe** (next to "Share re
 | **Start of day** | 0–23. From when you're available in the morning. Default: 6. |
 | **End of day** | Between start of day and 23. Default: 23. |
 | **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
+| **Alarms** | Off, Oven steps or All steps: which steps ring as an alarm beside their reminder, on silent and in a Focus as well (see [chapter 11](#11-reminders-on-the-lock-screen)). When you turn it on, iOS asks for permission once. Default: off. |
 
 > **Note:** Only **Preheat time** actually moves steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking instructions when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
 

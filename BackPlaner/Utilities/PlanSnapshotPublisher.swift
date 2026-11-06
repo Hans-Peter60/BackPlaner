@@ -181,6 +181,13 @@ final class PlanSnapshotPublisher {
                 }
             )
 
+            // The alarms follow the plan the same way: one per step that
+            // should ring, none for a step that is gone.
+            let stepData = steps.map { ScheduledStepData($0) }
+            DispatchQueue.main.async {
+                BakeAlarmManager.shared.sync(steps: stepData)
+            }
+
             // Automatically-queued recurring steps more than
             // RecurringBakePlanner.visibilityLeadTime away stay out of the
             // snapshot, so the widget and Live Activity don't pick them up

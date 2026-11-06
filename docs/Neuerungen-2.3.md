@@ -28,6 +28,9 @@ GARE HEUTE
 • Beim Planen eines Brots zeigt die Karte „Gare heute“, wie lange Vorteig-Reife, Stockgare und Stückgare bei der heutigen Raumtemperatur dauern – aus den Dauern des Rezepts oder, sobald Deine Backvorgänge die Gare gemessen haben, aus diesen Messungen. „Gare an heutige Temperatur anpassen“ gilt nur für diesen Plan; das Rezept bleibt, wie es ist.
 • Weichen die gemessenen Gärzeiten vom Rezept ab, schreibt „Dauern aus den Backvorgängen ins Rezept übernehmen“ sie auf 22 °C umgerechnet ins Rezept.
 
+WECKER
+• Unter Einstellungen → Backplanung lässt Du Ofenschritte oder alle Schritte zusätzlich als Wecker klingeln – auch bei Stumm und in einem Fokus. „Erledigt“ auf dem Wecker nimmt den Schritt aus dem Plan.
+
 SCHRITTE MIT ZEITFENSTER
 • Ein Schritt kann sagen, wie kurz und wie lang er dauern darf – „Kühlschrankgare 12 bis 18 Stunden“. Das Fenster trägst Du beim Bearbeiten des Schritts ein, oder die App liest es aus dem Wortlaut („12–18 Stunden“).
 • Fällt ein Schritt in die Nacht oder ist der Ofen belegt, schlägt die Backanleitung zuerst vor, solche Schritte zu dehnen oder zu kürzen, bevor sie den ganzen Plan verschiebt – mit der kleinsten Änderung, die passt, und nur für diesen Plan.
@@ -76,6 +79,9 @@ PROOFING TODAY
 • When you plan a bread, the “Proofing today” card shows how long the preferment, the bulk proof and the final proof take at today’s room temperature – from the recipe’s durations or, once your bakes have measured the proof, from those measurements. “Adjust the proof to today’s temperature” applies to this plan only; the recipe stays as it is.
 • Where the measured proofs differ from the recipe, “Write the durations from the bakes into the recipe” stores them in the recipe, converted to 22 °C.
 
+ALARMS
+• Under Settings → Baking plan you can let oven steps or all steps ring as alarms as well – on silent and in a Focus too. “Done” on the alarm takes the step off the plan.
+
 STEPS WITH A TIME WINDOW
 • A step can say how short and how long it may take – “cold proof 12 to 18 hours”. You enter the window when editing the step, or the app reads it from the wording (“12–18 hours”).
 • When a step falls into the night or the oven is taken, the baking instructions first suggest stretching or shortening such steps before moving the whole plan – the smallest change that fits, for this plan only.
@@ -123,6 +129,9 @@ LEVAIN CHEF
 POUSSE AUJOURD’HUI
 • En planifiant un pain, la carte « Pousse aujourd’hui » indique combien de temps durent la maturation du préferment, le pointage et l’apprêt à la température ambiante du jour – d’après les durées de la recette ou, dès que vos cuissons ont mesuré la pousse, d’après ces mesures. « Adapter la pousse à la température du jour » ne vaut que pour ce plan ; la recette reste inchangée.
 • Si les pousses mesurées diffèrent de la recette, « Reporter les durées des cuissons dans la recette » les inscrit dans la recette, ramenées à 22 °C.
+
+ALARMES
+• Sous Réglages → Planification, vous pouvez faire sonner les étapes du four ou toutes les étapes aussi comme alarmes – même en mode silencieux et dans un mode de concentration. « Terminé » sur l’alarme retire l’étape du plan.
 
 ÉTAPES AVEC PLAGE DE DURÉE
 • Une étape peut indiquer combien de temps elle peut durer au minimum et au maximum – « pousse au froid 12 à 18 heures ». Vous saisissez la plage en modifiant l’étape, ou l’app la lit dans le texte (« 12–18 heures »).

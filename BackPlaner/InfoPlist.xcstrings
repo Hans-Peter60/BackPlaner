@@ -95,6 +95,30 @@
         }
       }
     },
+    "NSAlarmKitUsageDescription" : {
+      "comment" : "Privacy - AlarmKit Usage Description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner stellt auf Wunsch Wecker für die Schritte Deines Backvorgangs, die auch bei stummgeschaltetem iPhone klingeln."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner sets alarms for the steps of your bake on request, which ring even when the iPhone is on silent."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner règle sur demande des alarmes pour les étapes de votre cuisson, qui sonnent même si l’iPhone est en silencieux."
+          }
+        }
+      }
+    },
     "NSCameraUsageDescription" : {
       "comment" : "Privacy - Camera Usage Description",
       "localizations" : {
