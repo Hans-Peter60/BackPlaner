@@ -136,9 +136,24 @@ public enum DoughComposition {
         public let components: [ComponentShare]
         public let starters: [StarterShare]
         public let uncounted: [Uncounted]
+        /// The flour that ferments before the main dough is mixed: in the
+        /// preferments (Sauerteig, Poolish, Biga, Vorteig …) the main dough
+        /// takes over, and in the starter ingredients themselves.
+        public let prefermentedFlour: Double
+        /// Salt and yeast over the whole recipe, in grams, for the
+        /// plausibility hints; 0 when none was found.
+        public let salt: Double
+        public let freshYeast: Double
+        public let dryYeast: Double
 
         public var doughYield: Double { DoughComposition.doughYield(flour: flour, water: water) ?? 0 }
         public var hydration: Double { water * 100 / flour }
+        /// Pre-fermented flour as a percentage of all flour.
+        public var prefermentedShare: Double { flour > 0 ? prefermentedFlour * 100 / flour : 0 }
+        /// Baker's percentages: the share of the flour.
+        public var saltShare: Double { flour > 0 ? salt * 100 / flour : 0 }
+        public var freshYeastShare: Double { flour > 0 ? freshYeast * 100 / flour : 0 }
+        public var dryYeastShare: Double { flour > 0 ? dryYeast * 100 / flour : 0 }
     }
 
     /// TA = (flour + water) / flour × 100; nil without flour. Multiplied
@@ -165,6 +180,12 @@ public enum DoughComposition {
             var flour = 0.0
             var water = 0.0
             var grams = 0.0
+            /// Flour of the starter ingredients: fermented before this
+            /// component was mixed.
+            var starterFlour = 0.0
+            var salt = 0.0
+            var freshYeast = 0.0
+            var dryYeast = 0.0
             /// Components this one takes over, with the amount when only
             /// part of them is used.
             var references: [(index: Int, partGrams: Double?)] = []
@@ -210,9 +231,18 @@ public enum DoughComposition {
                                              source: source)
                     analyses[index].flour += share.flour
                     analyses[index].water += share.water
+                    analyses[index].starterFlour += share.flour
                     starters.append(share)
 
                 case .other:
+                    if isSalt(ingredient.name) {
+                        analyses[index].salt += grams
+                    } else if let yeast = yeastKind(ingredient.name) {
+                        switch yeast {
+                        case .fresh: analyses[index].freshYeast += grams
+                        case .dry: analyses[index].dryYeast += grams
+                        }
+                    }
                     if isWorthListing(ingredient.name) {
                         others.append(Uncounted(id: others.count,
                                                 name: IngredientNameNormalizer.displayName(ingredient.name),
@@ -244,29 +274,55 @@ public enum DoughComposition {
             return total > 0 ? min(partGrams / total, 1) : 1
         }
 
-        func contribution(of index: Int, visited: Set<Int>) -> (flour: Double, water: Double) {
-            var flour = analyses[index].flour
-            var water = analyses[index].water
+        struct Contribution {
+            var flour = 0.0
+            var water = 0.0
+            var prefermented = 0.0
+            var salt = 0.0
+            var freshYeast = 0.0
+            var dryYeast = 0.0
+        }
+
+        /// A component taken over by another is a preferment when its
+        /// name says so; a soaker ("Brühstück") is taken over as well but
+        /// ferments nothing.
+        func contribution(of index: Int, visited: Set<Int>) -> Contribution {
+            var total = Contribution(flour: analyses[index].flour, water: analyses[index].water,
+                                     prefermented: analyses[index].starterFlour,
+                                     salt: analyses[index].salt, freshYeast: analyses[index].freshYeast,
+                                     dryYeast: analyses[index].dryYeast)
             for reference in analyses[index].references where !visited.contains(reference.index) {
                 let share = fraction(of: reference, usedBy: index)
                 let child = contribution(of: reference.index, visited: visited.union([index]))
-                flour += share * child.flour
-                water += share * child.water
+                total.flour += share * child.flour
+                total.water += share * child.water
+                total.prefermented += share * (isPrefermentName(components[reference.index].name) ? child.flour : child.prefermented)
+                total.salt += share * child.salt
+                total.freshYeast += share * child.freshYeast
+                total.dryYeast += share * child.dryYeast
             }
-            return (flour, water)
+            return total
         }
 
         let referenced = Set(analyses.flatMap { $0.references.map(\.index) })
         var roots = components.indices.filter { !referenced.contains($0) }
         if roots.isEmpty { roots = Array(components.indices) }
 
-        var flour = 0.0
-        var water = 0.0
+        var sum = Contribution()
         for root in roots {
             let total = contribution(of: root, visited: [])
-            flour += total.flour
-            water += total.water
+            sum.flour += total.flour
+            sum.water += total.water
+            // A preferment nobody names in the main dough ("Vorteig" beside
+            // "Hauptteig") is a root of its own; its flour is pre-fermented
+            // all the same — unless the recipe is nothing but the starter.
+            sum.prefermented += roots.count > 1 && isPrefermentName(components[root].name) ? total.flour : total.prefermented
+            sum.salt += total.salt
+            sum.freshYeast += total.freshYeast
+            sum.dryYeast += total.dryYeast
         }
+        let flour = sum.flour
+        let water = sum.water
 
         guard flour > 0 else { return nil }
 
@@ -281,7 +337,11 @@ public enum DoughComposition {
                       water: water,
                       components: shares,
                       starters: starters,
-                      uncounted: Array(uncounted))
+                      uncounted: Array(uncounted),
+                      prefermentedFlour: min(sum.prefermented, flour),
+                      salt: sum.salt,
+                      freshYeast: sum.freshYeast,
+                      dryYeast: sum.dryYeast)
     }
 
     // MARK: - Classification
@@ -348,6 +408,45 @@ public enum DoughComposition {
     private static func isWorthListing(_ name: String) -> Bool {
         let key = comparisonKey(name)
         return !unremarkableWords.contains(where: key.contains)
+    }
+
+    // MARK: - Preferments, salt and yeast
+
+    /// A component whose name says it ferments before the main dough.
+    private static let prefermentComponentWords = ["vorteig", "preferment", "pre-ferment", "sponge", "sauer", "levain",
+                                                   "poolish", "biga", "pate fermentee", "madre", "starter", "anstellgut",
+                                                   "alter teig", "old dough"]
+
+    public static func isPrefermentName(_ name: String) -> Bool {
+        let key = comparisonKey(name)
+        return prefermentComponentWords.contains(where: key.contains)
+    }
+
+    /// Salt, "Meersalz" included; not salted butter, not "Sellerie".
+    private static let saltExpression = try? NSRegularExpression(pattern: #"salz\b|\bsalt\b|\bsel\b|\bsale\b"#)
+
+    public static func isSalt(_ name: String) -> Bool {
+        let key = comparisonKey(name)
+        guard let expression = saltExpression else { return false }
+        return expression.firstMatch(in: key, range: NSRange(key.startIndex..., in: key)) != nil
+    }
+
+    public enum YeastKind: Equatable {
+        case fresh
+        case dry
+    }
+
+    private static let yeastWords = ["hefe", "yeast", "levure", "lievito di birra"]
+    /// Baking powder, yeast flakes and yeast water are no yeast.
+    private static let notYeastWords = ["backpulver", "baking powder", "levure chimique", "flocken", "flakes", "wasser", "water", "eau",
+                                        "extrakt", "extract", "nahrung", "nutrient"]
+    private static let dryYeastWords = ["trocken", "dry", "instant", "seche", "lyophilis", "granul"]
+
+    /// Fresh or dry yeast, nil for anything else.
+    public static func yeastKind(_ name: String) -> YeastKind? {
+        let key = comparisonKey(name)
+        guard yeastWords.contains(where: key.contains), !notYeastWords.contains(where: key.contains) else { return nil }
+        return dryYeastWords.contains(where: key.contains) ? .dry : .fresh
     }
 
     private static func comparisonKey(_ name: String) -> String {

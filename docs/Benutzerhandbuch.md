@@ -943,6 +943,8 @@ Gerechnet wird nach der Bäckerkonvention:
 
 Die Zeile fehlt bei Rezepten ohne erkanntes Mehl. Beim Bild-Import vergleicht die App dieselbe Rechnung mit der im Buch gedruckten Teigausbeute und warnt bei Abweichung.
 
+**Vorfermentiertes Mehl und Hinweise.** Die Aufschlüsselung nennt außerdem, wie viel Mehl schon vor dem Hauptteig gärt – in Sauerteig, Poolish, Biga oder Vorteig und im Anstellgut selbst – in Gramm und als Anteil am gesamten Mehl; Brüh- und Quellstücke zählen nicht dazu. Darunter stehen **Hinweise**, wenn Salz oder Hefe weit von den üblichen Bäckerprozenten abweichen: Salz unter 1,5 oder über 2,5 Prozent des Mehls (üblich sind 1,8 bis 2,2), Frischhefe über 2 Prozent, Trockenhefe über 1 Prozent. Nach einem Import fängt das eine falsch gelesene Menge ab; bei einem eigenen Rezept ist es nur ein Fingerzeig. Ein Rezept ganz ohne Salz bekommt keinen Hinweis.
+
 ### Mehl ersetzen
 
 Du hast kein Weizenmehl 1050, aber Dinkelmehl 630? Mehle werden **1:1 nach Gewicht** getauscht; was sich ändert, ist das Wasser, weil jedes Mehl anders bindet. Zwei Wege:

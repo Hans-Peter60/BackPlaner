@@ -61,6 +61,34 @@ struct DoughCompositionSheet: View {
                     LabeledContent("Wasser") { gramsText(result.water) }
                     LabeledContent("Teigausbeute", value: yieldText(result.doughYield))
                     LabeledContent("Hydration", value: percentText(result.hydration))
+                    // The flour that ferments before the main dough is mixed:
+                    // in the preferments and the starter ingredients.
+                    if result.prefermentedFlour > 0 {
+                        LabeledContent("Vorfermentiertes Mehl") {
+                            HStack(spacing: 4) {
+                                gramsText(result.prefermentedFlour)
+                                Text(verbatim: "·")
+                                Text(percentText(result.prefermentedShare))
+                            }
+                        }
+                    }
+                }
+
+                // Salt and yeast far from the usual baker's percentages —
+                // after an import often a misread amount.
+                let hints = DoughPlausibility.hints(for: result)
+                if !hints.isEmpty {
+                    Section("Hinweise") {
+                        ForEach(hints) { hint in
+                            HStack(alignment: .top, spacing: 8) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(Theme.warning)
+                                    .accessibilityHidden(true)
+                                Text(hint.text)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
                 }
 
                 Section("Komponenten") {

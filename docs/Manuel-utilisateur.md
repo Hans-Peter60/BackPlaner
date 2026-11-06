@@ -946,6 +946,8 @@ La convention des boulangers s’applique :
 
 La ligne est absente pour les recettes sans farine reconnue. L’import d’images compare le même calcul au rendement imprimé dans le livre et avertit en cas d’écart.
 
+**Farine préfermentée et remarques.** Le détail indique aussi combien de farine fermente avant la pâte finale – dans le levain, le poolish, la biga ou le préferment et dans le levain chef lui-même – en grammes et en part de toute la farine ; les trempages ne comptent pas. En dessous, des **Remarques** apparaissent si le sel ou la levure s’écartent nettement des pourcentages boulangers habituels : sel sous 1,5 ou au-dessus de 2,5 pour cent de la farine (l’usage est 1,8 à 2,2), levure fraîche au-dessus de 2 pour cent, levure sèche au-dessus de 1 pour cent. Après un import, cela rattrape une quantité mal lue ; dans votre propre recette, ce n’est qu’un signe. Une recette sans sel ne reçoit aucune remarque.
+
 ### Remplacer la farine
 
 Pas de farine de blé 1050 à la maison, mais de la farine d’épeautre 630 ? Les farines s’échangent **1:1 au poids** ; ce qui change, c’est l’eau, car chaque farine absorbe différemment. Deux voies :

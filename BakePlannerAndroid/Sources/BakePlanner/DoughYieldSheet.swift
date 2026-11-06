@@ -47,6 +47,24 @@ struct DoughYieldSheet: View {
                 LabeledContent("Wasser", value: gramsText(result.water))
                 LabeledContent("Teigausbeute", value: yieldText(result.doughYield))
                 LabeledContent("Hydration", value: percentText(result.hydration))
+                // The flour that ferments before the main dough is mixed.
+                if result.prefermentedFlour > 0 {
+                    LabeledContent("Vorfermentiertes Mehl",
+                                   value: gramsText(result.prefermentedFlour) + " · " + percentText(result.prefermentedShare))
+                }
+            }
+
+            // Salt and yeast far from the usual baker's percentages, as on
+            // the iPhone; the texts come from the package.
+            let hints = DoughPlausibility.hints(for: result)
+            if !hints.isEmpty {
+                Section {
+                    ForEach(keyedRows(hints, prefix: "hint")) { row in
+                        Text(verbatim: row.value.text)
+                    }
+                } header: {
+                    Text("Hinweise")
+                }
             }
 
             Section {
