@@ -489,7 +489,7 @@ private struct GeneratedRecipe {
             )
             instruction.duration = max(0, source.durationMinutes)
             if instruction.duration == 0, text.describesOvenPreheating {
-                instruction.duration = GlobalVariables.preheatTime
+                instruction.duration = GlobalVariables.preheatTime(for: text)
             }
             instruction.componentName = componentName.isEmpty ? nil : componentName
             instruction.bakeFlag = source.isBaking

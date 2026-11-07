@@ -360,6 +360,7 @@ Tapping **Set reminders** does several things at once:
    - If the recipe names an **oven temperature**, it is added, for example "Turn on the oven (250 °C)". With "bake at 250 °C falling to 220 °C" it is the first one. The temperature may also stand in the step before ("load the bread, oven at 250 °C").
    - If the recipe already has **its own preheating step**, no second one is added. The recipe's own step then serves as the preheating reminder and gets the temperature appended if it doesn't name one yet.
    - If the bake starts in a **cold oven** ("place in the cold oven"), there is no preheat time.
+   - If a step names a **baking stone** or steel ("slide onto the hot baking stone", "heat the pizza stone along"), the **Preheat time with baking stone** (45 minutes by default) applies instead of the preheat time – the stone takes far longer than the oven's air.
    - If the baking step names a **falling temperature** ("load at 250 °C, after 10 minutes reduce to 220 °C"), the app additionally inserts **"Turn the oven down to 220 °C"** — at the minute named in the sentence with the lower temperature; "immediately" means at the start of the bake, and without any minute it is ten minutes in. If the step mentions steam, it reads "…, release the steam"; not with "without steam". If the recipe has a **step of its own for releasing the steam** ("Release the steam" 20 minutes after loading), the oven is turned down as the loaf goes in and the inserted step names no steam — the recipe itself says when the steam goes. A convection figure given alongside ("230 °C top/bottom heat, fan 210 °C") does not count as a drop.
 3. **"Baking is finished"** is likewise scheduled for the finishing time.
 4. Every step lands in **Scheduled steps**.
@@ -857,6 +858,7 @@ A single recipe is exported on its page via **Export recipe** (next to "Share re
 | Setting | Description |
 |---------|-------------|
 | **Preheat time** | 0–120 minutes in steps of 5. Used when setting reminders, to place the automatic "turn on the oven" step before the final step. Default: 15 minutes. |
+| **Preheat time with baking stone** | 0–180 minutes in steps of 5. Replaces the preheat time when a step of the recipe names a baking stone or steel. Default: 45 minutes. |
 | **Baking pause** | 0–120 minutes. The minimum gap between two bakes in the same oven. Default: 10 minutes. |
 | **Ovens** | 1–6. How many bakes may run at the same time. The plan check reports an error only when more recipes bake at the same time than there are ovens; the baking pause applies per oven. Default: 1. |
 | **Start of day** | 0–23. From when you're available in the morning. Default: 6. |
@@ -864,7 +866,7 @@ A single recipe is exported on its page via **Export recipe** (next to "Share re
 | **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
 | **Alarms** | Off, Oven steps or All steps: which steps ring as an alarm beside their reminder, on silent and in a Focus as well (see [chapter 11](#11-reminders-on-the-lock-screen)). When you turn it on, iOS asks for permission once. Default: off. |
 
-> **Note:** Only **Preheat time** actually moves steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking instructions when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
+> **Note:** Only the two **preheat times** actually move steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking instructions when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
 
 ### Privacy & AI
 

@@ -19,6 +19,7 @@ struct SettingsView: View {
     @State var starterDoughYield = AppSettings.storedStarterDoughYield
     @State var lievitoMadreDoughYield = AppSettings.storedLievitoMadreDoughYield
     @State var preheatTime = AppSettings.storedPreheatTime
+    @State var stonePreheatTime = AppSettings.storedStonePreheatTime
     @State var bakePause = AppSettings.storedBakePause
     @State var ovenCount = AppSettings.storedOvenCount
     @State var dayStart = AppSettings.storedDayStart
@@ -120,6 +121,11 @@ struct SettingsView: View {
             Section {
                 Stepper(value: $preheatTime, in: 0...120, step: 5) {
                     valueRow("Vorheizzeit", value: "\(preheatTime) min")
+                }
+                // A baking stone or steel takes far longer to heat through;
+                // this time replaces the usual one when a step names one.
+                Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
+                    valueRow("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
                 }
                 Stepper(value: $bakePause, in: 0...120, step: 5) {
                     valueRow("Backpause", value: "\(bakePause) min")
@@ -230,6 +236,7 @@ struct SettingsView: View {
         .onChange(of: starterDoughYield) { _, value in store(value, AppSettingsKeys.starterDoughYield) }
         .onChange(of: lievitoMadreDoughYield) { _, value in store(value, AppSettingsKeys.lievitoMadreDoughYield) }
         .onChange(of: preheatTime) { _, value in store(value, AppSettingsKeys.preheatTime) }
+        .onChange(of: stonePreheatTime) { _, value in store(value, AppSettingsKeys.stonePreheatTime) }
         .onChange(of: bakePause) { _, value in store(value, AppSettingsKeys.bakePause) }
         .onChange(of: ovenCount) { _, value in store(value, AppSettingsKeys.ovenCount) }
         .onChange(of: dayStart) { _, value in

@@ -674,7 +674,7 @@ extension StructuredWebRecipe {
                 )
                 instruction.duration = Self.explicitMinutes(in: step)
                 if instruction.duration == 0, Self.describesOvenPreheating(step) {
-                    instruction.duration = GlobalVariables.preheatTime
+                    instruction.duration = GlobalVariables.preheatTime(for: step)
                 }
                 instruction.bakeFlag = Self.describesBaking(step)
                 instruction.componentName = section.name.isEmpty ? nil : section.name

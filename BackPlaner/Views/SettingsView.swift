@@ -9,6 +9,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.defaultServingSize) private var defaultServingSize = AppSettings.defaultServingSize
     @AppStorage(AppSettingsKeys.useDetailView) private var useDetailView = AppSettings.defaultUseDetailView
     @AppStorage(AppSettingsKeys.preheatTime) private var preheatTime = AppSettings.defaultPreheatTime
+    @AppStorage(AppSettingsKeys.stonePreheatTime) private var stonePreheatTime = AppSettings.defaultStonePreheatTime
     @AppStorage(AppSettingsKeys.bakePause) private var bakePause = AppSettings.defaultBakePause
     @AppStorage(AppSettingsKeys.ovenCount) private var ovenCount = AppSettings.defaultOvenCount
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
@@ -173,6 +174,12 @@ struct SettingsView: View {
             Section("Backplanung") {
                 Stepper(value: $preheatTime, in: 0...120, step: 5) {
                     LabeledContent("Vorheizzeit", value: "\(preheatTime) min")
+                }
+
+                // A baking stone or steel takes far longer to heat through;
+                // this time replaces the usual one when a step names one.
+                Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
+                    LabeledContent("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
                 }
 
                 Stepper(value: $bakePause, in: 0...120, step: 5) {

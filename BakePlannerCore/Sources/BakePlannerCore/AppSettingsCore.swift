@@ -16,6 +16,7 @@ public struct AppSettingsKeys {
     public static let defaultServingSize = "settings.defaultServingSize"
     public static let useDetailView = "settings.useDetailView"
     public static let preheatTime = "settings.preheatTime"
+    public static let stonePreheatTime = "settings.stonePreheatTime"
     public static let bakePause = "settings.bakePause"
     public static let ovenCount = "settings.ovenCount"
     public static let dayStart = "settings.dayStart"
@@ -159,6 +160,10 @@ public struct AppSettings {
     }
 
     public static let defaultPreheatTime = 15
+    /// A baking stone or steel needs far longer than the oven's air to
+    /// reach temperature; this is the preheating time when a recipe bakes
+    /// on one.
+    public static let defaultStonePreheatTime = 45
     public static let defaultBakePause = 10
     /// How many ovens the user can run at the same time. The plan check
     /// allows as many overlapping bakes as there are ovens.
@@ -355,6 +360,10 @@ public struct AppSettings {
 
     public static var storedPreheatTime: Int {
         storedInt(forKey: AppSettingsKeys.preheatTime, defaultValue: defaultPreheatTime)
+    }
+
+    public static var storedStonePreheatTime: Int {
+        storedInt(forKey: AppSettingsKeys.stonePreheatTime, defaultValue: defaultStonePreheatTime)
     }
 
     public static var storedBakePause: Int {

@@ -43,6 +43,9 @@ REZEPTE IN SPOTLIGHT
 KONTROLLZENTRUM UND AKTIONSTASTE
 • Zwei Steuerelemente: „Schritt erledigt“ hakt den fälligen Schritt ab, „Geplante Schritte“ öffnet den Plan – im Kontrollzentrum, auf dem Sperrbildschirm oder auf der Aktionstaste.
 
+VORHEIZEN MIT BACKSTEIN
+• Nennt ein Schritt einen Backstein oder Backstahl, stellt der Plan den Ofen um die „Vorheizzeit mit Backstein“ früher an (Standard 45 Minuten, unter Einstellungen → Backplanung) – der Stein braucht länger als die Ofenluft.
+
 WECKER
 • Unter Einstellungen → Backplanung lässt Du Ofenschritte oder alle Schritte zusätzlich als Wecker klingeln – auch bei Stumm und in einem Fokus. „Erledigt“ auf dem Wecker nimmt den Schritt aus dem Plan.
 
@@ -109,6 +112,9 @@ RECIPES IN SPOTLIGHT
 CONTROL CENTER AND ACTION BUTTON
 • Two controls: “Step done” ticks off the due step, “Scheduled steps” opens the plan – in Control Center, on the Lock Screen or on the Action button.
 
+PREHEATING WITH A BAKING STONE
+• If a step names a baking stone or steel, the plan turns the oven on by the “Preheat time with baking stone” earlier (45 minutes by default, under Settings → Baking plan) – the stone takes longer than the oven’s air.
+
 ALARMS
 • Under Settings → Baking plan you can let oven steps or all steps ring as alarms as well – on silent and in a Focus too. “Done” on the alarm takes the step off the plan.
 
@@ -174,6 +180,9 @@ RECETTES DANS SPOTLIGHT
 
 CENTRE DE CONTRÔLE ET BOUTON ACTION
 • Deux commandes : « Étape terminée » coche l’étape due, « Étapes planifiées » ouvre le plan – dans le centre de contrôle, sur l’écran verrouillé ou sur le bouton Action.
+
+PRÉCHAUFFAGE AVEC PIERRE
+• Si une étape mentionne une pierre de cuisson ou une plaque en acier, le plan allume le four avec le « temps de préchauffage avec pierre » d’avance (45 minutes par défaut, sous Réglages → Planification) – la pierre met plus longtemps que l’air du four.
 
 ALARMES
 • Sous Réglages → Planification, vous pouvez faire sonner les étapes du four ou toutes les étapes aussi comme alarmes – même en mode silencieux et dans un mode de concentration. « Terminé » sur l’alarme retire l’étape du plan.
