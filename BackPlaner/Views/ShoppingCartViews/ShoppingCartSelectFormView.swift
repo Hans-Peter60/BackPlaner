@@ -238,6 +238,7 @@ struct ShoppingCartSelectFormView: View {
                     IconActionButton(systemImage: "cart.badge.plus", style: .primary, accessibilityLabel: "Einkaufsliste erstellen", title: "Erstellen", controlSize: .regular) {
                         createShoppingCart()
                     }
+                    .accessibilityIdentifier("shoppingList.create")
                     .disabled(isTranslating)
                 }
 
