@@ -141,9 +141,14 @@ final class AppStoreScreenshots: StoreUITestCase {
         // The recipe's ingredients on a shopping list, then the list itself,
         // grouped by shelf. testPrepare has cleared the earlier lists.
         openShoppingListSheet()
-        let create = app.buttons.matching(NSPredicate(format: "label IN %@",
-            ["Einkaufsliste erstellen", "Create shopping list", "Créer une liste de courses"])).firstMatch
-        XCTAssertTrue(create.waitForExistence(timeout: 5), "The shopping-list sheet shows no create button")
+        // By identifier: the button's label joins the accessibility label
+        // with its visible title on some systems, and the English run on the
+        // folded iPhone Duo found no button named exactly "Create shopping
+        // list". The names of a public recipe are translated into the app's
+        // language before the sheet settles, so the wait is generous.
+        let create = app.buttons["shoppingList.create"]
+        if !create.waitForExistence(timeout: 20) { attachHierarchy(named: "98-shopping-sheet") }
+        XCTAssertTrue(create.exists, "The shopping-list sheet shows no create button")
         scrollUntilHittable(create)
         tapRowButton(create)
         // The names are translated into the app's language first.
