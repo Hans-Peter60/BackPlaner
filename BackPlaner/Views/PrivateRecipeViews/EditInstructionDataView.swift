@@ -129,9 +129,12 @@ struct EditInstructionView: View {
         _duration = State(initialValue: instruction.duration)
         _minimumMinutes = State(initialValue: instruction.durationWindow?.lowerBound)
         _maximumMinutes = State(initialValue: instruction.durationWindow?.upperBound)
-        _ovenTemperature = State(initialValue: instruction.oven?.temperature)
-        _ovenFallingTemperature = State(initialValue: instruction.oven?.fallingTo)
-        _steamChoice = State(initialValue: SteamChoice(instruction.oven?.steam))
+        // A step without stored settings starts with what its wording says,
+        // so an oven step is filled in as the plan reads it; "Fertig" keeps it.
+        let oven = instruction.oven ?? BakePlan.suggestedOvenSettings(in: instruction.instruction)
+        _ovenTemperature = State(initialValue: oven?.temperature)
+        _ovenFallingTemperature = State(initialValue: oven?.fallingTo)
+        _steamChoice = State(initialValue: SteamChoice(oven?.steam))
     }
     
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .leading)]

@@ -132,6 +132,20 @@ struct OvenSettingsTests {
         #expect(unknown.map(\.severity) == [.error])
     }
 
+    @Test("The wording suggests the fields for an oven step; other steps get none")
+    func suggestedFromWording() {
+        #expect(BakePlan.suggestedOvenSettings(in: "Bei 250 °C fallend auf 220 °C mit Schwaden 50 Minuten backen")
+                == OvenSettings(temperature: 250, fallingTo: 220, steam: true))
+        #expect(BakePlan.suggestedOvenSettings(in: "Bei 230 °C ohne Dampf backen")
+                == OvenSettings(temperature: 230, steam: false))
+        #expect(BakePlan.suggestedOvenSettings(in: "Backofen auf 250 °C vorheizen") == OvenSettings(temperature: 250))
+        #expect(BakePlan.suggestedOvenSettings(in: "Preheat the oven with the baking stone") == nil)
+        #expect(BakePlan.suggestedOvenSettings(in: "Bake at 450 °F for 45 minutes") == nil)
+        #expect(BakePlan.suggestedOvenSettings(in: "Bei 28 °C 3 Stunden gehen lassen") == nil)
+        #expect(BakePlan.suggestedOvenSettings(in: "Teig kneten") == nil)
+        #expect(BakePlan.suggestedOvenSettings(in: "Dampf ablassen") == nil)
+    }
+
     @Test("A scheduled plan's window reads the temperature from its steps' wording")
     func windowFromScheduledSteps() {
         let steps = [

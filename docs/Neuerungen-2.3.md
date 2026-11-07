@@ -50,7 +50,7 @@ WECKER
 • Unter Einstellungen → Backplanung lässt Du Ofenschritte oder alle Schritte zusätzlich als Wecker klingeln – auch bei Stumm und in einem Fokus. „Erledigt“ auf dem Wecker nimmt den Schritt aus dem Plan.
 
 OFENANGABEN JE SCHRITT
-• Temperatur, „Fallend auf“ und Schwaden lassen sich beim Bearbeiten eines Schritts als Felder eintragen. „Backofen anstellen“ nennt dann diese Temperatur, „Fallend auf“ erzeugt den Schritt zum Zurückdrehen – auch wenn der Text es nicht sagt. Zwei Brote bei gleicher Temperatur dürfen sich in der Planprüfung einen Ofen teilen.
+• Temperatur, „Fallend auf“ und Schwaden lassen sich beim Bearbeiten eines Schritts als Felder eintragen. „Backofen anstellen“ nennt dann diese Temperatur, „Fallend auf“ erzeugt den Schritt zum Zurückdrehen – auch wenn der Text es nicht sagt. Zwei Brote bei gleicher Temperatur dürfen sich in der Planprüfung einen Ofen teilen. Bei einem Ofenschritt sind die Felder beim Öffnen aus dem Wortlaut vorbelegt.
 
 SCHRITTE MIT ZEITFENSTER
 • Ein Schritt kann sagen, wie kurz und wie lang er dauern darf – „Kühlschrankgare 12 bis 18 Stunden“. Das Fenster trägst Du beim Bearbeiten des Schritts ein, oder die App liest es aus dem Wortlaut („12–18 Stunden“).
@@ -122,7 +122,7 @@ ALARMS
 • Under Settings → Baking plan you can let oven steps or all steps ring as alarms as well – on silent and in a Focus too. “Done” on the alarm takes the step off the plan.
 
 OVEN SETTINGS PER STEP
-• Temperature, “Falling to” and steam can be entered as fields when editing a step. “Turn on the oven” then names this temperature, “Falling to” creates the turn-down step – even when the text does not say so. Two loaves at the same temperature may share an oven in the plan check.
+• Temperature, “Falling to” and steam can be entered as fields when editing a step. “Turn on the oven” then names this temperature, “Falling to” creates the turn-down step – even when the text does not say so. Two loaves at the same temperature may share an oven in the plan check. For an oven step the fields are pre-filled from the wording when you open it.
 
 STEPS WITH A TIME WINDOW
 • A step can say how short and how long it may take – “cold proof 12 to 18 hours”. You enter the window when editing the step, or the app reads it from the wording (“12–18 hours”).
@@ -194,7 +194,7 @@ ALARMES
 • Sous Réglages → Planification, vous pouvez faire sonner les étapes du four ou toutes les étapes aussi comme alarmes – même en mode silencieux et dans un mode de concentration. « Terminé » sur l’alarme retire l’étape du plan.
 
 RÉGLAGES DU FOUR PAR ÉTAPE
-• Température, « Descendant à » et buée peuvent être saisis comme champs lors de la modification d’une étape. « Allumer le four » indique alors cette température, « Descendant à » crée l’étape pour baisser le four – même si le texte ne le dit pas. Deux pains à la même température peuvent partager un four dans le contrôle du plan.
+• Température, « Descendant à » et buée peuvent être saisis comme champs lors de la modification d’une étape. « Allumer le four » indique alors cette température, « Descendant à » crée l’étape pour baisser le four – même si le texte ne le dit pas. Deux pains à la même température peuvent partager un four dans le contrôle du plan. Pour une étape de four, les champs sont préremplis d’après le texte à l’ouverture.
 
 ÉTAPES AVEC PLAGE DE DURÉE
 • Une étape peut indiquer combien de temps elle peut durer au minimum et au maximum – « pousse au froid 12 à 18 heures ». Vous saisissez la plage en modifiant l’étape, ou l’app la lit dans le texte (« 12–18 heures »).

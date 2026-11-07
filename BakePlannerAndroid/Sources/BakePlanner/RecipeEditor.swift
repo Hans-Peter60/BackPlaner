@@ -421,9 +421,12 @@ struct StepDraft: Identifiable {
         numberText = Self.numberText(for: instruction.step)
         minimumText = instruction.durationWindow.map { String($0.lowerBound) } ?? ""
         maximumText = instruction.durationWindow.map { String($0.upperBound) } ?? ""
-        ovenTemperatureText = instruction.oven?.temperature.map(String.init) ?? ""
-        ovenFallingText = instruction.oven?.fallingTo.map(String.init) ?? ""
-        steamChoice = instruction.oven?.steam.map { $0 ? 1 : 2 } ?? 0
+        // A step without stored settings starts with what its wording says,
+        // as on the iPhone; saving keeps it.
+        let oven = instruction.oven ?? BakePlan.suggestedOvenSettings(in: instruction.instruction)
+        ovenTemperatureText = oven?.temperature.map(String.init) ?? ""
+        ovenFallingText = oven?.fallingTo.map(String.init) ?? ""
+        steamChoice = oven?.steam.map { $0 ? 1 : 2 } ?? 0
         bakeFlag = instruction.bakeFlag
         componentName = instruction.componentName
     }
