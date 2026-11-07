@@ -154,14 +154,17 @@ public final class SQLiteRecipeStore: RecipeStore {
         for instruction in content.instructions {
             try database.exec(sql: """
                 INSERT INTO instruction (recipe_id, instruction, step, duration, start_time, bake_flag, component_name,
-                                         min_duration, max_duration)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                         min_duration, max_duration, oven_temperature, oven_falling_temperature, oven_steam)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, parameters: [
                     .long(rowID), .text(instruction.instruction), .real(instruction.step),
                     .long(Int64(instruction.duration)), .long(Int64(instruction.startTime)),
                     Self.value(instruction.bakeFlag), Self.value(instruction.componentName),
                     instruction.durationWindow.map { SQLValue.long(Int64($0.lowerBound)) } ?? SQLValue.null,
                     instruction.durationWindow.map { SQLValue.long(Int64($0.upperBound)) } ?? SQLValue.null,
+                    instruction.ovenTemperature.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
+                    instruction.ovenFallingTemperature.map { SQLValue.long(Int64($0)) } ?? SQLValue.null,
+                    instruction.ovenSteam.map { SQLValue.long($0 ? 1 : 0) } ?? SQLValue.null,
                 ])
         }
     }
@@ -228,7 +231,8 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     private func instructions(of rowID: Int64) throws -> [RecipeExportInstruction] {
         try database.selectAll(sql: """
-            SELECT instruction, step, duration, start_time, bake_flag, component_name, min_duration, max_duration
+            SELECT instruction, step, duration, start_time, bake_flag, component_name, min_duration, max_duration,
+                   oven_temperature, oven_falling_temperature, oven_steam
             FROM instruction
             WHERE recipe_id = ? ORDER BY step, id
             """, parameters: [.long(rowID)])
@@ -240,7 +244,10 @@ public final class SQLiteRecipeStore: RecipeStore {
                                         bakeFlag: (row[4].longValue ?? 0) != 0,
                                         componentName: row[5].textValue,
                                         minDuration: row[6].longValue.map { Int($0) },
-                                        maxDuration: row[7].longValue.map { Int($0) })
+                                        maxDuration: row[7].longValue.map { Int($0) },
+                                        oven: OvenSettings.from(temperature: row[8].longValue.map { Int($0) },
+                                                                fallingTo: row[9].longValue.map { Int($0) },
+                                                                steam: row[10].longValue.map { $0 != 0 }))
             }
     }
 

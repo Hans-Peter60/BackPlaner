@@ -129,14 +129,41 @@ struct RecipeBackupTests {
         #expect(entries[0].facts == BakeHistoryFacts() && entries[0].comment == "")
     }
 
-    @Test("Files up to version 4 are read; the version after it is refused")
+    @Test("Files up to version 6 are read; the version after it is refused")
     func versions() throws {
         #expect(RecipeExportFile.isSupported(formatVersion: 1))
         #expect(RecipeExportFile.isSupported(formatVersion: 2))
         #expect(RecipeExportFile.isSupported(formatVersion: 3))
         #expect(RecipeExportFile.isSupported(formatVersion: 4))
         #expect(RecipeExportFile.isSupported(formatVersion: 5))
-        #expect(!RecipeExportFile.isSupported(formatVersion: 6))
+        #expect(RecipeExportFile.isSupported(formatVersion: 6))
+        #expect(!RecipeExportFile.isSupported(formatVersion: 7))
+    }
+
+    @Test("A step with oven settings makes the file version 6 and comes back with them")
+    func ovenRoundTrip() throws {
+        let source = InMemoryRecipeStore()
+        var recipes = twoRecipes()
+        recipes[0].instructions[0].oven = OvenSettings(temperature: 250, fallingTo: 220, steam: true)
+        let added = try source.add(contentsOf: recipes)
+
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id), from: source,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: source),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: source))
+        #expect(file.formatVersion == 6)
+        let data = try file.encoded()
+        let text = try #require(String(data: data, encoding: .utf8))
+        #expect(text.contains("\"ovenTemperature\" : 250") && text.contains("\"ovenSteam\" : true"))
+        // A step without settings writes none of the keys.
+        #expect(text.components(separatedBy: "\"ovenTemperature\"").count == 2)
+
+        let target = InMemoryRecipeStore()
+        _ = try RecipeImport.importFile(data, into: target,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: target))
+        let bread = try #require(try target.recipes(includingImages: false).first { $0.content.name != "Zopf" })
+        #expect(bread.content.instructions[0].oven == OvenSettings(temperature: 250, fallingTo: 220, steam: true))
+        #expect(bread.content.instructions[1].oven == nil)
     }
 
     @Test("A step with a duration window makes the file version 5 and comes back with it")

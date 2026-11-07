@@ -20,8 +20,13 @@ public struct RecipeExportFile: Codable, Equatable {
     /// (`RecipeExportBakeEntry.rating`); version 4 the room temperature of
     /// a feeding (`RecipeExportStarterFeeding.roomTemperature`); version 5
     /// the duration window of a step (`RecipeExportInstruction.minDuration`,
-    /// `.maxDuration`).
-    public static let currentFormatVersion = 5
+    /// `.maxDuration`); version 6 the oven settings of a step
+    /// (`RecipeExportInstruction.ovenTemperature`, `.ovenFallingTemperature`,
+    /// `.ovenSteam`).
+    public static let currentFormatVersion = 6
+    /// The version of a file with step windows but without oven settings,
+    /// as apps up to 2.3 (17) write and read it.
+    public static let windowFormatVersion = 5
     /// The version of a file with feeding temperatures but without step
     /// windows, as apps up to 2.3 (15) write and read it.
     public static let feedingTemperatureFormatVersion = 4
@@ -46,8 +51,8 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    /// A file of `recipes`, at the lowest version that holds them: 5 when a
-    /// step has a duration window, 4 when a feeding notes its temperature,
+    /// A file of `recipes`, at the lowest version that holds them: 6 when a
+    /// step has oven settings, 5 when a step has a duration window, 4 when a feeding notes its temperature,
     /// 3 when a recipe is a variant or a bake carries a rating, 2 when a
     /// recipe carries bake history or feedings, 1 otherwise. An older app
     /// refuses a newer file instead of dropping what it does not know
@@ -58,8 +63,11 @@ public struct RecipeExportFile: Codable, Equatable {
     }
 
     static func lowestVersion(holding recipes: [RecipeExportData]) -> Int {
-        if recipes.contains(where: { $0.instructions.contains { $0.minDuration != nil || $0.maxDuration != nil } }) {
+        if recipes.contains(where: { $0.instructions.contains { $0.oven != nil } }) {
             return currentFormatVersion
+        }
+        if recipes.contains(where: { $0.instructions.contains { $0.minDuration != nil || $0.maxDuration != nil } }) {
+            return windowFormatVersion
         }
         if recipes.contains(where: { ($0.starterFeedings ?? []).contains { $0.roomTemperature != nil } }) {
             return feedingTemperatureFormatVersion
@@ -231,9 +239,17 @@ public struct RecipeExportInstruction: Codable, Equatable {
     /// (format version 5; left out of the file when nil).
     public var minDuration: Int?
     public var maxDuration: Int?
+    /// The oven's settings for the step as fields (format version 6; left
+    /// out of the file when nil): degrees Celsius, the temperature the heat
+    /// falls to, whether the bake is steamed. `oven` reads and writes them
+    /// as one value.
+    public var ovenTemperature: Int?
+    public var ovenFallingTemperature: Int?
+    public var ovenSteam: Bool?
 
     public init(instruction: String, step: Double, duration: Int, startTime: Int, bakeFlag: Bool,
-                componentName: String? = nil, minDuration: Int? = nil, maxDuration: Int? = nil) {
+                componentName: String? = nil, minDuration: Int? = nil, maxDuration: Int? = nil,
+                oven: OvenSettings? = nil) {
         self.instruction = instruction
         self.step = step
         self.duration = duration
@@ -242,6 +258,17 @@ public struct RecipeExportInstruction: Codable, Equatable {
         self.componentName = componentName
         self.minDuration = minDuration
         self.maxDuration = maxDuration
+        self.oven = oven
+    }
+
+    /// The oven settings, nil when none is set; setting nil clears all three.
+    public var oven: OvenSettings? {
+        get { OvenSettings.from(temperature: ovenTemperature, fallingTo: ovenFallingTemperature, steam: ovenSteam) }
+        set {
+            ovenTemperature = newValue?.temperature
+            ovenFallingTemperature = newValue?.fallingTo
+            ovenSteam = newValue?.steam
+        }
     }
 
     /// The window as a range, when both bounds are there and the window

@@ -448,7 +448,8 @@ final class AppModel {
                               duration: $0.duration, componentName: $0.componentName,
                               durationWindow: DurationWindow.effective(stored: $0.durationWindow,
                                                                        instruction: $0.instruction,
-                                                                       duration: $0.duration))
+                                                                       duration: $0.duration),
+                              oven: $0.oven)
                  },
                  prepTime: recipe.content.prepTime,
                  anchor: anchor,
