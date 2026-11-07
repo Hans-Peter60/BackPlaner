@@ -218,36 +218,36 @@ struct EditInstructionView: View {
                 } footer: {
                     Text("Die Felder gelten vor dem Wortlaut: „Backofen anstellen“ nennt die Temperatur, „Fallend auf“ erzeugt den Schritt zum Zurückdrehen, und zwei Brote bei gleicher Temperatur dürfen sich einen Ofen teilen. Leer lassen, wenn der Schritt nichts mit dem Ofen zu tun hat.")
                 }
-                .navigationTitle(Text("Verarbeitungsschritt ändern"))
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Abbrechen") {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
+            }
+            .navigationTitle(Text("Verarbeitungsschritt ändern"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") {
+                        self.presentationMode.wrappedValue.dismiss()
                     }
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Fertig") {
-                            self.presentationMode.wrappedValue.dismiss()
-                            self.instructions.instruction = self.instruction
-                            self.instructions.step        = self.step
-                            self.instructions.duration    = self.duration
-                            // Both bounds, in order, or no window at all.
-                            self.instructions.durationWindow = DurationWindow.range(minimum: minimumMinutes,
-                                                                                    maximum: maximumMinutes)
-                            self.instructions.oven = OvenSettings.from(temperature: ovenTemperature,
-                                                                       fallingTo: ovenFallingTemperature,
-                                                                       steam: steamChoice.value)
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Fertig") {
+                        self.presentationMode.wrappedValue.dismiss()
+                        self.instructions.instruction = self.instruction
+                        self.instructions.step        = self.step
+                        self.instructions.duration    = self.duration
+                        // Both bounds, in order, or no window at all.
+                        self.instructions.durationWindow = DurationWindow.range(minimum: minimumMinutes,
+                                                                                maximum: maximumMinutes)
+                        self.instructions.oven = OvenSettings.from(temperature: ovenTemperature,
+                                                                   fallingTo: ovenFallingTemperature,
+                                                                   steam: steamChoice.value)
 
-                            if let recipe = self.instructions.recipe {
-                                // An edited step that now describes repeated
-                                // folds gets one step per fold, as on import.
-                                TimedFoldExpansion.expand(in: recipe, context: viewContext)
-                                recalculateInstructionTimes(for: recipe)
-                            }
-
-                            try? self.viewContext.save()
+                        if let recipe = self.instructions.recipe {
+                            // An edited step that now describes repeated
+                            // folds gets one step per fold, as on import.
+                            TimedFoldExpansion.expand(in: recipe, context: viewContext)
+                            recalculateInstructionTimes(for: recipe)
                         }
+
+                        try? self.viewContext.save()
                     }
                 }
             }
