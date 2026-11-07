@@ -122,6 +122,22 @@ struct EditInstructionView: View {
         }
     }
 
+    /// Whether the step is the oven's: it bakes, preheats or names an oven
+    /// temperature in the text as typed, or carries stored oven settings.
+    /// Decided live, so typing "backen" brings the oven fields up.
+    private var isOvenStep: Bool {
+        instructions.oven != nil
+            || BakePlanValidator.isBakingStartInstruction(instruction)
+            || BakePlanValidator.isPreheatInstruction(instruction)
+            || BakePlan.ovenTemperatureCelsius(in: instruction) != nil
+    }
+
+    private var showsOvenSection: Bool { isOvenStep }
+
+    /// The window is for steps the plan may stretch — not the oven's; a
+    /// stored window stays editable whatever the wording.
+    private var showsWindowSection: Bool { !isOvenStep || instructions.durationWindow != nil }
+
     init(instruction: Instruction) {
         self.instructions = instruction
         _instruction = State(initialValue: instruction.instruction)
@@ -179,7 +195,9 @@ struct EditInstructionView: View {
                     .scrollsSidewaysAtLargeText()
                 }
 
-                // MARK: Time window — how short and how long the step may take
+                // MARK: Time window — how short and how long the step may take.
+                // Not for an oven step, whose time is the oven's.
+                if showsWindowSection {
                 Section {
                     LabeledContent("Mindestens") {
                         OptionalDurationField(minutes: $minimumMinutes)
@@ -196,8 +214,11 @@ struct EditInstructionView: View {
                 } footer: {
                     Text("Der Planer darf den Schritt innerhalb des Fensters dehnen oder kürzen, etwa eine Kühlschrankgare von 12 bis 18 Stunden. Leer lassen, wenn die Dauer fest ist.")
                 }
+                }
 
-                // MARK: Oven — the settings as fields, taken before the wording
+                // MARK: Oven — the settings as fields, taken before the wording.
+                // Only for a step that bakes, preheats or names an oven temperature.
+                if showsOvenSection {
                 Section {
                     LabeledContent("Temperatur") {
                         TextField("°C", value: $ovenTemperature, format: .number)
@@ -220,6 +241,7 @@ struct EditInstructionView: View {
                     Text("Ofen")
                 } footer: {
                     Text("Die Felder gelten vor dem Wortlaut: „Backofen anstellen“ nennt die Temperatur, „Fallend auf“ erzeugt den Schritt zum Zurückdrehen, und zwei Brote bei gleicher Temperatur dürfen sich einen Ofen teilen. Leer lassen, wenn der Schritt nichts mit dem Ofen zu tun hat.")
+                }
                 }
             }
             .navigationTitle(Text("Verarbeitungsschritt ändern"))
