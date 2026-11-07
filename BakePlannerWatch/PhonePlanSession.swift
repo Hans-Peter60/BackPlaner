@@ -36,6 +36,11 @@ final class PhonePlanSession: NSObject, WCSessionDelegate {
 
     override init() {
         super.init()
+        if let demo = WatchDemoPlan.snapshot() {
+            // The App Store screenshots: a fixed plan, no iPhone asked.
+            snapshot = demo
+            return
+        }
         if let cached = Self.loadCache() {
             snapshot = cached
         }
@@ -47,9 +52,13 @@ final class PhonePlanSession: NSObject, WCSessionDelegate {
     var steps: [PlanSnapshot.Step] { snapshot.steps }
 
     /// The step to open on: the one due within the last hour, else the next
-    /// one ahead, else the last of the plan — the iPhone's rule.
+    /// one ahead, else the last of the plan — the iPhone's rule. The demo
+    /// plan opens on the step the screenshot asks for.
     func currentStepID(at now: Date) -> String? {
-        snapshot.currentStep(at: now)?.step.id ?? snapshot.steps.last?.id
+        if let index = WatchDemoPlan.requestedStepIndex, snapshot.steps.indices.contains(index) {
+            return snapshot.steps[index].id
+        }
+        return snapshot.currentStep(at: now)?.step.id ?? snapshot.steps.last?.id
     }
 
     /// Takes the step out of the plan here and tells the iPhone: at once
@@ -129,5 +138,44 @@ final class PhonePlanSession: NSObject, WCSessionDelegate {
     nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
         let planData = applicationContext[Self.planKey] as? Data
         Task { @MainActor in self.apply(planData: planData) }
+    }
+}
+
+/// The plan the App Store screenshots show, in the watch's language. Only
+/// with the launch argument `-UITestingWatchDemo`; `-UITestingWatchDemoStep
+/// <n>` opens on step n (from 0). The times run from the launch, so the
+/// pages read "in 17 Min." and "in 3 Std., 30 Min." whenever they are taken.
+enum WatchDemoPlan {
+    static var isActive: Bool {
+        ProcessInfo.processInfo.arguments.contains("-UITestingWatchDemo")
+    }
+
+    static var requestedStepIndex: Int? {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard isActive, let flag = arguments.firstIndex(of: "-UITestingWatchDemoStep"),
+              flag + 1 < arguments.count else { return nil }
+        return Int(arguments[flag + 1])
+    }
+
+    static func snapshot(now: Date = Date()) -> PlanSnapshot? {
+        guard isActive else { return nil }
+        let recipe = String(localized: "Kartoffelbrot mit Saaten")
+        func step(_ id: String, _ instruction: String, minutes: Int, duration: Int,
+                  component: String? = nil, lines: [String]? = nil) -> PlanSnapshot.Step {
+            PlanSnapshot.Step(id: id, recipeName: recipe, instruction: instruction,
+                              date: now.addingTimeInterval(TimeInterval(minutes * 60)), duration: duration,
+                              componentName: component, ingredientLines: lines)
+        }
+        let steps = [
+            step("demo-1", String(localized: "Hauptteig kneten"), minutes: 17, duration: 10,
+                 component: String(localized: "Hauptteig"),
+                 lines: [String(localized: "• 800 g Weizenmehl 550"), String(localized: "• 450 g Wasser"),
+                         String(localized: "• 200 g Sauerteig"), String(localized: "• 18 g Salz")]),
+            step("demo-2", String(localized: "Teig dehnen und falten"), minutes: 47, duration: 5),
+            step("demo-3", String(localized: "Laib formen und ins Gärkörbchen legen"), minutes: 135, duration: 15),
+            step("demo-4", String(localized: "Backofen anstellen (250 °C)"), minutes: 195, duration: 45),
+            step("demo-5", String(localized: "Bei 250 °C fallend auf 220 °C backen"), minutes: 240, duration: 50),
+        ]
+        return PlanSnapshot(steps: steps, generatedAt: now)
     }
 }
