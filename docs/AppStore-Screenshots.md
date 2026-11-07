@@ -60,6 +60,20 @@ Nur eine Sprache: `LANGS="fr" scripts/appstore-screenshots.sh`. Nur bestimmte Ge
 
 In einem normalen Testlauf (⌘U, Xcode Cloud) überspringt sich der Screenshot-Test selbst.
 
+## Apple Watch
+
+Die Watch-Bilder entstehen nicht über den UI-Test, sondern direkt im Watch-Simulator mit einem festen Demo-Plan in der Watch-App: Das Startargument `-UITestingWatchDemo` lässt `PhonePlanSession` statt des iPhone-Plans fünf Schritte des „Kartoffelbrot mit Saaten“ zeigen (Texte in `BakePlannerWatch/Localizable.xcstrings`, de/en/fr), `-UITestingWatchDemoStep <n>` öffnet Schritt n (ab 0); die Uhrzeiten laufen ab dem Start („in 17 Min.“, „in 3 Std., 15 Min.“). Ohne das Argument verhält sich die App wie immer.
+
+```sh
+W=<UDID des Simulators „Apple Watch Ultra 4 (49mm)“>; BID=de.hpm64625.BackPlaner.watchkitapp
+xcodebuild -scheme BakePlannerWatch -destination "platform=watchOS Simulator,id=$W" -derivedDataPath /tmp/watchbuild build
+xcrun simctl boot $W; xcrun simctl install $W /tmp/watchbuild/Build/Products/Debug-watchsimulator/BakePlannerWatch.app
+xcrun simctl launch $W $BID -AppleLanguages "(de)" -AppleLocale de_DE -UITestingWatchDemo -UITestingWatchDemoStep 0
+sleep 5; xcrun simctl io $W screenshot docs/appstore/2.3/watch/de/01-schritt-zutaten.png
+```
+
+Aufgenommen am 07.11.2026 je Sprache drei Bilder ohne Überschrift (422 × 514 Pixel, die Größe der Apple Watch Ultra in App Store Connect): `01-schritt-zutaten` (Schritt 0, Hauptteig kneten mit Zutaten), `02-ofen-anstellen` (Schritt 3) und `03-backen` (Schritt 4, mit „Erledigt“). Die Statusleiste der Watch lässt sich im Simulator nicht auf 9:41 stellen (`simctl status_bar` wird für watchOS nicht unterstützt), die Uhrzeit ist deshalb die der Aufnahme.
+
 ## App-Vorschauen (Videos)
 
 Die Rohvideos für die App-Vorschauen entstehen auf demselben Weg:

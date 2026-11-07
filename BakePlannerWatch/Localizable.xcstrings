@@ -1,6 +1,50 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "Backofen anstellen (250 °C)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backofen anstellen (250 °C)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the oven (250 °C)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allumer le four (250 °C)"
+          }
+        }
+      }
+    },
+    "Bei 250 °C fallend auf 220 °C backen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei 250 °C fallend auf 220 °C backen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake at 250 °C falling to 220 °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuire à 250 °C puis 220 °C"
+          }
+        }
+      }
+    },
     "Erledigt" : {
       "localizations" : {
         "de" : {
@@ -19,6 +63,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé"
+          }
+        }
+      }
+    },
+    "Hauptteig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hauptteig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Main dough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pâte finale"
+          }
+        }
+      }
+    },
+    "Hauptteig kneten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hauptteig kneten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knead the main dough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pétrir la pâte finale"
           }
         }
       }
@@ -67,6 +155,28 @@
         }
       }
     },
+    "Kartoffelbrot mit Saaten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartoffelbrot mit Saaten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potato bread with seeds"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pain de pommes de terre aux graines"
+          }
+        }
+      }
+    },
     "Keine geplanten Schritte" : {
       "localizations" : {
         "de" : {
@@ -85,6 +195,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune étape planifiée"
+          }
+        }
+      }
+    },
+    "Laib formen und ins Gärkörbchen legen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laib formen und ins Gärkörbchen legen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shape the loaf and place it in the banneton"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Façonner le pâton et le placer dans le banneton"
           }
         }
       }
@@ -177,6 +309,28 @@
         }
       }
     },
+    "Teig dehnen und falten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teig dehnen und falten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stretch and fold the dough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étirer et plier la pâte"
+          }
+        }
+      }
+    },
     "Zutaten für „%@“" : {
       "localizations" : {
         "de" : {
@@ -195,6 +349,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingrédients pour « %@ »"
+          }
+        }
+      }
+    },
+    "• 18 g Salz" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 18 g Salz"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 18 g salt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 18 g sel"
+          }
+        }
+      }
+    },
+    "• 200 g Sauerteig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 200 g Sauerteig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 200 g sourdough"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 200 g levain"
+          }
+        }
+      }
+    },
+    "• 450 g Wasser" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 450 g Wasser"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 450 g water"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 450 g eau"
+          }
+        }
+      }
+    },
+    "• 800 g Weizenmehl 550" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 800 g Weizenmehl 550"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 800 g wheat flour 550"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 800 g farine de blé T55"
           }
         }
       }
