@@ -239,9 +239,24 @@ public class InstructionFB: Identifiable, Decodable {
     /// recipe gives a window; see `RecipeExportInstruction.minDuration`.
     public var minDuration: Int?
     public var maxDuration: Int?
+    /// The oven's settings for the step as fields; see
+    /// `RecipeExportInstruction.ovenTemperature`.
+    public var ovenTemperature: Int?
+    public var ovenFallingTemperature: Int?
+    public var ovenSteam: Bool?
     public var translations: [String: InstructionTextFB] = [:]
 
     public init() {}
+
+    /// The oven settings, nil when none is set; setting nil clears all three.
+    public var oven: OvenSettings? {
+        get { OvenSettings.from(temperature: ovenTemperature, fallingTo: ovenFallingTemperature, steam: ovenSteam) }
+        set {
+            ovenTemperature = newValue?.temperature
+            ovenFallingTemperature = newValue?.fallingTo
+            ovenSteam = newValue?.steam
+        }
+    }
 
     /// The window as a range, when both bounds are there and the window
     /// has a width; setting nil clears both.
@@ -256,6 +271,7 @@ public class InstructionFB: Identifiable, Decodable {
     private enum CodingKeys: String, CodingKey {
         case id, step, instruction, duration, startTime, date, bakeFlag
         case componentName, minDuration, maxDuration, translations
+        case ovenTemperature, ovenFallingTemperature, ovenSteam
     }
 
     public required init(from decoder: Decoder) throws {
@@ -270,6 +286,9 @@ public class InstructionFB: Identifiable, Decodable {
         componentName = try c.decodeIfPresent(String.self, forKey: .componentName)
         minDuration   = try c.decodeIfPresent(Int.self, forKey: .minDuration)
         maxDuration   = try c.decodeIfPresent(Int.self, forKey: .maxDuration)
+        ovenTemperature        = try c.decodeIfPresent(Int.self, forKey: .ovenTemperature)
+        ovenFallingTemperature = try c.decodeIfPresent(Int.self, forKey: .ovenFallingTemperature)
+        ovenSteam              = try c.decodeIfPresent(Bool.self, forKey: .ovenSteam)
         translations  = try c.decodeIfPresent([String: InstructionTextFB].self, forKey: .translations) ?? [:]
     }
 }
@@ -482,6 +501,7 @@ extension RecipeFB {
             instructionCopy.componentName = instruction.componentName
             instructionCopy.minDuration   = instruction.minDuration
             instructionCopy.maxDuration   = instruction.maxDuration
+            instructionCopy.oven          = instruction.oven
             instructionCopy.translations   = instruction.translations
             return instructionCopy
         }

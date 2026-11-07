@@ -20,15 +20,20 @@ public struct PlanStep: Equatable {
     /// The shortest and the longest the step may take, when the recipe
     /// gives a window; the advisor may stretch or shorten it within.
     public let durationWindow: ClosedRange<Int>?
+    /// The oven's settings the recipe stores for the step; the plan takes
+    /// them before it reads the wording.
+    public let oven: OvenSettings?
 
     public init(instruction: String, step: Double, startTime: Int, duration: Int,
-                componentName: String? = nil, durationWindow: ClosedRange<Int>? = nil) {
+                componentName: String? = nil, durationWindow: ClosedRange<Int>? = nil,
+                oven: OvenSettings? = nil) {
         self.instruction = instruction
         self.step = step
         self.startTime = startTime
         self.duration = duration
         self.componentName = componentName
         self.durationWindow = durationWindow
+        self.oven = oven
     }
 }
 
@@ -145,11 +150,23 @@ public struct BakePlan {
 
     /// The oven temperature the generated step names: the first one stated in
     /// the baking step, else in the steps after it (a second baking phase),
-    /// else in those before it ("Brot einschießen, 250 °C").
+    /// else in those before it ("Brot einschießen, 250 °C"). A step's stored
+    /// oven setting counts before its wording.
     public var ovenTemperature: String? {
-        guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
-        let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
-        return ordered.lazy.compactMap { Self.ovenTemperature(in: $0.instruction) }.first
+        stepsFromTheBake.lazy.compactMap { $0.oven?.temperatureText ?? Self.ovenTemperature(in: $0.instruction) }.first
+    }
+
+    /// The same temperature in degrees Celsius, for the bake-day check; nil
+    /// for a recipe in Fahrenheit or without one.
+    public var ovenTemperatureCelsius: Int? {
+        stepsFromTheBake.lazy.compactMap { $0.oven?.temperature ?? Self.ovenTemperatureCelsius(in: $0.instruction) }.first
+    }
+
+    /// The steps in the order the oven's data is looked for: the baking
+    /// step, those after it, then those before it backwards.
+    private var stepsFromTheBake: [PlanStep] {
+        guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return [] }
+        return [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
     }
 
     /// Minutes into the bake at which the heat is turned down when the recipe
@@ -173,8 +190,7 @@ public struct BakePlan {
         guard let bakingStep, let index = steps.firstIndex(of: bakingStep) else { return nil }
 
         // The same order the oven temperature is looked for in.
-        let ordered = [steps[index]] + steps[(index + 1)...] + steps[..<index].reversed()
-        guard let drop = ordered.lazy.compactMap({ Self.temperatureDrop(in: $0.instruction) }).first else { return nil }
+        guard let drop = stepsFromTheBake.lazy.compactMap({ Self.temperatureDrop(of: $0) }).first else { return nil }
 
         let recipeReleasesSteam = steps[(index + 1)...].contains { Self.isSteamReleaseInstruction($0.instruction) }
         let afterMinutes = drop.afterMinutes ?? (recipeReleasesSteam ? 0 : Self.defaultTurnDownMinutes)
@@ -186,6 +202,19 @@ public struct BakePlan {
                         step: bakingStep.step + 0.1,
                         startTime: bakingStep.startTime + afterMinutes,
                         duration: 0)
+    }
+
+    /// A step's drop: the stored falling temperature when the recipe has
+    /// one, timed by the wording where it says when; else the wording's.
+    /// Stored steam settles the steam either way.
+    private static func temperatureDrop(of step: PlanStep) -> (temperature: String, afterMinutes: Int?, withSteam: Bool)? {
+        let parsed = temperatureDrop(in: step.instruction)
+        if let fallingTo = step.oven?.fallingTo {
+            return (OvenSettings.text(fallingTo), parsed?.afterMinutes ?? turnDownMinutes(in: step.instruction),
+                    step.oven?.steam ?? parsed?.withSteam ?? false)
+        }
+        guard let parsed else { return nil }
+        return (parsed.temperature, parsed.afterMinutes, step.oven?.steam ?? parsed.withSteam)
     }
 
     /// Whether a step of the recipe's own lets the steam out of the oven:
@@ -243,7 +272,7 @@ public struct BakePlan {
             guard step == preheat else { return step }
             return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature),
                             step: step.step, startTime: step.startTime, duration: step.duration,
-                            componentName: step.componentName, durationWindow: step.durationWindow)
+                            componentName: step.componentName, durationWindow: step.durationWindow, oven: step.oven)
         }
     }
 
@@ -265,7 +294,7 @@ public struct BakePlan {
         let newSteps = zip(steps, timed).map { step, instructionFB in
             PlanStep(instruction: step.instruction, step: step.step,
                      startTime: instructionFB.startTime ?? 0, duration: instructionFB.duration,
-                     componentName: step.componentName, durationWindow: step.durationWindow)
+                     componentName: step.componentName, durationWindow: step.durationWindow, oven: step.oven)
         }
         let total = newSteps.map { $0.startTime + $0.duration }.max() ?? 0
         return BakePlan(recipeName: recipeName, steps: newSteps, prepTime: total, anchor: anchor,
@@ -307,7 +336,7 @@ public struct BakePlan {
         let start = date(of: bakingStep)
         let end = date(of: endStep)
         guard end >= start else { return nil }
-        return BakeWindow(recipeName: recipeName, start: start, end: end)
+        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: ovenTemperatureCelsius)
     }
 
     /// The same plan for a different date.
@@ -360,6 +389,13 @@ public struct BakePlan {
     /// gehen lassen") is passed over: Celsius from 100, Fahrenheit from 200.
     public static func ovenTemperature(in text: String) -> String? {
         ovenTemperatures(in: text).first?.text
+    }
+
+    /// The first oven temperature a step states, in degrees Celsius; nil in
+    /// Fahrenheit, which the bake-day check does not compare.
+    public static func ovenTemperatureCelsius(in text: String) -> Int? {
+        guard let first = ovenTemperatures(in: text).first, !first.fahrenheit else { return nil }
+        return first.value
     }
 
     /// An oven temperature as a step states it, and where in the text.
@@ -447,6 +483,19 @@ public struct BakePlan {
         }
         for sentence in sentences where sentence.range != dropSentence?.range {
             guard !steamWords.contains(where: sentence.text.contains) else { continue }
+            if let minutes = statedMinutes(in: sentence.text) { return minutes }
+        }
+        return nil
+    }
+
+    /// The minute a step names for turning the heat down when it names no
+    /// second temperature ("Brot backen, nach 15 Minuten die Hitze
+    /// reduzieren"), for a stored falling temperature. "Sofort" is left
+    /// alone here: without a temperature next to it, it is the loading, not
+    /// the turn-down. Nil when the step says nothing.
+    public static func turnDownMinutes(in text: String) -> Int? {
+        let folded = text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "de_DE"))
+        for sentence in sentences(of: folded) where !steamWords.contains(where: sentence.text.contains) {
             if let minutes = statedMinutes(in: sentence.text) { return minutes }
         }
         return nil

@@ -67,7 +67,8 @@ extension RecipeExportData {
                     bakeFlag: instruction.bakeFlag,
                     componentName: instruction.componentName,
                     minDuration: instruction.durationWindow?.lowerBound,
-                    maxDuration: instruction.durationWindow?.upperBound
+                    maxDuration: instruction.durationWindow?.upperBound,
+                    oven: instruction.oven
                 )
             }
         )

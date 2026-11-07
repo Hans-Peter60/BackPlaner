@@ -294,6 +294,7 @@ class RecipeModel: ObservableObject {
                 i.startTime   = iFB.startTime ?? 0
                 i.componentName = iFB.componentName
                 i.durationWindow = iFB.durationWindow
+                i.oven = iFB.oven
 
                 r.addToInstructions(i)
             }

@@ -50,11 +50,22 @@ public struct BakeWindow {
     public let recipeName: String
     public let start: Date
     public let end: Date
+    /// The oven temperature in degrees Celsius, when known. Two bakes at the
+    /// same temperature may share one oven.
+    public let temperature: Int?
 
-    public init(recipeName: String, start: Date, end: Date) {
+    public init(recipeName: String, start: Date, end: Date, temperature: Int? = nil) {
         self.recipeName = recipeName
         self.start = start
         self.end = end
+        self.temperature = temperature
+    }
+
+    /// Whether both bakes are at the same known temperature, so one oven
+    /// takes them together.
+    public func sharesOven(with other: BakeWindow) -> Bool {
+        guard let temperature, let otherTemperature = other.temperature else { return false }
+        return temperature == otherTemperature
     }
 }
 
@@ -201,13 +212,28 @@ public enum BakePlanValidator {
         // is left out by them, an earlier plan of the same recipe stays in
         // when the new one is planned in addition (additionalPlanIssues).
         let others      = existingWindows
-        let overlapping = others.filter { overlaps($0, window) }
+        // A bake at the same temperature goes into the same oven as this
+        // one; it takes no oven of its own and is only mentioned.
+        let sharing     = others.filter { overlaps($0, window) && $0.sharesOven(with: window) }
+        let overlapping = others.filter { overlaps($0, window) && !$0.sharesOven(with: window) }
         // Bakes that do not overlap, but end or start within the pause.
         let neighbours  = pause > 0
             ? others.filter { !overlaps($0, window) && gap(between: $0, and: window) < pause }
             : []
 
         var issues = [BakePlanIssue]()
+
+        for other in sharing {
+            issues.append(
+                BakePlanIssue(
+                    severity: .hint,
+                    message: String(
+                        localized: "Die Backzeit (\(rangeText(window))) überschneidet sich mit der Backzeit von „\(other.recipeName)“ (\(rangeText(other))), beide bei \(OvenSettings.text(window.temperature ?? 0)) – sie können sich einen Backofen teilen.",
+                        bundle: AppSettings.localizationBundle, locale: AppSettings.locale
+                    )
+                )
+            )
+        }
 
         // Peak number of ovens the scheduled bakes occupy at one moment of this bake.
         let busyOvens = peakConcurrency(of: overlapping, within: window, padding: 0)
@@ -300,7 +326,7 @@ public enum BakePlanValidator {
     ) -> Bool {
         let ovens = max(1, ovenCount)
         let pause = TimeInterval(max(0, bakePause) * 60)
-        let overlapping = existingWindows.filter { overlaps($0, window) }
+        let overlapping = existingWindows.filter { overlaps($0, window) && !$0.sharesOven(with: window) }
         guard peakConcurrency(of: overlapping, within: window, padding: 0) + 1 <= ovens else { return false }
         guard pause > 0 else { return true }
         let neighbours = existingWindows.filter { !overlaps($0, window) && gap(between: $0, and: window) < pause }
@@ -315,7 +341,9 @@ public enum BakePlanValidator {
         existingWindows: [BakeWindow],
         ovenCount: Int = GlobalVariables.ovenCount
     ) -> Bool {
-        let overlapping = existingWindows.filter { $0.recipeName != window.recipeName && overlaps($0, window) }
+        let overlapping = existingWindows.filter {
+            $0.recipeName != window.recipeName && overlaps($0, window) && !$0.sharesOven(with: window)
+        }
         return peakConcurrency(of: overlapping, within: window, padding: 0) + 1 > max(1, ovenCount)
     }
 
@@ -394,7 +422,11 @@ public enum BakePlanValidator {
             return nil
         }
 
-        return BakeWindow(recipeName: recipeName, start: start, end: end)
+        // The temperature as the steps word it: the baking step's first,
+        // else any step's (the generated "Backofen anstellen (250 °C)").
+        let temperature = ([ovenStep ?? lastStep].compactMap { $0 } + processingSteps)
+            .lazy.compactMap { BakePlan.ovenTemperatureCelsius(in: $0.instruction) }.first
+        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: temperature)
     }
 
     /// Whether a recipe's steps involve the oven at all: one is worded as a

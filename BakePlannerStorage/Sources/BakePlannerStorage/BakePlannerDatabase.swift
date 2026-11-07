@@ -210,5 +210,12 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "ALTER TABLE instruction ADD COLUMN min_duration INTEGER")
             try database.exec(sql: "ALTER TABLE instruction ADD COLUMN max_duration INTEGER")
         },
+        // 9: a step's oven settings (step 35): degrees Celsius, the
+        // temperature the heat falls to, steam (0/1). NULL when not set.
+        { database in
+            try database.exec(sql: "ALTER TABLE instruction ADD COLUMN oven_temperature INTEGER")
+            try database.exec(sql: "ALTER TABLE instruction ADD COLUMN oven_falling_temperature INTEGER")
+            try database.exec(sql: "ALTER TABLE instruction ADD COLUMN oven_steam INTEGER")
+        },
     ]
 }

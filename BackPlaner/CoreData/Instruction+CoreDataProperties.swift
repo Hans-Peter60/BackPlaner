@@ -32,6 +32,12 @@ extension Instruction {
     /// CoreDataLogicAdapters reads and writes both as a range.
     @NSManaged public var minDuration: NSNumber?
     @NSManaged public var maxDuration: NSNumber?
+    /// The oven's settings for the step: degrees Celsius, the temperature
+    /// the heat falls to, steam; all nil when not set. `oven` in
+    /// CoreDataLogicAdapters reads and writes them as one value.
+    @NSManaged public var ovenTemperature: NSNumber?
+    @NSManaged public var ovenFallingTemperature: NSNumber?
+    @NSManaged public var ovenSteam: NSNumber?
     @NSManaged public var recipe:     Recipe?
     
 }

@@ -56,7 +56,7 @@ extension RecurringBakePlanner {
                             steps: content.instructions.map {
                                 PlanStep(instruction: $0.instruction, step: $0.step, startTime: $0.startTime,
                                          duration: $0.duration, componentName: $0.componentName,
-                                         durationWindow: $0.durationWindow)
+                                         durationWindow: $0.durationWindow, oven: $0.oven)
                             },
                             prepTime: content.prepTime,
                             anchor: .startsAt,

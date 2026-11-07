@@ -432,7 +432,7 @@ struct InstructionsView: View {
     /// window the advisor needs.
     private func planStep(for stored: Instruction, startTime: Int, duration: Int) -> PlanStep {
         PlanStep(instruction: stored.instruction, step: stored.step, startTime: startTime, duration: duration,
-                 componentName: stored.componentName, durationWindow: stored.planDurationWindow)
+                 componentName: stored.componentName, durationWindow: stored.planDurationWindow, oven: stored.oven)
     }
 
     private var planPrepTime: Int {

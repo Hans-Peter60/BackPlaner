@@ -409,7 +409,8 @@ struct InstructionsFBView: View {
                               componentName: $0.componentName,
                               durationWindow: DurationWindow.effective(stored: $0.durationWindow,
                                                                        instruction: $0.instruction,
-                                                                       duration: $0.duration))
+                                                                       duration: $0.duration),
+                              oven: $0.oven)
                  },
                  prepTime: recipeFB.prepTime,
                  anchor: PlanAnchor(selection: dateTimeStartSelection),

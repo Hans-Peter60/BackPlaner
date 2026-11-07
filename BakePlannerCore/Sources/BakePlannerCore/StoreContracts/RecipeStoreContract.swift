@@ -97,7 +97,7 @@ public enum RecipeStoreContract {
         changed.content.components[0].ingredients[0].name = "Dinkelmehl 630"
         changed.content.instructions.append(RecipeExportInstruction(
             instruction: "Abkühlen lassen", step: 4, duration: 60, startTime: 950, bakeFlag: false, componentName: nil,
-            minDuration: 45, maxDuration: 90))
+            minDuration: 45, maxDuration: 90, oven: OvenSettings(temperature: 230, fallingTo: 200, steam: true)))
         changed.content.image = nil
         changed.firestoreId = "public-9"
         changed.adjustedOn = Date(timeIntervalSince1970: 1_800_000_000)

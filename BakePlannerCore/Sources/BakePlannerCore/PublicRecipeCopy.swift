@@ -48,7 +48,8 @@ public enum PublicRecipeCopy {
                     bakeFlag: instruction.bakeFlag ?? false,
                     componentName: instruction.componentName,
                     minDuration: instruction.durationWindow?.lowerBound,
-                    maxDuration: instruction.durationWindow?.upperBound
+                    maxDuration: instruction.durationWindow?.upperBound,
+                    oven: instruction.oven
                 )
             }
 

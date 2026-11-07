@@ -656,6 +656,7 @@ struct EditRecipeView: View {
             instructionFB.bakeFlag    = instruction.bakeFlag
             instructionFB.componentName = instruction.componentName
             instructionFB.durationWindow = instruction.durationWindow
+            instructionFB.oven = instruction.oven
             return instructionFB
         }
 

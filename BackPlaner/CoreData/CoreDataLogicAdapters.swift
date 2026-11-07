@@ -229,6 +229,7 @@ extension Recipe {
             instruction.bakeFlag      = instructionData.bakeFlag
             instruction.componentName = instructionData.componentName
             instruction.durationWindow = instructionData.durationWindow
+            instruction.oven = instructionData.oven
             addToInstructions(instruction)
         }
     }
@@ -253,6 +254,21 @@ extension Instruction {
     var planDurationWindow: ClosedRange<Int>? {
         DurationWindow.effective(stored: durationWindow, instruction: instruction, duration: duration)
     }
+
+    /// The step's oven settings as one value; nil when none is set. Setting
+    /// nil clears all three fields.
+    var oven: OvenSettings? {
+        get {
+            OvenSettings.from(temperature: ovenTemperature?.intValue,
+                              fallingTo: ovenFallingTemperature?.intValue,
+                              steam: ovenSteam?.boolValue)
+        }
+        set {
+            ovenTemperature = newValue?.temperature.map { NSNumber(value: $0) }
+            ovenFallingTemperature = newValue?.fallingTo.map { NSNumber(value: $0) }
+            ovenSteam = newValue?.steam.map { NSNumber(value: $0) }
+        }
+    }
 }
 
 // MARK: - Fold steps
@@ -275,6 +291,7 @@ extension TimedFoldExpansion {
             instructionFB.startTime = instruction.startTime
             instructionFB.componentName = instruction.componentName
             instructionFB.durationWindow = instruction.durationWindow
+            instructionFB.oven = instruction.oven
             working.append(instructionFB)
             origin[ObjectIdentifier(instructionFB)] = instruction
         }
@@ -295,6 +312,7 @@ extension TimedFoldExpansion {
                 instruction.duration = instructionFB.duration
                 instruction.componentName = instructionFB.componentName
                 instruction.durationWindow = instructionFB.durationWindow
+                instruction.oven = instructionFB.oven
                 recipe.addToInstructions(instruction)
             }
         }

@@ -280,7 +280,7 @@ extension RecurringBakePlanner {
                                     PlanStep(instruction: $0.instruction, step: $0.step,
                                              startTime: $0.startTime, duration: $0.duration,
                                              componentName: $0.componentName,
-                                             durationWindow: $0.planDurationWindow)
+                                             durationWindow: $0.planDurationWindow, oven: $0.oven)
                                 },
                                 prepTime: recipe.prepTime,
                                 anchor: .startsAt,

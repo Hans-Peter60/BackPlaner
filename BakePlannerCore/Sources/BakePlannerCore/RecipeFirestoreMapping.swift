@@ -83,6 +83,9 @@ public enum RecipeFirestoreMapping {
         instruction.componentName = data["componentName"] as? String
         instruction.minDuration   = int(data["minDuration"])
         instruction.maxDuration   = int(data["maxDuration"])
+        instruction.ovenTemperature        = int(data["ovenTemperature"])
+        instruction.ovenFallingTemperature = int(data["ovenFallingTemperature"])
+        instruction.ovenSteam              = data["ovenSteam"] as? Bool
         if let translations = data["translations"] as? [String: Any] {
             instruction.translations = translations.mapValues { InstructionTextFB(firestoreData: $0) }
         }
@@ -131,6 +134,7 @@ public enum RecipeFirestoreMapping {
             instructionFB.componentName = instruction.componentName
             instructionFB.minDuration   = instruction.minDuration
             instructionFB.maxDuration   = instruction.maxDuration
+            instructionFB.oven          = instruction.oven
             return instructionFB
         }
         publicRecipe.capturePreferredLocalization()
@@ -220,6 +224,11 @@ public enum RecipeFirestoreMapping {
         if let window = instruction.durationWindow {
             data["minDuration"] = window.lowerBound
             data["maxDuration"] = window.upperBound
+        }
+        if let oven = instruction.oven {
+            if let temperature = oven.temperature { data["ovenTemperature"] = temperature }
+            if let fallingTo = oven.fallingTo { data["ovenFallingTemperature"] = fallingTo }
+            if let steam = oven.steam { data["ovenSteam"] = steam }
         }
         let translations = instruction.firestoreTranslationsData
         if !translations.isEmpty {
@@ -341,7 +350,8 @@ extension RecipeExportData {
                         bakeFlag: instruction.bakeFlag ?? false,
                         componentName: instruction.componentName,
                         minDuration: instruction.durationWindow?.lowerBound,
-                        maxDuration: instruction.durationWindow?.upperBound
+                        maxDuration: instruction.durationWindow?.upperBound,
+                        oven: instruction.oven
                     )
                 }
         )
