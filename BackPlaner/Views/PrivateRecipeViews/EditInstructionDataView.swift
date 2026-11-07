@@ -96,6 +96,31 @@ struct EditInstructionView: View {
     /// The step's time window, both empty for a fixed duration.
     @State private var minimumMinutes: Int?
     @State private var maximumMinutes: Int?
+    /// The oven's settings as fields; all empty for a step without them.
+    @State private var ovenTemperature: Int?
+    @State private var ovenFallingTemperature: Int?
+    @State private var steamChoice: SteamChoice
+
+    /// Steam as the picker offers it: not stated, with, without.
+    enum SteamChoice: Hashable {
+        case notStated, with, without
+
+        init(_ steam: Bool?) {
+            switch steam {
+            case nil: self = .notStated
+            case true?: self = .with
+            case false?: self = .without
+            }
+        }
+
+        var value: Bool? {
+            switch self {
+            case .notStated: return nil
+            case .with: return true
+            case .without: return false
+            }
+        }
+    }
 
     init(instruction: Instruction) {
         self.instructions = instruction
@@ -104,6 +129,9 @@ struct EditInstructionView: View {
         _duration = State(initialValue: instruction.duration)
         _minimumMinutes = State(initialValue: instruction.durationWindow?.lowerBound)
         _maximumMinutes = State(initialValue: instruction.durationWindow?.upperBound)
+        _ovenTemperature = State(initialValue: instruction.oven?.temperature)
+        _ovenFallingTemperature = State(initialValue: instruction.oven?.fallingTo)
+        _steamChoice = State(initialValue: SteamChoice(instruction.oven?.steam))
     }
     
     var gridItemLayoutInstructions = [GridItem(scaledColumnSize(60), alignment: .leading), GridItem(.flexible(minimum: 200), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .leading)]
@@ -165,6 +193,31 @@ struct EditInstructionView: View {
                 } footer: {
                     Text("Der Planer darf den Schritt innerhalb des Fensters dehnen oder kürzen, etwa eine Kühlschrankgare von 12 bis 18 Stunden. Leer lassen, wenn die Dauer fest ist.")
                 }
+
+                // MARK: Oven — the settings as fields, taken before the wording
+                Section {
+                    LabeledContent("Temperatur") {
+                        TextField("°C", value: $ovenTemperature, format: .number)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .accessibilityLabel("Temperatur")
+                    }
+                    LabeledContent("Fallend auf") {
+                        TextField("°C", value: $ovenFallingTemperature, format: .number)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .accessibilityLabel("Fallend auf")
+                    }
+                    Picker("Schwaden", selection: $steamChoice) {
+                        Text("Nicht angegeben").tag(SteamChoice.notStated)
+                        Text("Mit Schwaden").tag(SteamChoice.with)
+                        Text("Ohne Schwaden").tag(SteamChoice.without)
+                    }
+                } header: {
+                    Text("Ofen")
+                } footer: {
+                    Text("Die Felder gelten vor dem Wortlaut: „Backofen anstellen“ nennt die Temperatur, „Fallend auf“ erzeugt den Schritt zum Zurückdrehen, und zwei Brote bei gleicher Temperatur dürfen sich einen Ofen teilen. Leer lassen, wenn der Schritt nichts mit dem Ofen zu tun hat.")
+                }
                 .navigationTitle(Text("Verarbeitungsschritt ändern"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -182,6 +235,9 @@ struct EditInstructionView: View {
                             // Both bounds, in order, or no window at all.
                             self.instructions.durationWindow = DurationWindow.range(minimum: minimumMinutes,
                                                                                     maximum: maximumMinutes)
+                            self.instructions.oven = OvenSettings.from(temperature: ovenTemperature,
+                                                                       fallingTo: ovenFallingTemperature,
+                                                                       steam: steamChoice.value)
 
                             if let recipe = self.instructions.recipe {
                                 // An edited step that now describes repeated
