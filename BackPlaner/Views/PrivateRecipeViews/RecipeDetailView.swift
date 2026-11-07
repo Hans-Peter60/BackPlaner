@@ -277,7 +277,8 @@ struct RecipeDetailView: View {
                         InstructionStepsStackedView(rows: recipe.instructionsArray.enumerated().map { index, i in
                             InstructionStepRow(id: index,
                                                step: Rational.decimalPlace(i.step, 10),
-                                               instruction: i.instruction,
+                                               // The oven's stored settings follow the text.
+                                               instruction: [i.instruction, i.oven?.summary()].compactMap { $0 }.joined(separator: "\n"),
                                                duration: i.planDurationWindow.map {
                                                    "\(Rational.displayHoursMinutes(i.duration)) (\(DurationWindow.text($0)))"
                                                } ?? Rational.displayHoursMinutes(i.duration))
@@ -294,7 +295,15 @@ struct RecipeDetailView: View {
 
                                 let step = Rational.decimalPlace(i.step, 10)
                                 Text(step)
-                                Text(i.instruction)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(i.instruction)
+                                    // The oven's stored settings, when the step has any.
+                                    if let oven = i.oven?.summary() {
+                                        Text(oven)
+                                            .font(Theme.bodyFont(11))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                }
                                 VStack(alignment: .trailing, spacing: 0) {
                                     Text(Rational.displayHoursMinutes(i.duration))
                                     // The window the plan may use: stored, or

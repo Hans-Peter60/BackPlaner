@@ -180,6 +180,22 @@ struct RecipeEditor: View {
                             TextField("Höchstens", text: $step.maximumText)
                                 .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
                         }
+                        // The oven's settings as fields, as on the iPhone:
+                        // the plan takes them before the wording.
+                        HStack {
+                            Text("Ofen")
+                            TextField("°C", text: $step.ovenTemperatureText)
+                                .keyboardType(.numberPad)
+                                .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
+                            TextField("Fallend auf", text: $step.ovenFallingText)
+                                .keyboardType(.numberPad)
+                                .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
+                        }
+                        Picker("Schwaden", selection: $step.steamChoice) {
+                            Text("Nicht angegeben").tag(0)
+                            Text("Mit Schwaden").tag(1)
+                            Text("Ohne Schwaden").tag(2)
+                        }
                     }
                 }
                 .onDelete { offsets in
@@ -387,6 +403,11 @@ struct StepDraft: Identifiable {
     /// The step's time window as typed, both empty for a fixed duration.
     var minimumText = ""
     var maximumText = ""
+    /// The oven's settings as typed: degrees Celsius, the temperature the
+    /// heat falls to; steam 0 = not stated, 1 = with, 2 = without.
+    var ovenTemperatureText = ""
+    var ovenFallingText = ""
+    var steamChoice = 0
     var bakeFlag = false
     var componentName: String?
 
@@ -400,6 +421,9 @@ struct StepDraft: Identifiable {
         numberText = Self.numberText(for: instruction.step)
         minimumText = instruction.durationWindow.map { String($0.lowerBound) } ?? ""
         maximumText = instruction.durationWindow.map { String($0.upperBound) } ?? ""
+        ovenTemperatureText = instruction.oven?.temperature.map(String.init) ?? ""
+        ovenFallingText = instruction.oven?.fallingTo.map(String.init) ?? ""
+        steamChoice = instruction.oven?.steam.map { $0 ? 1 : 2 } ?? 0
         bakeFlag = instruction.bakeFlag
         componentName = instruction.componentName
     }
@@ -415,6 +439,27 @@ struct StepDraft: Identifiable {
         let maximumEmpty = maximumText.trimmingCharacters(in: .whitespaces).isEmpty
         if minimumEmpty && maximumEmpty { return true }
         return durationWindow != nil
+    }
+
+    /// The oven settings typed, nil when all are empty.
+    var oven: OvenSettings? {
+        OvenSettings.from(temperature: Self.degrees(ovenTemperatureText),
+                          fallingTo: Self.degrees(ovenFallingText),
+                          steam: steamChoice == 0 ? nil : steamChoice == 1)
+    }
+
+    /// Every typed temperature is a whole number of degrees.
+    var hasValidOven: Bool {
+        [ovenTemperatureText, ovenFallingText].allSatisfy {
+            $0.trimmingCharacters(in: .whitespaces).isEmpty || Self.degrees($0) != nil
+        }
+    }
+
+    /// A temperature as typed, nil when empty or no number.
+    private static func degrees(_ text: String) -> Int? {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty, let value = Int(trimmed), value > 0 else { return nil }
+        return value
     }
 
     /// A bound as typed, nil when empty or no duration.
@@ -441,7 +486,7 @@ struct StepDraft: Identifiable {
 
     var hasValidDuration: Bool { duration != nil }
 
-    var isValid: Bool { hasValidDuration && hasValidWindow && step != nil }
+    var isValid: Bool { hasValidDuration && hasValidWindow && hasValidOven && step != nil }
 
     /// Minutes, or hours and minutes as a baker writes them ("1:30",
     /// "1,5 h"), as on the iPhone (DurationInput).
@@ -453,6 +498,7 @@ struct StepDraft: Identifiable {
         RecipeExportInstruction(instruction: text.trimmingCharacters(in: .whitespacesAndNewlines), step: step ?? 0,
                                 duration: duration ?? 0, startTime: 0, bakeFlag: bakeFlag,
                                 componentName: componentName,
-                                minDuration: durationWindow?.lowerBound, maxDuration: durationWindow?.upperBound)
+                                minDuration: durationWindow?.lowerBound, maxDuration: durationWindow?.upperBound,
+                                oven: oven)
     }
 }

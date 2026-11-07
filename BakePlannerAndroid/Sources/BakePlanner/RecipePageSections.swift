@@ -174,8 +174,16 @@ struct RecipeLineSections: View {
                         Text(verbatim: step.number)
                             .bold()
                             .frame(width: 36, alignment: .leading)
-                        Text(verbatim: step.text)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(verbatim: step.text)
+                            // The oven's stored settings, when the step has any.
+                            if let oven = step.oven {
+                                Text(verbatim: oven)
+                                    .font(AppFont.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         VStack(alignment: .trailing, spacing: 0) {
                             Text(verbatim: step.duration)
                                 .font(AppFont.caption)
