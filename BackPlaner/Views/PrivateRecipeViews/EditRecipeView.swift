@@ -186,33 +186,45 @@ struct EditRecipeView: View {
     @State private var selectedImageSource  = UIImagePickerController.SourceType.photoLibrary
     @State private var placeHolderImage     = Image(systemName: "photo")
 
+    /// The recipe picture with the button that opens the photo library;
+    /// the column is as wide as the button's title, not the picture.
+    private var recipeImageColumn: some View {
+        VStack(spacing: 6) {
+            Image(uiImage: recipeImage ?? UIImage())
+                .resizable()
+                .scaledToFill()
+                .frame(width: 96, height: 96)
+                .clipped()
+                .cornerRadius(5)
+                .accessibilityLabel("Rezeptbild")
+
+            IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .small) {
+                selectedImageSource  = .photoLibrary
+                isShowingImagePicker = true
+            }
+            .fixedSize()
+        }
+        .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+            ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+        }
+    }
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 10) {
-                HStack(alignment: .top, spacing: 12) {
-                    // MARK: Recipe Image
-                    VStack(spacing: 6) {
-                        Image(uiImage: recipeImage ?? UIImage())
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 96, height: 96)
-                            .clipped()
-                            .cornerRadius(5)
-                            .accessibilityLabel("Rezeptbild")
-
-                        IconActionButton(systemImage: "photo.on.rectangle", style: .primary, accessibilityLabel: "Fotomediathek öffnen", title: "Fotomediathek", controlSize: .small) {
-                            selectedImageSource  = .photoLibrary
-                            isShowingImagePicker = true
-                        }
+                // The picture with its button beside the rating; where the
+                // row is too narrow for the button's title and the stars at
+                // once, the rating goes beneath instead of breaking the words.
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .top, spacing: 12) {
+                        recipeImageColumn
+                        Spacer(minLength: 12)
+                        RatingStarsUpdateView(rating: $rating)
                     }
-                    .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                    VStack(alignment: .leading, spacing: 10) {
+                        recipeImageColumn
+                        RatingStarsUpdateView(rating: $rating)
                     }
-
-                    Spacer(minLength: 12)
-
-                    // MARK: Rating Stars
-                    RatingStarsUpdateView(rating: $rating)
                 }
 
                 // The recipe meta data
@@ -313,7 +325,9 @@ struct EditRecipeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Rezeptinhalte löschen", title: "Löschen", controlSize: .regular) {
+                // Icon only: with a title the toolbar's glass pill grew to the
+                // height of the wrapped word and hung down over the content.
+                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Rezeptinhalte löschen", controlSize: .regular) {
                     clear()
                 }
             }

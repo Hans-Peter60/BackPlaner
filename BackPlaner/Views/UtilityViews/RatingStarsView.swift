@@ -71,6 +71,9 @@ struct RatingStarsUpdateView: View {
         HStack {
             if label.isEmpty == false {
                 Text(label)
+                    // Beside the photo buttons on a phone the row is squeezed;
+                    // without this the label broke into one syllable per line.
+                    .fixedSize()
             }
 
             ForEach(1..<maximumRating + 1, id: \.self) { number in

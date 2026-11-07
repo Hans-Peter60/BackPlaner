@@ -172,29 +172,34 @@ struct RecipeEditor: View {
                         }
                         // The step's time window, as on the iPhone: how
                         // short and how long it may take; both empty for a
-                        // fixed duration.
-                        HStack {
-                            Text("Zeitfenster")
-                            TextField("Mindestens", text: $step.minimumText)
-                                .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
-                            TextField("Höchstens", text: $step.maximumText)
-                                .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
+                        // fixed duration. Not for an oven step.
+                        if step.showsWindow {
+                            HStack {
+                                Text("Zeitfenster")
+                                TextField("Mindestens", text: $step.minimumText)
+                                    .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
+                                TextField("Höchstens", text: $step.maximumText)
+                                    .foregroundStyle(step.hasValidWindow ? Color.primary : Color.red)
+                            }
                         }
                         // The oven's settings as fields, as on the iPhone:
-                        // the plan takes them before the wording.
-                        HStack {
-                            Text("Ofen")
-                            TextField("°C", text: $step.ovenTemperatureText)
-                                .keyboardType(.numberPad)
-                                .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
-                            TextField("Fallend auf", text: $step.ovenFallingText)
-                                .keyboardType(.numberPad)
-                                .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
-                        }
-                        Picker("Schwaden", selection: $step.steamChoice) {
-                            Text("Nicht angegeben").tag(0)
-                            Text("Mit Schwaden").tag(1)
-                            Text("Ohne Schwaden").tag(2)
+                        // the plan takes them before the wording. Only for a
+                        // step that bakes, preheats or names an oven temperature.
+                        if step.isOvenStep {
+                            HStack {
+                                Text("Ofen")
+                                TextField("°C", text: $step.ovenTemperatureText)
+                                    .keyboardType(.numberPad)
+                                    .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
+                                TextField("Fallend auf", text: $step.ovenFallingText)
+                                    .keyboardType(.numberPad)
+                                    .foregroundStyle(step.hasValidOven ? Color.primary : Color.red)
+                            }
+                            Picker("Schwaden", selection: $step.steamChoice) {
+                                Text("Nicht angegeben").tag(0)
+                                Text("Mit Schwaden").tag(1)
+                                Text("Ohne Schwaden").tag(2)
+                            }
                         }
                     }
                 }
@@ -443,6 +448,19 @@ struct StepDraft: Identifiable {
         if minimumEmpty && maximumEmpty { return true }
         return durationWindow != nil
     }
+
+    /// Whether the step is the oven's: it bakes, preheats or names an oven
+    /// temperature as typed, or already carries oven settings.
+    var isOvenStep: Bool {
+        oven != nil
+            || BakePlanValidator.isBakingStartInstruction(text)
+            || BakePlanValidator.isPreheatInstruction(text)
+            || BakePlan.ovenTemperatureCelsius(in: text) != nil
+    }
+
+    /// The window is for steps the plan may stretch, not the oven's; a
+    /// typed window stays visible whatever the wording.
+    var showsWindow: Bool { !isOvenStep || durationWindow != nil }
 
     /// The oven settings typed, nil when all are empty.
     var oven: OvenSettings? {
