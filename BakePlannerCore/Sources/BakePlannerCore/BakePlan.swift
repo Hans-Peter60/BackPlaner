@@ -398,6 +398,29 @@ public struct BakePlan {
         return first.value
     }
 
+    /// The oven settings a step's wording suggests, to pre-fill the editor's
+    /// fields for a step that has none stored: the temperature and the one
+    /// it falls to as the plan reads them (Celsius only), steam when the
+    /// step mentions it, "ohne Dampf" as none. Nil for a step that neither
+    /// bakes, nor preheats, nor names an oven temperature — kneading,
+    /// proofing at 28 °C, releasing the steam.
+    public static func suggestedOvenSettings(in text: String) -> OvenSettings? {
+        let temperature = ovenTemperatureCelsius(in: text)
+        guard temperature != nil
+                || BakePlanValidator.isBakingStartInstruction(text)
+                || BakePlanValidator.isPreheatInstruction(text) else { return nil }
+
+        let drop = temperatureDrop(in: text)
+        let fallingTo = drop.flatMap { $0.temperature.hasSuffix("°C") ? Int($0.temperature.prefix { $0.isNumber }) : nil }
+
+        let folded = text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "de_DE"))
+        let noSteamPhrases = ["ohne dampf", "ohne schwaden", "without steam", "sans buee", "sans vapeur"]
+        let steam: Bool? = noSteamPhrases.contains(where: folded.contains) ? false
+            : (steamWords.contains(where: folded.contains) ? true : nil)
+
+        return OvenSettings.from(temperature: temperature, fallingTo: fallingTo, steam: steam)
+    }
+
     /// An oven temperature as a step states it, and where in the text.
     private struct OvenTemperature {
         let value: Int
