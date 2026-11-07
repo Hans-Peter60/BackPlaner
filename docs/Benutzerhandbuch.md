@@ -357,6 +357,7 @@ Ein Tippen auf **Erinnerungen setzen** löst mehrere Dinge gleichzeitig aus:
    - Nennt das Rezept eine **Ofentemperatur**, steht sie dabei, etwa „Backofen anstellen (250 °C)“. Bei „Bei 250 °C fallend auf 220 °C backen“ ist es die erste. Die Temperatur darf auch im Schritt davor stehen („Brot einschießen, Ofen 250 °C“).
    - Hat das Rezept schon einen **eigenen Schritt zum Vorheizen**, fügt die App keinen zweiten ein. Der eigene Schritt erinnert dann an das Vorheizen und bekommt die Temperatur angehängt, wenn sie dort noch fehlt.
    - Beginnt das Backen im **kalten Ofen** („in den kalten Backofen schieben“), entfällt die Vorheizzeit.
+   - Nennt ein Schritt einen **Backstein** oder Backstahl („auf den heißen Backstein einschießen“, „Pizzastein mit aufheizen“), gilt statt der Vorheizzeit die **Vorheizzeit mit Backstein** (Standard 45 Minuten) – der Stein braucht deutlich länger als die Ofenluft.
    - Nennt der Backschritt eine **fallende Temperatur** („bei 250 °C einschießen, nach 10 Minuten auf 220 °C reduzieren“), fügt die App zusätzlich **„Backofen auf 220 °C zurückdrehen“** ein – zu der Minute, die der Satz mit der niedrigeren Temperatur nennt; „sofort“ heißt zum Backbeginn, ohne Angabe sind es zehn Minuten nach Backbeginn. Erwähnt der Schritt Dampf oder Schwaden, heißt es „…, Dampf ablassen“; bei „ohne Dampf“ nicht. Hat das Rezept einen **eigenen Schritt zum Dampfablassen** („Dampf ablassen“ 20 Minuten nach dem Einschießen), wird der Ofen zum Backbeginn zurückgedreht und der eingefügte Schritt nennt keinen Dampf – wann der Dampf abgelassen wird, sagt das Rezept selbst. Eine daneben genannte Umluft-Temperatur („230 °C Ober-/Unterhitze, Umluft 210 °C“) zählt nicht als Absenkung.
 3. Ebenso wird **„Backvorgang ist beendet“** zum Endzeitpunkt eingeplant.
 4. Alle Schritte landen in **„Geplante Schritte“**.
@@ -854,6 +855,7 @@ Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren*
 | Einstellung | Beschreibung |
 |-------------|--------------|
 | **Vorheizzeit** | 0–120 Minuten in 5er-Schritten. Wird beim Setzen der Erinnerungen verwendet, um den automatischen Schritt „Backofen anstellen“ vor den letzten Schritt zu legen. Standard: 15 Minuten. |
+| **Vorheizzeit mit Backstein** | 0–180 Minuten in 5er-Schritten. Ersetzt die Vorheizzeit, wenn ein Schritt des Rezepts einen Backstein oder Backstahl nennt. Standard: 45 Minuten. |
 | **Backpause** | 0–120 Minuten. Mindestabstand zwischen zwei Backvorgängen im selben Ofen. Standard: 10 Minuten. |
 | **Backöfen** | 1–6. Wie viele Backvorgänge gleichzeitig laufen dürfen. Die Planprüfung meldet erst dann einen Fehler, wenn mehr Rezepte zur selben Zeit backen, als Öfen da sind; die Backpause gilt je Ofen. Standard: 1. |
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
@@ -861,7 +863,7 @@ Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren*
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
 | **Wecker** | Aus, Ofenschritte oder Alle Schritte: Welche Schritte zusätzlich zur Erinnerung als Wecker klingeln, auch bei Stumm und in einem Fokus (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)). Beim Einschalten fragt iOS einmal um Erlaubnis. Standard: aus. |
 
-> **Hinweis:** Nur die **Vorheizzeit** verschiebt tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backanleitung, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
+> **Hinweis:** Nur die beiden **Vorheizzeiten** verschieben tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backanleitung, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
 
 ### Datenschutz & KI
 

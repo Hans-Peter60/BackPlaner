@@ -360,6 +360,7 @@ Toucher **Définir les rappels** déclenche plusieurs choses à la fois :
    - Si la recette indique une **température de four**, elle est ajoutée, par exemple « Allumer le four (250 °C) ». Avec « cuire à 250 °C puis 220 °C », c’est la première. La température peut aussi figurer dans l’étape précédente (« enfourner, four à 250 °C »).
    - Si la recette comporte déjà **sa propre étape de préchauffage**, aucune seconde n’est ajoutée. L’étape de la recette sert alors de rappel de préchauffage et reçoit la température si elle ne l’indique pas encore.
    - Si la cuisson commence dans un **four froid** (« enfourner dans le four froid »), le temps de préchauffage est supprimé.
+   - Si une étape mentionne une **pierre de cuisson** ou une plaque en acier (« enfourner sur la pierre chaude », « chauffer la pierre à pizza avec le four »), c’est le **temps de préchauffage avec pierre** (45 minutes par défaut) qui s’applique à la place – la pierre met bien plus longtemps que l’air du four.
    - Si l’étape de cuisson indique une **température descendante** (« enfourner à 250 °C, après 10 minutes baisser à 220 °C »), l’app insère en plus **« Baisser le four à 220 °C »** — à la minute indiquée dans la phrase qui donne la température la plus basse ; « immédiatement » signifie au début de la cuisson, et sans indication ce sont dix minutes après le début. Si l’étape mentionne la buée ou la vapeur, le texte devient « …, évacuer la buée » ; pas avec « sans buée ». Si la recette a une **étape à elle pour évacuer la buée** (« Évacuer la buée » 20 minutes après l’enfournement), le four est baissé à l’enfournement et l’étape insérée ne parle pas de buée — c’est la recette qui dit quand la buée s’évacue. Une température de chaleur tournante indiquée à côté (« 230 °C sole/voûte, chaleur tournante 210 °C ») ne compte pas comme une baisse.
 3. **« La cuisson est terminée »** est également planifié pour l’heure de fin.
 4. Toutes les étapes arrivent dans **Étapes planifiées**.
@@ -857,6 +858,7 @@ Une recette seule s’exporte depuis sa page via **Exporter la recette** (à cô
 | Réglage | Description |
 |---------|-------------|
 | **Temps de préchauffage** | 0 à 120 minutes par pas de 5. Utilisé lors de la définition des rappels, pour placer l’étape automatique « allumer le four » avant la dernière étape. Par défaut : 15 minutes. |
+| **Temps de préchauffage avec pierre** | 0 à 180 minutes par pas de 5. Remplace le temps de préchauffage lorsqu’une étape de la recette mentionne une pierre de cuisson ou une plaque en acier. Par défaut : 45 minutes. |
 | **Pause de cuisson** | 0 à 120 minutes. Écart minimal entre deux cuissons dans le même four. Par défaut : 10 minutes. |
 | **Fours** | 1 à 6. Nombre de cuissons pouvant se dérouler en même temps. Le contrôle du plan ne signale une erreur que si plus de recettes cuisent en même temps qu’il n’y a de fours ; la pause de cuisson s’applique par four. Par défaut : 1. |
 | **Début de journée** | 0 à 23 h. À partir de quand vous êtes disponible le matin. Par défaut : 6 h. |
@@ -864,7 +866,7 @@ Une recette seule s’exporte depuis sa page via **Exporter la recette** (à cô
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 | **Alarmes** | Désactivé, Étapes du four ou Toutes les étapes : quelles étapes sonnent comme alarme en plus de leur rappel, même en mode silencieux et dans un mode de concentration (voir [chapitre 11](#11-rappels-sur-lécran-verrouillé)). À l’activation, iOS demande une fois l’autorisation. Par défaut : désactivé. |
 
-> **Remarque :** seul le **temps de préchauffage** décale réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans les instructions de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
+> **Remarque :** seuls les deux **temps de préchauffage** décalent réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans les instructions de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
 ### Confidentialité et IA
 

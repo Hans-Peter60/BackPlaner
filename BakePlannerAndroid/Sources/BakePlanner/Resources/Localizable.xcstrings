@@ -8783,6 +8783,23 @@
         }
       }
     },
+    "Vorheizzeit mit Backstein" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preheat time with baking stone"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de préchauffage avec pierre"
+          }
+        }
+      }
+    },
     "Vorlesen" : {
       "extractionState" : "manual",
       "localizations" : {

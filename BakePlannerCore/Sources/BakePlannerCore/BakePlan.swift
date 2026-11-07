@@ -65,6 +65,9 @@ public struct BakePlan {
     /// Language of the two generated steps.
     public let languageCode: String
     public var preheatTime: Int = GlobalVariables.preheatTime
+    /// The preheating time when the recipe bakes on a stone or steel, which
+    /// takes far longer to heat through than the oven's air.
+    public var stonePreheatTime: Int = GlobalVariables.stonePreheatTime
     public var calendar: Calendar = .current
     /// True for a recipe that feeds a starter: it is fed, not baked, so its
     /// last step asks for the feeding's result instead of announcing the end
@@ -112,10 +115,18 @@ public struct BakePlan {
     }
 
     /// Minutes the oven needs before the bake: none for a recipe with its own
-    /// preheating step or one that starts in a cold oven, else the setting.
+    /// preheating step or one that starts in a cold oven, the stone's time
+    /// for a bake on a baking stone or steel, else the setting.
     public var preheatDuration: Int {
         guard explicitPreheatStep == nil, let bakingStep else { return 0 }
-        return Self.startsInColdOven(bakingStep.instruction) ? 0 : preheatTime
+        if Self.startsInColdOven(bakingStep.instruction) { return 0 }
+        return usesBakingStone ? stonePreheatTime : preheatTime
+    }
+
+    /// Whether the recipe bakes on a stone or steel, which any of its steps
+    /// may say ("Backstein mit aufheizen", "auf den heißen Stein einschießen").
+    public var usesBakingStone: Bool {
+        Self.usesBakingStone(steps.map(\.instruction))
     }
 
     /// "Backofen anstellen (250 °C)", generated when the recipe has no
@@ -259,7 +270,7 @@ public struct BakePlan {
         let total = newSteps.map { $0.startTime + $0.duration }.max() ?? 0
         return BakePlan(recipeName: recipeName, steps: newSteps, prepTime: total, anchor: anchor,
                         date: date, languageCode: languageCode, preheatTime: preheatTime,
-                        calendar: calendar, isStarterFeeding: isStarterFeeding)
+                        stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding)
     }
 
     /// Every step the plan writes, generated ones included.
@@ -303,7 +314,7 @@ public struct BakePlan {
     public func moved(to newDate: Date) -> BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
                  date: newDate, languageCode: languageCode, preheatTime: preheatTime,
-                 calendar: calendar, isStarterFeeding: isStarterFeeding)
+                 stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding)
     }
 
     public func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
@@ -318,6 +329,22 @@ public struct BakePlan {
         let coldOvenPhrases = ["kalten backofen", "kalten ofen", "nicht vorheizen",
                                "ohne vorheizen", "ohne vorzuheizen"]
         return coldOvenPhrases.contains(where: text.contains)
+    }
+
+    /// Whether any of the steps bakes on a baking stone or steel. The whole
+    /// word is required — "Stein" alone would take "Steinsalz" for one.
+    public static func usesBakingStone(_ instructions: [String]) -> Bool {
+        let stonePhrases = ["backstein", "pizzastein", "brotbackstein", "schamott", "backstahl", "pizzastahl",
+                            "heissen stein", "heisse stein",
+                            "baking stone", "pizza stone", "bread stone", "baking steel", "pizza steel", "hot stone",
+                            "pierre de cuisson", "pierre a pizza", "pierre a pain", "pierre refractaire",
+                            "pierre chaude", "acier de cuisson", "plaque en acier"]
+        return instructions.contains { instruction in
+            let text = instruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
+                                           locale: Locale(identifier: "de_DE"))
+                .replacingOccurrences(of: "ß", with: "ss")
+            return stonePhrases.contains(where: text.contains)
+        }
     }
 
     /// "Backofen anstellen (250 °C)", or the plain text without a temperature.
@@ -501,7 +528,7 @@ public struct BakePlan {
         }
     }
 
-    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false) {
+    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, stonePreheatTime: Int = GlobalVariables.stonePreheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false) {
         self.recipeName = recipeName
         self.steps = steps
         self.prepTime = prepTime
@@ -509,6 +536,7 @@ public struct BakePlan {
         self.date = date
         self.languageCode = languageCode
         self.preheatTime = preheatTime
+        self.stonePreheatTime = stonePreheatTime
         self.calendar = calendar
         self.isStarterFeeding = isStarterFeeding
     }

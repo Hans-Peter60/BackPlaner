@@ -31,7 +31,8 @@ struct BakePlanTests {
     private func plan(_ steps: [PlanStep], anchor: PlanAnchor = .startsAt, at date: Date? = nil,
                       language: String = "de") -> BakePlan {
         BakePlan(recipeName: "Brot", steps: steps, prepTime: 140, anchor: anchor,
-                 date: date ?? time(8), languageCode: language, preheatTime: 15, calendar: calendar)
+                 date: date ?? time(8), languageCode: language, preheatTime: 15, stonePreheatTime: 45,
+                 calendar: calendar)
     }
 
     @Test("The bake is the step worded that way, not the last one")
@@ -170,6 +171,40 @@ struct BakePlanTests {
         let cold = plan(steps)
         #expect(cold.preheatDuration == 0)
         #expect(try #require(cold.generatedOvenStep).startTime == 20)
+    }
+
+    @Test("A bake on a baking stone takes the stone's preheating time, wherever a step names the stone")
+    func bakingStoneTakesTheLongerPreheating() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Auf den heißen Backstein einschießen und bei 250 °C backen", step: 3, startTime: 70, duration: 40)
+        let onStone = plan(steps)
+        #expect(onStone.usesBakingStone)
+        #expect(onStone.preheatDuration == 45)
+        #expect(try #require(onStone.generatedOvenStep).startTime == 25)
+
+        // The stone may be mentioned in an earlier step only.
+        var early = loaf
+        early[0] = PlanStep(instruction: "Teig kneten, Pizzastahl in den Ofen legen", step: 1, startTime: 0, duration: 10)
+        #expect(plan(early).preheatDuration == 45)
+
+        // Without a stone it is the usual time; "Steinsalz" is no stone.
+        #expect(plan(loaf).preheatDuration == 15)
+        var salted = loaf
+        salted[0] = PlanStep(instruction: "Teig mit Steinsalz kneten", step: 1, startTime: 0, duration: 10)
+        #expect(!plan(salted).usesBakingStone)
+
+        // The recipe's own preheating step and a cold oven still win.
+        var own = steps
+        own.insert(PlanStep(instruction: "Backofen mit Backstein auf 250 °C vorheizen", step: 2.5, startTime: 10, duration: 60), at: 2)
+        #expect(plan(own).preheatDuration == 0)
+    }
+
+    @Test("A baking stone or steel is recognised in every language",
+          arguments: ["Brot auf den Backstein schieben", "Pizza auf dem Pizzastein backen", "Schamottestein mit aufheizen",
+                      "Slide the loaf onto the baking stone", "Bake on a pizza steel at 500 °F",
+                      "Enfourner sur la pierre de cuisson", "Cuire sur la pierre réfractaire"])
+    func recognisesBakingStones(_ text: String) {
+        #expect(BakePlan.usesBakingStone([text]))
     }
 
     @Test("Starting at a time: steps fall after it, reminders count from it")
@@ -391,7 +426,10 @@ struct BakePlanTests {
         #expect(plan.explicitPreheatStep == nil)
         let oven = try #require(plan.generatedOvenStep)
         #expect(oven.step == 9.9)
-        #expect(oven.startTime == 105)
+        // The bake is on a baking stone, so the oven goes on 45 minutes
+        // ahead; the French translation turned the stone into a tin ("moule"),
+        // so there it is the usual 15.
+        #expect(oven.startTime == (language == "fr" ? 105 : 75))
         let turnDown = try #require(plan.generatedTurnDownStep)
         #expect(turnDown.step == 10.1)
         #expect(turnDown.startTime == 120)

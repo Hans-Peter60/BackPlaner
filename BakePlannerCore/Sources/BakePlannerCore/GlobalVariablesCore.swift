@@ -94,6 +94,14 @@ public struct GlobalVariables {
     
     public static var step         = 1
     public static var preheatTime: Int { AppSettings.storedPreheatTime }
+    public static var stonePreheatTime: Int { AppSettings.storedStonePreheatTime }
+
+    /// The preheating time an imported preheating step gets when it names
+    /// none: the stone's when it heats a baking stone or steel, else the
+    /// usual one.
+    public static func preheatTime(for instruction: String) -> Int {
+        BakePlan.usesBakingStone([instruction]) ? stonePreheatTime : preheatTime
+    }
     public static var startHeating: String { AppSettings.storedStartHeatingText }
     public static var bakeEnd: String { AppSettings.storedBakeEndText }
     public static var dayStart: Int { AppSettings.storedDayStart }
