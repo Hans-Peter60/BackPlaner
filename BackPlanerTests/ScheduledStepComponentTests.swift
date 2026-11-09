@@ -61,6 +61,39 @@ struct ScheduledStepComponentTests {
         ) == "Vorteig A")
     }
 
+    // MARK: - One component
+
+    /// A starter: one component, mixed in the first step and left to ripen
+    /// in the second, which repeats the component's name.
+    private let starter = RecipeExportData(
+        name: "Roggenanstellgut 1150", summary: "", prepTime: 730, totalWeight: 210, tags: [], rating: 0,
+        recurrenceIntervalDays: 7,
+        components: [RecipeExportComponent(name: "Anstellgut", number: 1, ingredients: [
+            RecipeExportIngredient(name: "Anstellgut", number: 1, unit: "g", weight: 10, normWeight: 10, num: 0, denom: 0),
+            RecipeExportIngredient(name: "Roggenmehl 1150", number: 2, unit: "g", weight: 100, normWeight: 100, num: 0, denom: 0),
+            RecipeExportIngredient(name: "Wasser", number: 3, unit: "g", weight: 100, normWeight: 100, num: 0, denom: 0)
+        ])],
+        instructions: [
+            RecipeExportInstruction(instruction: "Zutaten verrühren", step: 1, duration: 10, startTime: 0, bakeFlag: false),
+            RecipeExportInstruction(instruction: "Anstellgut bei 26 °C 12 Stunden reifen lassen", step: 2, duration: 720, startTime: 10, bakeFlag: false)
+        ])
+
+    @Test("A single-component recipe shows its ingredients at the first working step, not where the name recurs")
+    func singleComponentAtTheFirstStep() {
+        #expect(ScheduledStepComponent.column(for: starter, step: 1, instructionText: "Zutaten verrühren")?.name == "Anstellgut")
+        #expect(ScheduledStepComponent.column(for: starter, step: 2,
+                                              instructionText: "Anstellgut bei 26 °C 12 Stunden reifen lassen") == nil)
+        // The reminder and the scheduling pass hand the step in too.
+        #expect(ScheduledStepComponent.column(for: starter, storedComponentName: nil,
+                                              instructionText: "Zutaten verrühren", step: 1) != nil)
+        // The oven's steps are skipped: a bread of one component weighs out at the kneading.
+        #expect(ScheduledStepComponent.singleComponentStep([
+            (step: 1, instruction: "Backofen auf 250 °C vorheizen"),
+            (step: 2, instruction: "Teig kneten"),
+            (step: 3, instruction: "Bei 250 °C backen")
+        ]) == 2)
+    }
+
     // MARK: - Reminder text
 
     private let vorteigA = ComponentColumn(
