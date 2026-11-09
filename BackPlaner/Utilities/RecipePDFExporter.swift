@@ -31,14 +31,19 @@ extension RecipePrintData {
 
 /// What `ShareLink` hands to the share sheet. The PDF is only rendered when
 /// the user actually shares, not when the recipe screen appears.
-struct RecipePDFExport: Transferable {
+struct RecipePDFExport: FileExport {
 
     let data: RecipePrintData
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .pdf) { export in
-            SentTransferredFile(try RecipePDFRenderer.writePDF(for: export.data))
+            SentTransferredFile(try export.writeFile())
         }
+        .suggestedFileName { "\(RecipePDFRenderer.fileName(for: $0.data.name)).pdf" }
+    }
+
+    func writeFile() throws -> URL {
+        try RecipePDFRenderer.writePDF(for: data)
     }
 }
 
@@ -57,13 +62,19 @@ enum RecipePDFRenderer {
 
     /// Renders the PDF into the temporary directory and returns its URL; the
     /// file is named after the recipe.
-    static func writePDF(for data: RecipePrintData) throws -> URL {
-        let pdf = render(data)
-        let fileName = data.name
+    /// A file name from a recipe's or a sheet's title: without the
+    /// characters file systems refuse, "Rezept" when nothing is left.
+    static func fileName(for title: String) -> String {
+        let name = title
             .components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|"))
             .joined(separator: "-")
+        return name.isEmpty ? "Rezept" : name
+    }
+
+    static func writePDF(for data: RecipePrintData) throws -> URL {
+        let pdf = render(data)
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent(fileName.isEmpty ? "Rezept" : fileName)
+            .appendingPathComponent(fileName(for: data.name))
             .appendingPathExtension("pdf")
         try pdf.write(to: url, options: .atomic)
         return url
@@ -253,13 +264,18 @@ enum RecipePDFRenderer {
 /// The scheduled steps day by day as a PDF, shared from the list of
 /// planned steps; rendered only when the share sheet asks for the file,
 /// like the recipe PDF.
-struct BakeDayPDFExport: Transferable {
+struct BakeDayPDFExport: FileExport {
     let sheet: BakeDaySheet
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .pdf) { export in
-            SentTransferredFile(try RecipePDFRenderer.writePDF(for: export.sheet))
+            SentTransferredFile(try export.writeFile())
         }
+        .suggestedFileName { "\(RecipePDFRenderer.fileName(for: $0.sheet.title)).pdf" }
+    }
+
+    func writeFile() throws -> URL {
+        try RecipePDFRenderer.writePDF(for: sheet)
     }
 }
 
@@ -267,7 +283,7 @@ extension RecipePDFRenderer {
 
     static func writePDF(for sheet: BakeDaySheet) throws -> URL {
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent(sheet.title.replacingOccurrences(of: "/", with: "-"))
+            .appendingPathComponent(fileName(for: sheet.title))
             .appendingPathExtension("pdf")
         try render(sheet).write(to: url, options: .atomic)
         return url

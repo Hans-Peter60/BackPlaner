@@ -106,6 +106,7 @@
 		6ABFE3E930483E0700E15C6C /* UnitSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */; };
 		6AD34120304EF50800BCA4EA /* BakePlanIssuesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD3411F304EF50800BCA4EA /* BakePlanIssuesView.swift */; };
 		6AD5AD773046CA60001680D2 /* IconActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DE1C63046B040000581C7 /* IconActionButton.swift */; };
+		46C34F036CF44958B927F52F /* FileShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4D155B97649C2BB36A493 /* FileShareLink.swift */; };
 		6ADBF4FD308BA52D00BB7789 /* IntentPhrasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF4FC308BA52D00BB7789 /* IntentPhrasing.swift */; };
 		6ADBF4FF308BA55C00BB7789 /* PlannedStepIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF4FE308BA55C00BB7789 /* PlannedStepIntents.swift */; };
 		6ADBF501308BA58900BB7789 /* StarterIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBF500308BA58900BB7789 /* StarterIntents.swift */; };
@@ -315,6 +316,7 @@
 		6A9836C5B3C3BD2AF78DA88A /* UITestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSupport.swift; sourceTree = "<group>"; };
 		6A99FC0B304B5203008DDA63 /* ScheduledTasksTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledTasksTabsView.swift; sourceTree = "<group>"; };
 		6A9DE1C63046B040000581C7 /* IconActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionButton.swift; sourceTree = "<group>"; };
+		4BD4D155B97649C2BB36A493 /* FileShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileShareLink.swift; sourceTree = "<group>"; };
 		6AA6703830517A4C0074C7E6 /* AppleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInView.swift; sourceTree = "<group>"; };
 		6AA6703C3051A1F10074C7E6 /* RecipeLanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLanguageDetector.swift; sourceTree = "<group>"; };
 		6AA6C52C309B7BB00041298E /* BakePlannerWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BakePlannerWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -560,6 +562,7 @@
 				6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */,
 				6ABFE3E830483E0700E15C6C /* UnitSelectionView.swift */,
 				6A9DE1C63046B040000581C7 /* IconActionButton.swift */,
+				4BD4D155B97649C2BB36A493 /* FileShareLink.swift */,
 				6A86A9A1308E600000BA0CF2 /* ProPaywallView.swift */,
 				EF45EF06D1DA27364CA170C3 /* NumberField.swift */,
 				6776BAA8F3A4FC002CBC482F /* DurationField.swift */,
@@ -1099,6 +1102,7 @@
 				6A1FCBFD309DEF3A00AD6711 /* ProofTodayCardView.swift in Sources */,
 				6A1131F52B7CF93300CDF054 /* InstructionsFBView.swift in Sources */,
 				6AD5AD773046CA60001680D2 /* IconActionButton.swift in Sources */,
+				46C34F036CF44958B927F52F /* FileShareLink.swift in Sources */,
 				6A1FCCC7309E26CB00AD6711 /* BakeAlarmManager.swift in Sources */,
 				6A86A9A2308E600000BA0CF2 /* ProPaywallView.swift in Sources */,
 				676C2B321384FE8F424B77DA /* NumberField.swift in Sources */,

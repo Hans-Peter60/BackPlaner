@@ -37,7 +37,7 @@ IPAD UND MAC
 • Tastaturkürzel ⌘1–⌘4 für die Tabs, ⌘N neues Rezept, ⇧⌘F suchen, ⌥⌘N zweites Fenster. BakePlanner gibt es jetzt auch im Mac App Store für Macs mit Apple-Chip.
 
 KLEINERES
-• Rezeptbilder sofort nach dem Start, die Kamera öffnet beim ersten Tipp, Siri versteht den App-Namen auch englisch ausgesprochen. Sicherungsdatei Version 6; ältere Dateien werden weiter gelesen.
+• Rezeptbilder sofort nach dem Start, die Kamera öffnet beim ersten Tipp, Siri versteht den App-Namen auch englisch ausgesprochen. Sicherungsdatei Version 6; ältere Dateien werden weiter gelesen. Auf dem Mac stürzt „Sichern“ im Teilen-Menü beim Export nicht mehr ab.
 
 ---
 
@@ -76,7 +76,7 @@ IPAD AND MAC
 • Keyboard shortcuts ⌘1–⌘4 for the tabs, ⌘N new recipe, ⇧⌘F search, ⌥⌘N second window. BakePlanner is now also on the Mac App Store for Macs with Apple silicon.
 
 SMALLER THINGS
-• Recipe pictures right after launch, the camera opens at the first tap, German and French Siri understand the app name pronounced the English way. Backup file version 6; older files are still read.
+• Recipe pictures right after launch, the camera opens at the first tap, German and French Siri understand the app name pronounced the English way. Backup file version 6; older files are still read. On the Mac, “Save” in the share menu no longer crashes when exporting.
 
 ---
 
@@ -115,6 +115,6 @@ IPAD ET MAC
 • Raccourcis clavier ⌘1–⌘4 pour les onglets, ⌘N nouvelle recette, ⇧⌘F rechercher, ⌥⌘N deuxième fenêtre. BakePlanner est désormais aussi sur le Mac App Store pour les Mac à puce Apple.
 
 PLUS PETIT
-• Les images des recettes dès le lancement, l’appareil photo s’ouvre au premier appui, Siri en allemand et en français comprend le nom de l’app prononcé à l’anglaise. Fichier de sauvegarde version 6 ; les anciens fichiers restent lus.
+• Les images des recettes dès le lancement, l’appareil photo s’ouvre au premier appui, Siri en allemand et en français comprend le nom de l’app prononcé à l’anglaise. Fichier de sauvegarde version 6 ; les anciens fichiers restent lus. Sur Mac, « Enregistrer » dans le menu de partage ne plante plus lors de l’export.
 
 ---

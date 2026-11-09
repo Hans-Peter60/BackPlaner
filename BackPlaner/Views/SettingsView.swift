@@ -461,7 +461,7 @@ struct SettingsView: View {
     @ViewBuilder
     private var recipeBackupSection: some View {
         Section {
-            ShareLink(
+            FileShareLink(
                 item: RecipeFileExport(recipes: allOwnRecipes, fileName: backupFileName),
                 preview: SharePreview(Text("BakePlanner-Rezepte"))
             ) {
