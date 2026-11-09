@@ -136,7 +136,7 @@ The back arrow at the top left returns you from any opened screen to its list. W
 
 ### On the iPad
 
-On the iPad the tab bar sits at the top in the title bar, the search field below it across the full width, and the rating filter lives in the **More** menu. The app can be opened in **several windows** side by side (from the app switcher or with ⌥⌘N), say the recipe on the left and the timeline on the right.
+On the iPad the tab bar sits at the top in the title bar and the search field below it across the full width; the rating filter, **More** and **+** stand on the right as on the iPhone (only on an iPad up to 11 inches held upright does the rating filter move into the **More** menu, because the three buttons do not fit beside the tab bar there). The app can be opened in **several windows** side by side (from the app switcher or with ⌥⌘N), say the recipe on the left and the timeline on the right.
 
 With a keyboard these shortcuts apply (holding ⌘ shows them):
 

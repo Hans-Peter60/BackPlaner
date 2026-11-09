@@ -133,7 +133,7 @@ Mit dem Zurück-Pfeil oben links kommst Du aus jedem geöffneten Bildschirm in s
 
 ### Auf dem iPad
 
-Auf dem iPad liegt die Tab-Leiste oben in der Titelleiste, das Suchfeld darunter in voller Breite, und der Bewertungsfilter steht im Menü **Mehr**. Die App lässt sich in **mehreren Fenstern** nebeneinander öffnen (über die App-Übersicht oder ⌥⌘N), etwa das Rezept links und die Zeitleiste rechts.
+Auf dem iPad liegt die Tab-Leiste oben in der Titelleiste und das Suchfeld darunter in voller Breite; Bewertungsfilter, **Mehr** und **+** stehen rechts wie auf dem iPhone (nur auf einem iPad bis 11 Zoll im Hochformat wandert der Bewertungsfilter ins Menü **Mehr**, weil die drei Knöpfe dort nicht neben die Tab-Leiste passen). Die App lässt sich in **mehreren Fenstern** nebeneinander öffnen (über die App-Übersicht oder ⌥⌘N), etwa das Rezept links und die Zeitleiste rechts.
 
 Mit einer Tastatur gelten diese Kurzbefehle (⌘ gedrückt halten zeigt sie an):
 

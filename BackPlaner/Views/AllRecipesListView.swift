@@ -22,12 +22,18 @@ struct AllRecipesListView: View {
     /// Changes with every ⌘F; the search field takes the focus each time.
     var searchFocusRequest = 0
     @FocusState private var searchIsFocused: Bool
-    /// On the iPad the title bar holds the tab bar as well, and in portrait
-    /// four buttons beside it do not fit: the rating filter then lives in
-    /// the "Mehr" menu instead of a button of its own, and the search field
-    /// moves under the bar.
+    /// On the iPad the title bar holds the tab bar as well; the search
+    /// field then moves under the bar, so that the three buttons – rating
+    /// filter, "Mehr", "+" – stand beside the tabs as on the iPhone. Only
+    /// where the window is too narrow for that – an iPad up to 11 inches
+    /// held upright, 834 pt and less, where the system folded "Mehr" and
+    /// "+" into an overflow – the filter lives in the "Mehr" menu instead.
+    /// The 13-inch iPad upright (1032 pt) and every landscape keep the
+    /// three buttons.
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    private var filterInMenu: Bool { horizontalSizeClass == .regular }
+    @State private var windowWidth: CGFloat = 1024
+    private var searchFieldUnderBar: Bool { horizontalSizeClass == .regular }
+    private var filterInMenu: Bool { horizontalSizeClass == .regular && windowWidth < 900 }
 
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -253,6 +259,7 @@ struct AllRecipesListView: View {
                     RecipeExportSelectionView()
                 }
             }
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { windowWidth = $0 }
             .toolbar {
                 if !filterInMenu {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -262,6 +269,7 @@ struct AllRecipesListView: View {
                             Label("Nach Bewertung filtern",
                                   systemImage: rating > 0 || !showVariantRecipes ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                         }
+                        .accessibilityIdentifier("menu.ratingFilter")
                     }
                 }
 
@@ -331,7 +339,7 @@ struct AllRecipesListView: View {
             // full width of the list: beside the tab bar it took the room
             // of the buttons, and "+" fell into an overflow menu.
             .searchable(text: $filterBy,
-                        placement: filterInMenu ? .navigationBarDrawer(displayMode: .always) : .automatic,
+                        placement: searchFieldUnderBar ? .navigationBarDrawer(displayMode: .always) : .automatic,
                         prompt: "Rezept suchen")
             .searchFocused($searchIsFocused)
             .onChange(of: searchFocusRequest) { _, _ in

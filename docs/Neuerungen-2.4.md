@@ -15,6 +15,7 @@ MAC
 
 KLEINERES
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
+• iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
 
 ---
 
@@ -31,6 +32,7 @@ MAC
 
 SMALLER THINGS
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
+• iPad: the recipe list’s rating filter is a button of its own next to “More” again, as on the iPhone.
 
 ---
 
@@ -47,5 +49,6 @@ MAC
 
 PLUS PETIT
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
+• iPad : le filtre par note de la liste des recettes est de nouveau un bouton à part à côté de « Plus », comme sur l’iPhone.
 
 ---
