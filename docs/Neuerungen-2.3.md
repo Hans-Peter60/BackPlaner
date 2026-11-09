@@ -1,4 +1,4 @@
-# Version 2.3 – Texte für App Store Connect
+# Version 2.3 – Texte für App Store Connect (veröffentlicht am 08.11.2026, Build 20)
 
 Für das Feld **„Neuerungen in dieser Version“** (je Sprache, höchstens 4000 Zeichen). Der Text zwischen den Linien wird jeweils unverändert eingefügt. Die ausführliche Fassung mit allen Einzelheiten steht in den Handbüchern (Kapitel 7, 9, 10 und 13); hier sind verwandte Punkte zusammengefasst, damit jede Sprache unter der Grenze bleibt (Stand 07.11.2026: Deutsch 3269, Englisch 3124, Französisch 3567 Zeichen).
 
@@ -37,7 +37,7 @@ IPAD UND MAC
 • Tastaturkürzel ⌘1–⌘4 für die Tabs, ⌘N neues Rezept, ⇧⌘F suchen, ⌥⌘N zweites Fenster. BakePlanner gibt es jetzt auch im Mac App Store für Macs mit Apple-Chip.
 
 KLEINERES
-• Rezeptbilder sofort nach dem Start, die Kamera öffnet beim ersten Tipp, Siri versteht den App-Namen auch englisch ausgesprochen. Sicherungsdatei Version 6; ältere Dateien werden weiter gelesen. Auf dem Mac stürzt „Sichern“ im Teilen-Menü beim Export nicht mehr ab.
+• Rezeptbilder sofort nach dem Start, die Kamera öffnet beim ersten Tipp, Siri versteht den App-Namen auch englisch ausgesprochen. Sicherungsdatei Version 6; ältere Dateien werden weiter gelesen.
 
 ---
 
@@ -76,7 +76,7 @@ IPAD AND MAC
 • Keyboard shortcuts ⌘1–⌘4 for the tabs, ⌘N new recipe, ⇧⌘F search, ⌥⌘N second window. BakePlanner is now also on the Mac App Store for Macs with Apple silicon.
 
 SMALLER THINGS
-• Recipe pictures right after launch, the camera opens at the first tap, German and French Siri understand the app name pronounced the English way. Backup file version 6; older files are still read. On the Mac, “Save” in the share menu no longer crashes when exporting.
+• Recipe pictures right after launch, the camera opens at the first tap, German and French Siri understand the app name pronounced the English way. Backup file version 6; older files are still read.
 
 ---
 
@@ -115,6 +115,6 @@ IPAD ET MAC
 • Raccourcis clavier ⌘1–⌘4 pour les onglets, ⌘N nouvelle recette, ⇧⌘F rechercher, ⌥⌘N deuxième fenêtre. BakePlanner est désormais aussi sur le Mac App Store pour les Mac à puce Apple.
 
 PLUS PETIT
-• Les images des recettes dès le lancement, l’appareil photo s’ouvre au premier appui, Siri en allemand et en français comprend le nom de l’app prononcé à l’anglaise. Fichier de sauvegarde version 6 ; les anciens fichiers restent lus. Sur Mac, « Enregistrer » dans le menu de partage ne plante plus lors de l’export.
+• Les images des recettes dès le lancement, l’appareil photo s’ouvre au premier appui, Siri en allemand et en français comprend le nom de l’app prononcé à l’anglaise. Fichier de sauvegarde version 6 ; les anciens fichiers restent lus.
 
 ---
