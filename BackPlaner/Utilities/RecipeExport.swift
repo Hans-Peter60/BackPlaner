@@ -16,6 +16,7 @@
 import BakePlannerCore
 import Foundation
 import CoreData
+import ImageIO
 import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
@@ -267,24 +268,28 @@ enum BackupPhoto {
     /// recipe picture is stored at full JPEG quality — and kept as it is
     /// otherwise. Data that is no picture stays untouched.
     static func shrunk(_ data: Data, longestEdge: CGFloat, quality: CGFloat, recompressingSmaller: Bool = true) -> Data {
-        guard let image = UIImage(data: data) else { return data }
-        let width = image.size.width * image.scale
-        let height = image.size.height * image.scale
-        let longest = max(width, height)
-        if longest <= longestEdge {
-            guard recompressingSmaller,
-                  let reencoded = image.jpegData(compressionQuality: quality), reencoded.count < data.count else { return data }
-            return reencoded
+        // Everything ImageIO and UIKit hand out on the way is released
+        // before the next picture; seventy camera pictures in one go
+        // otherwise fill the memory an iPhone grants the app.
+        autoreleasepool {
+            guard let image = UIImage(data: data) else { return data }
+            let longest = max(image.size.width, image.size.height) * image.scale
+            if longest <= longestEdge {
+                guard recompressingSmaller,
+                      let reencoded = image.jpegData(compressionQuality: quality), reencoded.count < data.count else { return data }
+                return reencoded
+            }
+            // ImageIO scales while it decodes: a 12-megapixel picture never
+            // becomes a 48 MB bitmap, only the small one is drawn.
+            guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+                  let resized = CGImageSourceCreateThumbnailAtIndex(source, 0, [
+                      kCGImageSourceCreateThumbnailFromImageAlways: true,
+                      kCGImageSourceCreateThumbnailWithTransform: true,
+                      kCGImageSourceShouldCacheImmediately: true,
+                      kCGImageSourceThumbnailMaxPixelSize: Int(longestEdge),
+                  ] as CFDictionary) else { return data }
+            return UIImage(cgImage: resized).jpegData(compressionQuality: quality) ?? data
         }
-
-        let factor = longestEdge / longest
-        let size = CGSize(width: (width * factor).rounded(), height: (height * factor).rounded())
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-        let resized = UIGraphicsImageRenderer(size: size, format: format).image { _ in
-            image.draw(in: CGRect(origin: .zero, size: size))
-        }
-        return resized.jpegData(compressionQuality: quality) ?? data
     }
 }
 
@@ -307,13 +312,16 @@ enum BackupSizeLimit {
     ]
 
     static func fit(_ file: RecipeExportFile, limit: Int = maximumBytes) -> RecipeExportFile {
-        guard let size = try? file.encoded().count, size > limit else { return file }
+        guard let text = try? encodedSizeWithoutPictures(file) else { return file }
+        guard encodedSize(file, text: text) > limit else { return file }
         var fitted = file
         for (index, level) in levels.enumerated() {
             // The photos one level smaller than the pictures, the last level for both.
             let photoLevel = levels[min(index + 1, levels.count - 1)]
-            fitted = shrink(file, pictures: level, photos: photoLevel)
-            if let size = try? fitted.encoded().count, size <= limit { return fitted }
+            // Each level starts from the one before: the pictures are small
+            // by then, and the camera-sized originals are read only once.
+            fitted = shrink(fitted, pictures: level, photos: photoLevel)
+            if encodedSize(fitted, text: text) <= limit { return fitted }
         }
         // Still too big with the smallest pictures: the bake-history photos go.
         fitted.recipes = fitted.recipes.map { recipe in
@@ -326,6 +334,47 @@ enum BackupSizeLimit {
             return recipe
         }
         return fitted
+    }
+
+    /// The encoded file's size without encoding it: the text once, every
+    /// picture as the Base64 the encoder writes, plus its key and quotes.
+    /// Encoding a 47 MB file pretty-printed takes seconds and twice its
+    /// size in memory — too much to do once per level.
+    static func encodedSize(_ file: RecipeExportFile, text: Int) -> Int {
+        file.recipes.reduce(text) { size, recipe in
+            let pictures = [recipe.image].compactMap { $0 } + (recipe.bakeHistory ?? []).flatMap(\.images)
+            return pictures.reduce(size) { $0 + base64Length($1) + pictureOverhead }
+        }
+    }
+
+    /// Indentation, `"image" : ` and the quotes around one picture, generously.
+    static let pictureOverhead = 40
+
+    /// The characters the encoder writes for a picture: its Base64, in
+    /// which every slash is escaped as `\/`. JPEG data has far more slashes
+    /// than one in 64 — its many 0xFF bytes encode to them — so they are
+    /// counted rather than guessed.
+    static func base64Length(_ data: Data) -> Int {
+        autoreleasepool {
+            let base64 = data.base64EncodedData()
+            return base64.count + base64.count(where: { $0 == UInt8(ascii: "/") })
+        }
+    }
+
+    /// The size of the file's text: encoded once with every picture taken out.
+    static func encodedSizeWithoutPictures(_ file: RecipeExportFile) throws -> Int {
+        var bare = file
+        bare.recipes = file.recipes.map { recipe in
+            var recipe = recipe
+            recipe.image = nil
+            recipe.bakeHistory = recipe.bakeHistory?.map { entry in
+                var entry = entry
+                entry.images = []
+                return entry
+            }
+            return recipe
+        }
+        return try bare.encoded().count
     }
 
     /// Every recipe picture at `pictures`, every bake-history photo at `photos`.

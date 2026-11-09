@@ -72,6 +72,12 @@ struct BackupBakeHistoryTests {
 
         let fitted = BackupSizeLimit.fit(file, limit: limit)
         #expect(try fitted.encoded().count <= limit)
+        // The size estimate the fitting works with is close to, and never below, the real size.
+        let text = try BackupSizeLimit.encodedSizeWithoutPictures(fitted)
+        let estimate = BackupSizeLimit.encodedSize(fitted, text: text)
+        let actual = try fitted.encoded().count
+        #expect(estimate >= actual, "estimate \(estimate), actual \(actual), text \(text)")
+        #expect(estimate <= actual + 6 * BackupSizeLimit.pictureOverhead)
         #expect(fitted.recipes.count == 3)
         #expect(fitted.recipes.map(\.name) == ["Brot 1", "Brot 2", "Brot 3"])
         let pictureEdge = try pixels(fitted.recipes[0].image)
@@ -79,10 +85,15 @@ struct BackupBakeHistoryTests {
         #expect(pictureEdge < 4032 && pictureEdge >= BackupSizeLimit.levels.last!.edge)
         // Photos go one step ahead of the pictures.
         #expect(photoEdge <= pictureEdge)
-        // Not smaller than needed: one level larger would not have fitted.
+        // Not smaller than needed: the level before, reached the same way
+        // (each level from the one before it), would not have fitted.
         let level = try #require(BackupSizeLimit.levels.firstIndex { $0.edge == pictureEdge })
         if level > 0 {
-            let larger = BackupSizeLimit.shrink(file, pictures: BackupSizeLimit.levels[level - 1], photos: BackupSizeLimit.levels[level])
+            var larger = file
+            for index in 0..<level {
+                larger = BackupSizeLimit.shrink(larger, pictures: BackupSizeLimit.levels[index],
+                                                photos: BackupSizeLimit.levels[min(index + 1, BackupSizeLimit.levels.count - 1)])
+            }
             #expect(try larger.encoded().count > limit)
         }
     }
