@@ -130,7 +130,7 @@ struct RecipeFBDetailView: View {
 
                         // MARK: Share as PDF, at the serving size shown (Pro)
                         ProGate(.pdfExport) {
-                            ShareLink(
+                            FileShareLink(
                                 item: RecipePDFExport(data: RecipePrintData(
                                     recipeFB: recipeFB,
                                     image: GlobalVariables.recipesImage[recipeFB.id ?? ""],

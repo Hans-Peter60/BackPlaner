@@ -102,7 +102,7 @@ struct RecipeExportSelectionView: View {
     /// The share sheet with the file; Pro, as the single recipe's export.
     private var exportButton: some View {
         ProGate(.recipeSharing) {
-            ShareLink(
+            FileShareLink(
                 item: RecipeFileExport(recipes: selectedRecipes, fileName: fileName,
                                        includesBakeHistory: includesBakeHistory),
                 preview: SharePreview(Text("BakePlanner-Rezepte"))

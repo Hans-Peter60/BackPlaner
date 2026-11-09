@@ -501,8 +501,8 @@ struct ScheduledTasksView: View {
                     // The steps day by day as a PDF for the kitchen wall —
                     // a Pro feature like the recipe PDF.
                     ProGate(.pdfExport) {
-                        ShareLink(item: BakeDayPDFExport(sheet: bakeDaySheet),
-                                  preview: SharePreview(Text("Backtag-Zettel"), image: Image(systemName: "doc.richtext"))) {
+                        FileShareLink(item: BakeDayPDFExport(sheet: bakeDaySheet),
+                                      preview: SharePreview(Text("Backtag-Zettel"), image: Image(systemName: "doc.richtext"))) {
                             Label("Backtag-Zettel teilen", systemImage: "doc.richtext")
                         }
                     } label: {

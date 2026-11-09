@@ -154,7 +154,7 @@ struct RecipeDetailView: View {
 
                     // MARK: Share as PDF, at the serving size shown (Pro)
                     ProGate(.pdfExport) {
-                        ShareLink(
+                        FileShareLink(
                             item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
                             preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
                         ) {
@@ -169,7 +169,7 @@ struct RecipeDetailView: View {
 
                     // MARK: Export as a re-importable file (hand to someone else) (Pro)
                     ProGate(.recipeSharing) {
-                        ShareLink(
+                        FileShareLink(
                             item: RecipeFileExport(recipe: recipe),
                             preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
                         ) {

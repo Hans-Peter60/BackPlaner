@@ -146,7 +146,7 @@ extension RecipeExportData {
 
 /// What `ShareLink` hands to the share sheet: one recipe, or — from the
 /// settings backup — every recipe on the device, as one file either way.
-struct RecipeFileExport: Transferable {
+struct RecipeFileExport: FileExport {
     /// The recipes by id, read again only when the file is actually handed
     /// over. A `ShareLink` builds its item on every layout of the screen it
     /// sits in, and the item used to carry the finished export — every
@@ -206,11 +206,13 @@ struct RecipeFileExport: Transferable {
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .json) { export in
-            SentTransferredFile(try export.write())
+            SentTransferredFile(try export.writeFile())
         }
+        .suggestedFileName { "\($0.fileName).json" }
     }
 
-    private func write() throws -> URL {
+    /// The file in the temporary folder, written now (FileShareLink on the Mac).
+    func writeFile() throws -> URL {
         let data = try file.encoded()
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(fileName)
