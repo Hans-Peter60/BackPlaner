@@ -56,6 +56,21 @@ public enum ScheduledStepComponent {
         return bestName
     }
 
+    /// In a recipe with a single component every step works on that one,
+    /// so the ingredients belong where they are weighed: the first step in
+    /// step order that is not the oven's. Matching by wording would hang
+    /// the list on whichever step happens to repeat the component's name —
+    /// a starter's "Anstellgut bei 26 °C reifen lassen" instead of the
+    /// mixing before it. Nil for a recipe with several components, whose
+    /// steps are matched by name.
+    public static func singleComponentStep(_ steps: [(step: Double, instruction: String)]) -> Double? {
+        steps.sorted { $0.step < $1.step }
+            .first {
+                !BakePlanValidator.isPreheatInstruction($0.instruction)
+                    && !BakePlanValidator.isBakingStartInstruction($0.instruction)
+            }?.step
+    }
+
     /// The component one of the user's own recipes mixes in the given step.
     ///
     /// `step` is the step number a planned step remembers; it leads back to
@@ -64,13 +79,19 @@ public enum ScheduledStepComponent {
     public static func column(for recipe: RecipeExportData, step: Double?, instructionText: String) -> ComponentColumn? {
         let instruction = recipe.instructions.first { $0.step == step }
         return column(for: recipe, storedComponentName: instruction?.componentName,
-                      instructionText: instructionText)
+                      instructionText: instructionText, step: step)
     }
 
     /// The component one of the user's own recipes mixes in a step whose
-    /// stored component name is `storedComponentName`.
+    /// stored component name is `storedComponentName`. With `step` given, a
+    /// single-component recipe shows its ingredients at that one working
+    /// step only (`singleComponentStep`); without it, the wording decides.
     public static func column(for recipe: RecipeExportData, storedComponentName: String?,
-                       instructionText: String) -> ComponentColumn? {
+                              instructionText: String, step: Double? = nil) -> ComponentColumn? {
+        if recipe.components.count == 1, let step {
+            let first = singleComponentStep(recipe.instructions.map { (step: $0.step, instruction: $0.instruction) })
+            return first == step ? ComponentColumn.columns(of: recipe).first : nil
+        }
         guard let name = componentName(
             stored: storedComponentName,
             instructionText: instructionText,
@@ -85,8 +106,13 @@ public enum ScheduledStepComponent {
         return column(for: recipe, instruction: instruction, instructionText: instructionText)
     }
 
-    /// The component a public recipe mixes in `instruction`.
+    /// The component a public recipe mixes in `instruction`; a recipe with
+    /// one component shows it at its first working step only.
     public static func column(for recipe: RecipeFB, instruction: InstructionFB?, instructionText: String) -> ComponentColumn? {
+        if recipe.components.count == 1, let instruction {
+            let first = singleComponentStep(recipe.instructions.map { (step: $0.step, instruction: $0.instruction) })
+            return first == instruction.step ? ComponentColumn.columns(of: recipe.components).first : nil
+        }
         guard let name = componentName(
             stored: instruction?.componentName,
             instructionText: instructionText,

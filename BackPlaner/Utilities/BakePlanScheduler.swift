@@ -127,7 +127,7 @@ struct BakePlanScheduler {
             let instruction = content.instructions[index]
             return ScheduledStepComponent.column(for: content,
                                                  storedComponentName: instruction.componentName,
-                                                 instructionText: instruction.instruction)
+                                                 instructionText: instruction.instruction, step: instruction.step)
                 .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: servingScale) }
         }
         scheduler.writeScheduledSteps(planID: planID, servingScale: servingScale,

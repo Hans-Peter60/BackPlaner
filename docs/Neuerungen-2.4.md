@@ -16,6 +16,7 @@ MAC
 KLEINERES
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
 • iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
+• Bei einem Rezept mit nur einer Komponente, etwa einem Anstellgut, zeigt der erste Arbeitsschritt die Zutaten – nicht der Reifeschritt, der den Namen wiederholt. Das gilt für das „i“ in den geplanten Schritten, den Backmodus, die Uhr und die Erinnerungen.
 
 ---
 
@@ -33,6 +34,7 @@ MAC
 SMALLER THINGS
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
 • iPad: the recipe list’s rating filter is a button of its own next to “More” again, as on the iPhone.
+• In a recipe with a single component, such as a starter, the first working step shows the ingredients – not the ripening step that repeats the name. This applies to the “i” in the scheduled steps, bake mode, the watch and the reminders.
 
 ---
 
@@ -50,5 +52,6 @@ MAC
 PLUS PETIT
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
 • iPad : le filtre par note de la liste des recettes est de nouveau un bouton à part à côté de « Plus », comme sur l’iPhone.
+• Pour une recette à un seul composant, comme un levain chef, la première étape de travail affiche les ingrédients – et non l’étape de maturation qui répète le nom. Cela vaut pour le « i » des étapes planifiées, le mode cuisson, la montre et les rappels.
 
 ---

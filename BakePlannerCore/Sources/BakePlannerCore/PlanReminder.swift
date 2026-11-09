@@ -31,7 +31,7 @@ public enum PlanReminder {
             $0.step == step.step && $0.instruction == step.instruction
         }) else { return nil }
         return ScheduledStepComponent.column(for: recipe, storedComponentName: instruction.componentName,
-                                             instructionText: instruction.instruction)
+                                             instructionText: instruction.instruction, step: instruction.step)
             .flatMap { ScheduledStepComponent.ingredientsText(for: $0, scale: step.servingScale) }
     }
 
