@@ -136,7 +136,7 @@ La flèche de retour en haut à gauche vous ramène de tout écran ouvert à sa 
 
 ### Sur l’iPad
 
-Sur l’iPad, la barre d’onglets se trouve en haut dans la barre de titre, le champ de recherche en dessous sur toute la largeur, et le filtre par note se trouve dans le menu **Plus**. L’app peut s’ouvrir dans **plusieurs fenêtres** côte à côte (depuis le sélecteur d’apps ou avec ⌥⌘N), par exemple la recette à gauche et la timeline à droite.
+Sur l’iPad, la barre d’onglets se trouve en haut dans la barre de titre et le champ de recherche en dessous sur toute la largeur ; le filtre par note, **Plus** et **+** sont à droite comme sur l’iPhone (seulement sur un iPad jusqu’à 11 pouces tenu en portrait, le filtre par note passe dans le menu **Plus**, car les trois boutons n’y tiennent pas à côté de la barre d’onglets). L’app peut s’ouvrir dans **plusieurs fenêtres** côte à côte (depuis le sélecteur d’apps ou avec ⌥⌘N), par exemple la recette à gauche et la timeline à droite.
 
 Avec un clavier, ces raccourcis s’appliquent (maintenir ⌘ les affiche) :
 
