@@ -844,6 +844,8 @@ Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren*
 
 **Mehrere Rezepte auf einmal:** **Rezepte → Mehr (⋯) → Rezepte exportieren** zeigt Deine eigenen Rezepte zum Anhaken, mit **Alle auswählen** oben rechts. **Exportieren** schreibt die Auswahl in eine Datei; der Schalter **Mit Backhistorie und Anstellgut-Tagebuch** nimmt auf Wunsch auch Deine Einträge mit – etwa für den Umzug eines Teils der Rezepte auf ein anderes Gerät. Wie der Export eines einzelnen Rezepts ist das eine Pro-Funktion.
 
+Die Sicherungsdatei bleibt unter **5 MB**, damit sie sich per Mail, AirDrop und Teilen-Menü problemlos weitergeben lässt: Wird sie mit den Bildern in voller Kameraauflösung größer, verkleinert die App die Rezeptbilder und Fotos der Backhistorie beim Schreiben schrittweise – nur so weit wie nötig, eine kleine Sicherung behält scharfe Bilder. Reicht das bei sehr vielen Fotos nicht, lässt sie die Fotos der Backhistorie weg; die Rezeptbilder bleiben immer dabei. Rezepte und Einträge selbst ändern sich nicht.
+
 ### Übersetzung
 
 | Einstellung | Beschreibung |

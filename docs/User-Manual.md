@@ -847,6 +847,8 @@ A single recipe is exported on its page via **Export recipe** (next to "Share re
 
 **Several recipes at once:** **Recipes → More (⋯) → Export recipes** lists your own recipes to tick, with **Select all** at the top right. **Export** writes the selection to one file; the switch **With baking history and starter diary** takes your entries along if you wish — for moving part of your recipes to another device, say. Like the export of a single recipe, this is a Pro feature.
 
+The backup file stays under **5 MB** so that it passes through Mail, AirDrop and the share menu without trouble: should it grow larger with the pictures at full camera resolution, the app shrinks the recipe pictures and the baking-history photos step by step as it writes the file — only as far as needed, a small backup keeps its pictures sharp. If that is not enough with a great many photos, the baking-history photos are left out; the recipe pictures always stay. The recipes and entries themselves are not changed.
+
 ### Translation
 
 | Setting | Description |

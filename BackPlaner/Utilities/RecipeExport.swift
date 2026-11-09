@@ -196,7 +196,7 @@ struct RecipeFileExport: FileExport {
                 .compactMap { try? context.existingObject(with: $0) as? Recipe }
                 .map(RecipeExportData.init))
         }
-        return file
+        return BackupSizeLimit.fit(file)
     }
 
     private static func sanitizedFileName(_ name: String) -> String {
@@ -258,11 +258,24 @@ enum BackupPhoto {
     /// The photo at most `longestEdge` pixels long, as JPEG. One already
     /// that small, or one that is no picture, stays exactly as it is.
     static func shrunk(_ data: Data) -> Data {
+        shrunk(data, longestEdge: longestEdge, quality: jpegQuality, recompressingSmaller: false)
+    }
+
+    /// The picture at most `longestEdge` pixels long as JPEG of `quality`.
+    /// With `recompressingSmaller`, a picture already within the edge is
+    /// re-encoded at `quality` all the same when that makes it smaller — a
+    /// recipe picture is stored at full JPEG quality — and kept as it is
+    /// otherwise. Data that is no picture stays untouched.
+    static func shrunk(_ data: Data, longestEdge: CGFloat, quality: CGFloat, recompressingSmaller: Bool = true) -> Data {
         guard let image = UIImage(data: data) else { return data }
         let width = image.size.width * image.scale
         let height = image.size.height * image.scale
         let longest = max(width, height)
-        guard longest > longestEdge else { return data }
+        if longest <= longestEdge {
+            guard recompressingSmaller,
+                  let reencoded = image.jpegData(compressionQuality: quality), reencoded.count < data.count else { return data }
+            return reencoded
+        }
 
         let factor = longestEdge / longest
         let size = CGSize(width: (width * factor).rounded(), height: (height * factor).rounded())
@@ -271,6 +284,65 @@ enum BackupPhoto {
         let resized = UIGraphicsImageRenderer(size: size, format: format).image { _ in
             image.draw(in: CGRect(origin: .zero, size: size))
         }
-        return resized.jpegData(compressionQuality: jpegQuality) ?? data
+        return resized.jpegData(compressionQuality: quality) ?? data
+    }
+}
+
+/// Keeps a backup file within a size the share sheet, Mail and AirDrop
+/// handle comfortably. Seventy recipes with their pictures at full camera
+/// quality made a 47 MB file; the pictures are what weighs. The pictures
+/// are shrunk in steps — first to the size a recipe page needs, then
+/// smaller — until the encoded file is within `limit`, and only as far as
+/// needed, so a small backup keeps its pictures sharp. Bake-history photos
+/// shrink one step ahead of the recipe pictures and are the first to go
+/// if even the smallest pictures do not fit; recipe pictures are never
+/// dropped.
+enum BackupSizeLimit {
+    /// 5 MB, as Hans-Peter asked for all of his recipes in one file.
+    static let maximumBytes = 5 * 1024 * 1024
+
+    /// Longest edge and JPEG quality, largest first.
+    static let levels: [(edge: CGFloat, quality: CGFloat)] = [
+        (2048, 0.8), (1280, 0.75), (1024, 0.7), (768, 0.65), (640, 0.6), (512, 0.55), (384, 0.5)
+    ]
+
+    static func fit(_ file: RecipeExportFile, limit: Int = maximumBytes) -> RecipeExportFile {
+        guard let size = try? file.encoded().count, size > limit else { return file }
+        var fitted = file
+        for (index, level) in levels.enumerated() {
+            // The photos one level smaller than the pictures, the last level for both.
+            let photoLevel = levels[min(index + 1, levels.count - 1)]
+            fitted = shrink(file, pictures: level, photos: photoLevel)
+            if let size = try? fitted.encoded().count, size <= limit { return fitted }
+        }
+        // Still too big with the smallest pictures: the bake-history photos go.
+        fitted.recipes = fitted.recipes.map { recipe in
+            var recipe = recipe
+            recipe.bakeHistory = recipe.bakeHistory?.map { entry in
+                var entry = entry
+                entry.images = []
+                return entry
+            }
+            return recipe
+        }
+        return fitted
+    }
+
+    /// Every recipe picture at `pictures`, every bake-history photo at `photos`.
+    static func shrink(_ file: RecipeExportFile,
+                       pictures: (edge: CGFloat, quality: CGFloat),
+                       photos: (edge: CGFloat, quality: CGFloat)) -> RecipeExportFile {
+        var fitted = file
+        fitted.recipes = file.recipes.map { recipe in
+            var recipe = recipe
+            recipe.image = recipe.image.map { BackupPhoto.shrunk($0, longestEdge: pictures.edge, quality: pictures.quality) }
+            recipe.bakeHistory = recipe.bakeHistory?.map { entry in
+                var entry = entry
+                entry.images = entry.images.map { BackupPhoto.shrunk($0, longestEdge: photos.edge, quality: photos.quality) }
+                return entry
+            }
+            return recipe
+        }
+        return fitted
     }
 }

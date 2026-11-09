@@ -847,6 +847,8 @@ Une recette seule s’exporte depuis sa page via **Exporter la recette** (à cô
 
 **Plusieurs recettes à la fois :** **Recettes → Plus (⋯) → Exporter des recettes** liste vos propres recettes à cocher, avec **Tout sélectionner** en haut à droite. **Exporter** écrit la sélection dans un seul fichier ; l’interrupteur **Avec l’historique de cuisson et le journal du levain** emporte aussi vos entrées si vous le souhaitez — par exemple pour déplacer une partie de vos recettes sur un autre appareil. Comme l’export d’une recette seule, c’est une fonction Pro.
 
+Le fichier de sauvegarde reste sous **5 Mo** pour passer sans peine par Mail, AirDrop et le menu Partager : s’il devait grossir avec les images en pleine résolution de l’appareil photo, l’app réduit les images des recettes et les photos de l’historique de cuisson par paliers en écrivant le fichier — seulement autant que nécessaire, une petite sauvegarde garde ses images nettes. Si cela ne suffit pas avec un très grand nombre de photos, les photos de l’historique de cuisson sont laissées de côté ; les images des recettes restent toujours. Les recettes et les entrées elles-mêmes ne changent pas.
+
 ### Traduction
 
 | Réglage | Description |
