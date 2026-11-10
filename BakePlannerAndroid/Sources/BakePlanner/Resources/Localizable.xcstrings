@@ -351,24 +351,6 @@
         }
       }
     },
-    "Alle eigenen Rezepte sichern" : {
-      "comment" : "Recipe list: save every recipe as one backup file.",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Back up all my recipes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Sauvegarder toutes mes recettes"
-          }
-        }
-      }
-    },
     "Alle löschen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4460,20 +4442,20 @@
         }
       }
     },
-    "Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast." : {
+    "Importiere eine Sicherungsdatei, die Du auf einem anderen Gerät über „Rezepte exportieren“ erzeugt hast." : {
       "comment" : "Empty recipe list: how to get recipes onto the device.",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import a backup file you exported in the settings on your iPhone."
+            "value" : "Import a backup file you created on another device with “Export recipes”."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Importez un fichier de sauvegarde que vous avez exporté dans les réglages de votre iPhone."
+            "value" : "Importez un fichier de sauvegarde créé sur un autre appareil avec « Exporter des recettes »."
           }
         }
       }
@@ -6979,6 +6961,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exporter des recettes"
+          }
+        }
+      }
+    },
+    "Rezepte importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer des recettes"
           }
         }
       }

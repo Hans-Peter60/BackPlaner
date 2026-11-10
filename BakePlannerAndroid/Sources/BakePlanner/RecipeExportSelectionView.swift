@@ -2,8 +2,8 @@ import SwiftUI
 
 /// "Rezepte exportieren" from the recipe list's "Mehr" menu, as on the
 /// iPhone: the own recipes with a checkmark each, and the chosen ones leave
-/// as one backup file — between a recipe's own export on its page and
-/// "Alle eigenen Rezepte sichern". The bake history and the starter diary
+/// as one backup file; with every recipe ticked it is the full backup,
+/// beside a recipe's own export on its page. The bake history and the starter diary
 /// go along only when asked: a file handed to someone else carries the
 /// recipes alone, a partial backup carries everything.
 ///

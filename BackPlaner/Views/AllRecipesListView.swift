@@ -164,27 +164,11 @@ struct AllRecipesListView: View {
             || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes || !showVariantRecipes
     }
 
-    /// Every recipe on this device — what "Alle eigenen Rezepte sichern"
-    /// bundles into one file. A plain fetch, not a live `@FetchRequest`: the
-    /// list only has to be right at the moment the menu opens. The export
-    /// item keeps the recipes' ids and reads them when the file is written,
-    /// so this fetch returns faults and copies nothing.
-    private var allOwnRecipes: [Recipe] {
-        let request = Recipe.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        return (try? viewContext.fetch(request)) ?? []
-    }
-
-    /// Whether there is anything to back up; a count, not a fetch.
-    private var hasOwnRecipes: Bool {
-        ((try? viewContext.count(for: Recipe.fetchRequest())) ?? 0) > 0
-    }
-
     /// What "+" or the "Mehr" menu opened, pushed onto the tab's stack.
     @State private var pushedDestination: MenuDestination?
     /// "Rezepte exportieren" from the "Mehr" menu, a sheet over the list.
     @State private var exportsRecipes = false
-    /// "Importieren" from the "Mehr" menu: the file picker and its outcome.
+    /// "Rezepte importieren" from the "Mehr" menu: the file picker and its outcome.
     @State private var isImportingRecipes = false
     @State private var importedRecipeCount: Int?
     @State private var importErrorMessage: String?
@@ -338,22 +322,14 @@ struct AllRecipesListView: View {
                         }
                         .accessibilityIdentifier("menu.settings")
                         // Reading and writing backups, as on Android: the
-                        // settings hold settings only.
+                        // settings hold settings only. "Rezepte exportieren"
+                        // with every recipe ticked is the full backup.
                         Button {
                             isImportingRecipes = true
                         } label: {
-                            Label("Importieren", systemImage: "arrow.up.doc")
+                            Label("Rezepte importieren", systemImage: "arrow.up.doc")
                         }
                         .accessibilityIdentifier("menu.importRecipes")
-                        FileShareLink(
-                            item: RecipeFileExport(recipes: allOwnRecipes, fileName: RecipeFileExport.backupFileName),
-                            preview: SharePreview(Text("BakePlanner-Rezepte")),
-                            inMenu: true
-                        ) {
-                            Label("Alle eigenen Rezepte sichern", systemImage: "arrow.down.doc")
-                        }
-                        .disabled(!hasOwnRecipes)
-                        .accessibilityIdentifier("menu.backupRecipes")
                         Button {
                             exportsRecipes = true
                         } label: {

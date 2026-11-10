@@ -103,7 +103,7 @@ L’endroit où se trouve une recette. Il existe deux possibilités, et le commu
 | **Uniquement sur l’appareil** (commutateur désactivé) | vous seul | sur l’appareil, sauvegardée via votre iCloud | oui, à tout moment |
 | **Public pour tous** (commutateur activé) | tous les utilisateurs de l’app | dans la base de recettes | oui, par vous en tant qu’auteur |
 
-Une recette que vous **n’avez pas le droit de publier** — tirée d’un livre, par exemple — reste sur l’appareil. Grâce à iCloud, elle est tout de même présente sur tous vos appareils, et **Plus (⋯) → Sauvegarder toutes mes recettes** (voir [chapitre 14](#14-réglages)) l’exporte sous forme de fichier.
+Une recette que vous **n’avez pas le droit de publier** — tirée d’un livre, par exemple — reste sur l’appareil. Grâce à iCloud, elle est tout de même présente sur tous vos appareils, et **Plus (⋯) → Exporter des recettes** (voir [chapitre 14](#14-réglages)) l’exporte sous forme de fichier.
 
 ---
 
@@ -127,7 +127,7 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 | Bouton | Rôle |
 |--------|------|
 | **Filtre** | La note minimale pour la liste |
-| **Plus (⋯)** | Les quatre calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau), **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau) et **Poids de pâte** (la pâte qu’un moule à cake ou un banneton accepte), la sauvegarde — **Importer** (lire un fichier de sauvegarde ou une recette exportée seule), **Sauvegarder toutes mes recettes** et **Exporter des recettes** (une sélection de vos propres recettes dans un fichier), voir [chapitre 14](#14-réglages) — ainsi que les **Réglages** (langue, valeurs par défaut, planification, compte) |
+| **Plus (⋯)** | Les quatre calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau), **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau) et **Poids de pâte** (la pâte qu’un moule à cake ou un banneton accepte), la sauvegarde — **Importer des recettes** (lire un fichier de sauvegarde ou une recette exportée seule) et **Exporter des recettes** (vos propres recettes dans un fichier, toutes ou une sélection), voir [chapitre 14](#14-réglages) — ainsi que les **Réglages** (langue, valeurs par défaut, planification, compte) |
 | **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos, une page web ou un texte copié |
 
 **La barre « À suivre ».** Dès qu’un plan de cuisson est en cours, une barre flotte dans l’onglet Recettes au-dessus de la barre d’onglets avec l’étape qui vient : le texte de l’étape, le nom de la recette, l’heure et un compte à rebours en minutes (« dans 42 min »). Les lignes de recettes défilent en dessous, la barre reste toujours visible. Quand l’heure d’une étape est arrivée, elle passe pendant une heure à **« À faire maintenant »** avec le temps écoulé (« depuis 5 min ») — jusqu’à ce que vous marquiez l’étape comme terminée dans la notification ou que l’étape suivante soit due. Toucher la barre passe à l’onglet « Timeline ». Sans étape à venir, elle reste masquée.
@@ -838,16 +838,15 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 ### Sauvegarde
 
-La sauvegarde ne se trouve pas dans les réglages mais dans le menu **Plus (⋯)** de la liste des recettes, comme sur Android : les réglages ne contiennent que des réglages, le menu les actions.
+La sauvegarde ne se trouve pas dans les réglages mais dans le menu **Plus (⋯)** de la liste des recettes, comme sur Android : les réglages ne contiennent que des réglages, le menu les actions. L’export de vos propres recettes est gratuit — vos données restent toujours transférables.
 
 | Entrée | Effet |
 |--------|-------|
-| **Sauvegarder toutes mes recettes** | Écrit toutes les recettes de l’appareil, images, **historique de cuisson** (ses photos réduites à la taille de l’écran) et **journal du levain chef** compris, dans un fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. |
-| **Importer** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson et le journal du levain chef du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson ou journal du levain chef demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
+| **Exporter des recettes** | Liste vos propres recettes à cocher, avec **Tout sélectionner** en haut à droite. **Exporter** écrit la sélection avec ses images dans un seul fichier et le propose dans la feuille de partage — pour « Enregistrer dans Fichiers », Mail ou AirDrop, par exemple. L’interrupteur **Avec l’historique de cuisson et le journal du levain** emporte vos entrées (photos réduites à la taille de l’écran). Tout sélectionner avec l’interrupteur activé donne la sauvegarde complète — avant de changer d’appareil, par exemple ; quelques recettes sans l’interrupteur sont une transmission. |
+| **Importer des recettes** | Lit un tel fichier ou une recette exportée seule. Les recettes importées arrivent comme **nouvelles** recettes à vous, avec l’historique de cuisson et le journal du levain chef du fichier ; les recettes existantes ne sont jamais écrasées. Une sauvegarde avec historique de cuisson ou journal du levain chef demande cette version de l’app ; les plus anciennes signalent que le fichier provient d’une version plus récente. |
 
-Une recette seule s’exporte depuis sa page via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via **Plus (⋯) → Importer** — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
+Une recette seule s’exporte depuis sa page via **Exporter la recette** (à côté de « Partager la recette ») — sans son historique de cuisson ni son journal du levain chef, qui vous appartiennent. Le fichier peut être transmis à quelqu’un d’autre, qui le lit via **Plus (⋯) → Importer des recettes** — une voie en dehors de la base de recettes, par exemple pour des recettes tirées de livres.
 
-**Plusieurs recettes à la fois :** **Recettes → Plus (⋯) → Exporter des recettes** liste vos propres recettes à cocher, avec **Tout sélectionner** en haut à droite. **Exporter** écrit la sélection dans un seul fichier ; l’interrupteur **Avec l’historique de cuisson et le journal du levain** emporte aussi vos entrées si vous le souhaitez — par exemple pour déplacer une partie de vos recettes sur un autre appareil. Comme l’export d’une recette seule, c’est une fonction Pro.
 
 Le fichier de sauvegarde reste sous **5 Mo** pour passer sans peine par Mail, AirDrop et le menu Partager : s’il devait grossir avec les images en pleine résolution de l’appareil photo, l’app réduit les images des recettes et les photos de l’historique de cuisson par paliers en écrivant le fichier — seulement autant que nécessaire, une petite sauvegarde garde ses images nettes. Si cela ne suffit pas avec un très grand nombre de photos, les photos de l’historique de cuisson sont laissées de côté ; les images des recettes restent toujours. Les recettes et les entrées elles-mêmes ne changent pas.
 
