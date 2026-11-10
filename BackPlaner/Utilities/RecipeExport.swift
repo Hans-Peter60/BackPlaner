@@ -200,6 +200,13 @@ struct RecipeFileExport: FileExport {
         return BackupSizeLimit.fit(file)
     }
 
+    /// The full backup's name, dated: `BakePlanner-Rezepte-2026-11-10`.
+    static var backupFileName: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return "BakePlanner-Rezepte-\(formatter.string(from: Date()))"
+    }
+
     private static func sanitizedFileName(_ name: String) -> String {
         name.components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|"))
             .joined(separator: "-")

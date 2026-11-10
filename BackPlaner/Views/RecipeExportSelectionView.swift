@@ -5,7 +5,7 @@
 //  "Rezepte exportieren" from the recipe list's "Mehr" menu: the user's own
 //  recipes with a checkmark each, and the chosen ones leave as one backup
 //  file — between the single recipe's "Rezept exportieren" on its page and
-//  "Alle eigenen Rezepte sichern" in the settings. The bake history and the
+//  "Alle eigenen Rezepte sichern" in the same menu. The bake history and the
 //  starter diary go along only when asked: a file handed to someone else
 //  carries the recipes alone, a partial backup carries everything.
 //
@@ -73,7 +73,7 @@ struct RecipeExportSelectionView: View {
                     .tag(recipe.objectID)
                 }
             } footer: {
-                Text("Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Aus Sicherung wiederherstellen“ einliest.")
+                Text("Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Importieren“ einliest.")
             }
 
             Section {

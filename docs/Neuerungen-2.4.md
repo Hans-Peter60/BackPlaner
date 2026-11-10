@@ -14,6 +14,7 @@ MAC
 • „Sichern“ im Teilen-Menü funktioniert beim Export von Rezepten, Rezept-PDFs und dem Backtag-Zettel – bisher stürzte die App dabei ab.
 
 KLEINERES
+• Die Einstellungen enthalten nur noch Einstellungen. „Alle eigenen Rezepte sichern“ und „Importieren“ (bisher „Aus Sicherung wiederherstellen“) stehen jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android.
 • Die Sicherungsdatei beim Export von Rezepten bleibt unter 5 MB: Wird sie mit den Bildern größer, verkleinert die App Rezeptbilder und Fotos der Backhistorie beim Schreiben – nur so weit wie nötig. Bisher kamen bei vielen Rezepten Dateien von 47 MB heraus.
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
 • iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
@@ -33,6 +34,7 @@ MAC
 • “Save” in the share menu works when exporting recipes, recipe PDFs and the baking day sheet – the app used to crash there.
 
 SMALLER THINGS
+• The settings hold settings only. “Back up all my recipes” and “Import” (formerly “Restore from backup”) now sit in the recipe list’s “More” menu next to “Export recipes” – as on Android.
 • The backup file from exporting recipes stays under 5 MB: should it grow larger with the pictures, the app shrinks the recipe pictures and baking-history photos as it writes – only as far as needed. With many recipes, files of 47 MB used to come out.
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
 • iPad: the recipe list’s rating filter is a button of its own next to “More” again, as on the iPhone.
@@ -52,6 +54,7 @@ MAC
 • « Enregistrer » dans le menu de partage fonctionne pour l’export des recettes, des PDF de recette et de la feuille de la journée de cuisson – l’app plantait jusque-là.
 
 PLUS PETIT
+• Les réglages ne contiennent plus que des réglages. « Sauvegarder toutes mes recettes » et « Importer » (auparavant « Restaurer depuis une sauvegarde ») se trouvent désormais dans le menu « Plus » de la liste des recettes, à côté de « Exporter des recettes » – comme sur Android.
 • Le fichier de sauvegarde de l’export des recettes reste sous 5 Mo : s’il devait grossir avec les images, l’app réduit les images des recettes et les photos de l’historique de cuisson en l’écrivant – seulement autant que nécessaire. Avec beaucoup de recettes, on obtenait jusque-là des fichiers de 47 Mo.
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
 • iPad : le filtre par note de la liste des recettes est de nouveau un bouton à part à côté de « Plus », comme sur l’iPhone.

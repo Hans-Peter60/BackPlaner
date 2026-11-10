@@ -103,7 +103,7 @@ Where a recipe lives. There are two options, and the **Publish** switch when sav
 | **On this device only** (switch off) | only you | on the device, backed up through your iCloud | yes, any time |
 | **Public for everyone** (switch on) | every user of the app | in the recipe database | yes, by you as its author |
 
-A recipe you're **not allowed to publish** — out of a book, say — stays on the device. Through iCloud it's still on all your devices, and the backup (see [chapter 14](#14-settings)) exports it as a file.
+A recipe you're **not allowed to publish** — out of a book, say — stays on the device. Through iCloud it's still on all your devices, and **More (⋯) → Back up all my recipes** (see [chapter 14](#14-settings)) exports it as a file.
 
 ---
 
@@ -127,7 +127,7 @@ At the top right of the **Recipes** tab sit three buttons:
 | Button | Purpose |
 |--------|---------|
 | **Filter** | The minimum rating for the list |
-| **More (⋯)** | The four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), **Export recipes** (a selection of your own recipes as a file, see [chapter 14](#14-settings)), and the **Settings** (language, defaults, baking plan, backup, account) |
+| **More (⋯)** | The four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), the backup — **Import** (read a backup file or a single exported recipe), **Back up all my recipes** and **Export recipes** (a selection of your own recipes as a file), see [chapter 14](#14-settings) — and the **Settings** (language, defaults, baking plan, account) |
 | **+** | **Create new recipe** — from scratch or imported from photos, a web page, or copied text |
 
 **The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
@@ -838,12 +838,14 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 ### Backup
 
+The backup is not in the settings but in the recipe list's **More (⋯)** menu, as on Android: the settings hold settings only, the menu holds the actions.
+
 | Entry | Effect |
 |-------|--------|
 | **Back up all my recipes** | Writes every recipe on the device, images, **baking history** (its photos scaled down to screen size) and **starter diary** included, into one file and offers it in the share sheet — for "Save to Files", Mail or AirDrop, say. |
-| **Restore from backup** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history and starter diary from the file; existing ones are never overwritten. A backup with baking history or starter diary needs this version of the app; older ones report that the file comes from a newer version. |
+| **Import** | Reads such a file, or a single exported recipe. Imported recipes arrive as **new** recipes of your own, with the baking history and starter diary from the file; existing ones are never overwritten. A backup with baking history or starter diary needs this version of the app; older ones report that the file comes from a newer version. |
 
-A single recipe is exported on its page via **Export recipe** (next to "Share recipe") — without its baking history and starter diary, which are yours. The file can be handed to someone else, who reads it in through "Restore from backup" — a route outside the recipe database, for recipes out of books, for instance.
+A single recipe is exported on its page via **Export recipe** (next to "Share recipe") — without its baking history and starter diary, which are yours. The file can be handed to someone else, who reads it in through **More (⋯) → Import** — a route outside the recipe database, for recipes out of books, for instance.
 
 **Several recipes at once:** **Recipes → More (⋯) → Export recipes** lists your own recipes to tick, with **Select all** at the top right. **Export** writes the selection to one file; the switch **With baking history and starter diary** takes your entries along if you wish — for moving part of your recipes to another device, say. Like the export of a single recipe, this is a Pro feature.
 

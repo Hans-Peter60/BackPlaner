@@ -100,7 +100,7 @@ Wo ein Rezept liegt. Es gibt zwei Möglichkeiten, und der Schalter **Veröffentl
 | **Nur auf dem Gerät** (Schalter aus) | nur Du | auf dem Gerät, gesichert über Deine iCloud | ja, jederzeit |
 | **Öffentlich für alle** (Schalter an) | alle Nutzer der App | in der Rezept-Datenbank | ja, durch Dich als Autor |
 
-Ein Rezept, das Du **nicht veröffentlichen darfst** – etwa aus einem Buch –, bleibt auf dem Gerät. Über iCloud ist es trotzdem auf allen Deinen Geräten vorhanden, und mit der Sicherung (siehe [Kapitel 14](#14-einstellungen)) lässt es sich als Datei exportieren.
+Ein Rezept, das Du **nicht veröffentlichen darfst** – etwa aus einem Buch –, bleibt auf dem Gerät. Über iCloud ist es trotzdem auf allen Deinen Geräten vorhanden, und über **Mehr (⋯) → Alle eigenen Rezepte sichern** (siehe [Kapitel 14](#14-einstellungen)) lässt es sich als Datei exportieren.
 
 ---
 
@@ -124,7 +124,7 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 | Schaltfläche | Zweck |
 |--------------|-------|
 | **Filter** | Mindestbewertung für die Liste |
-| **Mehr (⋯)** | Die vier Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen), **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen) und **Teigeinlage** (Teiggewicht aus Kastenform oder Gärkörbchen), **Rezepte exportieren** (eine Auswahl eigener Rezepte als Datei, siehe [Kapitel 14](#14-einstellungen)) sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Sicherung, Konto) |
+| **Mehr (⋯)** | Die vier Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen), **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen) und **Teigeinlage** (Teiggewicht aus Kastenform oder Gärkörbchen), die Sicherung – **Importieren** (eine Sicherungsdatei oder ein einzeln exportiertes Rezept einlesen), **Alle eigenen Rezepte sichern** und **Rezepte exportieren** (eine Auswahl eigener Rezepte als Datei), siehe [Kapitel 14](#14-einstellungen) – sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Konto) |
 | **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos, von einer Internetseite oder aus kopiertem Text importiert |
 
 **Die Leiste „Als Nächstes“.** Sobald ein Backplan läuft, schwebt im Tab Rezepte über der Tab-Leiste eine Leiste mit dem Schritt, der als Nächstes ansteht: Schritttext, Rezeptname, Uhrzeit und ein Countdown in Minuten („in 42 Min.“). Die Rezeptzeilen scrollen darunter hindurch, die Leiste bleibt immer im Blick. Ist die Zeit eines Schritts gekommen, wechselt sie für eine Stunde auf **„Jetzt fällig“** mit der verstrichenen Zeit („seit 5 Min.“) – so lange, bis Du den Schritt in der Mitteilung als erledigt markierst oder der nächste Schritt fällig wird. Ein Tippen auf die Leiste wechselt zum Tab „Zeitleiste“. Ohne anstehenden Schritt bleibt sie verborgen.
@@ -835,12 +835,14 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 ### Sicherung
 
+Die Sicherung steht nicht in den Einstellungen, sondern im Menü **Mehr (⋯)** der Rezeptliste – wie auf Android: Die Einstellungen enthalten nur Einstellungen, das Menü die Aktionen.
+
 | Eintrag | Wirkung |
 |---------|---------|
 | **Alle eigenen Rezepte sichern** | Schreibt alle Rezepte auf dem Gerät samt Bildern, **Backhistorie** (mit Fotos, auf Bildschirmgröße verkleinert) und **Anstellgut-Tagebuch** in eine Datei und bietet sie im Teilen-Blatt an – etwa für „In Dateien sichern“, Mail oder AirDrop. |
-| **Aus Sicherung wiederherstellen** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte, mit Backhistorie und Anstellgut-Tagebuch aus der Datei; bestehende werden nie überschrieben. Eine Sicherung mit Backhistorie oder Anstellgut-Tagebuch liest erst diese App-Version; ältere melden, die Datei stamme aus einer neueren Version. |
+| **Importieren** | Liest eine solche Datei oder ein einzeln exportiertes Rezept ein. Importierte Rezepte landen als **neue** eigene Rezepte, mit Backhistorie und Anstellgut-Tagebuch aus der Datei; bestehende werden nie überschrieben. Eine Sicherung mit Backhistorie oder Anstellgut-Tagebuch liest erst diese App-Version; ältere melden, die Datei stamme aus einer neueren Version. |
 
-Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren** (neben „Rezept teilen“) – ohne Backhistorie und Anstellgut-Tagebuch, die gehören Dir. Die Datei lässt sich an andere weitergeben, die sie über „Aus Sicherung wiederherstellen“ einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
+Ein einzelnes Rezept exportierst Du auf seiner Seite über **Rezept exportieren** (neben „Rezept teilen“) – ohne Backhistorie und Anstellgut-Tagebuch, die gehören Dir. Die Datei lässt sich an andere weitergeben, die sie über **Mehr (⋯) → Importieren** einlesen – ein Weg außerhalb der Rezept-Datenbank, etwa für Rezepte aus Büchern.
 
 **Mehrere Rezepte auf einmal:** **Rezepte → Mehr (⋯) → Rezepte exportieren** zeigt Deine eigenen Rezepte zum Anhaken, mit **Alle auswählen** oben rechts. **Exportieren** schreibt die Auswahl in eine Datei; der Schalter **Mit Backhistorie und Anstellgut-Tagebuch** nimmt auf Wunsch auch Deine Einträge mit – etwa für den Umzug eines Teils der Rezepte auf ein anderes Gerät. Wie der Export eines einzelnen Rezepts ist das eine Pro-Funktion.
 
