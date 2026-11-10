@@ -21,6 +21,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - Unit-Tests: `xcodebuild test -scheme BackPlaner -testPlan UnitTests -destination 'id=<udid>'`. Hängt der Test-Runner beim Start, anderen Simulator nehmen (iOS 27.x).
 - Repository-Prüfung (String-Kataloge en/fr vollständig, Paket-Texte und erzeugte Paketdaten aktuell, Projektdatei, Handbuch-HTML aktuell): `python3 scripts/check-repo.py`.
 - Functions: `cd functions && npm run lint && npm run build`. Regeln: `cd firebase/tests && npm test` (braucht Java).
+- Play Console: `python3 scripts/play-console.py status|upload <AAB>` (Dienstkonto-Schlüssel außerhalb des Repos, `docs/Android-Play-Release.md` Abschnitt 8).
 - Details: `docs/CI.md`. Die App selbst baut Xcode Cloud, GitHub Actions prüft den Rest.
 
 ## Konventionen
