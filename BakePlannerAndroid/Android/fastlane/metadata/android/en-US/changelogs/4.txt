@@ -1,0 +1,9 @@
+New in 2.4:
+• Recipe variants with a comparison to the original
+• Import a recipe from copied text
+• Baking-day suggestions and a dough-weight calculator (loaf tin, proofing basket)
+• Oven settings per step: temperature, falling to, steam – pre-filled from the wording
+• A preheat time of its own for the baking stone
+• Starter diary with room temperature and ripening time
+• "More" menu: import and export recipes
+• Many improvements and fixes

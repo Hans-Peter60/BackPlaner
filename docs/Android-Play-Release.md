@@ -135,3 +135,23 @@ Wird nach jedem `skip export --release` hier nachgetragen: Datum, Version, Pfad 
 - **10.11.2026 – Build 2.4 (3):** AAB exportiert (Abschnitt 6), auf dem Pixel 7 direkt per `adb` installiert; löst 2.3 (2) als Kandidat für Release 2 ab.
 - **10.11.2026 – Build 2.4 (4):** AAB exportiert (Abschnitt 6), auf dem Pixel 7 direkt per `adb` installiert; löst 2.4 (3) ab.
 - **Offen:** Release 2 (jetzt 2.4) in den Alpha-Track hochladen, Opt-in-Link nach Freigabe an die Tester, Prüfung auf einem echten Gerät nach Abschnitt 4.6 Punkt 2–4, Produktionszugang nach den 14 Tagen, dann Produktion nach Abschnitt 4.6 Punkt 5.
+
+## 8. Play Developer API: Status abfragen und AAB hochladen aus dem Terminal
+
+`scripts/play-console.py` spricht die Google Play Developer API an – nur Python-Standardbibliothek und `openssl`.
+
+```sh
+python3 scripts/play-console.py status
+python3 scripts/play-console.py upload BakePlannerAndroid/.build/export/BakePlanner-release.aab            # Entwurf im Track „alpha“
+python3 scripts/play-console.py upload … --rollout                                                        # sofort ausrollen (= zur Prüfung einreichen)
+python3 scripts/play-console.py upload … --track internal
+```
+
+`status` zeigt je Track die Releases (Name, Status `draft`/`inProgress`/`completed`/`halted`, versionCodes, Sprachen der Release-Notizen) und die Bundles, die Play kennt. **Googles Prüfung selbst steht nicht in der API** – ob ein Release noch „In Überprüfung“ ist, zeigt nur die Play Console. `upload` legt ein Edit an, lädt das AAB hoch, setzt es als Release auf den Track (Standard: Entwurf, Release-Notizen aus `Android/fastlane/metadata/android/<Sprache>/changelogs/<versionCode>.txt`, höchstens 500 Zeichen je Sprache) und bestätigt das Edit; schlägt etwas fehl, wird das Edit verworfen. Der Entwurf braucht in der Console nur noch „Überprüfen“ und „Roll-out starten“.
+
+**Einmalige Einrichtung (von Hand, Stand 10.11.2026):**
+
+1. **Google Cloud Console** (console.cloud.google.com), Projekt **back-planer** (das Firebase-Projekt, in der Play Console bereits für Play Integrity verknüpft): *APIs & Dienste → Bibliothek → „Google Play Android Developer API“ → Aktivieren*.
+2. *IAM & Verwaltung → Dienstkonten → Dienstkonto erstellen*: Name `play-publisher`, keine Projektrollen nötig, fertigstellen. Beim Dienstkonto *Schlüssel → Schlüssel hinzufügen → Neuen Schlüssel erstellen → JSON*. Die heruntergeladene Datei nach `~/.config/bakeplanner/play-service-account.json` legen (`mkdir -p ~/.config/bakeplanner && chmod 600 …`). **Nicht ins Repository** – sie ist ein Passwort. Anderer Ort: Umgebungsvariable `PLAY_SERVICE_ACCOUNT`.
+3. **Play Console** → *Nutzer und Berechtigungen → Neue Nutzer einladen*: die E-Mail des Dienstkontos (`play-publisher@back-planer.iam.gserviceaccount.com`), unter *App-Berechtigungen* die App BakePlanner hinzufügen mit *Releases: „Apps für Testtracks veröffentlichen“* und *„App-Informationen ansehen (nur Lesezugriff)“*; für spätere Produktions-Uploads zusätzlich *„Apps in Produktion veröffentlichen …“*. Einladung senden – bei Dienstkonten gilt sie sofort, kann aber bis zu 24 Stunden brauchen, bis die API sie kennt („The caller does not have permission“ = noch warten oder Berechtigung prüfen).
+4. Prüfen: `python3 scripts/play-console.py status` muss die Tracks zeigen.

@@ -25,6 +25,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 | Android-App bauen | `cd BakePlannerAndroid && skip android build` |
 | Android-App starten | Emulator starten, `open BakePlannerAndroid/Project.xcworkspace`, Schema „BakePlanner App“, iPhone-Simulator wählen, ⌘R. Skip startet die Android-Fassung im Emulator mit. |
 | Paket-Tests auf Android | `cd BakePlannerCore && skip android test` |
+| Play-Tracks ansehen, AAB hochladen | `python3 scripts/play-console.py status` bzw. `… upload <AAB>` (Dienstkonto-Schlüssel nötig, siehe `docs/Android-Play-Release.md` Abschnitt 8) |
 | Repository-Prüfung | `python3 scripts/check-repo.py` |
 | Erzeugte Paketdaten auffrischen | `python3 scripts/generate-package-data.py` |
 

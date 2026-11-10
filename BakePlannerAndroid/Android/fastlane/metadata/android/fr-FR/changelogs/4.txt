@@ -1,0 +1,9 @@
+Nouveau dans 2.4 :
+• Variantes de recette comparées à l’original
+• Importer une recette depuis un texte copié
+• Suggestions de journée de cuisson, calculateur de poids de pâte (moule, banneton)
+• Réglages du four par étape : température, descendant à, buée – préremplis d’après le texte
+• Préchauffage propre à la pierre de cuisson
+• Journal du levain chef : température ambiante et maturation
+• Menu « Plus » : importer et exporter des recettes
+• Nombreuses améliorations et corrections

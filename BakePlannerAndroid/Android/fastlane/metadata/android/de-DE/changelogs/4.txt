@@ -1,0 +1,9 @@
+Neu in 2.4:
+• Rezept-Varianten mit Vergleich zum Original
+• Rezept aus kopiertem Text importieren
+• Backtag-Vorschläge und Teigeinlage-Rechner (Kastenform, Gärkörbchen)
+• Ofenangaben je Schritt: Temperatur, Fallend auf, Schwaden – mit Vorbelegung aus dem Text
+• Eigene Vorheizzeit für den Backstein
+• Anstellgut-Tagebuch mit Raumtemperatur und Reifezeit
+• Menü „Mehr“: Rezepte importieren und exportieren
+• Viele Verbesserungen und Fehlerbehebungen
