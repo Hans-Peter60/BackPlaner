@@ -109,7 +109,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 
 ### Umgebung
 - **Repository außerhalb von iCloud:** `~/Developer/BackPlaner`. In `~/Documents` hat iCloud Kopien mit „ 2“ im Namen angelegt (doppelte Typen) und Code-Signaturen gestört.
-- **Die Sicherung der iOS-App** entsteht nur fürs Teilen-Menü, über Mehr (⋯) → „Alle eigenen Rezepte sichern“ (seit 2.4; bis 2.3 in den Einstellungen). Auf den Mac kommt sie per AirDrop oder „In Dateien sichern“.
+- **Die Sicherung der iOS-App** entsteht nur fürs Teilen-Menü, über Mehr (⋯) → „Rezepte exportieren“ mit „Alle auswählen“ (seit 2.4; bis 2.3 „Alle eigenen Rezepte sichern“ in den Einstellungen). Auf den Mac kommt sie per AirDrop oder „In Dateien sichern“.
 
 ## Entscheidungen, die schon gefallen sind
 
@@ -136,7 +136,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
    - **6d (erledigt, siehe Bestandsaufnahme):** Die Sicherungsdatei nimmt die Backhistorie mit, damit sie zwischen iPhone und Android wechselt. Freigegeben am 31.10.2026 (Fotos ja, auf Bildschirmgröße verkleinert; einzeln geteiltes Rezept ohne; geplante Einträge mit):
      - **Ort:** jedes Rezept in der Datei bekommt ein optionales Feld `bakeHistory` (Liste von Einträgen: Datum, Kommentar, Fotos als JPEG/Base64, Raum- und Teigtemperatur, Stock- und Stückgare in Minuten, Mehl, Ergebnis; nicht erfasste Werte fehlen). Die Einträge reisen so mit ihrem Rezept, ohne Schlüssel.
      - **Version:** `formatVersion` 2 nur für Dateien, die Backhistorie enthalten; eine Datei ohne Backhistorie bleibt Version 1 und Zeichen für Zeichen wie heute. Die App liest 1 und 2. Eine ältere App lehnt eine Datei der Version 2 mit „mit einer neueren Version erstellt“ ab, statt die Backhistorie still zu verlieren.
-     - **Wann mit Backhistorie:** die Gesamtsicherung („Alle eigenen Rezepte sichern“, iPhone-Einstellungen und Android). Ein einzeln geteiltes Rezept bleibt ohne Backhistorie (persönlich, und der Empfänger kann es auch mit älterer App lesen).
+     - **Wann mit Backhistorie:** die Gesamtsicherung („Rezepte exportieren“ mit allen Rezepten und eingeschaltetem Schalter, iPhone und Android; bis 2.3 „Alle eigenen Rezepte sichern“). Ein einzeln geteiltes Rezept bleibt ohne Backhistorie (persönlich, und der Empfänger kann es auch mit älterer App lesen).
      - **Einlesen:** Rezepte kommen wie heute als neue Rezepte dazu, ihre Einträge hängen an der neuen Kopie; ein Rezept mit Einträgen gilt als gebacken (`bakeHistoryFlag`). Zweimal eingelesen gibt es Rezepte und Einträge doppelt, wie heute bei den Rezepten.
      - **Umsetzung:** Format und Lesen/Schreiben im Paket (`RecipeBackup` bekommt neben dem `RecipeStore` den `BakeHistoryStore`), iOS-Einstellungen und Android-Menü nutzen es, Handbuch (DE/EN/FR) ergänzt. Tests: Rundreise mit Backhistorie in Arbeitsspeicher, Core Data und SQLite; Datei ohne Backhistorie bleibt Version 1; Version 3 wird abgelehnt.
    - Nicht dabei: Galerie und Fotowolke (später), Einträge aus der Planung (kommen mit der Planung auf Android).

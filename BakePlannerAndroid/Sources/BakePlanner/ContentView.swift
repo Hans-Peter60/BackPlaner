@@ -142,9 +142,9 @@ struct RecipeListView: View {
                     Text("Noch keine Rezepte")
                         .font(AppFont.title2)
                         .foregroundStyle(Palette.accent(colorScheme))
-                    Text("Importiere eine Sicherungsdatei, die Du auf dem iPhone in den Einstellungen exportiert hast.")
+                    Text("Importiere eine Sicherungsdatei, die Du auf einem anderen Gerät über „Rezepte exportieren“ erzeugt hast.")
                         .multilineTextAlignment(.center)
-                    Button("Importieren") {
+                    Button("Rezepte importieren") {
                         showsPicker = true
                     }
                     .buttonStyle(.borderedProminent)
@@ -203,14 +203,10 @@ struct RecipeListView: View {
                     Button("Einstellungen") {
                         showsSettings = true
                     }
-                    Button("Importieren") {
+                    Button("Rezepte importieren") {
                         showsPicker = true
                     }
-                    Button("Alle eigenen Rezepte sichern") {
-                        exportIncludesBakeHistory = true
-                        recipesToExport = model.recipes.map(\.id)
-                    }
-                    .disabled(model.recipes.isEmpty)
+                    // With every recipe ticked this is the full backup.
                     Button("Rezepte exportieren") {
                         exportsRecipes = true
                     }

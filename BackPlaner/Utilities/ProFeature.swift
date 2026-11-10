@@ -14,9 +14,9 @@ import SwiftUI
 enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     /// Sharing a recipe as a PDF at the serving size shown.
     case pdfExport
-    /// Handing a single recipe to someone else as a re-importable file.
-    /// The backup of *all* recipes in the settings stays free: one's own
-    /// data must always be portable.
+    /// Handing a single recipe to someone else as a re-importable file from
+    /// its page. "Rezepte exportieren" in the list's menu stays free: it is
+    /// the backup, and one's own data must always be portable.
     case recipeSharing
     /// A recipe that queues itself on a rhythm (feeding a starter every
     /// five days, say).

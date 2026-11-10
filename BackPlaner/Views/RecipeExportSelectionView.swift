@@ -4,10 +4,11 @@
 //
 //  "Rezepte exportieren" from the recipe list's "Mehr" menu: the user's own
 //  recipes with a checkmark each, and the chosen ones leave as one backup
-//  file — between the single recipe's "Rezept exportieren" on its page and
-//  "Alle eigenen Rezepte sichern" in the same menu. The bake history and the
-//  starter diary go along only when asked: a file handed to someone else
-//  carries the recipes alone, a partial backup carries everything.
+//  file. With every recipe ticked this is the full backup; a few recipes
+//  are a hand-over. The bake history and the starter diary go along only
+//  when asked: a file handed to someone else carries the recipes alone, a
+//  backup carries everything. Free, unlike the single recipe's export on
+//  its page: one's own data must always be portable.
 //
 
 import BakePlannerCore
@@ -73,7 +74,7 @@ struct RecipeExportSelectionView: View {
                     .tag(recipe.objectID)
                 }
             } footer: {
-                Text("Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Importieren“ einliest.")
+                Text("Die Auswahl wird als eine Datei exportiert, die ein anderes Gerät – iPhone, iPad oder Android – über „Rezepte importieren“ einliest.")
             }
 
             Section {
@@ -99,17 +100,14 @@ struct RecipeExportSelectionView: View {
         }
     }
 
-    /// The share sheet with the file; Pro, as the single recipe's export.
+    /// The share sheet with the file. Free, not Pro like the single recipe's
+    /// export: this is the backup of one's own data.
     private var exportButton: some View {
-        ProGate(.recipeSharing) {
-            FileShareLink(
-                item: RecipeFileExport(recipes: selectedRecipes, fileName: fileName,
-                                       includesBakeHistory: includesBakeHistory),
-                preview: SharePreview(Text("BakePlanner-Rezepte"))
-            ) {
-                exportLabel
-            }
-        } label: {
+        FileShareLink(
+            item: RecipeFileExport(recipes: selectedRecipes, fileName: fileName,
+                                   includesBakeHistory: includesBakeHistory),
+            preview: SharePreview(Text("BakePlanner-Rezepte"))
+        ) {
             exportLabel
         }
         .buttonStyle(.borderedProminent)
