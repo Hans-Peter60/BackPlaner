@@ -24,6 +24,7 @@ Stand: 07.11.2026 · App-Version 2.3
 16. [Datenschutz, Moderation und Nutzungsbedingungen](#16-datenschutz-moderation-und-nutzungsbedingungen)
 17. [Häufige Fragen und Fehlerbehebung](#17-häufige-fragen-und-fehlerbehebung)
 18. [Bekannte Einschränkungen](#18-bekannte-einschränkungen)
+19. [BakePlanner auf Android](#19-bakeplanner-auf-android)
 
 ---
 
@@ -54,8 +55,8 @@ Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlich
 
 | Punkt | Wert |
 |-------|------|
-| Geräte | iPhone (auch iPhone Duo, zugeklappt und aufgeklappt), iPad und Apple Watch (Backmodus, siehe Kapitel 10). Auf einem Mac mit Apple-Chip läuft die iPad-Fassung aus dem Mac App Store („Für iPad entwickelt“) |
-| Betriebssystem | iOS/iPadOS 26.0 oder neuer; watchOS 26 für die Uhr-App; macOS 26 für die Mac-Fassung |
+| Geräte | iPhone (auch iPhone Duo, zugeklappt und aufgeklappt), iPad und Apple Watch (Backmodus, siehe Kapitel 10). Auf einem Mac mit Apple-Chip läuft die iPad-Fassung aus dem Mac App Store („Für iPad entwickelt“). Android-Telefone und -Tablets: siehe [Kapitel 19](#19-bakeplanner-auf-android) |
+| Betriebssystem | iOS/iPadOS 26.0 oder neuer; watchOS 26 für die Uhr-App; macOS 26 für die Mac-Fassung; Android 9.0 oder neuer |
 | Ausrichtung | iPhone: Hoch- und Querformat · iPad: alle Ausrichtungen |
 | Sprachen | Deutsch, Englisch, Französisch (umschaltbar in den Einstellungen) |
 | Darstellung | Hell- und Dunkelmodus, Dynamische Schriftgrößen |
@@ -667,6 +668,8 @@ BakePlanner bringt zwei **Steuerelemente** mit, die Du im Kontrollzentrum, auf d
 
 ## 11. Erinnerungen auf dem Sperrbildschirm
 
+> **Android:** Erinnerungen kommen als Android-Benachrichtigung mit denselben Aktionen. Zustellzeit, Wecker und Sperrbildschirm sind anders, siehe [Kapitel 19](#19-bakeplanner-auf-android).
+
 Jede Erinnerung erscheint als Mitteilung mit dem Titel **„Backhinweis“**, dem Untertitel „Gedrückt halten für Erledigt oder Verschieben“ und dem Schritttext als Inhalt.
 
 **Zutaten in der Erinnerung.** Gehört der Schritt zum Anmischen einer Komponente, stehen unter dem Schritttext die Zutaten dieser Komponente mit ihren Mengen – dieselben, die in „Geplante Schritte“ hinter dem i-Symbol liegen:
@@ -805,6 +808,8 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 ---
 
 ## 14. Einstellungen
+
+> **Android:** Einige Einstellungen gibt es dort nicht, die Sprache wählst Du in den Android-Einstellungen, und Pro entfällt – siehe [Kapitel 19](#19-bakeplanner-auf-android).
 
 **Tab Rezepte → Mehr (⋯) → Einstellungen.**
 
@@ -1173,3 +1178,61 @@ Die Übersetzung nutzt Apples On-Device-Übersetzung. Beim ersten Mal muss iOS d
 - **Eine Einkaufsliste behält die Sprache, in der sie erstellt wurde.** Wechselst Du danach die App-Sprache, bleiben bestehende Listen in der alten; neue Listen entstehen in der neuen.
 - **Blockierte Autoren** werden nur auf dem jeweiligen Gerät ausgeblendet; auf einem zweiten Gerät erscheinen sie weiter. Ein **gemeldetes** Rezept ist dagegen für alle unsichtbar, bis ein Administrator es freigibt – auch für Dich, und auch dann, wenn Du die Meldung unter *Einstellungen → Moderation* zurücknimmst.
 - **Eigene Einheiten gelten nur auf dem Gerät, auf dem Du sie angelegt hast.** Sie werden nicht über iCloud abgeglichen. Ein Rezept, das eine solche Einheit verwendet, zeigt auf einem anderen Gerät das Warndreieck, bis Du sie dort ebenfalls anlegst.
+
+---
+
+## 19. BakePlanner auf Android
+
+BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, Rechner, Backhistorie, Einkaufslisten und die öffentliche Rezept-Datenbank sind dieselben, und dieses Handbuch gilt für beide Fassungen: Begriffe, Abläufe und Schaltflächen heißen auf Android gleich. Die Oberfläche folgt den Android-Gewohnheiten – oben rechts stehen **Mehr (⋯)** und auf Rezeptseiten **Weitere Aktionen**, wo das iPhone einzelne Knöpfe zeigt. Dieses Kapitel nennt, was auf Android anders ist oder fehlt. Stand: Android-Fassung 2.4.
+
+### Daten, Sicherung und Gerätewechsel
+
+- **Alles liegt auf dem Gerät.** Eigene Rezepte, geplante Schritte, Einkaufslisten, Backhistorie und Anstellgut-Tagebuch werden auf dem Android-Gerät gespeichert. Es gibt **keinen Abgleich** mit anderen Geräten – weder mit einem zweiten Android-Gerät noch mit einem iPhone. Auch Androids automatische Sicherung in Google Drive ist für BakePlanner abgeschaltet, weil sie auf 25 MB begrenzt ist und mit Fotos stillschweigend scheitern würde.
+- **Sichere deshalb selbst:** **Rezepte → Mehr (⋯) → Rezepte exportieren**, **Alle auswählen**, Schalter **Mit Backhistorie und Anstellgut-Tagebuch** an, **Exportieren** – und die Datei in Google Drive, per Mail oder auf den Rechner geben (siehe [Kapitel 14](#14-einstellungen)). Auf dem neuen Gerät: **Mehr (⋯) → Rezepte importieren**.
+- **Gerätewechsel zwischen iPhone und Android** geht über dieselbe Datei in beide Richtungen. Was nicht mitkommt: gesetzte Pläne und Erinnerungen (auf dem neuen Gerät neu planen), eigene Einheiten (neu anlegen) und Einstellungen.
+- **Fotos** für Rezeptbild und Backhistorie werden auf Android schon beim Auswählen auf Bildschirmgröße verkleinert, nicht erst in der Sicherungsdatei.
+- **Rezept-Datenbank und Konto** sind dieselben wie auf dem iPhone. **Mit Apple anmelden** öffnet die Apple-Anmeldung im Browser und kehrt danach in die App zurück; ein auf dem iPhone veröffentlichtes Rezept lässt sich so auch vom Android-Gerät aus bearbeiten.
+- **Pro gibt es auf Android nicht:** Alle Funktionen sind frei, es gibt nichts zu kaufen.
+
+### Oberfläche
+
+- Die vier Tabs **Rezepte**, **Einkaufslisten**, **Backhistorie** und **Zeitleiste** sind dieselben wie in [Kapitel 4](#4-die-tab-leiste). Im Tab Zeitleiste schaltest Du oben zwischen **Timeline** und **Liste** um; der **Backmodus** startet von dort.
+- Auf der Seite eines eigenen Rezepts heißt der Dateiexport **Rezept sichern** (auf dem iPhone „Rezept exportieren“); **Rezept teilen** erzeugt das PDF, **Veröffentlichen** stellt es in die Datenbank. Weitere Befehle – Bearbeiten, Melden, Autor blockieren, Löschen – stehen unter **Weitere Aktionen**.
+- **Sprache:** *Einstellungen → Allgemein → Sprache* öffnet Androids Einstellung „App-Sprache“ (ab Android 13). Dort wählst Du Deutsch, Englisch oder Französisch; ohne Auswahl folgt die App der Systemsprache. In der App selbst gibt es keine Sprachauswahl.
+- **Dunkelmodus** folgt der Systemeinstellung; **Schriftgröße** der Android-Einstellung „Schriftgröße“.
+
+### Erinnerungen, Wecker und Backmodus
+
+- **Erinnerungen** kommen als Android-Benachrichtigung mit Titel „Backhinweis“, dem Schritttext und den Zutaten der Komponente, mit den Aktionen **Erledigt** und **Verschieben um …** samt der Rückfrage zu den nachfolgenden Schritten – wie in [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm). Die Erlaubnis für Mitteilungen fragt die App beim ersten Planen ab; ohne sie wird der Plan gesetzt, es erscheinen aber keine Erinnerungen, und ein Hinweis führt in die Android-Einstellungen.
+- **Zustellzeit:** Android liefert die Erinnerungen über seinen Aufgabenplaner aus, nicht als Wecker. Liegt das Telefon lange unbenutzt im Energiesparmodus, kann eine Erinnerung einige Minuten später kommen als geplant. Für Schritte, die auf die Minute kommen müssen, lass den **Backmodus** geöffnet oder stelle zusätzlich einen Wecker der Uhr-App.
+- **Nicht auf Android:** die echten **Wecker** für Ofenschritte ([Kapitel 7](#7-backanleitung-und-erinnerungen), Einstellung „Wecker“), die **Live-Aktivität** auf dem Sperrbildschirm, **Widgets**, die Schaltfläche im **Kontrollzentrum**, **Siri**, die **Apple Watch** und die Suche über **Spotlight**.
+- Der **Backmodus** ist vorhanden, mit **Vorlesen** über die Android-Sprachausgabe. Fehlt eine Stimme in Deiner Sprache, installierst Du sie in den Android-Einstellungen unter „Sprachausgabe“ (Google Sprachausgabe).
+
+### Rezepte importieren
+
+- **Aus Fotos** liest Android nur über die **Cloud-KI** ([Kapitel 16](#16-datenschutz-moderation-und-nutzungsbedingungen)); eine Texterkennung auf dem Gerät gibt es in der Android-App nicht. Wählst Du „Nur auf diesem Gerät“, erklärt die App das, und der Import bleibt aus. Mit **Aufnehmen** fotografierst Du Seite für Seite, bis zu zehn.
+- **Von einer Internetseite:** Teile eine Seite aus Chrome über **Teilen → BakePlanner**, dann öffnet sich der Import mit der Adresse. Ohne Cloud-KI übernimmt die App nur die strukturierten Rezeptdaten der Seite, **Aus Text** liest dann nach festen Regeln.
+- **Rezeptbild und Backfotos** nimmst Du aus den Dateien des Geräts oder direkt mit der Kamera auf.
+
+### Was auf Android fehlt
+
+| Funktion | Handbuch | Auf Android |
+|----------|----------|-------------|
+| iCloud-Abgleich zwischen Geräten | [Kapitel 2](#2-systemvoraussetzungen) | Kein Abgleich; Sicherungsdatei (oben) |
+| Automatische Übersetzung öffentlicher Rezepte, Menü „Rezept übersetzen“ | [Kapitel 5](#5-rezept-datenbank) | Fehlt. Die Liste zeigt eine hinterlegte Übersetzung in Deiner App-Sprache, sonst die Originalsprache |
+| Wecker für Ofenschritte | [Kapitel 7](#7-backanleitung-und-erinnerungen) | Fehlt; Erinnerungen wie oben |
+| Backtag-Zettel als PDF | [Kapitel 10](#10-geplante-schritte-liste-und-timeline) | Fehlt |
+| Schritte in den Kalender, Einkaufsliste an Erinnerungen | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [13](#13-einkaufsliste) | Fehlt |
+| Live-Aktivität, Widgets, Kontrollzentrum, Siri, Spotlight, Apple Watch | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [11](#11-erinnerungen-auf-dem-sperrbildschirm) | Nicht vorgesehen |
+| Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
+| BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
+| Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
+
+### Voraussetzungen
+
+| Punkt | Wert |
+|-------|------|
+| Android | 9.0 oder neuer; App-Sprache getrennt von der Systemsprache ab Android 13 |
+| Bezug | Google Play (zurzeit als geschlossener Test) |
+| Größe | Rund 55–60 MB Download, rund 190 MB installiert – die App bringt ihre eigene Laufzeit mit |
+| Berechtigungen | Mitteilungen (Erinnerungen), Kamera (Rezeptbilder, Backfotos, Import aus Fotos), Internet (Rezept-Datenbank, Cloud-KI, Import von Internetseiten) |

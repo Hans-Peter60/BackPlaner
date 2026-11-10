@@ -192,7 +192,8 @@ struct SettingsView: View {
             // as on the iPhone. Privacy policy and legal notice have to be
             // reachable from inside the app.
             Section {
-                helpLink("Benutzerhandbuch", url: HelpLinks.manual)
+                // Opened at the chapter that says what differs on Android.
+                helpLink("Benutzerhandbuch", url: HelpLinks.manualAndroidChapter)
                 helpLink("Hilfe und Kontakt", url: HelpLinks.support)
                 helpLink("Datenschutzerklärung", url: HelpLinks.privacy)
                 helpLink("Impressum", url: HelpLinks.imprint)

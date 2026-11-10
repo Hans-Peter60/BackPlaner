@@ -27,6 +27,7 @@ Révision : 7 novembre 2026 · version 2.3 de l’app
 16. [Confidentialité, modération et conditions d’utilisation](#16-confidentialité-modération-et-conditions-dutilisation)
 17. [Questions fréquentes et dépannage](#17-questions-fréquentes-et-dépannage)
 18. [Limitations connues](#18-limitations-connues)
+19. [BakePlanner sur Android](#19-bakeplanner-sur-android)
 
 ---
 
@@ -57,8 +58,8 @@ Les rappels supposent que BakePlanner soit autorisé à envoyer des notification
 
 | Élément | Valeur |
 |---------|--------|
-| Appareils | iPhone (y compris iPhone Duo, plié et déplié), iPad et Apple Watch (mode cuisson, voir chapitre 10). Sur un Mac à puce Apple, la version iPad s’installe depuis le Mac App Store (« Conçu pour iPad ») |
-| Système d’exploitation | iOS/iPadOS 26.0 ou ultérieur ; watchOS 26 pour l’app montre ; macOS 26 pour la version Mac |
+| Appareils | iPhone (y compris iPhone Duo, plié et déplié), iPad et Apple Watch (mode cuisson, voir chapitre 10). Sur un Mac à puce Apple, la version iPad s’installe depuis le Mac App Store (« Conçu pour iPad »). Téléphones et tablettes Android : voir [chapitre 19](#19-bakeplanner-sur-android) |
+| Système d’exploitation | iOS/iPadOS 26.0 ou ultérieur ; watchOS 26 pour l’app montre ; macOS 26 pour la version Mac ; Android 9.0 ou ultérieur |
 | Orientation | iPhone : portrait et paysage · iPad : toutes les orientations |
 | Langues | allemand, anglais, français (commutables dans les Réglages) |
 | Apparence | mode clair et sombre, tailles de texte dynamiques |
@@ -670,6 +671,8 @@ BakePlanner apporte deux **commandes** que vous pouvez placer dans le centre de 
 
 ## 11. Rappels sur l’écran verrouillé
 
+> **Android :** les rappels arrivent comme notifications Android avec les mêmes actions. Heure de remise, alarmes et écran verrouillé diffèrent, voir [chapitre 19](#19-bakeplanner-sur-android).
+
 Chaque rappel apparaît comme une notification intitulée **« Rappel de cuisson »**, avec le sous-titre « Maintenez pour Terminé ou Décaler » et le texte de l’étape comme contenu.
 
 **Les ingrédients dans le rappel.** Si l’étape mélange un composant, les ingrédients de ce composant avec leurs quantités suivent sous le texte de l’étape — les mêmes que derrière le symbole i dans « Étapes planifiées » :
@@ -808,6 +811,8 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 ---
 
 ## 14. Réglages
+
+> **Android :** certains réglages n’y existent pas, la langue se choisit dans les réglages Android et il n’y a pas de Pro — voir [chapitre 19](#19-bakeplanner-sur-android).
 
 **Onglet Recettes → Plus (⋯) → Réglages.**
 
@@ -1176,3 +1181,61 @@ La traduction utilise la traduction sur appareil d’Apple. La première fois, i
 - **Une liste de courses garde la langue dans laquelle elle a été créée.** Si vous changez ensuite la langue de l’app, les listes existantes restent dans l’ancienne ; les nouvelles sont créées dans la nouvelle.
 - **Les auteurs bloqués** ne sont masqués que sur l’appareil concerné ; sur un deuxième appareil, ils réapparaissent. Une recette **signalée** est en revanche invisible pour tous jusqu’à ce qu’un administrateur la réaffiche — pour vous aussi, et même si vous effacez le signalement dans *Réglages → Modération*.
 - **Les unités personnalisées ne valent que sur l’appareil où vous les avez créées.** Elles ne sont pas synchronisées via iCloud. Une recette utilisant une telle unité affiche le triangle d’avertissement sur un autre appareil jusqu’à ce que vous l’y créiez également.
+
+---
+
+## 19. BakePlanner sur Android
+
+BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, planification, calculateurs, historique de cuisson, listes de courses et base de recettes publique sont les mêmes, et ce manuel vaut pour les deux versions : notions, déroulements et boutons portent les mêmes noms sur Android. L’interface suit les habitudes d’Android — en haut à droite se trouve **Plus (⋯)**, et les pages de recette ont **Plus d’actions**, là où l’iPhone montre des boutons séparés. Ce chapitre indique ce qui diffère ou manque sur Android. État : version Android 2.4.
+
+### Données, sauvegarde et changement d’appareil
+
+- **Tout reste sur l’appareil.** Vos recettes, étapes planifiées, listes de courses, historique de cuisson et journal du levain chef sont enregistrés sur l’appareil Android. Il n’y a **aucune synchronisation** avec d’autres appareils — ni avec un second appareil Android, ni avec un iPhone. La sauvegarde automatique d’Android dans Google Drive est elle aussi désactivée pour BakePlanner, car elle est limitée à 25 Mo et échouerait en silence avec les photos.
+- **Sauvegardez donc vous-même :** **Recettes → Plus (⋯) → Exporter des recettes**, **Tout sélectionner**, interrupteur **Avec l’historique de cuisson et le journal du levain** activé, **Exporter** — puis placez le fichier dans Google Drive, dans un e-mail ou sur votre ordinateur (voir [chapitre 14](#14-réglages)). Sur le nouvel appareil : **Plus (⋯) → Importer des recettes**.
+- **Le passage entre iPhone et Android** se fait par le même fichier dans les deux sens. Ce qui ne suit pas : les plans et rappels en cours (replanifiez sur le nouvel appareil), les unités personnalisées (à recréer) et les réglages.
+- **Les photos** de la recette et de l’historique de cuisson sont réduites à la taille de l’écran sur Android dès leur sélection, pas seulement dans le fichier de sauvegarde.
+- **Base de recettes et compte** sont les mêmes que sur l’iPhone. **Se connecter avec Apple** ouvre la connexion Apple dans le navigateur puis revient dans l’app ; une recette publiée depuis l’iPhone peut ainsi être modifiée aussi depuis l’appareil Android.
+- **Pas de Pro sur Android :** toutes les fonctions sont gratuites, il n’y a rien à acheter.
+
+### Interface
+
+- Les quatre onglets **Recettes**, **Listes de courses**, **Historique de cuisson** et **Timeline** sont les mêmes qu’au [chapitre 4](#4-la-barre-donglets). Dans l’onglet Timeline, vous basculez en haut entre **Timeline** et **Liste** ; le **mode cuisson** se lance de là.
+- Sur la page d’une de vos recettes, l’export en fichier s’appelle **Sauvegarder la recette** (sur l’iPhone « Exporter la recette ») ; **Partager la recette** produit le PDF, **Publier** la met dans la base. Les autres commandes — modifier, signaler, bloquer l’auteur, supprimer — se trouvent sous **Plus d’actions**.
+- **Langue :** *Réglages → Général → Langue* ouvre le réglage Android « Langue de l’application » (à partir d’Android 13). Choisissez-y l’allemand, l’anglais ou le français ; sans choix, l’app suit la langue du système. Il n’y a pas de sélecteur de langue dans l’app elle-même.
+- **Le mode sombre** suit le réglage du système ; **la taille de police** suit le réglage Android « Taille de la police ».
+
+### Rappels, alarmes et mode cuisson
+
+- **Les rappels** arrivent comme notifications Android intitulées « Rappel de cuisson », avec le texte de l’étape et les ingrédients du composant, et avec les actions **Terminé** et **Reporter de …** y compris la question sur les étapes suivantes — comme au [chapitre 11](#11-rappels-sur-lécran-verrouillé). L’app demande l’autorisation des notifications à la première planification ; sans elle, le plan est posé mais aucun rappel n’apparaît, et une indication mène aux réglages Android.
+- **Heure de remise :** Android remet les rappels par son planificateur de tâches, pas sous forme d’alarmes. Si le téléphone reste longtemps inutilisé en économie d’énergie, un rappel peut arriver quelques minutes plus tard que prévu. Pour les étapes à la minute près, laissez le **mode cuisson** ouvert ou réglez en plus une alarme dans l’app Horloge.
+- **Pas sur Android :** les vraies **alarmes** pour les étapes de four ([chapitre 7](#7-instructions-de-cuisson-et-rappels), réglage « Alarmes »), l’**activité en direct** sur l’écran verrouillé, les **widgets**, le bouton du **centre de contrôle**, **Siri**, l’**Apple Watch** et la recherche via **Spotlight**.
+- Le **mode cuisson** est présent, avec **Lire à voix haute** par la synthèse vocale d’Android. S’il manque une voix dans votre langue, installez-la dans les réglages Android sous « Synthèse vocale » (Services de reconnaissance vocale Google).
+
+### Importer des recettes
+
+- **Depuis des photos**, Android ne lit que par l’**IA en nuage** ([chapitre 16](#16-confidentialité-modération-et-conditions-dutilisation)) ; l’app Android n’a pas de reconnaissance de texte sur l’appareil. Si vous choisissez « Uniquement sur cet appareil », l’app l’explique et l’import ne se fait pas. Avec **Prendre une photo**, vous photographiez page par page, jusqu’à dix.
+- **Depuis une page web :** partagez une page depuis Chrome via **Partager → BakePlanner**, et l’import s’ouvre avec l’adresse remplie. Sans l’IA en nuage, l’app ne reprend que les données structurées de la page, et **Depuis un texte** lit alors selon des règles fixes.
+- **L’image de la recette et les photos de cuisson** viennent des fichiers de l’appareil ou directement de l’appareil photo.
+
+### Ce qui manque sur Android
+
+| Fonction | Manuel | Sur Android |
+|----------|--------|-------------|
+| Synchronisation iCloud entre appareils | [chapitre 2](#2-configuration-requise) | Pas de synchronisation ; fichier de sauvegarde (ci-dessus) |
+| Traduction automatique des recettes publiques, menu « Traduire la recette » | [chapitre 5](#5-base-de-recettes) | Manque. La liste montre une traduction enregistrée dans la langue de l’app, sinon la langue d’origine |
+| Alarmes pour les étapes de four | [chapitre 7](#7-instructions-de-cuisson-et-rappels) | Manque ; rappels comme ci-dessus |
+| Feuille de la journée de cuisson en PDF | [chapitre 10](#10-étapes-planifiées-liste-et-timeline) | Manque |
+| Étapes dans le calendrier, liste de courses vers Rappels | [chapitre 10](#10-étapes-planifiées-liste-et-timeline), [13](#13-liste-de-courses) | Manque |
+| Activité en direct, widgets, centre de contrôle, Siri, Spotlight, Apple Watch | [chapitre 10](#10-étapes-planifiées-liste-et-timeline), [11](#11-rappels-sur-lécran-verrouillé) | Non prévu |
+| Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », « Traduire automatiquement les recettes publiques », « Activité en direct », « Alarmes » | [chapitre 14](#14-réglages) | Manquent. Les nouvelles recettes sont d’abord privées et vont dans la base via **Publier** sur la page de la recette |
+| BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
+| Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
+
+### Prérequis
+
+| Point | Valeur |
+|-------|--------|
+| Android | 9.0 ou ultérieur ; langue de l’app séparée de celle du système à partir d’Android 13 |
+| Source | Google Play (actuellement en test fermé) |
+| Taille | Environ 55–60 Mo à télécharger, environ 190 Mo installés — l’app embarque son propre environnement d’exécution |
+| Autorisations | Notifications (rappels), appareil photo (images de recette, photos de cuisson, import depuis des photos), Internet (base de recettes, IA en nuage, import depuis des pages web) |

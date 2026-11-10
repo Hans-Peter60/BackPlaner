@@ -29,6 +29,22 @@ public enum HelpLinks {
         URL(string: "\(site)manual-\(languageCode).html")!
     }
 
+    /// The manual opened at its chapter "BakePlanner auf Android", which
+    /// names what differs from the iPhone. The Android app's help link.
+    public static var manualAndroidChapter: URL {
+        manualAndroidChapter(for: languageCode)
+    }
+
+    public static func manualAndroidChapter(for languageCode: String) -> URL {
+        let anchor: String
+        switch languageCode {
+        case "de": anchor = "19-bakeplanner-auf-android"
+        case "fr": anchor = "19-bakeplanner-sur-android"
+        default: anchor = "19-bakeplanner-on-android"
+        }
+        return URL(string: "\(site)manual-\(languageCode).html#\(anchor)")!
+    }
+
     public static var support: URL {
         URL(string: "\(site)index.html#\(languageCode)")!
     }
