@@ -109,7 +109,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
 
 ### Umgebung
 - **Repository außerhalb von iCloud:** `~/Developer/BackPlaner`. In `~/Documents` hat iCloud Kopien mit „ 2“ im Namen angelegt (doppelte Typen) und Code-Signaturen gestört.
-- **Die Sicherung der iOS-App** entsteht nur fürs Teilen-Menü, über Einstellungen → „Alle eigenen Rezepte sichern“. Auf den Mac kommt sie per AirDrop oder „In Dateien sichern“.
+- **Die Sicherung der iOS-App** entsteht nur fürs Teilen-Menü, über Mehr (⋯) → „Alle eigenen Rezepte sichern“ (seit 2.4; bis 2.3 in den Einstellungen). Auf den Mac kommt sie per AirDrop oder „In Dateien sichern“.
 
 ## Entscheidungen, die schon gefallen sind
 

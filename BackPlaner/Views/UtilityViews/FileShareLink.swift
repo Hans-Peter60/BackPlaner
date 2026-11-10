@@ -25,6 +25,10 @@ protocol FileExport: Transferable {
 struct FileShareLink<Item: FileExport, PreviewImage: Transferable, PreviewIcon: Transferable, Label: View>: View {
     let item: Item
     let preview: SharePreview<PreviewImage, PreviewIcon>
+    /// True for a link inside a `Menu`: a menu item has no view of its own
+    /// behind which the Mac's activity sheet could sit, so there the sheet
+    /// is presented from the window instead.
+    var inMenu = false
     @ViewBuilder let label: () -> Label
 
     @State private var writtenFile: URL?
@@ -33,7 +37,12 @@ struct FileShareLink<Item: FileExport, PreviewImage: Transferable, PreviewIcon: 
         if ProcessInfo.processInfo.isiOSAppOnMac {
             Button {
                 do {
-                    writtenFile = try item.writeFile()
+                    let file = try item.writeFile()
+                    if inMenu {
+                        WindowActivitySheet.present(file)
+                    } else {
+                        writtenFile = file
+                    }
                 } catch {
                     AppLog.persistence.error("The file to share could not be written: \(error)")
                 }
@@ -46,6 +55,23 @@ struct FileShareLink<Item: FileExport, PreviewImage: Transferable, PreviewIcon: 
         } else {
             ShareLink(item: item, preview: preview, label: label)
         }
+    }
+}
+
+/// Presents a UIActivityViewController for `file` from the front window,
+/// anchored near the top right where the menu that asked for it sits.
+private enum WindowActivitySheet {
+    @MainActor static func present(_ file: URL) {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        guard let scene = scenes.first(where: { $0.activationState == .foregroundActive }) ?? scenes.first,
+              let window = scene.keyWindow ?? scene.windows.first,
+              var presenter = window.rootViewController else { return }
+        while let presented = presenter.presentedViewController { presenter = presented }
+        let activity = UIActivityViewController(activityItems: [file], applicationActivities: nil)
+        activity.popoverPresentationController?.sourceView = window
+        activity.popoverPresentationController?.sourceRect = CGRect(x: window.bounds.maxX - 60, y: window.safeAreaInsets.top + 24,
+                                                                    width: 1, height: 1)
+        presenter.present(activity, animated: true)
     }
 }
 

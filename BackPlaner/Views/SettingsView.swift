@@ -55,12 +55,6 @@ struct SettingsView: View {
     @State private var showSignedOutConfirmation = false
     @State private var signOutErrorMessage: String?
 
-    // Recipe backup / restore.
-    @Environment(\.managedObjectContext) private var viewContext
-    @State private var isImportingRecipes = false
-    @State private var importedRecipeCount: Int?
-    @State private var importErrorMessage: String?
-
     // BakePlanner Pro: the section only exists while the remote
     // configuration shows the store (or this installation has bought Pro).
     @State private var showPaywall = false
@@ -166,8 +160,6 @@ struct SettingsView: View {
                                    value: unitStore.units.count.formatted())
                 }
             }
-
-            recipeBackupSection
 
             publicRecipeTranslationSection
 
@@ -429,83 +421,6 @@ struct SettingsView: View {
             Text("Übersetzung")
         } footer: {
             Text("Betrifft nur die Rezept-Datenbank. Eingeschaltet übersetzt die App ein Rezept automatisch in Deine Sprache. Ausgeschaltet zeigt ein Rezept zunächst die Sprache, in der es geschrieben wurde; über das Globus-Symbol kannst Du dann selbst eine Sprache auswählen.")
-        }
-    }
-
-    /// Every recipe on this device — what "alle eigenen Rezepte sichern"
-    /// bundles into one file. A plain fetch, not a live `@FetchRequest`: the
-    /// list only has to be right at the moment the button is tapped. The
-    /// export item keeps the recipes' ids and reads them when the file is
-    /// written, so this fetch returns faults and copies nothing.
-    private var allOwnRecipes: [Recipe] {
-        let request = Recipe.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        return (try? viewContext.fetch(request)) ?? []
-    }
-
-    /// Whether there is anything to back up; a count, not a fetch.
-    private var hasOwnRecipes: Bool {
-        ((try? viewContext.count(for: Recipe.fetchRequest())) ?? 0) > 0
-    }
-
-    private var backupFileName: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return "BakePlanner-Rezepte-\(formatter.string(from: Date()))"
-    }
-
-    /// Export and restore as a file: the one way to back up or hand over a
-    /// recipe beyond iCloud and the public database (see the manual's
-    /// "Es gibt keinen Export" limitation). Bake history and the starter
-    /// feeding diary are not part of this — only the recipe itself.
-    @ViewBuilder
-    private var recipeBackupSection: some View {
-        Section {
-            FileShareLink(
-                item: RecipeFileExport(recipes: allOwnRecipes, fileName: backupFileName),
-                preview: SharePreview(Text("BakePlanner-Rezepte"))
-            ) {
-                Label("Alle eigenen Rezepte sichern", systemImage: "arrow.down.doc")
-            }
-            .disabled(!hasOwnRecipes)
-
-            Button {
-                isImportingRecipes = true
-            } label: {
-                Label("Aus Sicherung wiederherstellen", systemImage: "arrow.up.doc")
-            }
-        } header: {
-            Text("Sicherung")
-        } footer: {
-            Text("Sichert oder importiert Rezepte als Datei — zum Beispiel vor einem Gerätewechsel oder um ein Rezept außerhalb der Rezept-Datenbank weiterzugeben. Importierte Rezepte landen als neue eigene Rezepte, bestehende werden nie überschrieben.")
-        }
-        .fileImporter(isPresented: $isImportingRecipes, allowedContentTypes: [.json]) { result in
-            switch result {
-            case .success(let url):
-                do {
-                    importedRecipeCount = try RecipeImport.importRecipes(from: url, into: viewContext)
-                } catch {
-                    importErrorMessage = error.localizedDescription
-                }
-            case .failure(let error):
-                importErrorMessage = error.localizedDescription
-            }
-        }
-        .alert("Import abgeschlossen", isPresented: Binding(
-            get: { importedRecipeCount != nil },
-            set: { if !$0 { importedRecipeCount = nil } }
-        )) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("\(importedRecipeCount ?? 0) Rezepte importiert")
-        }
-        .alert("Import fehlgeschlagen", isPresented: Binding(
-            get: { importErrorMessage != nil },
-            set: { if !$0 { importErrorMessage = nil } }
-        )) {
-            Button("OK", role: .cancel) { importErrorMessage = nil }
-        } message: {
-            Text(importErrorMessage ?? "")
         }
     }
 
