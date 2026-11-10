@@ -27,6 +27,7 @@ Revised: 7 November 2026 · App version 2.3
 16. [Privacy, moderation, and terms of use](#16-privacy-moderation-and-terms-of-use)
 17. [Frequently asked questions and troubleshooting](#17-frequently-asked-questions-and-troubleshooting)
 18. [Known limitations](#18-known-limitations)
+19. [BakePlanner on Android](#19-bakeplanner-on-android)
 
 ---
 
@@ -57,8 +58,8 @@ Reminders require BakePlanner to be allowed to send notifications. The full expl
 
 | Item | Value |
 |------|-------|
-| Devices | iPhone (including iPhone Duo, folded and unfolded), iPad and Apple Watch (bake mode, see chapter 10). On a Mac with Apple silicon the iPad version runs from the Mac App Store ("Designed for iPad") |
-| Operating system | iOS/iPadOS 26.0 or later; watchOS 26 for the watch app; macOS 26 for the Mac version |
+| Devices | iPhone (including iPhone Duo, folded and unfolded), iPad and Apple Watch (bake mode, see chapter 10). On a Mac with Apple silicon the iPad version runs from the Mac App Store ("Designed for iPad"). Android phones and tablets: see [chapter 19](#19-bakeplanner-on-android) |
+| Operating system | iOS/iPadOS 26.0 or later; watchOS 26 for the watch app; macOS 26 for the Mac version; Android 9.0 or later |
 | Orientation | iPhone: portrait and landscape · iPad: all orientations |
 | Languages | German, English, French (switchable in Settings) |
 | Appearance | Light and dark mode, Dynamic Type |
@@ -670,6 +671,8 @@ BakePlanner comes with two **controls** you can place in Control Center, on the 
 
 ## 11. Reminders on the Lock Screen
 
+> **Android:** reminders arrive as Android notifications with the same actions. Delivery time, alarms and the Lock Screen differ, see [chapter 19](#19-bakeplanner-on-android).
+
 Every reminder appears as a notification titled **"Baking reminder"**, with the subtitle "Press and hold for Done or Reschedule" and the step text as its content.
 
 **Ingredients in the reminder.** If the step mixes a component, the ingredients of that component with their amounts follow below the step text — the same ones that sit behind the i symbol in "Scheduled steps":
@@ -808,6 +811,8 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 ---
 
 ## 14. Settings
+
+> **Android:** some settings do not exist there, the language is chosen in the Android settings, and there is no Pro — see [chapter 19](#19-bakeplanner-on-android).
 
 **Recipes tab → More (⋯) → Settings.**
 
@@ -1176,3 +1181,61 @@ Translation uses Apple's on-device translation. The first time, iOS has to provi
 - **A shopping list keeps the language it was created in.** If you switch the app language afterwards, existing lists stay in the old one; new lists are created in the new one.
 - **Blocked authors** are hidden on the device in question only; on a second device they still appear. A **reported** recipe, by contrast, is invisible to everyone until an administrator releases it — to you as well, and even if you clear the report under *Settings → Moderation*.
 - **Custom units only apply on the device where you created them.** They aren't synced through iCloud. A recipe using such a unit shows the warning triangle on another device until you create it there too.
+
+---
+
+## 19. BakePlanner on Android
+
+BakePlanner is also available for Android phones and tablets. Recipes, planning, the calculators, baking history, shopping lists and the public recipe database are the same, and this manual covers both versions: terms, procedures and buttons have the same names on Android. The interface follows Android conventions — at the top right there is **More (⋯)**, and recipe pages have **More actions**, where the iPhone shows individual buttons. This chapter lists what is different or missing on Android. As of the Android version 2.4.
+
+### Data, backup and changing devices
+
+- **Everything lives on the device.** Your own recipes, scheduled steps, shopping lists, baking history and starter diary are stored on the Android device. There is **no sync** with other devices — neither with a second Android device nor with an iPhone. Android's automatic backup to Google Drive is switched off for BakePlanner as well, because it is limited to 25 MB and would fail silently with photos.
+- **So back up yourself:** **Recipes → More (⋯) → Export recipes**, **Select all**, switch **With baking history and starter diary** on, **Export** — and put the file in Google Drive, in an e-mail or on your computer (see [chapter 14](#14-settings)). On the new device: **More (⋯) → Import recipes**.
+- **Moving between iPhone and Android** works through the same file in both directions. What does not come along: scheduled plans and reminders (plan again on the new device), custom units (create them again) and settings.
+- **Photos** for the recipe picture and the baking history are scaled down to screen size on Android as soon as they are picked, not only in the backup file.
+- **Recipe database and account** are the same as on the iPhone. **Sign in with Apple** opens Apple's sign-in in the browser and returns to the app afterwards; a recipe published on the iPhone can then be edited from the Android device too.
+- **There is no Pro on Android:** every feature is free, there is nothing to buy.
+
+### Interface
+
+- The four tabs **Recipes**, **Shopping lists**, **Baking history** and **Timeline** are the same as in [chapter 4](#4-the-tab-bar). In the Timeline tab you switch between **Timeline** and **List** at the top; **bake mode** starts from there.
+- On the page of one of your own recipes the file export is called **Back up recipe** (on the iPhone "Export recipe"); **Share recipe** produces the PDF, **Publish** puts it in the database. Further commands — edit, report, block author, delete — are under **More actions**.
+- **Language:** *Settings → General → Language* opens Android's "App language" setting (Android 13 and later). Choose German, English or French there; without a choice the app follows the system language. There is no language picker inside the app.
+- **Dark mode** follows the system setting; the **font size** follows Android's "Font size" setting.
+
+### Reminders, alarms and bake mode
+
+- **Reminders** arrive as Android notifications titled "Baking reminder", with the step text and the component's ingredients, and with the actions **Done** and **Postpone by …** including the question about the following steps — as in [chapter 11](#11-reminders-on-the-lock-screen). The app asks for the notification permission when you plan for the first time; without it the plan is set, but no reminders appear, and a hint leads to the Android settings.
+- **Delivery time:** Android delivers the reminders through its task scheduler, not as alarms. If the phone lies unused in battery saver for a long time, a reminder may arrive a few minutes later than planned. For steps that must come to the minute, keep **bake mode** open or set an alarm in the Clock app as well.
+- **Not on Android:** the real **alarms** for oven steps ([chapter 7](#7-baking-instructions-and-reminders), setting "Alarms"), the **Live Activity** on the Lock Screen, **widgets**, the **Control Center** button, **Siri**, the **Apple Watch** and search via **Spotlight**.
+- **Bake mode** is available, with **Read aloud** through Android's text-to-speech. If a voice for your language is missing, install it in the Android settings under "Text-to-speech output" (Speech Services by Google).
+
+### Importing recipes
+
+- **From photos**, Android reads only through the **cloud AI** ([chapter 16](#16-privacy-moderation-and-terms-of-use)); the Android app has no on-device text recognition. If you choose "On this device only", the app explains this and the import does not run. With **Take photo** you photograph page by page, up to ten.
+- **From a web page:** share a page from Chrome via **Share → BakePlanner**, and the import opens with the address filled in. Without the cloud AI the app takes only the page's structured recipe data, and **From text** then reads by fixed rules.
+- **Recipe picture and baking photos** come from the device's files or straight from the camera.
+
+### What is missing on Android
+
+| Feature | Manual | On Android |
+|---------|--------|------------|
+| iCloud sync between devices | [chapter 2](#2-system-requirements) | No sync; backup file (above) |
+| Automatic translation of public recipes, "Translate recipe" menu | [chapter 5](#5-recipe-database) | Missing. The list shows a stored translation in your app language, otherwise the original language |
+| Alarms for oven steps | [chapter 7](#7-baking-instructions-and-reminders) | Missing; reminders as above |
+| Baking day sheet as PDF | [chapter 10](#10-scheduled-steps-list-and-timeline) | Missing |
+| Steps into the calendar, shopping list to Reminders | [chapter 10](#10-scheduled-steps-list-and-timeline), [13](#13-shopping-list) | Missing |
+| Live Activity, widgets, Control Center, Siri, Spotlight, Apple Watch | [chapter 10](#10-scheduled-steps-list-and-timeline), [11](#11-reminders-on-the-lock-screen) | Not planned |
+| Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
+| BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
+| Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
+
+### Requirements
+
+| Item | Value |
+|------|-------|
+| Android | 9.0 or later; app language separate from the system language from Android 13 |
+| Source | Google Play (currently as a closed test) |
+| Size | About 55–60 MB download, about 190 MB installed — the app brings its own runtime |
+| Permissions | Notifications (reminders), camera (recipe pictures, baking photos, import from photos), internet (recipe database, cloud AI, import from web pages) |

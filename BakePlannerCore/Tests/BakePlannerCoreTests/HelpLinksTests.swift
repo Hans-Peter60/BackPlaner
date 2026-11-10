@@ -25,4 +25,11 @@ struct HelpLinksTests {
         #expect(HelpLinks.imprint.absoluteString.hasPrefix(HelpLinks.site + "impressum.html#"))
         #expect(HelpLinks.support.absoluteString.hasPrefix(HelpLinks.site + "index.html#"))
     }
+
+    @Test("The Android chapter is anchored in each language's manual")
+    func androidChapter() {
+        #expect(HelpLinks.manualAndroidChapter(for: "de").absoluteString == HelpLinks.site + "manual-de.html#19-bakeplanner-auf-android")
+        #expect(HelpLinks.manualAndroidChapter(for: "en").absoluteString == HelpLinks.site + "manual-en.html#19-bakeplanner-on-android")
+        #expect(HelpLinks.manualAndroidChapter(for: "fr").absoluteString == HelpLinks.site + "manual-fr.html#19-bakeplanner-sur-android")
+    }
 }

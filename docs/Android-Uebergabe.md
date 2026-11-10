@@ -292,5 +292,12 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
 | Einstellungen | Pro über Play Billing | später |
+| Einstellungen | „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | nicht nötig bzw. nicht geplant (Stand 10.11.2026) |
+| Rezept-Datenbank | Übersetzung auf dem Gerät, Menü „Rezept übersetzen“ | nicht geplant |
+| Geplante Schritte | Backtag-Zettel (PDF), Schritte in den Kalender, Wecker (AlarmManager) | eigener Schritt, nicht begonnen |
+| Einkaufsliste | „An Erinnerungen senden“ | eigener Schritt, nicht begonnen |
+| Import aus Fotos | Texterkennung auf dem Gerät („Nur auf diesem Gerät“) | nicht geplant; nur Cloud-KI |
+
+Für Nutzer steht das in Kapitel 19 des Benutzerhandbuchs („BakePlanner auf Android“, de/en/fr); die Android-App verlinkt direkt dorthin (`HelpLinks.manualAndroidChapter`). Wer eine Lücke schließt, streicht sie dort in allen drei Sprachen.
 
 Nicht für Android geplant (Bestandsaufnahme): Widget, Live-Aktivität, Siri, Apple Watch, Übersetzung auf dem Gerät, Übersetzung der Einkaufslisten-Zutaten.
