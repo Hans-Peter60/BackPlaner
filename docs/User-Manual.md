@@ -623,7 +623,7 @@ The same steps as a **project plan**: every plan gets a lane of its own with the
 
 The time axis shows the full hours, with weekday and date where the day changes. Short steps get enough room for their time to stay legible; a long stretch without any step — the night the sourdough ripens in — collapses to a hatched band that names what it skips ("22:45 – 08:35 · 10h"). **S / M / L** at the top right sets the scale.
 
-In portrait, time runs top-down: the axis stands on the left, the plans are columns, and you scroll as in the list. In landscape, time runs left to right with a row per plan, on an iPad just as on an iPhone. Steps that run at the same time — the soaker while the sourdough ripens — share the lane side by side. Tapping a bar or a marker opens the step's detail; a long press shows the step's full text and offers **Mark as done** and **Reschedule**, like the card in the list. With a mouse or trackpad, hovering over a bar is enough to see the whole text.
+In portrait, time runs top-down: the axis stands on the left, the plans are columns, and you scroll as in the list. In landscape, time runs left to right with a row per plan, on an iPad just as on an iPhone. Steps that run at the same time — the soaker while the sourdough ripens — share the lane side by side. Tapping a bar or a marker opens the step's detail — if the step mixes a component, its ingredients at the planned amount are listed there too. A long press shows the step's full text with its ingredients and offers **Mark as done**, **Reschedule** and **Show ingredients**, like the card in the list. A long press on a lane's header (picture and name) offers **Share baking day sheet**, **Add to calendar** and **Delete** for that one plan — what the list has the recipe filter for. With a mouse or trackpad, hovering over a bar is enough to see the whole text.
 
 ![Scheduled steps as a project plan: time axis on the left, one plan per column, bars as long as the steps](images/en/geplante-schritte-timeline.png)
 
@@ -633,7 +633,7 @@ With no steps scheduled, both views read: "No scheduled steps — Set a reminder
 
 ### Bake mode
 
-For working in the kitchen there is a **Start bake mode** button: in the list it floats as a bar over the bottom edge, with the bin for "Delete scheduled steps" beside it; in the timeline it is the round oven button at the bottom right. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.
+For working in the kitchen there is a **Start bake mode** button: in the list and the timeline the same bar floats over the bottom edge, with the bin for "Delete scheduled steps" beside it and the share icon with **Share baking day sheet** and **Add to calendar**. It opens the current step full-screen in large type: the recipe name and "Step 3 of 12" at the top, below that the time with a countdown ("in 42 min") or "5 min ago" once the step is due, then the step text. If the step mixes a component, that component's ingredients and amounts follow right beneath — the same ones as behind the i symbol.
 
 At the bottom sit large buttons that can be hit with flour on your hands:
 

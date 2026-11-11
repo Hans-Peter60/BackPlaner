@@ -29,6 +29,12 @@ struct ScheduledTaskDetailView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     private var nextSteps: FetchedResults<NextStep>
 
+    // For the ingredients of a mixing step: the own recipes and, through
+    // the model, the public ones.
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    private var recipes: FetchedResults<Recipe>
+    @EnvironmentObject private var model: RecipeModel
+
     private var step: NextStep? {
         if let stepID {
             return nextSteps.first { $0.objectID == stepID }
@@ -54,6 +60,24 @@ struct ScheduledTaskDetailView: View {
 
                     Section("Beschreibung") {
                         Text(nextStep.instruction)
+                    }
+
+                    // A step that mixes a component shows what goes in, at
+                    // the plan's amount — the same lines the reminder names.
+                    if let ingredients = PlannedStepComponent.ingredients(for: nextStep, recipes: recipes,
+                                                                          publicRecipes: model.recipesFB) {
+                        Section {
+                            if ingredients.lines.isEmpty {
+                                Text("Keine Zutaten vorhanden")
+                                    .foregroundColor(Theme.subtitle)
+                            } else {
+                                ForEach(Array(ingredients.lines.enumerated()), id: \.offset) { _, line in
+                                    Text(line)
+                                }
+                            }
+                        } header: {
+                            Text("Zutaten für „\(ingredients.name)“")
+                        }
                     }
                 }
                 .scrollContentBackground(.hidden)

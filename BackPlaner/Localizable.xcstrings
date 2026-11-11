@@ -2889,6 +2889,22 @@
         }
       }
     },
+    "Backtag-Zettel für „%@“ teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share baking day sheet for “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager la feuille de la journée pour « %@ »"
+          }
+        }
+      }
+    },
     "Backtag-Zettel teilen" : {
       "localizations" : {
         "en" : {
@@ -19997,6 +20013,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingrédients"
+          }
+        }
+      }
+    },
+    "Zutaten anzeigen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les ingrédients"
           }
         }
       }

@@ -148,7 +148,11 @@ extension RecipeExportData {
         for (index, instruction) in timed.enumerated() {
             recipe.instructions[index].startTime = instruction.startTime ?? 0
         }
-        recipe.prepTime = GlobalVariables.totalDuration
+        // The end of the last step — what calculateStartTimes also leaves in
+        // GlobalVariables.totalDuration. Worked out from the steps here, so
+        // a second calculation running at the same time (another test, the
+        // widget) cannot change it.
+        recipe.prepTime = timed.map { ($0.startTime ?? 0) + $0.duration }.max() ?? 0
         return recipe
     }
 }
