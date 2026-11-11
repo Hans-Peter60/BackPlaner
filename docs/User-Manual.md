@@ -262,7 +262,7 @@ The app reads each recipe from its ingredients and steps – there is nothing to
 | **Dough yield** | Firm (under DY 165), Medium (DY 165 to 180), Soft (from DY 180) | The dough yield of the whole recipe, see [chapter 15](#15-units-amounts-and-serving-sizes) |
 | **Equipment** | Baking stone, Loaf tin, Proofing basket, Pot | The wording of the steps ("bake in the pot", "into the loaf tin", "into the basket", preheating with a stone) |
 | **Baking history** | Never baked, Not baked for a while (over 90 days), Favourites (baked at least twice and 4 stars) | Your baking history – own recipes only |
-| **Little work** | Switch | At most 45 minutes of hands-on time, everything else is rest and oven |
+| **Little work** | Switch | At most 30 minutes of hands-on time, everything else is rest and oven |
 
 The five **collections** are nothing but facets that have been set: "For tomorrow morning" is the day flow "Start in the evening, bake in the morning", "Quick bread" is "Done in 2 hours", "Pure sourdough" is the leavening, "Not baked for a while" and "Favourites" are the baking history. If you open the filter menu after tapping a chip, you see the facet set there and can add more – the chip is then no longer marked, because the selection is now more than the collection.
 
