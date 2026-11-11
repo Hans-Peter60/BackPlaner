@@ -47,6 +47,18 @@ struct RecipeFacetsTests {
         #expect(facets.equipment == [.bakingStone, .proofingBasket])
         #expect(facets.leavening == .yeast)
         #expect(facets.isLowWork)
+
+        // One more minute of kneading and it is no longer little work.
+        var busier = RecipeFacets.compute(recipe(steps: [
+            step("Teig kneten", 1, 16, start: 0),
+            step("Teig 2 Stunden gehen lassen", 2, 120, start: 16),
+            step("Teig formen und in den Gärkorb legen", 3, 15, start: 136),
+            step("Brot backen", 4, 45, start: 151, bake: true),
+        ]), starterYields: .standard)
+        #expect(busier.activeMinutes == 31)
+        #expect(!busier.isLowWork)
+        busier = RecipeFacets.compute(recipe(steps: []), starterYields: .standard)
+        #expect(!busier.isLowWork)
     }
 
     @Test("A long final proof after the fridge is not a morning bake")

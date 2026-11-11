@@ -262,7 +262,7 @@ L’app lit chaque recette dans ses ingrédients et ses étapes – rien à sais
 | **Taux d’hydratation** | Ferme (TH sous 165), Moyen (TH 165 à 180), Souple (TH à partir de 180) | Le TH de toute la recette, voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion) |
 | **Matériel** | Pierre de cuisson, Moule à cake, Banneton, Cocotte | Le texte des étapes (« cuire en cocotte », « dans le moule », « au banneton », préchauffage avec pierre) |
 | **Historique** | Jamais cuit, Pas cuit depuis longtemps (plus de 90 jours), Favoris (cuit au moins deux fois et 4 étoiles) | Votre historique de cuisson – recettes personnelles seulement |
-| **Peu de travail** | Interrupteur | Au plus 45 minutes de travail manuel, le reste est repos et four |
+| **Peu de travail** | Interrupteur | Au plus 30 minutes de travail manuel, le reste est repos et four |
 
 Les cinq **collections** ne sont que des facettes déjà réglées : « Pour demain matin » est le déroulement « Lancer le soir, cuire le matin », « Pain rapide » est « Prêt en 2 heures », « Pur levain » l’agent levant, « Pas cuit depuis longtemps » et « Favoris » l’historique. Si vous ouvrez le menu de filtre après une puce, vous y voyez la facette réglée et pouvez en ajouter – la puce n’est alors plus marquée, car la sélection dépasse la collection.
 

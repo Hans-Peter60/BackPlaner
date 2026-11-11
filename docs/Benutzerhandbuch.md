@@ -259,7 +259,7 @@ Die App liest jedes Rezept aus seinen Zutaten und Schritten – Du musst nichts 
 | **Teigausbeute** | Fest (unter TA 165), Mittel (TA 165 bis 180), Weich (ab TA 180) | Die TA des ganzen Rezepts, siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen) |
 | **Ausstattung** | Backstein, Kastenform, Gärkörbchen, Topf | Wortlaut der Schritte („im Topf backen“, „in die Kastenform“, „ins Gärkörbchen“, Vorheizen mit Stein) |
 | **Backhistorie** | Nie gebacken, Lange nicht gebacken (über 90 Tage), Lieblinge (mindestens zweimal gebacken und 4 Sterne) | Deine Backhistorie – nur bei eigenen Rezepten |
-| **Wenig Arbeit** | Schalter | Höchstens 45 Minuten Handarbeit, alles andere ist Ruhe und Ofen |
+| **Wenig Arbeit** | Schalter | Höchstens 30 Minuten Handarbeit, alles andere ist Ruhe und Ofen |
 
 Die fünf **Sammlungen** sind nichts anderes als gesetzte Facetten: „Für morgen früh“ ist der Tagesablauf „Abends ansetzen, morgens backen“, „Schnelles Brot“ ist „Fertig in 2 Stunden“, „Reiner Sauerteig“ das Triebmittel, „Lange nicht gebacken“ und „Lieblinge“ die Backhistorie. Öffnest Du nach einem Chip das Filtermenü, siehst Du die Facette dort gesetzt und kannst weitere dazunehmen – dann ist der Chip nicht mehr markiert, weil die Auswahl jetzt mehr ist als die Sammlung.
 

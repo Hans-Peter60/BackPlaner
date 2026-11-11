@@ -70,7 +70,9 @@ public struct RecipeFacets: Equatable, Sendable {
     public static let sameDayMinutes = 600
     public static let longRestMinutes = 360
     public static let morningBudgetMinutes = 180
-    public static let lowWorkMinutes = 45
+    /// Hans-Peter's figure (11 Nov 2026): half an hour of hands-on time is
+    /// "little work" for a bread that otherwise rests and bakes on its own.
+    public static let lowWorkMinutes = 30
 
     public let totalMinutes: Int
     /// Minutes of mixing, folding and shaping — what the baker does.
