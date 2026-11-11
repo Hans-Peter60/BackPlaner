@@ -58,6 +58,9 @@ struct RecipeFacetFilter: Equatable, Codable {
     /// Only recipes the pantry covers completely; checked by the list
     /// against the pantry, not by `matches` (which knows no pantry).
     var pantryOnly = false
+    /// Only recipes that use something of the pantry that runs out soon,
+    /// most first; the list works it out against the pantry.
+    var useUpOnly = false
 
     init() {}
 
@@ -65,7 +68,7 @@ struct RecipeFacetFilter: Equatable, Codable {
     // know, or one missing from an older file, leaves the filter untouched
     // instead of failing the whole list of collections.
     private enum CodingKeys: String, CodingKey {
-        case duration, dayFlow, leavening, grain, doughYield, equipment, history, lowWorkOnly, pantryOnly
+        case duration, dayFlow, leavening, grain, doughYield, equipment, history, lowWorkOnly, pantryOnly, useUpOnly
     }
 
     init(from decoder: Decoder) throws {
@@ -79,6 +82,7 @@ struct RecipeFacetFilter: Equatable, Codable {
         history = try? container.decodeIfPresent(HistoryChoice.self, forKey: .history)
         lowWorkOnly = (try? container.decodeIfPresent(Bool.self, forKey: .lowWorkOnly)) ?? false
         pantryOnly = (try? container.decodeIfPresent(Bool.self, forKey: .pantryOnly)) ?? false
+        useUpOnly = (try? container.decodeIfPresent(Bool.self, forKey: .useUpOnly)) ?? false
     }
 
     var isActive: Bool {
@@ -117,9 +121,14 @@ struct RecipeFacetFilter: Equatable, Codable {
 
 /// The preset collections above the recipe list: a filter with a name.
 enum RecipeCollection: String, CaseIterable, Identifiable {
+    /// The collections that need the pantry, hidden while it is locked.
+    static let pantryCollections: Set<RecipeCollection> = [.pantry, .useUp]
+
     case morning, quick, sourdough, longAgo, favourites
     /// Everything the recipe needs is in the pantry (Pro).
     case pantry
+    /// Uses something of the pantry that runs out soon (Pro).
+    case useUp
 
     var id: Self { self }
 
@@ -131,6 +140,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .longAgo:    "Lange nicht gebacken"
         case .favourites: "Lieblinge"
         case .pantry:     "Aus dem Vorrat"
+        case .useUp:      "Vorrat aufbrauchen"
         }
     }
 
@@ -142,6 +152,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .longAgo:    "clock.arrow.circlepath"
         case .favourites: "heart"
         case .pantry:     "shippingbox"
+        case .useUp:      "clock.badge.exclamationmark"
         }
     }
 
@@ -154,6 +165,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .longAgo:    filter.history = .longAgo
         case .favourites: filter.history = .favourites
         case .pantry:     filter.pantryOnly = true
+        case .useUp:      filter.useUpOnly = true
         }
         return filter
     }

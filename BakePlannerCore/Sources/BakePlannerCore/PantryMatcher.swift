@@ -47,6 +47,18 @@ public struct PantryCheck: Equatable, Sendable {
     public var isComplete: Bool { !needs.isEmpty && missing.isEmpty }
 }
 
+/// A pantry item that runs out soon, and how much of it a recipe uses.
+public struct PantryUse: Equatable, Sendable {
+    public let item: StoredPantryItem
+    /// Grams or pieces of the item the recipe uses, no more than it holds.
+    public let usedBase: Double
+
+    public init(item: StoredPantryItem, usedBase: Double) {
+        self.item = item
+        self.usedBase = usedBase
+    }
+}
+
 /// One pantry item after a bake: the amount it keeps.
 public struct PantryDeduction: Equatable, Sendable {
     public let item: StoredPantryItem
@@ -131,6 +143,40 @@ public enum PantryMatcher {
             guard let item = pantry.first(where: { $0.id == id }), let amount = taken[id], amount > 0 else { return nil }
             return PantryDeduction(item: item, taken: amount)
         }
+    }
+
+    /// How a counted item weighs in the use-up ranking against grams.
+    static let gramsPerPieceForRanking = 60.0
+
+    /// What of the items that run out soon the recipe at `scale` would use,
+    /// most first. Empty when the recipe touches none of them.
+    public static func useUp(_ recipe: RecipeExportData, scale: Double, pantry: [StoredPantryItem],
+                             now: Date = Date(), calendar: Calendar = .current) -> [PantryUse] {
+        let soon = Pantry.needingAttention(pantry, now: now, calendar: calendar)
+        guard !soon.isEmpty else { return [] }
+        let entries = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: recipe), scale: scale)
+        var uses: [PantryUse] = []
+        for need in needs(of: entries, pantry: pantry) {
+            let key = IngredientNameNormalizer.comparisonKey(need.name)
+            var left = need.requiredBase
+            for item in soon where IngredientNameNormalizer.comparisonKey(item.name) == key && item.isCounted == need.isCounted {
+                let used = min(item.baseAmount, left)
+                guard used > 0 else { continue }
+                left -= used
+                uses.append(PantryUse(item: item, usedBase: used))
+            }
+        }
+        return uses.sorted { rankingWeight($0) > rankingWeight($1) }
+    }
+
+    /// The recipe's standing in the "Vorrat aufbrauchen" list: the grams of
+    /// soon-expiring goods it uses, pieces counted as sixty grams each.
+    public static func useUpScore(_ uses: [PantryUse]) -> Double {
+        uses.reduce(0) { $0 + rankingWeight($1) }
+    }
+
+    private static func rankingWeight(_ use: PantryUse) -> Double {
+        use.item.isCounted ? use.usedBase * gramsPerPieceForRanking : use.usedBase
     }
 
     /// "200 g", "1,2 kg", "3 Stück" — the amount of a need as it is read.

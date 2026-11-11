@@ -868,6 +868,8 @@ Les articles qui expirent dans les 14 prochains jours ou sont déjà expirés fi
 - **Filtre et collection :** le menu de filtre a l’interrupteur **Avec la réserve**, la rangée de puces la collection du même nom : seules les recettes dont les ingrédients, à la quantité enregistrée, sont entièrement là.
 - **Après la cuisson :** quand vous consignez une cuisson, l’app demande **Déduire de la réserve ?** et montre ce qui part de quel article – avec deux paquets de la même farine, d’abord de celui qui expire le premier. « Ne pas déduire » laisse la réserve telle quelle.
 
+**Conservation.** Sous *Réglages → Réserve → Rappel avant la date limite*, BakePlanner envoie une notification 14 jours avant la date limite d’un article, à 9 h du matin. La collection **Écouler la réserve** dans la rangée de puces – aussi un interrupteur du menu de filtre – montre les recettes qui utilisent quelque chose de ce qui expire bientôt ou a déjà expiré, la recette qui en utilise le plus en premier. Sous chacune figure ce qu’elle écoule : « Utilise 450 g Roggenmehl 1150, à consommer avant le 20.11.2026 ».
+
 Comme les recettes et les listes de courses, la réserve est dans votre iCloud et fait partie de BakePlanner Pro.
 
 
@@ -936,6 +938,7 @@ Le fichier de sauvegarde reste sous **5 Mo** pour passer sans peine par Mail, Ai
 | **Fin de journée** | Entre le début de journée et 23 h. Par défaut : 23 h. |
 | **Activité en direct sur l’écran verrouillé** | Affiche l’étape à venir comme activité en direct sur l’écran verrouillé et dans la Dynamic Island. Désactiver met fin immédiatement à une activité en cours. Par défaut : activé. |
 | **Alarmes** | Désactivé, Étapes du four ou Toutes les étapes : quelles étapes sonnent comme alarme en plus de leur rappel, même en mode silencieux et dans un mode de concentration (voir [chapitre 11](#11-rappels-sur-lécran-verrouillé)). À l’activation, iOS demande une fois l’autorisation. Par défaut : désactivé. |
+| **Réserve → Rappel avant la date limite** | Une notification 14 jours avant la date limite d’un article, à 9 h du matin (voir [chapitre 13](#13-liste-de-courses)). À l’activation, iOS demande une fois l’autorisation. Pro. Par défaut : désactivé. |
 
 > **Remarque :** seuls les deux **temps de préchauffage** décalent réellement des étapes. La **pause de cuisson, les fours, le début et la fin de journée** ne modifient pas le plan — l’app le contrôle toutefois par rapport à eux et vous avertit dans les instructions de cuisson si une étape tombe pendant votre nuit ou si plus de cuissons coïncident que vous n’avez de fours (voir [chapitre 7](#7-instructions-de-cuisson-et-rappels)).
 
@@ -1294,7 +1297,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
-| Réserve (Plus → Réserve, reprise depuis la liste de courses, comparaison avec les recettes, déduction sur la liste de courses et après la cuisson) | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
+| Réserve (Plus → Réserve, reprise depuis la liste de courses, comparaison avec les recettes, déduction sur la liste de courses et après la cuisson, rappel avant la date limite, collection « Écouler la réserve ») | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
 | Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` et `FinishByPlanner` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 

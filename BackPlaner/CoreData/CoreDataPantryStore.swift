@@ -78,5 +78,9 @@ struct CoreDataPantryStore: PantryStore {
     private func save() throws {
         guard context.hasChanges else { return }
         try context.save()
+        // The reminders follow the pantry; worked out on the main actor,
+        // where the settings and the entitlements live.
+        let items = try items()
+        Task { @MainActor in PantryReminders.reconcile(items: items) }
     }
 }

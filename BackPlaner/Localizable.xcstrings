@@ -509,6 +509,22 @@
         }
       }
     },
+    "%@ läuft am %@ ab." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ expires on %2$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ expire le %2$@."
+          }
+        }
+      }
+    },
     "%@ später" : {
       "comment" : "How much later a suggested date is, e.g. “1 Std., 45 Min.”.",
       "localizations" : {
@@ -6596,6 +6612,22 @@
         }
       }
     },
+    "Eine Mitteilung 14 Tage vor der Mindesthaltbarkeit eines Postens, morgens um 9 Uhr." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A notification 14 days before an item’s best-before date, at 9 in the morning."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une notification 14 jours avant la date limite d’un article, à 9 h du matin."
+          }
+        }
+      }
+    },
     "Eingefügter Rezepttext" : {
       "localizations" : {
         "en" : {
@@ -7179,6 +7211,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décaler le rappel"
+          }
+        }
+      }
+    },
+    "Erinnerung vor Ablauf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder before expiry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel avant la date limite"
           }
         }
       }
@@ -20198,6 +20246,22 @@
         }
       }
     },
+    "Verbraucht %@ %@, haltbar bis %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses %1$@ %2$@, best before %3$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilise %1$@ %2$@, à consommer avant le %3$@"
+          }
+        }
+      }
+    },
     "Vergangene Backvorgänge" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -20731,6 +20795,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déduire la réserve"
+          }
+        }
+      }
+    },
+    "Vorrat aufbrauchen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use up the pantry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écouler la réserve"
+          }
+        }
+      }
+    },
+    "Vorrat: bald aufbrauchen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantry: use up soon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réserve : à consommer bientôt"
           }
         }
       }

@@ -865,6 +865,8 @@ Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehe
 - **Filter und Sammlung:** Das Filtermenü hat den Schalter **Aus dem Vorrat**, die Chip-Reihe die gleichnamige Sammlung: nur Rezepte, deren Zutaten in der gespeicherten Menge vollständig da sind.
 - **Nach dem Backen:** Trägst Du einen Backvorgang ein, fragt die App **Vorrat abbuchen?** und zeigt, was von welchem Posten abgeht – bei zwei Packungen desselben Mehls zuerst von der, die früher abläuft. „Nicht abbuchen“ lässt den Vorrat unverändert.
 
+**Haltbarkeit.** Unter *Einstellungen → Vorrat → Erinnerung vor Ablauf* schickt BakePlanner 14 Tage vor der Mindesthaltbarkeit eines Postens eine Mitteilung, morgens um 9 Uhr. Die Sammlung **Vorrat aufbrauchen** in der Chip-Reihe – auch als Schalter im Filtermenü – zeigt die Rezepte, die etwas von dem verbrauchen, was bald abläuft oder schon abgelaufen ist, das Rezept mit dem größten Verbrauch zuerst. Unter jedem steht, was es aufbraucht: „Verbraucht 450 g Roggenmehl 1150, haltbar bis 20.11.2026“.
+
 Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu BakePlanner Pro.
 
 
@@ -933,6 +935,7 @@ Die Sicherungsdatei bleibt unter **5 MB**, damit sie sich per Mail, AirDrop und 
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
 | **Wecker** | Aus, Ofenschritte oder Alle Schritte: Welche Schritte zusätzlich zur Erinnerung als Wecker klingeln, auch bei Stumm und in einem Fokus (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)). Beim Einschalten fragt iOS einmal um Erlaubnis. Standard: aus. |
+| **Vorrat → Erinnerung vor Ablauf** | Eine Mitteilung 14 Tage vor der Mindesthaltbarkeit eines Postens, morgens um 9 Uhr (siehe [Kapitel 13](#13-einkaufsliste)). Beim Einschalten fragt iOS einmal um Erlaubnis. Pro. Standard: aus. |
 
 > **Hinweis:** Nur die beiden **Vorheizzeiten** verschieben tatsächlich Schritte. **Backpause, Backöfen, Tagesbeginn und Tagesende** verändern den Plan nicht – die App prüft ihn aber dagegen und warnt in der Backanleitung, wenn ein Schritt in Deine Nachtruhe fällt oder mehr Backvorgänge zusammentreffen, als Öfen da sind (siehe [Kapitel 7](#7-backanleitung-und-erinnerungen)).
 
@@ -1291,7 +1294,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
-| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Abbuchen nach dem Backen) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
+| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Abbuchen nach dem Backen, Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
