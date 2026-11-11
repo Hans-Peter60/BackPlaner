@@ -30,6 +30,7 @@ KLEINERES
 • Die Einstellungen enthalten nur noch Einstellungen. „Rezepte importieren“ (bisher „Aus Sicherung wiederherstellen“) steht jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android. „Alle eigenen Rezepte sichern“ entfällt: „Rezepte exportieren“ mit „Alle auswählen“ und eingeschalteter Backhistorie ist dieselbe Sicherung – und bleibt frei.
 • Die Sicherungsdatei beim Export von Rezepten bleibt unter 5 MB: Wird sie mit den Bildern größer, verkleinert die App Rezeptbilder und Fotos der Backhistorie beim Schreiben – nur so weit wie nötig. Bisher kamen bei vielen Rezepten Dateien von 47 MB heraus.
 • Die Schritttabelle eines eigenen Rezepts zeigt zweistellige Nummern wieder in einer Zeile, wie bei öffentlichen Rezepten. Nummer, Dauer und Beginn stehen oben in ihrer Zeile, auf Höhe der ersten Zeile der Beschreibung.
+• Nach „Rezepte importieren“ erscheint die Meldung „Import abgeschlossen“ zuverlässig, auch wenn die Dateiauswahl noch zuklappt.
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
 • iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
 • Bei einem Rezept mit nur einer Komponente, etwa einem Anstellgut, zeigt der erste Arbeitsschritt die Zutaten – nicht der Reifeschritt, der den Namen wiederholt. Das gilt für das „i“ in den geplanten Schritten, den Backmodus, die Uhr und die Erinnerungen.
@@ -64,6 +65,7 @@ SMALLER THINGS
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
 • The backup file from exporting recipes stays under 5 MB: should it grow larger with the pictures, the app shrinks the recipe pictures and baking-history photos as it writes – only as far as needed. With many recipes, files of 47 MB used to come out.
 • The step table of an own recipe shows two-digit numbers on one line again, as public recipes do. Number, duration and start sit at the top of their row, level with the first line of the description.
+• After “Import recipes” the message “Import complete” shows reliably, even while the file picker is still closing.
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
 • iPad: the recipe list’s rating filter is a button of its own next to “More” again, as on the iPhone.
 • In a recipe with a single component, such as a starter, the first working step shows the ingredients – not the ripening step that repeats the name. This applies to the “i” in the scheduled steps, bake mode, the watch and the reminders.
@@ -98,6 +100,7 @@ PLUS PETIT
 • Les réglages ne contiennent plus que des réglages. « Importer des recettes » (auparavant « Restaurer depuis une sauvegarde ») se trouve désormais dans le menu « Plus » de la liste des recettes, à côté de « Exporter des recettes » – comme sur Android. « Sauvegarder toutes mes recettes » disparaît : « Exporter des recettes » avec « Tout sélectionner » et l’historique de cuisson activé est la même sauvegarde – et reste gratuit.
 • Le fichier de sauvegarde de l’export des recettes reste sous 5 Mo : s’il devait grossir avec les images, l’app réduit les images des recettes et les photos de l’historique de cuisson en l’écrivant – seulement autant que nécessaire. Avec beaucoup de recettes, on obtenait jusque-là des fichiers de 47 Mo.
 • Le tableau des étapes d’une recette personnelle affiche de nouveau les numéros à deux chiffres sur une ligne, comme pour les recettes publiques. Numéro, durée et début sont en haut de leur ligne, au niveau de la première ligne de la description.
+• Après « Importer des recettes », le message « Import terminé » s’affiche de manière fiable, même pendant que le sélecteur de fichiers se referme.
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
 • iPad : le filtre par note de la liste des recettes est de nouveau un bouton à part à côté de « Plus », comme sur l’iPhone.
 • Pour une recette à un seul composant, comme un levain chef, la première étape de travail affiche les ingrédients – et non l’étape de maturation qui répète le nom. Cela vaut pour le « i » des étapes planifiées, le mode cuisson, la montre et les rappels.

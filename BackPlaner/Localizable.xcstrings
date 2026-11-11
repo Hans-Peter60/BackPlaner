@@ -14167,6 +14167,22 @@
         }
       }
     },
+    "Rezepte filtern" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrer les recettes"
+          }
+        }
+      }
+    },
     "Rezepte importieren" : {
       "localizations" : {
         "en" : {
