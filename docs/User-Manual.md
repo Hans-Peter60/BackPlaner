@@ -458,6 +458,17 @@ Third: **Import recipe from text**. For recipes that exist as text — from a me
 
 **What the fixed rules need:** headings such as "Ingredients" and "Method" (also "Zutaten"/"Zubereitung", "Ingrédients"/"Préparation"), below them one ingredient with its amount per line ("140 g rye flour") and one step per paragraph. The app recognises components by headings of their own such as "Sourdough" or "For the poolish:". Without headings it tells ingredient lines and sentences apart by their shape. With the cloud AI or Apple Intelligence this matters less. If the text is nothing but a web address, the app points you to the import from a web page.
 
+### Creating a recipe from baker's percentages
+
+Fourth: **Create recipe from baker's percentages** — for everyone who thinks of recipes as a formula. You enter each ingredient as a share of the flour, and the app works out the grams.
+
+1. Enter the **recipe name**.
+2. **Amount:** choose what you give — **Total flour** (say 500 g) or **Dough weight** (say 850 g for a loaf). The app shows the other figure underneath.
+3. **Components and ingredients:** a main dough with wheat flour 550 (100 %), water (68 %), salt (2 %) and fresh yeast (1 %) is prefilled. Change names and shares, add ingredients with **Add ingredient** or swipe to remove them. Further components — preferment, sourdough, scald — are created at the bottom with **Add**, and you distribute the ingredients among them. All percentages refer to the **recipe's whole flour**; the ingredients that count as flour carry the **Flour** tag and must add up to 100 percent. Next to every line stand the calculated grams, to a tenth below 10 g.
+4. **Next** opens the recipe form with the components in grams and one step "Make …" per component. There you add rests, shaping and baking as for any other recipe, and save.
+
+As long as the flours do not add up to 100 percent, no ingredient reads as flour, or an ingredient has no share, **Next** stays disabled and a note says why. A starter goes in like any other ingredient, as a share; its flour and water are counted into the dough yield later via the starter TA from the settings (see [chapter 15](#15-units-amounts-and-serving-sizes)).
+
 ### Storage: on the device or published
 
 The **Save** section holds the **Publish** switch (see also the overview in [chapter 3](#3-key-concepts)). A sentence below it explains what the current position means. The default comes from Settings (*Publish new recipes*).
@@ -1229,6 +1240,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Live Activity, widgets, Control Center, Siri, Spotlight, Apple Watch | [chapter 10](#10-scheduled-steps-list-and-timeline), [11](#11-reminders-on-the-lock-screen) | Not planned |
 | Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
+| Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 
 ### Requirements
