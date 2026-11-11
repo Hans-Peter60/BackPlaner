@@ -265,6 +265,8 @@ Die fünf **Sammlungen** sind nichts anderes als gesetzte Facetten: „Für morg
 
 **Eigene Sammlungen.** Eine Kombination, die Du öfter brauchst – etwa „Reiner Sauerteig“ mit „Topf“ und „Wenig Arbeit“ –, sicherst Du im Filtermenü mit **Sammlung sichern** unter einem Namen. Sie erscheint als Chip mit Lesezeichen hinter den fünf vorgegebenen und funktioniert wie diese. Langes Drücken auf den Chip bietet **Umbenennen** und **Löschen**. Die Sammlungen bleiben auf dem Gerät; sie enthalten nur die Facetten, nicht Suchtext oder Mindestbewertung.
 
+**Fertig bis.** Im Filtermenü wählst Du mit **Fertig bis …** Datum und Uhrzeit, zu der das Brot fertig sein soll. Die Liste zeigt dann nur Rezepte, die von jetzt an noch zu schaffen sind, sortiert nach dem nötigen Start, und schreibt ihn unter jedes Rezept: „Start heute 17:45“, „Start morgen 06:10“. Gerechnet wird wie im Planungsblatt im Modus „Fertig bis“: mit der Vorheizzeit und, bei einem Backstein, der Vorheizzeit mit Stein aus den Einstellungen. Ein Mond hinter dem Start bedeutet, dass ein Schritt außerhalb von Tagesbeginn und Tagesende liegt. Das gewählte Ziel steht als erster Chip über der Liste; ein Tipp darauf ändert es, **Aufheben** im Dialog oder **Filter zurücksetzen** nimmt es weg. Langes Drücken auf ein eigenes Rezept bietet **Start heute 17:45** an – das öffnet das Planungsblatt mit genau diesem Start. Die Sammlung **Für morgen früh** setzt das Ziel gleich mit: morgen um 7:30 Uhr, oder eine halbe Stunde nach dem Tagesbeginn, wenn der später liegt.
+
 **Spotlight.** Deine eigenen Rezepte stehen auch in der iPhone-Suche: Wische auf dem Home-Bildschirm nach unten und tippe „Landbrot“, und BakePlanner öffnet das Rezept direkt. Gefunden wird nach Name, Tags und Beschreibung; der Index wird beim Start und bei jeder Änderung an Rezepten aufgefrischt.
 
 ### Rezept löschen
@@ -1272,7 +1274,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
-| Facetten, vorgegebene und eigene Sammlungen in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` schon im gemeinsamen Paket |
+| Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
 ### Voraussetzungen

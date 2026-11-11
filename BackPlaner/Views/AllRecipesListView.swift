@@ -67,6 +67,11 @@ struct AllRecipesListView: View {
     @State private var isNamingCollection = false
     @State private var collectionName = ""
     @State private var renamingCollection: SavedRecipeCollection?
+    /// "Fertig bis …": only recipes that can still be made by then, each
+    /// with the start it needs, earliest start first.
+    @State private var finishBy: Date?
+    @State private var isPickingFinish = false
+    @State private var finishDraft = Date()
     /// Facets read once per recipe; a recipe's facets change only when it is
     /// edited, and the list is rebuilt then anyway.
     @State private var facetCache: [Row.ID: RecipeFacets] = [:]
@@ -160,6 +165,9 @@ struct AllRecipesListView: View {
         if facetFilter.isActive {
             base = base.filter { row in facetFilter.matches(facets(of: row), history: history(of: row)) }
         }
+        if finishBy != nil {
+            base = base.filter { finishOutcome(of: $0) != nil }
+        }
 
         let matched: [Row]
         if search.isEmpty {
@@ -170,12 +178,80 @@ struct AllRecipesListView: View {
             matched = base.filter { row in row.tags.contains { $0.localizedCaseInsensitiveContains(search) } }
         }
 
+        // Under "Fertig bis" the recipe that must start first comes first.
+        if finishBy != nil {
+            return matched.sorted { a, b in
+                let startA = finishOutcome(of: a)?.start ?? .distantFuture
+                let startB = finishOutcome(of: b)?.start ?? .distantFuture
+                if startA != startB { return startA < startB }
+                return a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+        }
         return matched.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
+    /// Whether the row's recipe can still be finished by `finishBy`, and
+    /// when it would have to start. Nil without "Fertig bis".
+    private func finishOutcome(of row: Row) -> FinishByOutcome? {
+        guard let finishBy else { return nil }
+        let content: RecipeExportData
+        switch row {
+        case .local(let recipe): content = RecipeExportData(recipe: recipe, includingImage: false)
+        case .cloud(let recipe): content = RecipeExportData(recipeFB: recipe, imageData: nil)
+        }
+        return FinishByPlanner.outcome(for: content, finishBy: finishBy, now: Date(),
+                                       languageCode: AppSettings.locale.identifier)
+    }
+
+    /// "Start heute 17:45", "Start morgen 06:10", "Start Fr., 14. Nov., 18:00".
+    private func startText(for outcome: FinishByOutcome) -> Text {
+        let locale = AppSettings.locale
+        // The same formatter as the plan sheet, so both read alike.
+        let time = TimeCalculation().calculateTime(t: outcome.start)
+        if Calendar.current.isDateInToday(outcome.start) {
+            return Text("Start heute \(time)")
+        }
+        if Calendar.current.isDateInTomorrow(outcome.start) {
+            return Text("Start morgen \(time)")
+        }
+        let day = outcome.start.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted).weekday(.abbreviated).locale(locale))
+        return Text("Start \(day), \(time)")
+    }
+
+    /// The line under a row's name under "Fertig bis": the start, and a
+    /// moon when a step falls into the night.
+    @ViewBuilder private func startLine(for row: Row) -> some View {
+        if let outcome = finishOutcome(of: row) {
+            HStack(spacing: 4) {
+                Image(systemName: "flag.checkered")
+                    .accessibilityHidden(true)
+                startText(for: outcome)
+                if outcome.hasNightSteps {
+                    Image(systemName: "moon.zzz")
+                        .accessibilityLabel("Schritte in der Nacht")
+                }
+            }
+            .font(Theme.bodyFont(12))
+            .foregroundColor(Theme.accentText)
+        }
+    }
+
+    /// The chosen finish as the chip and the sheet show it.
+    private func finishText(_ date: Date) -> String {
+        let locale = AppSettings.locale
+        if Calendar.current.isDateInToday(date) || Calendar.current.isDateInTomorrow(date) {
+            let time = TimeCalculation().calculateTime(t: date)
+            let day = Calendar.current.isDateInToday(date)
+                ? String(localized: "heute", locale: locale)
+                : String(localized: "morgen", locale: locale)
+            return "\(day) \(time)"
+        }
+        return date.formatted(Date.FormatStyle(date: .abbreviated, time: .shortened).weekday(.abbreviated).locale(locale))
     }
 
     private var isFiltering: Bool {
         !filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || rating > 0 || facetFilter.isActive
+            || rating > 0 || facetFilter.isActive || finishBy != nil
             || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes || !showVariantRecipes
     }
 
@@ -336,7 +412,7 @@ struct AllRecipesListView: View {
                             filterItems
                         } label: {
                             Label("Nach Bewertung filtern",
-                                  systemImage: rating > 0 || !showVariantRecipes || facetFilter.isActive ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                                  systemImage: rating > 0 || !showVariantRecipes || facetFilter.isActive || finishBy != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                         }
                         .accessibilityIdentifier("menu.ratingFilter")
                     }
@@ -460,6 +536,23 @@ struct AllRecipesListView: View {
     /// The facets, each a submenu with "Alle" first; a second divider and
     /// "Filter zurücksetzen" once anything is set.
     @ViewBuilder private var facetItems: some View {
+        // First, while anything is set: the reset and saving — at the top,
+        // because the menu grew past the screen on an iPhone and the reset
+        // at its end could only be reached by scrolling the menu.
+        if facetFilter.isActive || finishBy != nil {
+            Button("Filter zurücksetzen", role: .destructive) {
+                facetFilter = RecipeFacetFilter()
+                finishBy = nil
+            }
+            // Offered unless these facets are already a saved collection.
+            if facetFilter.isActive, savedCollections.collection(matching: facetFilter) == nil {
+                Button("Sammlung sichern", systemImage: "bookmark") {
+                    collectionName = ""
+                    isNamingCollection = true
+                }
+            }
+            Divider()
+        }
         Picker("Dauer", selection: $facetFilter.duration) {
             Text("Alle").tag(RecipeFacets.Duration?.none)
             Text("Unter 4 Stunden").tag(RecipeFacets.Duration?.some(.short))
@@ -514,19 +607,42 @@ struct AllRecipesListView: View {
         }
         .pickerStyle(.menu)
         Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
-        if facetFilter.isActive {
-            Divider()
-            // Offered unless these facets are already a saved collection.
-            if savedCollections.collection(matching: facetFilter) == nil {
-                Button("Sammlung sichern", systemImage: "bookmark") {
-                    collectionName = ""
-                    isNamingCollection = true
+        Button("Fertig bis …", systemImage: "flag.checkered") {
+            finishDraft = finishBy ?? FinishByPlanner.morningFinish(after: Date())
+            isPickingFinish = true
+        }
+    }
+
+    /// The sheet behind "Fertig bis …": date and time, taken over or lifted.
+    private var finishPicker: some View {
+        NavigationStack {
+            Form {
+                DatePicker("Fertig bis", selection: $finishDraft, in: Date()..., displayedComponents: [.date, .hourAndMinute])
+                Text("Die Liste zeigt nur Rezepte, die bis dahin fertig werden, und bei jedem, wann Du anfangen musst. Vorheizzeit, Tagesbeginn und Tagesende kommen aus den Einstellungen.")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+                if finishBy != nil {
+                    Button("Aufheben", role: .destructive) {
+                        finishBy = nil
+                        isPickingFinish = false
+                    }
                 }
             }
-            Button("Filter zurücksetzen", role: .destructive) {
-                facetFilter = RecipeFacetFilter()
+            .navigationTitle("Fertig bis")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") { isPickingFinish = false }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Übernehmen") {
+                        finishBy = finishDraft
+                        isPickingFinish = false
+                    }
+                }
             }
         }
+        .presentationDetents([.medium])
     }
 
     /// The preset collections as chips: each sets the facets that make it
@@ -534,10 +650,29 @@ struct AllRecipesListView: View {
     private var collectionChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
+                // The chosen finish, when there is one; a tap changes it.
+                if let finishBy {
+                    Button {
+                        finishDraft = finishBy
+                        isPickingFinish = true
+                    } label: {
+                        collectionChipLabel(Text("Fertig bis \(finishText(finishBy))"), systemImage: "flag.checkered", isOn: true)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("collection.finishBy")
+                }
                 ForEach(RecipeCollection.allCases) { collection in
                     let isOn = facetFilter == collection.filter
                     Button {
-                        facetFilter = isOn ? RecipeFacetFilter() : collection.filter
+                        if isOn {
+                            facetFilter = RecipeFacetFilter()
+                            if collection == .morning { finishBy = nil }
+                        } else {
+                            facetFilter = collection.filter
+                            // "Für morgen früh" is a time as well: tomorrow
+                            // morning, so the list shows when to start tonight.
+                            if collection == .morning { finishBy = FinishByPlanner.morningFinish(after: Date()) }
+                        }
                     } label: {
                         collectionChipLabel(Text(collection.title), systemImage: collection.systemImage, isOn: isOn)
                     }
@@ -572,6 +707,7 @@ struct AllRecipesListView: View {
             .padding(.horizontal, 12)
             .padding(.bottom, 8)
         }
+        .sheet(isPresented: $isPickingFinish) { finishPicker }
         .alert("Sammlung sichern", isPresented: $isNamingCollection) {
             TextField("Name der Sammlung", text: $collectionName)
             Button("Sichern") {
@@ -657,7 +793,8 @@ struct AllRecipesListView: View {
     }
 
     private func localRow(_ r: Recipe) -> some View {
-        ZStack {
+        let row = Row.local(r)
+        return ZStack {
             NavigationLink(destination: RecipePageView(recipe: r)) { EmptyView() }
                 .opacity(0)
                 .accessibilityHidden(true)
@@ -696,6 +833,8 @@ struct AllRecipesListView: View {
                         .font(Theme.bodyFont(12))
                         .foregroundColor(Theme.subtitle)
                         .multilineTextAlignment(.leading)
+
+                    startLine(for: row)
                 }
 
                 Spacer(minLength: 0)
@@ -714,6 +853,17 @@ struct AllRecipesListView: View {
             // name (its displayed name may be a translation by then).
             .accessibilityIdentifier("localRecipe.row.\(r.firestoreId.flatMap { $0.isEmpty ? nil : $0 } ?? r.reminderId)")
             .accessibilityLabel(Text("\(r.name), lokales Rezept, Bewertung \(r.rating) von 5 Sternen"))
+            .contextMenu {
+                // Under "Fertig bis": the plan sheet opens with the start the row names.
+                if let outcome = finishOutcome(of: row) {
+                    Button {
+                        GlobalVariables.dateTimePicker = outcome.start
+                        pushedDestination = .planRecipe(id: r.reminderId)
+                    } label: {
+                        Label { startText(for: outcome) } icon: { Image(systemName: "calendar.badge.clock") }
+                    }
+                }
+            }
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button(role: .destructive) {
@@ -726,7 +876,8 @@ struct AllRecipesListView: View {
     }
 
     private func cloudRow(_ r: RecipeFB) -> some View {
-        ZStack {
+        let row = Row.cloud(r)
+        return ZStack {
             NavigationLink(destination: PublicRecipePageView(recipeFB: r)) { EmptyView() }
                 .opacity(0)
                 .accessibilityHidden(true)
@@ -760,6 +911,8 @@ struct AllRecipesListView: View {
                         .font(Theme.bodyFont(12))
                         .foregroundColor(Theme.subtitle)
                         .multilineTextAlignment(.leading)
+
+                    startLine(for: row)
                 }
 
                 Spacer(minLength: 0)
