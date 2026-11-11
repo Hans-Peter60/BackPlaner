@@ -17,11 +17,22 @@ Stand: 11.11.2026. Erster Schritt auf dem Weg zu BakePlanner Pro als bezahltem U
 
 Im UI-Test lässt sich das Limit vortäuschen: Startargument `-UITestingMonetization freeImports:3` (siehe `Utilities/UITestSupport.swift`).
 
+## Stand und Vorbedingung (11.11.2026)
+
+**Der Schalter bleibt aus.** Einen Kauf „BakePlanner Pro“ gibt es in App Store Connect noch nicht: Dafür braucht Hans-Peter zuerst eine Gewerbeanmeldung und dann den Vertrag für bezahlte Apps bei Apple (App Store Connect → Vereinbarungen, Steuer und Bankverbindung: Steuerformulare, Bankkonto). Beides macht er erst, wenn die App ein paar Nutzer hat; bis dahin sind die Vertex-AI-Kosten bei wenigen Nutzern überschaubar. Ein Monatslimit ohne kaufbares Pro wäre eine Grenze ohne Ausweg, und der Hinweis „Mit BakePlanner Pro gibt es kein Monatslimit“ wäre falsch.
+
+Reihenfolge, wenn es so weit ist:
+
+1. Gewerbe anmelden (Kleinunternehmer reicht für den Anfang).
+2. App Store Connect → Vereinbarungen: Vertrag für bezahlte Apps annehmen, Steuer- und Bankdaten eintragen; Google Play braucht für Play Billing entsprechend ein Zahlungsprofil.
+3. In-App-Kauf `de.hpm64625.BackPlaner.pro` (Einmalkauf, nicht verbrauchbar) anlegen, Preis und Texte in de/en/fr, Prüf-Screenshot; mit der nächsten App-Version einreichen.
+4. Erst dann die Schritte unten.
+
 ## Einschalten (von Hand, Firebase Console)
 
 Vorher prüfen:
 
-1. **App Store Connect → BakePlanner → In-App-Käufe:** „BakePlanner Pro“ muss den Status *Bereit zum Verkauf* haben. Ist der Kauf noch nicht geprüft, muss er mit einer App-Version eingereicht werden (In-App-Kauf im Versionsformular anhängen). Ohne verkaufbaren Kauf darf das Limit nicht eingeschaltet werden – sonst gibt es eine Grenze ohne Ausweg.
+1. **App Store Connect → BakePlanner → In-App-Käufe:** „BakePlanner Pro“ muss den Status *Bereit zum Verkauf* haben. Ohne verkaufbaren Kauf darf das Limit nicht eingeschaltet werden – sonst gibt es eine Grenze ohne Ausweg.
 2. Die Functions mit der Android-Ausnahme und der `freeImports`-Antwort sind deployt: `cd functions && npm test && npm run deploy` (Rückfrage laut `CLAUDE.md`).
 3. Eine App-Version mit der Vorwarnung („Noch 2 …“) ist im Store – sonst sehen Nutzer erst beim Erreichen des Limits einen Hinweis. Die Grenze selbst funktioniert auch mit älteren Versionen (ab 2.2).
 
