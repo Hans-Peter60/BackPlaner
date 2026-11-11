@@ -868,6 +868,8 @@ Items that expire within the next 14 days or already have sit at the top under *
 - **Filter and collection:** the filter menu has the switch **From the pantry**, the chip row the collection of the same name: only recipes whose ingredients, at the stored amount, are completely there.
 - **After baking:** when you record a bake, the app asks **Deduct from the pantry?** and shows what comes off which item – with two bags of the same flour, from the one that expires first. "Don't deduct" leaves the pantry as it is.
 
+**Shelf life.** Under *Settings → Pantry → Reminder before expiry*, BakePlanner sends a notification 14 days before an item's best-before date, at 9 in the morning. The collection **Use up the pantry** in the chip row – also a switch in the filter menu – shows the recipes that use something of what expires soon or already has, the recipe using most first. Under each one stands what it uses up: "Uses 450 g Roggenmehl 1150, best before 20.11.2026".
+
 Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs to BakePlanner Pro.
 
 
@@ -936,6 +938,7 @@ The backup file stays under **5 MB** so that it passes through Mail, AirDrop and
 | **End of day** | Between start of day and 23. Default: 23. |
 | **Live Activity on the Lock Screen** | Shows the upcoming step as a Live Activity on the Lock Screen and in the Dynamic Island. Off ends a running one immediately. Default: on. |
 | **Alarms** | Off, Oven steps or All steps: which steps ring as an alarm beside their reminder, on silent and in a Focus as well (see [chapter 11](#11-reminders-on-the-lock-screen)). When you turn it on, iOS asks for permission once. Default: off. |
+| **Pantry → Reminder before expiry** | A notification 14 days before an item's best-before date, at 9 in the morning (see [chapter 13](#13-shopping-list)). When you turn it on, iOS asks for permission once. Pro. Default: off. |
 
 > **Note:** Only the two **preheat times** actually move steps. **Baking pause, ovens, start of day, and end of day** don't change the plan — the app checks it against them and warns you in the baking instructions when a step falls into your night's sleep or more bakes coincide than you have ovens (see [chapter 7](#7-baking-instructions-and-reminders)).
 
@@ -1294,7 +1297,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
-| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake) | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
+| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

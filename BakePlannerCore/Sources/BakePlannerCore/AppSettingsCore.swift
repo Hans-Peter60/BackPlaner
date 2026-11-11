@@ -24,6 +24,8 @@ public struct AppSettingsKeys {
     public static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
     public static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
     public static let liveActivity = "settings.liveActivity"
+    /// A notification two weeks before a pantry item's best-before date.
+    public static let pantryExpiryReminder = "settings.pantryExpiryReminder"
     public static let bakersPercentages = "settings.bakersPercentages"
     public static let bakeHistoryLayout = "settings.bakeHistoryLayout"
     public static let starterDoughYield = "settings.starterDoughYield"
@@ -157,6 +159,14 @@ public struct AppSettings {
 
     public static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity
+    }
+
+    /// Off until switched on: a notification is a promise the person
+    /// should make, not the app.
+    public static let defaultPantryExpiryReminder = false
+
+    public static var isPantryExpiryReminderEnabled: Bool {
+        UserDefaults.standard.object(forKey: AppSettingsKeys.pantryExpiryReminder) as? Bool ?? defaultPantryExpiryReminder
     }
 
     public static let defaultPreheatTime = 15

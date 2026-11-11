@@ -91,6 +91,22 @@ public enum Pantry {
         }
     }
 
+    /// The hour of the day a reminder arrives.
+    public static let reminderHour = 9
+
+    /// When to remind of an item: `warningDays` before its best-before
+    /// date at nine in the morning; nil without a date, or when that moment
+    /// has passed already.
+    public static func reminderDate(for item: StoredPantryItem, now: Date = Date(),
+                                    warningDays: Int = PantryShelfLife.warningDays,
+                                    calendar: Calendar = .current) -> Date? {
+        guard let bestBefore = item.bestBefore,
+              let day = calendar.date(byAdding: .day, value: -warningDays, to: calendar.startOfDay(for: bestBefore)),
+              let moment = calendar.date(bySettingHour: reminderHour, minute: 0, second: 0, of: day),
+              moment > now else { return nil }
+        return moment
+    }
+
     /// The items that run out soon or already have, soonest first.
     public static func needingAttention(_ items: [StoredPantryItem], now: Date = Date(),
                                         calendar: Calendar = .current) -> [StoredPantryItem] {

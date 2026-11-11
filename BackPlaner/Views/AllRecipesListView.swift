@@ -174,6 +174,9 @@ struct AllRecipesListView: View {
             let pantry = pantryItems.map(CoreDataPantryStore.stored)
             base = base.filter { row in PantryMatcher.check(content(of: row), scale: 1, pantry: pantry).isComplete }
         }
+        if facetFilter.useUpOnly {
+            base = base.filter { row in !useUp(of: row).isEmpty }
+        }
         if finishBy != nil {
             base = base.filter { finishOutcome(of: $0) != nil }
         }
@@ -187,6 +190,16 @@ struct AllRecipesListView: View {
             matched = base.filter { row in row.tags.contains { $0.localizedCaseInsensitiveContains(search) } }
         }
 
+        // Under "Vorrat aufbrauchen" the recipe that uses most of what runs
+        // out soon comes first.
+        if facetFilter.useUpOnly {
+            return matched.sorted { a, b in
+                let scoreA = PantryMatcher.useUpScore(useUp(of: a))
+                let scoreB = PantryMatcher.useUpScore(useUp(of: b))
+                if scoreA != scoreB { return scoreA > scoreB }
+                return a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+        }
         // Under "Fertig bis" the recipe that must start first comes first.
         if finishBy != nil {
             return matched.sorted { a, b in
@@ -197,6 +210,27 @@ struct AllRecipesListView: View {
             }
         }
         return matched.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
+    /// What of the soon-expiring pantry the row's recipe uses, most first.
+    private func useUp(of row: Row) -> [PantryUse] {
+        PantryMatcher.useUp(content(of: row), scale: 1, pantry: pantryItems.map(CoreDataPantryStore.stored))
+    }
+
+    /// The line under a row's name under "Vorrat aufbrauchen": the item it
+    /// uses most of, with its best-before date.
+    @ViewBuilder private func useUpLine(for row: Row) -> some View {
+        if facetFilter.useUpOnly, let use = useUp(of: row).first {
+            let amount = PantryMatcher.baseText(use.usedBase, counted: use.item.isCounted, locale: AppSettings.locale)
+            let day = (use.item.bestBefore ?? Date()).formatted(Date.FormatStyle(date: .numeric, time: .omitted).locale(AppSettings.locale))
+            Label {
+                Text("Verbraucht \(amount) \(use.item.name), haltbar bis \(day)")
+            } icon: {
+                Image(systemName: "clock.badge.exclamationmark")
+            }
+            .font(Theme.bodyFont(12))
+            .foregroundColor(Theme.warning)
+        }
     }
 
     /// Whether the row's recipe can still be finished by `finishBy`, and
@@ -640,6 +674,7 @@ struct AllRecipesListView: View {
         Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
         if Entitlements.shared.isUnlocked(.pantry) {
             Toggle("Aus dem Vorrat", isOn: $facetFilter.pantryOnly)
+            Toggle("Vorrat aufbrauchen", isOn: $facetFilter.useUpOnly)
         }
         Button("Fertig bis …", systemImage: "flag.checkered") {
             finishDraft = finishBy ?? FinishByPlanner.morningFinish(after: Date())
@@ -695,7 +730,7 @@ struct AllRecipesListView: View {
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("collection.finishBy")
                 }
-                ForEach(RecipeCollection.allCases.filter { $0 != .pantry || Entitlements.shared.isUnlocked(.pantry) }) { collection in
+                ForEach(RecipeCollection.allCases.filter { !RecipeCollection.pantryCollections.contains($0) || Entitlements.shared.isUnlocked(.pantry) }) { collection in
                     let isOn = facetFilter == collection.filter
                     Button {
                         if isOn {
@@ -869,6 +904,7 @@ struct AllRecipesListView: View {
                         .multilineTextAlignment(.leading)
 
                     startLine(for: row)
+                    useUpLine(for: row)
                 }
 
                 Spacer(minLength: 0)
@@ -947,6 +983,7 @@ struct AllRecipesListView: View {
                         .multilineTextAlignment(.leading)
 
                     startLine(for: row)
+                    useUpLine(for: row)
                 }
 
                 Spacer(minLength: 0)

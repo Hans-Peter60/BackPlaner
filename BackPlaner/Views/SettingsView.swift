@@ -15,6 +15,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
+    @AppStorage(AppSettingsKeys.pantryExpiryReminder) private var pantryExpiryReminder = AppSettings.defaultPantryExpiryReminder
     /// Which steps ring as an alarm, as AlarmStepScope's raw value.
     @AppStorage(AppSettingsKeys.alarmSteps) private var alarmScope = AppSettings.defaultAlarmScope.rawValue
     /// Set when iOS refused alarms for the app.
@@ -32,6 +33,7 @@ struct SettingsView: View {
     // `selectedLanguage` AppStorage, which races the app root's own copy of
     // it and can rebuild this view one step behind the environment change.
     @Environment(\.locale) private var locale
+    @Environment(\.managedObjectContext) private var viewContext
 
     @EnvironmentObject private var modelFB: RecipeFBModel
 
@@ -245,6 +247,24 @@ struct SettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+            }
+
+            Section {
+                // A Pro feature: locked, the row leads to the paywall.
+                ProGate(.pantry) {
+                    Toggle("Erinnerung vor Ablauf", isOn: $pantryExpiryReminder)
+                        .onChange(of: pantryExpiryReminder) { _, _ in
+                            PantryReminders.reconcile(in: viewContext)
+                        }
+                } label: {
+                    Text("Erinnerung vor Ablauf")
+                        .foregroundStyle(.primary)
+                    Spacer()
+                }
+            } header: {
+                Text("Vorrat")
+            } footer: {
+                Text("Eine Mitteilung 14 Tage vor der Mindesthaltbarkeit eines Postens, morgens um 9 Uhr.")
             }
 
             recipeAIPrivacySection

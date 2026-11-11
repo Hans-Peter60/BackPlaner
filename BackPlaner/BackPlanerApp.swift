@@ -168,6 +168,9 @@ struct BackPlanerApp: App {
                     RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
                 }
                 PlanSnapshotPublisher.shared.refresh()
+                // The pantry's expiry reminders follow the pantry, which
+                // another device may have changed meanwhile.
+                PantryReminders.reconcile(in: persistenceController.container.viewContext)
                 // The Siri phrases name each starter ("Roggensauer gefüttert"),
                 // so a starter added, renamed or given a rhythm while the app
                 // was open has to reach Siri's phrase list.
