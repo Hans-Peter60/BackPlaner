@@ -20,7 +20,9 @@ struct RecipeDetailView: View {
     // The description column's minimum stays well under a phone's width
     // less the two fixed columns, the card and the page padding: at 200 pt
     // the table ran past the right edge and cut "Dauer" to "Daue".
-    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .trailing)]
+    // Number and duration sit at the top of their row, level with the first
+    // line of a description that runs over several lines.
+    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .topLeading), GridItem(.flexible(minimum: 100), alignment: .topLeading), GridItem(scaledColumnSize(80), alignment: .topTrailing)]
 
     // At the accessibility text sizes the step table becomes a stacked list
     // and the "Verarbeitungsschritte" header no longer shares its row.
@@ -315,7 +317,6 @@ struct RecipeDetailView: View {
                                     }
                                 }
                             }
-                            .padding(.horizontal)
                         }
                         .font(Theme.bodyFont(16))
                         .padding([.bottom, .top], 5)

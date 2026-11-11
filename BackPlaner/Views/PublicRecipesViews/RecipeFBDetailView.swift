@@ -63,7 +63,9 @@ struct RecipeFBDetailView: View {
     // Error message shown when releasing a reported recipe fails.
     @State private var releaseErrorMessage: String?
 
-    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(80), alignment: .trailing)]
+    // Number and duration sit at the top of their row, level with the first
+    // line of a description that runs over several lines.
+    var gridItemLayout = [GridItem(scaledColumnSize(40), alignment: .topLeading), GridItem(.flexible(minimum: 100), alignment: .topLeading), GridItem(scaledColumnSize(80), alignment: .topTrailing)]
 
     // At the accessibility text sizes the step table becomes a stacked list
     // and the "Verarbeitungsschritte" header no longer shares its row.
