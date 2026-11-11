@@ -14,7 +14,7 @@ import Foundation
 public struct RecipeFacets: Equatable, Sendable {
 
     /// From start to the end of the bake.
-    public enum Duration: String, CaseIterable, Identifiable, Sendable {
+    public enum Duration: String, CaseIterable, Codable, Identifiable, Sendable {
         /// Under four hours.
         case short
         /// Four to twelve hours.
@@ -27,7 +27,7 @@ public struct RecipeFacets: Equatable, Sendable {
     }
 
     /// How the recipe sits in a day. A recipe can fit more than one.
-    public enum DayFlow: String, CaseIterable, Identifiable, Sendable {
+    public enum DayFlow: String, CaseIterable, Codable, Identifiable, Sendable {
         /// A rest of six hours or more, after which only shaping, the oven
         /// and the bake remain — within three hours of wall-clock time.
         case eveningToMorning
@@ -38,7 +38,7 @@ public struct RecipeFacets: Equatable, Sendable {
         public var id: Self { self }
     }
 
-    public enum Leavening: String, CaseIterable, Identifiable, Sendable {
+    public enum Leavening: String, CaseIterable, Codable, Identifiable, Sendable {
         case sourdough
         case lievitoMadre
         case yeast
@@ -48,7 +48,7 @@ public struct RecipeFacets: Equatable, Sendable {
         public var id: Self { self }
     }
 
-    public enum Equipment: String, CaseIterable, Identifiable, Sendable {
+    public enum Equipment: String, CaseIterable, Codable, Identifiable, Sendable {
         case bakingStone
         case loafTin
         case proofingBasket
@@ -56,7 +56,7 @@ public struct RecipeFacets: Equatable, Sendable {
         public var id: Self { self }
     }
 
-    public enum DoughYieldBand: String, CaseIterable, Identifiable, Sendable {
+    public enum DoughYieldBand: String, CaseIterable, Codable, Identifiable, Sendable {
         /// Under TA 165.
         case firm
         /// TA 165 to under 180.

@@ -263,6 +263,8 @@ Die App liest jedes Rezept aus seinen Zutaten und Schritten – Du musst nichts 
 
 Die fünf **Sammlungen** sind nichts anderes als gesetzte Facetten: „Für morgen früh“ ist der Tagesablauf „Abends ansetzen, morgens backen“, „Schnelles Brot“ ist „Fertig in 2 Stunden“, „Reiner Sauerteig“ das Triebmittel, „Lange nicht gebacken“ und „Lieblinge“ die Backhistorie. Öffnest Du nach einem Chip das Filtermenü, siehst Du die Facette dort gesetzt und kannst weitere dazunehmen – dann ist der Chip nicht mehr markiert, weil die Auswahl jetzt mehr ist als die Sammlung.
 
+**Eigene Sammlungen.** Eine Kombination, die Du öfter brauchst – etwa „Reiner Sauerteig“ mit „Topf“ und „Wenig Arbeit“ –, sicherst Du im Filtermenü mit **Sammlung sichern** unter einem Namen. Sie erscheint als Chip mit Lesezeichen hinter den fünf vorgegebenen und funktioniert wie diese. Langes Drücken auf den Chip bietet **Umbenennen** und **Löschen**. Die Sammlungen bleiben auf dem Gerät; sie enthalten nur die Facetten, nicht Suchtext oder Mindestbewertung.
+
 **Spotlight.** Deine eigenen Rezepte stehen auch in der iPhone-Suche: Wische auf dem Home-Bildschirm nach unten und tippe „Landbrot“, und BakePlanner öffnet das Rezept direkt. Gefunden wird nach Name, Tags und Beschreibung; der Index wird beim Start und bei jeder Änderung an Rezepten aufgefrischt.
 
 ### Rezept löschen
@@ -1270,7 +1272,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
-| Facetten und Sammlungen in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` schon im gemeinsamen Paket |
+| Facetten, vorgegebene und eigene Sammlungen in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
 ### Voraussetzungen

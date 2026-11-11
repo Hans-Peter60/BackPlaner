@@ -61,6 +61,12 @@ struct AllRecipesListView: View {
     /// What the recipe itself is like — duration, day flow, leavening, grain,
     /// dough yield, equipment, work — and what the history says about it.
     @State private var facetFilter = RecipeFacetFilter()
+    /// The collections the person saved from the facets; chips after the presets.
+    @State private var savedCollections = SavedRecipeCollectionStore()
+    /// "Als Sammlung sichern" asks for a name; "Umbenennen" on a saved chip too.
+    @State private var isNamingCollection = false
+    @State private var collectionName = ""
+    @State private var renamingCollection: SavedRecipeCollection?
     /// Facets read once per recipe; a recipe's facets change only when it is
     /// edited, and the list is rebuilt then anyway.
     @State private var facetCache: [Row.ID: RecipeFacets] = [:]
@@ -510,6 +516,13 @@ struct AllRecipesListView: View {
         Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
         if facetFilter.isActive {
             Divider()
+            // Offered unless these facets are already a saved collection.
+            if savedCollections.collection(matching: facetFilter) == nil {
+                Button("Sammlung sichern", systemImage: "bookmark") {
+                    collectionName = ""
+                    isNamingCollection = true
+                }
+            }
             Button("Filter zurücksetzen", role: .destructive) {
                 facetFilter = RecipeFacetFilter()
             }
@@ -526,22 +539,71 @@ struct AllRecipesListView: View {
                     Button {
                         facetFilter = isOn ? RecipeFacetFilter() : collection.filter
                     } label: {
-                        Label(collection.title, systemImage: collection.systemImage)
-                            .font(Theme.bodyFont(14))
-                            .lineLimit(1)
-                            .foregroundColor(isOn ? .white : Theme.subtitle)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 7)
-                            .background(Capsule().fill(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.card)))
+                        collectionChipLabel(Text(collection.title), systemImage: collection.systemImage, isOn: isOn)
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : [.isButton])
                     .accessibilityIdentifier("collection.\(collection.rawValue)")
                 }
+                // The person's own collections, after the presets; a long
+                // press renames or removes one.
+                ForEach(savedCollections.collections) { saved in
+                    let isOn = facetFilter == saved.filter
+                    Button {
+                        facetFilter = isOn ? RecipeFacetFilter() : saved.filter
+                    } label: {
+                        collectionChipLabel(Text(saved.name), systemImage: "bookmark", isOn: isOn)
+                    }
+                    .buttonStyle(.plain)
+                    .contextMenu {
+                        Button("Umbenennen", systemImage: "pencil") {
+                            collectionName = saved.name
+                            renamingCollection = saved
+                        }
+                        Button("Löschen", systemImage: "trash", role: .destructive) {
+                            if isOn { facetFilter = RecipeFacetFilter() }
+                            savedCollections.remove(saved.id)
+                        }
+                    }
+                    .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : [.isButton])
+                    .accessibilityIdentifier("collection.saved")
+                }
             }
             .padding(.horizontal, 12)
             .padding(.bottom, 8)
         }
+        .alert("Sammlung sichern", isPresented: $isNamingCollection) {
+            TextField("Name der Sammlung", text: $collectionName)
+            Button("Sichern") {
+                savedCollections.add(name: collectionName, filter: facetFilter)
+            }
+            Button("Abbrechen", role: .cancel) {}
+        } message: {
+            Text("Die gesetzten Facetten erscheinen unter diesem Namen als Chip über der Liste.")
+        }
+        .alert("Sammlung umbenennen", isPresented: Binding(
+            get: { renamingCollection != nil },
+            set: { if !$0 { renamingCollection = nil } }
+        )) {
+            TextField("Name der Sammlung", text: $collectionName)
+            Button("Sichern") {
+                if let renaming = renamingCollection {
+                    savedCollections.rename(renaming.id, to: collectionName)
+                }
+            }
+            Button("Abbrechen", role: .cancel) {}
+        }
+    }
+
+    /// The look every collection chip shares.
+    private func collectionChipLabel(_ title: Text, systemImage: String, isOn: Bool) -> some View {
+        Label { title } icon: { Image(systemName: systemImage) }
+            .font(Theme.bodyFont(14))
+            .lineLimit(1)
+            .foregroundColor(isOn ? .white : Theme.subtitle)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(Capsule().fill(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.card)))
     }
 
     // MARK: - Filter chips

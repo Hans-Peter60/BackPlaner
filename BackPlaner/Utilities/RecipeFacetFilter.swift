@@ -12,15 +12,15 @@ import BakePlannerCore
 import Foundation
 import SwiftUI
 
-struct RecipeFacetFilter: Equatable {
+struct RecipeFacetFilter: Equatable, Codable {
 
     /// The grain a recipe is mostly made of, or mostly whole grain.
-    enum Grain: String, CaseIterable, Identifiable {
+    enum Grain: String, CaseIterable, Codable, Identifiable {
         case wheat, rye, spelt, wholeGrain
         var id: Self { self }
     }
 
-    enum HistoryChoice: String, CaseIterable, Identifiable {
+    enum HistoryChoice: String, CaseIterable, Codable, Identifiable {
         /// Never baked.
         case never
         /// Not baked for `longAgoDays`, or never.
@@ -55,6 +55,27 @@ struct RecipeFacetFilter: Equatable {
     var equipment: RecipeFacets.Equipment?
     var history: HistoryChoice?
     var lowWorkOnly = false
+
+    init() {}
+
+    // Saved collections are stored as JSON; a facet this version does not
+    // know, or one missing from an older file, leaves the filter untouched
+    // instead of failing the whole list of collections.
+    private enum CodingKeys: String, CodingKey {
+        case duration, dayFlow, leavening, grain, doughYield, equipment, history, lowWorkOnly
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        duration = try? container.decodeIfPresent(RecipeFacets.Duration.self, forKey: .duration)
+        dayFlow = try? container.decodeIfPresent(RecipeFacets.DayFlow.self, forKey: .dayFlow)
+        leavening = try? container.decodeIfPresent(RecipeFacets.Leavening.self, forKey: .leavening)
+        grain = try? container.decodeIfPresent(Grain.self, forKey: .grain)
+        doughYield = try? container.decodeIfPresent(RecipeFacets.DoughYieldBand.self, forKey: .doughYield)
+        equipment = try? container.decodeIfPresent(RecipeFacets.Equipment.self, forKey: .equipment)
+        history = try? container.decodeIfPresent(HistoryChoice.self, forKey: .history)
+        lowWorkOnly = (try? container.decodeIfPresent(Bool.self, forKey: .lowWorkOnly)) ?? false
+    }
 
     var isActive: Bool {
         self != RecipeFacetFilter()
