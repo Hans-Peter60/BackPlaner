@@ -377,15 +377,25 @@ struct AllRecipesListView: View {
                 }
             }
             .fileImporter(isPresented: $isImportingRecipes, allowedContentTypes: [.json]) { result in
+                // The picker is still on its way out when this runs; an alert
+                // raised right now is dropped, so the outcome is shown once the
+                // picker has gone.
+                var count: Int?
+                var failure: String?
                 switch result {
                 case .success(let url):
                     do {
-                        importedRecipeCount = try RecipeImport.importRecipes(from: url, into: viewContext)
+                        count = try RecipeImport.importRecipes(from: url, into: viewContext)
                     } catch {
-                        importErrorMessage = error.localizedDescription
+                        failure = error.localizedDescription
                     }
                 case .failure(let error):
-                    importErrorMessage = error.localizedDescription
+                    failure = error.localizedDescription
+                }
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(600))
+                    importedRecipeCount = count
+                    importErrorMessage = failure
                 }
             }
             .alert("Import abgeschlossen", isPresented: Binding(
@@ -411,7 +421,9 @@ struct AllRecipesListView: View {
                         Menu {
                             filterItems
                         } label: {
-                            Label("Nach Bewertung filtern",
+                            // Rating, variants, facets and "Fertig bis" — no
+                            // longer the rating alone.
+                            Label("Rezepte filtern",
                                   systemImage: rating > 0 || !showVariantRecipes || facetFilter.isActive || finishBy != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                         }
                         .accessibilityIdentifier("menu.ratingFilter")
