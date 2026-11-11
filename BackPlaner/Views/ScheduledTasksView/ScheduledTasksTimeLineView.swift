@@ -114,6 +114,15 @@ struct ScheduledTasksTimeLineView: View {
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
     @State private var doneHaptic = false
+    @State private var deleteHaptic = false
+    /// "Zutaten anzeigen" from a step's long-press menu.
+    @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
+    /// "Nur „…“ löschen" from a lane's long-press menu, awaiting confirmation.
+    @State private var planToDelete: PlanKey?
+    // "Nur „…“ eintragen" from a lane's menu: the count, or the refusal.
+    @State private var calendarEntryCount = 0
+    @State private var showingCalendarResult = false
+    @State private var showingCalendarDenied = false
 
     /// Automatically-queued steps more than `RecurringBakePlanner.visibilityLeadTime`
     /// away are left out, so a periodic plan doesn't sit on the timeline for days.
@@ -155,27 +164,22 @@ struct ScheduledTasksTimeLineView: View {
                         PlanTimelineChart(lanes: lanes, scale: scale,
                                           axis: geo.size.height >= geo.size.width ? .vertical : .horizontal,
                                           recipeImage: fetchRecipeImage(name:),
+                                          ingredients: ingredients(stepID:),
                                           onDone: markDone(stepID:),
-                                          onShift: beginShifting(stepID:))
+                                          onShift: beginShifting(stepID:),
+                                          onIngredients: showIngredients(stepID:),
+                                          laneMenu: laneMenu(for:))
                     }
                 }
-                // The same kitchen view the list offers, as a round Liquid Glass
-                // button floating over the plan. The timeline has no filter,
-                // so the bake mode shows every planned step.
-                .safeAreaBar(edge: .bottom, alignment: .trailing) {
-                    Button {
-                        showingBakeMode = true
-                    } label: {
-                        Image(systemName: "oven.fill")
-                            .font(.title2.weight(.semibold))
-                            .frame(width: 56, height: 56)
-                    }
-                    .buttonStyle(.glassProminent)
-                    .tint(Theme.accentTop)
-                    .accessibilityLabel("Backmodus starten")
-                    .accessibilityIdentifier("timeline.bakeMode")
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
+                // The same bar as under the list: bake mode, delete, share.
+                // The timeline has no filter, so the bar acts on every plan;
+                // a single plan is reached through its lane's long-press menu.
+                .safeAreaBar(edge: .bottom) {
+                    PlanActionBar(planFilter: nil, steps: nextSteps,
+                                  ingredients: ingredients(for:), identifierPrefix: "timeline",
+                                  onBakeMode: { showingBakeMode = true },
+                                  onDelete: { _ in deleteSteps(of: nil) })
+                    .sensoryFeedback(.success, trigger: deleteHaptic)
                 }
             }
         }
@@ -205,6 +209,28 @@ struct ScheduledTasksTimeLineView: View {
         } message: {
             Text(shiftErrorMessage)
         }
+        .sheet(item: $ingredientsSelection) { selection in
+            ScheduledStepIngredientsSheet(
+                recipeName: selection.recipeName,
+                instruction: selection.instruction,
+                component: selection.component,
+                scale: selection.scale
+            )
+            .presentationDetents([.medium, .large])
+        }
+        .confirmationDialog("Geplante Schritte löschen?", isPresented: Binding(
+            get: { planToDelete != nil },
+            set: { if !$0 { planToDelete = nil } }
+        ), titleVisibility: .visible, presenting: planToDelete) { plan in
+            Button("Nur „\(plan.recipeName)“ löschen", role: .destructive) {
+                deleteSteps(of: plan)
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: { plan in
+            Text("Entferne nur die geplanten Schritte von „\(plan.recipeName)“ samt Erinnerungen – oder alle geplanten Schritte.")
+        }
+        .calendarExportAlerts(entryCount: calendarEntryCount,
+                              showingResult: $showingCalendarResult, showingDenied: $showingCalendarDenied)
         .sensoryFeedback(.success, trigger: doneHaptic)
     }
 
@@ -291,6 +317,81 @@ struct ScheduledTasksTimeLineView: View {
     func fetchRecipeImage(name: String) -> Data? {
         recipes.first { $0.name.contains(name) }?.image
     }
+
+    // MARK: Ingredients
+
+    /// The component a step mixes with its lines at the plan's amount, or nil.
+    private func ingredients(for step: NextStep) -> (name: String, lines: [String])? {
+        PlannedStepComponent.ingredients(for: step, recipes: recipes, publicRecipes: model.recipesFB)
+    }
+
+    private func ingredients(stepID: NSManagedObjectID) -> (name: String, lines: [String])? {
+        step(with: stepID).flatMap(ingredients(for:))
+    }
+
+    /// "Zutaten anzeigen": the same sheet the list's "i" opens.
+    private func showIngredients(stepID: NSManagedObjectID) {
+        guard let step = step(with: stepID),
+              let component = PlannedStepComponent.column(for: step, recipes: recipes, publicRecipes: model.recipesFB)
+        else { return }
+        ingredientsSelection = ScheduledStepIngredientsSelection(
+            id: step.objectID, recipeName: step.recipeName, instruction: step.instruction,
+            component: component, scale: step.effectiveServingScale)
+    }
+
+    // MARK: Whole plans
+
+    /// The commands for one plan, from a long press on its lane header:
+    /// what the list offers through its recipe filter.
+    private func laneMenu(for lane: PlanTimelineLane) -> AnyView {
+        let planSteps = nextSteps.filter { $0.planKey == lane.id }
+        return AnyView(Group {
+            ProGate(.pdfExport) {
+                FileShareLink(item: BakeDayPDFExport(sheet: PlannedStepExport.bakeDaySheet(steps: planSteps, ingredients: ingredients(for:))),
+                              preview: SharePreview(Text("Backtag-Zettel"), image: Image(systemName: "doc.richtext"))) {
+                    Label("Backtag-Zettel für „\(lane.recipeName)“ teilen", systemImage: "doc.richtext")
+                }
+            } label: {
+                Label("Backtag-Zettel für „\(lane.recipeName)“ teilen", systemImage: "doc.richtext")
+            }
+            Button {
+                exportToCalendar(plan: lane.id)
+            } label: {
+                Label("Nur „\(lane.recipeName)“ eintragen", systemImage: "calendar.badge.plus")
+            }
+            Button(role: .destructive) {
+                planToDelete = lane.id
+            } label: {
+                Label("Nur „\(lane.recipeName)“ löschen", systemImage: "trash")
+            }
+        })
+    }
+
+    /// Deletes the steps of `plan` — every plan for nil — with their reminders.
+    private func deleteSteps(of plan: PlanKey?) {
+        let stepsToDelete = plan == nil ? Array(allNextSteps) : allNextSteps.filter { $0.planKey == plan }
+        guard PlannedStepDeletion.delete(stepsToDelete, recipes: recipes, in: managedObjectContext) else { return }
+        deleteHaptic.toggle()
+        if plan == nil {
+            // Clearing the whole plan also drops reminders whose step was
+            // already gone — those cannot be matched individually any more.
+            NotificationActions.cancelAllReminders()
+        }
+    }
+
+    private func exportToCalendar(plan: PlanKey) {
+        let planSteps = nextSteps.filter { $0.planKey == plan }
+        Task { @MainActor in
+            do {
+                let count = try await PlannedStepExport.addToCalendar(planSteps)
+                guard count > 0 else { return }
+                calendarEntryCount = count
+                showingCalendarResult = true
+            } catch {
+                showingCalendarDenied = true
+            }
+        }
+    }
 }
 
 // MARK: - Chart
@@ -306,8 +407,13 @@ private struct PlanTimelineChart: View {
     let scale: PlanTimelineScale
     let axis: Axis
     let recipeImage: (String) -> Data?
+    /// The component a step mixes, for the menu and the preview card.
+    let ingredients: (NSManagedObjectID) -> (name: String, lines: [String])?
     let onDone: (NSManagedObjectID) -> Void
     let onShift: (NSManagedObjectID) -> Void
+    let onIngredients: (NSManagedObjectID) -> Void
+    /// The commands for a whole plan, shown on a long press on its header.
+    let laneMenu: (PlanTimelineLane) -> AnyView
 
     @Environment(\.locale) private var locale
 
@@ -555,6 +661,8 @@ private struct PlanTimelineChart: View {
         }
         .padding(.horizontal, 4)
         .accessibilityElement(children: .combine)
+        .contentShape(Rectangle())
+        .contextMenu { laneMenu(lane) }
     }
 
     @ViewBuilder private func laneContent(_ lane: PlanTimelineLane, crossOffset: CGFloat, crossLength: CGFloat) -> some View {
@@ -729,6 +837,13 @@ private struct PlanTimelineChart: View {
                 } label: {
                     Label("Verschieben", systemImage: "clock.arrow.circlepath")
                 }
+                if ingredients(stepID) != nil {
+                    Button {
+                        onIngredients(stepID)
+                    } label: {
+                        Label("Zutaten anzeigen", systemImage: "info.circle")
+                    }
+                }
             } preview: {
                 stepCard(anchor)
                     .frame(width: TimelineMetrics.tooltipWidth + 20)
@@ -791,6 +906,21 @@ private struct PlanTimelineChart: View {
                 .font(Theme.bodyFont(13))
                 .foregroundColor(Theme.cardTitle)
                 .fixedSize(horizontal: false, vertical: true)
+            // A mixing step brings the component's ingredients along, at
+            // the plan's amount, so nothing needs opening to weigh out.
+            if let stepID = entry.id.base as? NSManagedObjectID, let ingredients = ingredients(stepID) {
+                Text("Zutaten für „\(ingredients.name)“")
+                    .font(Theme.brandFont(12))
+                    .foregroundColor(Theme.subtitle)
+                    .padding(.top, 4)
+                ForEach(Array(ingredients.lines.enumerated()), id: \.offset) { _, line in
+                    // The lines bring their own bullet.
+                    Text(verbatim: line)
+                        .font(Theme.bodyFont(12))
+                        .foregroundColor(Theme.cardTitle)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
         }
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -899,8 +1029,11 @@ private enum TimelinePreviewData {
                       scale: TimelinePreviewData.scale(pointsPerMinute: 1),
                       axis: .vertical,
                       recipeImage: { _ in nil },
+                      ingredients: { _ in nil },
                       onDone: { _ in },
-                      onShift: { _ in })
+                      onShift: { _ in },
+                      onIngredients: { _ in },
+                      laneMenu: { _ in AnyView(EmptyView()) })
         .warmBackground()
 }
 
@@ -909,8 +1042,11 @@ private enum TimelinePreviewData {
                       scale: TimelinePreviewData.scale(pointsPerMinute: 0.5),
                       axis: .vertical,
                       recipeImage: { _ in nil },
+                      ingredients: { _ in nil },
                       onDone: { _ in },
-                      onShift: { _ in })
+                      onShift: { _ in },
+                      onIngredients: { _ in },
+                      laneMenu: { _ in AnyView(EmptyView()) })
         .warmBackground()
 }
 
@@ -919,8 +1055,11 @@ private enum TimelinePreviewData {
                       scale: TimelinePreviewData.scale(pointsPerMinute: 1),
                       axis: .horizontal,
                       recipeImage: { _ in nil },
+                      ingredients: { _ in nil },
                       onDone: { _ in },
-                      onShift: { _ in })
+                      onShift: { _ in },
+                      onIngredients: { _ in },
+                      laneMenu: { _ in AnyView(EmptyView()) })
         .warmBackground()
 }
 

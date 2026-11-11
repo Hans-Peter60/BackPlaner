@@ -24,8 +24,10 @@ extension Component {
 
     public var ingredientsArray: [Ingredient] {
         let set = ingredients as? Set<Ingredient> ?? []
+        // Ingredients sharing a number (older recipes) keep a fixed order
+        // too; a Set alone would hand them out differently each time.
         return set.sorted {
-            $0.number < $1.number
+            ($0.number, $0.name) < ($1.number, $1.name)
         }
     }
 }

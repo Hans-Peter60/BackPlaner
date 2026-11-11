@@ -45,7 +45,6 @@ struct ScheduledTasksView: View {
         self.nextStepsRequest = FetchRequest(entity: NextStep.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     }
 
-    @State private var confirmationShown = false
     @State private var dateTime          = GlobalVariables.dateTimePicker
     @State private var deleteHaptic      = false
     @State private var doneHaptic        = false
@@ -57,13 +56,6 @@ struct ScheduledTasksView: View {
 
     /// The plan the list is narrowed down to; `nil` shows every planned step.
     @State private var planFilter: PlanKey?
-
-    // "In Kalender eintragen": the choice of plan, the count afterwards, or
-    // the refusal.
-    @State private var calendarChoiceShown = false
-    @State private var calendarEntryCount = 0
-    @State private var showingCalendarResult = false
-    @State private var showingCalendarDenied = false
 
     /// `nextSteps` with automatically-queued steps left out while they're
     /// more than `RecurringBakePlanner.visibilityLeadTime` away, so a
@@ -337,7 +329,11 @@ struct ScheduledTasksView: View {
         // Bake mode and delete float over the bottom edge in Liquid Glass;
         // the step cards scroll underneath them.
         .safeAreaBar(edge: .bottom) {
-            planActionBar
+            PlanActionBar(planFilter: planFilter, steps: visibleNextSteps,
+                          ingredients: ingredients(for:), identifierPrefix: "scheduled",
+                          onBakeMode: { showingBakeMode = true },
+                          onDelete: deleteNextSteps(of:))
+            .sensoryFeedback(.success, trigger: deleteHaptic)
         }
         }
         }
@@ -446,135 +442,6 @@ struct ScheduledTasksView: View {
         .padding(.top, 8)
     }
 
-    /// The glass bar at the foot of the list: the kitchen view of the plan —
-    /// one step at a time in large type, respecting the recipe filter — and
-    /// the delete button beside it. One container, so the two shapes are
-    /// rendered together and blend when they come close.
-    private var planActionBar: some View {
-        GlassEffectContainer(spacing: 12) {
-            HStack(spacing: 12) {
-                Button {
-                    showingBakeMode = true
-                } label: {
-                    Label("Backmodus starten", systemImage: "oven.fill")
-                        .font(Theme.brandFont(16))
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.accentTop)
-                .accessibilityIdentifier("scheduled.bakeMode")
-
-                Button {
-                    confirmationShown = true
-                } label: {
-                    Image(systemName: "trash")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(Theme.danger)
-                        .frame(width: 44, height: 44)
-                }
-                .buttonStyle(.glass)
-                .accessibilityLabel("Geplante Schritte löschen")
-                .confirmationDialog("Geplante Schritte löschen?", isPresented: $confirmationShown, titleVisibility: .visible) {
-                    // With an active filter the user can restrict the deletion to
-                    // the selected recipe instead of clearing the whole plan.
-                    if let planFilter {
-                        Button("Nur „\(planFilter.recipeName)“ löschen", role: .destructive) {
-                            deleteNextSteps(of: planFilter)
-                        }
-                    }
-                    Button("Alle löschen", role: .destructive) {
-                        deleteNextSteps(of: nil)
-                    }
-                    Button("Abbrechen", role: .cancel) { }
-                } message: {
-                    if let planFilter {
-                        Text("Entferne nur die geplanten Schritte von „\(planFilter.recipeName)“ samt Erinnerungen – oder alle geplanten Schritte.")
-                    } else {
-                        Text("Dies entfernt alle geplanten Schritte und die zugehörigen Erinnerungen.")
-                    }
-                }
-                .sensoryFeedback(.success, trigger: deleteHaptic)
-
-                // The plan's steps into the calendar, so the household sees
-                // when the oven is taken.
-                Menu {
-                    // The steps day by day as a PDF for the kitchen wall —
-                    // a Pro feature like the recipe PDF.
-                    ProGate(.pdfExport) {
-                        FileShareLink(item: BakeDayPDFExport(sheet: bakeDaySheet),
-                                      preview: SharePreview(Text("Backtag-Zettel"), image: Image(systemName: "doc.richtext"))) {
-                            Label("Backtag-Zettel teilen", systemImage: "doc.richtext")
-                        }
-                    } label: {
-                        Label("Backtag-Zettel teilen", systemImage: "doc.richtext")
-                    }
-                    Button {
-                        calendarChoiceShown = true
-                    } label: {
-                        Label("In Kalender eintragen", systemImage: "calendar.badge.plus")
-                    }
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(Theme.accentText)
-                        .frame(width: 44, height: 44)
-                }
-                .buttonStyle(.glass)
-                .accessibilityLabel("Teilen und eintragen")
-                .accessibilityIdentifier("scheduled.share")
-                .confirmationDialog("In Kalender eintragen?", isPresented: $calendarChoiceShown, titleVisibility: .visible) {
-                    if let planFilter {
-                        Button("Nur „\(planFilter.recipeName)“ eintragen") {
-                            exportToCalendar(plan: planFilter)
-                        }
-                    }
-                    Button("Alle Pläne eintragen") {
-                        exportToCalendar(plan: nil)
-                    }
-                    Button("Abbrechen", role: .cancel) { }
-                } message: {
-                    Text("Jeder geplante Schritt wird ein Termin in Deinem Standardkalender. Ein erneutes Eintragen legt neue Termine an.")
-                }
-                .alert("In den Kalender eingetragen", isPresented: $showingCalendarResult) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text("\(calendarEntryCount) Termine angelegt.")
-                }
-                .alert("Kein Zugriff auf den Kalender", isPresented: $showingCalendarDenied) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text("BakePlanner darf keine Termine anlegen. Das lässt sich in den iOS-Einstellungen unter BakePlanner ändern.")
-                }
-            }
-        }
-        .padding(.horizontal, 12)
-        .padding(.bottom, 8)
-    }
-
-    /// The Backtag-Zettel of the steps on screen: the filtered plan, or all.
-    private var bakeDaySheet: BakeDaySheet {
-        BakeDaySheet(steps: visibleSteps.map { ScheduledStepData($0) }, ingredients: { step in
-            guard let nextStep = visibleSteps.first(where: { $0.id == step.id }),
-                  let component = component(for: nextStep) else { return nil }
-            return (component.name, BakeModeText.ingredientLines(of: component, scale: step.effectiveServingScale))
-        })
-    }
-
-    /// The steps of `plan` — every plan for nil — as calendar entries.
-    private func exportToCalendar(plan: PlanKey?) {
-        let steps = plan == nil ? Array(nextSteps) : nextSteps.filter { $0.planKey == plan }
-        let entries = PlanCalendarEntry.entries(for: steps.map { ScheduledStepData($0) })
-        guard !entries.isEmpty else { return }
-        Task { @MainActor in
-            do {
-                calendarEntryCount = try await CalendarExport.add(entries)
-                showingCalendarResult = true
-            } catch {
-                showingCalendarDenied = true
-            }
-        }
-    }
-
     /// Horizontal chips to narrow the list down to a single planned recipe.
     /// Deliberately part of the view instead of the navigation bar: this screen
     /// lives inside a `TabView`, where toolbars of the tab children stay hidden.
@@ -660,26 +527,13 @@ struct ScheduledTasksView: View {
 
     /// The component a planned step mixes, with its ingredients — or `nil` for
     /// every other step.
-    ///
-    /// A planned step stores neither its instruction nor its component, only
-    /// the recipe name and the step number. A public recipe and the user's
-    /// own copy share that name; PlannedStepSource tells which one the step
-    /// came from.
     private func component(for nextStep: NextStep) -> ComponentColumn? {
-        let recipeFB = model.recipesFB.first { $0.name == nextStep.recipeName }
-        let recipe = recipes.first { $0.name == nextStep.recipeName }
-        switch PlannedStepSource.source(
-            ofStep: nextStep.step, instruction: nextStep.instruction,
-            publicSteps: recipeFB?.instructions.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) },
-            ownSteps: recipe?.instructionsArray.map { PlannedStepSource.Step(step: $0.step, instruction: $0.instruction) }
-        ) {
-        case .publicRecipe:
-            return recipeFB.flatMap { ScheduledStepComponent.column(for: $0, step: nextStep.step, instructionText: nextStep.instruction) }
-        case .ownRecipe:
-            return recipe.flatMap { ScheduledStepComponent.column(for: $0, step: nextStep.step, instructionText: nextStep.instruction) }
-        case nil:
-            return nil
-        }
+        PlannedStepComponent.column(for: nextStep, recipes: recipes, publicRecipes: model.recipesFB)
+    }
+
+    /// The same as lines at the plan's amount, for the Backtag-Zettel.
+    private func ingredients(for nextStep: NextStep) -> (name: String, lines: [String])? {
+        PlannedStepComponent.ingredients(for: nextStep, recipes: recipes, publicRecipes: model.recipesFB)
     }
 
     /// Opens the shift sheet for the step the widget named, once its steps
@@ -740,31 +594,8 @@ struct ScheduledTasksView: View {
             ? Array(nextSteps)
             : nextSteps.filter { $0.planKey == plan }
 
-        guard !stepsToDelete.isEmpty else { return }
-
-        // Reminders are matched by instruction and date, so this has to run
-        // while the steps still exist.
-        NotificationActions.cancelPendingNotifications(for: stepsToDelete)
-
-        let recipeNames = Set(stepsToDelete.map(\.recipeName))
-        do {
-            for nextStep in stepsToDelete {
-                managedObjectContext.delete(nextStep)
-            }
-            try managedObjectContext.save()
-            deleteHaptic.toggle()
-        } catch {
-            managedObjectContext.rollback()
-            AppLog.persistence.error("Could not delete next steps")
-            return
-        }
-
-        // A recipe without any plan left loses the history entries its plans
-        // wrote, unless someone has written into them.
-        let steps = CoreDataScheduledStepStore(context: managedObjectContext)
-        for recipe in recipes where recipeNames.contains(recipe.name) && !steps.hasSteps(recipeName: recipe.name) {
-            BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: managedObjectContext)
-        }
+        guard PlannedStepDeletion.delete(stepsToDelete, recipes: recipes, in: managedObjectContext) else { return }
+        deleteHaptic.toggle()
 
         if plan == nil {
             // Clearing the whole plan also drops reminders whose step was
@@ -819,7 +650,7 @@ struct ScheduledStepShiftSelection: Identifiable {
     let date: Date
 }
 
-private struct ScheduledStepIngredientsSelection: Identifiable {
+struct ScheduledStepIngredientsSelection: Identifiable {
     let id: NSManagedObjectID
     let recipeName: String
     let instruction: String
@@ -829,7 +660,7 @@ private struct ScheduledStepIngredientsSelection: Identifiable {
 
 /// The ingredients of the component a planned mixing step prepares, so they
 /// can be weighed out straight from the plan without opening the recipe.
-private struct ScheduledStepIngredientsSheet: View {
+struct ScheduledStepIngredientsSheet: View {
 
     @Environment(\.dismiss) private var dismiss
 

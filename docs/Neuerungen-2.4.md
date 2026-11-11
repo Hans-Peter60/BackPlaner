@@ -14,6 +14,7 @@ MAC
 • „Sichern“ im Teilen-Menü funktioniert beim Export von Rezepten, Rezept-PDFs und dem Backtag-Zettel – bisher stürzte die App dabei ab.
 
 KLEINERES
+• Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
 • Die Einstellungen enthalten nur noch Einstellungen. „Rezepte importieren“ (bisher „Aus Sicherung wiederherstellen“) steht jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android. „Alle eigenen Rezepte sichern“ entfällt: „Rezepte exportieren“ mit „Alle auswählen“ und eingeschalteter Backhistorie ist dieselbe Sicherung – und bleibt frei.
 • Die Sicherungsdatei beim Export von Rezepten bleibt unter 5 MB: Wird sie mit den Bildern größer, verkleinert die App Rezeptbilder und Fotos der Backhistorie beim Schreiben – nur so weit wie nötig. Bisher kamen bei vielen Rezepten Dateien von 47 MB heraus.
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
@@ -34,6 +35,7 @@ MAC
 • “Save” in the share menu works when exporting recipes, recipe PDFs and the baking day sheet – the app used to crash there.
 
 SMALLER THINGS
+• The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
 • The backup file from exporting recipes stays under 5 MB: should it grow larger with the pictures, the app shrinks the recipe pictures and baking-history photos as it writes – only as far as needed. With many recipes, files of 47 MB used to come out.
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
@@ -54,6 +56,7 @@ MAC
 • « Enregistrer » dans le menu de partage fonctionne pour l’export des recettes, des PDF de recette et de la feuille de la journée de cuisson – l’app plantait jusque-là.
 
 PLUS PETIT
+• La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».
 • Les réglages ne contiennent plus que des réglages. « Importer des recettes » (auparavant « Restaurer depuis une sauvegarde ») se trouve désormais dans le menu « Plus » de la liste des recettes, à côté de « Exporter des recettes » – comme sur Android. « Sauvegarder toutes mes recettes » disparaît : « Exporter des recettes » avec « Tout sélectionner » et l’historique de cuisson activé est la même sauvegarde – et reste gratuit.
 • Le fichier de sauvegarde de l’export des recettes reste sous 5 Mo : s’il devait grossir avec les images, l’app réduit les images des recettes et les photos de l’historique de cuisson en l’écrivant – seulement autant que nécessaire. Avec beaucoup de recettes, on obtenait jusque-là des fichiers de 47 Mo.
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
