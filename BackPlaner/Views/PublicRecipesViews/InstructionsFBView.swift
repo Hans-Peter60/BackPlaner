@@ -101,7 +101,7 @@ struct InstructionsFBView: View {
     @State private var referenceDurations: [Int] = []
 
     // Narrow the step ("S."), duration and start columns so the description column stays as wide as possible.
-    var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(90), alignment: .trailing)]
+    var gridItemLayoutInstructions = [GridItem(scaledColumnSize(40), alignment: .topLeading), GridItem(.flexible(minimum: 100), alignment: .topLeading), GridItem(scaledColumnSize(60), alignment: .topTrailing), GridItem(scaledColumnSize(90), alignment: .topTrailing)]
 
     let dateRange: ClosedRange<Date> = GlobalVariables.planningDateRange()
     
