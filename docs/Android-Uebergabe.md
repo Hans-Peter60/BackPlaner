@@ -298,6 +298,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Einkaufsliste | „An Erinnerungen senden“ | eigener Schritt, nicht begonnen |
 | Import aus Fotos | Texterkennung auf dem Gerät („Nur auf diesem Gerät“) | nicht geplant; nur Cloud-KI |
 | Backhistorie | „Statistik“ (iPhone 11.11.2026, Logik `BakeStatistics` im Paket; Android braucht Diagramme ohne Swift Charts – SkipUI hat keine, also eigene Balken aus Rechtecken oder ein Kotlin-Modul) | eigener Schritt |
+| Rezeptliste | Facetten im Filtermenü und die fünf Sammlungs-Chips (iPhone 11.11.2026, Logik `RecipeFacets` im Paket; auf Android fehlen die `RecipeFacetFilter`-Entsprechung aus `BackPlaner/Utilities` und die Menüs) | eigener Schritt |
 | Neues Rezept | „Rezept nach Bäckerprozent anlegen“ (iPhone 11.11.2026, Logik `BakersFormula` im Paket; auf Android fehlt nur das Formular, Ziel `RecipeEditor(template:)` über `RecipeExportData(recipeFB:imageData:)`) | eigener Schritt, nächster Kandidat |
 
 Für Nutzer steht das in Kapitel 19 des Benutzerhandbuchs („BakePlanner auf Android“, de/en/fr); die Android-App verlinkt direkt dorthin (`HelpLinks.manualAndroidChapter`). Wer eine Lücke schließt, streicht sie dort in allen drei Sprachen.

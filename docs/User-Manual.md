@@ -127,7 +127,7 @@ At the top right of the **Recipes** tab sit three buttons:
 
 | Button | Purpose |
 |--------|---------|
-| **Filter** | The minimum rating for the list |
+| **Filter** | The minimum rating, variants and the facets (duration, day flow, leavening, flour, dough yield, equipment, baking history) for the list |
 | **More (⋯)** | The four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), the backup — **Import recipes** (read a backup file or a single exported recipe) and **Export recipes** (your own recipes as a file, all or a selection), see [chapter 14](#14-settings) — and the **Settings** (language, defaults, baking plan, account) |
 | **+** | **Create new recipe** — from scratch or imported from photos, a web page, or copied text |
 
@@ -166,7 +166,8 @@ A symbol before each name shows the source: an iPhone for recipes on the device,
 - **Search field** at the top: searches recipe names.
 - **Switch the search scope**: below the search field you can choose between **Name** and **Tags**. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).
 - **Filter chips** below the search field: **Local** (recipes on the device), **Published by me** (your own recipes in the database) and **Public** (the recipes of other users). Each chip switches its source on or off on its own; a public recipe always belongs to exactly one of the two cloud chips.
-- **Filter symbol** at the top right: minimum rating (All ratings, 1–5 stars and up). While the filter is active, the symbol is shown filled.
+- **Collections** in the second chip row: **For tomorrow morning**, **Quick bread**, **Pure sourdough**, **Not baked for a while** and **Favourites** – each sets a ready-made combination of the facets (see below). A second tap clears it again.
+- **Filter symbol** at the top right: minimum rating (All ratings, 1–5 stars and up), variants and the facets. While a filter is active, the symbol is shown filled.
 - **Pull down** to refresh the list from the cloud.
 
 "No recipes loaded" means there was no internet connection at launch — pull the list down once. "No matching recipes" means a filter is active.
@@ -244,9 +245,26 @@ Where only your own recipes come into question — the empty screens of the shop
 ### Searching and filtering
 
 - **Search field** with a **Name / Tags** switch.
-- **Filter symbol** at the top right: pick a minimum rating (All ratings, 1–5 stars and up). While a filter is active, the symbol is shown filled.
+- **Filter symbol** at the top right: pick a minimum rating (All ratings, 1–5 stars and up), show or hide variants and set the **facets**. While a filter is active, the symbol is shown filled; **Reset filters** clears all facets at once.
 
-The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search and rating filters can be combined.
+The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search, rating and facets can be combined; what matches all of them stays.
+
+#### Facets
+
+The app reads each recipe from its ingredients and steps – there is nothing to enter. Each facet has a submenu:
+
+| Facet | Choices | How the app knows |
+|-------|---------|-------------------|
+| **Duration** | Under 4 hours, 4 to 12 hours, Overnight, Several days | Total time of the steps from the first to the last |
+| **Day flow** | Start in the evening, bake in the morning; Start in the morning, bake in the evening; Done in 2 hours | If the last long rest (6 hours or more, such as the proof in the fridge) leaves at most 3 hours afterwards, "Start in the evening, bake in the morning" fits – in the morning the bread only needs shaping and baking. "Start in the morning, bake in the evening" are recipes up to 10 hours without such a rest; "Done in 2 hours" up to 2 hours. |
+| **Leavening** | Pure sourdough, Yeast, Sourdough and yeast | Ingredients and component names: sourdough, starter, levain, lievito madre, yeast, poolish, biga … |
+| **Flour** | Mostly wheat, rye, spelt or wholemeal | The flour with the largest share; wholemeal from half the flour |
+| **Dough yield** | Firm (under DY 165), Medium (DY 165 to 180), Soft (from DY 180) | The dough yield of the whole recipe, see [chapter 15](#15-units-amounts-and-serving-sizes) |
+| **Equipment** | Baking stone, Loaf tin, Proofing basket, Pot | The wording of the steps ("bake in the pot", "into the loaf tin", "into the basket", preheating with a stone) |
+| **Baking history** | Never baked, Not baked for a while (over 90 days), Favourites (baked at least twice and 4 stars) | Your baking history – own recipes only |
+| **Little work** | Switch | At most 45 minutes of hands-on time, everything else is rest and oven |
+
+The five **collections** are nothing but facets that have been set: "For tomorrow morning" is the day flow "Start in the evening, bake in the morning", "Quick bread" is "Done in 2 hours", "Pure sourdough" is the leavening, "Not baked for a while" and "Favourites" are the baking history. If you open the filter menu after tapping a chip, you see the facet set there and can add more – the chip is then no longer marked, because the selection is now more than the collection.
 
 **Spotlight.** Your own recipes are in the iPhone's search as well: swipe down on the Home Screen, type "Landbrot", and BakePlanner opens the recipe directly. They are found by name, tags and description; the index is refreshed at launch and whenever a recipe changes.
 
@@ -1255,6 +1273,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
+| Facets and collections in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 
 ### Requirements

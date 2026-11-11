@@ -127,7 +127,7 @@ En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
 
 | Bouton | Rôle |
 |--------|------|
-| **Filtre** | La note minimale pour la liste |
+| **Filtre** | La note minimale, les variantes et les facettes (durée, déroulement de la journée, agent levant, farine, taux d’hydratation, matériel, historique de cuisson) pour la liste |
 | **Plus (⋯)** | Les quatre calculateurs du boulanger **Température de la pâte** (la température de l’eau de coulage pour une température de pâte souhaitée), **Remplacer la farine** (changer de farine, ajuster l’eau), **TA du levain chef** (utiliser un levain chef d’un autre rendement de pâte, ajuster l’eau) et **Poids de pâte** (la pâte qu’un moule à cake ou un banneton accepte), la sauvegarde — **Importer des recettes** (lire un fichier de sauvegarde ou une recette exportée seule) et **Exporter des recettes** (vos propres recettes dans un fichier, toutes ou une sélection), voir [chapitre 14](#14-réglages) — ainsi que les **Réglages** (langue, valeurs par défaut, planification, compte) |
 | **+** | **Créer une nouvelle recette** — de zéro ou importée depuis des photos, une page web ou un texte copié |
 
@@ -166,7 +166,8 @@ Un symbole devant chaque nom indique la source : un iPhone pour les recettes sur
 - **Champ de recherche** en haut : recherche dans les noms de recettes.
 - **Changer le périmètre de recherche** : sous le champ, vous pouvez choisir entre **Nom** et **Tags**. Avec « Tags », la recherche porte sur les mots-clés (« seigle », « complet », « levain », par exemple).
 - **Puces de filtre** sous le champ de recherche : **Local** (recettes sur l’appareil), **Publiées par moi** (vos propres recettes dans la base) et **Public** (les recettes des autres utilisateurs). Chaque puce active ou désactive sa source séparément ; une recette publique relève toujours d’exactement une des deux puces cloud.
-- **Icône de filtre** en haut à droite : note minimale (toutes les notes, 1 à 5 étoiles et plus). Lorsqu’un filtre est actif, l’icône est affichée pleine.
+- **Collections** dans la deuxième rangée de puces : **Pour demain matin**, **Pain rapide**, **Pur levain**, **Pas cuit depuis longtemps** et **Favoris** – chacune règle une combinaison prête des facettes (voir plus bas). Un second appui l’annule.
+- **Icône de filtre** en haut à droite : note minimale (toutes les notes, 1 à 5 étoiles et plus), variantes et facettes. Lorsqu’un filtre est actif, l’icône est affichée pleine.
 - **Tirer vers le bas** actualise la liste depuis le cloud.
 
 Si « Aucune recette chargée » s’affiche, c’est qu’il n’y avait pas de connexion internet au lancement — tirez la liste vers le bas une fois. Si vous lisez « Aucune recette correspondante », c’est qu’un filtre est actif.
@@ -244,9 +245,26 @@ Là où seules vos propres recettes entrent en ligne de compte — les écrans v
 ### Rechercher et filtrer
 
 - **Champ de recherche** avec commutation **Nom / Tags**.
-- **Icône de filtre** en haut à droite : choisir une note minimale (toutes les notes, 1 à 5 étoiles et plus). Lorsqu’un filtre est actif, l’icône est affichée pleine.
+- **Icône de filtre** en haut à droite : choisir une note minimale (toutes les notes, 1 à 5 étoiles et plus), afficher ou masquer les variantes et régler les **facettes**. Lorsqu’un filtre est actif, l’icône est affichée pleine ; **Réinitialiser les filtres** annule toutes les facettes d’un coup.
 
-La recherche ignore les majuscules et trouve aussi des fragments de mots : « seigle » trouve « Pain de seigle », et pour les tags une partie du mot-clé suffit. Les filtres de recherche et de note se combinent.
+La recherche ignore les majuscules et trouve aussi des fragments de mots : « seigle » trouve « Pain de seigle », et pour les tags une partie du mot-clé suffit. Recherche, note et facettes se combinent ; reste ce qui correspond à tout.
+
+#### Facettes
+
+L’app lit chaque recette dans ses ingrédients et ses étapes – rien à saisir. Chaque facette a un sous-menu :
+
+| Facette | Choix | Comment l’app le sait |
+|---------|-------|-----------------------|
+| **Durée** | Moins de 4 heures, 4 à 12 heures, Sur la nuit, Plusieurs jours | Durée totale des étapes de la première à la dernière |
+| **Déroulement** | Lancer le soir, cuire le matin ; Lancer le matin, cuire le soir ; Prêt en 2 heures | Si le dernier long repos (6 heures ou plus, comme l’apprêt au réfrigérateur) ne laisse ensuite que 3 heures au plus, « Lancer le soir, cuire le matin » convient – le matin, il ne reste qu’à façonner et cuire. « Lancer le matin, cuire le soir » : recettes jusqu’à 10 heures sans un tel repos ; « Prêt en 2 heures » : jusqu’à 2 heures. |
+| **Agent levant** | Pur levain, Levure, Levain et levure | Ingrédients et noms des composants : levain, levain chef, lievito madre, levure, poolish, biga… |
+| **Farine** | Surtout blé, seigle, épeautre ou complet | La farine la plus présente ; complet à partir de la moitié de la farine |
+| **Taux d’hydratation** | Ferme (TH sous 165), Moyen (TH 165 à 180), Souple (TH à partir de 180) | Le TH de toute la recette, voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion) |
+| **Matériel** | Pierre de cuisson, Moule à cake, Banneton, Cocotte | Le texte des étapes (« cuire en cocotte », « dans le moule », « au banneton », préchauffage avec pierre) |
+| **Historique** | Jamais cuit, Pas cuit depuis longtemps (plus de 90 jours), Favoris (cuit au moins deux fois et 4 étoiles) | Votre historique de cuisson – recettes personnelles seulement |
+| **Peu de travail** | Interrupteur | Au plus 45 minutes de travail manuel, le reste est repos et four |
+
+Les cinq **collections** ne sont que des facettes déjà réglées : « Pour demain matin » est le déroulement « Lancer le soir, cuire le matin », « Pain rapide » est « Prêt en 2 heures », « Pur levain » l’agent levant, « Pas cuit depuis longtemps » et « Favoris » l’historique. Si vous ouvrez le menu de filtre après une puce, vous y voyez la facette réglée et pouvez en ajouter – la puce n’est alors plus marquée, car la sélection dépasse la collection.
 
 **Spotlight.** Vos propres recettes figurent aussi dans la recherche de l’iPhone : balayez l’écran d’accueil vers le bas, tapez « Landbrot », et BakePlanner ouvre directement la recette. Elles sont trouvées par nom, tags et description ; l’index est rafraîchi au lancement et à chaque modification d’une recette.
 
@@ -1255,6 +1273,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
+| Facettes et collections dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 
 ### Prérequis

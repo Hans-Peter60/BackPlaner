@@ -19,6 +19,10 @@ REZEPT NACH BÄCKERPROZENT
 BACKSTATISTIK
 • Die Backhistorie hat eine fünfte Ansicht: Brote gesamt, dieses Jahr und pro Monat, die letzten zwölf Monate als Balken, die meistgebackenen Rezepte, die Verteilung der Sterne, Stückgare gegen Raumtemperatur und die Stichwörter zu Krume und Ofentrieb.
 
+SAMMLUNGEN UND FACETTEN
+• Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
+• Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
+
 KLEINERES
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
 • Die Einstellungen enthalten nur noch Einstellungen. „Rezepte importieren“ (bisher „Aus Sicherung wiederherstellen“) steht jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android. „Alle eigenen Rezepte sichern“ entfällt: „Rezepte exportieren“ mit „Alle auswählen“ und eingeschalteter Backhistorie ist dieselbe Sicherung – und bleibt frei.
@@ -46,6 +50,10 @@ RECIPE FROM BAKER’S PERCENTAGES
 BAKING STATISTICS
 • The baking history has a fifth view: loaves in total, this year and per month, the last twelve months as bars, the recipes baked most, the spread of the stars, final proof against room temperature, and the crumb and oven-spring keywords.
 
+COLLECTIONS AND FACETS
+• The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
+• The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
+
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
@@ -72,6 +80,10 @@ RECETTE EN POURCENTAGES BOULANGER
 
 STATISTIQUES DE CUISSON
 • L’historique de cuisson a un cinquième affichage : pains au total, cette année et par mois, les douze derniers mois en barres, les recettes les plus cuites, la répartition des étoiles, l’apprêt selon la température ambiante et les mots-clés de mie et de développement.
+
+COLLECTIONS ET FACETTES
+• La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».
+• Le menu de filtre a maintenant des facettes : durée, déroulement de la journée, agent levant, farine, taux d’hydratation, matériel (pierre, moule, banneton, cocotte), historique de cuisson et « Peu de travail ». L’app lit tout dans les ingrédients et les étapes – rien à saisir. Les facettes se combinent.
 
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».

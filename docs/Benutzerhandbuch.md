@@ -124,7 +124,7 @@ Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
 
 | Schaltfläche | Zweck |
 |--------------|-------|
-| **Filter** | Mindestbewertung für die Liste |
+| **Filter** | Mindestbewertung, Varianten und die Facetten (Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung, Backhistorie) für die Liste |
 | **Mehr (⋯)** | Die vier Bäckerrechner **Teigtemperatur** (Schüttwassertemperatur für eine gewünschte Teigtemperatur), **Mehl ersetzen** (Mehlsorte tauschen, Wasser anpassen), **Anstellgut-TA** (Anstellgut mit anderer Teigausbeute einsetzen, Wasser anpassen) und **Teigeinlage** (Teiggewicht aus Kastenform oder Gärkörbchen), die Sicherung – **Rezepte importieren** (eine Sicherungsdatei oder ein einzeln exportiertes Rezept einlesen) und **Rezepte exportieren** (eigene Rezepte als Datei, alle oder eine Auswahl), siehe [Kapitel 14](#14-einstellungen) – sowie die **Einstellungen** (Sprache, Standardwerte, Backplanung, Konto) |
 | **+** | **Neues Rezept anlegen** – von Grund auf oder aus Fotos, von einer Internetseite oder aus kopiertem Text importiert |
 
@@ -163,7 +163,8 @@ Vor jedem Namen steht ein Symbol für die Quelle: ein iPhone für Rezepte auf de
 - **Suchfeld** oben: durchsucht Rezeptnamen.
 - **Suchbereich umschalten**: Unter dem Suchfeld kannst Du zwischen **Name** und **Tags** wählen. Bei „Tags“ wird in den Schlagworten gesucht (z. B. „Roggen“, „Vollkorn“, „Sauerteig“).
 - **Filter-Chips** unter dem Suchfeld: **Lokal** (Rezepte auf dem Gerät), **Von mir veröffentlicht** (Deine eigenen Rezepte in der Datenbank) und **Öffentlich** (die Rezepte der anderen Nutzer). Jeder Chip schaltet seine Quelle einzeln ein oder aus; ein öffentliches Rezept gehört immer genau zu einem der beiden Cloud-Chips.
-- **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr). Ist der Filter aktiv, wird das Symbol gefüllt dargestellt.
+- **Sammlungen** in der zweiten Chip-Reihe: **Für morgen früh**, **Schnelles Brot**, **Reiner Sauerteig**, **Lange nicht gebacken** und **Lieblinge** – jede setzt eine fertige Kombination der Facetten (siehe unten). Ein zweiter Tipp hebt sie wieder auf.
+- **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr), Varianten und die Facetten. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt.
 - **Nach unten ziehen** aktualisiert die Liste aus der Cloud.
 
 Steht „Keine Rezepte geladen“, bestand beim Start keine Internetverbindung – zieh die Liste einmal nach unten. Steht dort „Keine passenden Rezepte“, ist ein Filter aktiv.
@@ -241,9 +242,26 @@ Wo nur eigene Rezepte infrage kommen – in den leeren Ansichten von Einkaufslis
 ### Suchen und filtern
 
 - **Suchfeld** mit Umschaltung **Name / Tags**.
-- **Filter-Symbol** oben rechts: Mindestbewertung wählen (Alle Bewertungen, 1–5 Sterne und mehr). Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt.
+- **Filter-Symbol** oben rechts: Mindestbewertung wählen (Alle Bewertungen, 1–5 Sterne und mehr), Varianten ein- oder ausblenden und die **Facetten** setzen. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt; **Filter zurücksetzen** hebt alle Facetten auf einmal auf.
 
-Die Suche ignoriert Groß- und Kleinschreibung und findet auch Wortteile: „roggen“ findet „Roggenbrot“, und bei Tags genügt ein Teil des Schlagworts. Such- und Bewertungsfilter lassen sich kombinieren.
+Die Suche ignoriert Groß- und Kleinschreibung und findet auch Wortteile: „roggen“ findet „Roggenbrot“, und bei Tags genügt ein Teil des Schlagworts. Suche, Bewertung und Facetten lassen sich kombinieren; es bleibt, was zu allem passt.
+
+#### Facetten
+
+Die App liest jedes Rezept aus seinen Zutaten und Schritten – Du musst nichts eintragen. Jede Facette hat ein Untermenü:
+
+| Facette | Auswahl | Woher die App es weiß |
+|---------|---------|-----------------------|
+| **Dauer** | Unter 4 Stunden, 4 bis 12 Stunden, Über Nacht, Mehrtägig | Gesamtzeit der Schritte vom ersten bis zum letzten |
+| **Tagesablauf** | Abends ansetzen, morgens backen; Morgens ansetzen, abends backen; Fertig in 2 Stunden | Liegt die letzte lange Ruhe (ab 6 Stunden, etwa die Gare im Kühlschrank) so, dass danach höchstens 3 Stunden bleiben, passt „Abends ansetzen, morgens backen“ – das Brot muss morgens nur noch geformt und gebacken werden. „Morgens ansetzen, abends backen“ sind Rezepte bis 10 Stunden ohne so lange Ruhe; „Fertig in 2 Stunden“ bis 2 Stunden. |
+| **Triebmittel** | Reiner Sauerteig, Hefe, Sauerteig und Hefe | Zutaten und Komponentennamen: Sauerteig, Anstellgut, Levain, Lievito Madre, Hefe, Poolish, Biga … |
+| **Mehl** | Überwiegend Weizen, Roggen, Dinkel oder Vollkorn | Die Mehlsorte mit dem größten Anteil; Vollkorn ab der Hälfte des Mehls |
+| **Teigausbeute** | Fest (unter TA 165), Mittel (TA 165 bis 180), Weich (ab TA 180) | Die TA des ganzen Rezepts, siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen) |
+| **Ausstattung** | Backstein, Kastenform, Gärkörbchen, Topf | Wortlaut der Schritte („im Topf backen“, „in die Kastenform“, „ins Gärkörbchen“, Vorheizen mit Stein) |
+| **Backhistorie** | Nie gebacken, Lange nicht gebacken (über 90 Tage), Lieblinge (mindestens zweimal gebacken und 4 Sterne) | Deine Backhistorie – nur bei eigenen Rezepten |
+| **Wenig Arbeit** | Schalter | Höchstens 45 Minuten Handarbeit, alles andere ist Ruhe und Ofen |
+
+Die fünf **Sammlungen** sind nichts anderes als gesetzte Facetten: „Für morgen früh“ ist der Tagesablauf „Abends ansetzen, morgens backen“, „Schnelles Brot“ ist „Fertig in 2 Stunden“, „Reiner Sauerteig“ das Triebmittel, „Lange nicht gebacken“ und „Lieblinge“ die Backhistorie. Öffnest Du nach einem Chip das Filtermenü, siehst Du die Facette dort gesetzt und kannst weitere dazunehmen – dann ist der Chip nicht mehr markiert, weil die Auswahl jetzt mehr ist als die Sammlung.
 
 **Spotlight.** Deine eigenen Rezepte stehen auch in der iPhone-Suche: Wische auf dem Home-Bildschirm nach unten und tippe „Landbrot“, und BakePlanner öffnet das Rezept direkt. Gefunden wird nach Name, Tags und Beschreibung; der Index wird beim Start und bei jeder Änderung an Rezepten aufgefrischt.
 
@@ -1252,6 +1270,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
+| Facetten und Sammlungen in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
 ### Voraussetzungen
