@@ -53,6 +53,7 @@
 		6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
 		96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */; };
+		85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
@@ -285,6 +286,7 @@
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
 		0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFacetFilter.swift; sourceTree = "<group>"; };
+		3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipeCollections.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
 		6A2615B630706A43007644AB /* RecipePDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePDFExporter.swift; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 				6A3D7C2631A2B4C5006E1F42 /* WidgetActions.swift */,
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
 				0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */,
+				3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */,
 				A4877196C43B4C389C27E2B5 /* PlannedStepActions.swift */,
 				6AA6C546309B7BB00041298E /* WatchPlanSync.swift */,
 				6AA6C548309B7BB00041298E /* RecipeImageCache.swift */,
@@ -1157,6 +1160,7 @@
 				6A2615B730706A43007644AB /* RecipePDFExporter.swift in Sources */,
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,
 				96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */,
+				85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */,
 				09F96F83F72B435692D77448 /* PlannedStepActions.swift in Sources */,
 				6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */,
 				6AA6C549309B7BB00041298E /* RecipeImageCache.swift in Sources */,

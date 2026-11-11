@@ -266,6 +266,8 @@ The app reads each recipe from its ingredients and steps – there is nothing to
 
 The five **collections** are nothing but facets that have been set: "For tomorrow morning" is the day flow "Start in the evening, bake in the morning", "Quick bread" is "Done in 2 hours", "Pure sourdough" is the leavening, "Not baked for a while" and "Favourites" are the baking history. If you open the filter menu after tapping a chip, you see the facet set there and can add more – the chip is then no longer marked, because the selection is now more than the collection.
 
+**Your own collections.** A combination you need often – say "Pure sourdough" with "Pot" and "Little work" – is saved from the filter menu with **Save collection** under a name. It appears as a chip with a bookmark after the five presets and works like them. A long press on the chip offers **Rename** and **Delete**. The collections stay on the device; they hold only the facets, not the search text or the minimum rating.
+
 **Spotlight.** Your own recipes are in the iPhone's search as well: swipe down on the Home Screen, type "Landbrot", and BakePlanner opens the recipe directly. They are found by name, tags and description; the index is refreshed at launch and whenever a recipe changes.
 
 ### Deleting a recipe
@@ -1273,7 +1275,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
-| Facets and collections in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` is already in the shared package |
+| Facets, preset and own collections in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 
 ### Requirements
