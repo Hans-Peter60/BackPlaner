@@ -854,6 +854,17 @@ The app filters deliberately, in every language:
 
 Tapping an ingredient opens **Change amount**: amount, unit and fraction then apply to this list, the recipe stays unchanged; the ingredient can be removed there as well. The bin symbol next to the row removes it directly. **Delete** removes the whole list after a confirmation.
 
+### Pantry
+
+**More → Pantry** in the recipe list keeps what you have at home: flours, seeds, yeast – on the same shelves as the shopping list. Each item has a name, an amount in g, kg or pieces, a **best-before date** if you like, and a note. **+** adds an item; for the name the app suggests the ingredients of your recipes, so the pantry and the recipes mean the same thing ("Weizenmehl 550"). A tap on an item edits it, a swipe to the left removes it.
+
+Items that expire within the next 14 days or already have sit at the top under **Use up soon**, marked orange or red.
+
+**From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin: **Move into the pantry** adds the bought amount to the item of the same name – or creates it – and takes the line off the list. Kilograms and pieces are taken as written, other units as grams.
+
+Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs to BakePlanner Pro.
+
+
 ---
 
 ## 14. Settings
@@ -1277,6 +1288,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
+| Pantry (More → Pantry, intake from the shopping list) | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

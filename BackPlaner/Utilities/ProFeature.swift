@@ -27,6 +27,8 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     case widgets
     /// The Live Activity of the running plan on the lock screen.
     case liveActivity
+    /// The pantry: flours, seeds and yeast with amounts and best-before dates.
+    case pantry
 
     var id: String { rawValue }
 
@@ -38,6 +40,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .shoppingList:   return "Einkaufslisten"
         case .widgets:        return "Widgets"
         case .liveActivity:   return "Live-Aktivität auf dem Sperrbildschirm"
+        case .pantry:         return "Vorrat"
         }
     }
 
@@ -50,6 +53,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .shoppingList:   return "Die Zutaten eines Rezepts auf eine Einkaufsliste setzen und abhaken."
         case .widgets:        return "Der nächste Schritt auf dem Home- und dem Sperrbildschirm."
         case .liveActivity:   return "Der laufende Plan auf dem Sperrbildschirm und in der Dynamic Island."
+        case .pantry:         return "Mehle, Saaten und Hefe mit Menge und Haltbarkeit führen; Gekauftes wandert aus der Einkaufsliste hinein."
         }
     }
 
@@ -61,6 +65,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .shoppingList:   return "cart"
         case .widgets:        return "widget.small"
         case .liveActivity:   return "clock.badge"
+        case .pantry:         return "shippingbox"
         }
     }
 }

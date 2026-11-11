@@ -854,6 +854,17 @@ L’app filtre volontairement, et ce dans toutes les langues :
 
 Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fraction valent alors pour cette liste, la recette reste inchangée ; l’ingrédient peut aussi y être retiré. L’icône de corbeille à côté de la ligne le retire directement. **Supprimer** retire toute la liste après confirmation.
 
+### Réserve
+
+**Plus → Réserve** dans la liste des recettes tient ce que vous avez chez vous : farines, graines, levure – sur les mêmes rayons que la liste de courses. Chaque article a un nom, une quantité en g, kg ou pièces, au choix une **date limite** et une note. **+** ajoute un article ; pour le nom, l’app propose les ingrédients de vos recettes, afin que réserve et recettes parlent de la même chose (« Weizenmehl 550 »). Un appui sur un article le modifie, un balayage vers la gauche le retire.
+
+Les articles qui expirent dans les 14 prochains jours ou sont déjà expirés figurent en haut sous **À consommer bientôt**, en orange ou en rouge.
+
+**De la liste de courses à la réserve.** Chaque ligne d’une liste de courses a un symbole de colis à côté de la corbeille : **Mettre dans la réserve** ajoute la quantité achetée à l’article du même nom – ou le crée – et retire la ligne de la liste. Kilogrammes et pièces sont repris tels quels, les autres unités en grammes.
+
+Comme les recettes et les listes de courses, la réserve est dans votre iCloud et fait partie de BakePlanner Pro.
+
+
 ---
 
 ## 14. Réglages
@@ -1277,6 +1288,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
+| Réserve (Plus → Réserve, reprise depuis la liste de courses) | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
 | Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` et `FinishByPlanner` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 

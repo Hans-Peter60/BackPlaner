@@ -204,6 +204,8 @@ enum MenuDestination: Hashable {
     /// "Planen ab …" on a row of the recipe list under "Fertig bis": the
     /// page opens with the plan sheet; the start is in GlobalVariables.dateTimePicker.
     case planRecipe(id: String)
+    /// "Vorrat" in the "Mehr" menu: what is in the house.
+    case pantry
 }
 
 /// The screen behind a `MenuDestination`.
@@ -227,6 +229,8 @@ struct MenuDestinationView: View {
             LinkedRecipeView(recipeID: id)
         case .planRecipe(let id):
             LinkedRecipeView(recipeID: id, startsInBakingView: true)
+        case .pantry:
+            ProLockedScreen(.pantry) { PantryView() }
         }
     }
 }

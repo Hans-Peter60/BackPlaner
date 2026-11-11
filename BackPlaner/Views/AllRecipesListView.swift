@@ -463,6 +463,13 @@ struct AllRecipesListView: View {
                         .accessibilityIdentifier("menu.exportRecipes")
                         Divider()
                         Button {
+                            pushedDestination = .pantry
+                        } label: {
+                            Label("Vorrat", systemImage: "shippingbox")
+                        }
+                        .accessibilityIdentifier("menu.pantry")
+                        Divider()
+                        Button {
                             pushedDestination = .doughTemperature
                         } label: {
                             Label("Teigtemperatur", systemImage: "thermometer.medium")
