@@ -78,6 +78,7 @@
 		6A783875CB5EA1223E1E21CE /* RecipeImageAnalysisModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E80EFF2BE162FF4DF2AD5 /* RecipeImageAnalysisModels.swift */; };
 		6A85E61F304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */; };
 		6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */; };
+		370DEFE899E747C99F9C286A /* BakersFormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FBEF077F6404E974C38C4 /* BakersFormulaView.swift */; };
 		6A86A98D308E516C00BA0CF2 /* MonetizationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A86A98C308E516C00BA0CF2 /* MonetizationConfig.swift */; };
 		6A86A98F308E518D00BA0CF2 /* ProFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A86A98E308E518D00BA0CF2 /* ProFeature.swift */; };
 		6A86A991308E51A300BA0CF2 /* ProStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A86A990308E51A300BA0CF2 /* ProStore.swift */; };
@@ -306,6 +307,7 @@
 		6A6037B0F3A9917CA2FF966D /* BackPlanerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A85E61E304C7FD5005C5DDD /* RecipeImageAnalysisAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageAnalysisAgent.swift; sourceTree = "<group>"; };
 		6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageImportView.swift; sourceTree = "<group>"; };
+		FE5FBEF077F6404E974C38C4 /* BakersFormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakersFormulaView.swift; sourceTree = "<group>"; };
 		6A86A98C308E516C00BA0CF2 /* MonetizationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationConfig.swift; sourceTree = "<group>"; };
 		6A86A98E308E518D00BA0CF2 /* ProFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFeature.swift; sourceTree = "<group>"; };
 		6A86A990308E51A300BA0CF2 /* ProStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStore.swift; sourceTree = "<group>"; };
@@ -630,6 +632,7 @@
 				6A1132082B7CF95900CDF054 /* AddRecipeView.swift */,
 				6A1132092B7CF95900CDF054 /* AddTagsDataView.swift */,
 				6A85E620304C7FD5005C5DDD /* RecipeImageImportView.swift */,
+				FE5FBEF077F6404E974C38C4 /* BakersFormulaView.swift */,
 				6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */,
 				6A3D7C1E31A2B4C5006E1F42 /* RecipeTextImportView.swift */,
 				6A2615D430726203007644AB /* RecipeWebImportView.swift */,
@@ -1115,6 +1118,7 @@
 				195ED6CB5627C42088CD0F56 /* DurationField.swift in Sources */,
 				6A2616103072A0E0007644AB /* PendingWebImport.swift in Sources */,
 				6A85E621304C7FD5005C5DDD /* RecipeImageImportView.swift in Sources */,
+				370DEFE899E747C99F9C286A /* BakersFormulaView.swift in Sources */,
 				6ADBF4FD308BA52D00BB7789 /* IntentPhrasing.swift in Sources */,
 				6A1131FF2B7CF94600CDF054 /* RecipeListView.swift in Sources */,
 				6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */,

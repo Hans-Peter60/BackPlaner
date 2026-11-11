@@ -131,8 +131,13 @@ struct AddRecipeView: View {
                 } label: {
                     Label("Rezept aus Text importieren", systemImage: "text.quote")
                 }
+                NavigationLink {
+                    BakersFormulaView()
+                } label: {
+                    Label("Rezept nach Bäckerprozent anlegen", systemImage: "percent")
+                }
             } footer: {
-                Text("Mehrere Seiten können gemeinsam analysiert werden; von einer Internetseite genügt die Adresse, von einer Seite ohne lesbare Daten der kopierte Text. Anschließend lässt sich alles bearbeiten.")
+                Text("Mehrere Seiten können gemeinsam analysiert werden; von einer Internetseite genügt die Adresse, von einer Seite ohne lesbare Daten der kopierte Text. Nach Bäckerprozent gibst Du Anteile vom Mehl ein und die App rechnet die Gramm. Anschließend lässt sich alles bearbeiten.")
             }
             
             Section("Speichern") {

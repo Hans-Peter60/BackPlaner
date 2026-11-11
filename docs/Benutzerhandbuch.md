@@ -455,6 +455,17 @@ Als Drittes: **„Rezept aus Text importieren“**. Für Rezepte, die als Text v
 
 **Was die festen Regeln brauchen:** Überschriften wie „Zutaten“ und „Zubereitung“ (auch „Ingredients“/„Method“, „Ingrédients“/„Préparation“), darunter je Zeile eine Zutat mit Menge („140 g Roggenmehl 1150“) und je Absatz ein Arbeitsschritt. Komponenten erkennt die App an eigenen Überschriften wie „Sauerteig“ oder „Für den Vorteig:“. Fehlen die Überschriften, unterscheidet sie Zutatenzeilen und Sätze nach ihrer Form. Mit Cloud-KI oder Apple Intelligence spielt das eine kleinere Rolle. Ist der Text nur eine Internetadresse, verweist die App auf den Import von einer Internetseite.
 
+### Rezept nach Bäckerprozent anlegen
+
+Als Viertes: **„Rezept nach Bäckerprozent anlegen“** – für alle, die Rezepte als Formel denken. Du gibst jede Zutat als Anteil vom Mehl ein, die App rechnet die Gramm.
+
+1. **Rezeptname** eintragen.
+2. **Menge:** Wähle, was Du vorgibst – **Mehl gesamt** (etwa 500 g) oder **Teiggewicht** (etwa 850 g für ein Brot). Die jeweils andere Zahl zeigt die App darunter.
+3. **Komponenten und Zutaten:** Vorbelegt ist ein Hauptteig mit Weizenmehl 550 (100 %), Wasser (68 %), Salz (2 %) und Frischhefe (1 %). Ändere Namen und Anteile, ergänze Zutaten über **Zutat hinzufügen** oder streiche sie durch Wischen. Weitere Komponenten – Vorteig, Sauerteig, Brühstück – legst Du unten mit **Hinzufügen** an und verteilst die Zutaten darauf. Alle Prozente beziehen sich auf das **gesamte Mehl des Rezepts**; die Zutaten, die als Mehl zählen, tragen das Etikett **Mehl** und müssen zusammen 100 Prozent ergeben. Neben jeder Zeile stehen die errechneten Gramm, unter 10 g auf Zehntel genau.
+4. **Weiter** öffnet das Rezeptformular mit den Komponenten in Gramm und je Komponente einem Schritt „… herstellen“. Dort ergänzt Du Ruhezeiten, Formen und Backen wie bei jedem anderen Rezept und speicherst.
+
+Solange die Mehle nicht 100 Prozent ergeben, keine Zutat als Mehl erkannt wird oder eine Zutat keinen Anteil hat, bleibt **Weiter** gesperrt und ein Hinweis nennt den Grund. Ein Anstellgut trägst Du wie jede andere Zutat als Anteil ein; sein Mehl und Wasser rechnet die App später über die Anstellgut-TA aus den Einstellungen in die Teigausbeute ein (siehe [Kapitel 15](#15-einheiten-mengen-und-portionsgrößen)).
+
 ### Ablage: auf dem Gerät oder veröffentlicht
 
 Im Abschnitt **Speichern** steht der Schalter **Veröffentlichen** (siehe auch die Übersicht in [Kapitel 3](#3-grundbegriffe)). Darunter steht jeweils ein Satz, was die Stellung bedeutet. Die Vorbelegung kommt aus den Einstellungen (*Neue Rezepte veröffentlichen*).
@@ -1226,6 +1237,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Live-Aktivität, Widgets, Kontrollzentrum, Siri, Spotlight, Apple Watch | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [11](#11-erinnerungen-auf-dem-sperrbildschirm) | Nicht vorgesehen |
 | Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
+| Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
 ### Voraussetzungen

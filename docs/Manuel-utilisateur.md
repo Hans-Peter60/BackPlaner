@@ -458,6 +458,17 @@ En troisième : **Importer une recette depuis un texte**. Pour les recettes qui 
 
 **Ce dont les règles fixes ont besoin :** des titres comme « Ingrédients » et « Préparation » (aussi « Zutaten »/« Zubereitung », « Ingredients »/« Method »), en dessous un ingrédient avec sa quantité par ligne (« 140 g de farine de seigle ») et une étape par paragraphe. L’app reconnaît les composants à leurs propres titres comme « Levain » ou « Pour la pâte fermentée : ». Sans titres, elle distingue les lignes d’ingrédients et les phrases à leur forme. Avec l’IA cloud ou Apple Intelligence, cela compte moins. Si le texte n’est qu’une adresse Internet, l’app vous renvoie à l’import depuis une page web.
 
+### Créer une recette en pourcentages boulanger
+
+En quatrième : **Créer une recette en pourcentages boulanger** — pour tous ceux qui pensent une recette comme une formule. Vous saisissez chaque ingrédient en part de la farine, l’app calcule les grammes.
+
+1. Saisissez le **nom de la recette**.
+2. **Quantité :** choisissez ce que vous donnez — **Farine totale** (p. ex. 500 g) ou **Poids de pâte** (p. ex. 850 g pour un pain). L’app affiche l’autre valeur en dessous.
+3. **Composants et ingrédients :** une pâte principale avec farine de blé T55 (100 %), eau (68 %), sel (2 %) et levure fraîche (1 %) est préremplie. Modifiez noms et parts, ajoutez des ingrédients avec **Ajouter un ingrédient** ou supprimez-les en balayant. D’autres composants — préferment, levain, échaudage — se créent en bas avec **Ajouter**, et vous y répartissez les ingrédients. Tous les pourcentages se rapportent à la **farine totale de la recette** ; les ingrédients qui comptent comme farine portent l’étiquette **Farine** et doivent faire ensemble 100 pour cent. À côté de chaque ligne figurent les grammes calculés, au dixième près sous 10 g.
+4. **Suivant** ouvre le formulaire de recette avec les composants en grammes et une étape « Préparer … » par composant. Vous y ajoutez repos, façonnage et cuisson comme pour toute autre recette, puis enregistrez.
+
+Tant que les farines ne font pas 100 pour cent, qu’aucun ingrédient n’est reconnu comme farine ou qu’un ingrédient n’a pas de part, **Suivant** reste désactivé et une note en donne la raison. Un levain chef se saisit comme tout autre ingrédient, en part ; sa farine et son eau sont comptées plus tard dans le rendement de pâte via la TA du levain chef des réglages (voir [chapitre 15](#15-unités-quantités-et-tailles-de-portion)).
+
 ### Emplacement : sur l’appareil ou publiée
 
 La section **Enregistrer** comporte le commutateur **Publier** (voir aussi le tableau du [chapitre 3](#3-notions-de-base)). Une phrase en dessous explique ce que sa position implique. La valeur par défaut vient des Réglages (*Publier les nouvelles recettes*).
@@ -1229,6 +1240,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Activité en direct, widgets, centre de contrôle, Siri, Spotlight, Apple Watch | [chapitre 10](#10-étapes-planifiées-liste-et-timeline), [11](#11-rappels-sur-lécran-verrouillé) | Non prévu |
 | Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », « Traduire automatiquement les recettes publiques », « Activité en direct », « Alarmes » | [chapitre 14](#14-réglages) | Manquent. Les nouvelles recettes sont d’abord privées et vont dans la base via **Publier** sur la page de la recette |
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
+| Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 
 ### Prérequis
