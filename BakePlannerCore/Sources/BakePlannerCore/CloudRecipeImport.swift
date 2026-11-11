@@ -14,10 +14,45 @@ import Foundation
 public struct CloudRecipeAnalysis: Decodable, Sendable {
     public let recipe: CloudRecipe
     public let model: String
+    /// The month's free cloud imports, counting this one — sent only while
+    /// a monthly allowance applies to this installation (no Pro, limit set).
+    public let freeImports: FreeImports?
 
-    public init(recipe: CloudRecipe, model: String) {
+    /// How many free cloud imports the month allows and how many are used.
+    public struct FreeImports: Decodable, Sendable, Equatable {
+        public let used: Int
+        public let limit: Int
+
+        public init(used: Int, limit: Int) {
+            self.used = used
+            self.limit = limit
+        }
+
+        public var remaining: Int { max(0, limit - used) }
+
+        /// What to tell the person after an import, so the end of the
+        /// allowance does not come as a surprise: nothing while plenty are
+        /// left, a count for the last two, and the plain fact for the last.
+        public func notice(bundle: Bundle = AppSettings.localizationBundle, locale: Locale = AppSettings.locale) -> String? {
+            switch remaining {
+            case 0:
+                return String(localized: "Das war der letzte kostenlose Cloud-Import dieses Monats. Bis zum Monatsende liest die App weitere Rezepte auf dem Gerät; mit BakePlanner Pro gibt es kein Monatslimit.",
+                              bundle: bundle, locale: locale)
+            case 1:
+                return String(localized: "Noch ein kostenloser Cloud-Import in diesem Monat.", bundle: bundle, locale: locale)
+            case 2:
+                return String(format: String(localized: "Noch %lld kostenlose Cloud-Importe in diesem Monat.", bundle: bundle, locale: locale),
+                              locale: locale, remaining)
+            default:
+                return nil
+            }
+        }
+    }
+
+    public init(recipe: CloudRecipe, model: String, freeImports: FreeImports? = nil) {
         self.recipe = recipe
         self.model = model
+        self.freeImports = freeImports
     }
 
     /// The function's answer as the Android SDK hands it out: dictionaries,
@@ -28,7 +63,13 @@ public struct CloudRecipeAnalysis: Decodable, Sendable {
               let recipe = (dictionary["recipe"] as? [String: Any]).flatMap(CloudRecipe.init(response:)) else {
             return nil
         }
-        self.init(recipe: recipe, model: dictionary["model"] as? String ?? "")
+        var freeImports: FreeImports?
+        if let allowance = dictionary["freeImports"] as? [String: Any],
+           let used = RecipeFirestoreMapping.int(allowance["used"]),
+           let limit = RecipeFirestoreMapping.int(allowance["limit"]), limit > 0 {
+            freeImports = FreeImports(used: used, limit: limit)
+        }
+        self.init(recipe: recipe, model: dictionary["model"] as? String ?? "", freeImports: freeImports)
     }
 }
 

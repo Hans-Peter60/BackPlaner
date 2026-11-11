@@ -27,7 +27,7 @@ final class HybridRecipeImageAnalysisAgent {
                 recipe: recipe,
                 recognizedText: "",
                 recipeImage: images.first,
-                warnings: cloudResult.recipe.warnings,
+                warnings: cloudResult.recipe.warnings + [cloudResult.freeImports?.notice()].compactMap { $0 },
                 analysisSource: .cloudAI
             ), groupingComponents: true)
         } catch is CancellationError {
@@ -137,7 +137,7 @@ final class HybridRecipeImageAnalysisAgent {
                 result = RecipeImageAnalysisResult(
                     recipe: recipe,
                     recognizedText: text,
-                    warnings: cloudResult.recipe.warnings,
+                    warnings: cloudResult.recipe.warnings + [cloudResult.freeImports?.notice()].compactMap { $0 },
                     analysisSource: .cloudAI
                 )
             } catch is CancellationError {
@@ -230,7 +230,7 @@ final class HybridRecipeImageAnalysisAgent {
                 result = RecipeImageAnalysisResult(
                     recipe: recipe,
                     recognizedText: text,
-                    warnings: cloudResult.recipe.warnings,
+                    warnings: cloudResult.recipe.warnings + [cloudResult.freeImports?.notice()].compactMap { $0 },
                     analysisSource: .cloudAI
                 )
             } catch is CancellationError {

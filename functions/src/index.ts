@@ -178,7 +178,8 @@ export const analyzeRecipeImages = onCall(
     }
 
     const images = validateImages(request.data?.images);
-    await enforceRateLimit(uid, request.data);
+    const allowance = await enforceRateLimit(uid, request.data,
+      request.app?.appId);
 
     const parts = [
       {
@@ -194,10 +195,10 @@ export const analyzeRecipeImages = onCall(
       })),
     ];
 
-    return generateRecipe(parts, {
-      imageCount: images.length,
-      startedAt,
-    });
+    return {
+      ...await generateRecipe(parts, {imageCount: images.length, startedAt}),
+      ...allowance,
+    };
   },
 );
 
@@ -225,7 +226,8 @@ export const analyzeRecipeText = onCall(
 
     const text = validateText(request.data?.text);
     const sourceURL = validateSourceURL(request.data?.sourceURL);
-    await enforceRateLimit(uid, request.data);
+    const allowance = await enforceRateLimit(uid, request.data,
+      request.app?.appId);
 
     const parts = [
       {
@@ -244,10 +246,10 @@ export const analyzeRecipeText = onCall(
       },
     ];
 
-    return generateRecipe(parts, {
-      textLength: text.length,
-      startedAt,
-    });
+    return {
+      ...await generateRecipe(parts, {textLength: text.length, startedAt}),
+      ...allowance,
+    };
   },
 );
 
@@ -502,27 +504,74 @@ function monthKey(timestamp: Timestamp): string {
 }
 
 /**
+ * The Firebase app IDs (App Check) of the apps that are exempt from the
+ * monthly allowance: the Android app, which has no purchase yet — Play
+ * Billing comes with the Pro switch for both platforms (see
+ * docs/Pro-Einfuehrung.md). The hourly limit applies to it all the same.
+ */
+export const appIdsWithoutMonthlyLimit = new Set([
+  "1:936649524074:android:b46e983de39481f7d65b13",
+]);
+
+/**
+ * What the response tells the app about its free imports: how many it has
+ * used this month and how many it gets. Empty for Pro, for the exempt apps
+ * and while no monthly limit is set — then nothing is worth saying.
+ */
+export type ImportAllowance = {
+  freeImports?: {used: number; limit: number};
+};
+
+/**
+ * The monthly limit for one caller: the configured allowance, unless the
+ * caller has Pro, comes from an exempt app, or no allowance is set.
+ * @param {number} freeImportsPerMonth The configured allowance; 0 = none.
+ * @param {boolean} hasPro Whether the caller's Pro claim was verified.
+ * @param {string | undefined} appId The caller's Firebase app ID.
+ * @return {number} The limit to enforce; 0 means unlimited.
+ */
+export function monthlyLimitFor(
+  freeImportsPerMonth: number,
+  hasPro: boolean,
+  appId: string | undefined,
+): number {
+  if (freeImportsPerMonth <= 0 || hasPro) return 0;
+  if (appId && appIdsWithoutMonthlyLimit.has(appId)) return 0;
+  return freeImportsPerMonth;
+}
+
+/**
  * Applies the per-user limits backed by Firestore: a rolling hourly limit
  * for everyone, and — once `config/monetization` sets one — a monthly
  * allowance of free imports for installations without Pro. Both live in the
  * user's `aiRateLimits` document.
  * @param {string} uid Authenticated Firebase user ID.
  * @param {unknown} data The callable payload, carrying the Pro claim.
+ * @param {string | undefined} appId The caller's Firebase app ID from App
+ * Check, to exempt the apps that cannot buy Pro yet.
+ * @return {Promise<ImportAllowance>} What to tell the app about its
+ * remaining free imports, counting this one.
  */
-async function enforceRateLimit(uid: string, data: unknown): Promise<void> {
+async function enforceRateLimit(
+  uid: string,
+  data: unknown,
+  appId: string | undefined,
+): Promise<ImportAllowance> {
   const database = getFirestore();
   const reference = database.collection("aiRateLimits").doc(uid);
   const now = Timestamp.now();
   const hourInMilliseconds = 60 * 60 * 1000;
   const limits = await readMonetizationLimits();
+  const exempt = appId !== undefined && appIdsWithoutMonthlyLimit.has(appId);
   // Pro only matters while a monthly limit is set; without one nobody
   // needs to prove anything, and no signature is checked.
-  const hasPro = limits.freeImportsPerMonth > 0 &&
+  const hasPro = limits.freeImportsPerMonth > 0 && !exempt &&
     await resolvePro(uid, data, limits);
-  const monthlyLimit = hasPro ? 0 : limits.freeImportsPerMonth;
+  const monthlyLimit = monthlyLimitFor(limits.freeImportsPerMonth, hasPro,
+    appId);
   const month = monthKey(now);
 
-  await database.runTransaction(async (transaction) => {
+  return database.runTransaction(async (transaction) => {
     const snapshot = await transaction.get(reference);
     const windowStartedAt = snapshot.get("windowStartedAt") as
       Timestamp | undefined;
@@ -559,5 +608,11 @@ async function enforceRateLimit(uid: string, data: unknown): Promise<void> {
       month,
       monthCount: monthCount + 1,
     }, {merge: true});
+
+    const allowance: ImportAllowance = {};
+    if (monthlyLimit > 0) {
+      allowance.freeImports = {used: monthCount + 1, limit: monthlyLimit};
+    }
+    return allowance;
   });
 }
