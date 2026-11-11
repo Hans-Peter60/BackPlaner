@@ -7868,22 +7868,6 @@
         }
       }
     },
-    "Geplante nächste Schritte" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scheduled next steps"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochaines étapes planifiées"
-          }
-        }
-      }
-    },
     "Geplante Schritte" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10081,22 +10065,6 @@
         }
       }
     },
-    "Liste der nächsten Schritte" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "List of next steps"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liste des prochaines étapes"
-          }
-        }
-      }
-    },
     "Live-Aktivität auf dem Sperrbildschirm" : {
       "comment" : "Settings toggle: whether a running plan shows a Live Activity.",
       "localizations" : {
@@ -11032,6 +11000,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prochain nourrissage : après le premier nourrissage"
+          }
+        }
+      }
+    },
+    "Nächste Schritte" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaines étapes"
           }
         }
       }

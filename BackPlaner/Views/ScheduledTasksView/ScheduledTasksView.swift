@@ -339,7 +339,7 @@ struct ScheduledTasksView: View {
         }
         }
         .warmBackground()
-        .navigationTitle("Liste der nächsten Schritte")
+        .navigationTitle("Nächste Schritte")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: shiftRequest, initial: true) { _, request in
             beginShifting(requested: request)

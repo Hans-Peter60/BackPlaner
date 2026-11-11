@@ -184,7 +184,7 @@ struct ScheduledTasksTimeLineView: View {
             }
         }
         .warmBackground()
-        .navigationTitle("Geplante nächste Schritte")
+        .navigationTitle("Nächste Schritte")
         .navigationDestination(for: NSManagedObjectID.self) { stepID in
             ScheduledTaskDetailView(stepID: stepID)
         }
