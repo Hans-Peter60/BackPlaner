@@ -70,6 +70,7 @@ enum PackageTranslations {
         "Schritt %@: %@ → %@": ["en": "Step %@: %@ → %@", "fr": "Étape %@ : %@ → %@"],
         "Stand: %@": ["en": "As of %@", "fr": "État au %@"],
         "Stockgare": ["en": "Bulk proof", "fr": "Pointage"],
+        "Stück": ["en": "Pieces", "fr": "Pièces"],
         "Stückgare": ["en": "Final proof", "fr": "Apprêt"],
         "TA %@ → %@": ["en": "TA %@ → %@", "fr": "TA %@ → %@"],
         "Teig": ["en": "Dough", "fr": "Pâte"],

@@ -37,6 +37,7 @@ struct SavedRecipeCollectionsTests {
         filter.grain = .wholeGrain
         filter.doughYield = .soft
         filter.history = .favourites
+        filter.pantryOnly = true
         let data = try JSONEncoder().encode(filter)
         #expect(try JSONDecoder().decode(RecipeFacetFilter.self, from: data) == filter)
     }

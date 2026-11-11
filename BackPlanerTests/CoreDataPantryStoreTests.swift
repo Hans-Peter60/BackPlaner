@@ -37,6 +37,19 @@ struct CoreDataPantryStoreTests {
         #expect(try store.items().count == 2)
     }
 
+    @Test("The shopping list shrinks a kilogram line in kilograms and leaves a spoon whole (needs the unit tables)")
+    func reduceWithUnits() {
+        let kilo = [ShoppingListEntry(name: "Dinkelmehl 630", unit: "kg", weight: 1.5, num: 0, denom: 0)]
+        let flour = StoredPantryItem(id: "d", name: "Dinkelmehl 630", amount: 400, unit: .gram)
+        #expect(PantryMatcher.reduce(kilo, pantry: [flour]).first?.weight == 1.1)
+        let spoon = [ShoppingListEntry(name: "Honig", unit: "EL", weight: 2, num: 0, denom: 0)]
+        let honey = StoredPantryItem(id: "h", name: "Honig", amount: 5, unit: .gram)
+        #expect(PantryMatcher.reduce(spoon, pantry: [honey]).first?.weight == 2)
+        // Enough honey in the house: the spoon goes.
+        let jar = StoredPantryItem(id: "j", name: "Honig", amount: 500, unit: .gram)
+        #expect(PantryMatcher.reduce(spoon, pantry: [jar]).isEmpty)
+    }
+
     @Test("What a shopping-list line puts in: kilograms and pieces as written, the rest in grams")
     func intake() {
         #expect(Pantry.intake(unit: "kg", weight: 2.5, normWeight: 2_500, num: 0, denom: 0) == (2.5, .kilogram))

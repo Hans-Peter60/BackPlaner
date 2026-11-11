@@ -862,6 +862,12 @@ Les articles qui expirent dans les 14 prochains jours ou sont déjà expirés fi
 
 **De la liste de courses à la réserve.** Chaque ligne d’une liste de courses a un symbole de colis à côté de la corbeille : **Mettre dans la réserve** ajoute la quantité achetée à l’article du même nom – ou le crée – et retire la ligne de la liste. Kilogrammes et pièces sont repris tels quels, les autres unités en grammes.
 
+**Comparée aux recettes.** Dès que la réserve contient quelque chose, la page d’une recette affiche une carte **Réserve** : « Les 5 ingrédients sont dans la réserve » ou « 3 ingrédients sur 5 dans la réserve » avec ce qui manque – « Il manque 200 g Roggenmehl 1150 » –, calculé pour la taille de portion choisie. L’eau, le sel et le levain chef ne comptent pas ; ils ne sont pas non plus sur la liste de courses. Les ingrédients se retrouvent par leur nom ; utilisez les suggestions tirées des recettes en ajoutant des articles, et ils concordent.
+
+- **Liste de courses :** le formulaire a l’interrupteur **Déduire la réserve** (activé par défaut). Ce qui est dans la réserve ne va pas sur la liste, les quantités partielles sont réduites – 500 g nécessaires, 300 g en stock, 200 g sur la liste. Si tout est là, l’app le dit au lieu de créer une liste vide.
+- **Filtre et collection :** le menu de filtre a l’interrupteur **Avec la réserve**, la rangée de puces la collection du même nom : seules les recettes dont les ingrédients, à la quantité enregistrée, sont entièrement là.
+- **Après la cuisson :** quand vous consignez une cuisson, l’app demande **Déduire de la réserve ?** et montre ce qui part de quel article – avec deux paquets de la même farine, d’abord de celui qui expire le premier. « Ne pas déduire » laisse la réserve telle quelle.
+
 Comme les recettes et les listes de courses, la réserve est dans votre iCloud et fait partie de BakePlanner Pro.
 
 
@@ -1288,7 +1294,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
-| Réserve (Plus → Réserve, reprise depuis la liste de courses) | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
+| Réserve (Plus → Réserve, reprise depuis la liste de courses, comparaison avec les recettes, déduction sur la liste de courses et après la cuisson) | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
 | Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` et `FinishByPlanner` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 

@@ -27,6 +27,7 @@ SAMMLUNGEN UND FACETTEN
 
 VORRAT
 • „Mehr → Vorrat“ führt, was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge, Mindesthaltbarkeit und Notiz, nach Regalen wie die Einkaufsliste. Was in 14 Tagen abläuft, steht oben unter „Bald aufbrauchen“. Aus der Einkaufsliste wandert Gekauftes mit einem Tipp in den Vorrat. Gehört zu BakePlanner Pro.
+• Die Rezeptseite zeigt, was davon im Vorrat ist und was fehlt. Die Einkaufsliste zieht den Vorrat ab, der Filter kennt „Aus dem Vorrat“, und nach dem Backen fragt die App, ob sie die Mengen abbucht.
 
 KLEINERES
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
@@ -65,6 +66,7 @@ COLLECTIONS AND FACETS
 
 PANTRY
 • “More → Pantry” keeps what you have at home: flours, seeds, yeast with amount, best-before date and note, on shelves like the shopping list. What expires within 14 days sits at the top under “Use up soon”. From the shopping list, what you bought moves into the pantry with one tap. Part of BakePlanner Pro.
+• The recipe page shows what of it is in the pantry and what is missing. The shopping list deducts the pantry, the filter knows “From the pantry”, and after a bake the app asks whether to take the amounts off.
 
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
@@ -103,6 +105,7 @@ COLLECTIONS ET FACETTES
 
 RÉSERVE
 • « Plus → Réserve » tient ce que vous avez chez vous : farines, graines, levure avec quantité, date limite et note, par rayons comme la liste de courses. Ce qui expire sous 14 jours figure en haut sous « À consommer bientôt ». Depuis la liste de courses, vos achats passent dans la réserve d’un appui. Fait partie de BakePlanner Pro.
+• La page de recette montre ce qui est dans la réserve et ce qui manque. La liste de courses déduit la réserve, le filtre connaît « Avec la réserve », et après la cuisson l’app demande si elle déduit les quantités.
 
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».

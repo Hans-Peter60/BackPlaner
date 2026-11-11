@@ -859,6 +859,12 @@ Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehe
 
 **Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol: **In den Vorrat übernehmen** bucht die gekaufte Menge auf den Posten gleichen Namens – oder legt ihn an – und nimmt die Zeile von der Liste. Kilogramm und Stück werden übernommen, wie sie dastehen, andere Einheiten als Gramm.
 
+**Abgleich mit den Rezepten.** Sobald etwas im Vorrat steht, zeigt die Rezeptseite eine Karte **Vorrat**: „Alle 5 Zutaten sind im Vorrat“ oder „3 von 5 Zutaten im Vorrat“ mit dem, was fehlt – „Es fehlen 200 g Roggenmehl 1150“ –, gerechnet in der gewählten Portionsgröße. Wasser, Salz und Anstellgut zählen nicht, sie stehen auch nicht auf der Einkaufsliste. Zutaten treffen sich über den Namen; nutze beim Anlegen die Vorschläge aus den Rezepten, dann passt es.
+
+- **Einkaufsliste:** Im Formular steht der Schalter **Vorrat abziehen** (voreingestellt an). Was im Vorrat ist, kommt nicht auf die Liste, Teilmengen werden gekürzt – 500 g gebraucht, 300 g da, 200 g auf die Liste. Ist alles da, sagt die App das statt eine leere Liste anzulegen.
+- **Filter und Sammlung:** Das Filtermenü hat den Schalter **Aus dem Vorrat**, die Chip-Reihe die gleichnamige Sammlung: nur Rezepte, deren Zutaten in der gespeicherten Menge vollständig da sind.
+- **Nach dem Backen:** Trägst Du einen Backvorgang ein, fragt die App **Vorrat abbuchen?** und zeigt, was von welchem Posten abgeht – bei zwei Packungen desselben Mehls zuerst von der, die früher abläuft. „Nicht abbuchen“ lässt den Vorrat unverändert.
+
 Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu BakePlanner Pro.
 
 
@@ -1285,7 +1291,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
-| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
+| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Abbuchen nach dem Backen) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 

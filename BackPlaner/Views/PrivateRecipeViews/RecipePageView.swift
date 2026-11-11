@@ -138,7 +138,9 @@ struct RecipePageView: View {
         // a bake history entry; every other recipe the other way round.
         .sheet(isPresented: $showsBakeEntry) {
             NavigationStack {
-                BakeHistoryAddView(recipeId: recipe.objectID)
+                BakeHistoryAddView(recipeId: recipe.objectID,
+                                   servingScale: ServingScale.factor(servingSize: selectedServingSize, targetWeight: targetWeight,
+                                                                     baseWeight: recipe.totalWeight))
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Schließen") {
