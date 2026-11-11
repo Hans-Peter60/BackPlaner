@@ -55,6 +55,34 @@ struct CloudRecipeImportTests {
         #expect(CloudRecipeAnalysis(response: "text") == nil)
     }
 
+    @Test("The free imports come along when the server sends them, as Long too")
+    func readsFreeImports() throws {
+        #expect(try #require(CloudRecipeAnalysis(response: response)).freeImports == nil)
+        var withAllowance = response
+        withAllowance["freeImports"] = ["used": Int64(3), "limit": Int64(5)] as [String: Any]
+        let analysis = try #require(CloudRecipeAnalysis(response: withAllowance))
+        #expect(analysis.freeImports == CloudRecipeAnalysis.FreeImports(used: 3, limit: 5))
+        #expect(analysis.freeImports?.remaining == 2)
+
+        let decoded = try JSONDecoder().decode(CloudRecipeAnalysis.self, from: Data("""
+            {"recipe": {"title": "Brot", "summary": "", "sourceLanguage": "de", "preparationMinutes": 10,
+                        "components": [], "instructions": [], "warnings": []},
+             "model": "gemini", "freeImports": {"used": 5, "limit": 5}}
+            """.utf8))
+        #expect(decoded.freeImports?.remaining == 0)
+    }
+
+    @Test("The notice names the last two free imports and the last one, and says nothing before")
+    func freeImportsNotice() {
+        typealias Imports = CloudRecipeAnalysis.FreeImports
+        let german = Locale(identifier: "de_DE")
+        #expect(Imports(used: 1, limit: 5).notice(locale: german) == nil)
+        #expect(Imports(used: 3, limit: 5).notice(locale: german) == "Noch 2 kostenlose Cloud-Importe in diesem Monat.")
+        #expect(Imports(used: 4, limit: 5).notice(locale: german) == "Noch ein kostenloser Cloud-Import in diesem Monat.")
+        #expect(Imports(used: 5, limit: 5).notice(locale: german)?.hasPrefix("Das war der letzte kostenlose Cloud-Import") == true)
+        #expect(Imports(used: 7, limit: 5).notice(locale: german)?.hasPrefix("Das war der letzte") == true)
+    }
+
     @MainActor
     @Test("The recipe built from it has components, steps and weight")
     func makesRecipe() throws {

@@ -13,6 +13,8 @@ Sammlung vom 03.11.2026, entstanden nach der Vorbereitung von 2.2 für App Store
 
 **Ausgearbeitet am 04.11.2026 in `docs/Konto-und-Abgleich.md`** (Ist-Stand aus dem Code, Zielbild, Schritte K0–K11, Kostenschätzung, offene Entscheidungen). Kurzfassung: iCloud bleibt der Speicher des iPhones, Firebase wird der Kanal zwischen den Plattformen; ein `SyncEngine` im Paket arbeitet gegen die vorhandenen Speicher-Protokolle; private Dokumente unter `users/{uid}`, Fotos in Storage; Anmeldung mit Apple und Google; Pro-Anspruch als Custom Claim. Pläne bleiben in 3.0 gerätegebunden. Die erste Voraussetzung fehlt noch: gerätestabile UUIDs in beiden Speichern.
 
+**Erster Pro-Schritt (11.11.2026):** das Kontingent für Cloud-Importe ohne Pro – Technik vorhanden, Einschalten und Vorbedingungen in `docs/Pro-Einfuehrung.md`. Weitere Pro-Ideen vom 11.11.2026: Rezept nach Bäckerprozent anlegen, Backtag-Optimierer für mehrere Brote und einen Ofen, Ofenprofile, Vorrat mit Abgleich zur Einkaufsliste, Backstatistik aus der Historie, Backbuch als PDF, Anstellgut-Diagramm, intelligente Sammlungen, Kalender-Konfliktprüfung, alternative App-Symbole.
+
 Dazu passt **Pro auf beiden Plattformen**: StoreKit 2 und Play Billing mit demselben Umfang (`Utilities/ProFeature.swift`), der Schalter `config/monetization` wird gemeinsam umgelegt. Der Kern (Rezepte, Plan, Erinnerungen, Backmodus, Historie, öffentliche Rezepte, Rechner) bleibt frei. Noch nicht ausgearbeitet; Schnittstelle zum Abgleich ist Schritt K7 des Plans.
 
 ## Bäcker-Funktionen, die zur Rechenstärke der App passen
