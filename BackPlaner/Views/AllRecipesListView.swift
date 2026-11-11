@@ -53,6 +53,9 @@ struct AllRecipesListView: View {
     @AppStorage(AppSettingsKeys.automaticTranslation) private var automaticTranslation = AppSettings.defaultAutomaticTranslation
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    private var pantryItems: FetchedResults<PantryItem>
+
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var recipes: FetchedResults<Recipe>
 
     @State private var filterBy  = ""
@@ -165,6 +168,12 @@ struct AllRecipesListView: View {
         if facetFilter.isActive {
             base = base.filter { row in facetFilter.matches(facets(of: row), history: history(of: row)) }
         }
+        if facetFilter.pantryOnly {
+            // The pantry at the recipe as stored; the facet filter itself
+            // knows no pantry.
+            let pantry = pantryItems.map(CoreDataPantryStore.stored)
+            base = base.filter { row in PantryMatcher.check(content(of: row), scale: 1, pantry: pantry).isComplete }
+        }
         if finishBy != nil {
             base = base.filter { finishOutcome(of: $0) != nil }
         }
@@ -255,15 +264,18 @@ struct AllRecipesListView: View {
             || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes || !showVariantRecipes
     }
 
+    /// The row's recipe as plain content, for the package's readings.
+    private func content(of row: Row) -> RecipeExportData {
+        switch row {
+        case .local(let recipe): return RecipeExportData(recipe: recipe, includingImage: false)
+        case .cloud(let recipe): return RecipeExportData(recipeFB: recipe, imageData: nil)
+        }
+    }
+
     /// The row's facets, read from the recipe once and kept.
     private func facets(of row: Row) -> RecipeFacets {
         if let known = facetCache[row.id] { return known }
-        let content: RecipeExportData
-        switch row {
-        case .local(let recipe): content = RecipeExportData(recipe: recipe, includingImage: false)
-        case .cloud(let recipe): content = RecipeExportData(recipeFB: recipe, imageData: nil)
-        }
-        let facets = RecipeFacets.compute(content)
+        let facets = RecipeFacets.compute(content(of: row))
         DispatchQueue.main.async { facetCache[row.id] = facets }
         return facets
     }
@@ -626,6 +638,9 @@ struct AllRecipesListView: View {
         }
         .pickerStyle(.menu)
         Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
+        if Entitlements.shared.isUnlocked(.pantry) {
+            Toggle("Aus dem Vorrat", isOn: $facetFilter.pantryOnly)
+        }
         Button("Fertig bis …", systemImage: "flag.checkered") {
             finishDraft = finishBy ?? FinishByPlanner.morningFinish(after: Date())
             isPickingFinish = true
@@ -680,7 +695,7 @@ struct AllRecipesListView: View {
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("collection.finishBy")
                 }
-                ForEach(RecipeCollection.allCases) { collection in
+                ForEach(RecipeCollection.allCases.filter { $0 != .pantry || Entitlements.shared.isUnlocked(.pantry) }) { collection in
                     let isOn = facetFilter == collection.filter
                     Button {
                         if isOn {

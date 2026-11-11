@@ -55,6 +55,9 @@ struct RecipeFacetFilter: Equatable, Codable {
     var equipment: RecipeFacets.Equipment?
     var history: HistoryChoice?
     var lowWorkOnly = false
+    /// Only recipes the pantry covers completely; checked by the list
+    /// against the pantry, not by `matches` (which knows no pantry).
+    var pantryOnly = false
 
     init() {}
 
@@ -62,7 +65,7 @@ struct RecipeFacetFilter: Equatable, Codable {
     // know, or one missing from an older file, leaves the filter untouched
     // instead of failing the whole list of collections.
     private enum CodingKeys: String, CodingKey {
-        case duration, dayFlow, leavening, grain, doughYield, equipment, history, lowWorkOnly
+        case duration, dayFlow, leavening, grain, doughYield, equipment, history, lowWorkOnly, pantryOnly
     }
 
     init(from decoder: Decoder) throws {
@@ -75,6 +78,7 @@ struct RecipeFacetFilter: Equatable, Codable {
         equipment = try? container.decodeIfPresent(RecipeFacets.Equipment.self, forKey: .equipment)
         history = try? container.decodeIfPresent(HistoryChoice.self, forKey: .history)
         lowWorkOnly = (try? container.decodeIfPresent(Bool.self, forKey: .lowWorkOnly)) ?? false
+        pantryOnly = (try? container.decodeIfPresent(Bool.self, forKey: .pantryOnly)) ?? false
     }
 
     var isActive: Bool {
@@ -114,6 +118,8 @@ struct RecipeFacetFilter: Equatable, Codable {
 /// The preset collections above the recipe list: a filter with a name.
 enum RecipeCollection: String, CaseIterable, Identifiable {
     case morning, quick, sourdough, longAgo, favourites
+    /// Everything the recipe needs is in the pantry (Pro).
+    case pantry
 
     var id: Self { self }
 
@@ -124,6 +130,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .sourdough:  "Reiner Sauerteig"
         case .longAgo:    "Lange nicht gebacken"
         case .favourites: "Lieblinge"
+        case .pantry:     "Aus dem Vorrat"
         }
     }
 
@@ -134,6 +141,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .sourdough:  "drop"
         case .longAgo:    "clock.arrow.circlepath"
         case .favourites: "heart"
+        case .pantry:     "shippingbox"
         }
     }
 
@@ -145,6 +153,7 @@ enum RecipeCollection: String, CaseIterable, Identifiable {
         case .sourdough:  filter.leavening = .sourdough
         case .longAgo:    filter.history = .longAgo
         case .favourites: filter.history = .favourites
+        case .pantry:     filter.pantryOnly = true
         }
         return filter
     }

@@ -12,6 +12,9 @@ import CoreData
 struct BakeHistoryAddView: View {
     
     var recipeId: NSManagedObjectID?
+    /// The serving factor shown on the page, so the pantry is charged with
+    /// what was really used.
+    var servingScale: Double = 1
     
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var model: RecipeModel
@@ -29,6 +32,9 @@ struct BakeHistoryAddView: View {
     @State private var images       = [Data]()
     @State private var date         = GlobalVariables.dateTimePicker
     @State private var showingAlert = false
+    /// What the bake takes out of the pantry, offered once the entry is saved.
+    @State private var pendingDeductions: [PantryDeduction] = []
+    @State private var showingDeductionPrompt = false
     /// Temperatures, proof times, flour, crumb — see BakeHistoryFacts.
     @State private var facts        = BakeHistoryFacts()
 
@@ -141,10 +147,26 @@ struct BakeHistoryAddView: View {
                     // handle the Core Data error
                     showingAlert = false
                 }
+                // The pantry (Pro): what this bake used, to be taken off
+                // once the person has seen the entry was saved.
+                if Entitlements.shared.isUnlocked(.pantry),
+                   let pantry = try? CoreDataPantryStore(context: viewContext).items(), !pantry.isEmpty {
+                    pendingDeductions = PantryMatcher.deductions(for: RecipeExportData(recipe: recipe, includingImage: false),
+                                                                 scale: servingScale, pantry: pantry)
+                }
             }
             .padding(.trailing)
             .alert("Historie wurde gespeichert", isPresented: $showingAlert) {
-                Button("OK", role: .cancel) { } }
+                Button("OK", role: .cancel) {
+                    if !pendingDeductions.isEmpty { showingDeductionPrompt = true }
+                }
+            }
+            .alert("Vorrat abbuchen?", isPresented: $showingDeductionPrompt) {
+                Button("Abbuchen") { applyDeductions() }
+                Button("Nicht abbuchen", role: .cancel) { pendingDeductions = [] }
+            } message: {
+                Text(verbatim: "\(String(localized: "Die verwendeten Mengen werden abgezogen:", locale: AppSettings.locale))\n\(deductionLines)")
+            }
         }
         .clearScrollBackground()
         .warmBackground()
@@ -168,5 +190,24 @@ struct BakeHistoryAddView: View {
             // Set it as the placeholder image
             placeHolderImage = Image(uiImage: recipeImage!)
         }
+    }
+
+    /// "Roggenmehl 1150: 1 kg → 700 g", one line per item.
+    private var deductionLines: String {
+        pendingDeductions.map { deduction in
+            var after = deduction.item
+            after.amount = deduction.remaining
+            return "\(deduction.item.name): \(PantryItemEditorView.amountText(deduction.item)) → \(PantryItemEditorView.amountText(after))"
+        }.joined(separator: "\n")
+    }
+
+    private func applyDeductions() {
+        let store = CoreDataPantryStore(context: viewContext)
+        for deduction in pendingDeductions {
+            var item = deduction.item
+            item.amount = deduction.remaining
+            try? store.update(item)
+        }
+        pendingDeductions = []
     }
 }

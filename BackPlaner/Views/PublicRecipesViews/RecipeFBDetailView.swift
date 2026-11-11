@@ -169,6 +169,11 @@ struct RecipeFBDetailView: View {
                     }
                     .padding(.vertical, 4)
 
+                    // MARK: Pantry — what of this is in the house, at the amount shown (Pro).
+                    if Entitlements.shared.isUnlocked(.pantry) {
+                        PantryCheckCard(recipe: RecipeExportData(recipeFB: recipeFB, imageData: nil), scale: servingScale)
+                    }
+
                     TotalIngredientsView(components: ComponentColumn.columns(of: recipeFB.components),
                                          scale: servingScale)
 

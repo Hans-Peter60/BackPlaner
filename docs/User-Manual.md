@@ -862,6 +862,12 @@ Items that expire within the next 14 days or already have sit at the top under *
 
 **From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin: **Move into the pantry** adds the bought amount to the item of the same name – or creates it – and takes the line off the list. Kilograms and pieces are taken as written, other units as grams.
 
+**Matched against the recipes.** As soon as the pantry holds anything, a recipe's page shows a **Pantry** card: "All 5 ingredients are in the pantry" or "3 of 5 ingredients in the pantry" with what is missing – "200 g Roggenmehl 1150 missing" –, worked out at the serving size chosen. Water, salt and starter do not count; they are not on the shopping list either. Ingredients meet by name; use the suggestions from the recipes when adding items, then they match.
+
+- **Shopping list:** the form has the switch **Deduct pantry** (on by default). What is in the pantry stays off the list, partial amounts are reduced – 500 g needed, 300 g there, 200 g on the list. If everything is there, the app says so instead of creating an empty list.
+- **Filter and collection:** the filter menu has the switch **From the pantry**, the chip row the collection of the same name: only recipes whose ingredients, at the stored amount, are completely there.
+- **After baking:** when you record a bake, the app asks **Deduct from the pantry?** and shows what comes off which item – with two bags of the same flour, from the one that expires first. "Don't deduct" leaves the pantry as it is.
+
 Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs to BakePlanner Pro.
 
 
@@ -1288,7 +1294,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
-| Pantry (More → Pantry, intake from the shopping list) | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
+| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake) | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

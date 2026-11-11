@@ -180,6 +180,12 @@ struct ShoppingCartSelectFormView: View {
     @State private var mode = ShoppingCartMode.newList
     @State private var showingAlert = false
     @State private var showingNoIngredientsAlert = false
+    /// Everything the recipe needs is in the pantry: nothing for the list.
+    @State private var showingAllInPantryAlert = false
+    /// "Vorrat abziehen": what is in the house stays off the list.
+    @AppStorage("shoppingList.deductsPantry") private var deductsPantry = true
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    private var pantryItems: FetchedResults<PantryItem>
     @State private var createdShoppingCart = false
     /// The list whose deletion is waiting to be confirmed — an object, not a
     /// flag: one flag shared by every row lets the dialog delete a list other
@@ -217,6 +223,15 @@ struct ShoppingCartSelectFormView: View {
                 Text("Portionsgröße")
             } footer: {
                 Text("Die Zutaten kommen mit dem Faktor \(servingScaleText) auf die Liste – so wie unter Details und Backen gewählt.")
+            }
+
+            if Entitlements.shared.isUnlocked(.pantry), !pantryItems.isEmpty {
+                Section {
+                    Toggle("Vorrat abziehen", isOn: $deductsPantry)
+                        .accessibilityIdentifier("shoppingList.deductPantry")
+                } footer: {
+                    Text("Was im Vorrat ist, kommt nicht auf die Liste; Teilmengen werden gekürzt.")
+                }
             }
 
             Section("Einkaufsliste") {
@@ -313,6 +328,11 @@ struct ShoppingCartSelectFormView: View {
                 Text("Die Zutatennamen konnten nicht übersetzt werden und stehen in der Sprache des Rezepts.")
             }
         }
+        .alert("Alles im Vorrat", isPresented: $showingAllInPantryAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Für dieses Rezept ist alles da – nichts kommt auf die Einkaufsliste.")
+        }
         .alert("Keine Zutaten vorhanden", isPresented: $showingNoIngredientsAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -402,7 +422,14 @@ struct ShoppingCartSelectFormView: View {
         // Scaled to the chosen factor first and sifted on the original
         // names, which the water/salt/starter check reads in any language.
         let prepared = source.entries(in: appLanguage)
-        let entries = ShoppingListBuilder.entriesToBuy(prepared.entries, scale: servingScale)
+        let needed = ShoppingListBuilder.entriesToBuy(prepared.entries, scale: servingScale)
+        let entries = deductsPantry && Entitlements.shared.isUnlocked(.pantry)
+            ? PantryMatcher.reduce(needed, pantry: pantryItems.map(CoreDataPantryStore.stored))
+            : needed
+        if !needed.isEmpty && entries.isEmpty {
+            showingAllInPantryAlert = true
+            return
+        }
 
         guard !entries.isEmpty else {
             showingNoIngredientsAlert = true
