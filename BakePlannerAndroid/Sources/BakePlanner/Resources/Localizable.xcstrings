@@ -4030,23 +4030,6 @@
       },
       "extractionState" : "manual"
     },
-    "Geplante nächste Schritte" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scheduled next steps"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochaines étapes planifiées"
-          }
-        }
-      }
-    },
     "Geplante Schritte löschen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6285,6 +6268,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prochain nourrissage : après le premier nourrissage"
+          }
+        }
+      }
+    },
+    "Nächste Schritte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochaines étapes"
           }
         }
       }
