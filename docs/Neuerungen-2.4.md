@@ -16,6 +16,9 @@ MAC
 REZEPT NACH BÄCKERPROZENT
 • „Neues Rezept“ kann jetzt eine Formel sein: Mehl 100 Prozent, Wasser 68, Salz 2, Anstellgut 20 – je Komponente, mit Mehlmenge oder gewünschtem Teiggewicht als Vorgabe. Die App rechnet die Gramm, prüft, dass die Mehle 100 Prozent ergeben, und öffnet das Rezept im Editor für die Schritte.
 
+BACKSTATISTIK
+• Die Backhistorie hat eine fünfte Ansicht: Brote gesamt, dieses Jahr und pro Monat, die letzten zwölf Monate als Balken, die meistgebackenen Rezepte, die Verteilung der Sterne, Stückgare gegen Raumtemperatur und die Stichwörter zu Krume und Ofentrieb.
+
 KLEINERES
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
 • Die Einstellungen enthalten nur noch Einstellungen. „Rezepte importieren“ (bisher „Aus Sicherung wiederherstellen“) steht jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android. „Alle eigenen Rezepte sichern“ entfällt: „Rezepte exportieren“ mit „Alle auswählen“ und eingeschalteter Backhistorie ist dieselbe Sicherung – und bleibt frei.
@@ -40,6 +43,9 @@ MAC
 RECIPE FROM BAKER’S PERCENTAGES
 • A new recipe can now be a formula: flour 100 percent, water 68, salt 2, starter 20 – per component, with the flour weight or the dough weight you want as the given. The app works out the grams, checks that the flours add up to 100 percent, and opens the recipe in the editor for the steps.
 
+BAKING STATISTICS
+• The baking history has a fifth view: loaves in total, this year and per month, the last twelve months as bars, the recipes baked most, the spread of the stars, final proof against room temperature, and the crumb and oven-spring keywords.
+
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
@@ -63,6 +69,9 @@ MAC
 
 RECETTE EN POURCENTAGES BOULANGER
 • Une nouvelle recette peut désormais être une formule : farine 100 pour cent, eau 68, sel 2, levain chef 20 – par composant, avec la quantité de farine ou le poids de pâte souhaité comme donnée. L’app calcule les grammes, vérifie que les farines font 100 pour cent et ouvre la recette dans l’éditeur pour les étapes.
+
+STATISTIQUES DE CUISSON
+• L’historique de cuisson a un cinquième affichage : pains au total, cette année et par mois, les douze derniers mois en barres, les recettes les plus cuites, la répartition des étoiles, l’apprêt selon la température ambiante et les mots-clés de mie et de développement.
 
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».

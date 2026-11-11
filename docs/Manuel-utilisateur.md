@@ -120,7 +120,7 @@ Au lancement, l’app s’ouvre sur l’onglet **Recettes**. Au bord inférieur 
 |--------|------|
 | **Recettes** | Toutes les recettes dans une seule liste : les vôtres sur l’appareil, celles que vous avez publiées et les recettes publiques de tous — avec les puces de filtre **Local / Publiées par moi / Public** (voir [chapitre 5](#5-base-de-recettes)) |
 | **Listes de courses** | Toutes les listes de courses créées |
-| **Historique de cuisson** | Les cuissons passées avec commentaires et photos — en liste, galerie, palmarès ou nuage de photos |
+| **Historique de cuisson** | Les cuissons passées avec commentaires et photos — en liste, galerie, palmarès, nuage de photos ou statistiques |
 | **Timeline** | Toutes les étapes de cuisson programmées, en timeline ou en liste |
 
 En haut à droite de l’onglet **Recettes** se trouvent trois boutons :
@@ -743,7 +743,7 @@ Les mêmes commandes figurent dans l’app **Raccourcis** sous BakePlanner et pe
 
 ### Historique de cuisson
 
-**Onglet Historique de cuisson.** Toutes les cuissons en quatre affichages, à choisir par les symboles sous le titre ; le choix est mémorisé. **Liste** : la plus récente en premier, avec date, nom de la recette, commentaire et photos. **Galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. **Palmarès** et **nuage de photos** résument l’historique par recette (voir ci-dessous). La recherche, les tags et le filtre de note s’appliquent aux quatre. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
+**Onglet Historique de cuisson.** Toutes les cuissons en cinq affichages, à choisir par les symboles sous le titre ; le choix est mémorisé. **Liste** : la plus récente en premier, avec date, nom de la recette, commentaire et photos. **Galerie** : des vignettes avec la première photo de la cuisson (à défaut l’image de la recette), le nom de la recette, la date, la note et le commentaire, deux par rangée sur iPhone et davantage sur iPad. **Palmarès** et **nuage de photos** résument l’historique par recette (voir ci-dessous). La recherche, les tags et le filtre de note s’appliquent aux quatre. Tant qu’aucune cuisson n’existe, l’écran vide explique d’où viennent les entrées et mène à vos recettes.
 
 - **Toucher une entrée** (ligne ou vignette) → les notes de cuisson : modifier le commentaire, renseigner **Mesures et résultat** (voir ci-dessous) et ajouter des photos via la **photothèque**. Les photos se touchent et se parcourent en grand. **Enregistrer** confirme par « L’historique a été enregistré ».
 - **Supprimer une entrée** : balayez la ligne vers la gauche.
@@ -784,6 +784,19 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 *Le nuage de photos : plus une recette est cuite souvent, plus son cercle est grand.*
 
 ---
+
+### Statistiques
+
+**Historique de cuisson → Statistiques.** Ce que votre historique de cuisson donne une fois additionné — toujours pour les entrées que la recherche et le filtre par note affichent, et seulement pour les cuissons déjà passées (une cuisson planifiée dans le futur ne compte pas encore) :
+
+- Quatre chiffres en haut : **Pains au total**, **Cette année**, **Par mois** (depuis la première cuisson) et, dès que vous avez noté des cuissons, la **Note moyenne** en étoiles.
+- **Pains par mois :** les douze derniers mois en barres, les mois calmes restent vides.
+- **Les plus cuits :** les sept recettes les plus cuites avec leur nombre.
+- **Notes :** combien de cuissons ont reçu une à cinq étoiles — apparaît dès qu’une entrée porte des étoiles.
+- **Apprêt et température ambiante :** chaque cuisson avec température ambiante et apprêt mesuré comme un point, cuisines chaudes à droite, longs apprêts en haut — apparaît à partir de deux entrées de ce type et montre avec le temps comment votre pâte réagit à la température.
+- **Mie et développement au four :** combien de fois vous avez donné « ouverte », « dense », « bon développement » et les autres mots-clés.
+
+Les statistiques vivent des mesures du [chapitre 12](#12-historique-de-cuisson) : plus vous notez température ambiante, temps de pousse, étoiles et mots-clés, plus elles montrent.
 
 ## 13. Liste de courses
 
@@ -1241,6 +1254,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », « Traduire automatiquement les recettes publiques », « Activité en direct », « Alarmes » | [chapitre 14](#14-réglages) | Manquent. Les nouvelles recettes sont d’abord privées et vont dans la base via **Publier** sur la page de la recette |
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
+| Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 
 ### Prérequis

@@ -120,7 +120,7 @@ After launch the app opens on the **Recipes** tab. Along the bottom runs the tab
 |-----|---------|
 | **Recipes** | Every recipe in one list: your own on the device, the ones you published and the public ones of all users — with the filter chips **Local / Published by me / Public** (see [chapter 5](#5-recipe-database)) |
 | **Shopping lists** | All the shopping lists you've created |
-| **Baking history** | Past bakes with comments and photos — as a list, gallery, top list or photo cloud |
+| **Baking history** | Past bakes with comments and photos — as a list, gallery, top list, photo cloud or statistics |
 | **Timeline** | Every scheduled baking step as a timeline or a list |
 
 At the top right of the **Recipes** tab sit three buttons:
@@ -743,7 +743,7 @@ The same commands are listed in the **Shortcuts** app under BakePlanner and can 
 
 ### Baking history
 
-**Baking history tab.** Every bake in four views, switched with the symbols under the title; the choice is remembered. **List**: newest first, with date, recipe name, comment and photos. **Gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. **Top list** and **photo cloud** sum the history up per recipe (see below). Search, tags and the rating filter apply in all four. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
+**Baking history tab.** Every bake in five views, switched with the symbols under the title; the choice is remembered. **List**: newest first, with date, recipe name, comment and photos. **Gallery**: tiles with the bake's first photo (or the recipe picture as a stand-in), recipe name, date, rating and comment, two across on an iPhone and more on an iPad. **Top list** and **photo cloud** sum the history up per recipe (see below). Search, tags and the rating filter apply in all four. While there is no bake yet, the empty screen explains where entries come from and leads to your recipes.
 
 - **Tap an entry** (row or tile) → baking notes: edit the comment, fill in **Measurements and result** (see below) and add photos through **Photo library**. Photos can be tapped and browsed full size. **Save** confirms with "History was saved".
 - **Delete an entry**: swipe the row left.
@@ -784,6 +784,19 @@ An entry is also created automatically when you set reminders in the baking inst
 *The photo cloud: the more often baked, the bigger the circle.*
 
 ---
+
+### Statistics
+
+**Baking history → Statistics.** What your baking history adds up to — always for the entries the search and the rating filter currently show, and only for bakes that are already over (a bake planned in the future does not count yet):
+
+- Four figures at the top: **Loaves in total**, **This year**, **Per month** (since the first bake) and, once you have rated bakes, the **Avg. rating** in stars.
+- **Loaves per month:** the last twelve months as bars, quiet months stay empty.
+- **Baked most:** the seven recipes with the most bakes and their counts.
+- **Ratings:** how many bakes got one to five stars — appears once an entry carries stars.
+- **Final proof and room temperature:** every bake with a room temperature and a measured final proof as a point, warm kitchens to the right, long proofs at the top — appears from two such entries and shows over time how your dough responds to the temperature.
+- **Crumb and oven spring:** how often you gave "open", "dense", "good oven spring" and the other keywords.
+
+The statistics live on the measurements in [chapter 12](#12-baking-history): the more often you record room temperature, proofing times, stars and keywords, the more they show.
 
 ## 13. Shopping list
 
@@ -1241,6 +1254,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
+| Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 
 ### Requirements
