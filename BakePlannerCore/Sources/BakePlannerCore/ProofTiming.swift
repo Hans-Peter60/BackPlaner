@@ -343,6 +343,13 @@ public enum ProofTiming {
         #"\bshap(?:e|ed|ing)\b"#, "preshape", "pre-shape",
         "faconn", #"\bbouler\b"#, "mettre en forme", "mise en forme"
     ]
+    /// Whether a step happens in the fridge — a cold retard, "über Nacht
+    /// kühl stellen". The recipe facets read it as a long rest that asks
+    /// nothing of the baker.
+    public static func isColdStep(_ instruction: String) -> Bool {
+        matches(coldPatterns, fold(instruction))
+    }
+
     /// In the fridge the room temperature does not matter.
     private static let coldPatterns = [
         "kuhlschrank", "kuhl", "kalt", "fridge", "refrigerat", #"\bcold\b"#, "retard", "frigo", "froid", "au frais"

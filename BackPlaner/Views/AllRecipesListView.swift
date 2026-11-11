@@ -58,6 +58,12 @@ struct AllRecipesListView: View {
     @State private var filterBy  = ""
     @State private var nameOrTag = 1
     @State private var rating    = 0
+    /// What the recipe itself is like — duration, day flow, leavening, grain,
+    /// dough yield, equipment, work — and what the history says about it.
+    @State private var facetFilter = RecipeFacetFilter()
+    /// Facets read once per recipe; a recipe's facets change only when it is
+    /// edited, and the list is rebuilt then anyway.
+    @State private var facetCache: [Row.ID: RecipeFacets] = [:]
 
     @State private var confirmationShown = false
     @State private var recipeToDelete: Recipe?
@@ -144,7 +150,10 @@ struct AllRecipesListView: View {
 
     private var filteredRows: [Row] {
         let search = filterBy.trimmingCharacters(in: .whitespacesAndNewlines)
-        let base = toggledRows.filter { $0.rating >= rating }
+        var base = toggledRows.filter { $0.rating >= rating }
+        if facetFilter.isActive {
+            base = base.filter { row in facetFilter.matches(facets(of: row), history: history(of: row)) }
+        }
 
         let matched: [Row]
         if search.isEmpty {
@@ -160,8 +169,29 @@ struct AllRecipesListView: View {
 
     private var isFiltering: Bool {
         !filterBy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || rating > 0
+            || rating > 0 || facetFilter.isActive
             || !showLocalRecipes || !showOwnPublishedRecipes || !showPublicCloudRecipes || !showVariantRecipes
+    }
+
+    /// The row's facets, read from the recipe once and kept.
+    private func facets(of row: Row) -> RecipeFacets {
+        if let known = facetCache[row.id] { return known }
+        let content: RecipeExportData
+        switch row {
+        case .local(let recipe): content = RecipeExportData(recipe: recipe, includingImage: false)
+        case .cloud(let recipe): content = RecipeExportData(recipeFB: recipe, imageData: nil)
+        }
+        let facets = RecipeFacets.compute(content)
+        DispatchQueue.main.async { facetCache[row.id] = facets }
+        return facets
+    }
+
+    /// How often and when the recipe was baked — own recipes only; a public
+    /// recipe has no history here.
+    private func history(of row: Row) -> RecipeFacetFilter.History {
+        guard case .local(let recipe) = row else { return .init(count: 0, lastDate: nil, rating: row.rating) }
+        let completed = recipe.bakeHistoriesArray.filter { $0.date <= Date() }
+        return .init(count: completed.count, lastDate: completed.first?.date, rating: recipe.rating)
     }
 
     /// What "+" or the "Mehr" menu opened, pushed onto the tab's stack.
@@ -178,6 +208,7 @@ struct AllRecipesListView: View {
             VStack(alignment: .leading, spacing: 0) {
 
                 filterChips
+                collectionChips
 
                 if modelFB.isLoading && toggledRows.isEmpty {
                     ProgressView("Lade Rezepte …")
@@ -299,7 +330,7 @@ struct AllRecipesListView: View {
                             filterItems
                         } label: {
                             Label("Nach Bewertung filtern",
-                                  systemImage: rating > 0 || !showVariantRecipes ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                                  systemImage: rating > 0 || !showVariantRecipes || facetFilter.isActive ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                         }
                         .accessibilityIdentifier("menu.ratingFilter")
                     }
@@ -407,13 +438,110 @@ struct AllRecipesListView: View {
     /// The least rating listed and whether variants are listed; a menu of
     /// its own on the iPhone, part of "Mehr" on the iPad.
     @ViewBuilder private var filterItems: some View {
+        // A submenu like the facets below, so the menu stays short.
         Picker("Mindestbewertung", selection: $rating) {
             Text("Alle Bewertungen").tag(0)
             ForEach(1...5, id: \.self) { stars in
                 Text("\(stars) Sterne und mehr").tag(stars)
             }
         }
+        .pickerStyle(.menu)
         Toggle("Varianten anzeigen", isOn: $showVariantRecipes)
+        Divider()
+        facetItems
+    }
+
+    /// The facets, each a submenu with "Alle" first; a second divider and
+    /// "Filter zurücksetzen" once anything is set.
+    @ViewBuilder private var facetItems: some View {
+        Picker("Dauer", selection: $facetFilter.duration) {
+            Text("Alle").tag(RecipeFacets.Duration?.none)
+            Text("Unter 4 Stunden").tag(RecipeFacets.Duration?.some(.short))
+            Text("4 bis 12 Stunden").tag(RecipeFacets.Duration?.some(.halfDay))
+            Text("Über Nacht").tag(RecipeFacets.Duration?.some(.overnight))
+            Text("Mehrtägig").tag(RecipeFacets.Duration?.some(.multiDay))
+        }
+        .pickerStyle(.menu)
+        Picker("Tagesablauf", selection: $facetFilter.dayFlow) {
+            Text("Alle").tag(RecipeFacets.DayFlow?.none)
+            Text("Abends ansetzen, morgens backen").tag(RecipeFacets.DayFlow?.some(.eveningToMorning))
+            Text("Morgens ansetzen, abends backen").tag(RecipeFacets.DayFlow?.some(.sameDay))
+            Text("Fertig in 2 Stunden").tag(RecipeFacets.DayFlow?.some(.quick))
+        }
+        .pickerStyle(.menu)
+        Picker("Triebmittel", selection: $facetFilter.leavening) {
+            Text("Alle").tag(RecipeFacets.Leavening?.none)
+            Text("Reiner Sauerteig").tag(RecipeFacets.Leavening?.some(.sourdough))
+            Text("Lievito Madre").tag(RecipeFacets.Leavening?.some(.lievitoMadre))
+            Text("Hefe").tag(RecipeFacets.Leavening?.some(.yeast))
+            Text("Sauerteig und Hefe").tag(RecipeFacets.Leavening?.some(.mixed))
+        }
+        .pickerStyle(.menu)
+        Picker("Mehl", selection: $facetFilter.grain) {
+            Text("Alle").tag(RecipeFacetFilter.Grain?.none)
+            Text("Überwiegend Weizen").tag(RecipeFacetFilter.Grain?.some(.wheat))
+            Text("Überwiegend Roggen").tag(RecipeFacetFilter.Grain?.some(.rye))
+            Text("Überwiegend Dinkel").tag(RecipeFacetFilter.Grain?.some(.spelt))
+            Text("Überwiegend Vollkorn").tag(RecipeFacetFilter.Grain?.some(.wholeGrain))
+        }
+        .pickerStyle(.menu)
+        Picker("Teigausbeute", selection: $facetFilter.doughYield) {
+            Text("Alle").tag(RecipeFacets.DoughYieldBand?.none)
+            Text("Fest, unter TA 165").tag(RecipeFacets.DoughYieldBand?.some(.firm))
+            Text("Mittel, TA 165 bis 180").tag(RecipeFacets.DoughYieldBand?.some(.medium))
+            Text("Weich, ab TA 180").tag(RecipeFacets.DoughYieldBand?.some(.soft))
+        }
+        .pickerStyle(.menu)
+        Picker("Ausstattung", selection: $facetFilter.equipment) {
+            Text("Alle").tag(RecipeFacets.Equipment?.none)
+            Text("Backstein").tag(RecipeFacets.Equipment?.some(.bakingStone))
+            Text("Kastenform").tag(RecipeFacets.Equipment?.some(.loafTin))
+            Text("Gärkörbchen").tag(RecipeFacets.Equipment?.some(.proofingBasket))
+            Text("Topf").tag(RecipeFacets.Equipment?.some(.dutchOven))
+        }
+        .pickerStyle(.menu)
+        Picker("Backhistorie", selection: $facetFilter.history) {
+            Text("Alle").tag(RecipeFacetFilter.HistoryChoice?.none)
+            Text("Nie gebacken").tag(RecipeFacetFilter.HistoryChoice?.some(.never))
+            Text("Lange nicht gebacken").tag(RecipeFacetFilter.HistoryChoice?.some(.longAgo))
+            Text("Lieblinge").tag(RecipeFacetFilter.HistoryChoice?.some(.favourites))
+        }
+        .pickerStyle(.menu)
+        Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
+        if facetFilter.isActive {
+            Divider()
+            Button("Filter zurücksetzen", role: .destructive) {
+                facetFilter = RecipeFacetFilter()
+            }
+        }
+    }
+
+    /// The preset collections as chips: each sets the facets that make it
+    /// and clears the rest; the active one is tinted, a second tap clears.
+    private var collectionChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(RecipeCollection.allCases) { collection in
+                    let isOn = facetFilter == collection.filter
+                    Button {
+                        facetFilter = isOn ? RecipeFacetFilter() : collection.filter
+                    } label: {
+                        Label(collection.title, systemImage: collection.systemImage)
+                            .font(Theme.bodyFont(14))
+                            .lineLimit(1)
+                            .foregroundColor(isOn ? .white : Theme.subtitle)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 7)
+                            .background(Capsule().fill(isOn ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.card)))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : [.isButton])
+                    .accessibilityIdentifier("collection.\(collection.rawValue)")
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.bottom, 8)
+        }
     }
 
     // MARK: - Filter chips

@@ -180,7 +180,7 @@
 <colgroup><col class="first" style="--w: 10ch"></colgroup>
 <thead><tr><th>Button</th><th>Purpose</th></tr></thead>
 <tbody>
-<tr><td><strong>Filter</strong></td><td>The minimum rating for the list</td></tr>
+<tr><td><strong>Filter</strong></td><td>The minimum rating, variants and the facets (duration, day flow, leavening, flour, dough yield, equipment, baking history) for the list</td></tr>
 <tr><td><strong>More (⋯)</strong></td><td>The four baker's calculators <strong>Dough temperature</strong> (the water temperature for a desired dough temperature), <strong>Replace flour</strong> (swap the flour type, adjust the water), <strong>Starter TA</strong> (use a starter of a different dough yield, adjust the water) and <strong>Dough weight</strong> (the dough a loaf tin or a proofing basket takes), the backup — <strong>Import recipes</strong> (read a backup file or a single exported recipe) and <strong>Export recipes</strong> (your own recipes as a file, all or a selection), see <a href="#14-settings">chapter 14</a> — and the <strong>Settings</strong> (language, defaults, baking plan, account)</td></tr>
 <tr><td><strong>+</strong></td><td><strong>Create new recipe</strong> — from scratch or imported from photos, a web page, or copied text</td></tr>
 </tbody></table></div>
@@ -207,7 +207,7 @@
 <figcaption>In the recipe database you can search for and open public recipes.</figcaption>
 </figure>
 <h3 id="searching-and-filtering">Searching and filtering</h3>
-<ul><li><strong>Search field</strong> at the top: searches recipe names.</li><li><strong>Switch the search scope</strong>: below the search field you can choose between <strong>Name</strong> and <strong>Tags</strong>. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).</li><li><strong>Filter chips</strong> below the search field: <strong>Local</strong> (recipes on the device), <strong>Published by me</strong> (your own recipes in the database) and <strong>Public</strong> (the recipes of other users). Each chip switches its source on or off on its own; a public recipe always belongs to exactly one of the two cloud chips.</li><li><strong>Filter symbol</strong> at the top right: minimum rating (All ratings, 1–5 stars and up). While the filter is active, the symbol is shown filled.</li><li><strong>Pull down</strong> to refresh the list from the cloud.</li></ul>
+<ul><li><strong>Search field</strong> at the top: searches recipe names.</li><li><strong>Switch the search scope</strong>: below the search field you can choose between <strong>Name</strong> and <strong>Tags</strong>. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).</li><li><strong>Filter chips</strong> below the search field: <strong>Local</strong> (recipes on the device), <strong>Published by me</strong> (your own recipes in the database) and <strong>Public</strong> (the recipes of other users). Each chip switches its source on or off on its own; a public recipe always belongs to exactly one of the two cloud chips.</li><li><strong>Collections</strong> in the second chip row: <strong>For tomorrow morning</strong>, <strong>Quick bread</strong>, <strong>Pure sourdough</strong>, <strong>Not baked for a while</strong> and <strong>Favourites</strong> – each sets a ready-made combination of the facets (see below). A second tap clears it again.</li><li><strong>Filter symbol</strong> at the top right: minimum rating (All ratings, 1–5 stars and up), variants and the facets. While a filter is active, the symbol is shown filled.</li><li><strong>Pull down</strong> to refresh the list from the cloud.</li></ul>
 <p>"No recipes loaded" means there was no internet connection at launch — pull the list down once. "No matching recipes" means a filter is active.</p>
 <h3 id="opening-a-public-recipe">Opening a public recipe</h3>
 <p>A recipe opens as <strong>one continuous page</strong>: image, name and description at the top, then serving size and dough weight, the weight, <strong>Share recipe</strong> and the dough-yield line, below them three buttons, then the total ingredients, the components and the processing steps with their durations — the same layout as your own recipes (see <a href="#6-my-recipes">chapter 6</a>), only without rating, baking history and export.</p>
@@ -239,8 +239,23 @@
 </figure>
 <p>Where only your own recipes come into question — the empty screens of the shopping list and the baking history — <strong>Open my recipes</strong> opens a list of just those. While it is empty, it offers the two ways to a first recipe right there: <strong>Open the recipe database</strong> and <strong>Create new recipe</strong>.</p>
 <h3 id="searching-and-filtering">Searching and filtering</h3>
-<ul><li><strong>Search field</strong> with a <strong>Name / Tags</strong> switch.</li><li><strong>Filter symbol</strong> at the top right: pick a minimum rating (All ratings, 1–5 stars and up). While a filter is active, the symbol is shown filled.</li></ul>
-<p>The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search and rating filters can be combined.</p>
+<ul><li><strong>Search field</strong> with a <strong>Name / Tags</strong> switch.</li><li><strong>Filter symbol</strong> at the top right: pick a minimum rating (All ratings, 1–5 stars and up), show or hide variants and set the <strong>facets</strong>. While a filter is active, the symbol is shown filled; <strong>Reset filters</strong> clears all facets at once.</li></ul>
+<p>The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search, rating and facets can be combined; what matches all of them stays.</p>
+<h4 id="facets">Facets</h4>
+<p>The app reads each recipe from its ingredients and steps – there is nothing to enter. Each facet has a submenu:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Facet</th><th>Choices</th><th>How the app knows</th></tr></thead>
+<tbody>
+<tr><td><strong>Duration</strong></td><td>Under 4 hours, 4 to 12 hours, Overnight, Several days</td><td>Total time of the steps from the first to the last</td></tr>
+<tr><td><strong>Day flow</strong></td><td>Start in the evening, bake in the morning; Start in the morning, bake in the evening; Done in 2 hours</td><td>If the last long rest (6 hours or more, such as the proof in the fridge) leaves at most 3 hours afterwards, "Start in the evening, bake in the morning" fits – in the morning the bread only needs shaping and baking. "Start in the morning, bake in the evening" are recipes up to 10 hours without such a rest; "Done in 2 hours" up to 2 hours.</td></tr>
+<tr><td><strong>Leavening</strong></td><td>Pure sourdough, Yeast, Sourdough and yeast</td><td>Ingredients and component names: sourdough, starter, levain, lievito madre, yeast, poolish, biga …</td></tr>
+<tr><td><strong>Flour</strong></td><td>Mostly wheat, rye, spelt or wholemeal</td><td>The flour with the largest share; wholemeal from half the flour</td></tr>
+<tr><td><strong>Dough yield</strong></td><td>Firm (under DY 165), Medium (DY 165 to 180), Soft (from DY 180)</td><td>The dough yield of the whole recipe, see <a href="#15-units-amounts-and-serving-sizes">chapter 15</a></td></tr>
+<tr><td><strong>Equipment</strong></td><td>Baking stone, Loaf tin, Proofing basket, Pot</td><td>The wording of the steps ("bake in the pot", "into the loaf tin", "into the basket", preheating with a stone)</td></tr>
+<tr><td><strong>Baking history</strong></td><td>Never baked, Not baked for a while (over 90 days), Favourites (baked at least twice and 4 stars)</td><td>Your baking history – own recipes only</td></tr>
+<tr><td><strong>Little work</strong></td><td>Switch</td><td>At most 45 minutes of hands-on time, everything else is rest and oven</td></tr>
+</tbody></table></div>
+<p>The five <strong>collections</strong> are nothing but facets that have been set: "For tomorrow morning" is the day flow "Start in the evening, bake in the morning", "Quick bread" is "Done in 2 hours", "Pure sourdough" is the leavening, "Not baked for a while" and "Favourites" are the baking history. If you open the filter menu after tapping a chip, you see the facet set there and can add more – the chip is then no longer marked, because the selection is now more than the collection.</p>
 <p><strong>Spotlight.</strong> Your own recipes are in the iPhone's search as well: swipe down on the Home Screen, type "Landbrot", and BakePlanner opens the recipe directly. They are found by name, tags and description; the index is refreshed at launch and whenever a recipe changes.</p>
 <h3 id="deleting-a-recipe">Deleting a recipe</h3>
 <p>Swipe the row left → <strong>Delete</strong>. A confirmation follows, naming the recipe, so that an accidental swipe can't destroy one. Deleting a recipe also deletes its components, ingredients, processing steps, and baking-history entries.</p>
@@ -782,6 +797,7 @@
 <tr><td>BakePlanner Pro</td><td><a href="#14-settings">chapter 14</a></td><td>Everything free</td></tr>
 <tr><td>Create recipe from baker's percentages</td><td><a href="#8-creating-a-new-recipe">chapter 8</a></td><td>Not yet</td></tr>
 <tr><td>Baking-history statistics</td><td><a href="#12-baking-history">chapter 12</a></td><td>Not yet</td></tr>
+<tr><td>Facets and collections in the recipe list</td><td><a href="#6-my-recipes">chapter 6</a></td><td>Not yet; the logic <code>RecipeFacets</code> is already in the shared package</td></tr>
 <tr><td>Translation of shopping-list ingredients</td><td><a href="#13-shopping-list">chapter 13</a></td><td>Not planned</td></tr>
 </tbody></table></div>
 <h3 id="requirements">Requirements</h3>
