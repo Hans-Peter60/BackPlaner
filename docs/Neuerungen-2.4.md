@@ -23,6 +23,7 @@ SAMMLUNGEN UND FACETTEN
 • Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
 • Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
 • Eine Kombination, die Du öfter brauchst, sicherst Du mit „Sammlung sichern“ unter einem Namen als eigenen Chip; langes Drücken benennt um oder löscht.
+• „Fertig bis …“: Wähle, wann das Brot fertig sein soll, und die Liste zeigt nur, was noch zu schaffen ist – mit dem nötigen Start unter jedem Rezept, das früheste zuerst. Langes Drücken öffnet das Planungsblatt mit diesem Start. „Für morgen früh“ setzt das Ziel gleich auf morgen 7:30 Uhr.
 
 KLEINERES
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
@@ -56,6 +57,7 @@ COLLECTIONS AND FACETS
 • The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
 • The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
 • A combination you need often is saved with “Save collection” under a name as a chip of your own; a long press renames or deletes it.
+• “Finished by …”: choose when the bread is to be ready, and the list shows only what can still be made – with the start it needs under each recipe, the earliest first. A long press opens the plan sheet with that start. “For tomorrow morning” sets the target to tomorrow 7:30 right away.
 
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
@@ -89,6 +91,7 @@ COLLECTIONS ET FACETTES
 • La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».
 • Le menu de filtre a maintenant des facettes : durée, déroulement de la journée, agent levant, farine, taux d’hydratation, matériel (pierre, moule, banneton, cocotte), historique de cuisson et « Peu de travail ». L’app lit tout dans les ingrédients et les étapes – rien à saisir. Les facettes se combinent.
 • Une combinaison dont vous avez souvent besoin s’enregistre avec « Enregistrer la collection » sous un nom comme puce personnelle ; un appui long la renomme ou la supprime.
+• « Prêt pour… » : choisissez quand le pain doit être prêt, et la liste ne montre que ce qui est encore réalisable – avec le début nécessaire sous chaque recette, le plus tôt en premier. Un appui long ouvre la feuille de planification avec ce début. « Pour demain matin » règle l’objectif sur demain 7 h 30.
 
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».

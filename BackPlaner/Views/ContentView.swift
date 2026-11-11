@@ -201,6 +201,9 @@ enum MenuDestination: Hashable {
     /// Not a menu entry either: a recipe opened from Spotlight or a link,
     /// by its id (`Recipe.reminderId`).
     case recipe(id: String)
+    /// "Planen ab …" on a row of the recipe list under "Fertig bis": the
+    /// page opens with the plan sheet; the start is in GlobalVariables.dateTimePicker.
+    case planRecipe(id: String)
 }
 
 /// The screen behind a `MenuDestination`.
@@ -222,6 +225,8 @@ struct MenuDestinationView: View {
             RecipeWebImportView(initialURL: pageURL).id(handoff)
         case .recipe(let id):
             LinkedRecipeView(recipeID: id)
+        case .planRecipe(let id):
+            LinkedRecipeView(recipeID: id, startsInBakingView: true)
         }
     }
 }
@@ -229,10 +234,11 @@ struct MenuDestinationView: View {
 /// The page of the recipe a link names, or a word when it is gone.
 struct LinkedRecipeView: View {
     let recipeID: String
+    var startsInBakingView = false
 
     var body: some View {
         if let recipe = try? RecipeLookup.recipe(withID: recipeID) {
-            RecipePageView(recipe: recipe)
+            RecipePageView(recipe: recipe, startsInBakingView: startsInBakingView)
         } else {
             ContentUnavailableView("Rezept nicht gefunden", systemImage: "magnifyingglass",
                                    description: Text("Das Rezept gibt es nicht mehr oder es ist noch nicht auf diesem Gerät angekommen."))

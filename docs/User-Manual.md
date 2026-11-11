@@ -268,6 +268,8 @@ The five **collections** are nothing but facets that have been set: "For tomorro
 
 **Your own collections.** A combination you need often – say "Pure sourdough" with "Pot" and "Little work" – is saved from the filter menu with **Save collection** under a name. It appears as a chip with a bookmark after the five presets and works like them. A long press on the chip offers **Rename** and **Delete**. The collections stay on the device; they hold only the facets, not the search text or the minimum rating.
 
+**Finished by.** In the filter menu, **Finished by …** takes the date and time the bread is to be ready. The list then shows only recipes that can still be made from now on, ordered by the start they need, and writes it under each recipe: "Start today 17:45", "Start tomorrow 06:10". It is worked out as in the plan sheet's "Finished by" mode: with the preheat time and, for a baking stone, the stone's preheat time from the settings. A moon after the start means a step falls outside the day's start and end. The chosen target is the first chip above the list; a tap changes it, **Clear** in the dialog or **Reset filters** removes it. A long press on one of your own recipes offers **Start today 17:45** – that opens the plan sheet with exactly this start. The collection **For tomorrow morning** sets the target along with it: tomorrow at 7:30, or half an hour after the day's start when that is later.
+
 **Spotlight.** Your own recipes are in the iPhone's search as well: swipe down on the Home Screen, type "Landbrot", and BakePlanner opens the recipe directly. They are found by name, tags and description; the index is refreshed at launch and whenever a recipe changes.
 
 ### Deleting a recipe
@@ -1275,7 +1277,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
-| Facets, preset and own collections in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` is already in the shared package |
+| Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 
 ### Requirements

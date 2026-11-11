@@ -268,6 +268,8 @@ Les cinq **collections** ne sont que des facettes déjà réglées : « Pour dem
 
 **Vos propres collections.** Une combinaison dont vous avez souvent besoin – par exemple « Pur levain » avec « Cocotte » et « Peu de travail » – s’enregistre depuis le menu de filtre avec **Enregistrer la collection** sous un nom. Elle apparaît comme puce avec un marque-page après les cinq collections prédéfinies et fonctionne comme elles. Un appui long sur la puce propose **Renommer** et **Supprimer**. Les collections restent sur l’appareil ; elles ne contiennent que les facettes, ni le texte de recherche ni la note minimale.
 
+**Prêt pour.** Dans le menu de filtre, **Prêt pour…** prend la date et l’heure auxquelles le pain doit être prêt. La liste ne montre alors que les recettes encore réalisables à partir de maintenant, dans l’ordre du début nécessaire, et l’écrit sous chaque recette : « Début aujourd’hui 17:45 », « Début demain 06:10 ». Le calcul est celui de la feuille de planification en mode « Prêt pour » : avec le temps de préchauffage et, pour une pierre, le temps de préchauffage avec pierre des réglages. Une lune après le début signifie qu’une étape tombe hors du début et de la fin de journée. L’objectif choisi est la première puce au-dessus de la liste ; un appui le modifie, **Annuler le choix** dans la boîte de dialogue ou **Réinitialiser les filtres** le retire. Un appui long sur une de vos recettes propose **Début aujourd’hui 17:45** – cela ouvre la feuille de planification avec exactement ce début. La collection **Pour demain matin** règle aussi l’objectif : demain à 7 h 30, ou une demi-heure après le début de journée s’il est plus tard.
+
 **Spotlight.** Vos propres recettes figurent aussi dans la recherche de l’iPhone : balayez l’écran d’accueil vers le bas, tapez « Landbrot », et BakePlanner ouvre directement la recette. Elles sont trouvées par nom, tags et description ; l’index est rafraîchi au lancement et à chaque modification d’une recette.
 
 ### Supprimer une recette
@@ -1275,7 +1277,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
-| Facettes, collections prédéfinies et personnelles dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` est déjà dans le paquet commun |
+| Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` et `FinishByPlanner` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
 
 ### Prérequis
