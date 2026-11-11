@@ -108,7 +108,8 @@ struct ShoppingCartsView: View {
                                         ShoppingCartIngredientRow(
                                             ingredient: ingredient,
                                             onEdit: { selectedIngredient = ingredient },
-                                            onRemove: { remove(ingredient) }
+                                            onRemove: { remove(ingredient) },
+                                            onReceive: Entitlements.shared.isUnlocked(.pantry) ? { receive(ingredient) } : nil
                                         )
                                     }
                                 }
@@ -182,6 +183,20 @@ struct ShoppingCartsView: View {
     /// Takes a single entry off the list. The ingredient belongs to this
     /// shopping list alone — it is a copy made when the recipe was added — so
     /// deleting it leaves the recipe untouched.
+    /// Bought: the line goes into the pantry — onto the item of the same
+    /// name, or as a new one — and off the list.
+    private func receive(_ ingredient: Ingredient) {
+        let intake = Pantry.intake(unit: ingredient.unit, weight: ingredient.weight, normWeight: ingredient.normWeight,
+                                   num: ingredient.num, denom: ingredient.denom)
+        do {
+            try CoreDataPantryStore(context: viewContext).receive(name: ingredient.name, amount: intake.amount, unit: intake.unit)
+        } catch {
+            AppLog.persistence.error("Taking a shopping-list line into the pantry failed: \(error)")
+            return
+        }
+        remove(ingredient)
+    }
+
     private func remove(_ ingredient: Ingredient) {
         withAnimation {
             viewContext.delete(ingredient)
@@ -209,6 +224,8 @@ private struct ShoppingCartIngredientRow: View {
 
     var onEdit: () -> Void
     var onRemove: () -> Void
+    /// Nil while the pantry is locked.
+    var onReceive: (() -> Void)?
 
     var body: some View {
         HStack {
@@ -223,6 +240,12 @@ private struct ShoppingCartIngredientRow: View {
 
             Spacer()
 
+            if let onReceive {
+                IconActionButton(systemImage: "shippingbox", style: .primary, accessibilityLabel: "In den Vorrat übernehmen", controlSize: .small) {
+                    onReceive()
+                }
+                .accessibilityIdentifier("shoppingList.receive")
+            }
             IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Zutat von der Einkaufsliste entfernen", controlSize: .small) {
                 onRemove()
             }

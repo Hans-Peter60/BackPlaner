@@ -153,8 +153,11 @@
 		6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */; };
 		6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */; };
 		6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */; };
+		FF5F8E3E9DA14657B930465C /* PantryItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */; };
 		6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */; };
+		9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */; };
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
+		A54587A8203942AA93898B3A /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4B20990A1D4C859F610572 /* PantryView.swift */; };
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
 		6AFA48D1307E000100E105F9 /* CoreDataLogicAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */; };
@@ -166,6 +169,7 @@
 		6AFA48EE307E000100E105F9 /* CoreDataShoppingListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */; };
 		6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */; };
 		6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */; };
+		5A0A5B15424641FE9979E582 /* CoreDataPantryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		ABB97E82FA0C45FABE006480 /* BakeStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5B707D0F884AA0BDE86745 /* BakeStatisticsView.swift */; };
 		BF2EE0FE345A4E47AD80EEEC /* PlanActionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2837F135CB429786215515 /* PlanActionBar.swift */; };
@@ -379,8 +383,11 @@
 		6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculatorView.swift; sourceTree = "<group>"; };
 		6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesListView.swift; sourceTree = "<group>"; };
 		6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataClass.swift"; sourceTree = "<group>"; };
+		44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
+		BA4B20990A1D4C859F610572 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
 		6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLogicAdapters.swift; sourceTree = "<group>"; };
@@ -391,6 +398,7 @@
 		6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataShoppingListStore.swift; sourceTree = "<group>"; };
 		6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBakeHistoryStore.swift; sourceTree = "<group>"; };
 		6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStarterFeedingLogStore.swift; sourceTree = "<group>"; };
+		0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPantryStore.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		6C5B707D0F884AA0BDE86745 /* BakeStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeStatisticsView.swift; sourceTree = "<group>"; };
 		8D2837F135CB429786215515 /* PlanActionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanActionBar.swift; sourceTree = "<group>"; };
@@ -523,13 +531,16 @@
 				6AF639432B7A4ED90070CDC1 /* Ingredient+CoreDataClass.swift */,
 				6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */,
 				6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */,
+				44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */,
 				6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */,
+				B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */,
 				6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */,
 				6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */,
 				6AFA48EB307E000100E105F9 /* CoreDataRecipeStore.swift */,
 				6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */,
 				6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */,
 				6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */,
+				0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */,
 				6AF754E72B75018F00EADD84 /* BackPlaner.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -551,6 +562,7 @@
 				6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */,
 				56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */,
 				6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */,
+				BA4B20990A1D4C859F610572 /* PantryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1111,6 +1123,7 @@
 				6AFA48EE307E000100E105F9 /* CoreDataShoppingListStore.swift in Sources */,
 				6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */,
 				6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */,
+				5A0A5B15424641FE9979E582 /* CoreDataPantryStore.swift in Sources */,
 				6AF639622B7A4F060070CDC1 /* Recipe+CoreDataProperties.swift in Sources */,
 				6AF639482B7A4ED90070CDC1 /* Item+CoreDataProperties.swift in Sources */,
 				6A11320F2B7CF95A00CDF054 /* AddTagsDataView.swift in Sources */,
@@ -1149,9 +1162,12 @@
 				6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */,
 				EA7B7168E961464F980B1E63 /* RecipeExportSelectionView.swift in Sources */,
 				6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */,
+				FF5F8E3E9DA14657B930465C /* PantryItem+CoreDataClass.swift in Sources */,
 				6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */,
+				9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */,
 				6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
+				A54587A8203942AA93898B3A /* PantryView.swift in Sources */,
 				6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */,
 				6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */,
 				CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */,

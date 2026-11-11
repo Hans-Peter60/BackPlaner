@@ -25,6 +25,9 @@ SAMMLUNGEN UND FACETTEN
 • Eine Kombination, die Du öfter brauchst, sicherst Du mit „Sammlung sichern“ unter einem Namen als eigenen Chip; langes Drücken benennt um oder löscht.
 • „Fertig bis …“: Wähle, wann das Brot fertig sein soll, und die Liste zeigt nur, was noch zu schaffen ist – mit dem nötigen Start unter jedem Rezept, das früheste zuerst. Langes Drücken öffnet das Planungsblatt mit diesem Start. „Für morgen früh“ setzt das Ziel gleich auf morgen 7:30 Uhr.
 
+VORRAT
+• „Mehr → Vorrat“ führt, was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge, Mindesthaltbarkeit und Notiz, nach Regalen wie die Einkaufsliste. Was in 14 Tagen abläuft, steht oben unter „Bald aufbrauchen“. Aus der Einkaufsliste wandert Gekauftes mit einem Tipp in den Vorrat. Gehört zu BakePlanner Pro.
+
 KLEINERES
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.
 • Die Einstellungen enthalten nur noch Einstellungen. „Rezepte importieren“ (bisher „Aus Sicherung wiederherstellen“) steht jetzt im Menü „Mehr“ der Rezeptliste neben „Rezepte exportieren“ – wie auf Android. „Alle eigenen Rezepte sichern“ entfällt: „Rezepte exportieren“ mit „Alle auswählen“ und eingeschalteter Backhistorie ist dieselbe Sicherung – und bleibt frei.
@@ -60,6 +63,9 @@ COLLECTIONS AND FACETS
 • A combination you need often is saved with “Save collection” under a name as a chip of your own; a long press renames or deletes it.
 • “Finished by …”: choose when the bread is to be ready, and the list shows only what can still be made – with the start it needs under each recipe, the earliest first. A long press opens the plan sheet with that start. “For tomorrow morning” sets the target to tomorrow 7:30 right away.
 
+PANTRY
+• “More → Pantry” keeps what you have at home: flours, seeds, yeast with amount, best-before date and note, on shelves like the shopping list. What expires within 14 days sits at the top under “Use up soon”. From the shopping list, what you bought moves into the pantry with one tap. Part of BakePlanner Pro.
+
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
@@ -94,6 +100,9 @@ COLLECTIONS ET FACETTES
 • Le menu de filtre a maintenant des facettes : durée, déroulement de la journée, agent levant, farine, taux d’hydratation, matériel (pierre, moule, banneton, cocotte), historique de cuisson et « Peu de travail ». L’app lit tout dans les ingrédients et les étapes – rien à saisir. Les facettes se combinent.
 • Une combinaison dont vous avez souvent besoin s’enregistre avec « Enregistrer la collection » sous un nom comme puce personnelle ; un appui long la renomme ou la supprime.
 • « Prêt pour… » : choisissez quand le pain doit être prêt, et la liste ne montre que ce qui est encore réalisable – avec le début nécessaire sous chaque recette, le plus tôt en premier. Un appui long ouvre la feuille de planification avec ce début. « Pour demain matin » règle l’objectif sur demain 7 h 30.
+
+RÉSERVE
+• « Plus → Réserve » tient ce que vous avez chez vous : farines, graines, levure avec quantité, date limite et note, par rayons comme la liste de courses. Ce qui expire sous 14 jours figure en haut sous « À consommer bientôt ». Depuis la liste de courses, vos achats passent dans la réserve d’un appui. Fait partie de BakePlanner Pro.
 
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».

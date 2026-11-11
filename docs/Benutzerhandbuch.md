@@ -851,6 +851,17 @@ Die App filtert bewusst, und zwar in jeder Sprache:
 
 Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelten dann für diese Liste, das Rezept bleibt unverändert; dort lässt sich die Zutat auch entfernen. Das Papierkorb-Symbol neben der Zeile entfernt sie direkt. **Löschen** entfernt die ganze Liste nach Rückfrage.
 
+### Vorrat
+
+**Mehr → Vorrat** in der Rezeptliste führt, was Du zu Hause hast: Mehle, Saaten, Hefe – nach denselben Regalen wie die Einkaufsliste. Je Posten stehen Name, Menge in g, kg oder Stück, auf Wunsch die **Mindesthaltbarkeit** und eine Notiz. **+** legt einen Posten an; beim Namen schlägt die App die Zutaten Deiner Rezepte vor, damit Vorrat und Rezepte dasselbe meinen („Weizenmehl 550“). Ein Tipp auf einen Posten ändert ihn, Wischen nach links entfernt ihn.
+
+Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehen oben unter **Bald aufbrauchen** und sind orange beziehungsweise rot markiert.
+
+**Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol: **In den Vorrat übernehmen** bucht die gekaufte Menge auf den Posten gleichen Namens – oder legt ihn an – und nimmt die Zeile von der Liste. Kilogramm und Stück werden übernommen, wie sie dastehen, andere Einheiten als Gramm.
+
+Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu BakePlanner Pro.
+
+
 ---
 
 ## 14. Einstellungen
@@ -1274,6 +1285,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
+| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
