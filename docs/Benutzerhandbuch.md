@@ -117,7 +117,7 @@ Nach dem Start öffnet sich die App im Tab **Rezepte**. Am unteren Rand liegt di
 |-----|-------|
 | **Rezepte** | Alle Rezepte in einer Liste: Deine eigenen auf dem Gerät, die von Dir veröffentlichten und die öffentlichen aller Nutzer – mit Filter-Chips **Lokal / Von mir veröffentlicht / Öffentlich** (siehe [Kapitel 5](#5-rezept-datenbank)) |
 | **Einkaufslisten** | Alle angelegten Einkaufslisten |
-| **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos – als Liste, Galerie, Hit-Liste oder Fotowolke |
+| **Backhistorie** | Vergangene Backvorgänge mit Kommentaren und Fotos – als Liste, Galerie, Hit-Liste, Fotowolke oder Statistik |
 | **Zeitleiste** | Alle geplanten Backschritte als Timeline oder Liste |
 
 Oben rechts im Tab **Rezepte** stehen drei Schaltflächen:
@@ -740,7 +740,7 @@ Dieselben Befehle stehen in der App **Kurzbefehle** unter BakePlanner und lassen
 
 ### Backhistorie
 
-**Tab Backhistorie.** Alle Backvorgänge in vier Darstellungen, umschaltbar über die Symbole unter dem Titel; die Wahl bleibt gespeichert. **Liste**: neueste zuerst, mit Datum, Rezeptname, Kommentar und Fotos. **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. **Hit-Liste** und **Fotowolke** fassen die Historie je Rezept zusammen (siehe unten). Suche, Tags und Bewertungsfilter gelten in allen vier. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
+**Tab Backhistorie.** Alle Backvorgänge in fünf Darstellungen, umschaltbar über die Symbole unter dem Titel; die Wahl bleibt gespeichert. **Liste**: neueste zuerst, mit Datum, Rezeptname, Kommentar und Fotos. **Galerie**: Kacheln mit dem ersten Foto des Backvorgangs (ersatzweise dem Rezeptbild), Rezeptname, Datum, Bewertung und Kommentar, auf dem iPhone zwei nebeneinander, auf dem iPad mehr. **Hit-Liste** und **Fotowolke** fassen die Historie je Rezept zusammen (siehe unten). Suche, Tags und Bewertungsfilter gelten in allen vier. Solange noch kein Backvorgang vorliegt, erklärt die leere Ansicht, woher Einträge kommen, und führt zu Deinen Rezepten.
 
 - **Eintrag antippen** (Zeile oder Kachel) → „Backanmerkungen- / hinweise“: Kommentar bearbeiten, **Messwerte und Ergebnis** eintragen (siehe unten) und über **Fotomediathek** Fotos hinzufügen. Fotos lassen sich antippen und groß durchblättern. **Speichern** bestätigt mit „Historie wurde gespeichert“.
 - **Eintrag löschen**: Zeile nach links wischen.
@@ -781,6 +781,19 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 *Die Fotowolke: Je öfter gebacken, desto größer der Kreis.*
 
 ---
+
+### Statistik
+
+**Backhistorie → Statistik.** Was Deine Backhistorie zusammengerechnet ergibt – immer für die Einträge, die Suche und Bewertungsfilter gerade zeigen, und nur für Backvorgänge, die schon vorbei sind (ein geplantes Backen in der Zukunft zählt noch nicht):
+
+- Oben vier Zahlen: **Brote gesamt**, **Dieses Jahr**, **Pro Monat** (seit dem ersten Backen) und, sobald Du Backvorgänge bewertet hast, die **Ø Bewertung** in Sternen.
+- **Brote je Monat:** die letzten zwölf Monate als Balken, stille Monate bleiben leer.
+- **Meistgebacken:** die sieben Rezepte mit den meisten Backvorgängen und ihrer Anzahl.
+- **Bewertungen:** wie viele Backvorgänge ein bis fünf Sterne bekommen haben – erscheint, sobald ein Eintrag Sterne trägt.
+- **Stückgare und Raumtemperatur:** jeder Backvorgang mit Raumtemperatur und gemessener Stückgare als Punkt, warme Küchen rechts, lange Garen oben – erscheint ab zwei solchen Einträgen und zeigt mit der Zeit, wie Dein Teig auf die Temperatur reagiert.
+- **Krume und Ofentrieb:** wie oft Du „offen“, „dicht“, „guter Ofentrieb“ und die anderen Stichwörter vergeben hast.
+
+Die Statistik lebt von den Messwerten in [Kapitel 12](#12-backhistorie): Je öfter Du Raumtemperatur, Garzeiten, Sterne und Stichwörter einträgst, desto mehr zeigt sie.
 
 ## 13. Einkaufsliste
 
@@ -1238,6 +1251,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
+| Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
 ### Voraussetzungen

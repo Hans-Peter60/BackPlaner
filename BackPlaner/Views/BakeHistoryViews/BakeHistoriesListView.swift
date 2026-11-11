@@ -20,6 +20,7 @@ enum BakeHistoryLayout: String, CaseIterable, Identifiable {
     case gallery
     case hitList
     case cloud
+    case statistics
 
     var id: Self { self }
 
@@ -29,6 +30,7 @@ enum BakeHistoryLayout: String, CaseIterable, Identifiable {
         case .gallery: "Galerie"
         case .hitList: "Hit-Liste"
         case .cloud:   "Fotowolke"
+        case .statistics: "Statistik"
         }
     }
 
@@ -38,6 +40,7 @@ enum BakeHistoryLayout: String, CaseIterable, Identifiable {
         case .gallery: "square.grid.2x2"
         case .hitList: "trophy"
         case .cloud:   "circle.hexagongrid"
+        case .statistics: "chart.bar.xaxis"
         }
     }
 }
@@ -161,6 +164,7 @@ struct BakeHistoriesListView: View {
                     case .gallery: gallery
                     case .hitList: hitList
                     case .cloud:   cloud
+                    case .statistics: statistics
                     }
                 }
             }
@@ -190,7 +194,15 @@ struct BakeHistoriesListView: View {
         }
     }
 
-    /// The four views as a segmented control under the title: icons, with
+    /// What the filtered history adds up to, drawn by BakeStatisticsView.
+    /// Entries in the future — planned bakes — are left out there.
+    private var statistics: some View {
+        BakeStatisticsView(statistics: BakeStatistics.compute(entries: filteredBakeHistories.compactMap { history in
+            history.recipe.map { BakeStatistics.Entry(recipeName: $0.name, date: history.date, facts: history.facts) }
+        }))
+    }
+
+    /// The five views as a segmented control under the title: icons, with
     /// the names for VoiceOver.
     private var layoutPicker: some View {
         Picker("Darstellung", selection: Binding(
