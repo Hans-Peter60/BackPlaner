@@ -32,6 +32,7 @@ VORRAT
 • „Mehr → Vorrat“ führt, was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge, Mindesthaltbarkeit und Notiz, nach Regalen wie die Einkaufsliste. Was in 14 Tagen abläuft, steht oben unter „Bald aufbrauchen“. Aus der Einkaufsliste wandert Gekauftes mit einem Tipp in den Vorrat, eine ganze Liste mit „Eingekauft“ auf einmal – vorher zeigt ein Blatt jede Zeile mit der gekauften Menge zum Korrigieren. Gehört zu BakePlanner Pro.
 • Die Rezeptseite zeigt, was davon im Vorrat ist und was fehlt. Die Einkaufsliste zieht den Vorrat ab, der Filter kennt „Aus dem Vorrat“, und nach dem Backen fragt die App, ob sie die Mengen abbucht.
 • Pläne reservieren ihre Mengen: Verfügbar ist Bestand minus Reservierungen, ein gelöschter Plan gibt sie frei, ein beendeter Plan bucht sie ab. Der Backtag zeigt vorher, was für alle Brote zusammen fehlt; „Letzte Abbuchungen“ im Vorrat lassen sich rückgängig machen.
+• Die vollständige Sicherung („Rezepte exportieren“ mit Schalter) nimmt den Vorrat mit; beim Einlesen kommen die Posten dazu, die noch fehlen.
 • Auf Wunsch erinnert Dich eine Mitteilung 14 Tage vor der Mindesthaltbarkeit. Die Sammlung „Vorrat aufbrauchen“ zeigt, welche Rezepte am meisten von dem verbrauchen, was bald abläuft.
 
 KLEINERES

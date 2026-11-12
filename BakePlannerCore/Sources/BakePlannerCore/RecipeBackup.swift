@@ -10,15 +10,44 @@
 
 import Foundation
 
+/// What an import brought in.
+public struct RecipeImportResult: Equatable, Sendable {
+    public var recipes: Int
+    /// Pantry items added; those the pantry already had by name are not counted.
+    public var pantryItems: Int
+
+    public init(recipes: Int, pantryItems: Int = 0) {
+        self.recipes = recipes
+        self.pantryItems = pantryItems
+    }
+}
+
 extension RecipeImport {
     /// Reads the recipe file `data` into `store`, every recipe as a new one,
     /// and the bake history and feedings it carries into `bakeHistory` and
     /// `starterFeedings`, attached to the new recipes. Returns how many
     /// recipes were read. Nothing is kept when the file cannot be read or
-    /// was written by a newer version.
+    /// was written by a newer version. The pantry of the file is left out;
+    /// an app with a pantry calls the variant below.
     public static func importFile(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
                                   starterFeedings: StarterFeedingLogStore) throws -> Int {
+        try importFile(data, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings, pantry: nil).recipes
+    }
+
+    /// As above, and the pantry of the file into `pantry`: an item whose
+    /// name the pantry already has is left alone — reading the same backup
+    /// twice must not double the stock — the others are added as they were.
+    public static func importFile(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
+                                  starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
         let file = try decodeFile(data)
+        var pantryItems = 0
+        if let pantry, let items = file.pantry {
+            for item in items where try pantry.item(matching: item.name) == nil {
+                _ = try pantry.add(name: item.name, amount: item.amount, unit: PantryUnit(stored: item.unit),
+                                   bestBefore: item.bestBefore, note: item.note ?? "")
+                pantryItems += 1
+            }
+        }
         let added = try store.add(contentsOf: file.recipes.map { recipe in
             var recipe = recipe
             recipe.bakeHistory = nil
@@ -39,7 +68,7 @@ extension RecipeImport {
                 _ = try starterFeedings.add(toRecipe: recipe.id, date: feeding.date, facts: feeding.facts)
             }
         }
-        return added.count
+        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems)
     }
 
     /// Links each variant in the file to its origin: the recipe of that
@@ -77,10 +106,12 @@ extension RecipeExportFile {
     /// The full backup: the recipes `ids` of `store` with their bake
     /// history from `bakeHistory`, photos passed through `shrinkPhoto`
     /// (each app makes them as small as still looks good on its largest
-    /// screen), and their feedings from `starterFeedings`. Format version 2
-    /// when any recipe has been baked or fed.
+    /// screen), their feedings from `starterFeedings`, and — when a
+    /// `pantry` is given — what is in the house. Format version 2 when any
+    /// recipe has been baked or fed, 7 with a pantry.
     public init(recipeIDs ids: [String], from store: RecipeStore, bakeHistory: BakeHistoryStore,
-                starterFeedings: StarterFeedingLogStore, shrinkPhoto: (Data) -> Data = { $0 }) throws {
+                starterFeedings: StarterFeedingLogStore, pantry: PantryStore? = nil,
+                shrinkPhoto: (Data) -> Data = { $0 }) throws {
         var recipes: [RecipeExportData] = []
         for id in ids {
             guard let recipe = try store.recipe(id: id) else { continue }
@@ -103,6 +134,6 @@ extension RecipeExportFile {
             }
             recipes.append(content)
         }
-        self.init(recipes: recipes)
+        self.init(recipes: recipes, pantry: try pantry?.items().map(RecipeExportPantryItem.init))
     }
 }

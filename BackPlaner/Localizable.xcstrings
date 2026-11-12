@@ -17,6 +17,64 @@
         }
       }
     },
+    "%lld Posten im Vorrat ergänzt" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Posten im Vorrat ergänzt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Posten im Vorrat ergänzt"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld item added to the pantry"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld items added to the pantry"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld article ajouté à la réserve"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld articles ajoutés à la réserve"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste." : {
       "localizations" : {
         "de" : {
@@ -135,6 +193,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quantité achetée"
+          }
+        }
+      }
+    },
+    "Mit Backhistorie, Anstellgut-Tagebuch und Vorrat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With baking history, starter diary and pantry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec l’historique de cuisson, le journal du levain et la réserve"
           }
         }
       }
@@ -12291,22 +12365,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se connecter avec Apple"
-          }
-        }
-      }
-    },
-    "Mit Backhistorie und Anstellgut-Tagebuch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With baking history and starter diary"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec l’historique de cuisson et le journal du levain"
           }
         }
       }

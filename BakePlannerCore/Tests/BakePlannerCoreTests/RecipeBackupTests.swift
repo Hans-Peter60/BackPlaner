@@ -129,15 +129,71 @@ struct RecipeBackupTests {
         #expect(entries[0].facts == BakeHistoryFacts() && entries[0].comment == "")
     }
 
-    @Test("Files up to version 6 are read; the version after it is refused")
+    @Test("Files up to version 7 are read; the version after it is refused")
     func versions() throws {
-        #expect(RecipeExportFile.isSupported(formatVersion: 1))
-        #expect(RecipeExportFile.isSupported(formatVersion: 2))
-        #expect(RecipeExportFile.isSupported(formatVersion: 3))
-        #expect(RecipeExportFile.isSupported(formatVersion: 4))
-        #expect(RecipeExportFile.isSupported(formatVersion: 5))
-        #expect(RecipeExportFile.isSupported(formatVersion: 6))
-        #expect(!RecipeExportFile.isSupported(formatVersion: 7))
+        for version in 1...7 {
+            #expect(RecipeExportFile.isSupported(formatVersion: version))
+        }
+        #expect(!RecipeExportFile.isSupported(formatVersion: 8))
+    }
+
+    @Test("A backup carries the pantry; reading it fills an empty pantry and leaves known items alone")
+    func pantryRoundTrip() throws {
+        let source = InMemoryRecipeStore()
+        let added = try source.add(contentsOf: twoRecipes())
+        let sourcePantry = InMemoryPantryStore()
+        _ = try sourcePantry.add(name: "Weizenmehl 550", amount: 2.5, unit: .kilogram,
+                                 bestBefore: Date(timeIntervalSinceReferenceDate: 820_000_000), note: "Mühle Meier")
+        _ = try sourcePantry.add(name: "Hefe", amount: 2, unit: .piece, bestBefore: nil, note: "")
+
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id), from: source,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: source),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: source),
+                                        pantry: sourcePantry)
+        #expect(file.formatVersion == 7)
+        #expect(file.pantry == [
+            RecipeExportPantryItem(name: "Hefe", amount: 2, unit: "St"),
+            RecipeExportPantryItem(name: "Weizenmehl 550", amount: 2.5, unit: "kg",
+                                   bestBefore: Date(timeIntervalSinceReferenceDate: 820_000_000), note: "Mühle Meier"),
+        ])
+        let data = try file.encoded()
+        #expect(try RecipeImport.decodeFile(data) == file)
+
+        let target = InMemoryRecipeStore()
+        let targetPantry = InMemoryPantryStore()
+        _ = try targetPantry.add(name: "hefe", amount: 1, unit: .piece, bestBefore: nil, note: "")
+        let result = try RecipeImport.importFile(data, into: target, bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                                 starterFeedings: InMemoryStarterFeedingLogStore(recipes: target),
+                                                 pantry: targetPantry)
+        #expect(result == RecipeImportResult(recipes: 2, pantryItems: 1))
+        let items = try targetPantry.items()
+        #expect(items.map(\.name) == ["hefe", "Weizenmehl 550"])
+        #expect(items[0].amount == 1)
+        #expect(items[1].amount == 2.5 && items[1].unit == .kilogram && items[1].note == "Mühle Meier"
+                && items[1].bestBefore == Date(timeIntervalSinceReferenceDate: 820_000_000))
+
+        // The same file again: the recipes come once more, the pantry stays.
+        let again = try RecipeImport.importFile(data, into: target, bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                                starterFeedings: InMemoryStarterFeedingLogStore(recipes: target),
+                                                pantry: targetPantry)
+        #expect(again == RecipeImportResult(recipes: 2, pantryItems: 0))
+        #expect(try targetPantry.items().count == 2)
+
+        // Without a pantry store (Android) the pantry is ignored, the count is the recipes.
+        #expect(try RecipeImport.importFile(data, into: InMemoryRecipeStore(), bakeHistory: InMemoryBakeHistoryStore(recipes: target),
+                                            starterFeedings: InMemoryStarterFeedingLogStore(recipes: target)) == 2)
+    }
+
+    @Test("An empty pantry leaves the file at its old version, without a pantry field")
+    func emptyPantry() throws {
+        let source = InMemoryRecipeStore()
+        let added = try source.add(contentsOf: twoRecipes())
+        let file = try RecipeExportFile(recipeIDs: added.map(\.id), from: source,
+                                        bakeHistory: InMemoryBakeHistoryStore(recipes: source),
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: source),
+                                        pantry: InMemoryPantryStore())
+        #expect(file.formatVersion == 1 && file.pantry == nil)
+        #expect(!String(decoding: try file.encoded(), as: UTF8.self).contains("pantry"))
     }
 
     @Test("A step with oven settings makes the file version 6 and comes back with them")
