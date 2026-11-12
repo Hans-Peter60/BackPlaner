@@ -808,7 +808,7 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 
 **Historique de cuisson → Nuage de photos.** Les mêmes recettes en nuage rond : chaque recette est un cercle avec la photo de sa dernière cuisson (à défaut l’image de la recette) et le nombre dans le coin. La surface du cercle suit le nombre — une recette cuite quatre fois plus souvent obtient un cercle deux fois plus large. La plus cuite est au centre, les autres se lovent autour en spirale. Dans les grands cercles, le nom figure sur une bande sombre ; le nuage entier est ajusté à l’écran. Un toucher ouvre la recette.
 
-![Historique de cuisson en nuage de photos : un cercle par recette avec la photo de sa dernière cuisson, les levains chefs les plus nourris en grand au centre, les pains en petit autour](images/fr/backhistorie-fotowolke.png)
+![Historique de cuisson en nuage de photos : un cercle par recette avec la photo de sa dernière cuisson, le pain le plus souvent cuit en grand au centre, les plus rares en petit autour](images/fr/backhistorie-fotowolke.png)
 
 *Le nuage de photos : plus une recette est cuite souvent, plus son cercle est grand.*
 

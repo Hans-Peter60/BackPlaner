@@ -808,7 +808,7 @@ An entry is also created automatically when you set reminders in the baking inst
 
 **Baking history → Photo cloud.** The same recipes as a round cloud: every recipe is a circle with the photo of its last bake (or the recipe picture) and the count in its corner. The circle's area follows the count — a recipe baked four times as often gets a circle twice as wide. The most baked recipe sits in the middle, the others nestle around it in a spiral. Larger circles carry the name on a dark band inside; the whole cloud is fitted to the screen. A tap opens the recipe.
 
-![Baking history as a photo cloud: one circle per recipe with its last bake photo, the most fed starters large in the middle, the breads small around them](images/en/backhistorie-fotowolke.png)
+![Baking history as a photo cloud: one circle per recipe with the photo of its last bake, the most-baked bread large in the middle, the rarer ones small around it](images/en/backhistorie-fotowolke.png)
 
 *The photo cloud: the more often baked, the bigger the circle.*
 

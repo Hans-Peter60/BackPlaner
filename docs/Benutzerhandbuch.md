@@ -805,7 +805,7 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 
 **Backhistorie → Fotowolke.** Dieselben Rezepte als runde Wolke: Jedes Rezept ist ein Kreis mit dem Foto seines letzten Backvorgangs (ersatzweise dem Rezeptbild) und der Anzahl in der Ecke. Die Fläche des Kreises folgt der Anzahl – ein viermal so oft gebackenes Rezept bekommt einen doppelt so breiten Kreis. Das meistgebackene liegt in der Mitte, die anderen schmiegen sich spiralförmig darum. In größeren Kreisen steht der Name auf einem dunklen Band; die ganze Wolke wird auf den Bildschirm eingepasst. Ein Tippen öffnet das Rezept.
 
-![Backhistorie als Fotowolke: ein Kreis je Rezept mit dem letzten Backfoto, die meistgebackenen Anstellgute groß in der Mitte, die Brote klein darum](images/backhistorie-fotowolke.png)
+![Backhistorie als Fotowolke: ein Kreis je Rezept mit dem Foto des letzten Backvorgangs, das meistgebackene Brot groß in der Mitte, die selteneren klein darum](images/backhistorie-fotowolke.png)
 
 *Die Fotowolke: Je öfter gebacken, desto größer der Kreis.*
 
