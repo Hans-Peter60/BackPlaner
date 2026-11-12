@@ -25,10 +25,11 @@ struct ShoppingCartsView: View {
     /// rather than a Bool: with one flag for every row, the dialog that ends up
     /// being presented could delete a different list than the one tapped.
     @State private var cartPendingDeletion: ShoppingCart?
-    /// "Eingekauft": the whole list goes into the pantry after a confirmation.
-    @State private var cartPendingIntake: ShoppingCart?
-    /// How many lines the last intake booked, for the message.
-    @State private var intakeCount: Int?
+    /// "Eingekauft": the lines go into the pantry once the bought amounts
+    /// are confirmed in a sheet.
+    @State private var pendingIntake: ShoppingListIntake?
+    /// What the last whole-list intake ended with, for the message.
+    @State private var intakeResult: ShoppingListIntakeResult?
 
     /// The shopping-list entry being edited, shown in a sheet.
     @State private var selectedIngredient: Ingredient?
@@ -78,7 +79,9 @@ struct ShoppingCartsView: View {
                                 // the list is done with. Pro, like the pantry.
                                 if Entitlements.shared.isUnlocked(.pantry), !shoppingCart.ingredientsArray.isEmpty {
                                     IconActionButton(systemImage: "shippingbox", style: .primary, accessibilityLabel: "Eingekauft – alles in den Vorrat", controlSize: .regular) {
-                                        cartPendingIntake = shoppingCart
+                                        // In the order of the list: by shelf, then by name.
+                                        let lines = ShoppingListCategory.shelves(shoppingCart.ingredientsArray, name: \.name).flatMap(\.items)
+                                        pendingIntake = ShoppingListIntake(shoppingCart: shoppingCart, ingredients: lines, announces: true)
                                     }
                                     .accessibilityIdentifier("shopping.receiveAll")
                                 }
@@ -124,7 +127,9 @@ struct ShoppingCartsView: View {
                                             ingredient: ingredient,
                                             onEdit: { selectedIngredient = ingredient },
                                             onRemove: { remove(ingredient) },
-                                            onReceive: Entitlements.shared.isUnlocked(.pantry) ? { receive(ingredient) } : nil
+                                            onReceive: Entitlements.shared.isUnlocked(.pantry) ? {
+                                                pendingIntake = ShoppingListIntake(shoppingCart: shoppingCart, ingredients: [ingredient], announces: false)
+                                            } : nil
                                         )
                                     }
                                 }
@@ -159,30 +164,25 @@ struct ShoppingCartsView: View {
             }
             Button("Nein", role: .cancel) { }
         }
-        // An alert, not a confirmation dialog: the dialog came up as a
-        // popover anchored to the scroll view, without its cancel button.
-        .alert(
-            "Alles eingekauft?",
-            isPresented: Binding(
-                get: { cartPendingIntake != nil },
-                set: { if !$0 { cartPendingIntake = nil } }
-            ),
-            presenting: cartPendingIntake
-        ) { shoppingCart in
-            Button("In den Vorrat buchen und Liste löschen") {
-                receiveAll(shoppingCart)
+        // The bought amounts are confirmed before anything is booked: the
+        // list names the packages, the shop may have had other ones.
+        .sheet(item: $pendingIntake) { intake in
+            ShoppingListIntakeView(intake: intake) { result in
+                if intake.announces { intakeResult = result }
             }
-            Button("Abbrechen", role: .cancel) { }
-        } message: { shoppingCart in
-            Text("\(shoppingCart.ingredientsArray.count) Zeilen werden auf die Posten gleichen Namens gebucht oder als neue Posten angelegt.")
+            .environment(\.managedObjectContext, viewContext)
         }
         .alert("In den Vorrat gebucht", isPresented: Binding(
-            get: { intakeCount != nil },
-            set: { if !$0 { intakeCount = nil } }
-        )) {
+            get: { intakeResult != nil },
+            set: { if !$0 { intakeResult = nil } }
+        ), presenting: intakeResult) { _ in
             Button("OK", role: .cancel) { }
-        } message: {
-            Text("\(intakeCount ?? 0) Zeilen sind im Vorrat. Die Einkaufsliste ist erledigt.")
+        } message: { result in
+            if result.finished {
+                Text("\(result.booked) Zeilen sind im Vorrat. Die Einkaufsliste ist erledigt.")
+            } else {
+                Text("\(result.booked) Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste.")
+            }
         }
         .alert("An Erinnerungen gesendet", isPresented: $showingRemindersResult) {
             Button("OK", role: .cancel) { }
@@ -198,10 +198,7 @@ struct ShoppingCartsView: View {
 
     /// Every item of the list as an open reminder, worded as the row shows it.
     private func sendToReminders(_ shoppingCart: ShoppingCart) {
-        let items = shoppingCart.ingredientsArray.map { ingredient in
-            Rational.getPortion(unit: ingredient.unit ?? "", weight: ingredient.weight,
-                                num: ingredient.num, denom: ingredient.denom, targetServings: 2) + ingredient.name
-        }
+        let items = shoppingCart.ingredientsArray.map(ShoppingLineText.text(for:))
         guard !items.isEmpty else { return }
         Task { @MainActor in
             do {
@@ -223,51 +220,6 @@ struct ShoppingCartsView: View {
     /// Takes a single entry off the list. The ingredient belongs to this
     /// shopping list alone — it is a copy made when the recipe was added — so
     /// deleting it leaves the recipe untouched.
-    /// Bought: the line goes into the pantry — onto the item of the same
-    /// name, or as a new one — and off the list.
-    private func receive(_ ingredient: Ingredient) {
-        let intake = Pantry.intake(unit: ingredient.unit, weight: ingredient.weight, normWeight: ingredient.normWeight,
-                                   num: ingredient.num, denom: ingredient.denom)
-        do {
-            try CoreDataPantryStore(context: viewContext).receive(name: ingredient.name, amount: intake.amount, unit: intake.unit)
-        } catch {
-            AppLog.persistence.error("Taking a shopping-list line into the pantry failed: \(error)")
-            return
-        }
-        remove(ingredient)
-    }
-
-    /// Everything on the list is bought: every line into the pantry, then
-    /// the list goes. Lines that cannot be booked stay on the list, so
-    /// nothing is lost silently.
-    private func receiveAll(_ shoppingCart: ShoppingCart) {
-        let store = CoreDataPantryStore(context: viewContext)
-        var booked = 0
-        var failed: [Ingredient] = []
-        for ingredient in shoppingCart.ingredientsArray {
-            let intake = Pantry.intake(unit: ingredient.unit, weight: ingredient.weight, normWeight: ingredient.normWeight,
-                                       num: ingredient.num, denom: ingredient.denom)
-            do {
-                try store.receive(name: ingredient.name, amount: intake.amount, unit: intake.unit)
-                booked += 1
-            } catch {
-                AppLog.persistence.error("Taking a shopping-list line into the pantry failed: \(error)")
-                failed.append(ingredient)
-            }
-        }
-        withAnimation {
-            if failed.isEmpty {
-                viewContext.delete(shoppingCart)
-            } else {
-                for ingredient in shoppingCart.ingredientsArray where !failed.contains(ingredient) {
-                    viewContext.delete(ingredient)
-                }
-            }
-            save("Einkaufsliste konnte nicht in den Vorrat gebucht werden")
-        }
-        intakeCount = booked
-    }
-
     private func remove(_ ingredient: Ingredient) {
         withAnimation {
             viewContext.delete(ingredient)
@@ -300,7 +252,8 @@ private struct ShoppingCartIngredientRow: View {
 
     var body: some View {
         HStack {
-            Text("• " + Rational.getPortion(unit: ingredient.unit ?? "", weight: ingredient.weight, num: ingredient.num, denom: ingredient.denom, targetServings: 2) + ingredient.name)
+            // "500 g Weizenmehl 550 (200 g)": the package to buy, the need in brackets.
+            Text("• " + ShoppingLineText.text(for: ingredient))
                 .font(Theme.bodyFont(15))
                 .onTapGesture { onEdit() }
                 // A tap gesture alone carries no semantics: without the button

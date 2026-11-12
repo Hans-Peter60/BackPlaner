@@ -861,13 +861,15 @@ The app filters deliberately, in every language:
 
 Tapping an ingredient opens **Change amount**: amount, unit and fraction then apply to this list, the recipe stays unchanged; the ingredient can be removed there as well. The bin symbol next to the row removes it directly. **Delete** removes the whole list after a confirmation.
 
+**Package sizes.** The list names what you actually buy in the shop: before the ingredient stands the usual package covering the need, the need itself in brackets – "500 g Weizenmehl 550 (200 g)", "42 g fresh yeast (6 g)", "6 pieces eggs (2 pcs)". Flour and grain come in 500 g, 1 kg, 2 kg and 2.5 kg (several packages above that), fresh yeast in a 42 g cube, dry yeast in a 7 g packet, baking powder in a 15 g packet, butter in 250 g, salt and sugar in 500 g and 1 kg, honey, syrup and malt in 250 g and 500 g, quark and yoghurt in 250 g and 500 g, nuts, seeds and dried fruit from 100 g, eggs by 6 or 10. Liquids, spices, fruit and vegetables keep showing the need; when the need is a package, the brackets are left out. "Send to Reminders" takes the lines as they read.
+
 ### Pantry
 
 **More → Pantry** in the recipe list keeps what you have at home: flours, seeds, yeast – on the same shelves as the shopping list. Each item has a name, an amount in g, kg or pieces, a **best-before date** if you like, and a note. **+** adds an item; for the name the app suggests the ingredients of your recipes, so the pantry and the recipes mean the same thing ("Weizenmehl 550"). A tap on an item edits it, a swipe to the left removes it.
 
 Items that expire within the next 14 days or already have sit at the top under **Use up soon**, marked orange or red.
 
-**From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin: **Move into the pantry** adds the bought amount to the item of the same name – or creates it – and takes the line off the list. Kilograms and pieces are taken as written, other units as grams. When the whole shopping is done, tap the parcel symbol **Bought** in the list's header: every line is booked at once and the list is deleted. A line that cannot be booked stays.
+**From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin, **Move into the pantry**, and the list's header one for **Bought**. Both open the sheet **Bought**: each line shows the need ("Needed: 200 g") and the amount bought in g, kg or pieces, prefilled with the package from the list – enter what you actually bought; switching from g to kg converts the number. **Book** adds every line with an amount to the item of the same name – or creates it; grams and kilograms are added up – and takes it off the list. A line with an empty amount stays on the list; when nothing is left, the list is deleted.
 
 **Matched against the recipes.** As soon as the pantry holds anything, a recipe's page shows a **Pantry** card: "All 5 ingredients are in the pantry" or "3 of 5 ingredients in the pantry" with what is missing – "200 g Roggenmehl 1150 missing" –, worked out at the serving size chosen. Water, salt and starter do not count; they are not on the shopping list either. Ingredients meet by name; use the suggestions from the recipes when adding items, then they match.
 
@@ -1307,7 +1309,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
 | Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Not yet; the logic `BakingDayOptimizer` is already in the shared package |
-| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
+| Pantry (More → Pantry, package sizes on the shopping list, intake from the shopping list with the sheet "Bought", match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

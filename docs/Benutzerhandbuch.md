@@ -858,13 +858,15 @@ Die App filtert bewusst, und zwar in jeder Sprache:
 
 Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelten dann für diese Liste, das Rezept bleibt unverändert; dort lässt sich die Zutat auch entfernen. Das Papierkorb-Symbol neben der Zeile entfernt sie direkt. **Löschen** entfernt die ganze Liste nach Rückfrage.
 
+**Gebindegrößen.** Die Liste nennt, was Du im Laden wirklich kaufst: Vor der Zutat steht die übliche Packung, die den Bedarf deckt, der Bedarf selbst in Klammern – „500 g Weizenmehl 550 (200 g)“, „42 g Frischhefe (6 g)“, „6 Stück Eier (2 St)“. Mehl und Getreide gibt es in 500 g, 1 kg, 2 kg und 2,5 kg (darüber mehrere Packungen), Hefe im 42-g-Würfel, Trockenhefe im 7-g-Päckchen, Backpulver im 15-g-Päckchen, Butter in 250 g, Salz und Zucker in 500 g und 1 kg, Honig, Sirup und Malz in 250 g und 500 g, Quark und Joghurt in 250 g und 500 g, Nüsse, Saaten und Trockenfrüchte ab 100 g, Eier zu 6 oder 10. Flüssiges, Gewürze, Obst und Gemüse stehen weiter mit dem Bedarf da; deckt sich der Bedarf mit einer Packung, entfällt die Klammer. „An Erinnerungen senden“ übernimmt die Zeilen so, wie sie dastehen.
+
 ### Vorrat
 
 **Mehr → Vorrat** in der Rezeptliste führt, was Du zu Hause hast: Mehle, Saaten, Hefe – nach denselben Regalen wie die Einkaufsliste. Je Posten stehen Name, Menge in g, kg oder Stück, auf Wunsch die **Mindesthaltbarkeit** und eine Notiz. **+** legt einen Posten an; beim Namen schlägt die App die Zutaten Deiner Rezepte vor, damit Vorrat und Rezepte dasselbe meinen („Weizenmehl 550“). Ein Tipp auf einen Posten ändert ihn, Wischen nach links entfernt ihn.
 
 Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehen oben unter **Bald aufbrauchen** und sind orange beziehungsweise rot markiert.
 
-**Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol: **In den Vorrat übernehmen** bucht die gekaufte Menge auf den Posten gleichen Namens – oder legt ihn an – und nimmt die Zeile von der Liste. Kilogramm und Stück werden übernommen, wie sie dastehen, andere Einheiten als Gramm. Ist der ganze Einkauf erledigt, tippst Du in der Kopfzeile der Liste auf das Paket-Symbol **Eingekauft**: Alle Zeilen werden auf einmal gebucht und die Liste wird gelöscht. Eine Zeile, die sich nicht buchen lässt, bleibt stehen.
+**Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol **In den Vorrat übernehmen**, die Kopfzeile der Liste eines für **Eingekauft**. Beide öffnen das Blatt **Eingekauft**: Je Zeile stehen der Bedarf („Benötigt: 200 g“) und die gekaufte Menge in g, kg oder Stück, vorbelegt mit der Packung von der Liste – trage ein, was Du wirklich gekauft hast; ein Wechsel von g auf kg rechnet die Zahl um. **Buchen** bucht jede Zeile mit Menge auf den Posten gleichen Namens – oder legt ihn an; Gramm und Kilogramm werden dabei zusammengerechnet – und nimmt sie von der Liste. Eine Zeile mit leerer Menge bleibt auf der Liste; bleibt nichts übrig, wird die Liste gelöscht.
 
 **Abgleich mit den Rezepten.** Sobald etwas im Vorrat steht, zeigt die Rezeptseite eine Karte **Vorrat**: „Alle 5 Zutaten sind im Vorrat“ oder „3 von 5 Zutaten im Vorrat“ mit dem, was fehlt – „Es fehlen 200 g Roggenmehl 1150“ –, gerechnet in der gewählten Portionsgröße. Wasser, Salz und Anstellgut zählen nicht, sie stehen auch nicht auf der Einkaufsliste. Zutaten treffen sich über den Namen; nutze beim Anlegen die Vorschläge aus den Rezepten, dann passt es.
 
@@ -1304,7 +1306,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
 | Backtag planen (Mehr → Backtag planen) | [Kapitel 10](#10-geplante-schritte-liste-und-timeline) | Fehlt noch; Logik `BakingDayOptimizer` schon im gemeinsamen Paket |
-| Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Reservierungen durch Pläne mit Abbuchung am Planende, Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
+| Vorrat (Mehr → Vorrat, Gebindegrößen auf der Einkaufsliste, Übernahme aus der Einkaufsliste mit Blatt „Eingekauft“, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Reservierungen durch Pläne mit Abbuchung am Planende, Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |
 
