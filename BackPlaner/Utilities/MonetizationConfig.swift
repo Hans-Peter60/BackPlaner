@@ -21,71 +21,8 @@ import FirebaseFirestore
 import Observation
 import os
 
-/// The document `config/monetization`, field by field. Every field has the
-/// "free" value as its default, so a document that leaves a field out keeps
-/// that part of the app open.
-struct MonetizationConfig: Codable, Equatable, Sendable {
-
-    /// Whether the Pro features are locked for everyone who has not bought
-    /// Pro (and is not covered by `grandfatherBeforeBuild`). While false the
-    /// purchase exists in the code but locks nothing.
-    var proRequired = false
-
-    /// Whether the settings show the Pro section and the features offer the
-    /// paywall. Lets the store be shown — for the App Review, for a first
-    /// round of purchases — before anything is locked. Someone who bought
-    /// Pro sees the section regardless, so the purchase is never invisible.
-    var storeVisible = false
-
-    /// Cloud imports (photo and web page analysis) a month without Pro.
-    /// 0 means no monthly limit; the hourly limit in the Functions applies
-    /// either way. The server reads this same document, so the app and the
-    /// Functions switch together.
-    var freeImportsPerMonth = 0
-
-    /// The build number (CFBundleVersion) before which an installation
-    /// counts as Pro without a purchase — the people who had the shopping
-    /// list and the PDF export before they became Pro features keep them.
-    /// Compared against `AppTransaction.originalAppVersion`, which on iOS
-    /// carries the build number of the version first downloaded. nil means
-    /// nobody is grandfathered.
-    var grandfatherBeforeBuild: String?
-
-    /// Nothing shown, nothing locked, no monthly limit.
-    static let free = MonetizationConfig()
-
-    init(proRequired: Bool = false, storeVisible: Bool = false,
-         freeImportsPerMonth: Int = 0, grandfatherBeforeBuild: String? = nil) {
-        self.proRequired = proRequired
-        self.storeVisible = storeVisible
-        self.freeImportsPerMonth = freeImportsPerMonth
-        self.grandfatherBeforeBuild = grandfatherBeforeBuild
-    }
-
-    /// Reads the Firestore document's fields, tolerating a missing or
-    /// mistyped field by keeping its free default: a typo in the console
-    /// must not lock the app.
-    init(firestoreData data: [String: Any]) {
-        proRequired = data["proRequired"] as? Bool ?? false
-        storeVisible = data["storeVisible"] as? Bool ?? false
-        if let number = data["freeImportsPerMonth"] as? NSNumber {
-            freeImportsPerMonth = max(0, number.intValue)
-        }
-        if let build = data["grandfatherBeforeBuild"] as? String, !build.isEmpty {
-            grandfatherBeforeBuild = build
-        } else if let build = data["grandfatherBeforeBuild"] as? NSNumber {
-            grandfatherBeforeBuild = build.stringValue
-        }
-    }
-
-    /// Whether an installation first downloaded as `originalAppVersion`
-    /// (a build number, see `grandfatherBeforeBuild`) counts as Pro.
-    /// Numeric comparison, so build "9" stays before build "10".
-    func grandfathers(originalAppVersion: String?) -> Bool {
-        guard let threshold = grandfatherBeforeBuild, let original = originalAppVersion else { return false }
-        return original.compare(threshold, options: .numeric) == .orderedAscending
-    }
-}
+// The document's fields (`MonetizationConfig`) are the package's — shared
+// with Android and tested there; this file loads and caches them.
 
 /// Loads `config/monetization` and keeps it current while the app runs.
 ///

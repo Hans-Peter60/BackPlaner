@@ -34,52 +34,12 @@ final class Entitlements {
         self.store = store
     }
 
-    /// The decision, with the pieces it was made from.
-    struct Resolution: Equatable, Sendable {
-        /// Whether the Pro features are locked for installations without Pro.
-        var proRequired: Bool
-        /// Whether the Pro section and the paywall are shown.
-        var storeVisible: Bool
-        /// Whether this installation has Pro, bought or grandfathered — what
-        /// the Functions accept for the cloud imports, which were free
-        /// before Pro existed.
-        var isPro: Bool
-        var purchased: Bool
-        var isGrandfathered: Bool
-        /// The build first downloaded, for the grandfathered features.
-        var originalBuild: Int?
+    /// The decision, with the pieces it was made from — the package's,
+    /// shared with Android (BakePlannerCore/ProAccess.swift).
+    typealias Resolution = ProResolution
 
-        /// Whether `feature` may be used.
-        func unlocked(_ feature: ProFeature) -> Bool {
-            if !proRequired || purchased { return true }
-            guard isGrandfathered, let originalBuild else { return false }
-            return feature.introducedBuild <= originalBuild
-        }
-
-        /// Whether every Pro feature may be used.
-        var unlocksEverything: Bool {
-            ProFeature.allCases.allSatisfy(unlocked)
-        }
-    }
-
-    /// Pure, so the tests can cover every combination.
     nonisolated static func resolve(config: MonetizationConfig, purchased: Bool, originalAppVersion: String?) -> Resolution {
-        let grandfathered = config.grandfathers(originalAppVersion: originalAppVersion)
-        return Resolution(proRequired: config.proRequired,
-                          // A buyer sees the section regardless, so the
-                          // purchase is never invisible to the person who made it.
-                          storeVisible: config.storeVisible || purchased,
-                          isPro: purchased || grandfathered,
-                          purchased: purchased,
-                          isGrandfathered: grandfathered,
-                          originalBuild: Self.buildNumber(originalAppVersion))
-    }
-
-    /// The build number in an `originalAppVersion` ("21", or "21.0" on
-    /// some systems); nil when it is no number.
-    nonisolated static func buildNumber(_ version: String?) -> Int? {
-        guard let first = version?.split(separator: ".").first else { return nil }
-        return Int(first)
+        ProAccess.resolve(config: config, purchased: purchased, originalAppVersion: originalAppVersion)
     }
 
     var resolution: Resolution {

@@ -2,58 +2,16 @@
 //  ProFeature.swift
 //  BackPlaner
 //
-//  The features that belong to BakePlanner Pro. Everything else — recipes,
-//  the plan with its reminders, the bake mode, the bake history, the public
-//  recipes, the calculators — stays free: that is the core that makes the
-//  app worth having, and none of it costs anything per use.
+//  The titles, descriptions and symbols of the Pro features. Which
+//  features exist, and the build each one appeared in, is the package's
+//  (BakePlannerCore/ProAccess.swift), shared with Android; the words are
+//  this app's, which has SwiftUI and the string catalog.
 //
 
 import BakePlannerCore
 import SwiftUI
 
-enum ProFeature: String, CaseIterable, Identifiable, Sendable {
-    /// Sharing a recipe as a PDF at the serving size shown.
-    case pdfExport
-    /// Handing a single recipe to someone else as a re-importable file from
-    /// its page. "Rezepte exportieren" in the list's menu stays free: it is
-    /// the backup, and one's own data must always be portable.
-    case recipeSharing
-    /// A recipe that queues itself on a rhythm (feeding a starter every
-    /// five days, say).
-    case recurringPlans
-    /// Shopping lists made from a recipe's ingredients.
-    case shoppingList
-    /// The home-screen and lock-screen widget with the next step.
-    case widgets
-    /// The Live Activity of the running plan on the lock screen.
-    case liveActivity
-    /// The pantry: flours, seeds and yeast with amounts and best-before dates.
-    case pantry
-    /// Several breads placed before one finish, the ovens and the pause respected.
-    case bakingDay
-    /// Saved collections of facets and "Fertig bis …"; the facets and the
-    /// five preset chips stay free.
-    case collections
-    /// The statistics view of the baking history.
-    case statistics
-    /// A new recipe from baker's percentages.
-    case bakersFormula
-
-    var id: String { rawValue }
-
-    /// The App Store build (CFBundleVersion) the feature first shipped in.
-    /// A grandfathered installation keeps what it had on the day it was
-    /// downloaded: every feature whose build is not newer than its own
-    /// original build. The first six were there from the start.
-    var introducedBuild: Int {
-        switch self {
-        case .pdfExport, .recipeSharing, .recurringPlans, .shoppingList, .widgets, .liveActivity:
-            return 1
-        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula:
-            return 21
-        }
-    }
-
+extension ProFeature {
     var title: LocalizedStringKey {
         switch self {
         case .pdfExport:      return "Rezepte als PDF teilen"
