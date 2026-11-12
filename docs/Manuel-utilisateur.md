@@ -64,7 +64,7 @@ Les rappels supposent que BakePlanner soit autorisé à envoyer des notification
 | Langues | allemand, anglais, français (commutables dans les Réglages) |
 | Apparence | mode clair et sombre, tailles de texte dynamiques |
 | Internet | Nécessaire pour la base de recettes publique et la synchronisation iCloud. Vos propres recettes, la planification et les rappels fonctionnent entièrement hors ligne ; les modifications se synchronisent plus tard. |
-| iCloud | Vos recettes, étapes planifiées, listes de courses et historiques de cuisson se synchronisent via iCloud entre tous les appareils utilisant le même compte Apple, si iCloud est activé. Les rappels eux-mêmes sont locaux à chaque appareil. |
+| iCloud | Vos recettes, étapes planifiées, listes de courses, historiques de cuisson, journal du levain et réserve se synchronisent via iCloud entre tous les appareils utilisant le même compte Apple, si iCloud est activé ; de même les réglages, les collections enregistrées et les unités personnalisées (par le stockage clé-valeur d’iCloud, la dernière modification l’emporte). La langue, le consentement à l’analyse en ligne, les derniers filtres de liste choisis et les rappels eux-mêmes restent propres à chaque appareil. |
 | Autorisations | notifications (pour les rappels), photothèque et appareil photo (pour les images de recettes) |
 | Connexion | **Pas** nécessaire pour cuisiner, pour vos propres recettes ni pour la base publique. La connexion avec Apple est facultative : avec elle, vous êtes l’auteur de vos recettes publiées sur tous vos appareils (voir [chapitre 14](#14-réglages)). |
 
@@ -890,7 +890,7 @@ Comme les recettes et les listes de courses, la réserve est dans votre iCloud e
 
 > **Android :** certains réglages n’y existent pas, la langue se choisit dans les réglages Android et il n’y a pas de Pro — voir [chapitre 19](#19-bakeplanner-sur-android).
 
-**Onglet Recettes → Plus (⋯) → Réglages.**
+**Onglet Recettes → Plus (⋯) → Réglages.** Les réglages valent sur tous vos appareils : ils suivent via iCloud, avec les collections enregistrées et les unités personnalisées. Seuls la langue, le consentement à l’analyse en ligne et les filtres de liste restent propres à chaque appareil.
 
 ![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
 

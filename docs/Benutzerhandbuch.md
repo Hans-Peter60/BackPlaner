@@ -61,7 +61,7 @@ Für Erinnerungen muss BakePlanner Mitteilungen senden dürfen. Die ausführlich
 | Sprachen | Deutsch, Englisch, Französisch (umschaltbar in den Einstellungen) |
 | Darstellung | Hell- und Dunkelmodus, Dynamische Schriftgrößen |
 | Internet | Für die öffentliche Rezept-Datenbank und die iCloud-Synchronisierung. Eigene Rezepte, Planung und Erinnerungen funktionieren auch vollständig offline; Änderungen werden später abgeglichen. |
-| iCloud | Eigene Rezepte, geplante Schritte, Einkaufslisten und Backhistorien werden über iCloud zwischen allen Geräten mit demselben Apple-Account synchronisiert, sofern iCloud aktiviert ist. Die Erinnerungen selbst sind pro Gerät lokal. |
+| iCloud | Eigene Rezepte, geplante Schritte, Einkaufslisten, Backhistorien, Anstellgut-Tagebuch und Vorrat werden über iCloud zwischen allen Geräten mit demselben Apple-Account synchronisiert, sofern iCloud aktiviert ist; ebenso die Einstellungen, die gesicherten Sammlungen und die eigenen Einheiten (über den iCloud-Schlüsselspeicher, es gewinnt die letzte Änderung). Pro Gerät bleiben die Sprache, die Einwilligung zur Cloud-Analyse, die zuletzt gewählten Listenfilter sowie die Erinnerungen selbst. |
 | Berechtigungen | Mitteilungen (für Erinnerungen), Fotomediathek und Kamera (für Rezeptbilder) |
 | Anmeldung | Für das Backen, die eigenen Rezepte und die öffentliche Datenbank **nicht** nötig. Freiwillig ist die Anmeldung mit Apple: Mit ihr gilt die Autorschaft Deiner veröffentlichten Rezepte auf allen Deinen Geräten (siehe [Kapitel 14](#14-einstellungen)). |
 
@@ -887,7 +887,7 @@ Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu 
 
 > **Android:** Einige Einstellungen gibt es dort nicht, die Sprache wählst Du in den Android-Einstellungen, und Pro entfällt – siehe [Kapitel 19](#19-bakeplanner-auf-android).
 
-**Tab Rezepte → Mehr (⋯) → Einstellungen.**
+**Tab Rezepte → Mehr (⋯) → Einstellungen.** Die Einstellungen gelten auf allen Deinen Geräten: Sie wandern über iCloud mit, zusammen mit den gesicherten Sammlungen und den eigenen Einheiten. Nur die Sprache, die Einwilligung zur Cloud-Analyse und die Listenfilter bleiben je Gerät.
 
 ![Einstellungen von BakePlanner: Allgemein mit Sprache und dem Schalter „Neue Rezepte veröffentlichen“, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
 
