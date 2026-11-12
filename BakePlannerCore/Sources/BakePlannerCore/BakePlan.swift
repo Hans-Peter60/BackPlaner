@@ -336,7 +336,12 @@ public struct BakePlan {
         let start = date(of: bakingStep)
         let end = date(of: endStep)
         guard end >= start else { return nil }
-        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: ovenTemperatureCelsius)
+        // The steps after the loaf went in, generated turn-down included.
+        let later = allSteps
+            .filter { $0.step < endStep.step && date(of: $0) > start }
+            .map { PlannedStep(instruction: $0.instruction, step: $0.step, date: date(of: $0)) }
+        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: ovenTemperatureCelsius,
+                          temperatureChanges: BakePlanValidator.temperatureChanges(after: start, from: ovenTemperatureCelsius, steps: later))
     }
 
     /// The same plan for a different date.

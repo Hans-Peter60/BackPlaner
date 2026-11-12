@@ -65,7 +65,7 @@ struct BakingDayPlannerView: View {
                 }
                 .accessibilityIdentifier("bakingDay.ovens")
             } footer: {
-                Text("Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, die anderen davor. Backpause \(AppSettings.storedBakePause) Minuten, Tagesbeginn und Tagesende aus den Einstellungen.")
+                Text("Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, die anderen davor – so, dass die Öfen reichen, die Backpause von \(AppSettings.storedBakePause) Minuten gewahrt bleibt und nie zwei Teige zugleich geknetet oder geformt werden.")
             }
 
             Section {
@@ -176,9 +176,16 @@ struct BakingDayPlannerView: View {
             Text(placement.recipeName)
                 .font(Theme.brandFont(15))
                 .foregroundColor(Theme.cardTitle)
-            Text("Start \(dateText.calculateDate(dT: placement.start)), \(timeText.calculateTime(t: placement.start)) · Fertig \(timeText.calculateTime(t: placement.finish))")
-                .font(Theme.bodyFont(13))
-                .foregroundColor(Theme.subtitle)
+            // The finish carries its date when it is not the chosen day.
+            if Calendar.current.isDate(placement.finish, inSameDayAs: finishBy) {
+                Text("Start \(dateText.calculateDate(dT: placement.start)), \(timeText.calculateTime(t: placement.start)) · Fertig \(timeText.calculateTime(t: placement.finish))")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+            } else {
+                Text("Start \(dateText.calculateDate(dT: placement.start)), \(timeText.calculateTime(t: placement.start)) · Fertig \(dateText.calculateDate(dT: placement.finish)), \(timeText.calculateTime(t: placement.finish))")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+            }
             if let window = placement.bakeWindow {
                 Label {
                     Text("Ofen \(timeText.calculateTime(t: window.start)) bis \(timeText.calculateTime(t: window.end))")
@@ -190,6 +197,11 @@ struct BakingDayPlannerView: View {
             }
             if placement.hasNightSteps {
                 Label("Schritte in der Nacht", systemImage: "moon.zzz")
+                    .font(Theme.bodyFont(12))
+                    .foregroundColor(Theme.warning)
+            }
+            if placement.overlapsWork {
+                Label("Handarbeit fällt mit einem anderen Brot zusammen", systemImage: "hands.sparkles")
                     .font(Theme.bodyFont(12))
                     .foregroundColor(Theme.warning)
             }
@@ -220,6 +232,13 @@ struct BakingDayPlannerView: View {
         // block the ovens; everything else scheduled does.
         let existing = BakePlanValidator.scheduledBakeWindows(excluding: "", in: viewContext)
             .filter { !names.contains($0.recipeName) }
+        // The hands-on steps of plans that stay: kneading two doughs at once
+        // is no plan.
+        let now = Date()
+        let busy = CoreDataScheduledStepStore(context: viewContext).allSteps()
+            .map(\.data)
+            .filter { !names.contains($0.recipeName) && $0.date >= now }
+            .compactMap { BakingDayOptimizer.workInterval(instruction: $0.instruction, duration: $0.duration, date: $0.date) }
         let candidates = chosen.map {
             BakingDayCandidate(id: $0.objectID.uriRepresentation().absoluteString,
                                recipe: RecipeExportData(recipe: $0, includingImage: false))
@@ -229,7 +248,7 @@ struct BakingDayPlannerView: View {
         schedule = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: Date(),
                                                ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
                                                dayStart: dayStart, dayEnd: dayEnd, existingWindows: existing,
-                                               languageCode: AppSettings.locale.identifier)
+                                               existingWork: busy, languageCode: AppSettings.locale.identifier)
     }
 
     /// Every placement becomes a plan: the recipe's earlier plan goes, the
