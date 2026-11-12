@@ -34,11 +34,13 @@ struct ShoppingLineTextTests {
     func flour() {
         let context = PersistenceController(inMemory: true).container.viewContext
         let small = ingredient("Weizenmehl 550", 200, "g", in: context)
-        #expect(ShoppingLineText.text(for: small) == "500 g Weizenmehl 550 (200 g)")
-        #expect(ShoppingLineText.package(for: small)?.amount == 500)
-        let exact = ingredient("Weizenmehl 550", 500, "g", in: context)
-        #expect(ShoppingLineText.text(for: exact) == "500 g Weizenmehl 550")
+        #expect(ShoppingLineText.text(for: small) == "1 kg Weizenmehl 550 (200 g)")
+        #expect(ShoppingLineText.package(for: small)?.amount == 1)
+        let exact = ingredient("Weizenmehl 550", 1, "kg", in: context)
+        #expect(ShoppingLineText.text(for: exact) == "1 kg Weizenmehl 550")
         #expect(ShoppingLineText.package(for: exact) == nil)
+        let flakes = ingredient("Haferflocken", 80, "g", in: context)
+        #expect(ShoppingLineText.text(for: flakes) == "500 g Haferflocken (80 g)")
         let kilos = ingredient("Roggenmehl 1150", 1.2, "kg", in: context)
         #expect(ShoppingLineText.text(for: kilos) == "2 kg Roggenmehl 1150 (1,2 kg)")
     }

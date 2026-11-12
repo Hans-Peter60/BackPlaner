@@ -5,14 +5,18 @@ import Testing
 @Suite("Package sizes: what one buys for a needed amount")
 struct PackageSizesTests {
 
-    @Test("Flour comes in 500 g, 1 kg, 2 kg and 2,5 kg; the smallest covering package is bought")
+    @Test("Flour comes in 1 kg, 2 kg and 2,5 kg, flakes and semolina from 500 g; the smallest covering package is bought")
     func flour() throws {
         let small = try #require(PackageSizes.package(name: "Weizenmehl 550", amount: 200, unit: .gram))
-        #expect(small.amount == 500 && small.unit == .gram)
-        let exact = try #require(PackageSizes.package(name: "Weizenmehl 550", amount: 500, unit: .gram))
-        #expect(exact.amount == 500 && exact.unit == .gram)
+        #expect(small.amount == 1 && small.unit == .kilogram)
+        let exact = try #require(PackageSizes.package(name: "Weizenmehl 550", amount: 1_000, unit: .gram))
+        #expect(exact.amount == 1 && exact.unit == .kilogram)
         let kilo = try #require(PackageSizes.package(name: "Roggenmehl 1150", amount: 740, unit: .gram))
         #expect(kilo.amount == 1 && kilo.unit == .kilogram)
+        let flakes = try #require(PackageSizes.package(name: "Haferflocken", amount: 80, unit: .gram))
+        #expect(flakes.amount == 500 && flakes.unit == .gram)
+        let semolina = try #require(PackageSizes.package(name: "Hartweizengrieß", amount: 120, unit: .gram))
+        #expect(semolina.amount == 500 && semolina.unit == .gram)
         let two = try #require(PackageSizes.package(name: "Dinkelmehl 630", amount: 1.2, unit: .kilogram))
         #expect(two.amount == 2 && two.unit == .kilogram)
         let big = try #require(PackageSizes.package(name: "Weizenmehl 1050", amount: 2_300, unit: .gram))
