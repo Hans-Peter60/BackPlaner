@@ -1375,6 +1375,38 @@
         }
       }
     },
+    "%lld Zeilen sind im Vorrat. Die Einkaufsliste ist erledigt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lines are in the pantry. The shopping list is done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lignes sont dans la réserve. La liste de courses est terminée."
+          }
+        }
+      }
+    },
+    "%lld Zeilen werden auf die Posten gleichen Namens gebucht oder als neue Posten angelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lines are booked onto the items of the same name or created as new items."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lignes sont ajoutées aux articles du même nom ou créées comme nouveaux articles."
+          }
+        }
+      }
+    },
     "%lld Zutaten" : {
       "localizations" : {
         "en" : {
@@ -1935,6 +1967,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toutes les étapes"
+          }
+        }
+      }
+    },
+    "Alles eingekauft?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything bought?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout acheté ?"
           }
         }
       }
@@ -6804,6 +6852,22 @@
         }
       }
     },
+    "Eingekauft – alles in den Vorrat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bought – everything into the pantry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acheté – tout dans la réserve"
+          }
+        }
+      }
+    },
     "eingerissen" : {
       "comment" : "Ofentrieb",
       "extractionState" : "manual",
@@ -9661,6 +9725,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouté au calendrier"
+          }
+        }
+      }
+    },
+    "In den Vorrat buchen und Liste löschen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book into the pantry and delete the list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer dans la réserve et supprimer la liste"
+          }
+        }
+      }
+    },
+    "In den Vorrat gebucht" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Booked into the pantry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistré dans la réserve"
           }
         }
       }

@@ -864,7 +864,7 @@ Ein Tipp auf eine Zutat öffnet **Menge ändern**: Menge, Einheit und Bruch gelt
 
 Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehen oben unter **Bald aufbrauchen** und sind orange beziehungsweise rot markiert.
 
-**Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol: **In den Vorrat übernehmen** bucht die gekaufte Menge auf den Posten gleichen Namens – oder legt ihn an – und nimmt die Zeile von der Liste. Kilogramm und Stück werden übernommen, wie sie dastehen, andere Einheiten als Gramm.
+**Aus der Einkaufsliste in den Vorrat.** Jede Zeile einer Einkaufsliste hat neben dem Papierkorb ein Paket-Symbol: **In den Vorrat übernehmen** bucht die gekaufte Menge auf den Posten gleichen Namens – oder legt ihn an – und nimmt die Zeile von der Liste. Kilogramm und Stück werden übernommen, wie sie dastehen, andere Einheiten als Gramm. Ist der ganze Einkauf erledigt, tippst Du in der Kopfzeile der Liste auf das Paket-Symbol **Eingekauft**: Alle Zeilen werden auf einmal gebucht und die Liste wird gelöscht. Eine Zeile, die sich nicht buchen lässt, bleibt stehen.
 
 **Abgleich mit den Rezepten.** Sobald etwas im Vorrat steht, zeigt die Rezeptseite eine Karte **Vorrat**: „Alle 5 Zutaten sind im Vorrat“ oder „3 von 5 Zutaten im Vorrat“ mit dem, was fehlt – „Es fehlen 200 g Roggenmehl 1150“ –, gerechnet in der gewählten Portionsgröße. Wasser, Salz und Anstellgut zählen nicht, sie stehen auch nicht auf der Einkaufsliste. Zutaten treffen sich über den Namen; nutze beim Anlegen die Vorschläge aus den Rezepten, dann passt es.
 

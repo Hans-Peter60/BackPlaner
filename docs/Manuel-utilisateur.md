@@ -867,7 +867,7 @@ Toucher un ingrédient ouvre **Modifier la quantité** : quantité, unité et fr
 
 Les articles qui expirent dans les 14 prochains jours ou sont déjà expirés figurent en haut sous **À consommer bientôt**, en orange ou en rouge.
 
-**De la liste de courses à la réserve.** Chaque ligne d’une liste de courses a un symbole de colis à côté de la corbeille : **Mettre dans la réserve** ajoute la quantité achetée à l’article du même nom – ou le crée – et retire la ligne de la liste. Kilogrammes et pièces sont repris tels quels, les autres unités en grammes.
+**De la liste de courses à la réserve.** Chaque ligne d’une liste de courses a un symbole de colis à côté de la corbeille : **Mettre dans la réserve** ajoute la quantité achetée à l’article du même nom – ou le crée – et retire la ligne de la liste. Kilogrammes et pièces sont repris tels quels, les autres unités en grammes. Quand toutes les courses sont faites, appuyez sur le symbole de colis **Acheté** dans l’en-tête de la liste : toutes les lignes sont enregistrées d’un coup et la liste est supprimée. Une ligne qui ne peut pas être enregistrée reste.
 
 **Comparée aux recettes.** Dès que la réserve contient quelque chose, la page d’une recette affiche une carte **Réserve** : « Les 5 ingrédients sont dans la réserve » ou « 3 ingrédients sur 5 dans la réserve » avec ce qui manque – « Il manque 200 g Roggenmehl 1150 » –, calculé pour la taille de portion choisie. L’eau, le sel et le levain chef ne comptent pas ; ils ne sont pas non plus sur la liste de courses. Les ingrédients se retrouvent par leur nom ; utilisez les suggestions tirées des recettes en ajoutant des articles, et ils concordent.
 

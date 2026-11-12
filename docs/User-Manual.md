@@ -867,7 +867,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 Items that expire within the next 14 days or already have sit at the top under **Use up soon**, marked orange or red.
 
-**From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin: **Move into the pantry** adds the bought amount to the item of the same name – or creates it – and takes the line off the list. Kilograms and pieces are taken as written, other units as grams.
+**From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin: **Move into the pantry** adds the bought amount to the item of the same name – or creates it – and takes the line off the list. Kilograms and pieces are taken as written, other units as grams. When the whole shopping is done, tap the parcel symbol **Bought** in the list's header: every line is booked at once and the list is deleted. A line that cannot be booked stays.
 
 **Matched against the recipes.** As soon as the pantry holds anything, a recipe's page shows a **Pantry** card: "All 5 ingredients are in the pantry" or "3 of 5 ingredients in the pantry" with what is missing – "200 g Roggenmehl 1150 missing" –, worked out at the serving size chosen. Water, salt and starter do not count; they are not on the shopping list either. Ingredients meet by name; use the suggestions from the recipes when adding items, then they match.
 
