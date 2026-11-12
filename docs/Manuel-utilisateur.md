@@ -167,7 +167,7 @@ Un symbole devant chaque nom indique la source : un iPhone pour les recettes sur
 - **Changer le périmètre de recherche** : sous le champ, vous pouvez choisir entre **Nom** et **Tags**. Avec « Tags », la recherche porte sur les mots-clés (« seigle », « complet », « levain », par exemple).
 - **Puces de filtre** sous le champ de recherche : **Local** (recettes sur l’appareil), **Publiées par moi** (vos propres recettes dans la base) et **Public** (les recettes des autres utilisateurs). Chaque puce active ou désactive sa source séparément ; une recette publique relève toujours d’exactement une des deux puces cloud.
 - **Collections** dans la deuxième rangée de puces : **Pour demain matin**, **Pain rapide**, **Pur levain**, **Pas cuit depuis longtemps** et **Favoris** – chacune règle une combinaison prête des facettes (voir plus bas). Un second appui l’annule.
-- **Icône de filtre** en haut à droite : note minimale (toutes les notes, 1 à 5 étoiles et plus), variantes et facettes. Lorsqu’un filtre est actif, l’icône est affichée pleine.
+- **Icône de filtre** en haut à droite : note minimale (toutes les notes, 1 à 5 étoiles et plus), variantes et facettes. Lorsqu’un filtre est actif, l’icône est affichée pleine. Dans une fenêtre iPad étroite (Split View, iPhone Duo déplié), le filtre se trouve dans le menu **Plus (⋯)** comme sous-menu **Filtrer les recettes**.
 - **Tirer vers le bas** actualise la liste depuis le cloud.
 
 Si « Aucune recette chargée » s’affiche, c’est qu’il n’y avait pas de connexion internet au lancement — tirez la liste vers le bas une fois. Si vous lisez « Aucune recette correspondante », c’est qu’un filtre est actif.
@@ -245,7 +245,7 @@ Là où seules vos propres recettes entrent en ligne de compte — les écrans v
 ### Rechercher et filtrer
 
 - **Champ de recherche** avec commutation **Nom / Tags**.
-- **Icône de filtre** en haut à droite : choisir une note minimale (toutes les notes, 1 à 5 étoiles et plus), afficher ou masquer les variantes et régler les **facettes**. Lorsqu’un filtre est actif, l’icône est affichée pleine ; **Réinitialiser les filtres** annule toutes les facettes d’un coup.
+- **Icône de filtre** en haut à droite : choisir une note minimale (toutes les notes, 1 à 5 étoiles et plus), afficher ou masquer les variantes et régler les **facettes**. Lorsqu’un filtre est actif, l’icône est affichée pleine ; **Réinitialiser les filtres** annule toutes les facettes d’un coup. Dans une fenêtre iPad étroite (Split View, iPhone Duo déplié), le filtre se trouve dans le menu **Plus (⋯)** comme sous-menu **Filtrer les recettes**.
 
 La recherche ignore les majuscules et trouve aussi des fragments de mots : « seigle » trouve « Pain de seigle », et pour les tags une partie du mot-clé suffit. Recherche, note et facettes se combinent ; reste ce qui correspond à tout.
 

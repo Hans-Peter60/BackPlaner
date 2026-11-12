@@ -167,7 +167,7 @@ A symbol before each name shows the source: an iPhone for recipes on the device,
 - **Switch the search scope**: below the search field you can choose between **Name** and **Tags**. With "Tags", the search runs over keywords ("rye", "wholemeal", "sourdough", for example).
 - **Filter chips** below the search field: **Local** (recipes on the device), **Published by me** (your own recipes in the database) and **Public** (the recipes of other users). Each chip switches its source on or off on its own; a public recipe always belongs to exactly one of the two cloud chips.
 - **Collections** in the second chip row: **For tomorrow morning**, **Quick bread**, **Pure sourdough**, **Not baked for a while** and **Favourites** – each sets a ready-made combination of the facets (see below). A second tap clears it again.
-- **Filter symbol** at the top right: minimum rating (All ratings, 1–5 stars and up), variants and the facets. While a filter is active, the symbol is shown filled.
+- **Filter symbol** at the top right: minimum rating (All ratings, 1–5 stars and up), variants and the facets. While a filter is active, the symbol is shown filled. In a narrow iPad window (Split View, unfolded iPhone Duo) the filter sits in the **More (⋯)** menu as the submenu **Filter recipes**.
 - **Pull down** to refresh the list from the cloud.
 
 "No recipes loaded" means there was no internet connection at launch — pull the list down once. "No matching recipes" means a filter is active.
@@ -245,7 +245,7 @@ Where only your own recipes come into question — the empty screens of the shop
 ### Searching and filtering
 
 - **Search field** with a **Name / Tags** switch.
-- **Filter symbol** at the top right: pick a minimum rating (All ratings, 1–5 stars and up), show or hide variants and set the **facets**. While a filter is active, the symbol is shown filled; **Reset filters** clears all facets at once.
+- **Filter symbol** at the top right: pick a minimum rating (All ratings, 1–5 stars and up), show or hide variants and set the **facets**. While a filter is active, the symbol is shown filled; **Reset filters** clears all facets at once. In a narrow iPad window (Split View, unfolded iPhone Duo) the filter sits in the **More (⋯)** menu as the submenu **Filter recipes**.
 
 The search ignores capitalisation and matches partial words: "rye" finds "Rye bread", and for tags a fragment of the keyword is enough. Search, rating and facets can be combined; what matches all of them stays.
 

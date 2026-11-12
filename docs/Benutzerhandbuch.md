@@ -164,7 +164,7 @@ Vor jedem Namen steht ein Symbol für die Quelle: ein iPhone für Rezepte auf de
 - **Suchbereich umschalten**: Unter dem Suchfeld kannst Du zwischen **Name** und **Tags** wählen. Bei „Tags“ wird in den Schlagworten gesucht (z. B. „Roggen“, „Vollkorn“, „Sauerteig“).
 - **Filter-Chips** unter dem Suchfeld: **Lokal** (Rezepte auf dem Gerät), **Von mir veröffentlicht** (Deine eigenen Rezepte in der Datenbank) und **Öffentlich** (die Rezepte der anderen Nutzer). Jeder Chip schaltet seine Quelle einzeln ein oder aus; ein öffentliches Rezept gehört immer genau zu einem der beiden Cloud-Chips.
 - **Sammlungen** in der zweiten Chip-Reihe: **Für morgen früh**, **Schnelles Brot**, **Reiner Sauerteig**, **Lange nicht gebacken** und **Lieblinge** – jede setzt eine fertige Kombination der Facetten (siehe unten). Ein zweiter Tipp hebt sie wieder auf.
-- **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr), Varianten und die Facetten. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt.
+- **Filter-Symbol** oben rechts: Mindestbewertung (Alle Bewertungen, 1–5 Sterne und mehr), Varianten und die Facetten. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt. In einem schmalen iPad-Fenster (Split View, aufgeklapptes iPhone Duo) steckt der Filter im Menü **Mehr (⋯)** als Untermenü **Rezepte filtern**.
 - **Nach unten ziehen** aktualisiert die Liste aus der Cloud.
 
 Steht „Keine Rezepte geladen“, bestand beim Start keine Internetverbindung – zieh die Liste einmal nach unten. Steht dort „Keine passenden Rezepte“, ist ein Filter aktiv.
@@ -242,7 +242,7 @@ Wo nur eigene Rezepte infrage kommen – in den leeren Ansichten von Einkaufslis
 ### Suchen und filtern
 
 - **Suchfeld** mit Umschaltung **Name / Tags**.
-- **Filter-Symbol** oben rechts: Mindestbewertung wählen (Alle Bewertungen, 1–5 Sterne und mehr), Varianten ein- oder ausblenden und die **Facetten** setzen. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt; **Filter zurücksetzen** hebt alle Facetten auf einmal auf.
+- **Filter-Symbol** oben rechts: Mindestbewertung wählen (Alle Bewertungen, 1–5 Sterne und mehr), Varianten ein- oder ausblenden und die **Facetten** setzen. Ist ein Filter aktiv, wird das Symbol gefüllt dargestellt; **Filter zurücksetzen** hebt alle Facetten auf einmal auf. In einem schmalen iPad-Fenster (Split View, aufgeklapptes iPhone Duo) steckt der Filter im Menü **Mehr (⋯)** als Untermenü **Rezepte filtern**.
 
 Die Suche ignoriert Groß- und Kleinschreibung und findet auch Wortteile: „roggen“ findet „Roggenbrot“, und bei Tags genügt ein Teil des Schlagworts. Suche, Bewertung und Facetten lassen sich kombinieren; es bleibt, was zu allem passt.
 
