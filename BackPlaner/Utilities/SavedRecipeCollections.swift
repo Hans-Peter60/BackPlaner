@@ -28,15 +28,31 @@ final class SavedRecipeCollectionStore {
     private let defaults: UserDefaults
     private let key: String
 
+    private var remoteObserver: NSObjectProtocol?
+
     init(defaults: UserDefaults = .standard, key: String = SavedRecipeCollectionStore.defaultsKey) {
         self.defaults = defaults
         self.key = key
-        if let data = defaults.data(forKey: key),
-           let stored = try? JSONDecoder().decode([SavedRecipeCollection].self, from: data) {
-            collections = stored
-        } else {
-            collections = []
+        collections = Self.read(from: defaults, key: key)
+        // Another device saved, renamed or removed a collection: read again.
+        remoteObserver = NotificationCenter.default.addObserver(forName: SettingsSync.didApplyRemoteChanges, object: nil,
+                                                                queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.reload() }
         }
+    }
+
+    deinit {
+        if let remoteObserver { NotificationCenter.default.removeObserver(remoteObserver) }
+    }
+
+    func reload() {
+        collections = Self.read(from: defaults, key: key)
+    }
+
+    private static func read(from defaults: UserDefaults, key: String) -> [SavedRecipeCollection] {
+        guard let data = defaults.data(forKey: key),
+              let stored = try? JSONDecoder().decode([SavedRecipeCollection].self, from: data) else { return [] }
+        return stored
     }
 
     /// The name as it is kept: trimmed; empty means "no name", nothing is saved.

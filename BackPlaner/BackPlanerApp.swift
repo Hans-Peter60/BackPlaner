@@ -143,6 +143,12 @@ struct BackPlanerApp: App {
         // The calculation logic knows only the bundled units on its own;
         // the ones the user added come from the settings store.
         GlobalVariables.customUnitSets = { CustomUnitStore.shared.unitSets }
+        // Settings, saved collections and custom units follow the user
+        // through iCloud's key-value store; not in a test run, which must
+        // not read another device's settings or write its own into iCloud.
+        if !UITestSupport.isUnitTestHost && !UITestSupport.isActive {
+            SettingsSync.shared.start()
+        }
     }
 
     var body: some Scene {

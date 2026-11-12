@@ -36,6 +36,7 @@ VORRAT
 • Auf Wunsch erinnert Dich eine Mitteilung 14 Tage vor der Mindesthaltbarkeit. Die Sammlung „Vorrat aufbrauchen“ zeigt, welche Rezepte am meisten von dem verbrauchen, was bald abläuft.
 
 KLEINERES
+• Einstellungen, gesicherte Sammlungen und eigene Einheiten wandern über iCloud auf alle Deine Geräte; Sprache und Listenfilter bleiben je Gerät.
 • „Frischhefe“ und „Hefe“, „Eier“ und „Ei“, „Walnusskerne“ und „Walnüsse“, „Weizenmehl Type 550“ und „Weizenmehl 550“, „Weizenmehl Vollkorn“ und „Weizenvollkornmehl“ gelten auf der Einkaufsliste und im Vorrat als dasselbe, Zusätze wie „gehackt“ oder „zart“ zählen nicht; der Vorrat zeigt Mengen ab 1000 g in Kilogramm.
 • Die Einkaufsliste rechnet in Gebinden: „1 kg Weizenmehl 550 (200 g)“ – vorn die übliche Packung (Mehl 1 kg, 2 kg, 2,5 kg; Flocken ab 500 g; Hefe im Würfel, Butter 250 g, Eier zu 6 oder 10 …), in Klammern der Bedarf.
 • Die Timeline kann, was die Liste kann: Unten dieselbe Leiste mit Backmodus, Löschen, Backtag-Zettel und Kalender; langes Drücken auf eine Spur bietet das für diesen einen Plan. Ein Tipp auf einen Schritt zeigt in der Detailansicht auch die Zutaten seiner Komponente, langes Drücken zeigt sie in der Vorschau und bietet „Zutaten anzeigen“.

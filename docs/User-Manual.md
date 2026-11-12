@@ -64,7 +64,7 @@ Reminders require BakePlanner to be allowed to send notifications. The full expl
 | Languages | German, English, French (switchable in Settings) |
 | Appearance | Light and dark mode, Dynamic Type |
 | Internet | Needed for the public recipe database and iCloud sync. Your own recipes, planning, and reminders work entirely offline; changes sync later. |
-| iCloud | Your own recipes, scheduled steps, shopping lists, and baking histories sync through iCloud across all devices using the same Apple Account, provided iCloud is on. The reminders themselves are local to each device. |
+| iCloud | Your own recipes, scheduled steps, shopping lists, baking histories, starter diary and pantry sync through iCloud across all devices using the same Apple Account, provided iCloud is on; so do the settings, the saved collections and the custom units (through iCloud's key-value store, the latest change wins). The language, the consent to the cloud analysis, the list filters last chosen and the reminders themselves stay with each device. |
 | Permissions | Notifications (for reminders), photo library and camera (for recipe images) |
 | Sign-in | **Not** required for baking, for your own recipes, or for the public database. Signing in with Apple is voluntary: with it, the authorship of your published recipes applies on all your devices (see [chapter 14](#14-settings)). |
 
@@ -890,7 +890,7 @@ Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs
 
 > **Android:** some settings do not exist there, the language is chosen in the Android settings, and there is no Pro — see [chapter 19](#19-bakeplanner-on-android).
 
-**Recipes tab → More (⋯) → Settings.**
+**Recipes tab → More (⋯) → Settings.** The settings apply on all your devices: they travel through iCloud, together with the saved collections and the custom units. Only the language, the consent to the cloud analysis and the list filters stay per device.
 
 ![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
 

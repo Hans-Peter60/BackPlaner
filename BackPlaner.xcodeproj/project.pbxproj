@@ -170,6 +170,7 @@
 		6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
 		85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */; };
+		9C302AC7E5404A5388D67E0C /* SettingsSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0D2A49406F4B70B7823FA2 /* SettingsSync.swift */; };
 		91CBD63186694A57BBA48108 /* PantryReservation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */; };
 		9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */; };
 		96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */; };
@@ -254,6 +255,7 @@
 		0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFacetFilter.swift; sourceTree = "<group>"; };
 		19FF11E946F59F79709D8C92 /* StarterYieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldView.swift; sourceTree = "<group>"; };
 		3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipeCollections.swift; sourceTree = "<group>"; };
+		3F0D2A49406F4B70B7823FA2 /* SettingsSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSync.swift; sourceTree = "<group>"; };
 		44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4BD4D155B97649C2BB36A493 /* FileShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileShareLink.swift; sourceTree = "<group>"; };
 		4E50289EF0584574B18B4C80 /* BakingDayPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakingDayPlannerView.swift; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */,
 				0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */,
 				3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */,
+				3F0D2A49406F4B70B7823FA2 /* SettingsSync.swift */,
 				588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */,
 				989E7829DB1E409C9E24EFCC /* PantryLedgerService.swift */,
 				A4877196C43B4C389C27E2B5 /* PlannedStepActions.swift */,
@@ -1207,6 +1210,7 @@
 				6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */,
 				96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */,
 				85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */,
+				9C302AC7E5404A5388D67E0C /* SettingsSync.swift in Sources */,
 				C8271CCA22744709BA992934 /* PantryReminders.swift in Sources */,
 				BCFB2E13092347E789A27FED /* PantryLedgerService.swift in Sources */,
 				09F96F83F72B435692D77448 /* PlannedStepActions.swift in Sources */,

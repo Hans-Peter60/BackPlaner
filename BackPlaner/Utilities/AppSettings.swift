@@ -188,9 +188,20 @@ final class CustomUnitStore: ObservableObject {
     private(set) var unitSets: [UnitSetFB] = []
 
     private init() {
+        reload()
+        // Another device changed the units: read them again.
+        NotificationCenter.default.addObserver(forName: SettingsSync.didApplyRemoteChanges, object: nil,
+                                               queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.reload() }
+        }
+    }
+
+    private func reload() {
         if let data = defaults.data(forKey: Self.storageKey),
            let stored = try? JSONDecoder().decode([CustomUnit].self, from: data) {
             units = stored
+        } else {
+            units = []
         }
         rebuildUnitSets()
     }
