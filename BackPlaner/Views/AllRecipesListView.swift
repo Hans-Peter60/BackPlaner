@@ -510,8 +510,17 @@ struct AllRecipesListView: View {
                 // on the language.
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        // As a submenu: spread out, the filter's twenty
+                        // entries pushed the menu's own past the screen
+                        // (unfolded iPhone Duo).
                         if filterInMenu {
-                            filterItems
+                            Menu {
+                                filterItems
+                            } label: {
+                                Label("Rezepte filtern",
+                                      systemImage: rating > 0 || !showVariantRecipes || facetFilter.isActive || finishBy != nil ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+                            }
+                            .accessibilityIdentifier("menu.ratingFilter")
                             Divider()
                         }
                         Button {

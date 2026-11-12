@@ -40,6 +40,9 @@ final class AppStoreScreenshots: StoreUITestCase {
             throw XCTSkip("Only for scripts/appstore-screenshots.sh (SCREENSHOT_LANGUAGE is not set).")
         }
         prepare(language: language)
+        // The iPad took the ten pictures and ran out of the plan's five
+        // minutes on the last manual one; the extra pictures need the room.
+        executionTimeAllowance = 600
     }
 
     @MainActor
@@ -121,8 +124,13 @@ final class AppStoreScreenshots: StoreUITestCase {
         // Back in the recipe: the flour line opens "Mehl ersetzen", filled
         // with the recipe's flour and water.
         openDemoRecipe()
-        let flourLine = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "1050")).firstMatch
-        if flourLine.waitForExistence(timeout: 5) {
+        // The first flour line that is on screen: on the unfolded Duo the
+        // first match sat under the tab bar, and the tap at its spot opened
+        // the Timeline tab instead.
+        let flourLines = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "1050"))
+        if flourLines.firstMatch.waitForExistence(timeout: 5) {
+            let flourLine = (0..<flourLines.count).map { flourLines.element(boundBy: $0) }
+                .first { $0.isHittable } ?? flourLines.firstMatch
             scrollUntilHittable(flourLine)
             tapReliably(flourLine)
             let sheetTitle = ["de": "Mehl ersetzen", "en": "Replace flour", "fr": "Remplacer la farine"][language] ?? ""
@@ -203,12 +211,12 @@ final class AppStoreScreenshots: StoreUITestCase {
     /// still names the outer, which is dark then, and the pictures came
     /// out black. The screen is told by its size against the app's window.
     private func screenshotOfAppScreen() -> XCUIScreenshot {
-        let window = app.windows.firstMatch.frame.size
         let screens = XCUIScreen.screens
         guard screens.count > 1 else { return XCUIScreen.main.screenshot() }
-        let shots = screens.map { $0.screenshot() }
-        return shots.first { shot in
-            abs(shot.image.size.width - window.width) < 2 && abs(shot.image.size.height - window.height) < 2
-        } ?? XCUIScreen.main.screenshot()
+        // With two displays the app itself is asked, not a screen: on iOS
+        // 27.3 a screenshot of the inactive display fails the test ("Cannot
+        // screenshot inactive display"), and the app's window covers the
+        // display it is on, status bar included.
+        return app.screenshot()
     }
 }
