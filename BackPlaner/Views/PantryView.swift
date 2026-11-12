@@ -365,6 +365,11 @@ struct PantryItemEditorView: View {
     }
 
     static func amountText(amount: Double, unit: PantryUnit) -> String {
+        // A thousand grams and more read as kilograms: "1,5 kg", not
+        // "1.500 g", which looks like one and a half grams.
+        if unit == .gram, amount >= 1_000 {
+            return amountText(amount: amount / 1_000, unit: .kilogram)
+        }
         let number = amount.formatted(.number.precision(.fractionLength(0...2)).locale(AppSettings.locale))
         return "\(number) \(unitTitle(unit))"
     }

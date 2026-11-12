@@ -46,6 +46,31 @@ struct IngredientNameNormalizerTests {
         #expect(IngredientNameNormalizer.comparisonKey("Wasser, kalt")
                 == IngredientNameNormalizer.comparisonKey("wasser"))
     }
+
+    @Test("A remark such as (optional) is no part of the name")
+    func optionalRemark() {
+        #expect(IngredientNameNormalizer.displayName("Hefe (optional)") == "Hefe")
+        #expect(IngredientNameNormalizer.displayName("Sesam (nach Belieben)") == "Sesam")
+        #expect(IngredientNameNormalizer.displayName("Levure (facultatif)") == "Levure")
+        #expect(IngredientNameNormalizer.displayName("Salz (to taste)") == "Salz")
+        #expect(IngredientNameNormalizer.comparisonKey("Frischhefe (optional)") == IngredientNameNormalizer.comparisonKey("Hefe"))
+        // A bracket that says something else stays.
+        #expect(IngredientNameNormalizer.displayName("Ei (Größe M)") == "Ei (Größe M)")
+    }
+
+    @Test("Fresh yeast is yeast and eggs are egg, in every language; dry yeast stays apart")
+    func synonyms() {
+        let key = IngredientNameNormalizer.comparisonKey
+        #expect(key("Frischhefe") == key("Hefe"))
+        #expect(key("frische Hefe (zimmerwarm)") == key("hefe"))
+        #expect(key("Trockenhefe") != key("Hefe"))
+        #expect(key("Eier") == key("Ei"))
+        #expect(key("Eigelb") != key("Ei"))
+        #expect(key("fresh yeast") == key("Yeast"))
+        #expect(key("Eggs") == key("egg"))
+        #expect(key("Œufs") == key("oeuf"))
+        #expect(key("levure fraîche") == key("levure"))
+    }
 }
 
 @Suite("Rows that stand for another component")

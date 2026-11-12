@@ -852,7 +852,7 @@ The app filters deliberately, in every language:
 - **Left out** are **water** (including mixing water, Wasser, eau), **salt** (including sea salt, Salz, sel) and everything you make yourself: **sourdough starter, sourdough, levain, lievito madre, poolish, biga**. What merely sounds like it is bought — rose water, coconut milk, salted butter, dried sourdough or sourdough extract stay on the list.
 - **Left out** are ingredients with no unit or no usable amount.
 - **Eggs are counted by the piece**, in every language: "120 g eggs" become "2 pcs eggs", rounded up, at ×2 four pieces.
-- **Identical ingredients are combined.** Temperature details are stripped from the name in the process: "milk 30 °C" and "milk" count as the same ingredient. Capitalisation and umlauts make no difference.
+- **Identical ingredients are combined.** Temperature details are stripped from the name in the process: "milk 30 °C" and "milk" count as the same ingredient, as do "fresh yeast" and "yeast" or "eggs" and "egg". Capitalisation and umlauts make no difference.
 - **Units are converted** when they share the same base unit: 0.5 kg + 200 g are added together, and so are tablespoons and millilitres. Grams and millilitres stay separate.
 
 ### Viewing shopping lists
@@ -871,7 +871,7 @@ Items that expire within the next 14 days or already have sit at the top under *
 
 **From the shopping list into the pantry.** Every line of a shopping list has a parcel symbol next to the bin, **Move into the pantry**, and the list's header one for **Bought**. Both open the sheet **Bought**: each line shows the need ("Needed: 200 g") and the amount bought in g, kg or pieces, prefilled with the package from the list – enter what you actually bought; switching from g to kg converts the number. **Book** adds every line with an amount to the item of the same name – or creates it; grams and kilograms are added up – and takes it off the list. A line with an empty amount stays on the list; when nothing is left, the list is deleted.
 
-**Matched against the recipes.** As soon as the pantry holds anything, a recipe's page shows a **Pantry** card: "All 5 ingredients are in the pantry" or "3 of 5 ingredients in the pantry" with what is missing – "200 g Roggenmehl 1150 missing" –, worked out at the serving size chosen. Water, salt and starter do not count; they are not on the shopping list either. Ingredients meet by name; use the suggestions from the recipes when adding items, then they match.
+**Matched against the recipes.** As soon as the pantry holds anything, a recipe's page shows a **Pantry** card: "All 5 ingredients are in the pantry" or "3 of 5 ingredients in the pantry" with what is missing – "200 g Roggenmehl 1150 missing" –, worked out at the serving size chosen. Water, salt and starter do not count; they are not on the shopping list either. Ingredients meet by name – "fresh yeast" and "yeast", "eggs" and "egg" count as the same, "dry yeast" or "egg yolk" do not; use the suggestions from the recipes when adding items, then they match. Amounts from 1000 g are shown in kilograms.
 
 - **Shopping list:** the form has the switch **Deduct pantry** (on by default). What is in the pantry stays off the list, partial amounts are reduced – 500 g needed, 300 g there, 200 g on the list. If everything is there, the app says so instead of creating an empty list.
 - **Filter and collection:** the filter menu has the switch **From the pantry**, the chip row the collection of the same name: only recipes whose ingredients, at the stored amount, are completely there.

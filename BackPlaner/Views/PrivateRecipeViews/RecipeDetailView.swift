@@ -70,6 +70,37 @@ struct RecipeDetailView: View {
         openedCopy = AdjustedRecipeCopy(id: pendingCopy)
     }
 
+    /// "Rezept teilen" (PDF) and "Rezept exportieren" (re-importable file).
+    @ViewBuilder private var shareButtons: some View {
+        ProGate(.pdfExport) {
+            FileShareLink(
+                item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
+                preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+            ) {
+                Label("Rezept teilen", systemImage: "square.and.arrow.up")
+                    .font(Theme.brandFont(15))
+            }
+        } label: {
+            Label("Rezept teilen", systemImage: "square.and.arrow.up")
+                .font(Theme.brandFont(15))
+        }
+        .fixedSize()
+
+        ProGate(.recipeSharing) {
+            FileShareLink(
+                item: RecipeFileExport(recipe: recipe),
+                preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
+            ) {
+                Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
+                    .font(Theme.brandFont(15))
+            }
+        } label: {
+            Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
+                .font(Theme.brandFont(15))
+        }
+        .fixedSize()
+    }
+
     var body: some View {
 
         // Reads the width available so the content below can be pinned to it —
@@ -153,36 +184,14 @@ struct RecipeDetailView: View {
                             .padding(.leading)
                             .font(Theme.brandFont(15))
                     }
+                }
 
-                    // MARK: Share as PDF, at the serving size shown (Pro)
-                    ProGate(.pdfExport) {
-                        FileShareLink(
-                            item: RecipePDFExport(data: RecipePrintData(recipe: recipe, scale: servingScale)),
-                            preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
-                        ) {
-                            Label("Rezept teilen", systemImage: "square.and.arrow.up")
-                                .font(Theme.brandFont(15))
-                        }
-                    } label: {
-                        Label("Rezept teilen", systemImage: "square.and.arrow.up")
-                            .font(Theme.brandFont(15))
-                    }
-                    .padding(.leading)
-
-                    // MARK: Export as a re-importable file (hand to someone else) (Pro)
-                    ProGate(.recipeSharing) {
-                        FileShareLink(
-                            item: RecipeFileExport(recipe: recipe),
-                            preview: SharePreview(recipe.name, image: Image(uiImage: UIImage(data: recipe.image) ?? UIImage()))
-                        ) {
-                            Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
-                                .font(Theme.brandFont(15))
-                        }
-                    } label: {
-                        Label("Rezept exportieren", systemImage: "doc.badge.arrow.up")
-                            .font(Theme.brandFont(15))
-                    }
-                    .padding(.leading)
+                // MARK: Share as PDF and export as a file (Pro). On their own
+                // row, side by side where they fit, otherwise stacked: next
+                // to the weight the labels broke in the middle of a word.
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 20) { shareButtons }
+                    VStack(alignment: .leading, spacing: 8) { shareButtons }
                 }
 
                 // MARK: Dough yield and hydration over all components, and

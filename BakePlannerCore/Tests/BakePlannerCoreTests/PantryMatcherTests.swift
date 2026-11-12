@@ -33,18 +33,34 @@ struct PantryMatcherTests {
         #expect(!check.isComplete && check.missing.count == 4)
     }
 
+    @Test("A pinch is no need: it is neither covered nor missing")
+    func pinch() {
+        var recipe = bread
+        recipe.components[0].ingredients.append(RecipeExportIngredient(name: "Vanille", number: 9, unit: "Prise", weight: 0, normWeight: 0, num: 1, denom: 1))
+        recipe.components[0].ingredients.append(RecipeExportIngredient(name: "Muskat", number: 10, unit: "Msp", weight: 0, normWeight: 0, num: 1, denom: 1))
+        let check = PantryMatcher.check(recipe, scale: 1, pantry: [])
+        #expect(!check.needs.map(\.name).contains("Vanille"))
+        #expect(!check.needs.map(\.name).contains("Muskat"))
+        #expect(check.needs.count == 4)
+    }
+
     @Test("Covered, partly covered and missing, at the recipe's scale")
     func coverage() {
         let pantry = [item("a", "roggenmehl 1150", 1, .kilogram), item("b", "Weizenmehl 1050", 150, .gram),
                       item("c", "Eier", 6, .piece), item("d", "Hefe", 42, .gram)]
         let check = PantryMatcher.check(bread, scale: 1, pantry: pantry)
-        #expect(check.covered.map(\.name) == ["Roggenmehl 1150", "Hefe"])
-        #expect(check.missing.map(\.name) == ["Weizenmehl 1050", "Ei"])
+        // "Eier" in the pantry are the recipe's "Ei": names meet through
+        // the synonyms of the comparison key.
+        #expect(check.covered.map(\.name) == ["Roggenmehl 1150", "Hefe", "Ei"])
+        #expect(check.missing.map(\.name) == ["Weizenmehl 1050"])
         #expect(check.missing[0].missingBase == 50)
-        // Doubled: the rye and the yeast still fit, the wheat is further off.
+        // Doubled: the rye, the yeast and the eggs still fit, the wheat is further off.
         let doubled = PantryMatcher.check(bread, scale: 2, pantry: pantry)
-        #expect(doubled.covered.map(\.name) == ["Roggenmehl 1150", "Hefe"])
+        #expect(doubled.covered.map(\.name) == ["Roggenmehl 1150", "Hefe", "Ei"])
         #expect(doubled.missing.first?.missingBase == 250)
+        // Yolks are not eggs: they leave the egg missing.
+        let yolks = pantry.filter { $0.id != "c" } + [item("y", "Eigelb", 6, .piece)]
+        #expect(PantryMatcher.check(bread, scale: 1, pantry: yolks).missing.map(\.name) == ["Weizenmehl 1050", "Ei"])
         // Everything there: complete.
         let full = pantry + [item("e", "Weizenmehl 1050", 1, .kilogram), item("f", "Ei", 2, .piece)]
         #expect(PantryMatcher.check(bread, scale: 1, pantry: full).isComplete)
