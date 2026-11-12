@@ -31,8 +31,28 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     case pantry
     /// Several breads placed before one finish, the ovens and the pause respected.
     case bakingDay
+    /// Saved collections of facets and "Fertig bis …"; the facets and the
+    /// five preset chips stay free.
+    case collections
+    /// The statistics view of the baking history.
+    case statistics
+    /// A new recipe from baker's percentages.
+    case bakersFormula
 
     var id: String { rawValue }
+
+    /// The App Store build (CFBundleVersion) the feature first shipped in.
+    /// A grandfathered installation keeps what it had on the day it was
+    /// downloaded: every feature whose build is not newer than its own
+    /// original build. The first six were there from the start.
+    var introducedBuild: Int {
+        switch self {
+        case .pdfExport, .recipeSharing, .recurringPlans, .shoppingList, .widgets, .liveActivity:
+            return 1
+        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula:
+            return 21
+        }
+    }
 
     var title: LocalizedStringKey {
         switch self {
@@ -44,6 +64,9 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .liveActivity:   return "Live-Aktivität auf dem Sperrbildschirm"
         case .pantry:         return "Vorrat"
         case .bakingDay:      return "Backtag planen"
+        case .collections:    return "Sammlungen und Fertig bis"
+        case .statistics:     return "Backstatistik"
+        case .bakersFormula:  return "Rezept nach Bäckerprozent"
         }
     }
 
@@ -58,6 +81,9 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .liveActivity:   return "Der laufende Plan auf dem Sperrbildschirm und in der Dynamic Island."
         case .pantry:         return "Mehle, Saaten und Hefe mit Menge und Haltbarkeit führen; Gekauftes wandert aus der Einkaufsliste hinein."
         case .bakingDay:      return "Mehrere Brote für einen Backtag: Wunschzeit für das letzte, und die App legt die Startzeiten so, dass Öfen und Backpause passen."
+        case .collections:    return "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind."
+        case .statistics:     return "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet."
+        case .bakersFormula:  return "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm."
         }
     }
 
@@ -71,6 +97,9 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .liveActivity:   return "clock.badge"
         case .pantry:         return "shippingbox"
         case .bakingDay:      return "calendar.badge.clock"
+        case .collections:    return "bookmark"
+        case .statistics:     return "chart.bar"
+        case .bakersFormula:  return "percent"
         }
     }
 }

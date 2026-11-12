@@ -40,17 +40,19 @@ struct PantryBackupTests {
         #expect(items[1].amount == 1 && items[1].unit == .kilogram && items[1].note == "angebrochen")
     }
 
-    @Test("The full backup written by the app carries the pantry, the single recipe's file does not")
+    @Test("The full backup through the app's Core Data stores carries the pantry, the shared recipe's file does not")
     func exportCarriesPantry() throws {
-        let context = PersistenceController.shared.container.viewContext
+        let context = PersistenceController(inMemory: true).container.viewContext
         let pantry = CoreDataPantryStore(context: context)
-        let item = try pantry.add(name: "Testmehl \(UUID().uuidString.prefix(6))", amount: 500, unit: .gram, bestBefore: nil, note: "")
-        defer { try? pantry.delete(id: item.id) }
+        let item = try pantry.add(name: "Testmehl", amount: 500, unit: .gram, bestBefore: nil, note: "")
 
-        let full = RecipeFileExport(recipes: [], fileName: "Test", includesBakeHistory: true).file
-        #expect(full.pantry?.contains { $0.name == item.name && $0.amount == 500 && $0.unit == "g" } == true)
+        let full = try RecipeExportFile(recipeIDs: [], from: CoreDataRecipeStore(context: context),
+                                        bakeHistory: CoreDataBakeHistoryStore(context: context),
+                                        starterFeedings: CoreDataStarterFeedingLogStore(context: context),
+                                        pantry: pantry)
+        #expect(full.pantry == [RecipeExportPantryItem(name: item.name, amount: 500, unit: "g")])
         #expect(full.formatVersion == 7)
-        let shared = RecipeFileExport(recipes: [], fileName: "Test", includesBakeHistory: false).file
-        #expect(shared.pantry == nil)
+        let shared = try RecipeExportFile(recipeIDs: [], from: CoreDataRecipeStore(context: context))
+        #expect(shared.pantry == nil && shared.formatVersion == 1)
     }
 }

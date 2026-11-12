@@ -6,10 +6,12 @@
 //  site asks here and nowhere else, so turning the purchase on is one
 //  switch in the Firestore document, not a hunt through the views.
 //
-//  A feature is open when the configuration does not require Pro, or when
-//  this installation has Pro — bought, or grandfathered as an installation
-//  from before the purchase existed. Fail open: without a loaded
-//  configuration everything is free.
+//  A feature is open when the configuration does not require Pro, when
+//  this installation bought Pro, or when it is grandfathered — downloaded
+//  before the purchase existed — and the feature was already in the app on
+//  that day (ProFeature.introducedBuild). What was free when someone came
+//  stays free for them; what came later costs them what it costs everyone.
+//  Fail open: without a loaded configuration everything is free.
 //
 
 import BakePlannerCore
@@ -38,12 +40,26 @@ final class Entitlements {
         var proRequired: Bool
         /// Whether the Pro section and the paywall are shown.
         var storeVisible: Bool
-        /// Whether this installation has Pro, bought or grandfathered.
+        /// Whether this installation has Pro, bought or grandfathered — what
+        /// the Functions accept for the cloud imports, which were free
+        /// before Pro existed.
         var isPro: Bool
+        var purchased: Bool
         var isGrandfathered: Bool
+        /// The build first downloaded, for the grandfathered features.
+        var originalBuild: Int?
 
-        /// Whether a Pro feature may be used.
-        var unlocked: Bool { !proRequired || isPro }
+        /// Whether `feature` may be used.
+        func unlocked(_ feature: ProFeature) -> Bool {
+            if !proRequired || purchased { return true }
+            guard isGrandfathered, let originalBuild else { return false }
+            return feature.introducedBuild <= originalBuild
+        }
+
+        /// Whether every Pro feature may be used.
+        var unlocksEverything: Bool {
+            ProFeature.allCases.allSatisfy(unlocked)
+        }
     }
 
     /// Pure, so the tests can cover every combination.
@@ -54,7 +70,16 @@ final class Entitlements {
                           // purchase is never invisible to the person who made it.
                           storeVisible: config.storeVisible || purchased,
                           isPro: purchased || grandfathered,
-                          isGrandfathered: grandfathered)
+                          purchased: purchased,
+                          isGrandfathered: grandfathered,
+                          originalBuild: Self.buildNumber(originalAppVersion))
+    }
+
+    /// The build number in an `originalAppVersion` ("21", or "21.0" on
+    /// some systems); nil when it is no number.
+    nonisolated static func buildNumber(_ version: String?) -> Int? {
+        guard let first = version?.split(separator: ".").first else { return nil }
+        return Int(first)
     }
 
     var resolution: Resolution {
@@ -65,7 +90,14 @@ final class Entitlements {
 
     /// Whether `feature` may be used right now.
     func isUnlocked(_ feature: ProFeature) -> Bool {
-        resolution.unlocked
+        resolution.unlocked(feature)
+    }
+
+    /// Whether there is nothing left to buy: Pro was bought, or every
+    /// feature is open anyway. A grandfathered installation that lacks the
+    /// newer features is offered the purchase.
+    var hasEverything: Bool {
+        resolution.unlocksEverything
     }
 
     /// What a cloud import sends so the Functions can verify Pro for
@@ -102,7 +134,7 @@ final class Entitlements {
     /// whenever it changes.
     private func mirrorForWidgets() {
         let unlocked = withObservationTracking { [self] in
-            resolution.unlocked
+            resolution.unlocked(.widgets)
         } onChange: { [weak self] in
             Task { @MainActor in
                 self?.mirrorForWidgets()

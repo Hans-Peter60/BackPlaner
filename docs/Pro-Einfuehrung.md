@@ -9,7 +9,7 @@ Stand: 11.11.2026. Erster Schritt auf dem Weg zu BakePlanner Pro als bezahltem U
 | Schalter | Firestore `config/monetization`, Feld `freeImportsPerMonth` (Zahl; 0 = kein Limit) | App und Functions lesen dasselbe Dokument (`MonetizationConfig`, `readMonetizationLimits`), Cache in den Functions eine Minute |
 | Zählung | Firestore `aiRateLimits/{uid}`: `month` („2026-11“, UTC), `monthCount`, dazu `windowStartedAt`/`count` für das Stundenlimit (20 je Stunde, gilt immer) | `enforceRateLimit` in `functions/src/index.ts`; der Monat startet bei null |
 | Pro-Nachweis | Die iPhone-App schickt die signierte StoreKit-Transaktion (`proTransaction`) bzw. die AppTransaction (`proAppTransaction`); `proVerification.ts` prüft Apples Signatur | Ein geprüfter Nachweis wird 7 Tage per Hash im `aiRateLimits`-Dokument gemerkt; nur Production/Sandbox zählen, Xcode-Umgebung nie |
-| Großvaterregel | Feld `grandfatherBeforeBuild` (Build-Nummer als Text) | Installationen, deren `originalAppVersion` kleiner ist, gelten als Pro – in der App und in den Functions |
+| Großvaterregel | Feld `grandfatherBeforeBuild` (Build-Nummer als Text) | Installationen, deren `originalAppVersion` kleiner ist, sind Bestandsnutzer. **Seit 12.11.2026 je Funktion:** Ein Bestandsnutzer behält jede Pro-Funktion, deren `ProFeature.introducedBuild` nicht größer ist als sein Erst-Build (Einkaufsliste, PDF, Weitergabe, wiederkehrende Pläne, Widgets, Live-Aktivität: seit Build 1; Vorrat, Backtag, Sammlungen/„Fertig bis“, Statistik, Bäckerprozent: Build 21). Cloud-Importe bleiben für Bestandsnutzer ohne Limit (Functions prüfen die AppTransaction wie bisher). Wer eine neuere Funktion will, sieht die Kaufseite mit dem Hinweis „Was es damals gab, bleibt frei“ |
 | Android | Firebase-App-ID der Android-App steht in `appIdsWithoutMonthlyLimit` (`functions/src/index.ts`) | **Vom Monatslimit ausgenommen**, solange es dort keinen Kauf gibt (Play Billing kommt mit dem Pro-Umstieg beider Plattformen); das Stundenlimit gilt |
 | Antwort | Die Functions liefern `freeImports: {used, limit}` mit, nur wenn ein Limit greift | Die App zeigt nach dem Import „Noch 2 kostenlose Cloud-Importe …“, „Noch ein …“ und beim letzten „Das war der letzte …“ (`CloudRecipeAnalysis.FreeImports.notice`) |
 | Limit erreicht | Function antwortet `resource-exhausted` mit `reason: monthly-limit` | Die App analysiert auf dem Gerät weiter und erklärt es („Die kostenlosen Cloud-Importe dieses Monats sind aufgebraucht … Mit BakePlanner Pro gibt es kein Monatslimit.“) |
@@ -43,7 +43,7 @@ Dann in **Firebase Console → Firestore → `config/monetization`**:
 | `storeVisible` | `true` | Pro-Abschnitt in den Einstellungen und Kaufknopf erscheinen; nichts wird gesperrt |
 | `freeImportsPerMonth` | `5` | fünf Cloud-Importe je Kalendermonat ohne Pro (iPhone, iPad, Mac) |
 | `proRequired` | `false` lassen | Einkaufsliste, PDF, Widgets usw. bleiben für alle offen |
-| `grandfatherBeforeBuild` | leer lassen **oder** `"21"` | Mit `"21"` zählen alle Installationen aus der Zeit vor 2.4 (21) als Pro und haben kein Limit; nur Neuinstallationen werden begrenzt. Entscheidung Hans-Peter (offen) |
+| `grandfatherBeforeBuild` | die Build-Nummer des **ersten Builds mit eingeschaltetem Pro** (z. B. `"22"`) | Alle Installationen davor sind Bestandsnutzer: Sie behalten die Funktionen ihres Erst-Builds (siehe Großvaterregel oben) und haben kein Import-Limit; nur Neuinstallationen zahlen für alles. Entscheidung Hans-Peter vom 12.11.2026: „Was bis zur eigenen Installation frei war, bleibt frei; alles Neuere nur mit Pro.“ Will man Vorrat und Co. nur für 2.3-Installationen sperren, muss Pro mit dem ersten 2.4-Store-Build zusammen starten (ein 2.4 mit offener Schranke schenkt diesen Installationen die 2.4-Funktionen) |
 
 Die Functions übernehmen den Wert innerhalb einer Minute, die App beim nächsten Start.
 
@@ -60,4 +60,5 @@ Die Functions übernehmen den Wert innerhalb einer Minute, die App beim nächste
 ## Offen
 
 - Android bekommt das Limit erst mit Play Billing; dann die App-ID aus `appIdsWithoutMonthlyLimit` nehmen und in `PublicRecipeService` den Fehler `monthly-limit` wie das iPhone behandeln (Hinweis statt roher Fehlermeldung).
-- Der nächste Pro-Schritt laut `docs/Ideen-3.0.md`: Rezept nach Bäckerprozent anlegen.
+- Preisempfehlung vom 12.11.2026: Einmalkauf 9,99 € (untere Grenze 7,99 €), Familienfreigabe an, Small Business Program beantragen; auch mit Pro eine Fair-Use-Grenze für Cloud-Importe (z. B. 100 im Monat) erwägen.
+- Neue Pro-Funktion einführen: Fall in `ProFeature` anlegen **mit `introducedBuild` = erster Store-Build, der sie enthält**, Texte de/en/fr, Gate (`ProGate`/`ProLockedScreen`), Kaufseiten-Reihenfolge prüfen, Handbuch Kapitel 14 ergänzen.
