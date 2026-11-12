@@ -64,7 +64,8 @@ struct CoreDataPantryStore: PantryStore {
                          unit: PantryUnit(stored: item.unit),
                          bestBefore: item.bestBefore,
                          note: item.note ?? "",
-                         updatedAt: item.updatedAt ?? .distantPast)
+                         updatedAt: item.updatedAt ?? .distantPast,
+                         uuid: item.id?.uuidString ?? item.storeKey)
     }
 
     private static func apply(_ content: StoredPantryItem, to item: PantryItem) {

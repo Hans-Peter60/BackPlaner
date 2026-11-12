@@ -19,6 +19,15 @@ struct PantryView: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var managedItems: FetchedResults<PantryItem>
+    @FetchRequest(sortDescriptors: [])
+    private var managedReservations: FetchedResults<PantryReservation>
+
+    /// The deductions made when plans ended, newest first; one can be undone.
+    @State private var bookings: [PantryBooking] = PantryBookings.all()
+
+    private var reservations: [StoredPantryReservation] {
+        managedReservations.compactMap(CoreDataPantryReservationStore.stored)
+    }
 
     /// The item being edited, or a blank one for "+".
     @State private var editing: PantryEditing?
@@ -62,8 +71,36 @@ struct PantryView: View {
                             Label(shelf.category.title, systemImage: shelf.category.systemImage)
                         }
                     }
+                    if !bookings.isEmpty {
+                        Section {
+                            ForEach(bookings) { booking in
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("\(booking.recipeName): \(PantryItemEditorView.amountText(amount: booking.amount, unit: booking.unit)) \(booking.itemName)")
+                                            .font(Theme.bodyFont(14))
+                                            .foregroundColor(Theme.cardTitle)
+                                        Text(booking.date.formatted(Date.FormatStyle(date: .numeric, time: .shortened).locale(AppSettings.locale)))
+                                            .font(Theme.bodyFont(12))
+                                            .foregroundColor(Theme.subtitle)
+                                    }
+                                    Spacer()
+                                    Button("Rückgängig") {
+                                        PantryLedgerService.undo(booking, in: viewContext)
+                                        bookings = PantryBookings.all()
+                                    }
+                                    .font(Theme.bodyFont(13))
+                                    .accessibilityIdentifier("pantry.undoBooking")
+                                }
+                            }
+                        } header: {
+                            Label("Letzte Abbuchungen", systemImage: "arrow.uturn.backward")
+                        } footer: {
+                            Text("Was ein beendeter Plan verbraucht hat. „Rückgängig“ bucht die Menge zurück, wenn das Brot doch nicht gebacken wurde.")
+                        }
+                    }
                 }
                 .scrollContentBackground(.hidden)
+                .onAppear { bookings = PantryBookings.all() }
             }
         }
         .warmBackground()
@@ -98,6 +135,13 @@ struct PantryView: View {
                     if let line = shelfLifeText(item) {
                         line
                             .font(Theme.bodyFont(12))
+                    }
+                    // What open plans have already claimed of it.
+                    let reserved = PantryLedger.reservedAmount(of: item, reservations: reservations)
+                    if reserved > 0 {
+                        Text("davon \(PantryItemEditorView.amountText(amount: reserved, unit: item.unit)) reserviert")
+                            .font(Theme.bodyFont(12))
+                            .foregroundColor(reserved > item.amount ? Theme.warning : Theme.subtitle)
                     }
                     if !item.note.isEmpty {
                         Text(item.note)
@@ -317,7 +361,11 @@ struct PantryItemEditorView: View {
 
     /// "2,5 kg", "500 g", "3 Stück".
     static func amountText(_ item: StoredPantryItem) -> String {
-        let number = item.amount.formatted(.number.precision(.fractionLength(0...2)).locale(AppSettings.locale))
-        return "\(number) \(unitTitle(item.unit))"
+        amountText(amount: item.amount, unit: item.unit)
+    }
+
+    static func amountText(amount: Double, unit: PantryUnit) -> String {
+        let number = amount.formatted(.number.precision(.fractionLength(0...2)).locale(AppSettings.locale))
+        return "\(number) \(unitTitle(unit))"
     }
 }

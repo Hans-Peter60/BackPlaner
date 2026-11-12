@@ -150,6 +150,13 @@ struct BakePlanScheduler {
             try? context.save()
         }
 
+        // The pantry: what this bread will use is reserved under the plan's
+        // id until the plan ends or goes.
+        if !isStarter {
+            PantryLedgerService.reserve(recipe: content, planID: planID, scale: servingScale,
+                                        planEnd: result.finishDate, in: context)
+        }
+
         return result
     }
 
@@ -162,6 +169,8 @@ struct BakePlanScheduler {
                             keeping planID: UUID, in context: NSManagedObjectContext) {
         removePlans(recipeName: recipeName, reminderPrefix: reminderPrefix, keeping: planID,
                     from: CoreDataScheduledStepStore(context: context))
+        // The replaced plans' pantry reservations go with them.
+        PantryLedgerService.release(recipeName: recipeName, in: context)
     }
 
     /// Drops the bake-history entries and the diary feedings the recipe's

@@ -47,9 +47,12 @@ public struct StoredPantryItem: Equatable, Identifiable, Sendable {
     /// When the amount was last set — the shelf-life view tells how long a
     /// packet has been open from it.
     public var updatedAt: Date
+    /// The item's identity across devices (its UUID), which reservations
+    /// refer to; the store key `id` is this device's handle only.
+    public var uuid: String
 
     public init(id: String, name: String, amount: Double, unit: PantryUnit, bestBefore: Date? = nil,
-                note: String = "", updatedAt: Date = Date()) {
+                note: String = "", updatedAt: Date = Date(), uuid: String? = nil) {
         self.id = id
         self.name = name
         self.amount = amount
@@ -57,6 +60,7 @@ public struct StoredPantryItem: Equatable, Identifiable, Sendable {
         self.bestBefore = bestBefore
         self.note = note
         self.updatedAt = updatedAt
+        self.uuid = uuid ?? id
     }
 
     /// The amount in the base the recipes compare against: grams for

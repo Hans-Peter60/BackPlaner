@@ -317,6 +317,8 @@ struct BakeModeView: View {
         do {
             try managedObjectContext.save()
             doneHaptic.toggle()
+            // A plan whose end has come books its pantry amounts.
+            PantryLedgerService.reconcile(in: managedObjectContext)
         } catch {
             managedObjectContext.rollback()
             AppLog.persistence.error("Could not mark step done in bake mode")

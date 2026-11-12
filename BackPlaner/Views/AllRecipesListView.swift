@@ -54,6 +54,14 @@ struct AllRecipesListView: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var pantryItems: FetchedResults<PantryItem>
+    @FetchRequest(sortDescriptors: [])
+    private var pantryReservations: FetchedResults<PantryReservation>
+
+    /// The stock less what open plans have reserved.
+    private var availablePantry: [StoredPantryItem] {
+        PantryLedger.available(pantryItems.map(CoreDataPantryStore.stored),
+                               reservations: pantryReservations.compactMap(CoreDataPantryReservationStore.stored))
+    }
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var recipes: FetchedResults<Recipe>
@@ -171,7 +179,7 @@ struct AllRecipesListView: View {
         if facetFilter.pantryOnly {
             // The pantry at the recipe as stored; the facet filter itself
             // knows no pantry.
-            let pantry = pantryItems.map(CoreDataPantryStore.stored)
+            let pantry = availablePantry
             base = base.filter { row in PantryMatcher.check(content(of: row), scale: 1, pantry: pantry).isComplete }
         }
         if facetFilter.useUpOnly {
@@ -214,7 +222,7 @@ struct AllRecipesListView: View {
 
     /// What of the soon-expiring pantry the row's recipe uses, most first.
     private func useUp(of row: Row) -> [PantryUse] {
-        PantryMatcher.useUp(content(of: row), scale: 1, pantry: pantryItems.map(CoreDataPantryStore.stored))
+        PantryMatcher.useUp(content(of: row), scale: 1, pantry: availablePantry)
     }
 
     /// The line under a row's name under "Vorrat aufbrauchen": the item it

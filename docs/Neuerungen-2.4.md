@@ -31,6 +31,7 @@ BACKTAG PLANEN
 VORRAT
 • „Mehr → Vorrat“ führt, was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge, Mindesthaltbarkeit und Notiz, nach Regalen wie die Einkaufsliste. Was in 14 Tagen abläuft, steht oben unter „Bald aufbrauchen“. Aus der Einkaufsliste wandert Gekauftes mit einem Tipp in den Vorrat. Gehört zu BakePlanner Pro.
 • Die Rezeptseite zeigt, was davon im Vorrat ist und was fehlt. Die Einkaufsliste zieht den Vorrat ab, der Filter kennt „Aus dem Vorrat“, und nach dem Backen fragt die App, ob sie die Mengen abbucht.
+• Pläne reservieren ihre Mengen: Verfügbar ist Bestand minus Reservierungen, ein gelöschter Plan gibt sie frei, ein beendeter Plan bucht sie ab. Der Backtag zeigt vorher, was für alle Brote zusammen fehlt; „Letzte Abbuchungen“ im Vorrat lassen sich rückgängig machen.
 • Auf Wunsch erinnert Dich eine Mitteilung 14 Tage vor der Mindesthaltbarkeit. Die Sammlung „Vorrat aufbrauchen“ zeigt, welche Rezepte am meisten von dem verbrauchen, was bald abläuft.
 
 KLEINERES
@@ -74,6 +75,7 @@ PLAN A BAKING DAY
 PANTRY
 • “More → Pantry” keeps what you have at home: flours, seeds, yeast with amount, best-before date and note, on shelves like the shopping list. What expires within 14 days sits at the top under “Use up soon”. From the shopping list, what you bought moves into the pantry with one tap. Part of BakePlanner Pro.
 • The recipe page shows what of it is in the pantry and what is missing. The shopping list deducts the pantry, the filter knows “From the pantry”, and after a bake the app asks whether to take the amounts off.
+• Plans reserve their amounts: available is stock minus reservations, a deleted plan frees them, an ended plan deducts them. The baking day shows beforehand what is missing for all breads together; “Recent deductions” in the pantry can be undone.
 • If you like, a notification reminds you 14 days before the best-before date. The collection “Use up the pantry” shows which recipes use most of what expires soon.
 
 SMALLER THINGS
@@ -117,6 +119,7 @@ JOURNÉE DE CUISSON
 RÉSERVE
 • « Plus → Réserve » tient ce que vous avez chez vous : farines, graines, levure avec quantité, date limite et note, par rayons comme la liste de courses. Ce qui expire sous 14 jours figure en haut sous « À consommer bientôt ». Depuis la liste de courses, vos achats passent dans la réserve d’un appui. Fait partie de BakePlanner Pro.
 • La page de recette montre ce qui est dans la réserve et ce qui manque. La liste de courses déduit la réserve, le filtre connaît « Avec la réserve », et après la cuisson l’app demande si elle déduit les quantités.
+• Les plans réservent leurs quantités : disponible = stock moins réservations, un plan supprimé les libère, un plan terminé les déduit. La journée de cuisson montre d’avance ce qui manque pour tous les pains ensemble ; les « Dernières déductions » de la réserve peuvent être annulées.
 • Si vous le souhaitez, une notification vous rappelle 14 jours avant la date limite. La collection « Écouler la réserve » montre quelles recettes utilisent le plus de ce qui expire bientôt.
 
 PLUS PETIT

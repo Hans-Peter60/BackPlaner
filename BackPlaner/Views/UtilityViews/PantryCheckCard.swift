@@ -20,9 +20,13 @@ struct PantryCheckCard: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var managedItems: FetchedResults<PantryItem>
+    @FetchRequest(sortDescriptors: [])
+    private var managedReservations: FetchedResults<PantryReservation>
 
     var body: some View {
-        let pantry = managedItems.map(CoreDataPantryStore.stored)
+        // What is free: the stock less what open plans have reserved.
+        let pantry = PantryLedger.available(managedItems.map(CoreDataPantryStore.stored),
+                                            reservations: managedReservations.compactMap(CoreDataPantryReservationStore.stored))
         if !pantry.isEmpty {
             let check = PantryMatcher.check(recipe, scale: scale, pantry: pantry)
             if !check.needs.isEmpty {

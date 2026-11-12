@@ -748,6 +748,22 @@
         }
       }
     },
+    "%@: %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@: %2$@ %3$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ : %2$@ %3$@"
+          }
+        }
+      }
+    },
     "%@: %@ %@ → %@" : {
       "comment" : "Recipe difference: component, ingredient, amount before, amount after.",
       "extractionState" : "manual",
@@ -4814,6 +4830,22 @@
         }
       }
     },
+    "davon %@ reserviert" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ of it reserved"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dont %@ réservé"
+          }
+        }
+      }
+    },
     "Deine besten Rezepte" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -8688,6 +8720,22 @@
         }
       }
     },
+    "Gerechnet über alle gewählten Brote gegen den verfügbaren Vorrat, Reservierungen anderer Pläne schon abgezogen. Planen geht trotzdem – die Einkaufsliste eines Rezepts mit „Vorrat abziehen“ holt das Fehlende." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Worked out over all chosen breads against the available pantry, other plans’ reservations already taken off. You can still plan – a recipe’s shopping list with “Deduct pantry” fetches what is missing."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculé sur tous les pains choisis contre la réserve disponible, réservations des autres plans déjà déduites. Vous pouvez quand même planifier – la liste de courses d’une recette avec « Déduire la réserve » complète ce qui manque."
+          }
+        }
+      }
+    },
     "Gesamtgewicht: %@ g" : {
       "comment" : "Fact line in the exported PDF; %@ is the formatted weight.",
       "extractionState" : "manual",
@@ -10988,6 +11036,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Crée sous « Mes recettes » une nouvelle recette avec la farine remplacée et l’eau ajustée, datée d’aujourd’hui dans son nom, et l’ouvre. L’original reste inchangé."
+          }
+        }
+      }
+    },
+    "Letzte Abbuchungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent deductions"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernières déductions"
           }
         }
       }
@@ -15171,6 +15235,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Moule rond"
+          }
+        }
+      }
+    },
+    "Rückgängig" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
@@ -21119,6 +21199,22 @@
         }
       }
     },
+    "Vorrat reicht nicht für alle Brote" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantry does not cover all breads"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La réserve ne suffit pas pour tous les pains"
+          }
+        }
+      }
+    },
     "Vorrat: bald aufbrauchen" : {
       "localizations" : {
         "en" : {
@@ -21252,6 +21348,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pourquoi signalez-vous cette recette ? Elle sera immédiatement masquée pour tous les utilisateurs, puis examinée."
+          }
+        }
+      }
+    },
+    "Was ein beendeter Plan verbraucht hat. „Rückgängig“ bucht die Menge zurück, wenn das Brot doch nicht gebacken wurde." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What an ended plan used up. “Undo” books the amount back if the bread was not baked after all."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qu’un plan terminé a consommé. « Annuler » remet la quantité si le pain n’a finalement pas été cuit."
           }
         }
       }

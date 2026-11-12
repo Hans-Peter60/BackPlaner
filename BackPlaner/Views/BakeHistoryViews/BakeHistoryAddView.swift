@@ -149,7 +149,10 @@ struct BakeHistoryAddView: View {
                 }
                 // The pantry (Pro): what this bake used, to be taken off
                 // once the person has seen the entry was saved.
+                // A planned bread books its pantry through its plan; only a
+                // bread entered without a plan asks here.
                 if Entitlements.shared.isUnlocked(.pantry),
+                   !BakePlanScheduler.hasPlan(recipeName: recipe.name, in: viewContext),
                    let pantry = try? CoreDataPantryStore(context: viewContext).items(), !pantry.isEmpty {
                     pendingDeductions = PantryMatcher.deductions(for: RecipeExportData(recipe: recipe, includingImage: false),
                                                                  scale: servingScale, pantry: pantry)
