@@ -71,11 +71,16 @@ struct ProPaywallView: View {
                 }
 
                 Section {
-                    if entitlements.isPro {
+                    if entitlements.hasEverything {
                         Label("Pro ist freigeschaltet", systemImage: "checkmark.seal.fill")
                             .font(Theme.brandFont(15))
                             .foregroundStyle(Theme.accentText)
                     } else {
+                        if entitlements.resolution.isGrandfathered {
+                            Text("Du hattest die App schon, bevor es Pro gab: Was es damals gab, bleibt für Dich frei. Die neueren Pro-Funktionen gibt es mit dem Kauf.")
+                                .font(Theme.bodyFont(13))
+                                .foregroundStyle(.secondary)
+                        }
                         Button {
                             Task { await purchase() }
                         } label: {
@@ -118,7 +123,7 @@ struct ProPaywallView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(entitlements.isPro ? "Fertig" : "Schließen") { dismiss() }
+                    Button(entitlements.hasEverything ? "Fertig" : "Schließen") { dismiss() }
                 }
             }
             .overlay {
@@ -161,7 +166,7 @@ struct ProPaywallView: View {
         defer { isRestoring = false }
         do {
             try await ProStore.shared.restore()
-            if Entitlements.shared.isPro {
+            if ProStore.shared.hasPurchased {
                 dismiss()
             } else {
                 errorMessage = String(localized: "Für dieses Apple-Konto wurde kein Kauf gefunden.",

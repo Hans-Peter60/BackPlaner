@@ -19,7 +19,7 @@ struct EntitlementsTests {
     @Test("Without a configuration everything is free")
     func freeConfigUnlocksEverything() {
         let resolution = Entitlements.resolve(config: .free, purchased: false, originalAppVersion: nil)
-        #expect(resolution.unlocked)
+        #expect(resolution.unlocksEverything)
         #expect(!resolution.isPro)
         #expect(!resolution.storeVisible)
         #expect(!resolution.proRequired)
@@ -29,7 +29,7 @@ struct EntitlementsTests {
     func proRequiredLocks() {
         let config = MonetizationConfig(proRequired: true, storeVisible: true)
         let resolution = Entitlements.resolve(config: config, purchased: false, originalAppVersion: "12")
-        #expect(!resolution.unlocked)
+        #expect(!resolution.unlocked(.shoppingList))
         #expect(resolution.storeVisible)
     }
 
@@ -37,7 +37,7 @@ struct EntitlementsTests {
     func purchaseUnlocks() {
         let config = MonetizationConfig(proRequired: true, storeVisible: false)
         let resolution = Entitlements.resolve(config: config, purchased: true, originalAppVersion: nil)
-        #expect(resolution.unlocked)
+        #expect(resolution.unlocksEverything)
         #expect(resolution.isPro)
         #expect(resolution.storeVisible)
         #expect(!resolution.isGrandfathered)
@@ -47,7 +47,7 @@ struct EntitlementsTests {
     func storeVisibleAlone() {
         let config = MonetizationConfig(proRequired: false, storeVisible: true)
         let resolution = Entitlements.resolve(config: config, purchased: false, originalAppVersion: nil)
-        #expect(resolution.unlocked)
+        #expect(resolution.unlocksEverything)
         #expect(resolution.storeVisible)
         #expect(!resolution.isPro)
     }
@@ -60,11 +60,40 @@ struct EntitlementsTests {
         let old = Entitlements.resolve(config: config, purchased: false, originalAppVersion: "8")
         #expect(old.isGrandfathered)
         #expect(old.isPro)
-        #expect(old.unlocked)
+        #expect(old.unlocked(.shoppingList))
 
         let atThreshold = Entitlements.resolve(config: config, purchased: false, originalAppVersion: "10")
         #expect(!atThreshold.isGrandfathered)
-        #expect(!atThreshold.unlocked)
+        #expect(!atThreshold.unlocked(.shoppingList))
+    }
+
+    @Test("A grandfathered installation keeps the features it had on its day; what came later needs the purchase")
+    func grandfatheredPerFeature() {
+        let config = MonetizationConfig(proRequired: true, grandfatherBeforeBuild: "30")
+        // Downloaded with 2.3 (20): the shopping list was there, the pantry was not.
+        let fromTwoThree = Entitlements.resolve(config: config, purchased: false, originalAppVersion: "20")
+        #expect(fromTwoThree.unlocked(.shoppingList) && fromTwoThree.unlocked(.widgets) && fromTwoThree.unlocked(.pdfExport))
+        #expect(!fromTwoThree.unlocked(.pantry) && !fromTwoThree.unlocked(.bakingDay))
+        #expect(!fromTwoThree.unlocked(.collections) && !fromTwoThree.unlocked(.statistics) && !fromTwoThree.unlocked(.bakersFormula))
+        #expect(!fromTwoThree.unlocksEverything)
+        #expect(fromTwoThree.isPro) // the cloud imports were free then too
+        // Downloaded with 2.4 (21), still before Pro: everything of 2.4 stays.
+        let fromTwoFour = Entitlements.resolve(config: config, purchased: false, originalAppVersion: "21")
+        #expect(fromTwoFour.unlocked(.pantry) && fromTwoFour.unlocked(.collections))
+        #expect(fromTwoFour.unlocksEverything)
+        // "21.0" reads as 21; a purchase opens everything regardless.
+        #expect(Entitlements.buildNumber("21.0") == 21 && Entitlements.buildNumber("abc") == nil)
+        #expect(Entitlements.resolve(config: config, purchased: true, originalAppVersion: "8").unlocksEverything)
+        // Without the requirement everything is open, grandfathered or not.
+        #expect(Entitlements.resolve(config: .free, purchased: false, originalAppVersion: "8").unlocksEverything)
+    }
+
+    @Test("Every Pro feature names the build it appeared in; the newer ones came with 2.4 (21)")
+    func introducedBuilds() {
+        for feature in ProFeature.allCases {
+            #expect(feature.introducedBuild >= 1)
+        }
+        #expect(ProFeature.pantry.introducedBuild == 21 && ProFeature.shoppingList.introducedBuild == 1)
     }
 
     @Test("Builds compare as numbers, not as text")

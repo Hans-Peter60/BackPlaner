@@ -164,7 +164,7 @@ struct BakeHistoriesListView: View {
                     case .gallery: gallery
                     case .hitList: hitList
                     case .cloud:   cloud
-                    case .statistics: statistics
+                    case .statistics: ProLockedScreen(.statistics) { statistics }
                     }
                 }
             }

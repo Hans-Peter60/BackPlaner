@@ -369,7 +369,7 @@ struct SettingsView: View {
         let entitlements = Entitlements.shared
         if entitlements.storeVisible {
             Section {
-                if entitlements.isPro {
+                if entitlements.hasEverything {
                     Label("Pro ist freigeschaltet", systemImage: "checkmark.seal.fill")
                         .foregroundStyle(Theme.accentText)
                     if entitlements.resolution.isGrandfathered && !ProStore.shared.hasPurchased {
@@ -378,6 +378,11 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     }
                 } else {
+                    if entitlements.resolution.isGrandfathered {
+                        Text("Du hattest die App schon, bevor es Pro gab: Was es damals gab, bleibt für Dich frei. Die neueren Pro-Funktionen gibt es mit dem Kauf.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                     Button {
                         showPaywall = true
                     } label: {
@@ -399,7 +404,7 @@ struct SettingsView: View {
             } header: {
                 Text("BakePlanner Pro")
             } footer: {
-                Text("Einmalkauf, kein Abo: PDF-Export, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets und Live-Aktivität.")
+                Text("Einmalkauf, kein Abo. Was dazugehört, zeigt die Kaufseite; der Kern der App bleibt frei.")
             }
             .sheet(isPresented: $showPaywall) {
                 ProPaywallView()
@@ -420,7 +425,7 @@ struct SettingsView: View {
         defer { isRestoringPurchases = false }
         do {
             try await ProStore.shared.restore()
-            restoreMessage = Entitlements.shared.isPro
+            restoreMessage = ProStore.shared.hasPurchased
                 ? String(localized: "Pro ist wieder freigeschaltet.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
                 : String(localized: "Für dieses Apple-Konto wurde kein Kauf gefunden.", bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
         } catch {

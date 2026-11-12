@@ -131,8 +131,12 @@ struct AddRecipeView: View {
                 } label: {
                     Label("Rezept aus Text importieren", systemImage: "text.quote")
                 }
-                NavigationLink {
-                    BakersFormulaView()
+                ProGate(.bakersFormula) {
+                    NavigationLink {
+                        BakersFormulaView()
+                    } label: {
+                        Label("Rezept nach Bäckerprozent anlegen", systemImage: "percent")
+                    }
                 } label: {
                     Label("Rezept nach Bäckerprozent anlegen", systemImage: "percent")
                 }

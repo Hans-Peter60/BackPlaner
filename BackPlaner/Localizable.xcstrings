@@ -133,6 +133,22 @@
         }
       }
     },
+    "Backstatistik" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking statistics"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiques de cuisson"
+          }
+        }
+      }
+    },
     "Benötigt: %@" : {
       "localizations" : {
         "en" : {
@@ -165,6 +181,70 @@
         }
       }
     },
+    "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The baking history as numbers and charts: how often, what most, how rated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note."
+          }
+        }
+      }
+    },
+    "Du hattest die App schon, bevor es Pro gab: Was es damals gab, bleibt für Dich frei. Die neueren Pro-Funktionen gibt es mit dem Kauf." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You had the app before Pro existed: what was there then stays free for you. The newer Pro features come with the purchase."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous aviez l’app avant Pro : ce qui existait alors reste gratuit pour vous. Les fonctions Pro plus récentes viennent avec l’achat."
+          }
+        }
+      }
+    },
+    "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your own filter combinations as a chip, and with \"Finish by\" see only the recipes that can still be made by then."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez vos combinaisons de filtres comme puce et, avec « Prêt pour », ne voyez que les recettes encore réalisables d’ici là."
+          }
+        }
+      }
+    },
+    "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new recipe from shares of the flour: enter baker's percentages, the app works out the grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle recette à partir de parts de farine : saisissez les pourcentages du boulanger, l’app calcule les grammes."
+          }
+        }
+      }
+    },
     "Eingekauft" : {
       "localizations" : {
         "en" : {
@@ -177,6 +257,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Acheté"
+          }
+        }
+      }
+    },
+    "Einmalkauf, kein Abo. Was dazugehört, zeigt die Kaufseite; der Kern der App bleibt frei." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-time purchase, no subscription. The purchase page lists what is included; the core of the app stays free."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achat unique, sans abonnement. La page d’achat liste ce qui est inclus ; le cœur de l’app reste gratuit."
+          }
+        }
+      }
+    },
+    "Fertig bis … (Pro)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish by … (Pro)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt pour… (Pro)"
           }
         }
       }
@@ -209,6 +321,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec l’historique de cuisson, le journal du levain et la réserve"
+          }
+        }
+      }
+    },
+    "Rezept nach Bäckerprozent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe from baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette en pourcentages du boulanger"
+          }
+        }
+      }
+    },
+    "Sammlung sichern (Pro)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save collection (Pro)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer la collection (Pro)"
+          }
+        }
+      }
+    },
+    "Sammlungen und Fertig bis" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections and finish by"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections et prêt pour"
           }
         }
       }
@@ -7458,24 +7618,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Achetez une fois, utilisez pour toujours. Sans abonnement."
-          }
-        }
-      }
-    },
-    "Einmalkauf, kein Abo: PDF-Export, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets und Live-Aktivität." : {
-      "comment" : "A description of the features of the Pro version of BakePlanner.",
-      "isCommentAutoGenerated" : true,
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "One-time purchase, no subscription: PDF export, recipe hand-over, recurring bake plans, shopping lists, widgets and Live Activity."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Achat unique, sans abonnement : export PDF, transmission de recettes, plans de cuisson récurrents, listes de courses, widgets et activité en direct."
           }
         }
       }

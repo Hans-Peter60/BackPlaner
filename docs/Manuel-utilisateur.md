@@ -266,7 +266,7 @@ L’app lit chaque recette dans ses ingrédients et ses étapes – rien à sais
 
 Les cinq **collections** ne sont que des facettes déjà réglées : « Pour demain matin » est le déroulement « Lancer le soir, cuire le matin », « Pain rapide » est « Prêt en 2 heures », « Pur levain » l’agent levant, « Pas cuit depuis longtemps » et « Favoris » l’historique. Si vous ouvrez le menu de filtre après une puce, vous y voyez la facette réglée et pouvez en ajouter – la puce n’est alors plus marquée, car la sélection dépasse la collection.
 
-**Vos propres collections.** Une combinaison dont vous avez souvent besoin – par exemple « Pur levain » avec « Cocotte » et « Peu de travail » – s’enregistre depuis le menu de filtre avec **Enregistrer la collection** sous un nom. Elle apparaît comme puce avec un marque-page après les cinq collections prédéfinies et fonctionne comme elles. Un appui long sur la puce propose **Renommer** et **Supprimer**. Les collections restent sur l’appareil ; elles ne contiennent que les facettes, ni le texte de recherche ni la note minimale.
+**Vos propres collections.** Une combinaison dont vous avez souvent besoin – par exemple « Pur levain » avec « Cocotte » et « Peu de travail » – s’enregistre depuis le menu de filtre avec **Enregistrer la collection** sous un nom. Elle apparaît comme puce avec un marque-page après les cinq collections prédéfinies et fonctionne comme elles. Un appui long sur la puce propose **Renommer** et **Supprimer**. Les collections restent sur l’appareil ; elles ne contiennent que les facettes, ni le texte de recherche ni la note minimale. Vos propres collections et **Prêt pour…** font partie de BakePlanner Pro ; les facettes et les cinq puces prédéfinies sont gratuites.
 
 **Prêt pour.** Dans le menu de filtre, **Prêt pour…** prend la date et l’heure auxquelles le pain doit être prêt. La liste ne montre alors que les recettes encore réalisables à partir de maintenant, dans l’ordre du début nécessaire, et l’écrit sous chaque recette : « Début aujourd’hui 17:45 », « Début demain 06:10 ». Le calcul est celui de la feuille de planification en mode « Prêt pour » : avec le temps de préchauffage et, pour une pierre, le temps de préchauffage avec pierre des réglages. Une lune après le début signifie qu’une étape tombe hors du début et de la fin de journée. L’objectif choisi est la première puce au-dessus de la liste ; un appui le modifie, **Annuler le choix** dans la boîte de dialogue ou **Réinitialiser les filtres** le retire. Un appui long sur une de vos recettes propose **Début aujourd’hui 17:45** – cela ouvre la feuille de planification avec exactement ce début. La collection **Pour demain matin** règle aussi l’objectif : demain à 7 h 30, ou une demi-heure après le début de journée s’il est plus tard.
 
@@ -482,7 +482,7 @@ En troisième : **Importer une recette depuis un texte**. Pour les recettes qui 
 
 ### Créer une recette en pourcentages boulanger
 
-En quatrième : **Créer une recette en pourcentages boulanger** — pour tous ceux qui pensent une recette comme une formule. Vous saisissez chaque ingrédient en part de la farine, l’app calcule les grammes.
+En quatrième : **Créer une recette en pourcentages boulanger** — pour tous ceux qui pensent une recette comme une formule. Vous saisissez chaque ingrédient en part de la farine, l’app calcule les grammes. Fait partie de BakePlanner Pro.
 
 1. Saisissez le **nom de la recette**.
 2. **Quantité :** choisissez ce que vous donnez — **Farine totale** (p. ex. 500 g) ou **Poids de pâte** (p. ex. 850 g pour un pain). L’app affiche l’autre valeur en dessous.
@@ -816,7 +816,7 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 
 ### Statistiques
 
-**Historique de cuisson → Statistiques.** Ce que votre historique de cuisson donne une fois additionné — toujours pour les entrées que la recherche et le filtre par note affichent, et seulement pour les cuissons déjà passées (une cuisson planifiée dans le futur ne compte pas encore) :
+**Historique de cuisson → Statistiques.** Ce que votre historique de cuisson donne une fois additionné — toujours pour les entrées que la recherche et le filtre par note affichent, et seulement pour les cuissons déjà passées (une cuisson planifiée dans le futur ne compte pas encore) : Les statistiques font partie de BakePlanner Pro.
 
 - Quatre chiffres en haut : **Pains au total**, **Cette année**, **Par mois** (depuis la première cuisson) et, dès que vous avez noté des cuissons, la **Note moyenne** en étoiles.
 - **Pains par mois :** les douze derniers mois en barres, les mois calmes restent vides.
@@ -1007,6 +1007,12 @@ Les deux listes ne valent que pour cet appareil et ne sont pas synchronisées vi
 ### Aide
 
 D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce document), la page **Aide et contact** avec l’adresse e-mail pour vos questions et signalements, la **politique de confidentialité** et les **mentions légales**. Toutes ces pages s’affichent dans la langue réglée dans l’app.
+
+### BakePlanner Pro
+
+Dès que l’achat est activé, les réglages affichent la section **BakePlanner Pro** avec le prix, **Débloquer Pro** et **Restaurer les achats**. Pro est un **achat unique**, pas un abonnement ; il vaut sur tous les appareils de votre compte Apple et se partage via le partage familial. Il comprend : partager des recettes en PDF, transmettre des recettes, plans de cuisson récurrents, listes de courses, widgets, activité en direct, réserve, planifier une journée de cuisson, vos propres collections avec « Prêt pour », statistiques de cuisson et recette en pourcentages du boulanger, ainsi que les imports en ligne sans limite mensuelle. Le cœur de l’app reste gratuit : recettes, planning avec rappels, mode cuisson, historique, base de recettes, calculateurs et sauvegarde.
+
+**Si vous aviez l’app avant Pro,** vous gardez ce qu’elle savait faire le jour de votre installation – pour toujours et sans achat. Les fonctions ajoutées ensuite viennent avec l’achat, comme pour tout le monde ; la section des réglages l’indique. Cela se reconnaît à la date d’installation chez Apple et survit donc à un changement d’appareil.
 
 ---
 

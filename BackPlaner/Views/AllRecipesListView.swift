@@ -81,7 +81,21 @@ struct AllRecipesListView: View {
     /// "Fertig bis …": only recipes that can still be made by then, each
     /// with the start it needs, earliest start first.
     @State private var finishBy: Date?
-    @State private var isPickingFinish = false
+    /// The sheets over the list, one at a time: the "Fertig bis" picker and
+    /// the paywall a locked menu entry asked for. One `.sheet(item:)` for
+    /// both: two sheet modifiers on the same view fire unreliably when a
+    /// menu is on its way out.
+    enum ListSheet: Identifiable {
+        case finishPicker
+        case paywall(ProFeature)
+        var id: String {
+            switch self {
+            case .finishPicker: return "finish"
+            case .paywall(let feature): return "paywall.\(feature.rawValue)"
+            }
+        }
+    }
+    @State private var listSheet: ListSheet?
     @State private var finishDraft = Date()
     /// Facets read once per recipe; a recipe's facets change only when it is
     /// edited, and the list is rebuilt then anyway.
@@ -630,10 +644,20 @@ struct AllRecipesListView: View {
                 finishBy = nil
             }
             // Offered unless these facets are already a saved collection.
+            // A plain button, not a ProGate: a menu flattens its items to
+            // title and image, so a nested button loses its action and a
+            // sheet inside the menu never shows. Locked, the title says so
+            // and the tap opens the paywall from the list.
             if facetFilter.isActive, savedCollections.collection(matching: facetFilter) == nil {
-                Button("Sammlung sichern", systemImage: "bookmark") {
-                    collectionName = ""
-                    isNamingCollection = true
+                if Entitlements.shared.isUnlocked(.collections) {
+                    Button("Sammlung sichern", systemImage: "bookmark") {
+                        collectionName = ""
+                        isNamingCollection = true
+                    }
+                } else {
+                    Button("Sammlung sichern (Pro)", systemImage: "bookmark") {
+                        listSheet = .paywall(.collections)
+                    }
                 }
             }
             Divider()
@@ -692,13 +716,24 @@ struct AllRecipesListView: View {
         }
         .pickerStyle(.menu)
         Toggle("Wenig Arbeit", isOn: $facetFilter.lowWorkOnly)
+        // "Fertig bis …" stands before the pantry toggles: the menu is
+        // taller than an iPhone screen and scrolls, and as the last entry
+        // behind the toggles it sat on the second page, where a tap at its
+        // nominal spot only closed the menu.
+        if Entitlements.shared.isUnlocked(.collections) {
+            Button("Fertig bis …", systemImage: "flag.checkered") {
+                finishDraft = finishBy ?? FinishByPlanner.morningFinish(after: Date())
+                listSheet = .finishPicker
+            }
+        } else {
+            Button("Fertig bis … (Pro)", systemImage: "flag.checkered") {
+                listSheet = .paywall(.collections)
+            }
+        }
         if Entitlements.shared.isUnlocked(.pantry) {
+            Divider()
             Toggle("Aus dem Vorrat", isOn: $facetFilter.pantryOnly)
             Toggle("Vorrat aufbrauchen", isOn: $facetFilter.useUpOnly)
-        }
-        Button("Fertig bis …", systemImage: "flag.checkered") {
-            finishDraft = finishBy ?? FinishByPlanner.morningFinish(after: Date())
-            isPickingFinish = true
         }
     }
 
@@ -713,7 +748,7 @@ struct AllRecipesListView: View {
                 if finishBy != nil {
                     Button("Aufheben", role: .destructive) {
                         finishBy = nil
-                        isPickingFinish = false
+                        listSheet = nil
                     }
                 }
             }
@@ -721,12 +756,12 @@ struct AllRecipesListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Abbrechen") { isPickingFinish = false }
+                    Button("Abbrechen") { listSheet = nil }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Übernehmen") {
                         finishBy = finishDraft
-                        isPickingFinish = false
+                        listSheet = nil
                     }
                 }
             }
@@ -740,10 +775,17 @@ struct AllRecipesListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 // The chosen finish, when there is one; a tap changes it.
+                // "Für morgen früh" sets a finish for everyone; changing it
+                // to another time is part of the Pro collections.
                 if let finishBy {
-                    Button {
-                        finishDraft = finishBy
-                        isPickingFinish = true
+                    ProGate(.collections) {
+                        Button {
+                            finishDraft = finishBy
+                            listSheet = .finishPicker
+                        } label: {
+                            collectionChipLabel(Text("Fertig bis \(finishText(finishBy))"), systemImage: "flag.checkered", isOn: true)
+                        }
+                        .buttonStyle(.plain)
                     } label: {
                         collectionChipLabel(Text("Fertig bis \(finishText(finishBy))"), systemImage: "flag.checkered", isOn: true)
                     }
@@ -770,8 +812,9 @@ struct AllRecipesListView: View {
                     .accessibilityIdentifier("collection.\(collection.rawValue)")
                 }
                 // The person's own collections, after the presets; a long
-                // press renames or removes one.
-                ForEach(savedCollections.collections) { saved in
+                // press renames or removes one. Pro: locked, the chips of
+                // an earlier free period stay stored but out of sight.
+                ForEach(Entitlements.shared.isUnlocked(.collections) ? savedCollections.collections : []) { saved in
                     let isOn = facetFilter == saved.filter
                     Button {
                         facetFilter = isOn ? RecipeFacetFilter() : saved.filter
@@ -796,7 +839,12 @@ struct AllRecipesListView: View {
             .padding(.horizontal, 12)
             .padding(.bottom, 8)
         }
-        .sheet(isPresented: $isPickingFinish) { finishPicker }
+        .sheet(item: $listSheet) { sheet in
+            switch sheet {
+            case .finishPicker: finishPicker
+            case .paywall(let feature): ProPaywallView(highlighted: feature)
+            }
+        }
         .alert("Sammlung sichern", isPresented: $isNamingCollection) {
             TextField("Name der Sammlung", text: $collectionName)
             Button("Sichern") {

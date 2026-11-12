@@ -263,7 +263,7 @@ Die App liest jedes Rezept aus seinen Zutaten und Schritten – Du musst nichts 
 
 Die fünf **Sammlungen** sind nichts anderes als gesetzte Facetten: „Für morgen früh“ ist der Tagesablauf „Abends ansetzen, morgens backen“, „Schnelles Brot“ ist „Fertig in 2 Stunden“, „Reiner Sauerteig“ das Triebmittel, „Lange nicht gebacken“ und „Lieblinge“ die Backhistorie. Öffnest Du nach einem Chip das Filtermenü, siehst Du die Facette dort gesetzt und kannst weitere dazunehmen – dann ist der Chip nicht mehr markiert, weil die Auswahl jetzt mehr ist als die Sammlung.
 
-**Eigene Sammlungen.** Eine Kombination, die Du öfter brauchst – etwa „Reiner Sauerteig“ mit „Topf“ und „Wenig Arbeit“ –, sicherst Du im Filtermenü mit **Sammlung sichern** unter einem Namen. Sie erscheint als Chip mit Lesezeichen hinter den fünf vorgegebenen und funktioniert wie diese. Langes Drücken auf den Chip bietet **Umbenennen** und **Löschen**. Die Sammlungen bleiben auf dem Gerät; sie enthalten nur die Facetten, nicht Suchtext oder Mindestbewertung.
+**Eigene Sammlungen.** Eine Kombination, die Du öfter brauchst – etwa „Reiner Sauerteig“ mit „Topf“ und „Wenig Arbeit“ –, sicherst Du im Filtermenü mit **Sammlung sichern** unter einem Namen. Sie erscheint als Chip mit Lesezeichen hinter den fünf vorgegebenen und funktioniert wie diese. Langes Drücken auf den Chip bietet **Umbenennen** und **Löschen**. Die Sammlungen bleiben auf dem Gerät; sie enthalten nur die Facetten, nicht Suchtext oder Mindestbewertung. Eigene Sammlungen und **Fertig bis …** gehören zu BakePlanner Pro; die Facetten und die fünf vorgegebenen Chips sind frei.
 
 **Fertig bis.** Im Filtermenü wählst Du mit **Fertig bis …** Datum und Uhrzeit, zu der das Brot fertig sein soll. Die Liste zeigt dann nur Rezepte, die von jetzt an noch zu schaffen sind, sortiert nach dem nötigen Start, und schreibt ihn unter jedes Rezept: „Start heute 17:45“, „Start morgen 06:10“. Gerechnet wird wie im Planungsblatt im Modus „Fertig bis“: mit der Vorheizzeit und, bei einem Backstein, der Vorheizzeit mit Stein aus den Einstellungen. Ein Mond hinter dem Start bedeutet, dass ein Schritt außerhalb von Tagesbeginn und Tagesende liegt. Das gewählte Ziel steht als erster Chip über der Liste; ein Tipp darauf ändert es, **Aufheben** im Dialog oder **Filter zurücksetzen** nimmt es weg. Langes Drücken auf ein eigenes Rezept bietet **Start heute 17:45** an – das öffnet das Planungsblatt mit genau diesem Start. Die Sammlung **Für morgen früh** setzt das Ziel gleich mit: morgen um 7:30 Uhr, oder eine halbe Stunde nach dem Tagesbeginn, wenn der später liegt.
 
@@ -479,7 +479,7 @@ Als Drittes: **„Rezept aus Text importieren“**. Für Rezepte, die als Text v
 
 ### Rezept nach Bäckerprozent anlegen
 
-Als Viertes: **„Rezept nach Bäckerprozent anlegen“** – für alle, die Rezepte als Formel denken. Du gibst jede Zutat als Anteil vom Mehl ein, die App rechnet die Gramm.
+Als Viertes: **„Rezept nach Bäckerprozent anlegen“** – für alle, die Rezepte als Formel denken. Du gibst jede Zutat als Anteil vom Mehl ein, die App rechnet die Gramm. Gehört zu BakePlanner Pro.
 
 1. **Rezeptname** eintragen.
 2. **Menge:** Wähle, was Du vorgibst – **Mehl gesamt** (etwa 500 g) oder **Teiggewicht** (etwa 850 g für ein Brot). Die jeweils andere Zahl zeigt die App darunter.
@@ -813,7 +813,7 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 
 ### Statistik
 
-**Backhistorie → Statistik.** Was Deine Backhistorie zusammengerechnet ergibt – immer für die Einträge, die Suche und Bewertungsfilter gerade zeigen, und nur für Backvorgänge, die schon vorbei sind (ein geplantes Backen in der Zukunft zählt noch nicht):
+**Backhistorie → Statistik.** Was Deine Backhistorie zusammengerechnet ergibt – immer für die Einträge, die Suche und Bewertungsfilter gerade zeigen, und nur für Backvorgänge, die schon vorbei sind (ein geplantes Backen in der Zukunft zählt noch nicht): Die Statistik gehört zu BakePlanner Pro.
 
 - Oben vier Zahlen: **Brote gesamt**, **Dieses Jahr**, **Pro Monat** (seit dem ersten Backen) und, sobald Du Backvorgänge bewertet hast, die **Ø Bewertung** in Sternen.
 - **Brote je Monat:** die letzten zwölf Monate als Balken, stille Monate bleiben leer.
@@ -1004,6 +1004,12 @@ Beide Listen gelten nur für dieses Gerät und werden nicht über iCloud abgegli
 ### Hilfe
 
 Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), die Seite **Hilfe und Kontakt** mit der E-Mail-Adresse für Fragen und Fehlermeldungen, die **Datenschutzerklärung** und das **Impressum**. Alle Seiten erscheinen in der Sprache, die in der App eingestellt ist.
+
+### BakePlanner Pro
+
+Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik und Rezept nach Bäckerprozent, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
+
+**Wer die App schon hatte, bevor es Pro gab,** behält, was die App an seinem Installationstag konnte – dauerhaft und ohne Kauf. Funktionen, die erst später dazukamen, gibt es wie für alle anderen mit dem Kauf; der Abschnitt in den Einstellungen sagt das dazu. Erkannt wird das am Installationsdatum bei Apple, es übersteht also auch einen Gerätewechsel.
 
 ---
 

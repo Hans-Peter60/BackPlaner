@@ -266,7 +266,7 @@ The app reads each recipe from its ingredients and steps – there is nothing to
 
 The five **collections** are nothing but facets that have been set: "For tomorrow morning" is the day flow "Start in the evening, bake in the morning", "Quick bread" is "Done in 2 hours", "Pure sourdough" is the leavening, "Not baked for a while" and "Favourites" are the baking history. If you open the filter menu after tapping a chip, you see the facet set there and can add more – the chip is then no longer marked, because the selection is now more than the collection.
 
-**Your own collections.** A combination you need often – say "Pure sourdough" with "Pot" and "Little work" – is saved from the filter menu with **Save collection** under a name. It appears as a chip with a bookmark after the five presets and works like them. A long press on the chip offers **Rename** and **Delete**. The collections stay on the device; they hold only the facets, not the search text or the minimum rating.
+**Your own collections.** A combination you need often – say "Pure sourdough" with "Pot" and "Little work" – is saved from the filter menu with **Save collection** under a name. It appears as a chip with a bookmark after the five presets and works like them. A long press on the chip offers **Rename** and **Delete**. The collections stay on the device; they hold only the facets, not the search text or the minimum rating. Your own collections and **Finish by …** are part of BakePlanner Pro; the facets and the five preset chips are free.
 
 **Finished by.** In the filter menu, **Finished by …** takes the date and time the bread is to be ready. The list then shows only recipes that can still be made from now on, ordered by the start they need, and writes it under each recipe: "Start today 17:45", "Start tomorrow 06:10". It is worked out as in the plan sheet's "Finished by" mode: with the preheat time and, for a baking stone, the stone's preheat time from the settings. A moon after the start means a step falls outside the day's start and end. The chosen target is the first chip above the list; a tap changes it, **Clear** in the dialog or **Reset filters** removes it. A long press on one of your own recipes offers **Start today 17:45** – that opens the plan sheet with exactly this start. The collection **For tomorrow morning** sets the target along with it: tomorrow at 7:30, or half an hour after the day's start when that is later.
 
@@ -482,7 +482,7 @@ Third: **Import recipe from text**. For recipes that exist as text — from a me
 
 ### Creating a recipe from baker's percentages
 
-Fourth: **Create recipe from baker's percentages** — for everyone who thinks of recipes as a formula. You enter each ingredient as a share of the flour, and the app works out the grams.
+Fourth: **Create recipe from baker's percentages** — for everyone who thinks of recipes as a formula. You enter each ingredient as a share of the flour, and the app works out the grams. Part of BakePlanner Pro.
 
 1. Enter the **recipe name**.
 2. **Amount:** choose what you give — **Total flour** (say 500 g) or **Dough weight** (say 850 g for a loaf). The app shows the other figure underneath.
@@ -816,7 +816,7 @@ An entry is also created automatically when you set reminders in the baking inst
 
 ### Statistics
 
-**Baking history → Statistics.** What your baking history adds up to — always for the entries the search and the rating filter currently show, and only for bakes that are already over (a bake planned in the future does not count yet):
+**Baking history → Statistics.** What your baking history adds up to — always for the entries the search and the rating filter currently show, and only for bakes that are already over (a bake planned in the future does not count yet): The statistics are part of BakePlanner Pro.
 
 - Four figures at the top: **Loaves in total**, **This year**, **Per month** (since the first bake) and, once you have rated bakes, the **Avg. rating** in stars.
 - **Loaves per month:** the last twelve months as bars, quiet months stay empty.
@@ -1007,6 +1007,12 @@ Both lists apply to this device only and aren't synced through iCloud.
 ### Help
 
 From here you open the **User manual** (this document), the **Help and contact** page with the e-mail address for questions and bug reports, the **Privacy policy** and the **Legal notice** in your browser. All pages appear in the language the app is set to.
+
+### BakePlanner Pro
+
+Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics and recipes from baker's percentages, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
+
+**If you had the app before Pro existed,** you keep what the app could do on the day you installed it – permanently and without buying. Features added later come with the purchase, as for everyone else; the section in the settings says so. This is recognised from the installation date at Apple, so it survives a change of device.
 
 ---
 
