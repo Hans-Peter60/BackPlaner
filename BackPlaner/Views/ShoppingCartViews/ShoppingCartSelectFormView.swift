@@ -186,6 +186,14 @@ struct ShoppingCartSelectFormView: View {
     @AppStorage("shoppingList.deductsPantry") private var deductsPantry = true
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var pantryItems: FetchedResults<PantryItem>
+    @FetchRequest(sortDescriptors: [])
+    private var pantryReservations: FetchedResults<PantryReservation>
+
+    /// The stock less what open plans have reserved.
+    private var availablePantry: [StoredPantryItem] {
+        PantryLedger.available(pantryItems.map(CoreDataPantryStore.stored),
+                               reservations: pantryReservations.compactMap(CoreDataPantryReservationStore.stored))
+    }
     @State private var createdShoppingCart = false
     /// The list whose deletion is waiting to be confirmed — an object, not a
     /// flag: one flag shared by every row lets the dialog delete a list other
@@ -424,7 +432,7 @@ struct ShoppingCartSelectFormView: View {
         let prepared = source.entries(in: appLanguage)
         let needed = ShoppingListBuilder.entriesToBuy(prepared.entries, scale: servingScale)
         let entries = deductsPantry && Entitlements.shared.isUnlocked(.pantry)
-            ? PantryMatcher.reduce(needed, pantry: pantryItems.map(CoreDataPantryStore.stored))
+            ? PantryMatcher.reduce(needed, pantry: availablePantry)
             : needed
         if !needed.isEmpty && entries.isEmpty {
             showingAllInPantryAlert = true

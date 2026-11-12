@@ -171,6 +171,9 @@ struct BackPlanerApp: App {
                 // The pantry's expiry reminders follow the pantry, which
                 // another device may have changed meanwhile.
                 PantryReminders.reconcile(in: persistenceController.container.viewContext)
+                // Plans that ended while the app was away take their amounts
+                // off the pantry now.
+                PantryLedgerService.reconcile(in: persistenceController.container.viewContext)
                 // The Siri phrases name each starter ("Roggensauer gefüttert"),
                 // so a starter added, renamed or given a rhythm while the app
                 // was open has to reach Siri's phrase list.

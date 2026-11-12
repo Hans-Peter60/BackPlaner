@@ -873,7 +873,9 @@ Items that expire within the next 14 days or already have sit at the top under *
 
 - **Shopping list:** the form has the switch **Deduct pantry** (on by default). What is in the pantry stays off the list, partial amounts are reduced – 500 g needed, 300 g there, 200 g on the list. If everything is there, the app says so instead of creating an empty list.
 - **Filter and collection:** the filter menu has the switch **From the pantry**, the chip row the collection of the same name: only recipes whose ingredients, at the stored amount, are completely there.
-- **After baking:** when you record a bake, the app asks **Deduct from the pantry?** and shows what comes off which item – with two bags of the same flour, from the one that expires first. "Don't deduct" leaves the pantry as it is.
+- **When planning – reservations:** as soon as you plan a bread ("Plan now", baking day, recurring plans), the app reserves what it will use at the planned serving size. The stock itself stays, but **available = stock − reservations**: the recipe card, the shopping list and the collection "From the pantry" work with what is available, and on the baking day you see before "Plan all" what is missing for all chosen breads together. In the pantry an item reads "250 g of it reserved". When a plan is deleted or replaced, its amounts are free again at once. When a plan reaches its end ("Bake finished"), the reservation becomes a deduction: the stock drops. That happens the next time the app comes forward or when you mark a step done in bake mode – also for plans another device created or deleted.
+- **Recent deductions:** the pantry lists the deductions of ended plans. **Undo** books the amount back if a bread was not baked after all.
+- **After baking without a plan:** when you record a bake for a recipe that had no plan, the app asks **Deduct from the pantry?** and shows what comes off which item – with two bags of the same flour, from the one that expires first. A planned bread is not asked again; it is booked through its plan.
 
 **Shelf life.** Under *Settings → Pantry → Reminder before expiry*, BakePlanner sends a notification 14 days before an item's best-before date, at 9 in the morning. The collection **Use up the pantry** in the chip row – also a switch in the filter menu – shows the recipes that use something of what expires soon or already has, the recipe using most first. Under each one stands what it uses up: "Uses 450 g Roggenmehl 1150, best before 20.11.2026".
 
@@ -1305,7 +1307,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
 | Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Not yet; the logic `BakingDayOptimizer` is already in the shared package |
-| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
+| Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

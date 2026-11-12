@@ -20,6 +20,12 @@ struct BakingDayPlannerView: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     private var recipes: FetchedResults<Recipe>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    private var pantryItems: FetchedResults<PantryItem>
+    @FetchRequest(sortDescriptors: [])
+    private var pantryReservations: FetchedResults<PantryReservation>
+    /// What the chosen breads need beyond the available pantry.
+    @State private var shortfalls: [PantryNeed] = []
 
     @State private var finishBy: Date = BakingDayPlannerView.defaultFinish()
     @State private var ovenCount = AppSettings.storedOvenCount
@@ -124,6 +130,24 @@ struct BakingDayPlannerView: View {
             }
 
             if let schedule {
+                if !shortfalls.isEmpty {
+                    Section {
+                        ForEach(shortfalls, id: \.name) { need in
+                            let amount = PantryMatcher.baseText(need.missingBase, counted: need.isCounted, locale: AppSettings.locale)
+                            Label {
+                                Text("Es fehlen \(amount) \(need.name)")
+                            } icon: {
+                                Image(systemName: "minus.circle")
+                            }
+                            .font(Theme.bodyFont(13))
+                            .foregroundColor(Theme.warning)
+                        }
+                    } header: {
+                        Label("Vorrat reicht nicht für alle Brote", systemImage: "shippingbox")
+                    } footer: {
+                        Text("Gerechnet über alle gewählten Brote gegen den verfügbaren Vorrat, Reservierungen anderer Pläne schon abgezogen. Planen geht trotzdem – die Einkaufsliste eines Rezepts mit „Vorrat abziehen“ holt das Fehlende.")
+                    }
+                }
                 Section("Backtag") {
                     ForEach(schedule.placements) { placement in
                         placementRow(placement)
@@ -245,6 +269,18 @@ struct BakingDayPlannerView: View {
         }
         let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
         alreadyPlanned = Set(chosen.map(\.name).filter { BakePlanScheduler.hasPendingPlan(recipeName: $0, in: viewContext) })
+        // The pantry over all chosen breads: the stock less the reservations
+        // of the plans that stay (the chosen breads' own plans are replaced).
+        if Entitlements.shared.isUnlocked(.pantry) {
+            let keptReservations = pantryReservations.compactMap(CoreDataPantryReservationStore.stored)
+                .filter { !names.contains($0.recipeName) }
+            let available = PantryLedger.available(pantryItems.map(CoreDataPantryStore.stored), reservations: keptReservations)
+            let scale = { (recipe: Recipe) in ServingScale.factor(servingSize: AppSettings.storedServingSize, targetWeight: nil, baseWeight: recipe.totalWeight) }
+            shortfalls = PantryLedger.shortfalls(for: chosen.map { (RecipeExportData(recipe: $0, includingImage: false), scale($0)) },
+                                                  available: available)
+        } else {
+            shortfalls = []
+        }
         schedule = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: Date(),
                                                ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
                                                dayStart: dayStart, dayEnd: dayEnd, existingWindows: existing,

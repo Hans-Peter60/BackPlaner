@@ -65,6 +65,7 @@ enum PlannedStepDeletion {
         NotificationActions.cancelPendingNotifications(for: steps)
 
         let recipeNames = Set(steps.map(\.recipeName))
+        let planIDs = Set(steps.compactMap(\.planID))
         do {
             for step in steps {
                 context.delete(step)
@@ -80,6 +81,10 @@ enum PlannedStepDeletion {
         for recipe in recipes where recipeNames.contains(recipe.name) && !store.hasSteps(recipeName: recipe.name) {
             BakePlanScheduler.removePlannedBakeEntries(of: recipe, in: context)
         }
+        // A plan deleted whole gives its pantry reservations back; a plan
+        // that still has steps keeps them.
+        let remaining = Set(store.allSteps().compactMap(\.data.planID))
+        PantryLedgerService.release(planIDs: planIDs.subtracting(remaining), in: context)
         return true
     }
 }

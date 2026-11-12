@@ -10,7 +10,10 @@
 		09F96F83F72B435692D77448 /* PlannedStepActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4877196C43B4C389C27E2B5 /* PlannedStepActions.swift */; };
 		195ED6CB5627C42088CD0F56 /* DurationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6776BAA8F3A4FC002CBC482F /* DurationField.swift */; };
 		370DEFE899E747C99F9C286A /* BakersFormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FBEF077F6404E974C38C4 /* BakersFormulaView.swift */; };
+		41DDB01327E64E13AAF40B6A /* BakingDayPlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E50289EF0584574B18B4C80 /* BakingDayPlannerView.swift */; };
 		46C34F036CF44958B927F52F /* FileShareLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4D155B97649C2BB36A493 /* FileShareLink.swift */; };
+		4B5C33EF3ED54C6AA47D5577 /* PantryReservation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3B10D823DA44D68B3A0E3F /* PantryReservation+CoreDataClass.swift */; };
+		5A0A5B15424641FE9979E582 /* CoreDataPantryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */; };
 		676C2B321384FE8F424B77DA /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF45EF06D1DA27364CA170C3 /* NumberField.swift */; };
 		6A02A0C130528FFC0031651D /* RecipeTitleRegionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */; };
 		6A1131F32B7CF93300CDF054 /* RecipeFBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1131EF2B7CF93200CDF054 /* RecipeFBDetailView.swift */; };
@@ -42,7 +45,6 @@
 		6A11322B2B7CF99800CDF054 /* ShowBigImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1132272B7CF99700CDF054 /* ShowBigImageView.swift */; };
 		6A11322C2B7CF99800CDF054 /* RecipeTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1132282B7CF99800CDF054 /* RecipeTagsView.swift */; };
 		6A1FCBFD309DEF3A00AD6711 /* ProofTodayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FCBFC309DEF3A00AD6711 /* ProofTodayCardView.swift */; };
-		E4A1E331133B44F28D819029 /* PantryCheckCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE9D7300AE84DDC809D1362 /* PantryCheckCard.swift */; };
 		6A1FCCC7309E26CB00AD6711 /* BakeAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FCCC6309E26CB00AD6711 /* BakeAlarmManager.swift */; };
 		6A1FCE5B309E2DFF00AD6711 /* RecipeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FCE5A309E2DFF00AD6711 /* RecipeEntity.swift */; };
 		6A1FCE5D309E2E0F00AD6711 /* RecipeSpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1FCE5C309E2E0F00AD6711 /* RecipeSpotlightIndexer.swift */; };
@@ -53,9 +55,6 @@
 		6A261564306FAB79007644AB /* BackPlanerWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6A261555306FAB78007644AB /* BackPlanerWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6A26156C306FB085007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A26156E306FB0CF007644AB /* PlanSnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */; };
-		96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */; };
-		85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */; };
-		C8271CCA22744709BA992934 /* PantryReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */; };
 		6A261571306FB6D0007644AB /* PlanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26156B306FB085007644AB /* PlanSnapshot.swift */; };
 		6A261573306FD76B007644AB /* BakeModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261572306FD76B007644AB /* BakeModeView.swift */; };
 		6A261575306FDC01007644AB /* BakeActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A261574306FDC01007644AB /* BakeActivityManager.swift */; };
@@ -155,12 +154,8 @@
 		6AFA48B6307D103500E105F9 /* DoughTemperatureCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */; };
 		6AFA48BA307D18FB00E105F9 /* AllRecipesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */; };
 		6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */; };
-		FF5F8E3E9DA14657B930465C /* PantryItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */; };
 		6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */; };
-		9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */; };
 		6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */; };
-		A54587A8203942AA93898B3A /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4B20990A1D4C859F610572 /* PantryView.swift */; };
-		41DDB01327E64E13AAF40B6A /* BakingDayPlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E50289EF0584574B18B4C80 /* BakingDayPlannerView.swift */; };
 		6AFA48CB307E000100E105F9 /* RecipeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CA307E000100E105F9 /* RecipeExport.swift */; };
 		6AFA48CF307E000100E105F9 /* FlourSubstitutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */; };
 		6AFA48D1307E000100E105F9 /* CoreDataLogicAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */; };
@@ -172,12 +167,21 @@
 		6AFA48EE307E000100E105F9 /* CoreDataShoppingListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */; };
 		6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */; };
 		6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */; };
-		5A0A5B15424641FE9979E582 /* CoreDataPantryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */; };
 		6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */; };
+		85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */; };
+		91CBD63186694A57BBA48108 /* PantryReservation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */; };
+		9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */; };
+		96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */; };
+		A54587A8203942AA93898B3A /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4B20990A1D4C859F610572 /* PantryView.swift */; };
 		ABB97E82FA0C45FABE006480 /* BakeStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5B707D0F884AA0BDE86745 /* BakeStatisticsView.swift */; };
+		BCFB2E13092347E789A27FED /* PantryLedgerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989E7829DB1E409C9E24EFCC /* PantryLedgerService.swift */; };
 		BF2EE0FE345A4E47AD80EEEC /* PlanActionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2837F135CB429786215515 /* PlanActionBar.swift */; };
+		C8271CCA22744709BA992934 /* PantryReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */; };
 		CD38A1234A3068283CE7657C /* StarterYieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF11E946F59F79709D8C92 /* StarterYieldView.swift */; };
+		E10D89BEFBFC4171A6F145E9 /* CoreDataPantryReservationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0B92EAF56C4CBFAB02660F /* CoreDataPantryReservationStore.swift */; };
+		E4A1E331133B44F28D819029 /* PantryCheckCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE9D7300AE84DDC809D1362 /* PantryCheckCard.swift */; };
 		EA7B7168E961464F980B1E63 /* RecipeExportSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */; };
+		FF5F8E3E9DA14657B930465C /* PantryItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,9 +249,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPantryStore.swift; sourceTree = "<group>"; };
+		0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFacetFilter.swift; sourceTree = "<group>"; };
 		19FF11E946F59F79709D8C92 /* StarterYieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterYieldView.swift; sourceTree = "<group>"; };
+		3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipeCollections.swift; sourceTree = "<group>"; };
+		44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4BD4D155B97649C2BB36A493 /* FileShareLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileShareLink.swift; sourceTree = "<group>"; };
+		4E50289EF0584574B18B4C80 /* BakingDayPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakingDayPlannerView.swift; sourceTree = "<group>"; };
 		56364074D5DA4BC7A9C9C765 /* RecipeExportSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExportSelectionView.swift; sourceTree = "<group>"; };
+		588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryReminders.swift; sourceTree = "<group>"; };
 		6776BAA8F3A4FC002CBC482F /* DurationField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationField.swift; sourceTree = "<group>"; };
 		6A02A09F305268C00031651D /* BackPlanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackPlanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A02A0C030528FFC0031651D /* RecipeTitleRegionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitleRegionPickerView.swift; sourceTree = "<group>"; };
@@ -281,7 +291,6 @@
 		6A1132282B7CF99800CDF054 /* RecipeTagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeTagsView.swift; sourceTree = "<group>"; };
 		6A1E80EFF2BE162FF4DF2AD5 /* RecipeImageAnalysisModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImageAnalysisModels.swift; sourceTree = "<group>"; };
 		6A1FCBFC309DEF3A00AD6711 /* ProofTodayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProofTodayCardView.swift; sourceTree = "<group>"; };
-		EEE9D7300AE84DDC809D1362 /* PantryCheckCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryCheckCard.swift; sourceTree = "<group>"; };
 		6A1FCCC6309E26CB00AD6711 /* BakeAlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeAlarmManager.swift; sourceTree = "<group>"; };
 		6A1FCE5A309E2DFF00AD6711 /* RecipeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEntity.swift; sourceTree = "<group>"; };
 		6A1FCE5C309E2E0F00AD6711 /* RecipeSpotlightIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeSpotlightIndexer.swift; sourceTree = "<group>"; };
@@ -293,9 +302,6 @@
 		6A26156A306FAB87007644AB /* BackPlanerWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BackPlanerWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		6A26156B306FB085007644AB /* PlanSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshot.swift; sourceTree = "<group>"; };
 		6A26156D306FB0CF007644AB /* PlanSnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSnapshotPublisher.swift; sourceTree = "<group>"; };
-		0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFacetFilter.swift; sourceTree = "<group>"; };
-		3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipeCollections.swift; sourceTree = "<group>"; };
-		588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryReminders.swift; sourceTree = "<group>"; };
 		6A261572306FD76B007644AB /* BakeModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeModeView.swift; sourceTree = "<group>"; };
 		6A261574306FDC01007644AB /* BakeActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeActivityManager.swift; sourceTree = "<group>"; };
 		6A2615B630706A43007644AB /* RecipePDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePDFExporter.swift; sourceTree = "<group>"; };
@@ -388,12 +394,8 @@
 		6AFA48B5307D103500E105F9 /* DoughTemperatureCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoughTemperatureCalculatorView.swift; sourceTree = "<group>"; };
 		6AFA48B9307D18FB00E105F9 /* AllRecipesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRecipesListView.swift; sourceTree = "<group>"; };
 		6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataClass.swift"; sourceTree = "<group>"; };
-		44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarterFeedingLog+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6AFA48C8307E000100E105F9 /* StarterFeedingLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterFeedingLogView.swift; sourceTree = "<group>"; };
-		BA4B20990A1D4C859F610572 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
-		4E50289EF0584574B18B4C80 /* BakingDayPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakingDayPlannerView.swift; sourceTree = "<group>"; };
 		6AFA48CA307E000100E105F9 /* RecipeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExport.swift; sourceTree = "<group>"; };
 		6AFA48CE307E000100E105F9 /* FlourSubstitutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlourSubstitutionView.swift; sourceTree = "<group>"; };
 		6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLogicAdapters.swift; sourceTree = "<group>"; };
@@ -404,11 +406,17 @@
 		6AFA48ED307E000100E105F9 /* CoreDataShoppingListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataShoppingListStore.swift; sourceTree = "<group>"; };
 		6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBakeHistoryStore.swift; sourceTree = "<group>"; };
 		6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStarterFeedingLogStore.swift; sourceTree = "<group>"; };
-		0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPantryStore.swift; sourceTree = "<group>"; };
 		6AFE1DDA307E63560064AD45 /* ShoppingListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCategory.swift; sourceTree = "<group>"; };
 		6C5B707D0F884AA0BDE86745 /* BakeStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeStatisticsView.swift; sourceTree = "<group>"; };
+		7D0B92EAF56C4CBFAB02660F /* CoreDataPantryReservationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPantryReservationStore.swift; sourceTree = "<group>"; };
+		89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryReservation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8D2837F135CB429786215515 /* PlanActionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanActionBar.swift; sourceTree = "<group>"; };
+		989E7829DB1E409C9E24EFCC /* PantryLedgerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryLedgerService.swift; sourceTree = "<group>"; };
+		9B3B10D823DA44D68B3A0E3F /* PantryReservation+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryReservation+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A4877196C43B4C389C27E2B5 /* PlannedStepActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedStepActions.swift; sourceTree = "<group>"; };
+		B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BA4B20990A1D4C859F610572 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
+		EEE9D7300AE84DDC809D1362 /* PantryCheckCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryCheckCard.swift; sourceTree = "<group>"; };
 		EF45EF06D1DA27364CA170C3 /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 		FE5FBEF077F6404E974C38C4 /* BakersFormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakersFormulaView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -538,8 +546,10 @@
 				6AF639452B7A4ED90070CDC1 /* Instruction+CoreDataClass.swift */,
 				6AFA48C0307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift */,
 				44A23109574B40C599C772C4 /* PantryItem+CoreDataClass.swift */,
+				9B3B10D823DA44D68B3A0E3F /* PantryReservation+CoreDataClass.swift */,
 				6AFA48C2307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift */,
 				B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */,
+				89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */,
 				6AFA48D0307E000100E105F9 /* CoreDataLogicAdapters.swift */,
 				6AFA48D6307E000100E105F9 /* CoreDataScheduledStepStore.swift */,
 				6AFA48EB307E000100E105F9 /* CoreDataRecipeStore.swift */,
@@ -547,6 +557,7 @@
 				6AFA48EF307E000100E105F9 /* CoreDataBakeHistoryStore.swift */,
 				6AFA48F1307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift */,
 				0A72D87D554F47CE817A3228 /* CoreDataPantryStore.swift */,
+				7D0B92EAF56C4CBFAB02660F /* CoreDataPantryReservationStore.swift */,
 				6AF754E72B75018F00EADD84 /* BackPlaner.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -717,6 +728,7 @@
 				0B2BBB35675F4D42BDFA6A76 /* RecipeFacetFilter.swift */,
 				3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */,
 				588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */,
+				989E7829DB1E409C9E24EFCC /* PantryLedgerService.swift */,
 				A4877196C43B4C389C27E2B5 /* PlannedStepActions.swift */,
 				6AA6C546309B7BB00041298E /* WatchPlanSync.swift */,
 				6AA6C548309B7BB00041298E /* RecipeImageCache.swift */,
@@ -1133,6 +1145,7 @@
 				6AFA48F0307E000100E105F9 /* CoreDataBakeHistoryStore.swift in Sources */,
 				6AFA48F2307E000100E105F9 /* CoreDataStarterFeedingLogStore.swift in Sources */,
 				5A0A5B15424641FE9979E582 /* CoreDataPantryStore.swift in Sources */,
+				E10D89BEFBFC4171A6F145E9 /* CoreDataPantryReservationStore.swift in Sources */,
 				6AF639622B7A4F060070CDC1 /* Recipe+CoreDataProperties.swift in Sources */,
 				6AF639482B7A4ED90070CDC1 /* Item+CoreDataProperties.swift in Sources */,
 				6A11320F2B7CF95A00CDF054 /* AddTagsDataView.swift in Sources */,
@@ -1173,8 +1186,10 @@
 				EA7B7168E961464F980B1E63 /* RecipeExportSelectionView.swift in Sources */,
 				6AFA48C1307E000100E105F9 /* StarterFeedingLog+CoreDataClass.swift in Sources */,
 				FF5F8E3E9DA14657B930465C /* PantryItem+CoreDataClass.swift in Sources */,
+				4B5C33EF3ED54C6AA47D5577 /* PantryReservation+CoreDataClass.swift in Sources */,
 				6AFA48C3307E000100E105F9 /* StarterFeedingLog+CoreDataProperties.swift in Sources */,
 				9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */,
+				91CBD63186694A57BBA48108 /* PantryReservation+CoreDataProperties.swift in Sources */,
 				6AFE1DDB307E63560064AD45 /* ShoppingListCategory.swift in Sources */,
 				6AFA48C9307E000100E105F9 /* StarterFeedingLogView.swift in Sources */,
 				A54587A8203942AA93898B3A /* PantryView.swift in Sources */,
@@ -1189,6 +1204,7 @@
 				96045124DCE74AC287DE0C70 /* RecipeFacetFilter.swift in Sources */,
 				85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */,
 				C8271CCA22744709BA992934 /* PantryReminders.swift in Sources */,
+				BCFB2E13092347E789A27FED /* PantryLedgerService.swift in Sources */,
 				09F96F83F72B435692D77448 /* PlannedStepActions.swift in Sources */,
 				6AA6C547309B7BB00041298E /* WatchPlanSync.swift in Sources */,
 				6AA6C549309B7BB00041298E /* RecipeImageCache.swift in Sources */,

@@ -113,4 +113,14 @@
         <attribute name="unit" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
+    <entity name="PantryReservation" representedClassName="PantryReservation" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="planEnd" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="planID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="recipeName" optional="YES" attributeType="String"/>
+        <attribute name="unit" optional="YES" attributeType="String"/>
+    </entity>
 </model>
