@@ -167,6 +167,19 @@ class StoreUITestCase: XCTestCase {
             settle(0.5)
             attempts += 1
         }
+        // Still not selected (the unfolded Duo in English): the item's icon
+        // takes the tap where the item's own frame did not.
+        if !button.isSelected {
+            let icon = button.images.firstMatch
+            if icon.exists { icon.tap() } else { button.tap() }
+            settle(0.7)
+        }
+        // Silently staying on the old tab made every later picture show
+        // the wrong screen; say so instead.
+        if !button.isSelected {
+            attachHierarchy()
+            XCTFail("The \(tab) tab did not open")
+        }
     }
 
     /// Opens a screen reached from the recipe list: "newRecipe" behind "+",
@@ -210,6 +223,16 @@ class StoreUITestCase: XCTestCase {
         }
         let byIdentifier = app.buttons["menu.\(destination)"]
         if byIdentifier.waitForExistence(timeout: 10) {
+            byIdentifier.tap()
+            return
+        }
+        // A menu taller than the screen scrolls; entries past its edge are
+        // not in the hierarchy until it is scrolled.
+        for _ in 0..<3 where !byIdentifier.exists {
+            app.swipeUp()
+            settle(0.5)
+        }
+        if byIdentifier.exists {
             byIdentifier.tap()
             return
         }
@@ -513,6 +536,13 @@ class StoreUITestCase: XCTestCase {
         let deadline = Date().addingTimeInterval(2)
         while !element.isHittable, Date() < deadline {
             settle(0.2)
+        }
+        // Under the tab bar: a tap at its spot would switch tabs; bring it
+        // up first.
+        let tabBar = app.tabBars.firstMatch
+        if !element.isHittable, tabBar.exists, element.frame.intersects(tabBar.frame) {
+            app.swipeUp(velocity: .slow)
+            settle(0.5)
         }
         if element.isHittable {
             element.tap()

@@ -19,6 +19,7 @@
 #   DEVICES  any of "iphone", "ipad", "duo-outer", "duo-inner"
 #                                                       (default: all four)
 #   IPHONE   simulator for the iPhone shots, 1206×2622  (default: iPhone 17 Pro)
+#            IPHONE, IPAD and DUO take a name or a UDID (to pick one runtime)
 #   IPAD     simulator for the 13" shots, 2064×2752     (default: iPad Pro 13-inch (M5))
 #   DUO      simulator for the iPhone Duo shots         (default: iPhone Duo)
 #            folded 1398×2034 (outer display), unfolded 2853×2007 (inner display)
@@ -176,7 +177,13 @@ caption_pictures() {
     rm -f "$dir"/9[0-9]-*.png
 }
 
+# A simulator by name (the first of that name) — or, to pick one runtime
+# among several of the same name, by its UDID.
 udid_of() {
+    if [[ "$1" =~ ^[0-9A-F-]{36}$ ]]; then
+        echo "$1"
+        return
+    fi
     xcrun simctl list devices available \
         | grep -F "    $1 (" \
         | head -1 \
