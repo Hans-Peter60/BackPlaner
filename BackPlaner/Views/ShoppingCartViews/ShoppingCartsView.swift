@@ -25,6 +25,10 @@ struct ShoppingCartsView: View {
     /// rather than a Bool: with one flag for every row, the dialog that ends up
     /// being presented could delete a different list than the one tapped.
     @State private var cartPendingDeletion: ShoppingCart?
+    /// "Eingekauft": the whole list goes into the pantry after a confirmation.
+    @State private var cartPendingIntake: ShoppingCart?
+    /// How many lines the last intake booked, for the message.
+    @State private var intakeCount: Int?
 
     /// The shopping-list entry being edited, shown in a sheet.
     @State private var selectedIngredient: Ingredient?
@@ -70,7 +74,18 @@ struct ShoppingCartsView: View {
                                 }
                                 .accessibilityIdentifier("shopping.reminders")
 
-                                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Einkaufsliste löschen", title: "Löschen", controlSize: .regular) {
+                                // Everything bought: every line into the pantry,
+                                // the list is done with. Pro, like the pantry.
+                                if Entitlements.shared.isUnlocked(.pantry), !shoppingCart.ingredientsArray.isEmpty {
+                                    IconActionButton(systemImage: "shippingbox", style: .primary, accessibilityLabel: "Eingekauft – alles in den Vorrat", controlSize: .regular) {
+                                        cartPendingIntake = shoppingCart
+                                    }
+                                    .accessibilityIdentifier("shopping.receiveAll")
+                                }
+
+                                // Icon only, like its neighbours: with a title the
+                                // row wrapped on an iPhone once the pantry button came.
+                                IconActionButton(systemImage: "trash", style: .destructive, accessibilityLabel: "Einkaufsliste löschen", controlSize: .regular) {
                                     cartPendingDeletion = shoppingCart
                                 }
                                 .padding(.trailing)
@@ -144,6 +159,31 @@ struct ShoppingCartsView: View {
             }
             Button("Nein", role: .cancel) { }
         }
+        // An alert, not a confirmation dialog: the dialog came up as a
+        // popover anchored to the scroll view, without its cancel button.
+        .alert(
+            "Alles eingekauft?",
+            isPresented: Binding(
+                get: { cartPendingIntake != nil },
+                set: { if !$0 { cartPendingIntake = nil } }
+            ),
+            presenting: cartPendingIntake
+        ) { shoppingCart in
+            Button("In den Vorrat buchen und Liste löschen") {
+                receiveAll(shoppingCart)
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: { shoppingCart in
+            Text("\(shoppingCart.ingredientsArray.count) Zeilen werden auf die Posten gleichen Namens gebucht oder als neue Posten angelegt.")
+        }
+        .alert("In den Vorrat gebucht", isPresented: Binding(
+            get: { intakeCount != nil },
+            set: { if !$0 { intakeCount = nil } }
+        )) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("\(intakeCount ?? 0) Zeilen sind im Vorrat. Die Einkaufsliste ist erledigt.")
+        }
         .alert("An Erinnerungen gesendet", isPresented: $showingRemindersResult) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -195,6 +235,37 @@ struct ShoppingCartsView: View {
             return
         }
         remove(ingredient)
+    }
+
+    /// Everything on the list is bought: every line into the pantry, then
+    /// the list goes. Lines that cannot be booked stay on the list, so
+    /// nothing is lost silently.
+    private func receiveAll(_ shoppingCart: ShoppingCart) {
+        let store = CoreDataPantryStore(context: viewContext)
+        var booked = 0
+        var failed: [Ingredient] = []
+        for ingredient in shoppingCart.ingredientsArray {
+            let intake = Pantry.intake(unit: ingredient.unit, weight: ingredient.weight, normWeight: ingredient.normWeight,
+                                       num: ingredient.num, denom: ingredient.denom)
+            do {
+                try store.receive(name: ingredient.name, amount: intake.amount, unit: intake.unit)
+                booked += 1
+            } catch {
+                AppLog.persistence.error("Taking a shopping-list line into the pantry failed: \(error)")
+                failed.append(ingredient)
+            }
+        }
+        withAnimation {
+            if failed.isEmpty {
+                viewContext.delete(shoppingCart)
+            } else {
+                for ingredient in shoppingCart.ingredientsArray where !failed.contains(ingredient) {
+                    viewContext.delete(ingredient)
+                }
+            }
+            save("Einkaufsliste konnte nicht in den Vorrat gebucht werden")
+        }
+        intakeCount = booked
     }
 
     private func remove(_ ingredient: Ingredient) {
