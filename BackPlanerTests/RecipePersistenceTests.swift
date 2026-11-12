@@ -92,8 +92,8 @@ struct RecipePersistenceTests {
         try JSONEncoder().encode(file).write(to: url)
         defer { try? FileManager.default.removeItem(at: url) }
 
-        #expect(try RecipeImport.importRecipes(from: url, into: context) == 2)
-        #expect(try RecipeImport.importRecipes(from: url, into: context) == 2)
+        #expect(try RecipeImport.importRecipes(from: url, into: context).recipes == 2)
+        #expect(try RecipeImport.importRecipes(from: url, into: context).recipes == 2)
 
         let recipes = try context.fetch(Recipe.fetchRequest())
         #expect(recipes.count == 4)

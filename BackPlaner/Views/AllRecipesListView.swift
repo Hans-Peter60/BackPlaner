@@ -336,7 +336,7 @@ struct AllRecipesListView: View {
     @State private var exportsRecipes = false
     /// "Rezepte importieren" from the "Mehr" menu: the file picker and its outcome.
     @State private var isImportingRecipes = false
-    @State private var importedRecipeCount: Int?
+    @State private var importResult: RecipeImportResult?
     @State private var importErrorMessage: String?
 
     var body: some View {
@@ -434,7 +434,7 @@ struct AllRecipesListView: View {
                 // The picker is still on its way out when this runs; an alert
                 // raised right now is dropped, so the outcome is shown once the
                 // picker has gone.
-                var count: Int?
+                var count: RecipeImportResult?
                 var failure: String?
                 switch result {
                 case .success(let url):
@@ -448,17 +448,23 @@ struct AllRecipesListView: View {
                 }
                 Task { @MainActor in
                     try? await Task.sleep(for: .milliseconds(600))
-                    importedRecipeCount = count
+                    importResult = count
                     importErrorMessage = failure
                 }
             }
             .alert("Import abgeschlossen", isPresented: Binding(
-                get: { importedRecipeCount != nil },
-                set: { if !$0 { importedRecipeCount = nil } }
-            )) {
+                get: { importResult != nil },
+                set: { if !$0 { importResult = nil } }
+            ), presenting: importResult) { _ in
                 Button("OK", role: .cancel) { }
-            } message: {
-                Text("\(importedRecipeCount ?? 0) Rezepte importiert")
+            } message: { result in
+                if result.pantryItems > 0 {
+                    // Two localized lines; `Text +` is deprecated.
+                    Text(verbatim: String(localized: "\(result.recipes) Rezepte importiert") + "\n"
+                         + String(localized: "\(result.pantryItems) Posten im Vorrat ergänzt"))
+                } else {
+                    Text("\(result.recipes) Rezepte importiert")
+                }
             }
             .alert("Import fehlgeschlagen", isPresented: Binding(
                 get: { importErrorMessage != nil },

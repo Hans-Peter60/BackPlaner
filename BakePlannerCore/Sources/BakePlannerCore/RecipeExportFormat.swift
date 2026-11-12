@@ -22,8 +22,11 @@ public struct RecipeExportFile: Codable, Equatable {
     /// the duration window of a step (`RecipeExportInstruction.minDuration`,
     /// `.maxDuration`); version 6 the oven settings of a step
     /// (`RecipeExportInstruction.ovenTemperature`, `.ovenFallingTemperature`,
-    /// `.ovenSteam`).
-    public static let currentFormatVersion = 6
+    /// `.ovenSteam`); version 7 the pantry (`RecipeExportFile.pantry`).
+    public static let currentFormatVersion = 7
+    /// The version of a file with oven settings but without a pantry, as
+    /// apps up to 2.4 (20) write and read it.
+    public static let ovenFormatVersion = 6
     /// The version of a file with step windows but without oven settings,
     /// as apps up to 2.3 (17) write and read it.
     public static let windowFormatVersion = 5
@@ -43,6 +46,10 @@ public struct RecipeExportFile: Codable, Equatable {
 
     public var formatVersion: Int = Self.currentFormatVersion
     public var recipes: [RecipeExportData]
+    /// What is in the house, in a full backup (format version 7): the
+    /// pantry is not tied to a recipe, so it stands beside them. Absent in
+    /// a shared recipe and in files of older versions.
+    public var pantry: [RecipeExportPantryItem]?
 
     /// Whether this app version knows how to read a file written at
     /// `formatVersion` — a later version may have added fields this one
@@ -51,20 +58,25 @@ public struct RecipeExportFile: Codable, Equatable {
         formatVersion <= currentFormatVersion
     }
 
-    /// A file of `recipes`, at the lowest version that holds them: 6 when a
-    /// step has oven settings, 5 when a step has a duration window, 4 when a feeding notes its temperature,
+    /// A file of `recipes`, at the lowest version that holds them: 7 when
+    /// the file carries a pantry, 6 when a step has oven settings, 5 when a
+    /// step has a duration window, 4 when a feeding notes its temperature,
     /// 3 when a recipe is a variant or a bake carries a rating, 2 when a
     /// recipe carries bake history or feedings, 1 otherwise. An older app
     /// refuses a newer file instead of dropping what it does not know
     /// unnoticed.
-    public init(formatVersion: Int? = nil, recipes: [RecipeExportData]) {
-        self.formatVersion = formatVersion ?? Self.lowestVersion(holding: recipes)
+    public init(formatVersion: Int? = nil, recipes: [RecipeExportData], pantry: [RecipeExportPantryItem]? = nil) {
+        self.pantry = (pantry?.isEmpty ?? true) ? nil : pantry
+        self.formatVersion = formatVersion ?? Self.lowestVersion(holding: recipes, pantry: self.pantry)
         self.recipes = recipes
     }
 
-    static func lowestVersion(holding recipes: [RecipeExportData]) -> Int {
-        if recipes.contains(where: { $0.instructions.contains { $0.oven != nil } }) {
+    static func lowestVersion(holding recipes: [RecipeExportData], pantry: [RecipeExportPantryItem]? = nil) -> Int {
+        if let pantry, !pantry.isEmpty {
             return currentFormatVersion
+        }
+        if recipes.contains(where: { $0.instructions.contains { $0.oven != nil } }) {
+            return ovenFormatVersion
         }
         if recipes.contains(where: { $0.instructions.contains { $0.minDuration != nil || $0.maxDuration != nil } }) {
             return windowFormatVersion
@@ -153,6 +165,30 @@ public struct RecipeExportStarterFeeding: Codable, Equatable {
     public var facts: StarterFeedingFacts {
         StarterFeedingFacts(peakMinutes: peakMinutes, floatTestPassed: floatTestPassed, note: note ?? "",
                             roomTemperature: roomTemperature).normalized
+    }
+}
+
+/// One item of the pantry in a backup file (format version 7).
+public struct RecipeExportPantryItem: Codable, Equatable {
+    public var name: String
+    public var amount: Double
+    /// "g", "kg" or "St" (`PantryUnit.rawValue`).
+    public var unit: String
+    /// Seconds since 2001, as JSONEncoder writes a Date by default.
+    public var bestBefore: Date?
+    /// Left out when empty.
+    public var note: String?
+
+    public init(name: String, amount: Double, unit: String, bestBefore: Date? = nil, note: String? = nil) {
+        self.name = name
+        self.amount = amount
+        self.unit = unit
+        self.bestBefore = bestBefore
+        self.note = (note?.isEmpty ?? true) ? nil : note
+    }
+
+    public init(_ item: StoredPantryItem) {
+        self.init(name: item.name, amount: item.amount, unit: item.unit.rawValue, bestBefore: item.bestBefore, note: item.note)
     }
 }
 

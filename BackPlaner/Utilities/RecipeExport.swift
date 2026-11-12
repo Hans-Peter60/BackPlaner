@@ -188,6 +188,7 @@ struct RecipeFileExport: FileExport {
                 if let backup = try? RecipeExportFile(recipeIDs: keys, from: CoreDataRecipeStore(context: context),
                                                       bakeHistory: CoreDataBakeHistoryStore(context: context),
                                                       starterFeedings: CoreDataStarterFeedingLogStore(context: context),
+                                                      pantry: CoreDataPantryStore(context: context),
                                                       shrinkPhoto: BackupPhoto.shrunk) {
                     file = backup
                     return
@@ -227,9 +228,10 @@ struct RecipeFileExport: FileExport {
 
 extension RecipeImport {
     /// Decodes a backup/share file and writes every recipe it holds into the
-    /// context as new recipes, returning how many were added.
+    /// context as new recipes, and its pantry onto the items the pantry
+    /// does not have yet; returns how many of each were added.
     @discardableResult
-    static func importRecipes(from url: URL, into context: NSManagedObjectContext) throws -> Int {
+    static func importRecipes(from url: URL, into context: NSManagedObjectContext) throws -> RecipeImportResult {
         let needsSecurityScope = url.startAccessingSecurityScopedResource()
         defer { if needsSecurityScope { url.stopAccessingSecurityScopedResource() } }
 
@@ -242,7 +244,8 @@ extension RecipeImport {
 
         return try importFile(data, into: CoreDataRecipeStore(context: context),
                               bakeHistory: CoreDataBakeHistoryStore(context: context),
-                              starterFeedings: CoreDataStarterFeedingLogStore(context: context))
+                              starterFeedings: CoreDataStarterFeedingLogStore(context: context),
+                              pantry: CoreDataPantryStore(context: context))
     }
 }
 
