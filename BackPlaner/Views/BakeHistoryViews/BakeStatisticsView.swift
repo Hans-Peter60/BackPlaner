@@ -121,30 +121,37 @@ struct BakeStatisticsView: View {
         }
     }
 
-    /// The seven recipes baked most, as rows, the count at the end of each bar.
+    /// The seven recipes baked most, as rows: the name on its own line, the
+    /// bar and the count below it. Plain rows rather than a bar chart with
+    /// the names on its axis — Swift Charts laid long names across the
+    /// bars once they no longer fitted beside them.
     private var recipesCard: some View {
         let top = Array(statistics.recipes.prefix(7))
+        let most = max(1, top.map(\.count).max() ?? 1)
         return card("Meistgebacken") {
-            Chart(top) { recipe in
-                BarMark(x: .value(loavesLabel, recipe.count),
-                        y: .value(recipeLabel, recipe.name))
-                    .foregroundStyle(Theme.accentTop)
-                    .cornerRadius(3)
-                    .annotation(position: .trailing, alignment: .leading) {
-                        Text(recipe.count.formatted(.number.locale(locale)))
-                            .font(Theme.bodyFont(12))
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(top) { recipe in
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(recipe.name)
+                            .font(Theme.bodyFont(13))
                             .foregroundColor(Theme.cardTitle)
+                            .lineLimit(1)
+                        HStack(spacing: 8) {
+                            GeometryReader { geometry in
+                                RoundedRectangle(cornerRadius: 3)
+                                    .fill(Theme.accentTop)
+                                    .frame(width: max(6, geometry.size.width * CGFloat(recipe.count) / CGFloat(most)))
+                            }
+                            .frame(height: 12)
+                            Text(recipe.count.formatted(.number.locale(locale)))
+                                .font(Theme.bodyFont(12))
+                                .foregroundColor(Theme.cardTitle)
+                                .frame(minWidth: 18, alignment: .leading)
+                        }
                     }
-            }
-            .chartYScale(domain: top.map(\.name))
-            .chartXAxis(.hidden)
-            .chartYAxis {
-                AxisMarks(position: .leading) { _ in
-                    AxisValueLabel()
-                        .font(Theme.bodyFont(12))
+                    .accessibilityElement(children: .combine)
                 }
             }
-            .frame(height: CGFloat(top.count) * 30 + 12)
         }
     }
 
