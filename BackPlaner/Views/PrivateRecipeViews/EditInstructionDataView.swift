@@ -32,7 +32,10 @@ struct EditInstructionDataView: View {
     @State private var duration     = 0
     @State private var selectedInstruction: Instruction?
 
-    private let instructionGridLayout = [GridItem(scaledColumnSize(40), alignment: .leading), GridItem(.flexible(minimum: 100), alignment: .leading), GridItem(scaledColumnSize(60), alignment: .trailing), GridItem(scaledColumnSize(44), alignment: .trailing)]
+    // Number, duration and the delete button sit at the top of their row,
+    // level with the first line of a description that runs over several
+    // lines — as on the recipe page.
+    private let instructionGridLayout = [GridItem(scaledColumnSize(40), alignment: .topLeading), GridItem(.flexible(minimum: 100), alignment: .topLeading), GridItem(scaledColumnSize(60), alignment: .topTrailing), GridItem(scaledColumnSize(44), alignment: .topTrailing)]
         
     var body: some View {
         
