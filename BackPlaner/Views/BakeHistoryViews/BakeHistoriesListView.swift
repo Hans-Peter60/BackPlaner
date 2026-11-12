@@ -656,12 +656,18 @@ struct BakeHistoriesListView: View {
             // edge, so no neighbour can cover it; a small circle names
             // itself in the detail and for VoiceOver.
             if named {
+                let fontSize: CGFloat = diameter >= 120 ? 13 : 11
                 VStack {
                     Spacer(minLength: 0)
                     Text(summary.name)
-                        .font(Theme.brandFont(diameter >= 120 ? 13 : 11))
+                        .font(Theme.brandFont(fontSize))
                         .foregroundColor(.white)
-                        .lineLimit(2)
+                        // Two lines when every word fits one; a name with
+                        // a word too long for the band stays on one line
+                        // and ends in "…" rather than breaking mid-word
+                        // ("Präsidente / nbaguette").
+                        .lineLimit(Self.wordsFit(summary.name, fontSize: fontSize, width: diameter * 0.9 - 16) ? 2 : 1)
+                        .truncationMode(.tail)
                         .minimumScaleFactor(0.75)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 8)
@@ -692,6 +698,17 @@ struct BakeHistoriesListView: View {
         .contentShape(Circle())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("\(summary.name), \(summary.count) Backvorgänge"))
+    }
+
+    /// Whether every word of `name` fits into `width` on its own line at
+    /// the band's smallest scale, so that wrapping only ever happens at a
+    /// space or hyphen.
+    static func wordsFit(_ name: String, fontSize: CGFloat, width: CGFloat) -> Bool {
+        let font = UIFont(name: "Avenir-Heavy", size: fontSize) ?? UIFont.boldSystemFont(ofSize: fontSize)
+        let longest = name.split { $0 == " " || $0 == "-" }
+            .map { ($0 as NSString).size(withAttributes: [.font: font]).width }
+            .max() ?? 0
+        return longest * 0.75 <= width
     }
 
     /// The recipe's own picture, or the photo glyph on a tinted square.

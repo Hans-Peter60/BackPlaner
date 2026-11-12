@@ -100,6 +100,8 @@ final class AppStoreScreenshots: StoreUITestCase {
         // first; the bake mode button is on the list.
         openTab(.scheduledSteps)
         showScheduledSteps(as: .list)
+        settle(1.5)
+        capture("94-geplante-schritte-liste")
         let bakeMode = app.buttons["scheduled.bakeMode"]
         if !bakeMode.waitForExistence(timeout: 5) {
             attachHierarchy()

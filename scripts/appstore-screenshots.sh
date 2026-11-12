@@ -145,17 +145,20 @@ PY
 }
 
 # The manuals take their pictures from the plain iPhone screenshots in $1:
-# the main menu and the timeline from the App Store screens, the recipe
-# list, the new-recipe form and the settings from the extra screens
-# numbered 90 and up. Scaled to
-# the 402 pt width the manual pages use; $2 is the language, $3 the manual
-# image folder for it.
+# the plan sheet, the main menu and the timeline from the App Store screens,
+# the recipe list, the new-recipe form, the settings and the list of planned
+# steps from the extra screens numbered 90 and up. Scaled to the 402 pt
+# width the manual pages use; $2 is the language, $3 the manual image folder
+# for it. The list of own recipes and the photo cloud come from
+# scripts/manual-screenshots.sh, which needs a simulator with data.
 manual_images() {
     local raw="$1" lang="$2" target="$3"
     mkdir -p "$target"
-    local pairs=("02-startbildschirm:hauptmenue" "04-timeline:geplante-schritte-timeline"
+    local pairs=("01-rezept-backen:rezept-backansicht-zeitplanung"
+                 "02-startbildschirm:hauptmenue" "04-timeline:geplante-schritte-timeline"
                  "93-rezept-datenbank:oeffentliche-rezepte"
-                 "91-neues-rezept:neues-rezept" "92-einstellungen:einstellungen")
+                 "91-neues-rezept:neues-rezept" "92-einstellungen:einstellungen"
+                 "94-geplante-schritte-liste:geplante-schritte-liste")
     for pair in "${pairs[@]}"; do
         local source="$raw/${pair%%:*}.png" name="${pair##*:}"
         [[ -f "$source" ]] || continue
