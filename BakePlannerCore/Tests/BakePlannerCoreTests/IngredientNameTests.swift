@@ -70,6 +70,45 @@ struct IngredientNameNormalizerTests {
         #expect(key("Eggs") == key("egg"))
         #expect(key("Œufs") == key("oeuf"))
         #expect(key("levure fraîche") == key("levure"))
+        #expect(key("Instanthefe") == key("Trockenhefe"))
+        #expect(key("Walnusskerne") == key("Walnüsse"))
+        #expect(key("Sesamsaat") == key("Sesam"))
+        #expect(key("Meersalz") == key("Salz"))
+        #expect(key("Vollmilch") == key("Milch"))
+        #expect(key("Buttermilch") != key("Milch"))
+    }
+
+    @Test("Flour types read the same written as 550, Type 550, Typ 550 or T550; a French T65 keeps its T")
+    func flourTypes() {
+        let key = IngredientNameNormalizer.comparisonKey
+        #expect(key("Weizenmehl Type 550") == key("Weizenmehl 550"))
+        #expect(key("Weizenmehl Typ 550") == key("Weizenmehl 550"))
+        #expect(key("Weizenmehl T550") == key("Weizenmehl 550"))
+        #expect(key("Weizenmehl (Type 550)") == key("Weizenmehl 550"))
+        #expect(key("Roggenmehl Type 1150") == key("Roggenmehl 1150"))
+        #expect(key("Weizenmehl T65") != key("Weizenmehl 550"))
+        #expect(key("Farine T65") == key("farine t65"))
+        #expect(key("Weizenmehl 550") != key("Weizenmehl 1050"))
+    }
+
+    @Test("Wholemeal flour is one thing however it is written; descriptors like chopped or fresh do not count")
+    func wholemealAndDescriptors() {
+        let key = IngredientNameNormalizer.comparisonKey
+        #expect(key("Weizenmehl Vollkorn") == key("Weizenvollkornmehl"))
+        #expect(key("Vollkornweizenmehl") == key("Weizenvollkornmehl"))
+        #expect(key("Roggenmehl, Vollkorn") == key("Roggenvollkornmehl"))
+        #expect(key("Dinkelvollkornmehl") != key("Weizenvollkornmehl"))
+        #expect(key("Walnüsse, gehackt") == key("Walnüsse"))
+        #expect(key("zarte Haferflocken") == key("Haferflocken"))
+        #expect(key("kernige Haferflocken") == key("Haferflocken"))
+        #expect(key("Butter, weich") == key("Butter"))
+        #expect(key("Butter, zerlassen") == key("Butter"))
+        #expect(key("Sonnenblumenkerne, geröstet") == key("Sonnenblumenkerne"))
+        #expect(key("walnuts, chopped") == key("Walnuts"))
+        #expect(key("noix hachées") == key("Noix"))
+        // What tells ingredients apart stays.
+        #expect(key("Haselnüsse gemahlen") != key("Haselnüsse"))
+        #expect(key("Roggenmehl 1150") != key("Roggenmehl 997"))
     }
 }
 

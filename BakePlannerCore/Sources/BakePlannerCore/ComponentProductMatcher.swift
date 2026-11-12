@@ -78,7 +78,7 @@ public enum ComponentProductMatcher {
     /// The product name with the stage kept and every space and punctuation
     /// mark dropped, so "Sauerteig Stufe 1" and "Sauerteigstufe 1" are equal.
     static func compactName(_ name: String) -> String {
-        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.comparisonKey(name))
+        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.foldedName(name))
 
         if let separatorIndex = normalizedName.firstIndex(where: { "/(".contains($0) }) {
             normalizedName = String(normalizedName[..<separatorIndex])
@@ -91,7 +91,7 @@ public enum ComponentProductMatcher {
     /// parenthesis or slash remark, no "Stufe …" suffix, no temperature,
     /// case- and accent-insensitive.
     static func normalizedProductName(_ name: String) -> String {
-        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.comparisonKey(name))
+        var normalizedName = droppingWholeProductPrefix(IngredientNameNormalizer.foldedName(name))
 
         if let separatorIndex = normalizedName.firstIndex(where: { "/(".contains($0) }) {
             normalizedName = String(normalizedName[..<separatorIndex])
