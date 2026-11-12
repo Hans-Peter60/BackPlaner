@@ -697,6 +697,13 @@ Das Widget verwendet die **Systemsprache** des Geräts, nicht die in den Einstel
 
 BakePlanner bringt zwei **Steuerelemente** mit, die Du im Kontrollzentrum, auf dem Sperrbildschirm oder auf der Aktionstaste ablegen kannst (Kontrollzentrum bearbeiten → Steuerelement hinzufügen → BakePlanner): **Schritt erledigt** hakt den gerade fälligen Schritt ab, genau wie der Knopf auf dem Widget, und **Geplante Schritte** öffnet die App bei den geplanten Schritten. Ist kein Schritt fällig oder in Reichweite, tut „Schritt erledigt“ nichts.
 
+### Backtag planen
+
+**Mehr → Backtag planen** in der Rezeptliste plant mehrere Brote auf einmal. Du wählst die Rezepte, die Uhrzeit, zu der das letzte fertig sein soll, und die Zahl der Backöfen (vorbelegt aus den Einstellungen). **Backtag berechnen** legt die Startzeiten: Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, jedes weitere bekommt die späteste Viertelstunde davor, zu der sein Backen noch in einen Ofen passt – nicht mehr Brote gleichzeitig als Öfen, die **Backpause** aus den Einstellungen zwischen zwei Backvorgängen im selben Ofen eingehalten, Brote mit derselben Ofentemperatur teilen sich einen Ofen. Schon geplante Backvorgänge anderer Rezepte belegen die Öfen ebenfalls.
+
+Je Brot stehen Start, Fertig und die Ofenzeit. Ein Mond warnt vor Schritten in der Nacht, ein rotes Dreieck, wenn innerhalb eines Tages kein Ofen frei wird, ein rotes Uhrensymbol, wenn das Brot schon hätte beginnen müssen – dann die Wunschzeit später wählen. **Alle planen** legt für jedes Brot Schritte, Erinnerungen und den Eintrag in der Backhistorie an, wie „Jetzt planen“ auf der Rezeptseite; ein Brot, das schon einen Plan hat, bekommt den neuen an dessen Stelle. Anstellgut-Rezepte stehen nicht zur Wahl, sie werden gefüttert, nicht gebacken. Gehört zu BakePlanner Pro.
+
+
 ---
 
 ## 11. Erinnerungen auf dem Sperrbildschirm
@@ -1294,6 +1301,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Fehlt noch |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Fehlt noch |
+| Backtag planen (Mehr → Backtag planen) | [Kapitel 10](#10-geplante-schritte-liste-und-timeline) | Fehlt noch; Logik `BakingDayOptimizer` schon im gemeinsamen Paket |
 | Vorrat (Mehr → Vorrat, Übernahme aus der Einkaufsliste, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Abbuchen nach dem Backen, Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“) | [Kapitel 13](#13-einkaufsliste) | Fehlt noch; Logik `Pantry` und `PantryStore` schon im gemeinsamen Paket |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Fehlt noch; Logik `RecipeFacets` und `FinishByPlanner` schon im gemeinsamen Paket |
 | Übersetzung der Zutaten in Einkaufslisten | [Kapitel 13](#13-einkaufsliste) | Nicht vorgesehen |

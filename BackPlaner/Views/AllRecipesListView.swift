@@ -514,6 +514,12 @@ struct AllRecipesListView: View {
                             Label("Vorrat", systemImage: "shippingbox")
                         }
                         .accessibilityIdentifier("menu.pantry")
+                        Button {
+                            pushedDestination = .bakingDay
+                        } label: {
+                            Label("Backtag planen", systemImage: "calendar.badge.clock")
+                        }
+                        .accessibilityIdentifier("menu.bakingDay")
                         Divider()
                         Button {
                             pushedDestination = .doughTemperature

@@ -25,6 +25,9 @@ SAMMLUNGEN UND FACETTEN
 • Eine Kombination, die Du öfter brauchst, sicherst Du mit „Sammlung sichern“ unter einem Namen als eigenen Chip; langes Drücken benennt um oder löscht.
 • „Fertig bis …“: Wähle, wann das Brot fertig sein soll, und die Liste zeigt nur, was noch zu schaffen ist – mit dem nötigen Start unter jedem Rezept, das früheste zuerst. Langes Drücken öffnet das Planungsblatt mit diesem Start. „Für morgen früh“ setzt das Ziel gleich auf morgen 7:30 Uhr.
 
+BACKTAG PLANEN
+• Mehrere Brote auf einmal: Rezepte wählen, Wunschzeit für das letzte, Zahl der Öfen – die App legt die Startzeiten so, dass nie mehr Brote gleichzeitig backen als Öfen da sind und die Backpause eingehalten wird. „Alle planen“ legt Schritte und Erinnerungen für alle an. Gehört zu BakePlanner Pro.
+
 VORRAT
 • „Mehr → Vorrat“ führt, was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge, Mindesthaltbarkeit und Notiz, nach Regalen wie die Einkaufsliste. Was in 14 Tagen abläuft, steht oben unter „Bald aufbrauchen“. Aus der Einkaufsliste wandert Gekauftes mit einem Tipp in den Vorrat. Gehört zu BakePlanner Pro.
 • Die Rezeptseite zeigt, was davon im Vorrat ist und was fehlt. Die Einkaufsliste zieht den Vorrat ab, der Filter kennt „Aus dem Vorrat“, und nach dem Backen fragt die App, ob sie die Mengen abbucht.
@@ -65,6 +68,9 @@ COLLECTIONS AND FACETS
 • A combination you need often is saved with “Save collection” under a name as a chip of your own; a long press renames or deletes it.
 • “Finished by …”: choose when the bread is to be ready, and the list shows only what can still be made – with the start it needs under each recipe, the earliest first. A long press opens the plan sheet with that start. “For tomorrow morning” sets the target to tomorrow 7:30 right away.
 
+PLAN A BAKING DAY
+• Several breads at once: choose the recipes, the time the last one is to be ready, the number of ovens – the app lays the start times so that never more breads bake at once than there are ovens and the pause between bakes is kept. “Plan all” creates steps and reminders for all of them. Part of BakePlanner Pro.
+
 PANTRY
 • “More → Pantry” keeps what you have at home: flours, seeds, yeast with amount, best-before date and note, on shelves like the shopping list. What expires within 14 days sits at the top under “Use up soon”. From the shopping list, what you bought moves into the pantry with one tap. Part of BakePlanner Pro.
 • The recipe page shows what of it is in the pantry and what is missing. The shopping list deducts the pantry, the filter knows “From the pantry”, and after a bake the app asks whether to take the amounts off.
@@ -104,6 +110,9 @@ COLLECTIONS ET FACETTES
 • Le menu de filtre a maintenant des facettes : durée, déroulement de la journée, agent levant, farine, taux d’hydratation, matériel (pierre, moule, banneton, cocotte), historique de cuisson et « Peu de travail ». L’app lit tout dans les ingrédients et les étapes – rien à saisir. Les facettes se combinent.
 • Une combinaison dont vous avez souvent besoin s’enregistre avec « Enregistrer la collection » sous un nom comme puce personnelle ; un appui long la renomme ou la supprime.
 • « Prêt pour… » : choisissez quand le pain doit être prêt, et la liste ne montre que ce qui est encore réalisable – avec le début nécessaire sous chaque recette, le plus tôt en premier. Un appui long ouvre la feuille de planification avec ce début. « Pour demain matin » règle l’objectif sur demain 7 h 30.
+
+JOURNÉE DE CUISSON
+• Plusieurs pains d’un coup : choisissez les recettes, l’heure voulue pour le dernier, le nombre de fours – l’app place les débuts pour que jamais plus de pains ne cuisent en même temps qu’il n’y a de fours et que la pause entre cuissons soit respectée. « Tout planifier » crée étapes et rappels pour tous. Fait partie de BakePlanner Pro.
 
 RÉSERVE
 • « Plus → Réserve » tient ce que vous avez chez vous : farines, graines, levure avec quantité, date limite et note, par rayons comme la liste de courses. Ce qui expire sous 14 jours figure en haut sous « À consommer bientôt ». Depuis la liste de courses, vos achats passent dans la réserve d’un appui. Fait partie de BakePlanner Pro.

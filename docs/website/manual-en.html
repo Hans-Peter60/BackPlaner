@@ -462,6 +462,9 @@
 <hr>
 <h3 id="controls-in-control-center-and-on-the-action-button">Controls in Control Center and on the Action button</h3>
 <p>BakePlanner comes with two <strong>controls</strong> you can place in Control Center, on the Lock Screen or on the Action button (edit Control Center → add a control → BakePlanner): <strong>Step done</strong> ticks off the step that is due right now, exactly like the button on the widget, and <strong>Scheduled steps</strong> opens the app at the scheduled steps. With no step due or within reach, "Step done" does nothing.</p>
+<h3 id="plan-a-baking-day">Plan a baking day</h3>
+<p><strong>More → Plan a baking day</strong> in the recipe list plans several breads at once. You choose the recipes, the time the last one is to be ready, and the number of ovens (pre-filled from the settings). <strong>Work out the baking day</strong> lays the start times: the bread with the longest bake is ready at the time you want, every further one takes the latest quarter hour before it at which its bake still fits an oven – no more breads at once than ovens, the <strong>pause between bakes</strong> from the settings kept between two bakes in the same oven, breads at the same oven temperature sharing one oven. Bakes already scheduled for other recipes occupy the ovens as well.</p>
+<p>Each bread shows start, ready time and oven time. A moon warns of steps at night, a red triangle when no oven becomes free within a day, a red clock when the bread would have to be under way already – then choose a later time. <strong>Plan all</strong> creates the steps, reminders and the baking-history entry for every bread, like "Plan now" on the recipe page; a bread that already has a plan gets the new one in its place. Starter recipes are not offered: they are fed, not baked. Part of BakePlanner Pro.</p>
 <hr>
 <h2 id="11-reminders-on-the-lock-screen">11. Reminders on the Lock Screen</h2>
 <blockquote class="note"><p><strong>Android:</strong> reminders arrive as Android notifications with the same actions. Delivery time, alarms and the Lock Screen differ, see <a href="#19-bakeplanner-on-android">chapter 19</a>.</p></blockquote>
@@ -808,6 +811,7 @@
 <tr><td>BakePlanner Pro</td><td><a href="#14-settings">chapter 14</a></td><td>Everything free</td></tr>
 <tr><td>Create recipe from baker's percentages</td><td><a href="#8-creating-a-new-recipe">chapter 8</a></td><td>Not yet</td></tr>
 <tr><td>Baking-history statistics</td><td><a href="#12-baking-history">chapter 12</a></td><td>Not yet</td></tr>
+<tr><td>Plan a baking day (More → Plan a baking day)</td><td><a href="#10-scheduled-steps-list-and-timeline">chapter 10</a></td><td>Not yet; the logic <code>BakingDayOptimizer</code> is already in the shared package</td></tr>
 <tr><td>Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake, reminder before expiry, collection "Use up the pantry")</td><td><a href="#13-shopping-list">chapter 13</a></td><td>Not yet; the logic <code>Pantry</code> and <code>PantryStore</code> is already in the shared package</td></tr>
 <tr><td>Facets, preset and own collections, "Finished by" in the recipe list</td><td><a href="#6-my-recipes">chapter 6</a></td><td>Not yet; the logic <code>RecipeFacets</code> and <code>FinishByPlanner</code> is already in the shared package</td></tr>
 <tr><td>Translation of shopping-list ingredients</td><td><a href="#13-shopping-list">chapter 13</a></td><td>Not planned</td></tr>

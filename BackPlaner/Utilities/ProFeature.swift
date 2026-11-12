@@ -29,6 +29,8 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     case liveActivity
     /// The pantry: flours, seeds and yeast with amounts and best-before dates.
     case pantry
+    /// Several breads placed before one finish, the ovens and the pause respected.
+    case bakingDay
 
     var id: String { rawValue }
 
@@ -41,6 +43,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .widgets:        return "Widgets"
         case .liveActivity:   return "Live-Aktivität auf dem Sperrbildschirm"
         case .pantry:         return "Vorrat"
+        case .bakingDay:      return "Backtag planen"
         }
     }
 
@@ -54,6 +57,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .widgets:        return "Der nächste Schritt auf dem Home- und dem Sperrbildschirm."
         case .liveActivity:   return "Der laufende Plan auf dem Sperrbildschirm und in der Dynamic Island."
         case .pantry:         return "Mehle, Saaten und Hefe mit Menge und Haltbarkeit führen; Gekauftes wandert aus der Einkaufsliste hinein."
+        case .bakingDay:      return "Mehrere Brote für einen Backtag: Wunschzeit für das letzte, und die App legt die Startzeiten so, dass Öfen und Backpause passen."
         }
     }
 
@@ -66,6 +70,7 @@ enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         case .widgets:        return "widget.small"
         case .liveActivity:   return "clock.badge"
         case .pantry:         return "shippingbox"
+        case .bakingDay:      return "calendar.badge.clock"
         }
     }
 }

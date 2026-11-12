@@ -206,6 +206,8 @@ enum MenuDestination: Hashable {
     case planRecipe(id: String)
     /// "Vorrat" in the "Mehr" menu: what is in the house.
     case pantry
+    /// "Backtag planen" in the "Mehr" menu: several breads before one finish.
+    case bakingDay
 }
 
 /// The screen behind a `MenuDestination`.
@@ -231,6 +233,8 @@ struct MenuDestinationView: View {
             LinkedRecipeView(recipeID: id, startsInBakingView: true)
         case .pantry:
             ProLockedScreen(.pantry) { PantryView() }
+        case .bakingDay:
+            ProLockedScreen(.bakingDay) { BakingDayPlannerView() }
         }
     }
 }
