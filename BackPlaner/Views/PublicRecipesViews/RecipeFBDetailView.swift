@@ -129,26 +129,27 @@ struct RecipeFBDetailView: View {
                                 .padding(.leading)
                                 .font(Theme.brandFont(15))
                         }
+                    }
 
-                        // MARK: Share as PDF, at the serving size shown (Pro)
-                        ProGate(.pdfExport) {
-                            FileShareLink(
-                                item: RecipePDFExport(data: RecipePrintData(
-                                    recipeFB: recipeFB,
-                                    image: GlobalVariables.recipesImage[recipeFB.id ?? ""],
-                                    scale: servingScale
-                                )),
-                                preview: SharePreview(recipeFB.name, image: Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()))
-                            ) {
-                                Label("Rezept teilen", systemImage: "square.and.arrow.up")
-                                    .font(Theme.brandFont(15))
-                            }
-                        } label: {
+                    // MARK: Share as PDF, at the serving size shown (Pro). Below the
+                    // weight row: beside it the label broke in the middle of a word.
+                    ProGate(.pdfExport) {
+                        FileShareLink(
+                            item: RecipePDFExport(data: RecipePrintData(
+                                recipeFB: recipeFB,
+                                image: GlobalVariables.recipesImage[recipeFB.id ?? ""],
+                                scale: servingScale
+                            )),
+                            preview: SharePreview(recipeFB.name, image: Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()))
+                        ) {
                             Label("Rezept teilen", systemImage: "square.and.arrow.up")
                                 .font(Theme.brandFont(15))
                         }
-                        .padding(.leading)
+                    } label: {
+                        Label("Rezept teilen", systemImage: "square.and.arrow.up")
+                            .font(Theme.brandFont(15))
                     }
+                    .fixedSize()
 
                     // MARK: Dough yield and hydration over all components
                     DoughYieldView(result: DoughComposition.compute(DoughComposition.components(of: recipeFB)))

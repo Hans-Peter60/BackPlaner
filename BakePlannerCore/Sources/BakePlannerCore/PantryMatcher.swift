@@ -198,10 +198,20 @@ public enum PantryMatcher {
 
     // MARK: Helpers
 
+    /// Units that never make a stock question: nobody runs out of a pinch,
+    /// and "Es fehlen 1 g Vanille" for "1 Prise" reads wrong.
+    static let pinchUnits: Set<String> = ["pr", "prise", "prisen", "msp", "messerspitze", "pinch", "pinches", "pincee", "pincée", "dash", "etwas", "n. b.", "n.b."]
+
+    static func isPinch(_ unit: String) -> Bool {
+        let key = unit.trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil).lowercased()
+        return pinchUnits.contains(key) || pinchUnits.contains(canonicalUnit(unit))
+    }
+
     static func needs(of entries: [ShoppingListEntry], pantry: [StoredPantryItem]) -> [PantryNeed] {
         var byKey: [String: (name: String, base: Double, counted: Bool)] = [:]
         var order: [String] = []
-        for entry in entries {
+        for entry in entries where !isPinch(entry.unit) {
             let measure = measure(entry)
             let key = baseKey(IngredientNameNormalizer.comparisonKey(entry.name), counted: measure.counted)
             if byKey[key] == nil {
