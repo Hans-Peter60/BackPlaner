@@ -252,7 +252,7 @@ private struct ShoppingCartIngredientRow: View {
 
     var body: some View {
         HStack {
-            // "500 g Weizenmehl 550 (200 g)": the package to buy, the need in brackets.
+            // "1 kg Weizenmehl 550 (200 g)": the package to buy, the need in brackets.
             Text("• " + ShoppingLineText.text(for: ingredient))
                 .font(Theme.bodyFont(15))
                 .onTapGesture { onEdit() }

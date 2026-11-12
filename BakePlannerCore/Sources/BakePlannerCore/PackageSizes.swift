@@ -65,7 +65,7 @@ public enum PackageSizes {
     }
 
     /// Names first — "Trockenhefe" before "Hefe", butter before the other
-    /// fats — then the shelf decides.
+    /// fats, flour before the rest of its shelf — then the shelf decides.
     private static let rules: [Rule] = [
         Rule(patterns: ["trockenhefe", "dry yeast", "instant yeast", "levure seche", "levure boulangere"],
              sizes: Sizes(amounts: [7])),
@@ -79,6 +79,9 @@ public enum PackageSizes {
         Rule(patterns: ["salz", "salt", #"\bsel\b"#, "zucker", "sugar", "sucre"], sizes: Sizes(amounts: [500, 1_000])),
         Rule(patterns: ["honig", "honey", #"\bmiel\b"#, "sirup", "syrup", "sirop", "malz", "malt"],
              sizes: Sizes(amounts: [250, 500])),
+        // Flour is bought by the kilo; the 500 g bag is for flakes,
+        // semolina and the like on the same shelf.
+        Rule(patterns: ["mehl", "flour", "farine"], sizes: Sizes(amounts: [1_000, 2_000, 2_500])),
     ]
 
     private static let shelfSizes: [ShoppingListCategory: Sizes] = [

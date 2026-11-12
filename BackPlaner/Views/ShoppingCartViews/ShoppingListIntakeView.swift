@@ -30,7 +30,7 @@ struct ShoppingListIntakeResult {
 }
 
 /// How a shopping-list line reads: the package to buy, the recipe's need in
-/// brackets — "500 g Weizenmehl 550 (200 g)" — or just the need when there
+/// brackets — "1 kg Weizenmehl 550 (200 g)" — or just the need when there
 /// is no standard package or the package is the need.
 enum ShoppingLineText {
 
