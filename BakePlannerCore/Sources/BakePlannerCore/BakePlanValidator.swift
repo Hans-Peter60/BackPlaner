@@ -47,25 +47,60 @@ public struct PlannedStep {
 /// The oven phase of a plan: it begins with the last processing step (the step
 /// that puts the dough into the oven) and ends when the plan is finished.
 public struct BakeWindow {
+    /// The oven set to another temperature during the bake ("fallend auf
+    /// 220 °C" ten minutes in).
+    public struct TemperatureChange: Equatable {
+        public let at: Date
+        public let celsius: Int
+
+        public init(at: Date, celsius: Int) {
+            self.at = at
+            self.celsius = celsius
+        }
+    }
+
     public let recipeName: String
     public let start: Date
     public let end: Date
-    /// The oven temperature in degrees Celsius, when known. Two bakes at the
-    /// same temperature may share one oven.
+    /// The oven temperature in degrees Celsius at the start of the bake,
+    /// when known.
     public let temperature: Int?
+    /// Every later change of the temperature during the bake, in time order.
+    public let temperatureChanges: [TemperatureChange]
 
-    public init(recipeName: String, start: Date, end: Date, temperature: Int? = nil) {
+    public init(recipeName: String, start: Date, end: Date, temperature: Int? = nil,
+                temperatureChanges: [TemperatureChange] = []) {
         self.recipeName = recipeName
         self.start = start
         self.end = end
         self.temperature = temperature
+        self.temperatureChanges = temperatureChanges.sorted { $0.at < $1.at }
     }
 
-    /// Whether both bakes are at the same known temperature, so one oven
-    /// takes them together.
+    /// The temperature the oven is set to at `date` within the bake; nil
+    /// when the bake's temperature is not known.
+    public func temperature(at date: Date) -> Int? {
+        guard let temperature else { return nil }
+        return temperatureChanges.last { $0.at <= date }?.celsius ?? temperature
+    }
+
+    /// Whether one oven takes both bakes together: both temperatures are
+    /// known and, for as long as the two bakes overlap, the oven is set to
+    /// the same temperature at every moment — a bake that turns the heat
+    /// down while the other still wants it high does not share.
     public func sharesOven(with other: BakeWindow) -> Bool {
-        guard let temperature, let otherTemperature = other.temperature else { return false }
-        return temperature == otherTemperature
+        guard temperature != nil, other.temperature != nil else { return false }
+        let overlapStart = max(start, other.start)
+        let overlapEnd = min(end, other.end)
+        guard overlapStart < overlapEnd else {
+            // No overlap: the question is moot, same start temperature decides.
+            return temperature == other.temperature
+        }
+        var moments = [overlapStart]
+        moments += (temperatureChanges + other.temperatureChanges)
+            .map(\.at)
+            .filter { $0 > overlapStart && $0 < overlapEnd }
+        return moments.allSatisfy { temperature(at: $0) == other.temperature(at: $0) }
     }
 }
 
@@ -426,7 +461,24 @@ public enum BakePlanValidator {
         // else any step's (the generated "Backofen anstellen (250 °C)").
         let temperature = ([ovenStep ?? lastStep].compactMap { $0 } + processingSteps)
             .lazy.compactMap { BakePlan.ovenTemperatureCelsius(in: $0.instruction) }.first
-        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: temperature)
+        return BakeWindow(recipeName: recipeName, start: start, end: end, temperature: temperature,
+                          temperatureChanges: temperatureChanges(after: start, from: temperature,
+                                                                 steps: processingSteps.filter { $0.date > start }))
+    }
+
+    /// The oven set to other temperatures during the bake: every step after
+    /// the bake started that names a temperature other than the one before
+    /// — the generated "Backofen auf 220 °C zurückdrehen" or a step of the
+    /// recipe's own.
+    static func temperatureChanges(after start: Date, from temperature: Int?, steps: [PlannedStep]) -> [BakeWindow.TemperatureChange] {
+        var current = temperature
+        var changes: [BakeWindow.TemperatureChange] = []
+        for step in steps.sorted(by: { $0.date < $1.date }) {
+            guard let celsius = BakePlan.ovenTemperatureCelsius(in: step.instruction), celsius != current else { continue }
+            changes.append(BakeWindow.TemperatureChange(at: step.date, celsius: celsius))
+            current = celsius
+        }
+        return changes
     }
 
     /// Whether a recipe's steps involve the oven at all: one is worded as a

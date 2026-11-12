@@ -4190,18 +4190,18 @@
         }
       }
     },
-    "Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, die anderen davor. Backpause %lld Minuten, Tagesbeginn und Tagesende aus den Einstellungen." : {
+    "Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, die anderen davor – so, dass die Öfen reichen, die Backpause von %lld Minuten gewahrt bleibt und nie zwei Teige zugleich geknetet oder geformt werden." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The bread with the longest bake is ready at the time you want, the others before it. Pause between bakes %lld minutes, day start and day end from the settings."
+            "value" : "The bread with the longest bake is ready at the time you want, the others before it – so that the ovens suffice, the pause of %lld minutes between bakes is kept, and no two doughs are kneaded or shaped at once."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le pain à la cuisson la plus longue est prêt à l’heure voulue, les autres avant. Pause entre cuissons %lld minutes, début et fin de journée depuis les réglages."
+            "value" : "Le pain à la cuisson la plus longue est prêt à l’heure voulue, les autres avant – de sorte que les fours suffisent, que la pause de %lld minutes entre cuissons soit respectée et que deux pâtes ne soient jamais pétries ou façonnées en même temps."
           }
         }
       }
@@ -8480,6 +8480,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À consommer avant le %@"
+          }
+        }
+      }
+    },
+    "Handarbeit fällt mit einem anderen Brot zusammen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-on work coincides with another bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le travail manuel coïncide avec un autre pain"
           }
         }
       }
@@ -16286,6 +16302,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Début %1$@, %2$@ · Prêt %3$@"
+          }
+        }
+      }
+    },
+    "Start %@, %@ · Fertig %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %1$@, %2$@ · Ready %3$@, %4$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %1$@, %2$@ · Prêt %3$@, %4$@"
           }
         }
       }
