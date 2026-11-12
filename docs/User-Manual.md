@@ -700,6 +700,13 @@ The widget uses the device's **system language**, not the app language chosen in
 
 BakePlanner comes with two **controls** you can place in Control Center, on the Lock Screen or on the Action button (edit Control Center → add a control → BakePlanner): **Step done** ticks off the step that is due right now, exactly like the button on the widget, and **Scheduled steps** opens the app at the scheduled steps. With no step due or within reach, "Step done" does nothing.
 
+### Plan a baking day
+
+**More → Plan a baking day** in the recipe list plans several breads at once. You choose the recipes, the time the last one is to be ready, and the number of ovens (pre-filled from the settings). **Work out the baking day** lays the start times: the bread with the longest bake is ready at the time you want, every further one takes the latest quarter hour before it at which its bake still fits an oven – no more breads at once than ovens, the **pause between bakes** from the settings kept between two bakes in the same oven, breads at the same oven temperature sharing one oven. Bakes already scheduled for other recipes occupy the ovens as well.
+
+Each bread shows start, ready time and oven time. A moon warns of steps at night, a red triangle when no oven becomes free within a day, a red clock when the bread would have to be under way already – then choose a later time. **Plan all** creates the steps, reminders and the baking-history entry for every bread, like "Plan now" on the recipe page; a bread that already has a plan gets the new one in its place. Starter recipes are not offered: they are fed, not baked. Part of BakePlanner Pro.
+
+
 ---
 
 ## 11. Reminders on the Lock Screen
@@ -1297,6 +1304,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Not yet |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Not yet |
+| Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Not yet; the logic `BakingDayOptimizer` is already in the shared package |
 | Pantry (More → Pantry, intake from the shopping list, match against recipes, deduction on the shopping list and after a bake, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Not yet; the logic `Pantry` and `PantryStore` is already in the shared package |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Not yet; the logic `RecipeFacets` and `FinishByPlanner` is already in the shared package |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |

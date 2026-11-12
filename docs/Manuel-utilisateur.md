@@ -700,6 +700,13 @@ Le widget utilise la **langue du système** de l’appareil, et non la langue de
 
 BakePlanner apporte deux **commandes** que vous pouvez placer dans le centre de contrôle, sur l’écran verrouillé ou sur le bouton Action (modifier le centre de contrôle → ajouter une commande → BakePlanner) : **Étape terminée** coche l’étape due à l’instant, exactement comme le bouton du widget, et **Étapes planifiées** ouvre l’app sur les étapes planifiées. Sans étape due ou à portée, « Étape terminée » ne fait rien.
 
+### Planifier une journée de cuisson
+
+**Plus → Planifier une journée de cuisson** dans la liste des recettes planifie plusieurs pains d’un coup. Vous choisissez les recettes, l’heure à laquelle le dernier doit être prêt et le nombre de fours (prérempli depuis les réglages). **Calculer la journée de cuisson** place les débuts : le pain à la cuisson la plus longue est prêt à l’heure voulue, chaque autre prend le dernier quart d’heure avant lui où sa cuisson tient encore dans un four – pas plus de pains en même temps que de fours, la **pause entre cuissons** des réglages respectée entre deux cuissons dans le même four, les pains à la même température partageant un four. Les cuissons déjà planifiées pour d’autres recettes occupent aussi les fours.
+
+Pour chaque pain figurent le début, l’heure où il est prêt et le temps de four. Une lune signale des étapes la nuit, un triangle rouge qu’aucun four ne se libère dans la journée, une horloge rouge que le pain aurait déjà dû commencer – choisissez alors une heure plus tard. **Tout planifier** crée pour chaque pain les étapes, les rappels et l’entrée de l’historique, comme « Planifier maintenant » sur la page de recette ; un pain qui a déjà un plan reçoit le nouveau à sa place. Les recettes de levain chef ne sont pas proposées : on les nourrit, on ne les cuit pas. Fait partie de BakePlanner Pro.
+
+
 ---
 
 ## 11. Rappels sur l’écran verrouillé
@@ -1297,6 +1304,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Pas encore |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Pas encore |
+| Planifier une journée de cuisson (Plus → Planifier une journée de cuisson) | [chapitre 10](#10-étapes-planifiées-liste-et-timeline) | Pas encore ; la logique `BakingDayOptimizer` est déjà dans le paquet commun |
 | Réserve (Plus → Réserve, reprise depuis la liste de courses, comparaison avec les recettes, déduction sur la liste de courses et après la cuisson, rappel avant la date limite, collection « Écouler la réserve ») | [chapitre 13](#13-liste-de-courses) | Pas encore ; la logique `Pantry` et `PantryStore` est déjà dans le paquet commun |
 | Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Pas encore ; la logique `RecipeFacets` et `FinishByPlanner` est déjà dans le paquet commun |
 | Traduction des ingrédients des listes de courses | [chapitre 13](#13-liste-de-courses) | Non prévu |
