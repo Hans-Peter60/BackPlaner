@@ -26,14 +26,16 @@ struct CoreDataPantryStoreTests {
         try check.run(newStore())
     }
 
-    @Test("A bought line joins the item of the same name and unit; another unit makes a new item")
+    @Test("A bought line joins the item of the same name; kilograms are converted onto a gram item, pieces make a new item")
     func receive() throws {
         let store = newStore()
         _ = try store.add(name: "Weizenmehl 550", amount: 500, unit: .gram, bestBefore: nil, note: "")
         let joined = try store.receive(name: "weizenmehl 550 (zimmerwarm)", amount: 1_000, unit: .gram)
         #expect(joined.amount == 1_500)
-        let separate = try store.receive(name: "Weizenmehl 550", amount: 1, unit: .kilogram)
-        #expect(separate.id != joined.id && separate.unit == .kilogram)
+        let converted = try store.receive(name: "Weizenmehl 550", amount: 1, unit: .kilogram)
+        #expect(converted.id == joined.id && converted.unit == .gram && converted.amount == 2_500)
+        let separate = try store.receive(name: "Weizenmehl 550", amount: 1, unit: .piece)
+        #expect(separate.id != joined.id && separate.unit == .piece)
         #expect(try store.items().count == 2)
     }
 

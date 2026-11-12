@@ -21,6 +21,7 @@ public enum PantryStoreContract {
         ("a removed item is gone, the others stay", delete),
         ("an empty name is refused, unknown keys are reported", refusals),
         ("an item is found by the ingredient's name", matching),
+        ("received amounts join the item of the same name, grams and kilograms converted", receiving),
     ]
 
     public static func emptyStore(_ store: PantryStore) throws {
@@ -110,5 +111,24 @@ public enum PantryStoreContract {
     /// A day in November 2026 plus `days`, at noon.
     private static func day(_ days: Int) -> Date {
         Date(timeIntervalSince1970: 1_793_534_400 + Double(days) * 86_400)
+    }
+
+    public static func receiving(_ store: PantryStore) throws {
+        let flour = try store.add(name: "Weizenmehl 550", amount: 1, unit: .kilogram, bestBefore: nil, note: "")
+        let joined = try store.receive(name: "weizenmehl 550", amount: 500, unit: .gram)
+        try expect(joined.id == flour.id && joined.unit == .kilogram && abs(joined.amount - 1.5) < 0.0001,
+                   "500 g did not join 1 kg as 1.5 kg: \(joined)")
+        let grams = try store.add(name: "Sesam", amount: 200, unit: .gram, bestBefore: nil, note: "")
+        let more = try store.receive(name: "Sesam", amount: 1, unit: .kilogram)
+        try expect(more.id == grams.id && more.unit == .gram && abs(more.amount - 1_200) < 0.0001,
+                   "1 kg did not join 200 g as 1200 g: \(more)")
+        let yeast = try store.add(name: "Hefe", amount: 42, unit: .gram, bestBefore: nil, note: "")
+        let cubes = try store.receive(name: "Hefe", amount: 2, unit: .piece)
+        try expect(cubes.id != yeast.id && cubes.unit == .piece && cubes.amount == 2,
+                   "pieces were booked onto a weighed item: \(cubes)")
+        let new = try store.receive(name: "Dinkelmehl 630", amount: 1, unit: .kilogram)
+        try expect(new.name == "Dinkelmehl 630" && new.amount == 1 && new.unit == .kilogram, "a new item was not created")
+        let count = try store.items().count
+        try expect(count == 5, "expected five items, got \(count)")
     }
 }

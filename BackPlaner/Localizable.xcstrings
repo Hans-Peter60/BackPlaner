@@ -17,6 +17,102 @@
         }
       }
     },
+    "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lines are in the pantry. Lines not bought stay on the list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lignes sont dans la réserve. Les lignes non achetées restent sur la liste."
+          }
+        }
+      }
+    },
+    "Benötigt: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needed: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nécessaire : %@"
+          }
+        }
+      }
+    },
+    "Buchen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Eingekauft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bought"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acheté"
+          }
+        }
+      }
+    },
+    "Gekaufte Menge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount bought"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité achetée"
+          }
+        }
+      }
+    },
+    "Vorgeschlagen sind übliche Gebindegrößen. Trage ein, was Du wirklich gekauft hast. Eine leere Menge lässt die Zeile auf der Liste." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggested are common package sizes. Enter what you actually bought. An empty amount leaves the line on the list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les tailles d’emballage courantes sont proposées. Saisissez ce que vous avez vraiment acheté. Une quantité vide laisse la ligne sur la liste."
+          }
+        }
+      }
+    },
     "„%@“" : {
       "comment" : "A recipe name in the app's language.",
       "extractionState" : "manual",
@@ -1391,22 +1487,6 @@
         }
       }
     },
-    "%lld Zeilen werden auf die Posten gleichen Namens gebucht oder als neue Posten angelegt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld lines are booked onto the items of the same name or created as new items."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld lignes sont ajoutées aux articles du même nom ou créées comme nouveaux articles."
-          }
-        }
-      }
-    },
     "%lld Zutaten" : {
       "localizations" : {
         "en" : {
@@ -1967,22 +2047,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toutes les étapes"
-          }
-        }
-      }
-    },
-    "Alles eingekauft?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Everything bought?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout acheté ?"
           }
         }
       }
@@ -9725,22 +9789,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouté au calendrier"
-          }
-        }
-      }
-    },
-    "In den Vorrat buchen und Liste löschen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Book into the pantry and delete the list"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer dans la réserve et supprimer la liste"
           }
         }
       }

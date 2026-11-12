@@ -112,8 +112,18 @@ public extension PantryStore {
     /// when the units agree, as a new item otherwise. Returns what holds it.
     @discardableResult
     func receive(name: String, amount: Double, unit: PantryUnit, bestBefore: Date? = nil) throws -> StoredPantryItem {
-        if var existing = try item(matching: name), existing.unit == unit {
-            existing.amount += amount
+        if var existing = try item(matching: name) {
+            // Grams onto a kilogram item and the other way round are
+            // converted; pieces onto a weighed item (or vice versa) cannot be,
+            // so they become an item of their own.
+            if existing.unit == unit {
+                existing.amount += amount
+            } else if let have = existing.unit.grams, let add = unit.grams {
+                existing.amount += amount * add / have
+            } else {
+                return try add(name: IngredientNameNormalizer.displayName(name), amount: amount, unit: unit,
+                               bestBefore: bestBefore, note: "")
+            }
             if let bestBefore { existing.bestBefore = bestBefore }
             try update(existing)
             return try items().first { $0.id == existing.id } ?? existing
