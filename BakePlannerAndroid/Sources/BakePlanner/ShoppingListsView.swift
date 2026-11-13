@@ -100,6 +100,7 @@ struct ShoppingListDetailView: View {
     @State var intakeResult: AppModel.PantryIntakeResult?
     @State var showsIntakeResult = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
 
     private var list: StoredShoppingList? {
         model.shoppingLists.first { $0.id == listID }
@@ -148,12 +149,20 @@ struct ShoppingListDetailView: View {
                     if intakeItems.count > 1 {
                         intakeResult = result
                         showsIntakeResult = true
+                    } else if result.finished {
+                        // The last line went into the pantry and the list
+                        // with it: nothing is left to show here.
+                        dismiss()
                     }
                 }
             }
         }
         .alert("In den Vorrat gebucht", isPresented: $showsIntakeResult) {
             Button {
+                // A list done with is gone; leave its page.
+                if intakeResult?.finished == true {
+                    dismiss()
+                }
                 intakeResult = nil
             } label: {
                 Text(verbatim: "OK")
