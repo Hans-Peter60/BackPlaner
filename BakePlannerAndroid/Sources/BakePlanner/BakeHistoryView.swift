@@ -10,7 +10,8 @@ import UIKit
 /// removes it.
 struct BakeHistoryView: View {
     let model: AppModel
-    /// 0 list, 1 gallery, 2 hit list, 3 photo cloud — the iPhone's four views.
+    /// 0 list, 1 gallery, 2 hit list, 3 photo cloud, 4 statistics — the
+    /// iPhone's five views.
     @State var mode = 0
     /// The entries with their photos, read when gallery or cloud is shown.
     @State var entriesWithImages: [StoredBakeHistory] = []
@@ -72,6 +73,7 @@ struct BakeHistoryView: View {
                         Text("Galerie").tag(1)
                         Text("Hit-Liste").tag(2)
                         Text("Fotowolke").tag(3)
+                        Text("Statistik").tag(4)
                     }
                     filterRow
 
@@ -82,6 +84,9 @@ struct BakeHistoryView: View {
                         gallery(of: entries)
                     } else if mode == 3 {
                         cloud
+                    } else if mode == 4 {
+                        BakeStatisticsView(statistics: statistics(of: entries))
+                            .listRowBackground(Color.clear)
                     } else if mode == 2 {
                         ForEach(hitList, id: \.id) { summary in
                             VStack(alignment: .leading, spacing: 4) {
@@ -190,6 +195,15 @@ struct BakeHistoryView: View {
     /// The recipes, most baked first, as the iPhone's hit list has them —
     /// of the entries that pass search and rating. With the photos where
     /// they were read (gallery, cloud).
+    /// What the shown entries add up to; only bakes that are over count,
+    /// as on the iPhone (a planned bake in the future does not yet).
+    private func statistics(of entries: [StoredBakeHistory]) -> BakeStatistics {
+        let now = Date()
+        return BakeStatistics.compute(entries: entries.filter { $0.date <= now }.map { entry in
+            BakeStatistics.Entry(recipeName: model.recipeName(id: entry.recipeID), date: entry.date, facts: entry.facts)
+        }, now: now)
+    }
+
     private var hitList: [BakeHistoryTally.Recipe] {
         let ratings = Dictionary(model.recipes.map { ($0.id, $0.content.rating) }, uniquingKeysWith: { first, _ in first })
         let photos = Dictionary(entriesWithImages.map { ($0.id, $0.images) }, uniquingKeysWith: { first, _ in first })
