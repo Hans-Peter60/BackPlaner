@@ -127,6 +127,7 @@ struct RecipeListView: View {
     @State var calculator = Calculator.doughTemperature
     @State var showsCalculator = false
     @State var showsPantry = false
+    @State var showsBakingDay = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -220,6 +221,10 @@ struct RecipeListView: View {
                     Button("Vorrat") {
                         showsPantry = true
                     }
+                    Button("Backtag planen") {
+                        showsBakingDay = true
+                    }
+                    .disabled(model.recipes.isEmpty)
                     // The iPhone's three calculators from its main menu.
                     Button("Teigtemperatur") {
                         openCalculator(.doughTemperature)
@@ -285,6 +290,11 @@ struct RecipeListView: View {
         .appSheet(isPresented: $showsPantry) {
             NavigationStack {
                 PantryView(model: model)
+            }
+        }
+        .appSheet(isPresented: $showsBakingDay) {
+            NavigationStack {
+                BakingDayPlannerView(model: model)
             }
         }
         .appSheet(isPresented: $importsFromWeb) {

@@ -1100,6 +1100,35 @@ final class AppModel {
         }
     }
 
+    // MARK: Baking day
+
+    /// The oven phases of the plans that stay when the named recipes are
+    /// planned anew: the bakes the baking day has to fit around.
+    func scheduledBakeWindows(excludingRecipes names: Set<String>, now: Date = Date()) -> [BakeWindow] {
+        guard let store = try? openedStepStore() else { return [] }
+        return BakePlanValidator.scheduledBakeWindows(from: store, now: now).filter { !names.contains($0.recipeName) }
+    }
+
+    /// The hands-on steps of the plans that stay: kneading two doughs at
+    /// once is no plan.
+    func scheduledWork(excludingRecipes names: Set<String>, now: Date = Date()) -> [DateInterval] {
+        scheduledSteps.map(\.data)
+            .filter { !names.contains($0.recipeName) && $0.date >= now }
+            .compactMap { BakingDayOptimizer.workInterval(instruction: $0.instruction, duration: $0.duration, date: $0.date) }
+    }
+
+    /// What the recipes need beyond the pantry, at the serving size of the
+    /// settings, against the stock less the reservations of the plans that
+    /// stay (the named recipes' own plans are replaced).
+    func pantryShortfalls(for recipes: [StoredRecipe], excludingPlansOf names: Set<String>) -> [PantryNeed] {
+        let kept = pantryReservations.filter { !names.contains($0.recipeName) }
+        let available = PantryLedger.available(pantryItems, reservations: kept)
+        return PantryLedger.shortfalls(for: recipes.map { recipe in
+            (recipe.content, ServingScale.factor(servingSize: AppSettings.storedServingSize, targetWeight: nil,
+                                                 baseWeight: recipe.content.totalWeight))
+        }, available: available)
+    }
+
     // MARK: Pantry
 
     /// Reads the pantry, its reservations and the last bookings.
