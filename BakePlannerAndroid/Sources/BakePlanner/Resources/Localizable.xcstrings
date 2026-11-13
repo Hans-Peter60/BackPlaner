@@ -12005,6 +12005,193 @@
           }
         }
       }
+    },
+    "Nach Bäckerprozent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baker’s percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pourcentages boulanger"
+          }
+        }
+      }
+    },
+    "Vorgabe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Given"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donnée"
+          }
+        }
+      }
+    },
+    "Mehl gesamt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine totale"
+          }
+        }
+      }
+    },
+    "Alle Prozente beziehen sich auf das gesamte Mehl des Rezepts – alle Mehle zusammen sind 100 Prozent. Gib die Mehlmenge oder das gewünschte Teiggewicht vor, die Gramm rechnet die App." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All percentages refer to the recipe’s whole flour – all flours together are 100 percent. Give the flour weight or the dough weight you want, and the app works out the grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les pourcentages se rapportent à la farine totale de la recette – toutes les farines ensemble font 100 pour cent. Indiquez la quantité de farine ou le poids de pâte souhaité, l’app calcule les grammes."
+          }
+        }
+      }
+    },
+    "Name der Komponente" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name of the component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom du composant"
+          }
+        }
+      }
+    },
+    "Neue Komponente" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau composant"
+          }
+        }
+      }
+    },
+    "Hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter"
+          }
+        }
+      }
+    },
+    "Keine Zutat wird als Mehl erkannt – nenne das Mehl beim Namen, etwa „Weizenmehl 550“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ingredient reads as flour – name the flour, e.g. “wheat flour 550”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun ingrédient n’est reconnu comme farine – nommez la farine, p. ex. « farine de blé T55 »."
+          }
+        }
+      }
+    },
+    "Die Mehle ergeben %@ Prozent statt 100." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The flours add up to %@ percent instead of 100."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les farines font %@ pour cent au lieu de 100."
+          }
+        }
+      }
+    },
+    "„%@“ hat noch keinen Anteil." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” has no share yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » n’a pas encore de part."
+          }
+        }
+      }
+    },
+    "Noch keine Zutaten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ingredients yet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore d’ingrédients."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
