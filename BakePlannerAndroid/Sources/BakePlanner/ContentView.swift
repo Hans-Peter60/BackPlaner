@@ -133,6 +133,7 @@ struct RecipeListView: View {
     /// The filter sheet, and the saved collection it opens for renaming.
     @State var showsFilter = false
     @State var renamingCollection: SavedRecipeCollection?
+    @State var createsFromFormula = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -253,6 +254,9 @@ struct RecipeListView: View {
                     Button("Von Hand") {
                         createsRecipe = true
                     }
+                    Button("Nach Bäckerprozent") {
+                        createsFromFormula = true
+                    }
                     Button("Von einer Internetseite") {
                         importsFromWeb = true
                     }
@@ -352,6 +356,15 @@ struct RecipeListView: View {
             NavigationStack {
                 RecipeEditor(original: nil) { _, content in
                     model.add(content)
+                }
+            }
+        }
+        .appSheet(isPresented: $createsFromFormula) {
+            NavigationStack {
+                // The recipe in grams goes to the editor once this sheet has
+                // gone, the way an import does.
+                BakersFormulaView { content in
+                    receiveImport(content, nil)
                 }
             }
         }
