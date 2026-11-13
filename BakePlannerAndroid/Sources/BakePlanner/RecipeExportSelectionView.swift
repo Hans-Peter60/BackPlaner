@@ -61,7 +61,7 @@ struct RecipeExportSelectionView: View {
                 }
 
                 Section {
-                    Toggle("Mit Backhistorie und Anstellgut-Tagebuch", isOn: $includesBakeHistory)
+                    Toggle("Mit Backhistorie, Anstellgut-Tagebuch und Vorrat", isOn: $includesBakeHistory)
                 }
             }
 

@@ -217,5 +217,37 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "ALTER TABLE instruction ADD COLUMN oven_falling_temperature INTEGER")
             try database.exec(sql: "ALTER TABLE instruction ADD COLUMN oven_steam INTEGER")
         },
+        // 10: the pantry (step 37) — what is in the house, and what the open
+        // plans have reserved of it. Items carry a UUID as their identity
+        // across devices (reservations refer to it); amounts in the item's
+        // unit (g, kg, St), dates as seconds since 2001, NULL without a
+        // best-before date.
+        { database in
+            try database.exec(sql: """
+                CREATE TABLE pantry_item (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    uuid TEXT NOT NULL UNIQUE,
+                    name TEXT NOT NULL,
+                    amount REAL NOT NULL,
+                    unit TEXT NOT NULL,
+                    best_before REAL,
+                    note TEXT,
+                    updated_at REAL NOT NULL
+                )
+                """)
+            try database.exec(sql: """
+                CREATE TABLE pantry_reservation (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    plan_id TEXT NOT NULL,
+                    recipe_name TEXT NOT NULL,
+                    item_id TEXT NOT NULL,
+                    amount REAL NOT NULL,
+                    unit TEXT NOT NULL,
+                    plan_end REAL NOT NULL,
+                    created_at REAL NOT NULL
+                )
+                """)
+            try database.exec(sql: "CREATE INDEX pantry_reservation_plan ON pantry_reservation(plan_id)")
+        },
     ]
 }

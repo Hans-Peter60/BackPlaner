@@ -312,6 +312,9 @@ struct RecipeDetailView: View {
                     VariantOriginRow(recipe: recipe, origin: origin, onOpen: open)
                 }
 
+                // What of it is in the house, at the amount chosen above.
+                PantryCheckCard(model: model, recipe: recipe.content, scale: scale)
+
                 // At the amount chosen above, as on the iPhone.
                 Button {
                     plans = true
