@@ -58,8 +58,10 @@ struct PantryView: View {
         return List {
             if !attention.isEmpty {
                 Section {
-                    ForEach(attention, id: \.id) { item in
-                        row(item)
+                    // The same items appear on their shelf below; Compose
+                    // refuses a list key twice, so these rows get their own.
+                    ForEach(attention.map(SoonItem.init), id: \.id) { soon in
+                        row(soon.item)
                     }
                 } header: {
                     Text("Bald aufbrauchen")
@@ -105,6 +107,13 @@ struct PantryView: View {
             }
         }
         .scrollContentBackground(.hidden)
+    }
+
+    /// An item under a key that its shelf row does not carry.
+    private struct SoonItem: Identifiable {
+        let item: StoredPantryItem
+        var id: String { "soon:" + item.id }
+        init(_ item: StoredPantryItem) { self.item = item }
     }
 
     private func row(_ item: StoredPantryItem) -> some View {

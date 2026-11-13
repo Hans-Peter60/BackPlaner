@@ -10526,6 +10526,397 @@
           }
         }
       }
+    },
+    "Backtag planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan a baking day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier une journée de cuisson"
+          }
+        }
+      }
+    },
+    "Backöfen: %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovens: %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, die anderen davor – so, dass die Öfen reichen, die Backpause von %lld Minuten gewahrt bleibt und nie zwei Teige zugleich geknetet oder geformt werden." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The bread with the longest bake is ready at the time you want, the others before it – so that the ovens suffice, the pause of %lld minutes between bakes is kept, and no two doughs are kneaded or shaped at once."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le pain à la cuisson la plus longue est prêt à l’heure voulue, les autres avant – de sorte que les fours suffisent, que la pause de %lld minutes entre cuissons soit respectée et que deux pâtes ne soient jamais pétries ou façonnées en même temps."
+          }
+        }
+      }
+    },
+    "Rezepte – %lld ausgewählt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes – %lld selected"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes – %lld sélectionnées"
+          }
+        }
+      }
+    },
+    "Wähle mindestens ein Rezept." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose at least one recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez au moins une recette."
+          }
+        }
+      }
+    },
+    "Backtag berechnen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work out the baking day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculer la journée de cuisson"
+          }
+        }
+      }
+    },
+    "Vorrat reicht nicht für alle Brote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantry does not cover all breads"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La réserve ne suffit pas pour tous les pains"
+          }
+        }
+      }
+    },
+    "Gerechnet über alle gewählten Brote gegen den verfügbaren Vorrat, Reservierungen anderer Pläne schon abgezogen. Planen geht trotzdem – die Einkaufsliste eines Rezepts mit „Vorrat abziehen“ holt das Fehlende." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Worked out over all chosen breads against the available pantry, other plans’ reservations already taken off. You can still plan – a recipe’s shopping list with “Deduct pantry” fetches what is missing."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculé sur tous les pains choisis contre la réserve disponible, réservations des autres plans déjà déduites. Vous pouvez quand même planifier – la liste de courses d’une recette avec « Déduire la réserve » complète ce qui manque."
+          }
+        }
+      }
+    },
+    "Backtag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journée de cuisson"
+          }
+        }
+      }
+    },
+    "Ohne Zeitangaben: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without timed steps: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans durées : %@"
+          }
+        }
+      }
+    },
+    "Alle planen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout planifier"
+          }
+        }
+      }
+    },
+    "Backtag geplant" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking day planned"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Journée de cuisson planifiée"
+          }
+        }
+      }
+    },
+    "%lld Brote geplant. Die Schritte stehen unter „Nächste Schritte“, die Erinnerungen sind gesetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld breads planned. The steps are under “Next steps”, the reminders are set."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pains planifiés. Les étapes sont sous « Prochaines étapes », les rappels sont posés."
+          }
+        }
+      }
+    },
+    "Start %@, %@ · Fertig %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %1$@, %2$@ · Ready %3$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %1$@, %2$@ · Prêt %3$@"
+          }
+        }
+      }
+    },
+    "Start %@, %@ · Fertig %@, %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %1$@, %2$@ · Ready %3$@, %4$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %1$@, %2$@ · Prêt %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "Ofen %@ bis %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %1$@ to %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %1$@ à %2$@"
+          }
+        }
+      }
+    },
+    "Schritte in der Nacht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steps at night"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes la nuit"
+          }
+        }
+      }
+    },
+    "Handarbeit fällt mit einem anderen Brot zusammen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-on work coincides with another bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le travail manuel coïncide avec un autre pain"
+          }
+        }
+      }
+    },
+    "Kein Ofen frei – überschneidet sich mit einem anderen Backen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No oven free – overlaps another bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun four libre – chevauche une autre cuisson"
+          }
+        }
+      }
+    },
+    "Müsste schon laufen – Wunschzeit später wählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Would have to be under way – choose a later time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devrait déjà être en cours – choisissez une heure plus tard"
+          }
+        }
+      }
+    },
+    "Hat schon einen Plan – wird ersetzt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already has a plan – it will be replaced"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A déjà un plan – il sera remplacé"
+          }
+        }
+      }
+    },
+    "Legt für jedes Brot die Schritte und Erinnerungen an, wie „Planen“ auf der Rezeptseite. Ein Brot, das schon einen Plan hat, bekommt den neuen an dessen Stelle." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creates the steps and reminders for every bread, like “Plan” on the recipe page. A bread that already has a plan gets the new one in its place."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée les étapes et les rappels pour chaque pain, comme « Planifier » sur la page de recette. Un pain qui a déjà un plan reçoit le nouveau à sa place."
+          }
+        }
+      }
+    },
+    "Ein Brot geplant. Die Schritte stehen unter „Nächste Schritte“, die Erinnerungen sind gesetzt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One bread planned. The steps are under “Next steps”, the reminders are set."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un pain planifié. Les étapes sont sous « Prochaines étapes », les rappels sont posés."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
