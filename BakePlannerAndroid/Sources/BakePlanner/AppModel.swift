@@ -69,6 +69,25 @@ final class AppModel {
     /// settings file so one can be undone.
     var pantryBookings: [PantryBooking] = []
 
+    /// The recipe list's facets as set, and "Fertig bis"; not kept across
+    /// starts, as on the iPhone.
+    var facetFilter = RecipeFacetFilter()
+    var finishBy: Date? {
+        didSet { finishCache = [:] }
+    }
+    /// "Fertig bis" and "Vorrat aufbrauchen" read once per row: the list
+    /// asks several times per row (filter, order, note), and every reading
+    /// builds a plan or matches the pantry — too much for the main thread
+    /// across fifty recipes.
+    private var finishCache: [String: FinishByOutcome?] = [:]
+    private var useUpCache: [String: [PantryUse]] = [:]
+    /// The person's saved collections, in the order they were made; kept as
+    /// JSON in the settings file under the iPhone's key.
+    var savedCollections: [SavedRecipeCollection] = AppModel.storedCollections()
+    /// Facets read once per recipe; cleared whenever the recipes are read
+    /// again, as a recipe's facets change only when it is edited.
+    private var facetCache: [String: RecipeFacets] = [:]
+
     /// Whether the pantry comes off a recipe's shopping list; the iPhone's
     /// setting key.
     var deductsPantry = AppModel.storedBool("shoppingList.deductsPantry", default: true) {
@@ -174,6 +193,7 @@ final class AppModel {
     }
 
     func load() {
+        clearListCaches()
         do {
             let store = try openedStore()
             linkDatedCopiesIfNeeded(in: store)
@@ -1100,6 +1120,112 @@ final class AppModel {
         }
     }
 
+    // MARK: Facets and collections
+
+    /// The facets of a recipe, read once per list key.
+    func facets(of content: RecipeExportData, key: String) -> RecipeFacets {
+        if let known = facetCache[key] { return known }
+        let facets = RecipeFacets.compute(content)
+        facetCache[key] = facets
+        return facets
+    }
+
+    /// How often and when an own recipe was baked, and its rating; planned
+    /// bakes that lie ahead do not count.
+    func history(ofRecipe recipe: StoredRecipe, now: Date = Date()) -> RecipeFacetFilter.History {
+        let completed = bakeHistory.filter { $0.recipeID == recipe.id && $0.date <= now }
+        return RecipeFacetFilter.History(count: completed.count, lastDate: completed.map(\.date).max(),
+                                         rating: recipe.content.rating)
+    }
+
+    /// Forgets the per-row readings: the recipes, the pantry or the clock
+    /// moved on.
+    func clearListCaches() {
+        facetCache = [:]
+        finishCache = [:]
+        useUpCache = [:]
+    }
+
+    /// Whether the recipe can still be finished by "Fertig bis", and when it
+    /// would have to start; nil without "Fertig bis". Read once per list key.
+    func finishOutcome(of content: RecipeExportData, key: String) -> FinishByOutcome? {
+        guard let finishBy else { return nil }
+        if let known = finishCache[key] { return known }
+        let outcome = FinishByPlanner.outcome(for: content, finishBy: finishBy, now: Date(),
+                                              languageCode: AppSettings.locale.identifier)
+        finishCache.updateValue(outcome, forKey: key)
+        return outcome
+    }
+
+    /// What of the soon-expiring pantry the recipe uses, most first. Read
+    /// once per list key.
+    func useUp(of content: RecipeExportData, key: String) -> [PantryUse] {
+        if let known = useUpCache[key] { return known }
+        let uses = PantryMatcher.useUp(content, scale: 1, pantry: availablePantry)
+        useUpCache[key] = uses
+        return uses
+    }
+
+    /// A preset chip tapped: its facets replace the filter, a second tap
+    /// clears. "Für morgen früh" is a time as well — tomorrow morning, so
+    /// the list shows when to start tonight.
+    func toggleCollection(_ collection: RecipeCollection) {
+        if facetFilter == collection.filter {
+            facetFilter = RecipeFacetFilter()
+            if collection == .morning { finishBy = nil }
+        } else {
+            facetFilter = collection.filter
+            if collection == .morning { finishBy = FinishByPlanner.morningFinish(after: Date()) }
+        }
+    }
+
+    func toggleSavedCollection(_ saved: SavedRecipeCollection) {
+        facetFilter = facetFilter == saved.filter ? RecipeFacetFilter() : saved.filter
+    }
+
+    /// The saved collection whose facets are exactly these, if any.
+    func savedCollection(matching filter: RecipeFacetFilter) -> SavedRecipeCollection? {
+        savedCollections.first { $0.filter == filter }
+    }
+
+    /// Saves the current facets under the name; nothing for an empty name
+    /// or an inactive filter.
+    func saveCollection(named name: String) -> Bool {
+        guard let cleaned = SavedRecipeCollection.cleanName(name), facetFilter.isActive else { return false }
+        savedCollections.append(SavedRecipeCollection(name: cleaned, filter: facetFilter))
+        Self.storeCollections(savedCollections)
+        return true
+    }
+
+    func renameCollection(_ id: UUID, to name: String) {
+        guard let cleaned = SavedRecipeCollection.cleanName(name),
+              let index = savedCollections.firstIndex(where: { $0.id == id }) else { return }
+        savedCollections[index].name = cleaned
+        Self.storeCollections(savedCollections)
+    }
+
+    func removeCollection(_ id: UUID) {
+        if let removed = savedCollections.first(where: { $0.id == id }), facetFilter == removed.filter {
+            facetFilter = RecipeFacetFilter()
+        }
+        savedCollections.removeAll { $0.id == id }
+        Self.storeCollections(savedCollections)
+    }
+
+    private static let collectionsKey = "savedRecipeCollections"
+
+    private static func storedCollections() -> [SavedRecipeCollection] {
+        guard let text = SettingsFile.value(forKey: collectionsKey) as? String,
+              let data = text.data(using: .utf8),
+              let collections = try? JSONDecoder().decode([SavedRecipeCollection].self, from: data) else { return [] }
+        return collections
+    }
+
+    private static func storeCollections(_ collections: [SavedRecipeCollection]) {
+        guard let data = try? JSONEncoder().encode(collections), let text = String(data: data, encoding: .utf8) else { return }
+        SettingsFile.set(text, forKey: collectionsKey)
+    }
+
     // MARK: Baking day
 
     /// The oven phases of the plans that stay when the named recipes are
@@ -1133,6 +1259,7 @@ final class AppModel {
 
     /// Reads the pantry, its reservations and the last bookings.
     func loadPantry() {
+        useUpCache = [:]
         do {
             pantryItems = try openedPantryStore().items()
             pantryReservations = try openedReservationStore().reservations()
