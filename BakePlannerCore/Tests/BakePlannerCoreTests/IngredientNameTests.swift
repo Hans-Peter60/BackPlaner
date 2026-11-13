@@ -87,6 +87,8 @@ struct IngredientNameNormalizerTests {
         #expect(key("Weizenmehl (Type 550)") == key("Weizenmehl 550"))
         #expect(key("Roggenmehl Type 1150") == key("Roggenmehl 1150"))
         #expect(key("Weizenmehl T65") != key("Weizenmehl 550"))
+        #expect(key("Farina tipo 00") == key("Farina 00"))
+        #expect(key("Farina 00") != key("Farina 0"))
         #expect(key("Farine T65") == key("farine t65"))
         #expect(key("Weizenmehl 550") != key("Weizenmehl 1050"))
     }

@@ -13,6 +13,8 @@ struct PackageSizesTests {
         #expect(exact.amount == 1 && exact.unit == .kilogram)
         let kilo = try #require(PackageSizes.package(name: "Roggenmehl 1150", amount: 740, unit: .gram))
         #expect(kilo.amount == 1 && kilo.unit == .kilogram)
+        let italian = try #require(PackageSizes.package(name: "Farina 00", amount: 300, unit: .gram))
+        #expect(italian.amount == 1 && italian.unit == .kilogram)
         let flakes = try #require(PackageSizes.package(name: "Haferflocken", amount: 80, unit: .gram))
         #expect(flakes.amount == 500 && flakes.unit == .gram)
         let semolina = try #require(PackageSizes.package(name: "Hartweizengrieß", amount: 120, unit: .gram))

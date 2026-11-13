@@ -131,11 +131,12 @@ public enum IngredientNameNormalizer {
             .split { $0 == " " || $0 == "," || $0 == ";" || $0 == "." || $0 == "(" || $0 == ")" }
             .map(String.init)
             .filter { !descriptors.contains($0) }
-        // Flour types: "Type 550", "Typ 550" and "T550" are "550". A French
-        // "T65" keeps its T — the French types end at T170, the German ones
-        // start at 405, so the number tells them apart.
+        // Flour types: "Type 550", "Typ 550" and "T550" are "550", "Farina
+        // tipo 00" is "Farina 00". A French "T65" keeps its T — the French
+        // types end at T170, the German ones start at 405, so the number
+        // tells them apart.
         tokens = tokens.compactMap { token in
-            if token == "type" || token == "typ" { return nil }
+            if token == "type" || token == "typ" || token == "tipo" { return nil }
             if token.hasPrefix("t"), let number = Int(token.dropFirst()), number >= 400 { return String(number) }
             return token
         }

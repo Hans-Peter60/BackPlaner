@@ -197,6 +197,12 @@ public enum FlourSubstitution {
 
     private static let typeExpression   = try? NSRegularExpression(pattern: #"(?<!\d)(405|550|630|812|815|997|1050|1150|1370|1600|1740)(?!\d)"#)
     private static let frenchExpression = try? NSRegularExpression(pattern: #"\bt\s?-?(45|55|65|80|85|110|130|150|170)\b"#)
+    // Italian types: "Farina 00", "tipo 0", "Farina 1", "tipo 2". Only the
+    // bare figures 00, 0, 1 and 2 — with or without "tipo" — so a "550"
+    // elsewhere in the line is left to the German expression.
+    private static let italianExpression = try? NSRegularExpression(pattern: #"(?:\btipo\s*)?(?<![\d.,])(00|0|1|2)(?![\d.,])"#)
+    /// The German type an Italian one grinds to, roughly by ash.
+    private static let italianTypes: [String: Int] = ["00": 405, "0": 550, "1": 812, "2": 1050]
 
     /// The catalogue flour an ingredient line names, or nil when the line
     /// is not a flour at all. A grain without a type gets that grain's
@@ -228,6 +234,14 @@ public enum FlourSubstitution {
             if let exact = candidates.first(where: { $0.milling == .french(number) }) { return exact }
             return nearest(to: Milling.french(number).ashKey, among: candidates, preferGerman: true)
         }
+        // "Farina 00" and "Farina Manitoba": Italian wheat flours. Manitoba
+        // is a strong bread flour, sold as type 0.
+        if key.contains("farina") || key.contains("manitoba") {
+            if let italian = firstText(italianExpression, in: key), let type = italianTypes[italian] {
+                return nearest(to: type, among: candidates, preferGerman: true)
+            }
+            if key.contains("manitoba") { return nearest(to: 550, among: candidates, preferGerman: true) }
+        }
         // Swiss names.
         if key.contains("ruchmehl")      { return nearest(to: 1050, among: candidates, preferGerman: true) }
         if key.contains("halbweiss")     { return nearest(to: 812,  among: candidates, preferGerman: true) }
@@ -236,6 +250,14 @@ public enum FlourSubstitution {
             return candidates.first { $0.milling == .light } ?? nearest(to: Milling.light.ashKey, among: candidates, preferGerman: true)
         }
         return defaultFlour(of: grain)
+    }
+
+    private static func firstText(_ expression: NSRegularExpression?, in key: String) -> String? {
+        guard let expression,
+              let match = expression.firstMatch(in: key, range: NSRange(key.startIndex..., in: key)),
+              let range = Range(match.range(at: 1), in: key)
+        else { return nil }
+        return String(key[range])
     }
 
     private static func firstNumber(_ expression: NSRegularExpression?, in key: String) -> Int? {

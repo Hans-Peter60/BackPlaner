@@ -81,7 +81,7 @@ public enum PackageSizes {
              sizes: Sizes(amounts: [250, 500])),
         // Flour is bought by the kilo; the 500 g bag is for flakes,
         // semolina and the like on the same shelf.
-        Rule(patterns: ["mehl", "flour", "farine"], sizes: Sizes(amounts: [1_000, 2_000, 2_500])),
+        Rule(patterns: ["mehl", "flour", "farine", "farina", "manitoba"], sizes: Sizes(amounts: [1_000, 2_000, 2_500])),
     ]
 
     private static let shelfSizes: [ShoppingListCategory: Sizes] = [
