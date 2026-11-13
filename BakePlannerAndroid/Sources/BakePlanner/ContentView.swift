@@ -57,6 +57,9 @@ struct ContentView: View {
         // iPhone.
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
+                // Plans that ended while the app was away are booked
+                // against the pantry.
+                model.reconcilePantry()
                 Task { await model.scheduleDueOccurrences() }
             }
         }
@@ -73,6 +76,8 @@ struct ContentView: View {
             model.loadShoppingLists()
             model.loadBakeHistory()
             model.loadScheduledSteps()
+            model.loadPantry()
+            model.reconcilePantry()
             await model.scheduleDueOccurrences()
             await model.loadPublicRecipes()
         }
@@ -121,6 +126,7 @@ struct RecipeListView: View {
     /// the dialogs' data is.
     @State var calculator = Calculator.doughTemperature
     @State var showsCalculator = false
+    @State var showsPantry = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -211,6 +217,9 @@ struct RecipeListView: View {
                         exportsRecipes = true
                     }
                     .disabled(model.recipes.isEmpty)
+                    Button("Vorrat") {
+                        showsPantry = true
+                    }
                     // The iPhone's three calculators from its main menu.
                     Button("Teigtemperatur") {
                         openCalculator(.doughTemperature)
@@ -271,6 +280,11 @@ struct RecipeListView: View {
         .appSheet(isPresented: $showsCalculator) {
             NavigationStack {
                 CalculatorSheet(calculator: calculator)
+            }
+        }
+        .appSheet(isPresented: $showsPantry) {
+            NavigationStack {
+                PantryView(model: model)
             }
         }
         .appSheet(isPresented: $importsFromWeb) {
@@ -519,7 +533,11 @@ struct RecipeListView: View {
 
     private var importTitle: Text {
         switch model.importOutcome {
-        case .imported(let count): return Text("Rezepte importiert: \(count)")
+        case .imported(let count, let pantryItems):
+            if pantryItems > 0 {
+                return Text("Rezepte importiert: \(count), Posten im Vorrat ergänzt: \(pantryItems)")
+            }
+            return Text("Rezepte importiert: \(count)")
         case .failed, nil: return Text("Import fehlgeschlagen")
         }
     }

@@ -92,6 +92,13 @@ struct ShoppingListDetailView: View {
     /// the dialogs are.
     @State var editedItem: StoredShoppingListItem?
     @State var editsItem = false
+    /// The lines about to be booked into the pantry: one line from its
+    /// editor, or the whole list from the toolbar.
+    @State var intakeItems: [StoredShoppingListItem] = []
+    @State var intakes = false
+    /// What the whole-list intake did, until the user has seen it.
+    @State var intakeResult: AppModel.PantryIntakeResult?
+    @State var showsIntakeResult = false
     @Environment(\.colorScheme) var colorScheme
 
     private var list: StoredShoppingList? {
@@ -112,14 +119,71 @@ struct ShoppingListDetailView: View {
             }
         }
         .navigationTitle("Einkaufsliste vom \(titleDate)")
+        .toolbar {
+            // Everything bought: every line into the pantry, the list is
+            // done with.
+            if let list, !list.items.isEmpty {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Eingekauft") {
+                        // In the order of the list: by shelf, then by name.
+                        intakeItems = ShoppingListCategory.shelves(list.items, name: { $0.name }).flatMap(\.items)
+                        intakes = true
+                    }
+                }
+            }
+        }
         .appSheet(isPresented: $editsItem) {
             if let item = editedItem {
                 NavigationStack {
                     ShoppingListItemEditor(item: item,
                                            onSave: { model.update($0) },
-                                           onRemove: { model.deleteShoppingListItem(id: item.id) })
+                                           onRemove: { model.deleteShoppingListItem(id: item.id) },
+                                           onReceive: { receive([item]) })
                 }
             }
+        }
+        .appSheet(isPresented: $intakes) {
+            NavigationStack {
+                ShoppingListIntakeSheet(model: model, listID: listID, items: intakeItems) { result in
+                    if intakeItems.count > 1 {
+                        intakeResult = result
+                        showsIntakeResult = true
+                    }
+                }
+            }
+        }
+        .alert("In den Vorrat gebucht", isPresented: $showsIntakeResult) {
+            Button {
+                intakeResult = nil
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            // The singular as its own text: the Android catalog carries no
+            // plural rules.
+            if let result = intakeResult {
+                if result.finished {
+                    if result.booked == 1 {
+                        Text("Eine Zeile ist im Vorrat. Die Einkaufsliste ist erledigt.")
+                    } else {
+                        Text("\(result.booked) Zeilen sind im Vorrat. Die Einkaufsliste ist erledigt.")
+                    }
+                } else if result.booked == 1 {
+                    Text("Eine Zeile ist im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste.")
+                } else {
+                    Text("\(result.booked) Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste.")
+                }
+            }
+        }
+    }
+
+    /// Opens the "Eingekauft" sheet for these lines once the editor's
+    /// sheet has gone.
+    private func receive(_ items: [StoredShoppingListItem]) {
+        intakeItems = items
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            intakes = true
         }
     }
 
@@ -173,15 +237,19 @@ struct ShoppingListItemEditor: View {
     let item: StoredShoppingListItem
     let onSave: (StoredShoppingListItem) -> Void
     let onRemove: () -> Void
+    /// Books the line into the pantry; the sheet "Eingekauft" asks for the
+    /// bought amount first.
+    let onReceive: () -> Void
     @State var amount: String
     @State var unit: String
     @Environment(\.dismiss) var dismiss
 
     init(item: StoredShoppingListItem, onSave: @escaping (StoredShoppingListItem) -> Void,
-         onRemove: @escaping () -> Void) {
+         onRemove: @escaping () -> Void, onReceive: @escaping () -> Void) {
         self.item = item
         self.onSave = onSave
         self.onRemove = onRemove
+        self.onReceive = onReceive
         _amount = State(initialValue: IngredientAmountText.text(weight: item.weight, numerator: item.num,
                                                                 denominator: item.denom))
         _unit = State(initialValue: item.unit ?? "")
@@ -209,6 +277,10 @@ struct ShoppingListItemEditor: View {
             }
 
             Section {
+                Button("In den Vorrat übernehmen") {
+                    onReceive()
+                    dismiss()
+                }
                 Button("Zutat entfernen", role: .destructive) {
                     onRemove()
                     dismiss()
@@ -257,10 +329,34 @@ enum ShoppingListText {
         DateFormat().calculateDate(dT: date)
     }
 
-    /// "500 g Weizenmehl 550", "1/2 Würfel Hefe".
+    /// How a line reads: the package to buy, the recipe's need in brackets
+    /// — "1 kg Weizenmehl 550 (200 g)" — or just the need, "1/2 Würfel
+    /// Hefe", when there is no standard package or the package is the need.
     static func line(_ item: StoredShoppingListItem) -> String {
+        let needed = neededText(item)
+        guard let package = package(for: item) else { return needed + item.name }
+        return PantryText.amountText(amount: package.amount, unit: package.unit) + " " + item.name
+            + " (" + needed.trimmingCharacters(in: .whitespaces) + ")"
+    }
+
+    /// The recipe's amount as the row always showed it, with a trailing space.
+    static func neededText(_ item: StoredShoppingListItem) -> String {
         Rational.getPortion(unit: item.unit ?? "", weight: item.weight, num: item.num, denom: item.denom,
-                            targetServings: 2) + item.name
+                            targetServings: 2)
+    }
+
+    /// What the line needs in pantry terms: grams, kilograms or pieces.
+    static func need(for item: StoredShoppingListItem) -> (amount: Double, unit: PantryUnit) {
+        Pantry.intake(unit: item.unit, weight: item.weight, normWeight: item.normWeight, num: item.num, denom: item.denom)
+    }
+
+    /// The standard package covering the need, when there is one and it is
+    /// more than the need itself.
+    static func package(for item: StoredShoppingListItem) -> (amount: Double, unit: PantryUnit)? {
+        let need = need(for: item)
+        guard let package = PackageSizes.package(name: item.name, amount: need.amount, unit: need.unit),
+              PackageSizes.differs(package, from: need.amount, unit: need.unit) else { return nil }
+        return package
     }
 }
 

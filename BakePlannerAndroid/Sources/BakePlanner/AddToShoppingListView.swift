@@ -30,6 +30,13 @@ struct AddToShoppingListView: View {
                     Text("Die Mengen entsprechen dem Faktor \(RecipeDetailView.factorText(scale)).")
                         .font(AppFont.caption)
                 }
+                // What the pantry covers stays off the list, as on the iPhone.
+                if !model.pantryItems.isEmpty {
+                    Toggle("Vorrat abziehen", isOn: Binding(
+                        get: { model.deductsPantry },
+                        set: { model.deductsPantry = $0 }
+                    ))
+                }
             }
 
             if addsToExistingList {
@@ -78,6 +85,8 @@ struct AddToShoppingListView: View {
         } message: {
             if outcome == .nothingToBuy {
                 Text("Für dieses Rezept sind keine Zutaten hinterlegt, die auf eine Einkaufsliste passen.")
+            } else if outcome == .allInPantry {
+                Text("Für dieses Rezept ist alles da – nichts kommt auf die Einkaufsliste.")
             }
         }
     }
@@ -91,6 +100,7 @@ struct AddToShoppingListView: View {
         switch outcome {
         case .added: return "Zutaten wurden auf die Einkaufsliste gesetzt"
         case .nothingToBuy: return "Keine Zutaten vorhanden"
+        case .allInPantry: return "Alles im Vorrat"
         case .failed, nil: return "Die Änderung konnte nicht gespeichert werden."
         }
     }

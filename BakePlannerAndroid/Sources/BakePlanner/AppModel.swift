@@ -17,7 +17,8 @@ final class AppModel {
     var importOutcome: ImportOutcome?
 
     enum ImportOutcome: Equatable {
-        case imported(Int)
+        /// Recipes added, and pantry items the file added to the pantry.
+        case imported(Int, pantryItems: Int)
         case failed(String)
     }
 
@@ -36,6 +37,8 @@ final class AppModel {
         case added
         /// The recipe has nothing that is bought (only water, salt, starter).
         case nothingToBuy
+        /// Everything the recipe needs is in the pantry; no list was made.
+        case allInPantry
         case failed
     }
 
@@ -55,6 +58,22 @@ final class AppModel {
     private var historyStore: SQLiteBakeHistoryStore?
     private var feedingStore: SQLiteStarterFeedingLogStore?
     private var stepStore: SQLiteScheduledStepStore?
+    private var pantryStore: SQLitePantryStore?
+    private var reservationStore: SQLitePantryReservationStore?
+
+    /// The pantry, by name.
+    var pantryItems: [StoredPantryItem] = []
+    /// What the open plans have reserved of the pantry.
+    var pantryReservations: [StoredPantryReservation] = []
+    /// The last deductions made when plans ended, newest first; kept in the
+    /// settings file so one can be undone.
+    var pantryBookings: [PantryBooking] = []
+
+    /// Whether the pantry comes off a recipe's shopping list; the iPhone's
+    /// setting key.
+    var deductsPantry = AppModel.storedBool("shoppingList.deductsPantry", default: true) {
+        didSet { SettingsFile.set(deductsPantry, forKey: "shoppingList.deductsPantry") }
+    }
 
     /// Every scheduled step of every plan, by date.
     var scheduledSteps: [StoredScheduledStep] = []
@@ -511,7 +530,8 @@ final class AppModel {
     /// a feeding at its start whose result is entered when it is over.
     func putIntoEffect(_ plan: BakePlan, recipeID: String, servingScale: Double, replacing: Bool,
                        isAutomaticRecurrence: Bool = false) async -> PlanOutcome {
-        let newSteps = plan.scheduledStepData(planID: UUID(), servingScale: servingScale,
+        let planID = UUID()
+        let newSteps = plan.scheduledStepData(planID: planID, servingScale: servingScale,
                                               isAutomaticRecurrence: isAutomaticRecurrence)
         let content: RecipeExportData
         do {
@@ -525,8 +545,12 @@ final class AppModel {
                 // with it; the new plan writes its own below.
                 try PlannedBakeEntries.remove(ofRecipe: recipeID, from: openedHistoryStore())
                 try PlannedFeedingEntries.remove(ofRecipe: recipeID, from: openedFeedingStore())
+                // The replaced plans give their pantry back; the new one
+                // reserves below.
+                releasePantry(recipeName: plan.recipeName)
             }
             steps.add(newSteps)
+            reservePantry(recipe: content, planID: planID, scale: servingScale, planEnd: plan.date(of: plan.endStep))
             if StarterRecipe.isStarterFeeding(recipe.content) {
                 _ = try openedFeedingStore().add(toRecipe: recipeID, date: plan.baseDate, facts: StarterFeedingFacts())
             } else {
@@ -627,6 +651,9 @@ final class AppModel {
         Reminders.cancel([step.data])
         try? openedStepStore().removeStep(key: step.key)
         loadScheduledSteps()
+        // The last step done: the plan has ended, its reservations become
+        // deductions.
+        reconcilePantry()
     }
 
     /// Removes every step of one plan, and their reminders. A recipe
@@ -638,7 +665,11 @@ final class AppModel {
             for step in steps {
                 store.removeStep(key: step.key)
             }
+            releasePantry(planIDs: steps.compactMap(\.data.planID))
             for name in Set(steps.map(\.data.recipeName)) where !store.hasSteps(recipeName: name) {
+                // Steps stored before they had a plan id: nothing of the
+                // recipe is planned any more, so nothing stays reserved.
+                releasePantry(recipeName: name)
                 guard let recipe = recipes.first(where: { $0.content.name == name }) else { continue }
                 do {
                     try PlannedBakeEntries.remove(ofRecipe: recipe.id, from: openedHistoryStore())
@@ -731,8 +762,11 @@ final class AppModel {
                 content = shared
                 recipeSource = .publicRecipe(name: shared.name)
             }
-            let entries = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: content), scale: scale)
-            guard !entries.isEmpty else { return .nothingToBuy }
+            let needed = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: content), scale: scale)
+            guard !needed.isEmpty else { return .nothingToBuy }
+            // What the pantry covers stays off the list, as on the iPhone.
+            let entries = deductsPantry ? PantryMatcher.reduce(needed, pantry: availablePantry) : needed
+            guard !entries.isEmpty else { return .allInPantry }
 
             let lists = try openedListStore()
             let listID: String
@@ -794,7 +828,7 @@ final class AppModel {
                 // Photos picked before they were made small on picking
                 // are made small here, as the iPhone does.
                 file = try RecipeExportFile(recipeIDs: ids, from: openedStore(), bakeHistory: openedHistoryStore(),
-                                            starterFeedings: openedFeedingStore(),
+                                            starterFeedings: openedFeedingStore(), pantry: openedPantryStore(),
                                             shrinkPhoto: PhotoShrinker.shrunk)
             } else {
                 file = try RecipeExportFile(recipeIDs: ids, from: openedStore())
@@ -831,15 +865,18 @@ final class AppModel {
         #endif
         do {
             let data = try Data(contentsOf: url)
-            let count = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
-                                                    starterFeedings: openedFeedingStore())
-            importOutcome = .imported(count)
+            // The file's pantry items the pantry does not have by name
+            // come along, as on the iPhone.
+            let result = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                                     starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems)
         } catch {
             logger.error("could not import \(url.lastPathComponent): \(error)")
             importOutcome = .failed(error.localizedDescription)
         }
         load()
         loadBakeHistory()
+        loadPantry()
     }
 
     // MARK: Public recipes
@@ -1061,6 +1098,219 @@ final class AppModel {
             logger.error("could not take over public recipe \(firestoreID): \(error)")
             return nil
         }
+    }
+
+    // MARK: Pantry
+
+    /// Reads the pantry, its reservations and the last bookings.
+    func loadPantry() {
+        do {
+            pantryItems = try openedPantryStore().items()
+            pantryReservations = try openedReservationStore().reservations()
+        } catch {
+            logger.error("could not read the pantry: \(error)")
+        }
+        pantryBookings = Self.storedBookings()
+    }
+
+    /// The pantry as the recipes compare against it: the stock less what
+    /// the open plans have reserved.
+    var availablePantry: [StoredPantryItem] {
+        PantryLedger.available(pantryItems, reservations: pantryReservations)
+    }
+
+    /// The names of the recipes' bought ingredients, most used first, for
+    /// the editor's suggestions.
+    var pantrySuggestions: [String] {
+        Pantry.suggestedNames(from: recipes.map(\.content))
+    }
+
+    func addPantryItem(name: String, amount: Double, unit: PantryUnit, bestBefore: Date?, note: String) -> Bool {
+        defer { loadPantry() }
+        do {
+            _ = try openedPantryStore().add(name: name, amount: amount, unit: unit, bestBefore: bestBefore, note: note)
+            return true
+        } catch {
+            logger.error("could not add a pantry item: \(error)")
+            return false
+        }
+    }
+
+    func updatePantryItem(_ item: StoredPantryItem) -> Bool {
+        defer { loadPantry() }
+        do {
+            try openedPantryStore().update(item)
+            return true
+        } catch {
+            logger.error("could not change pantry item \(item.id): \(error)")
+            return false
+        }
+    }
+
+    func deletePantryItem(id: String) {
+        do {
+            try openedPantryStore().delete(id: id)
+        } catch {
+            logger.error("could not remove pantry item \(id): \(error)")
+        }
+        loadPantry()
+    }
+
+    /// A bought shopping-list line as it is booked: what was bought of it.
+    struct PantryIntakeLine {
+        var item: StoredShoppingListItem
+        var amount: Double
+        var unit: PantryUnit
+    }
+
+    /// What an intake ended with.
+    struct PantryIntakeResult: Equatable {
+        let booked: Int
+        /// The list had no lines left and was deleted.
+        let finished: Bool
+    }
+
+    /// Books every line with an amount onto the item of the same name — or
+    /// a new one — and takes it off its list. Lines at 0 stay; a list
+    /// without lines is deleted.
+    func receiveIntoPantry(_ lines: [PantryIntakeLine], fromList listID: String) -> PantryIntakeResult {
+        var booked = 0
+        do {
+            let pantry = try openedPantryStore()
+            let lists = try openedListStore()
+            for line in lines where line.amount > 0 {
+                try pantry.receive(name: line.item.name, amount: line.amount, unit: line.unit)
+                try lists.deleteItem(id: line.item.id)
+                booked += 1
+            }
+            let finished = try lists.lists().first { $0.id == listID }?.items.isEmpty ?? false
+            if finished {
+                try lists.delete(id: listID)
+            }
+            loadPantry()
+            loadShoppingLists()
+            return PantryIntakeResult(booked: booked, finished: finished)
+        } catch {
+            logger.error("could not book the shopping list into the pantry: \(error)")
+            loadPantry()
+            loadShoppingLists()
+            return PantryIntakeResult(booked: booked, finished: false)
+        }
+    }
+
+    /// Reserves what the plan's bread uses of the available pantry, item by
+    /// item, under the plan's id. The arithmetic is PantryLedger in the
+    /// package, as on the iPhone (PantryLedgerService).
+    func reservePantry(recipe: RecipeExportData, planID: UUID, scale: Double, planEnd: Date) {
+        do {
+            let items = try openedPantryStore()
+            let reservations = try openedReservationStore()
+            // A plan replaced under the same id must not reserve twice.
+            try reservations.delete(planID: planID)
+            let available = PantryLedger.available(try items.items(), reservations: try reservations.reservations())
+            for deduction in PantryMatcher.deductions(for: recipe, scale: scale, pantry: available) where deduction.taken > 0 {
+                _ = try reservations.add(planID: planID, recipeName: recipe.name, itemID: deduction.item.uuid,
+                                         amount: deduction.taken, unit: deduction.item.unit, planEnd: planEnd)
+            }
+        } catch {
+            logger.error("could not reserve the pantry for \(recipe.name): \(error)")
+        }
+        loadPantry()
+    }
+
+    /// Releases every reservation of these plans — plans deleted.
+    func releasePantry(planIDs: [UUID]) {
+        guard !planIDs.isEmpty, let store = try? openedReservationStore() else { return }
+        for planID in Set(planIDs) {
+            do {
+                try store.delete(planID: planID)
+            } catch {
+                logger.error("could not release the pantry of plan \(planID): \(error)")
+            }
+        }
+        loadPantry()
+    }
+
+    /// Releases the reservations of every plan of the recipe — the plans
+    /// replaced by a new one.
+    func releasePantry(recipeName: String) {
+        guard let all = try? openedReservationStore().reservations() else { return }
+        releasePantry(planIDs: all.filter { $0.recipeName == recipeName }.map(\.planID))
+    }
+
+    /// Turns every reservation whose plan has ended into a deduction and
+    /// notes the booking so it can be undone. Run when the app comes
+    /// forward and after a step is marked done.
+    func reconcilePantry(now: Date = Date()) {
+        do {
+            let itemStore = try openedPantryStore()
+            let reservationStore = try openedReservationStore()
+            let due = PantryLedger.dueForConversion(try reservationStore.reservations(), now: now)
+            guard !due.isEmpty else { return }
+            var items = try itemStore.items()
+            var bookings = Self.storedBookings()
+            for reservation in due {
+                if let index = items.firstIndex(where: { $0.uuid == reservation.itemID }) {
+                    let after = PantryLedger.converted(items[index], by: reservation)
+                    try itemStore.update(after)
+                    items[index] = after
+                    bookings.insert(PantryBooking(date: now, recipeName: reservation.recipeName, itemID: reservation.itemID,
+                                                  itemName: after.name, amount: reservation.amount, unit: reservation.unit), at: 0)
+                }
+                // The item is gone: nothing to take from, the reservation goes too.
+                try reservationStore.delete(id: reservation.id)
+            }
+            Self.storeBookings(Array(bookings.prefix(Self.keptBookings)))
+        } catch {
+            logger.error("could not book the ended plans against the pantry: \(error)")
+        }
+        loadPantry()
+    }
+
+    /// Puts a booking back: the amount returns to the item, the booking
+    /// leaves the list.
+    func undoPantryBooking(_ booking: PantryBooking) {
+        do {
+            let store = try openedPantryStore()
+            if var item = try store.items().first(where: { $0.uuid == booking.itemID }) {
+                let base = item.baseAmount + booking.amount * (booking.unit.grams ?? 1)
+                item.amount = base / (item.unit.grams ?? 1)
+                try store.update(item)
+            }
+        } catch {
+            logger.error("could not undo a pantry booking: \(error)")
+        }
+        Self.storeBookings(Self.storedBookings().filter { $0.id != booking.id })
+        loadPantry()
+    }
+
+    private static let bookingsKey = "pantryBookings"
+    private static let keptBookings = 20
+
+    private static func storedBookings() -> [PantryBooking] {
+        guard let text = SettingsFile.value(forKey: bookingsKey) as? String,
+              let data = text.data(using: .utf8),
+              let bookings = try? JSONDecoder().decode([PantryBooking].self, from: data) else { return [] }
+        return bookings
+    }
+
+    private static func storeBookings(_ bookings: [PantryBooking]) {
+        guard let data = try? JSONEncoder().encode(bookings), let text = String(data: data, encoding: .utf8) else { return }
+        SettingsFile.set(text, forKey: bookingsKey)
+    }
+
+    private func openedPantryStore() throws -> SQLitePantryStore {
+        if let pantryStore { return pantryStore }
+        let opened = SQLitePantryStore(file: try openedStore().file)
+        pantryStore = opened
+        return opened
+    }
+
+    private func openedReservationStore() throws -> SQLitePantryReservationStore {
+        if let reservationStore { return reservationStore }
+        let opened = SQLitePantryReservationStore(file: try openedStore().file)
+        reservationStore = opened
+        return opened
     }
 
     private func openedStore() throws -> SQLiteRecipeStore {
