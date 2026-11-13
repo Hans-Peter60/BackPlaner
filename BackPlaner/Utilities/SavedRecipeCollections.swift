@@ -7,15 +7,9 @@
 //  row after the preset collections (RecipeCollection).
 //
 
+import BakePlannerCore
 import Foundation
 import Observation
-
-/// One saved collection: the facets as they were set, under a name.
-struct SavedRecipeCollection: Codable, Equatable, Identifiable {
-    let id: UUID
-    var name: String
-    var filter: RecipeFacetFilter
-}
 
 /// The saved collections, in the order they were made; every change is
 /// written straight back to the defaults.
@@ -57,8 +51,7 @@ final class SavedRecipeCollectionStore {
 
     /// The name as it is kept: trimmed; empty means "no name", nothing is saved.
     static func cleanName(_ name: String) -> String? {
-        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? nil : trimmed
+        SavedRecipeCollection.cleanName(name)
     }
 
     /// Saves the filter under the name; nothing happens for an empty name or

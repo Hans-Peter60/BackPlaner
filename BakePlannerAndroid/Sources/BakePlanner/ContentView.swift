@@ -58,8 +58,10 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
                 // Plans that ended while the app was away are booked
-                // against the pantry.
+                // against the pantry; the list's readings start over, as
+                // time has moved on.
                 model.reconcilePantry()
+                model.clearListCaches()
                 Task { await model.scheduleDueOccurrences() }
             }
         }
@@ -128,6 +130,9 @@ struct RecipeListView: View {
     @State var showsCalculator = false
     @State var showsPantry = false
     @State var showsBakingDay = false
+    /// The filter sheet, and the saved collection it opens for renaming.
+    @State var showsFilter = false
+    @State var renamingCollection: SavedRecipeCollection?
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -166,6 +171,7 @@ struct RecipeListView: View {
                             .foregroundStyle(Color.red)
                     }
                     sourceChips
+                    collectionChips
                     filterRow
                     let rows = filteredRows
                     if rows.isEmpty {
@@ -176,7 +182,7 @@ struct RecipeListView: View {
                         NavigationLink {
                             RecipeListDestination(model: model, row: row)
                         } label: {
-                            RecipeListLabel(model: model, row: row)
+                            RecipeListLabel(model: model, row: row, note: note(for: row))
                         }
                         // Only the own recipes can be deleted here.
                         .deleteDisabled(!row.isLocal)
@@ -297,6 +303,11 @@ struct RecipeListView: View {
                 BakingDayPlannerView(model: model)
             }
         }
+        .appSheet(isPresented: $showsFilter) {
+            NavigationStack {
+                RecipeFilterSheet(model: model, renaming: renamingCollection)
+            }
+        }
         .appSheet(isPresented: $importsFromWeb) {
             NavigationStack {
                 WebRecipeImportView(model: model, onImport: receiveImport, initialAddress: sharedAddress)
@@ -413,6 +424,84 @@ struct RecipeListView: View {
         .listRowBackground(Color.clear)
     }
 
+    /// The preset collections as chips — each sets the facets that make it
+    /// and clears the rest, a second tap clears — the chosen "Fertig bis",
+    /// and the person's saved collections; a long press renames or removes
+    /// a saved one.
+    private var collectionChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                if let finishBy = model.finishBy {
+                    chip(Text("Fertig bis \(RecipeFacetText.finish(finishBy))"), isOn: true) {
+                        renamingCollection = nil
+                        showsFilter = true
+                    }
+                }
+                // The pantry collections only once the pantry has anything.
+                ForEach(RecipeCollection.allCases.filter { !RecipeCollection.pantryCollections.contains($0) || !model.pantryItems.isEmpty }, id: \.rawValue) { collection in
+                    chip(Text(RecipeFacetText.collection(collection)), isOn: model.facetFilter == collection.filter) {
+                        model.toggleCollection(collection)
+                    }
+                }
+                ForEach(model.savedCollections, id: \.id) { saved in
+                    chip(Text(verbatim: saved.name), isOn: model.facetFilter == saved.filter) {
+                        model.toggleSavedCollection(saved)
+                    }
+                    .contextMenu {
+                        Button("Umbenennen") {
+                            renamingCollection = saved
+                            showsFilter = true
+                        }
+                        Button("Löschen", role: .destructive) {
+                            model.removeCollection(saved.id)
+                        }
+                    }
+                }
+            }
+            .padding(.vertical, 2)
+        }
+        .listRowBackground(Color.clear)
+    }
+
+    private func chip(_ title: Text, isOn: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            title
+                .font(AppFont.subheadline)
+                .lineLimit(1)
+                .foregroundStyle(isOn ? Color.white : Color.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(Capsule().fill(isOn ? Palette.accent(colorScheme) : Palette.card(colorScheme)))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// The line under a row's name: under "Fertig bis" when to start, under
+    /// "Vorrat aufbrauchen" what the recipe uses up.
+    private func note(for row: Row) -> Text? {
+        if model.finishBy != nil, let outcome = model.finishOutcome(of: row.content, key: row.id) {
+            let time = PlanText.time(outcome.start)
+            var text: String
+            if Calendar.current.isDateInToday(outcome.start) {
+                text = String(localized: "Start heute \(time)", bundle: .module)
+            } else if Calendar.current.isDateInTomorrow(outcome.start) {
+                text = String(localized: "Start morgen \(time)", bundle: .module)
+            } else {
+                text = String(localized: "Start \(PlanText.day(outcome.start)), \(time)", bundle: .module)
+            }
+            if outcome.hasNightSteps {
+                text += " · " + String(localized: "Schritte in der Nacht", bundle: .module)
+            }
+            return Text(verbatim: text)
+        }
+        if model.facetFilter.useUpOnly, let use = model.useUp(of: row.content, key: row.id).first {
+            let amount = PantryMatcher.baseText(use.usedBase, counted: use.item.isCounted, locale: AppSettings.locale)
+            let day = ShoppingListText.date(use.item.bestBefore ?? Date())
+            return Text("Verbraucht \(amount) \(use.item.name), haltbar bis \(day)")
+        }
+        return nil
+    }
+
     private func sourceChip(_ title: LocalizedStringKey, isOn: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
@@ -453,6 +542,13 @@ struct RecipeListView: View {
                 Button(model.showsVariantRecipes ? LocalizedStringKey("Varianten ausblenden") : LocalizedStringKey("Varianten anzeigen")) {
                     model.showsVariantRecipes.toggle()
                 }
+                Divider()
+                // The facets, "Fertig bis" and the saved collections, as a
+                // sheet: a menu holds no pickers on Android.
+                Button("Filter …") {
+                    renamingCollection = nil
+                    showsFilter = true
+                }
             } label: {
                 // Skip draws "star.fill" but not the outlined "star" (it would
                 // show a warning triangle), nor the iPhone's filter symbol; the
@@ -463,7 +559,8 @@ struct RecipeListView: View {
                         Text(verbatim: "\(minimumRating)+")
                     }
                 }
-                .foregroundStyle(minimumRating > 0 || !model.showsVariantRecipes ? Palette.accent(colorScheme) : Color.secondary)
+                .foregroundStyle(minimumRating > 0 || !model.showsVariantRecipes || model.facetFilter.isActive || model.finishBy != nil
+                                 ? Palette.accent(colorScheme) : Color.secondary)
                 .accessibilityLabel(Text("Nach Bewertung filtern"))
             }
         }
@@ -506,6 +603,14 @@ struct RecipeListView: View {
             if case .local = self { return true }
             return false
         }
+
+        /// The recipe as plain content, for the package's readings.
+        var content: RecipeExportData {
+            switch self {
+            case .local(let recipe): return recipe.content
+            case .shared(let recipe): return RecipeExportData(recipeFB: recipe, imageData: nil)
+            }
+        }
     }
 
     /// Own and public recipes together, as the settings choose, by name —
@@ -525,6 +630,24 @@ struct RecipeListView: View {
         if minimumRating > 0 {
             rows = rows.filter { $0.rating >= minimumRating }
         }
+        let filter = model.facetFilter
+        if filter.isActive {
+            rows = rows.filter { row in
+                filter.matches(model.facets(of: row.content, key: row.id), history: history(of: row))
+            }
+        }
+        if filter.pantryOnly {
+            // The pantry at the recipe as stored; the facet filter itself
+            // knows no pantry.
+            let pantry = model.availablePantry
+            rows = rows.filter { PantryMatcher.check($0.content, scale: 1, pantry: pantry).isComplete }
+        }
+        if filter.useUpOnly {
+            rows = rows.filter { !model.useUp(of: $0.content, key: $0.id).isEmpty }
+        }
+        if model.finishBy != nil {
+            rows = rows.filter { model.finishOutcome(of: $0.content, key: $0.id) != nil }
+        }
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !query.isEmpty {
             if searchesTags {
@@ -533,7 +656,35 @@ struct RecipeListView: View {
                 rows = rows.filter { $0.name.localizedCaseInsensitiveContains(query) }
             }
         }
+        // Under "Vorrat aufbrauchen" the recipe that uses most of what runs
+        // out soon comes first; under "Fertig bis" the one that must start
+        // first.
+        if filter.useUpOnly {
+            return rows.sorted { a, b in
+                let scoreA = PantryMatcher.useUpScore(model.useUp(of: a.content, key: a.id))
+                let scoreB = PantryMatcher.useUpScore(model.useUp(of: b.content, key: b.id))
+                if scoreA != scoreB { return scoreA > scoreB }
+                return a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+        }
+        if model.finishBy != nil {
+            return rows.sorted { a, b in
+                let startA = model.finishOutcome(of: a.content, key: a.id)?.start ?? Date.distantFuture
+                let startB = model.finishOutcome(of: b.content, key: b.id)?.start ?? Date.distantFuture
+                if startA != startB { return startA < startB }
+                return a.name.localizedStandardCompare(b.name) == .orderedAscending
+            }
+        }
         return rows.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
+    /// How often and when the row's recipe was baked — own recipes only; a
+    /// public recipe has no history here.
+    private func history(of row: Row) -> RecipeFacetFilter.History {
+        switch row {
+        case .local(let recipe): return model.history(ofRecipe: recipe)
+        case .shared(let recipe): return RecipeFacetFilter.History(count: 0, lastDate: nil, rating: recipe.rating)
+        }
     }
 
     private var showsImportOutcome: Binding<Bool> {
@@ -557,7 +708,9 @@ struct RecipeListView: View {
 struct RecipeRow: View {
     let model: AppModel
     let recipe: StoredRecipe
+    var note: Text? = nil
     @State var thumbnail: Data?
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         HStack(spacing: 12) {
@@ -565,6 +718,11 @@ struct RecipeRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.content.name)
                     .font(AppFont.headline)
+                if let note {
+                    note
+                        .font(AppFont.caption)
+                        .foregroundStyle(Palette.accentText(colorScheme))
+                }
                 if let originID = recipe.originID,
                    let origin = model.recipes.first(where: { $0.id == originID }) {
                     Text("Variante von „\(origin.content.name)“")
@@ -637,13 +795,16 @@ struct RecipeListDestination: View {
 struct RecipeListLabel: View {
     let model: AppModel
     let row: RecipeListView.Row
+    /// A line under the name the list adds: the start under "Fertig bis",
+    /// the use under "Vorrat aufbrauchen".
+    var note: Text? = nil
 
     var body: some View {
         switch row {
         case .local(let recipe):
-            RecipeRow(model: model, recipe: recipe)
+            RecipeRow(model: model, recipe: recipe, note: note)
         case .shared(let recipe):
-            PublicRecipeRow(model: model, recipe: recipe)
+            PublicRecipeRow(model: model, recipe: recipe, note: note)
         }
     }
 }
@@ -653,6 +814,8 @@ struct RecipeListLabel: View {
 struct PublicRecipeRow: View {
     let model: AppModel
     let recipe: RecipeFB
+    var note: Text? = nil
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         HStack(spacing: 12) {
@@ -660,6 +823,11 @@ struct PublicRecipeRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(verbatim: recipe.name)
                     .font(AppFont.headline)
+                if let note {
+                    note
+                        .font(AppFont.caption)
+                        .foregroundStyle(Palette.accentText(colorScheme))
+                }
                 HStack(spacing: 8) {
                     // Which chip the row answers to.
                     (model.isOwn(recipe) ? Text("Von mir veröffentlicht") : Text("Öffentlich"))
