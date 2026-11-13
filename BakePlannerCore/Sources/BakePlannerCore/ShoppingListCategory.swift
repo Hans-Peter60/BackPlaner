@@ -91,7 +91,7 @@ public enum ShoppingListCategory: Int, CaseIterable, Identifiable {
                         "zimt", "cinnamon", "cannelle", "kardamom", "cardamom", "muskat", "nutmeg", "nelke", "clove", "chili", "paprika", "curry", "ingwer", "ginger",
                         "krauter", "herb", "rosmarin", "rosemary", "thymian", "thym", "oregano", "basilikum", "basil", "petersilie", "schnittlauch", "dill"]),
         Rule(category: .flourAndGrain,
-             patterns: ["mehl", "flour", "farine", "schrot", "griess", "grieß", "dunst", "semola", "semolina", "semoule",
+             patterns: ["mehl", "flour", "farine", "farina", "manitoba", "schrot", "griess", "grieß", "dunst", "semola", "semolina", "semoule",
                         "flocken", "flakes", "flocons", "kleie", "bran", "korner", "getreide", "grain", #"\breis\b"#, #"\brice\b"#, #"\briz\b"#,
                         "starke", "starch", "amidon", "hafer", "oat", "avoine", "dinkel", "spelt", "epeautre", "roggen", "rye", "seigle",
                         "weizen", "wheat", "gerste", "barley", "hirse", "millet", "quinoa", "amaranth", "polenta", #"\bmais\b"#, "couscous", "bulgur",

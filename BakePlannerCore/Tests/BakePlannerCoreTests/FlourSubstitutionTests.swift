@@ -49,6 +49,18 @@ struct FlourSubstitutionTests {
         #expect(found.milling == .type(630))
     }
 
+    @Test("Italian flours: 00 is the finest, 0 the bread flour, Manitoba a strong 0")
+    func italianTypes() throws {
+        #expect(try #require(FlourSubstitution.recognize("Farina 00")).milling == .type(405))
+        #expect(try #require(FlourSubstitution.recognize("Farina tipo 00")).milling == .type(405))
+        #expect(try #require(FlourSubstitution.recognize("Farina 0")).milling == .type(550))
+        #expect(try #require(FlourSubstitution.recognize("Farina tipo 1")).milling == .type(812))
+        #expect(try #require(FlourSubstitution.recognize("Farina tipo 2")).milling == .type(1050))
+        #expect(try #require(FlourSubstitution.recognize("Farina Manitoba")).milling == .type(550))
+        #expect(try #require(FlourSubstitution.recognize("Farina integrale")).isWholeGrain)
+        #expect(try #require(FlourSubstitution.recognize("Farina 00")).grain == .wheat)
+    }
+
     @Test("A grain without a type gets its everyday flour")
     func defaultType() throws {
         #expect(try #require(FlourSubstitution.recognize("Mehl")).milling == .type(550))

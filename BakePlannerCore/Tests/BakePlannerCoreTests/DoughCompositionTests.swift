@@ -70,6 +70,10 @@ struct DoughCompositionTests {
         #expect(DoughComposition.classify("Hartweizengrieß") == .flour)
         #expect(DoughComposition.classify("Dunst") == .flour)
         #expect(DoughComposition.classify("farine T65") == .flour)
+        // Italian flours: "Farina 00" and the strong "Manitoba".
+        #expect(DoughComposition.classify("Farina 00") == .flour)
+        #expect(DoughComposition.classify("Farina tipo 0") == .flour)
+        #expect(DoughComposition.classify("Manitoba") == .flour)
         // Old bread in a scald is flour that was baked once already.
         #expect(DoughComposition.classify("Altbrot (geröstet, gemahlen)") == .flour)
         #expect(DoughComposition.classify("Semmelbrösel") == .flour)

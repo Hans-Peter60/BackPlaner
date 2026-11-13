@@ -355,7 +355,7 @@ public enum DoughComposition {
 
     /// Old bread in a scald ("Altbrot im Brühstück") counts as flour: dried
     /// and ground, it is flour that has already been baked once.
-    private static let flourWords = ["mehl", "flour", "farine", "schrot", "griess", "grieß", "dunst", "semola", "semolina", "semoule",
+    private static let flourWords = ["mehl", "flour", "farine", "farina", "manitoba", "schrot", "griess", "grieß", "dunst", "semola", "semolina", "semoule",
                                      "altbrot", "restbrot", "brotreste", "brosel", "brösel", "old bread", "stale bread", "breadcrumb", "pain rassis", "chapelure"]
     /// Seeds, flakes and nuts that merely contain a flour's word
     /// ("Leinsamenschrot", "Mandelmehl"); bakers do not count them as flour.

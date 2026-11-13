@@ -126,6 +126,8 @@ struct ShoppingListCategoryTests {
 
     @Test("Ingredients land on their shelf", arguments: [
         ("Weizenmehl 550",        Category.flourAndGrain),
+        ("Farina 00",             Category.flourAndGrain),
+        ("Manitoba",              Category.flourAndGrain),
         ("Roggenvollkornschrot",  Category.flourAndGrain),
         ("Haferflocken",          Category.flourAndGrain),
         ("Kartoffelstärke",       Category.flourAndGrain),
