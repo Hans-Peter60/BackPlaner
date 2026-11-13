@@ -1202,6 +1202,9 @@ Prüfe in *Einstellungen → Mitteilungen → BakePlanner*, ob Mitteilungen erla
 **Auf der Apple Watch kommt nichts an.**
 Die Erinnerungen bleiben auf dem Gerät, auf dem Du sie gesetzt hast. An die Uhr weitergereicht werden nur Mitteilungen des gekoppelten **iPhones** – hast Du auf dem iPad geplant, erscheinen die Backhinweise ausschließlich dort. Setz die Erinnerungen in diesem Fall noch einmal auf dem iPhone.
 
+**Die Watch-App zeigt einen alten Plan oder „Keine geplanten Schritte“, obwohl auf dem iPhone geplant ist.**
+Öffne die Watch-App, während das iPhone in Reichweite ist: Sie holt sich dann den Plan, wie er gerade auf dem iPhone steht. Auch BakePlanner auf dem iPhone in den Vordergrund zu holen schickt den Plan erneut an die Uhr. Prüfe außerdem in der Watch-App des iPhones, dass BakePlanner auf der Uhr installiert und auf demselben Stand ist wie auf dem iPhone.
+
 **Die Rezept-Datenbank ist leer („Keine Rezepte geladen“).**
 Beim Start bestand keine Internetverbindung. Zieh die Liste nach unten, um erneut zu laden.
 

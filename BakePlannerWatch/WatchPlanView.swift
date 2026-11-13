@@ -12,6 +12,7 @@ import SwiftUI
 
 struct WatchPlanView: View {
     @Environment(PhonePlanSession.self) private var session
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selectedID: String?
 
     var body: some View {
@@ -43,6 +44,10 @@ struct WatchPlanView: View {
         }
         .onAppear { settle(on: steps) }
         .onChange(of: steps.map(\.id)) { _, _ in settle(on: session.steps) }
+        // Raised to the wrist: the plan as the iPhone has it now.
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { session.requestPlan() }
+        }
     }
 
     /// Opens on the step that matters now, and moves on when the step on

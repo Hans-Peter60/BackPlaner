@@ -9,7 +9,9 @@
 //  own container, so the plan is there at launch even before the iPhone
 //  answers. A step marked done here leaves the copy at once and travels to
 //  the iPhone as a queued user-info transfer, which the system delivers even
-//  if the iPhone is out of reach right now.
+//  if the iPhone is out of reach right now. Whenever this app opens or the
+//  iPhone comes within reach, it asks the iPhone for the plan as it stands,
+//  so a context that was missed does not leave the watch behind.
 //
 
 import BakePlannerCore
@@ -80,6 +82,19 @@ final class PhonePlanSession: NSObject, WCSessionDelegate {
         }
     }
 
+    /// Asks the iPhone for its plan as it stands — when this app opens and
+    /// when the iPhone comes within reach. Within reach the iPhone answers
+    /// with the plan directly; the application context follows anyway.
+    func requestPlan() {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        guard session.activationState == .activated, session.isReachable else { return }
+        session.sendMessage([Self.requestKey: true], replyHandler: { [weak self] reply in
+            let planData = reply[Self.planKey] as? Data
+            Task { @MainActor in self?.apply(planData: planData) }
+        }, errorHandler: nil)
+    }
+
     private func apply(planData: Data?) {
         guard let planData else { return }
         let decoder = JSONDecoder()
@@ -127,12 +142,16 @@ final class PhonePlanSession: NSObject, WCSessionDelegate {
         let planData = session.receivedApplicationContext[Self.planKey] as? Data
         Task { @MainActor in
             self.apply(planData: planData)
-            // Nothing kept yet: ask the iPhone, in case its last send came
-            // before this app was installed.
-            if planData == nil, session.isReachable {
-                session.sendMessage([Self.requestKey: true], replyHandler: nil)
-            }
+            // And the plan as the iPhone has it now, in case the context
+            // kept here is older than the plan over there.
+            self.requestPlan()
         }
+    }
+
+    /// The iPhone came within reach: ask for the plan as it stands.
+    nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
+        guard session.isReachable else { return }
+        Task { @MainActor in self.requestPlan() }
     }
 
     nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {

@@ -35,6 +35,7 @@ VORRAT
 • Die vollständige Sicherung („Rezepte exportieren“ mit Schalter) nimmt den Vorrat mit; beim Einlesen kommen die Posten dazu, die noch fehlen.
 • Auf Wunsch erinnert Dich eine Mitteilung 14 Tage vor der Mindesthaltbarkeit. Die Sammlung „Vorrat aufbrauchen“ zeigt, welche Rezepte am meisten von dem verbrauchen, was bald abläuft.
 
+• Die Watch-App holt sich den Plan beim Öffnen vom iPhone, und das iPhone schickt ihn beim Öffnen erneut – ein verpasster Abgleich bleibt nicht mehr hängen.
 KLEINERES
 • Vorbereitung für BakePlanner Pro: Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik und Rezept nach Bäckerprozent gehören zum Pro-Umfang. Wer die App vor Pro installiert hat, behält, was sie an diesem Tag konnte. Solange Pro nicht eingeschaltet ist, bleibt alles frei.
 • Einstellungen, gesicherte Sammlungen und eigene Einheiten wandern über iCloud auf alle Deine Geräte; Sprache und Listenfilter bleiben je Gerät.
@@ -83,6 +84,7 @@ PANTRY
 • Plans reserve their amounts: available is stock minus reservations, a deleted plan frees them, an ended plan deducts them. The baking day shows beforehand what is missing for all breads together; “Recent deductions” in the pantry can be undone.
 • If you like, a notification reminds you 14 days before the best-before date. The collection “Use up the pantry” shows which recipes use most of what expires soon.
 
+• The Watch app fetches the plan from the iPhone when it opens, and the iPhone sends it again when it opens – a missed sync no longer sticks.
 SMALLER THINGS
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. “Back up all my recipes” is gone: “Export recipes” with “Select all” and the baking history switched on is the same backup – and stays free.
@@ -127,6 +129,7 @@ RÉSERVE
 • Les plans réservent leurs quantités : disponible = stock moins réservations, un plan supprimé les libère, un plan terminé les déduit. La journée de cuisson montre d’avance ce qui manque pour tous les pains ensemble ; les « Dernières déductions » de la réserve peuvent être annulées.
 • Si vous le souhaitez, une notification vous rappelle 14 jours avant la date limite. La collection « Écouler la réserve » montre quelles recettes utilisent le plus de ce qui expire bientôt.
 
+• L’app Watch récupère le plan sur l’iPhone à l’ouverture, et l’iPhone le renvoie à l’ouverture – une synchronisation manquée ne reste plus bloquée.
 PLUS PETIT
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».
 • Les réglages ne contiennent plus que des réglages. « Importer des recettes » (auparavant « Restaurer depuis une sauvegarde ») se trouve désormais dans le menu « Plus » de la liste des recettes, à côté de « Exporter des recettes » – comme sur Android. « Sauvegarder toutes mes recettes » disparaît : « Exporter des recettes » avec « Tout sélectionner » et l’historique de cuisson activé est la même sauvegarde – et reste gratuit.
