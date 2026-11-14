@@ -155,11 +155,23 @@ final class PlanSnapshotPublisher {
         return result
     }
 
-    func refresh() {
-        guard let container else { return }
+    /// `completion` runs on the main queue once the snapshot is written (or
+    /// found unchanged). A notification action waits for it before it
+    /// reports done: the system suspends the app right after, and a refresh
+    /// still pending then never happens — the widget and the watch kept
+    /// showing a step marked done on the reminder.
+    func refresh(completion: (() -> Void)? = nil) {
+        guard let container else {
+            completion.map { DispatchQueue.main.async(execute: $0) }
+            return
+        }
+
+        // A coalesced refresh still waiting would only repeat this one.
+        DispatchQueue.main.async { [self] in pendingRefresh?.cancel() }
 
         let context = container.newBackgroundContext()
         context.perform {
+            defer { completion.map { DispatchQueue.main.async(execute: $0) } }
             Self.applyPendingWidgetActions(in: context)
 
             let request = NextStep.fetchRequest()
