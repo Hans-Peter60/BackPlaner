@@ -86,7 +86,7 @@ struct ProAccessTests {
             #expect(feature.introducedBuild >= 1)
         }
         #expect(ProFeature.pantry.introducedBuild == 21 && ProFeature.shoppingList.introducedBuild == 1)
-        #expect(ProFeature.allCases.count == 11)
+        #expect(ProFeature.allCases.count == 12)
     }
 
     @Test("Builds compare as numbers, not as text")

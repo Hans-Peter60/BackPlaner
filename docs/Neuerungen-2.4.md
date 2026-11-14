@@ -19,6 +19,9 @@ REZEPT NACH BÄCKERPROZENT
 BACKSTATISTIK
 • Die Backhistorie hat eine fünfte Ansicht: Brote gesamt, dieses Jahr und pro Monat, die letzten zwölf Monate als Balken, die meistgebackenen Rezepte, die Verteilung der Sterne, Stückgare gegen Raumtemperatur und die Stichwörter zu Krume und Ofentrieb.
 
+BACKJAHR-BUCH
+• Ein Jahr Deiner Backhistorie als PDF-Buch: Titelblatt mit dem besten Foto, das Jahr in Zahlen, jeder Monat mit seinen Fotos, die Lieblingsrezepte als Rezeptseiten, was Deine Messwerte gelehrt haben, das Anstellgut-Jahr und eine Seite für Vorsätze. Backhistorie → ⋯ → Backjahr-Buch.
+
 SAMMLUNGEN UND FACETTEN
 • Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
 • Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
@@ -70,6 +73,9 @@ RECIPE FROM BAKER’S PERCENTAGES
 BAKING STATISTICS
 • The baking history has a fifth view: loaves in total, this year and per month, the last twelve months as bars, the recipes baked most, the spread of the stars, final proof against room temperature, and the crumb and oven-spring keywords.
 
+BAKING YEARBOOK
+• A year of your baking history as a PDF book: a cover with the best photo, the year in figures, every month with its photos, the favourite recipes as recipe pages, what your measurements taught, the starter's year and a page for resolutions. Baking history → ⋯ → Baking yearbook.
+
 COLLECTIONS AND FACETS
 • The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
 • The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
@@ -115,6 +121,9 @@ RECETTE EN POURCENTAGES BOULANGER
 
 STATISTIQUES DE CUISSON
 • L’historique de cuisson a un cinquième affichage : pains au total, cette année et par mois, les douze derniers mois en barres, les recettes les plus cuites, la répartition des étoiles, l’apprêt selon la température ambiante et les mots-clés de mie et de développement.
+
+LIVRE DE L’ANNÉE DE CUISSON
+• Une année de votre historique en livre PDF : couverture avec la meilleure photo, l’année en chiffres, chaque mois avec ses photos, les recettes préférées en pages de recette, les enseignements de vos mesures, l’année du levain et une page de bonnes résolutions. Historique de cuisson → ⋯ → Livre de l’année de cuisson.
 
 COLLECTIONS ET FACETTES
 • La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».

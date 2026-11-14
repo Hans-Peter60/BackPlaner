@@ -44,7 +44,7 @@ public struct RecipePrintData: Sendable {
 
     public let name: String
     public let summary: String
-    public let imageData: Data?
+    public var imageData: Data?
     public let totalWeight: Int
     public let prepTime: String
     public let urlLink: String?

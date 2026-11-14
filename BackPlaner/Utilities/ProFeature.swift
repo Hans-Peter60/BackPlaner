@@ -25,6 +25,7 @@ extension ProFeature {
         case .collections:    return "Sammlungen und Fertig bis"
         case .statistics:     return "Backstatistik"
         case .bakersFormula:  return "Rezept nach Bäckerprozent"
+        case .yearbook:       return "Backjahr-Buch"
         }
     }
 
@@ -42,6 +43,7 @@ extension ProFeature {
         case .collections:    return "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind."
         case .statistics:     return "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet."
         case .bakersFormula:  return "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm."
+        case .yearbook:       return "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken."
         }
     }
 
@@ -58,6 +60,7 @@ extension ProFeature {
         case .collections:    return "bookmark"
         case .statistics:     return "chart.bar"
         case .bakersFormula:  return "percent"
+        case .yearbook:       return "book.closed"
         }
     }
 }
