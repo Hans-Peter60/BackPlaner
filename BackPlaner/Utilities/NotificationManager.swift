@@ -208,10 +208,15 @@ enum NotificationActions {
         response: UNNotificationResponse,
         completionHandler: @escaping () -> Void
     ) {
+        // The widget and the watch read the plan snapshot, which is
+        // rewritten after the step is gone or moved — before the system
+        // hears that the action is done and may suspend the app.
+        let refreshThenComplete = {
+            PlanSnapshotPublisher.shared.refresh(completion: completionHandler)
+        }
         switch response.actionIdentifier {
         case doneAction:
-            markDone(userInfo: response.notification.request.content.userInfo)
-            completionHandler()
+            markDone(userInfo: response.notification.request.content.userInfo, completion: refreshThenComplete)
 
         case postponeAction:
             guard let textResponse = response as? UNTextInputNotificationResponse,
@@ -229,14 +234,14 @@ enum NotificationActions {
             applyPostponement(
                 from: response.notification.request.content,
                 includeFollowing: false,
-                completionHandler: completionHandler
+                completionHandler: refreshThenComplete
             )
 
         case postponeFollowingAction:
             applyPostponement(
                 from: response.notification.request.content,
                 includeFollowing: true,
-                completionHandler: completionHandler
+                completionHandler: refreshThenComplete
             )
 
         default:
@@ -289,13 +294,17 @@ enum NotificationActions {
         }
     }
 
-    private static func markDone(userInfo: [AnyHashable: Any]) {
-        guard let metadata = metadata(from: userInfo) else { return }
+    private static func markDone(userInfo: [AnyHashable: Any], completion: @escaping () -> Void) {
+        guard let metadata = metadata(from: userInfo) else {
+            completion()
+            return
+        }
 
         // Use the view context so active list and timeline fetch requests immediately
         // observe the deletion after the notification action.
         let context = PersistenceController.shared.container.viewContext
         context.perform {
+            defer { completion() }
             guard let step = fetchCurrentStep(metadata: metadata, in: context) else {
                 AppLog.persistence.error("Could not find scheduled step to mark as done")
                 return
