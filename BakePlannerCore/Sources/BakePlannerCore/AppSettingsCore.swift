@@ -277,7 +277,7 @@ public struct AppSettings {
         }
     }
 
-    private static func baseLanguage(of languageCode: String) -> String {
+    static func baseLanguage(of languageCode: String) -> String {
         languageCode
             .replacingOccurrences(of: "-", with: "_")
             .split(separator: "_")

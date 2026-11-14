@@ -36,6 +36,10 @@ struct BakeModeView: View {
     @State private var currentID: NSManagedObjectID?
     @State private var speaker = StepSpeaker()
     @State private var doneHaptic = false
+    /// The hands-free mode: listens for "weiter", "zurück", "erledigt",
+    /// "vorlesen" and answers by voice. A Pro feature.
+    @State private var voice = BakeVoiceListener()
+    @Environment(\.scenePhase) private var scenePhase
 
     /// Narrowed to one plan when the list was filtered; otherwise every
     /// planned step.
@@ -64,6 +68,11 @@ struct BakeModeView: View {
     private func show(_ step: NextStep?) {
         speaker.stop()
         currentID = step?.objectID
+        // Hands-free, every step one arrives at is read out: the baker is
+        // not looking at the screen.
+        if voice.isActive, let step {
+            speaker.speak(Self.spokenText(for: step, component: component(for: step)))
+        }
     }
 
     // MARK: Body
@@ -85,10 +94,41 @@ struct BakeModeView: View {
             .navigationTitle("Backmodus")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    ProGate(.handsFree) {
+                        Button {
+                            toggleHandsFree()
+                        } label: {
+                            Image(systemName: voice.isActive ? "mic.fill" : "mic")
+                        }
+                        .tint(voice.isActive ? Theme.accentText : nil)
+                        .accessibilityLabel(voice.isActive ? "Freihändig beenden" : "Freihändig starten")
+                        .accessibilityIdentifier("bakeMode.handsFree")
+                    } label: {
+                        Image(systemName: "mic")
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Schließen") { dismiss() }
                         .accessibilityIdentifier("bakeMode.close")
                 }
+            }
+        }
+        // The microphone is dropped while the app talks, and a moment after,
+        // so the room's echo of its own voice is not taken for a command.
+        .onChange(of: speaker.isSpeaking) { _, speaking in
+            if speaking {
+                voice.isMuted = true
+            } else {
+                Task {
+                    try? await Task.sleep(for: .milliseconds(400))
+                    if !speaker.isSpeaking { voice.isMuted = false }
+                }
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active, voice.isActive {
+                stopHandsFree()
             }
         }
         .onAppear {
@@ -102,6 +142,7 @@ struct BakeModeView: View {
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
             speaker.stop()
+            stopHandsFree()
         }
         // A step removed elsewhere — marked done from a reminder, say —
         // must not leave the view pointing at nothing.
@@ -122,6 +163,10 @@ struct BakeModeView: View {
             VStack(alignment: .leading, spacing: 16) {
 
                 header(for: step, index: index)
+
+                if voice.isActive {
+                    voiceStatus
+                }
 
                 Text(step.instruction)
                     .font(Theme.brandFont(26))
@@ -320,6 +365,135 @@ struct BakeModeView: View {
         .disabled(!enabled)
     }
 
+    // MARK: Hands-free
+
+    /// What the hands-free mode is doing, under the header.
+    @ViewBuilder
+    private var voiceStatus: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            switch voice.state {
+            case .off:
+                EmptyView()
+            case .preparing:
+                Label("Spracherkennung wird vorbereitet …", systemImage: "waveform")
+            case .listening:
+                let words = BakeVoiceCommands.hintWords(languageCode: AppSettings.locale.identifier)
+                Label(String(format: String(localized: "Sage „%@“, „%@“, „%@“ oder „%@“."),
+                             words[0], words[1], words[2], words[3]),
+                      systemImage: "waveform")
+                if let heard = voice.lastHeard {
+                    Text("Gehört: „\(commandWord(heard))“")
+                        .foregroundColor(Theme.accentText)
+                }
+            case .microphoneDenied:
+                Label("Ohne Mikrofon kann der Backmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen.", systemImage: "mic.slash")
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    Link("Einstellungen öffnen", destination: url)
+                        .foregroundColor(Theme.accentText)
+                }
+            case .unavailable:
+                Label("Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar.", systemImage: "mic.slash")
+            case .failed(let message):
+                Label("Spracherkennung fehlgeschlagen: \(message)", systemImage: "exclamationmark.triangle")
+            }
+        }
+        .font(Theme.bodyFont(15))
+        .foregroundColor(Theme.subtitle)
+        .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .combine)
+    }
+
+    /// The word on screen for a command that was heard.
+    private func commandWord(_ command: BakeVoiceCommand) -> String {
+        let words = BakeVoiceCommands.hintWords(languageCode: AppSettings.locale.identifier)
+        switch command {
+        case .next: return words[0]
+        case .previous: return words[1]
+        case .done: return words[2]
+        case .read: return words[3]
+        case .ingredients: return spoken("Zutaten")
+        case .timing: return spoken("Wie lange")
+        case .stop: return spoken("Stopp")
+        }
+    }
+
+    private func toggleHandsFree() {
+        if voice.isActive {
+            stopHandsFree()
+        } else {
+            speaker.managesAudioSession = false
+            voice.onCommand = { command in handle(command) }
+            Task {
+                await voice.start(languageCode: AppSettings.locale.identifier)
+                if voice.state == .listening {
+                    let words = BakeVoiceCommands.hintWords(languageCode: AppSettings.locale.identifier)
+                    speaker.speak(String(format: spoken("Freihändiger Backmodus. Sage %@, %@, %@ oder %@."),
+                                         words[0], words[1], words[2], words[3]))
+                }
+            }
+        }
+    }
+
+    private func stopHandsFree() {
+        guard voice.isActive else { return }
+        speaker.stop()
+        voice.stop()
+        speaker.managesAudioSession = true
+    }
+
+    /// Carries out a spoken command on the step on display.
+    private func handle(_ command: BakeVoiceCommand) {
+        guard let index = currentIndex, steps.indices.contains(index) else { return }
+        let step = steps[index]
+        switch command {
+        case .next:
+            if index + 1 < steps.count {
+                show(steps[index + 1])
+            } else {
+                speaker.speak(spoken("Das war der letzte Schritt."))
+            }
+        case .previous:
+            if index > 0 {
+                show(steps[index - 1])
+            } else {
+                speaker.speak(spoken("Das ist der erste Schritt."))
+            }
+        case .done:
+            // The successor is picked before the step goes, as the fetched
+            // list only catches up afterwards.
+            let successor = index + 1 < steps.count ? steps[index + 1] : nil
+            markDone(step, at: index)
+            var text = spoken("Erledigt.")
+            if let successor {
+                text += " " + Self.spokenText(for: successor, component: component(for: successor))
+            } else {
+                text += " " + spoken("Das war der letzte Schritt.")
+            }
+            speaker.speak(text)
+        case .read:
+            speaker.speak(Self.spokenText(for: step, component: component(for: step)))
+        case .ingredients:
+            if let component = component(for: step), !component.ingredients.isEmpty {
+                speaker.speak(Self.spokenIngredients(for: step, component: component))
+            } else {
+                speaker.speak(spoken("Dieser Schritt hat keine Zutaten."))
+            }
+        case .timing:
+            let now = Date()
+            let distance = StepTiming.distanceText(from: now, to: step.date)
+            speaker.speak(step.date > now
+                          ? String(format: spoken("Fällig in %@."), distance)
+                          : String(format: spoken("Seit %@ fällig."), distance))
+        case .stop:
+            speaker.stop()
+        }
+    }
+
+    /// A sentence the app says, in the app's language.
+    private func spoken(_ key: String.LocalizationValue) -> String {
+        String(localized: key, bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
+    }
+
     // MARK: Actions
 
     /// Removes the step and its reminder, then moves on to the step that
@@ -382,24 +556,28 @@ struct BakeModeView: View {
     private static func spokenText(for step: NextStep, component: ComponentColumn?) -> String {
         var parts = [step.instruction.replacingOccurrences(of: "\n", with: ". ")]
         if let component, !component.ingredients.isEmpty {
-            let heading = String(
-                format: String(localized: "Zutaten für „%@“:", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
-                component.name
-            )
-            let lines = component.ingredients.map { ingredient in
-                // Spelled out: "TL" or "tsp" read aloud is just letters.
-                Rational.getPortion(unit: ingredient.unit,
-                                    weight: ingredient.weight,
-                                    num: ingredient.numerator,
-                                    denom: ingredient.denominator,
-                                    scale: step.effectiveServingScale,
-                                    unitStyle: .name)
-                    + ingredient.name
-            }
-            parts.append(heading)
-            parts.append(lines.joined(separator: ". "))
+            parts.append(spokenIngredients(for: step, component: component))
         }
         return parts.joined(separator: " ")
+    }
+
+    /// The ingredients alone: "Zutaten für „Hauptteig“: 500 Gramm Mehl. …"
+    private static func spokenIngredients(for step: NextStep, component: ComponentColumn) -> String {
+        let heading = String(
+            format: String(localized: "Zutaten für „%@“:", bundle: AppSettings.localizationBundle, locale: AppSettings.locale),
+            component.name
+        )
+        let lines = component.ingredients.map { ingredient in
+            // Spelled out: "TL" or "tsp" read aloud is just letters.
+            Rational.getPortion(unit: ingredient.unit,
+                                weight: ingredient.weight,
+                                num: ingredient.numerator,
+                                denom: ingredient.denominator,
+                                scale: step.effectiveServingScale,
+                                unitStyle: .name)
+                + ingredient.name
+        }
+        return heading + " " + lines.joined(separator: ". ")
     }
 }
 
@@ -451,6 +629,9 @@ final class StepSpeaker: NSObject, AVSpeechSynthesizerDelegate {
 
     private let synthesizer = AVSpeechSynthesizer()
     private(set) var isSpeaking = false
+    /// False while the hands-free mode holds the audio session for the
+    /// microphone: then the speaker neither reconfigures nor releases it.
+    var managesAudioSession = true
 
     override init() {
         super.init()
@@ -460,9 +641,11 @@ final class StepSpeaker: NSObject, AVSpeechSynthesizerDelegate {
     func speak(_ text: String) {
         stop()
 
-        let session = AVAudioSession.sharedInstance()
-        try? session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
-        try? session.setActive(true)
+        if managesAudioSession {
+            let session = AVAudioSession.sharedInstance()
+            try? session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
+            try? session.setActive(true)
+        }
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: Self.voiceLanguage)
@@ -489,7 +672,9 @@ final class StepSpeaker: NSObject, AVSpeechSynthesizerDelegate {
 
     private func finished() {
         isSpeaking = false
-        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        if managesAudioSession {
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        }
     }
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {

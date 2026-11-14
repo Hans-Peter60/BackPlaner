@@ -27,6 +27,7 @@ extension ProFeature {
         case .bakersFormula:  return "Rezept nach Bäckerprozent"
         case .yearbook:       return "Backjahr-Buch"
         case .ovenProfiles:   return "Ofenprofile"
+        case .handsFree:      return "Freihändiger Backmodus"
         }
     }
 
@@ -46,6 +47,7 @@ extension ProFeature {
         case .bakersFormula:  return "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm."
         case .yearbook:       return "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken."
         case .ovenProfiles:   return "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung."
+        case .handsFree:      return "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät."
         }
     }
 
@@ -64,6 +66,7 @@ extension ProFeature {
         case .bakersFormula:  return "percent"
         case .yearbook:       return "book.closed"
         case .ovenProfiles:   return "oven"
+        case .handsFree:      return "mic"
         }
     }
 }

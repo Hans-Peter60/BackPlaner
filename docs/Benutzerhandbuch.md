@@ -671,6 +671,7 @@ Unten liegen große Tasten, die sich auch mit Mehl an den Händen treffen lassen
 - **Zurück** und **Weiter** blättern durch alle Schritte des Plans.
 - **Vorlesen** liest den Schritt und gegebenenfalls die Zutaten über den Lautsprecher vor, in der eingestellten App-Sprache. Ein zweiter Tipp (**Stopp**) bricht ab. Die Sprachausgabe ertönt auch bei stummgeschaltetem Gerät.
 - **Erledigt** entfernt den Schritt samt Erinnerung aus dem Plan und springt zum nächsten.
+- **Freihändig** (Mikrofon-Symbol oben links) lässt den Backmodus zuhören: Sage **„Weiter“**, **„Zurück“**, **„Erledigt“**, **„Vorlesen“**, **„Zutaten“**, **„Wie lange“** oder **„Stopp“** – auf Deutsch, Englisch oder Französisch, je nach App-Sprache. Die App antwortet mit Stimme, liest jeden neuen Schritt von selbst vor und meldet „Erledigt“ samt dem nächsten Schritt. Beim ersten Mal fragt iOS nach dem Mikrofon; die Spracherkennung läuft auf dem Gerät (iOS 26, das Sprachmodell wird einmal geladen). Solange die App selbst spricht, hört sie nicht zu. Ein Anruf oder der Wechsel in eine andere App beendet das Zuhören. Gehört zu BakePlanner Pro.
 
 Der Backmodus öffnet mit dem Schritt, der gerade dran ist, und respektiert den Rezeptfilter der Liste. Solange er geöffnet ist, bleibt der Bildschirm an. **Schließen** oben rechts führt zurück zur Liste.
 
@@ -1025,7 +1026,7 @@ Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), 
 
 ### BakePlanner Pro
 
-Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch und Ofenprofile, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
+Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch, Ofenprofile und der freihändige Backmodus, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
 
 **Wer die App schon hatte, bevor es Pro gab,** behält, was die App an seinem Installationstag konnte – dauerhaft und ohne Kauf. Funktionen, die erst später dazukamen, gibt es wie für alle anderen mit dem Kauf; der Abschnitt in den Einstellungen sagt das dazu. Erkannt wird das am Installationsdatum bei Apple, es übersteht also auch einen Gerätewechsel.
 
@@ -1330,6 +1331,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Live-Aktivität, Widgets, Kontrollzentrum, Siri, Spotlight, Apple Watch | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [11](#11-erinnerungen-auf-dem-sperrbildschirm) | Nicht vorgesehen |
 | Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
 | Ofenprofile (Einstellungen → Backöfen) | [Kapitel 14](#14-einstellungen) | Fehlen; es gelten Vorheizzeit, Vorheizzeit mit Backstein und Backöfen |
+| Freihändiger Backmodus (Mikrofon im Backmodus) | [Kapitel 7](#7-backanleitung-und-erinnerungen) | Fehlt; Vorlesen ist vorhanden |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Vorhanden: **+ → Nach Bäckerprozent** mit Rezeptname, Mehl gesamt oder Teiggewicht, Komponenten und Zutaten in Prozent; **Weiter** öffnet den Rezept-Editor mit den Gramm |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Das **Backjahr-Buch** fehlt noch |

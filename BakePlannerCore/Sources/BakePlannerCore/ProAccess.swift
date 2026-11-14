@@ -53,6 +53,9 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     /// cold and its convection reduction; the plan and the oven steps use
     /// the chosen one.
     case ovenProfiles
+    /// The hands-free bake mode: the bake mode listens for "weiter",
+    /// "zurück", "erledigt", "vorlesen" and answers by voice.
+    case handsFree
 
     public var id: String { rawValue }
 
@@ -64,7 +67,7 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .pdfExport, .recipeSharing, .recurringPlans, .shoppingList, .widgets, .liveActivity:
             return 1
-        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula, .yearbook, .ovenProfiles:
+        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula, .yearbook, .ovenProfiles, .handsFree:
             return 21
         }
     }

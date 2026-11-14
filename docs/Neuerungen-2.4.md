@@ -25,6 +25,9 @@ BACKJAHR-BUCH
 OFENPROFILE
 • Einstellungen → Backöfen: Jeder Ofen mit Name, Vorheizzeit, Vorheizzeit mit Backstein, ob er heißer oder kälter läuft, als der Regler zeigt, und mit Umluft-Abschlag. „Geplant wird mit“ wählt den Ofen – der Plan nimmt seine Vorheizzeiten, die Ofenschritte nennen die Reglereinstellung: „Backofen anstellen (250 °C, am Regler 240 °C)“. Der Backmodus zeigt sie auch bei Schritten mit eigener Temperatur. Gehört zu BakePlanner Pro.
 
+FREIHÄNDIGER BACKMODUS
+• Das Mikrofon im Backmodus: Sage „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – die App antwortet mit Stimme und liest jeden neuen Schritt von selbst vor. Die Spracherkennung läuft auf dem Gerät. Gehört zu BakePlanner Pro.
+
 SAMMLUNGEN UND FACETTEN
 • Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
 • Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
@@ -82,6 +85,9 @@ BAKING YEARBOOK
 OVEN PROFILES
 • Settings → Ovens: each oven with its name, preheat time, preheat time with baking stone, whether it runs hotter or colder than its dial shows, and its convection reduction. “Planning with” picks the oven – the plan takes its preheat times, and the oven steps name the dial setting: “Turn on the oven (250 °C, dial at 240 °C)”. Bake mode shows it for steps with a temperature of their own as well. Part of BakePlanner Pro.
 
+HANDS-FREE BAKE MODE
+• The microphone in bake mode: say “next”, “back”, “done”, “read”, “ingredients” or “how long” – the app answers by voice and reads every new step on its own. Speech is recognized on the device. Part of BakePlanner Pro.
+
 COLLECTIONS AND FACETS
 • The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
 • The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
@@ -133,6 +139,9 @@ LIVRE DE L’ANNÉE DE CUISSON
 
 PROFILS DE FOUR
 • Réglages → Fours : chaque four avec son nom, son temps de préchauffage, celui avec pierre, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante. « Planification avec » choisit le four – le plan prend ses temps de préchauffage, et les étapes du four indiquent le réglage du thermostat : « Allumer le four (250 °C, thermostat sur 240 °C) ». Le mode cuisson l’affiche aussi pour les étapes avec leur propre température. Fait partie de BakePlanner Pro.
+
+MODE CUISSON MAINS LIBRES
+• Le micro du mode cuisson : dites « suivant », « retour », « terminé », « lire », « ingrédients » ou « combien de temps » – l’app répond à voix haute et lit d’elle-même chaque nouvelle étape. La reconnaissance vocale s’effectue sur l’appareil. Fait partie de BakePlanner Pro.
 
 COLLECTIONS ET FACETTES
 • La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».

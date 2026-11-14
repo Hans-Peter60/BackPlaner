@@ -26,6 +26,10 @@
 	<string>BakePlanner enters the steps of a plan into your calendar on request, so everyone sees when the oven is taken.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>BakePlanner sends a shopping list to Reminders on request, into its own list “BakePlanner”.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>In the hands-free bake mode BakePlanner listens for “next”, “back”, “done” and “read”, so you can go through the steps with dough on your hands. Speech is recognized on the device.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>BakePlanner recognizes the spoken commands of the hands-free bake mode on the device.</string>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>BakePlanner sets alarms for the steps of your bake on request, which ring even when the iPhone is on silent.</string>
 	<key>UIBackgroundModes</key>
