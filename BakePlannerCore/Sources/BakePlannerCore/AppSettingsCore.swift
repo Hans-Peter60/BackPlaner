@@ -19,6 +19,10 @@ public struct AppSettingsKeys {
     public static let stonePreheatTime = "settings.stonePreheatTime"
     public static let bakePause = "settings.bakePause"
     public static let ovenCount = "settings.ovenCount"
+    /// The oven profiles as a JSON array, and the id of the one the plan
+    /// works with (see `OvenProfiles`).
+    public static let ovenProfiles = "settings.ovenProfiles"
+    public static let selectedOvenProfile = "settings.selectedOvenProfile"
     public static let dayStart = "settings.dayStart"
     public static let dayEnd = "settings.dayEnd"
     public static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
@@ -192,17 +196,21 @@ public struct AppSettings {
     /// are formats taking the lower temperature ("220 °C") of a bake whose
     /// heat falls.
     public static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String,
-                                                              turnDown: String, turnDownWithSteam: String) {
+                                                              turnDown: String, turnDownWithSteam: String,
+                                                              dial: String) {
         switch baseLanguage(of: languageCode) {
         case "en":
             return ("Turn on the oven", "Baking is finished",
-                    "Turn the oven down to %@", "Turn the oven down to %@, release the steam")
+                    "Turn the oven down to %@", "Turn the oven down to %@, release the steam",
+                    "dial at %@")
         case "fr":
             return ("Allumer le four", "La cuisson est terminée",
-                    "Baisser le four à %@", "Baisser le four à %@, évacuer la buée")
+                    "Baisser le four à %@", "Baisser le four à %@, évacuer la buée",
+                    "thermostat sur %@")
         default:
             return ("Backofen anstellen", "Backvorgang ist beendet",
-                    "Backofen auf %@ zurückdrehen", "Backofen auf %@ zurückdrehen, Dampf ablassen")
+                    "Backofen auf %@ zurückdrehen", "Backofen auf %@ zurückdrehen, Dampf ablassen",
+                    "am Regler %@")
         }
     }
 
@@ -368,21 +376,28 @@ public struct AppSettings {
         return UserDefaults.standard.bool(forKey: AppSettingsKeys.useDetailView)
     }
 
+    /// The selected oven profile's time when there are profiles, else the
+    /// plain setting.
     public static var storedPreheatTime: Int {
-        storedInt(forKey: AppSettingsKeys.preheatTime, defaultValue: defaultPreheatTime)
+        OvenProfiles.selected?.preheatMinutes
+            ?? storedInt(forKey: AppSettingsKeys.preheatTime, defaultValue: defaultPreheatTime)
     }
 
     public static var storedStonePreheatTime: Int {
-        storedInt(forKey: AppSettingsKeys.stonePreheatTime, defaultValue: defaultStonePreheatTime)
+        OvenProfiles.selected?.stonePreheatMinutes
+            ?? storedInt(forKey: AppSettingsKeys.stonePreheatTime, defaultValue: defaultStonePreheatTime)
     }
 
     public static var storedBakePause: Int {
         storedInt(forKey: AppSettingsKeys.bakePause, defaultValue: defaultBakePause)
     }
 
+    /// With oven profiles, one oven per profile; else the plain setting.
     /// Never below 1: a stored 0 would switch the overlap check off entirely.
     public static var storedOvenCount: Int {
-        max(1, storedInt(forKey: AppSettingsKeys.ovenCount, defaultValue: defaultOvenCount))
+        let profiles = OvenProfiles.stored
+        if !profiles.isEmpty { return min(profiles.count, maximumOvenCount) }
+        return max(1, storedInt(forKey: AppSettingsKeys.ovenCount, defaultValue: defaultOvenCount))
     }
 
     public static var storedDayStart: Int {
@@ -414,7 +429,7 @@ public struct AppSettings {
         return UserDefaults.standard.integer(forKey: key)
     }
 
-    private static func storedString(forKey key: String) -> String? {
+    static func storedString(forKey key: String) -> String? {
         if let settingsReader {
             return settingsReader(key) as? String
         }

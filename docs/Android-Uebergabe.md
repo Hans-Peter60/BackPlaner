@@ -292,6 +292,7 @@ Ergebnis eines Abgleichs des Benutzerhandbuchs (alle Kapitel) mit den Android-Qu
 | Bereich | Fehlt auf Android | Einordnung |
 |---|---|---|
 | Einstellungen | Pro über Play Billing | später |
+| Einstellungen | Ofenprofile (iPhone 14.11.2026): Logik im Paket (`OvenProfiles.swift`, Schlüssel `settings.ovenProfiles` als JSON und `settings.selectedOvenProfile`; `AppSettings.storedPreheatTime`/`storedStonePreheatTime`/`storedOvenCount` nehmen das gewählte Profil, `BakePlan` schreibt die Reglereinstellung in die Ofenschritte) | offen – nur die Oberfläche fehlt: Abschnitt „Backöfen“ in `SettingsView` nach dem Vorbild von `OvenProfilesSettingsView.swift` (iOS), Pro-Funktion `.ovenProfiles` |
 | Einstellungen | „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | nicht nötig bzw. nicht geplant (Stand 10.11.2026) |
 | Rezept-Datenbank | Übersetzung auf dem Gerät, Menü „Rezept übersetzen“ | nicht geplant |
 | Geplante Schritte | Backtag-Zettel (PDF), Schritte in den Kalender, Wecker (AlarmManager) | eigener Schritt, nicht begonnen |

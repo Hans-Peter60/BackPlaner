@@ -23600,6 +23600,294 @@
           }
         }
       }
+    },
+    "Geplant wird mit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planning with"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planification avec"
+          }
+        }
+      }
+    },
+    "Ofen hinzufügen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un four"
+          }
+        }
+      }
+    },
+    "Jeder Ofen bringt seine Vorheizzeiten mit und sagt, ob er heißer oder kälter läuft, als der Regler zeigt. Der Plan rechnet mit dem gewählten Ofen, die Ofenschritte nennen die Reglereinstellung. Ohne Ofenprofil gelten die Vorheizzeiten unten." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven brings its preheating times and says whether it runs hotter or colder than its dial shows. The plan works with the chosen oven, and the oven steps name the dial setting. Without an oven profile the preheating times below apply."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four apporte ses temps de préchauffage et indique s’il chauffe plus ou moins que n’affiche le thermostat. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat. Sans profil de four, les temps de préchauffage ci-dessous s’appliquent."
+          }
+        }
+      }
+    },
+    "Stein %lld min" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stone %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pierre %lld min"
+          }
+        }
+      }
+    },
+    "läuft %lld °C heißer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C hot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de plus"
+          }
+        }
+      }
+    },
+    "läuft %lld °C kälter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C cold"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de moins"
+          }
+        }
+      }
+    },
+    "Umluft −%lld °C" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "convection −%lld °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chaleur tournante −%lld °C"
+          }
+        }
+      }
+    },
+    "Ofen %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %lld"
+          }
+        }
+      }
+    },
+    "Vorheizen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preheating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préchauffage"
+          }
+        }
+      }
+    },
+    "Abweichung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deviation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart"
+          }
+        }
+      }
+    },
+    "Umluft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaleur tournante"
+          }
+        }
+      }
+    },
+    "Umluft-Abschlag" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection reduction"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réduction chaleur tournante"
+          }
+        }
+      }
+    },
+    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For a recipe at 250 °C, set this oven to %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour une recette à 250 °C, réglez ce four sur %@."
+          }
+        }
+      }
+    },
+    "Dieser Ofen hält, was der Regler sagt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This oven bakes at what its dial says."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce four cuit à la température affichée."
+          }
+        }
+      }
+    },
+    "stimmt mit dem Regler überein" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "matches the dial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correspond au thermostat"
+          }
+        }
+      }
+    },
+    "Ofen löschen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le four"
+          }
+        }
+      }
+    },
+    "Ofenprofile" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven profiles"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profils de four"
+          }
+        }
+      }
+    },
+    "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven with its preheating times, whether it runs hotter or colder than its dial shows, and its convection reduction. The plan works with the chosen oven, and the oven steps name the dial setting."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four avec ses temps de préchauffage, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
