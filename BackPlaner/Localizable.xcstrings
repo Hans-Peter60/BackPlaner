@@ -24208,6 +24208,486 @@
           }
         }
       }
+    },
+    "Anstellgut-Diagramm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter diagram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagramme du levain"
+          }
+        }
+      }
+    },
+    "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your starter's ripening curve over room temperature, the feedings over time, the feeding under way with its predicted peak and a reminder, the rhythm – and the diary as CSV."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La courbe de maturation de votre levain selon la température ambiante, les nourrissages dans le temps, le nourrissage en cours avec son pic prévu et un rappel, le rythme – et le journal en CSV."
+          }
+        }
+      }
+    },
+    "Diagramm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagramme"
+          }
+        }
+      }
+    },
+    "Reifekurve und Verlauf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening curve and trend"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Courbe de maturation et évolution"
+          }
+        }
+      }
+    },
+    "Reifekurve" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening curve"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Courbe de maturation"
+          }
+        }
+      }
+    },
+    "Tagebuch als CSV teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share diary as CSV"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le journal en CSV"
+          }
+        }
+      }
+    },
+    "Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann zeichnet die App die Reifekurve Deines Anstellguts und sagt voraus, wann es reif ist." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note time to peak and room temperature with your feedings, and the app draws your starter's ripening curve and predicts when it is ripe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notez le temps jusqu’au pic et la température ambiante lors de vos nourrissages : l’app trace alors la courbe de maturation de votre levain et prédit quand il sera mûr."
+          }
+        }
+      }
+    },
+    "Stunden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heures"
+          }
+        }
+      }
+    },
+    "Reifezeit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to peak"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation"
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit nach dem Tagebuch, Faktor %1$@ je 10 °C, %2$@. Punkte: gemessene Fütterungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak from the diary, factor %1$@ per 10 °C, %2$@. Dots: measured feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation d’après le journal, facteur %1$@ par 10 °C, %2$@. Points : nourrissages mesurés."
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit mit dem üblichen Faktor %1$@ je 10 °C, %2$@. Ab drei Fütterungen über 4 °C Spanne lernt die App den Faktor Deines Anstellguts. Punkte: gemessene Fütterungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak with the usual factor %1$@ per 10 °C, %2$@. From three feedings over a 4 °C span the app learns your starter's own factor. Dots: measured feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation avec le facteur habituel %1$@ par 10 °C, %2$@. À partir de trois nourrissages sur un écart de 4 °C, l’app apprend le facteur propre de votre levain. Points : nourrissages mesurés."
+          }
+        }
+      }
+    },
+    "Laufende Fütterung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feeding under way"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourrissage en cours"
+          }
+        }
+      }
+    },
+    "Gefüttert %1$@ – vermutlich seit %2$@ am Höhepunkt. Trage das Ergebnis im Tagebuch ein." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fed %1$@ – probably at its peak since %2$@. Enter the result in the diary."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourri %1$@ – probablement au pic depuis %2$@. Notez le résultat dans le journal."
+          }
+        }
+      }
+    },
+    "Gefüttert %1$@ – reif gegen %2$@ bei %3$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fed %1$@ – ripe around %2$@ at %3$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourri %1$@ – mûr vers %2$@ à %3$@."
+          }
+        }
+      }
+    },
+    "Erinnerung %@ gesetzt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder set for %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel réglé pour %@."
+          }
+        }
+      }
+    },
+    "Mitteilungen sind für BakePlanner nicht erlaubt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are not allowed for BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notifications ne sont pas autorisées pour BakePlanner."
+          }
+        }
+      }
+    },
+    "Erinnern, wenn reif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remind me when ripe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Me rappeler à maturité"
+          }
+        }
+      }
+    },
+    "Verlauf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trend"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Évolution"
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit umgerechnet auf 22 °C – steigt sie, wird das Anstellgut träger. Punkte: wie gemessen; ein Kreuz ist eine Fütterung, bei der der Schwimmtest misslang." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak converted to 22 °C – if it rises, the starter is getting sluggish. Dots: as measured; a cross is a feeding whose float test failed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation ramené à 22 °C – s’il monte, le levain ralentit. Points : tels que mesurés ; une croix est un nourrissage dont le test de flottaison a échoué."
+          }
+        }
+      }
+    },
+    "Rhythmus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rhythm"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rythme"
+          }
+        }
+      }
+    },
+    "Fütterungen in 30 Tagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedings in 30 days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourrissages en 30 jours"
+          }
+        }
+      }
+    },
+    "Mittlerer Abstand" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average gap"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart moyen"
+          }
+        }
+      }
+    },
+    "%@ Tage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ jours"
+          }
+        }
+      }
+    },
+    "vor %lld Tagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days ago"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld jours"
+          }
+        }
+      }
+    },
+    "Nächste Fütterung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage"
+          }
+        }
+      }
+    },
+    "heute %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aujourd’hui %@"
+          }
+        }
+      }
+    },
+    "morgen %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tomorrow %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "demain %@"
+          }
+        }
+      }
+    },
+    "gestern %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "yesterday %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hier %@"
+          }
+        }
+      }
+    },
+    "Anstellgut reif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter ripe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain mûr"
+          }
+        }
+      }
+    },
+    "„%1$@“ ist vermutlich am Höhepunkt – gefüttert %2$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%1$@” is probably at its peak – fed %2$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %1$@ » est probablement au pic – nourri %2$@."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
