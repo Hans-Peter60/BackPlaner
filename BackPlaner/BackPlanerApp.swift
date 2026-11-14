@@ -174,6 +174,9 @@ struct BackPlanerApp: App {
                     RecurringBakePlanner.scheduleDueOccurrences(in: persistenceController.container.viewContext)
                 }
                 PlanSnapshotPublisher.shared.refresh()
+                // The watch gets the plan again: a delivery it missed is
+                // not repeated by the snapshot, which only sends on change.
+                WatchPlanSync.shared.sendCurrent()
                 // The pantry's expiry reminders follow the pantry, which
                 // another device may have changed meanwhile.
                 PantryReminders.reconcile(in: persistenceController.container.viewContext)

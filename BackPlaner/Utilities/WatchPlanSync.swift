@@ -10,6 +10,12 @@
 //  (PendingWidgetActions), so the step leaves the plan, reminder included,
 //  with the next refresh.
 //
+//  A delivery can be missed — the session not yet active when the plan was
+//  made, the watch app installed later — and the context is only pushed
+//  when the plan changes. So the plan is sent again whenever the app comes
+//  forward or the watch comes within reach, and the watch asks for it when
+//  it opens; a request within reach is answered directly with the plan.
+//
 
 import BakePlannerCore
 import Foundation
@@ -46,18 +52,26 @@ final class WatchPlanSync: NSObject, WCSessionDelegate {
               session.isWatchAppInstalled
         else { return }
         do {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            try session.updateApplicationContext([Self.planKey: try encoder.encode(snapshot)])
+            try session.updateApplicationContext([Self.planKey: try Self.encode(snapshot)])
         } catch {
-            AppLog.notifications.debug("Plan not sent to the watch: \(error.localizedDescription)")
+            // Visible in the Console: a plan that never reaches the watch
+            // should not fail quietly.
+            AppLog.notifications.error("Plan not sent to the watch: \(error.localizedDescription)")
         }
     }
 
-    private func sendCurrent() {
+    /// Sends the plan as it stands, changed or not — when the app comes
+    /// forward, when the watch comes within reach, when the watch asks.
+    func sendCurrent() {
         if let snapshot = PlanSnapshot.load() {
             send(snapshot)
         }
+    }
+
+    private static func encode(_ snapshot: PlanSnapshot) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(snapshot)
     }
 
     private func handle(_ userInfo: [String: Any]) {
@@ -67,6 +81,15 @@ final class WatchPlanSync: NSObject, WCSessionDelegate {
         } else if userInfo[Self.requestKey] != nil {
             sendCurrent()
         }
+    }
+
+    /// The answer to a request made within reach: the plan itself, so the
+    /// watch has it at once and not only when the context arrives.
+    private func reply(to message: [String: Any]) -> [String: Any] {
+        guard message[Self.requestKey] != nil,
+              let snapshot = PlanSnapshot.load(),
+              let data = try? Self.encode(snapshot) else { return [:] }
+        return [Self.planKey: data]
     }
 
     // MARK: WCSessionDelegate
@@ -89,6 +112,13 @@ final class WatchPlanSync: NSObject, WCSessionDelegate {
         sendCurrent()
     }
 
+    /// The watch came within reach: whatever it missed, it gets now.
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        if session.isReachable {
+            sendCurrent()
+        }
+    }
+
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
         handle(userInfo)
     }
@@ -100,6 +130,6 @@ final class WatchPlanSync: NSObject, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String: Any],
                  replyHandler: @escaping ([String: Any]) -> Void) {
         handle(message)
-        replyHandler([:])
+        replyHandler(reply(to: message))
     }
 }

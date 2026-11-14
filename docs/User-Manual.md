@@ -1205,6 +1205,9 @@ Check in *Settings → Notifications → BakePlanner* whether notifications are 
 **Nothing arrives on the Apple Watch.**
 Reminders stay on the device where you set them. Only a paired **iPhone's** notifications are passed on to the watch — if you planned on the iPad, the baking reminders appear there and nowhere else. Set the reminders again on the iPhone in that case.
 
+**The Watch app shows an old plan or "No planned steps" although steps are planned on the iPhone.**
+Open the Watch app while the iPhone is within reach: it then fetches the plan as it currently stands on the iPhone. Bringing BakePlanner to the front on the iPhone also sends the plan to the watch again. Also check in the iPhone's Watch app that BakePlanner is installed on the watch and on the same version as on the iPhone.
+
 **The recipe database is empty ("No recipes loaded").**
 There was no internet connection at launch. Pull the list down to load it again.
 

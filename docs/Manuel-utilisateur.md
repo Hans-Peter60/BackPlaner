@@ -1205,6 +1205,9 @@ Vérifiez dans *Réglages → Notifications → BakePlanner* que les notificatio
 **Rien n’arrive sur l’Apple Watch.**
 Les rappels restent sur l’appareil où vous les avez définis. Seules les notifications de l’**iPhone** jumelé sont transmises à la montre — si vous avez planifié sur l’iPad, les rappels de cuisson n’apparaissent que là. Dans ce cas, définissez de nouveau les rappels sur l’iPhone.
 
+**L’app Watch affiche un ancien plan ou « Aucune étape planifiée » alors que des étapes sont planifiées sur l’iPhone.**
+Ouvrez l’app Watch pendant que l’iPhone est à portée : elle récupère alors le plan tel qu’il est actuellement sur l’iPhone. Ramener BakePlanner au premier plan sur l’iPhone renvoie aussi le plan à la montre. Vérifiez également dans l’app Watch de l’iPhone que BakePlanner est installé sur la montre et dans la même version que sur l’iPhone.
+
 **La base de recettes est vide (« Aucune recette chargée »).**
 Il n’y avait pas de connexion internet au lancement. Tirez la liste vers le bas pour recharger.
 
