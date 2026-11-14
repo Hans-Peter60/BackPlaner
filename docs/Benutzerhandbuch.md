@@ -824,6 +824,22 @@ Ein Eintrag entsteht außerdem automatisch, wenn Du in der Backanleitung Erinner
 
 Die Statistik lebt von den Messwerten in [Kapitel 12](#12-backhistorie): Je öfter Du Raumtemperatur, Garzeiten, Sterne und Stichwörter einträgst, desto mehr zeigt sie.
 
+### Backjahr-Buch
+
+**Backhistorie → Filter-Menü (⋯) → Backjahr-Buch …** macht aus einem Jahr Deiner Backhistorie ein PDF-Buch im A4-Format – zum Drucken, Binden oder Verschenken. Du wählst das Jahr (angeboten werden alle Jahre mit einem abgeschlossenen Backvorgang) und kannst einen Namen für das Titelblatt eintragen; das Blatt zeigt vorab, was das Buch enthält. **Backjahr-Buch teilen** erzeugt das PDF und öffnet das Teilen-Blatt. Das Buch gehört zu BakePlanner Pro.
+
+Was drinsteht:
+
+- **Titelblatt:** „Mein Backjahr 2026“, das Foto des bestbewerteten Backvorgangs, Brote und Backtage, Dein Name, das meistgebackene Rezept.
+- **Das Jahr in Zahlen:** Brote, Backtage, verbackenes Mehl und gekneteter Teig in Kilogramm (aus den Rezepten), Ø Bewertung, Lieblingsmehl (aus dem Feld *Mehl* der Backvorgänge), das längste Brot, dazu die zwölf Monate als Balken.
+- **Monat für Monat:** jeder Monat mit Backvorgängen auf eigener Seite – die Fotos als Raster mit Datum, Rezept, Sternen, Stichwörtern und der ersten Zeile des Kommentars; Backvorgänge ohne Foto als Zeilen darunter.
+- **Lieblingsrezepte:** die bis zu fünf meistgebackenen Rezepte als vollständige Rezeptseiten wie beim Rezept-PDF, mit dem besten Backfoto des Jahres, der Anzahl, der Ø Bewertung und den mittleren Messwerten.
+- **Gelernt:** die Stückgare nach Raumtemperatur in Bändern von drei Grad („Bei 21 bis 23 °C: Stückgare im Mittel 1h 05m“), sobald zwei Backvorgänge gemessen sind, und die Häufigkeit der Stichwörter zu Krume und Ofentrieb.
+- **Anstellgut:** Fütterungen im Jahr, die längste Pause, die Reifezeit im Winterhalbjahr und im Sommer – aus dem Anstellgut-Tagebuch.
+- **Vorsätze:** eine Seite mit Linien für das nächste Jahr.
+
+Je mehr Fotos, Sterne und Messwerte die Backhistorie hat, desto dicker wird das Buch. Ein Buch für das laufende Jahr lässt sich jederzeit erzeugen und am Jahresende noch einmal.
+
 ## 13. Einkaufsliste
 
 ### Zutaten auf eine Liste setzen
@@ -1007,7 +1023,7 @@ Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), 
 
 ### BakePlanner Pro
 
-Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik und Rezept nach Bäckerprozent, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
+Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent und das Backjahr-Buch, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
 
 **Wer die App schon hatte, bevor es Pro gab,** behält, was die App an seinem Installationstag konnte – dauerhaft und ohne Kauf. Funktionen, die erst später dazukamen, gibt es wie für alle anderen mit dem Kauf; der Abschnitt in den Einstellungen sagt das dazu. Erkannt wird das am Installationsdatum bei Apple, es übersteht also auch einen Gerätewechsel.
 
@@ -1313,7 +1329,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Vorhanden: **+ → Nach Bäckerprozent** mit Rezeptname, Mehl gesamt oder Teiggewicht, Komponenten und Zutaten in Prozent; **Weiter** öffnet den Rezept-Editor mit den Gramm |
-| Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung |
+| Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Das **Backjahr-Buch** fehlt noch |
 | Backtag planen (Mehr → Backtag planen) | [Kapitel 10](#10-geplante-schritte-liste-und-timeline) | Vorhanden: **Mehr (⋯) → Backtag planen** mit Rezeptauswahl, Wunschzeit, Backöfen, „Backtag berechnen“, Hinweisen je Brot (Nacht, Handarbeit, Ofen, Vorrat) und „Alle planen“; die Zeilen zeigen die Hinweise als Text ohne Symbole |
 | Vorrat (Mehr → Vorrat, Gebindegrößen auf der Einkaufsliste, Übernahme aus der Einkaufsliste mit Blatt „Eingekauft“, Abgleich mit Rezepten, Abziehen auf der Einkaufsliste, Reservierungen durch Pläne mit Abbuchung am Planende, Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“) | [Kapitel 13](#13-einkaufsliste) | Vorhanden: **Mehr (⋯) → Vorrat** mit Posten, Haltbarkeit und Vorschlägen aus den Rezepten, Gebindegrößen auf der Einkaufsliste, **Eingekauft** für die ganze Liste (Knopf oben) oder eine Zeile (in **Menge ändern** → **In den Vorrat übernehmen**), Vorrat-Karte auf der Rezeptseite, **Vorrat abziehen**, Reservierungen durch Pläne mit Abbuchung am Planende und **Letzte Abbuchungen** mit Rückgängig; die Sicherung nimmt den Vorrat mit. Es fehlen: Erinnerung vor Ablauf, Sammlung „Vorrat aufbrauchen“ und Filter „Aus dem Vorrat“, „Vorrat abbuchen?“ nach dem Backen ohne Plan |
 | Facetten, vorgegebene und eigene Sammlungen, „Fertig bis“ in der Rezeptliste | [Kapitel 6](#6-eigene-rezepte) | Vorhanden: die Sammlungs-Chips über der Liste („Für morgen früh“, „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“, „Lieblinge“, mit Vorrat auch „Aus dem Vorrat“ und „Vorrat aufbrauchen“), die Facetten, „Wenig Arbeit“, „Fertig bis“ mit Startzeit je Rezept und die eigenen Sammlungen im Blatt **Filter …** des Bewertungs-Menüs (★) statt im Filtermenü; eigene Sammlungen werden dort gesichert, umbenannt und gelöscht (auch durch langes Drücken auf den Chip) |

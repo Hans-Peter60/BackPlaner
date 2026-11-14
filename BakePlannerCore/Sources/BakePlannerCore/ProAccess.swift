@@ -46,6 +46,9 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     case statistics
     /// A new recipe from baker's percentages.
     case bakersFormula
+    /// A year of baking as a PDF book: figures, the bakes month by month
+    /// with their photos, the favourite recipes, what the facts taught.
+    case yearbook
 
     public var id: String { rawValue }
 
@@ -57,7 +60,7 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .pdfExport, .recipeSharing, .recurringPlans, .shoppingList, .widgets, .liveActivity:
             return 1
-        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula:
+        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula, .yearbook:
             return 21
         }
     }

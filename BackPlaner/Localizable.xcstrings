@@ -23036,6 +23036,570 @@
           }
         }
       }
+    },
+    "Backjahr-Buch …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking yearbook …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année de cuisson …"
+          }
+        }
+      }
+    },
+    "Backjahr-Buch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année de cuisson"
+          }
+        }
+      }
+    },
+    "Noch kein abgeschlossenes Backen – das Buch entsteht aus der Backhistorie." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No finished bake yet – the book is made from the baking history."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune cuisson terminée pour l’instant – le livre naît de l’historique de cuisson."
+          }
+        }
+      }
+    },
+    "Jahr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Year"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Année"
+          }
+        }
+      }
+    },
+    "Name auf dem Titelblatt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on the cover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom sur la couverture"
+          }
+        }
+      }
+    },
+    "Das Buch nimmt alle Backvorgänge des Jahres mit ihren Fotos, die Lieblingsrezepte als Rezeptseiten, die Erkenntnisse aus Deinen Messwerten und das Anstellgut-Tagebuch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The book holds every bake of the year with its photos, the favourite recipes as recipe pages, what your measurements taught, and the starter diary."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le livre réunit toutes les cuissons de l’année avec leurs photos, les recettes préférées en pages de recette, les enseignements de vos mesures et le journal du levain."
+          }
+        }
+      }
+    },
+    "Inhalt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contents"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenu"
+          }
+        }
+      }
+    },
+    "Backtage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours de cuisson"
+          }
+        }
+      }
+    },
+    "Lieblingsrezepte" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes préférées"
+          }
+        }
+      }
+    },
+    "Fütterungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rafraîchis"
+          }
+        }
+      }
+    },
+    "Backjahr-Buch teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the baking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le livre de l’année"
+          }
+        }
+      }
+    },
+    "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A PDF in A4 – to print, bind or send."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un PDF au format A4 – à imprimer, relier ou envoyer."
+          }
+        }
+      }
+    },
+    "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your baking year as a PDF book: the year's figures, every month with its photos, the favourite recipes and what your measurements taught – to print and give away."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre année de cuisson en livre PDF : les chiffres de l’année, chaque mois avec ses photos, les recettes préférées et ce que vos mesures ont appris – à imprimer et à offrir."
+          }
+        }
+      }
+    },
+    "Mein Backjahr %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My baking year %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon année de cuisson %@"
+          }
+        }
+      }
+    },
+    "Das Jahr in Zahlen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The year in figures"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’année en chiffres"
+          }
+        }
+      }
+    },
+    "Mehl verbacken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flour baked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine utilisée"
+          }
+        }
+      }
+    },
+    "Teig geknetet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough kneaded"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pâte pétrie"
+          }
+        }
+      }
+    },
+    "Lieblingsmehl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine préférée"
+          }
+        }
+      }
+    },
+    "Längstes Brot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longest bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pain le plus long"
+          }
+        }
+      }
+    },
+    "%@ Brote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ breads"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pains"
+          }
+        }
+      }
+    },
+    "%@× gebacken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "baked %@ times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuit %@ fois"
+          }
+        }
+      }
+    },
+    "Ø Raumtemperatur %@ °C" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø room temperature %@ °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø température ambiante %@ °C"
+          }
+        }
+      }
+    },
+    "Ø Stückgare %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø final proof %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø apprêt %@"
+          }
+        }
+      }
+    },
+    "Lieblingsrezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette préférée"
+          }
+        }
+      }
+    },
+    "Gelernt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lessons"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enseignements"
+          }
+        }
+      }
+    },
+    "Bei %@ bis %@ °C: Stückgare im Mittel %@ (%@ Backvorgänge)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At %@ to %@ °C: final proof %@ on average (%@ bakes)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À %@ – %@ °C : apprêt de %@ en moyenne (%@ cuissons)"
+          }
+        }
+      }
+    },
+    "%@ Fütterungen von %@ Anstellgut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ feedings of %@ starters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rafraîchis de %@ levains"
+          }
+        }
+      }
+    },
+    "Längste Pause: %@ Tage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longest pause: %@ days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus longue pause : %@ jours"
+          }
+        }
+      }
+    },
+    "Reifezeit im Winterhalbjahr: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening time in the winter half-year: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation en hiver : %@"
+          }
+        }
+      }
+    },
+    "Reifezeit im Sommer: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening time in summer: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation en été : %@"
+          }
+        }
+      }
+    },
+    "Vorsätze für %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolutions for %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonnes résolutions pour %@"
+          }
+        }
+      }
+    },
+    "%@ Brote an %@ Backtagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ breads on %@ baking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pains sur %@ jours de cuisson"
+          }
+        }
+      }
+    },
+    "Meistgebacken: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baked most: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plus cuit : %@"
+          }
+        }
+      }
+    },
+    "Backfotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos de cuisson"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

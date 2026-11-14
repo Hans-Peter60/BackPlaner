@@ -827,6 +827,22 @@ An entry is also created automatically when you set reminders in the baking inst
 
 The statistics live on the measurements in [chapter 12](#12-baking-history): the more often you record room temperature, proofing times, stars and keywords, the more they show.
 
+### Baking yearbook
+
+**Baking history → filter menu (⋯) → Baking yearbook …** turns a year of your baking history into a PDF book in A4 – to print, bind or give away. You pick the year (every year with a finished bake is offered) and can put a name on the cover; the sheet shows beforehand what the book will hold. **Share the baking yearbook** renders the PDF and opens the share sheet. The book belongs to BakePlanner Pro.
+
+What is in it:
+
+- **Cover:** "My baking year 2026", the photo of the best-rated bake, breads and baking days, your name, the recipe baked most.
+- **The year in figures:** breads, baking days, flour baked and dough kneaded in kilograms (from the recipes), Ø rating, favourite flour (from the bakes' *Flour* field), the longest bread, and the twelve months as bars.
+- **Month by month:** every month with bakes on a page of its own – the photos as a grid with date, recipe, stars, keywords and the first line of the comment; bakes without a photo as lines below.
+- **Favourite recipes:** the up to five recipes baked most as full recipe pages like the recipe PDF, with the year's best bake photo, the count, the Ø rating and the average measurements.
+- **Lessons:** the final proof by room temperature in bands of three degrees ("At 21 to 23 °C: final proof 1h 05m on average") once two bakes are measured, and how often the crumb and oven-spring keywords were given.
+- **Starter:** feedings in the year, the longest pause, the ripening time in the winter half-year and in summer – from the starter diary.
+- **Resolutions:** a lined page for the next year.
+
+The more photos, stars and measurements the history has, the thicker the book. The current year can be made at any time and again at the year's end.
+
 ## 13. Shopping list
 
 ### Putting ingredients on a list
@@ -1010,7 +1026,7 @@ From here you open the **User manual** (this document), the **Help and contact**
 
 ### BakePlanner Pro
 
-Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics and recipes from baker's percentages, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
+Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics, recipes from baker's percentages and the baking yearbook, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
 
 **If you had the app before Pro existed,** you keep what the app could do on the day you installed it – permanently and without buying. Features added later come with the purchase, as for everyone else; the section in the settings says so. This is recognised from the installation date at Apple, so it survives a change of device.
 
@@ -1316,7 +1332,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Available: **+ → By baker's percentages** with recipe name, total flour or dough weight, components and ingredients in percent; **Next** opens the recipe editor with the grams |
-| Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels |
+| Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels. The **baking yearbook** is still missing |
 | Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Available: **More (⋯) → Plan a baking day** with recipe selection, target time, ovens, "Work out the baking day", notes per bread (night, hands-on, oven, pantry) and "Plan all"; the rows show the notes as text without symbols |
 | Pantry (More → Pantry, package sizes on the shopping list, intake from the shopping list with the sheet "Bought", match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Available: **More (⋯) → Pantry** with items, best-before dates and suggestions from the recipes, package sizes on the shopping list, **Bought** for the whole list (button at the top) or one line (in **Change amount** → **Put into the pantry**), the pantry card on the recipe page, **Deduct pantry**, reservations by plans with the deduction at the plan's end and **Last deductions** with undo; the backup carries the pantry. Missing: reminder before expiry, collection "Use up the pantry" and filter "From the pantry", "Deduct from pantry?" after a bake without a plan |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Available: the collection chips above the list ("For tomorrow morning", "Quick bread", "Pure sourdough", "Not baked for a while", "Favourites", with a pantry also "From the pantry" and "Use up the pantry"), the facets, "Little work", "Finished by" with the start time per recipe and the own collections in the sheet **Filter …** of the rating menu (★) instead of the filter menu; own collections are saved, renamed and deleted there (or by a long press on the chip) |

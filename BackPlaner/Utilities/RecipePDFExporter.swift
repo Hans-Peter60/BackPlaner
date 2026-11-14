@@ -21,6 +21,13 @@ extension RecipePrintData {
         self.init(data: RecipeExportData(recipe: recipe), scale: scale)
     }
 
+    /// The same page with another picture — the yearbook puts the year's
+    /// best bake photo on a favourite's recipe page.
+    init(copying other: RecipePrintData, imageData: Data?) {
+        self = other
+        self.imageData = imageData
+    }
+
     /// A recipe from the public database.
     init(recipeFB: RecipeFB, image: UIImage?, scale: Double) {
         self.init(recipeFB: recipeFB, imageData: image?.jpegData(compressionQuality: 0.8), scale: scale)
@@ -51,14 +58,15 @@ struct RecipePDFExport: FileExport {
 
 enum RecipePDFRenderer {
 
-    // A4 in points.
-    private static let pageSize = CGSize(width: 595.2, height: 841.8)
-    private static let margin: CGFloat = 44
+    // A4 in points. Shared with the yearbook renderer (BakeYearbookPDFExporter).
+    static let pageSize = CGSize(width: 595.2, height: 841.8)
+    static let margin: CGFloat = 44
     private static let imageSide: CGFloat = 130
 
-    private static let ink = UIColor(red: 0.25, green: 0.15, blue: 0.06, alpha: 1)
-    private static let accent = UIColor(red: 0.58, green: 0.355, blue: 0.16, alpha: 1)
-    private static let muted = UIColor(red: 0.45, green: 0.30, blue: 0.16, alpha: 1)
+    static let ink = UIColor(red: 0.25, green: 0.15, blue: 0.06, alpha: 1)
+    static let accent = UIColor(red: 0.58, green: 0.355, blue: 0.16, alpha: 1)
+    static let muted = UIColor(red: 0.45, green: 0.30, blue: 0.16, alpha: 1)
+    static let paper = UIColor(red: 0.98, green: 0.93, blue: 0.82, alpha: 1)
 
     /// Renders the PDF into the temporary directory and returns its URL; the
     /// file is named after the recipe.
@@ -91,7 +99,15 @@ enum RecipePDFRenderer {
         return renderer.pdfData { context in
             var page = Page(context: context)
             page.begin()
+            draw(data, on: &page)
+            page.finishFooter()
+        }
+    }
 
+    /// The recipe from the top of the current page on: picture, name,
+    /// summary, the components, the summed ingredients and the steps. The
+    /// yearbook draws its favourite recipes with this as well.
+    static func draw(_ data: RecipePrintData, on page: inout Page) {
             // Header: picture on the right, name and summary on the left.
             let textWidth = pageSize.width - 2 * margin - (data.imageData == nil ? 0 : imageSide + 16)
             if let imageData = data.imageData, let image = UIImage(data: imageData) {
@@ -159,16 +175,13 @@ enum RecipePDFRenderer {
                     page.y = rowY + height + 6
                 }
             }
-
-            page.finishFooter()
-        }
     }
 
-    private static func localized(_ key: String) -> String {
+    static func localized(_ key: String) -> String {
         String(localized: String.LocalizationValue(key), bundle: AppSettings.localizationBundle, locale: AppSettings.locale)
     }
 
-    private static func drawAspectFill(_ image: UIImage, in rect: CGRect, cornerRadius: CGFloat) {
+    static func drawAspectFill(_ image: UIImage, in rect: CGRect, cornerRadius: CGFloat) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.saveGState()
         UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).addClip()
@@ -181,7 +194,7 @@ enum RecipePDFRenderer {
 
     /// Cursor-based page layout: text goes down the page, and a new page
     /// begins when the next block would not fit.
-    private struct Page {
+    struct Page {
         let context: UIGraphicsPDFRendererContext
         var y: CGFloat = 0
         var number = 0

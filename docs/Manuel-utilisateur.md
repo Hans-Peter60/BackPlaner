@@ -827,6 +827,22 @@ Une entrée est en outre créée automatiquement lorsque vous définissez des ra
 
 Les statistiques vivent des mesures du [chapitre 12](#12-historique-de-cuisson) : plus vous notez température ambiante, temps de pousse, étoiles et mots-clés, plus elles montrent.
 
+### Livre de l’année de cuisson
+
+**Historique de cuisson → menu de filtre (⋯) → Livre de l’année de cuisson …** transforme une année de votre historique en livre PDF au format A4 – à imprimer, relier ou offrir. Vous choisissez l’année (toutes les années avec une cuisson terminée sont proposées) et pouvez inscrire un nom sur la couverture ; la feuille montre d’avance ce que contiendra le livre. **Partager le livre de l’année** génère le PDF et ouvre la feuille de partage. Le livre fait partie de BakePlanner Pro.
+
+Ce qu’il contient :
+
+- **Couverture :** « Mon année de cuisson 2026 », la photo de la cuisson la mieux notée, pains et jours de cuisson, votre nom, la recette la plus cuite.
+- **L’année en chiffres :** pains, jours de cuisson, farine utilisée et pâte pétrie en kilogrammes (d’après les recettes), note moyenne, farine préférée (d’après le champ *Farine* des cuissons), le pain le plus long, et les douze mois en barres.
+- **Mois par mois :** chaque mois avec des cuissons sur sa propre page – les photos en grille avec date, recette, étoiles, mots-clés et la première ligne du commentaire ; les cuissons sans photo en lignes dessous.
+- **Recettes préférées :** jusqu’à cinq recettes les plus cuites en pages de recette complètes comme le PDF de recette, avec la meilleure photo de l’année, le nombre, la note moyenne et les mesures moyennes.
+- **Enseignements :** l’apprêt selon la température ambiante par bandes de trois degrés (« À 21 – 23 °C : apprêt de 1h 05m en moyenne ») dès deux cuissons mesurées, et la fréquence des mots-clés de mie et de poussée au four.
+- **Levain-chef :** rafraîchis dans l’année, la plus longue pause, le temps de maturation en hiver et en été – d’après le journal du levain.
+- **Bonnes résolutions :** une page lignée pour l’année suivante.
+
+Plus l’historique compte de photos, d’étoiles et de mesures, plus le livre est épais. L’année en cours peut être produite à tout moment, et de nouveau à la fin de l’année.
+
 ## 13. Liste de courses
 
 ### Mettre des ingrédients sur une liste
@@ -1010,7 +1026,7 @@ D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce doc
 
 ### BakePlanner Pro
 
-Dès que l’achat est activé, les réglages affichent la section **BakePlanner Pro** avec le prix, **Débloquer Pro** et **Restaurer les achats**. Pro est un **achat unique**, pas un abonnement ; il vaut sur tous les appareils de votre compte Apple et se partage via le partage familial. Il comprend : partager des recettes en PDF, transmettre des recettes, plans de cuisson récurrents, listes de courses, widgets, activité en direct, réserve, planifier une journée de cuisson, vos propres collections avec « Prêt pour », statistiques de cuisson et recette en pourcentages du boulanger, ainsi que les imports en ligne sans limite mensuelle. Le cœur de l’app reste gratuit : recettes, planning avec rappels, mode cuisson, historique, base de recettes, calculateurs et sauvegarde.
+Dès que l’achat est activé, les réglages affichent la section **BakePlanner Pro** avec le prix, **Débloquer Pro** et **Restaurer les achats**. Pro est un **achat unique**, pas un abonnement ; il vaut sur tous les appareils de votre compte Apple et se partage via le partage familial. Il comprend : partager des recettes en PDF, transmettre des recettes, plans de cuisson récurrents, listes de courses, widgets, activité en direct, réserve, planifier une journée de cuisson, vos propres collections avec « Prêt pour », statistiques de cuisson, recette en pourcentages du boulanger et le livre de l’année de cuisson, ainsi que les imports en ligne sans limite mensuelle. Le cœur de l’app reste gratuit : recettes, planning avec rappels, mode cuisson, historique, base de recettes, calculateurs et sauvegarde.
 
 **Si vous aviez l’app avant Pro,** vous gardez ce qu’elle savait faire le jour de votre installation – pour toujours et sans achat. Les fonctions ajoutées ensuite viennent avec l’achat, comme pour tout le monde ; la section des réglages l’indique. Cela se reconnaît à la date d’installation chez Apple et survit donc à un changement d’appareil.
 
@@ -1316,7 +1332,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », « Traduire automatiquement les recettes publiques », « Activité en direct », « Alarmes » | [chapitre 14](#14-réglages) | Manquent. Les nouvelles recettes sont d’abord privées et vont dans la base via **Publier** sur la page de la recette |
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Disponible : **+ → En pourcentages boulanger** avec nom de recette, farine totale ou poids de pâte, composants et ingrédients en pourcentage ; **Suivant** ouvre l’éditeur de recette avec les grammes |
-| Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Disponible : **Historique de cuisson → Affichage → Statistiques** avec les mêmes chiffres et sections que sur l’iPhone ; les graphiques sont de simples barres et points sans légende d’axe |
+| Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Disponible : **Historique de cuisson → Affichage → Statistiques** avec les mêmes chiffres et sections que sur l’iPhone ; les graphiques sont de simples barres et points sans légende d’axe. Le **livre de l’année de cuisson** manque encore |
 | Planifier une journée de cuisson (Plus → Planifier une journée de cuisson) | [chapitre 10](#10-étapes-planifiées-liste-et-timeline) | Disponible : **Plus (⋯) → Planifier une journée de cuisson** avec sélection des recettes, heure souhaitée, fours, « Calculer la journée de cuisson », remarques par pain (nuit, travail manuel, four, réserve) et « Tout planifier » ; les lignes affichent les remarques en texte, sans symboles |
 | Réserve (Plus → Réserve, tailles d’emballage sur la liste de courses, reprise depuis la liste de courses avec la feuille « Acheté », comparaison avec les recettes, déduction sur la liste de courses, réservations par les plans avec déduction à la fin du plan, rappel avant la date limite, collection « Écouler la réserve ») | [chapitre 13](#13-liste-de-courses) | Disponible : **Plus (⋯) → Réserve** avec articles, dates limites et suggestions tirées des recettes, tailles d’emballage sur la liste de courses, **Acheté** pour toute la liste (bouton en haut) ou une ligne (dans **Modifier la quantité** → **Mettre dans la réserve**), carte Réserve sur la page de recette, **Déduire la réserve**, réservations par les plans avec déduction à la fin du plan et **Dernières déductions** avec annulation ; la sauvegarde emporte la réserve. Manquent : rappel avant la date limite, collection « Écouler la réserve » et filtre « Depuis la réserve », « Déduire de la réserve ? » après une cuisson sans plan |
 | Facettes, collections prédéfinies et personnelles, « Prêt pour » dans la liste des recettes | [chapitre 6](#6-mes-recettes) | Disponible : les puces de collections au-dessus de la liste (« Pour demain matin », « Pain rapide », « Levain pur », « Pas cuit depuis longtemps », « Favoris », avec une réserve aussi « Depuis la réserve » et « Écouler la réserve »), les facettes, « Peu de travail », « Prêt pour » avec l’heure de départ par recette et les collections personnelles dans la feuille **Filtre …** du menu de notation (★) au lieu du menu de filtre ; les collections personnelles s’y enregistrent, se renomment et se suppriment (ou par un appui long sur la puce) |

@@ -149,7 +149,9 @@ struct BakeHistoriesListView: View {
     var dateFormat:DateFormat = DateFormat()
     
     @State private var confirmationShown = false
-    
+    /// "Backjahr-Buch" from the toolbar menu.
+    @State private var showsYearbook = false
+
     var body: some View {
         
         VStack(spacing: 0) {
@@ -171,6 +173,10 @@ struct BakeHistoriesListView: View {
         }
         .warmBackground()
         .navigationTitle("Backhistorie")
+        .sheet(isPresented: $showsYearbook) {
+            BakeYearbookView()
+                .environment(\.managedObjectContext, viewContext)
+        }
         .searchable(text: $filterBy, prompt: "Rezept suchen")
         .searchScopes($nameOrTag) {
             Text("Name").tag(1)
@@ -185,6 +191,12 @@ struct BakeHistoriesListView: View {
                         ForEach(1...5, id: \.self) { stars in
                             Text("\(stars) Sterne und mehr").tag(stars)
                         }
+                    }
+                    Divider()
+                    // The year as a book; the gate sits in the sheet, so the
+                    // menu item works whether Pro is open or not.
+                    Button("Backjahr-Buch …", systemImage: "book.closed") {
+                        showsYearbook = true
                     }
                 } label: {
                     Label("Nach Bewertung filtern",
