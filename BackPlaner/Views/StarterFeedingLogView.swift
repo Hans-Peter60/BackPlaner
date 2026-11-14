@@ -126,6 +126,27 @@ struct StarterFeedingLogView: View {
                 Text("Reifezeit-Schätzung")
             }
 
+            // The diagram: curve, feeding under way, trend, rhythm, CSV. A
+            // Pro feature; locked, the row leads to the paywall.
+            if let recipeId {
+                Section {
+                    ProGate(.starterChart) {
+                        NavigationLink {
+                            StarterChartView(recipeId: recipeId)
+                        } label: {
+                            Label("Reifekurve und Verlauf", systemImage: "chart.xyaxis.line")
+                        }
+                        .accessibilityIdentifier("starter.chart")
+                    } label: {
+                        Label("Reifekurve und Verlauf", systemImage: "chart.xyaxis.line")
+                            .foregroundStyle(.primary)
+                        Spacer()
+                    }
+                } header: {
+                    Text("Diagramm")
+                }
+            }
+
             Section {
                 DatePicker("Datum", selection: $date, in: ...Date(), displayedComponents: [.date, .hourAndMinute])
                     .environment(\.locale, AppSettings.locale)

@@ -28,6 +28,7 @@ extension ProFeature {
         case .yearbook:       return "Backjahr-Buch"
         case .ovenProfiles:   return "Ofenprofile"
         case .handsFree:      return "Freihändiger Backmodus"
+        case .starterChart:   return "Anstellgut-Diagramm"
         }
     }
 
@@ -48,6 +49,7 @@ extension ProFeature {
         case .yearbook:       return "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken."
         case .ovenProfiles:   return "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung."
         case .handsFree:      return "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät."
+        case .starterChart:   return "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV."
         }
     }
 
@@ -67,6 +69,7 @@ extension ProFeature {
         case .yearbook:       return "book.closed"
         case .ovenProfiles:   return "oven"
         case .handsFree:      return "mic"
+        case .starterChart:   return "chart.xyaxis.line"
         }
     }
 }

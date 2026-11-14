@@ -28,6 +28,9 @@ OFENPROFILE
 FREIHÄNDIGER BACKMODUS
 • Das Mikrofon im Backmodus: Sage „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – die App antwortet mit Stimme und liest jeden neuen Schritt von selbst vor. Die Spracherkennung läuft auf dem Gerät. Gehört zu BakePlanner Pro.
 
+ANSTELLGUT-DIAGRAMM
+• Im Anstellgut-Tagebuch: die Reifekurve Deines Anstellguts über die Raumtemperatur mit den gemessenen Fütterungen, die laufende Fütterung mit Fortschritt, vorhergesagtem Höhepunkt und „Erinnern, wenn reif“, der Verlauf der Fütterungen umgerechnet auf 22 °C, der Rhythmus – und das Tagebuch als CSV. Gehört zu BakePlanner Pro.
+
 SAMMLUNGEN UND FACETTEN
 • Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
 • Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
@@ -88,6 +91,9 @@ OVEN PROFILES
 HANDS-FREE BAKE MODE
 • The microphone in bake mode: say “next”, “back”, “done”, “read”, “ingredients” or “how long” – the app answers by voice and reads every new step on its own. Speech is recognized on the device. Part of BakePlanner Pro.
 
+STARTER DIAGRAM
+• In the starter diary: your starter’s ripening curve over room temperature with the measured feedings, the feeding under way with progress, predicted peak and “Remind me when ripe”, the trend of the feedings converted to 22 °C, the rhythm – and the diary as CSV. Part of BakePlanner Pro.
+
 COLLECTIONS AND FACETS
 • The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
 • The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
@@ -142,6 +148,9 @@ PROFILS DE FOUR
 
 MODE CUISSON MAINS LIBRES
 • Le micro du mode cuisson : dites « suivant », « retour », « terminé », « lire », « ingrédients » ou « combien de temps » – l’app répond à voix haute et lit d’elle-même chaque nouvelle étape. La reconnaissance vocale s’effectue sur l’appareil. Fait partie de BakePlanner Pro.
+
+DIAGRAMME DU LEVAIN
+• Dans le journal du levain : la courbe de maturation de votre levain selon la température ambiante avec les nourrissages mesurés, le nourrissage en cours avec progression, pic prévu et « Me rappeler à maturité », l’évolution des nourrissages ramenée à 22 °C, le rythme – et le journal en CSV. Fait partie de BakePlanner Pro.
 
 COLLECTIONS ET FACETTES
 • La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».
