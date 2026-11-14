@@ -78,6 +78,11 @@ public struct BakePlan {
     /// last step asks for the feeding's result instead of announcing the end
     /// of a bake.
     public var isStarterFeeding: Bool = false
+    /// The oven the plan is baked in, when the baker keeps profiles: its
+    /// preheating times are what `preheatTime` and `stonePreheatTime`
+    /// default to, and the oven steps name the dial setting when the oven
+    /// runs hot or cold or bakes with the fan.
+    public var ovenProfile: OvenProfile? = OvenProfiles.selected
 
     // MARK: Derived steps
 
@@ -140,7 +145,8 @@ public struct BakePlan {
         guard explicitPreheatStep == nil, let bakingStep else { return nil }
         let text = Self.ovenStartText(
             baseText: AppSettings.generatedStepTexts(languageCode: languageCode).startHeating,
-            temperature: ovenTemperature
+            temperature: ovenTemperature,
+            dialNote: dialNote(for: ovenTemperatureCelsius)
         )
         return PlanStep(instruction: text,
                         step: bakingStep.step - 0.1,
@@ -198,7 +204,13 @@ public struct BakePlan {
 
         let texts = AppSettings.generatedStepTexts(languageCode: languageCode)
         let format = drop.withSteam && !recipeReleasesSteam ? texts.turnDownWithSteam : texts.turnDown
-        return PlanStep(instruction: String(format: format, drop.temperature),
+        var text = String(format: format, drop.temperature)
+        // "220 °C" only: a Fahrenheit recipe gets no dial note.
+        if drop.temperature.hasSuffix("°C"),
+           let note = dialNote(for: Int(drop.temperature.prefix { $0.isNumber })) {
+            text += " (\(note))"
+        }
+        return PlanStep(instruction: text,
                         step: bakingStep.step + 0.1,
                         startTime: bakingStep.startTime + afterMinutes,
                         duration: 0)
@@ -270,7 +282,8 @@ public struct BakePlan {
               let temperature = ovenTemperature else { return steps }
         return steps.map { step in
             guard step == preheat else { return step }
-            return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature),
+            return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature,
+                                                            dialNote: dialNote(for: ovenTemperatureCelsius)),
                             step: step.step, startTime: step.startTime, duration: step.duration,
                             componentName: step.componentName, durationWindow: step.durationWindow, oven: step.oven)
         }
@@ -299,7 +312,8 @@ public struct BakePlan {
         let total = newSteps.map { $0.startTime + $0.duration }.max() ?? 0
         return BakePlan(recipeName: recipeName, steps: newSteps, prepTime: total, anchor: anchor,
                         date: date, languageCode: languageCode, preheatTime: preheatTime,
-                        stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding)
+                        stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding,
+                        ovenProfile: ovenProfile)
     }
 
     /// Every step the plan writes, generated ones included.
@@ -348,7 +362,8 @@ public struct BakePlan {
     public func moved(to newDate: Date) -> BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
                  date: newDate, languageCode: languageCode, preheatTime: preheatTime,
-                 stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding)
+                 stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding,
+                 ovenProfile: ovenProfile)
     }
 
     public func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
@@ -381,10 +396,19 @@ public struct BakePlan {
         }
     }
 
-    /// "Backofen anstellen (250 °C)", or the plain text without a temperature.
-    public static func ovenStartText(baseText: String, temperature: String?) -> String {
+    /// "Backofen anstellen (250 °C)", or the plain text without a temperature;
+    /// with a dial note "Backofen anstellen (250 °C, am Regler 240 °C)".
+    public static func ovenStartText(baseText: String, temperature: String?, dialNote: String? = nil) -> String {
         guard let temperature else { return baseText }
-        return "\(baseText) (\(temperature))"
+        guard let dialNote else { return "\(baseText) (\(temperature))" }
+        return "\(baseText) (\(temperature), \(dialNote))"
+    }
+
+    /// The selected oven's dial note for a recipe temperature, nil without a
+    /// profile, a temperature or a correction.
+    private func dialNote(for celsius: Int?) -> String? {
+        guard let celsius, let ovenProfile else { return nil }
+        return ovenProfile.dialNote(for: celsius, languageCode: languageCode)
     }
 
     /// The first oven temperature a step states: "250 °C", "250°", "250 Grad",
@@ -605,7 +629,7 @@ public struct BakePlan {
         }
     }
 
-    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, stonePreheatTime: Int = GlobalVariables.stonePreheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false) {
+    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, stonePreheatTime: Int = GlobalVariables.stonePreheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false, ovenProfile: OvenProfile? = OvenProfiles.selected) {
         self.recipeName = recipeName
         self.steps = steps
         self.prepTime = prepTime
@@ -616,5 +640,6 @@ public struct BakePlan {
         self.stonePreheatTime = stonePreheatTime
         self.calendar = calendar
         self.isStarterFeeding = isStarterFeeding
+        self.ovenProfile = ovenProfile
     }
 }

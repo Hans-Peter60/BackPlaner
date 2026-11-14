@@ -12,6 +12,9 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.stonePreheatTime) private var stonePreheatTime = AppSettings.defaultStonePreheatTime
     @AppStorage(AppSettingsKeys.bakePause) private var bakePause = AppSettings.defaultBakePause
     @AppStorage(AppSettingsKeys.ovenCount) private var ovenCount = AppSettings.defaultOvenCount
+    @AppStorage(AppSettingsKeys.ovenProfiles) private var ovenProfilesJSON = ""
+    /// The oven just added in the "Backöfen" section; its editor is pushed.
+    @State private var newOvenProfileID: UUID?
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
@@ -165,15 +168,21 @@ struct SettingsView: View {
 
             publicRecipeTranslationSection
 
-            Section("Backplanung") {
-                Stepper(value: $preheatTime, in: 0...120, step: 5) {
-                    LabeledContent("Vorheizzeit", value: "\(preheatTime) min")
-                }
+            // The ovens one bakes in. With profiles, the preheating times and
+            // the number of ovens come from them, so those rows go below.
+            OvenProfilesSection(newProfileID: $newOvenProfileID)
 
-                // A baking stone or steel takes far longer to heat through;
-                // this time replaces the usual one when a step names one.
-                Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
-                    LabeledContent("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
+            Section("Backplanung") {
+                if !hasOvenProfiles {
+                    Stepper(value: $preheatTime, in: 0...120, step: 5) {
+                        LabeledContent("Vorheizzeit", value: "\(preheatTime) min")
+                    }
+
+                    // A baking stone or steel takes far longer to heat through;
+                    // this time replaces the usual one when a step names one.
+                    Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
+                        LabeledContent("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
+                    }
                 }
 
                 Stepper(value: $bakePause, in: 0...120, step: 5) {
@@ -182,8 +191,10 @@ struct SettingsView: View {
 
                 // With more than one oven the plan check lets as many bakes
                 // run side by side; only the one too many is an error.
-                Stepper(value: $ovenCount, in: 1...AppSettings.maximumOvenCount) {
-                    LabeledContent("Backöfen", value: ovenCount.formatted())
+                if !hasOvenProfiles {
+                    Stepper(value: $ovenCount, in: 1...AppSettings.maximumOvenCount) {
+                        LabeledContent("Backöfen", value: ovenCount.formatted())
+                    }
                 }
 
                 Stepper(value: $dayStart, in: 0...23) {
@@ -278,6 +289,9 @@ struct SettingsView: View {
         .clearScrollBackground()
         .warmBackground()
         .navigationTitle("Einstellungen")
+        .navigationDestination(item: $newOvenProfileID) { id in
+            OvenProfileEditorView(id: id)
+        }
         // Picks up an admins document created while the app was running (by
         // the console or scripts/grant-admin.mjs), so the account section
         // shows "Administrator" without a restart.
@@ -598,6 +612,10 @@ struct SettingsView: View {
         } footer: {
             Text("Öffnet die Seiten im Browser.")
         }
+    }
+
+    private var hasOvenProfiles: Bool {
+        !OvenProfiles.decode(ovenProfilesJSON).isEmpty
     }
 
     private func formattedHour(_ hour: Int) -> String {

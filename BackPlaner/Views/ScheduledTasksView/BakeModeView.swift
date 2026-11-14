@@ -130,6 +130,16 @@ struct BakeModeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityAddTraits(.isHeader)
 
+                // The chosen oven's dial setting for a step that names a
+                // temperature, when the oven runs hot or cold or bakes with
+                // the fan; a generated oven step carries it in its text.
+                if let dialNote = dialNote(for: step) {
+                    Label(dialNote, systemImage: "dial.medium")
+                        .font(Theme.bodyFont(17))
+                        .foregroundColor(Theme.subtitle)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
                 if let component {
                     ingredientsCard(component, scale: step.effectiveServingScale)
                 }
@@ -143,6 +153,15 @@ struct BakeModeView: View {
         .safeAreaBar(edge: .bottom) {
             controls(for: step, index: index, component: component)
         }
+    }
+
+    /// "Am Regler 240 °C · Miele", or nil.
+    private func dialNote(for step: NextStep) -> String? {
+        guard let oven = OvenProfiles.selected,
+              let note = oven.dialNote(forInstruction: step.instruction,
+                                       languageCode: AppSettings.locale.identifier) else { return nil }
+        let sentence = note.prefix(1).uppercased() + note.dropFirst()
+        return oven.name.isEmpty ? sentence : "\(sentence) · \(oven.name)"
     }
 
     private func header(for step: NextStep, index: Int) -> some View {
