@@ -12,12 +12,31 @@ struct InstructionSchedulingControlsView: View {
     let dateRange: ClosedRange<Date>
     let onDateTapped: () -> Void
     let onDateChanged: (Date) -> Void
+    /// The ovens to choose from and the chosen one's id; the row only shows
+    /// with two or more ovens.
+    var ovenProfiles: [OvenProfile] = []
+    var ovenProfileID: Binding<String>? = nil
 
     private var isPhonePortrait: Bool {
         horizontalSizeClass == .compact && verticalSizeClass == .regular
     }
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            controls
+            if let ovenProfileID, ovenProfiles.count > 1 {
+                OvenChoiceMenu(profiles: ovenProfiles, selection: ovenProfileID)
+                    .font(Theme.bodyFont(isPhonePortrait ? 13 : 15))
+                    .accessibilityIdentifier("plan.oven")
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .onChange(of: dateTime) { _, newValue in
+            onDateChanged(newValue)
+        }
+    }
+
+    private var controls: some View {
         Group {
             if isPhonePortrait {
                 // One row while it fits. In English and French the toggle's
@@ -48,10 +67,6 @@ struct InstructionSchedulingControlsView: View {
                 }
                 .modifier(ControlsHandle())
             }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .onChange(of: dateTime) { _, newValue in
-            onDateChanged(newValue)
         }
     }
 
@@ -107,5 +122,38 @@ struct InstructionSchedulingControlsView: View {
         .font(Theme.bodyFont(isPhonePortrait ? 12 : 13))
         .layoutPriority(1)
         .onTapGesture(perform: onDateTapped)
+    }
+}
+
+/// The oven a plan is baked in, as a menu: the oven symbol, the chosen
+/// name and a chevron, in the caller's font — a menu-style Picker would
+/// keep its own size next to the small planning controls.
+struct OvenChoiceMenu: View {
+    let profiles: [OvenProfile]
+    @Binding var selection: String
+
+    private var chosenName: String {
+        OvenProfiles.selected(from: profiles, selectedID: selection)?.name ?? ""
+    }
+
+    var body: some View {
+        Menu {
+            Picker("Ofen", selection: $selection) {
+                ForEach(profiles) { profile in
+                    Text(profile.name).tag(profile.id.uuidString)
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "oven")
+                Text(chosenName)
+                Image(systemName: "chevron.up.chevron.down")
+                    .imageScale(.small)
+            }
+            .foregroundColor(Theme.accentText)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Ofen")
+        .accessibilityValue(chosenName)
     }
 }

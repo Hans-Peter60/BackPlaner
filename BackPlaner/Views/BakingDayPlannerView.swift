@@ -29,6 +29,11 @@ struct BakingDayPlannerView: View {
 
     @State private var finishBy: Date = BakingDayPlannerView.defaultFinish()
     @State private var ovenCount = AppSettings.storedOvenCount
+    /// The oven profile of each placed bread (by placement id), as the
+    /// optimizer assigned them and as the baker changes them; empty
+    /// without profiles.
+    @State private var ovenChoices: [String: String] = [:]
+    private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
     @State private var selection: Set<NSManagedObjectID> = []
     @State private var searchText = ""
     @State private var schedule: BakingDaySchedule?
@@ -210,6 +215,21 @@ struct BakingDayPlannerView: View {
                     .font(Theme.bodyFont(13))
                     .foregroundColor(Theme.subtitle)
             }
+            // Which oven: a menu with two or more profiles, the name alone with one.
+            if placement.bakeWindow != nil, let chosen = chosenOven(for: placement) {
+                Group {
+                    if ovenProfiles.count > 1 {
+                        OvenChoiceMenu(profiles: ovenProfiles, selection: Binding(
+                            get: { chosen.id.uuidString },
+                            set: { ovenChoices[placement.id] = $0 }
+                        ))
+                    } else {
+                        Label(chosen.name, systemImage: "oven")
+                            .foregroundColor(Theme.subtitle)
+                    }
+                }
+                .font(Theme.bodyFont(13))
+            }
             if let window = placement.bakeWindow {
                 Label {
                     Text("Ofen \(timeText.calculateTime(t: window.start)) bis \(timeText.calculateTime(t: window.end))")
@@ -281,10 +301,25 @@ struct BakingDayPlannerView: View {
         } else {
             shortfalls = []
         }
-        schedule = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: Date(),
-                                               ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
-                                               dayStart: dayStart, dayEnd: dayEnd, existingWindows: existing,
-                                               existingWork: busy, languageCode: AppSettings.locale.identifier)
+        let result = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: Date(),
+                                                 ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
+                                                 dayStart: dayStart, dayEnd: dayEnd, existingWindows: existing,
+                                                 existingWork: busy, languageCode: AppSettings.locale.identifier)
+        schedule = result
+        // Each bread gets the profile of the oven the optimizer put it in;
+        // more breads than profiles fall back to the first.
+        let profiles = ovenProfiles
+        ovenChoices = [:]
+        if !profiles.isEmpty {
+            for (id, index) in result.ovenAssignment(ovenCount: ovenCount, bakePause: AppSettings.storedBakePause) {
+                ovenChoices[id] = profiles[min(index, profiles.count - 1)].id.uuidString
+            }
+        }
+    }
+
+    /// The oven profile a bread is planned in, nil without profiles.
+    private func chosenOven(for placement: BakingDayPlacement) -> OvenProfile? {
+        OvenProfiles.selected(from: ovenProfiles, selectedID: ovenChoices[placement.id])
     }
 
     /// Every placement becomes a plan: the recipe's earlier plan goes, the
@@ -302,7 +337,11 @@ struct BakingDayPlannerView: View {
             }
             let scale = ServingScale.factor(servingSize: AppSettings.storedServingSize, targetWeight: nil,
                                             baseWeight: recipe.totalWeight)
-            BakePlanScheduler.putIntoEffect(placement.plan, for: recipe, planID: planID,
+            let oven = chosenOven(for: placement)
+            if let oven, recipe.ovenProfileID != oven.id {
+                recipe.ovenProfileID = oven.id
+            }
+            BakePlanScheduler.putIntoEffect(placement.plan.using(oven), for: recipe, planID: planID,
                                             servingScale: scale, manager: manager, in: viewContext)
             count += 1
         }

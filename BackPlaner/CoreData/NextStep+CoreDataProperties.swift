@@ -38,6 +38,9 @@ extension NextStep {
     /// on steps planned before this attribute existed; see
     /// `effectiveServingScale`.
     @NSManaged public var servingScale: Double
+    /// The oven profile the plan was made for; `nil` without profiles or on
+    /// steps planned before ovens were recorded.
+    @NSManaged public var ovenProfileID: UUID?
 
     /// The stored scale, or 1 for a step from before it was recorded.
     var effectiveServingScale: Double {

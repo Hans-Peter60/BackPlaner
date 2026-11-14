@@ -200,9 +200,10 @@ struct BakeModeView: View {
         }
     }
 
-    /// "Am Regler 240 °C · Miele", or nil.
+    /// "Am Regler 240 °C · Miele", or nil: the oven the plan was made for,
+    /// else the settings' oven.
     private func dialNote(for step: NextStep) -> String? {
-        guard let oven = OvenProfiles.selected,
+        guard let oven = OvenProfiles.stored(id: step.ovenProfileID) ?? OvenProfiles.selected,
               let note = oven.dialNote(forInstruction: step.instruction,
                                        languageCode: AppSettings.locale.identifier) else { return nil }
         let sentence = note.prefix(1).uppercased() + note.dropFirst()

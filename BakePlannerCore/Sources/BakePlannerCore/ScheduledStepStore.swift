@@ -30,8 +30,11 @@ public struct ScheduledStepData: Equatable {
     /// The serving scale the plan was made at; `0` on steps planned before
     /// it was recorded.
     public var servingScale: Double
+    /// The oven profile the plan was made for (see `OvenProfiles`); nil
+    /// without profiles or on steps planned before ovens were recorded.
+    public var ovenProfileID: UUID?
 
-    public init(id: UUID? = nil, planID: UUID? = nil, recipeName: String, instruction: String, step: Double, startTime: Int, duration: Int, date: Date, isAutomaticRecurrence: Bool, servingScale: Double) {
+    public init(id: UUID? = nil, planID: UUID? = nil, recipeName: String, instruction: String, step: Double, startTime: Int, duration: Int, date: Date, isAutomaticRecurrence: Bool, servingScale: Double, ovenProfileID: UUID? = nil) {
         self.id = id
         self.planID = planID
         self.recipeName = recipeName
@@ -42,6 +45,7 @@ public struct ScheduledStepData: Equatable {
         self.date = date
         self.isAutomaticRecurrence = isAutomaticRecurrence
         self.servingScale = servingScale
+        self.ovenProfileID = ovenProfileID
     }
 }
 
@@ -107,7 +111,8 @@ extension BakePlan {
                               duration: step.duration,
                               date: date(of: step),
                               isAutomaticRecurrence: isAutomaticRecurrence,
-                              servingScale: servingScale)
+                              servingScale: servingScale,
+                              ovenProfileID: ovenProfile?.id)
         }
     }
 

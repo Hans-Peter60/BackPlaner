@@ -358,6 +358,18 @@ public struct BakePlan {
                           temperatureChanges: BakePlanValidator.temperatureChanges(after: start, from: ovenTemperatureCelsius, steps: later))
     }
 
+    /// The same plan baked in another oven: its preheating times and its
+    /// dial notes; nil keeps the plain settings and no notes.
+    public func using(_ profile: OvenProfile?) -> BakePlan {
+        var plan = self
+        plan.ovenProfile = profile
+        if let profile {
+            plan.preheatTime = profile.preheatMinutes
+            plan.stonePreheatTime = profile.stonePreheatMinutes
+        }
+        return plan
+    }
+
     /// The same plan for a different date.
     public func moved(to newDate: Date) -> BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,

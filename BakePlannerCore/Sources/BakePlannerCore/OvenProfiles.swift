@@ -108,6 +108,13 @@ public enum OvenProfiles {
         decode(AppSettings.storedString(forKey: AppSettingsKeys.ovenProfiles))
     }
 
+    /// The stored profile with this id — the oven a plan was made for —
+    /// or nil when it is gone or was never set.
+    public static func stored(id: UUID?) -> OvenProfile? {
+        guard let id else { return nil }
+        return stored.first { $0.id == id }
+    }
+
     /// The stored oven the plan works with, if there is one.
     public static var selected: OvenProfile? {
         selected(from: stored, selectedID: AppSettings.storedString(forKey: AppSettingsKeys.selectedOvenProfile))

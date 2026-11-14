@@ -26,6 +26,11 @@ struct InstructionsFBView: View {
     @State private var dateTime = GlobalVariables.dateTimePicker
     // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
     @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
+    /// The oven this plan is made for, the settings' oven to begin with;
+    /// empty without profiles.
+    @State private var ovenProfileID = OvenProfiles.selected?.id.uuidString ?? ""
+    private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
+    private var chosenOven: OvenProfile? { OvenProfiles.selected(from: ovenProfiles, selectedID: ovenProfileID) }
     /// Owned by PublicRecipePageView and chosen on the page, so the plan's
     /// reminders carry the amounts shown there.
     @Binding var         selectedServingSize: Int
@@ -144,12 +149,17 @@ struct InstructionsFBView: View {
                         dateTime: $dateTime,
                         dateRange: dateRange,
                         onDateTapped: showNotificationMessage,
-                        onDateChanged: setGlobalDateTime
+                        onDateChanged: setGlobalDateTime,
+                        ovenProfiles: ovenProfiles,
+                        ovenProfileID: $ovenProfileID
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
                     .id(Self.planControlsAnchor)
                     .onChange(of: dateTimeStartSelection) { _, _ in
+                        refreshPlanIssues()
+                    }
+                    .onChange(of: ovenProfileID) { _, _ in
                         refreshPlanIssues()
                     }
 
@@ -417,6 +427,7 @@ struct InstructionsFBView: View {
                  date: dateTime,
                  languageCode: languageCode.isEmpty ? locale.identifier : languageCode,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipeFB))
+        .using(chosenOven)
     }
 
     // MARK: Proof today
