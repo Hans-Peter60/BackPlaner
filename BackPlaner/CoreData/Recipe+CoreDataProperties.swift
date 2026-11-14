@@ -41,6 +41,9 @@ extension Recipe {
     @NSManaged public var variants:       NSSet?
     /// What the variant changes, in the baker's words; nil for none.
     @NSManaged public var variantNote:    String?
+    /// The oven profile this recipe was last planned for, offered again
+    /// the next time; nil until an oven was chosen.
+    @NSManaged public var ovenProfileID:  UUID?
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet

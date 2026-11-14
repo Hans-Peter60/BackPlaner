@@ -49,6 +49,7 @@ struct CoreDataScheduledStepStore: ScheduledStepStore {
             next.startTime    = data.startTime
             next.date         = data.date
             next.isAutomaticRecurrence = data.isAutomaticRecurrence
+            next.ovenProfileID = data.ovenProfileID
         }
         do {
             try context.save()
@@ -114,6 +115,7 @@ extension ScheduledStepData {
                   duration: step.duration,
                   date: step.date,
                   isAutomaticRecurrence: step.isAutomaticRecurrence,
-                  servingScale: step.servingScale)
+                  servingScale: step.servingScale,
+                  ovenProfileID: step.ovenProfileID)
     }
 }

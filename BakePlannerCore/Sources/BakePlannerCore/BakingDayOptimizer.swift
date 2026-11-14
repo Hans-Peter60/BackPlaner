@@ -71,6 +71,37 @@ public struct BakingDaySchedule {
     public func isClean(now: Date) -> Bool {
         placements.allSatisfy { !$0.conflictsWithOvens && !$0.startsInThePast(now: now) }
     }
+
+    /// Which oven (0-based) each bread goes into, by placement id: in
+    /// order of their bakes, each bread takes the first oven whose bakes
+    /// it can share or that is free with the pause kept; a bread that fits
+    /// none takes the oven that frees up first. Breads without an oven
+    /// phase are left out.
+    public func ovenAssignment(ovenCount: Int, bakePause: Int) -> [String: Int] {
+        let ovens = max(1, ovenCount)
+        let pause = TimeInterval(max(0, bakePause) * 60)
+        var windows: [[BakeWindow]] = Array(repeating: [], count: ovens)
+        var assignment: [String: Int] = [:]
+
+        let timed = placements.compactMap { placement in placement.bakeWindow.map { (placement.id, $0) } }
+            .sorted { $0.1.start < $1.1.start }
+        for (id, window) in timed {
+            func fits(_ other: BakeWindow) -> Bool {
+                if other.sharesOven(with: window) { return true }
+                if other.start < window.end && window.start < other.end { return false }
+                let gap = window.start >= other.end ? window.start.timeIntervalSince(other.end)
+                                                    : other.start.timeIntervalSince(window.end)
+                return gap >= pause
+            }
+            let index = windows.indices.first { windows[$0].allSatisfy(fits) }
+                ?? windows.indices.min { lhs, rhs in
+                    (windows[lhs].map(\.end).max() ?? .distantPast) < (windows[rhs].map(\.end).max() ?? .distantPast)
+                } ?? 0
+            windows[index].append(window)
+            assignment[id] = index
+        }
+        return assignment
+    }
 }
 
 public enum BakingDayOptimizer {

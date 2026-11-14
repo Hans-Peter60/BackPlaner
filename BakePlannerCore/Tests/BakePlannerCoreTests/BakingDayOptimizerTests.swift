@@ -60,6 +60,22 @@ struct BakingDayOptimizerTests {
         #expect(result.placements.allSatisfy { $0.finish == date(14, 12) })
     }
 
+    @Test("Each bread gets its oven: different temperatures at once take two, the same temperature shares one, a bake after the pause reuses one")
+    func ovenAssignment() {
+        let two = schedule([bread("Weizen", bakeMinutes: 40, temperature: 230), bread("Roggen", bakeMinutes: 60)], ovens: 2)
+        let assignment = two.ovenAssignment(ovenCount: 2, bakePause: 15)
+        #expect(Set(assignment.values) == [0, 1])
+        #expect(assignment["Roggen"] != assignment["Weizen"])
+
+        let shared = schedule([bread("Weizen", bakeMinutes: 60), bread("Roggen", bakeMinutes: 60)], ovens: 1)
+        #expect(Set(shared.ovenAssignment(ovenCount: 2, bakePause: 15).values) == [0])
+
+        let apart = schedule([bread("Weizen", bakeMinutes: 40, temperature: 230), bread("Roggen", bakeMinutes: 60)], ovens: 1)
+        #expect(Set(apart.ovenAssignment(ovenCount: 2, bakePause: 15).values) == [0])
+        // With one oven and no room, the bread still gets that oven.
+        #expect(Set(two.ovenAssignment(ovenCount: 1, bakePause: 15).values) == [0])
+    }
+
     @Test("Same temperature, one oven: the two bakes share it; the second only moves a quarter hour so the hands are free")
     func sharedOven() {
         let result = schedule([bread("Weizen", bakeMinutes: 60), bread("Roggen", bakeMinutes: 60)], ovens: 1)

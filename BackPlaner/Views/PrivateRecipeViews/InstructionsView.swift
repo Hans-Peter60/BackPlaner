@@ -26,6 +26,11 @@ struct InstructionsView: View {
     @State private var dateTime                   = GlobalVariables.dateTimePicker
     // 0 = "Starten ab", 1 = "Fertig bis"; the UI tests may ask for the latter.
     @State private var dateTimeStartSelection     = UITestSupport.plansToFinish ? 1 : 0
+    /// The oven this plan is made for: the recipe's last choice, else the
+    /// settings' oven; empty without profiles.
+    @State private var ovenProfileID = ""
+    private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
+    private var chosenOven: OvenProfile? { OvenProfiles.selected(from: ovenProfiles, selectedID: ovenProfileID) }
     /// Owned by RecipePageView and chosen on the page, so the plan's
     /// reminders carry the amounts shown there.
     @Binding var         selectedServingSize: Int
@@ -151,12 +156,22 @@ struct InstructionsView: View {
                     dateTime: $dateTime,
                     dateRange: dateRange,
                     onDateTapped: showNotificationMessage,
-                    onDateChanged: setGlobalDateTime
+                    onDateChanged: setGlobalDateTime,
+                    ovenProfiles: ovenProfiles,
+                    ovenProfileID: $ovenProfileID
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
                 .onChange(of: dateTimeStartSelection) { _, _ in
                     refreshPlanIssues()
+                }
+                .onChange(of: ovenProfileID) { _, _ in
+                    refreshPlanIssues()
+                }
+                .onAppear {
+                    if ovenProfileID.isEmpty {
+                        ovenProfileID = (OvenProfiles.stored(id: recipe.ovenProfileID) ?? OvenProfiles.selected)?.id.uuidString ?? ""
+                    }
                 }
 
                 BakePlanIssuesView(issues: planIssues,
@@ -419,6 +434,7 @@ struct InstructionsView: View {
                  date: dateTime,
                  languageCode: locale.identifier,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
+        .using(chosenOven)
     }
 
     /// The recipe's steps as this plan uses them: with the proof adjusted
@@ -646,6 +662,11 @@ struct InstructionsView: View {
         }
 
         showingNotificationMessage = true
+
+        // The oven chosen is offered again the next time this recipe is planned.
+        if let chosenOven, recipe.ovenProfileID != chosenOven.id {
+            recipe.ovenProfileID = chosenOven.id
+        }
 
         // A step that mixes a component carries that component's
         // ingredients in its reminder, in the serving size chosen above.

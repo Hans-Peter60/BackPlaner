@@ -249,5 +249,10 @@ public final class BakePlannerDatabase {
                 """)
             try database.exec(sql: "CREATE INDEX pantry_reservation_plan ON pantry_reservation(plan_id)")
         },
+        // 11: the oven a plan was made for (oven profiles, step 41): the
+        // profile's UUID as text, NULL without profiles.
+        { database in
+            try database.exec(sql: "ALTER TABLE scheduled_step ADD COLUMN oven_profile_id TEXT")
+        },
     ]
 }
