@@ -31,6 +31,9 @@ FREIHÄNDIGER BACKMODUS
 ANSTELLGUT-DIAGRAMM
 • Im Anstellgut-Tagebuch: die Reifekurve Deines Anstellguts über die Raumtemperatur mit den gemessenen Fütterungen, die laufende Fütterung mit Fortschritt, vorhergesagtem Höhepunkt und „Erinnern, wenn reif“, der Verlauf der Fütterungen umgerechnet auf 22 °C, der Rhythmus – und das Tagebuch als CSV. Gehört zu BakePlanner Pro.
 
+KALENDER-KONFLIKTPRÜFUNG
+• Einstellungen → „Kalender beim Planen prüfen“: Das Planungsblatt und der Backtag melden, wenn ein Termin aus Deinem Kalender auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen fällt. Gehört zu BakePlanner Pro.
+
 SAMMLUNGEN UND FACETTEN
 • Die Rezeptliste hat eine zweite Chip-Reihe: „Für morgen früh“ zeigt, was heute Abend angesetzt und morgens nur noch geformt und gebacken wird; dazu „Schnelles Brot“, „Reiner Sauerteig“, „Lange nicht gebacken“ und „Lieblinge“.
 • Im Filtermenü stehen jetzt Facetten: Dauer, Tagesablauf, Triebmittel, Mehl, Teigausbeute, Ausstattung (Backstein, Kastenform, Gärkörbchen, Topf), Backhistorie und „Wenig Arbeit“. Die App liest alles aus Zutaten und Schritten – nichts einzutragen. Facetten lassen sich kombinieren.
@@ -94,6 +97,9 @@ HANDS-FREE BAKE MODE
 STARTER DIAGRAM
 • In the starter diary: your starter’s ripening curve over room temperature with the measured feedings, the feeding under way with progress, predicted peak and “Remind me when ripe”, the trend of the feedings converted to 22 °C, the rhythm – and the diary as CSV. Part of BakePlanner Pro.
 
+CALENDAR CONFLICT CHECK
+• Settings → “Check calendar when planning”: the planning sheet and the baking day report when an appointment from your calendar falls on kneading, shaping, switching the oven on or putting the bread in and taking it out. Part of BakePlanner Pro.
+
 COLLECTIONS AND FACETS
 • The recipe list has a second chip row: “For tomorrow morning” shows what you start tonight and only shape and bake in the morning; plus “Quick bread”, “Pure sourdough”, “Not baked for a while” and “Favourites”.
 • The filter menu now has facets: duration, day flow, leavening, flour, dough yield, equipment (baking stone, loaf tin, proofing basket, pot), baking history and “Little work”. The app reads all of it from ingredients and steps – nothing to enter. Facets can be combined.
@@ -151,6 +157,9 @@ MODE CUISSON MAINS LIBRES
 
 DIAGRAMME DU LEVAIN
 • Dans le journal du levain : la courbe de maturation de votre levain selon la température ambiante avec les nourrissages mesurés, le nourrissage en cours avec progression, pic prévu et « Me rappeler à maturité », l’évolution des nourrissages ramenée à 22 °C, le rythme – et le journal en CSV. Fait partie de BakePlanner Pro.
+
+VÉRIFICATION DES CONFLITS D’AGENDA
+• Réglages → « Vérifier l’agenda en planifiant » : la feuille de planification et la journée de cuisson signalent quand un rendez-vous de votre agenda tombe sur le pétrissage, le façonnage, l’allumage du four ou l’enfournement et le défournement. Fait partie de BakePlanner Pro.
 
 COLLECTIONS ET FACETTES
 • La liste des recettes a une deuxième rangée de puces : « Pour demain matin » montre ce qui se lance ce soir et se façonne et cuit seulement le matin ; avec « Pain rapide », « Pur levain », « Pas cuit depuis longtemps » et « Favoris ».

@@ -28,6 +28,8 @@ public struct AppSettingsKeys {
     public static let cloudRecipeAnalysisConsent = "settings.cloudRecipeAnalysisConsent"
     public static let recipeImageAnalysisMode = "settings.recipeImageAnalysisMode"
     public static let liveActivity = "settings.liveActivity"
+    /// Whether planning checks the plan against the calendar's appointments.
+    public static let calendarCheck = "settings.calendarCheck"
     /// A notification two weeks before a pantry item's best-before date.
     public static let pantryExpiryReminder = "settings.pantryExpiryReminder"
     public static let bakersPercentages = "settings.bakersPercentages"
@@ -96,6 +98,7 @@ public struct AppSettings {
     public static let defaultUseDetailView = true
     /// Whether a running plan shows a Live Activity on the lock screen.
     public static let defaultLiveActivity = true
+    public static let defaultCalendarCheck = false
     /// Whether the component columns add baker's percentages to each weight.
     public static let defaultBakersPercentages = false
     /// Whether a public recipe is machine-translated into the app's language
@@ -163,6 +166,13 @@ public struct AppSettings {
 
     public static var isLiveActivityEnabled: Bool {
         UserDefaults.standard.object(forKey: AppSettingsKeys.liveActivity) as? Bool ?? defaultLiveActivity
+    }
+
+    public static var storedCalendarCheck: Bool {
+        if let settingsReader {
+            return settingsReader(AppSettingsKeys.calendarCheck) as? Bool ?? defaultCalendarCheck
+        }
+        return UserDefaults.standard.object(forKey: AppSettingsKeys.calendarCheck) as? Bool ?? defaultCalendarCheck
     }
 
     /// Off until switched on: a notification is a promise the person

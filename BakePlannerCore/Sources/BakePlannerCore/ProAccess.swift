@@ -60,6 +60,9 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
     /// feedings over time, the feeding under way with its predicted peak,
     /// the rhythm, the diary as CSV.
     case starterChart
+    /// The calendar check: the plan's hands-on moments against the baker's
+    /// own appointments while planning.
+    case calendarCheck
 
     public var id: String { rawValue }
 
@@ -71,7 +74,7 @@ public enum ProFeature: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .pdfExport, .recipeSharing, .recurringPlans, .shoppingList, .widgets, .liveActivity:
             return 1
-        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula, .yearbook, .ovenProfiles, .handsFree, .starterChart:
+        case .pantry, .bakingDay, .collections, .statistics, .bakersFormula, .yearbook, .ovenProfiles, .handsFree, .starterChart, .calendarCheck:
             return 21
         }
     }

@@ -18,6 +18,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKeys.dayStart) private var dayStart = AppSettings.defaultDayStart
     @AppStorage(AppSettingsKeys.dayEnd) private var dayEnd = AppSettings.defaultDayEnd
     @AppStorage(AppSettingsKeys.liveActivity) private var liveActivity = AppSettings.defaultLiveActivity
+    @AppStorage(AppSettingsKeys.calendarCheck) private var calendarCheck = AppSettings.defaultCalendarCheck
     @AppStorage(AppSettingsKeys.pantryExpiryReminder) private var pantryExpiryReminder = AppSettings.defaultPantryExpiryReminder
     /// Which steps ring as an alarm, as AlarmStepScope's raw value.
     @AppStorage(AppSettingsKeys.alarmSteps) private var alarmScope = AppSettings.defaultAlarmScope.rawValue
@@ -222,6 +223,17 @@ struct SettingsView: View {
                         }
                 } label: {
                     Text("Live-Aktivität auf dem Sperrbildschirm")
+                        .foregroundStyle(.primary)
+                    Spacer()
+                }
+
+                // Planning reads the calendar for appointments that fall on
+                // the hands-on moments. A Pro feature; iOS asks for full
+                // calendar access the first time a plan is checked.
+                ProGate(.calendarCheck) {
+                    Toggle("Kalender beim Planen prüfen", isOn: $calendarCheck)
+                } label: {
+                    Text("Kalender beim Planen prüfen")
                         .foregroundStyle(.primary)
                     Spacer()
                 }
