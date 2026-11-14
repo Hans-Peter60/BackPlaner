@@ -674,6 +674,7 @@ At the bottom sit large buttons that can be hit with flour on your hands:
 - **Back** and **Next** page through every step of the plan.
 - **Read aloud** speaks the step and, where present, the ingredients through the speaker in the app language you have set. A second tap (**Stop**) cancels. Speech also plays while the device is muted.
 - **Done** removes the step together with its reminder and jumps to the next one.
+- **Hands-free** (microphone symbol at the top left) makes bake mode listen: say **"next"**, **"back"**, **"done"**, **"read"**, **"ingredients"**, **"how long"** or **"stop"** – in German, English or French, following the app language. The app answers by voice, reads every new step on its own and confirms "done" together with the next step. iOS asks for the microphone the first time; speech is recognized on the device (iOS 26, the language model is downloaded once). While the app itself is talking it does not listen. A phone call or switching to another app ends listening. Belongs to BakePlanner Pro.
 
 Bake mode opens on the step that is up right now and respects the list's recipe filter. While it is open, the screen stays on. **Close** at the top right returns to the list.
 
@@ -1028,7 +1029,7 @@ From here you open the **User manual** (this document), the **Help and contact**
 
 ### BakePlanner Pro
 
-Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics, recipes from baker's percentages, the baking yearbook and oven profiles, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
+Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics, recipes from baker's percentages, the baking yearbook, oven profiles and the hands-free bake mode, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
 
 **If you had the app before Pro existed,** you keep what the app could do on the day you installed it – permanently and without buying. Features added later come with the purchase, as for everyone else; the section in the settings says so. This is recognised from the installation date at Apple, so it survives a change of device.
 
@@ -1333,6 +1334,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Live Activity, widgets, Control Center, Siri, Spotlight, Apple Watch | [chapter 10](#10-scheduled-steps-list-and-timeline), [11](#11-reminders-on-the-lock-screen) | Not planned |
 | Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
 | Oven profiles (Settings → Ovens) | [chapter 14](#14-settings) | Missing; preheat time, preheat time with baking stone and ovens apply |
+| Hands-free bake mode (microphone in bake mode) | [chapter 7](#7-baking-instructions-and-reminders) | Missing; Read aloud is available |
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Available: **+ → By baker's percentages** with recipe name, total flour or dough weight, components and ingredients in percent; **Next** opens the recipe editor with the grams |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels. The **baking yearbook** is still missing |

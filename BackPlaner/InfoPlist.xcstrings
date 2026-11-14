@@ -212,6 +212,54 @@
           }
         }
       }
+    },
+    "NSMicrophoneUsageDescription" : {
+      "comment" : "Privacy - Microphone Usage Description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im freihändigen Backmodus hört BakePlanner auf „Weiter“, „Zurück“, „Erledigt“ und „Vorlesen“, damit Du mit Teig an den Händen durch die Schritte kommst. Die Spracherkennung läuft auf dem Gerät."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the hands-free bake mode BakePlanner listens for “next”, “back”, “done” and “read”, so you can go through the steps with dough on your hands. Speech is recognized on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En mode cuisson mains libres, BakePlanner écoute « suivant », « retour », « terminé » et « lire », pour passer les étapes les mains dans la pâte. La reconnaissance vocale s’effectue sur l’appareil."
+          }
+        }
+      }
+    },
+    "NSSpeechRecognitionUsageDescription" : {
+      "comment" : "Privacy - Speech Recognition Usage Description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner erkennt die gesprochenen Befehle des freihändigen Backmodus auf dem Gerät."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner recognizes the spoken commands of the hands-free bake mode on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BakePlanner reconnaît sur l’appareil les commandes vocales du mode cuisson mains libres."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

@@ -23888,6 +23888,326 @@
           }
         }
       }
+    },
+    "Freihändiger Backmodus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free bake mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode cuisson mains libres"
+          }
+        }
+      }
+    },
+    "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake mode listens: “next”, “back”, “done”, “read”, “ingredients” or “how long” – and answers by voice, so you never touch the iPhone with dough on your hands. Speech is recognized on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode cuisson écoute : « suivant », « retour », « terminé », « lire », « ingrédients » ou « combien de temps » – et répond à voix haute, sans que vous touchiez l’iPhone les mains dans la pâte. La reconnaissance vocale s’effectue sur l’appareil."
+          }
+        }
+      }
+    },
+    "Freihändig beenden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End hands-free"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter le mode mains libres"
+          }
+        }
+      }
+    },
+    "Freihändig starten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start hands-free"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer le mode mains libres"
+          }
+        }
+      }
+    },
+    "Spracherkennung wird vorbereitet …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing speech recognition …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préparation de la reconnaissance vocale…"
+          }
+        }
+      }
+    },
+    "Sage „%@“, „%@“, „%@“ oder „%@“." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say “%@”, “%@”, “%@” or “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « %@ », « %@ », « %@ » ou « %@ »."
+          }
+        }
+      }
+    },
+    "Gehört: „%@“" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heard: “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entendu : « %@ »"
+          }
+        }
+      }
+    },
+    "Ohne Mikrofon kann der Backmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without the microphone, bake mode cannot listen. Allow access in Settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans micro, le mode cuisson ne peut pas écouter. Autorisez l’accès dans Réglages."
+          }
+        }
+      }
+    },
+    "Einstellungen öffnen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Réglages"
+          }
+        }
+      }
+    },
+    "Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speech recognition is not available for this language on this device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La reconnaissance vocale n’est pas disponible pour cette langue sur cet appareil."
+          }
+        }
+      }
+    },
+    "Spracherkennung fehlgeschlagen: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speech recognition failed: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la reconnaissance vocale : %@"
+          }
+        }
+      }
+    },
+    "Wie lange" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How long"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de temps"
+          }
+        }
+      }
+    },
+    "Freihändiger Backmodus. Sage %@, %@, %@ oder %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free bake mode. Say %@, %@, %@ or %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode cuisson mains libres. Dites %@, %@, %@ ou %@."
+          }
+        }
+      }
+    },
+    "Das war der letzte Schritt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was the last step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière étape."
+          }
+        }
+      }
+    },
+    "Das ist der erste Schritt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is the first step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est la première étape."
+          }
+        }
+      }
+    },
+    "Erledigt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé."
+          }
+        }
+      }
+    },
+    "Dieser Schritt hat keine Zutaten." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This step has no ingredients."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette étape n’a pas d’ingrédients."
+          }
+        }
+      }
+    },
+    "Fällig in %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due in %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans %@."
+          }
+        }
+      }
+    },
+    "Seit %@ fällig." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due since %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente depuis %@."
+          }
+        }
+      }
+    },
+    "Das Mikrofon liefert kein Audio." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The microphone delivers no audio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le micro ne fournit aucun son."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
