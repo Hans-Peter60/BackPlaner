@@ -22,6 +22,8 @@
 			<string>BakePlannerPronunciationHint</string>
 		</dict>
 	</array>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>With the calendar check switched on, BakePlanner reads your appointments while you plan a bake and tells you when one falls on kneading, shaping or the oven.</string>
 	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
 	<string>BakePlanner enters the steps of a plan into your calendar on request, so everyone sees when the oven is taken.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>

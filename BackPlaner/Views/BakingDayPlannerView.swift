@@ -37,6 +37,9 @@ struct BakingDayPlannerView: View {
     @State private var selection: Set<NSManagedObjectID> = []
     @State private var searchText = ""
     @State private var schedule: BakingDaySchedule?
+    /// Calendar appointments per placed bread (by placement id), read
+    /// after the schedule when the calendar check is on.
+    @State private var calendarNotes: [String: [String]] = [:]
     /// The breads that had a plan when the day was worked out; noted then,
     /// not read live, or the rows would flip while "Alle planen" runs.
     @State private var alreadyPlanned: Set<String> = []
@@ -249,6 +252,12 @@ struct BakingDayPlannerView: View {
                     .font(Theme.bodyFont(12))
                     .foregroundColor(Theme.warning)
             }
+            ForEach(calendarNotes[placement.id] ?? [], id: \.self) { note in
+                Label(String(localized: "Kalender: \(note)"), systemImage: "calendar.badge.exclamationmark")
+                    .font(Theme.bodyFont(12))
+                    .foregroundColor(Theme.warning)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             if placement.conflictsWithOvens {
                 Label("Kein Ofen frei – überschneidet sich mit einem anderen Backen", systemImage: "exclamationmark.triangle")
                     .font(Theme.bodyFont(12))
@@ -306,6 +315,7 @@ struct BakingDayPlannerView: View {
                                                  dayStart: dayStart, dayEnd: dayEnd, existingWindows: existing,
                                                  existingWork: busy, languageCode: AppSettings.locale.identifier)
         schedule = result
+        refreshCalendarNotes(for: result)
         // Each bread gets the profile of the oven the optimizer put it in;
         // more breads than profiles fall back to the first.
         let profiles = ovenProfiles
@@ -313,6 +323,22 @@ struct BakingDayPlannerView: View {
         if !profiles.isEmpty {
             for (id, index) in result.ovenAssignment(ovenCount: ovenCount, bakePause: AppSettings.storedBakePause) {
                 ovenChoices[id] = profiles[min(index, profiles.count - 1)].id.uuidString
+            }
+        }
+    }
+
+    /// Each bread's appointments, read once per schedule.
+    private func refreshCalendarNotes(for result: BakingDaySchedule) {
+        calendarNotes = [:]
+        guard CalendarConflictCheck.isEnabled else { return }
+        Task {
+            var notes: [String: [String]] = [:]
+            for placement in result.placements {
+                let found = CalendarConflictCheck.notes(for: await CalendarConflictCheck.check(placement.plan))
+                if !found.isEmpty { notes[placement.id] = found }
+            }
+            if schedule?.placements.map(\.id) == result.placements.map(\.id) {
+                calendarNotes = notes
             }
         }
     }

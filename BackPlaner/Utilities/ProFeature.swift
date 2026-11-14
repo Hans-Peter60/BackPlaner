@@ -29,6 +29,7 @@ extension ProFeature {
         case .ovenProfiles:   return "Ofenprofile"
         case .handsFree:      return "Freihändiger Backmodus"
         case .starterChart:   return "Anstellgut-Diagramm"
+        case .calendarCheck:  return "Kalender-Konfliktprüfung"
         }
     }
 
@@ -50,6 +51,7 @@ extension ProFeature {
         case .ovenProfiles:   return "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung."
         case .handsFree:      return "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät."
         case .starterChart:   return "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV."
+        case .calendarCheck:  return "Beim Planen prüft die App Deine Termine: Fällt ein Termin auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen, sagt sie es Dir, bevor Du planst – auch für jedes Brot des Backtags."
         }
     }
 
@@ -70,6 +72,7 @@ extension ProFeature {
         case .ovenProfiles:   return "oven"
         case .handsFree:      return "mic"
         case .starterChart:   return "chart.xyaxis.line"
+        case .calendarCheck:  return "calendar.badge.exclamationmark"
         }
     }
 }

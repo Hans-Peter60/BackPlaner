@@ -260,6 +260,30 @@
           }
         }
       }
+    },
+    "NSCalendarsFullAccessUsageDescription" : {
+      "comment" : "Privacy - Calendars Full Access Usage Description. The key comes from BackPlaner/Info.plist (merged into the generated one), which Xcode's extraction does not see.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit eingeschalteter Kalenderprüfung liest BakePlanner beim Planen Deine Termine und sagt Dir, wenn einer auf das Kneten, Formen oder den Ofen fällt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With the calendar check switched on, BakePlanner reads your appointments while you plan a bake and tells you when one falls on kneading, shaping or the oven."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec la vérification d’agenda activée, BakePlanner lit vos rendez-vous pendant la planification et vous prévient quand l’un tombe sur le pétrissage, le façonnage ou le four."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

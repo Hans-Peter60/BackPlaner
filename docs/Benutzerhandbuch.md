@@ -967,6 +967,7 @@ Die Sicherungsdatei bleibt unter **5 MB**, damit sie sich per Mail, AirDrop und 
 | **Tagesbeginn** | 0–23 Uhr. Ab wann Du morgens ansprechbar bist. Standard: 6 Uhr. |
 | **Tagesende** | Zwischen Tagesbeginn und 23 Uhr. Standard: 23 Uhr. |
 | **Live-Aktivität auf dem Sperrbildschirm** | Zeigt den anstehenden Schritt als Live-Aktivität auf Sperrbildschirm und Dynamic Island. Aus beendet eine laufende sofort. Standard: an. |
+| **Kalender beim Planen prüfen** | Liest beim Planen Deine Kalendertermine und meldet im Planungsblatt und beim Backtag, wenn ein Termin auf einen Moment fällt, an dem Du gebraucht wirst: Kneten, Falten, Formen, das Einschalten des Ofens, das Ein- und Ausschießen. Ruhezeiten zählen nicht, ganztägige Termine und als „frei“ markierte auch nicht. iOS fragt beim ersten Mal nach dem vollen Kalenderzugriff; die App liest nur, sie ändert nichts. Gehört zu BakePlanner Pro. Standard: aus. |
 | **Wecker** | Aus, Ofenschritte oder Alle Schritte: Welche Schritte zusätzlich zur Erinnerung als Wecker klingeln, auch bei Stumm und in einem Fokus (siehe [Kapitel 11](#11-erinnerungen-auf-dem-sperrbildschirm)). Beim Einschalten fragt iOS einmal um Erlaubnis. Standard: aus. |
 | **Vorrat → Erinnerung vor Ablauf** | Eine Mitteilung 14 Tage vor der Mindesthaltbarkeit eines Postens, morgens um 9 Uhr (siehe [Kapitel 13](#13-einkaufsliste)). Beim Einschalten fragt iOS einmal um Erlaubnis. Pro. Standard: aus. |
 
@@ -1029,7 +1030,7 @@ Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), 
 
 ### BakePlanner Pro
 
-Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch, Ofenprofile, der freihändige Backmodus und das Anstellgut-Diagramm, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
+Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch, Ofenprofile, der freihändige Backmodus, das Anstellgut-Diagramm und die Kalender-Konfliktprüfung, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
 
 **Wer die App schon hatte, bevor es Pro gab,** behält, was die App an seinem Installationstag konnte – dauerhaft und ohne Kauf. Funktionen, die erst später dazukamen, gibt es wie für alle anderen mit dem Kauf; der Abschnitt in den Einstellungen sagt das dazu. Erkannt wird das am Installationsdatum bei Apple, es übersteht also auch einen Gerätewechsel.
 
@@ -1336,6 +1337,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Ofenprofile (Einstellungen → Backöfen) | [Kapitel 14](#14-einstellungen) | Fehlen; es gelten Vorheizzeit, Vorheizzeit mit Backstein und Backöfen |
 | Freihändiger Backmodus (Mikrofon im Backmodus) | [Kapitel 7](#7-backanleitung-und-erinnerungen) | Fehlt; Vorlesen ist vorhanden |
 | Anstellgut-Diagramm (Tagebuch → Diagramm) | [Kapitel 9](#9-rezept-bearbeiten) | Fehlt; die Reifezeit-Schätzung im Tagebuch ist vorhanden |
+| Kalender beim Planen prüfen | [Kapitel 14](#14-einstellungen) | Fehlt |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Vorhanden: **+ → Nach Bäckerprozent** mit Rezeptname, Mehl gesamt oder Teiggewicht, Komponenten und Zutaten in Prozent; **Weiter** öffnet den Rezept-Editor mit den Gramm |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Das **Backjahr-Buch** fehlt noch |

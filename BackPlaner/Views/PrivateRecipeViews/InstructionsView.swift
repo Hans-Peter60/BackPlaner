@@ -29,6 +29,9 @@ struct InstructionsView: View {
     /// The oven this plan is made for: the recipe's last choice, else the
     /// settings' oven; empty without profiles.
     @State private var ovenProfileID = ""
+    /// Appointments that fall on the plan's hands-on moments, read from
+    /// the calendar when the setting is on; hints beside the plan's own.
+    @State private var calendarIssues: [BakePlanIssue] = []
     private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
     private var chosenOven: OvenProfile? { OvenProfiles.selected(from: ovenProfiles, selectedID: ovenProfileID) }
     /// Owned by RecipePageView and chosen on the page, so the plan's
@@ -174,7 +177,7 @@ struct InstructionsView: View {
                     }
                 }
 
-                BakePlanIssuesView(issues: planIssues,
+                BakePlanIssuesView(issues: planIssues + calendarIssues,
                                    hasNightSteps: planHasNightSteps,
                                    suggestions: nightFreeDates,
                                    hasOvenConflict: planHasOvenConflict,
@@ -622,6 +625,23 @@ struct InstructionsView: View {
         ovenFreeDates = planHasOvenConflict ? BakePlanAdvisor.ovenFreeDates(for: plan, in: viewContext) : []
         windowSuggestion = BakePlanAdvisor.windowSuggestion(
             for: plan, dependencies: Rational.ComponentDependency.from(recipe.componentsArray), in: viewContext)
+        refreshCalendarIssues(for: plan)
+    }
+
+    /// The calendar read asynchronously; a result for an older plan is
+    /// dropped when the date moved on meanwhile.
+    private func refreshCalendarIssues(for plan: BakePlan) {
+        guard CalendarConflictCheck.isEnabled else {
+            calendarIssues = []
+            return
+        }
+        let date = plan.date
+        Task {
+            let outcome = await CalendarConflictCheck.check(plan)
+            if bakePlan.date == date {
+                calendarIssues = CalendarConflictCheck.issues(for: outcome)
+            }
+        }
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.
@@ -647,8 +667,7 @@ struct InstructionsView: View {
             return
         }
 
-        reminderHintText = issues
-            .filter { $0.severity == .hint }
+        reminderHintText = (issues.filter { $0.severity == .hint } + calendarIssues)
             .map(\.message)
             .joined(separator: "\n\n")
 

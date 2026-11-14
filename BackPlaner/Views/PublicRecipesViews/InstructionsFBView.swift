@@ -29,6 +29,9 @@ struct InstructionsFBView: View {
     /// The oven this plan is made for, the settings' oven to begin with;
     /// empty without profiles.
     @State private var ovenProfileID = OvenProfiles.selected?.id.uuidString ?? ""
+    /// Appointments that fall on the plan's hands-on moments, read from
+    /// the calendar when the setting is on; hints beside the plan's own.
+    @State private var calendarIssues: [BakePlanIssue] = []
     private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
     private var chosenOven: OvenProfile? { OvenProfiles.selected(from: ovenProfiles, selectedID: ovenProfileID) }
     /// Owned by PublicRecipePageView and chosen on the page, so the plan's
@@ -163,7 +166,7 @@ struct InstructionsFBView: View {
                         refreshPlanIssues()
                     }
 
-                    BakePlanIssuesView(issues: planIssues,
+                    BakePlanIssuesView(issues: planIssues + calendarIssues,
                                        hasNightSteps: planHasNightSteps,
                                        suggestions: nightFreeDates,
                                        hasOvenConflict: planHasOvenConflict,
@@ -501,6 +504,23 @@ struct InstructionsFBView: View {
         ovenFreeDates = planHasOvenConflict ? BakePlanAdvisor.ovenFreeDates(for: plan, in: viewContext) : []
         windowSuggestion = BakePlanAdvisor.windowSuggestion(
             for: plan, dependencies: Rational.ComponentDependency.from(recipeFB.components), in: viewContext)
+        refreshCalendarIssues(for: plan)
+    }
+
+    /// The calendar read asynchronously; a result for an older plan is
+    /// dropped when the date moved on meanwhile.
+    private func refreshCalendarIssues(for plan: BakePlan) {
+        guard CalendarConflictCheck.isEnabled else {
+            calendarIssues = []
+            return
+        }
+        let date = plan.date
+        Task {
+            let outcome = await CalendarConflictCheck.check(plan)
+            if bakePlan.date == date {
+                calendarIssues = CalendarConflictCheck.issues(for: outcome)
+            }
+        }
     }
 
     /// Sets the reminders and the planned steps for the date chosen above.
@@ -526,8 +546,7 @@ struct InstructionsFBView: View {
             return
         }
 
-        reminderHintText = issues
-            .filter { $0.severity == .hint }
+        reminderHintText = (issues.filter { $0.severity == .hint } + calendarIssues)
             .map(\.message)
             .joined(separator: "\n\n")
 

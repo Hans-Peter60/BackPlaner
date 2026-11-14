@@ -24688,6 +24688,118 @@
           }
         }
       }
+    },
+    "Kalender-Konfliktprüfung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar conflict check"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification des conflits d’agenda"
+          }
+        }
+      }
+    },
+    "Beim Planen prüft die App Deine Termine: Fällt ein Termin auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen, sagt sie es Dir, bevor Du planst – auch für jedes Brot des Backtags." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "While you plan, the app checks your appointments: if one falls on kneading, shaping, switching the oven on or putting the bread in and taking it out, it tells you before you plan – for every bread of the baking day as well."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendant la planification, l’app vérifie vos rendez-vous : si l’un tombe sur le pétrissage, le façonnage, l’allumage du four ou l’enfournement et le défournement, elle vous le dit avant de planifier – aussi pour chaque pain de la journée de cuisson."
+          }
+        }
+      }
+    },
+    "Kalender beim Planen prüfen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check calendar when planning"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifier l’agenda en planifiant"
+          }
+        }
+      }
+    },
+    "Kalender: Der Zugriff ist nicht erlaubt. Erlaube ihn in den iOS-Einstellungen unter BakePlanner, dann prüft die App Deine Termine." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: access is not allowed. Allow it in the iOS Settings under BakePlanner, and the app will check your appointments."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : l’accès n’est pas autorisé. Autorisez-le dans les Réglages iOS sous BakePlanner, et l’app vérifiera vos rendez-vous."
+          }
+        }
+      }
+    },
+    "Kalender: „%1$@“ (%2$@) fällt in „%3$@“ um %4$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: “%1$@” (%2$@) falls on “%3$@” at %4$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : « %1$@ » (%2$@) tombe sur « %3$@ » à %4$@."
+          }
+        }
+      }
+    },
+    "Kalenderzugriff nicht erlaubt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar access not allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accès à l’agenda non autorisé"
+          }
+        }
+      }
+    },
+    "Kalender: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
