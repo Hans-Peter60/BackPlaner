@@ -1,0 +1,8 @@
+New in 2.4 (5):
+• Pantry: flours, seeds, yeast with amount and best-before; the shopping list deducts it, "Bought" books it in
+• Plan a baking day: several breads, the app sets the start times
+• Collections and facets in the recipe list, "Done by"
+• Baking statistics in the baking history
+• New recipe from baker's percentages
+• Oven profiles: preheat times per oven, dial setting in the plan, convection per bake
+• Farina 00 counts as flour
