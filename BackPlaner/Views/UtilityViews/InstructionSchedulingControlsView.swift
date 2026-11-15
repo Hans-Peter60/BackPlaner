@@ -16,6 +16,9 @@ struct InstructionSchedulingControlsView: View {
     /// with two or more ovens.
     var ovenProfiles: [OvenProfile] = []
     var ovenProfileID: Binding<String>? = nil
+    /// Whether this bake runs with the fan on; the row shows as soon as
+    /// there is an oven profile, which carries the fan's reduction.
+    var usesConvection: Binding<Bool>? = nil
 
     private var isPhonePortrait: Bool {
         horizontalSizeClass == .compact && verticalSizeClass == .regular
@@ -24,10 +27,22 @@ struct InstructionSchedulingControlsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             controls
-            if let ovenProfileID, ovenProfiles.count > 1 {
-                OvenChoiceMenu(profiles: ovenProfiles, selection: ovenProfileID)
-                    .font(Theme.bodyFont(isPhonePortrait ? 13 : 15))
-                    .accessibilityIdentifier("plan.oven")
+            if !ovenProfiles.isEmpty, ovenProfileID != nil || usesConvection != nil {
+                HStack(spacing: 12) {
+                    if let ovenProfileID, ovenProfiles.count > 1 {
+                        OvenChoiceMenu(profiles: ovenProfiles, selection: ovenProfileID)
+                            .accessibilityIdentifier("plan.oven")
+                    }
+                    if let usesConvection {
+                        Toggle(isOn: usesConvection) {
+                            Label("Umluft", systemImage: "fan")
+                        }
+                        .controlSize(isPhonePortrait ? .mini : .regular)
+                        .fixedSize()
+                        .accessibilityIdentifier("plan.convection")
+                    }
+                }
+                .font(Theme.bodyFont(isPhonePortrait ? 13 : 15))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

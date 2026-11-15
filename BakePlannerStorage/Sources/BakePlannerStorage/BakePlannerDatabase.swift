@@ -254,5 +254,9 @@ public final class BakePlannerDatabase {
         { database in
             try database.exec(sql: "ALTER TABLE scheduled_step ADD COLUMN oven_profile_id TEXT")
         },
+        // 12: whether the plan bakes with the fan on (0/1), chosen per bake.
+        { database in
+            try database.exec(sql: "ALTER TABLE scheduled_step ADD COLUMN uses_convection INTEGER NOT NULL DEFAULT 0")
+        },
     ]
 }

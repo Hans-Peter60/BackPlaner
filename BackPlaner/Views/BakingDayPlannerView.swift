@@ -33,6 +33,9 @@ struct BakingDayPlannerView: View {
     /// optimizer assigned them and as the baker changes them; empty
     /// without profiles.
     @State private var ovenChoices: [String: String] = [:]
+    /// Whether each placed bread bakes with the fan on, preset from the
+    /// recipe's last choice.
+    @State private var convectionChoices: [String: Bool] = [:]
     private var ovenProfiles: [OvenProfile] { OvenProfiles.stored }
     @State private var selection: Set<NSManagedObjectID> = []
     @State private var searchText = ""
@@ -220,7 +223,7 @@ struct BakingDayPlannerView: View {
             }
             // Which oven: a menu with two or more profiles, the name alone with one.
             if placement.bakeWindow != nil, let chosen = chosenOven(for: placement) {
-                Group {
+                HStack(spacing: 12) {
                     if ovenProfiles.count > 1 {
                         OvenChoiceMenu(profiles: ovenProfiles, selection: Binding(
                             get: { chosen.id.uuidString },
@@ -230,6 +233,14 @@ struct BakingDayPlannerView: View {
                         Label(chosen.name, systemImage: "oven")
                             .foregroundColor(Theme.subtitle)
                     }
+                    Toggle(isOn: Binding(
+                        get: { convectionChoices[placement.id] ?? false },
+                        set: { convectionChoices[placement.id] = $0 }
+                    )) {
+                        Label("Umluft", systemImage: "fan")
+                    }
+                    .controlSize(.mini)
+                    .fixedSize()
                 }
                 .font(Theme.bodyFont(13))
             }
@@ -320,6 +331,12 @@ struct BakingDayPlannerView: View {
         // more breads than profiles fall back to the first.
         let profiles = ovenProfiles
         ovenChoices = [:]
+        convectionChoices = [:]
+        for placement in result.placements {
+            if let recipe = selectedRecipes.first(where: { $0.objectID.uriRepresentation().absoluteString == placement.id }) {
+                convectionChoices[placement.id] = recipe.usesConvection
+            }
+        }
         if !profiles.isEmpty {
             for (id, index) in result.ovenAssignment(ovenCount: ovenCount, bakePause: AppSettings.storedBakePause) {
                 ovenChoices[id] = profiles[min(index, profiles.count - 1)].id.uuidString
@@ -364,10 +381,14 @@ struct BakingDayPlannerView: View {
             let scale = ServingScale.factor(servingSize: AppSettings.storedServingSize, targetWeight: nil,
                                             baseWeight: recipe.totalWeight)
             let oven = chosenOven(for: placement)
+            let convection = convectionChoices[placement.id] ?? false
             if let oven, recipe.ovenProfileID != oven.id {
                 recipe.ovenProfileID = oven.id
             }
-            BakePlanScheduler.putIntoEffect(placement.plan.using(oven), for: recipe, planID: planID,
+            if recipe.usesConvection != convection {
+                recipe.usesConvection = convection
+            }
+            BakePlanScheduler.putIntoEffect(placement.plan.using(oven, convection: convection), for: recipe, planID: planID,
                                             servingScale: scale, manager: manager, in: viewContext)
             count += 1
         }

@@ -296,7 +296,8 @@ extension RecurringBakePlanner {
                                 date: start,
                                 languageCode: AppSettings.locale.identifier,
                                 isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
-                .using(OvenProfiles.stored(id: recipe.ovenProfileID) ?? OvenProfiles.selected)
+                .using(OvenProfiles.stored(id: recipe.ovenProfileID) ?? OvenProfiles.selected,
+                       convection: recipe.usesConvection)
 
             // A conflict with another plan is left for the next foreground
             // pass to retry — there is nobody here to show an error to.

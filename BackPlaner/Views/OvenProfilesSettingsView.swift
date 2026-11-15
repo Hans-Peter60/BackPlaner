@@ -85,9 +85,7 @@ struct OvenProfilesSection: View {
         } else if profile.runsHotBy < 0 {
             parts.append(String(localized: "läuft \(-profile.runsHotBy) °C kälter"))
         }
-        if profile.convection {
-            parts.append(String(localized: "Umluft −\(profile.fanReduction) °C"))
-        }
+        parts.append(String(localized: "Umluft −\(profile.fanReduction) °C"))
         return parts.joined(separator: " · ")
     }
 
@@ -145,7 +143,7 @@ enum OvenProfileStorage {
     }
 }
 
-/// One oven: its name, preheating times, deviation and convection. Edits
+/// One oven: its name, preheating times, deviation and fan reduction. Edits
 /// are written to the settings as they happen.
 struct OvenProfileEditorView: View {
 
@@ -181,20 +179,15 @@ struct OvenProfileEditorView: View {
                         in: -OvenProfile.maximumDeviation...OvenProfile.maximumDeviation, step: 5) {
                     LabeledContent("Abweichung", value: deviationText)
                 }
-                Toggle("Umluft", isOn: $profile.convection)
-                if profile.convection {
-                    Stepper(value: $profile.fanReduction, in: 5...40, step: 5) {
-                        LabeledContent("Umluft-Abschlag", value: "−\(profile.fanReduction) °C")
-                    }
+                // Whether the fan runs is chosen per bake in the planning
+                // sheet; the oven only knows by how much it is turned down.
+                Stepper(value: $profile.fanReduction, in: 5...40, step: 5) {
+                    LabeledContent("Umluft-Abschlag", value: "−\(profile.fanReduction) °C")
                 }
             } header: {
                 Text("Temperatur")
             } footer: {
-                if profile.hasCorrection {
-                    Text("Ein Rezept mit 250 °C stellst Du an diesem Ofen auf \(OvenSettings.text(profile.dialTemperature(for: 250))).")
-                } else {
-                    Text("Dieser Ofen hält, was der Regler sagt.")
-                }
+                Text("Ein Rezept mit 250 °C stellst Du an diesem Ofen auf \(OvenSettings.text(profile.dialTemperature(for: 250, convection: false))), mit Umluft auf \(OvenSettings.text(profile.dialTemperature(for: 250, convection: true))). Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt.")
             }
 
             Section {

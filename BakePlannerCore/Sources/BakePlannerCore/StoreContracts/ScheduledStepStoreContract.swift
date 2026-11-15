@@ -38,7 +38,7 @@ public enum ScheduledStepStoreContract {
         let full = ScheduledStepData(id: UUID(), planID: UUID(), recipeName: "Landbrot – „Roggen“",
                                      instruction: "Bei 250 °C 50 Minuten backen", step: 2.5, startTime: 60,
                                      duration: 50, date: minute(60), isAutomaticRecurrence: true,
-                                     servingScale: 1.37, ovenProfileID: UUID())
+                                     servingScale: 1.37, ovenProfileID: UUID(), usesConvection: true)
         // As steps stored before they had an id or a plan look.
         let old = ScheduledStepData(id: nil, planID: nil, recipeName: "Zopf", instruction: "Teig kneten",
                                     step: 1, startTime: 0, duration: 15, date: minute(0),

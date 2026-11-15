@@ -205,7 +205,8 @@ struct BakeModeView: View {
     private func dialNote(for step: NextStep) -> String? {
         guard let oven = OvenProfiles.stored(id: step.ovenProfileID) ?? OvenProfiles.selected,
               let note = oven.dialNote(forInstruction: step.instruction,
-                                       languageCode: AppSettings.locale.identifier) else { return nil }
+                                       languageCode: AppSettings.locale.identifier,
+                                       convection: step.usesConvection) else { return nil }
         let sentence = note.prefix(1).uppercased() + note.dropFirst()
         return oven.name.isEmpty ? sentence : "\(sentence) · \(oven.name)"
     }
