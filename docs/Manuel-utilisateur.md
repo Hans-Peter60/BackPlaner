@@ -1,6 +1,6 @@
 # BakePlanner – Manuel de l’utilisateur
 
-Révision : 7 novembre 2026 · version 2.3 de l’app
+Révision : 15 novembre 2026 · version 2.4 de l’app
 
 > Traduit de l’original allemand, `Benutzerhandbuch.md`. En cas de divergence,
 > la version allemande fait foi.
@@ -913,7 +913,7 @@ Comme les recettes et les listes de courses, la réserve est dans votre iCloud e
 
 **Onglet Recettes → Plus (⋯) → Réglages.** Les réglages valent sur tous vos appareils : ils suivent via iCloud, avec les collections enregistrées et les unités personnalisées. Seuls la langue, le consentement à l’analyse en ligne et les filtres de liste restent propres à chaque appareil.
 
-![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; la Planification de cuisson commence en dessous](images/fr/einstellungen.png)
+![Réglages de BakePlanner : Général avec langue et le commutateur « Publier les nouvelles recettes », Recettes avec taille de portion par défaut, vue détaillée, pourcentages boulanger, levain chef TA 200, lievito madre TA 150 et unités personnalisées, Traduction avec la traduction automatique des recettes publiques ; les Fours et la Planification de cuisson suivent en dessous](images/fr/einstellungen.png)
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
