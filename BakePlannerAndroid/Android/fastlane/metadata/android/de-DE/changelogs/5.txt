@@ -1,0 +1,8 @@
+Neu in 2.4 (5):
+• Vorrat: Mehle, Saaten, Hefe mit Menge und Haltbarkeit; Einkaufsliste zieht ihn ab, „Eingekauft“ bucht ein
+• Backtag planen: mehrere Brote, die App legt die Startzeiten
+• Sammlungen und Facetten in der Rezeptliste, „Fertig bis“
+• Backstatistik in der Backhistorie
+• Neues Rezept nach Bäckerprozent
+• Ofenprofile: Vorheizzeiten je Ofen, Reglereinstellung im Plan, Umluft je Backvorgang
+• Farina 00 zählt als Mehl

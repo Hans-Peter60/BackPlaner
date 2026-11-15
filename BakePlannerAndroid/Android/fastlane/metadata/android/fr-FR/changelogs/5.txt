@@ -1,0 +1,8 @@
+Nouveau dans 2.4 (5) :
+• Réserve : farines, graines, levure avec quantité et date limite ; la liste de courses la déduit, « Acheté » l’enregistre
+• Journée de cuisson : plusieurs pains, l’app fixe les débuts
+• Collections et facettes dans la liste, « Prêt pour »
+• Statistiques de cuisson
+• Recette en pourcentages du boulanger
+• Profils de four : préchauffage par four, thermostat dans le plan, chaleur tournante par cuisson
+• Farina 00 compte comme farine
