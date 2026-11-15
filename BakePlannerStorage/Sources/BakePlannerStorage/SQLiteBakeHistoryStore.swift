@@ -88,6 +88,25 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
         }
     }
 
+    public func move(id: String, toRecipe recipeID: String) throws {
+        guard let rowID = Int64(id),
+              !(try database.selectAll(sql: "SELECT 1 FROM bake_history WHERE id = ?",
+                                       parameters: [.long(rowID)]).isEmpty) else {
+            throw BakeHistoryStoreError.unknownEntry(id)
+        }
+        guard let recipeRowID = Int64(recipeID),
+              !(try database.selectAll(sql: "SELECT 1 FROM recipe WHERE id = ?",
+                                       parameters: [.long(recipeRowID)]).isEmpty) else {
+            throw BakeHistoryStoreError.unknownRecipe(recipeID)
+        }
+        try database.transaction {
+            try database.exec(sql: "UPDATE bake_history SET recipe_id = ? WHERE id = ?",
+                              parameters: [.long(recipeRowID), .long(rowID)])
+            try database.exec(sql: "UPDATE recipe SET bake_history_flag = 1 WHERE id = ?",
+                              parameters: [.long(recipeRowID)])
+        }
+    }
+
     public func delete(id: String) throws {
         guard let rowID = Int64(id) else { return }
         try database.exec(sql: "DELETE FROM bake_history WHERE id = ?", parameters: [.long(rowID)])

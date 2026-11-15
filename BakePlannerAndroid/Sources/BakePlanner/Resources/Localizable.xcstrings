@@ -12447,6 +12447,312 @@
           }
         }
       }
+    },
+    "Backhistorie aus Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history from photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique de cuisson à partir de photos"
+          }
+        }
+      }
+    },
+    "Fotos auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir des photos"
+          }
+        }
+      }
+    },
+    "Weitere Fotos auswählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose more photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir d’autres photos"
+          }
+        }
+      }
+    },
+    "Ohne Rezept oder ohne Datum wird ein Foto nicht angelegt. Ein Rezept, das am selben Tag schon einen Eintrag hat, wird übersprungen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo without a recipe or a date is not created. A recipe that already has an entry on that day is skipped."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une photo sans recette ou sans date n’est pas créée. Une recette qui a déjà une entrée ce jour-là est ignorée."
+          }
+        }
+      }
+    },
+    "1 Backvorgang" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 cuisson"
+          }
+        }
+      }
+    },
+    "%lld Backvorgänge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bakes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld cuissons"
+          }
+        }
+      }
+    },
+    "1 Foto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 photo"
+          }
+        }
+      }
+    },
+    "%lld Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld photos"
+          }
+        }
+      }
+    },
+    "%@ anlegen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer %@"
+          }
+        }
+      }
+    },
+    "%@ angelegt, %@ übersprungen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ created, %@ skipped."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ créées, %@ ignorées."
+          }
+        }
+      }
+    },
+    "Backhistorie ergänzt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history extended"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique complété"
+          }
+        }
+      }
+    },
+    "Kein Datum im Foto – Datum wählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No date in the photo – choose one"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de date dans la photo – en choisir une"
+          }
+        }
+      }
+    },
+    "Rezept wählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une recette"
+          }
+        }
+      }
+    },
+    "Schon in der Backhistorie an diesem Tag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already in the baking history on that day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjà dans l’historique ce jour-là"
+          }
+        }
+      }
+    },
+    "Nach dem Titel vorgeschlagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposed by the title"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposée d’après le titre"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Fotos werden gelesen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading photos …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture des photos…"
+          }
+        }
+      }
+    },
+    "Aus jedem Foto liest die App das Aufnahmedatum und den Titel. Damit sie das Rezept findet, muss der Rezeptname im Titel oder in der Beschreibung des Fotos stehen – in Google Fotos unter „Info“ eintragen, dann das Bild teilen. Ohne Titel wählst Du das Rezept hier von Hand. Datum und Titel liest die App aus JPEG-Dateien; bei anderen Formaten setzt Du beides selbst." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From each photo the app reads the date taken and the title. For it to find the recipe, the recipe's name must be in the photo's title or description – enter it in Google Photos under \"Info\", then share the picture. Without a title you choose the recipe here by hand. Date and title are read from JPEG files; for other formats you set both yourself."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De chaque photo, l’app lit la date de prise de vue et le titre. Pour qu’elle trouve la recette, le nom de la recette doit figurer dans le titre ou la description de la photo – à saisir dans Google Photos sous « Infos », puis partager l’image. Sans titre, vous choisissez la recette ici à la main. Date et titre sont lus dans les fichiers JPEG ; pour les autres formats, vous les saisissez vous-même."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

@@ -48,6 +48,12 @@ enum BakeHistoryPhotoReader {
                 }
             }
         }
+        // A title kept only in XMP (dc:title), which ImageIO leaves out.
+        if facts.title == nil || facts.date == nil {
+            let packaged = PhotoMetadata.read(data)
+            if facts.title == nil { facts.title = packaged.title }
+            if facts.date == nil { facts.date = packaged.date }
+        }
         return facts
     }
 

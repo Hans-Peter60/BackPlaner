@@ -21,6 +21,8 @@ struct BakeHistoryView: View {
     @State var opensCloudRecipe = false
     @State var editedEntry: StoredBakeHistory?
     @State var editsEntry = false
+    /// "Backhistorie aus Fotos" from the toolbar.
+    @State var importsPhotos = false
     /// The entry waiting for the user to confirm its removal. Kept apart
     /// from the dialog's visibility: Android closes the dialog before it
     /// runs the chosen button.
@@ -119,6 +121,21 @@ struct BakeHistoryView: View {
         }
         .navigationTitle("Backhistorie")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                // Old photos as bakes.
+                Button {
+                    importsPhotos = true
+                } label: {
+                    Label("Backhistorie aus Fotos", systemImage: "photo.badge.plus")
+                }
+            }
+        }
+        .appSheet(isPresented: $importsPhotos) {
+            NavigationStack {
+                BakeHistoryPhotoImportView(model: model)
+            }
+        }
         // Gallery and cloud need the photos; read once per switch, and
         // again after an entry was changed.
         .task(id: mode) {
@@ -603,12 +620,15 @@ struct BakeEntryEditor: View {
     @State var pickedImageName: String?
     @State var pickedImageType: String?
     @State var confirmsDeletion = false
+    /// The recipe the entry belongs to; changeable for an existing entry.
+    @State var targetRecipeID: String
     @Environment(\.dismiss) var dismiss
 
     init(model: AppModel, recipeID: String, original: StoredBakeHistory?) {
         self.model = model
         self.recipeID = recipeID
         self.original = original
+        _targetRecipeID = State(initialValue: recipeID)
         let facts = original?.facts ?? BakeHistoryFacts()
         _date = State(initialValue: original?.date ?? Date())
         _comment = State(initialValue: original.map { BakeHistoryFacts.isPlaceholderComment($0.comment) ? "" : $0.comment } ?? "")
@@ -625,6 +645,15 @@ struct BakeEntryEditor: View {
     var body: some View {
         Form {
             Section {
+                // Another recipe for this bake — one filed under the wrong
+                // bread, or an import that guessed wrong.
+                if original != nil {
+                    Picker("Rezept", selection: $targetRecipeID) {
+                        ForEach(model.recipes, id: \.id) { recipe in
+                            Text(verbatim: recipe.content.name).tag(recipe.id)
+                        }
+                    }
+                }
                 DatePicker("Backdatum", selection: $date, displayedComponents: [.date, .hourAndMinute])
                 TextField("Kommentar", text: $comment, axis: .vertical)
             }
@@ -774,6 +803,9 @@ struct BakeEntryEditor: View {
             entry.images = images
             entry.facts = facts
             model.updateBakeEntry(entry)
+            if targetRecipeID != entry.recipeID {
+                model.moveBakeEntry(id: entry.id, toRecipe: targetRecipeID)
+            }
         } else {
             model.addBakeEntry(toRecipe: recipeID, date: date, comment: text, images: images, facts: facts)
         }

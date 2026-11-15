@@ -24,6 +24,7 @@ BACKJAHR-BUCH
 
 BACKHISTORIE AUS FOTOS
 • Backhistorie → ⋯ → Backhistorie aus Fotos: Jahre alter Brotfotos werden zur Historie. Datum und Titel kommen aus den Fotos, das Rezept schlägt die App nach dem Titel oder nach der Ähnlichkeit mit dem Rezeptbild vor; Du prüfst die Liste, ein Tipp legt die Backvorgänge an. Gehört zu BakePlanner Pro.
+• Jeder Eintrag der Backhistorie lässt sich einem anderen Rezept zuordnen: Eintrag öffnen, oben das Rezept wechseln.
 
 OFENPROFILE
 • Einstellungen → Backöfen: Jeder Ofen mit Name, Vorheizzeit, Vorheizzeit mit Backstein, ob er heißer oder kälter läuft, als der Regler zeigt, und mit Umluft-Abschlag; ob Umluft läuft, schaltest Du je Backvorgang im Planungsblatt. „Geplant wird mit“ wählt den Ofen – der Plan nimmt seine Vorheizzeiten, die Ofenschritte nennen die Reglereinstellung: „Backofen anstellen (250 °C, am Regler 240 °C)“. Der Backmodus zeigt sie auch bei Schritten mit eigener Temperatur. Im Planungsblatt und beim Backtag wählst Du je Brot den Ofen; das Rezept merkt sich ihn. Gehört zu BakePlanner Pro.
@@ -93,6 +94,7 @@ BAKING YEARBOOK
 
 BAKING HISTORY FROM PHOTOS
 • Baking history → ⋯ → Baking history from photos: years of bread photos become your history. Date and title come from the photos, the app proposes the recipe by title or by likeness to the recipe picture; you check the list, one tap creates the bakes. Part of BakePlanner Pro.
+• Every entry of the baking history can be moved to another recipe: open the entry, switch the recipe at the top.
 
 OVEN PROFILES
 • Settings → Ovens: each oven with its name, preheat time, preheat time with baking stone, whether it runs hotter or colder than its dial shows, and its convection reduction; whether the fan runs you switch per bake in the planning sheet. “Planning with” picks the oven – the plan takes its preheat times, and the oven steps name the dial setting: “Turn on the oven (250 °C, dial at 240 °C)”. Bake mode shows it for steps with a temperature of their own as well. In the planning sheet and on the baking day you pick the oven per bread; the recipe remembers it. Part of BakePlanner Pro.
@@ -157,6 +159,7 @@ LIVRE DE L’ANNÉE DE CUISSON
 
 HISTORIQUE À PARTIR DE PHOTOS
 • Historique → ⋯ → Historique à partir de photos : des années de photos de pain deviennent votre historique. Date et titre viennent des photos, l’app propose la recette d’après le titre ou la ressemblance avec l’image de la recette ; vous vérifiez la liste, un geste crée les cuissons. Fait partie de BakePlanner Pro.
+• Chaque entrée de l’historique peut être rattachée à une autre recette : ouvrir l’entrée, changer la recette en haut.
 
 PROFILS DE FOUR
 • Réglages → Fours : chaque four avec son nom, son temps de préchauffage, celui avec pierre, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante ; vous activez la chaleur tournante à chaque cuisson dans la feuille de planification. « Planification avec » choisit le four – le plan prend ses temps de préchauffage, et les étapes du four indiquent le réglage du thermostat : « Allumer le four (250 °C, thermostat sur 240 °C) ». Le mode cuisson l’affiche aussi pour les étapes avec leur propre température. Dans la feuille de planification et pour la journée de cuisson, vous choisissez le four par pain ; la recette s’en souvient. Fait partie de BakePlanner Pro.

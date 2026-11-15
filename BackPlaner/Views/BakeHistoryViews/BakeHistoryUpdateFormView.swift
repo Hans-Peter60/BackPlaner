@@ -32,13 +32,22 @@ struct BakeHistoryUpdateFormView: View {
     @State private var showingAlert = false
     /// Temperatures, proof times, flour, crumb — see BakeHistoryFacts.
     @State private var facts        = BakeHistoryFacts()
+    /// The recipe the entry belongs to, changeable here: a bake filed under
+    /// the wrong bread, or an import that guessed wrong.
+    @State private var targetRecipeID: NSManagedObjectID?
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    private var allRecipes: FetchedResults<Recipe>
+
+    private var targetRecipe: Recipe? {
+        targetRecipeID.flatMap { id in allRecipes.first { $0.objectID == id } }
+    }
 
     var body: some View {
 
         Form {
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(recipeName)
+                Text(targetRecipe?.name ?? recipeName)
                     .font(Theme.brandFont(18))
                 // Which bake this is: the form is reached from the "last
                 // time" card as well as from the list.
@@ -46,6 +55,16 @@ struct BakeHistoryUpdateFormView: View {
                     .font(Theme.bodyFont(14))
                     .foregroundColor(Theme.subtitle)
             }
+
+            // Another recipe for this bake; saved with the rest.
+            Picker("Rezept", selection: $targetRecipeID) {
+                ForEach(allRecipes, id: \.objectID) { recipe in
+                    Text(recipe.name).tag(Optional(recipe.objectID))
+                }
+            }
+            .pickerStyle(.menu)
+            .font(Theme.bodyFont(16))
+            .accessibilityIdentifier("bakeHistory.recipe")
 
             TextEditor(text: $comment)
                 .multilineTextAlignment(.leading)
@@ -104,6 +123,10 @@ struct BakeHistoryUpdateFormView: View {
                     images.append(recipeImages[index]?.jpegData(compressionQuality: 1.0) ?? Data())
                 }
                 bakeHistory.setValue(images, forKey: "images")
+                if let target = targetRecipe, target != bakeHistory.recipe {
+                    bakeHistory.recipe = target
+                    target.bakeHistoryFlag = true
+                }
                 showingAlert = true
                 
                 do {
@@ -123,6 +146,7 @@ struct BakeHistoryUpdateFormView: View {
         .onAppear {
             comment = self.bakeHistory.comment
             facts   = self.bakeHistory.facts
+            if targetRecipeID == nil { targetRecipeID = bakeHistory.recipe?.objectID }
             images  = self.bakeHistory.images ?? [Data]()
             recipeImages = [UIImage]()
             

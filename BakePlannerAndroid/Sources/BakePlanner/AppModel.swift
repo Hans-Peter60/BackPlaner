@@ -454,6 +454,20 @@ final class AppModel {
         }
     }
 
+    /// Hands an entry to another recipe. Whether it worked.
+    @discardableResult
+    func moveBakeEntry(id: String, toRecipe recipeID: String) -> Bool {
+        do {
+            try openedHistoryStore().move(id: id, toRecipe: recipeID)
+            loadBakeHistory()
+            load()
+            return true
+        } catch {
+            logger.error("could not move bake history entry \(id) to recipe \(recipeID): \(error)")
+            return false
+        }
+    }
+
     func deleteBakeEntry(id: String) {
         do {
             try openedHistoryStore().delete(id: id)
