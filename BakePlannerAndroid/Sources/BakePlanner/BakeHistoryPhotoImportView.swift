@@ -47,7 +47,7 @@ struct BakeHistoryPhotoImportView: View {
                 Button {
                     picksPhotos = true
                 } label: {
-                    Label(rows.isEmpty ? "Fotos auswählen" : "Weitere Fotos auswählen", systemImage: "photo.on.rectangle.angled")
+                    Label(rows.isEmpty ? "Fotos auswählen" : "Weitere Fotos auswählen", systemImage: "photo.badge.plus")
                 }
                 if isReading {
                     HStack(spacing: 10) {
