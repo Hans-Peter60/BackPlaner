@@ -836,6 +836,10 @@ The statistics live on the measurements in [chapter 12](#12-baking-history): the
 
 **Baking history → filter menu (⋯) → Baking yearbook …** turns a year of your baking history into a PDF book in A4 – to print, bind or give away. You pick the year (every year with a finished bake is offered) and can put a name on the cover; the sheet shows beforehand what the book will hold. **Share the baking yearbook** renders the PDF and opens the share sheet. The book belongs to BakePlanner Pro.
 
+### Baking history from photos
+
+**Baking history → filter menu (⋯) → Baking history from photos …** brings years of bread photos into the baking history. You pick the photos from the library, up to 200 at once. From each the app reads the **date taken** (from the picture data, else from the library if you allow access) and, where the photo carries one, the **title** or caption. It proposes the **recipe** by the title ("Bergkruste 2021" finds "Bergkruste (Sauerteigbrot …)"), else it compares the photo on the device with your recipe pictures and takes the most alike – saying how sure it is. In the list you check every row: change or add the date, switch the recipe in the menu, turn the row off or swipe it away. A recipe that already has an entry on that day is skipped. **Create N bakes** writes the entries with the photo and the title as the comment; rating and measurements you add afterwards as usual. Belongs to BakePlanner Pro.
+
 What is in it:
 
 - **Cover:** "My baking year 2026", the photo of the best-rated bake, breads and baking days, your name, the recipe baked most.
@@ -1033,7 +1037,7 @@ From here you open the **User manual** (this document), the **Help and contact**
 
 ### BakePlanner Pro
 
-Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics, recipes from baker's percentages, the baking yearbook, oven profiles, the hands-free bake mode, the starter diagram and the calendar conflict check, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
+Once the purchase is switched on, the settings show the section **BakePlanner Pro** with the price, **Unlock Pro** and **Restore purchases**. Pro is a **one-time purchase**, not a subscription; it applies on every device with your Apple Account and can be shared through Family Sharing. It includes: sharing recipes as PDF, handing recipes on, recurring bake plans, shopping lists, widgets, the Live Activity, the pantry, planning a baking day, your own collections with "Finish by", the baking statistics, recipes from baker's percentages, the baking yearbook, oven profiles, the hands-free bake mode, the starter diagram, the calendar conflict check and the baking history from photos, plus cloud imports without a monthly limit. The core of the app stays free: recipes, the schedule with reminders, bake mode, baking history, the recipe database, the calculators and the backup.
 
 **If you had the app before Pro existed,** you keep what the app could do on the day you installed it – permanently and without buying. Features added later come with the purchase, as for everyone else; the section in the settings says so. This is recognised from the installation date at Apple, so it survives a change of device.
 
@@ -1341,6 +1345,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Hands-free bake mode (microphone in bake mode) | [chapter 7](#7-baking-instructions-and-reminders) | Missing; Read aloud is available |
 | Starter diagram (diary → Diagram) | [chapter 9](#9-editing-a-recipe) | Missing; the ripening estimate in the diary is available |
 | Check calendar when planning | [chapter 14](#14-settings) | Missing |
+| Baking history from photos | [chapter 12](#12-baking-history) | Missing |
 | BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Available: **+ → By baker's percentages** with recipe name, total flour or dough weight, components and ingredients in percent; **Next** opens the recipe editor with the grams |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels. The **baking yearbook** is still missing |

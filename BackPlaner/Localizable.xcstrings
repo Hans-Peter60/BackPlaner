@@ -24840,6 +24840,310 @@
           }
         }
       }
+    },
+    "Backhistorie aus Fotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history from photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique de cuisson à partir de photos"
+          }
+        }
+      }
+    },
+    "Backhistorie aus Fotos …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history from photos …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique à partir de photos…"
+          }
+        }
+      }
+    },
+    "Jahre alter Brotfotos werden zur Backhistorie: Datum und Titel aus den Fotos, das Rezept nach Titel oder nach Ähnlichkeit mit dem Rezeptbild vorgeschlagen – zum Prüfen, dann mit einem Tipp angelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Years of bread photos become your baking history: date and title from the photos, the recipe proposed by title or by likeness to the recipe picture – to check, then created with one tap."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des années de photos de pain deviennent votre historique : date et titre tirés des photos, la recette proposée d’après le titre ou la ressemblance avec l’image de la recette – à vérifier, puis créée d’un geste."
+          }
+        }
+      }
+    },
+    "Fotos auswählen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir des photos"
+          }
+        }
+      }
+    },
+    "Weitere Fotos auswählen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose more photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir d’autres photos"
+          }
+        }
+      }
+    },
+    "%lld von %lld Fotos gelesen …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld of %lld photos read …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld photos sur %lld lues…"
+          }
+        }
+      }
+    },
+    "Aus jedem Foto liest die App das Aufnahmedatum und, wenn vorhanden, den Titel. Das Rezept schlägt sie nach dem Titel vor, sonst nach der Ähnlichkeit mit Deinen Rezeptbildern – alles auf dem Gerät. Prüfe die Vorschläge unten, dann legt „Backvorgänge anlegen“ die Einträge an." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From each photo the app reads the date taken and, where present, the title. It proposes the recipe by the title, else by likeness to your recipe pictures – all on the device. Check the proposals below, then \"Create bakes\" writes the entries."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De chaque photo, l’app lit la date de prise de vue et, s’il existe, le titre. Elle propose la recette d’après le titre, sinon d’après la ressemblance avec vos images de recette – le tout sur l’appareil. Vérifiez les propositions ci-dessous, puis « Créer les cuissons » enregistre les entrées."
+          }
+        }
+      }
+    },
+    "Ohne Rezept oder ohne Datum wird ein Foto nicht angelegt. Ein Rezept, das am selben Tag schon einen Eintrag hat, wird übersprungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo without a recipe or a date is not created. A recipe that already has an entry on that day is skipped."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une photo sans recette ou sans date n’est pas créée. Une recette qui a déjà une entrée ce jour-là est ignorée."
+          }
+        }
+      }
+    },
+    "Backhistorie ergänzt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking history extended"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique complété"
+          }
+        }
+      }
+    },
+    "Kein Datum im Foto – Datum wählen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No date in the photo – choose one"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de date dans la photo – en choisir une"
+          }
+        }
+      }
+    },
+    "Schon in der Backhistorie an diesem Tag" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already in the baking history on that day"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjà dans l’historique ce jour-là"
+          }
+        }
+      }
+    },
+    "Nach dem Titel vorgeschlagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposed by the title"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposée d’après le titre"
+          }
+        }
+      }
+    },
+    "Sieht aus wie das Rezeptbild" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looks like the recipe picture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ressemble à l’image de la recette"
+          }
+        }
+      }
+    },
+    "Ähnelt dem Rezeptbild – bitte prüfen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resembles the recipe picture – please check"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ressemble un peu à l’image de la recette – à vérifier"
+          }
+        }
+      }
+    },
+    "1 Backvorgang" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 cuisson"
+          }
+        }
+      }
+    },
+    "%lld Backvorgänge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bakes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld cuissons"
+          }
+        }
+      }
+    },
+    "1 Foto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 photo"
+          }
+        }
+      }
+    },
+    "%@ anlegen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer %@"
+          }
+        }
+      }
+    },
+    "%@ angelegt, %@ übersprungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ created, %@ skipped."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ créées, %@ ignorées."
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

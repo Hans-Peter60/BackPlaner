@@ -30,6 +30,7 @@ extension ProFeature {
         case .handsFree:      return "Freihändiger Backmodus"
         case .starterChart:   return "Anstellgut-Diagramm"
         case .calendarCheck:  return "Kalender-Konfliktprüfung"
+        case .historyImport:  return "Backhistorie aus Fotos"
         }
     }
 
@@ -52,6 +53,7 @@ extension ProFeature {
         case .handsFree:      return "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät."
         case .starterChart:   return "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV."
         case .calendarCheck:  return "Beim Planen prüft die App Deine Termine: Fällt ein Termin auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen, sagt sie es Dir, bevor Du planst – auch für jedes Brot des Backtags."
+        case .historyImport:  return "Jahre alter Brotfotos werden zur Backhistorie: Datum und Titel aus den Fotos, das Rezept nach Titel oder nach Ähnlichkeit mit dem Rezeptbild vorgeschlagen – zum Prüfen, dann mit einem Tipp angelegt."
         }
     }
 
@@ -73,6 +75,7 @@ extension ProFeature {
         case .handsFree:      return "mic"
         case .starterChart:   return "chart.xyaxis.line"
         case .calendarCheck:  return "calendar.badge.exclamationmark"
+        case .historyImport:  return "photo.badge.plus"
         }
     }
 }
