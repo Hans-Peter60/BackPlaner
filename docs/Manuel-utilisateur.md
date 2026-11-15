@@ -836,6 +836,10 @@ Les statistiques vivent des mesures du [chapitre 12](#12-historique-de-cuisson) 
 
 **Historique de cuisson → menu de filtre (⋯) → Livre de l’année de cuisson …** transforme une année de votre historique en livre PDF au format A4 – à imprimer, relier ou offrir. Vous choisissez l’année (toutes les années avec une cuisson terminée sont proposées) et pouvez inscrire un nom sur la couverture ; la feuille montre d’avance ce que contiendra le livre. **Partager le livre de l’année** génère le PDF et ouvre la feuille de partage. Le livre fait partie de BakePlanner Pro.
 
+### Historique de cuisson à partir de photos
+
+**Historique de cuisson → menu de filtre (⋯) → Historique à partir de photos…** fait entrer des années de photos de pain dans l’historique. Vous choisissez les photos dans la photothèque, jusqu’à 200 à la fois. De chacune, l’app lit la **date de prise de vue** (dans les données de l’image, sinon dans la photothèque si vous autorisez l’accès) et, si la photo en porte un, le **titre** ou la légende. Elle propose la **recette** d’après le titre (« Bergkruste 2021 » trouve « Bergkruste (Sauerteigbrot …) »), sinon elle compare la photo sur l’appareil avec vos images de recette et prend la plus ressemblante – en indiquant à quel point la proposition est sûre. Dans la liste, vous vérifiez chaque ligne : modifier ou compléter la date, changer la recette dans le menu, désactiver la ligne ou la balayer. Une recette qui a déjà une entrée ce jour-là est ignorée. **Créer N cuissons** enregistre les entrées avec la photo et le titre en commentaire ; note et mesures se complètent ensuite comme d’habitude. Fait partie de BakePlanner Pro.
+
 Ce qu’il contient :
 
 - **Couverture :** « Mon année de cuisson 2026 », la photo de la cuisson la mieux notée, pains et jours de cuisson, votre nom, la recette la plus cuite.
@@ -1033,7 +1037,7 @@ D’ici, vous ouvrez dans le navigateur le **Manuel de l’utilisateur** (ce doc
 
 ### BakePlanner Pro
 
-Dès que l’achat est activé, les réglages affichent la section **BakePlanner Pro** avec le prix, **Débloquer Pro** et **Restaurer les achats**. Pro est un **achat unique**, pas un abonnement ; il vaut sur tous les appareils de votre compte Apple et se partage via le partage familial. Il comprend : partager des recettes en PDF, transmettre des recettes, plans de cuisson récurrents, listes de courses, widgets, activité en direct, réserve, planifier une journée de cuisson, vos propres collections avec « Prêt pour », statistiques de cuisson, recette en pourcentages du boulanger, le livre de l’année de cuisson, les profils de four, le mode cuisson mains libres, le diagramme du levain et la vérification des conflits d’agenda, ainsi que les imports en ligne sans limite mensuelle. Le cœur de l’app reste gratuit : recettes, planning avec rappels, mode cuisson, historique, base de recettes, calculateurs et sauvegarde.
+Dès que l’achat est activé, les réglages affichent la section **BakePlanner Pro** avec le prix, **Débloquer Pro** et **Restaurer les achats**. Pro est un **achat unique**, pas un abonnement ; il vaut sur tous les appareils de votre compte Apple et se partage via le partage familial. Il comprend : partager des recettes en PDF, transmettre des recettes, plans de cuisson récurrents, listes de courses, widgets, activité en direct, réserve, planifier une journée de cuisson, vos propres collections avec « Prêt pour », statistiques de cuisson, recette en pourcentages du boulanger, le livre de l’année de cuisson, les profils de four, le mode cuisson mains libres, le diagramme du levain, la vérification des conflits d’agenda et l’historique à partir de photos, ainsi que les imports en ligne sans limite mensuelle. Le cœur de l’app reste gratuit : recettes, planning avec rappels, mode cuisson, historique, base de recettes, calculateurs et sauvegarde.
 
 **Si vous aviez l’app avant Pro,** vous gardez ce qu’elle savait faire le jour de votre installation – pour toujours et sans achat. Les fonctions ajoutées ensuite viennent avec l’achat, comme pour tout le monde ; la section des réglages l’indique. Cela se reconnaît à la date d’installation chez Apple et survit donc à un changement d’appareil.
 
@@ -1341,6 +1345,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Mode cuisson mains libres (micro dans le mode cuisson) | [chapitre 7](#7-instructions-de-cuisson-et-rappels) | Manque ; la lecture à voix haute est disponible |
 | Diagramme du levain (journal → Diagramme) | [chapitre 9](#9-modifier-une-recette) | Manque ; l’estimation de maturation du journal est disponible |
 | Vérifier l’agenda en planifiant | [chapitre 14](#14-réglages) | Manque |
+| Historique à partir de photos | [chapitre 12](#12-historique-de-cuisson) | Manque |
 | BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Disponible : **+ → En pourcentages boulanger** avec nom de recette, farine totale ou poids de pâte, composants et ingrédients en pourcentage ; **Suivant** ouvre l’éditeur de recette avec les grammes |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Disponible : **Historique de cuisson → Affichage → Statistiques** avec les mêmes chiffres et sections que sur l’iPhone ; les graphiques sont de simples barres et points sans légende d’axe. Le **livre de l’année de cuisson** manque encore |

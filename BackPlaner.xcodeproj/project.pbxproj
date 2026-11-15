@@ -174,6 +174,8 @@
 		7C0E5A1F2B6F4E2A9D3C1F03 /* BakeVoiceListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E5A1E2B6F4E2A9D3C1F02 /* BakeVoiceListener.swift */; };
 		7C0E5A212B6F4E2A9D3C1F05 /* StarterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E5A202B6F4E2A9D3C1F04 /* StarterChartView.swift */; };
 		7C0E5A232B6F4E2A9D3C1F07 /* CalendarConflictCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E5A222B6F4E2A9D3C1F06 /* CalendarConflictCheck.swift */; };
+		7C0E5A252B6F4E2A9D3C1F09 /* BakeHistoryPhotoReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E5A242B6F4E2A9D3C1F08 /* BakeHistoryPhotoReader.swift */; };
+		7C0E5A272B6F4E2A9D3C1F0B /* BakeHistoryPhotoImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E5A262B6F4E2A9D3C1F0A /* BakeHistoryPhotoImportView.swift */; };
 		85509FA7E4C34CB19BFD58A9 /* SavedRecipeCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF1B372F5A49E38EE6CE1B /* SavedRecipeCollections.swift */; };
 		91CBD63186694A57BBA48108 /* PantryReservation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */; };
 		9249EF2B8C934E199B4E39C8 /* PantryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2046250771F44C9A8755BA0 /* PantryItem+CoreDataProperties.swift */; };
@@ -421,6 +423,8 @@
 		7C0E5A1E2B6F4E2A9D3C1F02 /* BakeVoiceListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeVoiceListener.swift; sourceTree = "<group>"; };
 		7C0E5A202B6F4E2A9D3C1F04 /* StarterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterChartView.swift; sourceTree = "<group>"; };
 		7C0E5A222B6F4E2A9D3C1F06 /* CalendarConflictCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarConflictCheck.swift; sourceTree = "<group>"; };
+		7C0E5A242B6F4E2A9D3C1F08 /* BakeHistoryPhotoReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeHistoryPhotoReader.swift; sourceTree = "<group>"; };
+		7C0E5A262B6F4E2A9D3C1F0A /* BakeHistoryPhotoImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BakeHistoryPhotoImportView.swift; sourceTree = "<group>"; };
 		7D0B92EAF56C4CBFAB02660F /* CoreDataPantryReservationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPantryReservationStore.swift; sourceTree = "<group>"; };
 		89DF4866962E4A9FB7845B60 /* PantryReservation+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PantryReservation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8D2837F135CB429786215515 /* PlanActionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanActionBar.swift; sourceTree = "<group>"; };
@@ -663,6 +667,7 @@
 				6AA79ECE30777C6400935F0F /* LastBakeCardView.swift */,
 				6C5B707D0F884AA0BDE86745 /* BakeStatisticsView.swift */,
 				8EF4FBF60F1B44C9BF1FD191 /* BakeYearbookView.swift */,
+				7C0E5A262B6F4E2A9D3C1F0A /* BakeHistoryPhotoImportView.swift */,
 			);
 			path = BakeHistoryViews;
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				3F0D2A49406F4B70B7823FA2 /* SettingsSync.swift */,
 				7C0E5A1E2B6F4E2A9D3C1F02 /* BakeVoiceListener.swift */,
 				7C0E5A222B6F4E2A9D3C1F06 /* CalendarConflictCheck.swift */,
+				7C0E5A242B6F4E2A9D3C1F08 /* BakeHistoryPhotoReader.swift */,
 				588F8F6BD7EE4ED19D1B7D27 /* PantryReminders.swift */,
 				989E7829DB1E409C9E24EFCC /* PantryLedgerService.swift */,
 				E47AD47262D040C1AF4D655E /* BakeYearbookPDFExporter.swift */,
@@ -1233,6 +1239,8 @@
 				9C302AC7E5404A5388D67E0C /* SettingsSync.swift in Sources */,
 				7C0E5A1F2B6F4E2A9D3C1F03 /* BakeVoiceListener.swift in Sources */,
 				7C0E5A232B6F4E2A9D3C1F07 /* CalendarConflictCheck.swift in Sources */,
+				7C0E5A252B6F4E2A9D3C1F09 /* BakeHistoryPhotoReader.swift in Sources */,
+				7C0E5A272B6F4E2A9D3C1F0B /* BakeHistoryPhotoImportView.swift in Sources */,
 				C8271CCA22744709BA992934 /* PantryReminders.swift in Sources */,
 				BCFB2E13092347E789A27FED /* PantryLedgerService.swift in Sources */,
 				AADC53DB973E41F6ADD8B539 /* BakeYearbookPDFExporter.swift in Sources */,

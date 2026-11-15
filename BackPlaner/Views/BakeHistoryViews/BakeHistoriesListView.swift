@@ -151,6 +151,8 @@ struct BakeHistoriesListView: View {
     @State private var confirmationShown = false
     /// "Backjahr-Buch" from the toolbar menu.
     @State private var showsYearbook = false
+    /// "Backhistorie aus Fotos" from the toolbar menu.
+    @State private var showsPhotoImport = false
 
     var body: some View {
         
@@ -177,6 +179,10 @@ struct BakeHistoriesListView: View {
             BakeYearbookView()
                 .environment(\.managedObjectContext, viewContext)
         }
+        .sheet(isPresented: $showsPhotoImport) {
+            BakeHistoryPhotoImportView()
+                .environment(\.managedObjectContext, viewContext)
+        }
         .searchable(text: $filterBy, prompt: "Rezept suchen")
         .searchScopes($nameOrTag) {
             Text("Name").tag(1)
@@ -197,6 +203,10 @@ struct BakeHistoriesListView: View {
                     // menu item works whether Pro is open or not.
                     Button("Backjahr-Buch …", systemImage: "book.closed") {
                         showsYearbook = true
+                    }
+                    // Old photos as bakes; the gate sits in the sheet too.
+                    Button("Backhistorie aus Fotos …", systemImage: "photo.badge.plus") {
+                        showsPhotoImport = true
                     }
                 } label: {
                     Label("Nach Bewertung filtern",

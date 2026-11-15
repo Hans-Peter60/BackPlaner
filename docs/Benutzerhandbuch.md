@@ -833,6 +833,10 @@ Die Statistik lebt von den Messwerten in [Kapitel 12](#12-backhistorie): Je öft
 
 **Backhistorie → Filter-Menü (⋯) → Backjahr-Buch …** macht aus einem Jahr Deiner Backhistorie ein PDF-Buch im A4-Format – zum Drucken, Binden oder Verschenken. Du wählst das Jahr (angeboten werden alle Jahre mit einem abgeschlossenen Backvorgang) und kannst einen Namen für das Titelblatt eintragen; das Blatt zeigt vorab, was das Buch enthält. **Backjahr-Buch teilen** erzeugt das PDF und öffnet das Teilen-Blatt. Das Buch gehört zu BakePlanner Pro.
 
+### Backhistorie aus Fotos
+
+**Backhistorie → Filter-Menü (⋯) → Backhistorie aus Fotos …** holt Jahre alter Brotfotos in die Backhistorie. Du wählst die Fotos aus der Mediathek, bis zu 200 auf einmal. Aus jedem liest die App das **Aufnahmedatum** (aus den Bilddaten, sonst aus der Mediathek, wenn Du den Zugriff erlaubst) und, wenn das Foto einen trägt, den **Titel** oder die Bildbeschreibung. Das **Rezept** schlägt sie nach dem Titel vor („Bergkruste 2021“ findet „Bergkruste (Sauerteigbrot …)“), sonst vergleicht sie das Foto auf dem Gerät mit Deinen Rezeptbildern und nimmt das ähnlichste – mit dem Hinweis, wie sicher der Vorschlag ist. In der Liste prüfst Du jede Zeile: Datum ändern oder nachtragen, Rezept im Menü wechseln, Zeile ausschalten oder wischen. Ein Rezept, das an diesem Tag schon einen Eintrag hat, wird übersprungen. **N Backvorgänge anlegen** schreibt die Einträge mit dem Foto und dem Titel als Kommentar; Bewertung und Messwerte trägst Du danach wie gewohnt nach. Gehört zu BakePlanner Pro.
+
 Was drinsteht:
 
 - **Titelblatt:** „Mein Backjahr 2026“, das Foto des bestbewerteten Backvorgangs, Brote und Backtage, Dein Name, das meistgebackene Rezept.
@@ -1030,7 +1034,7 @@ Von hier aus öffnest Du im Browser das **Benutzerhandbuch** (dieses Dokument), 
 
 ### BakePlanner Pro
 
-Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch, Ofenprofile, der freihändige Backmodus, das Anstellgut-Diagramm und die Kalender-Konfliktprüfung, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
+Sobald der Kauf freigeschaltet ist, zeigen die Einstellungen den Abschnitt **BakePlanner Pro** mit dem Preis, **Pro freischalten** und **Käufe wiederherstellen**. Pro ist ein **Einmalkauf**, kein Abo, gilt auf allen Geräten mit Deinem Apple-Konto und lässt sich in der Familienfreigabe teilen. Dazu gehören: Rezepte als PDF teilen, Rezepte weitergeben, wiederkehrende Backpläne, Einkaufslisten, Widgets, Live-Aktivität, Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik, Rezept nach Bäckerprozent, das Backjahr-Buch, Ofenprofile, der freihändige Backmodus, das Anstellgut-Diagramm, die Kalender-Konfliktprüfung und die Backhistorie aus Fotos, außerdem Cloud-Importe ohne Monatslimit. Der Kern der App bleibt frei: Rezepte, Zeitplan mit Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank, die Rechner und die Sicherung.
 
 **Wer die App schon hatte, bevor es Pro gab,** behält, was die App an seinem Installationstag konnte – dauerhaft und ohne Kauf. Funktionen, die erst später dazukamen, gibt es wie für alle anderen mit dem Kauf; der Abschnitt in den Einstellungen sagt das dazu. Erkannt wird das am Installationsdatum bei Apple, es übersteht also auch einen Gerätewechsel.
 
@@ -1338,6 +1342,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Freihändiger Backmodus (Mikrofon im Backmodus) | [Kapitel 7](#7-backanleitung-und-erinnerungen) | Fehlt; Vorlesen ist vorhanden |
 | Anstellgut-Diagramm (Tagebuch → Diagramm) | [Kapitel 9](#9-rezept-bearbeiten) | Fehlt; die Reifezeit-Schätzung im Tagebuch ist vorhanden |
 | Kalender beim Planen prüfen | [Kapitel 14](#14-einstellungen) | Fehlt |
+| Backhistorie aus Fotos | [Kapitel 12](#12-backhistorie) | Fehlt |
 | BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Vorhanden: **+ → Nach Bäckerprozent** mit Rezeptname, Mehl gesamt oder Teiggewicht, Komponenten und Zutaten in Prozent; **Weiter** öffnet den Rezept-Editor mit den Gramm |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Das **Backjahr-Buch** fehlt noch |
