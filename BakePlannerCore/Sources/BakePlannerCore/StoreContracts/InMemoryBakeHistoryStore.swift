@@ -58,6 +58,17 @@ public final class InMemoryBakeHistoryStore: BakeHistoryStore {
         stored[entry.id] = updated
     }
 
+    public func move(id: String, toRecipe recipeID: String) throws {
+        guard var entry = try self.entry(id: id) else { throw BakeHistoryStoreError.unknownEntry(id) }
+        guard var recipe = try recipes.recipe(id: recipeID) else { throw BakeHistoryStoreError.unknownRecipe(recipeID) }
+        entry.recipeID = recipeID
+        stored[id] = entry
+        if !recipe.bakeHistoryFlag {
+            recipe.bakeHistoryFlag = true
+            try recipes.update(recipe)
+        }
+    }
+
     public func delete(id: String) throws {
         stored[id] = nil
     }

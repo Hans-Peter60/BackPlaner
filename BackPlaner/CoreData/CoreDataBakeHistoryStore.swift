@@ -67,6 +67,16 @@ struct CoreDataBakeHistoryStore: BakeHistoryStore {
         try save()
     }
 
+    func move(id: String, toRecipe recipeID: String) throws {
+        guard let history = managedEntry(id: id) else { throw BakeHistoryStoreError.unknownEntry(id) }
+        guard let recipe: Recipe = context.existingObject(storeKey: recipeID) else {
+            throw BakeHistoryStoreError.unknownRecipe(recipeID)
+        }
+        history.recipe = recipe
+        recipe.bakeHistoryFlag = true
+        try save()
+    }
+
     func delete(id: String) throws {
         guard let history = managedEntry(id: id) else { return }
         context.delete(history)

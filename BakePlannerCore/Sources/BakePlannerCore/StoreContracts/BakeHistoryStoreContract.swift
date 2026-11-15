@@ -21,6 +21,7 @@ public enum BakeHistoryStoreContract {
         ("facts are kept normalized", normalizedFacts),
         ("entries come newest first, photos only when asked", order),
         ("an update changes everything but the recipe", update),
+        ("a move hands the entry to another recipe", move),
         ("a removed entry is gone, the others stay", delete),
         ("removing a recipe removes its entries", recipeRemoved),
         ("unknown keys are reported, not ignored", unknownKeys),
@@ -71,6 +72,27 @@ public enum BakeHistoryStoreContract {
         try expect(store.entry(id: added.id)?.facts == BakeHistoryFacts(roomTemperature: 0, flour: "Weizen 550",
                                                                        outcome: "offen"),
                    "update does not normalize the facts")
+    }
+
+    public static func move(_ store: BakeHistoryStore, _ recipes: RecipeStore) throws {
+        let bread = try newRecipe(recipes)
+        let zopf = try newRecipe(recipes, name: "Zopf")
+        let added = try store.add(toRecipe: bread.id, date: day(10), comment: "Gut", images: photos(), facts: facts())
+        try store.move(id: added.id, toRecipe: zopf.id)
+
+        var expected = added
+        expected.recipeID = zopf.id
+        try expect(store.entry(id: added.id) == expected, "the moved entry lost something or stayed")
+        try expect(store.entries(ofRecipe: bread.id, includingImages: false).isEmpty, "the entry is still with the old recipe")
+        try expect(store.entries(ofRecipe: zopf.id, includingImages: false).map(\.id) == [added.id], "the entry did not reach the new recipe")
+        try expect(try recipes.recipe(id: zopf.id)?.bakeHistoryFlag == true, "the new recipe does not count as baked")
+
+        var failed = false
+        do { try store.move(id: added.id, toRecipe: "no-such-recipe") } catch BakeHistoryStoreError.unknownRecipe { failed = true }
+        try expect(failed, "a move to an unknown recipe was not refused")
+        failed = false
+        do { try store.move(id: "no-such-entry", toRecipe: zopf.id) } catch BakeHistoryStoreError.unknownEntry { failed = true }
+        try expect(failed, "a move of an unknown entry was not refused")
     }
 
     public static func order(_ store: BakeHistoryStore, _ recipes: RecipeStore) throws {

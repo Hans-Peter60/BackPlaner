@@ -56,6 +56,11 @@ public protocol BakeHistoryStore {
     /// Replaces date, comment, photos and facts of entry `entry.id`; the
     /// recipe it belongs to stays.
     func update(_ entry: StoredBakeHistory) throws
+
+    /// Hands the entry to another recipe — a bake filed under the wrong
+    /// bread, an import that guessed wrong. `unknownEntry` / `unknownRecipe`
+    /// when either is missing.
+    func move(id: String, toRecipe recipeID: String) throws
     /// Removes the entry. Nothing happens for an unknown key.
     func delete(id: String) throws
 }
