@@ -17,378 +17,6 @@
         }
       }
     },
-    "%lld Posten im Vorrat ergänzt" : {
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Posten im Vorrat ergänzt"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Posten im Vorrat ergänzt"
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld item added to the pantry"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld items added to the pantry"
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld article ajouté à la réserve"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld articles ajoutés à la réserve"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste." : {
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Zeile ist im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste."
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld line is in the pantry. Lines not bought stay on the list."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld lines are in the pantry. Lines not bought stay on the list."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld ligne est dans la réserve. Les lignes non achetées restent sur la liste."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld lignes sont dans la réserve. Les lignes non achetées restent sur la liste."
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Backstatistik" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baking statistics"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statistiques de cuisson"
-          }
-        }
-      }
-    },
-    "Benötigt: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Needed: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nécessaire : %@"
-          }
-        }
-      }
-    },
-    "Buchen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Book"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer"
-          }
-        }
-      }
-    },
-    "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The baking history as numbers and charts: how often, what most, how rated."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note."
-          }
-        }
-      }
-    },
-    "Du hattest die App schon, bevor es Pro gab: Was es damals gab, bleibt für Dich frei. Die neueren Pro-Funktionen gibt es mit dem Kauf." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You had the app before Pro existed: what was there then stays free for you. The newer Pro features come with the purchase."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous aviez l’app avant Pro : ce qui existait alors reste gratuit pour vous. Les fonctions Pro plus récentes viennent avec l’achat."
-          }
-        }
-      }
-    },
-    "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save your own filter combinations as a chip, and with \"Finish by\" see only the recipes that can still be made by then."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrez vos combinaisons de filtres comme puce et, avec « Prêt pour », ne voyez que les recettes encore réalisables d’ici là."
-          }
-        }
-      }
-    },
-    "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A new recipe from shares of the flour: enter baker's percentages, the app works out the grams."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une nouvelle recette à partir de parts de farine : saisissez les pourcentages du boulanger, l’app calcule les grammes."
-          }
-        }
-      }
-    },
-    "Eingekauft" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bought"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acheté"
-          }
-        }
-      }
-    },
-    "Einmalkauf, kein Abo. Was dazugehört, zeigt die Kaufseite; der Kern der App bleibt frei." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One-time purchase, no subscription. The purchase page lists what is included; the core of the app stays free."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Achat unique, sans abonnement. La page d’achat liste ce qui est inclus ; le cœur de l’app reste gratuit."
-          }
-        }
-      }
-    },
-    "Fertig bis … (Pro)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finish by … (Pro)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prêt pour… (Pro)"
-          }
-        }
-      }
-    },
-    "Gekaufte Menge" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Amount bought"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quantité achetée"
-          }
-        }
-      }
-    },
-    "Mit Backhistorie, Anstellgut-Tagebuch und Vorrat" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With baking history, starter diary and pantry"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec l’historique de cuisson, le journal du levain et la réserve"
-          }
-        }
-      }
-    },
-    "Rezept nach Bäckerprozent" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recipe from baker's percentages"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recette en pourcentages du boulanger"
-          }
-        }
-      }
-    },
-    "Sammlung sichern (Pro)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save collection (Pro)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistrer la collection (Pro)"
-          }
-        }
-      }
-    },
-    "Sammlungen und Fertig bis" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collections and finish by"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collections et prêt pour"
-          }
-        }
-      }
-    },
-    "Vorgeschlagen sind übliche Gebindegrößen. Trage ein, was Du wirklich gekauft hast. Eine leere Menge lässt die Zeile auf der Liste." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggested are common package sizes. Enter what you actually bought. An empty amount leaves the line on the list."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les tailles d’emballage courantes sont proposées. Saisissez ce que vous avez vraiment acheté. Une quantité vide laisse la ligne sur la liste."
-          }
-        }
-      }
-    },
     "„%@“" : {
       "comment" : "A recipe name in the app's language.",
       "extractionState" : "manual",
@@ -494,6 +122,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "« %@ » n’a pas encore de part."
+          }
+        }
+      }
+    },
+    "„%@“ ist vermutlich am Höhepunkt – gefüttert %@." : {
+      "comment" : "The body of a notification that reminds the user that a starter recipe is ripe. The first argument is the recipe name. The second argument is the string “heute %arg”, the string “morgen %arg” or the string “gestern %arg”.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "„%1$@“ ist vermutlich am Höhepunkt – gefüttert %2$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%1$@” is probably at its peak – fed %2$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %1$@ » est probablement au pic – nourri %2$@."
           }
         }
       }
@@ -691,6 +343,40 @@
         }
       }
     },
+    "%@ Brote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ breads"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pains"
+          }
+        }
+      }
+    },
+    "%@ Brote an %@ Backtagen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ breads on %@ baking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pains sur %@ jours de cuisson"
+          }
+        }
+      }
+    },
     "%@ früher" : {
       "comment" : "How much earlier a suggested date is, e.g. “1 Std., 45 Min.”.",
       "localizations" : {
@@ -704,6 +390,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ plus tôt"
+          }
+        }
+      }
+    },
+    "%@ Fütterungen von %@ Anstellgut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ feedings of %@ starters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rafraîchis de %@ levains"
           }
         }
       }
@@ -946,6 +649,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ au lieu de %@ (%@)"
+          }
+        }
+      }
+    },
+    "%@ Tage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ jours"
           }
         }
       }
@@ -1252,6 +971,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ : sans %@ %@"
+          }
+        }
+      }
+    },
+    "%@× gebacken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "baked %@ times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuit %@ fois"
           }
         }
       }
@@ -1597,6 +1333,64 @@
         }
       }
     },
+    "%lld Posten im Vorrat ergänzt" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Posten im Vorrat ergänzt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Posten im Vorrat ergänzt"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld item added to the pantry"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld items added to the pantry"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld article ajouté à la réserve"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld articles ajoutés à la réserve"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Rezepte importiert" : {
       "comment" : "A message that appears when a recipe",
       "isCommentAutoGenerated" : true,
@@ -1847,6 +1641,64 @@
         }
       }
     },
+    "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste." : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Zeile ist im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld line is in the pantry. Lines not bought stay on the list."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld lines are in the pantry. Lines not bought stay on the list."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ligne est dans la réserve. Les lignes non achetées restent sur la liste."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld lignes sont dans la réserve. Les lignes non achetées restent sur la liste."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Zutaten" : {
       "localizations" : {
         "de" : {
@@ -1989,22 +1841,6 @@
         }
       }
     },
-    "190, 210, 220" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "190, 210, 220"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "190, 210, 220"
-          }
-        }
-      }
-    },
     "4 bis 12 Stunden" : {
       "localizations" : {
         "en" : {
@@ -2017,6 +1853,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "4 à 12 heures"
+          }
+        }
+      }
+    },
+    "190, 210, 220" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "190, 210, 220"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "190, 210, 220"
           }
         }
       }
@@ -2137,6 +1989,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de la déconnexion"
+          }
+        }
+      }
+    },
+    "Abweichung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deviation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart"
           }
         }
       }
@@ -2371,22 +2239,6 @@
         }
       }
     },
-    "Alle planen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plan all"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout planifier"
-          }
-        }
-      }
-    },
     "Alle Pläne eintragen" : {
       "localizations" : {
         "en" : {
@@ -2399,6 +2251,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter tous les plans"
+          }
+        }
+      }
+    },
+    "Alle planen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan all"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout planifier"
           }
         }
       }
@@ -2991,6 +2859,38 @@
         }
       }
     },
+    "Anstellgut reif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter ripe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levain mûr"
+          }
+        }
+      }
+    },
+    "Anstellgut-Diagramm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter diagram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagramme du levain"
+          }
+        }
+      }
+    },
     "Anstellgut-TA" : {
       "comment" : "Name of the setting that determines the amount of",
       "isCommentAutoGenerated" : true,
@@ -3523,6 +3423,22 @@
         }
       }
     },
+    "Backfotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos de cuisson"
+          }
+        }
+      }
+    },
     "Backhinweis" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3552,6 +3468,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historique de cuisson"
+          }
+        }
+      }
+    },
+    "Backjahr-Buch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année de cuisson"
+          }
+        }
+      }
+    },
+    "Backjahr-Buch …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking yearbook …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année de cuisson …"
+          }
+        }
+      }
+    },
+    "Backjahr-Buch teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the baking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le livre de l’année"
           }
         }
       }
@@ -3671,6 +3635,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planification de cuisson"
+          }
+        }
+      }
+    },
+    "Backstatistik" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking statistics"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiques de cuisson"
           }
         }
       }
@@ -3800,6 +3780,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager la feuille de la journée"
+          }
+        }
+      }
+    },
+    "Backtage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours de cuisson"
           }
         }
       }
@@ -4043,6 +4039,23 @@
         }
       }
     },
+    "Bei %@ bis %@ °C: Stückgare im Mittel %@ (%@ Backvorgänge)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At %@ to %@ °C: final proof %@ on average (%@ bakes)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À %@ – %@ °C : apprêt de %@ en moyenne (%@ cuissons)"
+          }
+        }
+      }
+    },
     "Bei %@ reif nach etwa %@" : {
       "localizations" : {
         "en" : {
@@ -4109,6 +4122,38 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "La prochaine fois que vous planifierez cette recette, la vue de cuisson affichera ces informations sous « La dernière fois »."
+          }
+        }
+      }
+    },
+    "Beim Planen prüft die App Deine Termine: Fällt ein Termin auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen, sagt sie es Dir, bevor Du planst – auch für jedes Brot des Backtags." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "While you plan, the app checks your appointments: if one falls on kneading, shaping, switching the oven on or putting the bread in and taking it out, it tells you before you plan – for every bread of the baking day as well."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendant la planification, l’app vérifie vos rendez-vous : si l’un tombe sur le pétrissage, le façonnage, l’allumage du four ou l’enfournement et le défournement, elle vous le dit avant de planifier – aussi pour chaque pain de la journée de cuisson."
+          }
+        }
+      }
+    },
+    "Benötigt: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needed: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nécessaire : %@"
           }
         }
       }
@@ -4643,6 +4688,22 @@
         }
       }
     },
+    "Buchen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
+        }
+      }
+    },
     "Cloud-KI" : {
       "comment" : "A section that describes the data transfer and privacy implications of using Apple's AI for recipe recognition.",
       "isCommentAutoGenerated" : true,
@@ -4736,6 +4797,22 @@
         }
       }
     },
+    "Das Buch nimmt alle Backvorgänge des Jahres mit ihren Fotos, die Lieblingsrezepte als Rezeptseiten, die Erkenntnisse aus Deinen Messwerten und das Anstellgut-Tagebuch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The book holds every bake of the year with its photos, the favourite recipes as recipe pages, what your measurements taught, and the starter diary."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le livre réunit toutes les cuissons de l’année avec leurs photos, les recettes préférées en pages de recette, les enseignements de vos mesures et le journal du levain."
+          }
+        }
+      }
+    },
     "Das erwartete zweispaltige Rezeptlayout mit Planungsbeispiel wurde nicht erkannt." : {
       "comment" : "Error description when the expected two-column recipe layout with a recipe plan example was not detected.",
       "extractionState" : "manual",
@@ -4751,6 +4828,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La mise en page attendue de la recette sur deux colonnes avec exemple de planification n’a pas été détectée."
+          }
+        }
+      }
+    },
+    "Das ist der erste Schritt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is the first step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est la première étape."
           }
         }
       }
@@ -4784,6 +4877,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ce n’est qu’une adresse Internet. Utilisez pour cela l’import depuis une page web, ou collez le texte de la page."
+          }
+        }
+      }
+    },
+    "Das Jahr in Zahlen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The year in figures"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’année en chiffres"
           }
         }
       }
@@ -4852,6 +4962,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "La farine apportée par le levain chef reste la même ; seuls le levain chef et l’eau se déplacent l’un contre l’autre. Le rendement de la pâte (TA) et le poids total de la pâte ne changent pas."
+          }
+        }
+      }
+    },
+    "Das Mikrofon liefert kein Audio." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The microphone delivers no audio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le micro ne fournit aucun son."
           }
         }
       }
@@ -5059,6 +5185,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "C’était le dernier import cloud gratuit de ce mois. Jusqu’à la fin du mois, l’app lit les autres recettes sur l’appareil ; avec BakePlanner Pro, il n’y a pas de limite mensuelle."
+          }
+        }
+      }
+    },
+    "Das war der letzte Schritt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was the last step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière étape."
           }
         }
       }
@@ -5360,6 +5502,22 @@
         }
       }
     },
+    "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your baking year as a PDF book: the year's figures, every month with its photos, the favourite recipes and what your measurements taught – to print and give away."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre année de cuisson en livre PDF : les chiffres de l’année, chaque mois avec ses photos, les recettes préférées et ce que vos mesures ont appris – à imprimer et à offrir."
+          }
+        }
+      }
+    },
     "Deine besten Rezepte" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5414,6 +5572,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le début de la cuisson (%1$@) n’a lieu que %2$lld minutes après la fin de la cuisson de « %3$@ ». La pause entre deux cuissons est de %4$lld minutes."
+          }
+        }
+      }
+    },
+    "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bake mode listens: “next”, “back”, “done”, “read”, “ingredients” or “how long” – and answers by voice, so you never touch the iPhone with dough on your hands. Speech is recognized on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode cuisson écoute : « suivant », « retour », « terminé », « lire », « ingrédients » ou « combien de temps » – et répond à voix haute, sans que vous touchiez l’iPhone les mains dans la pâte. La reconnaissance vocale s’effectue sur l’appareil."
           }
         }
       }
@@ -5816,6 +5990,22 @@
         }
       }
     },
+    "Diagramm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagramme"
+          }
+        }
+      }
+    },
     "dicht" : {
       "comment" : "Krume",
       "extractionState" : "manual",
@@ -5969,6 +6159,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La sélection est exportée dans un seul fichier, qu’un autre appareil – iPhone, iPad ou Android – lit via « Importer des recettes »."
+          }
+        }
+      }
+    },
+    "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The baking history as numbers and charts: how often, what most, how rated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note."
           }
         }
       }
@@ -6360,6 +6566,22 @@
         }
       }
     },
+    "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your starter's ripening curve over room temperature, the feedings over time, the feeding under way with its predicted peak and a reminder, the rhythm – and the diary as CSV."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La courbe de maturation de votre levain selon la température ambiante, les nourrissages dans le temps, le nourrissage en cours avec son pic prévu et un rappel, le rythme – et le journal en CSV."
+          }
+        }
+      }
+    },
     "Die Seite konnte nicht geladen werden (Fehler %lld). Manche Seiten verlangen eine Anmeldung oder sperren den Abruf." : {
       "comment" : "A description of an error that might occur when importing a recipe from a web page. The argument is the HTTP status code.",
       "extractionState" : "manual",
@@ -6412,6 +6634,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La page elle-même est chargée par votre appareil. Le texte est analysé uniquement pour en créer un brouillon de recette avec les ingrédients et les étapes. BackPlaner n’enregistre pas le texte transmis dans Firebase Storage ni dans la base de données de recettes."
+          }
+        }
+      }
+    },
+    "Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speech recognition is not available for this language on this device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La reconnaissance vocale n’est pas disponible pour cette langue sur cet appareil."
           }
         }
       }
@@ -6752,6 +6990,22 @@
         }
       }
     },
+    "Dieser Schritt hat keine Zutaten." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This step has no ingredients."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette étape n’a pas d’ingrédients."
+          }
+        }
+      }
+    },
     "Dieser Schritt und alle späteren Schritte desselben Plans werden um dieselbe Zeit verschoben." : {
       "localizations" : {
         "en" : {
@@ -6960,6 +7214,22 @@
         }
       }
     },
+    "Du hattest die App schon, bevor es Pro gab: Was es damals gab, bleibt für Dich frei. Die neueren Pro-Funktionen gibt es mit dem Kauf." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You had the app before Pro existed: what was there then stays free for you. The newer Pro features come with the purchase."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous aviez l’app avant Pro : ce qui existait alors reste gratuit pour vous. Les fonctions Pro plus récentes viennent avec l’achat."
+          }
+        }
+      }
+    },
     "Du hattest die App schon, bevor es Pro gab. Die Pro-Funktionen bleiben für Dich frei." : {
       "comment" : "A message that appears when the user has purchased",
       "isCommentAutoGenerated" : true,
@@ -7130,6 +7400,22 @@
         }
       }
     },
+    "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your own filter combinations as a chip, and with \"Finish by\" see only the recipes that can still be made by then."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez vos combinaisons de filtres comme puce et, avec « Prêt pour », ne voyez que les recettes encore réalisables d’ici là."
+          }
+        }
+      }
+    },
     "Eigene Rezepte" : {
       "localizations" : {
         "en" : {
@@ -7180,6 +7466,38 @@
         }
       }
     },
+    "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new recipe from shares of the flour: enter baker's percentages, the app works out the grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle recette à partir de parts de farine : saisissez les pourcentages du boulanger, l’app calcule les grammes."
+          }
+        }
+      }
+    },
+    "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A PDF in A4 – to print, bind or send."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un PDF au format A4 – à imprimer, relier ou envoyer."
+          }
+        }
+      }
+    },
     "Ein Rezept in der gezeigten Portionsgröße als PDF drucken oder verschicken." : {
       "comment" : "One line on what the Pro feature does, for the paywall.",
       "extractionState" : "stale",
@@ -7211,6 +7529,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imprimer ou envoyer une recette à la portion affichée, ou la feuille de la journée de cuisson des étapes planifiées, en PDF."
+          }
+        }
+      }
+    },
+    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %@, mit Umluft auf %@. Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt." : {
+      "comment" : "Oven temperature dial temperature and fan reduction.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %1$@, mit Umluft auf %2$@. Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For a recipe at 250 °C, set this oven to %1$@, with convection to %2$@. Whether the fan runs you choose for every bake in the planning sheet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour une recette à 250 °C, réglez ce four sur %1$@, en chaleur tournante sur %2$@. Vous choisissez à chaque cuisson, dans la feuille de planification, si la chaleur tournante est active."
           }
         }
       }
@@ -7314,6 +7656,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Texte de recette collé"
+          }
+        }
+      }
+    },
+    "Eingekauft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bought"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acheté"
           }
         }
       }
@@ -7622,6 +7980,22 @@
         }
       }
     },
+    "Einmalkauf, kein Abo. Was dazugehört, zeigt die Kaufseite; der Kern der App bleibt frei." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-time purchase, no subscription. The purchase page lists what is included; the core of the app stays free."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achat unique, sans abonnement. La page d’achat liste ce qui est inclus ; le cœur de l’app reste gratuit."
+          }
+        }
+      }
+    },
     "Einstellungen" : {
       "comment" : "Name of the settings screen.",
       "isCommentAutoGenerated" : true,
@@ -7636,6 +8010,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        }
+      }
+    },
+    "Einstellungen öffnen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Réglages"
           }
         }
       }
@@ -7871,6 +8261,38 @@
         }
       }
     },
+    "Erinnern, wenn reif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remind me when ripe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Me rappeler à maturité"
+          }
+        }
+      }
+    },
+    "Erinnerung %@ gesetzt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder set for %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel réglé pour %@."
+          }
+        }
+      }
+    },
     "Erinnerung verschieben" : {
       "localizations" : {
         "en" : {
@@ -8038,6 +8460,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marquer comme terminé"
+          }
+        }
+      }
+    },
+    "Erledigt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé."
           }
         }
       }
@@ -8290,6 +8728,22 @@
         }
       }
     },
+    "Fällig in %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due in %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans %@."
+          }
+        }
+      }
+    },
     "Falten" : {
       "localizations" : {
         "en" : {
@@ -8338,6 +8792,38 @@
         }
       }
     },
+    "Fertig bis …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished by …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt pour…"
+          }
+        }
+      }
+    },
+    "Fertig bis … (Pro)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish by … (Pro)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt pour… (Pro)"
+          }
+        }
+      }
+    },
     "Fertig bis %@" : {
       "comment" : "Suggested date when the plan is read as a finishing time. The argument is weekday, date and time.",
       "localizations" : {
@@ -8351,22 +8837,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé pour %@"
-          }
-        }
-      }
-    },
-    "Fertig bis …" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finished by …"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prêt pour…"
           }
         }
       }
@@ -8617,6 +9087,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec du réaffichage"
+          }
+        }
+      }
+    },
+    "Freihändig beenden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End hands-free"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter le mode mains libres"
+          }
+        }
+      }
+    },
+    "Freihändig starten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start hands-free"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer le mode mains libres"
+          }
+        }
+      }
+    },
+    "Freihändiger Backmodus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free bake mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode cuisson mains libres"
+          }
+        }
+      }
+    },
+    "Freihändiger Backmodus. Sage %@, %@, %@ oder %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-free bake mode. Say %@, %@, %@ or %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode cuisson mains libres. Dites %@, %@, %@ ou %@."
           }
         }
       }
@@ -8898,6 +9432,38 @@
         }
       }
     },
+    "Fütterungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rafraîchis"
+          }
+        }
+      }
+    },
+    "Fütterungen in 30 Tagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedings in 30 days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourrissages en 30 jours"
+          }
+        }
+      }
+    },
     "Fütterungsverhältnis" : {
       "comment" : "A label for the feeding ratio of a starter.",
       "isCommentAutoGenerated" : true,
@@ -8964,6 +9530,22 @@
         }
       }
     },
+    "Gärkörbchen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proofing basket"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banneton"
+          }
+        }
+      }
+    },
     "Gärkörbchen oval" : {
       "localizations" : {
         "en" : {
@@ -8996,54 +9578,6 @@
         }
       }
     },
-    "Haltbar bis" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Best before"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À consommer avant"
-          }
-        }
-      }
-    },
-    "Haltbar bis %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Best before %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À consommer avant le %@"
-          }
-        }
-      }
-    },
-    "Handarbeit fällt mit einem anderen Brot zusammen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hands-on work coincides with another bread"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le travail manuel coïncide avec un autre pain"
-          }
-        }
-      }
-    },
     "Gedrückt halten für Erledigt oder Verschieben" : {
       "comment" : "Text displayed in the subtitle of a notification.",
       "isCommentAutoGenerated" : true,
@@ -9058,6 +9592,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maintenez appuyé pour marquer comme terminé ou décaler"
+          }
+        }
+      }
+    },
+    "Gefüttert %@ – reif gegen %@ bei %@." : {
+      "comment" : "A label showing the feeding time, the ready time, and the temperature. The first argument is the string “heute %arg”, the string “morgen %arg” or the string “gestern %arg”. The second argument is the string “heute %arg”, the string “morgen %arg” or the string “gestern %arg”.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Gefüttert %1$@ – reif gegen %2$@ bei %3$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fed %1$@ – ripe around %2$@ at %3$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourri %1$@ – mûr vers %2$@ à %3$@."
+          }
+        }
+      }
+    },
+    "Gefüttert %@ – vermutlich seit %@ am Höhepunkt. Trage das Ergebnis im Tagebuch ein." : {
+      "comment" : "A description of a feeding that is currently being fed, showing the feeding date, the expected ready date, and a reminder to record the feeding's result in the diary. The first argument is the string “heute %arg”, the string “morgen %arg” or the string “gestern %arg”. The second argument is the string “heute %arg”, the string “morgen %arg” or the string “gestern %arg”.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Gefüttert %1$@ – vermutlich seit %2$@ am Höhepunkt. Trage das Ergebnis im Tagebuch ein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fed %1$@ – probably at its peak since %2$@. Enter the result in the diary."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourri %1$@ – probablement au pic depuis %2$@. Notez le résultat dans le journal."
           }
         }
       }
@@ -9094,6 +9676,55 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Fait partie de BakePlanner Pro."
+          }
+        }
+      }
+    },
+    "Gehört: „%@“" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heard: “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entendu : « %@ »"
+          }
+        }
+      }
+    },
+    "Gekaufte Menge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount bought"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité achetée"
+          }
+        }
+      }
+    },
+    "Gelernt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lessons"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enseignements"
           }
         }
       }
@@ -9163,6 +9794,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Planifié avec BakePlanner."
+          }
+        }
+      }
+    },
+    "Geplant wird mit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planning with"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planification avec"
           }
         }
       }
@@ -9333,6 +9980,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyse IA protégée"
+          }
+        }
+      }
+    },
+    "gestern %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "yesterday %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hier %@"
           }
         }
       }
@@ -9549,18 +10212,50 @@
         }
       }
     },
-    "Gärkörbchen" : {
+    "Haltbar bis" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Proofing basket"
+            "value" : "Best before"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Banneton"
+            "value" : "À consommer avant"
+          }
+        }
+      }
+    },
+    "Haltbar bis %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Best before %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À consommer avant le %@"
+          }
+        }
+      }
+    },
+    "Handarbeit fällt mit einem anderen Brot zusammen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-on work coincides with another bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le travail manuel coïncide avec un autre pain"
           }
         }
       }
@@ -9734,6 +10429,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aujourd’hui"
+          }
+        }
+      }
+    },
+    "heute %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aujourd’hui %@"
           }
         }
       }
@@ -10277,6 +10988,22 @@
         }
       }
     },
+    "Inhalt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contents"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenu"
+          }
+        }
+      }
+    },
     "Inhalte löschen" : {
       "localizations" : {
         "en" : {
@@ -10427,6 +11154,22 @@
         }
       }
     },
+    "Jahr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Year"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Année"
+          }
+        }
+      }
+    },
     "Jeder Backvorgang, für den Du Erinnerungen setzt, landet hier – mit Datum, Kommentar und Fotos." : {
       "localizations" : {
         "en" : {
@@ -10455,6 +11198,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chaque étape planifiée devient un événement dans votre calendrier par défaut. Ajouter à nouveau crée de nouveaux événements."
+          }
+        }
+      }
+    },
+    "Jeder Ofen bringt seine Vorheizzeiten mit und sagt, ob er heißer oder kälter läuft, als der Regler zeigt. Der Plan rechnet mit dem gewählten Ofen, die Ofenschritte nennen die Reglereinstellung. Ohne Ofenprofil gelten die Vorheizzeiten unten." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven brings its preheating times and says whether it runs hotter or colder than its dial shows. The plan works with the chosen oven, and the oven steps name the dial setting. Without an oven profile the preheating times below apply."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four apporte ses temps de préchauffage et indique s’il chauffe plus ou moins que n’affiche le thermostat. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat. Sans profil de four, les temps de préchauffage ci-dessous s’appliquent."
+          }
+        }
+      }
+    },
+    "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven with its preheating times, whether it runs hotter or colder than its dial shows, and its convection reduction. The plan works with the chosen oven, and the oven steps name the dial setting."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four avec ses temps de préchauffage, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat."
           }
         }
       }
@@ -10550,6 +11325,110 @@
         }
       }
     },
+    "Kalender beim Planen prüfen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check calendar when planning"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifier l’agenda en planifiant"
+          }
+        }
+      }
+    },
+    "Kalender-Konfliktprüfung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar conflict check"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification des conflits d’agenda"
+          }
+        }
+      }
+    },
+    "Kalender: „%@“ (%@) fällt in „%@“ um %@." : {
+      "comment" : "A hint in the plan. The first argument is the event title. The second argument is the string “%1$arg–%2$arg”. The third argument is the step name. The fourth argument is the time of the step.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Kalender: „%1$@“ (%2$@) fällt in „%3$@“ um %4$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: “%1$@” (%2$@) falls on “%3$@” at %4$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : « %1$@ » (%2$@) tombe sur « %3$@ » à %4$@."
+          }
+        }
+      }
+    },
+    "Kalender: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : %@"
+          }
+        }
+      }
+    },
+    "Kalender: Der Zugriff ist nicht erlaubt. Erlaube ihn in den iOS-Einstellungen unter BakePlanner, dann prüft die App Deine Termine." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar: access is not allowed. Allow it in the iOS Settings under BakePlanner, and the app will check your appointments."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenda : l’accès n’est pas autorisé. Autorisez-le dans les Réglages iOS sous BakePlanner, et l’app vérifiera vos rendez-vous."
+          }
+        }
+      }
+    },
+    "Kalenderzugriff nicht erlaubt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar access not allowed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accès à l’agenda non autorisé"
+          }
+        }
+      }
+    },
     "Kälter als Eiswasser – mit diesen Werten kaum erreichbar." : {
       "comment" : "A message displayed when the water temperature is too cold for the dough to reach the desired temperature.",
       "isCommentAutoGenerated" : true,
@@ -10638,22 +11517,6 @@
         }
       }
     },
-    "Kein Ofen frei – überschneidet sich mit einem anderen Backen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No oven free – overlaps another bake"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun four libre – chevauche une autre cuisson"
-          }
-        }
-      }
-    },
     "Käufe wiederherstellen" : {
       "comment" : "A button that restores purchases.",
       "isCommentAutoGenerated" : true,
@@ -10668,6 +11531,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Restaurer les achats"
+          }
+        }
+      }
+    },
+    "Kein Ofen frei – überschneidet sich mit einem anderen Backen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No oven free – overlaps another bake"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun four libre – chevauche une autre cuisson"
           }
         }
       }
@@ -11418,6 +12297,22 @@
         }
       }
     },
+    "Länge" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Length"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longueur"
+          }
+        }
+      }
+    },
     "Lange nicht gebacken" : {
       "localizations" : {
         "en" : {
@@ -11434,18 +12329,84 @@
         }
       }
     },
-    "Länge" : {
+    "Längste Pause: %@ Tage" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Length"
+            "value" : "Longest pause: %@ days"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Longueur"
+            "value" : "Plus longue pause : %@ jours"
+          }
+        }
+      }
+    },
+    "Längstes Brot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longest bread"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pain le plus long"
+          }
+        }
+      }
+    },
+    "Laufende Fütterung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feeding under way"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nourrissage en cours"
+          }
+        }
+      }
+    },
+    "läuft %lld °C heißer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C hot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de plus"
+          }
+        }
+      }
+    },
+    "läuft %lld °C kälter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C cold"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de moins"
           }
         }
       }
@@ -11652,6 +12613,56 @@
         }
       }
     },
+    "Lieblingsmehl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite flour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine préférée"
+          }
+        }
+      }
+    },
+    "Lieblingsrezept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette préférée"
+          }
+        }
+      }
+    },
+    "Lieblingsrezepte" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes préférées"
+          }
+        }
+      }
+    },
     "Lievito Madre" : {
       "localizations" : {
         "en" : {
@@ -11664,6 +12675,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lievito madre"
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit mit dem üblichen Faktor %@ je 10 °C, %@. Ab drei Fütterungen über 4 °C Spanne lernt die App den Faktor Deines Anstellguts. Punkte: gemessene Fütterungen." : {
+      "comment" : "A note below the starter chart that describes the model used to estimate the starter's ripeness. The argument is the string “aus %arg Fütterungen”.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Linie: Reifezeit mit dem üblichen Faktor %1$@ je 10 °C, %2$@. Ab drei Fütterungen über 4 °C Spanne lernt die App den Faktor Deines Anstellguts. Punkte: gemessene Fütterungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak with the usual factor %1$@ per 10 °C, %2$@. From three feedings over a 4 °C span the app learns your starter's own factor. Dots: measured feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation avec le facteur habituel %1$@ par 10 °C, %2$@. À partir de trois nourrissages sur un écart de 4 °C, l’app apprend le facteur propre de votre levain. Points : nourrissages mesurés."
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit nach dem Tagebuch, Faktor %@ je 10 °C, %@. Punkte: gemessene Fütterungen." : {
+      "comment" : "A footnote that describes the model used to estimate the starter's ripeness. The argument is the string “aus %arg Fütterungen”.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Linie: Reifezeit nach dem Tagebuch, Faktor %1$@ je 10 °C, %2$@. Punkte: gemessene Fütterungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak from the diary, factor %1$@ per 10 °C, %2$@. Dots: measured feedings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation d’après le journal, facteur %1$@ par 10 °C, %2$@. Points : nourrissages mesurés."
+          }
+        }
+      }
+    },
+    "Linie: Reifezeit umgerechnet auf 22 °C – steigt sie, wird das Anstellgut träger. Punkte: wie gemessen; ein Kreuz ist eine Fütterung, bei der der Schwimmtest misslang." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Line: time to peak converted to 22 °C – if it rises, the starter is getting sluggish. Dots: as measured; a cross is a feeding whose float test failed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligne : temps de maturation ramené à 22 °C – s’il monte, le levain ralentit. Points : tels que mesurés ; une croix est un nourrissage dont le test de flottaison a échoué."
           }
         }
       }
@@ -11958,6 +13033,23 @@
         }
       }
     },
+    "Mehl verbacken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flour baked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farine utilisée"
+          }
+        }
+      }
+    },
     "Mehle, Saaten und Hefe mit Menge und Haltbarkeit führen; Gekauftes wandert aus der Einkaufsliste hinein." : {
       "localizations" : {
         "en" : {
@@ -12092,6 +13184,23 @@
         }
       }
     },
+    "Mein Backjahr %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My baking year %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon année de cuisson %@"
+          }
+        }
+      }
+    },
     "Mein Rezept löschen" : {
       "comment" : "A button that deletes the user's recipe.",
       "isCommentAutoGenerated" : true,
@@ -12156,6 +13265,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les plus cuits"
+          }
+        }
+      }
+    },
+    "Meistgebacken: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baked most: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plus cuit : %@"
           }
         }
       }
@@ -12477,22 +13603,6 @@
         }
       }
     },
-    "Mittel, TA 165 bis 180" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medium, TA 165 to 180"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moyen, TA 165 à 180"
-          }
-        }
-      }
-    },
     "Mit Apple anmelden" : {
       "comment" : "The label for the button that logs in with Apple.",
       "isCommentAutoGenerated" : true,
@@ -12507,6 +13617,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se connecter avec Apple"
+          }
+        }
+      }
+    },
+    "Mit Backhistorie, Anstellgut-Tagebuch und Vorrat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With baking history, starter diary and pantry"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec l’historique de cuisson, le journal du levain et la réserve"
           }
         }
       }
@@ -12558,6 +13684,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec buée"
+          }
+        }
+      }
+    },
+    "Mitteilungen sind für BakePlanner nicht erlaubt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are not allowed for BakePlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notifications ne sont pas autorisées pour BakePlanner."
+          }
+        }
+      }
+    },
+    "Mittel, TA 165 bis 180" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium, TA 165 to 180"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moyen, TA 165 à 180"
+          }
+        }
+      }
+    },
+    "Mittlerer Abstand" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average gap"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart moyen"
           }
         }
       }
@@ -12624,6 +13798,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Demain"
+          }
+        }
+      }
+    },
+    "morgen %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tomorrow %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "demain %@"
           }
         }
       }
@@ -12814,6 +14004,22 @@
         }
       }
     },
+    "Nächste Fütterung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next feeding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prochain nourrissage"
+          }
+        }
+      }
+    },
     "Nächste Fütterung: %@ %@" : {
       "comment" : "Next feeding date: day label (Heute/Morgen/date) and time.",
       "localizations" : {
@@ -12978,6 +14184,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Name auf dem Titelblatt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on the cover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom sur la couverture"
           }
         }
       }
@@ -13568,6 +14790,22 @@
         }
       }
     },
+    "Noch kein abgeschlossenes Backen – das Buch entsteht aus der Backhistorie." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No finished bake yet – the book is made from the baking history."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune cuisson terminée pour l’instant – le livre naît de l’historique de cuisson."
+          }
+        }
+      }
+    },
     "Noch kein Rezeptbild" : {
       "comment" : "A description of the image that is displayed when the user hasn't yet added an image to the recipe.",
       "isCommentAutoGenerated" : true,
@@ -13991,18 +15229,36 @@
         }
       }
     },
-    "Über Nacht" : {
+    "Ø Raumtemperatur %@ °C" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overnight"
+            "value" : "Ø room temperature %@ °C"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sur la nuit"
+            "value" : "Ø température ambiante %@ °C"
+          }
+        }
+      }
+    },
+    "Ø Stückgare %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø final proof %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø apprêt %@"
           }
         }
       }
@@ -14053,6 +15309,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Four %1$@ à %2$@"
+          }
+        }
+      }
+    },
+    "Ofen %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %lld"
+          }
+        }
+      }
+    },
+    "Ofen hinzufügen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un four"
+          }
+        }
+      }
+    },
+    "Ofen löschen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le four"
+          }
+        }
+      }
+    },
+    "Ofenprofile" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven profiles"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profils de four"
           }
         }
       }
@@ -14294,6 +15614,22 @@
         }
       }
     },
+    "Ohne Mikrofon kann der Backmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without the microphone, bake mode cannot listen. Allow access in Settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans micro, le mode cuisson ne peut pas écouter. Autorisez l’accès dans Réglages."
+          }
+        }
+      }
+    },
     "ohne Schwaden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14311,22 +15647,6 @@
         }
       }
     },
-    "Ohne Zeitangaben: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Without timed steps: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sans durées : %@"
-          }
-        }
-      }
-    },
     "Ohne Schwaden" : {
       "localizations" : {
         "en" : {
@@ -14339,6 +15659,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sans buée"
+          }
+        }
+      }
+    },
+    "Ohne Zeitangaben: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without timed steps: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans durées : %@"
           }
         }
       }
@@ -14730,6 +16066,54 @@
         }
       }
     },
+    "Reifekurve" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening curve"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Courbe de maturation"
+          }
+        }
+      }
+    },
+    "Reifekurve und Verlauf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening curve and trend"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Courbe de maturation et évolution"
+          }
+        }
+      }
+    },
+    "Reifezeit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to peak"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation"
+          }
+        }
+      }
+    },
     "Reifezeit als Dauer übernehmen" : {
       "localizations" : {
         "en" : {
@@ -14776,6 +16160,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maturation aujourd’hui"
+          }
+        }
+      }
+    },
+    "Reifezeit im Sommer: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening time in summer: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation en été : %@"
+          }
+        }
+      }
+    },
+    "Reifezeit im Winterhalbjahr: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripening time in the winter half-year: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de maturation en hiver : %@"
           }
         }
       }
@@ -15009,6 +16427,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Signaler la recette"
+          }
+        }
+      }
+    },
+    "Rezept nach Bäckerprozent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe from baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette en pourcentages du boulanger"
           }
         }
       }
@@ -15397,6 +16831,22 @@
         }
       }
     },
+    "Rezepte – %lld ausgewählt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes – %lld selected"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes – %lld sélectionnées"
+          }
+        }
+      }
+    },
     "Rezepte als PDF teilen" : {
       "comment" : "Name of the title of the Pro feature.",
       "isCommentAutoGenerated" : true,
@@ -15498,22 +16948,6 @@
         }
       }
     },
-    "Rezepte – %lld ausgewählt" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recipes – %lld selected"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recettes – %lld sélectionnées"
-          }
-        }
-      }
-    },
     "Rezeptinhalte löschen" : {
       "localizations" : {
         "en" : {
@@ -15578,6 +17012,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Texte de la recette"
+          }
+        }
+      }
+    },
+    "Rhythmus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rhythm"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rythme"
           }
         }
       }
@@ -15719,6 +17169,22 @@
         }
       }
     },
+    "Rückgängig" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
     "Ruhen" : {
       "localizations" : {
         "en" : {
@@ -15747,22 +17213,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Moule rond"
-          }
-        }
-      }
-    },
-    "Rückgängig" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Undo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuler"
           }
         }
       }
@@ -15798,6 +17248,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "moelleuse"
+          }
+        }
+      }
+    },
+    "Sage „%@“, „%@“, „%@“ oder „%@“." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say “%@”, “%@”, “%@” or “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « %@ », « %@ », « %@ » ou « %@ »."
           }
         }
       }
@@ -15889,6 +17355,22 @@
         }
       }
     },
+    "Sammlung sichern (Pro)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save collection (Pro)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer la collection (Pro)"
+          }
+        }
+      }
+    },
     "Sammlung umbenennen" : {
       "localizations" : {
         "en" : {
@@ -15901,6 +17383,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renommer la collection"
+          }
+        }
+      }
+    },
+    "Sammlungen und Fertig bis" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections and finish by"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections et prêt pour"
           }
         }
       }
@@ -16383,6 +17881,22 @@
         }
       }
     },
+    "Seit %@ fällig." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due since %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente depuis %@."
+          }
+        }
+      }
+    },
     "Seit %lld Tagen abgelaufen (%@)" : {
       "localizations" : {
         "en" : {
@@ -16831,6 +18345,38 @@
         }
       }
     },
+    "Spracherkennung fehlgeschlagen: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speech recognition failed: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de la reconnaissance vocale : %@"
+          }
+        }
+      }
+    },
+    "Spracherkennung wird vorbereitet …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing speech recognition …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préparation de la reconnaissance vocale…"
+          }
+        }
+      }
+    },
     "Stand: %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -17031,6 +18577,22 @@
         }
       }
     },
+    "Stein %lld min" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stone %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pierre %lld min"
+          }
+        }
+      }
+    },
     "Sterne" : {
       "localizations" : {
         "en" : {
@@ -17077,6 +18639,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Si le nom est incorrect, appuyez dessus ci-dessus : vous pourrez alors choisir la bonne ligne directement sur la page."
+          }
+        }
+      }
+    },
+    "stimmt mit dem Regler überein" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "matches the dial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correspond au thermostat"
           }
         }
       }
@@ -17163,6 +18741,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apprêt et température ambiante"
+          }
+        }
+      }
+    },
+    "Stunden" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heures"
           }
         }
       }
@@ -17347,6 +18941,22 @@
         }
       }
     },
+    "Tagebuch als CSV teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share diary as CSV"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le journal en CSV"
+          }
+        }
+      }
+    },
     "Tagesablauf" : {
       "localizations" : {
         "en" : {
@@ -17428,6 +19038,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Pâte"
+          }
+        }
+      }
+    },
+    "Teig geknetet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dough kneaded"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pâte pétrie"
           }
         }
       }
@@ -17828,18 +19455,18 @@
         }
       }
     },
-    "Triebmittel" : {
+    "Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann zeichnet die App die Reifekurve Deines Anstellguts und sagt voraus, wann es reif ist." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leavening"
+            "value" : "Note time to peak and room temperature with your feedings, and the app draws your starter's ripening curve and predicts when it is ripe."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Agent levant"
+            "value" : "Notez le temps jusqu’au pic et la température ambiante lors de vos nourrissages : l’app trace alors la courbe de maturation de votre levain et prédit quand il sera mûr."
           }
         }
       }
@@ -17880,6 +19507,22 @@
         }
       }
     },
+    "Triebmittel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leavening"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent levant"
+          }
+        }
+      }
+    },
     "trocken" : {
       "comment" : "Krume",
       "extractionState" : "manual",
@@ -17910,6 +19553,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Planifier malgré tout"
+          }
+        }
+      }
+    },
+    "Über Nacht" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overnight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur la nuit"
           }
         }
       }
@@ -18131,6 +19790,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étendue du traitement"
+          }
+        }
+      }
+    },
+    "Umluft" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaleur tournante"
+          }
+        }
+      }
+    },
+    "Umluft −%lld °C" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "convection −%lld °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chaleur tournante −%lld °C"
+          }
+        }
+      }
+    },
+    "Umluft-Abschlag" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection reduction"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réduction chaleur tournante"
           }
         }
       }
@@ -21191,6 +22898,22 @@
         }
       }
     },
+    "Verlauf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trend"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Évolution"
+          }
+        }
+      }
+    },
     "Veröffentlichen" : {
       "localizations" : {
         "en" : {
@@ -21456,6 +23179,22 @@
         }
       }
     },
+    "vor %lld Tagen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days ago"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld jours"
+          }
+        }
+      }
+    },
     "Vor der ersten Cloud-Analyse" : {
       "localizations" : {
         "en" : {
@@ -21500,6 +23239,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Donnée"
+          }
+        }
+      }
+    },
+    "Vorgeschlagen sind übliche Gebindegrößen. Trage ein, was Du wirklich gekauft hast. Eine leere Menge lässt die Zeile auf der Liste." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggested are common package sizes. Enter what you actually bought. An empty amount leaves the line on the list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les tailles d’emballage courantes sont proposées. Saisissez ce que vous avez vraiment acheté. Une quantité vide laisse la ligne sur la liste."
           }
         }
       }
@@ -21560,6 +23315,22 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Levain chef disponible"
+          }
+        }
+      }
+    },
+    "Vorheizen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preheating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préchauffage"
           }
         }
       }
@@ -21743,6 +23514,23 @@
         }
       }
     },
+    "Vorsätze für %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolutions for %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonnes résolutions pour %@"
+          }
+        }
+      }
+    },
     "Vorschläge aus Deinen Rezepten" : {
       "localizations" : {
         "en" : {
@@ -21806,6 +23594,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sélectionnez « Toutes » pour afficher toutes les étapes planifiées."
+          }
+        }
+      }
+    },
+    "Wähle mindestens ein Rezept." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose at least one recipe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez au moins une recette."
           }
         }
       }
@@ -22344,6 +24148,22 @@
         }
       }
     },
+    "Wie lange" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How long"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de temps"
+          }
+        }
+      }
+    },
     "Wie viel Gramm eine Einheit wiegt. Ein Pfund wären 500." : {
       "comment" : "Explanation of the factor for a unit of type .gram.",
       "isCommentAutoGenerated" : true,
@@ -22430,22 +24250,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "À surveiller"
-          }
-        }
-      }
-    },
-    "Wähle mindestens ein Rezept." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose at least one recipe."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez au moins une recette."
           }
         }
       }
@@ -23033,1754 +24837,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finalité et base juridique"
-          }
-        }
-      }
-    },
-    "Backjahr-Buch …" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baking yearbook …"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Livre de l’année de cuisson …"
-          }
-        }
-      }
-    },
-    "Backjahr-Buch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baking yearbook"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Livre de l’année de cuisson"
-          }
-        }
-      }
-    },
-    "Noch kein abgeschlossenes Backen – das Buch entsteht aus der Backhistorie." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No finished bake yet – the book is made from the baking history."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucune cuisson terminée pour l’instant – le livre naît de l’historique de cuisson."
-          }
-        }
-      }
-    },
-    "Jahr" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Year"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Année"
-          }
-        }
-      }
-    },
-    "Name auf dem Titelblatt" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name on the cover"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nom sur la couverture"
-          }
-        }
-      }
-    },
-    "Das Buch nimmt alle Backvorgänge des Jahres mit ihren Fotos, die Lieblingsrezepte als Rezeptseiten, die Erkenntnisse aus Deinen Messwerten und das Anstellgut-Tagebuch." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The book holds every bake of the year with its photos, the favourite recipes as recipe pages, what your measurements taught, and the starter diary."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le livre réunit toutes les cuissons de l’année avec leurs photos, les recettes préférées en pages de recette, les enseignements de vos mesures et le journal du levain."
-          }
-        }
-      }
-    },
-    "Inhalt" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contents"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contenu"
-          }
-        }
-      }
-    },
-    "Backtage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baking days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jours de cuisson"
-          }
-        }
-      }
-    },
-    "Lieblingsrezepte" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favourite recipes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recettes préférées"
-          }
-        }
-      }
-    },
-    "Fütterungen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedings"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rafraîchis"
-          }
-        }
-      }
-    },
-    "Backjahr-Buch teilen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share the baking yearbook"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partager le livre de l’année"
-          }
-        }
-      }
-    },
-    "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A PDF in A4 – to print, bind or send."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un PDF au format A4 – à imprimer, relier ou envoyer."
-          }
-        }
-      }
-    },
-    "Dein Backjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsrezepte und was Deine Messwerte gelehrt haben – zum Drucken und Verschenken." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your baking year as a PDF book: the year's figures, every month with its photos, the favourite recipes and what your measurements taught – to print and give away."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre année de cuisson en livre PDF : les chiffres de l’année, chaque mois avec ses photos, les recettes préférées et ce que vos mesures ont appris – à imprimer et à offrir."
-          }
-        }
-      }
-    },
-    "Mein Backjahr %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "My baking year %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mon année de cuisson %@"
-          }
-        }
-      }
-    },
-    "Das Jahr in Zahlen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The year in figures"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’année en chiffres"
-          }
-        }
-      }
-    },
-    "Mehl verbacken" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Flour baked"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Farine utilisée"
-          }
-        }
-      }
-    },
-    "Teig geknetet" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dough kneaded"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pâte pétrie"
-          }
-        }
-      }
-    },
-    "Lieblingsmehl" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favourite flour"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Farine préférée"
-          }
-        }
-      }
-    },
-    "Längstes Brot" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Longest bread"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pain le plus long"
-          }
-        }
-      }
-    },
-    "%@ Brote" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ breads"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ pains"
-          }
-        }
-      }
-    },
-    "%@× gebacken" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "baked %@ times"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cuit %@ fois"
-          }
-        }
-      }
-    },
-    "Ø Raumtemperatur %@ °C" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ø room temperature %@ °C"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ø température ambiante %@ °C"
-          }
-        }
-      }
-    },
-    "Ø Stückgare %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ø final proof %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ø apprêt %@"
-          }
-        }
-      }
-    },
-    "Lieblingsrezept" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favourite recipe"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recette préférée"
-          }
-        }
-      }
-    },
-    "Gelernt" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lessons"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enseignements"
-          }
-        }
-      }
-    },
-    "Bei %@ bis %@ °C: Stückgare im Mittel %@ (%@ Backvorgänge)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At %@ to %@ °C: final proof %@ on average (%@ bakes)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À %@ – %@ °C : apprêt de %@ en moyenne (%@ cuissons)"
-          }
-        }
-      }
-    },
-    "%@ Fütterungen von %@ Anstellgut" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ feedings of %@ starters"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ rafraîchis de %@ levains"
-          }
-        }
-      }
-    },
-    "Längste Pause: %@ Tage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Longest pause: %@ days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plus longue pause : %@ jours"
-          }
-        }
-      }
-    },
-    "Reifezeit im Winterhalbjahr: %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ripening time in the winter half-year: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temps de maturation en hiver : %@"
-          }
-        }
-      }
-    },
-    "Reifezeit im Sommer: %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ripening time in summer: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temps de maturation en été : %@"
-          }
-        }
-      }
-    },
-    "Vorsätze für %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resolutions for %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bonnes résolutions pour %@"
-          }
-        }
-      }
-    },
-    "%@ Brote an %@ Backtagen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ breads on %@ baking days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ pains sur %@ jours de cuisson"
-          }
-        }
-      }
-    },
-    "Meistgebacken: %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baked most: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le plus cuit : %@"
-          }
-        }
-      }
-    },
-    "Backfotos" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bake photos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Photos de cuisson"
-          }
-        }
-      }
-    },
-    "Geplant wird mit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planning with"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Planification avec"
-          }
-        }
-      }
-    },
-    "Ofen hinzufügen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add oven"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouter un four"
-          }
-        }
-      }
-    },
-    "Jeder Ofen bringt seine Vorheizzeiten mit und sagt, ob er heißer oder kälter läuft, als der Regler zeigt. Der Plan rechnet mit dem gewählten Ofen, die Ofenschritte nennen die Reglereinstellung. Ohne Ofenprofil gelten die Vorheizzeiten unten." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Each oven brings its preheating times and says whether it runs hotter or colder than its dial shows. The plan works with the chosen oven, and the oven steps name the dial setting. Without an oven profile the preheating times below apply."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chaque four apporte ses temps de préchauffage et indique s’il chauffe plus ou moins que n’affiche le thermostat. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat. Sans profil de four, les temps de préchauffage ci-dessous s’appliquent."
-          }
-        }
-      }
-    },
-    "Stein %lld min" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stone %lld min"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "pierre %lld min"
-          }
-        }
-      }
-    },
-    "läuft %lld °C heißer" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "runs %lld °C hot"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "chauffe %lld °C de plus"
-          }
-        }
-      }
-    },
-    "läuft %lld °C kälter" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "runs %lld °C cold"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "chauffe %lld °C de moins"
-          }
-        }
-      }
-    },
-    "Umluft −%lld °C" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "convection −%lld °C"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "chaleur tournante −%lld °C"
-          }
-        }
-      }
-    },
-    "Ofen %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oven %lld"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Four %lld"
-          }
-        }
-      }
-    },
-    "Vorheizen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preheating"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Préchauffage"
-          }
-        }
-      }
-    },
-    "Abweichung" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deviation"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Écart"
-          }
-        }
-      }
-    },
-    "Umluft" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Convection"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chaleur tournante"
-          }
-        }
-      }
-    },
-    "Umluft-Abschlag" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Convection reduction"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réduction chaleur tournante"
-          }
-        }
-      }
-    },
-    "stimmt mit dem Regler überein" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "matches the dial"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "correspond au thermostat"
-          }
-        }
-      }
-    },
-    "Ofen löschen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete oven"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer le four"
-          }
-        }
-      }
-    },
-    "Ofenprofile" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oven profiles"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profils de four"
-          }
-        }
-      }
-    },
-    "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Each oven with its preheating times, whether it runs hotter or colder than its dial shows, and its convection reduction. The plan works with the chosen oven, and the oven steps name the dial setting."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chaque four avec ses temps de préchauffage, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat."
-          }
-        }
-      }
-    },
-    "Freihändiger Backmodus" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hands-free bake mode"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode cuisson mains libres"
-          }
-        }
-      }
-    },
-    "Der Backmodus hört zu: „Weiter“, „Zurück“, „Erledigt“, „Vorlesen“, „Zutaten“ oder „Wie lange“ – und antwortet mit Stimme, ohne dass Du das iPhone mit Teighänden anfasst. Die Spracherkennung läuft auf dem Gerät." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bake mode listens: “next”, “back”, “done”, “read”, “ingredients” or “how long” – and answers by voice, so you never touch the iPhone with dough on your hands. Speech is recognized on the device."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le mode cuisson écoute : « suivant », « retour », « terminé », « lire », « ingrédients » ou « combien de temps » – et répond à voix haute, sans que vous touchiez l’iPhone les mains dans la pâte. La reconnaissance vocale s’effectue sur l’appareil."
-          }
-        }
-      }
-    },
-    "Freihändig beenden" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "End hands-free"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quitter le mode mains libres"
-          }
-        }
-      }
-    },
-    "Freihändig starten" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start hands-free"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Démarrer le mode mains libres"
-          }
-        }
-      }
-    },
-    "Spracherkennung wird vorbereitet …" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preparing speech recognition …"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Préparation de la reconnaissance vocale…"
-          }
-        }
-      }
-    },
-    "Sage „%@“, „%@“, „%@“ oder „%@“." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Say “%@”, “%@”, “%@” or “%@”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dites « %@ », « %@ », « %@ » ou « %@ »."
-          }
-        }
-      }
-    },
-    "Gehört: „%@“" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Heard: “%@”"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entendu : « %@ »"
-          }
-        }
-      }
-    },
-    "Ohne Mikrofon kann der Backmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Without the microphone, bake mode cannot listen. Allow access in Settings."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sans micro, le mode cuisson ne peut pas écouter. Autorisez l’accès dans Réglages."
-          }
-        }
-      }
-    },
-    "Einstellungen öffnen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir Réglages"
-          }
-        }
-      }
-    },
-    "Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speech recognition is not available for this language on this device."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La reconnaissance vocale n’est pas disponible pour cette langue sur cet appareil."
-          }
-        }
-      }
-    },
-    "Spracherkennung fehlgeschlagen: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speech recognition failed: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Échec de la reconnaissance vocale : %@"
-          }
-        }
-      }
-    },
-    "Wie lange" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How long"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Combien de temps"
-          }
-        }
-      }
-    },
-    "Freihändiger Backmodus. Sage %@, %@, %@ oder %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hands-free bake mode. Say %@, %@, %@ or %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode cuisson mains libres. Dites %@, %@, %@ ou %@."
-          }
-        }
-      }
-    },
-    "Das war der letzte Schritt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "That was the last step."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C’était la dernière étape."
-          }
-        }
-      }
-    },
-    "Das ist der erste Schritt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This is the first step."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C’est la première étape."
-          }
-        }
-      }
-    },
-    "Erledigt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminé."
-          }
-        }
-      }
-    },
-    "Dieser Schritt hat keine Zutaten." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This step has no ingredients."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette étape n’a pas d’ingrédients."
-          }
-        }
-      }
-    },
-    "Fällig in %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due in %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans %@."
-          }
-        }
-      }
-    },
-    "Seit %@ fällig." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Due since %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En attente depuis %@."
-          }
-        }
-      }
-    },
-    "Das Mikrofon liefert kein Audio." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The microphone delivers no audio."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le micro ne fournit aucun son."
-          }
-        }
-      }
-    },
-    "Anstellgut-Diagramm" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starter diagram"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagramme du levain"
-          }
-        }
-      }
-    },
-    "Die Reifekurve Deines Anstellguts über die Raumtemperatur, die Fütterungen im Verlauf, die laufende Fütterung mit vorhergesagtem Höhepunkt und Erinnerung, der Rhythmus – und das Tagebuch als CSV." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your starter's ripening curve over room temperature, the feedings over time, the feeding under way with its predicted peak and a reminder, the rhythm – and the diary as CSV."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La courbe de maturation de votre levain selon la température ambiante, les nourrissages dans le temps, le nourrissage en cours avec son pic prévu et un rappel, le rythme – et le journal en CSV."
-          }
-        }
-      }
-    },
-    "Diagramm" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagram"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagramme"
-          }
-        }
-      }
-    },
-    "Reifekurve und Verlauf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ripening curve and trend"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Courbe de maturation et évolution"
-          }
-        }
-      }
-    },
-    "Reifekurve" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ripening curve"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Courbe de maturation"
-          }
-        }
-      }
-    },
-    "Tagebuch als CSV teilen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share diary as CSV"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partager le journal en CSV"
-          }
-        }
-      }
-    },
-    "Trage bei Deinen Fütterungen Reifezeit und Raumtemperatur ein, dann zeichnet die App die Reifekurve Deines Anstellguts und sagt voraus, wann es reif ist." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note time to peak and room temperature with your feedings, and the app draws your starter's ripening curve and predicts when it is ripe."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notez le temps jusqu’au pic et la température ambiante lors de vos nourrissages : l’app trace alors la courbe de maturation de votre levain et prédit quand il sera mûr."
-          }
-        }
-      }
-    },
-    "Stunden" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hours"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Heures"
-          }
-        }
-      }
-    },
-    "Reifezeit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Time to peak"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temps de maturation"
-          }
-        }
-      }
-    },
-    "Linie: Reifezeit nach dem Tagebuch, Faktor %1$@ je 10 °C, %2$@. Punkte: gemessene Fütterungen." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Line: time to peak from the diary, factor %1$@ per 10 °C, %2$@. Dots: measured feedings."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligne : temps de maturation d’après le journal, facteur %1$@ par 10 °C, %2$@. Points : nourrissages mesurés."
-          }
-        }
-      }
-    },
-    "Linie: Reifezeit mit dem üblichen Faktor %1$@ je 10 °C, %2$@. Ab drei Fütterungen über 4 °C Spanne lernt die App den Faktor Deines Anstellguts. Punkte: gemessene Fütterungen." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Line: time to peak with the usual factor %1$@ per 10 °C, %2$@. From three feedings over a 4 °C span the app learns your starter's own factor. Dots: measured feedings."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligne : temps de maturation avec le facteur habituel %1$@ par 10 °C, %2$@. À partir de trois nourrissages sur un écart de 4 °C, l’app apprend le facteur propre de votre levain. Points : nourrissages mesurés."
-          }
-        }
-      }
-    },
-    "Laufende Fütterung" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feeding under way"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nourrissage en cours"
-          }
-        }
-      }
-    },
-    "Gefüttert %1$@ – vermutlich seit %2$@ am Höhepunkt. Trage das Ergebnis im Tagebuch ein." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fed %1$@ – probably at its peak since %2$@. Enter the result in the diary."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nourri %1$@ – probablement au pic depuis %2$@. Notez le résultat dans le journal."
-          }
-        }
-      }
-    },
-    "Gefüttert %1$@ – reif gegen %2$@ bei %3$@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fed %1$@ – ripe around %2$@ at %3$@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nourri %1$@ – mûr vers %2$@ à %3$@."
-          }
-        }
-      }
-    },
-    "Erinnerung %@ gesetzt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reminder set for %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rappel réglé pour %@."
-          }
-        }
-      }
-    },
-    "Mitteilungen sind für BakePlanner nicht erlaubt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifications are not allowed for BakePlanner."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les notifications ne sont pas autorisées pour BakePlanner."
-          }
-        }
-      }
-    },
-    "Erinnern, wenn reif" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remind me when ripe"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Me rappeler à maturité"
-          }
-        }
-      }
-    },
-    "Verlauf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trend"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Évolution"
-          }
-        }
-      }
-    },
-    "Linie: Reifezeit umgerechnet auf 22 °C – steigt sie, wird das Anstellgut träger. Punkte: wie gemessen; ein Kreuz ist eine Fütterung, bei der der Schwimmtest misslang." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Line: time to peak converted to 22 °C – if it rises, the starter is getting sluggish. Dots: as measured; a cross is a feeding whose float test failed."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligne : temps de maturation ramené à 22 °C – s’il monte, le levain ralentit. Points : tels que mesurés ; une croix est un nourrissage dont le test de flottaison a échoué."
-          }
-        }
-      }
-    },
-    "Rhythmus" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rhythm"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rythme"
-          }
-        }
-      }
-    },
-    "Fütterungen in 30 Tagen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedings in 30 days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nourrissages en 30 jours"
-          }
-        }
-      }
-    },
-    "Mittlerer Abstand" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Average gap"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Écart moyen"
-          }
-        }
-      }
-    },
-    "%@ Tage" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ jours"
-          }
-        }
-      }
-    },
-    "vor %lld Tagen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld days ago"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "il y a %lld jours"
-          }
-        }
-      }
-    },
-    "Nächste Fütterung" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next feeding"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prochain nourrissage"
-          }
-        }
-      }
-    },
-    "heute %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "today %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "aujourd’hui %@"
-          }
-        }
-      }
-    },
-    "morgen %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "demain %@"
-          }
-        }
-      }
-    },
-    "gestern %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "yesterday %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "hier %@"
-          }
-        }
-      }
-    },
-    "Anstellgut reif" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starter ripe"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Levain mûr"
-          }
-        }
-      }
-    },
-    "„%1$@“ ist vermutlich am Höhepunkt – gefüttert %2$@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%1$@” is probably at its peak – fed %2$@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "« %1$@ » est probablement au pic – nourri %2$@."
-          }
-        }
-      }
-    },
-    "Kalender-Konfliktprüfung" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar conflict check"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérification des conflits d’agenda"
-          }
-        }
-      }
-    },
-    "Beim Planen prüft die App Deine Termine: Fällt ein Termin auf das Kneten, Formen, das Einschalten des Ofens oder das Ein- und Ausschießen, sagt sie es Dir, bevor Du planst – auch für jedes Brot des Backtags." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "While you plan, the app checks your appointments: if one falls on kneading, shaping, switching the oven on or putting the bread in and taking it out, it tells you before you plan – for every bread of the baking day as well."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pendant la planification, l’app vérifie vos rendez-vous : si l’un tombe sur le pétrissage, le façonnage, l’allumage du four ou l’enfournement et le défournement, elle vous le dit avant de planifier – aussi pour chaque pain de la journée de cuisson."
-          }
-        }
-      }
-    },
-    "Kalender beim Planen prüfen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check calendar when planning"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifier l’agenda en planifiant"
-          }
-        }
-      }
-    },
-    "Kalender: Der Zugriff ist nicht erlaubt. Erlaube ihn in den iOS-Einstellungen unter BakePlanner, dann prüft die App Deine Termine." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar: access is not allowed. Allow it in the iOS Settings under BakePlanner, and the app will check your appointments."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agenda : l’accès n’est pas autorisé. Autorisez-le dans les Réglages iOS sous BakePlanner, et l’app vérifiera vos rendez-vous."
-          }
-        }
-      }
-    },
-    "Kalender: „%1$@“ (%2$@) fällt in „%3$@“ um %4$@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar: “%1$@” (%2$@) falls on “%3$@” at %4$@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agenda : « %1$@ » (%2$@) tombe sur « %3$@ » à %4$@."
-          }
-        }
-      }
-    },
-    "Kalenderzugriff nicht erlaubt" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar access not allowed"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accès à l’agenda non autorisé"
-          }
-        }
-      }
-    },
-    "Kalender: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Calendar: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agenda : %@"
-          }
-        }
-      }
-    },
-    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %1$@, mit Umluft auf %2$@. Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "For a recipe at 250 °C, set this oven to %1$@, with convection to %2$@. Whether the fan runs you choose for every bake in the planning sheet."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pour une recette à 250 °C, réglez ce four sur %1$@, en chaleur tournante sur %2$@. Vous choisissez à chaque cuisson, dans la feuille de planification, si la chaleur tournante est active."
           }
         }
       }
