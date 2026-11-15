@@ -14,35 +14,39 @@ struct OvenProfilesTests {
                                     name: "Miele", preheatMinutes: 20, stonePreheatMinutes: 60, runsHotBy: 10)
     private let fan = OvenProfile(id: UUID(uuidString: "22222222-2222-2222-2222-222222222222")!,
                                   name: "Umluft", preheatMinutes: 10, stonePreheatMinutes: 40,
-                                  runsHotBy: 0, convection: true, fanReduction: 20)
+                                  runsHotBy: 0, fanReduction: 20)
 
     @Test("The dial is set lower by the deviation and the fan reduction")
     func dialTemperature() {
-        #expect(miele.correction == 10)
-        #expect(miele.dialTemperature(for: 250) == 240)
-        #expect(fan.dialTemperature(for: 250) == 230)
-        let both = OvenProfile(name: "Beides", runsHotBy: -10, convection: true, fanReduction: 20)
-        #expect(both.dialTemperature(for: 250) == 240)
+        #expect(miele.correction(convection: false) == 10)
+        #expect(miele.dialTemperature(for: 250, convection: false) == 240)
+        #expect(miele.dialTemperature(for: 250, convection: true) == 220)
+        #expect(fan.dialTemperature(for: 250, convection: true) == 230)
+        #expect(fan.dialTemperature(for: 250, convection: false) == 250)
+        let both = OvenProfile(name: "Beides", runsHotBy: -10, fanReduction: 20)
+        #expect(both.dialTemperature(for: 250, convection: true) == 240)
         let exact = OvenProfile(name: "Genau")
-        #expect(!exact.hasCorrection)
-        #expect(exact.dialTemperature(for: 250) == 250)
-        #expect(OvenProfile(name: "Heiß", runsHotBy: 30).dialTemperature(for: 60) == 50)
+        #expect(!exact.hasCorrection(convection: false))
+        #expect(exact.hasCorrection(convection: true))
+        #expect(exact.dialTemperature(for: 250, convection: false) == 250)
+        #expect(OvenProfile(name: "Heiß", runsHotBy: 30).dialTemperature(for: 60, convection: false) == 50)
     }
 
     @Test("The dial note speaks the plan's language and stays away when the dial matches")
     func dialNote() {
-        #expect(miele.dialNote(for: 250, languageCode: "de") == "am Regler 240 °C")
-        #expect(miele.dialNote(for: 250, languageCode: "en_GB") == "dial at 240 °C")
-        #expect(fan.dialNote(for: 230, languageCode: "fr") == "thermostat sur 210 °C")
-        #expect(OvenProfile(name: "Genau").dialNote(for: 250, languageCode: "de") == nil)
+        #expect(miele.dialNote(for: 250, languageCode: "de", convection: false) == "am Regler 240 °C")
+        #expect(miele.dialNote(for: 250, languageCode: "en_GB", convection: false) == "dial at 240 °C")
+        #expect(fan.dialNote(for: 230, languageCode: "fr", convection: true) == "thermostat sur 210 °C")
+        #expect(OvenProfile(name: "Genau").dialNote(for: 250, languageCode: "de", convection: false) == nil)
     }
 
     @Test("The bake mode's note reads the step's temperature and skips a step that carries it already")
     func dialNoteForInstruction() {
-        #expect(miele.dialNote(forInstruction: "Brot bei 250 °C einschießen", languageCode: "de") == "am Regler 240 °C")
-        #expect(miele.dialNote(forInstruction: "Backofen anstellen (250 °C, am Regler 240 °C)", languageCode: "de") == nil)
-        #expect(miele.dialNote(forInstruction: "Teig bei 28 °C gehen lassen", languageCode: "de") == nil)
-        #expect(miele.dialNote(forInstruction: "Bake at 450 °F", languageCode: "en") == nil)
+        #expect(miele.dialNote(forInstruction: "Brot bei 250 °C einschießen", languageCode: "de", convection: false) == "am Regler 240 °C")
+        #expect(miele.dialNote(forInstruction: "Brot bei 250 °C einschießen", languageCode: "de", convection: true) == "am Regler 220 °C")
+        #expect(miele.dialNote(forInstruction: "Backofen anstellen (250 °C, am Regler 240 °C)", languageCode: "de", convection: false) == nil)
+        #expect(miele.dialNote(forInstruction: "Teig bei 28 °C gehen lassen", languageCode: "de", convection: false) == nil)
+        #expect(miele.dialNote(forInstruction: "Bake at 450 °F", languageCode: "en", convection: false) == nil)
     }
 
     @Test("Profiles survive the round trip through the settings string")
@@ -85,5 +89,10 @@ struct OvenProfilesTests {
                              languageCode: "en", preheatTime: 15, stonePreheatTime: 45,
                              ovenProfile: OvenProfile(name: "Genau"))
         #expect(exact.generatedOvenStep?.instruction == "Turn on the oven (250 °C)")
+
+        // The fan is a choice of the bake: the same oven, 20 °C lower.
+        let fanned = plan.using(miele, convection: true)
+        #expect(fanned.generatedOvenStep?.instruction == "Backofen anstellen (250 °C, am Regler 220 °C)")
+        #expect(fanned.usesConvection && !plan.usesConvection)
     }
 }

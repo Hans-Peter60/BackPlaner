@@ -23793,38 +23793,6 @@
         }
       }
     },
-    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "For a recipe at 250 °C, set this oven to %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pour une recette à 250 °C, réglez ce four sur %@."
-          }
-        }
-      }
-    },
-    "Dieser Ofen hält, was der Regler sagt." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This oven bakes at what its dial says."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce four cuit à la température affichée."
-          }
-        }
-      }
-    },
     "stimmt mit dem Regler überein" : {
       "localizations" : {
         "en" : {
@@ -24797,6 +24765,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Agenda : %@"
+          }
+        }
+      }
+    },
+    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %1$@, mit Umluft auf %2$@. Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For a recipe at 250 °C, set this oven to %1$@, with convection to %2$@. Whether the fan runs you choose for every bake in the planning sheet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour une recette à 250 °C, réglez ce four sur %1$@, en chaleur tournante sur %2$@. Vous choisissez à chaque cuisson, dans la feuille de planification, si la chaleur tournante est active."
           }
         }
       }

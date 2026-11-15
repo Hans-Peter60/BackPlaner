@@ -43,8 +43,8 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
             for step in steps {
                 try database.exec(sql: """
                     INSERT INTO scheduled_step (step_id, plan_id, recipe_name, instruction, step, start_time, duration,
-                        date, is_automatic_recurrence, serving_scale, oven_profile_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        date, is_automatic_recurrence, serving_scale, oven_profile_id, uses_convection)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, parameters: [
                         step.id.map { SQLValue.text($0.uuidString) } ?? SQLValue.null,
                         step.planID.map { SQLValue.text($0.uuidString) } ?? SQLValue.null,
@@ -59,6 +59,7 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
                         .long(step.isAutomaticRecurrence ? 1 : 0),
                         .real(step.servingScale),
                         step.ovenProfileID.map { SQLValue.text($0.uuidString) } ?? SQLValue.null,
+                        .long(step.usesConvection ? 1 : 0),
                     ])
             }
         }
@@ -93,7 +94,7 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
         let filter = condition.map { " WHERE \($0)" } ?? ""
         let rows = (try? database.selectAll(sql: """
             SELECT id, step_id, plan_id, recipe_name, instruction, step, start_time, duration, date,
-                is_automatic_recurrence, serving_scale, oven_profile_id
+                is_automatic_recurrence, serving_scale, oven_profile_id, uses_convection
             FROM scheduled_step\(filter) ORDER BY date, step, id
             """, parameters: parameters)) ?? []
         return rows.map { row in
@@ -109,7 +110,8 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
                                         date: Date(timeIntervalSinceReferenceDate: row[8].realValue ?? 0),
                                         isAutomaticRecurrence: (row[9].longValue ?? 0) != 0,
                                         servingScale: row[10].realValue ?? 0,
-                                        ovenProfileID: row[11].textValue.flatMap(UUID.init(uuidString:))))
+                                        ovenProfileID: row[11].textValue.flatMap(UUID.init(uuidString:)),
+                                        usesConvection: (row[12].longValue ?? 0) != 0))
         }
     }
 

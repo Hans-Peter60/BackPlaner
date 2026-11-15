@@ -83,6 +83,9 @@ public struct BakePlan {
     /// default to, and the oven steps name the dial setting when the oven
     /// runs hot or cold or bakes with the fan.
     public var ovenProfile: OvenProfile? = OvenProfiles.selected
+    /// Whether this bake runs with the fan on: the dial then goes down by
+    /// the oven's convection reduction as well. Chosen per bake.
+    public var usesConvection: Bool = false
 
     // MARK: Derived steps
 
@@ -313,7 +316,7 @@ public struct BakePlan {
         return BakePlan(recipeName: recipeName, steps: newSteps, prepTime: total, anchor: anchor,
                         date: date, languageCode: languageCode, preheatTime: preheatTime,
                         stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding,
-                        ovenProfile: ovenProfile)
+                        ovenProfile: ovenProfile, usesConvection: usesConvection)
     }
 
     /// Every step the plan writes, generated ones included.
@@ -358,11 +361,13 @@ public struct BakePlan {
                           temperatureChanges: BakePlanValidator.temperatureChanges(after: start, from: ovenTemperatureCelsius, steps: later))
     }
 
-    /// The same plan baked in another oven: its preheating times and its
-    /// dial notes; nil keeps the plain settings and no notes.
-    public func using(_ profile: OvenProfile?) -> BakePlan {
+    /// The same plan baked in another oven, with or without the fan: its
+    /// preheating times and its dial notes; nil keeps the plain settings
+    /// and no notes.
+    public func using(_ profile: OvenProfile?, convection: Bool = false) -> BakePlan {
         var plan = self
         plan.ovenProfile = profile
+        plan.usesConvection = convection
         if let profile {
             plan.preheatTime = profile.preheatMinutes
             plan.stonePreheatTime = profile.stonePreheatMinutes
@@ -375,7 +380,7 @@ public struct BakePlan {
         BakePlan(recipeName: recipeName, steps: steps, prepTime: prepTime, anchor: anchor,
                  date: newDate, languageCode: languageCode, preheatTime: preheatTime,
                  stonePreheatTime: stonePreheatTime, calendar: calendar, isStarterFeeding: isStarterFeeding,
-                 ovenProfile: ovenProfile)
+                 ovenProfile: ovenProfile, usesConvection: usesConvection)
     }
 
     public func issues(existingWindows: [BakeWindow]) -> [BakePlanIssue] {
@@ -420,7 +425,7 @@ public struct BakePlan {
     /// profile, a temperature or a correction.
     private func dialNote(for celsius: Int?) -> String? {
         guard let celsius, let ovenProfile else { return nil }
-        return ovenProfile.dialNote(for: celsius, languageCode: languageCode)
+        return ovenProfile.dialNote(for: celsius, languageCode: languageCode, convection: usesConvection)
     }
 
     /// The first oven temperature a step states: "250 °C", "250°", "250 Grad",
@@ -641,7 +646,7 @@ public struct BakePlan {
         }
     }
 
-    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, stonePreheatTime: Int = GlobalVariables.stonePreheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false, ovenProfile: OvenProfile? = OvenProfiles.selected) {
+    public init(recipeName: String, steps: [PlanStep], prepTime: Int, anchor: PlanAnchor, date: Date, languageCode: String, preheatTime: Int = GlobalVariables.preheatTime, stonePreheatTime: Int = GlobalVariables.stonePreheatTime, calendar: Calendar = .current, isStarterFeeding: Bool = false, ovenProfile: OvenProfile? = OvenProfiles.selected, usesConvection: Bool = false) {
         self.recipeName = recipeName
         self.steps = steps
         self.prepTime = prepTime
@@ -653,5 +658,6 @@ public struct BakePlan {
         self.calendar = calendar
         self.isStarterFeeding = isStarterFeeding
         self.ovenProfile = ovenProfile
+        self.usesConvection = usesConvection
     }
 }

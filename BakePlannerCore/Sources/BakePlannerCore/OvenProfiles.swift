@@ -4,7 +4,8 @@
 //
 //  The ovens one bakes in, each with what the plan needs to know about it:
 //  how long it takes to heat up, with and without a stone, whether it runs
-//  hotter or colder than its dial says, and the convection reduction. A
+//  hotter or colder than its dial says, and how much it is turned down
+//  for the fan; whether the fan runs is decided per bake. A
 //  BakePlanner Pro feature; without a profile the plan uses the plain
 //  settings as before.
 //
@@ -22,10 +23,8 @@ public struct OvenProfile: Codable, Identifiable, Equatable, Hashable, Sendable 
     /// Degrees Celsius the oven runs hotter than its dial says; negative
     /// when it runs colder. The dial is set lower by this amount.
     public var runsHotBy: Int
-    /// True when the oven bakes with the fan on, so the dial is set lower
-    /// than a recipe's top-and-bottom-heat temperature.
-    public var convection: Bool
-    /// Degrees Celsius taken off for the fan when `convection` is on.
+    /// Degrees Celsius taken off the dial when a bake runs with the fan
+    /// on, below a recipe's top-and-bottom-heat temperature.
     public var fanReduction: Int
 
     public static let defaultFanReduction = 20
@@ -35,44 +34,44 @@ public struct OvenProfile: Codable, Identifiable, Equatable, Hashable, Sendable 
     public init(id: UUID = UUID(), name: String,
                 preheatMinutes: Int = AppSettings.defaultPreheatTime,
                 stonePreheatMinutes: Int = AppSettings.defaultStonePreheatTime,
-                runsHotBy: Int = 0, convection: Bool = false,
+                runsHotBy: Int = 0,
                 fanReduction: Int = OvenProfile.defaultFanReduction) {
         self.id = id
         self.name = name
         self.preheatMinutes = preheatMinutes
         self.stonePreheatMinutes = stonePreheatMinutes
         self.runsHotBy = runsHotBy
-        self.convection = convection
         self.fanReduction = fanReduction
     }
 
-    /// Degrees Celsius the dial is set below a recipe's temperature.
-    public var correction: Int {
+    /// Degrees Celsius the dial is set below a recipe's temperature for a
+    /// bake with (`convection`) or without the fan.
+    public func correction(convection: Bool) -> Int {
         runsHotBy + (convection ? fanReduction : 0)
     }
 
     /// Whether the dial differs from the recipe at all.
-    public var hasCorrection: Bool { correction != 0 }
+    public func hasCorrection(convection: Bool) -> Bool { correction(convection: convection) != 0 }
 
     /// What to set the dial to for a recipe temperature, never below 50 °C.
-    public func dialTemperature(for celsius: Int) -> Int {
-        max(50, celsius - correction)
+    public func dialTemperature(for celsius: Int, convection: Bool) -> Int {
+        max(50, celsius - correction(convection: convection))
     }
 
     /// "am Regler 240 °C" for a recipe temperature, in the plan's language;
     /// nil when the dial matches the recipe.
-    public func dialNote(for celsius: Int, languageCode: String) -> String? {
-        guard hasCorrection else { return nil }
+    public func dialNote(for celsius: Int, languageCode: String, convection: Bool) -> String? {
+        guard hasCorrection(convection: convection) else { return nil }
         let format = AppSettings.generatedStepTexts(languageCode: languageCode).dial
-        return String(format: format, OvenSettings.text(dialTemperature(for: celsius)))
+        return String(format: format, OvenSettings.text(dialTemperature(for: celsius, convection: convection)))
     }
 
     /// The dial note for a step's wording, for the bake mode: nil when the
     /// step names no Celsius oven temperature, when the dial matches, or
     /// when the text carries the note already (a generated oven step).
-    public func dialNote(forInstruction instruction: String, languageCode: String) -> String? {
+    public func dialNote(forInstruction instruction: String, languageCode: String, convection: Bool) -> String? {
         guard let celsius = BakePlan.ovenTemperatureCelsius(in: instruction),
-              let note = dialNote(for: celsius, languageCode: languageCode),
+              let note = dialNote(for: celsius, languageCode: languageCode, convection: convection),
               !instruction.contains(note) else { return nil }
         return note
     }

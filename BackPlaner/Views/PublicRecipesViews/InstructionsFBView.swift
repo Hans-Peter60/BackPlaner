@@ -29,6 +29,8 @@ struct InstructionsFBView: View {
     /// The oven this plan is made for, the settings' oven to begin with;
     /// empty without profiles.
     @State private var ovenProfileID = OvenProfiles.selected?.id.uuidString ?? ""
+    /// Whether this bake runs with the fan on.
+    @State private var usesConvection = false
     /// Appointments that fall on the plan's hands-on moments, read from
     /// the calendar when the setting is on; hints beside the plan's own.
     @State private var calendarIssues: [BakePlanIssue] = []
@@ -154,7 +156,8 @@ struct InstructionsFBView: View {
                         onDateTapped: showNotificationMessage,
                         onDateChanged: setGlobalDateTime,
                         ovenProfiles: ovenProfiles,
-                        ovenProfileID: $ovenProfileID
+                        ovenProfileID: $ovenProfileID,
+                        usesConvection: $usesConvection
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .cardStyle()
@@ -163,6 +166,9 @@ struct InstructionsFBView: View {
                         refreshPlanIssues()
                     }
                     .onChange(of: ovenProfileID) { _, _ in
+                        refreshPlanIssues()
+                    }
+                    .onChange(of: usesConvection) { _, _ in
                         refreshPlanIssues()
                     }
 
@@ -430,7 +436,7 @@ struct InstructionsFBView: View {
                  date: dateTime,
                  languageCode: languageCode.isEmpty ? locale.identifier : languageCode,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipeFB))
-        .using(chosenOven)
+        .using(chosenOven, convection: usesConvection)
     }
 
     // MARK: Proof today

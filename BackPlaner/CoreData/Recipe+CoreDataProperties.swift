@@ -44,6 +44,9 @@ extension Recipe {
     /// The oven profile this recipe was last planned for, offered again
     /// the next time; nil until an oven was chosen.
     @NSManaged public var ovenProfileID:  UUID?
+    /// Whether this recipe was last planned with the fan on, offered again
+    /// the next time.
+    @NSManaged public var usesConvection: Bool
     @NSManaged public var components:     NSSet
     @NSManaged public var bakeHistories:  NSSet
     @NSManaged public var instructions:   NSSet

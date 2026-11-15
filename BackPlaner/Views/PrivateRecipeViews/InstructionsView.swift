@@ -29,6 +29,8 @@ struct InstructionsView: View {
     /// The oven this plan is made for: the recipe's last choice, else the
     /// settings' oven; empty without profiles.
     @State private var ovenProfileID = ""
+    /// Whether this bake runs with the fan on: the recipe's last choice.
+    @State private var usesConvection = false
     /// Appointments that fall on the plan's hands-on moments, read from
     /// the calendar when the setting is on; hints beside the plan's own.
     @State private var calendarIssues: [BakePlanIssue] = []
@@ -161,7 +163,8 @@ struct InstructionsView: View {
                     onDateTapped: showNotificationMessage,
                     onDateChanged: setGlobalDateTime,
                     ovenProfiles: ovenProfiles,
-                    ovenProfileID: $ovenProfileID
+                    ovenProfileID: $ovenProfileID,
+                    usesConvection: $usesConvection
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .cardStyle()
@@ -171,9 +174,13 @@ struct InstructionsView: View {
                 .onChange(of: ovenProfileID) { _, _ in
                     refreshPlanIssues()
                 }
+                .onChange(of: usesConvection) { _, _ in
+                    refreshPlanIssues()
+                }
                 .onAppear {
                     if ovenProfileID.isEmpty {
                         ovenProfileID = (OvenProfiles.stored(id: recipe.ovenProfileID) ?? OvenProfiles.selected)?.id.uuidString ?? ""
+                        usesConvection = recipe.usesConvection
                     }
                 }
 
@@ -437,7 +444,7 @@ struct InstructionsView: View {
                  date: dateTime,
                  languageCode: locale.identifier,
                  isStarterFeeding: StarterRecipe.isStarterFeeding(recipe))
-        .using(chosenOven)
+        .using(chosenOven, convection: usesConvection)
     }
 
     /// The recipe's steps as this plan uses them: with the proof adjusted
@@ -682,9 +689,13 @@ struct InstructionsView: View {
 
         showingNotificationMessage = true
 
-        // The oven chosen is offered again the next time this recipe is planned.
+        // The oven and the fan chosen are offered again the next time this
+        // recipe is planned.
         if let chosenOven, recipe.ovenProfileID != chosenOven.id {
             recipe.ovenProfileID = chosenOven.id
+        }
+        if recipe.usesConvection != usesConvection {
+            recipe.usesConvection = usesConvection
         }
 
         // A step that mixes a component carries that component's

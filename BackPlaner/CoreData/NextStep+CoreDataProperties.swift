@@ -41,6 +41,9 @@ extension NextStep {
     /// The oven profile the plan was made for; `nil` without profiles or on
     /// steps planned before ovens were recorded.
     @NSManaged public var ovenProfileID: UUID?
+    /// Whether the plan bakes with the fan on; `false` on steps planned
+    /// before it was recorded.
+    @NSManaged public var usesConvection: Bool
 
     /// The stored scale, or 1 for a step from before it was recorded.
     var effectiveServingScale: Double {
