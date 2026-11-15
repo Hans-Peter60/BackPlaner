@@ -10,6 +10,9 @@ struct BakingDayPlannerView: View {
     let model: AppModel
     @State var finishBy = BakingDayPlannerView.defaultFinish()
     @State var ovenCount = AppSettings.storedOvenCount
+    /// The oven profile and the fan of each placed bread (by placement id).
+    @State var ovenChoices: [String: String] = [:]
+    @State var convectionChoices: [String: Bool] = [:]
     /// The chosen recipes, by their store key.
     @State var selection: Set<String> = []
     @State var searchText = ""
@@ -200,6 +203,14 @@ struct BakingDayPlannerView: View {
                 Text("Ofen \(PlanText.time(window.start)) bis \(PlanText.time(window.end))")
                     .font(AppFont.subheadline)
                     .foregroundStyle(.secondary)
+                // Which oven and whether with the fan, once there are profiles.
+                OvenChoiceRow(profiles: OvenProfileFile.profiles,
+                              ovenProfileID: Binding(
+                                  get: { ovenChoices[placement.id] ?? "" },
+                                  set: { ovenChoices[placement.id] = $0 }),
+                              usesConvection: Binding(
+                                  get: { convectionChoices[placement.id] ?? false },
+                                  set: { convectionChoices[placement.id] = $0 }))
             }
             if placement.hasNightSteps {
                 Text("Schritte in der Nacht")
@@ -237,12 +248,27 @@ struct BakingDayPlannerView: View {
         let (dayStart, dayEnd) = BakePlanValidator.dayWindow()
         alreadyPlanned = names.filter { model.hasPlan(recipeName: $0) }
         shortfalls = model.pantryShortfalls(for: chosen, excludingPlansOf: names)
-        schedule = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: now,
-                                               ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
-                                               dayStart: dayStart, dayEnd: dayEnd,
-                                               existingWindows: model.scheduledBakeWindows(excludingRecipes: names, now: now),
-                                               existingWork: model.scheduledWork(excludingRecipes: names, now: now),
-                                               languageCode: AppSettings.locale.identifier)
+        let result = BakingDayOptimizer.schedule(candidates, finishBy: finishBy, now: now,
+                                                 ovenCount: ovenCount, bakePause: AppSettings.storedBakePause,
+                                                 dayStart: dayStart, dayEnd: dayEnd,
+                                                 existingWindows: model.scheduledBakeWindows(excludingRecipes: names, now: now),
+                                                 existingWork: model.scheduledWork(excludingRecipes: names, now: now),
+                                                 languageCode: AppSettings.locale.identifier)
+        schedule = result
+        // Each bread gets the profile of the oven the optimizer put it in.
+        let profiles = OvenProfileFile.profiles
+        ovenChoices = [:]
+        convectionChoices = [:]
+        if !profiles.isEmpty {
+            for (id, index) in result.ovenAssignment(ovenCount: ovenCount, bakePause: AppSettings.storedBakePause) {
+                ovenChoices[id] = profiles[min(index, profiles.count - 1)].id.uuidString
+            }
+        }
+    }
+
+    /// The oven profile a bread is planned in, nil without profiles.
+    private func chosenOven(for placement: BakingDayPlacement) -> OvenProfile? {
+        OvenProfiles.selected(from: OvenProfileFile.profiles, selectedID: ovenChoices[placement.id])
     }
 
     /// Every placement becomes a plan: the recipe's earlier plan goes, the
@@ -256,7 +282,8 @@ struct BakingDayPlannerView: View {
                 guard let recipe = recipes.first(where: { $0.id == placement.id }) else { continue }
                 let scale = ServingScale.factor(servingSize: AppSettings.storedServingSize, targetWeight: nil,
                                                 baseWeight: recipe.content.totalWeight)
-                let outcome = await model.putIntoEffect(placement.plan, recipeID: recipe.id, servingScale: scale,
+                let plan = placement.plan.using(chosenOven(for: placement), convection: convectionChoices[placement.id] ?? false)
+                let outcome = await model.putIntoEffect(plan, recipeID: recipe.id, servingScale: scale,
                                                         replacing: model.hasPlan(recipeName: recipe.content.name))
                 if outcome != .failed {
                     count += 1

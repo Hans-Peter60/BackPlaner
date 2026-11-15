@@ -1337,7 +1337,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Steps into the calendar, shopping list to Reminders | [chapter 10](#10-scheduled-steps-list-and-timeline), [13](#13-shopping-list) | Missing |
 | Live Activity, widgets, Control Center, Siri, Spotlight, Apple Watch | [chapter 10](#10-scheduled-steps-list-and-timeline), [11](#11-reminders-on-the-lock-screen) | Not planned |
 | Settings "Publish new recipes", "Use detail view", "Translate public recipes automatically", "Live Activity", "Alarms" | [chapter 14](#14-settings) | Missing. New recipes start private and go into the database via **Publish** on the recipe page |
-| Oven profiles (Settings → Ovens) | [chapter 14](#14-settings) | Missing; preheat time, preheat time with baking stone and ovens apply |
+| Oven profiles (Settings → Ovens) | [chapter 14](#14-settings) | Available: section **Ovens** with "Planning with", the oven editor and "Add oven"; in the planning sheet and on the baking day the "Oven" choice and the "Convection" switch, in bake mode the "Dial at …" line. The recipe does not remember the oven; the settings' oven is always preset |
 | Hands-free bake mode (microphone in bake mode) | [chapter 7](#7-baking-instructions-and-reminders) | Missing; Read aloud is available |
 | Starter diagram (diary → Diagram) | [chapter 9](#9-editing-a-recipe) | Missing; the ripening estimate in the diary is available |
 | Check calendar when planning | [chapter 14](#14-settings) | Missing |

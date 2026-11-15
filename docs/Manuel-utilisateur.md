@@ -1337,7 +1337,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Étapes dans le calendrier, liste de courses vers Rappels | [chapitre 10](#10-étapes-planifiées-liste-et-timeline), [13](#13-liste-de-courses) | Manque |
 | Activité en direct, widgets, centre de contrôle, Siri, Spotlight, Apple Watch | [chapitre 10](#10-étapes-planifiées-liste-et-timeline), [11](#11-rappels-sur-lécran-verrouillé) | Non prévu |
 | Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », « Traduire automatiquement les recettes publiques », « Activité en direct », « Alarmes » | [chapitre 14](#14-réglages) | Manquent. Les nouvelles recettes sont d’abord privées et vont dans la base via **Publier** sur la page de la recette |
-| Profils de four (Réglages → Fours) | [chapitre 14](#14-réglages) | Manquent ; le temps de préchauffage, celui avec pierre et le nombre de fours s’appliquent |
+| Profils de four (Réglages → Fours) | [chapitre 14](#14-réglages) | Disponibles : section **Fours** avec « Planification avec », l’éditeur de four et « Ajouter un four » ; dans la feuille de planification et pour la journée de cuisson le choix « Four » et l’interrupteur « Chaleur tournante », en mode cuisson la ligne « Thermostat sur … ». La recette ne mémorise pas le four ; celui des réglages est toujours prérempli |
 | Mode cuisson mains libres (micro dans le mode cuisson) | [chapitre 7](#7-instructions-de-cuisson-et-rappels) | Manque ; la lecture à voix haute est disponible |
 | Diagramme du levain (journal → Diagramme) | [chapitre 9](#9-modifier-une-recette) | Manque ; l’estimation de maturation du journal est disponible |
 | Vérifier l’agenda en planifiant | [chapitre 14](#14-réglages) | Manque |

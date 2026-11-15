@@ -118,22 +118,30 @@ struct SettingsView: View {
                 Text("Rezepte")
             }
 
+            // The ovens one bakes in; with profiles the preheating times and
+            // the number of ovens come from them, so those rows go below.
+            OvenProfilesSection()
+
             Section {
-                Stepper(value: $preheatTime, in: 0...120, step: 5) {
-                    valueRow("Vorheizzeit", value: "\(preheatTime) min")
-                }
-                // A baking stone or steel takes far longer to heat through;
-                // this time replaces the usual one when a step names one.
-                Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
-                    valueRow("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
+                if OvenProfileFile.profiles.isEmpty {
+                    Stepper(value: $preheatTime, in: 0...120, step: 5) {
+                        valueRow("Vorheizzeit", value: "\(preheatTime) min")
+                    }
+                    // A baking stone or steel takes far longer to heat through;
+                    // this time replaces the usual one when a step names one.
+                    Stepper(value: $stonePreheatTime, in: 0...180, step: 5) {
+                        valueRow("Vorheizzeit mit Backstein", value: "\(stonePreheatTime) min")
+                    }
                 }
                 Stepper(value: $bakePause, in: 0...120, step: 5) {
                     valueRow("Backpause", value: "\(bakePause) min")
                 }
                 // With more than one oven the plan check lets as many bakes
                 // run side by side.
-                Stepper(value: $ovenCount, in: 1...AppSettings.maximumOvenCount) {
-                    valueRow("Backöfen", value: String(ovenCount))
+                if OvenProfileFile.profiles.isEmpty {
+                    Stepper(value: $ovenCount, in: 1...AppSettings.maximumOvenCount) {
+                        valueRow("Backöfen", value: String(ovenCount))
+                    }
                 }
                 Stepper(value: $dayStart, in: 0...23) {
                     valueRow("Tagesbeginn", value: Self.hourText(dayStart))
