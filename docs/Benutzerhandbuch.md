@@ -1,6 +1,6 @@
 # BakePlanner – Benutzerhandbuch
 
-Stand: 07.11.2026 · App-Version 2.3
+Stand: 15.11.2026 · App-Version 2.4
 
 ---
 
@@ -910,7 +910,7 @@ Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu 
 
 **Tab Rezepte → Mehr (⋯) → Einstellungen.** Die Einstellungen gelten auf allen Deinen Geräten: Sie wandern über iCloud mit, zusammen mit den gesicherten Sammlungen und den eigenen Einheiten. Nur die Sprache, die Einwilligung zur Cloud-Analyse und die Listenfilter bleiben je Gerät.
 
-![Einstellungen von BakePlanner: Allgemein mit Sprache und dem Schalter „Neue Rezepte veröffentlichen“, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter beginnt Backplanung](images/einstellungen.png)
+![Einstellungen von BakePlanner: Allgemein mit Sprache und dem Schalter „Neue Rezepte veröffentlichen“, Rezepte mit Standard-Portionsgröße, Detailansicht, Bäckerprozenten, Anstellgut TA 200, Lievito Madre TA 150 und Eigene Einheiten, Übersetzung mit automatischer Übersetzung öffentlicher Rezepte; darunter folgen Backöfen und Backplanung](images/einstellungen.png)
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 

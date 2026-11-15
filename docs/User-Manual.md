@@ -1,6 +1,6 @@
 # BakePlanner – User Manual
 
-Revised: 7 November 2026 · App version 2.3
+Revised: 15 November 2026 · App version 2.4
 
 > Translated from the German original, `Benutzerhandbuch.md`. Where the two
 > differ, the German version is authoritative.
@@ -913,7 +913,7 @@ Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs
 
 **Recipes tab → More (⋯) → Settings.** The settings apply on all your devices: they travel through iCloud, together with the saved collections and the custom units. Only the language, the consent to the cloud analysis and the list filters stay per device.
 
-![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Baking schedule begins below](images/en/einstellungen.png)
+![BakePlanner's settings: General with language and the "Publish new recipes" switch, Recipes with default serving size, detail view, baker's percentages, sourdough starter TA 200, lievito madre TA 150, and custom units, Translation with automatically translating public recipes; Ovens and Baking schedule follow below](images/en/einstellungen.png)
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 
