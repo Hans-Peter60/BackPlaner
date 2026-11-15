@@ -12192,6 +12192,261 @@
           }
         }
       }
+    },
+    "Geplant wird mit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planning with"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planification avec"
+          }
+        }
+      }
+    },
+    "Ofen hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un four"
+          }
+        }
+      }
+    },
+    "Jeder Ofen bringt seine Vorheizzeiten mit und sagt, ob er heißer oder kälter läuft, als der Regler zeigt. Der Plan rechnet mit dem gewählten Ofen, die Ofenschritte nennen die Reglereinstellung. Ohne Ofenprofil gelten die Vorheizzeiten unten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven brings its preheating times and says whether it runs hotter or colder than its dial shows. The plan works with the chosen oven, and the oven steps name the dial setting. Without an oven profile the preheating times below apply."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four apporte ses temps de préchauffage et indique s’il chauffe plus ou moins que n’affiche le thermostat. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat. Sans profil de four, les temps de préchauffage ci-dessous s’appliquent."
+          }
+        }
+      }
+    },
+    "Stein %lld min" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stone %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pierre %lld min"
+          }
+        }
+      }
+    },
+    "läuft %lld °C heißer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C hot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de plus"
+          }
+        }
+      }
+    },
+    "läuft %lld °C kälter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs %lld °C cold"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chauffe %lld °C de moins"
+          }
+        }
+      }
+    },
+    "Umluft −%lld °C" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "convection −%lld °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "chaleur tournante −%lld °C"
+          }
+        }
+      }
+    },
+    "Ofen %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %lld"
+          }
+        }
+      }
+    },
+    "Vorheizen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preheating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préchauffage"
+          }
+        }
+      }
+    },
+    "Abweichung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deviation"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart"
+          }
+        }
+      }
+    },
+    "Umluft-Abschlag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection reduction"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réduction chaleur tournante"
+          }
+        }
+      }
+    },
+    "Ein Rezept mit 250 °C stellst Du an diesem Ofen auf %1$@, mit Umluft auf %2$@. Ob Umluft läuft, wählst Du bei jedem Backvorgang im Planungsblatt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For a recipe at 250 °C, set this oven to %1$@, with convection to %2$@. Whether the fan runs you choose for every bake in the planning sheet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour une recette à 250 °C, réglez ce four sur %1$@, en chaleur tournante sur %2$@. Vous choisissez à chaque cuisson, dans la feuille de planification, si la chaleur tournante est active."
+          }
+        }
+      }
+    },
+    "Ofen löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le four"
+          }
+        }
+      }
+    },
+    "stimmt mit dem Regler überein" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "matches the dial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "correspond au thermostat"
+          }
+        }
+      }
+    },
+    "Umluft" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaleur tournante"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

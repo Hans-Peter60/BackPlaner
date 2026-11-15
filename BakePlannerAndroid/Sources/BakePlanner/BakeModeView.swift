@@ -87,6 +87,16 @@ struct BakeModeView: View {
         }
     }
 
+    /// "Am Regler 240 °C · Miele", or nil.
+    static func dialNote(for step: ScheduledStepData) -> String? {
+        guard let oven = OvenProfiles.stored(id: step.ovenProfileID) ?? OvenProfiles.selected,
+              let note = oven.dialNote(forInstruction: step.instruction,
+                                       languageCode: AppSettings.locale.identifier,
+                                       convection: step.usesConvection) else { return nil }
+        let sentence = note.prefix(1).uppercased() + note.dropFirst()
+        return oven.name.isEmpty ? sentence : "\(sentence) · \(oven.name)"
+    }
+
     private func stepView(_ step: StoredScheduledStep, index: Int, count: Int) -> some View {
         let recipe = model.plannedRecipeContent(named: step.data.recipeName)
         let component = recipe.flatMap { BakeModeText.component(of: step.data, in: $0) }
@@ -110,6 +120,14 @@ struct BakeModeView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         Text(verbatim: step.data.instruction)
                             .font(AppFont.title2)
+                        // The plan's oven: its dial setting for a step that
+                        // names a temperature, when the oven runs hot or
+                        // cold or the bake uses the fan.
+                        if let dial = Self.dialNote(for: step.data) {
+                            Text(verbatim: dial)
+                                .font(AppFont.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
                         if let component, !component.ingredients.isEmpty {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("Zutaten für „\(component.name)“")

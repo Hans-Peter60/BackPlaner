@@ -16,6 +16,10 @@ struct PlanView: View {
     /// 0 "Starten ab", 1 "Fertig bis". Starting now, as on the iPhone.
     @State var anchorSelection = 0
     @State var date = Date()
+    /// The oven this bake is planned in (the settings' oven to begin
+    /// with) and whether it runs with the fan on.
+    @State var ovenProfileID = OvenProfiles.selected?.id.uuidString ?? ""
+    @State var usesConvection = false
     // Kept apart from the dialogs' visibility: Android closes a dialog
     // before it runs the chosen button.
     @State var showsOverlap = false
@@ -147,7 +151,9 @@ struct PlanView: View {
     }
 
     private var plan: BakePlan {
-        AppModel.plan(of: workingRecipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+        let oven = OvenProfiles.selected(from: OvenProfileFile.profiles, selectedID: ovenProfileID)
+        return AppModel.plan(of: workingRecipe, anchor: PlanAnchor(selection: anchorSelection), date: date)
+            .using(oven, convection: usesConvection)
     }
 
     /// Every field holds a duration (empty keeps the step's own).
@@ -188,6 +194,7 @@ struct PlanView: View {
                 }
                 .pickerStyle(.segmented)
                 DatePicker("Datum", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                OvenChoiceRow(profiles: OvenProfileFile.profiles, ovenProfileID: $ovenProfileID, usesConvection: $usesConvection)
                 if scale != 1 {
                     Text("Die Mengen entsprechen dem Faktor \(RecipeDetailView.factorText(scale)).")
                         .font(AppFont.caption)

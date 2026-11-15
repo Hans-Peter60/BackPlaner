@@ -1334,7 +1334,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Schritte in den Kalender, Einkaufsliste an Erinnerungen | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [13](#13-einkaufsliste) | Fehlt |
 | Live-Aktivität, Widgets, Kontrollzentrum, Siri, Spotlight, Apple Watch | [Kapitel 10](#10-geplante-schritte-liste-und-timeline), [11](#11-erinnerungen-auf-dem-sperrbildschirm) | Nicht vorgesehen |
 | Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, „Öffentliche Rezepte automatisch übersetzen“, „Live-Aktivität“, „Wecker“ | [Kapitel 14](#14-einstellungen) | Fehlen. Neue Rezepte sind zunächst privat und werden über **Veröffentlichen** auf der Rezeptseite in die Datenbank gestellt |
-| Ofenprofile (Einstellungen → Backöfen) | [Kapitel 14](#14-einstellungen) | Fehlen; es gelten Vorheizzeit, Vorheizzeit mit Backstein und Backöfen |
+| Ofenprofile (Einstellungen → Backöfen) | [Kapitel 14](#14-einstellungen) | Vorhanden: Abschnitt **Backöfen** mit „Geplant wird mit“, Ofen-Editor und „Ofen hinzufügen“; im Planungsblatt und beim Backtag die Auswahl „Ofen“ und der Schalter „Umluft“, im Backmodus die Zeile „Am Regler …“. Das Rezept merkt sich den Ofen nicht; vorbelegt ist immer der Ofen aus den Einstellungen |
 | Freihändiger Backmodus (Mikrofon im Backmodus) | [Kapitel 7](#7-backanleitung-und-erinnerungen) | Fehlt; Vorlesen ist vorhanden |
 | Anstellgut-Diagramm (Tagebuch → Diagramm) | [Kapitel 9](#9-rezept-bearbeiten) | Fehlt; die Reifezeit-Schätzung im Tagebuch ist vorhanden |
 | Kalender beim Planen prüfen | [Kapitel 14](#14-einstellungen) | Fehlt |
