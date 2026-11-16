@@ -310,6 +310,20 @@ struct SettingsView: View {
         .navigationDestination(item: $newOvenProfileID) { id in
             OvenProfileEditorView(id: id)
         }
+        // The purchase sheet and the restore alert hang on the Form, not on
+        // the Pro section: presented from a Section, the sheet came up
+        // late or not at all when its row was tapped.
+        .sheet(isPresented: $showPaywall) {
+            ProPaywallView()
+        }
+        .alert("Käufe wiederherstellen", isPresented: Binding(
+            get: { restoreMessage != nil },
+            set: { if !$0 { restoreMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { restoreMessage = nil }
+        } message: {
+            Text(restoreMessage ?? "")
+        }
         // Picks up an admins document created while the app was running (by
         // the console or scripts/grant-admin.mjs), so the account section
         // shows "Administrator" without a restart.
@@ -419,8 +433,8 @@ struct SettingsView: View {
                         showPaywall = true
                     } label: {
                         LabeledContent {
-                            if let product = ProStore.shared.product {
-                                Text(product.displayPrice)
+                            if let price = ProStore.shared.displayPrice {
+                                Text(price)
                             }
                         } label: {
                             Label("Pro freischalten", systemImage: "seal")
@@ -437,17 +451,6 @@ struct SettingsView: View {
                 Text("BakePlanner Pro")
             } footer: {
                 Text("Einmalkauf, kein Abo. Was dazugehört, zeigt die Kaufseite; der Kern der App bleibt frei.")
-            }
-            .sheet(isPresented: $showPaywall) {
-                ProPaywallView()
-            }
-            .alert("Käufe wiederherstellen", isPresented: Binding(
-                get: { restoreMessage != nil },
-                set: { if !$0 { restoreMessage = nil } }
-            )) {
-                Button("OK", role: .cancel) { restoreMessage = nil }
-            } message: {
-                Text(restoreMessage ?? "")
             }
         }
     }

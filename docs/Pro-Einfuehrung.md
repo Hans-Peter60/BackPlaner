@@ -25,7 +25,7 @@ Reihenfolge, wenn es so weit ist:
 
 1. Gewerbe anmelden (Kleinunternehmer reicht für den Anfang).
 2. App Store Connect → Vereinbarungen: Vertrag für bezahlte Apps annehmen, Steuer- und Bankdaten eintragen; Google Play braucht für Play Billing entsprechend ein Zahlungsprofil.
-3. In-App-Kauf `de.hpm64625.BackPlaner.pro` (Einmalkauf, nicht verbrauchbar) anlegen, Preis und Texte in de/en/fr, Prüf-Screenshot; mit der nächsten App-Version einreichen.
+3. In-App-Kauf `de.hpm64625.BackPlaner.pro` (Einmalkauf, nicht verbrauchbar) anlegen, Preis und Texte in de/en/fr, Prüf-Screenshot (liegt bereit: `docs/appstore/2.4/iphone-6.9/<sprache>/roh/90-pro-kaufseite.png`, die Kaufseite aus dem Screenshot-Lauf, siehe `AppStore-Screenshots.md`); mit der nächsten App-Version einreichen. Die Produktseite hat seit dem 16.11.2026 die Pro-Motive mit „PRO“-Marke (`docs/appstore/2.4/`), sie müssen in App Store Connect nur noch hochgeladen werden.
 4. Erst dann die Schritte unten.
 
 ## Einschalten (von Hand, Firebase Console)

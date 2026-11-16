@@ -24,6 +24,13 @@ import UIKit
 /// start at 20:00 lets the dough rest through the night. It works on the
 /// simulator's real store, independent of `-UITesting`.
 ///
+/// `-UITestingRestoreBackup <path>` reads a backup file in at launch, merging
+/// like "Sicherung wiedereinspielen" does. The App Store screenshots use it
+/// with the demo data of scripts/appstore-demo-data.py: a fresh simulator
+/// then has own breads with pictures, a year of baking history, a starter
+/// diary and a pantry — what the pictures of the Pro features need. The
+/// simulator shares the Mac's file system, so the path is a Mac path.
+///
 /// `-UITestingPlanFinish HH:mm` presets the controls to "fertig bis" instead,
 /// at the first HH:mm that is at least a day away, so that a recipe of up to
 /// a day's length starts in the future. The App Store screenshots use it:
@@ -62,6 +69,37 @@ enum UITestSupport {
         isActive && ProcessInfo.processInfo.arguments.contains("-UITestingSeedRecipe")
     }
 
+    /// `-UITestingOvenProfile <name>`: one oven profile of that name in the
+    /// settings, selected, so the plan sheet shows its "Ofen" row and the
+    /// oven steps carry the dial setting. A launch argument cannot carry
+    /// the profiles' JSON itself: the argument domain of UserDefaults
+    /// parses a value that starts with "[" as an old-style property list
+    /// and drops what does not parse.
+    static func applyDemoOvenProfile() {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-UITestingOvenProfile"),
+              index + 1 < arguments.count else { return }
+        let profile = OvenProfile(id: UUID(uuidString: "7D1E0B46-2B4C-4D3A-9E0F-5A6B7C8D9E01") ?? UUID(),
+                                  name: arguments[index + 1], preheatMinutes: 45, stonePreheatMinutes: 60,
+                                  runsHotBy: 10, fanReduction: 20)
+        UserDefaults.standard.set(OvenProfiles.encode([profile]), forKey: AppSettingsKeys.ovenProfiles)
+        UserDefaults.standard.set(profile.id.uuidString, forKey: AppSettingsKeys.selectedOvenProfile)
+        #endif
+    }
+
+    /// The backup file asked for with `-UITestingRestoreBackup`, or nil.
+    static var demoBackupURL: URL? {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "-UITestingRestoreBackup"),
+              index + 1 < arguments.count else { return nil }
+        return URL(fileURLWithPath: arguments[index + 1])
+        #else
+        return nil
+        #endif
+    }
+
     /// The date asked for with `-UITestingPlanStart`, or nil when the switch
     /// is absent or malformed.
     static func planStart(now: Date = Date(), calendar: Calendar = .current) -> Date? {
@@ -72,6 +110,15 @@ enum UITestSupport {
     /// is absent or malformed.
     static func planFinish(now: Date = Date(), calendar: Calendar = .current) -> Date? {
         clockTime(after: "-UITestingPlanFinish", atLeast: 24 * 60 * 60, now: now, calendar: calendar)
+    }
+
+    /// The finish the baking-day planner starts with under
+    /// `-UITestingPlanFinish`: the same clock time, but only 21 hours or
+    /// more away. The App Store screenshots plan three breads of 16 to 20
+    /// hours; a finish two days out (what `planFinish` gives after 15:00)
+    /// let the optimizer spread them across the night.
+    static func bakingDayFinish(now: Date = Date(), calendar: Calendar = .current) -> Date? {
+        clockTime(after: "-UITestingPlanFinish", atLeast: 21 * 60 * 60, now: now, calendar: calendar)
     }
 
     /// Whether the scheduling controls start on "fertig bis".
@@ -100,13 +147,16 @@ enum UITestSupport {
         var purchased: Bool
         /// Stands in for `AppTransaction.originalAppVersion` (a build number).
         var originalAppVersion: String?
+        /// The price the purchase sheet shows in place of the App Store's,
+        /// which a UI test cannot load (`price=9,99 €`).
+        var displayPrice: String?
     }
 
     /// `-UITestingMonetization <flags>`: fixes the Pro configuration for a
     /// test instead of reading `config/monetization`. The flags are a
     /// comma-separated list of `proRequired`, `storeVisible`, `purchased`,
-    /// `freeImports=<n>`, `grandfatherBefore=<build>` and
-    /// `originalBuild=<build>`; `-UITestingMonetization free` fixes the
+    /// `freeImports=<n>`, `grandfatherBefore=<build>`, `originalBuild=<build>`
+    /// and `price=<text>`; `-UITestingMonetization free` fixes the
     /// all-free configuration. The screenshots and the smoke tests use it so
     /// that a run never depends on what the console currently says.
     static var monetizationOverride: MonetizationOverride? {
@@ -120,9 +170,16 @@ enum UITestSupport {
         #endif
     }
 
-    /// Parses the flags of `-UITestingMonetization`; unknown flags are ignored.
+    /// Parses the flags of `-UITestingMonetization`; unknown flags are
+    /// ignored. `price=` has to come last: its value runs to the end of the
+    /// string, so a price with a decimal comma ("9,99 €") stays whole.
     static func monetizationOverride(from flags: String) -> MonetizationOverride {
         var override = MonetizationOverride(config: .free, purchased: false, originalAppVersion: nil)
+        var flags = flags
+        if let range = flags.range(of: "price=") {
+            override.displayPrice = String(flags[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            flags = String(flags[..<range.lowerBound])
+        }
         for flag in flags.split(separator: ",").map({ $0.trimmingCharacters(in: .whitespaces) }) {
             let parts = flag.split(separator: "=", maxSplits: 1).map(String.init)
             switch parts.first {

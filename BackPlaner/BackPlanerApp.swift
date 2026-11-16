@@ -58,6 +58,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     if UITestSupport.seedsRecipe {
       UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)
     }
+    if let backup = UITestSupport.demoBackupURL {
+      UITestSupport.applyDemoOvenProfile()
+      do {
+        try RecipeImport.restoreBackup(from: backup, into: PersistenceController.shared.container.viewContext)
+      } catch {
+        AppLog.data.error("The demo backup could not be read: \(error.localizedDescription)")
+      }
+    }
     if let planFinish = UITestSupport.planFinish() {
       GlobalVariables.dateTimePicker = planFinish
     } else if let planStart = UITestSupport.planStart() {
@@ -145,8 +153,10 @@ struct BackPlanerApp: App {
         GlobalVariables.customUnitSets = { CustomUnitStore.shared.unitSets }
         // Settings, saved collections and custom units follow the user
         // through iCloud's key-value store; not in a test run, which must
-        // not read another device's settings or write its own into iCloud.
-        if !UITestSupport.isUnitTestHost && !UITestSupport.isActive {
+        // not read another device's settings or write its own into iCloud,
+        // and not in a screenshot run on demo data, whose oven profile the
+        // developer's own would otherwise replace.
+        if !UITestSupport.isUnitTestHost && !UITestSupport.isActive && UITestSupport.demoBackupURL == nil {
             SettingsSync.shared.start()
         }
     }

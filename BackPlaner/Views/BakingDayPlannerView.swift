@@ -27,7 +27,9 @@ struct BakingDayPlannerView: View {
     /// What the chosen breads need beyond the available pantry.
     @State private var shortfalls: [PantryNeed] = []
 
-    @State private var finishBy: Date = BakingDayPlannerView.defaultFinish()
+    // The App Store screenshots preset the finish (-UITestingPlanFinish);
+    // the switch is nil in the shipped app.
+    @State private var finishBy: Date = UITestSupport.bakingDayFinish() ?? BakingDayPlannerView.defaultFinish()
     @State private var ovenCount = AppSettings.storedOvenCount
     /// The oven profile of each placed bread (by placement id), as the
     /// optimizer assigned them and as the baker changes them; empty
