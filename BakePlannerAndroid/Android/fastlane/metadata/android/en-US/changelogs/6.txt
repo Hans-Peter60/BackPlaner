@@ -1,0 +1,6 @@
+New in 2.4 (6):
+• Baking history from photos: date from the picture, recipe from the picture title
+• A bake can be moved to another recipe afterwards
+• Full backup and restore in Settings; a restore adds what is missing
+• Oven profiles in Settings, convection per bake
+• Pantry, baking-day planner, collections, baking statistics, baker's percentages
