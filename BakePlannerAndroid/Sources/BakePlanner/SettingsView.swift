@@ -37,6 +37,13 @@ struct SettingsView: View {
     /// from the alert's visibility: Android closes it before its button.
     @State var accountOutcome: AccountOutcome?
     @State var showsAccountOutcome = false
+    /// The full backup: every recipe with its history into one file, and
+    /// the file picker for reading one back.
+    @State var backupRecipeIDs: [String]?
+    @State var picksBackup = false
+    @State var pickedBackupURL: URL?
+    @State var pickedBackupName: String?
+    @State var pickedBackupType: String?
 
     enum AccountOutcome: Equatable {
         case signInFailed(String)
@@ -116,6 +123,24 @@ struct SettingsView: View {
                 }
             } header: {
                 Text("Rezepte")
+            }
+
+            Section {
+                Button {
+                    backupRecipeIDs = model.recipes.map(\.id)
+                } label: {
+                    Label("Vollständige Sicherung erstellen", systemImage: "square.and.arrow.down")
+                }
+                .disabled(model.recipes.isEmpty)
+                Button {
+                    picksBackup = true
+                } label: {
+                    Label("Sicherung wiedereinspielen", systemImage: "square.and.arrow.up")
+                }
+            } header: {
+                Text("Sicherung")
+            } footer: {
+                Text("Die Sicherung ist eine Datei mit allen eigenen Rezepten samt Bildern, der Backhistorie mit Fotos, dem Anstellgut-Tagebuch und dem Vorrat – zum Ablegen in Google Drive oder per Mail. Beim Wiedereinspielen kommen Rezepte und Vorratsposten dazu, die noch fehlen; Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte gehören nicht zur Datei.")
             }
 
             // The ovens one bakes in; with profiles the preheating times and
@@ -244,6 +269,32 @@ struct SettingsView: View {
         .onChange(of: servingSize) { _, value in store(value, AppSettingsKeys.defaultServingSize) }
         .onChange(of: starterDoughYield) { _, value in store(value, AppSettingsKeys.starterDoughYield) }
         .onChange(of: lievitoMadreDoughYield) { _, value in store(value, AppSettingsKeys.lievitoMadreDoughYield) }
+        .recipeFileExporter(model: model, recipeIDs: $backupRecipeIDs, fileName: AppModel.fullBackupFileName,
+                            includesBakeHistory: true)
+        .withDocumentPicker(isPresented: $picksBackup,
+                            allowedContentTypes: [.json],
+                            selectedDocumentURL: $pickedBackupURL,
+                            selectedFilename: $pickedBackupName,
+                            selectedFileMimeType: $pickedBackupType)
+        .onChange(of: pickedBackupURL) { _, url in
+            guard let url else { return }
+            pickedBackupURL = nil
+            model.restoreBackup(at: url)
+        }
+        .alert(backupImportTitle, isPresented: Binding(
+            get: { model.importOutcome != nil },
+            set: { if !$0 { model.importOutcome = nil } }
+        )) {
+            Button {
+                model.importOutcome = nil
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            if case .failed(let reason) = model.importOutcome {
+                Text(verbatim: reason)
+            }
+        }
         .onChange(of: preheatTime) { _, value in store(value, AppSettingsKeys.preheatTime) }
         .onChange(of: stonePreheatTime) { _, value in store(value, AppSettingsKeys.stonePreheatTime) }
         .onChange(of: bakePause) { _, value in store(value, AppSettingsKeys.bakePause) }
@@ -369,6 +420,20 @@ struct SettingsView: View {
             Spacer()
             Text(verbatim: value)
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    private var backupImportTitle: Text {
+        switch model.importOutcome {
+        case .imported(let count, let pantryItems, let bakeEntries):
+            if bakeEntries > 0 {
+                return Text("Rezepte importiert: \(count), Backvorgänge und Fütterungen ergänzt: \(bakeEntries)")
+            }
+            if pantryItems > 0 {
+                return Text("Rezepte importiert: \(count), Posten im Vorrat ergänzt: \(pantryItems)")
+            }
+            return Text("Rezepte importiert: \(count)")
+        case .failed, nil: return Text("Import fehlgeschlagen")
         }
     }
 

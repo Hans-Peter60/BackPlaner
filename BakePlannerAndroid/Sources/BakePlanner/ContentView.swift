@@ -707,7 +707,7 @@ struct RecipeListView: View {
 
     private var importTitle: Text {
         switch model.importOutcome {
-        case .imported(let count, let pantryItems):
+        case .imported(let count, let pantryItems, _):
             if pantryItems > 0 {
                 return Text("Rezepte importiert: \(count), Posten im Vorrat ergänzt: \(pantryItems)")
             }

@@ -941,7 +941,7 @@ Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu 
 
 ### Sicherung
 
-Die Sicherung steht nicht in den Einstellungen, sondern im Menü **Mehr (⋯)** der Rezeptliste – wie auf Android: Die Einstellungen enthalten nur Einstellungen, das Menü die Aktionen. Der Export der eigenen Rezepte ist frei – Deine Daten bleiben immer übertragbar.
+Die **vollständige Sicherung** steht in den Einstellungen im Abschnitt **Sicherung**: **Vollständige Sicherung erstellen** schreibt alle eigenen Rezepte samt Bildern, die Backhistorie mit Fotos, das Anstellgut-Tagebuch und den Vorrat in eine Datei und bietet sie im Teilen-Blatt an – für „In Dateien sichern“, iCloud Drive oder Mail. **Sicherung wiedereinspielen** liest eine solche Datei zurück: Rezepte und Vorratsposten, die noch fehlen, kommen dazu, Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte sind nicht Teil der Datei. Die Auswahl einzelner Rezepte bleibt im Menü **Mehr (⋯)** der Rezeptliste, wie auf Android. Der Export der eigenen Rezepte ist frei – Deine Daten bleiben immer übertragbar.
 
 | Eintrag | Wirkung |
 |---------|---------|
@@ -1301,7 +1301,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 ### Daten, Sicherung und Gerätewechsel
 
 - **Alles liegt auf dem Gerät.** Eigene Rezepte, geplante Schritte, Einkaufslisten, Backhistorie und Anstellgut-Tagebuch werden auf dem Android-Gerät gespeichert. Es gibt **keinen Abgleich** mit anderen Geräten – weder mit einem zweiten Android-Gerät noch mit einem iPhone. Auch Androids automatische Sicherung in Google Drive ist für BakePlanner abgeschaltet, weil sie auf 25 MB begrenzt ist und mit Fotos stillschweigend scheitern würde.
-- **Sichere deshalb selbst:** **Rezepte → Mehr (⋯) → Rezepte exportieren**, **Alle auswählen**, Schalter **Mit Backhistorie, Anstellgut-Tagebuch und Vorrat** an, **Exportieren** – und die Datei in Google Drive, per Mail oder auf den Rechner geben (siehe [Kapitel 14](#14-einstellungen)). Auf dem neuen Gerät: **Mehr (⋯) → Rezepte importieren**.
+- **Sichere deshalb selbst:** **Einstellungen → Sicherung → Vollständige Sicherung erstellen** – und die Datei in Google Drive, per Mail oder auf den Rechner geben (siehe [Kapitel 14](#14-einstellungen)). Auf dem neuen Gerät: **Einstellungen → Sicherung → Sicherung wiedereinspielen**.
 - **Gerätewechsel zwischen iPhone und Android** geht über dieselbe Datei in beide Richtungen. Was nicht mitkommt: gesetzte Pläne und Erinnerungen (auf dem neuen Gerät neu planen), eigene Einheiten (neu anlegen) und Einstellungen; der Vorrat kommt mit – Posten, die der Vorrat des neuen Geräts dem Namen nach noch nicht hat, werden ergänzt.
 - **Fotos** für Rezeptbild und Backhistorie werden auf Android schon beim Auswählen auf Bildschirmgröße verkleinert, nicht erst in der Sicherungsdatei.
 - **Rezept-Datenbank und Konto** sind dieselben wie auf dem iPhone. **Mit Apple anmelden** öffnet die Apple-Anmeldung im Browser und kehrt danach in die App zurück; ein auf dem iPhone veröffentlichtes Rezept lässt sich so auch vom Android-Gerät aus bearbeiten.

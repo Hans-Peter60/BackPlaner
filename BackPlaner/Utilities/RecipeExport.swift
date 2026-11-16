@@ -247,6 +247,27 @@ extension RecipeImport {
                               starterFeedings: CoreDataStarterFeedingLogStore(context: context),
                               pantry: CoreDataPantryStore(context: context))
     }
+
+    /// Reads a full backup back, merging into what the device already has:
+    /// known recipes keep their place and get the bakes and feedings they
+    /// lack, unknown ones come in new (see `restoreBackup` in the package).
+    @discardableResult
+    static func restoreBackup(from url: URL, into context: NSManagedObjectContext) throws -> RecipeImportResult {
+        let needsSecurityScope = url.startAccessingSecurityScopedResource()
+        defer { if needsSecurityScope { url.stopAccessingSecurityScopedResource() } }
+
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            throw RecipeImportError.unreadableFile
+        }
+
+        return try restoreBackup(data, into: CoreDataRecipeStore(context: context),
+                                 bakeHistory: CoreDataBakeHistoryStore(context: context),
+                                 starterFeedings: CoreDataStarterFeedingLogStore(context: context),
+                                 pantry: CoreDataPantryStore(context: context))
+    }
 }
 
 // MARK: - Photos in the backup
