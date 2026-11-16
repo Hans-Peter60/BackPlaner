@@ -37,6 +37,12 @@
 # 2007×2853 / 2853×2007 (inner display).
 #   LANGS    languages                                  (default: de en fr)
 #   RECIPE   public recipe to show, start of its name   (default: Kartoffelbrot mit Saaten)
+#   DEMO     1 (default) writes the demo data of scripts/appstore-demo-data.py for
+#            each language into the build folder and hands it to the app, which
+#            reads it at launch: own breads with pictures, a year of baking
+#            history, a starter diary, a pantry and an oven profile — the
+#            pictures of the Pro features (baking day, pantry, statistics,
+#            starter chart, yearbook) need them. DEMO=0 runs without.
 #   DERIVED  build folder (default: ~/Library/Developer/Xcode/DerivedData/BackPlaner-Screenshots)
 #
 # The build folder stays outside the project on purpose: a project inside an
@@ -54,7 +60,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-VERSION="${VERSION:-2.2}"
+VERSION="${VERSION:-2.4}"
+DEMO="${DEMO:-1}"
 DEVICES="${DEVICES:-iphone ipad duo-outer duo-inner}"
 IPHONE="${IPHONE:-iPhone 17 Pro}"
 IPAD="${IPAD:-iPad Pro 13-inch (M5)}"
@@ -304,9 +311,25 @@ for role in $DEVICES; do
             -testRegion "$(region "$lang")" \
             -quiet >/dev/null 2>&1 || echo "      (clearing the old data failed; the pictures may show a dialog or a doubled recipe)"
 
+        # The demo data for this language, fresh for every run so that the
+        # history ends last weekend and the feeding under way began today.
+        demo_backup=""
+        if [[ "$DEMO" == "1" ]]; then
+            demo_backup="$DERIVED/demo-$lang.json"
+            /usr/bin/python3 scripts/appstore-demo-data.py "$lang" "$demo_backup" | sed 's/^/      /'
+        fi
+
+        # The extra pictures (photo cloud, starter chart, purchase sheet)
+        # only from the iPhone: they are not for the product page, and
+        # they cost the slower simulators minutes they do not have.
+        extras=0
+        [[ "$folder" == "iphone-6.9" ]] && extras=1
+
         bundle="$DERIVED/results-$folder-$lang-$(date +%H%M%S).xcresult"
         if TEST_RUNNER_SCREENSHOT_LANGUAGE="$lang" \
+           TEST_RUNNER_SCREENSHOT_EXTRAS="$extras" \
            TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
+           TEST_RUNNER_SCREENSHOT_DEMO_BACKUP="$demo_backup" \
            TEST_RUNNER_APP_CHECK_DEBUG_TOKEN="$APP_CHECK_DEBUG_TOKEN" \
            xcodebuild test-without-building \
                -project BackPlaner.xcodeproj \

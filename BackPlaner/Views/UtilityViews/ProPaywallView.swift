@@ -88,8 +88,8 @@ struct ProPaywallView: View {
                                 Text("Pro freischalten")
                                     .font(Theme.brandFont(16))
                                 Spacer()
-                                if let product = store.product {
-                                    Text(product.displayPrice)
+                                if let price = store.displayPrice {
+                                    Text(price)
                                         .font(Theme.brandFont(16))
                                 } else if store.productUnavailable {
                                     Text("Preis nicht verfügbar")
@@ -100,7 +100,7 @@ struct ProPaywallView: View {
                                 }
                             }
                         }
-                        .disabled(store.product == nil || store.isPurchasing)
+                        .disabled(store.displayPrice == nil || store.isPurchasing)
                         .accessibilityIdentifier("paywall.purchase")
 
                         Button("Käufe wiederherstellen") {

@@ -15,7 +15,9 @@
 // name after its number ("rezept-backen" for 01-rezept-backen.png). A value
 // is the headline, with an optional second, smaller line after a "|". A
 // screen without an entry is copied as it is (rotated and resized all the
-// same). Run by scripts/appstore-screenshots.sh; needs only macOS.
+// same). The file's "pro" list names the screens of Pro features; they get
+// a small "PRO" badge over the headline, in the app's accent colours. Run
+// by scripts/appstore-screenshots.sh; needs only macOS.
 //
 // --rotate cw turns each picture a quarter turn clockwise first: the inner
 // display of the iPhone Duo is captured in its portrait pixel order while
@@ -33,6 +35,9 @@ struct Palette {
     static let backgroundBottom = NSColor(red: 0.93, green: 0.80, blue: 0.62, alpha: 1)
     static let title            = NSColor(red: 0.35, green: 0.20, blue: 0.08, alpha: 1)
     static let subtitle         = NSColor(red: 0.45, green: 0.30, blue: 0.16, alpha: 1)
+    // Theme.accentTop / accentBottom, light: the badge of a Pro screen.
+    static let accentTop        = NSColor(red: 0.62, green: 0.41, blue: 0.21, alpha: 1)
+    static let accentBottom     = NSColor(red: 0.49, green: 0.29, blue: 0.14, alpha: 1)
 }
 
 /// The proportions of a composed picture, relative to the shorter side:
@@ -49,6 +54,8 @@ struct Layout {
     var sublineSize: CGFloat { base * 0.034 }
     var lineGap: CGFloat { base * 0.012 }
     var headlineTop: CGFloat { height * 0.045 }
+    var badgeSize: CGFloat { base * 0.026 }
+    var badgeGap: CGFloat { base * 0.014 }
     var textToPicture: CGFloat { base * 0.045 }
     // Relative to the shorter side, so the iPad's wide picture does not cut
     // into its status bar.
@@ -125,7 +132,31 @@ func resized(_ picture: CGImage, to size: (width: Int, height: Int)) -> CGImage 
 
 /// Composes `picture` with the headline `caption` into a picture of `size`
 /// (the picture's own size unless asked otherwise).
-func compose(_ picture: CGImage, caption: String, size: (width: Int, height: Int)? = nil) -> CGImage {
+/// Draws the "PRO" badge centred under `top` (CoreGraphics coordinates, y
+/// upwards), as the headline is centred, and returns its height.
+func drawBadge(in context: CGContext, top: CGFloat, layout: Layout) -> CGFloat {
+    let label = attributed("PRO", font: font("Avenir-Black", size: layout.badgeSize), color: .white)
+    let textSize = label.size()
+    let padding = layout.badgeSize * 0.55
+    let badgeWidth = textSize.width + padding * 2
+    let frame = CGRect(x: (layout.width - badgeWidth) / 2, y: top - textSize.height - padding * 0.9,
+                       width: badgeWidth, height: textSize.height + padding * 0.9)
+    let path = CGPath(roundedRect: frame, cornerWidth: frame.height * 0.3, cornerHeight: frame.height * 0.3, transform: nil)
+    context.saveGState()
+    context.addPath(path)
+    context.clip()
+    let colors = [Palette.accentTop.cgColor, Palette.accentBottom.cgColor] as CFArray
+    let gradient = CGGradient(colorsSpace: CGColorSpace(name: CGColorSpace.sRGB), colors: colors, locations: [0, 1])!
+    context.drawLinearGradient(gradient, start: CGPoint(x: frame.minX, y: frame.maxY), end: CGPoint(x: frame.minX, y: frame.minY), options: [])
+    context.restoreGState()
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
+    label.draw(at: CGPoint(x: frame.minX + padding, y: frame.minY + (frame.height - textSize.height) / 2))
+    NSGraphicsContext.restoreGraphicsState()
+    return frame.height
+}
+
+func compose(_ picture: CGImage, caption: String, pro: Bool = false, size: (width: Int, height: Int)? = nil) -> CGImage {
     let canvas = size ?? (picture.width, picture.height)
     let width = CGFloat(canvas.width), height = CGFloat(canvas.height)
     let layout = Layout(width: width, height: height)
@@ -151,12 +182,19 @@ func compose(_ picture: CGImage, caption: String, size: (width: Int, height: Int
     let textWidth = width - 2 * layout.margin
     let headlineHeight = textHeight(of: headline, width: textWidth)
     let sublineHeight = subline.map { textHeight(of: $0, width: textWidth) } ?? 0
-    let textBlockHeight = headlineHeight + (subline == nil ? 0 : layout.lineGap + sublineHeight)
+    var textBlockHeight = headlineHeight + (subline == nil ? 0 : layout.lineGap + sublineHeight)
+
+    // CoreGraphics counts y from the bottom.
+    var y = height - layout.headlineTop
+    if pro {
+        let badgeHeight = drawBadge(in: context, top: y, layout: layout)
+        y -= badgeHeight + layout.badgeGap
+        textBlockHeight += badgeHeight + layout.badgeGap
+    }
 
     NSGraphicsContext.saveGraphicsState()
     NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
-    // CoreGraphics counts y from the bottom.
-    var y = height - layout.headlineTop - headlineHeight
+    y -= headlineHeight
     headline.draw(with: CGRect(x: layout.margin, y: y, width: textWidth, height: headlineHeight),
                   options: [.usesLineFragmentOrigin, .usesFontLeading])
     if let subline {
@@ -226,9 +264,10 @@ let rawFolder = URL(fileURLWithPath: arguments[2])
 let targetFolder = URL(fileURLWithPath: arguments[3])
 
 guard let data = try? Data(contentsOf: captionsURL),
-      let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: String]]
+      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
 else { fail("Cannot read \(captionsURL.path)") }
-let captions = json[language] ?? [:]
+let captions = json[language] as? [String: String] ?? [:]
+let proScreens = Set(json["pro"] as? [String] ?? [])
 if captions.isEmpty {
     FileHandle.standardError.write("No captions for „\(language)“ in \(captionsURL.lastPathComponent); copying the pictures as they are.\n".data(using: .utf8)!)
 }
@@ -248,7 +287,7 @@ for file in files {
     guard var picture = loadImage(source) else { continue }
     if rotate { picture = rotatedClockwise(picture) }
     if let caption = captions[key], !caption.isEmpty {
-        save(compose(picture, caption: caption, size: targetSize), to: target)
+        save(compose(picture, caption: caption, pro: proScreens.contains(key), size: targetSize), to: target)
     } else if let targetSize {
         save(resized(picture, to: targetSize), to: target)
     } else if rotate {

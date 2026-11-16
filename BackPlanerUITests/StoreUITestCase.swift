@@ -254,6 +254,8 @@ class StoreUITestCase: XCTestCase {
         "doughTemperature": ["Teigtemperatur", "Dough temperature", "Température de la pâte"],
         "flourSubstitution": ["Mehl ersetzen", "Replace flour", "Remplacer la farine"],
         "starterYield": ["Anstellgut-TA", "Starter TA", "TA du levain chef"],
+        "bakingDay": ["Backtag planen", "Plan a baking day", "Planifier une journée de cuisson"],
+        "pantry": ["Vorrat", "Pantry", "Réserve"],
         "newRecipe": ["Neues Rezept anlegen", "Create new recipe", "Créer une nouvelle recette"],
     ]
 
@@ -307,9 +309,23 @@ class StoreUITestCase: XCTestCase {
         let row = recipeRow(named: recipeName, id: recipeId)
         XCTAssertTrue(row.waitForExistence(timeout: 20), "The recipe database shows no recipes")
         settle(1)
+        liftAboveBottomBars(row)
         tapReliably(row)
         waitForRecipeDetails()
         translateIfNeeded()
+    }
+
+    /// Scrolls a list row up out of the band along the bottom where the
+    /// next-step bar and the tab bar float over the list: a row there is
+    /// reported hittable, but the tap goes to the bars. With the demo
+    /// recipes in the list the public recipe's row sat exactly there in
+    /// the English run, and "the recipe did not open".
+    func liftAboveBottomBars(_ element: XCUIElement) {
+        let screen = app.windows.firstMatch.frame
+        let limit = screen.maxY - screen.height * 0.24
+        guard element.exists, element.frame.maxY > limit else { return }
+        drag(by: -(element.frame.maxY - limit) - 24)
+        settle(0.5)
     }
 
     /// Waits until the recipe's page has slid in: its "Planen" button
@@ -424,6 +440,16 @@ class StoreUITestCase: XCTestCase {
         if let id {
             let byId = app.descendants(matching: .any).matching(identifier: "publicRecipe.row.\(id)").firstMatch
             if byId.waitForExistence(timeout: 20) { return byId }
+            // Further down: with the demo recipes in the list the row sat
+            // below the screen in French, and a row off screen is not in
+            // the hierarchy. Without this the French run planned, shopped
+            // and baked "Cake Salé", the first public row.
+            for _ in 0..<6 where !byId.exists {
+                app.swipeUp(velocity: .slow)
+                settle(0.5)
+            }
+            if byId.exists { return byId }
+            for _ in 0..<6 { app.swipeDown(velocity: .fast) }
         }
 
         let rows = app.descendants(matching: .any)
@@ -467,10 +493,14 @@ class StoreUITestCase: XCTestCase {
         let control = container.segmentedControls.firstMatch
         let element = control.exists ? control : container
         let screen = app.windows.firstMatch.frame
-        let target = screen.minY + screen.height * 0.15
-        let highest = screen.minY + screen.height * 0.18
+        // Measured on the segmented control, which sits a row below the
+        // top of its card: with the card's oven row (2.4) the control at
+        // 0.15 put the card's top under the floating navigation bar, and
+        // the picture cut "Dauer ändern" off.
+        let target = screen.minY + screen.height * 0.21
+        let highest = screen.minY + screen.height * 0.24
         // Below the floating navigation bar, which the content scrolls under.
-        let lowest = screen.minY + screen.height * 0.12
+        let lowest = screen.minY + screen.height * 0.18
         // Two passes: the page may still be laying out its schedule during
         // the first, so that a drag runs into a bottom that is not there yet
         // and bounces back.
@@ -497,6 +527,13 @@ class StoreUITestCase: XCTestCase {
         }
     }
 
+    /// Scrolls the page by half a screen towards its bottom, the way that
+    /// moves the unfolded iPhone Duo too (a `swipeUp` left it where it was).
+    func scrollHalfScreenDown() {
+        drag(by: -app.windows.firstMatch.frame.height * 0.5)
+        settle(0.5)
+    }
+
     /// Drags the screen's content by `distance` points (negative moves it
     /// up), holding the finger still at the end so the scroll view does not
     /// keep rolling with the momentum of a flick. The finger goes down in
@@ -504,7 +541,7 @@ class StoreUITestCase: XCTestCase {
     /// outside `avoiding`: a press that lands on a control (the date
     /// picker, a step's row) is taken by the control, not by the scroll
     /// view, and the page stayed where it was.
-    private func drag(by distance: CGFloat, avoiding: CGRect = .null) {
+    func drag(by distance: CGFloat, avoiding: CGRect = .null) {
         let screen = app.windows.firstMatch.frame
         let x = screen.minX + screen.width * 0.96
         let startY = [0.6, 0.8, 0.4, 0.9].first { fraction in
@@ -613,13 +650,14 @@ class StoreUITestCase: XCTestCase {
 
     /// On the simulator, a live translation request may be answered with a
     /// sheet saying translation is not supported ("Übersetzen" …
-    /// "nicht unterstützt", button "Fertig"/"Done"), which this closes. On a
-    /// real device iOS may instead ask to download the language, which this
-    /// accepts.
+    /// "nicht unterstützt", button "Fertig"/"Done", on iOS 27.3 an X named
+    /// "Schließen"), which this closes. On a real device iOS may instead
+    /// ask to download the language, which this accepts. Creating a
+    /// shopping list translates the ingredient names and can raise it too.
     func acceptTranslationDownloadIfAsked() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let download = NSPredicate(format: "label IN %@", ["Download", "Herunterladen", "Télécharger"])
-        let done = NSPredicate(format: "label IN %@", ["Fertig", "Done", "Terminé", "OK"])
+        let done = NSPredicate(format: "label IN %@", ["Fertig", "Done", "Terminé", "OK", "Schließen", "Close", "Fermer"])
         let sheetTitle = NSPredicate(format: "label IN %@", ["Übersetzen", "Translate", "Traduire"])
 
         let deadline = Date().addingTimeInterval(4)

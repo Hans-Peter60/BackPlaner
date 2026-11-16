@@ -63,5 +63,11 @@ struct EntitlementsTests {
         let free = UITestSupport.monetizationOverride(from: "free")
         #expect(free.config == .free)
         #expect(!free.purchased)
+        #expect(free.displayPrice == nil)
+
+        // The price runs to the end, decimal comma included.
+        let priced = UITestSupport.monetizationOverride(from: "storeVisible,proRequired,price=9,99 €")
+        #expect(priced.config.storeVisible && priced.config.proRequired)
+        #expect(priced.displayPrice == "9,99 €")
     }
 }

@@ -58,6 +58,16 @@ final class ProStore {
     /// instead of showing an empty price.
     private(set) var productUnavailable = false
 
+    /// The price to show when no product is loaded: only under a UI-test
+    /// override (the App Store screenshots), nil in the shipped app.
+    private(set) var previewPrice: String?
+
+    /// The product's price as the App Store states it, or the preview
+    /// price of a UI-test run; nil while loading or when loading failed.
+    var displayPrice: String? {
+        product?.displayPrice ?? previewPrice
+    }
+
     private let defaults: UserDefaults?
     private var updatesTask: Task<Void, Never>?
 
@@ -66,6 +76,7 @@ final class ProStore {
         if let override = UITestSupport.monetizationOverride {
             hasPurchased = override.purchased
             originalAppVersion = override.originalAppVersion
+            previewPrice = override.displayPrice
         } else {
             hasPurchased = defaults?.bool(forKey: Self.purchasedCacheKey) ?? false
         }
