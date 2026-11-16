@@ -1,0 +1,6 @@
+Neu in 2.4 (6):
+• Backhistorie aus Fotos: Datum aus dem Bild, Rezept aus dem Bildtitel
+• Ein Backvorgang lässt sich nachträglich einem anderen Rezept zuordnen
+• Vollständige Sicherung und Wiedereinspielen in den Einstellungen; das Einspielen ergänzt, was fehlt
+• Ofenprofile in den Einstellungen, Umluft je Backvorgang
+• Vorrat, Backtag planen, Sammlungen, Backstatistik, Bäckerprozent

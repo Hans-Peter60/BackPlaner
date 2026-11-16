@@ -1,0 +1,6 @@
+Nouveau dans 2.4 (6) :
+• Historique de cuisson à partir de photos : date de l’image, recette d’après son titre
+• Une cuisson peut ensuite être rattachée à une autre recette
+• Sauvegarde complète et restauration dans les réglages ; la restauration ajoute ce qui manque
+• Profils de four dans les réglages, chaleur tournante par cuisson
+• Réserve, journée de cuisson, collections, statistiques, pourcentages du boulanger
