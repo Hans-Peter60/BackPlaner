@@ -83,10 +83,10 @@ struct RecipeFBDetailView: View {
                         
                         // MARK: Recipe image
                         NavigationLink(
-                            destination: ShowBigImageView(image: (GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
+                            destination: ShowBigImageView(image: (PublicRecipeImages.shared.image(for: recipeFB.id ?? "") ?? UIImage()).jpegData(compressionQuality: 1.0) ?? Data() )
                         )
                         {
-                            Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                            Image(uiImage: PublicRecipeImages.shared.image(for: recipeFB.id ?? "") ?? UIImage())
                                 .resizable()
                                 .scaledToFill()
                                 .frame(minWidth: 100, idealWidth: 150, maxWidth: 200, minHeight: 100, idealHeight: 150, maxHeight: 200, alignment: .center)
@@ -137,10 +137,10 @@ struct RecipeFBDetailView: View {
                         FileShareLink(
                             item: RecipePDFExport(data: RecipePrintData(
                                 recipeFB: recipeFB,
-                                image: GlobalVariables.recipesImage[recipeFB.id ?? ""],
+                                image: PublicRecipeImages.shared.image(for: recipeFB.id ?? ""),
                                 scale: servingScale
                             )),
-                            preview: SharePreview(recipeFB.name, image: Image(uiImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage()))
+                            preview: SharePreview(recipeFB.name, image: Image(uiImage: PublicRecipeImages.shared.image(for: recipeFB.id ?? "") ?? UIImage()))
                         ) {
                             Label("Rezept teilen", systemImage: "square.and.arrow.up")
                                 .font(Theme.brandFont(15))
@@ -182,7 +182,7 @@ struct RecipeFBDetailView: View {
                     // One snapshot for the card and the substitution sheet, so a
                     // tapped line's index means the same ingredient in both.
                     let recipeSnapshot = RecipeExportData(recipeFB: recipeFB,
-                                                          image: GlobalVariables.recipesImage[recipeFB.id ?? ""])
+                                                          image: PublicRecipeImages.shared.image(for: recipeFB.id ?? ""))
                     ComponentColumnsView(components: ComponentColumn.columns(of: recipeSnapshot),
                                          scale: servingScale,
                                          onFlourTap: { componentIndex, ingredientIndex in
@@ -383,7 +383,7 @@ struct RecipeFBDetailView: View {
                          title: "Als eigenes Rezept speichern", controlSize: .regular) {
             do {
                 _ = try model.uploadRecipeIntoCoreData(recipeId: nil, recipeFB: recipeFB, context: viewContext,
-                                                       recipeImage: GlobalVariables.recipesImage[recipeFB.id ?? ""] ?? UIImage())
+                                                       recipeImage: PublicRecipeImages.shared.image(for: recipeFB.id ?? "") ?? UIImage())
                 showSavedConfirmation = true
             } catch {
                 saveErrorMessage = error.localizedDescription
