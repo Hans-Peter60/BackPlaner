@@ -1031,13 +1031,7 @@ struct AllRecipesListView: View {
 
             HStack(spacing: 12.0) {
                 if !dynamicTypeSize.isAccessibilitySize {
-                    let uiImage = PublicRecipeImages.shared.images[r.id ?? ""] ?? UIImage(systemName: "photo") ?? UIImage()
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .clipped()
-                        .cornerRadius(8)
+                    PublicRecipeThumbnail(id: r.id ?? "")
                 }
 
                 VStack(alignment: .leading, spacing: 3) {
@@ -1163,5 +1157,21 @@ struct AllRecipesListView: View {
 
         listTranslationQueue.removeFirst()
         startNextListTranslation()
+    }
+}
+
+/// A public recipe's picture in its row. A view of its own, so that the
+/// picture's arrival redraws this thumbnail and not the list around it.
+private struct PublicRecipeThumbnail: View {
+    let id: String
+
+    var body: some View {
+        let holder = PublicRecipeImages.shared.holder(for: id)
+        Image(uiImage: holder.image ?? UIImage(systemName: "photo") ?? UIImage())
+            .resizable()
+            .scaledToFill()
+            .frame(width: 50, height: 50, alignment: .center)
+            .clipped()
+            .cornerRadius(8)
     }
 }

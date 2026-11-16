@@ -18,20 +18,47 @@ import UIKit
 
 // MARK: - Public recipes
 
+/// One public recipe's picture, observable on its own: a row watches its
+/// recipe's holder and nothing else, so a picture arriving for another
+/// recipe does not redraw it. Before, every row read one shared
+/// dictionary, and each of the twenty downloads after a fresh install
+/// redrew the whole list — it flickered once per picture.
+@Observable
+final class PublicRecipeImage {
+    var image: UIImage?
+}
+
 /// The pictures of public recipes: in memory for the views, on disk for the
-/// next launch. `@Observable`, so a row that found no picture yet redraws
-/// when the download arrives — before, the row kept its placeholder until
-/// something else made it redraw. Read and changed on the main thread, as
-/// the views and the Firebase callbacks are.
+/// next launch. Read and changed on the main thread, as the views and the
+/// Firebase callbacks are.
 @Observable
 final class PublicRecipeImages {
 
     static let shared = PublicRecipeImages()
 
-    /// By recipe id.
-    private(set) var images: [String: UIImage] = [:]
+    /// One holder per recipe id, kept out of observation: the holders are
+    /// observed one by one, the dictionary itself never changes meaning.
+    @ObservationIgnored private var holders: [String: PublicRecipeImage] = [:]
 
-    private var preloaded = false
+    /// The holder a view watches for a recipe; made on first use.
+    func holder(for id: String) -> PublicRecipeImage {
+        if let holder = holders[id] { return holder }
+        let holder = PublicRecipeImage()
+        holders[id] = holder
+        return holder
+    }
+
+    /// The picture of one recipe, nil until it arrived.
+    func image(for id: String) -> UIImage? {
+        holders[id]?.image
+    }
+
+    /// Every picture by recipe id, for code outside the views.
+    var images: [String: UIImage] {
+        holders.compactMapValues(\.image)
+    }
+
+    @ObservationIgnored private var preloaded = false
     private let queue = DispatchQueue(label: "de.hpm64625.BackPlaner.publicRecipeImages", qos: .utility)
 
     private static let folder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
@@ -58,7 +85,9 @@ final class PublicRecipeImages {
             }
             guard !loaded.isEmpty else { return }
             DispatchQueue.main.async {
-                self.images.merge(loaded) { current, _ in current }
+                for (id, image) in loaded where self.holders[id]?.image == nil {
+                    self.holder(for: id).image = image
+                }
             }
         }
     }
@@ -77,8 +106,8 @@ final class PublicRecipeImages {
             }
             guard let image = UIImage(data: data) else { return }
             DispatchQueue.main.async {
-                if !unchanged || self.images[id] == nil {
-                    self.images[id] = image
+                if !unchanged || self.holders[id]?.image == nil {
+                    self.holder(for: id).image = image
                 }
             }
         }
@@ -87,7 +116,7 @@ final class PublicRecipeImages {
     /// Keeps a picture the user just chose for a public recipe of theirs.
     func store(_ image: UIImage, for id: String) {
         guard !id.isEmpty else { return }
-        images[id] = image
+        holder(for: id).image = image
         guard let data = image.jpegData(compressionQuality: 0.9) else { return }
         queue.async {
             try? FileManager.default.createDirectory(at: Self.folder, withIntermediateDirectories: true)
@@ -97,7 +126,7 @@ final class PublicRecipeImages {
 
     /// Forgets the picture of a recipe that was deleted.
     func remove(id: String) {
-        images[id] = nil
+        holders[id]?.image = nil
         queue.async {
             try? FileManager.default.removeItem(at: Self.file(for: id))
         }

@@ -66,6 +66,7 @@ KLEINERES
 • Die Sicherungsdatei beim Export von Rezepten bleibt unter 5 MB: Wird sie mit den Bildern größer, verkleinert die App Rezeptbilder und Fotos der Backhistorie beim Schreiben – nur so weit wie nötig. Bisher kamen bei vielen Rezepten Dateien von 47 MB heraus.
 • Die Schritttabelle eines eigenen Rezepts zeigt zweistellige Nummern wieder in einer Zeile, wie bei öffentlichen Rezepten. Nummer, Dauer und Beginn stehen oben in ihrer Zeile, auf Höhe der ersten Zeile der Beschreibung.
 • Nach „Rezepte importieren“ erscheint die Meldung „Import abgeschlossen“ zuverlässig, auch wenn die Dateiauswahl noch zuklappt.
+• Die Rezeptliste zuckt nach einer Neuinstallation nicht mehr bei jedem Bild, das für ein öffentliches Rezept geladen wird – nur noch die Zeile des Rezepts wird neu gezeichnet.
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
 • iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
 • Bei einem Rezept mit nur einer Komponente, etwa einem Anstellgut, zeigt der erste Arbeitsschritt die Zutaten – nicht der Reifeschritt, der den Namen wiederholt. Das gilt für das „i“ in den geplanten Schritten, den Backmodus, die Uhr und die Erinnerungen.
