@@ -17,8 +17,9 @@ final class AppModel {
     var importOutcome: ImportOutcome?
 
     enum ImportOutcome: Equatable {
-        /// Recipes added, and pantry items the file added to the pantry.
-        case imported(Int, pantryItems: Int)
+        /// Recipes added, pantry items the file added to the pantry, and
+        /// bakes and feedings merged into recipes the device already had.
+        case imported(Int, pantryItems: Int, bakeEntries: Int)
         case failed(String)
     }
 
@@ -880,11 +881,36 @@ final class AppModel {
     }
 
     /// "BakePlanner-Rezepte-2026-10-31", as the iPhone app names its backups.
+    /// "BakePlanner-Sicherung-2026-11-16", the settings' full backup.
+    static var fullBackupFileName: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return "BakePlanner-Sicherung-\(formatter.string(from: Date()))"
+    }
+
     static var backupFileName: String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         return "BakePlanner-Rezepte-\(formatter.string(from: Date()))"
+    }
+
+    /// Reads a full backup back, merging into what the device already has:
+    /// known recipes get the bakes and feedings they lack, unknown ones
+    /// come in new.
+    func restoreBackup(at url: URL) {
+        do {
+            let data = try Data(contentsOf: url)
+            let result = try RecipeImport.restoreBackup(data, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                                        starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: result.bakeEntries)
+        } catch {
+            importOutcome = .failed(error.localizedDescription)
+        }
+        load()
+        loadBakeHistory()
+        loadPantry()
     }
 
     /// Reads a backup or recipe file — as the iPhone app writes it — into
@@ -903,7 +929,7 @@ final class AppModel {
             // come along, as on the iPhone.
             let result = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
                                                      starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
-            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems)
+            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: 0)
         } catch {
             logger.error("could not import \(url.lastPathComponent): \(error)")
             importOutcome = .failed(error.localizedDescription)

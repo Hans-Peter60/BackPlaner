@@ -944,7 +944,7 @@ Comme les recettes et les listes de courses, la réserve est dans votre iCloud e
 
 ### Sauvegarde
 
-La sauvegarde ne se trouve pas dans les réglages mais dans le menu **Plus (⋯)** de la liste des recettes, comme sur Android : les réglages ne contiennent que des réglages, le menu les actions. L’export de vos propres recettes est gratuit — vos données restent toujours transférables.
+La **sauvegarde complète** se trouve dans les réglages, section **Sauvegarde** : **Créer une sauvegarde complète** écrit toutes vos recettes avec leurs images, l’historique de cuisson avec photos, le journal du levain et la réserve dans un fichier et le propose dans la feuille de partage – pour « Enregistrer dans Fichiers », iCloud Drive ou e-mail. **Restaurer une sauvegarde** relit un tel fichier : les recettes et articles de réserve qui manquent encore sont ajoutés, rien d’existant n’est écrasé. Les réglages et les étapes planifiées ne font pas partie du fichier. Le choix de recettes individuelles reste dans le menu **Plus (⋯)** de la liste, comme sur Android. L’export de vos propres recettes est gratuit — vos données restent toujours transférables.
 
 | Entrée | Effet |
 |--------|-------|

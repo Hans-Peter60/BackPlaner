@@ -12753,6 +12753,91 @@
           }
         }
       }
+    },
+    "Vollständige Sicherung erstellen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create full backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une sauvegarde complète"
+          }
+        }
+      }
+    },
+    "Sicherung wiedereinspielen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer une sauvegarde"
+          }
+        }
+      }
+    },
+    "Sicherung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde"
+          }
+        }
+      }
+    },
+    "Die Sicherung ist eine Datei mit allen eigenen Rezepten samt Bildern, der Backhistorie mit Fotos, dem Anstellgut-Tagebuch und dem Vorrat – zum Ablegen in Google Drive oder per Mail. Beim Wiedereinspielen kommen Rezepte und Vorratsposten dazu, die noch fehlen; Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte gehören nicht zur Datei." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup is one file with all your own recipes and their pictures, the baking history with photos, the starter diary and the pantry – to keep in Google Drive or by mail. Restoring adds the recipes and pantry items that are still missing; nothing existing is overwritten. Settings and planned steps are not part of the file."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sauvegarde est un fichier avec toutes vos recettes et leurs images, l’historique de cuisson avec photos, le journal du levain et la réserve – à garder dans Google Drive ou par e-mail. La restauration ajoute les recettes et articles de réserve qui manquent encore ; rien d’existant n’est écrasé. Les réglages et les étapes planifiées ne font pas partie du fichier."
+          }
+        }
+      }
+    },
+    "Rezepte importiert: %lld, Backvorgänge und Fütterungen ergänzt: %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipes imported: %lld, bakes and feedings added: %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recettes importées : %lld, cuissons et nourrissages ajoutés : %lld"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

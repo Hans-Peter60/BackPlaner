@@ -48,6 +48,39 @@ struct RecipeBackupTests {
         #expect(recipes.allSatisfy { $0.firestoreId == nil && !$0.bakeHistoryFlag })
     }
 
+    @Test("Restoring a backup adds only what the store lacks: unknown recipes, and missing bakes of known ones")
+    func restoreMerges() throws {
+        let source = InMemoryRecipeStore()
+        let sourceHistory = InMemoryBakeHistoryStore(recipes: source)
+        let added = try source.add(contentsOf: twoRecipes())
+        let first = try sourceHistory.add(toRecipe: added[0].id, date: Date(timeIntervalSinceReferenceDate: 800_000_000),
+                                          comment: "Erster", images: [], facts: BakeHistoryFacts())
+        let second = try sourceHistory.add(toRecipe: added[0].id, date: Date(timeIntervalSinceReferenceDate: 810_000_000),
+                                           comment: "Zweiter", images: [], facts: BakeHistoryFacts())
+        let data = try RecipeExportFile(recipeIDs: added.map(\.id), from: source, bakeHistory: sourceHistory,
+                                        starterFeedings: InMemoryStarterFeedingLogStore(recipes: source)).encoded()
+
+        // The target already has the bread with its first bake, but not the Zopf.
+        let target = InMemoryRecipeStore()
+        let targetHistory = InMemoryBakeHistoryStore(recipes: target)
+        let bread = try target.add(contentsOf: [RecipeStoreContract.bread()])[0]
+        _ = try targetHistory.add(toRecipe: bread.id, date: first.date, comment: "Erster", images: [], facts: BakeHistoryFacts())
+
+        let result = try RecipeImport.restoreBackup(data, into: target, bakeHistory: targetHistory,
+                                                    starterFeedings: InMemoryStarterFeedingLogStore(recipes: target), pantry: nil)
+        #expect(result.recipes == 1 && result.bakeEntries == 1)
+        #expect(try target.recipes(includingImages: false).map(\.content.name).sorted() == ["Landbrot", "Zopf"])
+        let entries = try targetHistory.entries(ofRecipe: bread.id, includingImages: false)
+        #expect(entries.map(\.date) == [second.date, first.date])
+
+        // A second restore changes nothing.
+        let again = try RecipeImport.restoreBackup(data, into: target, bakeHistory: targetHistory,
+                                                   starterFeedings: InMemoryStarterFeedingLogStore(recipes: target), pantry: nil)
+        #expect(again == RecipeImportResult(recipes: 0, pantryItems: 0, bakeEntries: 0))
+        #expect(try target.recipes(includingImages: false).count == 2)
+        #expect(try targetHistory.entries(ofRecipe: bread.id, includingImages: false).count == 2)
+    }
+
     @Test("A file from a newer version or no recipe file at all leaves the store as it was")
     func refusedFiles() throws {
         let store = InMemoryRecipeStore()

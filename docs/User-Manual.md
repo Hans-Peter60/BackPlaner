@@ -944,7 +944,7 @@ Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs
 
 ### Backup
 
-The backup is not in the settings but in the recipe list's **More (⋯)** menu, as on Android: the settings hold settings only, the menu holds the actions. Exporting your own recipes is free — your data always stays portable.
+The **full backup** lives in the settings under **Backup**: **Create full backup** writes all your own recipes with their pictures, the baking history with photos, the starter diary and the pantry into one file and offers it in the share sheet – for "Save to Files", iCloud Drive or mail. **Restore backup** reads such a file back: recipes and pantry items still missing are added, nothing existing is overwritten. Settings and planned steps are not part of the file. Picking individual recipes stays in the recipe list's **More (⋯)** menu, as on Android. Exporting your own recipes is free — your data always stays portable.
 
 | Entry | Effect |
 |-------|--------|

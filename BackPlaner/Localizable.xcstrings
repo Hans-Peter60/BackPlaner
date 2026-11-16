@@ -25144,6 +25144,102 @@
           }
         }
       }
+    },
+    "Vollständige Sicherung erstellen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create full backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer une sauvegarde complète"
+          }
+        }
+      }
+    },
+    "Sicherung wiedereinspielen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer une sauvegarde"
+          }
+        }
+      }
+    },
+    "Sicherung eingespielt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup restored"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde restaurée"
+          }
+        }
+      }
+    },
+    "Die Sicherung ist eine Datei mit allen eigenen Rezepten samt Bildern, der Backhistorie mit Fotos, dem Anstellgut-Tagebuch und dem Vorrat – zum Ablegen in Dateien, iCloud Drive oder per Mail. Beim Wiedereinspielen kommen Rezepte und Vorratsposten dazu, die noch fehlen; Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte gehören nicht zur Datei." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup is one file with all your own recipes and their pictures, the baking history with photos, the starter diary and the pantry – to keep in Files, iCloud Drive or by mail. Restoring adds the recipes and pantry items that are still missing; nothing existing is overwritten. Settings and planned steps are not part of the file."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sauvegarde est un fichier avec toutes vos recettes et leurs images, l’historique de cuisson avec photos, le journal du levain et la réserve – à garder dans Fichiers, iCloud Drive ou par e-mail. La restauration ajoute les recettes et articles de réserve qui manquent encore ; rien d’existant n’est écrasé. Les réglages et les étapes planifiées ne font pas partie du fichier."
+          }
+        }
+      }
+    },
+    "Sicherung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde"
+          }
+        }
+      }
+    },
+    "%lld Backvorgänge und Fütterungen ergänzt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld bakes and feedings added"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld cuissons et nourrissages ajoutés"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

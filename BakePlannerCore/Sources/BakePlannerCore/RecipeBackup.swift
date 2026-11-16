@@ -15,9 +15,13 @@ public struct RecipeImportResult: Equatable, Sendable {
     public var recipes: Int
     /// Pantry items added; those the pantry already had by name are not counted.
     public var pantryItems: Int
+    /// Bakes and feedings added to recipes the store already had — a
+    /// restore merging into what is there.
+    public var bakeEntries: Int
 
-    public init(recipes: Int, pantryItems: Int = 0) {
+    public init(recipes: Int, pantryItems: Int = 0, bakeEntries: Int = 0) {
         self.recipes = recipes
+        self.bakeEntries = bakeEntries
         self.pantryItems = pantryItems
     }
 }
@@ -40,6 +44,58 @@ extension RecipeImport {
     public static func importFile(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
                                   starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
         let file = try decodeFile(data)
+        let pantryItems = try addPantry(file, to: pantry)
+        let added = try addRecipes(file.recipes, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
+        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems)
+    }
+
+    /// Reads a full backup back onto a device that may already have part
+    /// of it: a recipe whose name the store already has is not added again;
+    /// instead the bakes and feedings the file carries for it and the store
+    /// lacks (by their date) are attached to the existing recipe. Recipes
+    /// the store does not know come in as `importFile` adds them, the
+    /// pantry as there. The result counts the recipes added and, in
+    /// `bakeEntries`, the bakes and feedings merged into existing recipes.
+    public static func restoreBackup(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
+                                     starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
+        let file = try decodeFile(data)
+        let pantryItems = try addPantry(file, to: pantry)
+
+        let existing = try store.recipes(includingImages: false)
+        var byName: [String: StoredRecipe] = [:]
+        for recipe in existing {
+            byName[IngredientNameNormalizer.foldedName(recipe.content.name)] = recipe
+        }
+        var newContents: [RecipeExportData] = []
+        var merged = 0
+        for content in file.recipes {
+            guard let known = byName[IngredientNameNormalizer.foldedName(content.name)] else {
+                newContents.append(content)
+                continue
+            }
+            let haveBakes = Set(try bakeHistory.entries(ofRecipe: known.id, includingImages: false).map { Self.second($0.date) })
+            for entry in (content.bakeHistory ?? []).reversed() where !haveBakes.contains(Self.second(entry.date)) {
+                _ = try bakeHistory.add(toRecipe: known.id, date: entry.date, comment: entry.comment,
+                                        images: entry.images, facts: entry.facts)
+                merged += 1
+            }
+            let haveFeedings = Set(try starterFeedings.feedings(ofRecipe: known.id).map { Self.second($0.date) })
+            for feeding in (content.starterFeedings ?? []).reversed() where !haveFeedings.contains(Self.second(feeding.date)) {
+                _ = try starterFeedings.add(toRecipe: known.id, date: feeding.date, facts: feeding.facts)
+                merged += 1
+            }
+        }
+        let added = try addRecipes(newContents, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
+        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, bakeEntries: merged)
+    }
+
+    /// A date to the second: two stores may keep fractions differently.
+    private static func second(_ date: Date) -> Int {
+        Int(date.timeIntervalSinceReferenceDate.rounded())
+    }
+
+    /// The file's pantry onto `pantry`: items the pantry has by name stay.
+    private static func addPantry(_ file: RecipeExportFile, to pantry: PantryStore?) throws -> Int {
         var pantryItems = 0
         if let pantry, let items = file.pantry {
             for item in items where try pantry.item(matching: item.name) == nil {
@@ -48,7 +104,14 @@ extension RecipeImport {
                 pantryItems += 1
             }
         }
-        let added = try store.add(contentsOf: file.recipes.map { recipe in
+        return pantryItems
+    }
+
+    /// Every recipe in `contents` as a new one, with its bakes and feedings.
+    private static func addRecipes(_ contents: [RecipeExportData], into store: RecipeStore,
+                                   bakeHistory: BakeHistoryStore, starterFeedings: StarterFeedingLogStore) throws -> [StoredRecipe] {
+        guard !contents.isEmpty else { return [] }
+        let added = try store.add(contentsOf: contents.map { recipe in
             var recipe = recipe
             recipe.bakeHistory = nil
             recipe.starterFeedings = nil
@@ -56,8 +119,8 @@ extension RecipeImport {
             recipe.variantNote = nil
             return recipe
         })
-        try linkVariants(added, from: file.recipes, in: store)
-        for (recipe, content) in zip(added, file.recipes) {
+        try linkVariants(added, from: contents, in: store)
+        for (recipe, content) in zip(added, contents) {
             // Oldest first, so a store that keeps the order of adding has
             // them as the device they came from did.
             for entry in (content.bakeHistory ?? []).reversed() {
@@ -68,7 +131,7 @@ extension RecipeImport {
                 _ = try starterFeedings.add(toRecipe: recipe.id, date: feeding.date, facts: feeding.facts)
             }
         }
-        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems)
+        return added
     }
 
     /// Links each variant in the file to its origin: the recipe of that

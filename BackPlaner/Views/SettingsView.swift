@@ -64,6 +64,10 @@ struct SettingsView: View {
     // BakePlanner Pro: the section only exists while the remote
     // configuration shows the store (or this installation has bought Pro).
     @State private var showPaywall = false
+    /// The full backup: the file picker for reading one back and its outcome.
+    @State private var isImportingBackup = false
+    @State private var backupImportResult: RecipeImportResult?
+    @State private var backupImportError: String?
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
 
@@ -168,6 +172,8 @@ struct SettingsView: View {
             }
 
             publicRecipeTranslationSection
+
+            backupSection
 
             // The ovens one bakes in. With profiles, the preheating times and
             // the number of ovens come from them, so those rows go below.
@@ -624,6 +630,101 @@ struct SettingsView: View {
         } footer: {
             Text("Öffnet die Seiten im Browser.")
         }
+    }
+
+    // MARK: Backup
+
+    /// Every recipe on this device, as faults: the export item keeps the
+    /// ids and reads them when the file is written.
+    private var allOwnRecipes: [Recipe] {
+        let request = Recipe.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        return (try? viewContext.fetch(request)) ?? []
+    }
+
+    private var hasOwnRecipes: Bool {
+        ((try? viewContext.count(for: Recipe.fetchRequest())) ?? 0) > 0
+    }
+
+    /// "BakePlanner-Sicherung-2026-11-16".
+    private var backupFileName: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return "BakePlanner-Sicherung-\(formatter.string(from: Date()))"
+    }
+
+    /// The whole of one's own data as one file, and the way back. Free,
+    /// as the backup always was; the selective export stays in the recipe
+    /// list's menu.
+    @ViewBuilder
+    private var backupSection: some View {
+        Section {
+            FileShareLink(
+                item: RecipeFileExport(recipes: allOwnRecipes, fileName: backupFileName),
+                preview: SharePreview(Text("BakePlanner-Sicherung"))
+            ) {
+                Label("Vollständige Sicherung erstellen", systemImage: "arrow.down.doc")
+            }
+            .disabled(!hasOwnRecipes)
+            .accessibilityIdentifier("settings.backup")
+
+            Button {
+                isImportingBackup = true
+            } label: {
+                Label("Sicherung wiedereinspielen", systemImage: "arrow.up.doc")
+            }
+            .accessibilityIdentifier("settings.restore")
+        } header: {
+            Text("Sicherung")
+        } footer: {
+            Text("Die Sicherung ist eine Datei mit allen eigenen Rezepten samt Bildern, der Backhistorie mit Fotos, dem Anstellgut-Tagebuch und dem Vorrat – zum Ablegen in Dateien, iCloud Drive oder per Mail. Beim Wiedereinspielen kommen Rezepte und Vorratsposten dazu, die noch fehlen; Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte gehören nicht zur Datei.")
+        }
+        .fileImporter(isPresented: $isImportingBackup, allowedContentTypes: [.json]) { result in
+            // The picker is still on its way out when this runs; an alert
+            // raised right now is dropped, so the outcome waits a moment.
+            var count: RecipeImportResult?
+            var failure: String?
+            switch result {
+            case .success(let url):
+                do {
+                    count = try RecipeImport.restoreBackup(from: url, into: viewContext)
+                } catch {
+                    failure = error.localizedDescription
+                }
+            case .failure(let error):
+                failure = error.localizedDescription
+            }
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(600))
+                backupImportResult = count
+                backupImportError = failure
+            }
+        }
+        .alert("Sicherung eingespielt", isPresented: Binding(
+            get: { backupImportResult != nil },
+            set: { if !$0 { backupImportResult = nil } }
+        ), presenting: backupImportResult) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { result in
+            Text(verbatim: Self.restoreMessage(result))
+        }
+        .alert("Import fehlgeschlagen", isPresented: Binding(
+            get: { backupImportError != nil },
+            set: { if !$0 { backupImportError = nil } }
+        )) {
+            Button("OK", role: .cancel) { backupImportError = nil }
+        } message: {
+            Text(backupImportError ?? "")
+        }
+    }
+
+    /// Up to three localized lines; `Text +` is deprecated.
+    private static func restoreMessage(_ result: RecipeImportResult) -> String {
+        var lines = [String(localized: "\(result.recipes) Rezepte importiert")]
+        if result.bakeEntries > 0 { lines.append(String(localized: "\(result.bakeEntries) Backvorgänge und Fütterungen ergänzt")) }
+        if result.pantryItems > 0 { lines.append(String(localized: "\(result.pantryItems) Posten im Vorrat ergänzt")) }
+        return lines.joined(separator: "\n")
     }
 
     private var hasOvenProfiles: Bool {
