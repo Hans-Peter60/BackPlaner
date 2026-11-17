@@ -57,4 +57,29 @@ struct SQLiteAtomicImportTests {
         _ = try store.add(contentsOf: [RecipeStoreContract.bread()])
         #expect(try store.recipes(includingImages: false).count == 2)
     }
+
+    @Test("A recipe keeps its identity in the file; restoring a backup twice adds nothing twice")
+    func identityThroughSQLite() throws {
+        let phone = try SQLiteRecipeStore(path: nil)
+        defer { try? phone.close() }
+        let phoneHistory = SQLiteBakeHistoryStore(file: phone.file)
+        let brot = try #require(try phone.add(contentsOf: [RecipeStoreContract.bread()]).first)
+        #expect(brot.backupID != nil)
+        #expect(try phone.recipe(id: brot.id)?.backupID == brot.backupID)
+        _ = try phoneHistory.add(toRecipe: brot.id, date: Date(timeIntervalSince1970: 1_800_000_000), comment: "",
+                                 images: [], facts: BakeHistoryFacts())
+        let backup = try RecipeExportFile(recipeIDs: [brot.id], from: phone, bakeHistory: phoneHistory,
+                                          starterFeedings: SQLiteStarterFeedingLogStore(file: phone.file)).encoded()
+
+        let tablet = try SQLiteRecipeStore(path: nil)
+        defer { try? tablet.close() }
+        let history = SQLiteBakeHistoryStore(file: tablet.file)
+        let feedings = SQLiteStarterFeedingLogStore(file: tablet.file)
+        for _ in 0..<2 {
+            _ = try RecipeImport.restoreBackup(backup, into: tablet, bakeHistory: history, starterFeedings: feedings, pantry: nil)
+        }
+        let recipes = try tablet.recipes(includingImages: false)
+        #expect(recipes.count == 1 && recipes.first?.backupID == brot.backupID)
+        #expect(try history.entries(ofRecipe: try #require(recipes.first).id, includingImages: false).count == 1)
+    }
 }

@@ -22,8 +22,14 @@ public struct RecipeExportFile: Codable, Equatable {
     /// the duration window of a step (`RecipeExportInstruction.minDuration`,
     /// `.maxDuration`); version 6 the oven settings of a step
     /// (`RecipeExportInstruction.ovenTemperature`, `.ovenFallingTemperature`,
-    /// `.ovenSteam`); version 7 the pantry (`RecipeExportFile.pantry`).
-    public static let currentFormatVersion = 7
+    /// `.ovenSteam`); version 7 the pantry (`RecipeExportFile.pantry`);
+    /// version 8 the recipe's lasting identity in a full backup
+    /// (`RecipeExportData.backupID`), which alone does not raise a file's
+    /// version (see `lowestVersion`).
+    public static let currentFormatVersion = 8
+    /// The version of a file with a pantry but without recipe identities,
+    /// as apps up to 2.4 (25) write and read it.
+    public static let pantryFormatVersion = 7
     /// The version of a file with oven settings but without a pantry, as
     /// apps up to 2.4 (20) write and read it.
     public static let ovenFormatVersion = 6
@@ -79,9 +85,13 @@ public struct RecipeExportFile: Codable, Equatable {
         self.recipes = recipes
     }
 
+    /// The recipes' identities (version 8) do not count: an older app reads
+    /// such a file all the same — JSON fields it does not know are passed
+    /// over — and only loses the identity, going by the name as it always
+    /// did. Raising the version for them would make it refuse every backup.
     static func lowestVersion(holding recipes: [RecipeExportData], pantry: [RecipeExportPantryItem]? = nil) -> Int {
         if let pantry, !pantry.isEmpty {
-            return currentFormatVersion
+            return pantryFormatVersion
         }
         if recipes.contains(where: { $0.instructions.contains { $0.oven != nil } }) {
             return ovenFormatVersion
@@ -130,6 +140,13 @@ public struct RecipeExportData: Codable, Equatable {
     public var variantOf: String?
     /// What the variant changes, in the baker's words (format version 3).
     public var variantNote: String?
+    /// The recipe's lasting identity, in a full backup only (format version
+    /// 8): the UUID it has on the device it was saved on. Restoring the
+    /// backup finds the recipe again by it; matched by name, another recipe
+    /// of the same name took the backup's bakes, and the backup's recipe
+    /// was lost. Nil in a shared recipe and in what a store hands out — the
+    /// store keeps it in `StoredRecipe.backupID`.
+    public var backupID: String?
 
     public init(name: String, summary: String, urlLink: String? = nil, prepTime: Int, totalWeight: Double, tags: [String], rating: Int, recurrenceIntervalDays: Int, image: Data? = nil, components: [RecipeExportComponent], instructions: [RecipeExportInstruction], bakeHistory: [RecipeExportBakeEntry]? = nil, starterFeedings: [RecipeExportStarterFeeding]? = nil, variantOf: String? = nil, variantNote: String? = nil) {
         self.name = name
@@ -382,6 +399,7 @@ extension RecipeExportData {
             .compactMap(\.value)
         variantOf = try? container.decodeIfPresent(String.self, forKey: .variantOf)
         variantNote = try? container.decodeIfPresent(String.self, forKey: .variantNote)
+        backupID = try? container.decodeIfPresent(String.self, forKey: .backupID)
     }
 }
 

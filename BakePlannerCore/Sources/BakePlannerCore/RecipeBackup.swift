@@ -74,13 +74,27 @@ extension RecipeImport {
 
         let existing = try store.recipes(includingImages: false)
         var byName: [String: StoredRecipe] = [:]
+        var byBackupID: [String: StoredRecipe] = [:]
         for recipe in existing {
             byName[IngredientNameNormalizer.foldedName(recipe.content.name)] = recipe
+            if let backupID = recipe.backupID { byBackupID[backupID] = recipe }
         }
         var newContents: [RecipeExportData] = []
         var merged = 0
         for content in file.recipes {
-            guard let known = byName[IngredientNameNormalizer.foldedName(content.name)] else {
+            let namesake = byName[IngredientNameNormalizer.foldedName(content.name)]
+            // A backup that knows its recipes' identities (format 8) finds
+            // each by it. Without a match, a recipe of the same name is only
+            // the same recipe when it reads the same — read in once with
+            // "Rezepte importieren", say; another "Brot" stays another and
+            // the backup's comes in beside it. Older backups go by the name.
+            let known: StoredRecipe?
+            if let backupID = content.backupID {
+                known = byBackupID[backupID] ?? namesake.flatMap { Self.isSameRecipe($0.content, content) ? $0 : nil }
+            } else {
+                known = namesake
+            }
+            guard let known else {
                 newContents.append(content)
                 continue
             }
@@ -96,9 +110,26 @@ extension RecipeImport {
                 merged += 1
             }
         }
-        let added = try addRecipes(newContents, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
+        let added = try addRecipes(newContents, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings,
+                                   keepingIdentities: true)
         return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, bakeEntries: merged,
                                   skippedRecipes: file.skippedRecipes)
+    }
+
+    /// Whether two recipes are the same apart from what a backup adds to
+    /// one: picture, bakes, feedings, variant and identity.
+    private static func isSameRecipe(_ stored: RecipeExportData, _ fromFile: RecipeExportData) -> Bool {
+        func bare(_ recipe: RecipeExportData) -> RecipeExportData {
+            var bare = recipe.inStoreOrder
+            bare.image = nil
+            bare.bakeHistory = nil
+            bare.starterFeedings = nil
+            bare.variantOf = nil
+            bare.variantNote = nil
+            bare.backupID = nil
+            return bare
+        }
+        return bare(stored) == bare(fromFile)
     }
 
     /// A date to the second: two stores may keep fractions differently.
@@ -123,11 +154,16 @@ extension RecipeImport {
     }
 
     /// Every recipe in `contents` as a new one, with its bakes and feedings.
+    /// A restore keeps the identities the backup carries, so restoring it
+    /// again finds the recipes; an import gives every recipe a new one, as
+    /// reading a file twice makes two of each.
     private static func addRecipes(_ contents: [RecipeExportData], into store: RecipeStore,
-                                   bakeHistory: BakeHistoryStore, starterFeedings: StarterFeedingLogStore) throws -> [StoredRecipe] {
+                                   bakeHistory: BakeHistoryStore, starterFeedings: StarterFeedingLogStore,
+                                   keepingIdentities: Bool = false) throws -> [StoredRecipe] {
         guard !contents.isEmpty else { return [] }
         let added = try store.add(contentsOf: contents.map { recipe in
             var recipe = recipe
+            if !keepingIdentities { recipe.backupID = nil }
             recipe.bakeHistory = nil
             recipe.starterFeedings = nil
             recipe.variantOf = nil
@@ -194,6 +230,8 @@ extension RecipeExportFile {
         for id in ids {
             guard let recipe = try store.recipe(id: id) else { continue }
             var content = recipe.content
+            // Its identity, so restoring the backup finds this very recipe.
+            content.backupID = recipe.backupID
             // The origin by name: keys mean nothing on another device.
             if let originID = recipe.originID, let origin = try store.recipe(id: originID) {
                 content.variantOf = origin.content.name

@@ -93,7 +93,9 @@ extension RecipeExportData {
     /// device.
     func makeRecipe(in context: NSManagedObjectContext) -> Recipe {
         let recipe = Recipe(context: context)
-        recipe.id                     = UUID()
+        // A restored backup brings the recipe's identity along (format 8);
+        // anything else gets a new one.
+        recipe.id                     = backupID.flatMap(UUID.init(uuidString:)) ?? UUID()
         recipe.name                   = name
         recipe.summary                = summary
         recipe.urlLink                = urlLink
