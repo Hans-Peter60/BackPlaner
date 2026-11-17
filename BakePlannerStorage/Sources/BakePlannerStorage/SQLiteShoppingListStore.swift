@@ -64,7 +64,7 @@ public final class SQLiteShoppingListStore: ShoppingListStore {
         let current = Set(try database.selectAll(sql: "SELECT id FROM shopping_list_item WHERE shopping_list_id = ?",
                                                  parameters: [.long(listID)]).compactMap { $0[0].longValue })
 
-        try database.transaction {
+        try database.savepoint {
             var kept = Set<Int64>()
             for line in lines {
                 if let key = line.key, let itemID = Int64(key), current.contains(itemID) {

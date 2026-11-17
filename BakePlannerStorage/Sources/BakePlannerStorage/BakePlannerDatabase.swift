@@ -26,6 +26,15 @@ public final class BakePlannerDatabase {
         try context.migrate(migrations: Self.migrations)
     }
 
+    /// Runs `work` as one transaction across every store on this file:
+    /// all of it is kept, or — when it throws — none of it. An import
+    /// writes recipes, bakes, feedings and pantry items through four stores;
+    /// a failure half-way used to leave the first half behind, and a second
+    /// try doubled it. The stores' own transactions nest inside.
+    public func atomically<T>(_ work: () throws -> T) throws -> T {
+        try context.savepoint(work)
+    }
+
     /// Closes the file. No store on it can be used afterwards.
     public func close() throws {
         try context.close()
@@ -259,4 +268,24 @@ public final class BakePlannerDatabase {
             try database.exec(sql: "ALTER TABLE scheduled_step ADD COLUMN uses_convection INTEGER NOT NULL DEFAULT 0")
         },
     ]
+}
+
+extension SQLContext {
+
+    /// A transaction that may run inside another: SQLite refuses a BEGIN
+    /// within a transaction, but nests savepoints, and a savepoint outside
+    /// any transaction starts one. Every store writes through this, so an
+    /// import can wrap them all (`BakePlannerDatabase.atomically`).
+    func savepoint<T>(_ work: () throws -> T) throws -> T {
+        try exec(sql: "SAVEPOINT bakeplanner")
+        do {
+            let result = try work()
+            try exec(sql: "RELEASE SAVEPOINT bakeplanner")
+            return result
+        } catch {
+            try? exec(sql: "ROLLBACK TO SAVEPOINT bakeplanner")
+            try? exec(sql: "RELEASE SAVEPOINT bakeplanner")
+            throw error
+        }
+    }
 }

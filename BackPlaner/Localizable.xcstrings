@@ -17,6 +17,42 @@
         }
       }
     },
+    "%lld Rezepte der Datei waren nicht lesbar und wurden übersprungen." : {
+      "comment" : "A line of the import message: how many recipes of the file could not be read and were left out.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld recipes in the file could not be read and were skipped."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld recettes du fichier étaient illisibles et ont été ignorées."
+          }
+        }
+      }
+    },
+    "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen." : {
+      "comment" : "Error message when an import or backup restore stops at a record the store refuses; nothing of the file was kept.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An entry could not be saved. Nothing was imported."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une entrée n’a pas pu être enregistrée. Rien n’a été importé."
+          }
+        }
+      }
+    },
     "„%@“" : {
       "comment" : "A recipe name in the app's language.",
       "extractionState" : "manual",

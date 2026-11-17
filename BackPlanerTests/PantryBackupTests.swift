@@ -56,3 +56,56 @@ struct PantryBackupTests {
         #expect(shared.pantry == nil && shared.formatVersion == 1)
     }
 }
+
+@Suite("Imports through Core Data: all or nothing")
+@MainActor
+struct AtomicImportTests {
+
+    struct Stop: Error {}
+
+    @Test("A failure half-way leaves the store as it was")
+    func failureKeepsNothing() throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        _ = try CoreDataRecipeStore(context: context).add(contentsOf: [RecipeStoreContract.bread()])
+
+        #expect(throws: Stop.self) {
+            try RecipeImport.atomically(in: context) { scratch in
+                var zopf = RecipeStoreContract.bread()
+                zopf.name = "Zopf"
+                _ = try CoreDataRecipeStore(context: scratch).add(contentsOf: [zopf])
+                _ = try CoreDataPantryStore(context: scratch).add(name: "Hefe", amount: 42, unit: .gram,
+                                                                   bestBefore: nil, note: "")
+                throw Stop()
+            }
+        }
+        #expect(try CoreDataRecipeStore(context: context).recipes(includingImages: false).map(\.content.name) == ["Landbrot"])
+        #expect(try CoreDataPantryStore(context: context).items().isEmpty)
+        #expect(!context.hasChanges)
+    }
+
+    @Test("A full backup comes in at once, its bakes and variants attached to the new recipes")
+    func backupAttachesBakesAndVariants() throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        var bread = RecipeStoreContract.bread()
+        bread.bakeHistory = [RecipeExportBakeEntry(date: Date(timeIntervalSince1970: 1_800_000_000), comment: "gut",
+                                                   images: [], facts: BakeHistoryFacts())]
+        var variant = RecipeStoreContract.bread()
+        variant.name = "Landbrot mit Saaten"
+        variant.variantOf = bread.name
+        variant.variantNote = "Saaten"
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("atomic-\(UUID().uuidString).json")
+        try RecipeExportFile(recipes: [bread, variant]).encoded().write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        let result = try RecipeImport.importRecipes(from: url, into: context)
+        #expect(result.recipes == 2)
+        #expect(!context.hasChanges)
+        let store = CoreDataRecipeStore(context: context)
+        let recipes = try store.recipes(includingImages: false)
+        let origin = try #require(recipes.first { $0.content.name == "Landbrot" })
+        let copy = try #require(recipes.first { $0.content.name == "Landbrot mit Saaten" })
+        #expect(copy.originID == origin.id && copy.variantNote == "Saaten")
+        #expect(try CoreDataBakeHistoryStore(context: context).entries(ofRecipe: origin.id, includingImages: false).count == 1)
+    }
+}
+

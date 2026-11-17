@@ -39,7 +39,7 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
     }
 
     public func add(_ steps: [ScheduledStepData]) {
-        _ = try? database.transaction {
+        _ = try? database.savepoint {
             for step in steps {
                 try database.exec(sql: """
                     INSERT INTO scheduled_step (step_id, plan_id, recipe_name, instruction, step, start_time, duration,
@@ -74,7 +74,7 @@ public final class SQLiteScheduledStepStore: ScheduledStepStore {
     }
 
     public func setDates(_ dates: [String: Date]) {
-        _ = try? database.transaction {
+        _ = try? database.savepoint {
             for (key, date) in dates {
                 guard let rowID = Int64(key) else { continue }
                 try database.exec(sql: "UPDATE scheduled_step SET date = ? WHERE id = ?",

@@ -65,8 +65,16 @@ public protocol BakeHistoryStore {
     func delete(id: String) throws
 }
 
-public enum BakeHistoryStoreError: Error, Equatable {
+public enum BakeHistoryStoreError: LocalizedError, Equatable {
     case unknownEntry(String)
     /// A recipe the RecipeStore beside this store does not have.
     case unknownRecipe(String)
+}
+
+extension BakeHistoryStoreError {
+    /// What the user reads when an import stops at this error; the import
+    /// runs as one transaction, so nothing of the file was kept.
+    public var errorDescription: String? {
+        String(localized: "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen.", bundle: AppSettings.localizationBundle)
+    }
 }
