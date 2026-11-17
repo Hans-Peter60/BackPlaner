@@ -377,4 +377,26 @@ struct RecipePersistenceTests {
         #expect(RecurringBakePlanner.rhythmFinish(of: recipe)
                 == start.addingTimeInterval(TimeInterval(RecurringBakePlanner.planDuration(of: recipe) * 60)))
     }
+
+    @Test("Editing an ingredient or a step of a recipe redraws its page; another recipe's edit does not")
+    @MainActor
+    func changesReachTheRecipePage() throws {
+        let context = makeContext()
+        let recipe = sampleData().makeRecipe(in: context)
+        var other = sampleData()
+        other.name = "Anderes Brot"
+        let otherRecipe = other.makeRecipe(in: context)
+        try context.save()
+
+        let ingredient = try #require(recipe.componentsArray.first?.ingredientsArray.first)
+        let step = try #require(recipe.instructionsArray.first)
+        let foreign = try #require(otherRecipe.instructionsArray.first)
+        #expect(RecipeChange.touches(recipe, [NSUpdatedObjectsKey: Set<NSManagedObject>([ingredient])]))
+        #expect(RecipeChange.touches(recipe, [NSUpdatedObjectsKey: Set<NSManagedObject>([step])]))
+        #expect(RecipeChange.touches(recipe, [NSUpdatedObjectsKey: Set<NSManagedObject>([recipe])]))
+        #expect(!RecipeChange.touches(recipe, [NSUpdatedObjectsKey: Set<NSManagedObject>([foreign, otherRecipe])]))
+        #expect(RecipeChange.touches(recipe, [NSDeletedObjectsKey: Set<NSManagedObject>([foreign])]))
+        #expect(!RecipeChange.touches(recipe, nil))
+    }
 }
+

@@ -410,6 +410,10 @@ struct RecipeDetailView: View {
                 RecipePageView(recipe: recipe)
             }
         }
+        // Ingredients, components and steps are objects of their own;
+        // editing one changes the recipe without telling it, so the page
+        // showed the old amounts until it was opened again from the list.
+        .refreshesOnChanges(of: recipe, in: viewContext)
 
         }
     }
@@ -457,3 +461,55 @@ struct RecipeDetailView: View {
         }
     }
 }
+
+// MARK: - Refreshing after an edit
+
+extension View {
+    /// Redraws `recipe`'s observers whenever `context` changes the recipe
+    /// itself or one of the objects it is shown from — its components,
+    /// ingredients, steps, bakes and feedings — saved by the editor or
+    /// merged in from iCloud.
+    func refreshesOnChanges(of recipe: Recipe, in context: NSManagedObjectContext) -> some View {
+        task(id: recipe.objectID) {
+            for await notification in NotificationCenter.default.notifications(
+                named: .NSManagedObjectContextObjectsDidChange, object: context) {
+                if RecipeChange.touches(recipe, notification.userInfo) {
+                    recipe.objectWillChange.send()
+                }
+            }
+        }
+    }
+}
+
+enum RecipeChange {
+    /// Whether a change notification's objects concern `recipe`. A deleted
+    /// ingredient or step has lost its way back to the recipe already, so
+    /// any deleted part counts.
+    @MainActor
+    static func touches(_ recipe: Recipe, _ userInfo: [AnyHashable: Any]?) -> Bool {
+        guard let userInfo else { return false }
+        for key in [NSInsertedObjectsKey, NSUpdatedObjectsKey, NSRefreshedObjectsKey, NSDeletedObjectsKey] {
+            guard let objects = userInfo[key] as? Set<NSManagedObject> else { continue }
+            for object in objects {
+                switch object {
+                case let changed as Recipe where changed == recipe:
+                    return true
+                case let component as Component where component.recipe == recipe || key == NSDeletedObjectsKey:
+                    return true
+                case let ingredient as Ingredient where ingredient.component?.recipe == recipe || key == NSDeletedObjectsKey:
+                    return true
+                case let instruction as Instruction where instruction.recipe == recipe || key == NSDeletedObjectsKey:
+                    return true
+                case let bake as BakeHistory where bake.recipe == recipe || key == NSDeletedObjectsKey:
+                    return true
+                case let feeding as StarterFeedingLog where feeding.recipe == recipe || key == NSDeletedObjectsKey:
+                    return true
+                default:
+                    continue
+                }
+            }
+        }
+        return false
+    }
+}
+
