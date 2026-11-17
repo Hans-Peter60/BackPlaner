@@ -1,6 +1,8 @@
-# App-Store-Produktseite (ab Version 2.0, Stand 2.4)
+# App-Store-Produktseite (ab Version 2.0, Stand 2.4 mit Pro)
 
 Die Texte für App Store Connect, je Sprache. Der Text zwischen den Linien wird unverändert eingefügt.
+
+> **Pro (17.11.2026):** Jede Beschreibung endet mit dem Abschnitt „BAKEPLANNER PRO“, der sagt, was frei bleibt und was der Einmalkauf freischaltet, und die Prüfhinweise haben einen Absatz zum In-App-Kauf. **Beides erst in App Store Connect eintragen, wenn der Kauf „BakePlanner Pro“ angelegt und mit der Version eingereicht ist** (Reihenfolge in [Pro-Einfuehrung.md](Pro-Einfuehrung.md)); vorher verspräche die Seite etwas, das es nicht zu kaufen gibt. Bis dahin die Beschreibung ohne den letzten Abschnitt verwenden. Bestandsnutzer behalten, was ihre erste Version frei hatte; das steht auf der Kaufseite in der App, nicht in der Beschreibung.
 
 Solange die App noch keine Nutzer hat, berichtet die Produktseite keine Neuerungen, sondern stellt die Besonderheiten der App voran. Die eine Botschaft, die BakePlanner von Rezept-Apps unterscheidet: Du sagst, wann das Brot fertig sein soll, und die App rechnet rückwärts. Untertitel, Werbetext, die ersten Zeilen der Beschreibung und das erste Bild sagen alle dasselbe. Die Überschriften der Screenshots stehen in `docs/appstore/captions.json`, siehe [AppStore-Screenshots.md](AppStore-Screenshots.md).
 
@@ -59,6 +61,9 @@ Fotografiere ein Rezept aus dem Buch, teile eine Internetseite aus Safari oder f
 EINKAUFEN UND DOKUMENTIEREN
 Die Einkaufsliste ist nach Regalen sortiert und übernimmt die Mengen in der gewählten Portionsgröße. Die Backhistorie hält Foto, Messwerte und Ergebnis jedes Backtags fest – als Liste, Galerie, Hit-Liste oder Fotowolke, in der jedes Rezept so groß erscheint, wie oft Du es gebacken hast.
 
+BAKEPLANNER PRO
+Der Kern bleibt kostenlos: Rezepte, Zeitplan, Erinnerungen, Backmodus, Backhistorie, Rezept-Datenbank und die Rechner. BakePlanner Pro ist ein Einmalkauf, kein Abo, und schaltet dazu frei: Backtag planen (mehrere Brote, eine Wunschzeit), Vorrat mit Haltbarkeit, Sammlungen und „Fertig bis“, Backstatistik und Backjahr-Buch, Ofenprofile mit Reglereinstellung, den freihändigen Backmodus per Stimme, das Anstellgut-Diagramm, die Kalender-Prüfung beim Planen, Backhistorie aus alten Fotos, Rezepte nach Bäckerprozent, Einkaufslisten, PDF und Weitergabe, wiederkehrende Pläne sowie Widgets und Live-Aktivität.
+
 BakePlanner – sag, wann das Brot fertig sein soll. Den Rest rechnet die App.
 
 ---
@@ -90,6 +95,9 @@ Photograph a recipe from a book, share a web page from Safari or paste the recip
 SHOPPING AND KEEPING RECORDS
 The shopping list is sorted by shelf and takes the amounts at the chosen serving size. The baking history keeps a photo, measurements and the result of every baking day – as a list, gallery, top list or photo cloud, where every recipe appears as big as the number of times you have baked it.
 
+BAKEPLANNER PRO
+The core stays free: recipes, schedule, reminders, bake mode, baking history, the recipe database and the calculators. BakePlanner Pro is a one-time purchase, no subscription, and adds: planning a baking day (several breads, one finish time), a pantry with best-before dates, collections and “Done by”, baking statistics and the yearbook, oven profiles with dial settings, hands-free bake mode by voice, the starter chart, the calendar check when planning, baking history from old photos, recipes from baker’s percentages, shopping lists, PDF and sharing, recurring plans, widgets and the Live Activity.
+
 BakePlanner – say when the bread should be ready. The app works out the rest.
 
 ---
@@ -120,6 +128,9 @@ Photographiez une recette dans un livre, partagez une page web depuis Safari ou 
 
 COURSES ET SUIVI
 La liste de courses est triée par rayon et reprend les quantités à la taille de portion choisie. L’historique de cuisson garde une photo, les mesures et le résultat de chaque journée de boulange – en liste, galerie, palmarès ou nuage de photos, où chaque recette apparaît aussi grande que le nombre de fois où vous l’avez cuite.
+
+BAKEPLANNER PRO
+L’essentiel reste gratuit : recettes, plan, rappels, mode cuisson, historique, base de recettes et calculateurs. BakePlanner Pro est un achat unique, sans abonnement, et ajoute : la journée de cuisson (plusieurs pains, une heure voulue), la réserve avec dates limites, les collections et « Prêt pour », les statistiques et le livre de l’année, les profils de four avec thermostat, le mode cuisson mains libres à la voix, la courbe du levain, la vérification du calendrier, l’historique à partir d’anciennes photos, les recettes en pourcentages du boulanger, les listes de courses, le PDF et le partage, les plans récurrents, les widgets et l’activité en direct.
 
 BakePlanner – dites quand le pain doit être prêt. L’app calcule le reste.
 
@@ -153,7 +164,9 @@ No account is needed; everything can be tested without signing in. Sign in with 
 
 To see the core feature: tab “Recipes” → open “Kartoffelbrot mit Saaten” (or any public recipe; the filter “Public” shows them) → button “Plan” → in the sheet choose “Done by” and a date two days ahead → the start time of every step is calculated backward → “Set reminders” (allow notifications). The “Up next” bar above the recipe list then shows the next step; the tab “Timeline” shows the timeline, the list and “Bake mode”.
 
-The four calculators (dough temperature, replace flour, starter TA, dough weight from the tin) are in the “More” menu of the recipe list, as are the settings. Calendar, Reminders and alarm permissions are only requested when the respective feature is used: tab “Timeline” → share menu → “Add to calendar”; a shopping list’s “Reminders” button; Settings → Baking plan → “Alarms”. Nothing leaves the device through them. The Apple Watch app mirrors the planned steps of the paired iPhone; it needs a plan on the iPhone and shows “No planned steps” until then. Recipe import from photos uses an on-device model by default; the cloud option is explained in Settings → Privacy & AI.
+The four calculators (dough temperature, replace flour, starter TA, dough weight from the tin) are in the “More” menu of the recipe list, as are the settings.
+
+In-app purchase: “BakePlanner Pro” is a single non-consumable purchase (de.hpm64625.BackPlaner.pro). Settings → “BakePlanner Pro” → “Unlock Pro” opens the purchase sheet with the full list of Pro features and “Restore Purchases”. A locked feature – for example “More” → “Plan a baking day”, “More” → “Pantry”, or the “Statistics” layout of the baking history – shows the same sheet. Everything above (planning, reminders, bake mode, recipes, calculators) is free and does not need the purchase. Calendar, Reminders and alarm permissions are only requested when the respective feature is used: tab “Timeline” → share menu → “Add to calendar”; a shopping list’s “Reminders” button; Settings → Baking plan → “Alarms”. Nothing leaves the device through them. The Apple Watch app mirrors the planned steps of the paired iPhone; it needs a plan on the iPhone and shows “No planned steps” until then. Recipe import from photos uses an on-device model by default; the cloud option is explained in Settings → Privacy & AI.
 
 ---
 
