@@ -293,6 +293,8 @@ struct SettingsView: View {
         } message: {
             if case .failed(let reason) = model.importOutcome {
                 Text(verbatim: reason)
+            } else if let skipped = model.importSkippedNote {
+                Text(verbatim: skipped)
             }
         }
         .onChange(of: preheatTime) { _, value in store(value, AppSettingsKeys.preheatTime) }

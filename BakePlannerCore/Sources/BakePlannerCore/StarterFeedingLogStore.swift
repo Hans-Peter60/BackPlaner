@@ -47,8 +47,16 @@ public protocol StarterFeedingLogStore {
     func delete(id: String) throws
 }
 
-public enum StarterFeedingLogStoreError: Error, Equatable {
+public enum StarterFeedingLogStoreError: LocalizedError, Equatable {
     case unknownFeeding(String)
     /// A recipe the RecipeStore beside this store does not have.
     case unknownRecipe(String)
+}
+
+extension StarterFeedingLogStoreError {
+    /// What the user reads when an import stops at this error; the import
+    /// runs as one transaction, so nothing of the file was kept.
+    public var errorDescription: String? {
+        String(localized: "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen.", bundle: AppSettings.localizationBundle)
+    }
 }

@@ -722,11 +722,12 @@ struct SettingsView: View {
         }
     }
 
-    /// Up to three localized lines; `Text +` is deprecated.
+    /// Up to four localized lines; `Text +` is deprecated.
     private static func restoreMessage(_ result: RecipeImportResult) -> String {
         var lines = [String(localized: "\(result.recipes) Rezepte importiert")]
         if result.bakeEntries > 0 { lines.append(String(localized: "\(result.bakeEntries) Backvorgänge und Fütterungen ergänzt")) }
         if result.pantryItems > 0 { lines.append(String(localized: "\(result.pantryItems) Posten im Vorrat ergänzt")) }
+        if let skipped = result.skippedNote { lines.append(skipped) }
         return lines.joined(separator: "\n")
     }
 

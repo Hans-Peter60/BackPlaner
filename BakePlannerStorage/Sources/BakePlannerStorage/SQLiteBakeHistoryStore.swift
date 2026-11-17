@@ -53,7 +53,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
             throw BakeHistoryStoreError.unknownRecipe(recipeID)
         }
         let normalized = facts.normalized
-        let rowID: Int64 = try database.transaction {
+        let rowID: Int64 = try database.savepoint {
             try database.exec(sql: """
                 INSERT INTO bake_history (recipe_id, date, comment, room_temperature, dough_temperature,
                     bulk_proof_minutes, final_proof_minutes, flour, outcome, rating)
@@ -75,7 +75,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
                                        parameters: [.long(rowID)]).isEmpty) else {
             throw BakeHistoryStoreError.unknownEntry(entry.id)
         }
-        try database.transaction {
+        try database.savepoint {
             try database.exec(sql: """
                 UPDATE bake_history SET date = ?, comment = ?, room_temperature = ?, dough_temperature = ?,
                     bulk_proof_minutes = ?, final_proof_minutes = ?, flour = ?, outcome = ?, rating = ?
@@ -99,7 +99,7 @@ public final class SQLiteBakeHistoryStore: BakeHistoryStore {
                                        parameters: [.long(recipeRowID)]).isEmpty) else {
             throw BakeHistoryStoreError.unknownRecipe(recipeID)
         }
-        try database.transaction {
+        try database.savepoint {
             try database.exec(sql: "UPDATE bake_history SET recipe_id = ? WHERE id = ?",
                               parameters: [.long(recipeRowID), .long(rowID)])
             try database.exec(sql: "UPDATE recipe SET bake_history_flag = 1 WHERE id = ?",

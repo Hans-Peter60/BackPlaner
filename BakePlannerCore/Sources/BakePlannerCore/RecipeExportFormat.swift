@@ -50,6 +50,14 @@ public struct RecipeExportFile: Codable, Equatable {
     /// pantry is not tied to a recipe, so it stands beside them. Absent in
     /// a shared recipe and in files of older versions.
     public var pantry: [RecipeExportPantryItem]?
+    /// Recipes of the file that could not be read (a field of the wrong
+    /// type, a step without its text) and were left out; the others come
+    /// in. Not part of the file.
+    public var skippedRecipes = 0
+
+    enum CodingKeys: String, CodingKey {
+        case formatVersion, recipes, pantry
+    }
 
     /// Whether this app version knows how to read a file written at
     /// `formatVersion` — a later version may have added fields this one
@@ -327,6 +335,95 @@ extension RecipeExportFile {
     }
 }
 
+// MARK: - Reading leniently
+//
+// A file is read as far as it can be: one recipe with a field of the wrong
+// type no longer makes the whole file unreadable — it is left out and
+// counted — and fields a hand-made or older file lacks take their empty
+// value. The file as written is unchanged.
+
+extension RecipeExportFile {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        formatVersion = try container.decodeIfPresent(Int.self, forKey: .formatVersion) ?? Self.plainFormatVersion
+        let entries = try container.decode([Lenient<RecipeExportData>].self, forKey: .recipes)
+        recipes = entries.compactMap(\.value)
+        skippedRecipes = entries.count - recipes.count
+        pantry = (try? container.decodeIfPresent([Lenient<RecipeExportPantryItem>].self, forKey: .pantry))?
+            .compactMap(\.value)
+    }
+}
+
+/// One element of an array that may fail to decode on its own.
+struct Lenient<Value: Decodable>: Decodable {
+    let value: Value?
+    init(from decoder: Decoder) throws {
+        value = try? Value(from: decoder)
+    }
+}
+
+extension RecipeExportData {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        summary = (try? container.decodeIfPresent(String.self, forKey: .summary)) ?? ""
+        urlLink = try? container.decodeIfPresent(String.self, forKey: .urlLink)
+        prepTime = (try? container.decodeIfPresent(Int.self, forKey: .prepTime)) ?? 0
+        totalWeight = (try? container.decodeIfPresent(Double.self, forKey: .totalWeight)) ?? 0
+        tags = (try? container.decodeIfPresent([String].self, forKey: .tags)) ?? []
+        rating = (try? container.decodeIfPresent(Int.self, forKey: .rating)) ?? 0
+        recurrenceIntervalDays = (try? container.decodeIfPresent(Int.self, forKey: .recurrenceIntervalDays)) ?? 0
+        image = try? container.decodeIfPresent(Data.self, forKey: .image)
+        components = try container.decodeIfPresent([RecipeExportComponent].self, forKey: .components) ?? []
+        instructions = try container.decodeIfPresent([RecipeExportInstruction].self, forKey: .instructions) ?? []
+        bakeHistory = (try? container.decodeIfPresent([Lenient<RecipeExportBakeEntry>].self, forKey: .bakeHistory))?
+            .compactMap(\.value)
+        starterFeedings = (try? container.decodeIfPresent([Lenient<RecipeExportStarterFeeding>].self, forKey: .starterFeedings))?
+            .compactMap(\.value)
+        variantOf = try? container.decodeIfPresent(String.self, forKey: .variantOf)
+        variantNote = try? container.decodeIfPresent(String.self, forKey: .variantNote)
+    }
+}
+
+extension RecipeExportIngredient {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        number = (try? container.decodeIfPresent(Int.self, forKey: .number)) ?? 0
+        unit = try? container.decodeIfPresent(String.self, forKey: .unit)
+        weight = (try? container.decodeIfPresent(Double.self, forKey: .weight)) ?? 0
+        normWeight = (try? container.decodeIfPresent(Double.self, forKey: .normWeight)) ?? weight
+        num = (try? container.decodeIfPresent(Int.self, forKey: .num)) ?? 0
+        denom = (try? container.decodeIfPresent(Int.self, forKey: .denom)) ?? 0
+    }
+}
+
+extension RecipeExportComponent {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = (try? container.decodeIfPresent(String.self, forKey: .name)) ?? ""
+        number = (try? container.decodeIfPresent(Int.self, forKey: .number)) ?? 0
+        ingredients = try container.decodeIfPresent([RecipeExportIngredient].self, forKey: .ingredients) ?? []
+    }
+}
+
+extension RecipeExportInstruction {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        instruction = try container.decode(String.self, forKey: .instruction)
+        step = (try? container.decodeIfPresent(Double.self, forKey: .step)) ?? 1
+        duration = (try? container.decodeIfPresent(Int.self, forKey: .duration)) ?? 0
+        startTime = (try? container.decodeIfPresent(Int.self, forKey: .startTime)) ?? 0
+        bakeFlag = (try? container.decodeIfPresent(Bool.self, forKey: .bakeFlag)) ?? false
+        componentName = try? container.decodeIfPresent(String.self, forKey: .componentName)
+        minDuration = try? container.decodeIfPresent(Int.self, forKey: .minDuration)
+        maxDuration = try? container.decodeIfPresent(Int.self, forKey: .maxDuration)
+        ovenTemperature = try? container.decodeIfPresent(Int.self, forKey: .ovenTemperature)
+        ovenFallingTemperature = try? container.decodeIfPresent(Int.self, forKey: .ovenFallingTemperature)
+        ovenSteam = try? container.decodeIfPresent(Bool.self, forKey: .ovenSteam)
+    }
+}
+
 // MARK: - Reading a file
 
 public enum RecipeImportError: LocalizedError {
@@ -357,6 +454,10 @@ public enum RecipeImport {
 
         guard RecipeExportFile.isSupported(formatVersion: file.formatVersion) else {
             throw RecipeImportError.unsupportedFormatVersion
+        }
+        // Recipes in it, none of them readable: no recipe file after all.
+        guard !(file.recipes.isEmpty && file.skippedRecipes > 0 && (file.pantry ?? []).isEmpty) else {
+            throw RecipeImportError.unreadableFile
         }
         return file.sanitized
     }

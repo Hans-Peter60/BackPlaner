@@ -83,7 +83,7 @@ public struct StoredPantryItem: Equatable, Identifiable, Sendable {
     }
 }
 
-public enum PantryStoreError: Error, Equatable {
+public enum PantryStoreError: LocalizedError, Equatable {
     case unknownItem(String)
     case emptyName
 }
@@ -130,5 +130,13 @@ public extension PantryStore {
         }
         return try add(name: IngredientNameNormalizer.displayName(name), amount: amount, unit: unit,
                        bestBefore: bestBefore, note: "")
+    }
+}
+
+extension PantryStoreError {
+    /// What the user reads when an import stops at this error; the import
+    /// runs as one transaction, so nothing of the file was kept.
+    public var errorDescription: String? {
+        String(localized: "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen.", bundle: AppSettings.localizationBundle)
     }
 }

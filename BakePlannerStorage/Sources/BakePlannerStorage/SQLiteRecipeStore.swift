@@ -59,13 +59,13 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     public func add(_ content: RecipeExportData, firestoreId: String?, adjustedOn: Date?,
                     bakeHistoryFlag: Bool) throws -> StoredRecipe {
-        try database.transaction {
+        try database.savepoint {
             try insert(content, firestoreId: firestoreId, adjustedOn: adjustedOn, bakeHistoryFlag: bakeHistoryFlag)
         }
     }
 
     public func add(contentsOf contents: [RecipeExportData]) throws -> [StoredRecipe] {
-        try database.transaction {
+        try database.savepoint {
             try contents.map { try insert($0, firestoreId: nil, adjustedOn: nil, bakeHistoryFlag: false) }
         }
     }
@@ -83,7 +83,7 @@ public final class SQLiteRecipeStore: RecipeStore {
         }
         let note = recipe.variantNote?.trimmingCharacters(in: .whitespacesAndNewlines)
         let content = recipe.content
-        try database.transaction {
+        try database.savepoint {
             try database.exec(sql: """
                 UPDATE recipe SET firestore_id = ?, adjusted_on = ?, bake_history_flag = ?, name = ?, summary = ?,
                     url_link = ?, prep_time = ?, total_weight = ?, tags = ?, rating = ?, recurrence_interval_days = ?,

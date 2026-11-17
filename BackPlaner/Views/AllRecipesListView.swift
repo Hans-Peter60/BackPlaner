@@ -472,13 +472,10 @@ struct AllRecipesListView: View {
             ), presenting: importResult) { _ in
                 Button("OK", role: .cancel) { }
             } message: { result in
-                if result.pantryItems > 0 {
-                    // Two localized lines; `Text +` is deprecated.
-                    Text(verbatim: String(localized: "\(result.recipes) Rezepte importiert") + "\n"
-                         + String(localized: "\(result.pantryItems) Posten im Vorrat ergänzt"))
-                } else {
-                    Text("\(result.recipes) Rezepte importiert")
-                }
+                // Localized lines joined; `Text +` is deprecated.
+                Text(verbatim: ([String(localized: "\(result.recipes) Rezepte importiert")]
+                                + (result.pantryItems > 0 ? [String(localized: "\(result.pantryItems) Posten im Vorrat ergänzt")] : [])
+                                + [result.skippedNote].compactMap { $0 }).joined(separator: "\n"))
             }
             .alert("Import fehlgeschlagen", isPresented: Binding(
                 get: { importErrorMessage != nil },

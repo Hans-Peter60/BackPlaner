@@ -78,7 +78,7 @@ public protocol RecipeStore {
     func delete(id: String) throws
 }
 
-public enum RecipeStoreError: Error, Equatable {
+public enum RecipeStoreError: LocalizedError, Equatable {
     /// `update` or `setImage` for a key the store does not have, or an
     /// origin it does not have.
     case unknownRecipe(String)
@@ -122,5 +122,13 @@ extension RecipeExportData {
             }
         ordered.instructions = instructions.sorted { $0.step < $1.step }
         return ordered
+    }
+}
+
+extension RecipeStoreError {
+    /// What the user reads when an import stops at this error; the import
+    /// runs as one transaction, so nothing of the file was kept.
+    public var errorDescription: String? {
+        String(localized: "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen.", bundle: AppSettings.localizationBundle)
     }
 }

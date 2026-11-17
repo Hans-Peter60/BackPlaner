@@ -72,6 +72,7 @@ KLEINERES
 • Bei einem Rezept mit nur einer Komponente, etwa einem Anstellgut, zeigt der erste Arbeitsschritt die Zutaten – nicht der Reifeschritt, der den Namen wiederholt. Das gilt für das „i“ in den geplanten Schritten, den Backmodus, die Uhr und die Erinnerungen.
 • Der Plan erinnert ans Dampfablassen, wann das Rezept es sagt: „Schwaden nach 10 Minuten ablassen“ bekommt den Schritt „Dampf ablassen“ zehn Minuten nach Backbeginn, „die ersten 15 Minuten mit Dampf“ nach 15 Minuten. Ein eigener Schritt „Nach 10 Minuten Dampf ablassen“ hinter dem Backen kommt jetzt während des Backens statt danach. Gehen lassen im ausgeschalteten Backofen schaltet den Ofen nicht mehr an, und eine Fütterung bekommt keinen Ofenschritt mehr.
 • Unsinnige Zahlen bringen die App nicht mehr zum Absturz – etwa 20-stellige Mengen oder Zeiten aus einer Webseite, einem Foto, einer Sicherung oder einem öffentlichen Rezept. Die App hält sie in sinnvollen Grenzen (Zeiten bis 60 Tage, Mengen bis 1 t); in Eingabefeldern gelten sie als keine gültige Zahl.
+• „Rezepte importieren“ und „Sicherung wiedereinspielen“ übernehmen eine Datei ganz oder gar nicht: Bricht der Import ab, bleibt alles, wie es war, und ein zweiter Versuch legt nichts doppelt an. Ein unlesbares Rezept in der Datei wird übersprungen und in der Meldung gezählt, statt die ganze Datei abzulehnen.
 
 ---
 
@@ -139,6 +140,7 @@ SMALLER THINGS
 • In a recipe with a single component, such as a starter, the first working step shows the ingredients – not the ripening step that repeats the name. This applies to the “i” in the scheduled steps, bake mode, the watch and the reminders.
 • The plan reminds you to release the steam when the recipe says so: “release the steam after 10 minutes” gets the step “Release the steam” ten minutes into the bake, “the first 15 minutes with steam” after 15 minutes. A step of its own such as “Release the steam after 10 minutes” after the bake now comes during the bake instead of after it. Proofing in the switched-off oven no longer turns the oven on, and a starter feeding no longer gets an oven step.
 • Absurd numbers no longer crash the app – such as 20-digit amounts or times from a web page, a photo, a backup or a public recipe. The app keeps them within sensible limits (times up to 60 days, amounts up to 1 t); in input fields they count as no valid number.
+• “Import recipes” and “Restore backup” take a file in whole or not at all: if the import stops, everything stays as it was, and a second try adds nothing twice. An unreadable recipe in the file is skipped and counted in the message instead of rejecting the whole file.
 
 ---
 
@@ -206,5 +208,6 @@ PLUS PETIT
 • Pour une recette à un seul composant, comme un levain chef, la première étape de travail affiche les ingrédients – et non l’étape de maturation qui répète le nom. Cela vaut pour le « i » des étapes planifiées, le mode cuisson, la montre et les rappels.
 • Le plan rappelle d’évacuer la buée quand la recette le dit : « évacuer la buée après 10 minutes » reçoit l’étape « Évacuer la buée » dix minutes après le début de la cuisson, « les 15 premières minutes avec buée » après 15 minutes. Une étape à elle comme « Évacuer la buée après 10 minutes » après la cuisson arrive désormais pendant la cuisson et non après. La pousse dans le four éteint n’allume plus le four, et un rafraîchi n’a plus d’étape de four.
 • Des nombres absurdes ne font plus planter l’app – par exemple des quantités ou des durées à 20 chiffres venant d’une page web, d’une photo, d’une sauvegarde ou d’une recette publique. L’app les maintient dans des limites raisonnables (durées jusqu’à 60 jours, quantités jusqu’à 1 t) ; dans les champs de saisie, ils ne comptent pas comme un nombre valide.
+• « Importer des recettes » et « Restaurer une sauvegarde » reprennent un fichier en entier ou pas du tout : si l’import s’interrompt, tout reste en l’état, et un second essai n’ajoute rien en double. Une recette illisible du fichier est ignorée et comptée dans le message au lieu de faire rejeter tout le fichier.
 
 ---

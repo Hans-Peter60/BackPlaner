@@ -127,6 +127,11 @@ struct CoreDataRecipeStore: RecipeStore {
 
     private func save() throws {
         guard context.hasChanges else { return }
+        // A recipe's key is its object ID. In a child context — an import
+        // that saves only at its end — a new recipe would keep a temporary
+        // one, which no lookup finds; its bakes and variants could not be
+        // attached.
+        try context.obtainPermanentIDs(for: Array(context.insertedObjects))
         try context.save()
     }
 }

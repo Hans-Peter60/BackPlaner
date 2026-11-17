@@ -18,11 +18,22 @@ public struct RecipeImportResult: Equatable, Sendable {
     /// Bakes and feedings added to recipes the store already had — a
     /// restore merging into what is there.
     public var bakeEntries: Int
+    /// Recipes of the file that could not be read and were left out.
+    public var skippedRecipes: Int
 
-    public init(recipes: Int, pantryItems: Int = 0, bakeEntries: Int = 0) {
+    public init(recipes: Int, pantryItems: Int = 0, bakeEntries: Int = 0, skippedRecipes: Int = 0) {
         self.recipes = recipes
         self.bakeEntries = bakeEntries
         self.pantryItems = pantryItems
+        self.skippedRecipes = skippedRecipes
+    }
+
+    /// The line the import's message adds when recipes were left out, nil
+    /// when all came in.
+    public var skippedNote: String? {
+        guard skippedRecipes > 0 else { return nil }
+        return String(localized: "\(skippedRecipes) Rezepte der Datei waren nicht lesbar und wurden übersprungen.",
+                      bundle: AppSettings.localizationBundle)
     }
 }
 
@@ -46,7 +57,7 @@ extension RecipeImport {
         let file = try decodeFile(data)
         let pantryItems = try addPantry(file, to: pantry)
         let added = try addRecipes(file.recipes, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
-        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems)
+        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, skippedRecipes: file.skippedRecipes)
     }
 
     /// Reads a full backup back onto a device that may already have part
@@ -86,7 +97,8 @@ extension RecipeImport {
             }
         }
         let added = try addRecipes(newContents, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
-        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, bakeEntries: merged)
+        return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, bakeEntries: merged,
+                                  skippedRecipes: file.skippedRecipes)
     }
 
     /// A date to the second: two stores may keep fractions differently.
@@ -95,10 +107,13 @@ extension RecipeImport {
     }
 
     /// The file's pantry onto `pantry`: items the pantry has by name stay.
+    /// An item without a name is left out; the store refuses it, and the
+    /// whole import used to fail with it.
     private static func addPantry(_ file: RecipeExportFile, to pantry: PantryStore?) throws -> Int {
         var pantryItems = 0
         if let pantry, let items = file.pantry {
-            for item in items where try pantry.item(matching: item.name) == nil {
+            for item in items where !item.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                guard try pantry.item(matching: item.name) == nil else { continue }
                 _ = try pantry.add(name: item.name, amount: item.amount, unit: PantryUnit(stored: item.unit),
                                    bestBefore: item.bestBefore, note: item.note ?? "")
                 pantryItems += 1

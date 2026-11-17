@@ -15,6 +15,9 @@ final class AppModel {
     var loadError: String?
     /// What the last import did, until the user has seen it.
     var importOutcome: ImportOutcome?
+    /// With an import's outcome: how many recipes of the file could not be
+    /// read and were left out, as a line for its message; nil when all came in.
+    var importSkippedNote: String?
 
     enum ImportOutcome: Equatable {
         /// Recipes added, pantry items the file added to the pantry, and
@@ -902,8 +905,12 @@ final class AppModel {
     func restoreBackup(at url: URL) {
         do {
             let data = try Data(contentsOf: url)
-            let result = try RecipeImport.restoreBackup(data, into: openedStore(), bakeHistory: openedHistoryStore(),
-                                                        starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            // All of it or nothing: a failure half-way leaves the database as it was.
+            let result = try openedStore().file.atomically {
+                try RecipeImport.restoreBackup(data, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                               starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            }
+            importSkippedNote = result.skippedNote
             importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: result.bakeEntries)
         } catch {
             importOutcome = .failed(error.localizedDescription)
@@ -927,8 +934,12 @@ final class AppModel {
             let data = try Data(contentsOf: url)
             // The file's pantry items the pantry does not have by name
             // come along, as on the iPhone.
-            let result = try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
-                                                     starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            // All of it or nothing, so a second try does not double what came in.
+            let result = try openedStore().file.atomically {
+                try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                            starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+            }
+            importSkippedNote = result.skippedNote
             importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: 0)
         } catch {
             logger.error("could not import \(url.lastPathComponent): \(error)")

@@ -400,6 +400,8 @@ struct RecipeListView: View {
         } message: {
             if case .failed(let reason) = model.importOutcome {
                 Text(verbatim: reason)
+            } else if let skipped = model.importSkippedNote {
+                Text(verbatim: skipped)
             }
         }
     }

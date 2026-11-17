@@ -242,10 +242,12 @@ extension RecipeImport {
             throw RecipeImportError.unreadableFile
         }
 
-        return try importFile(data, into: CoreDataRecipeStore(context: context),
-                              bakeHistory: CoreDataBakeHistoryStore(context: context),
-                              starterFeedings: CoreDataStarterFeedingLogStore(context: context),
-                              pantry: CoreDataPantryStore(context: context))
+        return try atomically(in: context) { scratch in
+            try importFile(data, into: CoreDataRecipeStore(context: scratch),
+                           bakeHistory: CoreDataBakeHistoryStore(context: scratch),
+                           starterFeedings: CoreDataStarterFeedingLogStore(context: scratch),
+                           pantry: CoreDataPantryStore(context: scratch))
+        }
     }
 
     /// Reads a full backup back, merging into what the device already has:
@@ -263,10 +265,35 @@ extension RecipeImport {
             throw RecipeImportError.unreadableFile
         }
 
-        return try restoreBackup(data, into: CoreDataRecipeStore(context: context),
-                                 bakeHistory: CoreDataBakeHistoryStore(context: context),
-                                 starterFeedings: CoreDataStarterFeedingLogStore(context: context),
-                                 pantry: CoreDataPantryStore(context: context))
+        return try atomically(in: context) { scratch in
+            try restoreBackup(data, into: CoreDataRecipeStore(context: scratch),
+                              bakeHistory: CoreDataBakeHistoryStore(context: scratch),
+                              starterFeedings: CoreDataStarterFeedingLogStore(context: scratch),
+                              pantry: CoreDataPantryStore(context: scratch))
+        }
+    }
+
+    /// Runs an import in a child of `context` and saves `context` once at
+    /// the end: all of the file comes in, or — when anything fails — none
+    /// of it. The stores save after every recipe and bake; written straight
+    /// into `context`, a failure half-way left the first half behind, the
+    /// app said "Import fehlgeschlagen", and a second try doubled it. On a
+    /// failure `context` is rolled back, which also drops changes it had
+    /// not saved yet; the app saves its edits as they are made.
+    static func atomically<T>(in context: NSManagedObjectContext,
+                              _ work: (NSManagedObjectContext) throws -> T) throws -> T {
+        let scratch = NSManagedObjectContext(concurrencyType: context.concurrencyType)
+        scratch.parent = context
+        scratch.mergePolicy = context.mergePolicy
+        do {
+            let result = try work(scratch)
+            if context.hasChanges { try context.save() }
+            return result
+        } catch {
+            scratch.rollback()
+            context.rollback()
+            throw error
+        }
     }
 }
 
