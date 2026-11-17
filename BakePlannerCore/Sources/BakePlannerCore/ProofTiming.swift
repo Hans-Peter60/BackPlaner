@@ -146,6 +146,12 @@ public enum ProofTiming {
     /// The proofing temperature a step names, in °C: "bei 26 °C", "at
     /// 78 °F", "24–26 °C" (the middle). Nil without one, or when the only
     /// temperature is the oven's.
+    ///
+    /// The dough's or the water's temperature is no proofing temperature:
+    /// "Kneten (gewünschte Teigtemperatur: ca. 28 °C) und reifen lassen" is
+    /// written for the room the recipe assumes. Read as 28 °C, that step was
+    /// scaled down to 22 °C on its own, and a bulk proof planned for 22 °C
+    /// came out 35 minutes longer at 22 °C.
     public static func statedTemperature(in instruction: String) -> Double? {
         let text = instruction.lowercased()
         let pattern = #"(?<![\d.,])(\d{1,2}(?:[.,]\d)?)(?:\s*(?:-|–|bis|to|a|à)\s*(\d{1,2}(?:[.,]\d)?))?\s*(?:°\s*([cf])?|grad|degres|degrés|degrees)"#
@@ -153,6 +159,7 @@ public enum ProofTiming {
         let range = NSRange(text.startIndex..., in: text)
         for match in regex.matches(in: text, range: range) {
             guard let first = number(match, 1, in: text) else { continue }
+            guard !namesDoughOrWater(text, before: match.range.location) else { continue }
             let second = number(match, 2, in: text)
             var value = second.map { ($0 + first) / 2 } ?? first
             if let unitRange = Range(match.range(at: 3), in: text), text[unitRange] == "f" {
@@ -164,6 +171,23 @@ public enum ProofTiming {
         }
         return nil
     }
+
+    /// Whether the words just before a temperature, in its own part of the
+    /// sentence, make it the dough's or the water's: "Teigtemperatur: ca.
+    /// 28 °C", "TT 26 °C", "Wasser mit 30 °C", "dough temperature of 78 °F",
+    /// "température de pâte 25 °C". "Teigtemperatur 26 °C, bei 28 °C gehen
+    /// lassen" still proofs at 28 °C.
+    private static func namesDoughOrWater(_ lowercased: String, before location: Int) -> Bool {
+        var leadIn = (lowercased as NSString).substring(to: location)
+        if let cut = leadIn.lastIndex(where: { ",;()°".contains($0) }) {
+            leadIn = String(leadIn[leadIn.index(after: cut)...])
+        }
+        let folded = leadIn.folding(options: [.diacriticInsensitive], locale: Locale(identifier: "de_DE"))
+        return folded.range(of: doughOrWaterPattern, options: .regularExpression) != nil
+    }
+
+    private static let doughOrWaterPattern =
+        #"\b(teigtemp\w*|wassertemp\w*|schuttwasser\w*|tt|wasser\s+(mit|von)|dough\s+temp\w*|water\s+temp\w*|water\s+(at|of)|temperature\s+de\s+(la\s+)?pate|temperature\s+de\s+l'eau|eau\s+a)\b"#
 
     // MARK: - Today's durations
 

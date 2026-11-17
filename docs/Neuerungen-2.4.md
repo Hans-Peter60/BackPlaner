@@ -74,6 +74,8 @@ KLEINERES
 • Unsinnige Zahlen bringen die App nicht mehr zum Absturz – etwa 20-stellige Mengen oder Zeiten aus einer Webseite, einem Foto, einer Sicherung oder einem öffentlichen Rezept. Die App hält sie in sinnvollen Grenzen (Zeiten bis 60 Tage, Mengen bis 1 t); in Eingabefeldern gelten sie als keine gültige Zahl.
 • „Rezepte importieren“ und „Sicherung wiedereinspielen“ übernehmen eine Datei ganz oder gar nicht: Bricht der Import ab, bleibt alles, wie es war, und ein zweiter Versuch legt nichts doppelt an. Ein unlesbares Rezept in der Datei wird übersprungen und in der Meldung gezählt, statt die ganze Datei abzulehnen. Beim Wiedereinspielen erkennt die App jedes Rezept an seiner Kennung – auch umbenannt; ein anderes Rezept gleichen Namens bekommt nicht mehr die Backvorgänge der Sicherung.
 • Das Planungsblatt öffnet schneller: Die Vorschläge ohne Nachtarbeit werden ohne Wartezeit berechnet. Ein Link einer fremden Webseite trägt beim Webimport nur die Adresse ein; die Analyse startet erst auf Tippen – von selbst nur, wenn die Seite über „Teilen“ kommt.
+• „Gare heute“ nimmt eine Teig- oder Wassertemperatur im Schritt („gewünschte Teigtemperatur: ca. 28 °C“) nicht mehr für die Gartemperatur: Bei der Temperatur, für die das Rezept geschrieben ist, bleibt die Stockgare, wie geplant.
+• Zahlenfelder haben über dem Ziffernblock „Fertig“; der Ziffernblock hat keine Eingabetaste. Im Komponenten-Editor stehen Mengen als „500“ und „12,5“, Brüche in der Mengenspalte, Zutatennamen werden nur zwischen Wörtern umbrochen, und der Titel steht vollständig da.
 
 ---
 
@@ -143,6 +145,8 @@ SMALLER THINGS
 • Absurd numbers no longer crash the app – such as 20-digit amounts or times from a web page, a photo, a backup or a public recipe. The app keeps them within sensible limits (times up to 60 days, amounts up to 1 t); in input fields they count as no valid number.
 • “Import recipes” and “Restore backup” take a file in whole or not at all: if the import stops, everything stays as it was, and a second try adds nothing twice. An unreadable recipe in the file is skipped and counted in the message instead of rejecting the whole file. When restoring, the app recognises each recipe by its identifier – even renamed; another recipe of the same name no longer receives the backup’s bakes.
 • The planning sheet opens faster: the suggestions without night work are worked out without a wait. A link from another web page only fills in the address for the web import; the analysis starts on a tap – on its own only when the page comes through “Share”.
+• “Proof today” no longer takes a dough or water temperature in a step (“desired dough temperature: approx. 28 °C”) for the proofing temperature: at the temperature the recipe is written for, the bulk proof stays as planned.
+• Number fields have “Done” above the number pad, which has no return key. In the component editor amounts read “500” and “12.5” as the language writes them, fractions sit in the amount column, ingredient names break only between words, and the title shows in full.
 
 ---
 
@@ -212,5 +216,7 @@ PLUS PETIT
 • Des nombres absurdes ne font plus planter l’app – par exemple des quantités ou des durées à 20 chiffres venant d’une page web, d’une photo, d’une sauvegarde ou d’une recette publique. L’app les maintient dans des limites raisonnables (durées jusqu’à 60 jours, quantités jusqu’à 1 t) ; dans les champs de saisie, ils ne comptent pas comme un nombre valide.
 • « Importer des recettes » et « Restaurer une sauvegarde » reprennent un fichier en entier ou pas du tout : si l’import s’interrompt, tout reste en l’état, et un second essai n’ajoute rien en double. Une recette illisible du fichier est ignorée et comptée dans le message au lieu de faire rejeter tout le fichier. À la restauration, l’app reconnaît chaque recette à son identifiant – même renommée ; une autre recette du même nom ne reçoit plus les cuissons de la sauvegarde.
 • La feuille de planification s’ouvre plus vite : les suggestions sans travail de nuit sont calculées sans attente. Un lien venant d’une autre page web ne fait que remplir l’adresse pour l’import web ; l’analyse démarre d’un toucher – d’elle-même seulement quand la page arrive par « Partager ».
+• « Pousse aujourd’hui » ne prend plus une température de pâte ou d’eau indiquée dans une étape (« température de pâte souhaitée : env. 28 °C ») pour la température de pousse : à la température pour laquelle la recette est écrite, le pointage reste tel que prévu.
+• Les champs numériques ont « OK » au-dessus du pavé numérique, qui n’a pas de touche Entrée. Dans l’éditeur de composant, les quantités s’écrivent « 500 » et « 12,5 », les fractions sont dans la colonne des quantités, les noms d’ingrédients ne se coupent qu’entre les mots et le titre s’affiche en entier.
 
 ---
