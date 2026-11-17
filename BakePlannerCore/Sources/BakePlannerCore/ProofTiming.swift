@@ -39,6 +39,9 @@ public enum ProofTiming {
     public static let minimumRestMinutes = 15
     /// Today's room temperature can be set between these, in °C.
     public static let temperatureRange = 10...35
+    /// What "an einem warmen Ort" without a number is taken for, until the
+    /// baker says better.
+    public static let assumedWarmPlaceTemperature = 26.0
 
     // MARK: - Phases and steps
 
@@ -71,17 +74,28 @@ public enum ProofTiming {
         public let minutes: Int
         /// The temperature the step names ("bei 26 °C"), if any.
         public let statedTemperature: Double?
+        /// Whether the step names a warm place without a number ("an einem
+        /// warmen Ort", "im Backofen mit Licht", "im Gärschrank").
+        public let warmPlace: Bool
 
-        public init(index: Int, phase: Phase, minutes: Int, statedTemperature: Double? = nil) {
+        public init(index: Int, phase: Phase, minutes: Int, statedTemperature: Double? = nil, warmPlace: Bool = false) {
             self.index = index
             self.phase = phase
             self.minutes = minutes
             self.statedTemperature = statedTemperature
+            self.warmPlace = warmPlace
         }
 
-        /// What the step's duration is written for: its own temperature or
-        /// the reference.
-        public var referenceTemperature: Double { statedTemperature ?? ProofTiming.referenceTemperature }
+        /// Where the recipe puts the dough for this step, if it says: the
+        /// temperature it names, or the one assumed for a warm place. Such
+        /// a step does not follow the room's temperature.
+        public var placeTemperature: Double? {
+            statedTemperature ?? (warmPlace ? ProofTiming.assumedWarmPlaceTemperature : nil)
+        }
+
+        /// What the step's duration is written for: its place's temperature
+        /// or the reference.
+        public var referenceTemperature: Double { placeTemperature ?? ProofTiming.referenceTemperature }
     }
 
     // MARK: - Finding the steps
@@ -138,8 +152,9 @@ public enum ProofTiming {
             case .rest:
                 if let boundary, i >= boundary { phase = .final } else { phase = .bulk }
             }
-            return Step(index: i, phase: phase, minutes: durations[i],
-                        statedTemperature: statedTemperature(in: instructions[i]))
+            let stated = statedTemperature(in: instructions[i])
+            return Step(index: i, phase: phase, minutes: durations[i], statedTemperature: stated,
+                        warmPlace: stated == nil && matches(warmPlacePatterns, texts[i]))
         }
     }
 
@@ -206,22 +221,58 @@ public enum ProofTiming {
         public let plannedMinutes: Int
         /// The phase's duration at `temperature`, all its steps together.
         public let minutes: Int
+        /// The temperature the phase is worked out for: the one set for
+        /// it, else `defaultTemperature`.
         public let temperature: Double
         /// What the recipe's duration is written for: the longest step's.
         public let referenceTemperature: Double
         public let source: Source
         /// Today's duration per step, by the step's index.
         public let minutesByIndex: [Int: Int]
+        /// Where the recipe puts the dough for the phase — its longest
+        /// step's place ("bei 28 °C", a warm place) — nil when it proofs at
+        /// room temperature.
+        public let placeTemperature: Double?
+        /// Whether that place is a warm place without a number, its
+        /// temperature only assumed.
+        public let isAssumedPlace: Bool
+        /// What the phase is worked out for unless the baker sets another
+        /// temperature: its place's, else today's room temperature.
+        public let defaultTemperature: Double
+
+        public init(phase: Phase, plannedMinutes: Int, minutes: Int, temperature: Double,
+                    referenceTemperature: Double, source: Source, minutesByIndex: [Int: Int],
+                    placeTemperature: Double? = nil, isAssumedPlace: Bool = false, defaultTemperature: Double? = nil) {
+            self.phase = phase
+            self.plannedMinutes = plannedMinutes
+            self.minutes = minutes
+            self.temperature = temperature
+            self.referenceTemperature = referenceTemperature
+            self.source = source
+            self.minutesByIndex = minutesByIndex
+            self.placeTemperature = placeTemperature
+            self.isAssumedPlace = isAssumedPlace
+            self.defaultTemperature = defaultTemperature ?? temperature
+        }
 
         public var differs: Bool { minutes != plannedMinutes }
 
-        /// "aus 3 Backvorgängen" or "aus dem Rezept, bezogen auf 22 °C".
+        /// "aus 3 Backvorgängen", "aus dem Rezept, bezogen auf 22 °C", or —
+        /// for a phase the recipe puts somewhere, left there — "bei 28 °C
+        /// wie im Rezept" / "an einem warmen Ort, angenommen 26 °C – bitte
+        /// anpassen".
         public func sourceText(locale: Locale = AppSettings.locale,
                                bundle: Bundle = AppSettings.localizationBundle) -> String {
             switch source {
             case .bakes(let count):
                 return ProofTiming.bakesText(count, bundle: bundle)
             case .recipe:
+                if let place = placeTemperature, temperature == place {
+                    let text = BakeHistoryFacts.temperatureText(place, locale: locale)
+                    return isAssumedPlace
+                        ? String(localized: "an einem warmen Ort, angenommen \(text) – bitte anpassen", bundle: bundle)
+                        : String(localized: "bei \(text) wie im Rezept", bundle: bundle)
+                }
                 let reference = BakeHistoryFacts.temperatureText(referenceTemperature, locale: locale)
                 return String(localized: "aus dem Rezept, bezogen auf \(reference)", bundle: bundle)
             }
@@ -235,34 +286,61 @@ public enum ProofTiming {
             : String(localized: "aus \(count) Backvorgängen", bundle: bundle)
     }
 
-    /// Every phase among `steps` at `temperature`. A phase the bake
+    /// Every phase among `steps` today. A phase the recipe puts
+    /// somewhere — "bei 28 °C", "an einem warmen Ort", "im Backofen mit
+    /// Licht" — is worked out for that place, so it stays as the recipe
+    /// has it; the others for the room's `temperature`. `phaseTemperatures`
+    /// overrides either for a phase: the baker without a warm place sets
+    /// the Stückgare to 22 °C. Until 2.4 every phase followed the room, and
+    /// a Stückgare "bei 28 °C" read 3h 30m at 22 °C for a dough that was to
+    /// stand at 28 °C.
+    ///
+    /// In a phase at a place, its steps at no place of their own stay at
+    /// the room's temperature, and the other way round. A phase the bake
     /// history measured (`history` newest first, the entries' facts) is
     /// estimated from those bakes as the starter diary estimates ripening;
     /// otherwise each step is scaled from its own reference temperature.
-    public static func adjustments(steps: [Step], history: [BakeHistoryFacts], at temperature: Double) -> [Adjustment] {
+    public static func adjustments(steps: [Step], history: [BakeHistoryFacts], at temperature: Double,
+                                   phaseTemperatures: [Phase: Double] = [:]) -> [Adjustment] {
         Phase.allCases.compactMap { phase in
             let phaseSteps = steps.filter { $0.phase == phase }
             guard !phaseSteps.isEmpty else { return nil }
             let planned = phaseSteps.reduce(0) { $0 + $1.minutes }
             let reference = referenceTemperature(of: phaseSteps)
+            let longest = phaseSteps.max { $0.minutes < $1.minutes }
+            let place = longest?.placeTemperature
+            let isAssumed = place != nil && longest?.statedTemperature == nil
+            let defaultTemperature = place ?? temperature
+            let target = phaseTemperatures[phase] ?? defaultTemperature
 
-            if let estimate = StarterRipeness.estimate(from: observations(of: phase, in: history), at: temperature) {
+            if let estimate = StarterRipeness.estimate(from: observations(of: phase, in: history), at: target) {
                 let byIndex = distribute(estimate.minutes, over: phaseSteps)
                 return Adjustment(phase: phase, plannedMinutes: planned,
-                                  minutes: byIndex.values.reduce(0, +), temperature: temperature,
+                                  minutes: byIndex.values.reduce(0, +), temperature: target,
                                   referenceTemperature: reference, source: .bakes(estimate.observations),
-                                  minutesByIndex: byIndex)
+                                  minutesByIndex: byIndex, placeTemperature: place, isAssumedPlace: isAssumed,
+                                  defaultTemperature: defaultTemperature)
             }
 
             var byIndex = [Int: Int]()
             for step in phaseSteps {
-                let factor = pow(defaultQ10, (step.referenceTemperature - temperature) / 10)
+                // A step at the phase's kind of place goes to the phase's
+                // temperature; one of the other kind keeps its own: a step
+                // at a place stays there, one at no place follows the room.
+                let stepTarget: Double
+                if (step.placeTemperature != nil) == (place != nil) {
+                    stepTarget = target
+                } else {
+                    stepTarget = step.placeTemperature ?? temperature
+                }
+                let factor = pow(defaultQ10, (step.referenceTemperature - stepTarget) / 10)
                 byIndex[step.index] = factor == 1 ? step.minutes : roundedToFive(Double(step.minutes) * factor)
             }
             return Adjustment(phase: phase, plannedMinutes: planned,
-                              minutes: byIndex.values.reduce(0, +), temperature: temperature,
+                              minutes: byIndex.values.reduce(0, +), temperature: target,
                               referenceTemperature: reference, source: .recipe,
-                              minutesByIndex: byIndex)
+                              minutesByIndex: byIndex, placeTemperature: place, isAssumedPlace: isAssumed,
+                              defaultTemperature: defaultTemperature)
         }
     }
 
@@ -409,4 +487,13 @@ public enum ProofTiming {
     /// Named in a step that makes the main dough, the preferment goes in.
     private static let mainDoughPatterns = ["hauptteig", "main dough", "final dough", "pate finale"]
     private static let kneadPatterns = ["knet", "knead", "petri"]
+    /// A warm place without a number, on the folded text.
+    private static let warmPlacePatterns = [
+        "warmen ort", "warmen platz", "warm stell", "warm gestellt", "warm halten", "an einem warmen",
+        "garschrank", "garbox", "garkasten", "auf der heizung", "neben der heizung",
+        #"ofen mit (eingeschaltete[mn]? )?(licht|lampe)"#, "eingeschalteter lampe", "eingeschaltetem licht",
+        #"ausgeschaltete[nm]? (back)?ofen"#,
+        "warm place", "warm spot", "proofing box", "proofer", #"oven with the light"#, "oven light",
+        "endroit chaud", "endroit tiede", "etuve", "four eteint", "four avec la lumiere", "lumiere du four"
+    ]
 }

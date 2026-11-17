@@ -98,6 +98,8 @@ struct InstructionsView: View {
     /// Today's room temperature for a bread's proofing steps; starts at
     /// the one noted with its last bake.
     @State private var proofTemperature = 22
+    /// Temperatures set for single proofing phases in "Gare heute".
+    @State private var proofPhaseTemperatures: [ProofTiming.Phase: Int] = [:]
     /// The steps as this plan uses them once the proof was adjusted for
     /// today: the durations by step index, and the steps with their start
     /// times worked out again. The recipe keeps its own durations — they
@@ -234,6 +236,7 @@ struct InstructionsView: View {
                 // MARK: Proof today — a bread's fermentation steps at today's temperature
                 if !proofAdjustments.isEmpty {
                     ProofTodayCardView(temperature: $proofTemperature,
+                                       phaseTemperatures: $proofPhaseTemperatures,
                                        adjustments: proofAdjustments,
                                        isApplied: isProofApplied,
                                        isAdjusted: !adjustedSteps.isEmpty,
@@ -536,7 +539,8 @@ struct InstructionsView: View {
     }
 
     private var proofAdjustments: [ProofTiming.Adjustment] {
-        ProofTiming.adjustments(steps: proofSteps, history: completedBakeFacts, at: Double(proofTemperature))
+        ProofTiming.adjustments(steps: proofSteps, history: completedBakeFacts, at: Double(proofTemperature),
+                                phaseTemperatures: proofPhaseTemperatures.mapValues(Double.init))
     }
 
     /// What the bakes say the recipe's durations should be, where that

@@ -153,11 +153,16 @@ struct ProofTimingTests {
         #expect(ProofTiming.adjustments(steps: bulk, history: [], at: 12).first?.minutes == 310)
         #expect(ProofTiming.adjustments(steps: bulk, history: [], at: 32).first?.minutes == 50)
 
-        // A step written for 26 °C takes longer in a 22 °C kitchen.
+        // A step written for 26 °C stands at 26 °C: the room does not
+        // matter. Set to 22 °C — no warm place at hand — it takes longer.
         let warm = [Step(index: 1, phase: .bulk, minutes: 120, statedTemperature: 26)]
-        let cooler = try #require(ProofTiming.adjustments(steps: warm, history: [], at: 22).first)
+        let atPlace = try #require(ProofTiming.adjustments(steps: warm, history: [], at: 22).first)
+        #expect(atPlace.minutes == 120 && atPlace.temperature == 26 && atPlace.placeTemperature == 26)
+        #expect(atPlace.defaultTemperature == 26 && !atPlace.isAssumedPlace)
+        let cooler = try #require(ProofTiming.adjustments(steps: warm, history: [], at: 22,
+                                                          phaseTemperatures: [.bulk: 22]).first)
         #expect(cooler.minutes == 175)
-        #expect(cooler.referenceTemperature == 26)
+        #expect(cooler.referenceTemperature == 26 && cooler.temperature == 22)
         #expect(cooler.minutesByIndex == [1: 175])
     }
 
@@ -262,9 +267,77 @@ struct ProofTimingTests {
         #expect(bulk?.plannedMinutes == 195)
         #expect(bulk?.minutes == 195)
         #expect(bulk?.referenceTemperature == 22)
-        // The final proof is written for 28 °C and takes longer at 22 °C.
+        // The final proof stands at 28 °C as the recipe says; set to the
+        // room's 22 °C it takes longer.
         let final = adjustments.first { $0.phase == .final }
-        #expect(final?.plannedMinutes == 120 && (final?.minutes ?? 0) > 120 && final?.referenceTemperature == 28)
+        #expect(final?.plannedMinutes == 120 && final?.minutes == 120 && final?.temperature == 28)
+        let cool = ProofTiming.adjustments(steps: steps, history: [], at: 22, phaseTemperatures: [.final: 22])
+            .first { $0.phase == .final }
+        #expect((cool?.minutes ?? 0) > 120 && cool?.referenceTemperature == 28)
+    }
+
+    // MARK: Where the recipe puts the dough
+
+    @Test("A warm place without a number is a place, taken for 26 °C until the baker says better",
+          arguments: ["Teig im ausgeschalteten Backofen mit eingeschalteter Lampe 90 Minuten gehen lassen",
+                      "Abgedeckt an einem warmen Ort 90 Minuten gehen lassen",
+                      "Im Gärschrank 90 Minuten gehen lassen",
+                      "Let rise in a warm place for 90 minutes",
+                      "Laisser lever 90 minutes dans un endroit chaud"])
+    func warmPlace(_ text: String) throws {
+        let steps = ProofTiming.steps(instructions: ["Teig kneten", text], durations: [10, 90])
+        let step = try #require(steps.first)
+        #expect(step.warmPlace && step.statedTemperature == nil && step.placeTemperature == 26)
+        let adjustment = try #require(ProofTiming.adjustments(steps: steps, history: [], at: 20).first)
+        #expect(adjustment.minutes == 90 && adjustment.isAssumedPlace && adjustment.temperature == 26)
+        #expect(adjustment.sourceText(locale: Locale(identifier: "de_DE")).contains("angenommen"))
+    }
+
+    @Test("A step at room temperature or in the fridge is at no place")
+    func noPlace() {
+        let steps = ProofTiming.steps(instructions: ["Teig kneten", "60 Minuten gehen lassen", "Formen", "Stückgare 45 Minuten"],
+                                      durations: [10, 60, 5, 45])
+        #expect(steps.allSatisfy { !$0.warmPlace && $0.placeTemperature == nil })
+        let adjustments = ProofTiming.adjustments(steps: steps, history: [], at: 18)
+        #expect(adjustments.allSatisfy { $0.placeTemperature == nil && $0.temperature == 18 && $0.defaultTemperature == 18 })
+        #expect(adjustments.allSatisfy { $0.minutes > $0.plannedMinutes })
+    }
+
+    @Test("In a phase at a place, a step at no place of its own still follows the room, and the other way round")
+    func mixedPhase() throws {
+        // Bulk: 30 min kneading rest at room temperature, then 120 min at 28 °C.
+        let bulk = [Step(index: 1, phase: .bulk, minutes: 30), Step(index: 2, phase: .bulk, minutes: 120, statedTemperature: 28)]
+        let placed = try #require(ProofTiming.adjustments(steps: bulk, history: [], at: 18).first)
+        #expect(placed.placeTemperature == 28 && placed.temperature == 28)
+        #expect(placed.minutesByIndex[2] == 120)
+        #expect((placed.minutesByIndex[1] ?? 0) > 30)
+        // Bulk mostly at room temperature with a short warm step: that step stays.
+        let room = [Step(index: 1, phase: .bulk, minutes: 120), Step(index: 2, phase: .bulk, minutes: 30, statedTemperature: 28)]
+        let atRoom = try #require(ProofTiming.adjustments(steps: room, history: [], at: 18, phaseTemperatures: [.bulk: 16]).first)
+        #expect(atRoom.placeTemperature == nil && atRoom.temperature == 16)
+        #expect(atRoom.minutesByIndex[2] == 30)
+        #expect((atRoom.minutesByIndex[1] ?? 0) > 120)
+    }
+
+    @Test("The line under a phase says where the dough stands")
+    func sourceTexts() throws {
+        let german = Locale(identifier: "de_DE")
+        let stated = [Step(index: 1, phase: .final, minutes: 120, statedTemperature: 28)]
+        let atPlace = try #require(ProofTiming.adjustments(steps: stated, history: [], at: 22).first)
+        #expect(atPlace.sourceText(locale: german).contains("wie im Rezept"))
+        let moved = try #require(ProofTiming.adjustments(steps: stated, history: [], at: 22, phaseTemperatures: [.final: 22]).first)
+        #expect(moved.sourceText(locale: german).contains("bezogen auf"))
+    }
+
+    @Test("Bakes that measured a phase are estimated for the phase's temperature")
+    func historyAtPhaseTemperature() throws {
+        let steps = [Step(index: 1, phase: .final, minutes: 120, statedTemperature: 28)]
+        let history = [BakeHistoryFacts(roomTemperature: 28, finalProofMinutes: 100),
+                       BakeHistoryFacts(roomTemperature: 28, finalProofMinutes: 110)]
+        let adjustment = try #require(ProofTiming.adjustments(steps: steps, history: history, at: 20).first)
+        #expect(adjustment.temperature == 28)
+        if case .bakes = adjustment.source {} else { Issue.record("expected an estimate from the bakes") }
+        #expect(adjustment.minutes < 120)
     }
 }
 

@@ -71,6 +71,42 @@
         }
       }
     },
+    "an einem warmen Ort, angenommen %@ – bitte anpassen" : {
+      "comment" : "A line under a proofing phase in “Gare heute”: the recipe says “a warm place” without a number; this temperature is assumed and can be changed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "in a warm place, assumed %@ – please adjust"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans un endroit chaud, %@ supposés – à ajuster"
+          }
+        }
+      }
+    },
+    "bei %@ wie im Rezept" : {
+      "comment" : "A line under a proofing phase in “Gare heute”: the dough stands where the recipe says, at this temperature, so the duration stays.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "at %@ as in the recipe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à %@ comme dans la recette"
+          }
+        }
+      }
+    },
     "„%@“" : {
       "comment" : "A recipe name in the app's language.",
       "extractionState" : "manual",

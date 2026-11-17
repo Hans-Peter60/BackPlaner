@@ -46,6 +46,8 @@ struct PlanView: View {
     /// the proof estimate; empty for a public recipe.
     @State var bakeFacts: [BakeHistoryFacts] = []
     @State var proofTemperature = 22
+    /// Temperatures set for single proofing phases, as on the iPhone.
+    @State var proofPhaseTemperatures: [ProofTiming.Phase: Int] = [:]
     /// The durations the proof estimate starts from: the recipe's as
     /// stored, or as last taken over with "Dauer übernehmen". "Gare an
     /// heutige Temperatur anpassen" changes the working recipe only, as
@@ -85,8 +87,15 @@ struct PlanView: View {
                                  durations: baselineDurations)
     }
 
+    /// A phase's temperature as set, else as worked out by default.
+    private func phaseTemperature(for adjustment: ProofTiming.Adjustment) -> Binding<Int> {
+        Binding(get: { proofPhaseTemperatures[adjustment.phase] ?? Plausible.roundedInt(adjustment.defaultTemperature) },
+                set: { proofPhaseTemperatures[adjustment.phase] = $0 })
+    }
+
     private var proofAdjustments: [ProofTiming.Adjustment] {
-        ProofTiming.adjustments(steps: proofSteps, history: bakeFacts, at: Double(proofTemperature))
+        ProofTiming.adjustments(steps: proofSteps, history: bakeFacts, at: Double(proofTemperature),
+                                phaseTemperatures: proofPhaseTemperatures.mapValues { Double($0) })
     }
 
     /// What the bakes say the recipe's durations should be, where that
@@ -285,6 +294,11 @@ struct PlanView: View {
                     ForEach(Array(proofAdjustments.enumerated()), id: \.offset) { _, adjustment in
                         VStack(alignment: .leading, spacing: 2) {
                             Text("\(adjustment.phase.title()): geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
+                            // Each phase has its own temperature: "bei 28 °C"
+                            // stays at 28 °C, whatever the room.
+                            Stepper(value: phaseTemperature(for: adjustment), in: ProofTiming.temperatureRange) {
+                                ValueLabel(title: "Temperatur", value: "\(phaseTemperature(for: adjustment).wrappedValue) °C")
+                            }
                             Text(verbatim: adjustment.sourceText())
                                 .font(AppFont.caption)
                                 .foregroundStyle(.secondary)
