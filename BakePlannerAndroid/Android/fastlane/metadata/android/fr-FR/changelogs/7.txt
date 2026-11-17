@@ -1,0 +1,6 @@
+Nouveau dans 2.4 (7) :
+• Le plan rappelle d’évacuer la buée quand la recette le dit
+• La pousse dans le four éteint ne l’allume plus ; pas d’étape de four pour un rafraîchi
+• « Pousse aujourd’hui » ignore les températures de pâte d’une étape
+• Sauvegarde : tout ou rien, recettes illisibles ignorées, recettes reconnues à la restauration
+• Des nombres absurdes venant du web, d’une sauvegarde ou d’une recette publique ne font plus planter l’app

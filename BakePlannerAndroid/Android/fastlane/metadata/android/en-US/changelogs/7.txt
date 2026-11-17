@@ -1,0 +1,6 @@
+New in 2.4 (7):
+• The plan reminds you to release the steam when the recipe says so
+• Proofing in the switched-off oven no longer turns it on; feedings get no oven step
+• "Proof today" skips dough temperatures in a step
+• Backup: all or nothing, unreadable recipes are skipped, recipes are recognised when restoring
+• Absurd numbers from web pages, backups or public recipes no longer crash the app
