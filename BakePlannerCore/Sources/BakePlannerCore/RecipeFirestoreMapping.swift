@@ -33,8 +33,10 @@ public enum RecipeFirestoreMapping {
         recipe.image          = data["image"]          as? String ?? ""
         recipe.summary        = data["summary"]        as? String ?? ""
         recipe.urlLink        = data["urlLink"]        as? String ?? ""
-        recipe.prepTime       = int(data["prepTime"])        ?? 0
-        recipe.totalWeight    = double(data["totalWeight"])  ?? 0
+        // Public documents are written by any author, and the rules check no
+        // numbers: every one is brought into a plausible range (Plausible).
+        recipe.prepTime       = Plausible.minutes(int(data["prepTime"]) ?? 0)
+        recipe.totalWeight    = Plausible.grams(double(data["totalWeight"]) ?? 0)
         recipe.tags           = data["tags"]           as? [String] ?? [String]()
         recipe.sourceLanguage = data["sourceLanguage"] as? String ?? ""
         if let translations = data["translations"] as? [String: Any] {
@@ -61,12 +63,12 @@ public enum RecipeFirestoreMapping {
         ingredient.name       = data["name"] as? String ?? ""
         ingredient.number     = int(data["number"]) ?? 0
         ingredient.unit       = data["unit"] as? String ?? ""
-        ingredient.weight     = double(data["weight"]) ?? 0
+        ingredient.weight     = Plausible.grams(double(data["weight"]) ?? 0)
         // Documents written before the normalised weight existed fall back
         // to the weight as entered.
-        ingredient.normWeight = double(data["normWeight"]) ?? ingredient.weight
-        ingredient.num        = int(data["num"]) ?? 0
-        ingredient.denom      = int(data["denom"]) ?? 0
+        ingredient.normWeight = double(data["normWeight"]).map(Plausible.grams) ?? ingredient.weight
+        ingredient.num        = Plausible.fractionPart(int(data["num"]) ?? 0)
+        ingredient.denom      = Plausible.fractionPart(int(data["denom"]) ?? 0)
         if let translations = data["translations"] as? [String: Any] {
             ingredient.translations = translations.mapValues { IngredientTextFB(firestoreData: $0) }
         }
@@ -77,14 +79,14 @@ public enum RecipeFirestoreMapping {
         let instruction = InstructionFB()
         instruction.id            = id
         instruction.instruction   = data["instruction"] as? String ?? ""
-        instruction.duration      = int(data["duration"]) ?? 0
-        instruction.startTime     = int(data["startTime"]) ?? 0
-        instruction.step          = double(data["step"]) ?? 1
+        instruction.duration      = Plausible.minutes(int(data["duration"]) ?? 0)
+        instruction.startTime     = Plausible.minutes(int(data["startTime"]) ?? 0)
+        instruction.step          = double(data["step"]).map { min(max($0, 0), 999) } ?? 1
         instruction.componentName = data["componentName"] as? String
-        instruction.minDuration   = int(data["minDuration"])
-        instruction.maxDuration   = int(data["maxDuration"])
-        instruction.ovenTemperature        = int(data["ovenTemperature"])
-        instruction.ovenFallingTemperature = int(data["ovenFallingTemperature"])
+        instruction.minDuration   = int(data["minDuration"]).map(Plausible.minutes)
+        instruction.maxDuration   = int(data["maxDuration"]).map(Plausible.minutes)
+        instruction.ovenTemperature        = int(data["ovenTemperature"]).flatMap { Plausible.temperature(Double($0)).map(Int.init) }
+        instruction.ovenFallingTemperature = int(data["ovenFallingTemperature"]).flatMap { Plausible.temperature(Double($0)).map(Int.init) }
         instruction.ovenSteam              = data["ovenSteam"] as? Bool
         if let translations = data["translations"] as? [String: Any] {
             instruction.translations = translations.mapValues { InstructionTextFB(firestoreData: $0) }
@@ -288,9 +290,10 @@ public enum RecipeFirestoreMapping {
         return nil
     }
 
+    /// A number, never NaN or infinite.
     public static func double(_ value: Any?) -> Double? {
-        if let value = value as? Double { return value }
-        if let value = value as? Float { return Double(value) }
+        if let value = value as? Double { return value.isFinite ? value : nil }
+        if let value = value as? Float { return value.isFinite ? Double(value) : nil }
         if let value = value as? Int { return Double(value) }
         if let value = value as? Int64 { return Double(value) }
         if let value = value as? Int32 { return Double(value) }

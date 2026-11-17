@@ -243,7 +243,7 @@ struct InstructionsView: View {
                                        onApplyHistory: applyProofHistory)
                     .onAppear {
                         if let lastNoted = completedBakeFacts.compactMap(\.roomTemperature).first {
-                            proofTemperature = Int(lastNoted.rounded())
+                            proofTemperature = Plausible.roundedInt(lastNoted)
                         }
                     }
                 }
@@ -336,7 +336,7 @@ struct InstructionsView: View {
 
                                 // Guard against an empty instructions array (count - 1 would be out of range)
                                 if let lastInstruction = steps.last {
-                                    Text(String(Int(lastInstruction.step + 1)))
+                                    Text(String(Plausible.roundedInt((lastInstruction.step + 1).rounded(.towardZero))))
                                     Text("Fertig")
                                     Text(verbatim: "")
                                     if dateTimeStartSelection == 0 {
@@ -429,7 +429,7 @@ struct InstructionsView: View {
     }
 
     private var scaledRecipeWeight: Int {
-        Int((recipe.totalWeight * servingScale).rounded())
+        Plausible.roundedInt(recipe.totalWeight * servingScale)
     }
 
     // MARK: - Backplanung

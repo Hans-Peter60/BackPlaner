@@ -51,7 +51,7 @@ public enum CalendarConflicts {
             } else if let bake = plan.bakingStep, step == bake {
                 intervals.append((step.instruction, DateInterval(start: date, duration: moment)))
                 if step.duration > ovenMomentMinutes {
-                    let end = date.addingTimeInterval(TimeInterval(step.duration * 60))
+                    let end = date.addingTimeInterval(TimeInterval(step.duration) * 60)
                     intervals.append((step.instruction, DateInterval(start: end.addingTimeInterval(-moment), duration: moment)))
                 }
             } else if let preheat = plan.explicitPreheatStep, step == preheat {

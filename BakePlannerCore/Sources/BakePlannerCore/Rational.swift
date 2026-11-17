@@ -78,8 +78,20 @@ public class Rational {
     ///
     /// The unit appears in the app's language (see UnitLocalizer); `.name`
     /// spells it out, for reading aloud.
+    ///
+    /// A fraction without a denominator (3/0, as a public recipe without
+    /// "denom" arrives) is no amount; it used to divide by zero. Numerator,
+    /// denominator and scale are held to plausible sizes first, so the
+    /// arithmetic below cannot overflow.
     public static func getPortion(unit:String, weight: Double, num:Int, denom:Int, scale: Double,
                            unitStyle: UnitLocalizer.Style = .abbreviation) -> String {
+        portionText(unit: unit, weight: weight.isFinite ? weight : 0,
+                    num: Plausible.fractionPart(num), denom: Plausible.fractionPart(denom),
+                    scale: scale.isFinite ? min(max(scale, 0), 1000) : 1, unitStyle: unitStyle)
+    }
+
+    private static func portionText(unit: String, weight: Double, num: Int, denom: Int, scale: Double,
+                                    unitStyle: UnitLocalizer.Style) -> String {
 
         var portion            = ""
         var numerator          = num
@@ -91,7 +103,7 @@ public class Rational {
         let isHalfStep         = abs(halfSteps.rounded() - halfSteps) < 0.0001
         let targetServings     = Int(halfSteps.rounded())
 
-        if weight == 0 && (num == 0 || num == denom) {
+        if weight == 0 && (num == 0 || num == denom || denom == 0) {
             return "" }
         else {
             if weight == 0 && !isHalfStep && denom != 0 {
@@ -175,6 +187,7 @@ public class Rational {
         let factor       = Double(decimalPlace)
 
         numberDouble *= factor
+        guard numberDouble.isFinite, abs(numberDouble) < 1e15 else { return "" }
         numberInt     = Int(numberDouble)
         numberDouble  = Double(numberInt) / factor
         numberString  = String(numberDouble)

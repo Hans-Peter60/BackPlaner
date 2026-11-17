@@ -31,12 +31,21 @@ public enum DurationInput {
     /// A bare number is minutes. A number with a decimal point or comma
     /// and no unit is hours, since nobody writes fractional minutes. After
     /// an hours part, a bare number is the minutes: "1h 30".
+    ///
+    /// More than `Plausible.maxMinutes` (sixty days) is no duration either:
+    /// "1e30", "inf" or twenty digits used to stop the app when the hours
+    /// were turned into whole minutes.
     public static func minutes(from text: String) -> Int? {
+        guard let minutes = unboundedMinutes(from: text), minutes <= Double(Plausible.maxMinutes) else { return nil }
+        return Int(minutes.rounded())
+    }
+
+    private static func unboundedMinutes(from text: String) -> Double? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty { return 0 }
 
         if let whole = Int(trimmed) {
-            return whole >= 0 ? whole : nil
+            return whole >= 0 ? Double(whole) : nil
         }
 
         let range = NSRange(trimmed.startIndex..., in: trimmed)
@@ -45,11 +54,11 @@ public enum DurationInput {
            let minutesRange = Range(match.range(at: 2), in: trimmed),
            let hours = Int(trimmed[hoursRange]),
            let minutes = Int(trimmed[minutesRange]) {
-            return hours * 60 + minutes
+            return Double(hours * 60 + minutes)
         }
 
         if let hours = decimal(trimmed) {
-            return hours >= 0 ? Int((hours * 60).rounded()) : nil
+            return hours.isFinite && hours >= 0 ? hours * 60 : nil
         }
 
         var total = 0.0
@@ -76,8 +85,8 @@ public enum DurationInput {
             guard foundUnit, let bareMinutes = Int(leftover) else { return nil }
             total += Double(bareMinutes)
         }
-        guard foundUnit else { return nil }
-        return Int(total.rounded())
+        guard foundUnit, total.isFinite else { return nil }
+        return total
     }
 
     /// The text shown for a duration: "45 min", "2 h", "1 h 30 min"; zero

@@ -159,6 +159,9 @@ public struct BakeYearbook: Equatable {
         var byMonth: [Int: [Entry]] = [:]
         for entry in bakesOfYear {
             let month = calendar.component(.month, from: entry.date)
+            // A Hebrew or Ethiopic calendar has a thirteenth month, which the
+            // twelve months of the book leave out instead of crashing.
+            guard monthCounts.indices.contains(month - 1) else { continue }
             monthCounts[month - 1] += 1
             byMonth[month, default: []].append(entry)
         }
@@ -229,7 +232,7 @@ public struct BakeYearbook: Equatable {
         for entry in entries {
             guard let temperature = entry.facts.roomTemperature,
                   let minutes = entry.facts.finalProofMinutes, minutes > 0 else { continue }
-            let lower = Int((temperature / 3).rounded(.down)) * 3
+            let lower = Plausible.roundedInt((temperature / 3).rounded(.down)) * 3
             bands[lower, default: []].append(minutes)
         }
         return bands

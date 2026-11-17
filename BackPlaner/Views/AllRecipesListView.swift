@@ -1155,7 +1155,7 @@ struct AllRecipesListView: View {
             AppLog.firebase.error("Translating the recipe list from \(source) into \(target) failed: \(error.localizedDescription)")
         }
 
-        listTranslationQueue.removeFirst()
+        if !listTranslationQueue.isEmpty { listTranslationQueue.removeFirst() }
         startNextListTranslation()
     }
 }

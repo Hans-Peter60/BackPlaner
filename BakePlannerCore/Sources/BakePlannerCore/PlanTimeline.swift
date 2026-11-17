@@ -250,7 +250,7 @@ public struct PlanTimelineEntry: Identifiable, Equatable {
     /// Minutes.
     public let duration: Int
 
-    public var end: Date { date.addingTimeInterval(TimeInterval(duration * 60)) }
+    public var end: Date { date.addingTimeInterval(TimeInterval(duration) * 60) }
     public var planKey: PlanKey { PlanKey(recipeName: recipeName, planID: planID) }
 
     public init(id: AnyHashable, recipeName: String, planID: UUID?, instruction: String, step: Double, date: Date, duration: Int) {

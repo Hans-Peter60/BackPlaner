@@ -38,7 +38,7 @@ public struct StarterFeedingFacts: Equatable {
     /// has as not noted. The float test stays as it is — a failed test is a
     /// result.
     public var normalized: StarterFeedingFacts {
-        StarterFeedingFacts(peakMinutes: peakMinutes.flatMap { $0 > 0 ? $0 : nil },
+        StarterFeedingFacts(peakMinutes: peakMinutes.flatMap { $0 > 0 ? Plausible.minutes($0) : nil },
                             floatTestPassed: floatTestPassed,
                             note: note.trimmingCharacters(in: .whitespacesAndNewlines),
                             roomTemperature: roomTemperature.flatMap { Self.roomTemperatureRange.contains($0) ? $0 : nil })

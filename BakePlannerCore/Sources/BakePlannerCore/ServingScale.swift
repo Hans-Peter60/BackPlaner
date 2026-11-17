@@ -17,8 +17,10 @@ public enum ServingScale {
     /// A target dough weight wins over the picker; without one the picker's
     /// half steps apply (2 = 1.0).
     public static func factor(servingSize: Int, targetWeight: Int?, baseWeight: Double) -> Double {
-        if let targetWeight, targetWeight > 0, baseWeight > 0 {
-            return Double(targetWeight) / baseWeight
+        // Held to 1000 times the recipe: a dough weight of nineteen digits
+        // made amounts no Int could hold.
+        if let targetWeight, targetWeight > 0, baseWeight > 0, baseWeight.isFinite {
+            return min(Double(targetWeight) / baseWeight, 1000)
         }
         return Double(servingSize) / 2
     }

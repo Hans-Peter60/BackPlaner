@@ -70,7 +70,7 @@ public enum StarterDiagram {
                 let temperature = feeding.facts.roomTemperature
                 let factor = pow(q10, ((temperature ?? StarterRipeness.referenceTemperature) - StarterRipeness.referenceTemperature) / 10)
                 return TrendPoint(date: feeding.date, peakMinutes: minutes,
-                                  atReferenceMinutes: Int((Double(minutes) * factor).rounded()),
+                                  atReferenceMinutes: Plausible.roundedInt(Double(minutes) * factor),
                                   temperature: temperature, floatTestPassed: feeding.facts.floatTestPassed)
             }
     }

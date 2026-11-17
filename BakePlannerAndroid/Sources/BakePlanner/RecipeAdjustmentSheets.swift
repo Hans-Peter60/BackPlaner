@@ -62,7 +62,7 @@ struct ScaleFooter: View {
     var body: some View {
         if scale != 1 {
             let factor = scale.formatted(.number.precision(.fractionLength(1...2)))
-            let grams = String(Int((recipe.totalWeight * scale).rounded()))
+            let grams = String(Plausible.roundedInt(recipe.totalWeight * scale))
             Text("Mengen für Faktor ×\(factor), also \(grams) g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
         }
     }

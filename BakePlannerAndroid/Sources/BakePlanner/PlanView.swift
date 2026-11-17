@@ -412,7 +412,7 @@ struct PlanView: View {
                 .filter { $0.recipeID == recipe.id && $0.date <= now }
                 .map { $0.facts }
             if let lastNoted = bakeFacts.compactMap({ $0.roomTemperature }).first {
-                proofTemperature = Int(lastNoted.rounded())
+                proofTemperature = Plausible.roundedInt(lastNoted)
             }
         }
         .alert(outcomeTitle, isPresented: $showsSaved) {

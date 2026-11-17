@@ -36,16 +36,20 @@ public struct IngredientAmountText: Equatable {
             let fraction = parts[parts.count - 1].split(separator: "/")
             guard fraction.count == 2,
                   let numerator = Int(fraction[0]), let denominator = Int(fraction[1]),
-                  numerator >= 0, denominator > 0 else { return nil }
+                  numerator >= 0, denominator > 0,
+                  numerator <= Plausible.maxFractionPart, denominator <= Plausible.maxFractionPart else { return nil }
             var whole = 0
             if parts.count == 2 {
-                guard let value = Int(parts[0]), value >= 0 else { return nil }
+                guard let value = Int(parts[0]), value >= 0, value <= Plausible.maxFractionPart else { return nil }
                 whole = value
             }
             return IngredientAmountText(weight: 0, numerator: whole * denominator + numerator, denominator: denominator)
         }
 
-        guard let weight = Double(trimmed.replacingOccurrences(of: ",", with: ".")), weight >= 0 else { return nil }
+        // Beyond a tonne, or "inf", is no amount: such a weight crashed the
+        // recipe wherever it was shown in whole grams.
+        guard let weight = Double(trimmed.replacingOccurrences(of: ",", with: ".")), weight >= 0,
+              weight <= Plausible.maxGrams else { return nil }
         return IngredientAmountText(weight: weight, numerator: 0, denominator: 0)
     }
 
@@ -62,7 +66,7 @@ public struct IngredientAmountText: Equatable {
             return whole > 0 ? "\(whole) \(rest)/\(denominator)" : "\(rest)/\(denominator)"
         }
         guard weight > 0 else { return "" }
-        if weight == weight.rounded() { return String(Int(weight)) }
+        if weight == weight.rounded() { return String(Plausible.roundedInt(weight)) }
         return String(weight).replacingOccurrences(of: ".", with: decimalSeparator)
     }
 }
