@@ -127,7 +127,7 @@ final class RecipeImageAnalysisAgent {
             #"(?i)Gesamtzubereitungszeit\s*:?\s*(?:ca\.\s*)?(\d+)\s*Stunden?(?:\s*(\d+)\s*Minuten?)?"#,
             in: text
         ), let hours = Int(values[0]) {
-            return hours * 60 + (values.count > 1 ? Int(values[1]) ?? 0 : 0)
+            return Plausible.minutes(Double(hours) * 60 + Double(values.count > 1 ? Int(values[1]) ?? 0 : 0))
         }
 
         // A book's INFO column splits it into the day before and the baking day.

@@ -289,7 +289,7 @@ struct FlourSubstitutionSheet: View {
                         if request.scale != 1 {
                             // Named as factor and as dough weight, since the
                             // factor may have come from a typed dough weight.
-                            Text("Mengen für Faktor ×\(scaleText), also \(Int((request.recipe.totalWeight * request.scale).rounded()), format: .number) g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
+                            Text("Mengen für Faktor ×\(scaleText), also \(Plausible.roundedInt(request.recipe.totalWeight * request.scale), format: .number) g Teig. Die Kopie wird mit den Grundmengen des Rezepts angelegt und zeigt denselben Faktor beim Öffnen.")
                         }
                     }
 

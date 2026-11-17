@@ -346,6 +346,7 @@ public enum RecipeImportError: LocalizedError {
 public enum RecipeImport {
     /// The recipes of a backup/share file, or why it cannot be read: not a
     /// recipe file at all, or one written by a newer version of the app.
+    /// Its numbers come back in plausible ranges (`sanitized`).
     public static func decodeFile(_ data: Data) throws -> RecipeExportFile {
         let file: RecipeExportFile
         do {
@@ -357,6 +358,6 @@ public enum RecipeImport {
         guard RecipeExportFile.isSupported(formatVersion: file.formatVersion) else {
             throw RecipeImportError.unsupportedFormatVersion
         }
-        return file
+        return file.sanitized
     }
 }

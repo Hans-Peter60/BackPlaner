@@ -295,8 +295,8 @@ public struct GeneralRecipeParser {
            range.count == 3,
            let minimum = Int(range[0]),
            let maximum = Int(range[1]) {
-            let average = Int((Double(minimum + maximum) / 2).rounded())
-            return range[2].lowercased().hasPrefix("std") ? average * 60 : average
+            let average = (Double(minimum) + Double(maximum)) / 2
+            return Plausible.minutes(range[2].lowercased().hasPrefix("std") ? average * 60 : average)
         }
 
         guard let single = captures(#"(\d+)\s*(Min|Std)"#, in: value),
@@ -304,7 +304,7 @@ public struct GeneralRecipeParser {
               let minutes = Int(single[0]) else {
             return nil
         }
-        return single[1].lowercased().hasPrefix("std") ? minutes * 60 : minutes
+        return Plausible.minutes(single[1].lowercased().hasPrefix("std") ? Double(minutes) * 60 : Double(minutes))
     }
 
     /// Fills what the recipe text leaves open and returns what does not add up.
@@ -373,7 +373,7 @@ public struct GeneralRecipeParser {
 
         if let printed = box.doughWeight, sum > 0, abs(sum - printed) > printed * 0.03 {
             warnings.append(String(
-                localized: "Die Summe der erkannten Zutaten (\(Int(sum)) g) weicht von der angegebenen Teigmenge (\(Int(printed)) g) ab.",
+                localized: "Die Summe der erkannten Zutaten (\(Plausible.roundedInt(sum.rounded(.towardZero))) g) weicht von der angegebenen Teigmenge (\(Plausible.roundedInt(printed.rounded(.towardZero))) g) ab.",
                 bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             ))
         }
@@ -382,7 +382,7 @@ public struct GeneralRecipeParser {
            let computed = computedDoughYield(of: recipe),
            abs(computed - printed) > 4 {
             warnings.append(String(
-                localized: "Die berechnete Teigausbeute (\(Int(computed))) weicht von der angegebenen (\(Int(printed))) ab.",
+                localized: "Die berechnete Teigausbeute (\(Plausible.roundedInt(computed.rounded(.towardZero)))) weicht von der angegebenen (\(Plausible.roundedInt(printed.rounded(.towardZero)))) ab.",
                 bundle: AppSettings.localizationBundle, locale: AppSettings.locale
             ))
         }
@@ -535,7 +535,7 @@ public struct GeneralRecipeParser {
             in: text
         ),
         let minutesText = values.first,
-        let declaredMinutes = Int(minutesText),
+        let declaredMinutes = Int(minutesText).map(Plausible.minutes),
         declaredMinutes > 0 else {
             return
         }
@@ -1457,7 +1457,7 @@ public struct GeneralRecipeParser {
             let ratio = ingredient.amount / entry.percentage
             guard abs(ratio - reference) > reference * 0.25 else { continue }
 
-            let digits = String(Int(ingredient.amount))
+            let digits = String(Plausible.roundedInt(ingredient.amount.rounded(.towardZero)))
             guard digits.count > 1, let shortened = Double(digits.dropLast()) else { continue }
             guard abs(shortened / entry.percentage - reference) <= reference * 0.10 else { continue }
 
@@ -2091,8 +2091,8 @@ public struct GeneralRecipeParser {
            let firstPhase = Int(phases[0]),
            let secondMinimum = Int(phases[1]),
            let secondMaximum = Int(phases[2]) {
-            let mixingDuration = firstPhase
-                + Int(round(Double(secondMinimum + secondMaximum) / 2))
+            let mixingDuration = Plausible.minutes(Double(firstPhase)
+                + ((Double(secondMinimum) + Double(secondMaximum)) / 2).rounded())
             return value.contains("alle zutaten") ? mixingDuration + 5 : mixingDuration
         }
         if let hours = averageHourRange(in: text) { return hours }
@@ -2328,7 +2328,7 @@ public struct GeneralRecipeParser {
               let upper = Double(values[1]) else {
             return nil
         }
-        return Int(((lower + upper) / 2).rounded())
+        return Plausible.minutes((lower + upper) / 2)
     }
 
     private func bakingInstructionWithTemperatureChange(_ source: String) -> String {
@@ -2406,7 +2406,7 @@ public struct GeneralRecipeParser {
               let upper = Int(values[1]) else {
             return nil
         }
-        return (lower + upper) * 60 / 2
+        return Plausible.minutes((Double(lower) + Double(upper)) * 30)
     }
 
     private func maximumHours(in text: String) -> Int? {
@@ -2415,7 +2415,7 @@ public struct GeneralRecipeParser {
               let hours = Int(hoursText) else {
             return nil
         }
-        return hours * 60
+        return Plausible.minutes(Double(hours) * 60)
     }
 
     private func semanticInstructions(_ source: [String]) -> [String] {
@@ -2548,7 +2548,7 @@ public struct GeneralRecipeParser {
             ? 1
             : Double(values[0].replacingOccurrences(of: ",", with: ".")) ?? 0
         let unit = normalized(values[1])
-        return Int((unit.hasPrefix("std") || unit == "h" || unit.hasPrefix("stunde") || unit.hasPrefix("heure")) ? value * 60 : value)
+        return Plausible.minutes((unit.hasPrefix("std") || unit == "h" || unit.hasPrefix("stunde") || unit.hasPrefix("heure")) ? value * 60 : value)
     }
 
     private func numericAmount(_ value: String) -> Double {

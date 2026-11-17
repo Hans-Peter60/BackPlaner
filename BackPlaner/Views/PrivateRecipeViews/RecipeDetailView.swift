@@ -172,7 +172,7 @@ struct RecipeDetailView: View {
                                     suggestedDoughType: DoughWeightFromTin.doughType(for: DoughComposition.components(of: recipe)))
 
                 HStack {
-                    Text("Gewicht: \(Int((recipe.totalWeight * servingScale).rounded()), format: .number) g")
+                    Text("Gewicht: \(Plausible.roundedInt(recipe.totalWeight * servingScale), format: .number) g")
                             .font(Theme.bodyFont(15))
 
                     Spacer()

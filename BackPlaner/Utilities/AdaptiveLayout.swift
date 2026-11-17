@@ -180,7 +180,7 @@ struct ServingScaleControl: View {
                 Text("Teiggewicht")
                     .font(Theme.bodyFont(15))
                 TextField(
-                    "\(Int((baseWeight * scale).rounded()))",
+                    "\(Plausible.roundedInt(baseWeight * scale))",
                     text: $weightText
                 )
                 .keyboardType(.numberPad)
@@ -193,7 +193,7 @@ struct ServingScaleControl: View {
                 .onChange(of: weightText) { _, text in
                     let digits = text.filter(\.isNumber)
                     if digits != text { weightText = digits }
-                    let value = Int(digits) ?? 0
+                    let value = Int(digits.prefix(7)) ?? 0
                     targetWeight = value > 0 ? value : nil
                 }
                 // The scale is shared between the tabs of a recipe. A weight

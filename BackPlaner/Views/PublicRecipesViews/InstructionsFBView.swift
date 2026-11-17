@@ -143,7 +143,7 @@ struct InstructionsFBView: View {
                 VStack (alignment: .leading) {
 
                     // The amount the plan is made for, chosen on the recipe's page.
-                    Text("Gewicht: \(Int((recipeFB.totalWeight * servingScale).rounded()), format: .number) g")
+                    Text("Gewicht: \(Plausible.roundedInt(recipeFB.totalWeight * servingScale), format: .number) g")
                         .font(Theme.bodyFont(15))
                         .foregroundColor(Theme.subtitle)
 

@@ -176,12 +176,13 @@ public enum TimedFoldExpansion {
     /// duration allows.
     private static func intervalOffsets(in text: String, totalDuration: Int) -> [Int] {
         guard let intervalText = captures(#"alle\s+(\d+)\s*minuten"#, in: text)?.first,
-              let interval = Int(intervalText), interval > 0 else {
+              let interval = Int(intervalText), interval > 0, interval <= Plausible.maxMinutes else {
             return []
         }
         let explicitCount = captures(#"(\d+)\s*(?:x|mal)\b"#, in: text)
             .flatMap { Int($0[0]) }
-        let count = explicitCount ?? totalDuration / interval
+        // "1000000000000x falten" would build that many steps.
+        let count = min(explicitCount ?? totalDuration / interval, 200)
         guard count > 0 else { return [] }
         return (1...count).map { $0 * interval }
     }
@@ -197,7 +198,7 @@ public enum TimedFoldExpansion {
             ? 1
             : Double(values[0].replacingOccurrences(of: ",", with: ".")) ?? 0
         let unit = normalized(values[1])
-        return Int((unit.hasPrefix("std") || unit == "h" || unit.hasPrefix("stunde") || unit.hasPrefix("heure")) ? value * 60 : value)
+        return Plausible.minutes((unit.hasPrefix("std") || unit == "h" || unit.hasPrefix("stunde") || unit.hasPrefix("heure")) ? value * 60 : value)
     }
 
     private static func normalized(_ text: String) -> String {

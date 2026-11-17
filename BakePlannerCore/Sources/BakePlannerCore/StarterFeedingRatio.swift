@@ -52,7 +52,7 @@ public enum StarterFeedingRatio {
 
         guard starterGrams > 0, flourGrams > 0, waterGrams > 0 else { return nil }
 
-        let wholeGrams = [starterGrams, flourGrams, waterGrams].map { Int($0.rounded()) }
+        let wholeGrams = [starterGrams, flourGrams, waterGrams].map { Plausible.roundedInt($0) }
         let divisor = wholeGrams.reduce(0, Rational.greatestCommonDivisor)
         guard divisor > 0 else { return nil }
 

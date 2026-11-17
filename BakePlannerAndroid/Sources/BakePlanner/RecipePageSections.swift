@@ -249,7 +249,7 @@ struct AmountControl: View {
                 Text("Teiggewicht")
                 // The placeholder is the weight at the current factor, as
                 // on the iPhone; a plain String, so no catalog key arises.
-                TextField(String(Int((baseWeight * scale).rounded())), text: $weightText)
+                TextField(String(Plausible.roundedInt(baseWeight * scale)), text: $weightText)
                     .keyboardType(.numberPad)
                     .frame(width: 110)
                 Text(verbatim: "g")
@@ -269,7 +269,7 @@ struct AmountControl: View {
                     weightText = digits
                     return
                 }
-                scale = ServingScale.factor(servingSize: halves, targetWeight: Int(digits), baseWeight: baseWeight)
+                scale = ServingScale.factor(servingSize: halves, targetWeight: Int(digits.prefix(7)), baseWeight: baseWeight)
             }
         }
         .appSheet(isPresented: $showsTinCalculator) {

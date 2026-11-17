@@ -55,12 +55,14 @@ public struct BakeHistoryFacts: Equatable {
 
     /// The facts as every store keeps them: flour and outcome trimmed, a
     /// proof of zero minutes or less as not recorded, a rating outside 1 to
-    /// 5 stars as none. Temperatures stay as they are — 0 °C is a measurement.
+    /// 5 stars as none. Temperatures stay as they are — 0 °C is a measurement —
+    /// within the plausible range, and proofs within sixty days (Plausible):
+    /// a room at 10²⁰ °C crashed the recipe page that suggests it.
     public var normalized: BakeHistoryFacts {
-        BakeHistoryFacts(roomTemperature: roomTemperature,
-                         doughTemperature: doughTemperature,
-                         bulkProofMinutes: bulkProofMinutes.flatMap { $0 > 0 ? $0 : nil },
-                         finalProofMinutes: finalProofMinutes.flatMap { $0 > 0 ? $0 : nil },
+        BakeHistoryFacts(roomTemperature: roomTemperature.flatMap(Plausible.temperature),
+                         doughTemperature: doughTemperature.flatMap(Plausible.temperature),
+                         bulkProofMinutes: bulkProofMinutes.flatMap { $0 > 0 ? Plausible.minutes($0) : nil },
+                         finalProofMinutes: finalProofMinutes.flatMap { $0 > 0 ? Plausible.minutes($0) : nil },
                          flour: flour.trimmingCharacters(in: .whitespacesAndNewlines),
                          outcome: outcome.trimmingCharacters(in: .whitespacesAndNewlines),
                          rating: rating.flatMap { (1...Self.maximumRating).contains($0) ? $0 : nil })
@@ -199,7 +201,8 @@ public struct BakeHistoryFacts: Equatable {
             .replacingOccurrences(of: "°C", with: "")
             .replacingOccurrences(of: "°", with: "")
             .trimmingCharacters(in: .whitespaces)
-        guard !cleaned.isEmpty, let value = Double(cleaned), value.isFinite else { return nil }
+        guard !cleaned.isEmpty, let value = Double(cleaned), value.isFinite,
+              Plausible.temperatureRange.contains(value) else { return nil }
         return value
     }
 
@@ -207,7 +210,7 @@ public struct BakeHistoryFacts: Equatable {
     /// number count as "not recorded".
     public static func parseMinutes(_ text: String) -> Int? {
         let digits = text.filter(\.isNumber)
-        guard let value = Int(digits), value > 0 else { return nil }
+        guard let value = Int(digits), value > 0, value <= Plausible.maxMinutes else { return nil }
         return value
     }
 

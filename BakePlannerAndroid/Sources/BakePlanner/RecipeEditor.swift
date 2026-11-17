@@ -479,7 +479,7 @@ struct StepDraft: Identifiable {
     /// A temperature as typed, nil when empty or no number.
     private static func degrees(_ text: String) -> Int? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty, let value = Int(trimmed), value > 0 else { return nil }
+        guard !trimmed.isEmpty, let value = Int(trimmed), value > 0, Plausible.temperatureRange.contains(Double(value)) else { return nil }
         return value
     }
 

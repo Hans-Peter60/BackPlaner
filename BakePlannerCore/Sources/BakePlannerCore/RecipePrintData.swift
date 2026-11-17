@@ -59,7 +59,7 @@ public struct RecipePrintData: Sendable {
         name = recipe.name
         summary = recipe.summary
         imageData = recipe.image
-        totalWeight = Int((recipe.totalWeight * scale).rounded())
+        totalWeight = Plausible.roundedInt(recipe.totalWeight * scale)
         prepTime = Rational.displayHoursMinutes(recipe.prepTime)
         urlLink = recipe.urlLink.flatMap { $0.isEmpty ? nil : $0 }
 
@@ -81,7 +81,7 @@ public struct RecipePrintData: Sendable {
         name = recipeFB.name
         summary = recipeFB.summary
         self.imageData = imageData
-        totalWeight = Int((recipeFB.totalWeight * scale).rounded())
+        totalWeight = Plausible.roundedInt(recipeFB.totalWeight * scale)
         prepTime = Rational.displayHoursMinutes(recipeFB.prepTime)
         urlLink = recipeFB.urlLink.isEmpty ? nil : recipeFB.urlLink
 

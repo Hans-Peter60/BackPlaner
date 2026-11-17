@@ -74,7 +74,7 @@ extension Int: NumberFieldValue {
     static func parseField(_ text: String) -> Int? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
         if trimmed.isEmpty { return 0 }
-        if let whole = Int(trimmed) { return whole }
+        if let whole = Int(trimmed) { return Double(whole.magnitude) <= NumberFieldParsing.limit ? whole : nil }
         return NumberFieldParsing.number(from: trimmed).map { Int($0) }
     }
 
@@ -111,8 +111,13 @@ enum NumberFieldParsing {
     /// other convention is accepted as well, since the keyboard offers
     /// whichever the device's region prefers.
     static func number(from text: String) -> Double? {
-        if let number = formatter.number(from: text) { return number.doubleValue }
         let normalized = text.replacingOccurrences(of: ",", with: ".")
-        return Double(normalized)
+        guard let number = formatter.number(from: text)?.doubleValue ?? Double(normalized),
+              number.isFinite, abs(number) <= limit else { return nil }
+        return number
     }
+
+    /// The largest number a field takes. "1e30", "inf" or twenty digits are
+    /// no number: turned into whole grams or minutes, they stopped the app.
+    static let limit = 1_000_000_000.0
 }

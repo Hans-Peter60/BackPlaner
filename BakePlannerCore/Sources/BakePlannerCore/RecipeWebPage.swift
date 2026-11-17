@@ -411,7 +411,7 @@ public enum RecipeWebPageLoader {
             if let hours = firstNumber("(\\d+(?:[.,]\\d+)?)H", in: timePart) { minutes += hours * 60 }
             if let mins = firstNumber("(\\d+(?:[.,]\\d+)?)M", in: timePart) { minutes += mins }
         }
-        return Int(minutes.rounded())
+        return Plausible.minutes(minutes)
     }
 
     private static func firstNumber(_ pattern: String, in text: String) -> Double? {
@@ -800,7 +800,7 @@ extension StructuredWebRecipe {
             }
         }
         flush()
-        return (total * 100).rounded() / 100
+        return (Plausible.grams(total) * 100).rounded() / 100
     }
 
     /// German abbreviations are written the way the app's unit list spells
@@ -844,7 +844,7 @@ extension StructuredWebRecipe {
             if unit.hasPrefix("se") { minutes /= 60 }
             longest = max(longest, minutes)
         }
-        return Int(longest.rounded())
+        return Plausible.minutes(longest)
     }
 
     public static func describesBaking(_ text: String) -> Bool {
