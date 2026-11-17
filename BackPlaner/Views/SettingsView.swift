@@ -665,7 +665,7 @@ struct SettingsView: View {
         Section {
             FileShareLink(
                 item: RecipeFileExport(recipes: allOwnRecipes, fileName: backupFileName),
-                preview: SharePreview(Text("BakePlanner-Sicherung"))
+                preview: SharePreview(Text(verbatim: "BakePlanner-Sicherung"))
             ) {
                 Label("Vollständige Sicherung erstellen", systemImage: "arrow.down.doc")
             }
