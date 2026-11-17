@@ -684,22 +684,25 @@ struct SettingsView: View {
             Text("Die Sicherung ist eine Datei mit allen eigenen Rezepten samt Bildern, der Backhistorie mit Fotos, dem Anstellgut-Tagebuch und dem Vorrat – zum Ablegen in Dateien, iCloud Drive oder per Mail. Beim Wiedereinspielen kommen Rezepte und Vorratsposten dazu, die noch fehlen; Vorhandenes wird nie überschrieben. Einstellungen und geplante Schritte gehören nicht zur Datei.")
         }
         .fileImporter(isPresented: $isImportingBackup, allowedContentTypes: [.json]) { result in
-            // The picker is still on its way out when this runs; an alert
-            // raised right now is dropped, so the outcome waits a moment.
-            var count: RecipeImportResult?
-            var failure: String?
-            switch result {
-            case .success(let url):
-                do {
-                    count = try RecipeImport.restoreBackup(from: url, into: viewContext)
-                } catch {
+            Task { @MainActor in
+                // The file is read and decoded off the main thread, so a
+                // large backup no longer holds the screen still.
+                var count: RecipeImportResult?
+                var failure: String?
+                let started = ContinuousClock.now
+                switch result {
+                case .success(let url):
+                    do {
+                        count = try await RecipeImport.restoreBackup(from: url, into: viewContext)
+                    } catch {
+                        failure = error.localizedDescription
+                    }
+                case .failure(let error):
                     failure = error.localizedDescription
                 }
-            case .failure(let error):
-                failure = error.localizedDescription
-            }
-            Task { @MainActor in
-                try? await Task.sleep(for: .milliseconds(600))
+                // The picker is still on its way out at first; an alert
+                // raised then is dropped, so the outcome waits for it.
+                try? await Task.sleep(until: started + .milliseconds(600))
                 backupImportResult = count
                 backupImportError = failure
             }

@@ -467,6 +467,20 @@ public enum RecipeImport {
     /// memory whole it could end the app.
     public static let maximumFileBytes = 200 * 1_024 * 1_024
 
+    /// The file at `url`, read and decoded off the main thread: a backup
+    /// with every picture is megabytes of base64, and decoding it where the
+    /// app draws held the screen still. `readsSecurityScoped` for a file a
+    /// picker on iOS hands over, readable only while its access lasts.
+    public static func decodedFile(at url: URL, readsSecurityScoped: Bool = false) async throws -> RecipeExportFile {
+        try await Task.detached(priority: .userInitiated) {
+            #if canImport(Darwin)
+            let accessing = readsSecurityScoped && url.startAccessingSecurityScopedResource()
+            defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+            #endif
+            return try decodeFile(try readFile(at: url))
+        }.value
+    }
+
     /// The bytes of the file at `url`, refused before reading when larger
     /// than `maximumFileBytes`.
     public static func readFile(at url: URL) throws -> Data {

@@ -445,23 +445,25 @@ struct AllRecipesListView: View {
                 }
             }
             .fileImporter(isPresented: $isImportingRecipes, allowedContentTypes: [.json]) { result in
-                // The picker is still on its way out when this runs; an alert
-                // raised right now is dropped, so the outcome is shown once the
-                // picker has gone.
-                var count: RecipeImportResult?
-                var failure: String?
-                switch result {
-                case .success(let url):
-                    do {
-                        count = try RecipeImport.importRecipes(from: url, into: viewContext)
-                    } catch {
+                Task { @MainActor in
+                    // The file is read and decoded off the main thread, so a
+                    // large backup no longer holds the screen still.
+                    var count: RecipeImportResult?
+                    var failure: String?
+                    let started = ContinuousClock.now
+                    switch result {
+                    case .success(let url):
+                        do {
+                            count = try await RecipeImport.importRecipes(from: url, into: viewContext)
+                        } catch {
+                            failure = error.localizedDescription
+                        }
+                    case .failure(let error):
                         failure = error.localizedDescription
                     }
-                case .failure(let error):
-                    failure = error.localizedDescription
-                }
-                Task { @MainActor in
-                    try? await Task.sleep(for: .milliseconds(600))
+                    // The picker is still on its way out at first; an alert
+                    // raised then is dropped, so the outcome waits for it.
+                    try? await Task.sleep(until: started + .milliseconds(600))
                     importResult = count
                     importErrorMessage = failure
                 }

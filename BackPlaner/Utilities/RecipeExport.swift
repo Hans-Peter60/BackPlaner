@@ -265,6 +265,32 @@ extension RecipeImport {
         }
     }
 
+    /// As `importRecipes(from:into:)`, with the file read and decoded off
+    /// the main thread; only writing into `context` happens on it.
+    @MainActor
+    static func importRecipes(from url: URL, into context: NSManagedObjectContext) async throws -> RecipeImportResult {
+        let file = try await decodedFile(at: url, readsSecurityScoped: true)
+        return try atomically(in: context) { scratch in
+            try importFile(file, into: CoreDataRecipeStore(context: scratch),
+                           bakeHistory: CoreDataBakeHistoryStore(context: scratch),
+                           starterFeedings: CoreDataStarterFeedingLogStore(context: scratch),
+                           pantry: CoreDataPantryStore(context: scratch))
+        }
+    }
+
+    /// As `restoreBackup(from:into:)`, with the file read and decoded off
+    /// the main thread.
+    @MainActor
+    static func restoreBackup(from url: URL, into context: NSManagedObjectContext) async throws -> RecipeImportResult {
+        let file = try await decodedFile(at: url, readsSecurityScoped: true)
+        return try atomically(in: context) { scratch in
+            try restoreBackup(file, into: CoreDataRecipeStore(context: scratch),
+                              bakeHistory: CoreDataBakeHistoryStore(context: scratch),
+                              starterFeedings: CoreDataStarterFeedingLogStore(context: scratch),
+                              pantry: CoreDataPantryStore(context: scratch))
+        }
+    }
+
     /// Runs an import in a child of `context` and saves `context` once at
     /// the end: all of the file comes in, or — when anything fails — none
     /// of it. The stores save after every recipe and bake; written straight

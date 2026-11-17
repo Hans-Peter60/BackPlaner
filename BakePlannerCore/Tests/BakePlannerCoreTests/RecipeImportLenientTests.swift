@@ -112,4 +112,20 @@ struct RecipeImportLenientTests {
             try RecipeImport.readFile(at: small.appendingPathExtension("fehlt"))
         }
     }
+
+    @Test("A file read off the main thread imports and restores like its bytes")
+    func decodedOffTheMainThread() async throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("decoded-\(UUID().uuidString).json")
+        try RecipeExportFile(recipes: [RecipeStoreContract.bread()]).encoded().write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+        let file = try await RecipeImport.decodedFile(at: url)
+        let (recipes, history, feedings) = stores()
+        #expect(try RecipeImport.importFile(file, into: recipes, bakeHistory: history, starterFeedings: feedings,
+                                            pantry: nil).recipes == 1)
+        #expect(try RecipeImport.restoreBackup(file, into: recipes, bakeHistory: history, starterFeedings: feedings,
+                                               pantry: nil).recipes == 0)
+        await #expect(throws: RecipeImportError.unreadableFile) {
+            try await RecipeImport.decodedFile(at: url.appendingPathExtension("fehlt"))
+        }
+    }
 }
