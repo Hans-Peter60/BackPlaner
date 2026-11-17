@@ -903,51 +903,58 @@ final class AppModel {
     /// known recipes get the bakes and feedings they lack, unknown ones
     /// come in new.
     func restoreBackup(at url: URL) {
-        do {
-            let data = try RecipeImport.readFile(at: url)
-            // All of it or nothing: a failure half-way leaves the database as it was.
-            let result = try openedStore().file.atomically {
-                try RecipeImport.restoreBackup(data, into: openedStore(), bakeHistory: openedHistoryStore(),
-                                               starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+        Task {
+            do {
+                // Read and decoded off the main thread; a backup with all its
+                // pictures held the screen still while it was decoded here.
+                let file = try await RecipeImport.decodedFile(at: url)
+                // All of it or nothing: a failure half-way leaves the database as it was.
+                let result = try openedStore().file.atomically {
+                    try RecipeImport.restoreBackup(file, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                                   starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+                }
+                importSkippedNote = result.skippedNote
+                importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: result.bakeEntries)
+            } catch {
+                importOutcome = .failed(error.localizedDescription)
             }
-            importSkippedNote = result.skippedNote
-            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: result.bakeEntries)
-        } catch {
-            importOutcome = .failed(error.localizedDescription)
+            load()
+            loadBakeHistory()
+            loadPantry()
         }
-        load()
-        loadBakeHistory()
-        loadPantry()
     }
 
     /// Reads a backup or recipe file — as the iPhone app writes it — into
     /// the database, every recipe as a new one, with the bake history the
     /// file carries.
     func importFile(at url: URL) {
-        #if !os(Android)
-        // On iOS the picked file is only readable while its access lasts;
-        // on Android the picker hands over a copy in the app's cache.
-        let accessing = url.startAccessingSecurityScopedResource()
-        defer { if accessing { url.stopAccessingSecurityScopedResource() } }
-        #endif
-        do {
-            let data = try RecipeImport.readFile(at: url)
-            // The file's pantry items the pantry does not have by name
-            // come along, as on the iPhone.
-            // All of it or nothing, so a second try does not double what came in.
-            let result = try openedStore().file.atomically {
-                try RecipeImport.importFile(data, into: openedStore(), bakeHistory: openedHistoryStore(),
-                                            starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+        Task {
+            do {
+                // On iOS the picked file is only readable while its access
+                // lasts; on Android the picker hands over a copy in the
+                // app's cache. Read and decoded off the main thread.
+                #if os(Android)
+                let file = try await RecipeImport.decodedFile(at: url)
+                #else
+                let file = try await RecipeImport.decodedFile(at: url, readsSecurityScoped: true)
+                #endif
+                // The file's pantry items the pantry does not have by name
+                // come along, as on the iPhone. All of it or nothing, so a
+                // second try does not double what came in.
+                let result = try openedStore().file.atomically {
+                    try RecipeImport.importFile(file, into: openedStore(), bakeHistory: openedHistoryStore(),
+                                                starterFeedings: openedFeedingStore(), pantry: openedPantryStore())
+                }
+                importSkippedNote = result.skippedNote
+                importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: 0)
+            } catch {
+                logger.error("could not import \(url.lastPathComponent): \(error)")
+                importOutcome = .failed(error.localizedDescription)
             }
-            importSkippedNote = result.skippedNote
-            importOutcome = .imported(result.recipes, pantryItems: result.pantryItems, bakeEntries: 0)
-        } catch {
-            logger.error("could not import \(url.lastPathComponent): \(error)")
-            importOutcome = .failed(error.localizedDescription)
+            load()
+            loadBakeHistory()
+            loadPantry()
         }
-        load()
-        loadBakeHistory()
-        loadPantry()
     }
 
     // MARK: Public recipes

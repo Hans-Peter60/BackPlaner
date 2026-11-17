@@ -54,7 +54,14 @@ extension RecipeImport {
     /// twice must not double the stock — the others are added as they were.
     public static func importFile(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
                                   starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
-        let file = try decodeFile(data)
+        try importFile(try decodeFile(data), into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings,
+                       pantry: pantry)
+    }
+
+    /// As above, for a file already read (`decodedFile(at:)`, off the main
+    /// thread); writing into the stores stays where the stores live.
+    public static func importFile(_ file: RecipeExportFile, into store: RecipeStore, bakeHistory: BakeHistoryStore,
+                                  starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
         let pantryItems = try addPantry(file, to: pantry)
         let added = try addRecipes(file.recipes, into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings)
         return RecipeImportResult(recipes: added.count, pantryItems: pantryItems, skippedRecipes: file.skippedRecipes)
@@ -69,7 +76,13 @@ extension RecipeImport {
     /// `bakeEntries`, the bakes and feedings merged into existing recipes.
     public static func restoreBackup(_ data: Data, into store: RecipeStore, bakeHistory: BakeHistoryStore,
                                      starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
-        let file = try decodeFile(data)
+        try restoreBackup(try decodeFile(data), into: store, bakeHistory: bakeHistory, starterFeedings: starterFeedings,
+                          pantry: pantry)
+    }
+
+    /// As above, for a file already read (`decodedFile(at:)`).
+    public static func restoreBackup(_ file: RecipeExportFile, into store: RecipeStore, bakeHistory: BakeHistoryStore,
+                                     starterFeedings: StarterFeedingLogStore, pantry: PantryStore?) throws -> RecipeImportResult {
         let pantryItems = try addPantry(file, to: pantry)
 
         let existing = try store.recipes(includingImages: false)

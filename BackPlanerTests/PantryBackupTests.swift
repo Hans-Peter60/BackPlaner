@@ -128,5 +128,18 @@ struct AtomicImportTests {
         let restored = try CoreDataRecipeStore(context: tablet).recipes(includingImages: false)
         #expect(restored.count == 1 && restored.first?.backupID == brot.backupID)
     }
+
+    @Test("Import and restore read the file off the main thread and write it at once")
+    func asyncImportAndRestore() async throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("async-\(UUID().uuidString).json")
+        try RecipeExportFile(recipes: [RecipeStoreContract.bread()]).encoded().write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        #expect(try await RecipeImport.importRecipes(from: url, into: context).recipes == 1)
+        #expect(try await RecipeImport.restoreBackup(from: url, into: context).recipes == 0)
+        #expect(!context.hasChanges)
+        #expect(try CoreDataRecipeStore(context: context).recipes(includingImages: false).count == 1)
+    }
 }
 
