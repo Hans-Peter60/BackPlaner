@@ -189,7 +189,13 @@ struct IngredientRowView: View {
         Group {
             
             Text(String(ingredient.number))
-            if ingredient.weight > 0 { Text(String(ingredient.weight)) } else { Text(verbatim: "") }
+            // "400", "12,5" — as the amount field writes it, in the app's
+            // language; String(weight) showed "400.0" with a point.
+            if ingredient.weight > 0 {
+                Text(verbatim: IngredientAmountText.text(weight: ingredient.weight, numerator: 0, denominator: 0))
+            } else {
+                Text(verbatim: "")
+            }
             Text(UnitLocalizer.display(ingredient.unit ?? "",
                                        amount: ingredient.weight > 0 ? ingredient.weight
                                            : (ingredient.denom != 0 ? Double(ingredient.num) / Double(ingredient.denom) : 0)))
