@@ -92,4 +92,24 @@ struct RecipeImportLenientTests {
         #expect(BakeHistoryStoreError.unknownRecipe("x").errorDescription != nil)
         #expect(StarterFeedingLogStoreError.unknownRecipe("x").errorDescription != nil)
     }
+
+    @Test("A file far larger than any backup is refused before it is read")
+    func refusesHugeFile() throws {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("huge-\(UUID().uuidString).json")
+        // A sparse file: its size is set, its bytes are never written.
+        FileManager.default.createFile(atPath: url.path, contents: nil)
+        defer { try? FileManager.default.removeItem(at: url) }
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.truncate(atOffset: UInt64(RecipeImport.maximumFileBytes + 1))
+        try handle.close()
+        #expect(throws: RecipeImportError.fileTooLarge) { try RecipeImport.readFile(at: url) }
+
+        let small = FileManager.default.temporaryDirectory.appendingPathComponent("small-\(UUID().uuidString).json")
+        try RecipeExportFile(recipes: [RecipeStoreContract.bread()]).encoded().write(to: small)
+        defer { try? FileManager.default.removeItem(at: small) }
+        #expect(try RecipeImport.decodeFile(try RecipeImport.readFile(at: small)).recipes.count == 1)
+        #expect(throws: RecipeImportError.unreadableFile) {
+            try RecipeImport.readFile(at: small.appendingPathExtension("fehlt"))
+        }
+    }
 }

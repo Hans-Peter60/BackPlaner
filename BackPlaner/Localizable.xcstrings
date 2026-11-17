@@ -35,6 +35,24 @@
         }
       }
     },
+    "Die Datei ist zu groß für eine BakePlanner-Rezeptdatei." : {
+      "comment" : "Error message when a file picked for import is far larger than any backup the app writes.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file is too large for a BakePlanner recipe file."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier est trop volumineux pour un fichier de recettes BakePlanner."
+          }
+        }
+      }
+    },
     "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen." : {
       "comment" : "Error message when an import or backup restore stops at a record the store refuses; nothing of the file was kept.",
       "extractionState" : "manual",

@@ -235,12 +235,7 @@ extension RecipeImport {
         let needsSecurityScope = url.startAccessingSecurityScopedResource()
         defer { if needsSecurityScope { url.stopAccessingSecurityScopedResource() } }
 
-        let data: Data
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            throw RecipeImportError.unreadableFile
-        }
+        let data = try readFile(at: url)
 
         return try atomically(in: context) { scratch in
             try importFile(data, into: CoreDataRecipeStore(context: scratch),
@@ -258,12 +253,7 @@ extension RecipeImport {
         let needsSecurityScope = url.startAccessingSecurityScopedResource()
         defer { if needsSecurityScope { url.stopAccessingSecurityScopedResource() } }
 
-        let data: Data
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            throw RecipeImportError.unreadableFile
-        }
+        let data = try readFile(at: url)
 
         return try atomically(in: context) { scratch in
             try restoreBackup(data, into: CoreDataRecipeStore(context: scratch),

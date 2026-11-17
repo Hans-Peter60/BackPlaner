@@ -904,7 +904,7 @@ final class AppModel {
     /// come in new.
     func restoreBackup(at url: URL) {
         do {
-            let data = try Data(contentsOf: url)
+            let data = try RecipeImport.readFile(at: url)
             // All of it or nothing: a failure half-way leaves the database as it was.
             let result = try openedStore().file.atomically {
                 try RecipeImport.restoreBackup(data, into: openedStore(), bakeHistory: openedHistoryStore(),
@@ -931,7 +931,7 @@ final class AppModel {
         defer { if accessing { url.stopAccessingSecurityScopedResource() } }
         #endif
         do {
-            let data = try Data(contentsOf: url)
+            let data = try RecipeImport.readFile(at: url)
             // The file's pantry items the pantry does not have by name
             // come along, as on the iPhone.
             // All of it or nothing, so a second try does not double what came in.

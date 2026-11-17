@@ -165,10 +165,10 @@ public enum RecipeWebPageLoader {
         request.setValue("text/html,application/xhtml+xml;q=0.9,*/*;q=0.5", forHTTPHeaderField: "Accept")
         request.setValue("de-DE,de;q=0.9,en;q=0.7,fr;q=0.6", forHTTPHeaderField: "Accept-Language")
 
-        let data: Data
+        let data: Data?
         let response: URLResponse
         do {
-            (data, response) = try await URLSession.shared.data(for: request)
+            (data, response) = try await download(request, atMost: maximumPageBytes)
         } catch is CancellationError {
             throw CancellationError()
         } catch {
@@ -183,7 +183,7 @@ public enum RecipeWebPageLoader {
            !mimeType.contains("html"), !mimeType.contains("xml"), !mimeType.hasPrefix("text/") {
             throw RecipeWebImportError.notAWebPage
         }
-        guard data.count <= maximumPageBytes else {
+        guard let data else {
             throw RecipeWebImportError.notAWebPage
         }
 
@@ -203,11 +203,21 @@ public enum RecipeWebPageLoader {
         guard let url else { return nil }
         var request = URLRequest(url: url, timeoutInterval: 20)
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-        guard let (data, _) = try? await URLSession.shared.data(for: request),
-              data.count <= 12 * 1_024 * 1_024 else {
-            return nil
-        }
+        guard let (data, _) = try? await download(request, atMost: 12 * 1_024 * 1_024) else { return nil }
         return data
+    }
+
+    /// The body of `request`, nil when it is larger than `limit` bytes. It
+    /// goes to a file first and is read only when small enough: loaded
+    /// straight into memory, a page of several hundred megabytes could end
+    /// the app before its size was ever checked.
+    private static func download(_ request: URLRequest, atMost limit: Int) async throws -> (Data?, URLResponse) {
+        let (file, response) = try await URLSession.shared.download(for: request)
+        defer { try? FileManager.default.removeItem(at: file) }
+        if response.expectedContentLength > Int64(limit) { return (nil, response) }
+        let size = (try? FileManager.default.attributesOfItem(atPath: file.path)[.size] as? NSNumber)?.intValue ?? 0
+        guard size <= limit else { return (nil, response) }
+        return (try Data(contentsOf: file), response)
     }
 
     /// The smallest edge a page's photo needs to be taken as the recipe's

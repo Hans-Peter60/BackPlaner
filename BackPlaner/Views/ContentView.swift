@@ -148,9 +148,13 @@ struct ContentView: View {
                 recipesPath = NavigationPath([MenuDestination.recipe(id: recipeID)])
             } else if let pageURL = PendingWebImport.url(fromDeepLink: url) {
                 // The same address is parked in the App Group; take it so it
-                // does not start a second import on the next activation.
-                _ = PendingWebImport.takePending()
-                beginWebImport(of: pageURL)
+                // does not start a second import on the next activation. Only
+                // then did the link come from the share extension: any web
+                // page can open bakeplanner://import-web, and its address is
+                // only filled in — the analysis, and with it a cloud import
+                // of the month's allowance, waits for a tap.
+                let fromShareSheet = PendingWebImport.takePending() == pageURL
+                beginWebImport(of: pageURL, startsAutomatically: fromShareSheet)
             }
         }
         // The share extension may have been unable to open the app; the
@@ -173,13 +177,14 @@ struct ContentView: View {
     /// whatever was on screen there. Sharing the same page again later
     /// starts a fresh import; only the echo of the same hand-off within a
     /// few seconds is dropped.
-    private func beginWebImport(of pageURL: URL) {
+    private func beginWebImport(of pageURL: URL, startsAutomatically: Bool = true) {
         if pageURL == lastWebImportURL, Date().timeIntervalSince(lastWebImportDate) < 5 { return }
         lastWebImportURL = pageURL
         lastWebImportDate = Date()
         AppLog.recipeImport.info("Web import handed over from the share sheet: \(pageURL.absoluteString, privacy: .private)")
         selectedTab = .recipes
-        recipesPath = NavigationPath([MenuDestination.webImport(pageURL, handoff: UUID())])
+        recipesPath = NavigationPath([MenuDestination.webImport(pageURL, handoff: UUID(),
+                                                                startsAutomatically: startsAutomatically)])
     }
 }
 
@@ -197,7 +202,7 @@ enum MenuDestination: Hashable {
     /// Not a menu entry: reached through the share extension, with the page
     /// to import. The hand-off id makes every share a new screen, so the
     /// same page shared twice is analysed twice instead of being ignored.
-    case webImport(URL, handoff: UUID)
+    case webImport(URL, handoff: UUID, startsAutomatically: Bool)
     /// Not a menu entry either: a recipe opened from Spotlight or a link,
     /// by its id (`Recipe.reminderId`).
     case recipe(id: String)
@@ -222,11 +227,11 @@ struct MenuDestinationView: View {
         case .starterYield:      StarterYieldCalculatorView()
         case .doughWeightFromTin: DoughWeightFromTinView()
         case .settings:          SettingsView()
-        case .webImport(let pageURL, let handoff):
+        case .webImport(let pageURL, let handoff, let startsAutomatically):
             // Without an explicit identity the stack keeps the previous
             // import screen's state when one hand-off replaces another, and
             // the new address is never analysed.
-            RecipeWebImportView(initialURL: pageURL).id(handoff)
+            RecipeWebImportView(initialURL: pageURL, startsAutomatically: startsAutomatically).id(handoff)
         case .recipe(let id):
             LinkedRecipeView(recipeID: id)
         case .planRecipe(let id):

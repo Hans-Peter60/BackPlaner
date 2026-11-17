@@ -26,9 +26,11 @@ struct RecipeWebImportView: View {
 
     /// With `initialURL` — the page shared from Safari — the analysis starts
     /// on its own; without it the view waits for an address to be typed.
-    init(initialURL: URL? = nil) {
+    /// A link from elsewhere passes `startsAutomatically: false`: the
+    /// address is filled in and waits for a tap.
+    init(initialURL: URL? = nil, startsAutomatically: Bool = true) {
         _addressText = State(initialValue: initialURL?.absoluteString ?? "")
-        _startsAutomatically = State(initialValue: initialURL != nil)
+        _startsAutomatically = State(initialValue: initialURL != nil && startsAutomatically)
     }
 
     var body: some View {
