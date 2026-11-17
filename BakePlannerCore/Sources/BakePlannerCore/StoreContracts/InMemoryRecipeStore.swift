@@ -35,8 +35,11 @@ public final class InMemoryRecipeStore: RecipeStore {
 
     public func add(_ content: RecipeExportData, firestoreId: String?, adjustedOn: Date?,
                     bakeHistoryFlag: Bool) throws -> StoredRecipe {
+        var kept = content.inStoreOrder
+        kept.backupID = nil
         let recipe = StoredRecipe(id: "memory-\(nextID)", firestoreId: firestoreId, adjustedOn: adjustedOn,
-                                  bakeHistoryFlag: bakeHistoryFlag, content: content.inStoreOrder)
+                                  bakeHistoryFlag: bakeHistoryFlag,
+                                  backupID: content.backupID ?? UUID().uuidString, content: kept)
         nextID += 1
         stored[recipe.id] = recipe
         return recipe
@@ -52,6 +55,7 @@ public final class InMemoryRecipeStore: RecipeStore {
             throw RecipeStoreError.unknownRecipe(originID)
         }
         var updated = recipe
+        updated.backupID = existing.backupID
         updated.content = recipe.content.inStoreOrder
         updated.content.image = existing.content.image
         updated.variantNote = recipe.variantNote?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty

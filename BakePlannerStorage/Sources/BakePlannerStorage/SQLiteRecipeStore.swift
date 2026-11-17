@@ -119,20 +119,25 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     private func insert(_ content: RecipeExportData, firestoreId: String?, adjustedOn: Date?,
                         bakeHistoryFlag: Bool) throws -> StoredRecipe {
+        // A restored backup brings the recipe's identity along (format 8).
+        let backupID = content.backupID ?? UUID().uuidString
         try database.exec(sql: """
             INSERT INTO recipe (firestore_id, adjusted_on, bake_history_flag, name, summary, url_link, prep_time,
-                total_weight, tags, rating, recurrence_interval_days, image)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                total_weight, tags, rating, recurrence_interval_days, image, uuid)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, parameters: [
                 Self.value(firestoreId), Self.value(adjustedOn), Self.value(bakeHistoryFlag),
                 .text(content.name), .text(content.summary), Self.value(content.urlLink),
                 .long(Int64(content.prepTime)), .real(content.totalWeight), .text(try Self.tagsText(content.tags)),
                 .long(Int64(content.rating)), .long(Int64(content.recurrenceIntervalDays)), Self.value(content.image),
+                .text(backupID),
             ])
         let rowID = database.lastInsertRowID
         try insertParts(of: content, recipe: rowID)
+        var kept = content.inStoreOrder
+        kept.backupID = nil
         return StoredRecipe(id: String(rowID), firestoreId: firestoreId, adjustedOn: adjustedOn,
-                            bakeHistoryFlag: bakeHistoryFlag, content: content.inStoreOrder)
+                            bakeHistoryFlag: bakeHistoryFlag, backupID: backupID, content: kept)
     }
 
     private func insertParts(of content: RecipeExportData, recipe rowID: Int64) throws {
@@ -177,7 +182,7 @@ public final class SQLiteRecipeStore: RecipeStore {
 
     private static let recipeColumns = """
         id, firestore_id, adjusted_on, bake_history_flag, name, summary, url_link, prep_time, total_weight, tags,
-        rating, recurrence_interval_days, image, origin_id, variant_note
+        rating, recurrence_interval_days, image, origin_id, variant_note, uuid
         """
 
     private func recipe(from row: [SQLValue], includingImage: Bool) throws -> StoredRecipe {
@@ -200,6 +205,7 @@ public final class SQLiteRecipeStore: RecipeStore {
                             bakeHistoryFlag: (row[3].longValue ?? 0) != 0,
                             originID: row[13].longValue.map { String($0) },
                             variantNote: row[14].textValue,
+                            backupID: row[15].textValue,
                             content: content)
     }
 

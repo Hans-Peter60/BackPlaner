@@ -267,6 +267,13 @@ public final class BakePlannerDatabase {
         { database in
             try database.exec(sql: "ALTER TABLE scheduled_step ADD COLUMN uses_convection INTEGER NOT NULL DEFAULT 0")
         },
+        // 13: a recipe's lasting identity (backup format 8), so restoring a
+        // backup finds the recipe again instead of going by its name.
+        // Recipes already there get a random one.
+        { database in
+            try database.exec(sql: "ALTER TABLE recipe ADD COLUMN uuid TEXT")
+            try database.exec(sql: "UPDATE recipe SET uuid = lower(hex(randomblob(16))) WHERE uuid IS NULL")
+        },
     ]
 }
 

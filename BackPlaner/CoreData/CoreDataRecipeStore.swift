@@ -112,6 +112,7 @@ struct CoreDataRecipeStore: RecipeStore {
                      bakeHistoryFlag: recipe.bakeHistoryFlag,
                      originID: recipe.origin.flatMap { $0.isDeleted ? nil : $0.objectID.uriRepresentation().absoluteString },
                      variantNote: recipe.variantNote,
+                     backupID: recipe.id?.uuidString,
                      content: RecipeExportData(recipe: recipe, includingImage: includingImage))
     }
 

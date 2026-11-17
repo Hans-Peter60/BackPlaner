@@ -107,5 +107,26 @@ struct AtomicImportTests {
         #expect(copy.originID == origin.id && copy.variantNote == "Saaten")
         #expect(try CoreDataBakeHistoryStore(context: context).entries(ofRecipe: origin.id, includingImages: false).count == 1)
     }
+
+    @Test("A recipe's UUID travels in the backup; restoring it twice adds nothing twice")
+    func identityThroughCoreData() throws {
+        let phone = PersistenceController(inMemory: true).container.viewContext
+        let store = CoreDataRecipeStore(context: phone)
+        let brot = try #require(try store.add(contentsOf: [RecipeStoreContract.bread()]).first)
+        #expect(brot.backupID != nil)
+        let file = try RecipeExportFile(recipeIDs: [brot.id], from: store,
+                                        bakeHistory: CoreDataBakeHistoryStore(context: phone),
+                                        starterFeedings: CoreDataStarterFeedingLogStore(context: phone))
+        #expect(file.recipes.first?.backupID == brot.backupID)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("identity-\(UUID().uuidString).json")
+        try file.encoded().write(to: url)
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        let tablet = PersistenceController(inMemory: true).container.viewContext
+        #expect(try RecipeImport.restoreBackup(from: url, into: tablet).recipes == 1)
+        #expect(try RecipeImport.restoreBackup(from: url, into: tablet).recipes == 0)
+        let restored = try CoreDataRecipeStore(context: tablet).recipes(includingImages: false)
+        #expect(restored.count == 1 && restored.first?.backupID == brot.backupID)
+    }
 }
 

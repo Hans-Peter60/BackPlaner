@@ -31,11 +31,16 @@ public struct StoredRecipe: Equatable {
     public var variantNote: String?
     /// Name, ingredients, steps and picture.
     public var content: RecipeExportData
+    /// The recipe's lasting identity, the same on every device a backup
+    /// carries it to (`RecipeExportData.backupID`); nil for a recipe that
+    /// never got one (iPhone recipes from before 2.1).
+    public var backupID: String?
 
     public init(id: String, firestoreId: String? = nil, adjustedOn: Date? = nil,
                 bakeHistoryFlag: Bool = false, originID: String? = nil, variantNote: String? = nil,
-                content: RecipeExportData) {
+                backupID: String? = nil, content: RecipeExportData) {
         self.id = id
+        self.backupID = backupID
         self.firestoreId = firestoreId
         self.adjustedOn = adjustedOn
         self.bakeHistoryFlag = bakeHistoryFlag

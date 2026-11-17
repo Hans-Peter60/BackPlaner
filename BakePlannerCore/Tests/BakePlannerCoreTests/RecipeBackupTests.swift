@@ -122,7 +122,10 @@ struct RecipeBackupTests {
                                           starterFeedings: InMemoryStarterFeedingLogStore(recipes: store))
         #expect(shared.formatVersion == RecipeExportFile.plainFormatVersion)
         #expect(backup.formatVersion == RecipeExportFile.plainFormatVersion)
-        #expect(try backup.encoded() == shared.encoded())
+        // The backup differs from the shared file only by the identities.
+        var withoutIdentities = backup
+        withoutIdentities.recipes = backup.recipes.map { var recipe = $0; recipe.backupID = nil; return recipe }
+        #expect(try withoutIdentities.encoded() == shared.encoded())
         let text = String(decoding: try backup.encoded(), as: UTF8.self)
         #expect(!text.contains("bakeHistory"))
     }
@@ -162,12 +165,12 @@ struct RecipeBackupTests {
         #expect(entries[0].facts == BakeHistoryFacts() && entries[0].comment == "")
     }
 
-    @Test("Files up to version 7 are read; the version after it is refused")
+    @Test("Files up to version 8 are read; the version after it is refused")
     func versions() throws {
-        for version in 1...7 {
+        for version in 1...8 {
             #expect(RecipeExportFile.isSupported(formatVersion: version))
         }
-        #expect(!RecipeExportFile.isSupported(formatVersion: 8))
+        #expect(!RecipeExportFile.isSupported(formatVersion: 9))
     }
 
     @Test("A backup carries the pantry; reading it fills an empty pantry and leaves known items alone")
