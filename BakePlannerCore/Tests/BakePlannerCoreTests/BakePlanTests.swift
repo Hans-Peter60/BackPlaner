@@ -367,6 +367,110 @@ struct BakePlanTests {
         #expect(!BakePlan.isTurnDownInstruction("Bei 250 °C backen"))
     }
 
+    @Test("A turn-down without its own minute comes with the steam release the bake names",
+          arguments: [("Bei 250 °C fallend auf 220 °C 40 Minuten backen, Schwaden nach 15 Minuten ablassen", 15),
+                      ("Die ersten 15 Minuten mit Dampf bei 250 °C fallend auf 220 °C backen", 15),
+                      ("Bake at 250 °C falling to 220 °C, the first 12 minutes with steam", 12),
+                      ("Cuire à 250 °C puis 220 °C, les 15 premières minutes avec buée", 15),
+                      // Steam for the whole bake names no phase: the bakers' ten minutes.
+                      ("Bei 250 °C fallend auf 210 °C 40 Minuten mit Dampf backen", 10)])
+    func turnDownWithTheSteamRelease(_ text: String, _ minutes: Int) throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: text, step: 3, startTime: 70, duration: 40)
+        let language = text.hasPrefix("Bake") ? "en" : (text.hasPrefix("Cuire") ? "fr" : "de")
+        let turnDown = try #require(plan(steps, language: language).generatedTurnDownStep)
+        #expect(turnDown.startTime == 70 + minutes)
+        let steamPhrase = ["de": "Dampf ablassen", "en": "steam", "fr": "buée"][language]!
+        #expect(turnDown.instruction.contains(steamPhrase), "\(turnDown.instruction)")
+    }
+
+    @Test("A stored falling temperature turns down when the stated steam phase ends")
+    func storedDropFollowsTheSteamPhase() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Grigner et cuire 45 minutes, les 15 premières avec buée", step: 3,
+                            startTime: 70, duration: 45, oven: OvenSettings(temperature: 250, fallingTo: 230, steam: true))
+        let turnDown = try #require(plan(steps, language: "fr").generatedTurnDownStep)
+        #expect(turnDown.startTime == 85)
+        #expect(turnDown.instruction == "Baisser le four à 230 °C, évacuer la buée")
+    }
+
+    @Test("A turn-down timed apart from the steam names no steam")
+    func turnDownApartFromTheSteam() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen, nach 5 Minuten zurückdrehen. Schwaden nach 15 Minuten ablassen",
+                            step: 3, startTime: 70, duration: 40)
+        let turnDown = try #require(plan(steps).generatedTurnDownStep)
+        #expect(turnDown.startTime == 75)
+        #expect(turnDown.instruction == "Backofen auf 220 °C zurückdrehen")
+    }
+
+    @Test("A bake that lets the steam out at a minute gets a steam reminder then, in its language",
+          arguments: [("Bei 250 °C mit Schwaden 22 Minuten backen, Schwaden nach 10 Minuten ablassen", "de", 10, "Dampf ablassen"),
+                      ("Die ersten 12 Minuten mit Dampf bei 240 °C backen", "de", 12, "Dampf ablassen"),
+                      ("Bake at 230 °C with steam, release the steam after 15 minutes", "en", 15, "Release the steam"),
+                      ("Cuire à 240 °C, les 10 premières minutes avec buée", "fr", 10, "Évacuer la buée")])
+    func generatesTheSteamRelease(_ text: String, _ language: String, _ minutes: Int, _ expected: String) throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: text, step: 3, startTime: 70, duration: 40)
+        let plan = plan(steps, language: language)
+        let release = try #require(plan.generatedSteamReleaseStep)
+        #expect(release.instruction == expected)
+        #expect(release.startTime == 70 + minutes)
+        #expect(release.step == 3.2 && release.duration == 0)
+        #expect(plan.allSteps.contains(release))
+        #expect(BakePlan.isGeneratedSteamReleaseInstruction(release.instruction))
+        #expect(PlanTimelineLane.kind(of: release.instruction, duration: 0) == .oven)
+        #expect(!BakePlanValidator.isBakingStartInstruction(release.instruction))
+    }
+
+    @Test("No steam reminder where the bake states no minute, the turn-down lets it out, or it would ring after the bake")
+    func noSteamReleaseWhereCovered() {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C mit Schwaden 40 Minuten backen", step: 3, startTime: 70, duration: 40)
+        #expect(plan(steps).generatedSteamReleaseStep == nil)
+        steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen, Schwaden nach 10 Minuten ablassen", step: 3, startTime: 70, duration: 40)
+        #expect(plan(steps).generatedSteamReleaseStep == nil)
+        #expect(plan(steps).generatedTurnDownStep?.instruction == "Backofen auf 220 °C zurückdrehen, Dampf ablassen")
+        steps[2] = PlanStep(instruction: "Bei 250 °C mit Schwaden backen, Schwaden nach 10 Minuten ablassen", step: 3, startTime: 70, duration: 8)
+        #expect(plan(steps).generatedSteamReleaseStep == nil)
+    }
+
+    @Test("A turn-down apart from the steam leaves the steam its own reminder")
+    func steamReleaseApartFromTheTurnDown() throws {
+        var steps = loaf
+        steps[2] = PlanStep(instruction: "Bei 250 °C fallend auf 220 °C backen, nach 5 Minuten zurückdrehen. Schwaden nach 15 Minuten ablassen",
+                            step: 3, startTime: 70, duration: 40)
+        let plan = plan(steps)
+        #expect(plan.generatedTurnDownStep?.startTime == 75)
+        #expect(try #require(plan.generatedSteamReleaseStep).startTime == 85)
+    }
+
+    @Test("The recipe's own steam release after the bake is due at the minute of the bake it names")
+    func ownSteamReleaseFallsInsideTheBake() throws {
+        let steps = [PlanStep(instruction: "Teig kneten", step: 1, startTime: 0, duration: 10),
+                     PlanStep(instruction: "Mit Dampf bei 240 °C 25 Minuten backen", step: 2, startTime: 10, duration: 25),
+                     PlanStep(instruction: "Nach 10 Minuten Dampf ablassen", step: 3, startTime: 35, duration: 1),
+                     PlanStep(instruction: "Auskühlen lassen", step: 4, startTime: 36, duration: 30)]
+        let plan = plan(steps)
+        let own = try #require(plan.scheduledSteps.first { $0.step == 3 })
+        #expect(own.startTime == 20)
+        #expect(own.instruction == "Nach 10 Minuten Dampf ablassen")
+        // The recipe is left as it is, the cooling stays where it was, and nothing is generated twice.
+        #expect(plan.steps[2].startTime == 35)
+        #expect(plan.scheduledSteps[3].startTime == 36)
+        #expect(plan.generatedSteamReleaseStep == nil)
+        #expect(plan.allSteps.filter { BakePlan.isSteamReleaseInstruction($0.instruction) }.count == 1)
+    }
+
+    @Test("An own steam release without a minute, or one past the bake, stays where the recipe puts it")
+    func ownSteamReleaseWithoutMinuteStays() {
+        var steps = [PlanStep(instruction: "Mit Dampf bei 240 °C 25 Minuten backen", step: 1, startTime: 0, duration: 25),
+                     PlanStep(instruction: "Dampf ablassen", step: 2, startTime: 25, duration: 1)]
+        #expect(plan(steps).scheduledSteps[1].startTime == 25)
+        steps[1] = PlanStep(instruction: "Nach 30 Minuten Dampf ablassen", step: 2, startTime: 25, duration: 1)
+        #expect(plan(steps).scheduledSteps[1].startTime == 25)
+    }
+
     @Test("A turn-down past the end of the bake is not generated")
     func noTurnDownAfterTheBake() {
         var steps = loaf
@@ -435,6 +539,49 @@ struct BakePlanTests {
         #expect(turnDown.startTime == 120)
         #expect(!BakePlan.isTurnDownInstruction(steam))
         #expect(plan.allSteps.count == 6)
+    }
+
+    @Test("A step that only mentions the oven or the bake is no bake",
+          arguments: ["Teig im ausgeschalteten Backofen mit eingeschalteter Lampe 90 Minuten gehen lassen",
+                      "Bis zum nächsten Backen in den Kühlschrank stellen",
+                      "Vor dem Backen mit Wasser besprühen",
+                      "Let the dough rise in the switched-off oven with the light on",
+                      "Refrigerate until the next bake",
+                      "Laisser lever dans le four éteint",
+                      "Garder au frais jusqu'à la prochaine cuisson"])
+    func mentionIsNoBake(_ text: String) {
+        #expect(!BakePlanValidator.isBakingStartInstruction(text))
+    }
+
+    @Test("A step that bakes after mentioning the bake is still the bake")
+    func bakeAfterMentionIsBake() {
+        #expect(BakePlanValidator.isBakingStartInstruction("Vor dem Backen einschneiden, dann bei 250 °C backen"))
+        #expect(BakePlanValidator.isBakingStartInstruction("In den Backofen geben und 30 Minuten backen"))
+    }
+
+    @Test("A braided loaf proofing in the switched-off oven switches it on for the bake, not the proof")
+    func proofInTheSwitchedOffOven() throws {
+        let steps = [PlanStep(instruction: "Teig 10 Minuten kneten", step: 1, startTime: 0, duration: 12),
+                     PlanStep(instruction: "Teig im ausgeschalteten Backofen 90 Minuten gehen lassen", step: 2, startTime: 12, duration: 90),
+                     PlanStep(instruction: "Zum Zopf flechten", step: 3, startTime: 102, duration: 15),
+                     PlanStep(instruction: "Bei 170 °C 30 Minuten backen", step: 4, startTime: 117, duration: 30)]
+        let plan = plan(steps)
+        #expect(plan.bakingStep?.step == 4)
+        let oven = try #require(plan.generatedOvenStep)
+        #expect(oven.startTime == 102)
+    }
+
+    @Test("A feeding has no bake and no oven step, even when a step mentions the next bake")
+    func feedingHasNoBake() {
+        let steps = [PlanStep(instruction: "Anstellgut, Mehl und Wasser verrühren", step: 1, startTime: 0, duration: 5),
+                     PlanStep(instruction: "Bei 26 °C 9 Stunden reifen lassen", step: 2, startTime: 5, duration: 540),
+                     PlanStep(instruction: "Bis zum nächsten Backen in den Kühlschrank stellen", step: 3, startTime: 545, duration: 5)]
+        let starter = BakePlan(recipeName: "Anstellgut", steps: steps, prepTime: 550, anchor: .startsAt,
+                               date: Date(timeIntervalSince1970: 1_800_000_000), languageCode: "de",
+                               isStarterFeeding: true)
+        #expect(starter.bakingStep == nil)
+        #expect(starter.generatedOvenStep == nil)
+        #expect(starter.bakeWindow == nil)
     }
 
     @Test("A starter's plan ends by asking for the feeding's result, in the plan's language")

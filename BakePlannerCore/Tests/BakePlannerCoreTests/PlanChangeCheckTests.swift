@@ -20,11 +20,13 @@ struct PlanChangeCheckTests {
         PlanChangeCheck.PlannedStep(step: step, instruction: text, duration: minutes)
     }
 
-    @Test("Unchanged steps, with the generated oven and finish steps, are no change")
+    @Test("Unchanged steps, with the generated oven, steam and finish steps, are no change")
     func unchanged() {
         let plan = [planned(1, "Kneten", 10), planned(2, "Gehen lassen", 60),
                     planned(2.9, "Backofen anstellen (250 °C)", 15), planned(3, "Backen", 40),
                     planned(3.1, "Backofen auf 220 °C zurückdrehen", 0),
+                    planned(3.2, "Dampf ablassen", 0), planned(3.2, "Release the steam", 0),
+                    planned(3.2, "Évacuer la buée", 0),
                     planned(99, "Backvorgang ist beendet", 0)]
         #expect(!PlanChangeCheck.recipeChanged(instructions: instructions, plannedSteps: plan))
     }

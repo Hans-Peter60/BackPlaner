@@ -44,7 +44,7 @@ struct BakePlanScheduler {
                                         details: details(index))
         }
 
-        let generatedSteps = [plan.generatedOvenStep, plan.generatedTurnDownStep].compactMap { $0 }
+        let generatedSteps = plan.generatedSteps
         for generated in generatedSteps {
             _ = manager.setNotification(reminderID, generated.instruction,
                                         Rational.decimalPlace(generated.step, 10),

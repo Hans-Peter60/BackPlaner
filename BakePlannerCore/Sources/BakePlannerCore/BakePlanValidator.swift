@@ -487,15 +487,23 @@ public enum BakePlanValidator {
     /// neither an oven step nor an oven phase.
     public static func usesOven(_ instructions: [String]) -> Bool {
         instructions.contains {
-            isBakingStartInstruction($0) || isPreheatInstruction($0) || BakePlan.ovenTemperature(in: $0) != nil
+            namesBakeOrOven($0, countingMentions: true) || isPreheatInstruction($0) || BakePlan.ovenTemperature(in: $0) != nil
         }
     }
 
     /// Whether a step puts the dough into the oven. Preheating does not count —
     /// it names a temperature as well, but the oven is still empty.
     public static func isBakingStartInstruction(_ instruction: String) -> Bool {
+        namesBakeOrOven(instruction, countingMentions: false)
+    }
 
-        let text = instruction.folding(
+    /// The wording check behind `isBakingStartInstruction`. Counting mentions,
+    /// a step that only names the oven or the bake ("bis zum nächsten Backen
+    /// kühl stellen") still involves it, as `usesOven` and the starter check
+    /// have always read it.
+    private static func namesBakeOrOven(_ instruction: String, countingMentions: Bool) -> Bool {
+
+        var text = instruction.folding(
             options: [.caseInsensitive, .diacriticInsensitive],
             locale: Locale(identifier: "de_DE")
         )
@@ -504,11 +512,34 @@ public enum BakePlanValidator {
         // original text, not the folded one: the French check needs its accents.
         guard !isPreheatInstruction(instruction), !BakePlan.isTurnDownInstruction(instruction) else { return false }
 
+        // Phrases that name the oven or the bake without baking: proofing in
+        // the switched-off oven ("im ausgeschalteten Backofen gehen lassen")
+        // and the bake as a point in time ("bis zum nächsten Backen in den
+        // Kühlschrank", "vor dem Backen einschneiden"). Taken for the bake,
+        // the first switched the oven on for the bulk proof and the second
+        // gave a starter feeding an oven step. Only the phrase is dropped, so
+        // "vor dem Backen einschneiden, dann bei 250 °C backen" still bakes.
+        if !countingMentions {
+            for phrase in mentionsWithoutBaking {
+                text = text.replacingOccurrences(of: phrase, with: " ")
+            }
+        }
+
         return ["backen", "backofen", "ofen stellen", "ofen geben",
                 "bake", "into the oven", "on stone",
                 "cuire", "mettre au four"]
             .contains(where: text.contains)
     }
+
+    /// Folded phrases that mention the oven or the bake in a step that does
+    /// not bake.
+    private static let mentionsWithoutBaking = [
+        "ausgeschalteten backofen", "abgeschalteten backofen", "ausgeschalteter backofen",
+        "nachsten backen", "vor dem backen", "bis zum backen",
+        "switched-off oven", "turned-off oven", "oven turned off", "oven switched off",
+        "next bake", "before baking",
+        "four eteint", "prochaine cuisson", "avant la cuisson", "avant cuisson"
+    ]
 
     /// Whether a step only heats the oven up. Besides an explicit preheating
     /// step of the recipe this covers the step the app generates itself

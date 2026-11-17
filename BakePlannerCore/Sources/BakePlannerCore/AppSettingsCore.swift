@@ -204,23 +204,24 @@ public struct AppSettings {
 
     /// The steps the plan adds to a recipe. `turnDown` and `turnDownWithSteam`
     /// are formats taking the lower temperature ("220 °C") of a bake whose
-    /// heat falls.
+    /// heat falls; `releaseSteam` lets the steam out of a bake whose heat
+    /// stays.
     public static func generatedStepTexts(languageCode: String) -> (startHeating: String, bakeEnd: String,
                                                               turnDown: String, turnDownWithSteam: String,
-                                                              dial: String) {
+                                                              releaseSteam: String, dial: String) {
         switch baseLanguage(of: languageCode) {
         case "en":
             return ("Turn on the oven", "Baking is finished",
                     "Turn the oven down to %@", "Turn the oven down to %@, release the steam",
-                    "dial at %@")
+                    "Release the steam", "dial at %@")
         case "fr":
             return ("Allumer le four", "La cuisson est terminée",
                     "Baisser le four à %@", "Baisser le four à %@, évacuer la buée",
-                    "thermostat sur %@")
+                    "Évacuer la buée", "thermostat sur %@")
         default:
             return ("Backofen anstellen", "Backvorgang ist beendet",
                     "Backofen auf %@ zurückdrehen", "Backofen auf %@ zurückdrehen, Dampf ablassen",
-                    "am Regler %@")
+                    "Dampf ablassen", "am Regler %@")
         }
     }
 
