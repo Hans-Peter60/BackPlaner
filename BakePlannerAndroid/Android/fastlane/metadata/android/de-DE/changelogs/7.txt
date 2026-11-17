@@ -1,0 +1,6 @@
+Neu in 2.4 (7):
+• Der Plan erinnert ans Dampfablassen, wann das Rezept es sagt
+• Gehen im ausgeschalteten Ofen schaltet ihn nicht mehr an; Fütterungen ohne Ofenschritt
+• „Gare heute“ übergeht Teigtemperaturen im Schritt
+• Sicherung: ganz oder gar nicht, unlesbare Rezepte werden übersprungen, Rezepte werden beim Wiedereinspielen wiedererkannt
+• Unsinnige Zahlen aus Webseiten, Sicherungen oder öffentlichen Rezepten bringen die App nicht mehr zum Absturz
