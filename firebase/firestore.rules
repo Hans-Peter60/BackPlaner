@@ -38,6 +38,46 @@ service cloud.firestore {
           && data.authorId == request.auth.uid;
     }
 
+    // ---- Numbers --------------------------------------------------------
+    // The apps read every number into a plausible range (Plausible in
+    // BakePlannerCore), but a public document is written by any author and
+    // shown to everyone: a weight of NaN or a step of 10^18 minutes used to
+    // crash every app that opened the recipe. So a number may be left out,
+    // but when it is there it is a finite number within the same ranges:
+    // minutes up to 60 days, grams up to a tonne, temperatures -50…900.
+    // NaN fails every comparison, infinity the upper bound.
+    function inRange(data, key, low, high) {
+      return !(key in data)
+          || (data[key] is number && data[key] >= low && data[key] <= high);
+    }
+
+    function hasPlausibleRecipeNumbers(data) {
+      return inRange(data, 'prepTime', 0, 86400)
+          && inRange(data, 'totalWeight', 0, 1000000);
+    }
+
+    function isPlausibleIngredient(data) {
+      return inRange(data, 'number', 0, 10000)
+          && inRange(data, 'weight', 0, 1000000)
+          && inRange(data, 'normWeight', 0, 1000000)
+          && inRange(data, 'num', 0, 1000)
+          && inRange(data, 'denom', 0, 1000);
+    }
+
+    function isPlausibleInstruction(data) {
+      return inRange(data, 'step', 0, 999)
+          && inRange(data, 'duration', 0, 86400)
+          && inRange(data, 'startTime', 0, 864000)
+          && inRange(data, 'minDuration', 0, 86400)
+          && inRange(data, 'maxDuration', 0, 86400)
+          && inRange(data, 'ovenTemperature', -50, 900)
+          && inRange(data, 'ovenFallingTemperature', -50, 900);
+    }
+
+    function isPlausibleComponent(data) {
+      return inRange(data, 'number', 0, 10000);
+    }
+
     // A report taking a recipe down: any signed-in user may set `hidden`, but
     // ONLY to true (never to unhide) and without touching any other field. That
     // makes a takedown immediate for everyone; releasing the recipe again is an
@@ -82,6 +122,7 @@ service cloud.firestore {
       // never matches a missing field, would not find it.
       allow create: if isSignedIn()
                     && isValidRecipe(request.resource.data)
+                    && hasPlausibleRecipeNumbers(request.resource.data)
                     && request.resource.data.hidden == false;
 
       // Three ways a recipe may be updated. isAdmin() is checked FIRST for the
@@ -91,12 +132,16 @@ service cloud.firestore {
       //   1. an admin, who reviews reported recipes and can release them again
       //   2. any reporter, but only to hide the recipe (see isReportHideUpdate)
       //   3. the original author, who may not hand the recipe to someone else
-      //      and may not release his own recipe after it has been reported
+      //      and may not release his own recipe after it has been reported,
+      //      and whose numbers must be plausible (a report or an admin is not
+      //      held to them, so an old recipe with absurd numbers can still be
+      //      taken down)
       allow update: if isSignedIn()
                     && (isAdmin()
                         || isReportHideUpdate()
                         || (resource.data.get('authorId', '') == request.auth.uid
                             && request.resource.data.authorId == request.auth.uid
+                            && hasPlausibleRecipeNumbers(request.resource.data)
                             && request.resource.data.get('hidden', false)
                                    == resource.data.get('hidden', false)));
 
@@ -125,19 +170,27 @@ service cloud.firestore {
              && get(/databases/$(database)/documents/Recipe/$(recipeId)).data.get('authorId', '') == request.auth.uid);
       }
 
+      // What is written must have plausible numbers (see inRange); an
+      // admin is not held to them, and deleting never is.
       match /components/{componentId} {
-        allow read:  if canReadRecipeChildren();
-        allow write: if canWriteRecipeChildren();
+        allow read:   if canReadRecipeChildren();
+        allow create, update: if canWriteRecipeChildren()
+                              && (isAdmin() || isPlausibleComponent(request.resource.data));
+        allow delete: if canWriteRecipeChildren();
 
         match /ingredients/{ingredientId} {
-          allow read:  if canReadRecipeChildren();
-          allow write: if canWriteRecipeChildren();
+          allow read:   if canReadRecipeChildren();
+          allow create, update: if canWriteRecipeChildren()
+                                && (isAdmin() || isPlausibleIngredient(request.resource.data));
+          allow delete: if canWriteRecipeChildren();
         }
       }
 
       match /instructions/{instructionId} {
-        allow read:  if canReadRecipeChildren();
-        allow write: if canWriteRecipeChildren();
+        allow read:   if canReadRecipeChildren();
+        allow create, update: if canWriteRecipeChildren()
+                              && (isAdmin() || isPlausibleInstruction(request.resource.data));
+        allow delete: if canWriteRecipeChildren();
       }
     }
 

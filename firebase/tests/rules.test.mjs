@@ -8,7 +8,7 @@
 
 import { readFileSync } from 'node:fs'
 import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing'
-import { doc, getDoc, getDocs, setDoc, updateDoc, collection, query, where } from 'firebase/firestore'
+import { doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, query, where } from 'firebase/firestore'
 
 const env = await initializeTestEnvironment({
   projectId: 'demo-backplaner',
@@ -22,6 +22,7 @@ await env.withSecurityRulesDisabled(async ctx => {
   await setDoc(doc(db, 'Recipe/visible'), { name: 'Sichtbar', authorId: 'author', hidden: false })
   await setDoc(doc(db, 'Recipe/reported'), { name: 'Gemeldet', authorId: 'author', hidden: true })
   await setDoc(doc(db, 'Recipe/legacy'), { name: 'Alt', authorId: 'author' })
+  await setDoc(doc(db, 'Recipe/absurd'), { name: 'Unsinn', authorId: 'author', hidden: false, totalWeight: NaN, prepTime: 1e18 })
   for (const id of ['visible', 'reported']) {
     await setDoc(doc(db, `Recipe/${id}/instructions/1`), { instruction: 'kneten' })
     await setDoc(doc(db, `Recipe/${id}/components/c`), { name: 'Teig' })
@@ -66,6 +67,24 @@ await check('author: translation update on legacy', updateDoc(doc(author, 'Recip
 await check('reporter: hide visible', updateDoc(doc(user, 'Recipe/visible'), { hidden: true }), true)
 await check('reporter: may not unhide', updateDoc(doc(user, 'Recipe/visible'), { hidden: false }), false)
 await check('admin: unhide', updateDoc(doc(admin, 'Recipe/visible'), { hidden: false }), true)
+// Numbers: left out, or finite and within the apps' plausible ranges.
+await check('create with plausible numbers allowed', setDoc(doc(user, 'Recipe/p1'), { name: 'P', authorId: 'someone', hidden: false, prepTime: 1440, totalWeight: 1850.5 }), true)
+await check('create with NaN weight refused', setDoc(doc(user, 'Recipe/p2'), { name: 'P', authorId: 'someone', hidden: false, totalWeight: NaN }), false)
+await check('create with infinite weight refused', setDoc(doc(user, 'Recipe/p3'), { name: 'P', authorId: 'someone', hidden: false, totalWeight: Infinity }), false)
+await check('create with 10^18 minutes refused', setDoc(doc(user, 'Recipe/p4'), { name: 'P', authorId: 'someone', hidden: false, prepTime: 1e18 }), false)
+await check('create with negative minutes refused', setDoc(doc(user, 'Recipe/p5'), { name: 'P', authorId: 'someone', hidden: false, prepTime: -5 }), false)
+await check('create with a number as text refused', setDoc(doc(user, 'Recipe/p6'), { name: 'P', authorId: 'someone', hidden: false, prepTime: '60' }), false)
+await check('author: update to an absurd weight refused', updateDoc(doc(user, 'Recipe/p1'), { totalWeight: 1e20 }), false)
+await check('ingredient with plausible numbers allowed', setDoc(doc(user, 'Recipe/p1/components/c/ingredients/i'), { name: 'Mehl', number: 1, weight: 500, normWeight: 500, num: 0, denom: 0 }), true)
+await check('ingredient with NaN weight refused', setDoc(doc(user, 'Recipe/p1/components/c/ingredients/j'), { name: 'Mehl', weight: NaN }), false)
+await check('ingredient with denominator 10^9 refused', setDoc(doc(user, 'Recipe/p1/components/c/ingredients/k'), { name: 'TL', num: 1, denom: 1e9 }), false)
+await check('component with plausible number allowed', setDoc(doc(user, 'Recipe/p1/components/c'), { name: 'Teig', number: 1 }), true)
+await check('instruction with plausible numbers allowed', setDoc(doc(user, 'Recipe/p1/instructions/1'), { instruction: 'Backen', step: 3.1, duration: 45, startTime: 1200, date: 0, minDuration: 40, maxDuration: 60, ovenTemperature: 250, ovenFallingTemperature: 220, ovenSteam: true }), true)
+await check('instruction with 10^18 minutes refused', setDoc(doc(user, 'Recipe/p1/instructions/2'), { instruction: 'Gehen', step: 2, duration: 1e18 }), false)
+await check('instruction at 5000 °C refused', setDoc(doc(user, 'Recipe/p1/instructions/3'), { instruction: 'Backen', step: 4, ovenTemperature: 5000 }), false)
+await check('deleting an instruction is never held to numbers', deleteDoc(doc(user, 'Recipe/p1/instructions/1')), true)
+await check('reporter: may hide a recipe with absurd numbers', updateDoc(doc(user, 'Recipe/absurd'), { hidden: true }), true)
+await check('admin: may write an absurd ingredient while reviewing', setDoc(doc(admin, 'Recipe/absurd/components/c/ingredients/x'), { name: 'X', weight: 1e20 }), true)
 // The Pro switches: every signed-in app reads them, nobody but the console writes them.
 await check('user: read monetization config', getDoc(doc(user, 'config/monetization')), true)
 await check('anonymous (no auth): read monetization config refused', getDoc(doc(env.unauthenticatedContext().firestore(), 'config/monetization')), false)
