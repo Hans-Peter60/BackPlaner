@@ -123,6 +123,14 @@ struct ProofTimingTests {
     func statedTemperature() {
         #expect(ProofTiming.statedTemperature(in: "2 Stunden bei 26 °C gehen lassen") == 26)
         #expect(ProofTiming.statedTemperature(in: "bei 24–26 °C reifen lassen") == 25)
+        // The dough's or the water's temperature is none to proof at.
+        #expect(ProofTiming.statedTemperature(in: "Kneten, bis der Teig glatt und geschmeidig aussieht (gewünschte Teigtemperatur: ca. 28 °C) und reifen lassen.") == nil)
+        #expect(ProofTiming.statedTemperature(in: "Mischen, TT 26 °C, 1 Stunde ruhen") == nil)
+        #expect(ProofTiming.statedTemperature(in: "Mit Wasser von 30 °C mischen und gehen lassen") == nil)
+        #expect(ProofTiming.statedTemperature(in: "Mix to a dough temperature of 78 °F and let rise") == nil)
+        #expect(ProofTiming.statedTemperature(in: "Pétrir, température de pâte 25 °C, laisser pousser") == nil)
+        #expect(ProofTiming.statedTemperature(in: "Teigtemperatur 26 °C, dann bei 28 °C gehen lassen") == 28)
+        #expect(ProofTiming.statedTemperature(in: "Glatt kneten und bei 26 °C gehen lassen") == 26)
         #expect(ProofTiming.statedTemperature(in: "bei 26 Grad ruhen lassen") == 26)
         #expect(ProofTiming.statedTemperature(in: "bei 26° gehen lassen") == 26)
         #expect(ProofTiming.statedTemperature(in: "Proof at 78 °F for an hour") == 25.6)
@@ -230,4 +238,33 @@ struct ProofTimingTests {
         #expect(bulk.referenceTemperature == 26)
         #expect(bulk.minutes == 150)
     }
+
+    /// Kartoffelbrot mit Saaten, as Hans-Peter's recipe has it: the bulk
+    /// proof is 45 + 30 + 120 minutes for 22 °C, the first step naming the
+    /// dough's target temperature. At 22 °C the planned bulk proof stays as
+    /// it is; it came out 3h 50m instead of 3h 15m.
+    @Test("A bulk proof planned for the room's temperature stays as planned, whatever dough temperature a step names")
+    func doughTemperatureIsNoProofTemperature() {
+        let instructions = ["Brühstück mit der Saatenmischung herstellen", "Kartoffeln abkochen",
+                            "Weizensauerteig Zutaten Mischen, bis sie sich zu einem festen Teig verbunden haben.",
+                            "Zunächst das heiße Wasser mit den Kartoffeln mischen.",
+                            "Dann alle weiteren Zutaten in der genannten Reihenfolge in die Schüssel wiegen.",
+                            "Kneten, bis der Teig glatt und geschmeidig aussieht (gewünschte Teigtemperatur: ca. 28 °C) und reifen lassen. ",
+                            "Dehnen und Falten", "Dehnen und Falten",
+                            "Den Teigling straff rundwirken. Dabei etwas Roggenmehl in den Schluss einarbeiten, um ihn offenzuhalten.",
+                            "2 Stunden bei 28 °C mit Schluss nach unten im leicht bemehlten Gärkorb zugedeckt reifen lassen.",
+                            "Das Backpapier mit dem Teigling (Schluss nach oben) mithilfe eines flachen Bleches oder Brettes in den auf 250 °C vorgeheizten Ofen auf den Backstein befördern.",
+                            "Dampf ablassen"]
+        let durations = [600, 580, 150, 3, 8, 45, 30, 120, 10, 120, 50, 30]
+        let steps = ProofTiming.steps(instructions: instructions, durations: durations)
+        let adjustments = ProofTiming.adjustments(steps: steps, history: [], at: 22)
+        let bulk = adjustments.first { $0.phase == .bulk }
+        #expect(bulk?.plannedMinutes == 195)
+        #expect(bulk?.minutes == 195)
+        #expect(bulk?.referenceTemperature == 22)
+        // The final proof is written for 28 °C and takes longer at 22 °C.
+        let final = adjustments.first { $0.phase == .final }
+        #expect(final?.plannedMinutes == 120 && (final?.minutes ?? 0) > 120 && final?.referenceTemperature == 28)
+    }
 }
+

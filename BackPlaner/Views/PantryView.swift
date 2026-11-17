@@ -309,14 +309,7 @@ struct PantryItemEditorView: View {
                     .disabled(cleanName.isEmpty)
                     .accessibilityIdentifier("pantry.save")
             }
-            // The number pad has no return key; this puts it away so the
-            // date row below comes back into view.
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Fertig") {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }
-            }
+            // The amount's number pad brings its own "Fertig" (NumberField).
         }
         .task {
             suggestions = Pantry.suggestedNames(from: recipes.map { RecipeExportData(recipe: $0, includingImage: false) })

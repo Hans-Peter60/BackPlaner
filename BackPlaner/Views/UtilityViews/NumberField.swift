@@ -57,6 +57,17 @@ struct NumberField<Value: NumberFieldValue>: View {
             .onChange(of: isFocused) { _, focused in
                 if !focused { text = Value.fieldText(for: value) }
             }
+            // The number pad has no return key, and tapping beside it does
+            // not put it away; "Fertig" above it does. Only the field being
+            // typed in offers it, so a form of several fields shows one.
+            .toolbar {
+                if isFocused {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("Fertig") { isFocused = false }
+                    }
+                }
+            }
     }
 }
 
