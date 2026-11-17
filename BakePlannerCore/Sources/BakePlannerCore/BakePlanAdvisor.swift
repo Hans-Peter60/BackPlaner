@@ -70,8 +70,19 @@ public enum BakePlanAdvisor {
     ) -> [PlanDateSuggestion] {
         guard hasNightSteps(plan, dayStart: dayStart, dayEnd: dayEnd) else { return [] }
 
+        // Moving a plan moves every step by the same minutes; the steps
+        // themselves — generated ones included, which read every step's
+        // wording — stay. Worked out once, not for each of the up to 192
+        // dates tried: that took up to a second on the main thread when
+        // the planning sheet opened.
+        let offsets = plan.allSteps.map(\.startTime)
+        let calendar = plan.calendar
         return nearestDates(for: plan, allowedDates: allowedDates) { moved in
-            guard !hasNightSteps(moved, dayStart: dayStart, dayEnd: dayEnd) else { return false }
+            let start = moved.baseDate
+            guard !offsets.contains(where: { offset in
+                let date = calendar.date(byAdding: .minute, value: offset, to: start) ?? start
+                return BakePlanValidator.isOutsideDay(date, dayStart: dayStart, dayEnd: dayEnd, calendar: calendar)
+            }) else { return false }
             if let window = moved.bakeWindow,
                BakePlanValidator.needsMoreOvens(window, existingWindows: existingWindows, ovenCount: ovenCount) {
                 return false

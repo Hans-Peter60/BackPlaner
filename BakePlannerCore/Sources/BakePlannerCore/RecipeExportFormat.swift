@@ -429,6 +429,7 @@ extension RecipeExportInstruction {
 public enum RecipeImportError: LocalizedError {
     case unreadableFile
     case unsupportedFormatVersion
+    case fileTooLarge
 
     public var errorDescription: String? {
         switch self {
@@ -436,11 +437,32 @@ public enum RecipeImportError: LocalizedError {
             return String(localized: "Die Datei ist keine gültige BakePlanner-Rezeptdatei.", bundle: AppSettings.localizationBundle)
         case .unsupportedFormatVersion:
             return String(localized: "Diese Datei wurde mit einer neueren Version von BakePlanner erstellt. Bitte aktualisiere die App.", bundle: AppSettings.localizationBundle)
+        case .fileTooLarge:
+            return String(localized: "Die Datei ist zu groß für eine BakePlanner-Rezeptdatei.", bundle: AppSettings.localizationBundle)
         }
     }
 }
 
 public enum RecipeImport {
+    /// The largest file read as a backup: the app writes them under 5 MB
+    /// with all pictures; anything far beyond is no backup, and read into
+    /// memory whole it could end the app.
+    public static let maximumFileBytes = 200 * 1_024 * 1_024
+
+    /// The bytes of the file at `url`, refused before reading when larger
+    /// than `maximumFileBytes`.
+    public static func readFile(at url: URL) throws -> Data {
+        if let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)?.intValue,
+           size > maximumFileBytes {
+            throw RecipeImportError.fileTooLarge
+        }
+        do {
+            return try Data(contentsOf: url)
+        } catch {
+            throw RecipeImportError.unreadableFile
+        }
+    }
+
     /// The recipes of a backup/share file, or why it cannot be read: not a
     /// recipe file at all, or one written by a newer version of the app.
     /// Its numbers come back in plausible ranges (`sanitized`).
