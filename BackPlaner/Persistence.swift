@@ -31,8 +31,19 @@ struct PersistenceController {
 
     private static let cloudKitContainerIdentifier = "iCloud.de.hpm64625.BackPlaner"
 
+    /// The data model, loaded once. Each container loading its own copy left
+    /// several models with the same entities side by side — the tests make
+    /// many in-memory stores — and `Recipe(context:)` could pick an entity
+    /// of the wrong one ("Failed to find a unique match for an
+    /// NSEntityDescription"), which ended in a save refused with an
+    /// incompatible model.
+    private static let model: NSManagedObjectModel? = Bundle.main
+        .url(forResource: "BackPlaner", withExtension: "momd")
+        .flatMap(NSManagedObjectModel.init(contentsOf:))
+
     init(inMemory: Bool = false) {
-        let container = NSPersistentCloudKitContainer(name: "BackPlaner")
+        let container = Self.model.map { NSPersistentCloudKitContainer(name: "BackPlaner", managedObjectModel: $0) }
+            ?? NSPersistentCloudKitContainer(name: "BackPlaner")
 
         guard let storeDescription = container.persistentStoreDescriptions.first else {
             fatalError("Unable to find a persistent store description.")
