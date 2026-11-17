@@ -125,7 +125,8 @@ struct EditComponentView: View {
         GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading),
         GridItem(scaledColumnSize(8), spacing: 4, alignment: .center),
         GridItem(scaledColumnSize(26), spacing: 4, alignment: .leading),
-        GridItem(scaledColumnSize(40), spacing: 0, alignment: .trailing)
+        // As wide as the "+" button, which overlapped the Nenner field in 40.
+        GridItem(scaledColumnSize(47), spacing: 0, alignment: .trailing)
     ]
     
     init(componentId: NSManagedObjectID) {
@@ -279,13 +280,16 @@ struct EditComponentView: View {
             .navigationTitle(Text("Komponente ändern"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // Symbols, not words: with "Abbrechen" and "Fertig" spelled
+                // out, the title shrank to "Komponente ä…". The words stay
+                // the buttons' labels for VoiceOver.
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Abbrechen") {
+                    Button("Abbrechen", systemImage: "xmark", role: .cancel) {
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Fertig") {
+                    Button("Fertig", systemImage: "checkmark", role: .confirm) {
                         self.presentationMode.wrappedValue.dismiss()
                         self.component.name   = self.componentName
                         self.component.number = self.componentNumber
