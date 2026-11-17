@@ -104,6 +104,8 @@ struct InstructionsFBView: View {
     @State private var durations: [String] = []
     /// Today's room temperature for the proofing steps ("Gare heute").
     @State private var proofTemperature = 22
+    /// Temperatures set for single proofing phases in "Gare heute".
+    @State private var proofPhaseTemperatures: [ProofTiming.Phase: Int] = [:]
     /// The durations the proof estimate starts from: the recipe's, or as
     /// last typed under "Dauer übernehmen". An adjustment for today changes
     /// the copy planned here only, as every duration change of a public
@@ -187,6 +189,7 @@ struct InstructionsFBView: View {
                     // MARK: Proof today — the fermentation steps at today's temperature
                     if !proofAdjustments.isEmpty {
                         ProofTodayCardView(temperature: $proofTemperature,
+                                           phaseTemperatures: $proofPhaseTemperatures,
                                            adjustments: proofAdjustments,
                                            isApplied: isProofApplied,
                                            isAdjusted: proofIsAdjusted,
@@ -454,7 +457,8 @@ struct InstructionsFBView: View {
 
     /// A public recipe has no bakes to learn from: its durations, scaled.
     private var proofAdjustments: [ProofTiming.Adjustment] {
-        ProofTiming.adjustments(steps: proofSteps, history: [], at: Double(proofTemperature))
+        ProofTiming.adjustments(steps: proofSteps, history: [], at: Double(proofTemperature),
+                                phaseTemperatures: proofPhaseTemperatures.mapValues(Double.init))
     }
 
     private var proofIsAdjusted: Bool {

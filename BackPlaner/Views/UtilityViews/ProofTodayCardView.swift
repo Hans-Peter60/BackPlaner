@@ -19,6 +19,9 @@ struct ProofTodayCardView: View {
 
     /// Today's room temperature in °C.
     @Binding var temperature: Int
+    /// The temperatures set for single phases, by the baker; a phase not
+    /// in here is worked out for its default (its place's, else the room's).
+    @Binding var phaseTemperatures: [ProofTiming.Phase: Int]
     /// The phases found in the recipe, each with its duration today.
     let adjustments: [ProofTiming.Adjustment]
     /// Whether the plan already uses an adjustment's durations.
@@ -49,9 +52,18 @@ struct ProofTodayCardView: View {
                         .font(Theme.bodyFont(14))
                         .foregroundColor(Theme.cardTitle)
                         .fixedSize(horizontal: false, vertical: true)
+                    // Each phase has its own temperature: "bei 28 °C" in the
+                    // recipe stays at 28 °C, whatever the room; who has no
+                    // warm place sets it to the room's.
+                    Stepper(value: phaseTemperature(for: adjustment), in: ProofTiming.temperatureRange) {
+                        LabeledContent("Temperatur", value: "\(phaseTemperature(for: adjustment).wrappedValue) °C")
+                            .font(Theme.bodyFont(13))
+                    }
+                    .accessibilityLabel(Text(verbatim: "\(adjustment.phase.title()), \(String(localized: "Temperatur"))"))
                     Text(adjustment.sourceText())
                         .font(Theme.bodyFont(13))
                         .foregroundColor(Theme.subtitle)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
@@ -93,17 +105,26 @@ struct ProofTodayCardView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
     }
+
+    /// The phase's temperature as set, else as worked out by default.
+    private func phaseTemperature(for adjustment: ProofTiming.Adjustment) -> Binding<Int> {
+        Binding(get: { phaseTemperatures[adjustment.phase] ?? Plausible.roundedInt(adjustment.defaultTemperature) },
+                set: { phaseTemperatures[adjustment.phase] = $0 })
+    }
 }
 
 #Preview("Gare heute") {
     @Previewable @State var temperature = 18
+    @Previewable @State var phaseTemperatures: [ProofTiming.Phase: Int] = [:]
     let steps = [ProofTiming.Step(index: 0, phase: .preferment, minutes: 600),
                  ProofTiming.Step(index: 2, phase: .bulk, minutes: 180, statedTemperature: 24),
                  ProofTiming.Step(index: 4, phase: .final, minutes: 60)]
     let history = [BakeHistoryFacts(roomTemperature: 21, bulkProofMinutes: 230)]
     ScrollView {
         ProofTodayCardView(temperature: $temperature,
-                           adjustments: ProofTiming.adjustments(steps: steps, history: history, at: Double(temperature)),
+                           phaseTemperatures: $phaseTemperatures,
+                           adjustments: ProofTiming.adjustments(steps: steps, history: history, at: Double(temperature),
+                                                                phaseTemperatures: phaseTemperatures.mapValues(Double.init)),
                            isApplied: { _ in false },
                            isAdjusted: false,
                            recipeDurations: ProofTiming.recipeDurations(steps: steps, history: history),
