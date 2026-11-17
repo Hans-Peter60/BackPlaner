@@ -70,6 +70,7 @@ KLEINERES
 • „Rezept bearbeiten“: Die Knöpfe der Titelleiste bleiben kompakt, „Bewertung“ und „Fotomediathek“ stehen auf einer Zeile.
 • iPad: Der Bewertungsfilter der Rezeptliste ist wieder ein eigener Knopf neben „Mehr“, wie auf dem iPhone.
 • Bei einem Rezept mit nur einer Komponente, etwa einem Anstellgut, zeigt der erste Arbeitsschritt die Zutaten – nicht der Reifeschritt, der den Namen wiederholt. Das gilt für das „i“ in den geplanten Schritten, den Backmodus, die Uhr und die Erinnerungen.
+• Der Plan erinnert ans Dampfablassen, wann das Rezept es sagt: „Schwaden nach 10 Minuten ablassen“ bekommt den Schritt „Dampf ablassen“ zehn Minuten nach Backbeginn, „die ersten 15 Minuten mit Dampf“ nach 15 Minuten. Ein eigener Schritt „Nach 10 Minuten Dampf ablassen“ hinter dem Backen kommt jetzt während des Backens statt danach. Gehen lassen im ausgeschalteten Backofen schaltet den Ofen nicht mehr an, und eine Fütterung bekommt keinen Ofenschritt mehr.
 
 ---
 
@@ -135,6 +136,7 @@ SMALLER THINGS
 • “Edit recipe”: the title bar buttons stay compact, “Rating” and “Photo Library” stay on one line.
 • iPad: the recipe list’s rating filter is a button of its own next to “More” again, as on the iPhone.
 • In a recipe with a single component, such as a starter, the first working step shows the ingredients – not the ripening step that repeats the name. This applies to the “i” in the scheduled steps, bake mode, the watch and the reminders.
+• The plan reminds you to release the steam when the recipe says so: “release the steam after 10 minutes” gets the step “Release the steam” ten minutes into the bake, “the first 15 minutes with steam” after 15 minutes. A step of its own such as “Release the steam after 10 minutes” after the bake now comes during the bake instead of after it. Proofing in the switched-off oven no longer turns the oven on, and a starter feeding no longer gets an oven step.
 
 ---
 
@@ -200,5 +202,6 @@ PLUS PETIT
 • « Modifier la recette » : les boutons de la barre de titre restent compacts, « Note » et « Photothèque » tiennent sur une ligne.
 • iPad : le filtre par note de la liste des recettes est de nouveau un bouton à part à côté de « Plus », comme sur l’iPhone.
 • Pour une recette à un seul composant, comme un levain chef, la première étape de travail affiche les ingrédients – et non l’étape de maturation qui répète le nom. Cela vaut pour le « i » des étapes planifiées, le mode cuisson, la montre et les rappels.
+• Le plan rappelle d’évacuer la buée quand la recette le dit : « évacuer la buée après 10 minutes » reçoit l’étape « Évacuer la buée » dix minutes après le début de la cuisson, « les 15 premières minutes avec buée » après 15 minutes. Une étape à elle comme « Évacuer la buée après 10 minutes » après la cuisson arrive désormais pendant la cuisson et non après. La pousse dans le four éteint n’allume plus le four, et un rafraîchi n’a plus d’étape de four.
 
 ---

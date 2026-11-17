@@ -112,8 +112,11 @@ public struct BakePlan {
     /// may follow it. Feeding a starter ("Anstellgut, Mehl und Wasser
     /// mischen, bei 26 °C reifen lassen") names no bake, no preheating and
     /// no oven temperature; taken for a bake, its last step used to switch
-    /// the oven on alongside the first.
+    /// the oven on alongside the first. A plan marked as a feeding has no
+    /// bake even when a step mentions one ("bis zum nächsten Backen kühl
+    /// stellen") or warms the oven for the starter.
     public var bakingStep: PlanStep? {
+        guard !isStarterFeeding else { return nil }
         if let worded = steps.first(where: { BakePlanValidator.isBakingStartInstruction($0.instruction) }) {
             return worded
         }
@@ -219,13 +222,57 @@ public struct BakePlan {
                         duration: 0)
     }
 
+    /// "Dampf ablassen", generated when the bake says when the steam goes
+    /// ("mit Schwaden 22 Minuten backen, Schwaden nach 10 Minuten ablassen",
+    /// "die ersten 15 Minuten mit Dampf") and nothing else lets it out then:
+    /// not the turn-down, which names the steam when it falls at the same
+    /// minute, nor a step of the recipe's own. Without it the reminder the
+    /// recipe asks for was missing whenever the heat stayed the same.
+    public var generatedSteamReleaseStep: PlanStep? {
+        guard let bakingStep, let index = steps.firstIndex(of: bakingStep),
+              let minutes = Self.steamReleaseMinutes(in: bakingStep.instruction),
+              minutes < bakingStep.duration else { return nil }
+        guard !steps[(index + 1)...].contains(where: { Self.isSteamReleaseInstruction($0.instruction) }) else { return nil }
+        let startTime = bakingStep.startTime + minutes
+        if let turnDown = generatedTurnDownStep, turnDown.startTime == startTime,
+           Self.isSteamReleaseInstruction(turnDown.instruction) {
+            return nil
+        }
+        return PlanStep(instruction: AppSettings.generatedStepTexts(languageCode: languageCode).releaseSteam,
+                        step: bakingStep.step + 0.2,
+                        startTime: startTime,
+                        duration: 0)
+    }
+
+    /// The recipe's own step that lets the steam out after a minute of the
+    /// bake ("Nach 10 Minuten Dampf ablassen") but follows the bake as a
+    /// step of its own, as imports write it: scheduled after the bake, its
+    /// reminder came when the bread was nearly done. Its index, and the
+    /// minute it is due at instead; the recipe is left as it is.
+    private var steamReleaseDuringTheBake: (index: Int, startTime: Int)? {
+        guard let bakingStep, let index = steps.firstIndex(of: bakingStep), index + 1 < steps.count else { return nil }
+        let next = steps[index + 1]
+        guard Self.isSteamReleaseInstruction(next.instruction),
+              next.startTime >= bakingStep.startTime + bakingStep.duration,
+              let minutes = Self.steamReleaseMinutes(in: next.instruction),
+              minutes < bakingStep.duration else { return nil }
+        return (index + 1, bakingStep.startTime + minutes)
+    }
+
+    /// Whether a text is the steam release the plan generated, in any of the
+    /// languages it can be stored in.
+    public static func isGeneratedSteamReleaseInstruction(_ instruction: String) -> Bool {
+        ["de", "en", "fr"].contains { AppSettings.generatedStepTexts(languageCode: $0).releaseSteam == instruction }
+    }
+
     /// A step's drop: the stored falling temperature when the recipe has
     /// one, timed by the wording where it says when; else the wording's.
     /// Stored steam settles the steam either way.
     private static func temperatureDrop(of step: PlanStep) -> (temperature: String, afterMinutes: Int?, withSteam: Bool)? {
         let parsed = temperatureDrop(in: step.instruction)
         if let fallingTo = step.oven?.fallingTo {
-            return (OvenSettings.text(fallingTo), parsed?.afterMinutes ?? turnDownMinutes(in: step.instruction),
+            return (OvenSettings.text(fallingTo),
+                    parsed?.afterMinutes ?? turnDownMinutes(in: step.instruction) ?? steamReleaseMinutes(in: step.instruction),
                     step.oven?.steam ?? parsed?.withSteam ?? false)
         }
         guard let parsed else { return nil }
@@ -279,15 +326,26 @@ public struct BakePlan {
     /// recipe's own that names no temperature ("Backofen anstellen", as
     /// planning-example imports write it) gets the oven temperature appended,
     /// like the generated one; the stored recipe is left as it is.
+    ///
+    /// A steam release of the recipe's own that follows the bake but names a
+    /// minute of it ("Nach 10 Minuten Dampf ablassen") is due at that minute
+    /// of the bake.
     public var scheduledSteps: [PlanStep] {
-        guard let preheat = explicitPreheatStep,
-              Self.ovenTemperature(in: preheat.instruction) == nil,
-              let temperature = ovenTemperature else { return steps }
-        return steps.map { step in
-            guard step == preheat else { return step }
-            return PlanStep(instruction: Self.ovenStartText(baseText: step.instruction, temperature: temperature,
-                                                            dialNote: dialNote(for: ovenTemperatureCelsius)),
-                            step: step.step, startTime: step.startTime, duration: step.duration,
+        let release = steamReleaseDuringTheBake
+        var preheatText: String?
+        if let preheat = explicitPreheatStep, Self.ovenTemperature(in: preheat.instruction) == nil,
+           let temperature = ovenTemperature {
+            preheatText = Self.ovenStartText(baseText: preheat.instruction, temperature: temperature,
+                                             dialNote: dialNote(for: ovenTemperatureCelsius))
+        }
+        guard release != nil || preheatText != nil else { return steps }
+        return steps.enumerated().map { index, step in
+            let isPreheat = preheatText != nil && step == explicitPreheatStep
+            guard isPreheat || index == release?.index else { return step }
+            return PlanStep(instruction: isPreheat ? preheatText ?? step.instruction : step.instruction,
+                            step: step.step,
+                            startTime: index == release?.index ? release?.startTime ?? step.startTime : step.startTime,
+                            duration: step.duration,
                             componentName: step.componentName, durationWindow: step.durationWindow, oven: step.oven)
         }
     }
@@ -319,9 +377,14 @@ public struct BakePlan {
                         ovenProfile: ovenProfile, usesConvection: usesConvection)
     }
 
+    /// The steps the plan adds before its end: oven on, turn-down, steam release.
+    public var generatedSteps: [PlanStep] {
+        [generatedOvenStep, generatedTurnDownStep, generatedSteamReleaseStep].compactMap { $0 }
+    }
+
     /// Every step the plan writes, generated ones included.
     public var allSteps: [PlanStep] {
-        scheduledSteps + [generatedOvenStep, generatedTurnDownStep].compactMap { $0 } + [endStep]
+        scheduledSteps + generatedSteps + [endStep]
     }
 
     /// When the oven is switched on, by the recipe's own step or the
@@ -523,12 +586,20 @@ public struct BakePlan {
         let convectionWords = ["umluft", "heissluft", "heißluft", "fan", "convection", "tournante"]
         guard !convectionWords.contains(where: leadIn.contains) else { return nil }
 
-        let afterMinutes = minutesBeforeTurningDown(in: folded, lowerTemperatureAt: lower.location)
+        var afterMinutes = minutesBeforeTurningDown(in: folded, lowerTemperatureAt: lower.location)
 
         let noSteamPhrases = ["ohne dampf", "ohne schwaden", "without steam", "sans buee", "sans vapeur"]
         var withSteam = steamWords.contains(where: folded.contains) && !noSteamPhrases.contains(where: folded.contains)
-        if withSteam, let releaseMinutes = steamReleaseMinutes(in: folded), releaseMinutes != afterMinutes {
-            withSteam = false
+        if withSteam, let releaseMinutes = steamReleaseMinutes(inFolded: folded), releaseMinutes != afterMinutes {
+            // A step silent on the turn-down's minute turns down with the
+            // steam it lets out ("fallend auf 220 °C backen, Schwaden nach 10
+            // Minuten ablassen"), as bakers do; one that times both apart
+            // keeps them apart.
+            if afterMinutes == nil {
+                afterMinutes = releaseMinutes
+            } else {
+                withSteam = false
+            }
         }
 
         return (lower.text, afterMinutes, withSteam)
@@ -570,9 +641,28 @@ public struct BakePlan {
         return nil
     }
 
-    /// The minute at which a step says it lets the steam out, when it says
-    /// so in a sentence of its own.
-    private static func steamReleaseMinutes(in foldedText: String) -> Int? {
+    /// The minute at which a step lets the steam out: "Schwaden nach 10
+    /// Minuten ablassen", or the end of the steam phase it names — "die
+    /// ersten 15 Minuten mit Dampf", "the first 15 minutes with steam",
+    /// "les 15 premières avec buée". Nil when the step says neither.
+    public static func steamReleaseMinutes(in text: String) -> Int? {
+        steamReleaseMinutes(inFolded: text.folding(options: [.caseInsensitive, .diacriticInsensitive],
+                                                   locale: Locale(identifier: "de_DE")))
+    }
+
+    private static func steamReleaseMinutes(inFolded foldedText: String) -> Int? {
+        // Only the first minutes count: "60 Minuten mit Dampf backen" is the
+        // whole bake, not a phase of it.
+        let phasePatterns = [
+            #"ersten\s+(\d{1,3})\s*(?:min\b|min\.|minuten)\s+(?:mit|unter)\s+(?:viel\s+|kraftig\w*\s+)?(?:dampf|schwaden)"#,
+            #"first\s+(\d{1,3})\s*(?:min\b|min\.|minutes?)\s+(?:with|under|in)\s+(?:the\s+)?steam"#,
+            #"(\d{1,3})\s+premieres(?:\s+minutes)?\s+(?:avec|sous)\s+(?:de\s+la\s+|la\s+)?(?:buee|vapeur)"#
+        ]
+        for pattern in phasePatterns {
+            if let match = matches(of: pattern, in: foldedText).first, let minutes = Int(match.groups[0]), minutes > 0 {
+                return minutes
+            }
+        }
         for sentence in sentences(of: foldedText) {
             guard steamWords.contains(where: sentence.text.contains),
                   steamReleaseWords.contains(where: sentence.text.contains) else { continue }

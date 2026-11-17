@@ -27,7 +27,7 @@ public enum PlanChangeCheck {
     }
 
     /// Whether the recipe's instructions still cover its planned steps.
-    /// The oven, turn-down and finish steps are generated at planning time
+    /// The oven, turn-down, steam and finish steps are generated at planning time
     /// and live only in the plan, so they do not count. A step marked done
     /// is simply missing from the plan and does not count either; a step
     /// added to the recipe afterwards is not detected.
@@ -36,6 +36,7 @@ public enum PlanChangeCheck {
             $0.step < 99
                 && !BakePlanValidator.isPreheatInstruction($0.instruction)
                 && !BakePlan.isTurnDownInstruction($0.instruction)
+                && !BakePlan.isGeneratedSteamReleaseInstruction($0.instruction)
         }
         return !planned.allSatisfy { step in
             instructions.contains {
