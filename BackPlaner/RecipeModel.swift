@@ -217,6 +217,9 @@ class RecipeModel: ObservableObject {
         context:     NSManagedObjectContext,
         recipeImage: UIImage
     ) throws -> Recipe {
+        // A public recipe whose details were loaded twice at once carries
+        // its parts twice; the own copy gets each once.
+        recipeFB.removeDuplicateParts()
         
         let r: Recipe
         let isUpdatingExistingRecipe: Bool

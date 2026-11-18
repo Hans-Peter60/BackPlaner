@@ -652,3 +652,30 @@ extension InstructionFB {
         }
     }
 }
+
+// MARK: - Parts loaded twice
+
+extension RecipeFB {
+    /// Drops the components, ingredients and steps that are in the recipe
+    /// more than once with the same document id, the first one kept. Two
+    /// loads of a public recipe's details running at once each appended the
+    /// whole lists, and taking the recipe over wrote every component and
+    /// step twice into the own recipe ("Roggenbrot", Nov 2026). Parts
+    /// without an id (made on the device) are never dropped.
+    public func removeDuplicateParts() {
+        components = Self.unique(components, id: \.id)
+        for component in components {
+            component.ingredients = Self.unique(component.ingredients, id: \.id)
+        }
+        instructions = Self.unique(instructions, id: \.id)
+    }
+
+    private static func unique<T>(_ parts: [T], id: (T) -> String?) -> [T] {
+        var seen = Set<String>()
+        return parts.filter { part in
+            guard let key = id(part), !key.isEmpty else { return true }
+            return seen.insert(key).inserted
+        }
+    }
+}
+
