@@ -91,7 +91,8 @@ struct BakingGlossaryMatchingTests {
         ("Backstein",      "baking stone",      "pierre de cuisson"),
         ("Pizzastein",     "pizza stone",       "pierre à pizza"),
         ("Backstahl",      "baking steel",      "acier de cuisson"),
-        ("Dampf ablassen", "release the steam", "évacuer la vapeur")
+        ("Dampf ablassen", "release the steam", "évacuer la vapeur"),
+        ("30 Minuten anspringen lassen", "let the fermentation start", "laisser démarrer la fermentation")
     ])
     func ovenTerms(text: String, english: String, french: String) throws {
         let found = try #require(BakingGlossary.matches(in: text, language: "de").first)
