@@ -35,23 +35,6 @@
       },
       "extractionState" : "manual"
     },
-    "%@: geplant %@ · heute etwa %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: planned %@ · today about %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ : prévu %@ · aujourd’hui environ %@"
-          }
-        }
-      },
-      "extractionState" : "manual"
-    },
     "%lld Erinnerungen gesetzt." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -236,6 +219,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accepter"
+          }
+        }
+      }
+    },
+    "Diese Garzeiten übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use these proofing times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser ces temps de pousse"
           }
         }
       }
@@ -3928,23 +3928,6 @@
         }
       }
     },
-    "Gare an heutige Temperatur anpassen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adjust the proof to today’s temperature"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adapter la pousse à la température du jour"
-          }
-        }
-      },
-      "extractionState" : "manual"
-    },
     "Gare heute" : {
       "localizations" : {
         "en" : {
@@ -4148,6 +4131,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
+    "geplant %@ · heute etwa %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "planned %@ · today about %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "prévu %@ · aujourd’hui environ %@"
           }
         }
       }

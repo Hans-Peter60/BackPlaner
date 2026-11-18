@@ -48,7 +48,13 @@ struct ProofTodayCardView: View {
 
             ForEach(adjustments, id: \.phase) { adjustment in
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("\(adjustment.phase.title()): geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
+                    // The phase's name on a line of its own: with both
+                    // durations beside it, the line wrapped at the larger
+                    // text sizes.
+                    Text(verbatim: adjustment.phase.title())
+                        .font(Theme.bodyFont(14).weight(.semibold))
+                        .foregroundColor(Theme.cardTitle)
+                    Text("geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
                         .font(Theme.bodyFont(14))
                         .foregroundColor(Theme.cardTitle)
                         .fixedSize(horizontal: false, vertical: true)
@@ -69,7 +75,9 @@ struct ProofTodayCardView: View {
 
             if adjustments.contains(where: { !isApplied($0) }) {
                 Button(action: onApplyToday) {
-                    Label("Gare an heutige Temperatur anpassen", systemImage: "thermometer.medium")
+                    // Each phase has its own temperature now, so the times
+                    // are taken over as shown, not "for today's temperature".
+                    Label("Diese Garzeiten übernehmen", systemImage: "thermometer.medium")
                         .font(Theme.bodyFont(14).weight(.semibold))
                 }
                 .accessibilityIdentifier("plan.applyProofToday")
