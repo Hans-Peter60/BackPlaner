@@ -319,6 +319,8 @@ struct BakePlanTests {
         #expect(BakePlan.isSteamReleaseInstruction("Dampf ablassen"))
         #expect(BakePlan.isSteamReleaseInstruction("Release the steam"))
         #expect(BakePlan.isSteamReleaseInstruction("Évacuer la buée"))
+        #expect(BakePlan.isSteamReleaseInstruction("Éteignez la vapeur après 20 minutes."))
+        #expect(!BakePlan.isSteamReleaseInstruction("Éteindre le four"))
         #expect(!BakePlan.isSteamReleaseInstruction("Mit Dampf backen"))
     }
 
