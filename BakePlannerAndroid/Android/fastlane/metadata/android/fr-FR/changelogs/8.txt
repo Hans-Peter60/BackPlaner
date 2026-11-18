@@ -1,0 +1,5 @@
+Nouveau dans 2.4 (8) :
+• « Pousse aujourd’hui » : chaque pousse a sa température ; une pousse à 28 °C ou dans un endroit chaud reste comme dans la recette
+• Les rabats « étirer et plier » comptent dans le pointage, le repos après l’autolyse non
+• Les recettes publiques ne sont plus copiées avec chaque étape en double
+• Les numéros d’étape restent ronds (4.2 au lieu de 4.1)
