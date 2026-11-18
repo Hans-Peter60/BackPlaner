@@ -1,0 +1,5 @@
+New in 2.4 (8):
+• "Proof today": each proof has its own temperature; a proof at 28 °C or in a warm place stays as in the recipe
+• French fold steps count as bulk proof, the rest after the autolyse does not
+• Public recipes are no longer copied with every step twice
+• Step numbers stay round (4.2 instead of 4.1)

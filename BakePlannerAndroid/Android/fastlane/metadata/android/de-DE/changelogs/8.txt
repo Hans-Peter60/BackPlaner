@@ -1,0 +1,5 @@
+Neu in 2.4 (8):
+• „Gare heute“: jede Gare mit eigener Temperatur; eine Gare bei 28 °C oder an einem warmen Ort bleibt wie im Rezept
+• Französische Faltschritte und „anspringen lassen“ zählen zur Stockgare, die Ruhe nach der Autolyse nicht
+• Öffentliche Rezepte werden nicht mehr mit doppelten Schritten übernommen
+• Schrittnummern bleiben rund (4.2 statt 4.1)
