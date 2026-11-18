@@ -131,6 +131,10 @@ public enum ProofTiming {
                 roles[i] = .preferment
                 continue
             }
+            // An autolyse or soaker step without a duration has its time in
+            // the rest that follows ("Autolyse: Mehl und Wasser mischen." –
+            // "30 Minuten ruhen lassen."); that rest was counted as bulk proof.
+            if i > 0, durations[i - 1] == 0, matches(soakerPatterns, texts[i - 1]), !matches(foldPatterns, text) { continue }
             roles[i] = .rest
         }
 
@@ -471,9 +475,10 @@ public enum ProofTiming {
         #"\bbulk\b"#, "first rise", "first proof", "first ferment", "primary ferment",
         "pointage", "premiere pousse", "premiere levee"
     ]
-    /// A rest or rise without saying which.
+    /// A rest or rise without saying which. "Anspringen lassen" is the warm
+    /// start of a bulk proof that goes on in the fridge.
     private static let restPatterns = [
-        "ruhen", "reifen", "gehen lassen", "aufgehen", #"\bgehen\b"#, #"\bgare\b"#, "ubergare", "vollgare", "fermentier",
+        "ruhen", "reifen", "anspring", "gehen lassen", "aufgehen", #"\bgehen\b"#, #"\bgare\b"#, "ubergare", "vollgare", "fermentier",
         #"\brest(?:s|ing)?\b(?! of\b)"#, #"\bris(?:e|es|ing)\b"#, #"\bproof"#, #"\bprov(?:e|ing)\b"#, "ferment",
         #"\bpousse"#, #"\blever\b"#, #"\blevee\b"#, #"\brepos"#, #"\bpointer\b"#
     ]
