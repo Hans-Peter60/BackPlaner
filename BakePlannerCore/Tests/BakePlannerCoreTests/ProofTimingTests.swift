@@ -91,6 +91,28 @@ struct ProofTimingTests {
         ])
     }
 
+    @Test("A baguette from a public recipe: the autolyse's rest is no bulk, \"anspringen lassen\" is")
+    func autolyseRestAndWarmStart() {
+        let found = steps([
+            ("Autolyse: Mehl und Wasser mischen.", 0),
+            ("30 Minuten ruhen lassen zur Verbesserung von Struktur und Geschmack.", 30),
+            ("Hauptteig: Sauerteig und Salz (sowie optional Hefe) einarbeiten.", 0),
+            ("3–5 Minuten kneten (von Hand oder mit der Maschine).", 5),
+            ("30 Minuten bei Raumtemperatur anspringen lassen.", 30),
+            ("Einmal dehnen und falten (stretch & fold).", 0),
+            ("Weitere 30 Minuten bei Raumtemperatur anspringen lassen (insgesamt 1 Stunde Anspringzeit).", 30),
+            ("10–14 Stunden zur Übernachtgare in den Kühlschrank (4–6°C) stellen.", 720),
+            ("Mit der Teigkarte 3 Stücke abstechen. Nicht kneten, nicht formen, nur sanft langziehen.", 0),
+            ("Baguetteteiglinge 20–30 Minuten bei Raumtemperatur zur Stückgare ruhen lassen.", 25),
+            ("Mit Dampf 15 Minuten bei 250°C backen.", 15)
+        ])
+        #expect(found == [
+            Step(index: 4, phase: .bulk, minutes: 30),
+            Step(index: 6, phase: .bulk, minutes: 30),
+            Step(index: 9, phase: .final, minutes: 25)
+        ])
+    }
+
     @Test("A preferment named in the main dough's step is no preferment ripening")
     func prefermentGoesIntoTheDough() {
         let found = steps([
