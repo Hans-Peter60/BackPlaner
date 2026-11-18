@@ -85,7 +85,7 @@ struct AddInstructionDataView: View {
                     // Create an InstructionFB object and set its properties
                     let iFB         = InstructionFB()
                     iFB.id          = UUID().uuidString
-                    iFB.step        = step
+                    iFB.step        = Plausible.stepNumber(step)
                     iFB.instruction = cleanedInstruction
                     iFB.duration    = duration
                     instructions.append(iFB)

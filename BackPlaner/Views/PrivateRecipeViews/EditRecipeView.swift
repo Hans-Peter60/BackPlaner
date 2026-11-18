@@ -157,7 +157,7 @@ struct EditRecipeView: View {
         let i         = Instruction(context: viewContext)
         i.id          = UUID()
         i.instruction = cleanedInstruction
-        i.step        = step
+        i.step        = Plausible.stepNumber(step)
         i.duration    = duration
 
         recipeCD.addToInstructions(i)

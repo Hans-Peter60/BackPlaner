@@ -292,7 +292,7 @@ class RecipeModel: ObservableObject {
 
                 i.id          = UUID()
                 i.instruction = iFB.instruction
-                i.step        = iFB.step
+                i.step        = Plausible.stepNumber(iFB.step)
                 i.duration    = iFB.duration
                 i.startTime   = iFB.startTime ?? 0
                 i.componentName = iFB.componentName

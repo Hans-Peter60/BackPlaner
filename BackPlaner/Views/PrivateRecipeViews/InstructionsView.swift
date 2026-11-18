@@ -506,7 +506,7 @@ struct InstructionsView: View {
         )
         for i in 0..<recipe.instructionsArray.count {
             recipe.instructionsArray[i].instruction = instructionsFB[i].instruction
-            recipe.instructionsArray[i].step        = instructionsFB[i].step
+            recipe.instructionsArray[i].step        = Plausible.stepNumber(instructionsFB[i].step)
             recipe.instructionsArray[i].startTime   = instructionsFB[i].startTime ?? 0
             recipe.instructionsArray[i].duration    = instructionsFB[i].duration
         }

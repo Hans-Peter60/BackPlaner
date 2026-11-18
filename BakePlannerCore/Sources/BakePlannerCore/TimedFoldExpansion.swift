@@ -78,7 +78,7 @@ public enum TimedFoldExpansion {
         let foldSteps = offsets.enumerated().map { index, offset -> InstructionFB in
             let step = InstructionFB()
             step.id = UUID().uuidString
-            step.step = parent.step + 0.1 * Double(firstNumber + index)
+            step.step = Plausible.stepNumber(parent.step + 0.1 * Double(firstNumber + index))
             step.instruction = "Teig dehnen und falten (nach \(offset) Minuten)."
             step.duration = totalDuration - offset
             return step
@@ -91,7 +91,7 @@ public enum TimedFoldExpansion {
             instructions.remove(at: foldIndex)
             instructions.insert(contentsOf: foldSteps, at: parentIndex + 1)
             for instruction in instructions where instruction.step >= removedStep {
-                instruction.step -= 1
+                instruction.step = Plausible.stepNumber(instruction.step - 1)
             }
         }
         return foldSteps

@@ -187,6 +187,39 @@ extension PersistenceController {
         }
     }
 
+    private static let stepNumberKey = "maintenance.stepNumbersV1"
+
+    /// Rounds the step numbers that float arithmetic left crooked
+    /// (4.199999999999999 for 4.2, after fold steps moved up by one) to the
+    /// hundredth, as every step is stored from now on. Only those steps are
+    /// written, so iCloud gets nothing else. Runs once; a failed pass is
+    /// retried on the next launch.
+    func roundStepNumbersIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: Self.stepNumberKey), loadError == nil else { return }
+
+        let context = container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.perform {
+            var rounded = 0
+            for instruction in (try? context.fetch(Instruction.fetchRequest())) ?? [] {
+                let step = Plausible.stepNumber(instruction.step)
+                if step != instruction.step {
+                    instruction.step = step
+                    rounded += 1
+                }
+            }
+            do {
+                if context.hasChanges { try context.save() }
+                defaults.set(true, forKey: Self.stepNumberKey)
+                AppLog.persistence.info("Step numbers rounded: \(rounded)")
+            } catch {
+                context.rollback()
+                AppLog.persistence.error("Rounding step numbers failed, will retry on next launch: \(error)")
+            }
+        }
+    }
+
     private static let variantLinkKey = "maintenance.variantLinkV1"
 
     /// Links the copies the flour substitution and the starter adjustment

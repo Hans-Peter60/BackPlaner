@@ -81,7 +81,7 @@ public enum RecipeFirestoreMapping {
         instruction.instruction   = data["instruction"] as? String ?? ""
         instruction.duration      = Plausible.minutes(int(data["duration"]) ?? 0)
         instruction.startTime     = Plausible.minutes(int(data["startTime"]) ?? 0)
-        instruction.step          = double(data["step"]).map { min(max($0, 0), 999) } ?? 1
+        instruction.step          = double(data["step"]).map(Plausible.stepNumber) ?? 1
         instruction.componentName = data["componentName"] as? String
         instruction.minDuration   = int(data["minDuration"]).map(Plausible.minutes)
         instruction.maxDuration   = int(data["maxDuration"]).map(Plausible.minutes)
@@ -215,7 +215,7 @@ public enum RecipeFirestoreMapping {
     public static func instructionData(of instruction: InstructionFB) -> [String: Any] {
         var data: [String: Any] = [
             "instruction": instruction.instruction,
-            "step":        instruction.step,
+            "step":        Plausible.stepNumber(instruction.step),
             "duration":    instruction.duration,
             "startTime":   instruction.startTime ?? 0,
             "date":        instruction.date ?? 0
