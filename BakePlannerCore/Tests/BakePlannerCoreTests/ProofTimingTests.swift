@@ -113,6 +113,59 @@ struct ProofTimingTests {
         ])
     }
 
+    @Test("The baguette's English and French translations: autolysis, \"let it sit\" and the glossary's warm start",
+          arguments: [
+            ["Autolysis: Mix flour and water.", "Let rest for 30 minutes to improve structure and flavor.",
+             "Knead for 3–5 minutes (by hand or with a machine).", "Let it sit for 30 minutes at room temperature.",
+             "Once stretch and fold (stretch & fold).",
+             "Let the fermentation start for another 30 minutes at room temperature.",
+             "10–14 hours to store overnight in the refrigerator (4–6°C).",
+             "Cut 3 pieces with the pastry cutter. Do not knead, do not shape, only gently stretch.",
+             "Let the baguette dough rise at room temperature for 20–30 minutes to final proof.",
+             "Bake with steam for 15 minutes at 250°C."],
+            ["Autolyse : Mélanger la farine et l'eau.", "Laisser reposer pendant 30 minutes pour améliorer la structure et le goût.",
+             "Pétrir pendant 3 à 5 minutes (à la main ou avec la machine).",
+             "Laisser démarrer la fermentation pendant 30 minutes à température ambiante.",
+             "Étirer et plier une fois (stretch & fold).",
+             "Laisser démarrer la fermentation pendant encore 30 minutes à température ambiante.",
+             "10 à 14 heures pour mettre au réfrigérateur (4 à 6°C) pour la conservation.",
+             "Avec la carte de pâte, découpez 3 pièces. Ne pétrissez pas, ne façonnez pas, étirez simplement doucement.",
+             "Laisser reposer les pâtes à baguettes 20 à 30 minutes à température ambiante pour apprêt.",
+             "Cuire au vapeur pendant 15 minutes à 250°C."]
+          ])
+    func translatedBaguette(_ texts: [String]) {
+        let found = ProofTiming.steps(instructions: texts, durations: [0, 30, 5, 30, 0, 30, 720, 0, 25, 15])
+        #expect(found == [
+            Step(index: 3, phase: .bulk, minutes: 30),
+            Step(index: 5, phase: .bulk, minutes: 30),
+            Step(index: 8, phase: .final, minutes: 25)
+        ])
+    }
+
+    @Test("A sourdough bread's translations: \"let it ripen\" and \"laisser mûrir\" are rests",
+          arguments: [
+            ["Sourdough: mix all components", "Sourdough let it ripen at 30 degrees",
+             "Main dough: add all components in the order given and mix into a firm dough",
+             "Allow to ripen for 3 hours at 30 degrees.", "Stretching and folding", "Stretching and folding",
+             "Shape into a round loaf", "Let it ripen in the floured banneton",
+             "At 250 degrees, bake at 220 degrees with steam"],
+            ["Levain: mélanger tous les composants", "Levain laisser mûrir à 30 degrés",
+             "Pâte principale: ajouter tous les composants dans l'ordre indiqué et mélanger pour obtenir une pâte homogène",
+             "Laisser reposer pendant 3 heures à 30 degrés.", "Étirer et plier", "Étirer et plier",
+             "Former une boule ronde", "Laisser reposer dans le banneton tamisé",
+             "À 250 degrés, cuire au vapeur à 220 degrés."]
+          ])
+    func translatedSourdough(_ texts: [String]) {
+        let found = ProofTiming.steps(instructions: texts, durations: [10, 180, 12, 180, 150, 120, 5, 120, 50])
+        #expect(found == [
+            Step(index: 1, phase: .preferment, minutes: 180, statedTemperature: 30),
+            Step(index: 3, phase: .bulk, minutes: 180, statedTemperature: 30),
+            Step(index: 4, phase: .bulk, minutes: 150),
+            Step(index: 5, phase: .bulk, minutes: 120),
+            Step(index: 7, phase: .final, minutes: 120)
+        ])
+    }
+
     @Test("A preferment named in the main dough's step is no preferment ripening")
     func prefermentGoesIntoTheDough() {
         let found = steps([

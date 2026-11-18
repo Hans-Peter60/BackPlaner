@@ -105,6 +105,11 @@ public enum BakingGlossary {
         Term(forms: ["de": Forms(["Backstahl"], plural: ["Backstähle"]),
                      "en": Forms(["baking steel"], plural: ["baking steels"]),
                      "fr": Forms(["acier de cuisson"], plural: ["aciers de cuisson"])]),
+        // The warm start of a bulk proof came back as "Allow to start",
+        // "Laisser rebondir" and "Laisser démarrer".
+        Term(forms: ["de": Forms(["anspringen lassen"]),
+                     "en": Forms(["let the fermentation start"]),
+                     "fr": Forms(["laisser démarrer la fermentation"])]),
         // "Évitez la vapeur" — avoid the steam — for letting it out.
         Term(forms: ["de": Forms(["Dampf ablassen", "Schwaden ablassen"]),
                      "en": Forms(["release the steam", "let out the steam"]),

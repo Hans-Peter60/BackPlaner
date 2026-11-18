@@ -462,7 +462,7 @@ public enum ProofTiming {
     ]
     /// Soaking and the autolyse are no fermentation.
     private static let soakerPatterns = [
-        "bruhstuck", "kochstuck", "quellstuck", "quellen", "einweichen", "autolyse", "fermentolyse",
+        "bruhstuck", "kochstuck", "quellstuck", "quellen", "einweichen", "autolys", "fermentolyse",
         "soaker", "scald", "tangzhong", #"\bsoak"#, "trempage"
     ]
     private static let finalPatterns = [
@@ -476,9 +476,12 @@ public enum ProofTiming {
         "pointage", "premiere pousse", "premiere levee"
     ]
     /// A rest or rise without saying which. "Anspringen lassen" is the warm
-    /// start of a bulk proof that goes on in the fridge.
+    /// start of a bulk proof that goes on in the fridge. The translations of
+    /// the public recipes say "let it ripen", "laisser mûrir" and "let it
+    /// sit", and "Autolysis" for the autolyse.
     private static let restPatterns = [
-        "ruhen", "reifen", "anspring", "gehen lassen", "aufgehen", #"\bgehen\b"#, #"\bgare\b"#, "ubergare", "vollgare", "fermentier",
+        "ruhen", "reifen", "anspring", "gehen lassen", #"\bripen"#, #"\bmuri"#,
+        #"\b(?:let|leave)(?: it| them| the dough)? (?:sit|stand)\b"#, "aufgehen", #"\bgehen\b"#, #"\bgare\b"#, "ubergare", "vollgare", "fermentier",
         #"\brest(?:s|ing)?\b(?! of\b)"#, #"\bris(?:e|es|ing)\b"#, #"\bproof"#, #"\bprov(?:e|ing)\b"#, "ferment",
         #"\bpousse"#, #"\blever\b"#, #"\blevee\b"#, #"\brepos"#, #"\bpointer\b"#
     ]
@@ -490,7 +493,7 @@ public enum ProofTiming {
     private static let foldPatterns = ["falten", "dehnen", #"\bfold"#, "rabat", "stretch",
                                        #"\betir"#, #"\b(?:re)?pli(?:er|ez|e|es|age|ages)?\b"#]
     private static let prefermentPatterns = [
-        "sauerteig", "vorteig", "poolish", #"\bbiga\b"#, "levain", "anstellgut", "pate fermentee",
+        "sauerteig", #"\bsourdough\b"#, "vorteig", "poolish", #"\bbiga\b"#, "levain", "anstellgut", "pate fermentee",
         "pre-?ferment", #"\bsponge\b"#, #"\bstarter\b"#, "lievito", #"\bmadre\b"#
     ]
     /// Named in a step that makes the main dough, the preferment goes in.
