@@ -479,7 +479,11 @@ public enum ProofTiming {
     ]
     /// Folds happen during the bulk proof; a fold step with a duration is
     /// the rest until the next fold.
-    private static let foldPatterns = ["falten", "dehnen", #"\bfold"#, "rabat", "stretch"]
+    /// French translations write "Étirer et plier" / "replier" as often as
+    /// "rabattre"; without them the folds of a French recipe were no part of
+    /// its bulk proof, which then read 45 minutes instead of 3h 15m.
+    private static let foldPatterns = ["falten", "dehnen", #"\bfold"#, "rabat", "stretch",
+                                       #"\betir"#, #"\b(?:re)?pli(?:er|ez|e|es|age|ages)?\b"#]
     private static let prefermentPatterns = [
         "sauerteig", "vorteig", "poolish", #"\bbiga\b"#, "levain", "anstellgut", "pate fermentee",
         "pre-?ferment", #"\bsponge\b"#, #"\bstarter\b"#, "lievito", #"\bmadre\b"#
