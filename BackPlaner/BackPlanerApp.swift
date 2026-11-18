@@ -54,6 +54,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // One-time: the dated copies made before 3.0 become variants of the
     // recipe they were copied from.
     PersistenceController.shared.linkDatedCopiesIfNeeded()
+    PersistenceController.shared.roundStepNumbersIfNeeded()
 
     if UITestSupport.seedsRecipe {
       UITestSupport.seedRecipe(into: PersistenceController.shared.container.viewContext)

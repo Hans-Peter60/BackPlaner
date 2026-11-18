@@ -57,6 +57,16 @@ public enum Plausible {
         min(max(value, 0), maxFractionPart)
     }
 
+    /// A step number as a recipe means it: to the hundredth, within 0…999,
+    /// 1 when it is not a number. Moving fold steps up by one turned 5.2
+    /// into 4.199999999999999, which the step table cut to "4.1" — beside a
+    /// real 4.1. Hundredths, not tenths: a cloud import numbers more than
+    /// nine preferments 1.01, 1.02 ….
+    public static func stepNumber(_ value: Double) -> Double {
+        guard value.isFinite else { return 1 }
+        return (min(max(value, 0), 999) * 100).rounded() / 100
+    }
+
     /// The nearest Int to any Double: NaN is 0, values beyond ±10¹⁵ are
     /// held there. For showing a number, where trapping is never right.
     public static func roundedInt(_ value: Double) -> Int {
@@ -109,7 +119,7 @@ extension RecipeExportData {
         }
         recipe.instructions = instructions.map { instruction in
             var instruction = instruction
-            instruction.step = instruction.step.isFinite ? min(max(instruction.step, 0), 999) : 1
+            instruction.step = Plausible.stepNumber(instruction.step)
             instruction.duration = Plausible.minutes(instruction.duration)
             instruction.startTime = Plausible.minutes(instruction.startTime)
             instruction.minDuration = instruction.minDuration.map(Plausible.minutes)

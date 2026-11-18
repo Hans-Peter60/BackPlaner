@@ -259,7 +259,7 @@ struct EditInstructionView: View {
                     Button("Fertig") {
                         self.presentationMode.wrappedValue.dismiss()
                         self.instructions.instruction = self.instruction
-                        self.instructions.step        = self.step
+                        self.instructions.step        = Plausible.stepNumber(self.step)
                         self.instructions.duration    = self.duration
                         // Both bounds, in order, or no window at all.
                         self.instructions.durationWindow = DurationWindow.range(minimum: minimumMinutes,

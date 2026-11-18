@@ -132,7 +132,7 @@ extension RecipeExportData {
             let instruction           = Instruction(context: context)
             instruction.id            = UUID()
             instruction.instruction   = instructionData.instruction
-            instruction.step          = instructionData.step
+            instruction.step          = Plausible.stepNumber(instructionData.step)
             instruction.duration      = instructionData.duration
             instruction.startTime     = instructionData.startTime
             instruction.bakeFlag      = instructionData.bakeFlag

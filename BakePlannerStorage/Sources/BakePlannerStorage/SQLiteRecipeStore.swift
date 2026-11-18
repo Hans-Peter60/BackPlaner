@@ -162,7 +162,7 @@ public final class SQLiteRecipeStore: RecipeStore {
                                          min_duration, max_duration, oven_temperature, oven_falling_temperature, oven_steam)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, parameters: [
-                    .long(rowID), .text(instruction.instruction), .real(instruction.step),
+                    .long(rowID), .text(instruction.instruction), .real(Plausible.stepNumber(instruction.step)),
                     .long(Int64(instruction.duration)), .long(Int64(instruction.startTime)),
                     Self.value(instruction.bakeFlag), Self.value(instruction.componentName),
                     instruction.durationWindow.map { SQLValue.long(Int64($0.lowerBound)) } ?? SQLValue.null,
@@ -244,7 +244,7 @@ public final class SQLiteRecipeStore: RecipeStore {
             """, parameters: [.long(rowID)])
             .map { row in
                 RecipeExportInstruction(instruction: row[0].textValue ?? "",
-                                        step: row[1].realValue ?? 0,
+                                        step: Plausible.stepNumber(row[1].realValue ?? 0),
                                         duration: Int(row[2].longValue ?? 0),
                                         startTime: Int(row[3].longValue ?? 0),
                                         bakeFlag: (row[4].longValue ?? 0) != 0,

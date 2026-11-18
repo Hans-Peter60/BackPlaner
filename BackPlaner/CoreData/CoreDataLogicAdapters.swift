@@ -223,7 +223,7 @@ extension Recipe {
             let instruction           = Instruction(context: context)
             instruction.id            = UUID()
             instruction.instruction   = instructionData.instruction
-            instruction.step          = instructionData.step
+            instruction.step          = Plausible.stepNumber(instructionData.step)
             instruction.duration      = instructionData.duration
             instruction.startTime     = instructionData.startTime
             instruction.bakeFlag      = instructionData.bakeFlag
@@ -301,14 +301,14 @@ extension TimedFoldExpansion {
         var kept = Set<ObjectID>()
         for instructionFB in working {
             if let instruction = origin[ObjectIdentifier(instructionFB)] {
-                instruction.step = instructionFB.step
+                instruction.step = Plausible.stepNumber(instructionFB.step)
                 instruction.duration = instructionFB.duration
                 kept.insert(instruction.objectID)
             } else {
                 let instruction = Instruction(context: context)
                 instruction.id = UUID()
                 instruction.instruction = instructionFB.instruction
-                instruction.step = instructionFB.step
+                instruction.step = Plausible.stepNumber(instructionFB.step)
                 instruction.duration = instructionFB.duration
                 instruction.componentName = instructionFB.componentName
                 instruction.durationWindow = instructionFB.durationWindow

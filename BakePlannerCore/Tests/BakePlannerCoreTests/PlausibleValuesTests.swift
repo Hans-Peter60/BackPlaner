@@ -172,4 +172,37 @@ struct PlausibleValuesTests {
                                         calendar: calendar)
         #expect(book.bakes > 0)
     }
+
+    @Test("Step numbers are kept to the hundredth, and shown rounded, not cut off")
+    func stepNumbers() throws {
+        #expect(Plausible.stepNumber(4.199999999999999) == 4.2)
+        #expect(Plausible.stepNumber(5.2 - 1) == 4.2)
+        #expect(Plausible.stepNumber(1.01) == 1.01)
+        #expect(Plausible.stepNumber(.nan) == 1)
+        #expect(Plausible.stepNumber(1e9) == 999)
+        // The step table showed 4.199999999999999 as "4.1".
+        #expect(Rational.decimalPlace(4.199999999999999, 10) == "4.2")
+        #expect(Rational.decimalPlace(7.199999999999999, 10) == "7.2")
+        #expect(Rational.decimalPlace(3, 10) == "3")
+        // A backup and a public recipe come in rounded.
+        let json = #"{"recipes": [{"name": "Roggenbrot", "instructions": [{"instruction": "Falten", "step": 4.199999999999999}]}]}"#
+        #expect(try RecipeImport.decodeFile(Data(json.utf8)).recipes.first?.instructions.first?.step == 4.2)
+        #expect(RecipeFirestoreMapping.instruction(id: "s", data: ["step": 4.299999999999999]).step == 4.3)
+    }
+
+    @Test("Moving the steps after a fold expansion up by one keeps their numbers round")
+    func foldRenumbering() {
+        func step(_ number: Double, _ text: String, _ minutes: Int) -> InstructionFB {
+            let s = InstructionFB(); s.step = number; s.instruction = text; s.duration = minutes; return s
+        }
+        var steps = [step(1, "Teig kneten", 10), step(2, "Stockgare 3 Stunden", 180),
+                     step(3, "Alle 30 Minuten dehnen und falten, 3x", 0), step(4, "Formen", 10),
+                     step(5.2, "Backen", 50)]
+        _ = TimedFoldExpansion.expand(&steps)
+        for instruction in steps {
+            #expect(instruction.step == Plausible.stepNumber(instruction.step), "\(instruction.step) \(instruction.instruction)")
+        }
+        #expect(steps.contains { $0.instruction == "Backen" && $0.step == 4.2 })
+    }
 }
+

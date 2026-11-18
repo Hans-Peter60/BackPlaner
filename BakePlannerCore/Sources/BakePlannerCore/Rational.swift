@@ -188,7 +188,8 @@ public class Rational {
 
         numberDouble *= factor
         guard numberDouble.isFinite, abs(numberDouble) < 1e15 else { return "" }
-        numberInt     = Int(numberDouble)
+        // Rounded, not cut off: a stored 4.199999999999999 is the step 4.2.
+        numberInt     = Int(numberDouble.rounded())
         numberDouble  = Double(numberInt) / factor
         numberString  = String(numberDouble)
         numberInt     = Int(numberDouble)
