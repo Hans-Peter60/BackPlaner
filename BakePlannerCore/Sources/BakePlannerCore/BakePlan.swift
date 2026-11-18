@@ -281,7 +281,8 @@ public struct BakePlan {
 
     /// Whether a step of the recipe's own lets the steam out of the oven:
     /// "Dampf ablassen", "Schwaden abziehen lassen", "Release the steam",
-    /// "Évacuer la buée". The bake itself ("mit Dampf backen") is not one.
+    /// "Évacuer la buée", "Éteignez la vapeur". The bake itself ("mit Dampf
+    /// backen") is not one.
     public static func isSteamReleaseInstruction(_ instruction: String) -> Bool {
         let text = instruction.folding(options: [.caseInsensitive, .diacriticInsensitive],
                                        locale: Locale(identifier: "de_DE"))
@@ -292,7 +293,7 @@ public struct BakePlan {
     private static let steamWords = ["dampf", "schwaden", "steam", "buee", "vapeur"]
     private static let steamReleaseWords = ["ablass", "abzieh", "entweich", "rauslass", "herauslass",
                                             "release", "let out", "let the steam", "drain", "remove the steam",
-                                            "evacu", "echapper"]
+                                            "evacu", "echapper", "eteign", "eteindre", "turn off the steam"]
 
     /// Whether a text is a turn-down step the plan generated, in any of the
     /// languages it can be stored in. Generated steps live only in the plan,
