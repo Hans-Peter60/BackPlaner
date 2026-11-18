@@ -265,6 +265,35 @@ struct RecipePersistenceTests {
         #expect(recipe.instructionsArray.map(\.instruction) == ["Teig kneten", "Bei 250 °C backen"])
     }
 
+    /// The "Roggenbrot" of Nov 2026: two loads of the public recipe's
+    /// details at once each appended all components and steps, and the
+    /// own copy had every one of them twice.
+    @Test("A public recipe whose parts were loaded twice becomes an own recipe with each part once")
+    func publicRecipeLoadedTwiceTakenOver() throws {
+        let context = makeContext()
+        let loaded = publicRecipe(id: "fs-roggen", name: "Roggenbrot", flour: 400)
+        for (index, component) in loaded.components.enumerated() {
+            component.id = "c\(index)"
+            for (number, ingredient) in component.ingredients.enumerated() { ingredient.id = "c\(index)-i\(number)" }
+        }
+        for (index, instruction) in loaded.instructions.enumerated() { instruction.id = "s\(index)" }
+        let twice = publicRecipe(id: "fs-roggen", name: "Roggenbrot", flour: 400)
+        for (index, component) in twice.components.enumerated() {
+            component.id = "c\(index)"
+            for (number, ingredient) in component.ingredients.enumerated() { ingredient.id = "c\(index)-i\(number)" }
+        }
+        for (index, instruction) in twice.instructions.enumerated() { instruction.id = "s\(index)" }
+        loaded.components += twice.components
+        loaded.instructions += twice.instructions
+
+        let recipe = try RecipeModel().uploadRecipeIntoCoreData(recipeId: nil, recipeFB: loaded,
+                                                                 context: context, recipeImage: UIImage())
+        #expect(recipe.componentsArray.map(\.name) == ["Hauptteig"])
+        #expect(recipe.componentsArray.first?.ingredientsArray.count == 2)
+        #expect(recipe.instructionsArray.map(\.instruction) == ["Teig kneten", "Bei 250 °C backen"])
+        #expect(recipe.totalWeight == 700)
+    }
+
     @Test("Taking over the same public recipe again leaves the own copy as it is")
     func publicRecipeTakenOverTwice() throws {
         let context = makeContext()

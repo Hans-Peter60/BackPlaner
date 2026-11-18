@@ -1034,14 +1034,14 @@ class RecipeFBModel: ObservableObject {
             defer { completion?() }
 
             if let snapshot, error == nil {
-                
-                // Loop through the documents returned
-                for doc in snapshot.documents {
-                    
+                // The whole list at once, not appended step by step: two
+                // loads running together (the list's prefetch and the
+                // recipe page's) each appended all steps, and a recipe
+                // taken over then had every step twice.
+                r.instructions = snapshot.documents.map { doc in
                     let i = RecipeFirestoreMapping.instruction(id: doc.documentID, data: doc.data())
                     i.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
-
-                    r.instructions.append(i)
+                    return i
                 }
             }
         }
@@ -1057,16 +1057,14 @@ class RecipeFBModel: ObservableObject {
             let ingredientLoads = DispatchGroup()
 
             if let snapshot, error == nil {
-
-                // Loop through the documents returned
-                for doc in snapshot.documents {
-
+                // The whole list at once, as for the steps: appended, two
+                // loads at once gave every component twice.
+                r.components = snapshot.documents.map { doc in
                     let c = RecipeFirestoreMapping.component(id: doc.documentID, data: doc.data())
                     c.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
-
                     ingredientLoads.enter()
-                    self.getIngredientsFB(c, recipeDocID, c.id!) { ingredientLoads.leave() }
-                    r.components.append(c)
+                    self.getIngredientsFB(c, recipeDocID, doc.documentID) { ingredientLoads.leave() }
+                    return c
                 }
             }
 
@@ -1083,14 +1081,10 @@ class RecipeFBModel: ObservableObject {
             defer { completion?() }
 
             if let snapshot, error == nil {
-                
-                // Loop through the documents returned
-                for doc in snapshot.documents {
-                    
+                c.ingredients = snapshot.documents.map { doc in
                     let i = RecipeFirestoreMapping.ingredient(id: doc.documentID, data: doc.data())
                     i.applyLocalization(languageCode: RecipeFB.preferredLanguageCode)
-                    
-                    c.ingredients.append(i)
+                    return i
                 }
             }
         }

@@ -256,4 +256,26 @@ struct RecipeFirestoreMappingTests {
         #expect(RecipeFirestoreMapping.reportHideData.keys.sorted() == ["hidden"])
         #expect(RecipeFirestoreMapping.reportReasons.count == 4)
     }
+
+    @Test("Parts loaded twice are kept once, by their document id; parts without one stay")
+    func removeDuplicateParts() {
+        let recipe = RecipeFB()
+        func component(_ id: String?, _ name: String, ingredients: [String?]) -> ComponentFB {
+            let c = ComponentFB(); c.id = id; c.name = name
+            c.ingredients = ingredients.map { let i = IngredientFB(); i.id = $0; i.name = $0 ?? "neu"; return i }
+            return c
+        }
+        func step(_ id: String?, _ text: String) -> InstructionFB {
+            let s = InstructionFB(); s.id = id; s.instruction = text; return s
+        }
+        recipe.components = [component("a", "Sauerteig", ingredients: ["a1", "a2"]),
+                             component("b", "Hauptteig", ingredients: ["b1", "b1", nil, nil]),
+                             component("a", "Sauerteig", ingredients: ["a1", "a2"])]
+        recipe.instructions = [step("1", "Mischen"), step("2", "Reifen"), step("1", "Mischen"), step(nil, "Neu"), step(nil, "Neu")]
+        recipe.removeDuplicateParts()
+        #expect(recipe.components.map(\.name) == ["Sauerteig", "Hauptteig"])
+        #expect(recipe.components[1].ingredients.map(\.id) == ["b1", nil, nil])
+        #expect(recipe.instructions.map(\.instruction) == ["Mischen", "Reifen", "Neu", "Neu"])
+    }
 }
+
