@@ -339,5 +339,14 @@ struct ProofTimingTests {
         if case .bakes = adjustment.source {} else { Issue.record("expected an estimate from the bakes") }
         #expect(adjustment.minutes < 120)
     }
+
+    @Test("French folds count as part of the bulk proof, however the translation words them",
+          arguments: ["Étirer et plier", "Étirer et replier", "Étirer et rabattre", "Pliage"])
+    func frenchFolds(_ fold: String) {
+        let steps = ProofTiming.steps(instructions: ["Pétrir jusqu'à ce que la pâte soit lisse et laisser reposer", fold, fold,
+                                                     "Façonner en boule", "Laisser lever 2 heures à 28 °C dans le banneton"],
+                                      durations: [45, 30, 120, 10, 120])
+        #expect(steps.filter { $0.phase == .bulk }.map(\.minutes) == [45, 30, 120], "\(fold)")
+    }
 }
 

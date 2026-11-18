@@ -31,6 +31,8 @@
 //                            the Pro features — baking day, pantry,
 //                            statistics, starter chart — need it. Without
 //                            it those pictures are skipped.
+//    SCREENSHOT_STOP_AFTER   a picture's number, e.g. 01: the run ends after
+//                            it, for renewing one picture without the others
 //
 //  The screenshots are attachments of the test result, named
 //  "<language>-<number>-<screen>"; the script exports them from there. The
@@ -73,6 +75,12 @@ final class AppStoreScreenshots: StoreUITestCase {
 
     /// Whether the run takes the extra pictures (SCREENSHOT_EXTRAS).
     private var takesExtras = false
+
+    /// Whether the run ends after the picture of this number
+    /// (SCREENSHOT_STOP_AFTER).
+    private func stopsAfter(_ number: String) -> Bool {
+        ProcessInfo.processInfo.environment["SCREENSHOT_STOP_AFTER"] == number
+    }
 
     /// The start of the demo starter's name, as the recipe list shows it.
     private var starterName: String {
@@ -131,6 +139,7 @@ final class AppStoreScreenshots: StoreUITestCase {
         scrollToTop(controls)
         settle(1)
         capture("01-rezept-backen")
+        if stopsAfter("01") { return }
 
         // Plan it, so the start screen and the bake mode have a next step.
         let setReminders = app.buttons["plan.setReminders"]

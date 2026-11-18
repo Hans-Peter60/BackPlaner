@@ -10,6 +10,9 @@
 #   scripts/appstore-screenshots.sh              all devices and languages
 #   LANGS="en" scripts/appstore-screenshots.sh    only English
 #   DEVICES="iphone" scripts/appstore-screenshots.sh  only the iPhone
+#   STOP_AFTER=01 VERSION=… scripts/appstore-screenshots.sh  ends each run after
+#                                                that picture: to renew one picture,
+#                                                run into a scratch VERSION and copy it over
 #   CAPTIONS_ONLY=1 scripts/appstore-screenshots.sh  no new screenshots: only set
 #                                                the headlines over the roh/ pictures
 #                                                again, e.g. after changing a text
@@ -330,6 +333,7 @@ for role in $DEVICES; do
            TEST_RUNNER_SCREENSHOT_EXTRAS="$extras" \
            TEST_RUNNER_SCREENSHOT_RECIPE="$RECIPE" \
            TEST_RUNNER_SCREENSHOT_DEMO_BACKUP="$demo_backup" \
+           TEST_RUNNER_SCREENSHOT_STOP_AFTER="${STOP_AFTER:-}" \
            TEST_RUNNER_APP_CHECK_DEBUG_TOKEN="$APP_CHECK_DEBUG_TOKEN" \
            xcodebuild test-without-building \
                -project BackPlaner.xcodeproj \
