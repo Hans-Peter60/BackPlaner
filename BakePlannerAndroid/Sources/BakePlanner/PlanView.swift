@@ -293,7 +293,10 @@ struct PlanView: View {
                     }
                     ForEach(Array(proofAdjustments.enumerated()), id: \.offset) { _, adjustment in
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("\(adjustment.phase.title()): geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
+                            // The phase's name on a line of its own, as on the iPhone.
+                            Text(verbatim: adjustment.phase.title())
+                                .fontWeight(.semibold)
+                            Text("geplant \(BakeHistoryFacts.durationText(adjustment.plannedMinutes)) · heute etwa \(BakeHistoryFacts.durationText(adjustment.minutes))")
                             // Each phase has its own temperature: "bei 28 °C"
                             // stays at 28 °C, whatever the room.
                             Stepper(value: phaseTemperature(for: adjustment), in: ProofTiming.temperatureRange) {
@@ -305,7 +308,7 @@ struct PlanView: View {
                         }
                     }
                     if proofAdjustments.contains(where: { !isProofApplied($0) }) {
-                        Button("Gare an heutige Temperatur anpassen") {
+                        Button("Diese Garzeiten übernehmen") {
                             applyProofToday()
                         }
                     }

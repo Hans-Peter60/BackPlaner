@@ -53,6 +53,22 @@
         }
       }
     },
+    "Diese Garzeiten übernehmen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use these proofing times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser ces temps de pousse"
+          }
+        }
+      }
+    },
     "Ein Eintrag konnte nicht gespeichert werden. Es wurde nichts übernommen." : {
       "comment" : "Error message when an import or backup restore stops at a record the store refuses; nothing of the file was kept.",
       "extractionState" : "manual",
@@ -103,6 +119,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "à %@ comme dans la recette"
+          }
+        }
+      }
+    },
+    "geplant %@ · heute etwa %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "planned %@ · today about %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "prévu %@ · aujourd’hui environ %@"
           }
         }
       }
@@ -1009,22 +1041,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ : %@ au lieu de %@ (%@)"
-          }
-        }
-      }
-    },
-    "%@: geplant %@ · heute etwa %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: planned %@ · today about %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ : prévu %@ · aujourd’hui environ %@"
           }
         }
       }
@@ -9584,22 +9600,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Galerie"
-          }
-        }
-      }
-    },
-    "Gare an heutige Temperatur anpassen" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adjust the proof to today’s temperature"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adapter la pousse à la température du jour"
           }
         }
       }
