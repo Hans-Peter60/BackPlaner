@@ -73,8 +73,14 @@ struct RecipeFirestoreMappingTests {
         #expect(recipe.translations["en"]?.name == "Rye bread")
         #expect(recipe.translations["en"]?.tags == ["Rye"])
 
+        #expect(recipe.displayedLanguage == "")
         recipe.showLocalization(languageCode: "en")
         #expect(recipe.name == "Rye bread")
+        // Opened again, the page reads the language the text is shown in.
+        #expect(recipe.displayedLanguage == "en")
+        recipe.storeLocalization(languageCode: "fr")
+        #expect(recipe.displayedLanguage == "fr")
+        #expect(RecipeFirestoreMapping.editedRecipeData(of: recipe)["displayedLanguage"] == nil)
     }
 
     @Test("Missing fields fall back to empty values, a reported recipe is hidden")

@@ -126,6 +126,11 @@ public class RecipeFB: Identifiable, Decodable {
     public var rating:         Int     = 0
     public var sourceLanguage: String  = ""
     public var translations: [String: RecipeTextFB] = [:]
+    /// The language the recipe's text is shown in right now, in memory only.
+    /// The recipe object outlives its page: opened again after a
+    /// translation, the page put its mark on the original language while
+    /// the translated text was still on screen.
+    public var displayedLanguage: String = ""
     public var components:    [ComponentFB]   = [ComponentFB]()
     public var instructions:  [InstructionFB] = [InstructionFB]()
     public var bakeHistories: [BakeHistoryFB] = [BakeHistoryFB]()
@@ -400,6 +405,7 @@ extension RecipeFB {
 
     private func applyLocalization(languageCode: String) {
         guard !languageCode.isEmpty else { return }
+        displayedLanguage = languageCode
 
         if let text = localizedRecipeText(for: languageCode) {
             name = text.name ?? name
@@ -419,6 +425,7 @@ extension RecipeFB {
     private func captureLocalization(languageCode: String) {
         guard !languageCode.isEmpty else { return }
         if sourceLanguage.isEmpty { sourceLanguage = languageCode }
+        displayedLanguage = languageCode
 
         translations[languageCode] = RecipeTextFB(name: name, summary: summary, tags: tags)
 

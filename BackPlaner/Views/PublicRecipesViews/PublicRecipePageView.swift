@@ -305,7 +305,22 @@ struct PublicRecipePageView: View {
         guard selectedLanguage.isEmpty else { return }
 
         guard automaticTranslation else {
-            selectedLanguage = RecipeTranslator.sourceLanguageCode(for: recipeFB)
+            // Opened again after a translation, the recipe still shows it;
+            // the mark follows, and the cache is applied once more because
+            // loading the details may have brought back the original steps.
+            let shown = recipeFB.displayedLanguage
+            if !shown.isEmpty, RecipeTranslator.showCompleteIfAvailable(recipeFB, languageCode: shown) {
+                selectedLanguage = shown
+            } else {
+                let source = RecipeTranslator.sourceLanguageCode(for: recipeFB)
+                // A whole translation from before the glossary is not shown
+                // again under the original's mark; choosing it translates anew.
+                if !shown.isEmpty, recipeFB.hasCompleteTranslation(languageCode: shown),
+                   recipeFB.hasCachedTranslation(languageCode: source) {
+                    recipeFB.showLocalization(languageCode: source)
+                }
+                selectedLanguage = source
+            }
             return
         }
 
