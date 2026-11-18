@@ -87,6 +87,32 @@ struct BakingGlossaryMatchingTests {
         #expect(GlossaryTranslationPlan.termTranslation(of: "Weizenanstellgut", from: "de", into: "en") == "Wheat sourdough starter")
     }
 
+    @Test("Stone, steel and letting out the steam are terms", arguments: [
+        ("Backstein",      "baking stone",      "pierre de cuisson"),
+        ("Pizzastein",     "pizza stone",       "pierre à pizza"),
+        ("Backstahl",      "baking steel",      "acier de cuisson"),
+        ("Dampf ablassen", "release the steam", "évacuer la vapeur")
+    ])
+    func ovenTerms(text: String, english: String, french: String) throws {
+        let found = try #require(BakingGlossary.matches(in: text, language: "de").first)
+        #expect(BakingGlossary.rendering(of: found, in: "en", capitalized: false) == english)
+        #expect(BakingGlossary.rendering(of: found, in: "fr", capitalized: false) == french)
+    }
+
+    @Test("A public recipe's stone that came back as a baking tin is stale, and the right word is a stone to the plan")
+    func bakingStoneTranslation() {
+        let source = "Das Backpapier mit dem Teigling in den auf 250 °C vorgeheizten Ofen auf den Backstein befördern."
+        let cached = "Transférez le papier cuisson avec le pâton sur le moule de cuisson dans le four préchauffé à 250 °C."
+        #expect(!BakingGlossary.translationHonoursGlossary(sourceText: source, translation: cached, from: "de", into: "fr"))
+        #expect(!BakePlan.usesBakingStone([cached]))
+        let plan = GlossaryTranslationPlan(texts: [source], from: "de", into: "fr")
+        // The translator passes the placeholders through.
+        let result = plan.results(translated: plan.sourceTexts).first ?? ""
+        #expect(result.contains("pierre de cuisson"))
+        #expect(BakePlan.usesBakingStone([result]))
+        #expect(GlossaryTranslationPlan.termTranslation(of: "Dampf ablassen", from: "de", into: "fr") == "Évacuer la vapeur")
+    }
+
     @Test("The longer form wins: a sourdough starter is not a sourdough plus a word")
     func longestFormWins() {
         let found = BakingGlossary.matches(in: "Feed the sourdough starter", language: "en")

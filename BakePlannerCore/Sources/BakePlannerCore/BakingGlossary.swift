@@ -94,6 +94,21 @@ public enum BakingGlossary {
         Term(forms: ["de": Forms(["Ofentrieb"]),
                      "en": Forms(["oven spring"]),
                      "fr": Forms(["poussée au four"])]),
+        // The translator made "moule de cuisson", a baking tin, of the
+        // stone; the plan then no longer saw a stone to preheat.
+        Term(forms: ["de": Forms(["Backstein", "Brotbackstein"], plural: ["Backsteine"]),
+                     "en": Forms(["baking stone"], plural: ["baking stones"]),
+                     "fr": Forms(["pierre de cuisson"], plural: ["pierres de cuisson"])]),
+        Term(forms: ["de": Forms(["Pizzastein"], plural: ["Pizzasteine"]),
+                     "en": Forms(["pizza stone"], plural: ["pizza stones"]),
+                     "fr": Forms(["pierre à pizza"], plural: ["pierres à pizza"])]),
+        Term(forms: ["de": Forms(["Backstahl"], plural: ["Backstähle"]),
+                     "en": Forms(["baking steel"], plural: ["baking steels"]),
+                     "fr": Forms(["acier de cuisson"], plural: ["aciers de cuisson"])]),
+        // "Évitez la vapeur" — avoid the steam — for letting it out.
+        Term(forms: ["de": Forms(["Dampf ablassen", "Schwaden ablassen"]),
+                     "en": Forms(["release the steam", "let out the steam"]),
+                     "fr": Forms(["évacuer la vapeur", "évacuer la buée"])]),
         Term(forms: ["de": Forms(["Altbrot", "Restbrot"]),
                      "en": Forms(["old bread", "stale bread"]),
                      "fr": Forms(["pain rassis"])]),
