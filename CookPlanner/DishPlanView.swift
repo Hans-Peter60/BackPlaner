@@ -27,6 +27,12 @@ struct DishPlanView: View {
         ScrollView {
             if let plan {
                 VStack(alignment: .leading, spacing: 16) {
+                    // The name is too long for the bar; it heads the content.
+                    Text(verbatim: dish.name)
+                        .font(Theme.brandFont(20))
+                        .foregroundColor(Theme.title)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal, 4)
                     verdictCard(plan)
                     handsCard(plan)
                     timelineCard(plan)
@@ -48,7 +54,7 @@ struct DishPlanView: View {
             }
         }
         .warmBackground()
-        .navigationTitle(Text(verbatim: dish.name))
+        .navigationTitle("Plan")
         .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $cooking) {
             if let plan {

@@ -129,7 +129,7 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 
 ## Schritt 2 (begonnen 19.11.): das App-Gerüst „CookPlanner“
 
-Arbeitstitel **CookPlanner** (Ordner `CookPlanner/`, Bundle-ID `de.hpm64625.CookPlanner`), im selben Repository neben BakePlanner, iOS zuerst. Die Dateien liegen im Ordner; das Xcode-Projekt legt Hans-Peter an, weil Projektdateien bei offenem Xcode nicht von außen geschrieben werden (siehe unten).
+Arbeitstitel **CookPlanner** (Ordner `CookPlanner/`, Projekt `CookPlanner.xcodeproj`, Bundle-ID `de.hpm64625.CookPlanner`), im selben Repository neben BakePlanner, iOS zuerst. Das Projekt hat Hans-Peter am 19.11. in Xcode 27 angelegt (Projektdateien werden bei offenem Xcode nicht von außen geschrieben); es liegt im neuen Format `project.xcproj` (JSON) statt `project.pbxproj`, mit dem Ordner `CookPlanner` als synchronisiertem Ordner und dem lokalen Paket `BakePlannerCore`. `scripts/check-repo.py` prüft, dass Ordner und Paket existieren. Erster Build und Lauf auf dem iPhone-17e-Simulator am 19.11.: Liste, Plan, Kochmodus und Einstellungen funktionieren, Texte auf Deutsch. Deployment Target steht auf 27.3 (Vorgabe von Xcode); BakePlanner und das Paket verlangen 26.0.
 
 | Datei | Inhalt |
 |---|---|
@@ -144,11 +144,10 @@ Arbeitstitel **CookPlanner** (Ordner `CookPlanner/`, Bundle-ID `de.hpm64625.Cook
 
 Noch ohne eigene Datenhaltung: Die Gerichte kommen aus `KitchenSampleDishes` im Paket. Der Store (SQLite über die Paket-Protokolle) kommt mit dem Import.
 
-**Projekt anlegen (Hans-Peter, einmalig):** In Xcode *File → New → Project → iOS → App*, Product Name `CookPlanner`, Organization Identifier `de.hpm64625`, Interface SwiftUI, Language Swift, Testing System None, Storage None; **außerhalb** des Repositories speichern. Dann nur den Ordner `CookPlanner.xcodeproj` in die Wurzel des Repositories neben `BackPlaner.xcodeproj` kopieren (die vom Assistenten erzeugten Quelldateien werden nicht gebraucht; der Projektordner `CookPlanner` ist der im Repository). Projekt öffnen, *File → Add Package Dependencies → Add Local…* → Ordner `BakePlannerCore`, Produkt `BakePlannerCore` dem Target `CookPlanner` hinzufügen. Deployment Target iOS 26. Bauen.
+Bauen von der Kommandozeile: `xcodebuild -project CookPlanner.xcodeproj -scheme CookPlanner -destination 'id=<udid>' build`. Es gibt noch keine Tests im Projekt; die Logik ist im Paket getestet.
 
 ## Nächste Schritte
 
-1. Xcode-Projekt anlegen (Hans-Peter), erster Build und Lauf auf dem Simulator, Bild ins Dokument.
-2. `scripts/check-repo.py` prüft dann auch `CookPlanner.xcodeproj`; Xcode-Cloud-Workflow für CookPlanner.
-3. Neuplanung im Kochmodus („fertig“ früher oder später), Spannen, Ofentemperatur.
-4. Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.
+1. Deployment Target auf iOS 26.0 setzen (in Xcode, Hans-Peter); Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
+2. Neuplanung im Kochmodus („fertig“ früher oder später), Spannen, Ofentemperatur.
+3. Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.

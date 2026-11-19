@@ -25,7 +25,7 @@ struct CookModeView: View {
                 content(elapsedSeconds: max(0, Int(elapsed)))
             }
             .warmBackground()
-            .navigationTitle(Text(verbatim: plan.dish.name))
+            .navigationTitle("Kochen")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -105,6 +105,11 @@ struct CookModeView: View {
 
     private func clock(remaining: Int, minute: Int) -> some View {
         VStack(spacing: 4) {
+            Text(verbatim: plan.dish.name)
+                .font(Theme.bodyFont(14))
+                .foregroundColor(Theme.subtitle)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Text(verbatim: String(format: "%d:%02d", remaining / 60, remaining % 60))
                 .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
                 .foregroundColor(remaining > 0 ? Theme.title : Theme.good)
