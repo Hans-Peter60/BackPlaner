@@ -14,8 +14,9 @@ import Testing
 struct KitchenSchedulerTests {
 
     private func task(_ id: String, _ name: String = "", hands: Int, unattended: Int = 0,
-                      station: KitchenStation? = nil, after: [String] = []) -> KitchenTask {
-        KitchenTask(id: id, name: name.isEmpty ? id : name, hands: hands, unattended: unattended, station: station, after: after)
+                      station: KitchenStation? = nil, after: [String] = [], maxWait: Int? = nil) -> KitchenTask {
+        KitchenTask(id: id, name: name.isEmpty ? id : name, hands: hands, unattended: unattended, station: station,
+                    after: after, maxWait: maxWait)
     }
 
     // MARK: Placing
@@ -147,6 +148,115 @@ struct KitchenSchedulerTests {
         #expect(schedule.startDate(of: "plate", serving: serving) == serving.addingTimeInterval(-2 * 60))
     }
 
+    // MARK: Follow-ups that cannot wait
+
+    @Test("The seared breast is turned at once: the hands stay free for it, a short job still fits in")
+    func turnedAtOnce() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("sear", hands: 1, unattended: 5, station: .burner, maxWait: 0),
+            task("turn", hands: 3, station: .burner, after: ["sear"]),
+            task("k1", hands: 4),
+            task("k2", hands: 3),
+            task("k3", hands: 1),
+            task("plate", hands: 1, after: ["turn", "k1", "k2", "k3"])
+        ])
+        #expect(schedule.placement(of: "sear")?.start == 0)
+        #expect(schedule.placement(of: "k1")?.start == 1)
+        // k2 would run past minute 6; the one-minute job fits, k2 waits.
+        #expect(schedule.placement(of: "k3")?.start == 5)
+        #expect(schedule.placement(of: "turn")?.start == 6)
+        #expect(schedule.placement(of: "k2")?.start == 9)
+        #expect(schedule.lateFollowUps.isEmpty)
+    }
+
+    @Test("Without the rule the breast would wait in the pan")
+    func withoutTheRule() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("sear", hands: 1, unattended: 5, station: .burner),
+            task("turn", hands: 3, station: .burner, after: ["sear"]),
+            task("k1", hands: 4),
+            task("k2", hands: 3),
+            task("plate", hands: 1, after: ["turn", "k1", "k2"])
+        ])
+        #expect(schedule.placement(of: "turn")?.start == 8)
+        #expect(schedule.waitingMinutes(of: "sear") == 2)
+    }
+
+    @Test("Rested meat is sliced within its minutes, not when the hands happen to be free")
+    func restedMeat() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("rest", hands: 0, unattended: 5, maxWait: 3),
+            task("slice", hands: 2, after: ["rest"]),
+            task("long", hands: 12),
+            task("plate", hands: 1, after: ["slice", "long"])
+        ])
+        // The long job would run to minute 12, past the slicing's moment 8.
+        #expect(schedule.placement(of: "slice")?.start == 5)
+        #expect(schedule.placement(of: "long")?.start == 7)
+        #expect(schedule.lateFollowUps.isEmpty)
+    }
+
+    @Test("Work the follow-up still waits for is never held back; the predecessor is held back instead")
+    func heldBack() throws {
+        // q becomes possible only at minute 1, after s would have started;
+        // the first attempt has d three minutes late, so s waits for q.
+        let schedule = try KitchenScheduler.schedule([
+            task("s", hands: 1, unattended: 1, maxWait: 0),
+            task("w", hands: 0, unattended: 1),
+            task("q", hands: 4, after: ["w"]),
+            task("d", hands: 1, after: ["s", "q"])
+        ])
+        #expect(schedule.placement(of: "q")?.start == 1)
+        #expect(schedule.placement(of: "s")?.start == 5)
+        #expect(schedule.placement(of: "d")?.start == 7)
+        #expect(schedule.lateFollowUps.isEmpty)
+    }
+
+    @Test("A follow-up that waits for a station: its predecessor is held back until the station is free")
+    func heldBackForStation() throws {
+        // The frying needs the only burner, which the stew holds until 20;
+        // the rest is not begun until the pan is about to be free.
+        let schedule = try KitchenScheduler.schedule([
+            task("stew", hands: 1, unattended: 19, station: .burner),
+            task("rest", hands: 0, unattended: 2, maxWait: 0),
+            task("fry", hands: 2, station: .burner, after: ["rest"]),
+            task("chop", hands: 5),
+            task("plate", hands: 1, after: ["fry", "chop", "stew"])
+        ], kitchen: Kitchen(burners: 1, ovens: 0))
+        #expect(schedule.placement(of: "rest")?.start == 18)
+        #expect(schedule.placement(of: "fry")?.start == 20)
+        #expect(schedule.placement(of: "chop")?.start == 1)
+        #expect(schedule.lateFollowUps.isEmpty)
+        #expect(schedule.makespan == 23)
+    }
+
+    @Test("Two things one cook must finish at the same moment: the lateness that remains is reported")
+    func unavoidableLateness() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("s1", hands: 5, maxWait: 0),
+            task("s2", hands: 5, maxWait: 0),
+            task("d", hands: 1, after: ["s1", "s2"])
+        ])
+        #expect(schedule.placements.count == 3)
+        #expect(schedule.lateFollowUps.count == 1)
+        #expect(schedule.lateFollowUps.first?.minutes == 5)
+        #expect(schedule.makespan == 11)
+    }
+
+    @Test("Long waits are listed for keeping warm, longest first")
+    func keepWarm() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("pear", hands: 4, station: .burner),
+            task("sauce", hands: 2, unattended: 6, station: .burner),
+            task("stew", hands: 2, unattended: 24, station: .burner),
+            task("plate", hands: 2, after: ["pear", "sauce", "stew"])
+        ])
+        let waits = schedule.waits(atLeast: 10)
+        #expect(waits.map(\.task) == ["pear", "sauce"])
+        #expect(waits.first?.minutes == 26 - 8)
+        #expect(schedule.waits(atLeast: 30).isEmpty)
+    }
+
     // MARK: Refusing bad input
 
     @Test("Duplicate ids, unknown dependencies, cycles and a missing oven are errors")
@@ -194,6 +304,7 @@ struct KitchenSchedulerTests {
         }
         #expect(schedule.makespan >= schedule.criticalPathMinutes)
         #expect(schedule.makespan >= schedule.handsMinutes)
+        #expect(schedule.lateFollowUps.isEmpty, "\(schedule.lateFollowUps)")
     }
 
     @Test("Perlhuhnbrust with four pans: the hands are the limit, not the chain")
@@ -203,6 +314,12 @@ struct KitchenSchedulerTests {
         #expect(schedule.handsMinutes > KitchenDishes.budget)
         #expect(schedule.limit == .hands)
         #expect(schedule.handsByComponent.first?.component == "Wirsing")
+        // The breast is turned the moment its skin is done, and sliced
+        // within three minutes of its rest.
+        let seared = try #require(schedule.placement(of: "a2"))
+        #expect(schedule.placement(of: "a3")?.start == seared.end)
+        let rested = try #require(schedule.placement(of: "a4"))
+        #expect(try #require(schedule.placement(of: "a5")).start - rested.end <= 3)
     }
 
     @Test("Wirsingrolle: the barley's 25 minutes plus filling, rolling and browning do not fit 35")

@@ -13,6 +13,13 @@
 //  and, if not, why: the longest chain of steps is too long, or the hands
 //  alone have more to do than the budget allows.
 //
+//  A step may say how long its result keeps (`maxWait`): the seared breast
+//  has to be turned at once, rested meat sliced within a few minutes, a
+//  sauce can stand ten. The scheduler keeps the hands free for such a
+//  follow-up — no knife work that would run past the moment — and reports
+//  where it still could not keep the time, and which finished parts wait
+//  long enough to need keeping warm.
+//
 //  This is the planning core for the "cook against the clock" idea
 //  (docs/Idee-Gegen-die-Uhr.md); BakePlan plans a bread's steps in their
 //  recipe order and cannot reorder them, which a dish of four components
@@ -41,9 +48,14 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
     public let station: KitchenStation?
     /// Ids of the steps that must be finished before this one starts.
     public let after: [String]
+    /// How many minutes the finished step may wait before a step that
+    /// needs it begins: 0 for "wenden" after searing, a few for rested
+    /// meat, ten for a sauce kept warm. Nil when the result keeps.
+    public let maxWait: Int?
 
     public init(id: String, name: String, component: String = "",
-                hands: Int, unattended: Int = 0, station: KitchenStation? = nil, after: [String] = []) {
+                hands: Int, unattended: Int = 0, station: KitchenStation? = nil, after: [String] = [],
+                maxWait: Int? = nil) {
         self.id = id
         self.name = name
         self.component = component
@@ -51,6 +63,7 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
         self.unattendedMinutes = max(0, unattended)
         self.station = station
         self.after = after
+        self.maxWait = maxWait.map { max(0, $0) }
     }
 
     /// From the first move to the moment the step is done.
@@ -93,6 +106,20 @@ public enum KitchenSchedulingError: Error, Equatable {
     case unknownDependency(task: String, dependency: String)
     case cycle
     case stationMissing(KitchenStation)
+}
+
+/// A follow-up that began later than its predecessor's `maxWait` allowed.
+public struct KitchenLateFollowUp: Equatable, Sendable {
+    public let task: String
+    public let after: String
+    /// Minutes beyond the allowed wait.
+    public let minutes: Int
+}
+
+/// A finished step that waits for the step that needs it.
+public struct KitchenWait: Equatable, Sendable {
+    public let task: String
+    public let minutes: Int
 }
 
 /// A step placed on the timeline, in minutes from the start of cooking.
@@ -157,6 +184,30 @@ public struct KitchenSchedule: Equatable, Sendable {
         return max(0, next - placement.end)
     }
 
+    /// Follow-ups the plan could not place within their predecessor's
+    /// `maxWait`: another predecessor was still running, or a station was
+    /// taken. Empty when every "sofort" was kept.
+    public var lateFollowUps: [KitchenLateFollowUp] {
+        placements.flatMap { placement -> [KitchenLateFollowUp] in
+            placement.task.after.compactMap { id -> KitchenLateFollowUp? in
+                guard let before = self.placement(of: id), let allowed = before.task.maxWait else { return nil }
+                let late = placement.start - before.end - allowed
+                return late > 0 ? KitchenLateFollowUp(task: placement.task.id, after: id, minutes: late) : nil
+            }
+        }
+    }
+
+    /// Finished parts that wait at least `minutes` for the step that needs
+    /// them — the sauce done in minute 16 and plated in minute 31 wants
+    /// keeping warm. Longest wait first.
+    public func waits(atLeast minutes: Int) -> [KitchenWait] {
+        placements.compactMap { placement -> KitchenWait? in
+            guard let wait = waitingMinutes(of: placement.task.id), wait >= minutes else { return nil }
+            return KitchenWait(task: placement.task.id, minutes: wait)
+        }
+        .sorted { $0.minutes != $1.minutes ? $0.minutes > $1.minutes : $0.task < $1.task }
+    }
+
     /// The attended minutes per component, largest first — where the
     /// hands' time goes when it is the hands that do not fit.
     public var handsByComponent: [(component: String, minutes: Int)] {
@@ -200,6 +251,13 @@ public enum KitchenScheduler {
     /// with the longest chain still ahead of it goes first, provided the
     /// hands and its station are free. Steps with unattended time are
     /// preferred among equals, so a pot gets going before the knife work.
+    ///
+    /// Once a step with a `maxWait` has started, its follow-ups have a
+    /// moment by which they must begin; until then no other hands-on work
+    /// may start that would run past that moment — except work the
+    /// follow-up itself still waits for. A moment that passes unmet stops
+    /// holding the hands and shows up in `lateFollowUps`.
+    ///
     /// Throws for duplicate ids, unknown dependencies, a cycle, or a step
     /// that needs a station the kitchen does not have.
     public static func schedule(_ tasks: [KitchenTask], kitchen: Kitchen = Kitchen(),
@@ -238,8 +296,69 @@ public enum KitchenScheduler {
             cursor = tailNext[id]
         }
 
-        // The simulation: time jumps from event to event; at each, every
-        // ready step that can start, starts, best first.
+        let taskByID = Dictionary(uniqueKeysWithValues: tasks.map { ($0.id, $0) })
+
+        // Every step a task waits for, directly or further back.
+        var ancestors = [String: Set<String>]()
+        for task in order {
+            var all = Set(task.after)
+            for id in task.after { all.formUnion(ancestors[id] ?? []) }
+            ancestors[task.id] = all
+        }
+
+        func priority(_ a: KitchenTask, _ b: KitchenTask) -> Bool {
+            // Work without hands never collides and may set a moment for a
+            // follow-up, so it goes first; then the longest chain ahead.
+            if (a.handsMinutes == 0) != (b.handsMinutes == 0) { return a.handsMinutes == 0 }
+            let ta = tail[a.id] ?? 0, tb = tail[b.id] ?? 0
+            if ta != tb { return ta > tb }
+            if a.unattendedMinutes != b.unattendedMinutes { return a.unattendedMinutes > b.unattendedMinutes }
+            return a.id < b.id
+        }
+
+        func schedule(placements: [KitchenPlacement]) -> KitchenSchedule {
+            KitchenSchedule(placements: placements, kitchen: kitchen, budget: budget,
+                            makespan: placements.map(\.end).max() ?? 0,
+                            criticalPathMinutes: criticalStart.flatMap { tail[$0.id] } ?? 0,
+                            criticalPath: criticalPath,
+                            handsMinutes: tasks.reduce(0) { $0 + $1.handsMinutes })
+        }
+
+        // A step whose result keeps only so long should not be done long
+        // before the step that needs it — the sauce's finish not twenty
+        // minutes before the skin leaves the oven. The forward placement
+        // cannot know that in advance, so it runs again with the late
+        // predecessors held back by the minutes their follow-up was late,
+        // until every moment is kept or holding back changes nothing.
+        var notBefore = [String: Int]()
+        var best: KitchenSchedule?
+        for _ in 0..<(tasks.count + 1) {
+            let attempt = schedule(placements: try place(order, notBefore: notBefore))
+            let lateness = attempt.lateFollowUps.reduce(0) { $0 + $1.minutes }
+            if let current = best {
+                let currentLateness = current.lateFollowUps.reduce(0) { $0 + $1.minutes }
+                if (lateness, attempt.makespan) < (currentLateness, current.makespan) { best = attempt }
+            } else {
+                best = attempt
+            }
+            if lateness == 0 { break }
+            var changed = false
+            for late in attempt.lateFollowUps {
+                guard let start = attempt.placement(of: late.after)?.start else { continue }
+                let held = start + late.minutes
+                if held > notBefore[late.after] ?? 0 {
+                    notBefore[late.after] = held
+                    changed = true
+                }
+            }
+            if !changed { break }
+        }
+        return best ?? schedule(placements: [])
+
+        /// The simulation: time jumps from event to event; at each, every
+        /// ready step that can start, starts, best first. A step in
+        /// `notBefore` waits for its minute.
+        func place(_ order: [KitchenTask], notBefore: [String: Int]) throws -> [KitchenPlacement] {
         var placements = [String: KitchenPlacement]()
         var handsFreeAt = 0
         var stationsFreeAt: [KitchenStation: [Int]] = [
@@ -249,11 +368,20 @@ public enum KitchenScheduler {
         var time = 0
         var remaining = Set(tasks.map(\.id))
 
-        func priority(_ a: KitchenTask, _ b: KitchenTask) -> Bool {
-            let ta = tail[a.id] ?? 0, tb = tail[b.id] ?? 0
-            if ta != tb { return ta > tb }
-            if a.unattendedMinutes != b.unattendedMinutes { return a.unattendedMinutes > b.unattendedMinutes }
-            return a.id < b.id
+        /// The unstarted steps that have to begin by a moment because a
+        /// predecessor with a `maxWait` has started, with that moment —
+        /// while it has not passed.
+        func deadlines() -> [String: Int] {
+            var result = [String: Int]()
+            for id in remaining {
+                guard let task = taskByID[id] else { continue }
+                let moments = task.after.compactMap { before -> Int? in
+                    guard let placement = placements[before], let allowed = placement.task.maxWait else { return nil }
+                    return placement.end + allowed
+                }
+                if let moment = moments.min(), moment >= time { result[id] = moment }
+            }
+            return result
         }
 
         var guardCounter = 0
@@ -263,12 +391,19 @@ public enum KitchenScheduler {
 
             let ready = order.filter { task in
                 remaining.contains(task.id)
+                    && (notBefore[task.id] ?? 0) <= time
                     && task.after.allSatisfy { placements[$0].map { $0.end <= time } ?? false }
             }.sorted(by: priority)
 
+            let due = deadlines()
             var startedOne = false
             for task in ready {
                 if task.handsMinutes > 0, handsFreeAt > time { continue }
+                // Hands-on work may not run past the moment a follow-up is
+                // due, unless the follow-up is this step or waits for it.
+                if task.handsMinutes > 0, due.contains(where: { urgent, moment in
+                    urgent != task.id && !(ancestors[urgent]?.contains(task.id) ?? false) && time + task.handsMinutes > moment
+                }) { continue }
                 var stationIndex: Int?
                 if let station = task.station {
                     guard let index = stationsFreeAt[station]?.firstIndex(where: { $0 <= time }) else { continue }
@@ -292,6 +427,9 @@ public enum KitchenScheduler {
             if handsFreeAt > time { events.append(handsFreeAt) }
             events += stationsFreeAt.values.flatMap { $0 }.filter { $0 > time }
             events += placements.values.map(\.end).filter { $0 > time }
+            // A moment that passes frees the hands again.
+            events += due.values.map { $0 + 1 }
+            events += notBefore.values.filter { $0 > time }
             guard let next = events.min() else {
                 // Only dependencies are open and none ends later: impossible
                 // after the cycle check, kept so the loop cannot spin.
@@ -300,12 +438,8 @@ public enum KitchenScheduler {
             time = next
         }
 
-        let placed = order.compactMap { placements[$0.id] }
-        return KitchenSchedule(placements: placed, kitchen: kitchen, budget: budget,
-                               makespan: placed.map(\.end).max() ?? 0,
-                               criticalPathMinutes: criticalStart.flatMap { tail[$0.id] } ?? 0,
-                               criticalPath: criticalPath,
-                               handsMinutes: tasks.reduce(0) { $0 + $1.handsMinutes })
+        return order.compactMap { placements[$0.id] }
+        }
     }
 
     private static func checkIDs(_ tasks: [KitchenTask]) throws {
