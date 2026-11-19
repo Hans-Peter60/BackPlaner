@@ -331,6 +331,50 @@
         }
       }
     },
+    "Fertig in Minute %lld, %lld Minuten früher als geplant": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig in Minute %lld, %lld Minuten früher als geplant"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done in minute %lld, %lld minutes earlier than planned"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prêt à la minute %lld, %lld minutes plus tôt que prévu"
+          }
+        }
+      }
+    },
+    "Fertig in Minute %lld, %lld Minuten später als geplant": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig in Minute %lld, %lld Minuten später als geplant"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done in minute %lld, %lld minutes later than planned"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prêt à la minute %lld, %lld minutes plus tard que prévu"
+          }
+        }
+      }
+    },
     "Fertig, anrichten!": {
       "localizations": {
         "de": {
@@ -771,6 +815,28 @@
         }
       }
     },
+    "Schritt erledigt": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schritt erledigt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step done"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Étape terminée"
+          }
+        }
+      }
+    },
     "Start": {
       "localizations": {
         "de": {
@@ -921,6 +987,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fours : %lld"
+          }
+        }
+      }
+    },
+    "überfällig": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "überfällig"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "overdue"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "en retard"
           }
         }
       }

@@ -3,9 +3,10 @@
 //  CookPlanner
 //
 //  The plan run against the clock: a countdown, what the hands do now,
-//  what comes next, what runs on its own. The clock is the plan's; a step
-//  finished early or late does not yet move the rest (replanning is on the
-//  list in docs/Idee-Gegen-die-Uhr.md).
+//  what comes next, what runs on its own. The cook ticks off each hands-on
+//  step; done early or late, the rest of the plan is placed afresh from
+//  that moment (KitchenScheduler.replan). Steps with an unattended part
+//  end by the clock and may be ticked off early.
 //
 
 import BakePlannerCore
@@ -17,12 +18,20 @@ struct CookModeView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var startedAt: Date?
+    /// The steps ticked off, with the minute each was done.
+    @State private var finished: [String: Int] = [:]
+    /// The plan as it stands: continued every minute and at every tick-off
+    /// from the previous live plan, so that a step pulled forward stays
+    /// where it began instead of being placed afresh each minute.
+    @State private var live: KitchenSchedule?
 
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 1)) { context in
                 let elapsed = startedAt.map { context.date.timeIntervalSince($0) } ?? 0
-                content(elapsedSeconds: max(0, Int(elapsed)))
+                let seconds = max(0, Int(elapsed))
+                content(elapsedSeconds: seconds)
+                    .task(id: seconds / 60) { replan(minute: seconds / 60) }
             }
             .warmBackground()
             .navigationTitle("Kochen")
@@ -35,18 +44,44 @@ struct CookModeView: View {
         }
     }
 
+    /// Continues the live plan from `minute` around what has been ticked off.
+    private func replan(minute: Int) {
+        guard startedAt != nil else { return }
+        let previous = live ?? plan.schedule
+        live = (try? KitchenScheduler.replan(plan.dish.tasks, kitchen: plan.schedule.kitchen, budget: plan.schedule.budget,
+                                             previous: previous,
+                                             progress: KitchenProgress(now: minute, finished: finished))) ?? previous
+    }
+
+    private func tickOff(_ id: String, minute: Int) {
+        finished[id] = minute
+        replan(minute: minute)
+    }
+
     private func content(elapsedSeconds: Int) -> some View {
         let minute = elapsedSeconds / 60
-        let placements = plan.schedule.placements
-        let handsNow = placements.filter { $0.task.handsMinutes > 0 && $0.start <= minute && minute < $0.handsEnd }
-        let unattended = placements.filter { $0.handsEnd <= minute && minute < $0.end }
+        let live = self.live ?? plan.schedule
+        let placements = live.placements
+        // In the hands: begun, not ticked off, and — with an unattended
+        // part — still in its hands-on minutes.
+        let handsNow = placements.filter { placement in
+            placement.task.handsMinutes > 0 && placement.start <= minute && finished[placement.id] == nil
+                && (placement.task.unattendedMinutes == 0 || minute < placement.handsEnd)
+        }
+        let unattended = placements.filter { placement in
+            placement.task.unattendedMinutes > 0 && placement.handsEnd <= minute && minute < placement.end
+                && finished[placement.id] == nil
+        }
         let upcoming = placements.filter { $0.start > minute }.sorted { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
-        let done = placements.filter { $0.end <= minute }
-        let remaining = max(0, plan.schedule.makespan * 60 - elapsedSeconds)
+        let doneCount = placements.filter { placement in
+            finished[placement.id] != nil
+                || ((placement.task.unattendedMinutes > 0 || placement.task.handsMinutes == 0) && placement.end <= minute)
+        }.count
+        let remaining = max(0, live.makespan * 60 - elapsedSeconds)
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                clock(remaining: remaining, minute: minute)
+                clock(remaining: remaining, minute: minute, live: live)
 
                 if startedAt == nil {
                     Button {
@@ -66,14 +101,19 @@ struct CookModeView: View {
                                 Text("Hände frei, in \(next.start - minute) Min. weiter")
                                     .font(Theme.bodyFont(15))
                                     .foregroundColor(Theme.subtitle)
-                            } else if done.count == placements.count {
+                            } else if doneCount == placements.count {
                                 Text("Fertig, anrichten!")
                                     .font(Theme.bodyFont(15))
                                     .foregroundColor(Theme.good)
                             }
                         }
                         ForEach(handsNow) { placement in
-                            stepLine(placement, detail: "noch \(placement.handsEnd - minute) Min.")
+                            let overdue = minute >= placement.start + placement.task.handsMinutes
+                            stepLine(placement,
+                                     detail: overdue ? "überfällig" : "noch \(placement.start + placement.task.handsMinutes - minute) Min.",
+                                     emphasis: overdue) {
+                                tickOff(placement.id, minute: minute)
+                            }
                         }
                     }
                     if !upcoming.isEmpty {
@@ -86,13 +126,15 @@ struct CookModeView: View {
                     if !unattended.isEmpty {
                         section("Läuft von allein", systemImage: "flame") {
                             ForEach(unattended) { placement in
-                                stepLine(placement, detail: "noch \(placement.end - minute) Min.")
+                                stepLine(placement, detail: "noch \(placement.end - minute) Min.") {
+                                    tickOff(placement.id, minute: minute)
+                                }
                             }
                         }
                     }
-                    if !done.isEmpty {
+                    if doneCount > 0 {
                         section("Erledigt", systemImage: "checkmark.circle") {
-                            Text("\(done.count) von \(placements.count) Schritten")
+                            Text("\(doneCount) von \(placements.count) Schritten")
                                 .font(Theme.bodyFont(14))
                                 .foregroundColor(Theme.subtitle)
                         }
@@ -103,7 +145,7 @@ struct CookModeView: View {
         }
     }
 
-    private func clock(remaining: Int, minute: Int) -> some View {
+    private func clock(remaining: Int, minute: Int, live: KitchenSchedule) -> some View {
         VStack(spacing: 4) {
             Text(verbatim: plan.dish.name)
                 .font(Theme.bodyFont(14))
@@ -113,10 +155,18 @@ struct CookModeView: View {
             Text(verbatim: String(format: "%d:%02d", remaining / 60, remaining % 60))
                 .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
                 .foregroundColor(remaining > 0 ? Theme.title : Theme.good)
-            Text("Minute \(min(minute, plan.schedule.makespan)) von \(plan.schedule.makespan)")
+            Text("Minute \(min(minute, live.makespan)) von \(live.makespan)")
                 .font(Theme.bodyFont(14))
                 .foregroundColor(Theme.subtitle)
-            if let budget = plan.schedule.budget, plan.schedule.makespan > budget {
+            if live.makespan > plan.schedule.makespan {
+                Text("Fertig in Minute \(live.makespan), \(live.makespan - plan.schedule.makespan) Minuten später als geplant")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.warning)
+            } else if live.makespan < plan.schedule.makespan {
+                Text("Fertig in Minute \(live.makespan), \(plan.schedule.makespan - live.makespan) Minuten früher als geplant")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.good)
+            } else if let budget = plan.schedule.budget, plan.schedule.makespan > budget {
                 Text("Budget \(budget) Minuten, Plan \(plan.schedule.makespan)")
                     .font(Theme.bodyFont(13))
                     .foregroundColor(Theme.warning)
@@ -138,7 +188,8 @@ struct CookModeView: View {
         .cardStyle()
     }
 
-    private func stepLine(_ placement: KitchenPlacement, detail: LocalizedStringKey) -> some View {
+    private func stepLine(_ placement: KitchenPlacement, detail: LocalizedStringKey, emphasis: Bool = false,
+                          onDone: (() -> Void)? = nil) -> some View {
         HStack(alignment: .firstTextBaseline) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(verbatim: placement.task.name)
@@ -154,7 +205,16 @@ struct CookModeView: View {
             Spacer()
             Text(detail)
                 .font(Theme.bodyFont(13).monospacedDigit())
-                .foregroundColor(Theme.accentText)
+                .foregroundColor(emphasis ? Theme.danger : Theme.accentText)
+            if let onDone {
+                Button(action: onDone) {
+                    Image(systemName: "checkmark.circle")
+                        .font(.system(size: 24))
+                        .foregroundColor(Theme.accentText)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Schritt erledigt")
+            }
         }
     }
 }
