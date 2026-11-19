@@ -164,7 +164,36 @@ Ein Schritt kann für seinen unbeaufsichtigten Teil ein **Fenster** tragen (`Kit
 
 Ein Ofenschritt trägt seine Temperatur (`KitchenTask.ovenTemperature`, nur für `station == .oven`). Ein Ofen nimmt beliebig viele Schritte gleichzeitig auf, aber nur bei einer Temperatur; ein Schritt ohne Angabe passt zu jeder. Der Planer legt einen Ofenschritt zuerst in einen Ofen, der schon auf seiner Temperatur steht, sonst in einen leeren; sonst wartet er. Bei der Neuplanung behält ein laufender Ofenschritt seine Temperatur, ein Gratin bei 220 °C wartet also auf die Haut bei 160 °C. Zeitplan und Kochmodus zeigen „Ofen 160 °C“. Beispielgerichte: Haut und Haselnüsse bei 160 °C. Noch nicht modelliert: die Zahl der Einschübe und die Zeit zum Umheizen.
 
+## Schritt 3 (Skizze 19.11.): eigene Gerichte – Editor, Speicher, Import
+
+Bisher kennt die App nur die drei Beispielgerichte. Damit sie nutzbar wird, braucht sie eigene Gerichte: erfasst von Hand, aus Text oder Foto importiert, gespeichert auf dem Gerät.
+
+### 3a. Editor und Speicher (zuerst)
+
+Der Prüfbildschirm nach einem Import und der Editor für ein Gericht von Hand sind **derselbe Bildschirm**; er wird also in jedem Fall gebraucht und kommt zuerst.
+
+- **Modell:** `KitchenDish` bekommt Herkunft (Text, Foto, Web, Hand), Datum und Portionen; die Schritte bleiben `KitchenTask`. Dazu ein **versioniertes Dateiformat** (`KitchenDishFile`, `formatVersion 1`, Codable), wie `RecipeExportData` bei BakePlanner: Grundlage für den Speicher, für Sichern/Teilen und für den späteren Plattformwechsel. Nicht ohne Versionierung ändern.
+- **Speicher:** Protokoll `KitchenDishStore` (alle, eines, speichern, löschen) im Paket mit Vertragstests (wie `StoreContracts/`). Erste Umsetzung: **eine JSON-Datei je Gericht** in Application Support, atomar geschrieben. Gerichte sind klein (20 Schritte), SQLite bringt hier nichts; `BakePlannerStorage` (SkipSQLPlus) bliebe als Option, wenn Historie und Bilder dazukommen. Kein Sync, wie beschlossen; Sichern über das Dateiformat.
+- **Editor:** Liste der Komponenten und Schritte. Je Schritt: Text, Komponente, Hände (Minuten), danach allein (Minuten), Fenster von–bis, Gerät (keins/Platte/Ofen), Ofentemperatur, „liegt max.“, und **Vorgänger** als Auswahl aus den vorherigen Schritten. Vorgabe für die Vorgänger, damit niemand Pfeile ziehen muss: Schritte derselben Komponente folgen aufeinander; „Anrichten“ hängt vom letzten Schritt jeder Komponente ab. Unten der Plan mit Urteil und „So passt es“ wie in der Planansicht, der bei jeder Änderung mitläuft; Planerfehler (Kreis, unbekannter Vorgänger) werden angezeigt statt stumm verschluckt.
+- **Liste:** eigene Gerichte oben, die Beispiele darunter (oder als „Beispiele“ einblendbar); Wischen zum Löschen; Duplizieren eines Beispiels als Vorlage.
+
+### 3b. Import (danach)
+
+- **Eingänge:** Text einfügen (erster Test: die drei Rezept-PDFs der Sendung als Text), Fotos (Kamera/Fotos, wie `RecipeImageImportView`), Webseite (später über die Share-Extension wie BakePlanner).
+- **Neue Cloud Function** `analyzeDishSteps` neben `analyzeRecipeText`/`analyzeRecipeImages`, gleiche Infrastruktur (Gemini mit Schema, App Check, Stundenlimit, Protokoll). Eigenes Schema fürs Kochen: Titel, Portionen, Komponenten, Schritte mit `text`, `componentName`, `handsMinutes`, `unattendedMinutes`, `unattendedMinMinutes`/`unattendedMaxMinutes`, `station` (none/burner/oven), `ovenTemperature`, `maxWaitMinutes`, `dependsOn` (Indizes), `warnings`. Die Regeln im Prompt: Arbeitszeit eines geübten Hobbykochs schätzen, Wartezeiten vom Rezept nehmen, Spannen als Fenster, „sofort“ (wenden, ruhen) als `maxWait` 0, Ofen-Temperaturen aus dem Text, Abhängigkeiten nur, wo das Rezept sie vorgibt (Füllung braucht Graupen), nichts erfinden, Unklares in `warnings`.
+- **Lesen der Antwort** im Paket (`CloudDishImport`, Muster `CloudRecipeImport`): in `KitchenDish` übersetzen, Plausibilität (`Plausible`), Zyklen entfernen, fehlende Vorgänger nach der Komponenten-Vorgabe ergänzen. Tests mit gespeicherten Antworten.
+- **Prüfen vor dem Speichern:** Die Antwort landet im Editor (3a), alles Geschätzte ist markiert, erst „Speichern“ legt das Gericht an.
+- **Erster Maßstab:** Die drei Sendungsrezepte als Text importieren und die KI-Schätzungen mit den Tabellen oben vergleichen. Danach Prompt nachschärfen.
+- **Firebase:** CookPlanner braucht eine eigene App im Firebase-Projekt `back-planer` (Bundle-ID `de.hpm64625.CookPlanner`, `GoogleService-Info.plist`, App Check mit App Attest/Debug-Provider) – legt Hans-Peter in der Firebase-Konsole an. Das Monatskontingent: Die neue App-ID vorerst in `appIdsWithoutMonthlyLimit` eintragen (wie die Android-App), weil es für CookPlanner noch kein Pro gibt; das Stundenlimit gilt trotzdem. Functions deployen nur nach Rückfrage.
+- **Ohne Netz:** zunächst kein Fallback; von Hand im Editor. Eine Tabelle üblicher Handgriffe (würfeln 2 min, schälen …) für eine Schätzung auf dem Gerät ist denkbar, sobald echte Importe zeigen, wo die KI danebenliegt.
+
+### Aufwand und Reihenfolge
+
+1. 3a Modell, Dateiformat, Speicher mit Vertragstests, Editor, Liste: etwa ein Arbeitstag, nur iOS, keine Freigaben nötig.
+2. 3b Function, Prompt, Antwort-Leser mit Tests, Import-Bildschirme: etwa ein Arbeitstag plus Firebase-App und Deploy durch Hans-Peter.
+3. Danach: Sichern/Teilen der Gerichtsdatei, Android über Skip, Store-Texte.
+
 ## Nächste Schritte
 
-1. Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
-2. Import mit Arbeitszeiten, Abhängigkeiten, Höchstwartezeiten, Fenstern und Ofentemperaturen (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.
+1. Entscheidungen zu Schritt 3 (Speicher als JSON-Datei, Editor zuerst, Firebase-App für CookPlanner, Kontingent-Ausnahme).
+2. Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
