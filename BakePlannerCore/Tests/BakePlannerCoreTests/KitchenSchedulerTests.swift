@@ -283,11 +283,21 @@ struct KitchenSchedulerTests {
 
     // MARK: The show dishes
 
+    @Test("The sample dishes name their parts and have no step that heats an oven: it is preheated before the clock starts")
+    func sampleDishes() {
+        #expect(KitchenSampleDishes.all.count == 3)
+        #expect(KitchenSampleDishes.perlhuhnbrust.components.first == "Perlhuhnbrust")
+        for dish in KitchenSampleDishes.all {
+            #expect(!dish.tasks.contains { $0.name.lowercased().contains("vorheizen") }, "\(dish.name)")
+            #expect(dish.tasks.last?.name == "Anrichten", "\(dish.name)")
+        }
+    }
+
     @Test("Every dish plan keeps the invariants: hands, stations, dependencies",
-          arguments: [KitchenDishes.perlhuhnbrust, KitchenDishes.wirsingrolle, KitchenDishes.geschnetzeltes])
+          arguments: [KitchenSampleDishes.perlhuhnbrust.tasks, KitchenSampleDishes.wirsingrolle.tasks, KitchenSampleDishes.geschnetzeltes.tasks])
     func dishInvariants(_ tasks: [KitchenTask]) throws {
         let kitchen = Kitchen(burners: 4, ovens: 1)
-        let schedule = try KitchenScheduler.schedule(tasks, kitchen: kitchen, budget: KitchenDishes.budget)
+        let schedule = try KitchenScheduler.schedule(tasks, kitchen: kitchen, budget: KitchenSampleDishes.budget)
         #expect(schedule.placements.count == tasks.count)
         for placement in schedule.placements {
             for dependency in placement.task.after {
@@ -309,9 +319,9 @@ struct KitchenSchedulerTests {
 
     @Test("Perlhuhnbrust with four pans: the hands are the limit, not the chain")
     func perlhuhnbrust() throws {
-        let schedule = try KitchenScheduler.schedule(KitchenDishes.perlhuhnbrust, budget: KitchenDishes.budget)
-        #expect(schedule.criticalPathMinutes < KitchenDishes.budget)
-        #expect(schedule.handsMinutes > KitchenDishes.budget)
+        let schedule = try KitchenScheduler.schedule(KitchenSampleDishes.perlhuhnbrust.tasks, budget: KitchenSampleDishes.budget)
+        #expect(schedule.criticalPathMinutes < KitchenSampleDishes.budget)
+        #expect(schedule.handsMinutes > KitchenSampleDishes.budget)
         #expect(schedule.limit == .hands)
         #expect(schedule.handsByComponent.first?.component == "Wirsing")
         // The breast is turned the moment its skin is done, and sliced
@@ -324,7 +334,7 @@ struct KitchenSchedulerTests {
 
     @Test("Wirsingrolle: the barley's 25 minutes plus filling, rolling and browning do not fit 35")
     func wirsingrolle() throws {
-        let schedule = try KitchenScheduler.schedule(KitchenDishes.wirsingrolle, budget: KitchenDishes.budget)
+        let schedule = try KitchenScheduler.schedule(KitchenSampleDishes.wirsingrolle.tasks, budget: KitchenSampleDishes.budget)
         #expect(schedule.criticalPath.first == "r1")
         #expect(schedule.criticalPath.last == "x1")
         #expect(schedule.criticalPathMinutes == 2 + 25 + 3 + 5 + 3)
@@ -333,19 +343,23 @@ struct KitchenSchedulerTests {
         #expect(schedule.limit == .hands)
     }
 
-    @Test("Geschnetzeltes: the skin in the oven sets the chain, and it just does not fit")
+    @Test("Geschnetzeltes: the skin in the oven sets the chain, the hands do not fit by two minutes")
     func geschnetzeltes() throws {
-        let schedule = try KitchenScheduler.schedule(KitchenDishes.geschnetzeltes, budget: KitchenDishes.budget)
-        #expect(schedule.criticalPath == ["o1", "h1", "h2", "h3", "x1"])
-        #expect(schedule.criticalPathMinutes == 10 + 2 + 20 + 1 + 3)
+        let schedule = try KitchenScheduler.schedule(KitchenSampleDishes.geschnetzeltes.tasks, budget: KitchenSampleDishes.budget)
+        // The oven is hot when the clock starts; the chain is the skin.
+        #expect(schedule.criticalPath == ["m1", "h1", "h2", "h3", "x1"])
+        #expect(schedule.criticalPathMinutes == 6 + 2 + 20 + 1 + 3)
         #expect(!schedule.fits)
-        // With a second cook the chain would still be a minute over the budget.
-        #expect(schedule.criticalPathMinutes == KitchenDishes.budget + 1)
+        #expect(schedule.limit == .hands)
+        #expect(schedule.shortfall == 2)
+        // The sauce is finished late, so the meat does not stand around.
+        let sauce = try #require(schedule.placement(of: "m3"))
+        #expect(try #require(schedule.placement(of: "m4")).start - sauce.end <= 10)
     }
 
     @Test("A second pair of hands is not modelled, but a wider budget shows the chain alone")
     func widerBudget() throws {
-        let schedule = try KitchenScheduler.schedule(KitchenDishes.perlhuhnbrust, budget: 60)
+        let schedule = try KitchenScheduler.schedule(KitchenSampleDishes.perlhuhnbrust.tasks, budget: 60)
         #expect(schedule.fits)
         #expect(schedule.limit == nil)
     }

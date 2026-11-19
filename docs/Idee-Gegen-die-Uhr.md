@@ -32,7 +32,7 @@ Ergebnis (`KitchenSchedule`): Zeitleiste, Gesamtdauer, **kritischer Pfad** (län
 
 ## Die drei Gerichte (Menü vom 19.11.2026, Warenkorb Mario Kotaska)
 
-Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die Rezepte nennen fast keine Arbeitszeiten. Bitte korrigieren. Budget 35 Minuten, 4 Platten, 1 Ofen. „Hände“ = Minuten gebunden, „allein“ = danach ohne Koch, „liegt max.“ = Höchstwartezeit des Ergebnisses bis zum nächsten Schritt (leer = hält sich).
+Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die Rezepte nennen fast keine Arbeitszeiten. Hans-Peter lässt sie vorerst stehen, auch wenn die 35 Minuten damit nicht erreicht werden (19.11.). Budget 35 Minuten, 4 Platten, 1 Ofen; **die Öfen sind vorgeheizt, wenn die Uhr startet** (wie in der Sendung), deshalb gibt es keinen Vorheiz-Schritt. Die Gerichte liegen als `KitchenSampleDishes` im Paket und dienen der App als erste Daten. „Hände“ = Minuten gebunden, „allein“ = danach ohne Koch, „liegt max.“ = Höchstwartezeit des Ergebnisses bis zum nächsten Schritt (leer = hält sich).
 
 ### A. Gebratene Perlhuhnbrust mit Bergkäse-Rahm-Wirsing, Kräuterseitlingen und Verjus-Birne (Matthias Gaugl)
 
@@ -62,7 +62,6 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 
 | Nr. | Schritt | Hände | allein | Gerät | nach | liegt max. |
 |---|---|---|---|---|---|---|
-| o1 | Backofen auf 160 °C vorheizen | 0 | 10 | Ofen | |  |
 | r1 | Perlgraupen waschen, mit Lorbeer in Salzwasser kochen | 2 | 25 | Platte | |  |
 | r2 | Wirsingblätter von den Adern befreien | 3 | | | |  |
 | r3 | Wirsingblätter in Salzwasser garen | 1 | 8 | Platte | r2 |  |
@@ -76,7 +75,7 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 | r11 | Blätter füllen, rollen, rundherum anbraten | 5 | | Platte | r10, r4 |  |
 | k1 | Birne schälen, entkernen, würfeln | 2 | | | |  |
 | k2 | Birne in Butter dünsten, abschmecken | 2 | 5 | Platte | k1 |  |
-| n1 | Haselnüsse im Ofen rösten | 1 | 8 | Ofen | o1 |  |
+| n1 | Haselnüsse im Ofen rösten | 1 | 8 | Ofen | |  |
 | n2 | Nüsse hacken und unterheben | 1 | | | n1, k2 |  |
 | s1 | Sahne und Fond reduzieren | 1 | 8 | Platte | |  |
 | s2 | Sauce mit Verjus und Miso abschmecken | 1 | | | s1 |  |
@@ -90,12 +89,11 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 
 | Nr. | Schritt | Hände | allein | Gerät | nach | liegt max. |
 |---|---|---|---|---|---|---|
-| o1 | Ofen auf 160 °C Heißluft vorheizen | 0 | 10 | Ofen | |  |
 | m1 | Haut lösen, Fleisch in Streifen, Schalotte würfeln, Estragon schneiden | 6 | | | |  |
 | m2 | Fleisch 60 Sekunden scharf anbraten, herausnehmen, würzen | 2 | | Platte | m1 | 1 |
 | m3 | Schalotte, ablöschen, einkochen, Fond reduzieren, Sahne sämig | 4 | 4 | Platte | m2 | 10 |
 | m4 | Kalte Butter, Estragon, Fleisch warmziehen | 2 | | Platte | m3 | 3 |
-| h1 | Haut zwischen Backpapier, beschweren, in den Ofen | 2 | | | m1, o1 |  |
+| h1 | Haut zwischen Backpapier, beschweren, in den Ofen | 2 | | | m1 |  |
 | h2 | Haut goldbraun backen (20 von „20–25“) | 0 | 20 | Ofen | h1 |  |
 | h3 | Haut salzen | 1 | | | h2 |  |
 | p1 | Kräuterseitlinge in Scheiben, Schalotte würfeln | 4 | | | |  |
@@ -105,7 +103,13 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 | g1 | Haselnüsse grob hacken | 2 | | | |  |
 | x1 | Anrichten | 3 | | | m4, h3, p2, b2, g1 |  |
 
-**Ergebnis:** 37 Minuten, **fehlen 2**. Kritischer Pfad 36 Minuten (Vorheizen 10 → Haut einlegen 2 → backen 20 → salzen 1 → Anrichten 3): die Haut allein sprengt das Budget um eine Minute, selbst mit einer zweiten Person. Hände 37 Minuten. Die Höchstwartezeiten der Sauce schieben Anbraten, Sauce und Warmziehen nach hinten (Minute 14–33), so dass das Fleisch nicht 15 Minuten steht; dadurch liegen die Hände dichter, und der Plan ist eine Minute kürzer als ohne.
+**Ergebnis:** 37 Minuten, **fehlen 2**, Grund **Hände** (37 Handminuten). Kritischer Pfad 32 Minuten (Haut lösen und Fleisch schneiden 6 → Haut einlegen 2 → backen 20 → salzen 1 → Anrichten 3); mit vorgeheiztem Ofen passt die Kette ins Budget. Die Höchstwartezeiten der Sauce schieben Anbraten, Sauce und Warmziehen nach hinten (Minute 14–33), so dass das Fleisch nicht 15 Minuten steht; dadurch liegen die Hände dichter, und der Plan ist eine Minute kürzer als ohne.
+
+| Gericht | Dauer | Budget 35 | Grund | Kette | Hände |
+|---|---|---|---|---|---|
+| A Perlhuhnbrust | 44 min | fehlen 9 | Hände | 21 | 40 |
+| B Wirsingrolle | 43 min | fehlen 8 | Hände, Kette ebenfalls über 35 | 38 | 42 |
+| C Geschnetzeltes | 37 min | fehlen 2 | Hände | 32 | 37 |
 
 ### Was die drei Pläne zeigen
 
@@ -123,8 +127,28 @@ Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die 
 5. **Warmhalten als Platz**: Eine warm gestellte Sauce belegt eigentlich eine Platte auf kleiner Flamme; heute nur ein Hinweis.
 6. Das Zurückhalten ist eine Heuristik: Es nimmt den ersten Plan ohne verpasste Wartezeit, nicht den kürzesten. Bei A bleiben so zweimal zwei Minuten Hände ungenutzt. Ein besserer Suchlauf (mehrere Reihenfolgen probieren, die kürzeste behalten) ist später möglich, die Pläne sind klein.
 
+## Schritt 2 (begonnen 19.11.): das App-Gerüst „CookPlanner“
+
+Arbeitstitel **CookPlanner** (Ordner `CookPlanner/`, Bundle-ID `de.hpm64625.CookPlanner`), im selben Repository neben BakePlanner, iOS zuerst. Die Dateien liegen im Ordner; das Xcode-Projekt legt Hans-Peter an, weil Projektdateien bei offenem Xcode nicht von außen geschrieben werden (siehe unten).
+
+| Datei | Inhalt |
+|---|---|
+| `CookPlannerApp.swift` | Einstieg, zeigt `DishListView` |
+| `Theme.swift` | Palette, Schriften, Karten aus BakePlanner, ohne Bäckerei-Foto |
+| `CookSettings.swift` | Budget, Platten und Öfen in den Defaults; `DishPlan` = Gericht + Plan + Wortlaut des Urteils |
+| `DishListView.swift` | Liste der Beispielgerichte mit Urteil („Passt in 35 Minuten“ / „Fehlen 9 Minuten“), Einstellungsblatt |
+| `DishPlanView.swift` | Urteil mit Begründung, Kette und Handminuten, Handarbeit je Komponente als Balken, Zeitplan, Warmhalte-Hinweise, „Kochen starten“ |
+| `CookModeView.swift` | Countdown, „Jetzt“ (Hände), „Gleich“, „Läuft von allein“, Erledigt-Zähler; die Uhr ist die des Plans, Neuplanung fehlt noch |
+| `Localizable.xcstrings` | 40 Texte, de/en/fr (de explizit, weil die Entwicklungsregion eines neuen Projekts en ist) |
+| `Assets.xcassets` | leeres App-Symbol, Akzentfarbe |
+
+Noch ohne eigene Datenhaltung: Die Gerichte kommen aus `KitchenSampleDishes` im Paket. Der Store (SQLite über die Paket-Protokolle) kommt mit dem Import.
+
+**Projekt anlegen (Hans-Peter, einmalig):** In Xcode *File → New → Project → iOS → App*, Product Name `CookPlanner`, Organization Identifier `de.hpm64625`, Interface SwiftUI, Language Swift, Testing System None, Storage None; **außerhalb** des Repositories speichern. Dann nur den Ordner `CookPlanner.xcodeproj` in die Wurzel des Repositories neben `BackPlaner.xcodeproj` kopieren (die vom Assistenten erzeugten Quelldateien werden nicht gebraucht; der Projektordner `CookPlanner` ist der im Repository). Projekt öffnen, *File → Add Package Dependencies → Add Local…* → Ordner `BakePlannerCore`, Produkt `BakePlannerCore` dem Target `CookPlanner` hinzufügen. Deployment Target iOS 26. Bauen.
+
 ## Nächste Schritte
 
-1. Schätzungen und Höchstwartezeiten in den drei Tabellen korrigieren (Hans-Peter), Tests nachziehen.
-2. App-Gerüst: Projekt im Repository, Paket eingebunden, SQLite-Store, Theme und Kochmodus aus BakePlanner, ein fest eingebautes Beispielgericht gegen die Uhr auf dem iPhone.
-3. Erst danach: Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), Datenmodell, Store-Texte, Android.
+1. Xcode-Projekt anlegen (Hans-Peter), erster Build und Lauf auf dem Simulator, Bild ins Dokument.
+2. `scripts/check-repo.py` prüft dann auch `CookPlanner.xcodeproj`; Xcode-Cloud-Workflow für CookPlanner.
+3. Neuplanung im Kochmodus („fertig“ früher oder später), Spannen, Ofentemperatur.
+4. Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.
