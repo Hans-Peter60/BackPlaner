@@ -49,14 +49,14 @@ public enum KitchenSampleDishes {
         name: "Perlhuhnbrust mit Rahm-Wirsing, Kräuterseitlingen und Verjus-Birne",
         tasks: [
             KitchenTask(id: "a1", name: "Perlhuhn trocken tupfen, Sehnen entfernen, Haut salzen", component: "Perlhuhnbrust", hands: 2),
-            KitchenTask(id: "a2", name: "Perlhuhn auf der Haut braten", component: "Perlhuhnbrust", hands: 1, unattended: 5, station: .burner, after: ["a1"], maxWait: 0),
+            KitchenTask(id: "a2", name: "Perlhuhn auf der Haut braten", component: "Perlhuhnbrust", hands: 1, unattended: 5, station: .burner, after: ["a1"], maxWait: 0, window: 5...6),
             KitchenTask(id: "a3", name: "Wenden, Butter, Knoblauch, Thymian, arrosieren", component: "Perlhuhnbrust", hands: 3, station: .burner, after: ["a2"], maxWait: 0),
             KitchenTask(id: "a4", name: "Perlhuhn ruhen lassen", component: "Perlhuhnbrust", hands: 0, unattended: 5, after: ["a3"], maxWait: 3),
             KitchenTask(id: "a5", name: "Perlhuhn würzen und tranchieren", component: "Perlhuhnbrust", hands: 2, after: ["a4"], maxWait: 3),
 
             KitchenTask(id: "w1", name: "Wirsing in Streifen, Schalotte und Knoblauch würfeln", component: "Wirsing", hands: 5),
             KitchenTask(id: "w2", name: "Anschwitzen, Wirsing zugeben, Fond und Sahne angießen", component: "Wirsing", hands: 4, station: .burner, after: ["w1"]),
-            KitchenTask(id: "w3", name: "Wirsing cremig garen", component: "Wirsing", hands: 0, unattended: 7, station: .burner, after: ["w2"]),
+            KitchenTask(id: "w3", name: "Wirsing cremig garen", component: "Wirsing", hands: 0, unattended: 7, station: .burner, after: ["w2"], window: 6...8),
             KitchenTask(id: "w4", name: "Bergkäse reiben", component: "Wirsing", hands: 2),
             KitchenTask(id: "w5", name: "Miso anrühren, Käse unterziehen, abschmecken", component: "Wirsing", hands: 2, station: .burner, after: ["w3", "w4"]),
 
@@ -118,7 +118,7 @@ public enum KitchenSampleDishes {
             KitchenTask(id: "m4", name: "Kalte Butter, Estragon, Fleisch warmziehen", component: "Geschnetzeltes", hands: 2, station: .burner, after: ["m3"], maxWait: 3),
 
             KitchenTask(id: "h1", name: "Haut zwischen Backpapier, beschweren, in den Ofen", component: "Knusprige Haut", hands: 2, after: ["m1"]),
-            KitchenTask(id: "h2", name: "Haut goldbraun backen", component: "Knusprige Haut", hands: 0, unattended: 20, station: .oven, after: ["h1"]),
+            KitchenTask(id: "h2", name: "Haut goldbraun backen", component: "Knusprige Haut", hands: 0, unattended: 20, station: .oven, after: ["h1"], window: 20...25),
             KitchenTask(id: "h3", name: "Haut salzen", component: "Knusprige Haut", hands: 1, after: ["h2"]),
 
             KitchenTask(id: "p1", name: "Kräuterseitlinge in Scheiben, Schalotte würfeln", component: "Kräuterseitlinge", hands: 4),

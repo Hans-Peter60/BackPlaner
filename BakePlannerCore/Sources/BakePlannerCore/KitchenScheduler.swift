@@ -52,18 +52,36 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
     /// needs it begins: 0 for "wenden" after searing, a few for rested
     /// meat, ten for a sauce kept warm. Nil when the result keeps.
     public let maxWait: Int?
+    /// The span the recipe allows the unattended part ("20–25 Minuten
+    /// backen"); `unattendedMinutes` is the value planned with and lies
+    /// within it. Nil when the recipe names one time.
+    public let unattendedWindow: ClosedRange<Int>?
 
     public init(id: String, name: String, component: String = "",
                 hands: Int, unattended: Int = 0, station: KitchenStation? = nil, after: [String] = [],
-                maxWait: Int? = nil) {
+                maxWait: Int? = nil, window: ClosedRange<Int>? = nil) {
         self.id = id
         self.name = name
         self.component = component
         self.handsMinutes = max(0, hands)
-        self.unattendedMinutes = max(0, unattended)
+        let window = window.map { max(0, $0.lowerBound)...max(0, $0.lowerBound, $0.upperBound) }
+        self.unattendedWindow = window
+        self.unattendedMinutes = window.map { min(max(max(0, unattended), $0.lowerBound), $0.upperBound) } ?? max(0, unattended)
         self.station = station
         self.after = after
         self.maxWait = maxWait.map { max(0, $0) }
+    }
+
+    /// The same step with its unattended part set to `minutes`, within
+    /// the window.
+    public func shortened(to minutes: Int) -> KitchenTask {
+        KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: minutes,
+                    station: station, after: after, maxWait: maxWait, window: unattendedWindow)
+    }
+
+    /// How far the unattended part can still be cut within the window.
+    public var reducibleMinutes: Int {
+        unattendedWindow.map { max(0, unattendedMinutes - $0.lowerBound) } ?? 0
     }
 
     /// From the first move to the moment the step is done.
@@ -120,6 +138,20 @@ public struct KitchenLateFollowUp: Equatable, Sendable {
 public struct KitchenWait: Equatable, Sendable {
     public let task: String
     public let minutes: Int
+}
+
+/// A step's unattended part cut within its window to fit the budget.
+public struct KitchenShortening: Equatable, Sendable {
+    public let task: String
+    public let from: Int
+    public let to: Int
+}
+
+/// A dish fitted into its budget by cutting windowed steps.
+public struct KitchenFit: Equatable, Sendable {
+    /// The plan with the cuts applied; the nominal plan when none helped.
+    public let schedule: KitchenSchedule
+    public let shortenings: [KitchenShortening]
 }
 
 /// A step placed on the timeline, in minutes from the start of cooking.
@@ -295,6 +327,31 @@ public enum KitchenScheduler {
         try schedule(tasks, kitchen: kitchen, budget: budget, fixed: [], from: 0)
     }
 
+    /// The dish fitted into `budget` by cutting the unattended parts of
+    /// steps with a window, shortest first where it counts: a step on the
+    /// longest chain, else — when steps merely collide — any. Cutting goes
+    /// no further than the budget needs or the windows allow; the hands'
+    /// minutes cannot be cut, so a dish the hands do not fit stays as it is.
+    public static func fit(_ tasks: [KitchenTask], kitchen: Kitchen = Kitchen(), budget: Int) throws -> KitchenFit {
+        var current = tasks
+        var cuts = [String: KitchenShortening]()
+        var schedule = try self.schedule(current, kitchen: kitchen, budget: budget)
+        for _ in 0..<(tasks.count * 4 + 1) {
+            guard !schedule.fits, schedule.limit != .hands else { break }
+            let onChain = Set(schedule.criticalPath)
+            let candidates = current.filter { $0.reducibleMinutes > 0 }
+            guard let pick = candidates.filter({ onChain.contains($0.id) }).max(by: { $0.reducibleMinutes < $1.reducibleMinutes })
+                    ?? candidates.max(by: { $0.reducibleMinutes < $1.reducibleMinutes }) else { break }
+            let cut = min(pick.reducibleMinutes, max(1, schedule.shortfall))
+            let shortened = pick.shortened(to: pick.unattendedMinutes - cut)
+            current = current.map { $0.id == pick.id ? shortened : $0 }
+            let original = tasks.first { $0.id == pick.id }?.unattendedMinutes ?? pick.unattendedMinutes
+            cuts[pick.id] = KitchenShortening(task: pick.id, from: original, to: shortened.unattendedMinutes)
+            schedule = try self.schedule(current, kitchen: kitchen, budget: budget)
+        }
+        return KitchenFit(schedule: schedule, shortenings: tasks.compactMap { cuts[$0.id] })
+    }
+
     /// The plan continued from the middle of cooking. Steps the cook has
     /// ticked off keep their start and end when they did; a step that is
     /// running keeps its start — a hands-only step not yet ticked off holds
@@ -341,6 +398,14 @@ public enum KitchenScheduler {
                         // it is taken to need another minute, and so on.
                         let end = max(placement.start + task.handsMinutes, now + 1)
                         actual = KitchenPlacement(task: task, start: placement.start, handsEnd: end, end: end)
+                    } else if let window = task.unattendedWindow, placement.start + task.minutes <= now {
+                        // Past its planned end without a tick, a step with a
+                        // window is taken to go on, a minute at a time, until
+                        // the window's end — then it is done by the clock.
+                        let planned = KitchenPlacement(task: task, start: placement.start)
+                        let latest = placement.start + task.handsMinutes + window.upperBound
+                        let end = min(max(planned.end, now + 1), latest)
+                        actual = KitchenPlacement(task: task, start: placement.start, handsEnd: planned.handsEnd, end: end)
                     } else {
                         actual = KitchenPlacement(task: task, start: placement.start)
                     }

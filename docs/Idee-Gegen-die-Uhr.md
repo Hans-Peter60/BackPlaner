@@ -32,7 +32,7 @@ Ergebnis (`KitchenSchedule`): Zeitleiste, Gesamtdauer, **kritischer Pfad** (län
 
 ## Die drei Gerichte (Menü vom 19.11.2026, Warenkorb Mario Kotaska)
 
-Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die Rezepte nennen fast keine Arbeitszeiten. Hans-Peter lässt sie vorerst stehen, auch wenn die 35 Minuten damit nicht erreicht werden (19.11.). Budget 35 Minuten, 4 Platten, 1 Ofen; **die Öfen sind vorgeheizt, wenn die Uhr startet** (wie in der Sendung), deshalb gibt es keinen Vorheiz-Schritt. Die Gerichte liegen als `KitchenSampleDishes` im Paket und dienen der App als erste Daten. „Hände“ = Minuten gebunden, „allein“ = danach ohne Koch, „liegt max.“ = Höchstwartezeit des Ergebnisses bis zum nächsten Schritt (leer = hält sich).
+Alle Zeiten sind **Schätzungen von Claude** für einen geübten Hobbykoch; die Rezepte nennen fast keine Arbeitszeiten. Hans-Peter lässt sie vorerst stehen, auch wenn die 35 Minuten damit nicht erreicht werden (19.11.). Budget 35 Minuten, 4 Platten, 1 Ofen; **die Öfen sind vorgeheizt, wenn die Uhr startet** (wie in der Sendung), deshalb gibt es keinen Vorheiz-Schritt. Die Gerichte liegen als `KitchenSampleDishes` im Paket und dienen der App als erste Daten. „Hände“ = Minuten gebunden, „allein“ = danach ohne Koch, „liegt max.“ = Höchstwartezeit des Ergebnisses bis zum nächsten Schritt (leer = hält sich). Fenster aus den Rezepten: a2 5–6, w3 6–8, h2 20–25 Minuten.
 
 ### A. Gebratene Perlhuhnbrust mit Bergkäse-Rahm-Wirsing, Kräuterseitlingen und Verjus-Birne (Matthias Gaugl)
 
@@ -156,8 +156,12 @@ Bauen von der Kommandozeile: `xcodebuild -project CookPlanner.xcodeproj -scheme 
 - Ein begonnener Schritt wird mit den Dauern seiner Aufgabe ab seinem Beginn fortgeschrieben, nicht mit den Zeiten der letzten Platzierung: Ein zurückgenommener Haken hinterlässt dort das Ende des Hakens (Test `tickTakenBack`).
 - Der Kochmodus plant **vom letzten Live-Plan** aus weiter, nicht vom ursprünglichen: Sonst galt ein vorgezogener Schritt jede Minute wieder als nicht begonnen, und das Ende rutschte jede Minute um eine Minute (auf dem Simulator gefunden, Test `continuedPlanStandsStill`).
 
+### Zeitspannen (erledigt 19.11.)
+
+Ein Schritt kann für seinen unbeaufsichtigten Teil ein **Fenster** tragen (`KitchenTask.unattendedWindow`, „Haut 20–25 Minuten backen“); geplant wird mit dem Nennwert, der im Fenster liegt. `KitchenScheduler.fit(tasks, kitchen:, budget:)` kürzt, wenn das Gericht nicht passt und nicht die Hände der Grund sind, die Fensterschritte auf dem kritischen Pfad (sonst beliebige) bis zur Fensteruntergrenze und nur so weit wie nötig, und liefert die Kürzungen mit (`KitchenFit.shortenings`). Die Planansicht zeigt sie als Karte „So passt es“ („Haut goldbraun backen: 22 statt 25 Minuten“); fehlt es trotz kürzester Zeiten, steht das dort. Beim Kochen läuft ein Fensterschritt nach seinem geplanten Ende weiter, bis er abgehakt wird, längstens bis zum Fensterende; der Kochmodus zeigt „noch 20–25 Min.“ bzw. „bis zu 5 Min.“. In den Beispielgerichten haben Fenster: Perlhuhn auf der Haut 5–6, Wirsing 6–8, Haut im Ofen 20–25; weil dort die Hände der Engpass sind, kürzt `fit` nichts.
+
 ## Nächste Schritte
 
-1. Deployment Target auf iOS 26.0 setzen (in Xcode, Hans-Peter); Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
-2. Spannen („20–25 Minuten“) und Ofentemperatur als Konflikt.
-3. Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.
+1. Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
+2. Ofentemperatur als Konflikt (zwei Gerichte im selben Ofen bei verschiedenen Temperaturen).
+3. Import mit Arbeitszeiten, Abhängigkeiten, Höchstwartezeiten und Fenstern (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.

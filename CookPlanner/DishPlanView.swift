@@ -23,6 +23,15 @@ struct DishPlanView: View {
         DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
     }
 
+    /// The dish cut within its steps' windows, when the nominal plan does
+    /// not fit and cutting is what helps.
+    private func fit(for plan: DishPlan) -> KitchenFit? {
+        guard !plan.fits, plan.schedule.limit != .hands,
+              let fit = try? KitchenScheduler.fit(dish.tasks, kitchen: plan.schedule.kitchen, budget: budget),
+              !fit.shortenings.isEmpty else { return nil }
+        return fit
+    }
+
     var body: some View {
         ScrollView {
             if let plan {
@@ -34,6 +43,9 @@ struct DishPlanView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.horizontal, 4)
                     verdictCard(plan)
+                    if let fit = fit(for: plan) {
+                        fitCard(fit, plan: plan)
+                    }
                     handsCard(plan)
                     timelineCard(plan)
                     if !plan.schedule.waits(atLeast: 10).isEmpty {
@@ -80,6 +92,33 @@ struct DishPlanView: View {
             .font(Theme.bodyFont(13))
             .foregroundColor(Theme.subtitle)
             .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func fitCard(_ fit: KitchenFit, plan: DishPlan) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("So passt es")
+                .font(Theme.bodyFont(16).weight(.semibold))
+                .foregroundColor(Theme.cardTitle)
+            ForEach(fit.shortenings, id: \.task) { cut in
+                if let task = plan.dish.tasks.first(where: { $0.id == cut.task }) {
+                    Text("\(task.name): \(cut.to) statt \(cut.from) Minuten")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.cardTitle)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            if fit.schedule.fits {
+                Text("Mit diesen Garzeiten passt es in \(budget) Minuten")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.good)
+            } else {
+                Text("Auch mit den kürzesten Garzeiten fehlen \(fit.schedule.shortfall) Minuten")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.warning)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
@@ -174,11 +213,16 @@ struct TimelineRow: View {
                     .font(Theme.bodyFont(14))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
-                if !placement.task.component.isEmpty {
-                    Text(verbatim: placement.task.component)
-                        .font(Theme.bodyFont(12))
-                        .foregroundColor(Theme.subtitle)
+                HStack(spacing: 6) {
+                    if !placement.task.component.isEmpty {
+                        Text(verbatim: placement.task.component)
+                    }
+                    if let window = placement.task.unattendedWindow {
+                        Text("\(window.lowerBound)–\(window.upperBound) Min.")
+                    }
                 }
+                .font(Theme.bodyFont(12))
+                .foregroundColor(Theme.subtitle)
             }
         }
     }
