@@ -39,6 +39,7 @@ CATALOGS = [
     "BackPlanerShare/Localizable.xcstrings",
     "BakePlannerWatch/Localizable.xcstrings",
     "BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",
+    "CookPlanner/Localizable.xcstrings",
 ]
 LANGUAGES = ("en", "fr")
 

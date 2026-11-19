@@ -6,6 +6,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - `BackPlaner/` – App-Target (SwiftUI, iOS 26+). `Views/` UI, `Utilities/` Logik und Dienste, `CoreData/` Modell, `DataFiles/` Firebase-Modelle (`RecipeFB*`), `Intents/` Siri/App Intents.
 - `BakePlannerCore/` – lokales Swift Package mit plattformneutraler Logik und ihren Tests (Android-Portierung, im Aufbau); die App bindet es ein, die Tests laufen im Testplan `UnitTests` mit.
 - `BackPlanerWidgets/` – Widget und Live-Aktivität. `BackPlanerShare/` – Share-Extension für den Web-Import.
+- `CookPlanner/` – zweite App „Kochen gegen die Uhr“ (Arbeitstitel, iOS, SwiftUI), nutzt `KitchenScheduler` und `KitchenSampleDishes` aus dem Paket; Stand und Anleitung zum Anlegen des Xcode-Projekts in `docs/Idee-Gegen-die-Uhr.md`. Der Katalog `CookPlanner/Localizable.xcstrings` braucht explizite `de`-Einträge.
 - `BackPlanerTests/` – ca. 285 Unit-Tests (`UnitTests.xctestplan`, Standard für ⌘U). `BackPlanerUITests/` – UI-Tests (`AllTests.xctestplan`).
 - `functions/` – Cloud Functions (TypeScript): KI-Rezeptimport (`analyzeRecipeImages`, `analyzeRecipeText`), Pro-Prüfung (`proVerification.ts`).
 - `firebase/` – Firestore- und Storage-Regeln, Regel-Tests im Emulator (`firebase/tests`).
