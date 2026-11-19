@@ -189,6 +189,28 @@ def check_project() -> list[str]:
     return findings
 
 
+def check_xcproj() -> list[str]:
+    """CookPlanner.xcodeproj uses Xcode 27's project.xcproj (JSON with
+    trailing commas): every folder and local package it names must exist."""
+    relative = "CookPlanner.xcodeproj/project.xcproj"
+    path = ROOT / relative
+    if not path.exists():
+        return [f"{relative} is missing"]
+    text = re.sub(r",(\s*[}\]])", r"\1", path.read_text(encoding="utf-8"))
+    try:
+        project = json.loads(text)
+    except ValueError as error:
+        return [f"{relative}: does not parse ({error})"]
+    findings = []
+    for package in project.get("packages", []):
+        if package.get("kind") == "local" and not (ROOT / package.get("path", "")).exists():
+            findings.append(f"{relative}: package {package.get('path')} does not exist")
+    for entry in project.get("files", []):
+        if entry.get("kind") == "folder" and not (ROOT / entry.get("path", "")).is_dir():
+            findings.append(f"{relative}: folder {entry.get('path')} does not exist")
+    return findings
+
+
 def check_manual() -> list[str]:
     website = "docs/website"
     result = subprocess.run([sys.executable, str(ROOT / "docs/build-manual-html.py")],
@@ -208,6 +230,7 @@ def main() -> int:
         ("Package strings", check_package_strings),
         ("Package data", check_package_data),
         ("Xcode project", check_project),
+        ("CookPlanner project", check_xcproj),
         ("User manual", check_manual),
     ]
     failed = False
