@@ -74,7 +74,7 @@ Die Watch-Bilder entstehen nicht über den UI-Test, sondern direkt im Watch-Simu
 
 ```sh
 W=<UDID des Simulators „Apple Watch Ultra 4 (49mm)“>; BID=de.hpm64625.BackPlaner.watchkitapp
-xcodebuild -scheme BakePlannerWatch -destination "platform=watchOS Simulator,id=$W" -derivedDataPath /tmp/watchbuild build
+xcodebuild -project BackPlaner.xcodeproj -scheme BakePlannerWatch -destination "platform=watchOS Simulator,id=$W" -derivedDataPath /tmp/watchbuild build
 xcrun simctl boot $W; xcrun simctl install $W /tmp/watchbuild/Build/Products/Debug-watchsimulator/BakePlannerWatch.app
 xcrun simctl launch $W $BID -AppleLanguages "(de)" -AppleLocale de_DE -UITestingWatchDemo -UITestingWatchDemoStep 0
 sleep 5; xcrun simctl io $W screenshot docs/appstore/2.3/watch/de/01-schritt-zutaten.png

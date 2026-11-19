@@ -257,6 +257,129 @@ struct KitchenSchedulerTests {
         #expect(schedule.waits(atLeast: 30).isEmpty)
     }
 
+    // MARK: Replanning while cooking
+
+    @Test("A pot that boiled early pulls its follow-up forward")
+    func finishedEarly() throws {
+        let tasks = [
+            task("pasta", hands: 1, unattended: 10, station: .burner),
+            task("sauce", hands: 4),
+            task("plate", hands: 2, after: ["pasta", "sauce"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        #expect(plan.placement(of: "plate")?.start == 11)
+        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 7, finished: ["pasta": 6, "sauce": 5]))
+        #expect(live.placement(of: "pasta")?.end == 6)
+        #expect(live.placement(of: "sauce")?.end == 5)
+        #expect(live.placement(of: "plate")?.start == 7)
+        #expect(live.makespan == 9)
+    }
+
+    @Test("Chopping that is not ticked off holds the hands; everything behind it moves")
+    func runningLate() throws {
+        let tasks = [
+            task("chop", hands: 3),
+            task("fry", hands: 4, station: .burner, after: ["chop"]),
+            task("plate", hands: 1, after: ["fry"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        #expect(plan.makespan == 8)
+        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 5))
+        // Minute 5, the chopping (planned 0–3) is still going: it is taken
+        // to need until minute 6, and the frying waits for it.
+        #expect(live.placement(of: "chop")?.end == 6)
+        #expect(live.placement(of: "fry")?.start == 6)
+        #expect(live.makespan == 11)
+        // Ticked off at minute 5, it ends there.
+        let done = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 5, finished: ["chop": 5]))
+        #expect(done.placement(of: "chop")?.end == 5)
+        #expect(done.placement(of: "fry")?.start == 5)
+        #expect(done.makespan == 10)
+    }
+
+    @Test("A step with an unattended part ends when planned, ticked off or not; ticked off early it ends then")
+    func unattendedByTime() throws {
+        let tasks = [
+            task("stew", hands: 2, unattended: 20, station: .burner),
+            task("plate", hands: 1, after: ["stew"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 25))
+        #expect(live.placement(of: "stew")?.end == 22)
+        // The plating began at 22 as planned and is overdue, not ticked off.
+        #expect(live.placement(of: "plate")?.start == 22)
+        #expect(live.placement(of: "plate")?.end == 26)
+        let early = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 15, finished: ["stew": 15]))
+        #expect(early.placement(of: "plate")?.start == 15)
+        let plated = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 25, finished: ["plate": 24]))
+        #expect(plated.placement(of: "plate")?.end == 24)
+        #expect(plated.makespan == 24)
+    }
+
+    @Test("What is running keeps its station: the only burner stays taken until the stew is done")
+    func runningStation() throws {
+        let tasks = [
+            task("stew", hands: 1, unattended: 19, station: .burner),
+            task("chop", hands: 2),
+            task("fry", hands: 3, station: .burner, after: ["chop"]),
+            task("plate", hands: 1, after: ["stew", "fry"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks, kitchen: Kitchen(burners: 1, ovens: 0))
+        let live = try KitchenScheduler.replan(tasks, kitchen: Kitchen(burners: 1, ovens: 0), previous: plan,
+                                               progress: KitchenProgress(now: 4, finished: ["chop": 4]))
+        #expect(live.placement(of: "fry")?.start == 20)
+    }
+
+    @Test("Replanning the show dish from the middle keeps the invariants and never moves what happened")
+    func replanDish() throws {
+        let tasks = KitchenSampleDishes.perlhuhnbrust.tasks
+        let plan = try KitchenScheduler.schedule(tasks, budget: KitchenSampleDishes.budget)
+        var finished = [String: Int]()
+        for placement in plan.placements where placement.task.unattendedMinutes == 0 && placement.task.handsMinutes > 0 && placement.end <= 20 {
+            finished[placement.task.id] = placement.end + 1   // every chop a minute late
+        }
+        let live = try KitchenScheduler.replan(tasks, budget: KitchenSampleDishes.budget, previous: plan,
+                                               progress: KitchenProgress(now: 20, finished: finished))
+        #expect(live.placements.count == tasks.count)
+        for (id, minute) in finished {
+            #expect(live.placement(of: id)?.end == minute)
+        }
+        for placement in live.placements where placement.start >= 20 {
+            for dependency in placement.task.after {
+                #expect(try #require(live.placement(of: dependency)).end <= placement.start, "\(placement.task.id) before \(dependency)")
+            }
+        }
+        for minute in 20..<live.makespan {
+            let hands = live.placements.filter { $0.task.handsMinutes > 0 && ($0.start..<$0.handsEnd).contains(minute) }
+            #expect(hands.count <= 1, "minute \(minute): \(hands.map(\.task.id))")
+        }
+        #expect(live.makespan >= plan.makespan)
+    }
+
+    @Test("Continued minute by minute from the last live plan, the plan stands still; from the original it would slide")
+    func continuedPlanStandsStill() throws {
+        let tasks = KitchenSampleDishes.geschnetzeltes.tasks
+        let plan = try KitchenScheduler.schedule(tasks, budget: KitchenSampleDishes.budget)
+        // The first chopping is ticked off the moment the clock starts.
+        var finished = ["m1": 0]
+        var live = try KitchenScheduler.replan(tasks, budget: KitchenSampleDishes.budget, previous: plan,
+                                               progress: KitchenProgress(now: 0, finished: finished))
+        let pulledForward = live.makespan
+        #expect(pulledForward == plan.makespan - 6)
+        #expect(live.placement(of: "h1")?.start == 0)
+        for minute in 1...5 {
+            // The skin goes into the oven on time, ticked off at minute 2.
+            if minute == 2 { finished["h1"] = 2 }
+            live = try KitchenScheduler.replan(tasks, budget: KitchenSampleDishes.budget, previous: live,
+                                               progress: KitchenProgress(now: minute, finished: finished))
+            #expect(live.makespan == pulledForward, "minute \(minute)")
+            #expect(live.placement(of: "h1")?.start == 0, "minute \(minute)")
+        }
+        // Begun steps keep their start when the plan is continued.
+        let begun = live.placements.filter { $0.start < 5 && $0.task.handsMinutes > 0 }
+        #expect(!begun.isEmpty)
+    }
+
     // MARK: Refusing bad input
 
     @Test("Duplicate ids, unknown dependencies, cycles and a missing oven are errors")

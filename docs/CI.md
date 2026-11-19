@@ -18,7 +18,7 @@ Das Schema `BackPlaner` hat zwei Testpläne (`UnitTests.xctestplan`, `AllTests.x
 | **UnitTests** (Standard für ⌘U) | die 285 Unit-Tests in `BackPlanerTests` | jeder Lauf während der Arbeit; die Tests selbst brauchen unter einer Sekunde, der ganze Lauf auf einem gebooteten Simulator etwa eine halbe Minute |
 | **AllTests** | Unit-Tests und UI-Tests | Xcode Cloud, vor einem Release; die UI-Tests starten die App mehrfach und brauchen einige Minuten |
 
-Umschalten in Xcode über das Schema-Menü → **Edit Scheme… → Test → Test Plans**, oder im Testnavigator oben. Auf der Kommandozeile `xcodebuild test -scheme BackPlaner -testPlan UnitTests -destination 'id=<udid>'`; für wiederholte Läufe einmal `build-for-testing`, dann `test-without-building`.
+Umschalten in Xcode über das Schema-Menü → **Edit Scheme… → Test → Test Plans**, oder im Testnavigator oben. Auf der Kommandozeile `xcodebuild test -project BackPlaner.xcodeproj -scheme BackPlaner -testPlan UnitTests -destination 'id=<udid>'` (zwei Projekte im Wurzelordner, daher `-project`); für wiederholte Läufe einmal `build-for-testing`, dann `test-without-building`.
 
 Als Host der Unit-Tests startet die App verkürzt (`UITestSupport.isUnitTestHost`): Firebase wird konfiguriert, aber Datenbank-Aufräumen, Widget-Publisher, Benachrichtigungen, Hintergrundfoto und die anonyme Anmeldung entfallen, und das Fenster bleibt leer. Die Tests bauen sich ihre In-Memory-Container selbst. Für die UI-Tests startet die App vollständig.
 

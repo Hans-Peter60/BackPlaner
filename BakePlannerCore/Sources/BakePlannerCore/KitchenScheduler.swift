@@ -126,9 +126,39 @@ public struct KitchenWait: Equatable, Sendable {
 public struct KitchenPlacement: Identifiable, Equatable, Sendable {
     public let task: KitchenTask
     public let start: Int
+    /// When the hands are free again; as planned, or as it actually went.
+    public let handsEnd: Int
+    /// When the step is done; as planned, or as it actually went.
+    public let end: Int
     public var id: String { task.id }
-    public var handsEnd: Int { start + task.handsMinutes }
-    public var end: Int { start + task.minutes }
+
+    /// The step as planned: hands first, then the unattended part.
+    public init(task: KitchenTask, start: Int) {
+        self.task = task
+        self.start = start
+        self.handsEnd = start + task.handsMinutes
+        self.end = start + task.minutes
+    }
+
+    /// The step as it went while cooking.
+    public init(task: KitchenTask, start: Int, handsEnd: Int, end: Int) {
+        self.task = task
+        self.start = start
+        self.handsEnd = max(start, handsEnd)
+        self.end = max(self.handsEnd, end)
+    }
+}
+
+/// Where the cooking stands: the minute on the clock and the steps the
+/// cook has ticked off, with the minute each was done.
+public struct KitchenProgress: Equatable, Sendable {
+    public var now: Int
+    public var finished: [String: Int]
+
+    public init(now: Int, finished: [String: Int] = [:]) {
+        self.now = max(0, now)
+        self.finished = finished
+    }
 }
 
 public struct KitchenSchedule: Equatable, Sendable {
@@ -262,6 +292,67 @@ public enum KitchenScheduler {
     /// that needs a station the kitchen does not have.
     public static func schedule(_ tasks: [KitchenTask], kitchen: Kitchen = Kitchen(),
                                 budget: Int? = nil) throws -> KitchenSchedule {
+        try schedule(tasks, kitchen: kitchen, budget: budget, fixed: [], from: 0)
+    }
+
+    /// The plan continued from the middle of cooking. Steps the cook has
+    /// ticked off keep their start and end when they did; a step that is
+    /// running keeps its start — a hands-only step not yet ticked off holds
+    /// the hands until it is, a step with an unattended part ends when it
+    /// was planned to. Everything not yet begun is placed afresh from
+    /// `progress.now`, around what is running, so a pot that boiled early
+    /// pulls its follow-ups forward and a chopping that took longer pushes
+    /// them back.
+    public static func replan(_ tasks: [KitchenTask], kitchen: Kitchen = Kitchen(), budget: Int? = nil,
+                              previous: KitchenSchedule, progress: KitchenProgress) throws -> KitchenSchedule {
+        let now = progress.now
+        var fixed = [KitchenPlacement]()
+        var fixedByID = [String: KitchenPlacement]()
+        /// Whether the hands were on a fixed step at `minute`.
+        func handsTaken(at minute: Int) -> Bool {
+            fixed.contains { $0.task.handsMinutes > 0 && $0.start <= minute && minute < $0.handsEnd }
+        }
+        // What was ticked off is a fact and comes first. Then, in planned
+        // order, a step counts as begun only when what it waits for had
+        // ended and the hands were free by then: behind an overdue chopping
+        // nothing else has started, whatever the plan said.
+        for placement in previous.placements {
+            guard let done = progress.finished[placement.task.id] else { continue }
+            let task = placement.task
+            let start = min(placement.start, done)
+            let handsEnd = task.unattendedMinutes == 0 ? done : min(placement.handsEnd, done)
+            let actual = KitchenPlacement(task: task, start: start, handsEnd: handsEnd, end: done)
+            fixed.append(actual)
+            fixedByID[task.id] = actual
+        }
+        for placement in previous.placements.sorted(by: { ($0.start, $0.task.id) < ($1.start, $1.task.id) })
+        where progress.finished[placement.task.id] == nil {
+            let task = placement.task
+            var actual: KitchenPlacement?
+            if placement.start < now {
+                let dependenciesMet = task.after.allSatisfy { id in fixedByID[id].map { $0.end <= placement.start } ?? false }
+                let handsFree = task.handsMinutes == 0 || !handsTaken(at: placement.start)
+                if dependenciesMet && handsFree {
+                    if task.unattendedMinutes == 0 && task.handsMinutes > 0 {
+                        // Still in the cook's hands until ticked off; overdue,
+                        // it is taken to need another minute, and so on.
+                        let end = max(placement.end, now + 1)
+                        actual = KitchenPlacement(task: task, start: placement.start, handsEnd: end, end: end)
+                    } else {
+                        actual = placement
+                    }
+                }
+            }
+            if let actual {
+                fixed.append(actual)
+                fixedByID[task.id] = actual
+            }
+        }
+        return try schedule(tasks, kitchen: kitchen, budget: budget, fixed: fixed, from: now)
+    }
+
+    private static func schedule(_ tasks: [KitchenTask], kitchen: Kitchen, budget: Int?,
+                                 fixed: [KitchenPlacement], from startTime: Int) throws -> KitchenSchedule {
         try checkIDs(tasks)
         let order = try topologicalOrder(tasks)
         for task in tasks {
@@ -330,6 +421,7 @@ public enum KitchenScheduler {
         // cannot know that in advance, so it runs again with the late
         // predecessors held back by the minutes their follow-up was late,
         // until every moment is kept or holding back changes nothing.
+        let fixedIDs = Set(fixed.map(\.task.id))
         var notBefore = [String: Int]()
         var best: KitchenSchedule?
         for _ in 0..<(tasks.count + 1) {
@@ -343,7 +435,7 @@ public enum KitchenScheduler {
             }
             if lateness == 0 { break }
             var changed = false
-            for late in attempt.lateFollowUps {
+            for late in attempt.lateFollowUps where !fixedIDs.contains(late.after) {
                 guard let start = attempt.placement(of: late.after)?.start else { continue }
                 let held = start + late.minutes
                 if held > notBefore[late.after] ?? 0 {
@@ -360,13 +452,25 @@ public enum KitchenScheduler {
         /// `notBefore` waits for its minute.
         func place(_ order: [KitchenTask], notBefore: [String: Int]) throws -> [KitchenPlacement] {
         var placements = [String: KitchenPlacement]()
-        var handsFreeAt = 0
+        var handsFreeAt = startTime
         var stationsFreeAt: [KitchenStation: [Int]] = [
-            .burner: Array(repeating: 0, count: kitchen.burners),
-            .oven: Array(repeating: 0, count: kitchen.ovens)
+            .burner: Array(repeating: startTime, count: kitchen.burners),
+            .oven: Array(repeating: startTime, count: kitchen.ovens)
         ]
-        var time = 0
-        var remaining = Set(tasks.map(\.id))
+        var time = startTime
+        var remaining = Set(tasks.map(\.id)).subtracting(fixedIDs)
+        // What has happened or is running occupies the hands and the
+        // stations as it does, not as it was planned.
+        for placement in fixed {
+            placements[placement.task.id] = placement
+            if placement.task.handsMinutes > 0 { handsFreeAt = max(handsFreeAt, placement.handsEnd) }
+            if let station = placement.task.station, placement.end > time,
+               var slots = stationsFreeAt[station], !slots.isEmpty {
+                let slot = slots.indices.min { slots[$0] < slots[$1] } ?? 0
+                slots[slot] = max(slots[slot], placement.end)
+                stationsFreeAt[station] = slots
+            }
+        }
 
         /// The unstarted steps that have to begin by a moment because a
         /// predecessor with a `maxWait` has started, with that moment —
