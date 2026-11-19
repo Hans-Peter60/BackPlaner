@@ -220,6 +220,9 @@ struct TimelineRow: View {
                     if let window = placement.task.unattendedWindow {
                         Text("\(window.lowerBound)–\(window.upperBound) Min.")
                     }
+                    if let temperature = placement.task.ovenTemperature {
+                        Text("Ofen \(temperature) °C")
+                    }
                 }
                 .font(Theme.bodyFont(12))
                 .foregroundColor(Theme.subtitle)

@@ -77,15 +77,47 @@ struct KitchenSchedulerTests {
         #expect(schedule.criticalPathMinutes == 19)
     }
 
-    @Test("The oven is one station: preheating holds it, the roast waits for the preheating")
+    @Test("One oven, one temperature: the nuts go in beside the roast; at another temperature they wait")
     func oven() throws {
-        let schedule = try KitchenScheduler.schedule([
-            task("preheat", hands: 0, unattended: 10, station: .oven),
-            task("roast", hands: 2, unattended: 20, station: .oven, after: ["preheat"]),
-            task("nuts", hands: 1, unattended: 8, station: .oven, after: ["preheat"])
-        ])
-        // One oven: the nuts cannot share it with the roast.
-        #expect(schedule.makespan == 10 + 22 + 9)
+        func dish(nutsAt temperature: Int?) -> [KitchenTask] {
+            [
+                KitchenTask(id: "roast", name: "Braten", hands: 2, unattended: 20, station: .oven, ovenTemperature: 160),
+                KitchenTask(id: "nuts", name: "Nüsse", hands: 1, unattended: 8, station: .oven, ovenTemperature: temperature)
+            ]
+        }
+        let shared = try KitchenScheduler.schedule(dish(nutsAt: 160))
+        #expect(shared.placement(of: "nuts")?.start == 2)
+        #expect(shared.makespan == 22)
+        let hotter = try KitchenScheduler.schedule(dish(nutsAt: 220))
+        #expect(hotter.placement(of: "nuts")?.start == 22)
+        #expect(hotter.makespan == 31)
+        // Without a temperature of its own the step takes the oven as it is.
+        let any = try KitchenScheduler.schedule(dish(nutsAt: nil))
+        #expect(any.placement(of: "nuts")?.start == 2)
+        // A second oven takes the other temperature.
+        let twoOvens = try KitchenScheduler.schedule(dish(nutsAt: 220), kitchen: Kitchen(burners: 4, ovens: 2))
+        #expect(twoOvens.placement(of: "nuts")?.start == 2)
+        #expect(twoOvens.makespan == 22)
+    }
+
+    @Test("A step that is not in the oven carries no oven temperature")
+    func temperatureOnlyInTheOven() {
+        #expect(KitchenTask(id: "a", name: "a", hands: 1, station: .burner, ovenTemperature: 200).ovenTemperature == nil)
+        #expect(KitchenTask(id: "b", name: "b", hands: 1, station: .oven, ovenTemperature: 200).ovenTemperature == 200)
+    }
+
+    @Test("Replanning keeps the running oven's temperature: the gratin waits for the skin")
+    func runningOvenTemperature() throws {
+        let tasks = [
+            KitchenTask(id: "skin", name: "Haut", hands: 0, unattended: 20, station: .oven, ovenTemperature: 160),
+            task("prep", hands: 3),
+            KitchenTask(id: "gratin", name: "Gratin", hands: 1, unattended: 10, station: .oven, after: ["prep"], ovenTemperature: 220),
+            task("plate", hands: 1, after: ["skin", "gratin"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        #expect(plan.placement(of: "gratin")?.start == 20)
+        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 5, finished: ["prep": 2]))
+        #expect(live.placement(of: "gratin")?.start == 20)
     }
 
     // MARK: Why a dish does not fit
@@ -524,10 +556,11 @@ struct KitchenSchedulerTests {
         for minute in 0..<schedule.makespan {
             let hands = schedule.placements.filter { $0.task.handsMinutes > 0 && ($0.start..<$0.handsEnd).contains(minute) }
             #expect(hands.count <= 1, "minute \(minute): \(hands.map(\.task.id))")
-            for station in [KitchenStation.burner, .oven] {
-                let busy = schedule.placements.filter { $0.task.station == station && ($0.start..<$0.end).contains(minute) }
-                #expect(busy.count <= kitchen.capacity(of: station), "minute \(minute): \(station) \(busy.map(\.task.id))")
-            }
+            let burners = schedule.placements.filter { $0.task.station == .burner && ($0.start..<$0.end).contains(minute) }
+            #expect(burners.count <= kitchen.burners, "minute \(minute): burners \(burners.map(\.task.id))")
+            // One oven: everything in it at once shares one temperature.
+            let inOven = schedule.placements.filter { $0.task.station == .oven && ($0.start..<$0.end).contains(minute) }
+            #expect(Set(inOven.compactMap(\.task.ovenTemperature)).count <= kitchen.ovens, "minute \(minute): oven \(inOven.map(\.task.id))")
         }
         #expect(schedule.makespan >= schedule.criticalPathMinutes)
         #expect(schedule.makespan >= schedule.handsMinutes)

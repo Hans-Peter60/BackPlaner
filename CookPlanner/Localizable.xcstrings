@@ -815,6 +815,28 @@
         }
       }
     },
+    "Ofen %lld °C": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ofen %lld °C"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oven %lld °C"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four %lld °C"
+          }
+        }
+      }
+    },
     "Passt in %lld Minuten": {
       "localizations": {
         "de": {

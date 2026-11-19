@@ -93,7 +93,7 @@ public enum KitchenSampleDishes {
 
             KitchenTask(id: "k1", name: "Birne schälen, entkernen, würfeln", component: "Kompott", hands: 2),
             KitchenTask(id: "k2", name: "Birne in Butter dünsten, abschmecken", component: "Kompott", hands: 2, unattended: 5, station: .burner, after: ["k1"]),
-            KitchenTask(id: "n1", name: "Haselnüsse im Ofen rösten", component: "Kompott", hands: 1, unattended: 8, station: .oven),
+            KitchenTask(id: "n1", name: "Haselnüsse im Ofen rösten", component: "Kompott", hands: 1, unattended: 8, station: .oven, ovenTemperature: 160),
             KitchenTask(id: "n2", name: "Nüsse hacken und unterheben", component: "Kompott", hands: 1, after: ["n1", "k2"]),
 
             KitchenTask(id: "s1", name: "Sahne und Fond reduzieren", component: "Sahnesauce", hands: 1, unattended: 8, station: .burner),
@@ -118,7 +118,7 @@ public enum KitchenSampleDishes {
             KitchenTask(id: "m4", name: "Kalte Butter, Estragon, Fleisch warmziehen", component: "Geschnetzeltes", hands: 2, station: .burner, after: ["m3"], maxWait: 3),
 
             KitchenTask(id: "h1", name: "Haut zwischen Backpapier, beschweren, in den Ofen", component: "Knusprige Haut", hands: 2, after: ["m1"]),
-            KitchenTask(id: "h2", name: "Haut goldbraun backen", component: "Knusprige Haut", hands: 0, unattended: 20, station: .oven, after: ["h1"], window: 20...25),
+            KitchenTask(id: "h2", name: "Haut goldbraun backen", component: "Knusprige Haut", hands: 0, unattended: 20, station: .oven, after: ["h1"], window: 20...25, ovenTemperature: 160),
             KitchenTask(id: "h3", name: "Haut salzen", component: "Knusprige Haut", hands: 1, after: ["h2"]),
 
             KitchenTask(id: "p1", name: "Kräuterseitlinge in Scheiben, Schalotte würfeln", component: "Kräuterseitlinge", hands: 4),

@@ -160,8 +160,11 @@ Bauen von der Kommandozeile: `xcodebuild -project CookPlanner.xcodeproj -scheme 
 
 Ein Schritt kann für seinen unbeaufsichtigten Teil ein **Fenster** tragen (`KitchenTask.unattendedWindow`, „Haut 20–25 Minuten backen“); geplant wird mit dem Nennwert, der im Fenster liegt. `KitchenScheduler.fit(tasks, kitchen:, budget:)` kürzt, wenn das Gericht nicht passt und nicht die Hände der Grund sind, die Fensterschritte auf dem kritischen Pfad (sonst beliebige) bis zur Fensteruntergrenze und nur so weit wie nötig, und liefert die Kürzungen mit (`KitchenFit.shortenings`). Die Planansicht zeigt sie als Karte „So passt es“ („Haut goldbraun backen: 22 statt 25 Minuten“); fehlt es trotz kürzester Zeiten, steht das dort. Beim Kochen läuft ein Fensterschritt nach seinem geplanten Ende weiter, bis er abgehakt wird, längstens bis zum Fensterende; der Kochmodus zeigt „noch 20–25 Min.“ bzw. „bis zu 5 Min.“. In den Beispielgerichten haben Fenster: Perlhuhn auf der Haut 5–6, Wirsing 6–8, Haut im Ofen 20–25; weil dort die Hände der Engpass sind, kürzt `fit` nichts.
 
+### Ofentemperatur (erledigt 19.11.)
+
+Ein Ofenschritt trägt seine Temperatur (`KitchenTask.ovenTemperature`, nur für `station == .oven`). Ein Ofen nimmt beliebig viele Schritte gleichzeitig auf, aber nur bei einer Temperatur; ein Schritt ohne Angabe passt zu jeder. Der Planer legt einen Ofenschritt zuerst in einen Ofen, der schon auf seiner Temperatur steht, sonst in einen leeren; sonst wartet er. Bei der Neuplanung behält ein laufender Ofenschritt seine Temperatur, ein Gratin bei 220 °C wartet also auf die Haut bei 160 °C. Zeitplan und Kochmodus zeigen „Ofen 160 °C“. Beispielgerichte: Haut und Haselnüsse bei 160 °C. Noch nicht modelliert: die Zahl der Einschübe und die Zeit zum Umheizen.
+
 ## Nächste Schritte
 
 1. Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
-2. Ofentemperatur als Konflikt (zwei Gerichte im selben Ofen bei verschiedenen Temperaturen).
-3. Import mit Arbeitszeiten, Abhängigkeiten, Höchstwartezeiten und Fenstern (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.
+2. Import mit Arbeitszeiten, Abhängigkeiten, Höchstwartezeiten, Fenstern und Ofentemperaturen (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.

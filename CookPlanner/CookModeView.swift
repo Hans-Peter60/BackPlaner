@@ -271,11 +271,16 @@ struct CookModeView: View {
                     .font(Theme.bodyFont(15))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
-                if !placement.task.component.isEmpty {
-                    Text(verbatim: placement.task.component)
-                        .font(Theme.bodyFont(12))
-                        .foregroundColor(Theme.subtitle)
+                HStack(spacing: 6) {
+                    if !placement.task.component.isEmpty {
+                        Text(verbatim: placement.task.component)
+                    }
+                    if let temperature = placement.task.ovenTemperature {
+                        Text("Ofen \(temperature) °C")
+                    }
                 }
+                .font(Theme.bodyFont(12))
+                .foregroundColor(Theme.subtitle)
             }
             Spacer()
             Text(detail)
