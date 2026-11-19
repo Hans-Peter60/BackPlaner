@@ -402,6 +402,78 @@ struct KitchenSchedulerTests {
         #expect(undone.lateFollowUps.isEmpty)
     }
 
+    // MARK: Windows
+
+    @Test("A window holds the planned minutes and says how far they can be cut")
+    func window() {
+        let bake = task("bake", hands: 0, unattended: 25, station: .oven)
+        #expect(bake.unattendedWindow == nil && bake.reducibleMinutes == 0)
+        let windowed = KitchenTask(id: "skin", name: "Haut backen", hands: 0, unattended: 25, station: .oven, window: 20...25)
+        #expect(windowed.reducibleMinutes == 5)
+        #expect(windowed.shortened(to: 22).unattendedMinutes == 22)
+        #expect(windowed.shortened(to: 10).unattendedMinutes == 20)
+        let clamped = KitchenTask(id: "x", name: "x", hands: 0, unattended: 30, window: 20...25)
+        #expect(clamped.unattendedMinutes == 25)
+    }
+
+    @Test("Too long a chain is cut within the windows of its steps, no further than the budget needs")
+    func fitByCutting() throws {
+        let tasks = [
+            KitchenTask(id: "skin", name: "Haut backen", hands: 2, unattended: 25, station: .oven, window: 20...25),
+            KitchenTask(id: "rest", name: "Ruhen", hands: 0, unattended: 8, after: ["skin"], window: 5...8),
+            task("plate", hands: 3, after: ["rest"]),
+            task("chop", hands: 10)
+        ]
+        let nominal = try KitchenScheduler.schedule(tasks, budget: 35)
+        #expect(nominal.makespan == 38 && nominal.limit == .criticalPath)
+        let fit = try KitchenScheduler.fit(tasks, budget: 35)
+        #expect(fit.schedule.fits)
+        #expect(fit.schedule.makespan == 35)
+        // The skin has the most to give and is cut first, by the three
+        // minutes missing; the rest is left alone.
+        #expect(fit.shortenings == [KitchenShortening(task: "skin", from: 25, to: 22)])
+    }
+
+    @Test("Cutting stops at the windows: what still does not fit says so")
+    func fitLimited() throws {
+        let tasks = [
+            KitchenTask(id: "skin", name: "Haut backen", hands: 2, unattended: 25, station: .oven, window: 20...25),
+            task("plate", hands: 3, after: ["skin"])
+        ]
+        let fit = try KitchenScheduler.fit(tasks, budget: 20)
+        #expect(!fit.schedule.fits)
+        #expect(fit.schedule.makespan == 25)
+        #expect(fit.shortenings == [KitchenShortening(task: "skin", from: 25, to: 20)])
+    }
+
+    @Test("A dish the hands do not fit is not cut: shorter cooking frees no hands")
+    func fitHands() throws {
+        let fit = try KitchenScheduler.fit(KitchenSampleDishes.perlhuhnbrust.tasks, budget: KitchenSampleDishes.budget)
+        #expect(fit.shortenings.isEmpty)
+        #expect(fit.schedule.limit == .hands)
+    }
+
+    @Test("Past its planned end without a tick, a windowed step goes on until the window's end")
+    func windowedStepRuns() throws {
+        let tasks = [
+            KitchenTask(id: "skin", name: "Haut backen", hands: 2, unattended: 20, station: .oven, window: 20...25),
+            task("plate", hands: 3, after: ["skin"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        #expect(plan.placement(of: "plate")?.start == 22)
+        // Minute 23, not ticked: still in the oven, the plating waits.
+        let running = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 23))
+        #expect(running.placement(of: "skin")?.end == 24)
+        #expect(running.placement(of: "plate")?.start == 24)
+        // Minute 30: the window ended at 27; the skin is done by the clock.
+        let late = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 30))
+        #expect(late.placement(of: "skin")?.end == 27)
+        #expect(late.placement(of: "plate")?.start == 30)
+        // Ticked off at 21: out early.
+        let early = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 21, finished: ["skin": 21]))
+        #expect(early.placement(of: "plate")?.start == 21)
+    }
+
     // MARK: Refusing bad input
 
     @Test("Duplicate ids, unknown dependencies, cycles and a missing oven are errors")

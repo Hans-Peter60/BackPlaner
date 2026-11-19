@@ -23,6 +23,28 @@
         }
       }
     },
+    "%@: %lld statt %lld Minuten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %lld statt %lld Minuten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %lld instead of %lld minutes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ : %lld au lieu de %lld minutes"
+          }
+        }
+      }
+    },
     "%lld Min.": {
       "localizations": {
         "de": {
@@ -107,6 +129,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld étapes sur %lld"
+          }
+        }
+      }
+    },
+    "%lld–%lld Min.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld–%lld Min."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld–%lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld–%lld min"
+          }
+        }
+      }
+    },
+    "Auch mit den kürzesten Garzeiten fehlen %lld Minuten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auch mit den kürzesten Garzeiten fehlen %lld Minuten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Even with the shortest cooking times %lld minutes are missing"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Même avec les temps de cuisson les plus courts, il manque %lld minutes"
           }
         }
       }
@@ -705,6 +771,28 @@
         }
       }
     },
+    "Mit diesen Garzeiten passt es in %lld Minuten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit diesen Garzeiten passt es in %lld Minuten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With these cooking times it fits in %lld minutes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec ces temps de cuisson, ça tient en %lld minutes"
+          }
+        }
+      }
+    },
     "Ofen": {
       "localizations": {
         "de": {
@@ -903,6 +991,28 @@
         }
       }
     },
+    "So passt es": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "So passt es"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How it fits"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour que ça tienne"
+          }
+        }
+      }
+    },
     "Start": {
       "localizations": {
         "de": {
@@ -1013,6 +1123,28 @@
         }
       }
     },
+    "bis zu %lld Min.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "bis zu %lld Min."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "up to %lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "jusqu’à %lld min"
+          }
+        }
+      }
+    },
     "in %lld Min.": {
       "localizations": {
         "de": {
@@ -1053,6 +1185,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "encore %lld min"
+          }
+        }
+      }
+    },
+    "noch %lld–%lld Min.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "noch %lld–%lld Min."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld–%lld min left"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "encore %lld–%lld min"
           }
         }
       }

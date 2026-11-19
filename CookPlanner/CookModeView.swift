@@ -182,7 +182,7 @@ struct CookModeView: View {
                     if !unattended.isEmpty {
                         section("Läuft von allein", systemImage: "flame") {
                             ForEach(unattended) { placement in
-                                stepLine(placement, detail: "noch \(placement.end - minute) Min.") {
+                                stepLine(placement, detail: unattendedDetail(placement, minute: minute)) {
                                     tickOff(placement.id, minute: minute)
                                 }
                             }
@@ -199,6 +199,20 @@ struct CookModeView: View {
             }
             .padding()
         }
+    }
+
+    /// "noch 4 Min." — or, for a step with a window, "noch 2–7 Min." and,
+    /// once the planned end has passed, "bis zu 5 Min.".
+    private func unattendedDetail(_ placement: KitchenPlacement, minute: Int) -> LocalizedStringKey {
+        guard let window = placement.task.unattendedWindow else {
+            return "noch \(placement.end - minute) Min."
+        }
+        let earliest = placement.start + placement.task.handsMinutes + window.lowerBound
+        let latest = placement.start + placement.task.handsMinutes + window.upperBound
+        if minute < earliest {
+            return "noch \(earliest - minute)–\(latest - minute) Min."
+        }
+        return "bis zu \(max(0, latest - minute)) Min."
     }
 
     private func clock(remaining: Int, minute: Int, live: KitchenSchedule) -> some View {
