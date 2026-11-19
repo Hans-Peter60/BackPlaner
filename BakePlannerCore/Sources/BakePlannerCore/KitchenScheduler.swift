@@ -6,7 +6,8 @@
 //  the work of a dish gets done so that everything is ready together. A
 //  step binds the cook's hands for a while ("Zwiebeln würfeln", 2 min) and
 //  may then run on its own ("Graupen 25 Minuten kochen") while it keeps a
-//  burner or the oven; a step may have to wait for others ("Füllung
+//  burner or the oven — an oven takes several steps at once, but only at
+//  one temperature; a step may have to wait for others ("Füllung
 //  mischen" needs the barley, the meat and the mushrooms). The scheduler
 //  places every step forward from minute 0 — hands never on two things,
 //  never more pans than burners — and says whether the dish fits the budget
@@ -56,10 +57,14 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
     /// backen"); `unattendedMinutes` is the value planned with and lies
     /// within it. Nil when the recipe names one time.
     public let unattendedWindow: ClosedRange<Int>?
+    /// For a step in the oven, the temperature it needs in °C. An oven
+    /// holds several steps at once, but only at one temperature; a step
+    /// without one goes in at whatever the oven is at.
+    public let ovenTemperature: Int?
 
     public init(id: String, name: String, component: String = "",
                 hands: Int, unattended: Int = 0, station: KitchenStation? = nil, after: [String] = [],
-                maxWait: Int? = nil, window: ClosedRange<Int>? = nil) {
+                maxWait: Int? = nil, window: ClosedRange<Int>? = nil, ovenTemperature: Int? = nil) {
         self.id = id
         self.name = name
         self.component = component
@@ -70,13 +75,21 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
         self.station = station
         self.after = after
         self.maxWait = maxWait.map { max(0, $0) }
+        self.ovenTemperature = station == .oven ? ovenTemperature : nil
     }
 
     /// The same step with its unattended part set to `minutes`, within
     /// the window.
     public func shortened(to minutes: Int) -> KitchenTask {
         KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: minutes,
-                    station: station, after: after, maxWait: maxWait, window: unattendedWindow)
+                    station: station, after: after, maxWait: maxWait, window: unattendedWindow,
+                    ovenTemperature: ovenTemperature)
+    }
+
+    /// Whether two steps can be in one oven at the same time.
+    public func sharesOven(with other: KitchenTask) -> Bool {
+        guard let mine = ovenTemperature, let theirs = other.ovenTemperature else { return true }
+        return mine == theirs
     }
 
     /// How far the unattended part can still be cut within the window.
@@ -521,22 +534,45 @@ public enum KitchenScheduler {
         func place(_ order: [KitchenTask], notBefore: [String: Int]) throws -> [KitchenPlacement] {
         var placements = [String: KitchenPlacement]()
         var handsFreeAt = startTime
-        var stationsFreeAt: [KitchenStation: [Int]] = [
-            .burner: Array(repeating: startTime, count: kitchen.burners),
-            .oven: Array(repeating: startTime, count: kitchen.ovens)
-        ]
+        var burnersFreeAt = Array(repeating: startTime, count: kitchen.burners)
+        // Each oven with what is in it; several steps share an oven at one
+        // temperature.
+        var ovenLoads = Array(repeating: [KitchenPlacement](), count: kitchen.ovens)
         var time = startTime
         var remaining = Set(tasks.map(\.id)).subtracting(fixedIDs)
+
+        /// The oven `task` can go into at `time`: one already at its
+        /// temperature first, else an empty one.
+        func ovenIndex(for task: KitchenTask, at time: Int) -> Int? {
+            var empty: Int?
+            for (index, load) in ovenLoads.enumerated() {
+                let running = load.filter { $0.end > time }
+                if running.isEmpty {
+                    if empty == nil { empty = index }
+                } else if running.allSatisfy({ $0.task.sharesOven(with: task) }) {
+                    return index
+                }
+            }
+            return empty
+        }
+
         // What has happened or is running occupies the hands and the
         // stations as it does, not as it was planned.
         for placement in fixed {
             placements[placement.task.id] = placement
             if placement.task.handsMinutes > 0 { handsFreeAt = max(handsFreeAt, placement.handsEnd) }
-            if let station = placement.task.station, placement.end > time,
-               var slots = stationsFreeAt[station], !slots.isEmpty {
-                let slot = slots.indices.min { slots[$0] < slots[$1] } ?? 0
-                slots[slot] = max(slots[slot], placement.end)
-                stationsFreeAt[station] = slots
+            guard placement.end > time else { continue }
+            switch placement.task.station {
+            case .burner:
+                if let slot = burnersFreeAt.indices.min(by: { burnersFreeAt[$0] < burnersFreeAt[$1] }) {
+                    burnersFreeAt[slot] = max(burnersFreeAt[slot], placement.end)
+                }
+            case .oven:
+                if !ovenLoads.isEmpty {
+                    ovenLoads[ovenIndex(for: placement.task, at: time) ?? 0].append(placement)
+                }
+            case nil:
+                break
             }
         }
 
@@ -577,16 +613,24 @@ public enum KitchenScheduler {
                     urgent != task.id && !(ancestors[urgent]?.contains(task.id) ?? false) && time + task.handsMinutes > moment
                 }) { continue }
                 var stationIndex: Int?
-                if let station = task.station {
-                    guard let index = stationsFreeAt[station]?.firstIndex(where: { $0 <= time }) else { continue }
+                switch task.station {
+                case .burner:
+                    guard let index = burnersFreeAt.firstIndex(where: { $0 <= time }) else { continue }
                     stationIndex = index
+                case .oven:
+                    guard let index = ovenIndex(for: task, at: time) else { continue }
+                    stationIndex = index
+                case nil:
+                    break
                 }
                 let placement = KitchenPlacement(task: task, start: time)
                 placements[task.id] = placement
                 remaining.remove(task.id)
                 if task.handsMinutes > 0 { handsFreeAt = placement.handsEnd }
-                if let station = task.station, let index = stationIndex {
-                    stationsFreeAt[station]?[index] = placement.end
+                switch task.station {
+                case .burner: if let index = stationIndex { burnersFreeAt[index] = placement.end }
+                case .oven: if let index = stationIndex { ovenLoads[index].append(placement) }
+                case nil: break
                 }
                 startedOne = true
                 // Hands or a station changed; look at the list afresh.
@@ -597,7 +641,7 @@ public enum KitchenScheduler {
             // Nothing can start now: move to the next moment something frees up.
             var events = [Int]()
             if handsFreeAt > time { events.append(handsFreeAt) }
-            events += stationsFreeAt.values.flatMap { $0 }.filter { $0 > time }
+            events += burnersFreeAt.filter { $0 > time }
             events += placements.values.map(\.end).filter { $0 > time }
             // A moment that passes frees the hands again.
             events += due.values.map { $0 + 1 }
