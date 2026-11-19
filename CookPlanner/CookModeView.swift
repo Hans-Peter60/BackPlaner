@@ -18,8 +18,14 @@ struct CookModeView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var startedAt: Date?
+    /// While paused, when the pause began; the clock stands still.
+    @State private var pausedAt: Date?
+    /// Seconds spent in earlier pauses, taken off the clock.
+    @State private var pausedSeconds: TimeInterval = 0
     /// The steps ticked off, with the minute each was done.
     @State private var finished: [String: Int] = [:]
+    /// The ticks in order, for taking the last one back.
+    @State private var tickHistory: [String] = []
     /// The plan as it stands: continued every minute and at every tick-off
     /// from the previous live plan, so that a step pulled forward stays
     /// where it began instead of being placed afresh each minute.
@@ -28,8 +34,7 @@ struct CookModeView: View {
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 1)) { context in
-                let elapsed = startedAt.map { context.date.timeIntervalSince($0) } ?? 0
-                let seconds = max(0, Int(elapsed))
+                let seconds = elapsedSeconds(at: context.date)
                 content(elapsedSeconds: seconds)
                     .task(id: seconds / 60) { replan(minute: seconds / 60) }
             }
@@ -40,8 +45,58 @@ struct CookModeView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Beenden") { dismiss() }
                 }
+                if startedAt != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            undoLastTick()
+                        } label: {
+                            Image(systemName: "arrow.uturn.backward")
+                        }
+                        .disabled(tickHistory.isEmpty)
+                        .accessibilityLabel("Rückgängig")
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        if pausedAt == nil {
+                            Button {
+                                pausedAt = .now
+                            } label: {
+                                Image(systemName: "pause.fill")
+                            }
+                            .accessibilityLabel("Pause")
+                        } else {
+                            Button {
+                                resume()
+                            } label: {
+                                Image(systemName: "play.fill")
+                            }
+                            .accessibilityLabel("Weiter")
+                        }
+                    }
+                }
             }
         }
+    }
+
+    /// Seconds on the cooking clock: since the start, less the pauses; a
+    /// running pause holds the clock where it stopped.
+    private func elapsedSeconds(at date: Date) -> Int {
+        guard let startedAt else { return 0 }
+        let end = pausedAt ?? date
+        return max(0, Int(end.timeIntervalSince(startedAt) - pausedSeconds))
+    }
+
+    private func resume() {
+        guard let pausedAt else { return }
+        pausedSeconds += Date.now.timeIntervalSince(pausedAt)
+        self.pausedAt = nil
+    }
+
+    /// Takes the last tick back: the step is in the cook's hands again — or
+    /// on its burner — and the plan is continued without it.
+    private func undoLastTick() {
+        guard let id = tickHistory.popLast() else { return }
+        finished[id] = nil
+        replan(minute: elapsedSeconds(at: .now) / 60)
     }
 
     /// Continues the live plan from `minute` around what has been ticked off.
@@ -55,6 +110,7 @@ struct CookModeView: View {
 
     private func tickOff(_ id: String, minute: Int) {
         finished[id] = minute
+        tickHistory.append(id)
         replan(minute: minute)
     }
 
@@ -152,6 +208,11 @@ struct CookModeView: View {
                 .foregroundColor(Theme.subtitle)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
+            if pausedAt != nil {
+                Label("Pause, die Uhr steht", systemImage: "pause.circle.fill")
+                    .font(Theme.bodyFont(14).weight(.semibold))
+                    .foregroundColor(Theme.warning)
+            }
             Text(verbatim: String(format: "%d:%02d", remaining / 60, remaining % 60))
                 .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
                 .foregroundColor(remaining > 0 ? Theme.title : Theme.good)

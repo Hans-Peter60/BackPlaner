@@ -333,13 +333,16 @@ public enum KitchenScheduler {
                 let dependenciesMet = task.after.allSatisfy { id in fixedByID[id].map { $0.end <= placement.start } ?? false }
                 let handsFree = task.handsMinutes == 0 || !handsTaken(at: placement.start)
                 if dependenciesMet && handsFree {
+                    // From its start with the task's own durations, not the
+                    // placement's: a tick taken back leaves the placement
+                    // with the tick's end.
                     if task.unattendedMinutes == 0 && task.handsMinutes > 0 {
                         // Still in the cook's hands until ticked off; overdue,
                         // it is taken to need another minute, and so on.
-                        let end = max(placement.end, now + 1)
+                        let end = max(placement.start + task.handsMinutes, now + 1)
                         actual = KitchenPlacement(task: task, start: placement.start, handsEnd: end, end: end)
                     } else {
-                        actual = placement
+                        actual = KitchenPlacement(task: task, start: placement.start)
                     }
                 }
             }

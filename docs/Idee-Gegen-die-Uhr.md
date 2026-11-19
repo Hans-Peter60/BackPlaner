@@ -138,7 +138,7 @@ Arbeitstitel **CookPlanner** (Ordner `CookPlanner/`, Projekt `CookPlanner.xcodep
 | `CookSettings.swift` | Budget, Platten und Öfen in den Defaults; `DishPlan` = Gericht + Plan + Wortlaut des Urteils |
 | `DishListView.swift` | Liste der Beispielgerichte mit Urteil („Passt in 35 Minuten“ / „Fehlen 9 Minuten“), Einstellungsblatt |
 | `DishPlanView.swift` | Urteil mit Begründung, Kette und Handminuten, Handarbeit je Komponente als Balken, Zeitplan, Warmhalte-Hinweise, „Kochen starten“ |
-| `CookModeView.swift` | Countdown, „Jetzt“ (Hände) mit Haken je Handgriff, „Gleich“, „Läuft von allein“ (Haken für früher fertig), Erledigt-Zähler; nach jedem Haken und jeder Minute wird der Rest des Plans vom letzten Live-Plan aus neu gelegt (`KitchenScheduler.replan`), die Uhr zeigt „Fertig in Minute X, Y Minuten früher/später als geplant“ |
+| `CookModeView.swift` | Countdown, „Jetzt“ (Hände) mit Haken je Handgriff, „Gleich“, „Läuft von allein“ (Haken für früher fertig), Erledigt-Zähler; nach jedem Haken und jeder Minute wird der Rest des Plans vom letzten Live-Plan aus neu gelegt (`KitchenScheduler.replan`), die Uhr zeigt „Fertig in Minute X, Y Minuten früher/später als geplant“; **Pause** hält die Uhr an (Pausenzeit wird abgezogen), **Rückgängig** nimmt den letzten Haken zurück, der Schritt ist dann wieder in Arbeit und was vorgerückt war, wartet wieder |
 | `Localizable.xcstrings` | 40 Texte, de/en/fr (de explizit, weil die Entwicklungsregion eines neuen Projekts en ist) |
 | `Assets.xcassets` | leeres App-Symbol, Akzentfarbe |
 
@@ -153,10 +153,11 @@ Bauen von der Kommandozeile: `xcodebuild -project CookPlanner.xcodeproj -scheme 
 - Ein Schritt gilt als begonnen, wenn sein geplanter Beginn vor jetzt liegt, seine Vorgänger bis dahin fertig waren und die Hände in dem Moment nicht auf einem anderen Schritt lagen. Hinter einem überfälligen Schneiden hat also nichts begonnen, was der Plan auch sagte.
 - Ein reiner Handgriff hält die Hände, bis er abgehakt ist; überfällig gilt er als „braucht noch eine Minute“, Minute für Minute. Schritte mit unbeaufsichtigtem Teil enden nach der Uhr und können früher abgehakt werden.
 - Alles Übrige wird ab jetzt neu gelegt, um das Laufende herum (Hände, Platten, Ofen bleiben belegt).
+- Ein begonnener Schritt wird mit den Dauern seiner Aufgabe ab seinem Beginn fortgeschrieben, nicht mit den Zeiten der letzten Platzierung: Ein zurückgenommener Haken hinterlässt dort das Ende des Hakens (Test `tickTakenBack`).
 - Der Kochmodus plant **vom letzten Live-Plan** aus weiter, nicht vom ursprünglichen: Sonst galt ein vorgezogener Schritt jede Minute wieder als nicht begonnen, und das Ende rutschte jede Minute um eine Minute (auf dem Simulator gefunden, Test `continuedPlanStandsStill`).
 
 ## Nächste Schritte
 
 1. Deployment Target auf iOS 26.0 setzen (in Xcode, Hans-Peter); Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
-2. Spannen („20–25 Minuten“) und Ofentemperatur als Konflikt; im Kochmodus Pause und ein Rückgängig für einen falschen Haken.
+2. Spannen („20–25 Minuten“) und Ofentemperatur als Konflikt.
 3. Import mit Arbeitszeiten, Abhängigkeiten und Höchstwartezeiten (KI schlägt vor, der Koch korrigiert), eigener Store, Store-Texte, Android über Skip.

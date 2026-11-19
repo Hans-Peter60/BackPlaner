@@ -380,6 +380,28 @@ struct KitchenSchedulerTests {
         #expect(!begun.isEmpty)
     }
 
+    @Test("A tick taken back: the step is in the hands again, overdue, and what had moved up waits for it")
+    func tickTakenBack() throws {
+        let tasks = [
+            task("chop", hands: 4),
+            task("dice", hands: 3),
+            task("fry", hands: 2, station: .burner, after: ["chop", "dice"]),
+            task("plate", hands: 1, after: ["fry"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        // Ticked off at minute 1 by mistake: the dicing moves up to minute 1.
+        let ticked = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 1, finished: ["chop": 1]))
+        #expect(ticked.placement(of: "dice")?.start == 1)
+        // Taken back at minute 2: the chopping holds the hands again, the
+        // dicing that had begun in the live plan cannot have, and waits.
+        let undone = try KitchenScheduler.replan(tasks, previous: ticked, progress: KitchenProgress(now: 2))
+        let chop = try #require(undone.placement(of: "chop"))
+        #expect(chop.start == 0)
+        #expect(chop.end == 4)
+        #expect(try #require(undone.placement(of: "dice")).start >= chop.end)
+        #expect(undone.lateFollowUps.isEmpty)
+    }
+
     // MARK: Refusing bad input
 
     @Test("Duplicate ids, unknown dependencies, cycles and a missing oven are errors")
