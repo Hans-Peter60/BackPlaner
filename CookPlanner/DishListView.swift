@@ -2,8 +2,9 @@
 //  DishListView.swift
 //  CookPlanner
 //
-//  The dishes with their verdict for the current budget and kitchen. Until
-//  the app imports dishes of its own, these are the package's samples.
+//  The cook's own dishes and the examples, each with its verdict for the
+//  current budget and kitchen. Own dishes can be edited and removed; an
+//  example can be taken as a template.
 //
 
 import BakePlannerCore
@@ -11,38 +12,85 @@ import SwiftUI
 
 struct DishListView: View {
 
+    @Environment(DishLibrary.self) private var library
     @AppStorage(CookSettings.budgetKey) private var budget = CookSettings.defaultBudget
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var showsSettings = false
+    /// The dish being edited in the sheet: a new one, a copy of an
+    /// example, or one of the cook's own.
+    @State private var editing: KitchenDish?
 
-    private var plans: [DishPlan] {
-        KitchenSampleDishes.all.compactMap { DishPlan(dish: $0, budget: budget, burners: burners, ovens: ovens) }
+    private func plan(for dish: KitchenDish) -> DishPlan? {
+        DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
     }
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
+            List {
+                Section {
                     Text("Ein Gericht, eine Person, \(budget) Minuten")
                         .font(Theme.bodyFont(15))
                         .foregroundColor(Theme.subtitle)
-                        .padding(.horizontal, 4)
-
-                    ForEach(plans, id: \.dish.id) { plan in
-                        NavigationLink {
-                            DishPlanView(dish: plan.dish)
-                        } label: {
-                            DishRow(plan: plan)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                }
+                if !library.dishes.isEmpty {
+                    Section {
+                        ForEach(library.dishes) { dish in
+                            row(dish)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        library.delete(id: dish.id)
+                                    } label: {
+                                        Label("Löschen", systemImage: "trash")
+                                    }
+                                }
+                                .contextMenu {
+                                    Button {
+                                        editing = dish
+                                    } label: {
+                                        Label("Bearbeiten", systemImage: "pencil")
+                                    }
+                                    Button(role: .destructive) {
+                                        library.delete(id: dish.id)
+                                    } label: {
+                                        Label("Löschen", systemImage: "trash")
+                                    }
+                                }
                         }
-                        .buttonStyle(.plain)
+                    } header: {
+                        sectionTitle("Meine Gerichte")
                     }
                 }
-                .padding()
+                Section {
+                    ForEach(KitchenSampleDishes.all) { dish in
+                        row(dish)
+                            .contextMenu {
+                                Button {
+                                    editing = dish.duplicate()
+                                } label: {
+                                    Label("Als Vorlage übernehmen", systemImage: "doc.on.doc")
+                                }
+                            }
+                    }
+                } header: {
+                    sectionTitle("Beispiele")
+                }
             }
+            .listStyle(.plain)
+            .clearScrollBackground()
             .warmBackground()
             .navigationTitle("Gerichte")
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        editing = KitchenDish(name: "", createdAt: .now, tasks: [])
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel("Neues Gericht")
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showsSettings = true
@@ -55,7 +103,39 @@ struct DishListView: View {
             .sheet(isPresented: $showsSettings) {
                 KitchenSettingsView()
             }
+            .sheet(item: $editing) { dish in
+                DishEditorView(dish: dish) { saved in
+                    library.save(saved)
+                }
+            }
+            .alert("Speichern fehlgeschlagen",
+                   isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(library.lastError ?? "")
+            }
         }
+    }
+
+    @ViewBuilder
+    private func row(_ dish: KitchenDish) -> some View {
+        if let plan = plan(for: dish) {
+            NavigationLink {
+                DishPlanView(dish: dish)
+            } label: {
+                DishRow(plan: plan)
+            }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+        }
+    }
+
+    private func sectionTitle(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(Theme.brandFont(18))
+            .foregroundColor(Theme.title)
+            .textCase(nil)
     }
 }
 
@@ -70,18 +150,24 @@ private struct DishRow: View {
                     .font(Theme.bodyFont(16).weight(.semibold))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
-                Text(verbatim: plan.dish.components.joined(separator: " · "))
-                    .font(Theme.bodyFont(13))
-                    .foregroundColor(Theme.subtitle)
-                Text(plan.verdict)
-                    .font(Theme.bodyFont(14).weight(.semibold))
-                    .foregroundColor(plan.fits ? Theme.good : Theme.danger)
-                    .padding(.top, 2)
+                if !plan.dish.components.isEmpty {
+                    Text(verbatim: plan.dish.components.joined(separator: " · "))
+                        .font(Theme.bodyFont(13))
+                        .foregroundColor(Theme.subtitle)
+                }
+                if plan.dish.tasks.isEmpty {
+                    Text("Noch keine Schritte")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.subtitle)
+                        .padding(.top, 2)
+                } else {
+                    Text(plan.verdict)
+                        .font(Theme.bodyFont(14).weight(.semibold))
+                        .foregroundColor(plan.fits ? Theme.good : Theme.danger)
+                        .padding(.top, 2)
+                }
             }
             Spacer(minLength: 0)
-            Image(systemName: "chevron.right")
-                .foregroundColor(Theme.subtitle)
-                .padding(.top, 14)
         }
         .cardStyle()
         .accessibilityElement(children: .combine)
@@ -129,4 +215,5 @@ struct KitchenSettingsView: View {
 
 #Preview {
     DishListView()
+        .environment(DishLibrary(store: InMemoryKitchenDishStore()))
 }

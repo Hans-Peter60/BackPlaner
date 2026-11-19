@@ -12,12 +12,20 @@ import SwiftUI
 
 struct DishPlanView: View {
 
-    let dish: KitchenDish
-
+    @Environment(DishLibrary.self) private var library
     @AppStorage(CookSettings.budgetKey) private var budget = CookSettings.defaultBudget
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
+    @State private var dish: KitchenDish
     @State private var cooking = false
+    @State private var editing = false
+
+    init(dish: KitchenDish) {
+        _dish = State(initialValue: dish)
+    }
+
+    /// The examples are not the cook's to change; a copy of one is.
+    private var isOwn: Bool { dish.source != .sample }
 
     private var plan: DishPlan? {
         DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
@@ -68,6 +76,18 @@ struct DishPlanView: View {
         .warmBackground()
         .navigationTitle("Plan")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if isOwn {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Bearbeiten") { editing = true }
+                }
+            }
+        }
+        .sheet(isPresented: $editing) {
+            DishEditorView(dish: dish) { saved in
+                if library.save(saved) { dish = saved }
+            }
+        }
         .fullScreenCover(isPresented: $cooking) {
             if let plan {
                 CookModeView(plan: plan)
