@@ -23,6 +23,50 @@
         }
       }
     },
+    "%@ · die Zeit ist um" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · die Zeit ist um"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · time is up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · le temps est écoulé"
+          }
+        }
+      }
+    },
+    "%@ · jetzt dran" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · jetzt dran"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · up now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · à faire maintenant"
+          }
+        }
+      }
+    },
     "%@: %lld statt %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -617,6 +661,28 @@
         }
       }
     },
+    "Die Zeit ist um" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zeit ist um"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time is up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le temps est écoulé"
+          }
+        }
+      }
+    },
     "Die kostenlosen Importe dieses Monats sind aufgebraucht." : {
       "localizations" : {
         "de" : {
@@ -815,46 +881,46 @@
         }
       }
     },
-    "Fertig in Minute %lld, %lld Minuten früher als geplant" : {
+    "Fertig in Minute %lld, %lld Min. früher als geplant" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fertig in Minute %lld, %lld Minuten früher als geplant"
+            "value" : "Fertig in Minute %lld, %lld Min. früher als geplant"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Done in minute %lld, %lld minutes earlier than planned"
+            "value" : "Done in minute %lld, %lld min earlier than planned"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prêt à la minute %lld, %lld minutes plus tôt que prévu"
+            "value" : "Prêt à la minute %lld, %lld min plus tôt que prévu"
           }
         }
       }
     },
-    "Fertig in Minute %lld, %lld Minuten später als geplant" : {
+    "Fertig in Minute %lld, %lld Min. später als geplant" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fertig in Minute %lld, %lld Minuten später als geplant"
+            "value" : "Fertig in Minute %lld, %lld Min. später als geplant"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Done in minute %lld, %lld minutes later than planned"
+            "value" : "Done in minute %lld, %lld min later than planned"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prêt à la minute %lld, %lld minutes plus tard que prévu"
+            "value" : "Prêt à la minute %lld, %lld min plus tard que prévu"
           }
         }
       }
@@ -1273,6 +1339,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maintenant"
+          }
+        }
+      }
+    },
+    "Jetzt dran" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt dran"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À faire maintenant"
           }
         }
       }

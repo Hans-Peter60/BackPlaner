@@ -13,6 +13,7 @@
 import FirebaseAppCheck
 import FirebaseCore
 import SwiftUI
+import UserNotifications
 
 /// App Attest on devices; in DEBUG builds (Simulator, development) the
 /// debug provider, whose token printed at first launch is registered once
@@ -35,6 +36,7 @@ struct CookPlannerApp: App {
         // App Check before Firebase, so the first request carries a token.
         AppCheck.setAppCheckProviderFactory(CookPlannerAppCheckProviderFactory())
         FirebaseApp.configure()
+        UNUserNotificationCenter.current().delegate = CookReminders.shared
         _library = State(initialValue: DishLibrary.onDisk())
     }
 

@@ -6,7 +6,8 @@
 //  what comes next, what runs on its own. The cook ticks off each hands-on
 //  step; done early or late, the rest of the plan is placed afresh from
 //  that moment (KitchenScheduler.replan). Steps with an unattended part
-//  end by the clock and may be ticked off early.
+//  end by the clock and may be ticked off early. Reminders (CookReminders)
+//  follow the live plan, so the phone may be locked in between.
 //
 
 import BakePlannerCore
@@ -30,6 +31,9 @@ struct CookModeView: View {
     /// from the previous live plan, so that a step pulled forward stays
     /// where it began instead of being placed afresh each minute.
     @State private var live: KitchenSchedule?
+    /// What the reminders were last scheduled for, to spare the rescheduling
+    /// when a minute passes without a change.
+    @State private var remindersSignature = ""
 
     var body: some View {
         NavigationStack {
@@ -41,9 +45,13 @@ struct CookModeView: View {
             .warmBackground()
             .navigationTitle("Kochen")
             .navigationBarTitleDisplayMode(.inline)
+            .onDisappear { CookReminders.shared.cancelAll() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Beenden") { dismiss() }
+                    Button("Beenden") {
+                        CookReminders.shared.cancelAll()
+                        dismiss()
+                    }
                 }
                 if startedAt != nil {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -59,6 +67,8 @@ struct CookModeView: View {
                         if pausedAt == nil {
                             Button {
                                 pausedAt = .now
+                                CookReminders.shared.cancelAll()
+                                remindersSignature = ""
                             } label: {
                                 Image(systemName: "pause.fill")
                             }
@@ -89,6 +99,19 @@ struct CookModeView: View {
         guard let pausedAt else { return }
         pausedSeconds += Date.now.timeIntervalSince(pausedAt)
         self.pausedAt = nil
+        syncReminders(minute: elapsedSeconds(at: .now) / 60)
+    }
+
+    /// The reminders for the live plan as it stands, unless nothing changed.
+    private func syncReminders(minute: Int) {
+        guard let startedAt, pausedAt == nil else { return }
+        let schedule = live ?? plan.schedule
+        let signature = schedule.placements.map { "\($0.id):\($0.start)-\($0.end)" }.joined(separator: ",")
+            + "|" + finished.keys.sorted().joined(separator: ",") + "|\(Int(pausedSeconds))"
+        guard signature != remindersSignature else { return }
+        remindersSignature = signature
+        CookReminders.shared.sync(schedule: schedule, finished: Set(finished.keys), minute: minute,
+                                  clockStart: startedAt.addingTimeInterval(pausedSeconds), dishName: plan.dish.name)
     }
 
     /// Takes the last tick back: the step is in the cook's hands again — or
@@ -106,6 +129,7 @@ struct CookModeView: View {
         live = (try? KitchenScheduler.replan(plan.dish.tasks, kitchen: plan.schedule.kitchen, budget: plan.schedule.budget,
                                              previous: previous,
                                              progress: KitchenProgress(now: minute, finished: finished))) ?? previous
+        syncReminders(minute: minute)
     }
 
     private func tickOff(_ id: String, minute: Int) {
@@ -142,6 +166,10 @@ struct CookModeView: View {
                 if startedAt == nil {
                     Button {
                         startedAt = .now
+                        Task {
+                            _ = await CookReminders.shared.requestAuthorization()
+                            syncReminders(minute: 0)
+                        }
                     } label: {
                         Label("Start", systemImage: "play.fill")
                             .font(Theme.bodyFont(17).weight(.semibold))
@@ -234,11 +262,11 @@ struct CookModeView: View {
                 .font(Theme.bodyFont(14))
                 .foregroundColor(Theme.subtitle)
             if live.makespan > plan.schedule.makespan {
-                Text("Fertig in Minute \(live.makespan), \(live.makespan - plan.schedule.makespan) Minuten später als geplant")
+                Text("Fertig in Minute \(live.makespan), \(live.makespan - plan.schedule.makespan) Min. später als geplant")
                     .font(Theme.bodyFont(13))
                     .foregroundColor(Theme.warning)
             } else if live.makespan < plan.schedule.makespan {
-                Text("Fertig in Minute \(live.makespan), \(plan.schedule.makespan - live.makespan) Minuten früher als geplant")
+                Text("Fertig in Minute \(live.makespan), \(plan.schedule.makespan - live.makespan) Min. früher als geplant")
                     .font(Theme.bodyFont(13))
                     .foregroundColor(Theme.good)
             } else if let budget = plan.schedule.budget, plan.schedule.makespan > budget {
