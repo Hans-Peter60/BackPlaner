@@ -40,6 +40,8 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
     func sync(schedule: KitchenSchedule, finished: Set<String>, minute: Int, clockStart: Date, dishName: String) {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
+        // Reminders of an earlier run have no business in the notification centre.
+        center.removeAllDeliveredNotifications()
         for placement in schedule.placements where !finished.contains(placement.id) {
             let task = placement.task
             let component = task.component
@@ -62,7 +64,9 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
 
     /// No more reminders: the clock is paused or cooking has ended.
     func cancelAll() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        center.removeAllDeliveredNotifications()
     }
 
     private func add(id: String, title: String, body: String, thread: String, at date: Date,

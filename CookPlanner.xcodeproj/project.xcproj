@@ -26,12 +26,47 @@
     },
   ],
   "files": [
-    { "kind": "folder", "path": "CookPlanner", "target-membership": [ "CookPlanner" ] },
     {
+      "kind": "folder",
+      "path": "CookPlanner",
+      "target-membership": [
+        "CookPlanner",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "CookPlannerWidgetsExtension",
+          "inclusions": [
+            "CookActivityAttributes.swift",
+          ],
+        },
+      ],
+    }, {
+      "kind": "folder",
+      "path": "CookPlannerWidgets",
+      "target-membership": [
+        "CookPlannerWidgetsExtension",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "CookPlannerWidgetsExtension",
+          "exclusions": [
+            "Info.plist",
+          ],
+        },
+      ],
+    }, {
+      "kind": "group",
+      "name": "Frameworks",
+      "children": [
+        { "path": "<SDK>/System/Library/Frameworks/WidgetKit.framework", "target-membership": [ "CookPlannerWidgetsExtension/frameworks" ] },
+        { "path": "<SDK>/System/Library/Frameworks/SwiftUI.framework", "target-membership": [ "CookPlannerWidgetsExtension/frameworks" ] },
+      ],
+    }, {
       "kind": "group",
       "name": "Products",
       "children": [
         { "path": "<PRODUCTS>/CookPlanner.app", "id": "6ABEA3A530AF58E5003125C7", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/CookPlannerWidgetsExtension.appex", "id": "6A024EAD30B069570007E635", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "CookPlanner/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
       ],
     },
   ],
@@ -41,10 +76,18 @@
       "id": "6ABEA3A430AF58E5003125C7",
       "product": "Products/CookPlanner.app",
       "product-type": "application",
+      "dependencies": [
+        "CookPlannerWidgetsExtension",
+      ],
       "build-phases": [
         "compile-sources",
         "frameworks",
         "resources",
+        {
+          "kind": "copy",
+          "name": "Embed Foundation Extensions",
+          "bundle-base-path": "plugins-directory",
+        },
       ],
       "package-product-members": [
         {
@@ -77,6 +120,7 @@
         "ENABLE_PREVIEWS": "YES",
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.food-and-drink",
+        "INFOPLIST_KEY_NSSupportsLiveActivities": "YES",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
         "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents": "YES",
         "INFOPLIST_KEY_UILaunchScreen_Generation": "YES",
@@ -93,6 +137,42 @@
         "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
         "SWIFT_APPROACHABLE_CONCURRENCY": "YES",
         "SWIFT_DEFAULT_ACTOR_ISOLATION": "MainActor",
+        "SWIFT_EMIT_LOC_STRINGS": "YES",
+        "SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY": "YES",
+        "SWIFT_VERSION": "5.0",
+        "TARGETED_DEVICE_FAMILY": "1,2",
+      },
+    }, {
+      "name": "CookPlannerWidgetsExtension",
+      "id": "6A024EAC30B069570007E635",
+      "product": "Products/CookPlannerWidgetsExtension.appex",
+      "product-type": "app-extension",
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "build-settings": {
+        "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
+        "ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME": "WidgetBackground",
+        "CODE_SIGN_STYLE": "Automatic",
+        "CURRENT_PROJECT_VERSION": "1",
+        "DEVELOPMENT_TEAM": "S3AX38VTCQ",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "CookPlannerWidgets/Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "CookPlannerWidgets",
+        "INFOPLIST_KEY_NSHumanReadableCopyright": "",
+        "LD_RUNPATH_SEARCH_PATHS": [
+          "$(inherited)",
+          "@executable_path/Frameworks",
+          "@executable_path/../../Frameworks",
+        ],
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "de.hpm64625.CookPlanner.CookPlannerWidgets",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SKIP_INSTALL": "YES",
+        "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
+        "SWIFT_APPROACHABLE_CONCURRENCY": "YES",
         "SWIFT_EMIT_LOC_STRINGS": "YES",
         "SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY": "YES",
         "SWIFT_VERSION": "5.0",
