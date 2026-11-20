@@ -21,6 +21,7 @@ struct DishEditorView: View {
 
     @State private var dish: KitchenDish
     @State private var editingStep: StepDraft?
+    @FocusState private var nameFocused: Bool
     let onSave: (KitchenDish) -> Void
 
     init(dish: KitchenDish, onSave: @escaping (KitchenDish) -> Void) {
@@ -44,6 +45,7 @@ struct DishEditorView: View {
             Form {
                 Section("Gericht") {
                     TextField("Name", text: $dish.name, axis: .vertical)
+                        .focused($nameFocused)
                     Stepper(value: Binding(get: { dish.servings ?? 0 }, set: { dish.servings = $0 == 0 ? nil : $0 }),
                             in: 0...12) {
                         if let servings = dish.servings {
@@ -71,7 +73,15 @@ struct DishEditorView: View {
                         Label("Schritt hinzufügen", systemImage: "plus.circle")
                     }
                 } header: {
-                    Text("Schritte")
+                    HStack {
+                        Text("Schritte")
+                        Spacer()
+                        if dish.tasks.count > 1 {
+                            EditButton()
+                                .font(.footnote)
+                                .textCase(nil)
+                        }
+                    }
                 } footer: {
                     Text("Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten.")
                 }
@@ -82,14 +92,16 @@ struct DishEditorView: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             .navigationTitle(dish.name.isEmpty ? Text("Neues Gericht") : Text(verbatim: dish.name))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Abbrechen") { dismiss() }
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    EditButton()
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Fertig") { nameFocused = false }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Sichern") {
@@ -158,12 +170,13 @@ private struct StepSummaryRow: View {
                 if !task.component.isEmpty {
                     Text(verbatim: task.component)
                 }
-                Label("\(task.handsMinutes)", systemImage: "hand.raised")
+                // Plain numbers, not texts to translate.
+                Label { Text(verbatim: "\(task.handsMinutes)") } icon: { Image(systemName: "hand.raised") }
                 if task.unattendedMinutes > 0 {
                     if let window = task.unattendedWindow {
-                        Label("\(window.lowerBound)–\(window.upperBound)", systemImage: "hourglass")
+                        Label { Text(verbatim: "\(window.lowerBound)–\(window.upperBound)") } icon: { Image(systemName: "hourglass") }
                     } else {
-                        Label("\(task.unattendedMinutes)", systemImage: "hourglass")
+                        Label { Text(verbatim: "\(task.unattendedMinutes)") } icon: { Image(systemName: "hourglass") }
                     }
                 }
                 if let symbol = task.stationSymbol {
@@ -173,7 +186,7 @@ private struct StepSummaryRow: View {
                     Text(verbatim: "\(temperature) °C")
                 }
                 if let wait = task.maxWait {
-                    Label("\(wait)", systemImage: "timer")
+                    Label { Text(verbatim: "\(wait)") } icon: { Image(systemName: "timer") }
                 }
             }
             .font(.footnote)
@@ -246,7 +259,10 @@ struct StepEditorView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var draft: StepDraft
+    @FocusState private var focusedField: Field?
     let components: [String]
+
+    private enum Field { case name, component }
     let earlierSteps: [KitchenTask]
     let onSave: (KitchenTask) -> Void
     let onDelete: () -> Void
@@ -265,8 +281,10 @@ struct StepEditorView: View {
             Form {
                 Section("Schritt") {
                     TextField("Was zu tun ist", text: $draft.name, axis: .vertical)
+                        .focused($focusedField, equals: .name)
                     HStack {
                         TextField("Komponente", text: $draft.component)
+                            .focused($focusedField, equals: .component)
                         if !components.isEmpty {
                             Menu {
                                 ForEach(components, id: \.self) { component in
@@ -289,6 +307,13 @@ struct StepEditorView: View {
                     }
                     if draft.unattendedMinutes > 0 {
                         Toggle("Zeitspanne", isOn: $draft.hasWindow)
+                            .onChange(of: draft.hasWindow) { _, on in
+                                // Around the minutes given, not around nothing.
+                                if on {
+                                    draft.windowMinimum = max(0, draft.unattendedMinutes - 2)
+                                    draft.windowMaximum = draft.unattendedMinutes + 3
+                                }
+                            }
                         if draft.hasWindow {
                             Stepper(value: $draft.windowMinimum, in: 0...600) {
                                 Text("Mindestens \(draft.windowMinimum) Min.")
@@ -373,11 +398,16 @@ struct StepEditorView: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             .navigationTitle(draft.isNew ? "Neuer Schritt" : "Schritt")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Abbrechen") { dismiss() }
+                }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Fertig") { focusedField = nil }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Fertig") {

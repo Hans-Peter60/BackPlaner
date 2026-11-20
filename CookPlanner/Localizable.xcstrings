@@ -1,2140 +1,2140 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%@ wartet %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ wartet %lld Minuten"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ wartet %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ wartet %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ waits %lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ waits %lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ attend %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ attend %lld minutes"
           }
         }
       }
     },
-    "%@: %lld statt %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@: %lld statt %lld Minuten"
+    "%@: %lld statt %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %lld statt %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@: %lld instead of %lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %lld instead of %lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ : %lld au lieu de %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %lld au lieu de %lld minutes"
           }
         }
       }
     },
-    "%lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Min."
+    "%lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
           }
         }
       }
     },
-    "%lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Minuten"
+    "%lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
           }
         }
       }
     },
-    "%lld Minuten Luft, %lld Minuten ohne Handarbeit.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld Minuten Luft, %lld Minuten ohne Handarbeit."
+    "%lld Minuten Luft, %lld Minuten ohne Handarbeit." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Minuten Luft, %lld Minuten ohne Handarbeit."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes to spare, %lld minutes without hands-on work."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes to spare, %lld minutes without hands-on work."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes de marge, %lld minutes sans travail manuel."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes de marge, %lld minutes sans travail manuel."
           }
         }
       }
     },
-    "%lld von %lld Schritten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld von %lld Schritten"
+    "%lld von %lld Schritten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld von %lld Schritten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld of %lld steps"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld of %lld steps"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld étapes sur %lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étapes sur %lld"
           }
         }
       }
     },
-    "%lld–%lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld–%lld Min."
+    "%lld–%lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld–%lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld–%lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld min"
           }
         }
       }
     },
-    "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce."
+    "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "0 minutes for turning after searing, 3 for rested meat, 10 for a sauce kept warm."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 minutes for turning after searing, 3 for rested meat, 10 for a sauce kept warm."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "0 minute pour retourner après la saisie, 3 pour une viande reposée, 10 pour une sauce tenue au chaud."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 minute pour retourner après la saisie, 3 pour une viande reposée, 10 pour une sauce tenue au chaud."
           }
         }
       }
     },
-    "Abbrechen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abbrechen"
+    "Abbrechen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuler"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
     },
-    "Als Vorlage übernehmen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Als Vorlage übernehmen"
+    "Als Vorlage übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Vorlage übernehmen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use as a template"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use as a template"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utiliser comme modèle"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser comme modèle"
           }
         }
       }
     },
-    "Auch mit den kürzesten Garzeiten fehlen %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auch mit den kürzesten Garzeiten fehlen %lld Minuten"
+    "Auch mit den kürzesten Garzeiten fehlen %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auch mit den kürzesten Garzeiten fehlen %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Even with the shortest cooking times %lld minutes are missing"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Even with the shortest cooking times %lld minutes are missing"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Même avec les temps de cuisson les plus courts, il manque %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Même avec les temps de cuisson les plus courts, il manque %lld minutes"
           }
         }
       }
     },
-    "Bearbeiten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bearbeiten"
+    "Bearbeiten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeiten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modifier"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier"
           }
         }
       }
     },
-    "Beenden": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beenden"
+    "Beenden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beenden"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "End"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terminer"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminer"
           }
         }
       }
     },
-    "Beispiele": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beispiele"
+    "Beispiele" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beispiele"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Examples"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examples"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Exemples"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exemples"
           }
         }
       }
     },
-    "Budget %lld Minuten, Plan %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Budget %lld Minuten, Plan %lld"
+    "Budget %lld Minuten, Plan %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget %lld Minuten, Plan %lld"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Budget %lld minutes, plan %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget %lld minutes, plan %lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temps imparti %lld minutes, plan %lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps imparti %lld minutes, plan %lld"
           }
         }
       }
     },
-    "Danach allein: %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Danach allein: %lld Min."
+    "Danach allein: %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danach allein: %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Then on its own: %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Then on its own: %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ensuite seul : %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite seul : %lld min"
           }
         }
       }
     },
-    "Dauer": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dauer"
+    "Dauer" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dauer"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Duration"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Durée"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée"
           }
         }
       }
     },
-    "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche."
+    "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The plan does not work out: a step waits for itself, or the kitchen lacks a station."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan does not work out: a step waits for itself, or the kitchen lacks a station."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le plan ne tient pas : une étape s’attend elle-même, ou un poste manque dans la cuisine."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan ne tient pas : une étape s’attend elle-même, ou un poste manque dans la cuisine."
           }
         }
       }
     },
-    "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen."
+    "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The hands-on work alone takes %lld minutes. One pair of hands is not enough: drop or simplify steps."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The hands-on work alone takes %lld minutes. One pair of hands is not enough: drop or simplify steps."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le travail manuel seul prend %lld minutes. Une seule personne ne suffit pas : supprimez ou simplifiez des étapes."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le travail manuel seul prend %lld minutes. Une seule personne ne suffit pas : supprimez ou simplifiez des étapes."
           }
         }
       }
     },
-    "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte."
+    "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The longest chain takes %lld minutes. Working in parallel does not help, only shorter steps do."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The longest chain takes %lld minutes. Working in parallel does not help, only shorter steps do."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La chaîne la plus longue dure %lld minutes. Travailler en parallèle n’aide pas, seules des étapes plus courtes le font."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La chaîne la plus longue dure %lld minutes. Travailler en parallèle n’aide pas, seules des étapes plus courtes le font."
           }
         }
       }
     },
-    "Die Öfen sind vorgeheizt, wenn die Uhr startet.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die Öfen sind vorgeheizt, wenn die Uhr startet."
+    "Die Öfen sind vorgeheizt, wenn die Uhr startet." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Öfen sind vorgeheizt, wenn die Uhr startet."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The ovens are preheated when the clock starts."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The ovens are preheated when the clock starts."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les fours sont préchauffés quand le chrono démarre."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fours sont préchauffés quand le chrono démarre."
           }
         }
       }
     },
-    "Ein Gericht, eine Person, %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ein Gericht, eine Person, %lld Minuten"
+    "Ein Gericht, eine Person, %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Gericht, eine Person, %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "One dish, one cook, %lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One dish, one cook, %lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Un plat, une personne, %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un plat, une personne, %lld minutes"
           }
         }
       }
     },
-    "Einstellungen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen"
+    "Einstellungen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réglages"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
           }
         }
       }
     },
-    "Erledigt": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erledigt"
+    "Erledigt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigt"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fait"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait"
           }
         }
       }
     },
-    "Fehlen %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fehlen %lld Minuten"
+    "Fehlen %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlen %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes short"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes short"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Il manque %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque %lld minutes"
           }
         }
       }
     },
-    "Fertig": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fertig"
+    "Fertig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }
     },
-    "Fertig in Minute %lld, %lld Minuten früher als geplant": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fertig in Minute %lld, %lld Minuten früher als geplant"
+    "Fertig in Minute %lld, %lld Minuten früher als geplant" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig in Minute %lld, %lld Minuten früher als geplant"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done in minute %lld, %lld minutes earlier than planned"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done in minute %lld, %lld minutes earlier than planned"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prêt à la minute %lld, %lld minutes plus tôt que prévu"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt à la minute %lld, %lld minutes plus tôt que prévu"
           }
         }
       }
     },
-    "Fertig in Minute %lld, %lld Minuten später als geplant": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fertig in Minute %lld, %lld Minuten später als geplant"
+    "Fertig in Minute %lld, %lld Minuten später als geplant" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig in Minute %lld, %lld Minuten später als geplant"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done in minute %lld, %lld minutes later than planned"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done in minute %lld, %lld minutes later than planned"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prêt à la minute %lld, %lld minutes plus tard que prévu"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt à la minute %lld, %lld minutes plus tard que prévu"
           }
         }
       }
     },
-    "Fertig, anrichten!": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fertig, anrichten!"
+    "Fertig, anrichten!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig, anrichten!"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done, plate up!"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done, plate up!"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terminé, dressez !"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé, dressez !"
           }
         }
       }
     },
-    "Für %lld Personen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Für %lld Personen"
+    "Für %lld Personen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für %lld Personen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Serves %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serves %lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pour %lld personnes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour %lld personnes"
           }
         }
       }
     },
-    "Gericht": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gericht"
+    "Gericht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dish"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dish"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plat"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat"
           }
         }
       }
     },
-    "Gerichte": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gerichte"
+    "Gerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerichte"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dishes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dishes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plats"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plats"
           }
         }
       }
     },
-    "Gerät": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gerät"
+    "Gerät" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerät"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Station"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Poste"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poste"
           }
         }
       }
     },
-    "Gleich": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gleich"
+    "Gleich" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gleich"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Next"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ensuite"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite"
           }
         }
       }
     },
-    "Handarbeit je Komponente": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Handarbeit je Komponente"
+    "Handarbeit je Komponente" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handarbeit je Komponente"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands-on work per component"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands-on work per component"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Travail manuel par composant"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Travail manuel par composant"
           }
         }
       }
     },
-    "Hände": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hände"
+    "Hände" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mains"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains"
           }
         }
       }
     },
-    "Hände %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hände %lld Min."
+    "Hände %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mains %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains %lld min"
           }
         }
       }
     },
-    "Hände frei, in %lld Min. weiter": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hände frei, in %lld Min. weiter"
+    "Hände frei, in %lld Min. weiter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände frei, in %lld Min. weiter"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands free, next in %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands free, next in %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mains libres, suite dans %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains libres, suite dans %lld min"
           }
         }
       }
     },
-    "Hände: %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hände: %lld Min."
+    "Hände: %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände: %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands: %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands: %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mains : %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains : %lld min"
           }
         }
       }
     },
-    "Hände: Minuten, in denen der Koch gebunden ist. Danach allein: kochen, backen, ruhen ohne Koch.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hände: Minuten, in denen der Koch gebunden ist. Danach allein: kochen, backen, ruhen ohne Koch."
+    "Hände: Minuten, in denen der Koch gebunden ist. Danach allein: kochen, backen, ruhen ohne Koch." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände: Minuten, in denen der Koch gebunden ist. Danach allein: kochen, backen, ruhen ohne Koch."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hands: minutes the cook is tied up. Then on its own: cooking, baking, resting without the cook."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands: minutes the cook is tied up. Then on its own: cooking, baking, resting without the cook."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mains : minutes où le cuisinier est occupé. Ensuite seul : cuisson, four, repos sans cuisinier."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains : minutes où le cuisinier est occupé. Ensuite seul : cuisson, four, repos sans cuisinier."
           }
         }
       }
     },
-    "Höchstens %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Höchstens %lld Min."
+    "Höchstens %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Höchstens %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "At most %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At most %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Au plus %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au plus %lld min"
           }
         }
       }
     },
-    "Jetzt": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jetzt"
+    "Jetzt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Now"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maintenant"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenant"
           }
         }
       }
     },
-    "Keins": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keins"
+    "Keins" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keins"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "None"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucun"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun"
           }
         }
       }
     },
-    "Kette %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kette %lld Min."
+    "Kette %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kette %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chain %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chain %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chaîne %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaîne %lld min"
           }
         }
       }
     },
-    "Kette (%lld Minuten) und Hände (%lld Minuten) passen einzeln, kollidieren aber an Händen oder Geräten.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kette (%lld Minuten) und Hände (%lld Minuten) passen einzeln, kollidieren aber an Händen oder Geräten."
+    "Kette (%lld Minuten) und Hände (%lld Minuten) passen einzeln, kollidieren aber an Händen oder Geräten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kette (%lld Minuten) und Hände (%lld Minuten) passen einzeln, kollidieren aber an Händen oder Geräten."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chain (%lld minutes) and hands (%lld minutes) fit on their own but collide on the hands or the stations."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chain (%lld minutes) and hands (%lld minutes) fit on their own but collide on the hands or the stations."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La chaîne (%lld minutes) et les mains (%lld minutes) tiennent séparément mais se heurtent aux mains ou aux postes."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La chaîne (%lld minutes) et les mains (%lld minutes) tiennent séparément mais se heurtent aux mains ou aux postes."
           }
         }
       }
     },
-    "Kochen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kochen"
+    "Kochen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cooking"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuisson"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisson"
           }
         }
       }
     },
-    "Kochen starten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kochen starten"
+    "Kochen starten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochen starten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start cooking"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start cooking"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Commencer à cuisiner"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer à cuisiner"
           }
         }
       }
     },
-    "Komponente": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Komponente"
+    "Komponente" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komponente"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Component"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Composant"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composant"
           }
         }
       }
     },
-    "Komponente wählen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Komponente wählen"
+    "Komponente wählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komponente wählen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose component"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose component"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisir le composant"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir le composant"
           }
         }
       }
     },
-    "Küche": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Küche"
+    "Küche" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Küche"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kitchen"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kitchen"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuisine"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisine"
           }
         }
       }
     },
-    "Liegt höchstens %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Liegt höchstens %lld Min."
+    "Liegt höchstens %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liegt höchstens %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Waits at most %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waits at most %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Attend au plus %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attend au plus %lld min"
           }
         }
       }
     },
-    "Läuft von allein": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Läuft von allein"
+    "Läuft von allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läuft von allein"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Running on its own"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running on its own"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se fait tout seul"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se fait tout seul"
           }
         }
       }
     },
-    "Löschen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Löschen"
+    "Löschen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supprimer"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
           }
         }
       }
     },
-    "Meine Gerichte": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meine Gerichte"
+    "Meine Gerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meine Gerichte"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "My dishes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My dishes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mes plats"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes plats"
           }
         }
       }
     },
-    "Mindestens %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mindestens %lld Min."
+    "Mindestens %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestens %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "At least %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Au moins %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au moins %lld min"
           }
         }
       }
     },
-    "Minute %lld von %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minute %lld von %lld"
+    "Minute %lld von %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld von %lld"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minute %lld of %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld of %lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minute %lld sur %lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld sur %lld"
           }
         }
       }
     },
-    "Mit diesen Garzeiten passt es in %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit diesen Garzeiten passt es in %lld Minuten"
+    "Mit diesen Garzeiten passt es in %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit diesen Garzeiten passt es in %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "With these cooking times it fits in %lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With these cooking times it fits in %lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avec ces temps de cuisson, ça tient en %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec ces temps de cuisson, ça tient en %lld minutes"
           }
         }
       }
     },
-    "Muss bald weitergehen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muss bald weitergehen"
+    "Muss bald weitergehen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muss bald weitergehen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Must go on soon"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Must go on soon"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doit continuer bientôt"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doit continuer bientôt"
           }
         }
       }
     },
-    "Name": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name"
+    "Name" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nom"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
           }
         }
       }
     },
-    "Neuer Schritt": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neuer Schritt"
+    "Neuer Schritt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuer Schritt"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New step"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New step"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nouvelle étape"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle étape"
           }
         }
       }
     },
-    "Neues Gericht": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neues Gericht"
+    "Neues Gericht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neues Gericht"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New dish"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New dish"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nouveau plat"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau plat"
           }
         }
       }
     },
-    "Noch keine Schritte": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noch keine Schritte"
+    "Noch keine Schritte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Schritte"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No steps yet"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No steps yet"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pas encore d’étapes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore d’étapes"
           }
         }
       }
     },
-    "OK": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+    "OK" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }
     },
-    "Ofen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ofen"
+    "Ofen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ofen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Oven"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Four"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four"
           }
         }
       }
     },
-    "Ofen %lld °C": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ofen %lld °C"
+    "Ofen %lld °C" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ofen %lld °C"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Oven %lld °C"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld °C"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Four %lld °C"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %lld °C"
           }
         }
       }
     },
-    "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten."
+    "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Without one, a step follows its component’s previous step; the last step waits for every component."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without one, a step follows its component’s previous step; the last step waits for every component."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans indication, une étape suit l’étape précédente de son composant ; la dernière étape attend tous les composants."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans indication, une étape suit l’étape précédente de son composant ; la dernière étape attend tous les composants."
           }
         }
       }
     },
-    "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente."
+    "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Without a choice the step follows its component’s previous step."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without a choice the step follows its component’s previous step."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans choix, l’étape suit l’étape précédente de son composant."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans choix, l’étape suit l’étape précédente de son composant."
           }
         }
       }
     },
-    "Passt in %lld Minuten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Passt in %lld Minuten"
+    "Passt in %lld Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passt in %lld Minuten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fits in %lld minutes"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fits in %lld minutes"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tient en %lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tient en %lld minutes"
           }
         }
       }
     },
-    "Pause": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause"
+    "Pause" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause"
           }
         }
       }
     },
-    "Pause, die Uhr steht": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause, die Uhr steht"
+    "Pause, die Uhr steht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause, die Uhr steht"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Paused, the clock is stopped"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused, the clock is stopped"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause, le chrono est arrêté"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause, le chrono est arrêté"
           }
         }
       }
     },
-    "Plan": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan"
+    "Plan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plan"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan"
           }
         }
       }
     },
-    "Platte": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Platte"
+    "Platte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platte"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Burner"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burner"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Feu"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feu"
           }
         }
       }
     },
-    "Platten: %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Platten: %lld"
+    "Platten: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Platten: %lld"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Burners: %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burners: %lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Feux : %lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feux : %lld"
           }
         }
       }
     },
-    "Portionen nicht angegeben": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Portionen nicht angegeben"
+    "Portionen nicht angegeben" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portionen nicht angegeben"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Servings not given"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servings not given"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Portions non indiquées"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portions non indiquées"
           }
         }
       }
     },
-    "Rückgängig": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rückgängig"
+    "Rückgängig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückgängig"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Undo"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuler"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         }
       }
     },
-    "Schritt": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schritt"
+    "Schritt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schritt"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Step"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Étape"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape"
           }
         }
       }
     },
-    "Schritt erledigt": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schritt erledigt"
+    "Schritt erledigt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schritt erledigt"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Step done"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step done"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Étape terminée"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape terminée"
           }
         }
       }
     },
-    "Schritt hinzufügen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schritt hinzufügen"
+    "Schritt hinzufügen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schritt hinzufügen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add step"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add step"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajouter une étape"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une étape"
           }
         }
       }
     },
-    "Schritt löschen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schritt löschen"
+    "Schritt löschen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schritt löschen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete step"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete step"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supprimer l’étape"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer l’étape"
           }
         }
       }
     },
-    "Schritte": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schritte"
+    "Schritte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schritte"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Steps"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steps"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Étapes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes"
           }
         }
       }
     },
-    "Sichern": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sichern"
+    "Sichern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sichern"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enregistrer"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
           }
         }
       }
     },
-    "So passt es": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "So passt es"
+    "So passt es" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So passt es"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "How it fits"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How it fits"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pour que ça tienne"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ça tienne"
           }
         }
       }
     },
-    "Speichern fehlgeschlagen": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speichern fehlgeschlagen"
+    "Speichern fehlgeschlagen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern fehlgeschlagen"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Saving failed"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving failed"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Échec de l’enregistrement"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de l’enregistrement"
           }
         }
       }
     },
-    "Start": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start"
+    "Start" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Départ"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Départ"
           }
         }
       }
     },
-    "Warm halten": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Warm halten"
+    "Warm halten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warm halten"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep warm"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep warm"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tenir au chaud"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenir au chaud"
           }
         }
       }
     },
-    "Wartet auf": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wartet auf"
+    "Wartet auf" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wartet auf"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Waits for"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waits for"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Attend"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attend"
           }
         }
       }
     },
-    "Was zu tun ist": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Was zu tun ist"
+    "Was zu tun ist" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was zu tun ist"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "What to do"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What to do"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ce qu’il faut faire"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qu’il faut faire"
           }
         }
       }
     },
-    "Weiter": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weiter"
+    "Weiter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resume"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reprendre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre"
           }
         }
       }
     },
-    "Zeitbudget": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeitbudget"
+    "Zeitbudget" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitbudget"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Time budget"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time budget"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temps imparti"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps imparti"
           }
         }
       }
     },
-    "Zeitplan": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeitplan"
+    "Zeitplan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitplan"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Timeline"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Déroulé"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déroulé"
           }
         }
       }
     },
-    "Zeitspanne": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zeitspanne"
+    "Zeitspanne" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitspanne"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Time span"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time span"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fourchette"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fourchette"
           }
         }
       }
     },
-    "bis zu %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "bis zu %lld Min."
+    "bis zu %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bis zu %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "up to %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "up to %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "jusqu’à %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jusqu’à %lld min"
           }
         }
       }
     },
-    "in %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "in %lld Min."
+    "in %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "in %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "in %lld min"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "in %lld min"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "dans %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %lld min"
           }
         }
       }
     },
-    "noch %lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "noch %lld Min."
+    "noch %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "noch %lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld min left"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min left"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "encore %lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "encore %lld min"
           }
         }
       }
     },
-    "noch %lld–%lld Min.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "noch %lld–%lld Min."
+    "noch %lld–%lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "noch %lld–%lld Min."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld–%lld min left"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld–%lld min left"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "encore %lld–%lld min"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "encore %lld–%lld min"
           }
         }
       }
     },
-    "Öfen: %lld": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Öfen: %lld"
+    "Öfen: %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öfen: %lld"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ovens: %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovens: %lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fours : %lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fours : %lld"
           }
         }
       }
     },
-    "überfällig": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "überfällig"
+    "überfällig" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "überfällig"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "overdue"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "overdue"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "en retard"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "en retard"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.1"
 }
