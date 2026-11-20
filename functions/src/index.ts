@@ -253,6 +253,141 @@ export const analyzeRecipeText = onCall(
   },
 );
 
+/**
+ * A cooked dish as CookPlanner plans it: work steps with the minutes the
+ * cook is busy, the minutes the step then runs on its own, where it
+ * happens, and what it waits for.
+ */
+const dishSchema = {
+  type: "OBJECT",
+  required: [
+    "title",
+    "servings",
+    "sourceLanguage",
+    "components",
+    "steps",
+    "warnings",
+  ],
+  properties: {
+    title: {type: "STRING"},
+    servings: {type: "INTEGER"},
+    sourceLanguage: {type: "STRING"},
+    components: {type: "ARRAY", items: {type: "STRING"}},
+    steps: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        required: [
+          "text",
+          "componentName",
+          "handsMinutes",
+          "unattendedMinutes",
+          "unattendedMinMinutes",
+          "unattendedMaxMinutes",
+          "station",
+          "ovenTemperature",
+          "maxWaitMinutes",
+          "dependsOn",
+        ],
+        properties: {
+          text: {type: "STRING"},
+          componentName: {type: "STRING"},
+          handsMinutes: {type: "INTEGER"},
+          unattendedMinutes: {type: "INTEGER"},
+          unattendedMinMinutes: {type: "INTEGER"},
+          unattendedMaxMinutes: {type: "INTEGER"},
+          station: {type: "STRING", enum: ["none", "burner", "oven"]},
+          ovenTemperature: {type: "INTEGER"},
+          maxWaitMinutes: {type: "INTEGER"},
+          dependsOn: {type: "ARRAY", items: {type: "INTEGER"}},
+        },
+      },
+    },
+    warnings: {type: "ARRAY", items: {type: "STRING"}},
+  },
+};
+
+/** How a recipe becomes work steps for one cook against the clock. */
+const dishRules = [
+  "Der folgende Text ist ein Kochrezept für ein Gericht aus mehreren",
+  "Komponenten (Hauptzutat, Beilagen, Sauce, Garnitur). Zerlege die",
+  "Zubereitung in einzelne Arbeitsschritte, so wie eine Person sie",
+  "nacheinander ausführt, und bewahre die Sprache des Rezepts.",
+  "Jeder Schritt gehört zu genau einer Komponente; nenne die Komponenten",
+  "in components und trage den Namen in componentName ein. Der letzte",
+  "Schritt ist das Anrichten mit leerem componentName.",
+  "handsMinutes: Minuten, in denen der Koch mit dem Schritt beschäftigt",
+  "ist (schneiden, rühren, wenden, arrosieren) – schätze sie für einen",
+  "geübten Hobbykoch, auch wenn das Rezept keine Zeit nennt.",
+  "unattendedMinutes: Minuten, die der Schritt danach ohne den Koch läuft",
+  "(kochen, backen, ruhen) – aus dem Rezept, 0 wenn keine. Nennt das",
+  "Rezept eine Spanne ('20–25 Minuten'), setze unattendedMinutes auf den",
+  "unteren Wert und unattendedMinMinutes/unattendedMaxMinutes auf die",
+  "Spanne, sonst beide 0.",
+  "station: 'burner' für Topf oder Pfanne auf dem Herd, 'oven' für den",
+  "Backofen, sonst 'none'. ovenTemperature in °C für Ofenschritte, sonst",
+  "0. Vorheizen ist kein Schritt: Der Ofen ist heiß, wenn die Uhr startet.",
+  "maxWaitMinutes: wie lange das Ergebnis liegen darf, bis der nächste",
+  "Schritt es braucht: 0, wenn es sofort weitergehen muss (Wenden nach dem",
+  "Anbraten; das Ruhen beginnt sofort nach dem Braten), 3 für geruhtes",
+  "Fleisch bis zum Tranchieren, 10 für Warmgehaltenes, -1 wenn es sich",
+  "hält (Geschnittenes, Kaltes, Geröstetes).",
+  "dependsOn: die Indizes (ab 0) der Schritte, die fertig sein müssen,",
+  "bevor dieser beginnt – nur wo das Rezept es verlangt, etwa die Füllung",
+  "braucht die gekochten Graupen. Schritte derselben Komponente folgen",
+  "ohnehin aufeinander, das Anrichten wartet auf alles; nur frühere",
+  "Indizes, keine Kreise.",
+  "servings: für wie viele Personen, 0 wenn nicht genannt.",
+  "Erfinde keine Zutaten, Zeiten oder Schritte; notiere Unklares in",
+  "warnings.",
+];
+
+/**
+ * Structures a cooking recipe into CookPlanner's work steps. Same guards
+ * as the recipe analysis: a signed-in user, App Check, the hourly limit
+ * and — unless the app is exempt — the monthly allowance.
+ */
+export const analyzeDishSteps = onCall(
+  {
+    enforceAppCheck: true,
+    timeoutSeconds: 240,
+    memory: "1GiB",
+    maxInstances: 2,
+  },
+  async (request) => {
+    const startedAt = Date.now();
+    const uid = request.auth?.uid;
+    if (!uid) {
+      throw new HttpsError(
+        "unauthenticated",
+        "Für die Rezeptanalyse ist eine Anmeldung erforderlich.",
+      );
+    }
+
+    const text = validateText(request.data?.text);
+    const allowance = await enforceRateLimit(uid, request.data,
+      request.app?.appId);
+
+    const parts = [
+      {
+        text: [
+          ...dishRules,
+          "\n\nREZEPT:\n",
+          text,
+        ].join(" "),
+      },
+    ];
+
+    const generated = await generateRecipe(parts,
+      {textLength: text.length, startedAt}, dishSchema, "Dish");
+    return {
+      dish: generated.recipe,
+      model: generated.model,
+      ...allowance,
+    };
+  },
+);
+
 type RecipeAnalysisMetrics = {
   imageCount?: number;
   textLength?: number;
@@ -261,14 +396,18 @@ type RecipeAnalysisMetrics = {
 
 /**
  * Sends the prepared prompt parts to Gemini and returns the schema-bound
- * recipe. Shared by the image and the web page analysis.
+ * answer. Shared by the image, the web page and the dish analysis.
  * @param {object[]} parts Prompt parts in Gemini's content format.
  * @param {RecipeAnalysisMetrics} metrics Values for the completion log.
- * @return {Promise<object>} The recipe together with the model name.
+ * @param {object} schema The response schema; the recipe's by default.
+ * @param {string} label What the log calls the analysis.
+ * @return {Promise<object>} The answer together with the model name.
  */
 async function generateRecipe(
   parts: object[],
   metrics: RecipeAnalysisMetrics,
+  schema: object = recipeSchema,
+  label = "Recipe",
 ): Promise<{recipe: unknown; model: string}> {
   const project = process.env.GCLOUD_PROJECT ??
     process.env.GOOGLE_CLOUD_PROJECT;
@@ -283,7 +422,7 @@ async function generateRecipe(
       contents: [{role: "user", parts}],
       config: {
         responseMimeType: "application/json",
-        responseSchema: recipeSchema,
+        responseSchema: schema,
         maxOutputTokens: 8192,
       },
     });
@@ -292,14 +431,14 @@ async function generateRecipe(
     }
 
     const recipe = JSON.parse(response.text);
-    console.info("Recipe analysis completed", {
+    console.info(`${label} analysis completed`, {
       imageCount: metrics.imageCount,
       textLength: metrics.textLength,
       durationMilliseconds: Date.now() - metrics.startedAt,
     });
     return {recipe, model: "gemini-3.8-flash"};
   } catch (error) {
-    console.error("Recipe analysis failed", error);
+    console.error(`${label} analysis failed`, error);
     throw new HttpsError(
       "internal",
       "Das Rezept konnte momentan nicht analysiert werden.",
@@ -507,10 +646,13 @@ function monthKey(timestamp: Timestamp): string {
  * The Firebase app IDs (App Check) of the apps that are exempt from the
  * monthly allowance: the Android app, which has no purchase yet — Play
  * Billing comes with the Pro switch for both platforms (see
- * docs/Pro-Einfuehrung.md). The hourly limit applies to it all the same.
+ * docs/Pro-Einfuehrung.md) — and CookPlanner. The hourly limit applies to
+ * them all the same.
  */
 export const appIdsWithoutMonthlyLimit = new Set([
   "1:936649524074:android:b46e983de39481f7d65b13",
+  // CookPlanner (iOS): no purchase of its own yet.
+  "1:936649524074:ios:73d0fac7786ca027d65b13",
 ]);
 
 /**

@@ -67,6 +67,28 @@
         }
       }
     },
+    "%lld Min. Luft, %lld Min. ohne Handarbeit." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. Luft, %lld Min. ohne Handarbeit."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min to spare, %lld min without hands-on work."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min de marge, %lld min sans travail manuel."
+          }
+        }
+      }
+    },
     "%lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -89,24 +111,24 @@
         }
       }
     },
-    "%lld Minuten Luft, %lld Minuten ohne Handarbeit." : {
+    "%lld Schritte, %lld Komponenten" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld Minuten Luft, %lld Minuten ohne Handarbeit."
+            "value" : "%lld Schritte, %lld Komponenten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld minutes to spare, %lld minutes without hands-on work."
+            "value" : "%lld steps, %lld components"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld minutes de marge, %lld minutes sans travail manuel."
+            "value" : "%lld étapes, %lld composants"
           }
         }
       }
@@ -221,6 +243,50 @@
         }
       }
     },
+    "Analysieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser"
+          }
+        }
+      }
+    },
+    "Anderen Text analysieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anderen Text analysieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse another text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser un autre texte"
+          }
+        }
+      }
+    },
     "Auch mit den kürzesten Garzeiten fehlen %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -239,6 +305,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Même avec les temps de cuisson les plus courts, il manque %lld minutes"
+          }
+        }
+      }
+    },
+    "Aus Text importieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus Text importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis un texte"
           }
         }
       }
@@ -353,6 +441,28 @@
         }
       }
     },
+    "Das stündliche Analyse-Limit ist erreicht. Bitte später noch einmal." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das stündliche Analyse-Limit ist erreicht. Bitte später noch einmal."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The hourly analysis limit is reached. Please try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite horaire d’analyses est atteinte. Réessayez plus tard."
+          }
+        }
+      }
+    },
     "Dauer" : {
       "localizations" : {
         "de" : {
@@ -397,6 +507,50 @@
         }
       }
     },
+    "Der Text wird zur Analyse an einen Dienst von Google gesendet." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Text wird zur Analyse an einen Dienst von Google gesendet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text is sent to a Google service for analysis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte est envoyé à un service Google pour analyse."
+          }
+        }
+      }
+    },
+    "Die Antwort der Analyse war unvollständig." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort der Analyse war unvollständig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis returned an incomplete answer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La réponse de l’analyse était incomplète."
+          }
+        }
+      }
+    },
     "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen." : {
       "localizations" : {
         "de" : {
@@ -415,6 +569,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le travail manuel seul prend %lld minutes. Une seule personne ne suffit pas : supprimez ou simplifiez des étapes."
+          }
+        }
+      }
+    },
+    "Die Schritte öffnen sich im Editor; gespeichert wird erst mit „Sichern“." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Schritte öffnen sich im Editor; gespeichert wird erst mit „Sichern“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The steps open in the editor; nothing is saved until “Sichern”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les étapes s’ouvrent dans l’éditeur ; rien n’est enregistré avant « Enregistrer »."
+          }
+        }
+      }
+    },
+    "Die kostenlosen Importe dieses Monats sind aufgebraucht." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die kostenlosen Importe dieses Monats sind aufgebraucht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This month’s free imports are used up."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les imports gratuits de ce mois sont épuisés."
           }
         }
       }
@@ -661,6 +859,28 @@
         }
       }
     },
+    "Gefunden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trouvé"
+          }
+        }
+      }
+    },
     "Gericht" : {
       "localizations" : {
         "de" : {
@@ -767,6 +987,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Travail manuel par composant"
+          }
+        }
+      }
+    },
+    "Hinweise der Analyse" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinweise der Analyse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes from the analysis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remarques de l’analyse"
+          }
+        }
+      }
+    },
+    "Hinzufügen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter"
           }
         }
       }
@@ -899,6 +1163,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au plus %lld min"
+          }
+        }
+      }
+    },
+    "Import fehlgeschlagen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import failed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échec de l’import"
           }
         }
       }
@@ -1629,6 +1915,50 @@
         }
       }
     },
+    "Prüfen und bearbeiten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfen und bearbeiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check and edit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifier et modifier"
+          }
+        }
+      }
+    },
+    "Rezepttext" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rezepttext"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte de la recette"
+          }
+        }
+      }
+    },
     "Rückgängig" : {
       "localizations" : {
         "de" : {
@@ -1937,6 +2267,28 @@
         }
       }
     },
+    "Wird analysiert …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird analysiert …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysing …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse en cours…"
+          }
+        }
+      }
+    },
     "Zeitbudget" : {
       "localizations" : {
         "de" : {
@@ -1999,6 +2351,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fourchette"
+          }
+        }
+      }
+    },
+    "Zutaten und Zubereitung, wie sie im Rezept stehen. Die Analyse schätzt die Arbeitszeiten und schlägt Reihenfolge und Abhängigkeiten vor; Du prüfst alles, bevor es gespeichert wird." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zutaten und Zubereitung, wie sie im Rezept stehen. Die Analyse schätzt die Arbeitszeiten und schlägt Reihenfolge und Abhängigkeiten vor; Du prüfst alles, bevor es gespeichert wird."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients and method as the recipe gives them. The analysis estimates the work times and suggests order and dependencies; you check everything before it is saved."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients et préparation tels que dans la recette. L’analyse estime les temps de travail et propose l’ordre et les dépendances ; vous vérifiez tout avant l’enregistrement."
           }
         }
       }
@@ -2087,6 +2461,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "encore %lld–%lld min"
+          }
+        }
+      }
+    },
+    "sofort" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sofort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "at once"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aussitôt"
           }
         }
       }

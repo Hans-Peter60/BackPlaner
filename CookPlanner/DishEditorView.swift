@@ -166,17 +166,21 @@ private struct StepSummaryRow: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(verbatim: task.name)
                 .fixedSize(horizontal: false, vertical: true)
-            HStack(spacing: 8) {
-                if !task.component.isEmpty {
-                    Text(verbatim: task.component)
-                }
-                // Plain numbers, not texts to translate.
-                Label { Text(verbatim: "\(task.handsMinutes)") } icon: { Image(systemName: "hand.raised") }
+            if !task.component.isEmpty {
+                Text(verbatim: task.component)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
+            // The numbers on a line of their own, as plain icon–text pairs:
+            // Labels dropped their titles here, and a long component name
+            // used to squeeze "20–25" into one character a line.
+            HStack(spacing: 10) {
+                pair("hand.raised", "\(task.handsMinutes)")
                 if task.unattendedMinutes > 0 {
                     if let window = task.unattendedWindow {
-                        Label { Text(verbatim: "\(window.lowerBound)–\(window.upperBound)") } icon: { Image(systemName: "hourglass") }
+                        pair("hourglass", "\(window.lowerBound)–\(window.upperBound)")
                     } else {
-                        Label { Text(verbatim: "\(task.unattendedMinutes)") } icon: { Image(systemName: "hourglass") }
+                        pair("hourglass", "\(task.unattendedMinutes)")
                     }
                 }
                 if let symbol = task.stationSymbol {
@@ -186,11 +190,26 @@ private struct StepSummaryRow: View {
                     Text(verbatim: "\(temperature) °C")
                 }
                 if let wait = task.maxWait {
-                    Label { Text(verbatim: "\(wait)") } icon: { Image(systemName: "timer") }
+                    HStack(spacing: 3) {
+                        Image(systemName: "timer")
+                        if wait == 0 {
+                            Text("sofort")
+                        } else {
+                            Text(verbatim: "\(wait)")
+                        }
+                    }
                 }
             }
+            .lineLimit(1)
             .font(.footnote)
             .foregroundColor(.secondary)
+        }
+    }
+
+    private func pair(_ symbol: String, _ value: String) -> some View {
+        HStack(spacing: 3) {
+            Image(systemName: symbol)
+            Text(verbatim: value)
         }
     }
 }
