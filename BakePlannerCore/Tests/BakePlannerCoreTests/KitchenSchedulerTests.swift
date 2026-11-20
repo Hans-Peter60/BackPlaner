@@ -275,6 +275,25 @@ struct KitchenSchedulerTests {
         #expect(schedule.makespan == 11)
     }
 
+    @Test("Holding back is worth it only while it saves more freshness than it costs: three pans that all want the plate at once keep the hands busy instead")
+    func holdBackWeighedAgainstLength() throws {
+        // Three components, each a prep and a hands-on pan step whose
+        // result must go straight to the plate. One cook cannot finish
+        // three pans at once; holding every pan back until the plate is
+        // free would leave the hands idle for twenty minutes. The plan
+        // keeps the hands busy (27 minutes, the hands total) and reports
+        // the two pans that stand.
+        var tasks = [KitchenTask]()
+        for i in 1...3 {
+            tasks.append(task("prep\(i)", hands: 3))
+            tasks.append(task("cook\(i)", hands: 5, station: .burner, after: ["prep\(i)"], maxWait: 0))
+        }
+        tasks.append(task("plate", hands: 3, after: ["cook1", "cook2", "cook3"]))
+        let schedule = try KitchenScheduler.schedule(tasks, budget: 35)
+        #expect(schedule.makespan == 27)
+        #expect(schedule.lateFollowUps.reduce(0) { $0 + $1.minutes } == 15)
+    }
+
     @Test("Long waits are listed for keeping warm, longest first")
     func keepWarm() throws {
         let schedule = try KitchenScheduler.schedule([
