@@ -1,0 +1,9 @@
+{
+  "id" : "0d3955e6-d8a9-4907-a578-77db14c6a19f",
+  "targets" : [
+    {
+      "id" : "98a86de4-5202-4c5b-b80c-463562b30b95",
+      "name" : "CookPlanner"
+    }
+  ]
+}
