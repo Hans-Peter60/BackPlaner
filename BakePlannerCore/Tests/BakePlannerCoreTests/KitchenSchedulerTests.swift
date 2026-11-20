@@ -222,10 +222,45 @@ struct KitchenSchedulerTests {
             task("long", hands: 12),
             task("plate", hands: 1, after: ["slice", "long"])
         ])
-        // The long job would run to minute 12, past the slicing's moment 8.
-        #expect(schedule.placement(of: "slice")?.start == 5)
-        #expect(schedule.placement(of: "long")?.start == 7)
+        // The long job may not run across the slicing's moment: either it
+        // waits for the slicing, or the resting is held back until the
+        // hands are free again — the shorter plan wins, 15 minutes here.
+        let rest = try #require(schedule.placement(of: "rest"))
+        let slice = try #require(schedule.placement(of: "slice"))
+        #expect(slice.start - rest.end <= 3)
         #expect(schedule.lateFollowUps.isEmpty)
+        #expect(schedule.makespan == 15)
+    }
+
+    @Test("A maxWait binds the first follow-up only: the seared meat is deglazed at once and may rest until the sauce is done")
+    func firstFollowUpOnly() throws {
+        let schedule = try KitchenScheduler.schedule([
+            task("sear", hands: 2, station: .burner, maxWait: 0),
+            task("deglaze", hands: 1, unattended: 3, station: .burner, after: ["sear"], maxWait: 0),
+            task("reduce", hands: 1, unattended: 6, station: .burner, after: ["deglaze"], maxWait: 0),
+            task("finish", hands: 2, after: ["sear", "reduce"], maxWait: 3),
+            task("plate", hands: 2, after: ["finish"])
+        ])
+        #expect(schedule.placement(of: "deglaze")?.start == 2)
+        // The meat waits eleven minutes for the finish — by the recipe's
+        // design, not a lateness.
+        #expect(schedule.placement(of: "finish")?.start == 13)
+        #expect(schedule.lateFollowUps.isEmpty)
+    }
+
+    @Test("Several orderings are tried and the best kept: fresh parts last when that shortens the plan")
+    func orderingsCompared() throws {
+        // Pots first would start the glaze at minute 0 and let it stand;
+        // held back, it lands next to the plating and nothing waits.
+        let schedule = try KitchenScheduler.schedule([
+            task("glaze", hands: 2, unattended: 4, station: .burner, maxWait: 2),
+            task("chop", hands: 5),
+            task("fry", hands: 4, station: .burner, after: ["chop"]),
+            task("plate", hands: 1, after: ["glaze", "fry"])
+        ])
+        #expect(schedule.lateFollowUps.isEmpty)
+        #expect(schedule.makespan == 12)
+        #expect(schedule.placement(of: "plate")?.start == 11)
     }
 
     @Test("Work the follow-up still waits for is never held back; the predecessor is held back instead")
