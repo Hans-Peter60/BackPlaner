@@ -13,28 +13,6 @@
 
 import Foundation
 
-/// A dish as a set of work steps.
-public struct KitchenDish: Identifiable, Equatable, Sendable {
-    public let id: String
-    public let name: String
-    public let tasks: [KitchenTask]
-
-    public init(id: String, name: String, tasks: [KitchenTask]) {
-        self.id = id
-        self.name = name
-        self.tasks = tasks
-    }
-
-    /// The parts of the dish, in the order their steps first appear.
-    public var components: [String] {
-        var seen = [String]()
-        for task in tasks where !task.component.isEmpty && !seen.contains(task.component) {
-            seen.append(task.component)
-        }
-        return seen
-    }
-}
-
 public enum KitchenSampleDishes {
 
     /// The budget the show allows.
@@ -47,6 +25,7 @@ public enum KitchenSampleDishes {
     public static let perlhuhnbrust = KitchenDish(
         id: "perlhuhnbrust",
         name: "Perlhuhnbrust mit Rahm-Wirsing, Kräuterseitlingen und Verjus-Birne",
+        source: .sample,
         tasks: [
             KitchenTask(id: "a1", name: "Perlhuhn trocken tupfen, Sehnen entfernen, Haut salzen", component: "Perlhuhnbrust", hands: 2),
             KitchenTask(id: "a2", name: "Perlhuhn auf der Haut braten", component: "Perlhuhnbrust", hands: 1, unattended: 5, station: .burner, after: ["a1"], maxWait: 0, window: 5...6),
@@ -78,6 +57,7 @@ public enum KitchenSampleDishes {
     public static let wirsingrolle = KitchenDish(
         id: "wirsingrolle",
         name: "Gefüllte Wirsingrolle mit Sahnesauce, Birnen-Haselnuss-Kompott und Estragon-Öl",
+        source: .sample,
         tasks: [
             KitchenTask(id: "r1", name: "Perlgraupen waschen, mit Lorbeer in Salzwasser kochen", component: "Wirsingrolle", hands: 2, unattended: 25, station: .burner),
             KitchenTask(id: "r2", name: "Wirsingblätter von den Adern befreien", component: "Wirsingrolle", hands: 3),
@@ -111,6 +91,7 @@ public enum KitchenSampleDishes {
     public static let geschnetzeltes = KitchenDish(
         id: "geschnetzeltes",
         name: "Perlhuhn-Geschnetzeltes in Verjus-Estragon-Rahm mit Pilzen, Birne und knuspriger Haut",
+        source: .sample,
         tasks: [
             KitchenTask(id: "m1", name: "Haut lösen, Fleisch in Streifen, Schalotte würfeln, Estragon schneiden", component: "Geschnetzeltes", hands: 6),
             KitchenTask(id: "m2", name: "Fleisch 60 Sekunden scharf anbraten, herausnehmen, würzen", component: "Geschnetzeltes", hands: 2, station: .burner, after: ["m1"], maxWait: 1),

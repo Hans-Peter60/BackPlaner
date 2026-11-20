@@ -168,9 +168,18 @@ Ein Ofenschritt trägt seine Temperatur (`KitchenTask.ovenTemperature`, nur für
 
 Bisher kennt die App nur die drei Beispielgerichte. Damit sie nutzbar wird, braucht sie eigene Gerichte: erfasst von Hand, aus Text oder Foto importiert, gespeichert auf dem Gerät.
 
-### 3a. Editor und Speicher (zuerst)
+### 3a. Editor und Speicher (gebaut 19./20.11.)
 
-Der Prüfbildschirm nach einem Import und der Editor für ein Gericht von Hand sind **derselbe Bildschirm**; er wird also in jedem Fall gebraucht und kommt zuerst.
+Der Prüfbildschirm nach einem Import und der Editor für ein Gericht von Hand sind **derselbe Bildschirm**; er wird also in jedem Fall gebraucht und kam zuerst.
+
+Umgesetzt (Entscheidung 19.11.: eigener Speicher statt `BakePlannerStorage`):
+- **Kern:** `KitchenDish` mit Herkunft (`KitchenDishSource`: Beispiel, Hand, Text, Foto, Web), Portionen, Datum und `duplicate()`; `KitchenDishFile` (Format 1, Codable-Datensätze mit expliziten Schlüsseln, spätere Versionen werden abgewiesen, Zahlen über `Plausible` begrenzt); Protokoll `KitchenDishStore` (alle, eines, speichern = anlegen oder ganz ersetzen, löschen) mit `KitchenDishStoreContract` und `InMemoryKitchenDishStore`; `KitchenDishDefaults.withDependencies` füllt leere Vorgänger (Schritt folgt dem vorherigen seiner Komponente, der letzte wartet auf alle Komponenten).
+- **Paket `CookPlannerStorage`** (neu, `CookPlannerStorage/`): `CookPlannerDatabase` (SkipSQLPlus, PRAGMA user_version-Migrationen, Tabellen `dish`, `step`, `step_dependency`), `SQLiteKitchenDishStore`; Tests: Vertrag, Bestand über Schließen und Öffnen, fehlgeschlagenes Speichern lässt den alten Stand stehen. Abhängigkeiten wie `BakePlannerStorage` (gleiche `Package.resolved`). **In Xcode muss das Paket dem Projekt `CookPlanner` als lokales Paket hinzugefügt werden** (File → Add Package Dependencies → Add Local… → `CookPlannerStorage`).
+- **App:** `DishLibrary` (@Observable, Datei `Application Support/CookPlanner/dishes.sqlite`, ohne Datei fällt sie auf den In-Memory-Store zurück und meldet es), Liste mit „Meine Gerichte“ und „Beispiele“ (Wischen löscht, Kontextmenü: Bearbeiten, „Als Vorlage übernehmen“), `DishEditorView` (Name, Portionen, Schritte verschieben/löschen, Plan mit Urteil und Kürzungen, der bei jeder Änderung mitläuft, Fehler des Planers sichtbar), `StepEditorView` (Text, Komponente mit Auswahl, Hände, danach allein, Zeitspanne, Gerät, Ofentemperatur, „muss bald weitergehen“, „Wartet auf“ aus den vorherigen Schritten), „Bearbeiten“ in der Planansicht eigener Gerichte. Auf dem Simulator geprüft (20.11.): Anlegen, Schritte, Speichern, Umbenennen, Vorlage aus einem Beispiel, Löschen; ein Gericht überlebt den Neustart der App. Nachgebessert: Zeitspanne belegt sich aus der eingegebenen Dauer vor, der Umordnen-Knopf sitzt im Abschnittskopf „Schritte“ statt in der Titelleiste, die Tastatur hat „Fertig“.
+
+Hinweise: Xcodes Build schreibt `CookPlanner/Localizable.xcstrings` in seinem Format (`"key" : value`) um und zieht Texte ohne `Text(verbatim:)` als Schlüssel hinein; reine Zahlenanzeigen deshalb immer `verbatim`. Der Build-Plug-in von `skip` (über `skip-sql`) muss je Version einmal in Xcode mit „Trust & Enable“ freigegeben werden, sonst scheitert auch `xcodebuild`.
+
+Ursprüngliche Skizze:
 
 - **Modell:** `KitchenDish` bekommt Herkunft (Text, Foto, Web, Hand), Datum und Portionen; die Schritte bleiben `KitchenTask`. Dazu ein **versioniertes Dateiformat** (`KitchenDishFile`, `formatVersion 1`, Codable), wie `RecipeExportData` bei BakePlanner: Grundlage für den Speicher, für Sichern/Teilen und für den späteren Plattformwechsel. Nicht ohne Versionierung ändern.
 - **Speicher:** Protokoll `KitchenDishStore` (alle, eines, speichern, löschen) im Paket mit Vertragstests (wie `StoreContracts/`). Erste Umsetzung: **eine JSON-Datei je Gericht** in Application Support, atomar geschrieben. Gerichte sind klein (20 Schritte), SQLite bringt hier nichts; `BakePlannerStorage` (SkipSQLPlus) bliebe als Option, wenn Historie und Bilder dazukommen. Kein Sync, wie beschlossen; Sichern über das Dateiformat.
