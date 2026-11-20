@@ -254,4 +254,4 @@ Ursprüngliche Skizze:
 
 1. Echtes Kochen mit der App (Hans-Peter), dann weitere Gerichte importieren (eigene Rezepte, Webseiten-Texte) und die Schätzungen prüfen.
 2. Fotos und Webseiten als Eingang (wie BakePlanner: `RecipeImageImportView`, Share-Extension).
-3. Sichern/Teilen der Gerichtsdatei, Android über Skip, Store-Texte, Xcode-Cloud-Workflow für TestFlight.
+3. Sichern/Teilen der Gerichtsdatei, Android über Skip. TestFlight: App-Eintrag in App Store Connect angelegt (20.11.), Workflow-Anleitung, Datenschutz-Angaben und Store-Texte in [CookPlanner-Store.md](CookPlanner-Store.md).
