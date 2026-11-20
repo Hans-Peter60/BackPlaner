@@ -51,7 +51,7 @@ struct DishPlan {
         case .packing:
             return "Kette (\(schedule.criticalPathMinutes) Minuten) und Hände (\(schedule.handsMinutes) Minuten) passen einzeln, kollidieren aber an Händen oder Geräten."
         case nil:
-            return "\(schedule.slack) Minuten Luft, \(schedule.idleHandsMinutes) Minuten ohne Handarbeit."
+            return "\(schedule.slack) Min. Luft, \(schedule.idleHandsMinutes) Min. ohne Handarbeit."
         }
     }
 }

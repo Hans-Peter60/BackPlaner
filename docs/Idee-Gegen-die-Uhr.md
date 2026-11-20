@@ -186,7 +186,15 @@ Ursprüngliche Skizze:
 - **Editor:** Liste der Komponenten und Schritte. Je Schritt: Text, Komponente, Hände (Minuten), danach allein (Minuten), Fenster von–bis, Gerät (keins/Platte/Ofen), Ofentemperatur, „liegt max.“, und **Vorgänger** als Auswahl aus den vorherigen Schritten. Vorgabe für die Vorgänger, damit niemand Pfeile ziehen muss: Schritte derselben Komponente folgen aufeinander; „Anrichten“ hängt vom letzten Schritt jeder Komponente ab. Unten der Plan mit Urteil und „So passt es“ wie in der Planansicht, der bei jeder Änderung mitläuft; Planerfehler (Kreis, unbekannter Vorgänger) werden angezeigt statt stumm verschluckt.
 - **Liste:** eigene Gerichte oben, die Beispiele darunter (oder als „Beispiele“ einblendbar); Wischen zum Löschen; Duplizieren eines Beispiels als Vorlage.
 
-### 3b. Import (danach)
+### 3b. Import (gebaut 20.11.)
+
+Umgesetzt: Cloud Function **`analyzeDishSteps`** (deployt 20.11. mit Freigabe) mit dem Kochschema (Titel, Portionen, Komponenten, Schritte mit Text, Komponente, Handminuten, Minuten allein, Spanne, Gerät `none/burner/oven`, Ofentemperatur, `maxWaitMinutes` mit −1 = hält sich, `dependsOn` als Indizes, Warnungen) und den Regeln im Prompt; gleiche Schutzmechanismen wie der Rezeptimport (Anmeldung, App Check, Stundenlimit), die CookPlanner-App-ID `1:936649524074:ios:73d0fac7786ca027d65b13` ist von der Monatsgrenze ausgenommen. Im Kern liest `CloudDishImport` die Antwort in ein `KitchenDish` (Zahlen über `Plausible`, nur rückwärts gerichtete Abhängigkeiten, leere Schritte raus, Vorgaben aufgefüllt; Tests). In der App: Firebase (Functions, App Check mit Debug-Provider im Simulator, anonyme Anmeldung beim ersten Import), `DishImportClient`, `DishTextImportView` unter „+“ → „Aus Text importieren“ (Text tippen oder `PasteButton`, „Analysieren“, Zusammenfassung mit Hinweisen der KI, „Prüfen und bearbeiten“ öffnet den Editor, gespeichert wird erst mit „Sichern“).
+
+**Erster Maßstab (20.11., Geschnetzeltes als Text):** 40 s Analyse, 12 Schritte in 5 Komponenten, Hinweise „nach dem Wenden der Kräuterseitlinge keine Bratzeit genannt“ und „Pfanne/Topf-Wechsel im Text“. Die KI schätzt die Handarbeit mit 30 Minuten knapper als meine Tabelle (37) und das Gericht passt damit in 35 Minuten (31). Geräte und Ofentemperatur stimmen (Haut im Ofen 160 °C, 20–25), Höchstwartezeiten sind gesetzt (Birne 10, Pilze 5, Fleisch 10, Haut und Anrichten 0). Diskutabel: „2 Minuten pro Seite“ wurde zu 2 Minuten allein statt 4 Minuten Handarbeit, „60 Sekunden scharf anbraten“ zu 2 Minuten Handarbeit ohne Wartezeit. Fotos und Webseiten als Eingang folgen später.
+
+Debug-Token für App Check im Simulator (iPhone 17e): in der Firebase-Konsole eingetragen 20.11.; ein anderer Simulator braucht ein eigenes (steht beim Start in der Konsole).
+
+Ursprüngliche Skizze:
 
 - **Eingänge:** Text einfügen (erster Test: die drei Rezept-PDFs der Sendung als Text), Fotos (Kamera/Fotos, wie `RecipeImageImportView`), Webseite (später über die Share-Extension wie BakePlanner).
 - **Neue Cloud Function** `analyzeDishSteps` neben `analyzeRecipeText`/`analyzeRecipeImages`, gleiche Infrastruktur (Gemini mit Schema, App Check, Stundenlimit, Protokoll). Eigenes Schema fürs Kochen: Titel, Portionen, Komponenten, Schritte mit `text`, `componentName`, `handsMinutes`, `unattendedMinutes`, `unattendedMinMinutes`/`unattendedMaxMinutes`, `station` (none/burner/oven), `ovenTemperature`, `maxWaitMinutes`, `dependsOn` (Indizes), `warnings`. Die Regeln im Prompt: Arbeitszeit eines geübten Hobbykochs schätzen, Wartezeiten vom Rezept nehmen, Spannen als Fenster, „sofort“ (wenden, ruhen) als `maxWait` 0, Ofen-Temperaturen aus dem Text, Abhängigkeiten nur, wo das Rezept sie vorgibt (Füllung braucht Graupen), nichts erfinden, Unklares in `warnings`.
@@ -204,5 +212,6 @@ Ursprüngliche Skizze:
 
 ## Nächste Schritte
 
-1. Entscheidungen zu Schritt 3 (Speicher als JSON-Datei, Editor zuerst, Firebase-App für CookPlanner, Kontingent-Ausnahme).
-2. Xcode-Cloud-Workflow für CookPlanner, wenn die App einmal nach TestFlight soll.
+1. Weitere Gerichte importieren und den Prompt nachschärfen (Handarbeit vs. Wartezeit bei „pro Seite“, Sekundenangaben).
+2. Fotos und Webseiten als Eingang (wie BakePlanner: `RecipeImageImportView`, Share-Extension).
+3. Sichern/Teilen der Gerichtsdatei, Android über Skip, Store-Texte, Xcode-Cloud-Workflow für TestFlight.

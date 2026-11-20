@@ -20,6 +20,10 @@ struct DishListView: View {
     /// The dish being edited in the sheet: a new one, a copy of an
     /// example, or one of the cook's own.
     @State private var editing: KitchenDish?
+    @State private var importing = false
+    /// The dish the import handed over, opened in the editor once the
+    /// import sheet is gone.
+    @State private var pendingImport: KitchenDish?
 
     private func plan(for dish: KitchenDish) -> DishPlan? {
         DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
@@ -84,12 +88,21 @@ struct DishListView: View {
             .navigationTitle("Gerichte")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        editing = KitchenDish(name: "", createdAt: .now, tasks: [])
+                    Menu {
+                        Button {
+                            editing = KitchenDish(name: "", createdAt: .now, tasks: [])
+                        } label: {
+                            Label("Neues Gericht", systemImage: "square.and.pencil")
+                        }
+                        Button {
+                            importing = true
+                        } label: {
+                            Label("Aus Text importieren", systemImage: "text.viewfinder")
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .accessibilityLabel("Neues Gericht")
+                    .accessibilityLabel("Hinzufügen")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -106,6 +119,16 @@ struct DishListView: View {
             .sheet(item: $editing) { dish in
                 DishEditorView(dish: dish) { saved in
                     library.save(saved)
+                }
+            }
+            .sheet(isPresented: $importing, onDismiss: {
+                if let pendingImport {
+                    editing = pendingImport
+                    self.pendingImport = nil
+                }
+            }) {
+                DishTextImportView { dish in
+                    pendingImport = dish
                 }
             }
             .alert("Speichern fehlgeschlagen",
