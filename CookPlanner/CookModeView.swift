@@ -7,7 +7,8 @@
 //  step; done early or late, the rest of the plan is placed afresh from
 //  that moment (KitchenScheduler.replan). Steps with an unattended part
 //  end by the clock and may be ticked off early. Reminders (CookReminders)
-//  follow the live plan, so the phone may be locked in between.
+//  and the Live Activity (CookActivityManager) follow the live plan, so
+//  the phone may be locked in between.
 //
 
 import BakePlannerCore
@@ -45,11 +46,15 @@ struct CookModeView: View {
             .warmBackground()
             .navigationTitle("Kochen")
             .navigationBarTitleDisplayMode(.inline)
-            .onDisappear { CookReminders.shared.cancelAll() }
+            .onDisappear {
+                CookReminders.shared.cancelAll()
+                CookActivityManager.shared.endAll()
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Beenden") {
                         CookReminders.shared.cancelAll()
+                        CookActivityManager.shared.endAll()
                         dismiss()
                     }
                 }
@@ -69,6 +74,7 @@ struct CookModeView: View {
                                 pausedAt = .now
                                 CookReminders.shared.cancelAll()
                                 remindersSignature = ""
+                                syncActivity(minute: elapsedSeconds(at: .now) / 60)
                             } label: {
                                 Image(systemName: "pause.fill")
                             }
@@ -99,7 +105,48 @@ struct CookModeView: View {
         guard let pausedAt else { return }
         pausedSeconds += Date.now.timeIntervalSince(pausedAt)
         self.pausedAt = nil
-        syncReminders(minute: elapsedSeconds(at: .now) / 60)
+        let minute = elapsedSeconds(at: .now) / 60
+        syncReminders(minute: minute)
+        syncActivity(minute: minute)
+    }
+
+    /// The Live Activity for the live plan as it stands.
+    private func syncActivity(minute: Int) {
+        guard let startedAt else { return }
+        let now = Date.now
+        let schedule = live ?? plan.schedule
+        let placements = schedule.placements
+        let clockStart = startedAt.addingTimeInterval(pausedSeconds)
+        let current = placements
+            .filter { placement in
+                placement.task.handsMinutes > 0 && placement.start <= minute && finished[placement.id] == nil
+                    && (placement.task.unattendedMinutes == 0 || minute < placement.handsEnd)
+            }
+            .min { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
+        let next = placements
+            .filter { $0.task.handsMinutes > 0 && $0.start > minute && finished[$0.id] == nil }
+            .min { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
+        let running = placements.filter { placement in
+            placement.task.unattendedMinutes > 0 && placement.handsEnd <= minute && minute < placement.end
+                && finished[placement.id] == nil
+        }.count
+        let done = placements.filter { placement in
+            finished[placement.id] != nil
+                || ((placement.task.unattendedMinutes > 0 || placement.task.handsMinutes == 0) && placement.end <= minute)
+        }.count
+        let remaining = max(0, schedule.makespan * 60 - elapsedSeconds(at: now))
+        let state = CookActivityAttributes.ContentState(
+            finishDate: pausedAt == nil ? now.addingTimeInterval(TimeInterval(remaining)) : clockStart.addingTimeInterval(TimeInterval(schedule.makespan * 60)),
+            currentStep: current?.task.name,
+            currentComponent: current.map { $0.task.component.isEmpty ? nil : $0.task.component } ?? nil,
+            nextStep: next?.task.name,
+            nextDate: next.map { clockStart.addingTimeInterval(TimeInterval($0.start * 60)) },
+            runningCount: running,
+            doneCount: done,
+            totalCount: placements.count,
+            isPaused: pausedAt != nil,
+            pausedRemainingMinutes: (remaining + 59) / 60)
+        CookActivityManager.shared.refresh(dishName: plan.dish.name, state: state, now: now)
     }
 
     /// The reminders for the live plan as it stands, unless nothing changed.
@@ -130,6 +177,7 @@ struct CookModeView: View {
                                              previous: previous,
                                              progress: KitchenProgress(now: minute, finished: finished))) ?? previous
         syncReminders(minute: minute)
+        syncActivity(minute: minute)
     }
 
     private func tickOff(_ id: String, minute: Int) {
@@ -169,6 +217,7 @@ struct CookModeView: View {
                         Task {
                             _ = await CookReminders.shared.requestAuthorization()
                             syncReminders(minute: 0)
+                            syncActivity(minute: 0)
                         }
                     } label: {
                         Label("Start", systemImage: "play.fill")
