@@ -116,6 +116,9 @@ struct DishEditorView: View {
                 }
             }
         }
+        // A swipe must not throw an imported or half-typed dish away;
+        // "Abbrechen" is the way out.
+        .interactiveDismissDisabled()
     }
 
     /// The steps a step may wait for: the ones before it in the list.

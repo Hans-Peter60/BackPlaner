@@ -265,6 +265,28 @@
         }
       }
     },
+    "Adresse der Rezeptseite" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse der Rezeptseite"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address of the recipe page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse de la page de recette"
+          }
+        }
+      }
+    },
     "Als Vorlage übernehmen" : {
       "localizations" : {
         "de" : {
@@ -305,6 +327,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyser"
+          }
+        }
+      }
+    },
+    "Andere Seite analysieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Seite analysieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze another page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser une autre page"
           }
         }
       }
@@ -393,6 +437,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer depuis un texte"
+          }
+        }
+      }
+    },
+    "Aus Webseite importieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus Webseite importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from web page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis une page web"
           }
         }
       }
@@ -657,6 +723,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les étapes s’ouvrent dans l’éditeur ; rien n’est enregistré avant « Enregistrer »."
+          }
+        }
+      }
+    },
+    "Die Seite wird auf diesem Gerät geladen; nur der Rezepttext geht zur Analyse an einen Dienst von Google." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite wird auf diesem Gerät geladen; nur der Rezepttext geht zur Analyse an einen Dienst von Google."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page is loaded on this device; only the recipe text goes to a Google service for analysis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page est chargée sur cet appareil ; seul le texte de la recette est envoyé à un service de Google pour l’analyse."
           }
         }
       }
@@ -2201,6 +2289,28 @@
         }
       }
     },
+    "Seite wird geladen …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seite wird geladen …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading page …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement de la page …"
+          }
+        }
+      }
+    },
     "Sichern" : {
       "localizations" : {
         "de" : {
@@ -2505,6 +2615,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "jusqu’à %lld min"
+          }
+        }
+      }
+    },
+    "https://…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://…"
           }
         }
       }

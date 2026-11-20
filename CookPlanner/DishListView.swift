@@ -21,6 +21,11 @@ struct DishListView: View {
     /// example, or one of the cook's own.
     @State private var editing: KitchenDish?
     @State private var importing = false
+    @State private var importingWeb = false
+    /// A page address handed in by the share extension or a link to the app.
+    @State private var webImportAddress: URL?
+    @State private var webImportStartsAutomatically = false
+    @Environment(\.scenePhase) private var scenePhase
     /// The dish the import handed over, opened in the editor once the
     /// import sheet is gone.
     @State private var pendingImport: KitchenDish?
@@ -99,6 +104,11 @@ struct DishListView: View {
                         } label: {
                             Label("Aus Text importieren", systemImage: "text.viewfinder")
                         }
+                        Button {
+                            importingWeb = true
+                        } label: {
+                            Label("Aus Webseite importieren", systemImage: "globe")
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -131,6 +141,32 @@ struct DishListView: View {
                     pendingImport = dish
                 }
             }
+            .sheet(isPresented: $importingWeb, onDismiss: {
+                if let pendingImport {
+                    editing = pendingImport
+                    self.pendingImport = nil
+                }
+            }) {
+                DishWebImportView(address: webImportAddress, startsAutomatically: webImportStartsAutomatically) { dish in
+                    pendingImport = dish
+                }
+            }
+            // The share extension opens the app with the page's address; the
+            // same address is parked in the App Group, and only when it is
+            // there did the link come from the extension — any web page can
+            // open cookplanner://import-web, and then the analysis waits
+            // for a tap.
+            .onOpenURL { url in
+                guard let pageURL = PendingDishImport.url(fromDeepLink: url) else { return }
+                beginWebImport(of: pageURL, startsAutomatically: PendingDishImport.takePending() == pageURL)
+            }
+            // The extension may have been unable to open the app; the parked
+            // address is collected when the app comes forward.
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active, let pageURL = PendingDishImport.takePending() {
+                    beginWebImport(of: pageURL, startsAutomatically: true)
+                }
+            }
             .alert("Speichern fehlgeschlagen",
                    isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {
                 Button("OK", role: .cancel) { }
@@ -159,6 +195,17 @@ struct DishListView: View {
             .font(Theme.brandFont(18))
             .foregroundColor(Theme.title)
             .textCase(nil)
+    }
+
+    /// Opens the web import with `pageURL` in its field, closing whatever
+    /// sheet is in front.
+    private func beginWebImport(of pageURL: URL, startsAutomatically: Bool) {
+        showsSettings = false
+        editing = nil
+        importing = false
+        webImportAddress = pageURL
+        webImportStartsAutomatically = startsAutomatically
+        importingWeb = true
     }
 }
 

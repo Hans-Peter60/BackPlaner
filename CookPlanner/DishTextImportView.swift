@@ -16,7 +16,7 @@ struct DishTextImportView: View {
     @State private var text = ""
     @State private var isAnalyzing = false
     @State private var errorMessage: String?
-    @State private var result: (dish: KitchenDish, warnings: [String], notice: String?)?
+    @State private var result: DishImportResult?
     @FocusState private var editing: Bool
     /// Called with the dish the cook accepted for the editor.
     let onImported: (KitchenDish) -> Void
@@ -25,7 +25,12 @@ struct DishTextImportView: View {
         NavigationStack {
             Form {
                 if let result {
-                    resultSections(result)
+                    DishImportResultSections(result: result, onAccept: {
+                        onImported(result.dish)
+                        dismiss()
+                    }, onRetry: {
+                        self.result = nil
+                    }, retryTitle: "Anderen Text analysieren")
                 } else {
                     inputSections
                 }
@@ -100,44 +105,6 @@ struct DishTextImportView: View {
         }
     }
 
-    @ViewBuilder
-    private func resultSections(_ result: (dish: KitchenDish, warnings: [String], notice: String?)) -> some View {
-        Section("Gefunden") {
-            Text(verbatim: result.dish.name)
-                .font(.headline)
-            Text("\(result.dish.tasks.count) Schritte, \(result.dish.components.count) Komponenten")
-            if let servings = result.dish.servings {
-                Text("Für \(servings) Personen")
-            }
-            if let notice = result.notice {
-                Text(verbatim: notice)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-            }
-        }
-        if !result.warnings.isEmpty {
-            Section("Hinweise der Analyse") {
-                ForEach(result.warnings, id: \.self) { warning in
-                    Text(verbatim: warning)
-                        .font(.footnote)
-                }
-            }
-        }
-        Section {
-            Button {
-                onImported(result.dish)
-                dismiss()
-            } label: {
-                Label("Prüfen und bearbeiten", systemImage: "checkmark.circle")
-            }
-            Button("Anderen Text analysieren") {
-                self.result = nil
-            }
-        } footer: {
-            Text("Die Schritte öffnen sich im Editor; gespeichert wird erst mit „Sichern“.")
-        }
-    }
-
     private func analyze() {
         editing = false
         isAnalyzing = true
@@ -148,7 +115,8 @@ struct DishTextImportView: View {
                 let analysis = try await DishImportClient.shared.analyzeText(input)
                 let dish = CloudDishImport.dish(from: analysis.dish, source: .text,
                                                 fallbackName: String(localized: "Gericht"))
-                result = (dish, analysis.dish.warnings ?? [], analysis.freeImports?.notice())
+                result = DishImportResult(dish: dish, warnings: analysis.dish.warnings ?? [],
+                                          notice: analysis.freeImports?.notice())
             } catch {
                 errorMessage = error.localizedDescription
             }
