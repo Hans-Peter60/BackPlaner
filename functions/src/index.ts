@@ -394,8 +394,9 @@ export const analyzeDishSteps = onCall(
       },
     ];
 
+    // Two attempts of at most 100 s each fit into the 240 s deadline.
     const generated = await generateRecipe(parts,
-      {textLength: text.length, startedAt}, dishSchema, "Dish");
+      {textLength: text.length, startedAt}, dishSchema, "Dish", 100_000);
     return {
       dish: generated.recipe,
       model: generated.model,
@@ -417,6 +418,7 @@ type RecipeAnalysisMetrics = {
  * @param {RecipeAnalysisMetrics} metrics Values for the completion log.
  * @param {object} schema The response schema; the recipe's by default.
  * @param {string} label What the log calls the analysis.
+ * @param {number} timeoutMs Optional limit per attempt in milliseconds.
  * @return {Promise<object>} The answer together with the model name.
  */
 async function generateRecipe(
@@ -424,6 +426,7 @@ async function generateRecipe(
   metrics: RecipeAnalysisMetrics,
   schema: object = recipeSchema,
   label = "Recipe",
+  timeoutMs?: number,
 ): Promise<{recipe: unknown; model: string}> {
   const project = process.env.GCLOUD_PROJECT ??
     process.env.GOOGLE_CLOUD_PROJECT;
@@ -432,34 +435,54 @@ async function generateRecipe(
   }
 
   const ai = new GoogleGenAI({vertexai: true, project, location: "eu"});
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
-      contents: [{role: "user", parts}],
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: schema,
-        maxOutputTokens: 8192,
-      },
-    });
-    if (!response.text) {
-      throw new Error("Gemini returned no text response.");
+  // The model occasionally stops mid-answer or does not answer at all (a
+  // dish with many steps came back as an unterminated string once, one
+  // request ran into the function's deadline); a second try usually
+  // succeeds, so a failed first attempt is repeated while enough of the
+  // deadline is left.
+  const attempts = 2;
+  const retryBefore = 150_000;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3.8-flash",
+        contents: [{role: "user", parts}],
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: schema,
+          maxOutputTokens: 16384,
+          httpOptions: timeoutMs ? {timeout: timeoutMs} : undefined,
+        },
+      });
+      if (!response.text) {
+        throw new Error("Gemini returned no text response.");
+      }
+      const recipe = JSON.parse(response.text);
+      console.info(`${label} analysis completed`, {
+        imageCount: metrics.imageCount,
+        textLength: metrics.textLength,
+        attempt,
+        durationMilliseconds: Date.now() - metrics.startedAt,
+      });
+      return {recipe, model: "gemini-3.8-flash"};
+    } catch (error) {
+      const elapsed = Date.now() - metrics.startedAt;
+      if (attempt < attempts && elapsed < retryBefore) {
+        console.warn(`${label} analysis failed, trying again`,
+          {error: String(error), elapsed});
+        continue;
+      }
+      console.error(`${label} analysis failed`, error);
+      throw new HttpsError(
+        "internal",
+        "Das Rezept konnte momentan nicht analysiert werden.",
+      );
     }
-
-    const recipe = JSON.parse(response.text);
-    console.info(`${label} analysis completed`, {
-      imageCount: metrics.imageCount,
-      textLength: metrics.textLength,
-      durationMilliseconds: Date.now() - metrics.startedAt,
-    });
-    return {recipe, model: "gemini-3.8-flash"};
-  } catch (error) {
-    console.error(`${label} analysis failed`, error);
-    throw new HttpsError(
-      "internal",
-      "Das Rezept konnte momentan nicht analysiert werden.",
-    );
   }
+  throw new HttpsError(
+    "internal",
+    "Das Rezept konnte momentan nicht analysiert werden.",
+  );
 }
 
 const maxTextCharacters = 60_000;
