@@ -37,8 +37,25 @@ final class DishImportClient: @unchecked Sendable {
             throw DishImportError.invalidResponse
         }
         let data = try JSONSerialization.data(withJSONObject: payload)
+        #if DEBUG
+        Self.keepForTuning(data)
+        #endif
         return try JSONDecoder().decode(CloudDishAnalysis.self, from: data)
     }
+
+    #if DEBUG
+    /// Development builds keep every answer as a file in Application
+    /// Support/CookPlanner/imports, to read what the model made of a recipe
+    /// and to sharpen the prompt against it.
+    private static func keepForTuning(_ data: Data) {
+        let folder = URL.applicationSupportDirectory.appendingPathComponent("CookPlanner/imports", isDirectory: true)
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let stamp = ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-")
+        let pretty = (try? JSONSerialization.jsonObject(with: data))
+            .flatMap { try? JSONSerialization.data(withJSONObject: $0, options: [.prettyPrinted, .sortedKeys]) } ?? data
+        try? pretty.write(to: folder.appendingPathComponent("\(stamp).json"))
+    }
+    #endif
 }
 
 enum DishImportError: LocalizedError {

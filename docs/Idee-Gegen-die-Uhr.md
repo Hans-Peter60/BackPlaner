@@ -190,7 +190,29 @@ Ursprüngliche Skizze:
 
 Umgesetzt: Cloud Function **`analyzeDishSteps`** (deployt 20.11. mit Freigabe) mit dem Kochschema (Titel, Portionen, Komponenten, Schritte mit Text, Komponente, Handminuten, Minuten allein, Spanne, Gerät `none/burner/oven`, Ofentemperatur, `maxWaitMinutes` mit −1 = hält sich, `dependsOn` als Indizes, Warnungen) und den Regeln im Prompt; gleiche Schutzmechanismen wie der Rezeptimport (Anmeldung, App Check, Stundenlimit), die CookPlanner-App-ID `1:936649524074:ios:73d0fac7786ca027d65b13` ist von der Monatsgrenze ausgenommen. Im Kern liest `CloudDishImport` die Antwort in ein `KitchenDish` (Zahlen über `Plausible`, nur rückwärts gerichtete Abhängigkeiten, leere Schritte raus, Vorgaben aufgefüllt; Tests). In der App: Firebase (Functions, App Check mit Debug-Provider im Simulator, anonyme Anmeldung beim ersten Import), `DishImportClient`, `DishTextImportView` unter „+“ → „Aus Text importieren“ (Text tippen oder `PasteButton`, „Analysieren“, Zusammenfassung mit Hinweisen der KI, „Prüfen und bearbeiten“ öffnet den Editor, gespeichert wird erst mit „Sichern“).
 
-**Erster Maßstab (20.11., Geschnetzeltes als Text):** 40 s Analyse, 12 Schritte in 5 Komponenten, Hinweise „nach dem Wenden der Kräuterseitlinge keine Bratzeit genannt“ und „Pfanne/Topf-Wechsel im Text“. Die KI schätzt die Handarbeit mit 30 Minuten knapper als meine Tabelle (37) und das Gericht passt damit in 35 Minuten (31). Geräte und Ofentemperatur stimmen (Haut im Ofen 160 °C, 20–25), Höchstwartezeiten sind gesetzt (Birne 10, Pilze 5, Fleisch 10, Haut und Anrichten 0). Diskutabel: „2 Minuten pro Seite“ wurde zu 2 Minuten allein statt 4 Minuten Handarbeit, „60 Sekunden scharf anbraten“ zu 2 Minuten Handarbeit ohne Wartezeit. Fotos und Webseiten als Eingang folgen später.
+**Erster Maßstab (20.11., alle drei Sendungsrezepte als Text, Prompt der ersten Fassung):** Analyse 25–60 s. Die KI liest Komponenten, Geräte, Ofentemperatur (Haut 160 °C, 20–25) und Spannen (Wirsing 6–8, Perlhuhn 5–6) richtig und trifft die Handarbeit insgesamt fast wie meine Tabellen: A 41 (Tabelle 40), B 43 (42), C 29–30 (37). Hinweise sind brauchbar („Ruhezeit ‚einige Minuten‘ auf 3 geschätzt“, „Öl zum Anbraten fehlt in der Zutatenliste“). Drei Abweichungen mit Folgen:
+
+| | Beobachtung | Folge im Plan | Änderung |
+|---|---|---|---|
+| B | Acht Schritte in der Komponente „Wirsingrolle“, `dependsOn` nur bei Füllung, Rolle und Anrichten gesetzt; die Vorgabe „Schritte einer Komponente folgen aufeinander“ kettete Graupen (25 min) → Blätter → Haut → Fleisch → Pilze | 82 statt 43 Minuten | Prompt: `dependsOn` ist Pflicht für jeden Schritt, Unabhängiges wird nicht verkettet. `CloudDishImport`: Nennt die Antwort irgendwo Abhängigkeiten, gelten sie wie angegeben (leer = kann sofort starten; nur ungültige genannt = Vorgänger der Komponente); nur eine Antwort ganz ohne bekommt die Komponenten-Ketten. Mit derselben Antwort: 47 Minuten |
+| A | Höchstwartezeiten knapper als in der Tabelle (Pilze 5, Birne 10, Käse-Wirsing 10, Tranchen 3) bei 41 Handminuten: Am Ende müssen mehr Handminuten liegen, als in die letzten zehn Minuten passen | Der Planer hielt alles zurück, bis die Wartezeiten eingehalten waren: 69 Minuten mit 20 Minuten Leerlauf | `KitchenScheduler`: Eine verspätete Minute wiegt so viel wie eine Planminute; Zurückhalten lohnt nur, solange es mehr Frische spart, als es Zeit kostet (Test `holdBackWeighedAgainstLength`). Mit derselben Antwort: 42 Minuten, Perlhuhn liegt 7 und Tranchen 7 Minuten länger als gewünscht, wird gemeldet |
+| A, C | Ganze Bratschritte als Handarbeit („ohne Bewegung goldbraun braten“ 5 Hände, 0 allein), Spanne 3–4 an einem Schritt ohne Zeit allein; „2 Minuten pro Seite“ als 2 Hände + 2 allein (Gesamtzeit stimmt), „60 Sekunden“ als 1 + 1 | Handarbeit eher zu hoch, Pläne pessimistisch | Prompt: Brat-, Köchel-, Reduzierzeiten ohne Eingreifen zählen allein, auch 2–3 Minuten, mit Beispiel; „pro Seite“ = Seiten × Minuten, je eine Minute Hand fürs Einlegen, Wenden, Herausnehmen; Sekunden aufrunden; Spannen nur für Zeit allein; `maxWait` 0 nur in derselben Pfanne, 10 für Warmgehaltenes |
+
+**Zweite Runde (20.11., geschärfter Prompt, deployt von Hans-Peter):** Alle drei Antworten nennen jetzt für jeden Schritt `dependsOn`, die unabhängigen Vorbereitungen der Wirsingrolle stehen nebeneinander, Bratzeiten ohne Eingreifen zählen allein („Pilze ohne Bewegung braten, wenden“ → 2 Hände, 3 allein), Spannen nur noch an Zeit allein.
+
+| Gericht | Schritte | Handminuten KI (Tabelle) | Plan KI (Tabelle) | Grund |
+|---|---|---|---|---|
+| A Perlhuhnbrust | 17 | 33 (40) | 37 min, fehlen 2 (44) | Kette 22 und Hände 33 kollidieren; Perlhuhn liegt 6 Minuten länger als gewünscht |
+| B Wirsingrolle | 14 | 37 (42) | 40 min, fehlen 5 (43) | Kette: Graupen 27 → Füllung 2 → Rolle 8 → Anrichten 3 |
+| C Geschnetzeltes | 19 | 24 (37) | 31 min, passt (37) | Kette Haut im Ofen 20–25; die KI schätzt viele Schritte mit nur einer Minute |
+
+Die KI schätzt die Handarbeit jetzt eher knapper als ich (bei C deutlich); das entspricht dem Eindruck aus der Sendung, dass es mit Hektik gerade reicht. Zwei Nebenbefunde: Bei C setzt die KI `maxWait` 0 ans scharfe Anbraten, dessen Fleisch aber erst zwölf Minuten später zurück in die Sauce kommt – der Planer meldet das als Verspätung, obwohl das Rezept es so will (die Höchstwartezeit gilt für alle Nachfolger, nicht nur den ersten). Und zwei von sieben Aufrufen scheiterten (eine abgeschnittene Antwort „Unterminated string in JSON“, einmal die 240-s-Frist der Function); der zweite Versuch gelang jeweils sofort. Die Function wiederholt einen gescheiterten ersten Versuch deshalb selbst (Zeitgrenze 100 s je Versuch beim Kochimport, `maxOutputTokens` 16384) – **noch nicht deployt**.
+
+**Editor:** Bis dahin ersetzte der Editor leere Abhängigkeiten beim Speichern durch die Komponenten-Kette; damit hätte jede importierte Wirsingrolle wieder 75 Minuten gedauert. Jetzt gelten Abhängigkeiten wörtlich (ohne Angabe kann ein Schritt sofort beginnen); ein neu getippter Schritt bekommt den vorherigen Schritt seiner Komponente vorgeschlagen, sobald die Komponente steht, bis der Koch die Auswahl ändert, und „Auf alle Komponenten warten“ setzt die Abhängigkeiten des Anrichtens. Bestehende von Hand getippte Gerichte ohne Abhängigkeiten verlieren die stillen Ketten (betrifft nur Testdaten).
+
+Rohantworten der KI liegen im Debug-Build unter Application Support/CookPlanner/imports als JSON (`DishImportClient.keepForTuning`).
+
+Messaufbau: Debug-Build mit Startargument `-ImportTextFile /tmp/rezept.txt` füllt den Importtext vor (der `PasteButton` reagiert nicht auf synthetische Tipps, `simctl pbcopy` direkt nach dem Booten kam nicht an). Die Antwort-JSONs der Simulator-App: `xcrun simctl get_app_container <udid> de.hpm64625.CookPlanner data`.
 
 Debug-Token für App Check im Simulator (iPhone 17e): in der Firebase-Konsole eingetragen 20.11.; ein anderer Simulator braucht ein eigenes (steht beim Start in der Konsole).
 
@@ -212,6 +234,6 @@ Ursprüngliche Skizze:
 
 ## Nächste Schritte
 
-1. Weitere Gerichte importieren und den Prompt nachschärfen (Handarbeit vs. Wartezeit bei „pro Seite“, Sekundenangaben).
+1. Weitere Gerichte importieren (eigene Rezepte, Webseiten-Texte) und die Schätzungen beim Kochen prüfen. Planer: Die Vorwärtsplatzierung legt Hände-freie Schritte früh, auch wenn ihr Ergebnis dann lange liegt (Perlhuhn bei A); ein zweiter Durchlauf mit anderer Reihenfolge könnte das verbessern. Höchstwartezeit nur für den ersten Nachfolger werten (Geschnetzeltes).
 2. Fotos und Webseiten als Eingang (wie BakePlanner: `RecipeImageImportView`, Share-Extension).
 3. Sichern/Teilen der Gerichtsdatei, Android über Skip, Store-Texte, Xcode-Cloud-Workflow für TestFlight.

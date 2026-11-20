@@ -309,6 +309,28 @@
         }
       }
     },
+    "Auf alle Komponenten warten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf alle Komponenten warten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wait for every component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendre tous les composants"
+          }
+        }
+      }
+    },
     "Aus Text importieren" : {
       "localizations" : {
         "de" : {
@@ -679,6 +701,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un plat, une personne, %lld minutes"
+          }
+        }
+      }
+    },
+    "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new step follows its component’s previous step until you change the choice. Plating waits for the last step of every component."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle étape suit l’étape précédente de son composant jusqu’à ce que vous changiez le choix. Le dressage attend la dernière étape de chaque composant."
           }
         }
       }
@@ -1185,6 +1229,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Échec de l’import"
+          }
+        }
+      }
+    },
+    "Jeder Schritt wartet nur auf die Schritte, die bei ihm angegeben sind; ohne Angabe kann er sofort beginnen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeder Schritt wartet nur auf die Schritte, die bei ihm angegeben sind; ohne Angabe kann er sofort beginnen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A step waits only for the steps named on it; without any it can start right away."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une étape n’attend que les étapes indiquées pour elle ; sans indication, elle peut commencer tout de suite."
           }
         }
       }
@@ -1713,50 +1779,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Four %lld °C"
-          }
-        }
-      }
-    },
-    "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Without one, a step follows its component’s previous step; the last step waits for every component."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sans indication, une étape suit l’étape précédente de son composant ; la dernière étape attend tous les composants."
-          }
-        }
-      }
-    },
-    "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Without a choice the step follows its component’s previous step."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sans choix, l’étape suit l’étape précédente de son composant."
           }
         }
       }

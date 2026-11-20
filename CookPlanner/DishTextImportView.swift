@@ -51,6 +51,16 @@ struct DishTextImportView: View {
             }
         }
         .interactiveDismissDisabled(isAnalyzing)
+        #if DEBUG
+        // Development builds take the text from a file named by the launch
+        // argument -ImportTextFile, for import runs on the simulator where
+        // the paste button cannot be driven.
+        .onAppear {
+            guard text.isEmpty, let path = UserDefaults.standard.string(forKey: "ImportTextFile"),
+                  let contents = try? String(contentsOfFile: path, encoding: .utf8) else { return }
+            text = contents
+        }
+        #endif
     }
 
     @ViewBuilder

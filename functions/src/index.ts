@@ -314,29 +314,45 @@ const dishRules = [
   "Zubereitung in einzelne Arbeitsschritte, so wie eine Person sie",
   "nacheinander ausführt, und bewahre die Sprache des Rezepts.",
   "Jeder Schritt gehört zu genau einer Komponente; nenne die Komponenten",
-  "in components und trage den Namen in componentName ein. Der letzte",
-  "Schritt ist das Anrichten mit leerem componentName.",
-  "handsMinutes: Minuten, in denen der Koch mit dem Schritt beschäftigt",
-  "ist (schneiden, rühren, wenden, arrosieren) – schätze sie für einen",
-  "geübten Hobbykoch, auch wenn das Rezept keine Zeit nennt.",
-  "unattendedMinutes: Minuten, die der Schritt danach ohne den Koch läuft",
-  "(kochen, backen, ruhen) – aus dem Rezept, 0 wenn keine. Nennt das",
-  "Rezept eine Spanne ('20–25 Minuten'), setze unattendedMinutes auf den",
-  "unteren Wert und unattendedMinMinutes/unattendedMaxMinutes auf die",
-  "Spanne, sonst beide 0.",
+  "in components (wie die Abschnitte des Rezepts) und trage den Namen in",
+  "componentName ein. Der letzte Schritt ist das Anrichten mit leerem",
+  "componentName.",
+  "handsMinutes: nur die Minuten, in denen der Koch an diesem Schritt",
+  "wirklich arbeitet (schneiden, rühren, wenden, arrosieren, anrichten,",
+  "Pfanne erhitzen) – schätze sie für einen geübten Hobbykoch, auch wenn",
+  "das Rezept keine Zeit nennt; Sekunden auf ganze Minuten aufrunden.",
+  "unattendedMinutes: Minuten, die der Schritt danach ohne den Koch läuft.",
+  "Alles, was brät, köchelt, reduziert, backt oder ruht, ohne dass jemand",
+  "eingreift, zählt hierher, auch wenn es nur 2–3 Minuten sind ('ohne",
+  "Bewegung braten', 'einkochen lassen', 'reduzieren'); 0 wenn keine.",
+  "Beispiel: 'Pilze ohne Bewegung goldbraun braten, wenden, zweite Seite",
+  "rösten, würzen' → handsMinutes 2, unattendedMinutes 3. 'N Minuten pro",
+  "Seite': Gesamtzeit Seiten × N, davon je eine Minute Handarbeit fürs",
+  "Einlegen, Wenden und Herausnehmen, der Rest unattended. Nennt das",
+  "Rezept für die unbeaufsichtigte Zeit eine Spanne ('20–25 Minuten'),",
+  "setze unattendedMinutes auf den unteren Wert und",
+  "unattendedMinMinutes/unattendedMaxMinutes auf die Spanne; sonst und",
+  "für reine Handarbeit beide 0.",
   "station: 'burner' für Topf oder Pfanne auf dem Herd, 'oven' für den",
   "Backofen, sonst 'none'. ovenTemperature in °C für Ofenschritte, sonst",
   "0. Vorheizen ist kein Schritt: Der Ofen ist heiß, wenn die Uhr startet.",
   "maxWaitMinutes: wie lange das Ergebnis liegen darf, bis der nächste",
-  "Schritt es braucht: 0, wenn es sofort weitergehen muss (Wenden nach dem",
-  "Anbraten; das Ruhen beginnt sofort nach dem Braten), 3 für geruhtes",
-  "Fleisch bis zum Tranchieren, 10 für Warmgehaltenes, -1 wenn es sich",
-  "hält (Geschnittenes, Kaltes, Geröstetes).",
-  "dependsOn: die Indizes (ab 0) der Schritte, die fertig sein müssen,",
-  "bevor dieser beginnt – nur wo das Rezept es verlangt, etwa die Füllung",
-  "braucht die gekochten Graupen. Schritte derselben Komponente folgen",
-  "ohnehin aufeinander, das Anrichten wartet auf alles; nur frühere",
-  "Indizes, keine Kreise.",
+  "Schritt es braucht: 0 nur, wenn es in derselben Pfanne sofort",
+  "weitergehen muss (Wenden nach dem Anbraten, Ablöschen; das Ruhen",
+  "beginnt sofort nach dem Braten), 3 für geruhtes Fleisch bis zum",
+  "Tranchieren, 10 für alles, was abgedeckt warm bleibt (gebratene Pilze,",
+  "glasierte Birnen, Sauce, Gemüse in Sahne), -1 wenn es sich hält",
+  "(Geschnittenes, Kaltes, Geröstetes, Öl).",
+  "dependsOn: für jeden Schritt die Indizes (ab 0) aller Schritte, deren",
+  "Ergebnis er braucht – Pflichtangabe. Meist ist das der vorige Schritt",
+  "derselben Komponente; ein Misch- oder Füllschritt nennt alle Schritte,",
+  "deren Teile hineinkommen; das Anrichten nennt den letzten Schritt jeder",
+  "Komponente. Leer nur bei Schritten, die gleich zu Beginn starten",
+  "können (waschen, schneiden, Graupen aufsetzen). Was nicht voneinander",
+  "abhängt, darf nicht verkettet werden, auch nicht innerhalb einer",
+  "Komponente: In 'Für die Wirsingrolle' werden Graupen, Blätter, Haut,",
+  "Fleisch und Pilze unabhängig vorbereitet, erst die Füllung wartet auf",
+  "sie. Nur frühere Indizes, keine Kreise.",
   "servings: für wie viele Personen, 0 wenn nicht genannt.",
   "Erfinde keine Zutaten, Zeiten oder Schritte; notiere Unklares in",
   "warnings.",
@@ -378,8 +394,9 @@ export const analyzeDishSteps = onCall(
       },
     ];
 
+    // Two attempts of at most 100 s each fit into the 240 s deadline.
     const generated = await generateRecipe(parts,
-      {textLength: text.length, startedAt}, dishSchema, "Dish");
+      {textLength: text.length, startedAt}, dishSchema, "Dish", 100_000);
     return {
       dish: generated.recipe,
       model: generated.model,
@@ -401,6 +418,7 @@ type RecipeAnalysisMetrics = {
  * @param {RecipeAnalysisMetrics} metrics Values for the completion log.
  * @param {object} schema The response schema; the recipe's by default.
  * @param {string} label What the log calls the analysis.
+ * @param {number} timeoutMs Optional limit per attempt in milliseconds.
  * @return {Promise<object>} The answer together with the model name.
  */
 async function generateRecipe(
@@ -408,6 +426,7 @@ async function generateRecipe(
   metrics: RecipeAnalysisMetrics,
   schema: object = recipeSchema,
   label = "Recipe",
+  timeoutMs?: number,
 ): Promise<{recipe: unknown; model: string}> {
   const project = process.env.GCLOUD_PROJECT ??
     process.env.GOOGLE_CLOUD_PROJECT;
@@ -416,34 +435,54 @@ async function generateRecipe(
   }
 
   const ai = new GoogleGenAI({vertexai: true, project, location: "eu"});
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
-      contents: [{role: "user", parts}],
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: schema,
-        maxOutputTokens: 8192,
-      },
-    });
-    if (!response.text) {
-      throw new Error("Gemini returned no text response.");
+  // The model occasionally stops mid-answer or does not answer at all (a
+  // dish with many steps came back as an unterminated string once, one
+  // request ran into the function's deadline); a second try usually
+  // succeeds, so a failed first attempt is repeated while enough of the
+  // deadline is left.
+  const attempts = 2;
+  const retryBefore = 150_000;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3.8-flash",
+        contents: [{role: "user", parts}],
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: schema,
+          maxOutputTokens: 16384,
+          httpOptions: timeoutMs ? {timeout: timeoutMs} : undefined,
+        },
+      });
+      if (!response.text) {
+        throw new Error("Gemini returned no text response.");
+      }
+      const recipe = JSON.parse(response.text);
+      console.info(`${label} analysis completed`, {
+        imageCount: metrics.imageCount,
+        textLength: metrics.textLength,
+        attempt,
+        durationMilliseconds: Date.now() - metrics.startedAt,
+      });
+      return {recipe, model: "gemini-3.8-flash"};
+    } catch (error) {
+      const elapsed = Date.now() - metrics.startedAt;
+      if (attempt < attempts && elapsed < retryBefore) {
+        console.warn(`${label} analysis failed, trying again`,
+          {error: String(error), elapsed});
+        continue;
+      }
+      console.error(`${label} analysis failed`, error);
+      throw new HttpsError(
+        "internal",
+        "Das Rezept konnte momentan nicht analysiert werden.",
+      );
     }
-
-    const recipe = JSON.parse(response.text);
-    console.info(`${label} analysis completed`, {
-      imageCount: metrics.imageCount,
-      textLength: metrics.textLength,
-      durationMilliseconds: Date.now() - metrics.startedAt,
-    });
-    return {recipe, model: "gemini-3.8-flash"};
-  } catch (error) {
-    console.error(`${label} analysis failed`, error);
-    throw new HttpsError(
-      "internal",
-      "Das Rezept konnte momentan nicht analysiert werden.",
-    );
   }
+  throw new HttpsError(
+    "internal",
+    "Das Rezept konnte momentan nicht analysiert werden.",
+  );
 }
 
 const maxTextCharacters = 60_000;

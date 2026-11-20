@@ -510,7 +510,12 @@ public enum KitchenScheduler {
             let lateness = attempt.lateFollowUps.reduce(0) { $0 + $1.minutes }
             if let current = best {
                 let currentLateness = current.lateFollowUps.reduce(0) { $0 + $1.minutes }
-                if (lateness, attempt.makespan) < (currentLateness, current.makespan) { best = attempt }
+                // A late minute weighs as much as a plan minute: holding
+                // back is worth it only while it saves more freshness
+                // than it costs in time.
+                if (lateness + attempt.makespan, lateness) < (currentLateness + current.makespan, currentLateness) {
+                    best = attempt
+                }
             } else {
                 best = attempt
             }

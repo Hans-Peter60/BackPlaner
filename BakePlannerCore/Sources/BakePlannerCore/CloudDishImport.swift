@@ -77,9 +77,13 @@ public enum CloudDishImport {
 
     /// The dish as the editor shows it before the cook keeps it. Steps
     /// without text are dropped; a dependency on a later step or on
-    /// itself is dropped too, so the plan cannot run in a circle; steps
-    /// that name none get the defaults. `fallbackName` is the app's word
-    /// for a dish without a title.
+    /// itself is dropped too, so the plan cannot run in a circle.
+    /// Dependencies: when the answer names any, they are taken as given
+    /// (an empty list then means the step can start right away; a list
+    /// that named only invalid steps falls back to the component's
+    /// previous step); when the answer names none at all, the defaults
+    /// chain each component and let the last step wait for everything.
+    /// `fallbackName` is the app's word for a dish without a title.
     public static func dish(from cloud: CloudDish, source: KitchenDishSource, now: Date = Date(),
                             fallbackName: String = "Gericht") -> KitchenDish {
         let steps = cloud.steps.enumerated().compactMap { index, step -> (Int, CloudDishStep, String)? in
@@ -90,6 +94,8 @@ public enum CloudDishImport {
         var ids = [Int: String]()
         for (position, entry) in steps.enumerated() { ids[entry.0] = "step-\(position + 1)" }
 
+        let explicitDependencies = steps.contains { !($0.1.dependsOn ?? []).isEmpty }
+        var previousInComponent = [String: String]()
         let tasks = steps.map { original, step, text -> KitchenTask in
             let id = ids[original] ?? "step-\(original)"
             let hands = Plausible.minutes(step.handsMinutes ?? 0)
@@ -106,9 +112,14 @@ public enum CloudDishImport {
             }
             let temperature = step.ovenTemperature.flatMap { $0 > 0 ? Plausible.temperature(Double($0)).map(Int.init) : nil }
             let maxWait = step.maxWaitMinutes.flatMap { $0 >= 0 ? Plausible.minutes($0) : nil }
-            let after = (step.dependsOn ?? []).filter { $0 < original && $0 >= 0 }.compactMap { ids[$0] }
-            return KitchenTask(id: id, name: text, component: (step.componentName ?? "").trimmingCharacters(in: .whitespacesAndNewlines),
-                               hands: hands, unattended: unattended, station: station, after: after,
+            let named = step.dependsOn ?? []
+            var after = named.filter { $0 < original && $0 >= 0 }.compactMap { ids[$0] }
+            let component = (step.componentName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            if explicitDependencies, after.isEmpty, !named.isEmpty, let previous = previousInComponent[component] {
+                after = [previous]
+            }
+            previousInComponent[component] = id
+            return KitchenTask(id: id, name: text, component: component, hands: hands, unattended: unattended, station: station, after: after,
                                maxWait: maxWait, window: window, ovenTemperature: temperature)
         }
 
@@ -116,6 +127,6 @@ public enum CloudDishImport {
         let servings = cloud.servings.flatMap { $0 > 0 ? min($0, 99) : nil }
         return KitchenDish(name: title.isEmpty ? fallbackName : title,
                            source: source, servings: servings, createdAt: now,
-                           tasks: KitchenDishDefaults.withDependencies(tasks))
+                           tasks: explicitDependencies ? tasks : KitchenDishDefaults.withDependencies(tasks))
     }
 }

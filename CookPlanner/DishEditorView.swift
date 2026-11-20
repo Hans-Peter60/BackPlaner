@@ -4,9 +4,9 @@
 //
 //  A dish typed in or corrected by the cook: name, servings, the steps in
 //  order, and the plan that follows every change. Each step opens its own
-//  sheet. Dependencies left empty are filled by the defaults when the
-//  dish is kept: a step follows its component's previous step, the last
-//  step waits for every component.
+//  sheet. Dependencies are taken as they stand — an imported dish brings
+//  them complete; a new step typed in gets its component's previous step
+//  proposed, which the cook may change.
 //
 
 import BakePlannerCore
@@ -27,13 +27,6 @@ struct DishEditorView: View {
     init(dish: KitchenDish, onSave: @escaping (KitchenDish) -> Void) {
         _dish = State(initialValue: dish)
         self.onSave = onSave
-    }
-
-    /// The dish as it would be kept: dependencies filled in.
-    private var resolved: KitchenDish {
-        var result = dish
-        result.tasks = KitchenDishDefaults.withDependencies(dish.tasks)
-        return result
     }
 
     private var canSave: Bool {
@@ -83,7 +76,7 @@ struct DishEditorView: View {
                         }
                     }
                 } footer: {
-                    Text("Ohne Angabe folgt ein Schritt dem vorherigen Schritt seiner Komponente; der letzte Schritt wartet auf alle Komponenten.")
+                    Text("Jeder Schritt wartet nur auf die Schritte, die bei ihm angegeben sind; ohne Angabe kann er sofort beginnen.")
                 }
 
                 if !dish.tasks.isEmpty {
@@ -105,7 +98,7 @@ struct DishEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Sichern") {
-                        onSave(resolved)
+                        onSave(dish)
                         dismiss()
                     }
                     .disabled(!canSave)
@@ -133,7 +126,7 @@ struct DishEditorView: View {
 
     @ViewBuilder
     private var planSummary: some View {
-        if let plan = DishPlan(dish: resolved, budget: budget, burners: burners, ovens: ovens) {
+        if let plan = DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens) {
             Text(plan.verdict)
                 .font(Theme.bodyFont(17).weight(.semibold))
                 .foregroundColor(plan.fits ? Theme.good : Theme.danger)
@@ -141,10 +134,10 @@ struct DishEditorView: View {
                 .font(.footnote)
                 .foregroundColor(.secondary)
             if !plan.fits, plan.schedule.limit != .hands,
-               let fit = try? KitchenScheduler.fit(resolved.tasks, kitchen: plan.schedule.kitchen, budget: budget),
+               let fit = try? KitchenScheduler.fit(dish.tasks, kitchen: plan.schedule.kitchen, budget: budget),
                !fit.shortenings.isEmpty {
                 ForEach(fit.shortenings, id: \.task) { cut in
-                    if let task = resolved.tasks.first(where: { $0.id == cut.task }) {
+                    if let task = dish.tasks.first(where: { $0.id == cut.task }) {
                         Text("\(task.name): \(cut.to) statt \(cut.from) Minuten")
                             .font(.footnote)
                     }
@@ -278,6 +271,9 @@ struct StepEditorView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var draft: StepDraft
+    /// Whether the cook has chosen the dependencies; until then a new
+    /// step follows its component's previous step.
+    @State private var dependenciesChosen: Bool
     @FocusState private var focusedField: Field?
     let components: [String]
 
@@ -289,10 +285,32 @@ struct StepEditorView: View {
     init(draft: StepDraft, components: [String], earlierSteps: [KitchenTask],
          onSave: @escaping (KitchenTask) -> Void, onDelete: @escaping () -> Void) {
         _draft = State(initialValue: draft)
+        _dependenciesChosen = State(initialValue: !draft.isNew)
         self.components = components
         self.earlierSteps = earlierSteps
         self.onSave = onSave
         self.onDelete = onDelete
+    }
+
+    /// Until the cook chooses, a new step follows the previous step of
+    /// its component (none for the first step of a component).
+    private func proposeDependencies() {
+        guard !dependenciesChosen else { return }
+        let component = draft.component.trimmingCharacters(in: .whitespacesAndNewlines)
+        let previous = component.isEmpty ? nil : earlierSteps.last { $0.component == component }
+        draft.after = previous.map { [$0.id] } ?? []
+    }
+
+    /// The last step of every component so far, in order of appearance —
+    /// what the plating waits for.
+    private var lastStepOfEachComponent: [String] {
+        var order = [String]()
+        var last = [String: String]()
+        for step in earlierSteps {
+            if last[step.component] == nil { order.append(step.component) }
+            last[step.component] = step.id
+        }
+        return order.compactMap { last[$0] }
     }
 
     var body: some View {
@@ -377,6 +395,7 @@ struct StepEditorView: View {
                     Section {
                         ForEach(earlierSteps) { step in
                             Button {
+                                dependenciesChosen = true
                                 if let index = draft.after.firstIndex(of: step.id) {
                                     draft.after.remove(at: index)
                                 } else {
@@ -398,13 +417,21 @@ struct StepEditorView: View {
                                             .foregroundColor(Theme.accentText)
                                     }
                                 }
+                                // The whole row takes the tap, not just the text.
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                        }
+                        Button {
+                            dependenciesChosen = true
+                            draft.after = lastStepOfEachComponent
+                        } label: {
+                            Label("Auf alle Komponenten warten", systemImage: "checkmark.circle")
                         }
                     } header: {
                         Text("Wartet auf")
                     } footer: {
-                        Text("Ohne Auswahl folgt der Schritt dem vorherigen Schritt seiner Komponente.")
+                        Text("Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente.")
                     }
                 }
 
@@ -418,6 +445,8 @@ struct StepEditorView: View {
                 }
             }
             .scrollDismissesKeyboard(.interactively)
+            .onAppear(perform: proposeDependencies)
+            .onChange(of: draft.component) { proposeDependencies() }
             .navigationTitle(draft.isNew ? "Neuer Schritt" : "Schritt")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
