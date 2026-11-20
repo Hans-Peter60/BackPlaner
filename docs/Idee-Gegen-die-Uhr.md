@@ -214,7 +214,7 @@ Rohantworten der KI liegen im Debug-Build unter Application Support/CookPlanner/
 
 Messaufbau: Debug-Build mit Startargument `-ImportTextFile /tmp/rezept.txt` füllt den Importtext vor (der `PasteButton` reagiert nicht auf synthetische Tipps, `simctl pbcopy` direkt nach dem Booten kam nicht an). Die Antwort-JSONs der Simulator-App: `xcrun simctl get_app_container <udid> de.hpm64625.CookPlanner data`.
 
-Debug-Token für App Check im Simulator (iPhone 17e): in der Firebase-Konsole eingetragen 20.11.; ein anderer Simulator braucht ein eigenes (steht beim Start in der Konsole).
+Debug-Token für App Check im Simulator (iPhone 17e): in der Firebase-Konsole eingetragen 20.11.; ein anderer Simulator braucht ein eigenes (steht beim Start in der Konsole). **Auf dem Gerät (20.11.):** Der erste Import vom iPhone scheiterte mit „Unauthenticated“, Function-Log: App-Check-Token ungültig. Firebase nimmt keine App-Attest-Tokens aus der Sandbox, in der ein direkt signierter Build ohne Capability läuft; seit der App-Attest-Capability mit Umgebung `production` (`CookPlanner/CookPlanner.entitlements`) klappt der Import auf dem iPhone 16 Pro Max im Release-Build. Gerätebuild von Hand: `xcodebuild -project CookPlanner.xcodeproj -scheme CookPlanner -configuration Release -destination 'id=<udid>' -derivedDataPath /tmp/cpdevice -allowProvisioningUpdates build`, dann `xcrun devicectl device install app --device <udid> <.app>` und `… process launch`.
 
 Ursprüngliche Skizze:
 
