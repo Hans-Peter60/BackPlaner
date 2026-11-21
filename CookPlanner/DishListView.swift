@@ -251,6 +251,7 @@ struct KitchenSettingsView: View {
     @AppStorage(CookSettings.budgetKey) private var budget = CookSettings.defaultBudget
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
+    @AppStorage(CookSettings.alarmsKey) private var alarms = CookSettings.defaultAlarms
 
     var body: some View {
         NavigationStack {
@@ -270,6 +271,11 @@ struct KitchenSettingsView: View {
                     Text("Die Öfen sind vorgeheizt, wenn die Uhr startet.")
                         .font(.footnote)
                         .foregroundColor(.secondary)
+                }
+                Section {
+                    Toggle("Wecker für Topf und Ofen", isOn: $alarms)
+                } footer: {
+                    Text("Wenn ein Topf oder der Ofen die Zeit erreicht hat, klingelt ein Wecker – auch wenn das iPhone stumm ist oder ein Fokus läuft. Ohne Wecker gibt es eine Mitteilung.")
                 }
             }
             .navigationTitle("Einstellungen")

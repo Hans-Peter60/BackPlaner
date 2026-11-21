@@ -24,16 +24,23 @@ struct DishPlanView: View {
     @State private var showingLearned = false
     @State private var savedCopyName: String?
     @State private var runLog = CookRunLog.shared
+    /// How much more or less than the recipe is cooked, kept per dish.
+    @State private var portionFactor: Double
 
     init(dish: KitchenDish) {
         _dish = State(initialValue: dish)
+        _portionFactor = State(initialValue: CookSettings.portionFactor(for: dish.id))
     }
+
+    /// The dish with its amounts for the chosen portions; the plan, the
+    /// cook mode and the shopping list work with this one.
+    private var cookedDish: KitchenDish { dish.scaled(by: portionFactor) }
 
     /// The examples are not the cook's to change; a copy of one is.
     private var isOwn: Bool { dish.source != .sample }
 
     private var plan: DishPlan? {
-        DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
+        DishPlan(dish: cookedDish, budget: budget, burners: burners, ovens: ovens)
     }
 
     /// The dish cut within its steps' windows, when the nominal plan does
@@ -105,7 +112,7 @@ struct DishPlanView: View {
             }
         }
         .sheet(isPresented: $shopping) {
-            ShoppingListView(dish: dish)
+            ShoppingListView(dish: cookedDish)
         }
         .sheet(item: $shownRun) { run in
             CookRunView(run: run)
@@ -198,6 +205,7 @@ struct DishPlanView: View {
                     .foregroundColor(Theme.subtitle)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            portionsControl
             Button {
                 shopping = true
             } label: {
@@ -208,6 +216,48 @@ struct DishPlanView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
+    }
+
+    /// For how many: persons when the recipe says, otherwise a factor.
+    /// Only the amounts change; the steps keep their minutes.
+    @ViewBuilder
+    private var portionsControl: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            if let base = dish.servings, base > 0 {
+                let persons = max(1, Int((Double(base) * portionFactor).rounded()))
+                Stepper(value: Binding(get: { persons },
+                                       set: { setPortionFactor(KitchenPortions.factor(servings: $0, base: base)) }),
+                        in: 1...24) {
+                    Text("Für \(persons) Personen")
+                        .font(Theme.bodyFont(15))
+                        .foregroundColor(Theme.cardTitle)
+                }
+                if persons != base {
+                    Text("Rezept für \(base) Personen · die Zeiten bleiben gleich")
+                        .font(Theme.bodyFont(12))
+                        .foregroundColor(Theme.subtitle)
+                }
+            } else {
+                let factors = KitchenPortions.factors
+                let index = factors.firstIndex(where: { abs($0 - portionFactor) < 0.001 }) ?? 1
+                Stepper(value: Binding(get: { index }, set: { setPortionFactor(factors[$0]) }),
+                        in: 0...(factors.count - 1)) {
+                    Text("Menge ×\(factors[index].formatted(.number.precision(.fractionLength(0...1))))")
+                        .font(Theme.bodyFont(15))
+                        .foregroundColor(Theme.cardTitle)
+                }
+                if factors[index] != 1 {
+                    Text("Die Zeiten bleiben gleich")
+                        .font(Theme.bodyFont(12))
+                        .foregroundColor(Theme.subtitle)
+                }
+            }
+        }
+    }
+
+    private func setPortionFactor(_ factor: Double) {
+        portionFactor = factor
+        CookSettings.setPortionFactor(factor, for: dish.id)
     }
 
     private func verdictCard(_ plan: DishPlan) -> some View {
