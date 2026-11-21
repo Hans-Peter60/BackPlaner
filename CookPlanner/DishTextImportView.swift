@@ -2,11 +2,13 @@
 //  DishTextImportView.swift
 //  CookPlanner
 //
-//  A recipe pasted as text, read into work steps by the cloud AI, and
-//  handed to the editor for the cook to check before it is kept.
+//  A recipe pasted as text — or photographed, its text read on the device
+//  (PhotoTextReader) — read into work steps by the cloud AI, and handed to
+//  the editor for the cook to check before it is kept.
 //
 
 import BakePlannerCore
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -18,8 +20,15 @@ struct DishTextImportView: View {
     @State private var errorMessage: String?
     @State private var result: DishImportResult?
     @FocusState private var editing: Bool
+    /// Opened from "Aus Fotos importieren": the photo section comes first.
+    var startsWithPhotos = false
     /// Called with the dish the cook accepted for the editor.
     let onImported: (KitchenDish) -> Void
+    @State private var photoItems: [PhotosPickerItem] = []
+    @State private var scanning = false
+    @State private var isReadingPhotos = false
+    /// The text came from photos; the dish is marked so.
+    @State private var fromPhotos = false
 
     var body: some View {
         NavigationStack {
@@ -36,7 +45,7 @@ struct DishTextImportView: View {
                 }
             }
             .scrollDismissesKeyboard(.interactively)
-            .navigationTitle("Aus Text importieren")
+            .navigationTitle(startsWithPhotos ? "Aus Fotos importieren" : "Aus Text importieren")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -55,7 +64,24 @@ struct DishTextImportView: View {
                 Text(errorMessage ?? "")
             }
         }
-        .interactiveDismissDisabled(isAnalyzing)
+        .interactiveDismissDisabled(isAnalyzing || isReadingPhotos)
+        .fullScreenCover(isPresented: $scanning) {
+            DocumentScannerView { pages in read(pages) }
+                .ignoresSafeArea()
+        }
+        .onChange(of: photoItems) { _, items in
+            guard !items.isEmpty else { return }
+            Task {
+                var images: [UIImage] = []
+                for item in items {
+                    if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                        images.append(image)
+                    }
+                }
+                photoItems = []
+                read(images)
+            }
+        }
         #if DEBUG
         // Development builds take the text from a file named by the launch
         // argument -ImportTextFile, for import runs on the simulator where
@@ -70,6 +96,45 @@ struct DishTextImportView: View {
 
     @ViewBuilder
     private var inputSections: some View {
+        if startsWithPhotos {
+            photoSection
+            textSection
+        } else {
+            textSection
+            photoSection
+        }
+        analyzeSection
+    }
+
+    private var photoSection: some View {
+        Section {
+            if DocumentScannerView.isAvailable {
+                Button {
+                    scanning = true
+                } label: {
+                    Label("Seiten scannen", systemImage: "doc.viewfinder")
+                }
+                .disabled(isReadingPhotos || isAnalyzing)
+            }
+            PhotosPicker(selection: $photoItems, maxSelectionCount: 4, matching: .images) {
+                Label("Fotos auswählen", systemImage: "photo.on.rectangle")
+            }
+            .disabled(isReadingPhotos || isAnalyzing)
+            if isReadingPhotos {
+                HStack {
+                    ProgressView()
+                    Text("Text wird erkannt …")
+                }
+            }
+        } header: {
+            Text("Fotos")
+        } footer: {
+            Text("Ein Kochbuch oder ein Zettel: Der Text wird auf dem iPhone erkannt und erscheint im Feld, wo Du ihn prüfen kannst. Die Fotos verlassen das Gerät nicht.")
+        }
+    }
+
+    @ViewBuilder
+    private var textSection: some View {
         Section {
             TextEditor(text: $text)
                 .frame(minHeight: 220)
@@ -86,6 +151,9 @@ struct DishTextImportView: View {
         } footer: {
             Text("Zutaten und Zubereitung, wie sie im Rezept stehen. Die Analyse schätzt die Arbeitszeiten und schlägt Reihenfolge und Abhängigkeiten vor; Du prüfst alles, bevor es gespeichert wird.")
         }
+    }
+
+    private var analyzeSection: some View {
         Section {
             Button {
                 analyze()
@@ -113,13 +181,29 @@ struct DishTextImportView: View {
             defer { isAnalyzing = false }
             do {
                 let analysis = try await DishImportClient.shared.analyzeText(input)
-                let dish = CloudDishImport.dish(from: analysis.dish, source: .text,
+                let dish = CloudDishImport.dish(from: analysis.dish, source: fromPhotos ? .photo : .text,
                                                 fallbackName: String(localized: "Gericht"))
                 result = DishImportResult(dish: dish, warnings: analysis.dish.warnings ?? [],
                                           notice: analysis.freeImports?.notice())
             } catch {
                 errorMessage = error.localizedDescription
             }
+        }
+    }
+
+    /// Reads the pages' text into the field, after what is already there.
+    private func read(_ images: [UIImage]) {
+        guard !images.isEmpty else { return }
+        isReadingPhotos = true
+        Task {
+            let recognized = await PhotoTextReader.text(of: images)
+            isReadingPhotos = false
+            if recognized.isEmpty {
+                errorMessage = String(localized: "Auf den Fotos wurde kein Text erkannt.")
+                return
+            }
+            fromPhotos = true
+            text = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? recognized : text + "\n\n" + recognized
         }
     }
 }
