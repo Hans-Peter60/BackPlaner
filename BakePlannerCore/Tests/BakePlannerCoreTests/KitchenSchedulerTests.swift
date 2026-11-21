@@ -329,6 +329,21 @@ struct KitchenSchedulerTests {
         #expect(schedule.lateFollowUps.reduce(0) { $0 + $1.minutes } == 15)
     }
 
+    @Test("The hands wait a moment for a step with the longer chain instead of starting a side job that would hold it up")
+    func lookAhead() throws {
+        // The duxelles cool for 2 minutes; the Wellington then goes into the
+        // oven for 20. Making the salad first (6 minutes) would push the
+        // Wellington — and the plate — back by 4.
+        let schedule = try KitchenScheduler.schedule([
+            task("duxelles", hands: 2, unattended: 2),
+            task("wellington", hands: 3, unattended: 20, station: .oven, after: ["duxelles"]),
+            task("salad", hands: 6),
+            task("plate", hands: 1, after: ["wellington", "salad"])
+        ])
+        #expect(schedule.placement(of: "wellington")?.start == 4)
+        #expect(schedule.makespan == 28)
+    }
+
     @Test("Long waits are listed for keeping warm, longest first")
     func keepWarm() throws {
         let schedule = try KitchenScheduler.schedule([
@@ -439,7 +454,11 @@ struct KitchenSchedulerTests {
             let hands = live.placements.filter { $0.task.handsMinutes > 0 && ($0.start..<$0.handsEnd).contains(minute) }
             #expect(hands.count <= 1, "minute \(minute): \(hands.map(\.task.id))")
         }
-        #expect(live.makespan >= plan.makespan)
+        // The planner is a heuristic: from the middle it may find a
+        // tighter order than at the start, so late chops need not make the
+        // plan longer — but it never ends before what is left could.
+        let left = live.placements.filter { $0.start >= 20 }.map(\.task.handsMinutes).reduce(0, +)
+        #expect(live.makespan >= 20 + left)
     }
 
     @Test("Continued minute by minute from the last live plan, the plan stands still; from the original it would slide")
