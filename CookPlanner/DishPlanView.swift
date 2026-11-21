@@ -21,6 +21,8 @@ struct DishPlanView: View {
     @State private var editing = false
     @State private var shopping = false
     @State private var shownRun: KitchenCookRun?
+    @State private var showingLearned = false
+    @State private var savedCopyName: String?
     @State private var runLog = CookRunLog.shared
 
     init(dish: KitchenDish) {
@@ -108,6 +110,21 @@ struct DishPlanView: View {
         .sheet(item: $shownRun) { run in
             CookRunView(run: run)
         }
+        .sheet(isPresented: $showingLearned) {
+            LearnedTimesView(dish: dish, suggestions: learnedSuggestions) { learned in
+                if learned.id == dish.id {
+                    if library.save(learned) { dish = learned }
+                } else if library.save(learned) {
+                    savedCopyName = learned.name
+                }
+            }
+        }
+        .alert("Als eigenes Gericht gesichert", isPresented: Binding(get: { savedCopyName != nil },
+                                                                       set: { if !$0 { savedCopyName = nil } })) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Die Kopie mit den gemessenen Zeiten steht unter „Meine Gerichte“.")
+        }
         .sheet(isPresented: $editing) {
             DishEditorView(dish: dish) { saved in
                 if library.save(saved) { dish = saved }
@@ -120,12 +137,27 @@ struct DishPlanView: View {
         }
     }
 
+    private var learnedSuggestions: [KitchenTimeLearning.Suggestion] {
+        KitchenTimeLearning.suggestions(for: dish, from: runLog.runs(of: dish.id))
+    }
+
     /// The times this dish was cooked on the stopwatch, newest first.
     private var runsCard: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Gekocht", systemImage: "stopwatch")
                 .font(Theme.bodyFont(16).weight(.semibold))
                 .foregroundColor(Theme.cardTitle)
+            // What the records say the steps really take.
+            if !learnedSuggestions.isEmpty {
+                Button {
+                    showingLearned = true
+                } label: {
+                    Label("Gemessene Zeiten für \(learnedSuggestions.count) Schritte übernehmen", systemImage: "wand.and.stars")
+                        .font(Theme.bodyFont(14).weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .tint(Theme.accentText)
+            }
             ForEach(runLog.runs(of: dish.id).prefix(5)) { run in
                 Button {
                     shownRun = run
