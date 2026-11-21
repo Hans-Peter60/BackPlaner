@@ -21,6 +21,7 @@ struct DishEditorView: View {
 
     @State private var dish: KitchenDish
     @State private var editingStep: StepDraft?
+    @State private var editingIngredient: IngredientDraft?
     @FocusState private var nameFocused: Bool
     let onSave: (KitchenDish) -> Void
 
@@ -47,6 +48,37 @@ struct DishEditorView: View {
                             Text("Portionen nicht angegeben")
                         }
                     }
+                }
+
+                Section {
+                    ForEach(dish.ingredients) { ingredient in
+                        Button {
+                            editingIngredient = IngredientDraft(ingredient: ingredient, isNew: false)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(verbatim: ingredient.line())
+                                    .fixedSize(horizontal: false, vertical: true)
+                                if !ingredient.component.isEmpty {
+                                    Text(verbatim: ingredient.component)
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .onDelete { offsets in removeIngredients(at: offsets) }
+                    .onMove { source, destination in dish.ingredients.move(fromOffsets: source, toOffset: destination) }
+                    Button {
+                        editingIngredient = IngredientDraft(ingredient: nil, isNew: true,
+                                                            component: dish.ingredients.last?.component ?? dish.tasks.last?.component ?? "")
+                    } label: {
+                        Label("Zutat hinzufügen", systemImage: "plus.circle")
+                    }
+                } header: {
+                    Text("Zutaten")
+                } footer: {
+                    Text("Für die Einkaufsliste; im Schritt wählst Du, was dort in die Hand genommen wird.")
                 }
 
                 Section {
@@ -104,8 +136,20 @@ struct DishEditorView: View {
                     .disabled(!canSave)
                 }
             }
+            .sheet(item: $editingIngredient) { draft in
+                IngredientEditorView(draft: draft, components: dish.components) { ingredient in
+                    if let index = dish.ingredients.firstIndex(where: { $0.id == ingredient.id }) {
+                        dish.ingredients[index] = ingredient
+                    } else {
+                        dish.ingredients.append(ingredient)
+                    }
+                } onDelete: {
+                    removeIngredient(id: draft.id)
+                }
+            }
             .sheet(item: $editingStep) { draft in
-                StepEditorView(draft: draft, components: dish.components, earlierSteps: earlierSteps(for: draft)) { task in
+                StepEditorView(draft: draft, components: dish.components, earlierSteps: earlierSteps(for: draft),
+                               ingredients: dish.ingredients) { task in
                     if let index = dish.tasks.firstIndex(where: { $0.id == task.id }) {
                         dish.tasks[index] = task
                     } else {
@@ -119,6 +163,16 @@ struct DishEditorView: View {
         // A swipe must not throw an imported or half-typed dish away;
         // "Abbrechen" is the way out.
         .interactiveDismissDisabled()
+    }
+
+    /// An ingredient leaves the dish and every step that named it.
+    private func removeIngredient(id: String) {
+        dish.ingredients.removeAll { $0.id == id }
+        dish.tasks = dish.tasks.map { $0.withIngredientIDs($0.ingredientIDs.filter { $0 != id }) }
+    }
+
+    private func removeIngredients(at offsets: IndexSet) {
+        for id in offsets.map({ dish.ingredients[$0].id }) { removeIngredient(id: id) }
     }
 
     /// The steps a step may wait for: the ones before it in the list.
@@ -185,6 +239,9 @@ private struct StepSummaryRow: View {
                 if let temperature = task.ovenTemperature {
                     Text(verbatim: "\(temperature) °C")
                 }
+                if !task.ingredientIDs.isEmpty {
+                    pair("basket", "\(task.ingredientIDs.count)")
+                }
                 if let wait = task.maxWait {
                     HStack(spacing: 3) {
                         Image(systemName: "timer")
@@ -226,6 +283,7 @@ struct StepDraft: Identifiable {
     var hasMaxWait: Bool
     var maxWait: Int
     var after: [String]
+    var ingredientIDs: [String]
 
     enum StationChoice: String, CaseIterable, Identifiable {
         case none, burner, oven
@@ -251,6 +309,7 @@ struct StepDraft: Identifiable {
         hasMaxWait = task?.maxWait != nil
         maxWait = task?.maxWait ?? 0
         after = task?.after ?? []
+        ingredientIDs = task?.ingredientIDs ?? []
     }
 
     var task: KitchenTask {
@@ -265,7 +324,8 @@ struct StepDraft: Identifiable {
                            hands: handsMinutes, unattended: unattendedMinutes, station: kitchenStation, after: after,
                            maxWait: hasMaxWait ? maxWait : nil,
                            window: hasWindow && unattendedMinutes > 0 ? min(windowMinimum, windowMaximum)...max(windowMinimum, windowMaximum) : nil,
-                           ovenTemperature: station == .oven ? ovenTemperature : nil)
+                           ovenTemperature: station == .oven ? ovenTemperature : nil,
+                           ingredientIDs: ingredientIDs)
     }
 }
 
@@ -282,15 +342,18 @@ struct StepEditorView: View {
 
     private enum Field { case name, component }
     let earlierSteps: [KitchenTask]
+    /// The dish's ingredients, to pick what this step takes in hand.
+    let ingredients: [KitchenIngredient]
     let onSave: (KitchenTask) -> Void
     let onDelete: () -> Void
 
-    init(draft: StepDraft, components: [String], earlierSteps: [KitchenTask],
+    init(draft: StepDraft, components: [String], earlierSteps: [KitchenTask], ingredients: [KitchenIngredient] = [],
          onSave: @escaping (KitchenTask) -> Void, onDelete: @escaping () -> Void) {
         _draft = State(initialValue: draft)
         _dependenciesChosen = State(initialValue: !draft.isNew)
         self.components = components
         self.earlierSteps = earlierSteps
+        self.ingredients = ingredients
         self.onSave = onSave
         self.onDelete = onDelete
     }
@@ -302,6 +365,12 @@ struct StepEditorView: View {
         let component = draft.component.trimmingCharacters(in: .whitespacesAndNewlines)
         let previous = component.isEmpty ? nil : earlierSteps.last { $0.component == component }
         draft.after = previous.map { [$0.id] } ?? []
+    }
+
+    /// The step's component's ingredients first, then the rest.
+    private var ingredientsForPicking: [KitchenIngredient] {
+        let component = draft.component.trimmingCharacters(in: .whitespacesAndNewlines)
+        return ingredients.filter { $0.component == component } + ingredients.filter { $0.component != component }
     }
 
     /// The last step of every component so far, in order of appearance —
@@ -392,6 +461,42 @@ struct StepEditorView: View {
                     }
                 } footer: {
                     Text("0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce.")
+                }
+
+                if !ingredients.isEmpty {
+                    Section {
+                        ForEach(ingredientsForPicking) { ingredient in
+                            Button {
+                                if let index = draft.ingredientIDs.firstIndex(of: ingredient.id) {
+                                    draft.ingredientIDs.remove(at: index)
+                                } else {
+                                    draft.ingredientIDs.append(ingredient.id)
+                                }
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(verbatim: ingredient.line())
+                                        if !ingredient.component.isEmpty, ingredient.component != draft.component.trimmingCharacters(in: .whitespacesAndNewlines) {
+                                            Text(verbatim: ingredient.component)
+                                                .font(.footnote)
+                                                .foregroundColor(.secondary)
+                                        }
+                                    }
+                                    Spacer()
+                                    if draft.ingredientIDs.contains(ingredient.id) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(Theme.accentText)
+                                    }
+                                }
+                                .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    } header: {
+                        Text("Zutaten dieses Schritts")
+                    } footer: {
+                        Text("Was in diesem Schritt in die Hand genommen wird; im Kochmodus steht es unter dem Schritt.")
+                    }
                 }
 
                 if !earlierSteps.isEmpty {

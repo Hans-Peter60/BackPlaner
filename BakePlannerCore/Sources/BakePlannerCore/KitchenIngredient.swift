@@ -61,3 +61,37 @@ extension KitchenDish {
         ingredients.filter { task.ingredientIDs.contains($0.id) }
     }
 }
+
+/// The shopping list of a dish: its ingredients by component, as text to
+/// hand to a notes or reminders app.
+public enum KitchenShoppingList {
+
+    /// The components in the order the dish names them, then those only
+    /// the ingredients name, then the ingredients without one (as "").
+    public static func groups(of dish: KitchenDish) -> [(component: String, ingredients: [KitchenIngredient])] {
+        var order = dish.components
+        for ingredient in dish.ingredients where !ingredient.component.isEmpty && !order.contains(ingredient.component) {
+            order.append(ingredient.component)
+        }
+        if dish.ingredients.contains(where: { $0.component.isEmpty }) { order.append("") }
+        return order.compactMap { component in
+            let ingredients = dish.ingredients(of: component)
+            return ingredients.isEmpty ? nil : (component: component, ingredients: ingredients)
+        }
+    }
+
+    /// The list as text: a heading per component, a dash per ingredient;
+    /// `checked` ids are left out, as they are already in the basket.
+    public static func text(for dish: KitchenDish, excluding checked: Set<String> = [],
+                            locale: Locale = AppSettings.locale) -> String {
+        var lines = [dish.name]
+        for group in groups(of: dish) {
+            let open = group.ingredients.filter { !checked.contains($0.id) }
+            guard !open.isEmpty else { continue }
+            lines.append("")
+            if !group.component.isEmpty { lines.append(group.component) }
+            lines += open.map { "- " + $0.line(locale: locale) }
+        }
+        return lines.joined(separator: "\n")
+    }
+}

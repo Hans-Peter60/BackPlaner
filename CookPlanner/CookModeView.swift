@@ -242,7 +242,7 @@ struct CookModeView: View {
                         }
                         ForEach(handsNow) { placement in
                             let overdue = minute >= placement.start + placement.task.handsMinutes
-                            stepLine(placement,
+                            stepLine(placement, ingredients: plan.dish.ingredients(for: placement.task),
                                      detail: overdue ? "überfällig" : "noch \(placement.start + placement.task.handsMinutes - minute) Min.",
                                      emphasis: overdue) {
                                 tickOff(placement.id, minute: minute)
@@ -252,7 +252,8 @@ struct CookModeView: View {
                     if !upcoming.isEmpty {
                         section("Gleich", systemImage: "arrow.right.circle") {
                             ForEach(upcoming.prefix(3)) { placement in
-                                stepLine(placement, detail: "in \(placement.start - minute) Min.")
+                                stepLine(placement, ingredients: plan.dish.ingredients(for: placement.task),
+                                         detail: "in \(placement.start - minute) Min.")
                             }
                         }
                     }
@@ -340,7 +341,8 @@ struct CookModeView: View {
         .cardStyle()
     }
 
-    private func stepLine(_ placement: KitchenPlacement, detail: LocalizedStringKey, emphasis: Bool = false,
+    private func stepLine(_ placement: KitchenPlacement, ingredients: [KitchenIngredient] = [],
+                          detail: LocalizedStringKey, emphasis: Bool = false,
                           onDone: (() -> Void)? = nil) -> some View {
         HStack(alignment: .firstTextBaseline) {
             VStack(alignment: .leading, spacing: 1) {
@@ -348,6 +350,18 @@ struct CookModeView: View {
                     .font(Theme.bodyFont(15))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
+                // What to have at hand for the step, as the recipe lists it.
+                if !ingredients.isEmpty {
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Image(systemName: "basket")
+                            .accessibilityHidden(true)
+                        Text(verbatim: ingredients.map { $0.line() }.joined(separator: " · "))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.cardTitle)
+                    .padding(.vertical, 1)
+                }
                 HStack(spacing: 6) {
                     if !placement.task.component.isEmpty {
                         Text(verbatim: placement.task.component)

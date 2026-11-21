@@ -66,3 +66,12 @@ extension KitchenTask {
         }
     }
 }
+
+extension KitchenTask {
+    /// The same step naming other ingredients.
+    func withIngredientIDs(_ ids: [String]) -> KitchenTask {
+        KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: unattendedMinutes,
+                    station: station, after: after, maxWait: maxWait, window: unattendedWindow,
+                    ovenTemperature: ovenTemperature, ingredientIDs: ids)
+    }
+}
