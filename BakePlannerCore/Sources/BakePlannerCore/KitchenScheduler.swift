@@ -546,10 +546,12 @@ public enum KitchenScheduler {
 
         var best: KitchenSchedule?
         for ordering in Ordering.allCases {
+          for lookAhead in [false, true] {
             let comparator = priority(ordering)
             var notBefore = [String: Int]()
             for _ in 0..<(tasks.count + 1) {
-                let attempt = schedule(placements: try place(order, notBefore: notBefore, priority: comparator))
+                let attempt = schedule(placements: try place(order, notBefore: notBefore, priority: comparator,
+                                                             lookAhead: lookAhead))
                 if best.map({ score(attempt) < score($0) }) ?? true { best = attempt }
                 let lateFollowUps = attempt.lateFollowUps
                 if lateFollowUps.isEmpty { break }
@@ -564,14 +566,20 @@ public enum KitchenScheduler {
                 }
                 if !changed { break }
             }
+          }
         }
         return best ?? schedule(placements: [])
 
         /// The simulation: time jumps from event to event; at each, every
         /// ready step that can start, starts, best first. A step in
         /// `notBefore` waits for its minute.
+        /// With `lookAhead`, hands-on work does not start when a step with
+        /// a longer chain ahead becomes ready before that work would be
+        /// done: the hands wait for it rather than chop the side salad
+        /// while the Wellington's wrapping waits. Tried as one more
+        /// variant; the best plan is kept.
         func place(_ order: [KitchenTask], notBefore: [String: Int],
-                   priority: (KitchenTask, KitchenTask) -> Bool) throws -> [KitchenPlacement] {
+                   priority: (KitchenTask, KitchenTask) -> Bool, lookAhead: Bool = false) throws -> [KitchenPlacement] {
         var placements = [String: KitchenPlacement]()
         var handsFreeAt = startTime
         var burnersFreeAt = Array(repeating: startTime, count: kitchen.burners)
@@ -647,8 +655,23 @@ public enum KitchenScheduler {
 
             let due = deadlines()
             var startedOne = false
+            // The steps not yet ready whose predecessors are all placed,
+            // with the minute they become ready — for the look-ahead.
+            var soonReady = [(task: KitchenTask, at: Int)]()
+            if lookAhead {
+                for task in order where remaining.contains(task.id) && task.handsMinutes > 0 {
+                    let ends = task.after.compactMap { placements[$0]?.end }
+                    guard ends.count == task.after.count else { continue }
+                    let at = max(ends.max() ?? time, notBefore[task.id] ?? 0)
+                    if at > time { soonReady.append((task, at)) }
+                }
+            }
             for task in ready {
                 if task.handsMinutes > 0, handsFreeAt > time { continue }
+                if lookAhead, task.handsMinutes > 0,
+                   soonReady.contains(where: { (tail[$0.task.id] ?? 0) > (tail[task.id] ?? 0) && $0.at < time + task.handsMinutes }) {
+                    continue
+                }
                 // Hands-on work may not run past the moment a follow-up is
                 // due, unless the follow-up is this step or waits for it.
                 if task.handsMinutes > 0, due.contains(where: { urgent, moment in
