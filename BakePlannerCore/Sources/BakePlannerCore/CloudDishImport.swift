@@ -28,16 +28,37 @@ public struct CloudDish: Decodable, Sendable {
     public var sourceLanguage: String?
     public var components: [String]?
     public var steps: [CloudDishStep]
+    public var ingredients: [CloudDishIngredient]?
     public var warnings: [String]?
 
     public init(title: String? = nil, servings: Int? = nil, sourceLanguage: String? = nil,
-                components: [String]? = nil, steps: [CloudDishStep], warnings: [String]? = nil) {
+                components: [String]? = nil, steps: [CloudDishStep], ingredients: [CloudDishIngredient]? = nil,
+                warnings: [String]? = nil) {
         self.title = title
         self.servings = servings
         self.sourceLanguage = sourceLanguage
         self.components = components
         self.steps = steps
+        self.ingredients = ingredients
         self.warnings = warnings
+    }
+}
+
+public struct CloudDishIngredient: Decodable, Sendable {
+    public var name: String?
+    /// 0 when the recipe gives no amount.
+    public var amount: Double?
+    public var unit: String?
+    public var componentName: String?
+    public var note: String?
+
+    public init(name: String? = nil, amount: Double? = nil, unit: String? = nil, componentName: String? = nil,
+                note: String? = nil) {
+        self.name = name
+        self.amount = amount
+        self.unit = unit
+        self.componentName = componentName
+        self.note = note
     }
 }
 
@@ -55,11 +76,14 @@ public struct CloudDishStep: Decodable, Sendable {
     public var maxWaitMinutes: Int?
     /// Indices of the steps this one waits for.
     public var dependsOn: [Int]?
+    /// Indices into the dish's ingredients this step uses.
+    public var ingredientIndices: [Int]?
 
     public init(text: String? = nil, componentName: String? = nil, handsMinutes: Int? = nil,
                 unattendedMinutes: Int? = nil, unattendedMinMinutes: Int? = nil, unattendedMaxMinutes: Int? = nil,
                 station: String? = nil, ovenTemperature: Int? = nil, maxWaitMinutes: Int? = nil,
-                dependsOn: [Int]? = nil) {
+                dependsOn: [Int]? = nil, ingredientIndices: [Int]? = nil) {
+        self.ingredientIndices = ingredientIndices
         self.text = text
         self.componentName = componentName
         self.handsMinutes = handsMinutes
@@ -94,6 +118,22 @@ public enum CloudDishImport {
         var ids = [Int: String]()
         for (position, entry) in steps.enumerated() { ids[entry.0] = "step-\(position + 1)" }
 
+        // Ingredients without a name are dropped; the rest keep their
+        // index for the steps that name them.
+        var ingredientIDs = [Int: String]()
+        var ingredients = [KitchenIngredient]()
+        for (index, cloudIngredient) in (cloud.ingredients ?? []).enumerated() {
+            let name = (cloudIngredient.name ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !name.isEmpty else { continue }
+            let id = "ingredient-\(ingredients.count + 1)"
+            ingredientIDs[index] = id
+            ingredients.append(KitchenIngredient(
+                id: id, name: name, amount: cloudIngredient.amount,
+                unit: (cloudIngredient.unit ?? "").trimmingCharacters(in: .whitespacesAndNewlines),
+                component: (cloudIngredient.componentName ?? "").trimmingCharacters(in: .whitespacesAndNewlines),
+                note: (cloudIngredient.note ?? "").trimmingCharacters(in: .whitespacesAndNewlines)))
+        }
+
         let explicitDependencies = steps.contains { !($0.1.dependsOn ?? []).isEmpty }
         var previousInComponent = [String: String]()
         let tasks = steps.map { original, step, text -> KitchenTask in
@@ -119,14 +159,16 @@ public enum CloudDishImport {
                 after = [previous]
             }
             previousInComponent[component] = id
+            let used = (step.ingredientIndices ?? []).compactMap { ingredientIDs[$0] }
             return KitchenTask(id: id, name: text, component: component, hands: hands, unattended: unattended, station: station, after: after,
-                               maxWait: maxWait, window: window, ovenTemperature: temperature)
+                               maxWait: maxWait, window: window, ovenTemperature: temperature, ingredientIDs: used)
         }
 
         let title = (cloud.title ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         let servings = cloud.servings.flatMap { $0 > 0 ? min($0, 99) : nil }
         return KitchenDish(name: title.isEmpty ? fallbackName : title,
                            source: source, servings: servings, createdAt: now,
-                           tasks: explicitDependencies ? tasks : KitchenDishDefaults.withDependencies(tasks))
+                           tasks: explicitDependencies ? tasks : KitchenDishDefaults.withDependencies(tasks),
+                           ingredients: ingredients)
     }
 }

@@ -61,11 +61,16 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
     /// holds several steps at once, but only at one temperature; a step
     /// without one goes in at whatever the oven is at.
     public let ovenTemperature: Int?
+    /// The dish's ingredients this step uses, by id — what to have at hand
+    /// when it begins. Empty when the recipe does not say.
+    public let ingredientIDs: [String]
 
     public init(id: String, name: String, component: String = "",
                 hands: Int, unattended: Int = 0, station: KitchenStation? = nil, after: [String] = [],
-                maxWait: Int? = nil, window: ClosedRange<Int>? = nil, ovenTemperature: Int? = nil) {
+                maxWait: Int? = nil, window: ClosedRange<Int>? = nil, ovenTemperature: Int? = nil,
+                ingredientIDs: [String] = []) {
         self.id = id
+        self.ingredientIDs = ingredientIDs
         self.name = name
         self.component = component
         self.handsMinutes = max(0, hands)
@@ -83,7 +88,7 @@ public struct KitchenTask: Identifiable, Equatable, Hashable, Sendable {
     public func shortened(to minutes: Int) -> KitchenTask {
         KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: minutes,
                     station: station, after: after, maxWait: maxWait, window: unattendedWindow,
-                    ovenTemperature: ovenTemperature)
+                    ovenTemperature: ovenTemperature, ingredientIDs: ingredientIDs)
     }
 
     /// Whether two steps can be in one oven at the same time.

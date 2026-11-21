@@ -4,8 +4,10 @@
 //
 //  The cook's dishes kept in SQLite — the KitchenDishStore of the
 //  CookPlanner app. Tables dish, step and step_dependency (schema in
-//  CookPlannerDatabase). A dish is written whole: its row, then its steps
-//  in order, then every step's predecessors in order, in one transaction.
+//  CookPlannerDatabase), since schema 2 also ingredient and
+//  step_ingredient. A dish is written whole: its row, then its steps in
+//  order, every step's predecessors and ingredients in order, then its
+//  ingredients, in one transaction.
 //
 
 import BakePlannerCore
@@ -54,7 +56,9 @@ public final class SQLiteKitchenDishStore: KitchenDishStore {
         }
         try database.savepoint {
             try database.exec(sql: "DELETE FROM step_dependency WHERE dish_id = ?", parameters: [.text(dish.id)])
+            try database.exec(sql: "DELETE FROM step_ingredient WHERE dish_id = ?", parameters: [.text(dish.id)])
             try database.exec(sql: "DELETE FROM step WHERE dish_id = ?", parameters: [.text(dish.id)])
+            try database.exec(sql: "DELETE FROM ingredient WHERE dish_id = ?", parameters: [.text(dish.id)])
             try database.exec(sql: """
                 INSERT OR REPLACE INTO dish (id, name, source, servings, created_at) VALUES (?, ?, ?, ?, ?)
                 """, parameters: [
@@ -88,6 +92,26 @@ public final class SQLiteKitchenDishStore: KitchenDishStore {
                         INSERT INTO step_dependency (dish_id, step_id, position, after_id) VALUES (?, ?, ?, ?)
                         """, parameters: [.text(dish.id), .text(task.id), .long(Int64(order)), .text(after)])
                 }
+                for (order, ingredientID) in task.ingredientIDs.enumerated() {
+                    try database.exec(sql: """
+                        INSERT INTO step_ingredient (dish_id, step_id, position, ingredient_id) VALUES (?, ?, ?, ?)
+                        """, parameters: [.text(dish.id), .text(task.id), .long(Int64(order)), .text(ingredientID)])
+                }
+            }
+            for (position, ingredient) in dish.ingredients.enumerated() {
+                try database.exec(sql: """
+                    INSERT INTO ingredient (dish_id, id, position, name, amount, unit, component, note)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """, parameters: [
+                        .text(dish.id),
+                        .text(ingredient.id),
+                        .long(Int64(position)),
+                        .text(ingredient.name),
+                        ingredient.amount.map { SQLValue.real($0) } ?? SQLValue.null,
+                        .text(ingredient.unit),
+                        .text(ingredient.component),
+                        .text(ingredient.note),
+                    ])
             }
         }
     }
@@ -107,6 +131,20 @@ public final class SQLiteKitchenDishStore: KitchenDishStore {
         for dependency in dependencies {
             afterByStep[dependency[0].textValue ?? "", default: []].append(dependency[1].textValue ?? "")
         }
+        let stepIngredients = try database.selectAll(sql: """
+            SELECT step_id, ingredient_id FROM step_ingredient WHERE dish_id = ? ORDER BY step_id, position
+            """, parameters: [.text(id)])
+        var ingredientsByStep = [String: [String]]()
+        for row in stepIngredients {
+            ingredientsByStep[row[0].textValue ?? "", default: []].append(row[1].textValue ?? "")
+        }
+        let ingredientRows = try database.selectAll(sql: """
+            SELECT id, name, amount, unit, component, note FROM ingredient WHERE dish_id = ? ORDER BY position
+            """, parameters: [.text(id)])
+        let ingredients = ingredientRows.map { row in
+            KitchenIngredient(id: row[0].textValue ?? "", name: row[1].textValue ?? "", amount: row[2].realValue,
+                              unit: row[3].textValue ?? "", component: row[4].textValue ?? "", note: row[5].textValue ?? "")
+        }
         let steps = try database.selectAll(sql: """
             SELECT id, name, component, hands_minutes, unattended_minutes, station, max_wait, window_min, window_max,
                    oven_temperature
@@ -123,12 +161,13 @@ public final class SQLiteKitchenDishStore: KitchenDishStore {
                                station: step[5].textValue.flatMap(KitchenStation.init(rawValue:)),
                                after: afterByStep[stepID] ?? [],
                                maxWait: step[6].longValue.map { Int($0) }, window: window,
-                               ovenTemperature: step[9].longValue.map { Int($0) })
+                               ovenTemperature: step[9].longValue.map { Int($0) },
+                               ingredientIDs: ingredientsByStep[stepID] ?? [])
         }
         return KitchenDish(id: id, name: row[1].textValue ?? "",
                            source: KitchenDishSource(rawValue: row[2].textValue ?? "") ?? .manual,
                            servings: row[3].longValue.map { Int($0) },
                            createdAt: row[4].realValue.map { Date(timeIntervalSinceReferenceDate: $0) },
-                           tasks: tasks)
+                           tasks: tasks, ingredients: ingredients)
     }
 }

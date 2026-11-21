@@ -97,21 +97,29 @@ public enum KitchenDishStoreContract {
 
     static func step(_ id: String, name: String = "Schritt", component: String = "Hauptgang", hands: Int = 2,
                      unattended: Int = 0, station: KitchenStation? = nil, after: [String] = [],
-                     maxWait: Int? = nil, window: ClosedRange<Int>? = nil, ovenTemperature: Int? = nil) -> KitchenTask {
+                     maxWait: Int? = nil, window: ClosedRange<Int>? = nil, ovenTemperature: Int? = nil,
+                     ingredientIDs: [String] = []) -> KitchenTask {
         KitchenTask(id: id, name: name, component: component, hands: hands, unattended: unattended, station: station,
-                    after: after, maxWait: maxWait, window: window, ovenTemperature: ovenTemperature)
+                    after: after, maxWait: maxWait, window: window, ovenTemperature: ovenTemperature,
+                    ingredientIDs: ingredientIDs)
     }
 
-    /// A dish using every field a step has.
+    /// A dish using every field a step and an ingredient have.
     public static func sampleDish() -> KitchenDish {
         KitchenDish(id: "lachs", name: "Lachs mit Kartoffelpüree", source: .text, servings: 2,
                     createdAt: Date(timeIntervalSince1970: 1_793_520_000), tasks: [
-            step("k1", name: "Kartoffeln schälen", component: "Püree", hands: 4),
+            step("k1", name: "Kartoffeln schälen", component: "Püree", hands: 4, ingredientIDs: ["z1"]),
             step("k2", name: "Kartoffeln kochen", component: "Püree", hands: 1, unattended: 20, station: .burner, after: ["k1"], window: 18...25),
             step("k3", name: "Stampfen", component: "Püree", hands: 3, after: ["k2"], maxWait: 10),
-            step("l1", name: "Lachs würzen", component: "Lachs", hands: 2),
+            step("l1", name: "Lachs würzen", component: "Lachs", hands: 2, ingredientIDs: ["z3", "z4"]),
             step("l2", name: "Lachs im Ofen", component: "Lachs", hands: 1, unattended: 12, station: .oven, after: ["l1"], maxWait: 3, ovenTemperature: 180),
             step("a", name: "Anrichten", component: "", hands: 2, after: ["k3", "l2"])
+        ], ingredients: [
+            KitchenIngredient(id: "z1", name: "Kartoffeln", amount: 500, unit: "g", component: "Püree", note: "mehlig kochend"),
+            KitchenIngredient(id: "z2", name: "Butter", amount: 30, unit: "g", component: "Püree"),
+            KitchenIngredient(id: "z3", name: "Lachsfilet", amount: 2, unit: "Stück", component: "Lachs"),
+            KitchenIngredient(id: "z4", name: "Salz", component: "Lachs"),
+            KitchenIngredient(id: "z5", name: "Zitrone", amount: 0.5, unit: "", component: "Lachs")
         ])
     }
 }

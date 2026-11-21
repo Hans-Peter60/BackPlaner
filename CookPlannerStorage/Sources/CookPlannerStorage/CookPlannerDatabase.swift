@@ -83,6 +83,35 @@ public final class CookPlannerDatabase {
             try database.exec(sql: "CREATE INDEX step_dish ON step(dish_id, position)")
             try database.exec(sql: "CREATE INDEX step_dependency_step ON step_dependency(dish_id, step_id)")
         },
+        // 2: the dish's ingredients, and which of them a step uses. An
+        // amount is NULL when the recipe gives none; unit, component and
+        // note are empty text rather than NULL.
+        { database in
+            try database.exec(sql: """
+                CREATE TABLE ingredient (
+                    dish_id TEXT NOT NULL REFERENCES dish(id) ON DELETE CASCADE,
+                    id TEXT NOT NULL,
+                    position INTEGER NOT NULL,
+                    name TEXT NOT NULL,
+                    amount REAL,
+                    unit TEXT NOT NULL,
+                    component TEXT NOT NULL,
+                    note TEXT NOT NULL,
+                    PRIMARY KEY (dish_id, id)
+                )
+                """)
+            try database.exec(sql: """
+                CREATE TABLE step_ingredient (
+                    dish_id TEXT NOT NULL REFERENCES dish(id) ON DELETE CASCADE,
+                    step_id TEXT NOT NULL,
+                    position INTEGER NOT NULL,
+                    ingredient_id TEXT NOT NULL,
+                    PRIMARY KEY (dish_id, step_id, position)
+                )
+                """)
+            try database.exec(sql: "CREATE INDEX ingredient_dish ON ingredient(dish_id, position)")
+            try database.exec(sql: "CREATE INDEX step_ingredient_step ON step_ingredient(dish_id, step_id)")
+        },
     ]
 }
 

@@ -34,15 +34,19 @@ public struct KitchenDish: Identifiable, Equatable, Sendable {
     /// When the dish was created, nil for the examples.
     public var createdAt: Date?
     public var tasks: [KitchenTask]
+    /// What goes in, for the shopping list and the steps that name them.
+    public var ingredients: [KitchenIngredient]
 
     public init(id: String = UUID().uuidString, name: String, source: KitchenDishSource = .manual,
-                servings: Int? = nil, createdAt: Date? = nil, tasks: [KitchenTask]) {
+                servings: Int? = nil, createdAt: Date? = nil, tasks: [KitchenTask],
+                ingredients: [KitchenIngredient] = []) {
         self.id = id
         self.name = name
         self.source = source
         self.servings = servings
         self.createdAt = createdAt
         self.tasks = tasks
+        self.ingredients = ingredients
     }
 
     /// The parts of the dish, in the order their steps first appear.
@@ -58,7 +62,7 @@ public struct KitchenDish: Identifiable, Equatable, Sendable {
     /// the cook's own from now on.
     public func duplicate(named name: String? = nil, now: Date = Date()) -> KitchenDish {
         KitchenDish(id: UUID().uuidString, name: name ?? self.name, source: .manual, servings: servings,
-                    createdAt: now, tasks: tasks)
+                    createdAt: now, tasks: tasks, ingredients: ingredients)
     }
 }
 
@@ -92,7 +96,8 @@ public enum KitchenDishDefaults {
             result.append(KitchenTask(id: task.id, name: task.name, component: task.component,
                                       hands: task.handsMinutes, unattended: task.unattendedMinutes,
                                       station: task.station, after: after, maxWait: task.maxWait,
-                                      window: task.unattendedWindow, ovenTemperature: task.ovenTemperature))
+                                      window: task.unattendedWindow, ovenTemperature: task.ovenTemperature,
+                                      ingredientIDs: task.ingredientIDs))
             previousInComponent[task.component] = task.id
         }
         return result
