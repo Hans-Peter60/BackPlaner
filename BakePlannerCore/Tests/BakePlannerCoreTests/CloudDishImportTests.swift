@@ -107,6 +107,32 @@ struct CloudDishImportTests {
         #expect(schedule.criticalPath == ["step-1", "step-3", "step-4", "step-5"])
     }
 
+    @Test("Ingredients come with amounts, units and components; a step names the ones it uses; nameless ones are dropped")
+    func ingredients() {
+        let cloud = CloudDish(steps: [
+            CloudDishStep(text: "Pilze schneiden", componentName: "Pilze", handsMinutes: 3, maxWaitMinutes: -1,
+                          dependsOn: [], ingredientIndices: [0, 7, 1]),
+            CloudDishStep(text: "Anrichten", componentName: "", handsMinutes: 2, maxWaitMinutes: 0, dependsOn: [0],
+                          ingredientIndices: []),
+        ], ingredients: [
+            CloudDishIngredient(name: "Kräuterseitlinge", amount: 200, unit: "g", componentName: "Pilze"),
+            CloudDishIngredient(name: "Butter", amount: 1.5, unit: "EL", componentName: "Pilze", note: "kalt"),
+            CloudDishIngredient(name: "  ", amount: 1, unit: "", componentName: "Pilze"),
+            CloudDishIngredient(name: "Salz", amount: 0, unit: "", componentName: "Pilze"),
+        ])
+        let dish = CloudDishImport.dish(from: cloud, source: .text)
+        #expect(dish.ingredients.map(\.name) == ["Kräuterseitlinge", "Butter", "Salz"])
+        #expect(dish.ingredients.map(\.id) == ["ingredient-1", "ingredient-2", "ingredient-3"])
+        #expect(dish.ingredients[1].amount == 1.5 && dish.ingredients[1].unit == "EL" && dish.ingredients[1].note == "kalt")
+        #expect(dish.ingredients[2].amount == nil)
+        // Index 7 does not exist; the blank ingredient at index 2 was dropped, so index 1 is the butter.
+        #expect(dish.tasks[0].ingredientIDs == ["ingredient-1", "ingredient-2"])
+        #expect(dish.ingredients(for: dish.tasks[0]).map(\.name) == ["Kräuterseitlinge", "Butter"])
+        #expect(dish.ingredients[0].line(locale: Locale(identifier: "de_DE")) == "200 g Kräuterseitlinge")
+        #expect(dish.ingredients[1].line(locale: Locale(identifier: "de_DE")) == "1,5 EL Butter (kalt)")
+        #expect(dish.ingredients[2].line() == "Salz")
+    }
+
     @Test("No title, no steps, odd values: still a dish")
     func sparse() {
         let dish = CloudDishImport.dish(from: CloudDish(servings: -3, steps: [

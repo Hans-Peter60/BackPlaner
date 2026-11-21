@@ -18,14 +18,14 @@ struct KitchenDishTests {
     func roundTrip(_ dish: KitchenDish) throws {
         let data = try KitchenDishFile(dishes: [dish]).encoded()
         let read = try KitchenDishFile.decode(data)
-        #expect(read.formatVersion == 1)
+        #expect(read.formatVersion == 2)
         #expect(read.kitchenDishes == [dish])
     }
 
     @Test("A file of a later version is refused; unknown fields and an unknown source are tolerated")
     func versions() throws {
-        let future = Data(#"{"formatVersion": 2, "dishes": []}"#.utf8)
-        #expect(throws: KitchenDishFileError.unsupportedVersion(2)) { try KitchenDishFile.decode(future) }
+        let future = Data(#"{"formatVersion": 3, "dishes": []}"#.utf8)
+        #expect(throws: KitchenDishFileError.unsupportedVersion(3)) { try KitchenDishFile.decode(future) }
         let lenient = Data("""
         {"formatVersion": 1, "colour": "red", "dishes": [{"id": "x", "name": "Suppe", "source": "fax", "servings": -2,
           "steps": [{"id": "s", "name": "Kochen", "component": "", "handsMinutes": 99999999, "unattendedMinutes": 10,
@@ -36,6 +36,8 @@ struct KitchenDishTests {
         let step = try #require(dish.tasks.first)
         #expect(step.handsMinutes == Plausible.maxMinutes)
         #expect(step.station == nil && step.unattendedWindow == nil && step.ovenTemperature == nil)
+        // A format-1 file has no ingredients; the dish comes back without.
+        #expect(dish.ingredients.isEmpty && step.ingredientIDs.isEmpty)
     }
 
     @Test("Every check of the store contract, in memory", arguments: KitchenDishStoreContract.checks.map(\.name))

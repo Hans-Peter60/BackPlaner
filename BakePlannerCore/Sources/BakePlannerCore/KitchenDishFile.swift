@@ -13,7 +13,7 @@
 import Foundation
 
 public struct KitchenDishFile: Codable, Equatable, Sendable {
-    public static let currentVersion = 1
+    public static let currentVersion = 2
 
     public var formatVersion: Int
     public var dishes: [KitchenDishRecord]
@@ -56,6 +56,8 @@ public struct KitchenDishRecord: Codable, Equatable, Sendable {
     public var servings: Int?
     public var createdAt: Date?
     public var steps: [KitchenStepRecord]
+    /// Since format 2; a file of format 1 has none.
+    public var ingredients: [KitchenIngredientRecord]?
 
     public init(dish: KitchenDish) {
         id = dish.id
@@ -64,12 +66,36 @@ public struct KitchenDishRecord: Codable, Equatable, Sendable {
         servings = dish.servings
         createdAt = dish.createdAt
         steps = dish.tasks.map(KitchenStepRecord.init(task:))
+        ingredients = dish.ingredients.map(KitchenIngredientRecord.init(ingredient:))
     }
 
     /// The dish; an unknown source reads as typed in by hand.
     public var dish: KitchenDish {
         KitchenDish(id: id, name: name, source: KitchenDishSource(rawValue: source) ?? .manual,
-                    servings: servings.map { max(0, $0) }, createdAt: createdAt, tasks: steps.map(\.task))
+                    servings: servings.map { max(0, $0) }, createdAt: createdAt, tasks: steps.map(\.task),
+                    ingredients: (ingredients ?? []).map(\.ingredient))
+    }
+}
+
+public struct KitchenIngredientRecord: Codable, Equatable, Sendable {
+    public var id: String
+    public var name: String
+    public var amount: Double?
+    public var unit: String
+    public var component: String
+    public var note: String?
+
+    public init(ingredient: KitchenIngredient) {
+        id = ingredient.id
+        name = ingredient.name
+        amount = ingredient.amount
+        unit = ingredient.unit
+        component = ingredient.component
+        note = ingredient.note.isEmpty ? nil : ingredient.note
+    }
+
+    public var ingredient: KitchenIngredient {
+        KitchenIngredient(id: id, name: name, amount: amount, unit: unit, component: component, note: note ?? "")
     }
 }
 
@@ -86,8 +112,11 @@ public struct KitchenStepRecord: Codable, Equatable, Sendable {
     public var windowMinimum: Int?
     public var windowMaximum: Int?
     public var ovenTemperature: Int?
+    /// Since format 2.
+    public var ingredientIDs: [String]?
 
     public init(task: KitchenTask) {
+        ingredientIDs = task.ingredientIDs.isEmpty ? nil : task.ingredientIDs
         id = task.id
         name = task.name
         component = task.component
@@ -112,6 +141,7 @@ public struct KitchenStepRecord: Codable, Equatable, Sendable {
                            hands: Plausible.minutes(handsMinutes), unattended: Plausible.minutes(unattendedMinutes),
                            station: station.flatMap(KitchenStation.init(rawValue:)), after: after,
                            maxWait: maxWait.map(Plausible.minutes), window: window,
-                           ovenTemperature: ovenTemperature.flatMap { Plausible.temperature(Double($0)).map(Int.init) })
+                           ovenTemperature: ovenTemperature.flatMap { Plausible.temperature(Double($0)).map(Int.init) },
+                           ingredientIDs: ingredientIDs ?? [])
     }
 }
