@@ -107,6 +107,13 @@ struct DishPlanView: View {
             }
             if isOwn {
                 ToolbarItem(placement: .topBarTrailing) {
+                    ShareLink(item: DishFileExport(dishes: [dish]),
+                              preview: SharePreview(Text(verbatim: dish.name))) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .accessibilityLabel("Gericht teilen")
+                }
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Bearbeiten") { editing = true }
                 }
             }
