@@ -640,6 +640,7 @@ L’app reconnaît une telle étape de mélange au fait que le nom d’un compos
 1. Saisissez des minutes (1440 au maximum, soit 24 heures).
 2. Choisissez le sens : **Plus tôt** ou **Plus tard**.
 3. Choisissez les **étapes concernées** : **Uniquement cette étape** ou **Toutes les suivantes** (toutes les étapes ultérieures du même plan se décalent d’autant, y compris « La cuisson est terminée » et les étapes qui commencent à la même minute mais viennent après dans l’ordre). Une note sous le choix explique son effet.
+   Si des étapes antérieures du même plan sont déjà passées sans être terminées, l’app demande avant de décaler : **Marquer comme terminées et décaler** les retire du plan puis décale ; **Annuler** laisse tout en l’état.
 4. **Appliquer**.
 
 Les rappels correspondants se décalent automatiquement. Si le nouveau moment est dans le passé, l’app refuse avec « Décalage impossible ».

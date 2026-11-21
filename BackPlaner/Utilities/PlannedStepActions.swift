@@ -11,6 +11,7 @@
 import BakePlannerCore
 import CoreData
 import Foundation
+import SwiftUI
 
 enum PlannedStepComponent {
 
@@ -106,5 +107,76 @@ enum PlannedStepExport {
         let entries = PlanCalendarEntry.entries(for: steps.map { ScheduledStepData($0) })
         guard !entries.isEmpty else { return 0 }
         return try await CalendarExport.add(entries)
+    }
+}
+
+/// Shifting a step while earlier steps of the same plan lie in the past
+/// unfinished: the baker is asked whether those count as done, because a
+/// plan whose first step is overdue and whose later steps were just moved
+/// would otherwise keep nagging about the overdue one.
+enum PlannedStepShift {
+
+    /// The steps of `step`'s plan that come before it and are already due
+    /// at `now` — overdue and not marked done (a done step is deleted).
+    /// Earliest first.
+    static func overdueEarlierSteps(of step: NextStep, among steps: some Sequence<NextStep>,
+                                    now: Date = Date()) -> [NextStep] {
+        steps.filter { other in
+            other !== step
+                && other.recipeName == step.recipeName
+                && other.planID == step.planID
+                && other.date < now
+                && (other.date < step.date || (other.date == step.date && other.step < step.step))
+        }
+        .sorted { ($0.date, $0.step) < ($1.date, $1.step) }
+    }
+}
+
+/// A shift held back until the baker has said what happens to the
+/// overdue steps before it. Holds no managed objects: the steps are
+/// deleted when the baker confirms, and the dialog is still on screen
+/// while SwiftUI re-renders it — reading a deleted step there crashed.
+struct PendingStepShift: Identifiable {
+    let id: NSManagedObjectID
+    let minutes: Int
+    let includeFollowing: Bool
+    /// The overdue earlier steps, earliest first.
+    let overdueIDs: [NSManagedObjectID]
+    /// What the dialog says about them, made while they still exist.
+    let message: String
+
+    init(id: NSManagedObjectID, minutes: Int, includeFollowing: Bool, overdue: [NextStep]) {
+        self.id = id
+        self.minutes = minutes
+        self.includeFollowing = includeFollowing
+        overdueIDs = overdue.map(\.objectID)
+        if overdue.count == 1, let step = overdue.first {
+            let time = step.date.formatted(.dateTime.hour(.twoDigits(amPM: .abbreviated)).minute())
+            message = String(localized: "„\(step.instruction)“ (\(time)) liegt in der Vergangenheit und ist nicht erledigt. Soll der Schritt als erledigt gelten, bevor verschoben wird?")
+        } else {
+            message = String(localized: "\(overdue.count) Schritte dieses Plans liegen in der Vergangenheit und sind nicht erledigt. Sollen sie als erledigt gelten, bevor verschoben wird?")
+        }
+    }
+}
+
+extension View {
+    /// The question for a `PendingStepShift`: mark the overdue steps done
+    /// and shift, or leave everything as it is. An alert, not a
+    /// confirmation dialog: on the iPhone the dialog came as a popover
+    /// without its cancel button.
+    func overdueStepsConfirmation(_ pending: Binding<PendingStepShift?>,
+                                  onMarkDoneAndShift: @escaping (PendingStepShift) -> Void) -> some View {
+        alert("Nicht erledigte Schritte", isPresented: Binding(
+            get: { pending.wrappedValue != nil },
+            set: { if !$0 { pending.wrappedValue = nil } }
+        ), presenting: pending.wrappedValue) { shift in
+            Button("Als erledigt markieren und verschieben") {
+                pending.wrappedValue = nil
+                onMarkDoneAndShift(shift)
+            }
+            Button("Abbrechen", role: .cancel) { }
+        } message: { shift in
+            Text(verbatim: shift.message)
+        }
     }
 }

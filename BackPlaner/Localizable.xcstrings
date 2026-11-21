@@ -25330,6 +25330,70 @@
           }
         }
       }
+    },
+    "Nicht erledigte Schritte" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steps not done"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes non terminées"
+          }
+        }
+      }
+    },
+    "„%@“ (%@) liegt in der Vergangenheit und ist nicht erledigt. Soll der Schritt als erledigt gelten, bevor verschoben wird?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” (%@) lies in the past and is not done. Should the step count as done before shifting?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » (%@) est déjà passé et n’est pas terminé. L’étape doit-elle compter comme terminée avant le décalage ?"
+          }
+        }
+      }
+    },
+    "%lld Schritte dieses Plans liegen in der Vergangenheit und sind nicht erledigt. Sollen sie als erledigt gelten, bevor verschoben wird?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld steps of this plan lie in the past and are not done. Should they count as done before shifting?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étapes de ce plan sont déjà passées et ne sont pas terminées. Doivent-elles compter comme terminées avant le décalage ?"
+          }
+        }
+      }
+    },
+    "Als erledigt markieren und verschieben" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as done and shift"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme terminées et décaler"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

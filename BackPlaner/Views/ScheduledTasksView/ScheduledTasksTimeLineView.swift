@@ -113,6 +113,8 @@ struct ScheduledTasksTimeLineView: View {
     @State private var shiftSelection: ScheduledStepShiftSelection?
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
+    /// A shift waiting for the word on the plan's overdue earlier steps.
+    @State private var pendingShift: PendingStepShift?
     @State private var doneHaptic = false
     @State private var deleteHaptic = false
     /// "Zutaten anzeigen" from a step's long-press menu.
@@ -203,6 +205,11 @@ struct ScheduledTasksTimeLineView: View {
                 performShift(stepID: selection.id, byMinutes: minutes, includeFollowing: includeFollowing)
             }
             .presentationDetents([.large])
+        }
+        .overdueStepsConfirmation($pendingShift) { shift in
+            for stepID in shift.overdueIDs { markDone(stepID: stepID) }
+            performShift(stepID: shift.id, byMinutes: shift.minutes, includeFollowing: shift.includeFollowing,
+                         checkingOverdue: false)
         }
         .alert("Verschieben nicht möglich", isPresented: $showingShiftError) {
             Button("OK", role: .cancel) { }
@@ -298,11 +305,22 @@ struct ScheduledTasksTimeLineView: View {
         )
     }
 
-    private func performShift(stepID: NSManagedObjectID, byMinutes minutes: Int, includeFollowing: Bool) {
+    private func performShift(stepID: NSManagedObjectID, byMinutes minutes: Int, includeFollowing: Bool,
+                              checkingOverdue: Bool = true) {
         guard let step = step(with: stepID) else {
             shiftErrorMessage = String(localized: "Der ausgewählte Schritt wurde nicht gefunden.")
             showingShiftError = true
             return
+        }
+        // Earlier steps of the plan that are overdue and not done: the
+        // baker says whether they count as done before anything moves.
+        if checkingOverdue {
+            let overdue = PlannedStepShift.overdueEarlierSteps(of: step, among: allNextSteps)
+            if !overdue.isEmpty {
+                pendingShift = PendingStepShift(id: stepID, minutes: minutes, includeFollowing: includeFollowing,
+                                                overdue: overdue)
+                return
+            }
         }
         NotificationActions.shiftScheduledStep(step, byMinutes: minutes, includeFollowing: includeFollowing) { result in
             DispatchQueue.main.async {

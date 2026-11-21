@@ -53,6 +53,8 @@ struct ScheduledTasksView: View {
     @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
+    /// A shift waiting for the word on the plan's overdue earlier steps.
+    @State private var pendingShift: PendingStepShift?
 
     /// The plan the list is narrowed down to; `nil` shows every planned step.
     @State private var planFilter: PlanKey?
@@ -376,6 +378,11 @@ struct ScheduledTasksView: View {
             )
             .presentationDetents([.medium, .large])
         }
+        .overdueStepsConfirmation($pendingShift) { shift in
+            for step in nextSteps where shift.overdueIDs.contains(step.objectID) { markDone(step) }
+            performShift(stepID: shift.id, byMinutes: shift.minutes, includeFollowing: shift.includeFollowing,
+                         checkingOverdue: false)
+        }
         .alert("Verschieben nicht möglich", isPresented: $showingShiftError) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -559,11 +566,22 @@ struct ScheduledTasksView: View {
     private func performShift(
         stepID: NSManagedObjectID,
         byMinutes minutes: Int,
-        includeFollowing: Bool
+        includeFollowing: Bool,
+        checkingOverdue: Bool = true
     ) {
         guard let step = nextSteps.first(where: { $0.objectID == stepID }) else {
             presentShiftError("Der ausgewählte Schritt wurde nicht gefunden.")
             return
+        }
+        // Earlier steps of the plan that are overdue and not done: the
+        // baker says whether they count as done before anything moves.
+        if checkingOverdue {
+            let overdue = PlannedStepShift.overdueEarlierSteps(of: step, among: nextSteps)
+            if !overdue.isEmpty {
+                pendingShift = PendingStepShift(id: stepID, minutes: minutes, includeFollowing: includeFollowing,
+                                                overdue: overdue)
+                return
+            }
         }
 
         NotificationActions.shiftScheduledStep(
