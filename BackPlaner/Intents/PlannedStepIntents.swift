@@ -281,6 +281,8 @@ struct PostponeStepIntent: AppIntent {
             try await PlannedStepStore.shift(step, byMinutes: shiftMinutes, includeFollowing: !followers.isEmpty)
         } catch ScheduledStepShiftError.dateInPast {
             throw PlannedStepIntentError.shiftedIntoPast
+        } catch ScheduledStepShiftError.remindersNotUpdated {
+            // The plan did move; only the reminders could not follow.
         } catch {
             throw PlannedStepIntentError.couldNotSave
         }

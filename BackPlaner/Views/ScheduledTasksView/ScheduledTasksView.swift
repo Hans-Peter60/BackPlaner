@@ -53,6 +53,9 @@ struct ScheduledTasksView: View {
     @State private var ingredientsSelection: ScheduledStepIngredientsSelection?
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
+    /// "Verschieben nicht möglich", or a softer title when only the
+    /// reminders failed and the plan did move.
+    @State private var shiftErrorTitle: LocalizedStringKey = "Verschieben nicht möglich"
     /// A shift waiting for the word on the plan's overdue earlier steps.
     @State private var pendingShift: PendingStepShift?
 
@@ -383,7 +386,7 @@ struct ScheduledTasksView: View {
             performShift(stepID: shift.id, byMinutes: shift.minutes, includeFollowing: shift.includeFollowing,
                          checkingOverdue: false)
         }
-        .alert("Verschieben nicht möglich", isPresented: $showingShiftError) {
+        .alert(shiftErrorTitle, isPresented: $showingShiftError) {
             Button("OK", role: .cancel) { }
         } message: {
             Text(shiftErrorMessage)
@@ -591,6 +594,11 @@ struct ScheduledTasksView: View {
         ) { result in
             DispatchQueue.main.async {
                 if case .failure(let error) = result {
+                    if case ScheduledStepShiftError.remindersNotUpdated = error {
+                        shiftErrorTitle = "Erinnerungen nicht aktualisiert"
+                    } else {
+                        shiftErrorTitle = "Verschieben nicht möglich"
+                    }
                     shiftErrorMessage = error.localizedDescription
                     showingShiftError = true
                 }
@@ -599,6 +607,7 @@ struct ScheduledTasksView: View {
     }
 
     private func presentShiftError(_ message: String) {
+        shiftErrorTitle = "Verschieben nicht möglich"
         shiftErrorMessage = message
         DispatchQueue.main.async {
             showingShiftError = true

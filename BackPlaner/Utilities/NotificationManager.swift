@@ -674,12 +674,20 @@ enum NotificationActions {
                 return
             }
 
+            // The plan is shifted and saved at this point; a failure from
+            // here on concerns the reminders only, and says so.
             shiftPendingNotifications(
                 recipeName: recipeName,
                 matches: notificationMatches,
-                timeShift: timeShift,
-                completionHandler: completionHandler
-            )
+                timeShift: timeShift
+            ) { result in
+                switch result {
+                case .success:
+                    completionHandler(.success(()))
+                case .failure(let error):
+                    completionHandler(.failure(ScheduledStepShiftError.remindersNotUpdated(error.localizedDescription)))
+                }
+            }
         }
     }
 
@@ -847,9 +855,17 @@ enum NotificationActions {
 enum ScheduledStepShiftError: LocalizedError {
     case dateInPast
     case notificationNotFound
+    /// The plan was shifted and saved, but the reminders could not be set
+    /// anew — typically because notifications are not allowed.
+    case remindersNotUpdated(String)
 
     var errorDescription: String? {
         switch self {
+        case .remindersNotUpdated(let reason):
+            return String(
+                localized: "Der Plan wurde verschoben, aber die Erinnerungen konnten nicht neu gesetzt werden: \(reason)",
+                bundle: AppSettings.localizationBundle, locale: AppSettings.locale
+            )
         case .dateInPast:
             return String(
                 localized: "Der verschobene Zeitpunkt muss in der Zukunft liegen.",

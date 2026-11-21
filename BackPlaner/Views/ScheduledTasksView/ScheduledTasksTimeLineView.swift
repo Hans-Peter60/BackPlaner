@@ -113,6 +113,9 @@ struct ScheduledTasksTimeLineView: View {
     @State private var shiftSelection: ScheduledStepShiftSelection?
     @State private var showingShiftError = false
     @State private var shiftErrorMessage = ""
+    /// "Verschieben nicht möglich", or a softer title when only the
+    /// reminders failed and the plan did move.
+    @State private var shiftErrorTitle: LocalizedStringKey = "Verschieben nicht möglich"
     /// A shift waiting for the word on the plan's overdue earlier steps.
     @State private var pendingShift: PendingStepShift?
     @State private var doneHaptic = false
@@ -211,7 +214,7 @@ struct ScheduledTasksTimeLineView: View {
             performShift(stepID: shift.id, byMinutes: shift.minutes, includeFollowing: shift.includeFollowing,
                          checkingOverdue: false)
         }
-        .alert("Verschieben nicht möglich", isPresented: $showingShiftError) {
+        .alert(shiftErrorTitle, isPresented: $showingShiftError) {
             Button("OK", role: .cancel) { }
         } message: {
             Text(shiftErrorMessage)
@@ -308,6 +311,7 @@ struct ScheduledTasksTimeLineView: View {
     private func performShift(stepID: NSManagedObjectID, byMinutes minutes: Int, includeFollowing: Bool,
                               checkingOverdue: Bool = true) {
         guard let step = step(with: stepID) else {
+            shiftErrorTitle = "Verschieben nicht möglich"
             shiftErrorMessage = String(localized: "Der ausgewählte Schritt wurde nicht gefunden.")
             showingShiftError = true
             return
@@ -325,6 +329,11 @@ struct ScheduledTasksTimeLineView: View {
         NotificationActions.shiftScheduledStep(step, byMinutes: minutes, includeFollowing: includeFollowing) { result in
             DispatchQueue.main.async {
                 if case .failure(let error) = result {
+                    if case ScheduledStepShiftError.remindersNotUpdated = error {
+                        shiftErrorTitle = "Erinnerungen nicht aktualisiert"
+                    } else {
+                        shiftErrorTitle = "Verschieben nicht möglich"
+                    }
                     shiftErrorMessage = error.localizedDescription
                     showingShiftError = true
                 }
