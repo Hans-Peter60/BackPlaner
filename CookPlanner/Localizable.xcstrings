@@ -156,6 +156,50 @@
         }
       }
     },
+    "%lld Gerichte übernommen, %lld waren schon da." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Gerichte übernommen, %lld waren schon da."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dishes added, %lld were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld plats ajoutés, %lld étaient déjà là."
+          }
+        }
+      }
+    },
+    "%lld Gerichte übernommen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Gerichte übernommen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dishes added."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld plats ajoutés."
+          }
+        }
+      }
+    },
     "%lld Min." : {
       "localizations" : {
         "de" : {
@@ -372,6 +416,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adresse de la page de recette"
+          }
+        }
+      }
+    },
+    "Alle %lld Gerichte waren schon da." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle %lld Gerichte waren schon da."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All %lld dishes were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les %lld plats étaient déjà là."
           }
         }
       }
@@ -926,6 +992,50 @@
         }
       }
     },
+    "Die Datei ist keine CookPlanner-Datei oder beschädigt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei ist keine CookPlanner-Datei oder beschädigt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file is not a CookPlanner file or is damaged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier n’est pas un fichier CookPlanner ou il est endommagé."
+          }
+        }
+      }
+    },
+    "Die Datei stammt aus einer neueren Version von CookPlanner. Bitte die App aktualisieren." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei stammt aus einer neueren Version von CookPlanner. Bitte die App aktualisieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file comes from a newer version of CookPlanner. Please update the app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier provient d’une version plus récente de CookPlanner. Veuillez mettre l’app à jour."
+          }
+        }
+      }
+    },
     "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen." : {
       "localizations" : {
         "de" : {
@@ -1010,6 +1120,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La page est chargée sur cet appareil ; seul le texte de la recette est envoyé à un service de Google pour l’analyse."
+          }
+        }
+      }
+    },
+    "Die Sicherung ist eine Datei mit allen eigenen Gerichten, z. B. für iCloud Drive. Beim Importieren bleiben Gerichte, die schon da sind, unverändert. Die Kochprotokolle sind nicht enthalten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Sicherung ist eine Datei mit allen eigenen Gerichten, z. B. für iCloud Drive. Beim Importieren bleiben Gerichte, die schon da sind, unverändert. Die Kochprotokolle sind nicht enthalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup is a file with all your own dishes, for iCloud Drive for example. Importing leaves dishes that are already there unchanged. The cooking records are not included."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sauvegarde est un fichier avec tous vos plats, par exemple pour iCloud Drive. L’import laisse inchangés les plats déjà présents. Les relevés de cuisson ne sont pas inclus."
           }
         }
       }
@@ -1120,6 +1252,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les fours sont préchauffés quand le chrono démarre."
+          }
+        }
+      }
+    },
+    "Eigene Gerichte sichern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eigene Gerichte sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up own dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder mes plats"
           }
         }
       }
@@ -1608,6 +1762,28 @@
         }
       }
     },
+    "Gericht teilen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le plat"
+          }
+        }
+      }
+    },
     "Gerichte" : {
       "localizations" : {
         "de" : {
@@ -1626,6 +1802,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plats"
+          }
+        }
+      }
+    },
+    "Gerichte importieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerichte importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer des plats"
           }
         }
       }
@@ -3144,6 +3342,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Sicherung" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sicherung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarde"
           }
         }
       }

@@ -8,6 +8,43 @@
 	<false/>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>CookPlanner stellt auf Wunsch Wecker für Töpfe und Ofen, die auch bei stummgeschaltetem iPhone klingeln.</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>de.hpm64625.CookPlanner.dishes</string>
+			<key>UTTypeDescription</key>
+			<string>CookPlanner-Gerichte</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.json</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>cookplanner</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<!-- Tapping a .cookplanner file opens the app with a copy (not in place). -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>CookPlanner-Gerichte</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>de.hpm64625.CookPlanner.dishes</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

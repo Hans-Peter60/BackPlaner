@@ -1,6 +1,30 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "CookPlanner-Gerichte" : {
+      "comment" : "Document type and exported type description of .cookplanner files",
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CookPlanner-Gerichte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CookPlanner dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plats CookPlanner"
+          }
+        }
+      }
+    },
     "NSAlarmKitUsageDescription" : {
       "comment" : "Privacy - AlarmKit Usage Description",
       "localizations" : {

@@ -9,6 +9,7 @@
 
 import BakePlannerCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct DishListView: View {
 
@@ -29,6 +30,8 @@ struct DishListView: View {
     /// The dish the import handed over, opened in the editor once the
     /// import sheet is gone.
     @State private var pendingImport: KitchenDish?
+    /// What reading a .cookplanner file opened from outside came to.
+    @State private var fileImportReport: String?
 
     private func plan(for dish: KitchenDish) -> DishPlan? {
         DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
@@ -157,6 +160,12 @@ struct DishListView: View {
             // open cookplanner://import-web, and then the analysis waits
             // for a tap.
             .onOpenURL { url in
+                // A .cookplanner file tapped in Mail, Messages or Files.
+                if url.isFileURL {
+                    showsSettings = false
+                    fileImportReport = library.importDishes(at: url)
+                    return
+                }
                 guard let pageURL = PendingDishImport.url(fromDeepLink: url) else { return }
                 beginWebImport(of: pageURL, startsAutomatically: PendingDishImport.takePending() == pageURL)
             }
@@ -166,6 +175,12 @@ struct DishListView: View {
                 if phase == .active, let pageURL = PendingDishImport.takePending() {
                     beginWebImport(of: pageURL, startsAutomatically: true)
                 }
+            }
+            .alert("Gerichte importieren",
+                   isPresented: Binding(get: { fileImportReport != nil }, set: { if !$0 { fileImportReport = nil } })) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(fileImportReport ?? "")
             }
             .alert("Speichern fehlgeschlagen",
                    isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {
@@ -252,6 +267,11 @@ struct KitchenSettingsView: View {
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @AppStorage(CookSettings.alarmsKey) private var alarms = CookSettings.defaultAlarms
+    @Environment(DishLibrary.self) private var library
+    @State private var choosingFile = false
+    @State private var importReport: String?
+
+    private var ownDishes: [KitchenDish] { library.dishes.filter { $0.source != .sample } }
 
     var body: some View {
         NavigationStack {
@@ -273,10 +293,37 @@ struct KitchenSettingsView: View {
                         .foregroundColor(.secondary)
                 }
                 Section {
+                    ShareLink(item: DishFileExport(dishes: ownDishes),
+                              preview: SharePreview(Text("Meine Gerichte"))) {
+                        Label("Eigene Gerichte sichern", systemImage: "square.and.arrow.up")
+                    }
+                    .disabled(ownDishes.isEmpty)
+                    Button {
+                        choosingFile = true
+                    } label: {
+                        Label("Gerichte importieren", systemImage: "square.and.arrow.down")
+                    }
+                } header: {
+                    Text("Sicherung")
+                } footer: {
+                    Text("Die Sicherung ist eine Datei mit allen eigenen Gerichten, z. B. für iCloud Drive. Beim Importieren bleiben Gerichte, die schon da sind, unverändert. Die Kochprotokolle sind nicht enthalten.")
+                }
+                Section {
                     Toggle("Wecker für Topf und Ofen", isOn: $alarms)
                 } footer: {
                     Text("Wenn ein Topf oder der Ofen die Zeit erreicht hat, klingelt ein Wecker – auch wenn das iPhone stumm ist oder ein Fokus läuft. Ohne Wecker gibt es eine Mitteilung.")
                 }
+            }
+            .fileImporter(isPresented: $choosingFile, allowedContentTypes: [.cookPlannerDishes, .json]) { result in
+                if case .success(let url) = result {
+                    importReport = library.importDishes(at: url)
+                }
+            }
+            .alert("Gerichte importieren",
+                   isPresented: Binding(get: { importReport != nil }, set: { if !$0 { importReport = nil } })) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(importReport ?? "")
             }
             .navigationTitle("Einstellungen")
             .navigationBarTitleDisplayMode(.inline)
