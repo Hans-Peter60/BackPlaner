@@ -70,6 +70,35 @@ struct ProofTimingTests {
         #expect(one == [Step(index: 1, phase: .bulk, minutes: 120)])
     }
 
+    @Test("Folds as sub-steps of the bulk proof are not counted again, and the last of them is no final proof")
+    func subStepsOfTheBulkProof() {
+        // Hans-Peter's Sonntags-Dinkelbrötchen: the folds 3.1 and 3.2 run
+        // during step 3 with the rest of its time as their duration. Read
+        // as rests of their own, the bulk proof came out as 19½ hours and
+        // the last fold as a 9-hour final proof.
+        let instructions = [
+            "Die Kochstückzutaten unter Rühren aufkochen, bis sie abbinden. Auskühlen lassen.",
+            "Hauptteig: Alle Zutaten 8 Minuten auf niedrigster Stufe kneten (Teigtemperatur ca. 22°C).",
+            "Den Teig 8-12 Stunden bei 20°C lagern und in den ersten 30 und 60 Minuten dehnen und falten.",
+            "Teig dehnen und falten (nach 30 Minuten).",
+            "Teig dehnen und falten (nach 60 Minuten).",
+            "Den Teig auf die Arbeitsfläche geben und 9 eckige Teiglinge abstechen.",
+            "Auf Backpapier setzen und bei Raumtemperatur 20 Minuten gehen lassen.",
+            "Bei 250 °C 20 Minuten backen."
+        ]
+        let durations = [120, 15, 600, 570, 540, 10, 20, 20]
+        let numbers: [Double] = [1, 2, 3, 3.1, 3.2, 4, 5, 6]
+        let found = ProofTiming.steps(instructions: instructions, durations: durations, stepNumbers: numbers)
+        #expect(found.map(\.index) == [2, 6])
+        #expect(found.map(\.phase) == [.bulk, .final])
+        #expect(found.map(\.minutes) == [600, 20])
+        #expect(found[0].statedTemperature == 20)
+
+        // Without the numbers the folds still count, as before.
+        let unnumbered = ProofTiming.steps(instructions: instructions, durations: durations)
+        #expect(unnumbered.count == 4)
+    }
+
     @Test("The fridge, soakers, the autolyse and short pauses do not count")
     func excludedSteps() {
         let found = steps([

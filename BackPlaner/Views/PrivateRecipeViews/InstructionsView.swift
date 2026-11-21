@@ -528,7 +528,8 @@ struct InstructionsView: View {
     private var proofSteps: [ProofTiming.Step] {
         guard !StarterRecipe.isStarterFeeding(recipe) else { return [] }
         return ProofTiming.steps(instructions: recipe.instructionsArray.map(\.instruction),
-                                 durations: recipe.instructionsArray.map(\.duration))
+                                 durations: recipe.instructionsArray.map(\.duration),
+                                 stepNumbers: recipe.instructionsArray.map(\.step))
     }
 
     /// The facts of the recipe's bakes that already took place, newest
