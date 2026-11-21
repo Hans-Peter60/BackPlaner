@@ -41,4 +41,21 @@ struct KitchenCookRunTests {
                                        startedSecond: 200, doneSecond: 150, tickedByCook: true)
         #expect(step.actualSeconds == 0)
     }
+
+    @Test("A record from before rating, note and photo still reads, and keeps them once given")
+    func impression() throws {
+        let old = #"{"id":"r","dishID":"d","dishName":"Test","startedAt":"2026-11-21T18:00:00Z","totalSeconds":600,"plannedMinutes":10,"steps":[]}"#
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        var run = try decoder.decode(KitchenCookRun.self, from: Data(old.utf8))
+        #expect(run.rating == nil && run.note == nil && run.photoFileName == nil)
+        #expect(!run.hasImpression)
+        run.rating = 4
+        run.note = "Etwas mehr Salz"
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let again = try decoder.decode(KitchenCookRun.self, from: encoder.encode(run))
+        #expect(again.rating == 4 && again.note == "Etwas mehr Salz")
+        #expect(again.hasImpression)
+    }
 }

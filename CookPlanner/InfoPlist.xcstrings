@@ -56,19 +56,19 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CookPlanner fotografiert Rezeptseiten, um ihren Text zu erkennen."
+            "value" : "CookPlanner fotografiert Rezeptseiten, um ihren Text zu erkennen, und auf Wunsch Deine fertigen Gerichte."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CookPlanner photographs recipe pages to recognize their text."
+            "value" : "CookPlanner photographs recipe pages to recognize their text and, if you like, your finished dishes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CookPlanner photographie des pages de recettes pour en reconnaître le texte."
+            "value" : "CookPlanner photographie des pages de recettes pour en reconnaître le texte et, si vous le souhaitez, vos plats terminés."
           }
         }
       }

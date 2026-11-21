@@ -21,6 +21,8 @@ struct DishPlanView: View {
     @State private var editing = false
     @State private var shopping = false
     @State private var shownRun: KitchenCookRun?
+    /// The newest record when cooking began, to open the one it adds.
+    @State private var runBeforeCooking: String?
     @State private var showingLearned = false
     @State private var savedCopyName: String?
     @State private var runLog = CookRunLog.shared
@@ -122,7 +124,7 @@ struct DishPlanView: View {
             ShoppingListView(dish: cookedDish)
         }
         .sheet(item: $shownRun) { run in
-            CookRunView(run: run)
+            CookRunView(runID: run.id)
         }
         .sheet(isPresented: $showingLearned) {
             LearnedTimesView(dish: dish, suggestions: learnedSuggestions) { learned in
@@ -144,7 +146,15 @@ struct DishPlanView: View {
                 if library.save(saved) { dish = saved }
             }
         }
-        .fullScreenCover(isPresented: $cooking) {
+        .onChange(of: cooking) { _, isCooking in
+            if isCooking { runBeforeCooking = runLog.runs(of: dish.id).first?.id }
+        }
+        // A record kept at the end opens at once, for the stars and a photo.
+        .fullScreenCover(isPresented: $cooking, onDismiss: {
+            if let newest = runLog.runs(of: dish.id).first, newest.id != runBeforeCooking {
+                shownRun = newest
+            }
+        }) {
             if let plan {
                 CookModeView(plan: plan)
             }
@@ -177,8 +187,14 @@ struct DishPlanView: View {
                     shownRun = run
                 } label: {
                     HStack {
-                        Text(verbatim: run.startedAt.formatted(date: .abbreviated, time: .shortened))
-                            .foregroundColor(Theme.cardTitle)
+                        RunThumbnail(run: run, size: 36)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(verbatim: run.startedAt.formatted(date: .abbreviated, time: .shortened))
+                                .foregroundColor(Theme.cardTitle)
+                            if let rating = run.rating {
+                                StarsText(rating: rating)
+                            }
+                        }
                         Spacer()
                         Text(verbatim: KitchenCookRun.clockText(run.totalSeconds))
                             .monospacedDigit()
