@@ -20,6 +20,8 @@ struct DishPlanView: View {
     @State private var cooking = false
     @State private var editing = false
     @State private var shopping = false
+    @State private var shownRun: KitchenCookRun?
+    @State private var runLog = CookRunLog.shared
 
     init(dish: KitchenDish) {
         _dish = State(initialValue: dish)
@@ -60,6 +62,9 @@ struct DishPlanView: View {
                     }
                     handsCard(plan)
                     timelineCard(plan)
+                    if !runLog.runs(of: dish.id).isEmpty {
+                        runsCard
+                    }
                     if !plan.schedule.waits(atLeast: 10).isEmpty {
                         keepWarmCard(plan)
                     }
@@ -100,6 +105,9 @@ struct DishPlanView: View {
         .sheet(isPresented: $shopping) {
             ShoppingListView(dish: dish)
         }
+        .sheet(item: $shownRun) { run in
+            CookRunView(run: run)
+        }
         .sheet(isPresented: $editing) {
             DishEditorView(dish: dish) { saved in
                 if library.save(saved) { dish = saved }
@@ -110,6 +118,40 @@ struct DishPlanView: View {
                 CookModeView(plan: plan)
             }
         }
+    }
+
+    /// The times this dish was cooked on the stopwatch, newest first.
+    private var runsCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Gekocht", systemImage: "stopwatch")
+                .font(Theme.bodyFont(16).weight(.semibold))
+                .foregroundColor(Theme.cardTitle)
+            ForEach(runLog.runs(of: dish.id).prefix(5)) { run in
+                Button {
+                    shownRun = run
+                } label: {
+                    HStack {
+                        Text(verbatim: run.startedAt.formatted(date: .abbreviated, time: .shortened))
+                            .foregroundColor(Theme.cardTitle)
+                        Spacer()
+                        Text(verbatim: KitchenCookRun.clockText(run.totalSeconds))
+                            .monospacedDigit()
+                            .foregroundColor(Theme.accentText)
+                        Image(systemName: "chevron.right")
+                            .font(.footnote)
+                            .foregroundColor(Theme.subtitle)
+                    }
+                    .font(Theme.bodyFont(14))
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .contextMenu {
+                    Button("Protokoll löschen", role: .destructive) { runLog.delete(id: run.id) }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
     }
 
     /// How much to buy, and the way to the list.

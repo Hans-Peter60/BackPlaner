@@ -67,6 +67,28 @@
         }
       }
     },
+    "%@ über dem Plan von %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ über dem Plan von %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ over the plan of %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ au-delà du plan de %lld min"
+          }
+        }
+      }
+    },
     "%@: %lld statt %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -551,6 +573,50 @@
         }
       }
     },
+    "Beenden ohne Protokoll" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beenden ohne Protokoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End without a record"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter sans relevé"
+          }
+        }
+      }
+    },
+    "Beenden und Protokoll sichern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beenden und Protokoll sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End and keep the record"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter et garder le relevé"
+          }
+        }
+      }
+    },
     "Beispiele" : {
       "localizations" : {
         "de" : {
@@ -613,6 +679,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ensuite seul : %lld min"
+          }
+        }
+      }
+    },
+    "Das Protokoll hält fest, wann jeder Schritt erledigt war." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Protokoll hält fest, wann jeder Schritt erledigt war."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The record keeps when each step was done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le relevé garde le moment où chaque étape a été terminée."
           }
         }
       }
@@ -903,6 +991,28 @@
         }
       }
     },
+    "Ein Handschritt zählt ab dem vorigen Abhaken – oder ab der Minute, für die der Plan ihn vorsah, wenn die später lag – bis zu seinem eigenen. Schritte mit Uhr-Symbol liefen von allein und endeten nach Plan." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Handschritt zählt ab dem vorigen Abhaken – oder ab der Minute, für die der Plan ihn vorsah, wenn die später lag – bis zu seinem eigenen. Schritte mit Uhr-Symbol liefen von allein und endeten nach Plan."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A hands-on step counts from the previous tick — or from the minute the plan had it begin, if that was later — to its own. Steps with a timer symbol ran on their own and ended as planned."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une étape manuelle compte depuis la coche précédente — ou depuis la minute prévue par le plan, si elle était plus tardive — jusqu’à la sienne. Les étapes avec le symbole minuteur se sont déroulées seules et ont fini comme prévu."
+          }
+        }
+      }
+    },
     "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
       "localizations" : {
         "de" : {
@@ -1189,6 +1299,28 @@
         }
       }
     },
+    "Gebraucht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebraucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Took"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée réelle"
+          }
+        }
+      }
+    },
     "Gefunden" : {
       "localizations" : {
         "de" : {
@@ -1207,6 +1339,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trouvé"
+          }
+        }
+      }
+    },
+    "Gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné"
+          }
+        }
+      }
+    },
+    "Geplant" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplant"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planned"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévu"
           }
         }
       }
@@ -1691,6 +1867,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuisson"
+          }
+        }
+      }
+    },
+    "Kochen beenden?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochen beenden?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End cooking?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la cuisine ?"
           }
         }
       }
@@ -2355,6 +2553,28 @@
         }
       }
     },
+    "Plan %lld Min. · noch %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld Min. · noch %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min · %@ left"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min · encore %@"
+          }
+        }
+      }
+    },
     "Platte" : {
       "localizations" : {
         "de" : {
@@ -2417,6 +2637,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Portions non indiquées"
+          }
+        }
+      }
+    },
+    "Protokoll" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoll"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relevé"
+          }
+        }
+      }
+    },
+    "Protokoll löschen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoll löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete record"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le relevé"
           }
         }
       }
@@ -2729,6 +2993,50 @@
         }
       }
     },
+    "Unterschied" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterschied"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difference"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart"
+          }
+        }
+      }
+    },
+    "Vorzeitig beendet: %lld von %lld Schritten erledigt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorzeitig beendet: %lld von %lld Schritten erledigt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ended early: %lld of %lld steps done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêté avant la fin : %lld étapes sur %lld terminées."
+          }
+        }
+      }
+    },
     "Warm halten" : {
       "localizations" : {
         "de" : {
@@ -2835,6 +3143,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reprendre"
+          }
+        }
+      }
+    },
+    "Weiterkochen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiterkochen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep cooking"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
           }
         }
       }
@@ -3099,6 +3429,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "jusqu’à %lld min"
+          }
+        }
+      }
+    },
+    "erledigt %@ · gebraucht %@ · geplant %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "erledigt %@ · gebraucht %@ · geplant %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "done %@ · took %@ · planned %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "terminé %@ · réel %@ · prévu %lld min"
           }
         }
       }

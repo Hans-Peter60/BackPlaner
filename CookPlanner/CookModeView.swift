@@ -35,6 +35,12 @@ struct CookModeView: View {
     /// What the reminders were last scheduled for, to spare the rescheduling
     /// when a minute passes without a change.
     @State private var remindersSignature = ""
+    /// The stopwatch second each ticked step was done, and the second the
+    /// live plan had it begin — the record kept when cooking ends.
+    @State private var doneSeconds: [String: Int] = [:]
+    @State private var startSeconds: [String: Int] = [:]
+    @State private var runSaved = false
+    @State private var confirmingEnd = false
 
     var body: some View {
         NavigationStack {
@@ -53,9 +59,20 @@ struct CookModeView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Beenden") {
-                        CookReminders.shared.cancelAll()
-                        CookActivityManager.shared.endAll()
-                        dismiss()
+                        if startedAt == nil {
+                            end(keepingRecord: false)
+                        } else {
+                            confirmingEnd = true
+                        }
+                    }
+                    // An alert, not a confirmation dialog: on the iPhone the
+                    // dialog came as a popover without "Weiterkochen".
+                    .alert("Kochen beenden?", isPresented: $confirmingEnd) {
+                        Button("Beenden und Protokoll sichern") { end(keepingRecord: true) }
+                        Button("Beenden ohne Protokoll", role: .destructive) { end(keepingRecord: false) }
+                        Button("Weiterkochen", role: .cancel) { }
+                    } message: {
+                        Text("Das Protokoll hält fest, wann jeder Schritt erledigt war.")
                     }
                 }
                 if startedAt != nil {
@@ -166,6 +183,8 @@ struct CookModeView: View {
     private func undoLastTick() {
         guard let id = tickHistory.popLast() else { return }
         finished[id] = nil
+        doneSeconds[id] = nil
+        startSeconds[id] = nil
         replan(minute: elapsedSeconds(at: .now) / 60)
     }
 
@@ -181,9 +200,61 @@ struct CookModeView: View {
     }
 
     private func tickOff(_ id: String, minute: Int) {
+        let second = elapsedSeconds(at: .now)
+        let placement = (live ?? plan.schedule).placement(of: id)
+        var start = (placement?.start ?? 0) * 60
+        // A hands-on step begins when the hands were last free: at the
+        // previous hands-on tick, if that came later than the plan's
+        // minute — the live plan only knows whole minutes.
+        if (placement?.task.handsMinutes ?? 0) > 0 {
+            let handsTicks = doneSeconds.filter { key, _ in
+                (plan.dish.tasks.first { $0.id == key }?.handsMinutes ?? 0) > 0
+            }.values
+            start = max(start, handsTicks.max() ?? 0)
+        }
+        doneSeconds[id] = second
+        startSeconds[id] = min(second, start)
         finished[id] = minute
         tickHistory.append(id)
         replan(minute: minute)
+    }
+
+    private func end(keepingRecord: Bool) {
+        CookReminders.shared.cancelAll()
+        CookActivityManager.shared.endAll()
+        if keepingRecord { saveRun() } else { runSaved = true }
+        dismiss()
+    }
+
+    /// Keeps the stopwatch record: every ticked step with its seconds, and
+    /// the pots and waits that ran their time without a tick. Nothing is
+    /// kept when cooking never started or nothing was done.
+    private func saveRun() {
+        guard !runSaved, let startedAt else { return }
+        runSaved = true
+        let total = elapsedSeconds(at: .now)
+        let minute = total / 60
+        let schedule = live ?? plan.schedule
+        var steps = [KitchenCookRun.Step]()
+        for placement in schedule.placements {
+            let task = placement.task
+            let planned = plan.schedule.placement(of: task.id)?.start ?? placement.start
+            if let done = doneSeconds[task.id] {
+                steps.append(.init(taskID: task.id, name: task.name, component: task.component,
+                                   plannedMinutes: task.minutes, plannedStart: planned,
+                                   startedSecond: startSeconds[task.id] ?? placement.start * 60,
+                                   doneSecond: done, tickedByCook: true))
+            } else if (task.unattendedMinutes > 0 || task.handsMinutes == 0), placement.end <= minute {
+                steps.append(.init(taskID: task.id, name: task.name, component: task.component,
+                                   plannedMinutes: task.minutes, plannedStart: planned,
+                                   startedSecond: placement.start * 60, doneSecond: placement.end * 60,
+                                   tickedByCook: false))
+            }
+        }
+        guard !steps.isEmpty else { return }
+        CookRunLog.shared.add(KitchenCookRun(dishID: plan.dish.id, dishName: plan.dish.name, startedAt: startedAt,
+                                             totalSeconds: total, plannedMinutes: plan.schedule.makespan,
+                                             steps: steps, totalSteps: schedule.placements.count))
     }
 
     private func content(elapsedSeconds: Int) -> some View {
@@ -209,7 +280,7 @@ struct CookModeView: View {
 
         return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                clock(remaining: remaining, minute: minute, live: live)
+                clock(elapsed: elapsedSeconds, remaining: remaining, minute: minute, live: live)
 
                 if startedAt == nil {
                     Button {
@@ -271,6 +342,21 @@ struct CookModeView: View {
                             Text("\(doneCount) von \(placements.count) Schritten")
                                 .font(Theme.bodyFont(14))
                                 .foregroundColor(Theme.subtitle)
+                            // What the stopwatch said at each tick, latest first.
+                            ForEach(tickHistory.reversed(), id: \.self) { id in
+                                if let done = doneSeconds[id], let task = plan.dish.tasks.first(where: { $0.id == id }) {
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Text(verbatim: task.name)
+                                            .font(Theme.bodyFont(13))
+                                            .foregroundColor(Theme.cardTitle)
+                                            .lineLimit(2)
+                                        Spacer()
+                                        Text(verbatim: KitchenCookRun.clockText(done))
+                                            .font(Theme.bodyFont(13).monospacedDigit())
+                                            .foregroundColor(Theme.accentText)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -293,7 +379,7 @@ struct CookModeView: View {
         return "bis zu \(max(0, latest - minute)) Min."
     }
 
-    private func clock(remaining: Int, minute: Int, live: KitchenSchedule) -> some View {
+    private func clock(elapsed: Int, remaining: Int, minute: Int, live: KitchenSchedule) -> some View {
         VStack(spacing: 4) {
             Text(verbatim: plan.dish.name)
                 .font(Theme.bodyFont(14))
@@ -305,12 +391,19 @@ struct CookModeView: View {
                     .font(Theme.bodyFont(14).weight(.semibold))
                     .foregroundColor(Theme.warning)
             }
-            Text(verbatim: String(format: "%d:%02d", remaining / 60, remaining % 60))
+            // The stopwatch: it counts up from the start, pauses not counted.
+            Text(verbatim: KitchenCookRun.clockText(elapsed))
                 .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
-                .foregroundColor(remaining > 0 ? Theme.title : Theme.good)
-            Text("Minute \(min(minute, live.makespan)) von \(live.makespan)")
-                .font(Theme.bodyFont(14))
-                .foregroundColor(Theme.subtitle)
+                .foregroundColor(Theme.title)
+            if remaining > 0 {
+                Text("Plan \(live.makespan) Min. · noch \(KitchenCookRun.clockText(remaining))")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.subtitle)
+            } else {
+                Text("\(KitchenCookRun.clockText(elapsed - live.makespan * 60)) über dem Plan von \(live.makespan) Min.")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(elapsed > live.makespan * 60 ? Theme.warning : Theme.good)
+            }
             if live.makespan > plan.schedule.makespan {
                 Text("Fertig in Minute \(live.makespan), \(live.makespan - plan.schedule.makespan) Min. später als geplant")
                     .font(Theme.bodyFont(13))
