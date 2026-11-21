@@ -69,4 +69,23 @@ struct KitchenDishTests {
         #expect(copy.tasks == KitchenSampleDishes.perlhuhnbrust.tasks)
         #expect(copy.components == KitchenSampleDishes.perlhuhnbrust.components)
     }
+
+    @Test("The examples have ingredients, every step's ingredient ids exist, and the shopping list groups them by component")
+    func sampleIngredients() {
+        for dish in KitchenSampleDishes.all {
+            #expect(!dish.ingredients.isEmpty)
+            let ids = Set(dish.ingredients.map(\.id))
+            #expect(ids.count == dish.ingredients.count)
+            for task in dish.tasks {
+                #expect(task.ingredientIDs.allSatisfy { ids.contains($0) }, "\(dish.name): \(task.id)")
+            }
+        }
+        let dish = KitchenSampleDishes.perlhuhnbrust
+        let groups = KitchenShoppingList.groups(of: dish)
+        #expect(groups.map(\.component) == ["Perlhuhnbrust", "Wirsing", "Kräuterseitlinge", "Verjus-Birne", "Garnitur"])
+        let text = KitchenShoppingList.text(for: dish, excluding: ["a-huhn"], locale: Locale(identifier: "de_DE"))
+        #expect(text.hasPrefix(dish.name + "\n\nPerlhuhnbrust\n- 1 Knoblauchzehe\n"))
+        #expect(text.contains("- 0,5 TL Helle Miso-Paste"))
+        #expect(!text.contains("Perlhuhnbrüste"))
+    }
 }

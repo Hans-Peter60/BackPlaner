@@ -19,6 +19,7 @@ struct DishPlanView: View {
     @State private var dish: KitchenDish
     @State private var cooking = false
     @State private var editing = false
+    @State private var shopping = false
 
     init(dish: KitchenDish) {
         _dish = State(initialValue: dish)
@@ -51,6 +52,9 @@ struct DishPlanView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.horizontal, 4)
                     verdictCard(plan)
+                    if !dish.ingredients.isEmpty {
+                        ingredientsCard
+                    }
                     if let fit = fit(for: plan) {
                         fitCard(fit, plan: plan)
                     }
@@ -77,11 +81,24 @@ struct DishPlanView: View {
         .navigationTitle("Plan")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            if !dish.ingredients.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        shopping = true
+                    } label: {
+                        Image(systemName: "basket")
+                    }
+                    .accessibilityLabel("Einkaufsliste")
+                }
+            }
             if isOwn {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Bearbeiten") { editing = true }
                 }
             }
+        }
+        .sheet(isPresented: $shopping) {
+            ShoppingListView(dish: dish)
         }
         .sheet(isPresented: $editing) {
             DishEditorView(dish: dish) { saved in
@@ -93,6 +110,30 @@ struct DishPlanView: View {
                 CookModeView(plan: plan)
             }
         }
+    }
+
+    /// How much to buy, and the way to the list.
+    private var ingredientsCard: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(dish.ingredients.count) Zutaten")
+                    .font(Theme.bodyFont(16).weight(.semibold))
+                    .foregroundColor(Theme.cardTitle)
+                Text(verbatim: KitchenShoppingList.groups(of: dish).map(\.component).filter { !$0.isEmpty }.joined(separator: " · "))
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.subtitle)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Button {
+                shopping = true
+            } label: {
+                Label("Einkaufsliste", systemImage: "basket")
+            }
+            .buttonStyle(.bordered)
+            .tint(Theme.accentText)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
     }
 
     private func verdictCard(_ plan: DishPlan) -> some View {
