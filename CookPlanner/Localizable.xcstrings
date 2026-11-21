@@ -111,6 +111,28 @@
         }
       }
     },
+    "%lld + %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld + %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld + %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld + %lld min"
+          }
+        }
+      }
+    },
     "%lld Min." : {
       "localizations" : {
         "de" : {
@@ -371,6 +393,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utiliser comme modèle"
+          }
+        }
+      }
+    },
+    "Als eigenes Gericht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als eigenes Gericht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As own dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comme plat personnel"
+          }
+        }
+      }
+    },
+    "Als eigenes Gericht gesichert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als eigenes Gericht gesichert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved as your own dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistré comme plat personnel"
           }
         }
       }
@@ -749,6 +815,28 @@
         }
       }
     },
+    "Der Mittelwert (Median) der abgehakten Zeiten aus den letzten bis zu fünf Durchgängen. Bei Töpfen und Ofenschritten bleibt die Handarbeit, die Zeit allein passt sich an." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Mittelwert (Median) der abgehakten Zeiten aus den letzten bis zu fünf Durchgängen. Bei Töpfen und Ofenschritten bleibt die Handarbeit, die Zeit allein passt sich an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The median of the ticked times from the latest five runs at most. For pots and oven steps the hands-on time stays and the unattended time adapts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La médiane des temps cochés sur au plus les cinq derniers passages. Pour les casseroles et le four, le temps manuel reste et le temps seul s’adapte."
+          }
+        }
+      }
+    },
     "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche." : {
       "localizations" : {
         "de" : {
@@ -833,6 +921,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le travail manuel seul prend %lld minutes. Une seule personne ne suffit pas : supprimez ou simplifiez des étapes."
+          }
+        }
+      }
+    },
+    "Die Kopie mit den gemessenen Zeiten steht unter „Meine Gerichte“." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kopie mit den gemessenen Zeiten steht unter „Meine Gerichte“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The copy with the measured times is under “My dishes”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La copie avec les temps mesurés se trouve sous « Mes plats »."
           }
         }
       }
@@ -1361,6 +1471,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuisiné"
+          }
+        }
+      }
+    },
+    "Gemessene Zeiten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemessene Zeiten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measured times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps mesurés"
+          }
+        }
+      }
+    },
+    "Gemessene Zeiten für %lld Schritte übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemessene Zeiten für %lld Schritte übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take measured times for %lld steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre les temps mesurés pour %lld étapes"
           }
         }
       }
@@ -3411,6 +3565,28 @@
         }
       }
     },
+    "aus %lld Durchgängen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aus %lld Durchgängen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from %lld runs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sur %lld passages"
+          }
+        }
+      }
+    },
     "bis zu %lld Min." : {
       "localizations" : {
         "de" : {
@@ -3583,6 +3759,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer"
           }
         }
       }
