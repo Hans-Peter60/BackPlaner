@@ -41,6 +41,7 @@ struct CookModeView: View {
     @State private var startSeconds: [String: Int] = [:]
     @State private var runSaved = false
     @State private var confirmingEnd = false
+    @AppStorage(CookSettings.clockModeKey) private var clockMode = CookClockMode.challenge
 
     var body: some View {
         NavigationStack {
@@ -291,6 +292,20 @@ struct CookModeView: View {
                 clock(elapsed: elapsedSeconds, remaining: remaining, minute: minute, live: live)
 
                 if startedAt == nil {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Picker("Uhr", selection: $clockMode) {
+                            ForEach(CookClockMode.allCases, id: \.self) { mode in
+                                Text(mode.title).tag(mode)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        Text(clockMode == .challenge
+                             ? "Die Uhr zählt das Zeitbudget rückwärts, wie in der Sendung."
+                             : "Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert.")
+                            .font(Theme.bodyFont(13))
+                            .foregroundColor(Theme.subtitle)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                     Button {
                         startedAt = .now
                         Task {
@@ -400,11 +415,32 @@ struct CookModeView: View {
                     .font(Theme.bodyFont(14).weight(.semibold))
                     .foregroundColor(Theme.warning)
             }
-            // The stopwatch: it counts up from the start, pauses not counted.
-            Text(verbatim: KitchenCookRun.clockText(elapsed))
-                .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
-                .foregroundColor(Theme.title)
-            if remaining > 0 {
+            if clockMode == .challenge {
+                // The countdown: the time budget (or the plan, without one)
+                // running out, and on into the minus.
+                let target = (plan.schedule.budget ?? live.makespan) * 60
+                let left = target - elapsed
+                Text(verbatim: left >= 0 ? KitchenCookRun.clockText(left) : "−" + KitchenCookRun.clockText(-left))
+                    .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
+                    .foregroundColor(left < 0 ? Theme.danger : left <= 60 ? Theme.warning : Theme.title)
+                if left >= 0 {
+                    Text("Budget \(target / 60) Min. · Plan fertig in Minute \(live.makespan)")
+                        .font(Theme.bodyFont(14))
+                        .foregroundColor(Theme.subtitle)
+                } else {
+                    Text("Zeit um – \(KitchenCookRun.clockText(-left)) drüber")
+                        .font(Theme.bodyFont(14).weight(.semibold))
+                        .foregroundColor(Theme.danger)
+                }
+            } else {
+                // The stopwatch: it counts up from the start, pauses not counted.
+                Text(verbatim: KitchenCookRun.clockText(elapsed))
+                    .font(.system(size: 56, weight: .bold, design: .rounded).monospacedDigit())
+                    .foregroundColor(Theme.title)
+            }
+            if clockMode == .challenge {
+                EmptyView()
+            } else if remaining > 0 {
                 Text("Plan \(live.makespan) Min. · noch \(KitchenCookRun.clockText(remaining))")
                     .font(Theme.bodyFont(14))
                     .foregroundColor(Theme.subtitle)

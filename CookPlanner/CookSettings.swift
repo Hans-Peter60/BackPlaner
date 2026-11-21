@@ -19,6 +19,8 @@ enum CookSettings {
     /// Whether pots and ovens ring an alarm when their time is up.
     static let alarmsKey = "settings.alarms"
     static let defaultAlarms = true
+    /// How the cook mode's clock runs, chosen before the start.
+    static let clockModeKey = "settings.clockMode"
 
     /// The portion factor chosen for a dish, 1 when none was chosen.
     static func portionFactor(for dishID: String) -> Double {
@@ -90,5 +92,20 @@ extension KitchenTask {
         KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: unattendedMinutes,
                     station: station, after: after, maxWait: maxWait, window: unattendedWindow,
                     ovenTemperature: ovenTemperature, ingredientIDs: ids)
+    }
+}
+
+/// "Challenge": the clock counts the time budget down, like on the show,
+/// and on into the minus. "Training": a stopwatch from 0:00, to learn how
+/// long the dish really takes. Both keep the record of the steps.
+enum CookClockMode: String, CaseIterable {
+    case challenge
+    case training
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .challenge: return "Challenge"
+        case .training: return "Training"
+        }
     }
 }
