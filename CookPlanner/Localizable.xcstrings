@@ -288,6 +288,28 @@
         }
       }
     },
+    "%lld Sterne" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Sterne"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stars"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étoiles"
+          }
+        }
+      }
+    },
     "%lld Zutaten" : {
       "localizations" : {
         "de" : {
@@ -328,6 +350,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld étapes sur %lld"
+          }
+        }
+      }
+    },
+    "%lld von 5 Sternen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld von 5 Sternen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld of 5 stars"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étoiles sur 5"
           }
         }
       }
@@ -592,6 +636,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyser un autre texte"
+          }
+        }
+      }
+    },
+    "Anderes Foto" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anderes Foto"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autre photo"
           }
         }
       }
@@ -1498,6 +1564,28 @@
         }
       }
     },
+    "Entfernen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        }
+      }
+    },
     "Erledigt" : {
       "localizations" : {
         "de" : {
@@ -1626,6 +1714,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé, dressez !"
+          }
+        }
+      }
+    },
+    "Foto aufnehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto aufnehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prendre une photo"
+          }
+        }
+      }
+    },
+    "Foto vergrößern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto vergrößern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enlarge photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrandir la photo"
+          }
+        }
+      }
+    },
+    "Foto wählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto wählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose photo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une photo"
           }
         }
       }
@@ -2862,6 +3016,28 @@
         }
       }
     },
+    "Noch nichts gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nichts gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing cooked yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien cuisiné pour l’instant"
+          }
+        }
+      }
+    },
     "Noch nichts zu kaufen: Das Gericht hat keine Zutaten." : {
       "localizations" : {
         "de" : {
@@ -2880,6 +3056,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rien à acheter pour l’instant : le plat n’a pas d’ingrédients."
+          }
+        }
+      }
+    },
+    "Notiz, z. B. „beim nächsten Mal weniger Salz“" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notiz, z. B. „beim nächsten Mal weniger Salz“"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note, e.g. “less salt next time”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note, p. ex. « moins de sel la prochaine fois »"
           }
         }
       }
@@ -3188,6 +3386,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relevé"
+          }
+        }
+      }
+    },
+    "Protokoll gelöscht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoll gelöscht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record deleted"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relevé supprimé"
           }
         }
       }
@@ -3849,6 +4069,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quand une casserole ou le four a fini son temps, une alarme sonne, même si l’iPhone est en silencieux ou en mode Concentration. Sans alarme, vous recevez une notification."
+          }
+        }
+      }
+    },
+    "Wer im Kochmodus die Uhr startet und am Ende das Protokoll sichert, findet das Gericht hier – mit Sternen, Notiz und Foto." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wer im Kochmodus die Uhr startet und am Ende das Protokoll sichert, findet das Gericht hier – mit Sternen, Notiz und Foto."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start the clock in cook mode and keep the record at the end, and the dish appears here, with stars, a note and a photo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancez l’horloge en mode cuisine et enregistrez le relevé à la fin : le plat apparaît ici, avec étoiles, note et photo."
+          }
+        }
+      }
+    },
+    "Wie war’s?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie war’s?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How was it?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était comment ?"
           }
         }
       }

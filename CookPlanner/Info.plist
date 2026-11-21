@@ -7,7 +7,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>CookPlanner fotografiert Rezeptseiten, um ihren Text zu erkennen.</string>
+	<string>CookPlanner fotografiert Rezeptseiten, um ihren Text zu erkennen, und auf Wunsch Deine fertigen Gerichte.</string>
 	<key>NSAlarmKitUsageDescription</key>
 	<string>CookPlanner stellt auf Wunsch Wecker für Töpfe und Ofen, die auch bei stummgeschaltetem iPhone klingeln.</string>
 	<key>UTExportedTypeDeclarations</key>

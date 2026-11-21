@@ -3,12 +3,14 @@
 //  CookPlanner
 //
 //  The stopwatch records of the cooked dishes, newest first, in one JSON
-//  file in Application Support next to the dish database.
+//  file in Application Support next to the dish database; the photos of
+//  the results beside it in a folder "Photos", one JPEG per record.
 //
 
 import BakePlannerCore
 import Foundation
 import Observation
+import UIKit
 
 @Observable @MainActor
 final class CookRunLog {
@@ -17,11 +19,15 @@ final class CookRunLog {
 
     private(set) var runs: [KitchenCookRun] = []
     private let fileURL: URL
+    private let photoFolder: URL
+    /// Small pictures for the lists, made once per photo.
+    @ObservationIgnored private var thumbnails: [String: UIImage] = [:]
 
     private init() {
         let folder = URL.applicationSupportDirectory.appendingPathComponent("CookPlanner", isDirectory: true)
         try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         fileURL = folder.appendingPathComponent("cook-runs.json")
+        photoFolder = folder.appendingPathComponent("Photos", isDirectory: true)
         load()
     }
 
@@ -34,9 +40,77 @@ final class CookRunLog {
         save()
     }
 
+    func run(id: String) -> KitchenCookRun? {
+        runs.first { $0.id == id }
+    }
+
+    /// Keeps a changed record: the rating, the note, the photo.
+    func update(_ run: KitchenCookRun) {
+        guard let index = runs.firstIndex(where: { $0.id == run.id }) else { return }
+        runs[index] = run
+        save()
+    }
+
     func delete(id: String) {
+        if let name = run(id: id)?.photoFileName { removePhotoFile(name) }
         runs.removeAll { $0.id == id }
         save()
+    }
+
+    // MARK: Photos
+
+    /// Keeps `image` as the record's photo, at most 1600 points on its
+    /// longer side, replacing an earlier one.
+    func setPhoto(_ image: UIImage, for runID: String) {
+        guard var run = run(id: runID) else { return }
+        let longer = max(image.size.width, image.size.height)
+        let scale = longer > 1600 ? 1600 / longer : 1
+        let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let resized = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            image.draw(in: CGRect(origin: .zero, size: size))
+        }
+        guard let data = resized.jpegData(compressionQuality: 0.8) else { return }
+        do {
+            try FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+            let name = runID + "-" + UUID().uuidString.prefix(8) + ".jpg"
+            try data.write(to: photoFolder.appendingPathComponent(name), options: .atomic)
+            if let old = run.photoFileName { removePhotoFile(old) }
+            run.photoFileName = name
+            update(run)
+        } catch {
+            return
+        }
+    }
+
+    func removePhoto(of runID: String) {
+        guard var run = run(id: runID), let name = run.photoFileName else { return }
+        removePhotoFile(name)
+        run.photoFileName = nil
+        update(run)
+    }
+
+    func photo(of run: KitchenCookRun) -> UIImage? {
+        guard let name = run.photoFileName else { return nil }
+        return UIImage(contentsOfFile: photoFolder.appendingPathComponent(name).path)
+    }
+
+    func thumbnail(of run: KitchenCookRun) -> UIImage? {
+        guard let name = run.photoFileName else { return nil }
+        if let cached = thumbnails[name] { return cached }
+        // The shorter side at 160 points, so a square crop of it stays sharp.
+        guard let photo = photo(of: run), min(photo.size.width, photo.size.height) > 0 else { return nil }
+        let scale = 160 / min(photo.size.width, photo.size.height)
+        let thumbnail = photo.preparingThumbnail(of: CGSize(width: photo.size.width * scale,
+                                                            height: photo.size.height * scale))
+        thumbnails[name] = thumbnail
+        return thumbnail
+    }
+
+    private func removePhotoFile(_ name: String) {
+        thumbnails[name] = nil
+        try? FileManager.default.removeItem(at: photoFolder.appendingPathComponent(name))
     }
 
     private func load() {

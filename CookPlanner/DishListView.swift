@@ -18,6 +18,7 @@ struct DishListView: View {
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var showsSettings = false
+    @State private var showsHistory = false
     /// The dish being edited in the sheet: a new one, a copy of an
     /// example, or one of the cook's own.
     @State private var editing: KitchenDish?
@@ -123,6 +124,14 @@ struct DishListView: View {
                     }
                     .accessibilityLabel("Hinzufügen")
                 }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showsHistory = true
+                    } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                    }
+                    .accessibilityLabel("Gekocht")
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showsSettings = true
@@ -131,6 +140,9 @@ struct DishListView: View {
                     }
                     .accessibilityLabel("Einstellungen")
                 }
+            }
+            .sheet(isPresented: $showsHistory) {
+                CookHistoryView()
             }
             .sheet(isPresented: $showsSettings) {
                 KitchenSettingsView()

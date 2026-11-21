@@ -60,6 +60,13 @@ public struct KitchenCookRun: Identifiable, Codable, Equatable, Sendable {
     /// How many steps the dish has; fewer done means cooking was ended
     /// early. Nil in records from before it was kept.
     public var totalSteps: Int?
+    /// The cook's verdict afterwards, 1 to 5 stars; nil when not given.
+    /// This and the two below came later; older records have none.
+    public var rating: Int?
+    /// A note on the result: "zu salzig", "Gäste begeistert".
+    public var note: String?
+    /// The photo of the result, a file name in the app's photo folder.
+    public var photoFileName: String?
 
     public init(id: String = UUID().uuidString, dishID: String, dishName: String, startedAt: Date,
                 totalSeconds: Int, plannedMinutes: Int, steps: [Step], totalSteps: Int? = nil) {
@@ -71,6 +78,11 @@ public struct KitchenCookRun: Identifiable, Codable, Equatable, Sendable {
         self.totalSeconds = max(0, totalSeconds)
         self.plannedMinutes = max(0, plannedMinutes)
         self.steps = steps.sorted { ($0.doneSecond, $0.taskID) < ($1.doneSecond, $1.taskID) }
+    }
+
+    /// Whether the cook added anything after cooking.
+    public var hasImpression: Bool {
+        rating != nil || !(note ?? "").isEmpty || photoFileName != nil
     }
 
     /// Whether every step of the dish was done.
