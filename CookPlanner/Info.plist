@@ -6,6 +6,8 @@
 	     so TestFlight does not ask for every build. -->
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>CookPlanner stellt auf Wunsch Wecker für Töpfe und Ofen, die auch bei stummgeschaltetem iPhone klingeln.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

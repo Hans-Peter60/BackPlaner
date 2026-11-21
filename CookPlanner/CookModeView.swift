@@ -54,6 +54,7 @@ struct CookModeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onDisappear {
                 CookReminders.shared.cancelAll()
+                CookAlarms.shared.cancelAll()
                 CookActivityManager.shared.endAll()
             }
             .toolbar {
@@ -90,6 +91,7 @@ struct CookModeView: View {
                             Button {
                                 pausedAt = .now
                                 CookReminders.shared.cancelAll()
+                                CookAlarms.shared.cancelAll()
                                 remindersSignature = ""
                                 syncActivity(minute: elapsedSeconds(at: .now) / 60)
                             } label: {
@@ -174,8 +176,13 @@ struct CookModeView: View {
             + "|" + finished.keys.sorted().joined(separator: ",") + "|\(Int(pausedSeconds))"
         guard signature != remindersSignature else { return }
         remindersSignature = signature
+        let clockStart = startedAt.addingTimeInterval(pausedSeconds)
+        CookAlarms.shared.sync(schedule: schedule, finished: Set(finished.keys), minute: minute,
+                               clockStart: clockStart, dishName: plan.dish.name)
         CookReminders.shared.sync(schedule: schedule, finished: Set(finished.keys), minute: minute,
-                                  clockStart: startedAt.addingTimeInterval(pausedSeconds), dishName: plan.dish.name)
+                                  clockStart: clockStart, dishName: plan.dish.name,
+                                  ringing: CookAlarms.shared.alarmTasks(in: schedule, finished: Set(finished.keys),
+                                                                       minute: minute))
     }
 
     /// Takes the last tick back: the step is in the cook's hands again — or
@@ -221,6 +228,7 @@ struct CookModeView: View {
 
     private func end(keepingRecord: Bool) {
         CookReminders.shared.cancelAll()
+        CookAlarms.shared.cancelAll()
         CookActivityManager.shared.endAll()
         if keepingRecord { saveRun() } else { runSaved = true }
         dismiss()
@@ -287,6 +295,7 @@ struct CookModeView: View {
                         startedAt = .now
                         Task {
                             _ = await CookReminders.shared.requestAuthorization()
+                            _ = await CookAlarms.shared.requestAuthorization()
                             syncReminders(minute: 0)
                             syncActivity(minute: 0)
                         }

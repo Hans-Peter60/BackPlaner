@@ -37,7 +37,9 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
     /// Replaces the pending reminders by those of `schedule` from `minute`
     /// on. `clockStart` is the wall-clock date of the plan's minute 0, the
     /// start plus the pauses so far.
-    func sync(schedule: KitchenSchedule, finished: Set<String>, minute: Int, clockStart: Date, dishName: String) {
+    /// Steps in `ringing` have an alarm for their end and get no reminder for it.
+    func sync(schedule: KitchenSchedule, finished: Set<String>, minute: Int, clockStart: Date, dishName: String,
+              ringing: Set<String> = []) {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         // Reminders of an earlier run have no business in the notification centre.
@@ -52,7 +54,7 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
                 add(id: Self.prefix + "start." + task.id, title: task.name, body: body, thread: dishName,
                     at: clockStart.addingTimeInterval(TimeInterval(placement.start * 60)), center: center)
             }
-            if task.unattendedMinutes > 0 && placement.end > minute {
+            if task.unattendedMinutes > 0 && placement.end > minute && !ringing.contains(placement.id) {
                 let body = component.isEmpty
                     ? String(localized: "Die Zeit ist um")
                     : String(localized: "\(component) · die Zeit ist um")

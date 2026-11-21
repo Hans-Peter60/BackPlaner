@@ -89,6 +89,29 @@
         }
       }
     },
+    "%@: %@ · die Zeit ist um" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ · die Zeit ist um"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %@ · time is up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %@ · le temps est écoulé"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "%@: %lld statt %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -1009,6 +1032,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le temps est écoulé"
+          }
+        }
+      }
+    },
+    "Die Zeiten bleiben gleich" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zeiten bleiben gleich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The times stay the same"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les temps restent les mêmes"
           }
         }
       }
@@ -2289,6 +2334,28 @@
         }
       }
     },
+    "Menge ×%@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menge ×%@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount ×%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité ×%@"
+          }
+        }
+      }
+    },
     "Mindestens %lld Min." : {
       "localizations" : {
         "de" : {
@@ -2861,6 +2928,28 @@
         }
       }
     },
+    "Rezept für %lld Personen · die Zeiten bleiben gleich" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rezept für %lld Personen · die Zeiten bleiben gleich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe for %lld people · the times stay the same"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette pour %lld personnes · les temps restent les mêmes"
+          }
+        }
+      }
+    },
     "Rezepttext" : {
       "localizations" : {
         "de" : {
@@ -3125,6 +3214,29 @@
         }
       }
     },
+    "Stopp" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopp"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter"
+          }
+        }
+      },
+      "extractionState" : "manual"
+    },
     "Teilen" : {
       "localizations" : {
         "de" : {
@@ -3279,6 +3391,28 @@
         }
       }
     },
+    "Wecker für Topf und Ofen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wecker für Topf und Ofen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alarms for pots and oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alarmes pour casseroles et four"
+          }
+        }
+      }
+    },
     "Weiter" : {
       "localizations" : {
         "de" : {
@@ -3319,6 +3453,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "Wenn ein Topf oder der Ofen die Zeit erreicht hat, klingelt ein Wecker – auch wenn das iPhone stumm ist oder ein Fokus läuft. Ohne Wecker gibt es eine Mitteilung." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ein Topf oder der Ofen die Zeit erreicht hat, klingelt ein Wecker – auch wenn das iPhone stumm ist oder ein Fokus läuft. Ohne Wecker gibt es eine Mitteilung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a pot or the oven has run its time, an alarm rings, even when the iPhone is on silent or a Focus is on. Without alarms you get a notification."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand une casserole ou le four a fini son temps, une alarme sonne, même si l’iPhone est en silencieux ou en mode Concentration. Sans alarme, vous recevez une notification."
           }
         }
       }

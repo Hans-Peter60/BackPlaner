@@ -16,6 +16,23 @@ enum CookSettings {
     static let defaultBudget = KitchenSampleDishes.budget
     static let defaultBurners = 4
     static let defaultOvens = 1
+    /// Whether pots and ovens ring an alarm when their time is up.
+    static let alarmsKey = "settings.alarms"
+    static let defaultAlarms = true
+
+    /// The portion factor chosen for a dish, 1 when none was chosen.
+    static func portionFactor(for dishID: String) -> Double {
+        let factor = UserDefaults.standard.double(forKey: "portions." + dishID)
+        return factor > 0 ? factor : 1
+    }
+
+    static func setPortionFactor(_ factor: Double, for dishID: String) {
+        if factor == 1 {
+            UserDefaults.standard.removeObject(forKey: "portions." + dishID)
+        } else {
+            UserDefaults.standard.set(factor, forKey: "portions." + dishID)
+        }
+    }
 }
 
 /// The plan of a dish for the current settings, with the words the screens
