@@ -25394,6 +25394,38 @@
           }
         }
       }
+    },
+    "Erinnerungen nicht aktualisiert" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders not updated"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappels non mis à jour"
+          }
+        }
+      }
+    },
+    "Der Plan wurde verschoben, aber die Erinnerungen konnten nicht neu gesetzt werden: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan was shifted, but the reminders could not be set anew: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan a été décalé, mais les rappels n’ont pas pu être redéfinis : %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
