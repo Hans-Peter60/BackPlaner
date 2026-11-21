@@ -22,6 +22,7 @@ struct DishListView: View {
     /// example, or one of the cook's own.
     @State private var editing: KitchenDish?
     @State private var importing = false
+    @State private var importingPhotos = false
     @State private var importingWeb = false
     /// A page address handed in by the share extension or a link to the app.
     @State private var webImportAddress: URL?
@@ -108,6 +109,11 @@ struct DishListView: View {
                             Label("Aus Text importieren", systemImage: "text.viewfinder")
                         }
                         Button {
+                            importingPhotos = true
+                        } label: {
+                            Label("Aus Fotos importieren", systemImage: "camera")
+                        }
+                        Button {
                             importingWeb = true
                         } label: {
                             Label("Aus Webseite importieren", systemImage: "globe")
@@ -141,6 +147,16 @@ struct DishListView: View {
                 }
             }) {
                 DishTextImportView { dish in
+                    pendingImport = dish
+                }
+            }
+            .sheet(isPresented: $importingPhotos, onDismiss: {
+                if let pendingImport {
+                    editing = pendingImport
+                    self.pendingImport = nil
+                }
+            }) {
+                DishTextImportView(startsWithPhotos: true) { dish in
                     pendingImport = dish
                 }
             }

@@ -640,6 +640,50 @@
         }
       }
     },
+    "Auf den Fotos wurde kein Text erkannt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf den Fotos wurde kein Text erkannt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No text was recognized in the photos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun texte n’a été reconnu sur les photos."
+          }
+        }
+      }
+    },
+    "Aus Fotos importieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus Fotos importieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis des photos"
+          }
+        }
+      }
+    },
     "Aus Text importieren" : {
       "localizations" : {
         "de" : {
@@ -1322,6 +1366,28 @@
         }
       }
     },
+    "Ein Kochbuch oder ein Zettel: Der Text wird auf dem iPhone erkannt und erscheint im Feld, wo Du ihn prüfen kannst. Die Fotos verlassen das Gerät nicht." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Kochbuch oder ein Zettel: Der Text wird auf dem iPhone erkannt und erscheint im Feld, wo Du ihn prüfen kannst. Die Fotos verlassen das Gerät nicht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A cookbook or a note: the text is recognized on the iPhone and appears in the field, where you can check it. The photos do not leave the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un livre de cuisine ou une fiche : le texte est reconnu sur l’iPhone et apparaît dans le champ, où vous pouvez le vérifier. Les photos ne quittent pas l’appareil."
+          }
+        }
+      }
+    },
     "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
       "localizations" : {
         "de" : {
@@ -1560,6 +1626,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terminé, dressez !"
+          }
+        }
+      }
+    },
+    "Fotos" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
+    "Fotos auswählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir des photos"
           }
         }
       }
@@ -3324,6 +3434,28 @@
         }
       }
     },
+    "Seiten scannen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seiten scannen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan pages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numériser des pages"
+          }
+        }
+      }
+    },
     "Sichern" : {
       "localizations" : {
         "de" : {
@@ -3475,6 +3607,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager"
+          }
+        }
+      }
+    },
+    "Text wird erkannt …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text wird erkannt …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recognizing text …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnaissance du texte …"
           }
         }
       }
