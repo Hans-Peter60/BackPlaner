@@ -57,6 +57,7 @@ VORRAT
 • Die Watch-App holt sich den Plan beim Öffnen vom iPhone, und das iPhone schickt ihn beim Öffnen erneut – ein verpasster Abgleich bleibt nicht mehr hängen.
 • „Erledigt“ und „Verschieben“ auf einer Erinnerung erreichen Widget, Sperrbildschirm und Apple Watch sofort – bisher zeigten sie den Schritt weiter, bis die App geöffnet wurde.
 KLEINERES
+• Verschiebst Du einen Schritt, dessen Plan noch unerledigte Schritte in der Vergangenheit hat, fragt die App vorher: Sollen diese als erledigt gelten, oder soll nichts verschoben werden? So bleibt kein überfälliger Schritt stehen, während der Rest des Plans weiterwandert.
 • Vorbereitung für BakePlanner Pro: Vorrat, Backtag planen, eigene Sammlungen mit „Fertig bis“, Backstatistik und Rezept nach Bäckerprozent gehören zum Pro-Umfang. Wer die App vor Pro installiert hat, behält, was sie an diesem Tag konnte. Solange Pro nicht eingeschaltet ist, bleibt alles frei.
 • Einstellungen, gesicherte Sammlungen und eigene Einheiten wandern über iCloud auf alle Deine Geräte; Sprache und Listenfilter bleiben je Gerät.
 • „Frischhefe“ und „Hefe“, „Eier“ und „Ei“, „Walnusskerne“ und „Walnüsse“, „Weizenmehl Type 550“ und „Weizenmehl 550“, „Weizenmehl Vollkorn“ und „Weizenvollkornmehl“ gelten auf der Einkaufsliste und im Vorrat als dasselbe, Zusätze wie „gehackt“ oder „zart“ zählen nicht; der Vorrat zeigt Mengen ab 1000 g in Kilogramm.
@@ -133,6 +134,7 @@ PANTRY
 • The Watch app fetches the plan from the iPhone when it opens, and the iPhone sends it again when it opens – a missed sync no longer sticks.
 • “Done” and “Postpone” on a reminder reach the widget, the Lock Screen and the Apple Watch at once – they used to keep showing the step until the app was opened.
 SMALLER THINGS
+• When you shift a step whose plan still has unfinished steps in the past, the app asks first: should those count as done, or should nothing move? No overdue step is left behind while the rest of the plan moves on.
 • The timeline can do what the list can: the same bar at the bottom with bake mode, delete, baking day sheet and calendar; a long press on a lane offers these for that one plan. A tap on a step shows its component’s ingredients in the detail as well, a long press shows them in the preview and offers “Show ingredients”.
 • The settings hold settings only. “Import recipes” (formerly “Restore from backup”) now sits in the recipe list’s “More” menu next to “Export recipes” – as on Android. The full backup has its “Backup” section in the settings again: “Create full backup” and “Restore backup” – on iPhone and Android. It stays free.
 • The backup file from exporting recipes stays under 5 MB: should it grow larger with the pictures, the app shrinks the recipe pictures and baking-history photos as it writes – only as far as needed. With many recipes, files of 47 MB used to come out.
@@ -204,6 +206,7 @@ RÉSERVE
 • L’app Watch récupère le plan sur l’iPhone à l’ouverture, et l’iPhone le renvoie à l’ouverture – une synchronisation manquée ne reste plus bloquée.
 • « Terminé » et « Reporter » sur un rappel atteignent immédiatement le widget, l’écran verrouillé et l’Apple Watch – jusqu’ici ils continuaient d’afficher l’étape jusqu’à l’ouverture de l’app.
 PLUS PETIT
+• Lorsque vous décalez une étape dont le plan contient encore des étapes passées non terminées, l’app demande d’abord : doivent-elles compter comme terminées, ou ne rien décaler ? Aucune étape en retard ne reste ainsi derrière pendant que le reste du plan avance.
 • La timeline sait faire ce que sait la liste : la même barre en bas avec mode cuisson, suppression, feuille de la journée et calendrier ; un appui long sur une voie le propose pour ce seul plan. Un toucher sur une étape affiche aussi les ingrédients de son composant dans le détail, un appui long les montre dans l’aperçu et propose « Afficher les ingrédients ».
 • Les réglages ne contiennent plus que des réglages. « Importer des recettes » (auparavant « Restaurer depuis une sauvegarde ») se trouve désormais dans le menu « Plus » de la liste des recettes, à côté de « Exporter des recettes » – comme sur Android. La sauvegarde complète retrouve sa section « Sauvegarde » dans les réglages : « Créer une sauvegarde complète » et « Restaurer une sauvegarde » – sur iPhone et Android. Elle reste gratuite.
 • Le fichier de sauvegarde de l’export des recettes reste sous 5 Mo : s’il devait grossir avec les images, l’app réduit les images des recettes et les photos de l’historique de cuisson en l’écrivant – seulement autant que nécessaire. Avec beaucoup de recettes, on obtenait jusque-là des fichiers de 47 Mo.

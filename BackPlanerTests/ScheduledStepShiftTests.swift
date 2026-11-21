@@ -141,4 +141,27 @@ struct ScheduledStepShiftTests {
                                 date: date, languageCode: "de", preheatTime: 15, calendar: calendar)
         #expect(generous.endStep.startTime == 90)
     }
+
+    @Test("Overdue earlier steps of the plan: before the shifted step, already due, same plan only")
+    func overdueEarlierSteps() throws {
+        let context = PersistenceController(inMemory: true).container.viewContext
+        let now = minute(0)
+        let first = step(1, at: minute(-60), plan: planID, in: context)      // overdue
+        let second = step(2, at: minute(-10), plan: planID, in: context)     // overdue
+        let shifted = step(3, at: minute(10), plan: planID, in: context)     // the one being shifted
+        step(4, at: minute(30), plan: planID, in: context)                   // later, not overdue
+        step(1, at: minute(-60), recipe: "Kuchen", plan: planID, in: context) // another recipe
+        step(1, at: minute(-60), plan: UUID(), in: context)                  // another plan of the recipe
+        try context.save()
+
+        let all = try context.fetch(NextStep.fetchRequest())
+        let overdue = PlannedStepShift.overdueEarlierSteps(of: shifted, among: all, now: now)
+        #expect(overdue.map(\.step) == [1, 2])
+        #expect(overdue.first === first && overdue.last === second)
+
+        // Shifting the first step itself: nothing lies before it.
+        #expect(PlannedStepShift.overdueEarlierSteps(of: first, among: all, now: now).isEmpty)
+        // Before anything is due, nothing is overdue.
+        #expect(PlannedStepShift.overdueEarlierSteps(of: shifted, among: all, now: minute(-120)).isEmpty)
+    }
 }

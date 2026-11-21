@@ -637,6 +637,7 @@ Die App erkennt einen solchen Mischschritt daran, dass der Name einer Rezeptkomp
 1. Minuten eingeben (maximal 1440, also 24 Stunden).
 2. Richtung wählen: **Früher** oder **Später**.
 3. **Betroffene Schritte** wählen: **Nur dieser Schritt** oder **Alle nachfolgenden** (alle späteren Schritte desselben Plans wandern um denselben Betrag mit, auch „Backvorgang ist beendet“ und Schritte, die zur selben Minute beginnen, aber in der Reihenfolge dahinter stehen). Ein Hinweis unter der Auswahl sagt, was sie bewirkt.
+   Liegen frühere Schritte desselben Plans schon in der Vergangenheit und sind nicht erledigt, fragt die App vor dem Verschieben: **Als erledigt markieren und verschieben** nimmt sie aus dem Plan und verschiebt dann; **Abbrechen** lässt alles, wie es ist.
 4. **Übernehmen**.
 
 Die zugehörigen Erinnerungen werden automatisch mitverschoben. Liegt der neue Zeitpunkt in der Vergangenheit, lehnt die App das mit „Verschieben nicht möglich“ ab.
