@@ -452,7 +452,8 @@ struct InstructionsFBView: View {
     /// The recipe's fermentation steps; none for a starter.
     private var proofSteps: [ProofTiming.Step] {
         guard !StarterRecipe.isStarterFeeding(recipeFB) else { return [] }
-        return ProofTiming.steps(instructions: recipeFB.instructions.map(\.instruction), durations: baseDurations)
+        return ProofTiming.steps(instructions: recipeFB.instructions.map(\.instruction), durations: baseDurations,
+                                 stepNumbers: recipeFB.instructions.map(\.step))
     }
 
     /// A public recipe has no bakes to learn from: its durations, scaled.

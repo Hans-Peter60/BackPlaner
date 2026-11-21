@@ -102,11 +102,19 @@ public enum ProofTiming {
 
     /// The fermentation steps among `instructions` with their `durations`,
     /// in recipe order. Steps without a duration, in the fridge, soaking,
-    /// or after the bake are left out.
-    public static func steps(instructions: [String], durations: [Int]) -> [Step] {
+    /// or after the bake are left out. With `stepNumbers`, a sub-step
+    /// (3.1, 3.2 — a fold during step 3, whose duration is the rest of
+    /// the parent's time) is left out too: the parent carries the proof,
+    /// and counting the folds as well made a 10-hour bulk proof read as
+    /// 19½ hours and turned the last fold into the final proof.
+    public static func steps(instructions: [String], durations: [Int], stepNumbers: [Double]? = nil) -> [Step] {
         let count = min(instructions.count, durations.count)
         guard count > 0 else { return [] }
         let texts = (0..<count).map { fold(instructions[$0]) }
+        func isSubStep(_ i: Int) -> Bool {
+            guard let stepNumbers, i < stepNumbers.count else { return false }
+            return stepNumbers[i] != stepNumbers[i].rounded(.towardZero)
+        }
 
         // Nothing after the dough went into the oven ferments.
         let bakeIndex = (0..<count).first { BakePlanValidator.isBakingStartInstruction(instructions[$0]) }
@@ -119,7 +127,7 @@ public enum ProofTiming {
         for i in before {
             let text = texts[i]
             if shapeIndex == nil, matches(shapePatterns, text) { shapeIndex = i }
-            guard durations[i] > 0 else { continue }
+            guard durations[i] > 0, !isSubStep(i) else { continue }
             if matches(coldPatterns, text) || matches(soakerPatterns, text) { continue }
             if matches(finalPatterns, text) { roles[i] = .final; continue }
             if matches(bulkPatterns, text) { roles[i] = .bulk; continue }

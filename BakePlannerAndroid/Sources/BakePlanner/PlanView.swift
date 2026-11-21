@@ -84,7 +84,8 @@ struct PlanView: View {
     private var proofSteps: [ProofTiming.Step] {
         guard !StarterRecipe.isStarterFeeding(workingRecipe.content) else { return [] }
         return ProofTiming.steps(instructions: workingRecipe.content.instructions.map { $0.instruction },
-                                 durations: baselineDurations)
+                                 durations: baselineDurations,
+                                 stepNumbers: workingRecipe.content.instructions.map { $0.step })
     }
 
     /// A phase's temperature as set, else as worked out by default.
