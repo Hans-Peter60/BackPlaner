@@ -904,6 +904,28 @@
         }
       }
     },
+    "Budget %lld Min. · Plan fertig in Minute %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget %lld Min. · Plan fertig in Minute %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget %lld min · plan done at minute %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps imparti %lld min · plan terminé à la minute %lld"
+          }
+        }
+      }
+    },
     "Budget %lld Minuten, Plan %lld" : {
       "localizations" : {
         "de" : {
@@ -922,6 +944,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temps imparti %lld minutes, plan %lld"
+          }
+        }
+      }
+    },
+    "Challenge" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Challenge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Challenge"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Défi"
           }
         }
       }
@@ -1252,6 +1296,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La sauvegarde est un fichier avec tous vos plats, par exemple pour iCloud Drive. L’import laisse inchangés les plats déjà présents. Les relevés de cuisson ne sont pas inclus."
+          }
+        }
+      }
+    },
+    "Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock runs from 0:00, so you learn how long the dish really takes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’horloge part de 0:00 : vous apprenez combien de temps le plat prend vraiment."
+          }
+        }
+      }
+    },
+    "Die Uhr zählt das Zeitbudget rückwärts, wie in der Sendung." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Uhr zählt das Zeitbudget rückwärts, wie in der Sendung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock counts the time budget down, like on the show."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’horloge décompte le temps imparti, comme à l’émission."
           }
         }
       }
@@ -3853,6 +3941,50 @@
         }
       }
     },
+    "Training" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entraînement"
+          }
+        }
+      }
+    },
+    "Uhr" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uhr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horloge"
+          }
+        }
+      }
+    },
     "Unterschied" : {
       "localizations" : {
         "de" : {
@@ -4135,6 +4267,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyse en cours…"
+          }
+        }
+      }
+    },
+    "Zeit um – %@ drüber" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeit um – %@ drüber"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time’s up – %@ over"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps écoulé – %@ de plus"
           }
         }
       }
