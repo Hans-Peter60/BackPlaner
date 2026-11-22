@@ -19,6 +19,15 @@ struct DishListView: View {
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var showsSettings = false
     @State private var showsHistory = false
+    /// The search and the facets, as in BakePlanner's recipe list.
+    @State private var searchText = ""
+    @State private var filter = KitchenDishFilter()
+    @State private var savedCollections = SavedDishCollectionStore()
+    @State private var runLog = CookRunLog.shared
+    /// "Sammlung sichern" and "Umbenennen" ask for a name.
+    @State private var namingCollection = false
+    @State private var renaming: SavedKitchenDishCollection?
+    @State private var collectionName = ""
     /// The dish being edited in the sheet: a new one, a copy of an
     /// example, or one of the cook's own.
     @State private var editing: KitchenDish?
@@ -39,6 +48,23 @@ struct DishListView: View {
         DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
     }
 
+    private var isFiltering: Bool {
+        filter.isActive || !searchText.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
+    /// Whether the dish passes the search and the facets; the facets are
+    /// read from its plan with the current kitchen.
+    private func passes(_ dish: KitchenDish) -> Bool {
+        guard KitchenDishFilter.matches(dish, searchText: searchText) else { return false }
+        guard filter.isActive else { return true }
+        guard let plan = plan(for: dish) else { return false }
+        return filter.matches(KitchenDishFacets(dish: dish, schedule: plan.schedule),
+                              history: KitchenDishFilter.History(dishID: dish.id, runs: runLog.runs))
+    }
+
+    private var shownOwnDishes: [KitchenDish] { library.dishes.filter(passes) }
+    private var shownExamples: [KitchenDish] { KitchenSampleDishes.all.filter(passes) }
+
     var body: some View {
         NavigationStack {
             List {
@@ -48,10 +74,20 @@ struct DishListView: View {
                         .foregroundColor(Theme.subtitle)
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                    collectionChips
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                 }
-                if !library.dishes.isEmpty {
+                if isFiltering && shownOwnDishes.isEmpty && shownExamples.isEmpty {
+                    ContentUnavailableView("Keine passenden Gerichte", systemImage: "line.3.horizontal.decrease.circle",
+                                           description: Text("Passe die Suche oder die Filter an."))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                }
+                if !shownOwnDishes.isEmpty {
                     Section {
-                        ForEach(library.dishes) { dish in
+                        ForEach(shownOwnDishes) { dish in
                             row(dish)
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
@@ -77,8 +113,9 @@ struct DishListView: View {
                         sectionTitle("Meine Gerichte")
                     }
                 }
+                if !shownExamples.isEmpty {
                 Section {
-                    ForEach(KitchenSampleDishes.all) { dish in
+                    ForEach(shownExamples) { dish in
                         row(dish)
                             .contextMenu {
                                 Button {
@@ -91,7 +128,9 @@ struct DishListView: View {
                 } header: {
                     sectionTitle("Beispiele")
                 }
+                }
             }
+            .searchable(text: $searchText, prompt: Text("Gericht, Komponente oder Zutat"))
             .listStyle(.plain)
             .clearScrollBackground()
             .warmBackground()
@@ -131,6 +170,15 @@ struct DishListView: View {
                         Image(systemName: "clock.arrow.circlepath")
                     }
                     .accessibilityLabel("Gekocht")
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Menu {
+                        filterMenu
+                    } label: {
+                        Image(systemName: filter.isActive ? "line.3.horizontal.decrease.circle.fill"
+                                                          : "line.3.horizontal.decrease.circle")
+                    }
+                    .accessibilityLabel("Filter")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -210,6 +258,21 @@ struct DishListView: View {
             } message: {
                 Text(fileImportReport ?? "")
             }
+            .alert("Sammlung sichern", isPresented: $namingCollection) {
+                TextField("Name", text: $collectionName)
+                Button("Sichern") { savedCollections.add(name: collectionName, filter: filter) }
+                Button("Abbrechen", role: .cancel) { }
+            } message: {
+                Text("Die gewählten Filter erscheinen als eigene Sammlung in der Leiste.")
+            }
+            .alert("Sammlung umbenennen", isPresented: Binding(get: { renaming != nil },
+                                                                set: { if !$0 { renaming = nil } })) {
+                TextField("Name", text: $collectionName)
+                Button("Umbenennen") {
+                    if let renaming { savedCollections.rename(renaming.id, to: collectionName) }
+                }
+                Button("Abbrechen", role: .cancel) { }
+            }
             .alert("Speichern fehlgeschlagen",
                    isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {
                 Button("OK", role: .cancel) { }
@@ -217,6 +280,106 @@ struct DishListView: View {
                 Text(library.lastError ?? "")
             }
         }
+    }
+
+    // MARK: Selection
+
+    /// The ready-made collections, then the saved ones; a tap sets the
+    /// filter, a second tap clears it.
+    private var collectionChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(KitchenDishCollection.allCases) { collection in
+                    let isOn = filter == collection.filter
+                    Button {
+                        filter = isOn ? KitchenDishFilter() : collection.filter
+                    } label: {
+                        chipLabel(Text(collection.title), systemImage: collection.systemImage, isOn: isOn)
+                    }
+                    .buttonStyle(.plain)
+                }
+                ForEach(savedCollections.collections) { collection in
+                    let isOn = filter == collection.filter
+                    Button {
+                        filter = isOn ? KitchenDishFilter() : collection.filter
+                    } label: {
+                        chipLabel(Text(verbatim: collection.name), systemImage: "bookmark", isOn: isOn)
+                    }
+                    .buttonStyle(.plain)
+                    .contextMenu {
+                        Button("Umbenennen", systemImage: "pencil") {
+                            collectionName = collection.name
+                            renaming = collection
+                        }
+                        Button("Sammlung löschen", systemImage: "trash", role: .destructive) {
+                            if filter == collection.filter { filter = KitchenDishFilter() }
+                            savedCollections.remove(collection.id)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
+        }
+    }
+
+    private func chipLabel(_ title: Text, systemImage: String, isOn: Bool) -> some View {
+        Label { title } icon: { Image(systemName: systemImage) }
+            .font(Theme.bodyFont(14).weight(isOn ? .semibold : .regular))
+            .foregroundColor(isOn ? .white : Theme.cardTitle)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(isOn ? AnyShapeStyle(Theme.accentBottom) : AnyShapeStyle(Theme.card.opacity(0.8)),
+                        in: Capsule())
+            .overlay(Capsule().stroke(Theme.accentText.opacity(isOn ? 0 : 0.25), lineWidth: 1))
+    }
+
+    /// The facets, one submenu each with "Alle" first, then the switches,
+    /// resetting and saving.
+    @ViewBuilder
+    private var filterMenu: some View {
+        if filter.isActive {
+            Button("Filter zurücksetzen", systemImage: "xmark.circle") { filter = KitchenDishFilter() }
+            if savedCollections.collection(matching: filter) == nil {
+                Button("Sammlung sichern", systemImage: "bookmark") {
+                    collectionName = ""
+                    namingCollection = true
+                }
+            }
+            Divider()
+        }
+        Picker("Dauer", selection: $filter.duration) {
+            Text("Alle").tag(KitchenDishFacets.Duration?.none)
+            Text("Bis 30 Minuten").tag(KitchenDishFacets.Duration?.some(.quick))
+            Text("31 bis 45 Minuten").tag(KitchenDishFacets.Duration?.some(.medium))
+            Text("46 bis 60 Minuten").tag(KitchenDishFacets.Duration?.some(.long))
+            Text("Über eine Stunde").tag(KitchenDishFacets.Duration?.some(.longer))
+        }
+        .pickerStyle(.menu)
+        Picker("Geräte", selection: $filter.equipment) {
+            Text("Alle").tag(KitchenDishFacets.Equipment?.none)
+            Text("Mit Ofen").tag(KitchenDishFacets.Equipment?.some(.oven))
+            Text("Nur Herd").tag(KitchenDishFacets.Equipment?.some(.stoveOnly))
+            Text("Ohne Hitze").tag(KitchenDishFacets.Equipment?.some(.noHeat))
+        }
+        .pickerStyle(.menu)
+        Picker("Herkunft", selection: $filter.origin) {
+            Text("Alle").tag(KitchenDishFacets.Origin?.none)
+            Text("Eigene").tag(KitchenDishFacets.Origin?.some(.own))
+            Text("Importiert").tag(KitchenDishFacets.Origin?.some(.imported))
+            Text("Beispiele").tag(KitchenDishFacets.Origin?.some(.example))
+        }
+        .pickerStyle(.menu)
+        Picker("Verlauf", selection: $filter.history) {
+            Text("Alle").tag(KitchenDishFilter.HistoryChoice?.none)
+            Text("Noch nie gekocht").tag(KitchenDishFilter.HistoryChoice?.some(.never))
+            Text("Lange nicht gekocht").tag(KitchenDishFilter.HistoryChoice?.some(.longAgo))
+            Text("Lieblinge").tag(KitchenDishFilter.HistoryChoice?.some(.favourites))
+        }
+        .pickerStyle(.menu)
+        Divider()
+        Toggle("Passt ins Budget", isOn: $filter.fitsBudgetOnly)
+        Toggle("Wenig Handarbeit", isOn: $filter.lowWorkOnly)
     }
 
     @ViewBuilder
