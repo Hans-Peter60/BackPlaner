@@ -14,6 +14,7 @@ import BakePlannerCore
 import FirebaseAppCheck
 import FirebaseCore
 import SwiftUI
+import UIKit
 import UserNotifications
 
 /// App Attest on devices; in DEBUG builds (Simulator, development) the
@@ -29,8 +30,20 @@ final class CookPlannerAppCheckProviderFactory: NSObject, AppCheckProviderFactor
     }
 }
 
+/// Registers for CloudKit's silent pushes, so changes from the other
+/// devices arrive without waiting for the next launch.
+final class CookPlannerAppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        application.registerForRemoteNotifications()
+        return true
+    }
+}
+
 @main
 struct CookPlannerApp: App {
+    @UIApplicationDelegateAdaptor(CookPlannerAppDelegate.self) private var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
     @State private var library: DishLibrary
 
     init() {
@@ -38,7 +51,9 @@ struct CookPlannerApp: App {
         AppCheck.setAppCheckProviderFactory(CookPlannerAppCheckProviderFactory())
         FirebaseApp.configure()
         UNUserNotificationCenter.current().delegate = CookReminders.shared
-        _library = State(initialValue: DishLibrary.onDisk())
+        let library = DishLibrary.onDisk()
+        _library = State(initialValue: library)
+        CloudSync.shared.start(library: library, runLog: CookRunLog.shared)
     }
 
     var body: some Scene {
@@ -66,6 +81,9 @@ struct CookPlannerApp: App {
             DishListView()
                 .environment(library)
             #endif
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await CloudSync.shared.fetchNow() } }
         }
     }
 }

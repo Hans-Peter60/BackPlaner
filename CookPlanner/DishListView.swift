@@ -461,6 +461,21 @@ struct KitchenSettingsView: View {
     @Environment(DishLibrary.self) private var library
     @State private var choosingFile = false
     @State private var importReport: String?
+    @State private var sync = CloudSync.shared
+
+    private var syncStatusText: String {
+        switch sync.status {
+        case .available:
+            if let last = sync.lastSync {
+                return String(localized: "Abgeglichen \(last.formatted(date: .omitted, time: .shortened))")
+            }
+            return String(localized: "Angemeldet")
+        case .noAccount: return String(localized: "Nicht angemeldet")
+        case .restricted: return String(localized: "Nicht verfügbar")
+        case .failed(let message): return message
+        case .unknown: return String(localized: "Wird geprüft …")
+        }
+    }
 
     private var ownDishes: [KitchenDish] { library.dishes.filter { $0.source != .sample } }
 
@@ -498,6 +513,21 @@ struct KitchenSettingsView: View {
                     Text("Sicherung")
                 } footer: {
                     Text("Die Sicherung ist eine Datei mit allen eigenen Gerichten, z. B. für iCloud Drive. Beim Importieren bleiben Gerichte, die schon da sind, unverändert. Die Kochprotokolle sind nicht enthalten.")
+                }
+                Section {
+                    LabeledContent("iCloud") {
+                        Text(syncStatusText)
+                    }
+                    Button {
+                        Task { await sync.fetchNow() }
+                    } label: {
+                        Label("Jetzt abgleichen", systemImage: "arrow.triangle.2.circlepath")
+                    }
+                    .disabled(sync.status != .available)
+                } header: {
+                    Text("Abgleich")
+                } footer: {
+                    Text("Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab. Die Einstellungen bleiben je Gerät.")
                 }
                 Section {
                     Toggle("Wecker für Topf und Ofen", isOn: $alarms)

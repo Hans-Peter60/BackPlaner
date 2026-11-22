@@ -38,6 +38,7 @@ final class CookRunLog {
     func add(_ run: KitchenCookRun) {
         runs.insert(run, at: 0)
         save()
+        CloudSync.shared.runChanged(run.id)
     }
 
     func run(id: String) -> KitchenCookRun? {
@@ -49,12 +50,50 @@ final class CookRunLog {
         guard let index = runs.firstIndex(where: { $0.id == run.id }) else { return }
         runs[index] = run
         save()
+        CloudSync.shared.runChanged(run.id)
     }
 
     func delete(id: String) {
         if let name = run(id: id)?.photoFileName { removePhotoFile(name) }
         runs.removeAll { $0.id == id }
         save()
+        CloudSync.shared.runDeleted(id)
+    }
+
+    // MARK: From other devices
+
+    /// A record another device added or changed, with its photo file as
+    /// CloudKit handed it over; kept without being sent back.
+    func applyRemote(_ run: KitchenCookRun, photoFile: URL?) {
+        let previous = self.run(id: run.id)
+        if let old = previous?.photoFileName, old != run.photoFileName { removePhotoFile(old) }
+        if let name = run.photoFileName, let photoFile {
+            try? FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+            let target = photoFolder.appendingPathComponent(name)
+            try? FileManager.default.removeItem(at: target)
+            try? FileManager.default.copyItem(at: photoFile, to: target)
+            thumbnails[name] = nil
+        }
+        guard previous != run else { return }
+        runs.removeAll { $0.id == run.id }
+        runs.append(run)
+        runs.sort { $0.startedAt > $1.startedAt }
+        save()
+    }
+
+    /// A record another device deleted.
+    func removeRemote(id: String) {
+        guard let run = run(id: id) else { return }
+        if let name = run.photoFileName { removePhotoFile(name) }
+        runs.removeAll { $0.id == id }
+        save()
+    }
+
+    /// Where the record's photo lies, when there is one.
+    func photoURL(of run: KitchenCookRun) -> URL? {
+        guard let name = run.photoFileName else { return nil }
+        let url = photoFolder.appendingPathComponent(name)
+        return FileManager.default.fileExists(atPath: url.path) ? url : nil
     }
 
     // MARK: Photos

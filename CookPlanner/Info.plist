@@ -6,6 +6,11 @@
 	     so TestFlight does not ask for every build. -->
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<!-- CloudKit's silent pushes bring the other devices' changes. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>CookPlanner fotografiert Rezeptseiten, um ihren Text zu erkennen, und auf Wunsch Deine fertigen Gerichte.</string>
 	<key>NSAlarmKitUsageDescription</key>
