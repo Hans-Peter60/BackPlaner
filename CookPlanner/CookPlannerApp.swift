@@ -61,7 +61,22 @@ struct CookPlannerApp: App {
             #if DEBUG
             // Development builds draw one example's timeline on its own with
             // the launch argument -TimelineSample <index>, for screenshots.
-            if let index = Int(UserDefaults.standard.string(forKey: "TimelineSample") ?? ""),
+            if let layout = UserDefaults.standard.string(forKey: "HistoryDemo").flatMap(CookHistoryLayout.init(rawValue:)) {
+                // -HistoryDemo <layout>: the history with a few entries, for screenshots.
+                CookHistoryView()
+                    .environment(library)
+                    .onAppear {
+                        UserDefaults.standard.set(layout.rawValue, forKey: "history.layout")
+                        guard CookRunLog.shared.runs.isEmpty else { return }
+                        let samples = KitchenSampleDishes.all
+                        for (index, stars) in [5, 4, 3, 5, 4, 2].enumerated() {
+                            let dish = samples[index % samples.count]
+                            CookRunLog.shared.add(.manualEntry(dishID: dish.id, dishName: dish.name,
+                                                               date: .now.addingTimeInterval(-Double(index) * 20 * 86_400),
+                                                               rating: stars, note: index == 0 ? "Gäste begeistert" : nil))
+                        }
+                    }
+            } else if let index = Int(UserDefaults.standard.string(forKey: "TimelineSample") ?? ""),
                KitchenSampleDishes.all.indices.contains(index),
                let plan = DishPlan(dish: KitchenSampleDishes.all[index], budget: CookSettings.defaultBudget,
                                    burners: CookSettings.defaultBurners, ovens: CookSettings.defaultOvens) {

@@ -35,7 +35,8 @@ struct CookRunView: View {
         .onChange(of: photoItem) { _, item in
             guard let item else { return }
             Task {
-                if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                if let data = try? await item.loadTransferable(type: Data.self),
+                   let image = CookRunLog.downsampled(data) {
                     runLog.setPhoto(image, for: runID)
                 }
                 photoItem = nil
@@ -137,6 +138,43 @@ struct CookRunView: View {
     private func content(_ run: KitchenCookRun) -> some View {
             List {
                 impressionSection(run)
+                if run.isManualEntry {
+                    // Entered by hand or from a photo: only the day can change.
+                    Section {
+                        DatePicker("Gekocht am", selection: Binding(get: { run.startedAt }, set: { date in
+                            guard var changed = runLog.run(id: runID) else { return }
+                            changed.startedAt = date
+                            runLog.update(changed)
+                        }), in: ...Date.now)
+                    } footer: {
+                        Text("Ohne Stoppuhr eingetragen.")
+                    }
+                } else {
+                stopwatchSections(run)
+                }
+            }
+            .navigationTitle(Text(verbatim: run.dishName))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Fertig") {
+                        saveNote()
+                        dismiss()
+                    }
+                }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Fertig") {
+                        editingNote = false
+                        saveNote()
+                    }
+                }
+            }
+    }
+
+    /// What the stopwatch measured: the total against the plan, the steps.
+    @ViewBuilder
+    private func stopwatchSections(_ run: KitchenCookRun) -> some View {
                 Section {
                     LabeledContent("Gebraucht") {
                         Text(verbatim: KitchenCookRun.clockText(run.totalSeconds))
@@ -189,24 +227,6 @@ struct CookRunView: View {
                 } footer: {
                     Text("Ein Handschritt zählt ab dem vorigen Abhaken – oder ab der Minute, für die der Plan ihn vorsah, wenn die später lag – bis zu seinem eigenen. Schritte mit Uhr-Symbol liefen von allein und endeten nach Plan.")
                 }
-            }
-            .navigationTitle(Text(verbatim: run.dishName))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Fertig") {
-                        saveNote()
-                        dismiss()
-                    }
-                }
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Fertig") {
-                        editingNote = false
-                        saveNote()
-                    }
-                }
-            }
     }
 }
 
