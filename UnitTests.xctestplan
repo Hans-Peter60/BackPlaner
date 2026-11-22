@@ -3,13 +3,19 @@
     {
       "id" : "5B2E3A9C-6D1F-4C8E-9A0B-1F2E3D4C5B6A",
       "name" : "Standard",
-      "options" : {
-
-      }
+      "options" : {}
     }
   ],
   "defaultOptions" : {
     "defaultTestExecutionTimeAllowance" : 60,
+    "environmentVariableEntries" : [
+      {
+        "key" : "TZ",
+        "value" : "Europe/Berlin"
+      }
+    ],
+    "language" : "de",
+    "region" : "DE",
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
