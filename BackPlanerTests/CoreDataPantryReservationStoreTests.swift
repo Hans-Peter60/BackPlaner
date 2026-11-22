@@ -89,4 +89,42 @@ struct CoreDataPantryReservationStoreTests {
         PantryLedgerService.release(recipeName: "Roggenbrot", in: context)
         #expect(try CoreDataPantryReservationStore(context: context).reservations().isEmpty)
     }
+
+    private func starter() -> RecipeExportData {
+        RecipeExportData(name: "Roggen-Anstellgut", summary: "", prepTime: 0, totalWeight: 220, tags: [], rating: 0, recurrenceIntervalDays: 0,
+                         components: [RecipeExportComponent(name: "Anstellgut", number: 1, ingredients: [
+                            RecipeExportIngredient(name: "Anstellgut", number: 1, unit: "g", weight: 20, normWeight: 20, num: 0, denom: 0),
+                            RecipeExportIngredient(name: "Roggenmehl 1150", number: 2, unit: "g", weight: 100, normWeight: 100, num: 0, denom: 0),
+                            RecipeExportIngredient(name: "Wasser", number: 3, unit: "g", weight: 100, normWeight: 100, num: 0, denom: 0),
+                         ])], instructions: [])
+    }
+
+    @Test("A feeding takes its flour: at once when done, at its time when planned, nothing once deleted before")
+    func feeding() throws {
+        let context = newContext()
+        let items = CoreDataPantryStore(context: context)
+        let reservations = CoreDataPantryReservationStore(context: context)
+        _ = try items.add(name: "Roggenmehl 1150", amount: 1, unit: .kilogram, bestBefore: nil, note: "")
+        let now = Date()
+
+        // Done now: 100 g of flour gone, starter and water not counted.
+        PantryLedgerService.bookFeeding(recipe: starter(), feedingID: UUID(), date: now, in: context, now: now)
+        #expect(abs((try items.items().first?.amount ?? 0) - 0.9) < 0.0001)
+        #expect(try reservations.reservations().isEmpty)
+
+        // Planned for tonight: reserved, booked once its time has come.
+        let tonight = now.addingTimeInterval(6 * 3_600)
+        PantryLedgerService.bookFeeding(recipe: starter(), feedingID: UUID(), date: tonight, in: context, now: now)
+        #expect(try reservations.reservations().count == 1)
+        PantryLedgerService.reconcile(in: context, now: tonight.addingTimeInterval(60))
+        #expect(abs((try items.items().first?.amount ?? 0) - 0.8) < 0.0001)
+
+        // Planned and deleted before its time: the flour stays.
+        let later = UUID()
+        PantryLedgerService.bookFeeding(recipe: starter(), feedingID: later, date: tonight.addingTimeInterval(86_400),
+                                        in: context, now: now)
+        PantryLedgerService.release(planIDs: [later], in: context)
+        PantryLedgerService.reconcile(in: context, now: tonight.addingTimeInterval(2 * 86_400))
+        #expect(abs((try items.items().first?.amount ?? 0) - 0.8) < 0.0001)
+    }
 }

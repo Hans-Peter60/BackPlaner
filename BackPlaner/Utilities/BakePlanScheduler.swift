@@ -150,12 +150,10 @@ struct BakePlanScheduler {
             try? context.save()
         }
 
-        // The pantry: what this bread will use is reserved under the plan's
-        // id until the plan ends or goes.
-        if !isStarter {
-            PantryLedgerService.reserve(recipe: content, planID: planID, scale: servingScale,
-                                        planEnd: result.finishDate, in: context)
-        }
+        // The pantry: what this bread — or this feeding's flour — will use
+        // is reserved under the plan's id until the plan ends or goes.
+        PantryLedgerService.reserve(recipe: content, planID: planID, scale: servingScale,
+                                    planEnd: result.finishDate, in: context)
 
         return result
     }

@@ -37,6 +37,18 @@ enum PantryLedgerService {
         }
     }
 
+    /// A starter feeding noted in the diary takes its flour like a bake:
+    /// reserved under the feeding's id until its time, then booked. A
+    /// feeding already done is booked at once and lands in the booking list,
+    /// where it can be undone. Water and the starter itself are not pantry
+    /// goods (ShoppingListAmount.belongsOnList), so only the flour counts.
+    @MainActor
+    static func bookFeeding(recipe: RecipeExportData, feedingID: UUID, date: Date,
+                            in context: NSManagedObjectContext, now: Date = Date()) {
+        reserve(recipe: recipe, planID: feedingID, scale: 1, planEnd: date, in: context)
+        if date <= now { reconcile(in: context, now: now) }
+    }
+
     /// Releases every reservation of these plans — a plan deleted.
     static func release(planIDs: some Sequence<UUID>, in context: NSManagedObjectContext) {
         let store = CoreDataPantryReservationStore(context: context)
