@@ -464,6 +464,50 @@
         }
       }
     },
+    "31 bis 45 Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "31 bis 45 Minuten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "31 to 45 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "31 à 45 minutes"
+          }
+        }
+      }
+    },
+    "46 bis 60 Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "46 bis 60 Minuten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "46 to 60 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "46 à 60 minutes"
+          }
+        }
+      }
+    },
     "Abbrechen" : {
       "localizations" : {
         "de" : {
@@ -504,6 +548,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adresse de la page de recette"
+          }
+        }
+      }
+    },
+    "Alle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous"
           }
         }
       }
@@ -944,6 +1010,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exemples"
+          }
+        }
+      }
+    },
+    "Bis 30 Minuten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis 30 Minuten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 30 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’à 30 minutes"
           }
         }
       }
@@ -1454,6 +1542,28 @@
         }
       }
     },
+    "Die gewählten Filter erscheinen als eigene Sammlung in der Leiste." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die gewählten Filter erscheinen als eigene Sammlung in der Leiste."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The chosen filters appear as a collection of your own in the bar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les filtres choisis apparaissent comme votre propre collection dans la barre."
+          }
+        }
+      }
+    },
     "Die kostenlosen Importe dieses Monats sind aufgebraucht." : {
       "localizations" : {
         "de" : {
@@ -1516,6 +1626,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les fours sont préchauffés quand le chrono démarre."
+          }
+        }
+      }
+    },
+    "Eigene" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eigene"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnels"
           }
         }
       }
@@ -1872,6 +2004,50 @@
         }
       }
     },
+    "Filter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtre"
+          }
+        }
+      }
+    },
+    "Filter zurücksetzen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter zurücksetzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset filters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser les filtres"
+          }
+        }
+      }
+    },
     "Foto aufnehmen" : {
       "localizations" : {
         "de" : {
@@ -2202,6 +2378,28 @@
         }
       }
     },
+    "Gericht, Komponente oder Zutat" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht, Komponente oder Zutat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dish, component or ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat, composant ou ingrédient"
+          }
+        }
+      }
+    },
     "Gerichte" : {
       "localizations" : {
         "de" : {
@@ -2268,6 +2466,28 @@
         }
       }
     },
+    "Geräte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geräte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Équipement"
+          }
+        }
+      }
+    },
     "Gleich" : {
       "localizations" : {
         "de" : {
@@ -2308,6 +2528,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Travail manuel par composant"
+          }
+        }
+      }
+    },
+    "Herkunft" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herkunft"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origine"
           }
         }
       }
@@ -2532,6 +2774,28 @@
         }
       }
     },
+    "Importiert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imported"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importés"
+          }
+        }
+      }
+    },
     "Jeder Schritt wartet nur auf die Schritte, die bei ihm angegeben sind; ohne Angabe kann er sofort beginnen." : {
       "localizations" : {
         "de" : {
@@ -2594,6 +2858,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
+    "Keine passenden Gerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine passenden Gerichte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun plat correspondant"
           }
         }
       }
@@ -2792,6 +3078,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuisine"
+          }
+        }
+      }
+    },
+    "Lange nicht gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lange nicht gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not cooked for a while"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas cuisiné depuis longtemps"
+          }
+        }
+      }
+    },
+    "Lieblinge" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieblinge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourites"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoris"
           }
         }
       }
@@ -3060,6 +3390,28 @@
         }
       }
     },
+    "Mit Ofen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Ofen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec four"
+          }
+        }
+      }
+    },
     "Mit diesen Garzeiten passt es in %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -3258,6 +3610,28 @@
         }
       }
     },
+    "Noch nie gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nie gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never cooked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jamais cuisiné"
+          }
+        }
+      }
+    },
     "Notiz, z. B. „beim nächsten Mal weniger Salz“" : {
       "localizations" : {
         "de" : {
@@ -3276,6 +3650,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Note, p. ex. « moins de sel la prochaine fois »"
+          }
+        }
+      }
+    },
+    "Nur Herd" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Herd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stove only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaques seulement"
           }
         }
       }
@@ -3368,6 +3764,28 @@
         }
       }
     },
+    "Ohne Hitze" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Hitze"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No heat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans cuisson"
+          }
+        }
+      }
+    },
     "Ohne Komponente" : {
       "localizations" : {
         "de" : {
@@ -3390,6 +3808,50 @@
         }
       }
     },
+    "Ohne Ofen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Ofen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans four"
+          }
+        }
+      }
+    },
+    "Passe die Suche oder die Filter an." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die Suche oder die Filter an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the search or the filters."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifiez la recherche ou les filtres."
+          }
+        }
+      }
+    },
     "Passt in %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -3408,6 +3870,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tient en %lld minutes"
+          }
+        }
+      }
+    },
+    "Passt ins Budget" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passt ins Budget"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fits the budget"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tient dans le temps"
           }
         }
       }
@@ -3716,6 +4200,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Sammlung löschen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammlung löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete collection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la collection"
+          }
+        }
+      }
+    },
+    "Sammlung sichern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammlung sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save collection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer la collection"
+          }
+        }
+      }
+    },
+    "Sammlung umbenennen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammlung umbenennen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename collection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renommer la collection"
+          }
+        }
+      }
+    },
+    "Schnell" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schnell"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapide"
           }
         }
       }
@@ -4117,6 +4689,28 @@
         }
       }
     },
+    "Umbenennen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umbenennen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renommer"
+          }
+        }
+      }
+    },
     "Unterschied" : {
       "localizations" : {
         "de" : {
@@ -4135,6 +4729,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Écart"
+          }
+        }
+      }
+    },
+    "Verlauf" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlauf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique"
           }
         }
       }
@@ -4311,6 +4927,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "Wenig Handarbeit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenig Handarbeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Little hands-on work"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peu de travail manuel"
           }
         }
       }
@@ -4883,6 +5521,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Über eine Stunde" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über eine Stunde"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over an hour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus d’une heure"
           }
         }
       }
