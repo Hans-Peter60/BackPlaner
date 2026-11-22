@@ -53,7 +53,8 @@ struct CookPlannerApp: App {
                 ScrollView {
                     PlanTimelineView(layout: KitchenTimelineLayout(schedule: plan.schedule,
                                                                    components: plan.dish.components),
-                                     now: UserDefaults.standard.string(forKey: "TimelineNow").flatMap(Double.init))
+                                     now: UserDefaults.standard.string(forKey: "TimelineNow").flatMap(Double.init),
+                                     initiallySelected: UserDefaults.standard.string(forKey: "TimelineSelect"))
                         .padding()
                 }
                 .warmBackground()
