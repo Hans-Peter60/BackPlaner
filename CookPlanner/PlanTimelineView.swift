@@ -24,6 +24,8 @@ struct PlanTimelineView: View {
 
     @State private var width: CGFloat = 320
     @State private var selected: KitchenPlacement?
+    /// Debug screenshots open one step's details at once.
+    var initiallySelected: String? = nil
 
     private let axisWidth: CGFloat = 34
     private let headerHeight: CGFloat = 34
@@ -78,6 +80,11 @@ struct PlanTimelineView: View {
             legend
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width = $0 }
+        .task {
+            guard let id = initiallySelected else { return }
+            try? await Task.sleep(for: .seconds(1))
+            selected = layout.lanes.flatMap(\.bars).first { $0.id == id }?.placement
+        }
     }
 
     private var chart: some View {
@@ -265,6 +272,9 @@ private struct StepDetail: View {
             }
         }
         .padding()
-        .frame(minWidth: 220, maxWidth: 300, alignment: .leading)
+        // A fixed width and the height the text needs: a popover sizes to
+        // its content, and with a flexible width the lines were cut off.
+        .frame(width: 300, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
