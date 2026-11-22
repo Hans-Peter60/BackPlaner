@@ -10,6 +10,7 @@
 import BakePlannerCore
 import Foundation
 import Observation
+import ImageIO
 import UIKit
 
 @Observable @MainActor
@@ -36,7 +37,9 @@ final class CookRunLog {
     }
 
     func add(_ run: KitchenCookRun) {
-        runs.insert(run, at: 0)
+        // Newest first; an entry made afterwards for an older day goes where its day is.
+        runs.append(run)
+        runs.sort { $0.startedAt > $1.startedAt }
         save()
         CloudSync.shared.runChanged(run.id)
     }
@@ -97,6 +100,21 @@ final class CookRunLog {
     }
 
     // MARK: Photos
+
+    /// A photo read straight at a reduced size (ImageIO), so thirty camera
+    /// photos at once do not fill the memory with full-size bitmaps.
+    nonisolated static func downsampled(_ data: Data, maxPixels: CGFloat = 1600) -> UIImage? {
+        let options = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let source = CGImageSourceCreateWithData(data as CFData, options) else { return nil }
+        let thumbnailOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixels,
+        ] as CFDictionary
+        guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, thumbnailOptions) else { return nil }
+        return UIImage(cgImage: image)
+    }
 
     /// Keeps `image` as the record's photo, at most 1600 points on its
     /// longer side, replacing an earlier one.

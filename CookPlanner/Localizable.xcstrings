@@ -288,6 +288,50 @@
         }
       }
     },
+    "%lld Min. langsamer" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. langsamer"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min slower"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min plus lent"
+          }
+        }
+      }
+    },
+    "%lld Min. schneller" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. schneller"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min faster"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min plus rapide"
+          }
+        }
+      }
+    },
     "%lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -420,6 +464,72 @@
         }
       }
     },
+    "%lld übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter %lld"
+          }
+        }
+      }
+    },
+    "%lld×" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld×"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld×"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld×"
+          }
+        }
+      }
+    },
+    "%lld× gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld× gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cooked %lld×"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuisiné %lld×"
+          }
+        }
+      }
+    },
     "%lld–%lld Min." : {
       "localizations" : {
         "de" : {
@@ -504,6 +614,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "46 à 60 minutes"
+          }
+        }
+      }
+    },
+    "Ab %lld Sternen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ab %lld Sternen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stars and up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir de %lld étoiles"
           }
         }
       }
@@ -728,6 +860,28 @@
         }
       }
     },
+    "Am häufigsten gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am häufigsten gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked most often"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les plus cuisinés"
+          }
+        }
+      }
+    },
     "Analysieren" : {
       "localizations" : {
         "de" : {
@@ -746,6 +900,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyser"
+          }
+        }
+      }
+    },
+    "Andere Fotos auswählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Fotos auswählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose other photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir d’autres photos"
           }
         }
       }
@@ -926,6 +1102,28 @@
         }
       }
     },
+    "Aus Fotos übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus Fotos übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add from photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter depuis des photos"
+          }
+        }
+      }
+    },
     "Aus Text importieren" : {
       "localizations" : {
         "de" : {
@@ -1102,6 +1300,28 @@
         }
       }
     },
+    "Bitte wählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte wählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please choose"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veuillez choisir"
+          }
+        }
+      }
+    },
     "Budget %lld Min. · Plan fertig in Minute %lld" : {
       "localizations" : {
         "de" : {
@@ -1252,6 +1472,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La limite horaire d’analyses est atteinte. Réessayez plus tard."
+          }
+        }
+      }
+    },
+    "Datum und Titel kommen aus den Fotos. Steht der Name eines Gerichts im Titel, ist es schon gewählt; sonst wählst Du es je Foto. Ohne Gericht bleibt ein Foto draußen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum und Titel kommen aus den Fotos. Steht der Name eines Gerichts im Titel, ist es schon gewählt; sonst wählst Du es je Foto. Ohne Gericht bleibt ein Foto draußen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date and title come from the photos. If a dish's name is in the title, it is already chosen; otherwise choose it per photo. A photo without a dish stays out."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La date et le titre viennent des photos. Si le nom d’un plat figure dans le titre, il est déjà choisi ; sinon, choisissez-le pour chaque photo. Une photo sans plat est ignorée."
           }
         }
       }
@@ -1652,6 +1894,28 @@
         }
       }
     },
+    "Die letzten zwölf Monate" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die letzten zwölf Monate"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The last twelve months"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les douze derniers mois"
+          }
+        }
+      }
+    },
     "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte." : {
       "localizations" : {
         "de" : {
@@ -1758,6 +2022,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vos plats, relevés de cuisson et photos se synchronisent via iCloud entre tous les appareils avec le même identifiant Apple. Les réglages restent propres à chaque appareil."
+          }
+        }
+      }
+    },
+    "Ein Foto hängst Du im Eintrag unter „Wie war’s?“ an." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Foto hängst Du im Eintrag unter „Wie war’s?“ an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo in the entry under “How was it?”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez une photo dans l’entrée sous « C’était comment ? »."
           }
         }
       }
@@ -2246,6 +2532,28 @@
         }
       }
     },
+    "Fotos werden gelesen …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos werden gelesen …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading photos …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture des photos …"
+          }
+        }
+      }
+    },
     "Für %lld Personen" : {
       "localizations" : {
         "de" : {
@@ -2286,6 +2594,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour la liste de courses ; dans une étape, vous choisissez ce qui y est pris en main."
+          }
+        }
+      }
+    },
+    "Galerie" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gallery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
           }
         }
       }
@@ -2334,6 +2664,28 @@
         }
       }
     },
+    "Gegen den Plan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegen den Plan"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Against the plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Par rapport au plan"
+          }
+        }
+      }
+    },
     "Gekocht" : {
       "localizations" : {
         "de" : {
@@ -2352,6 +2704,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuisiné"
+          }
+        }
+      }
+    },
+    "Gekocht am" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gekocht am"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné le"
+          }
+        }
+      }
+    },
+    "Gekocht eintragen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gekocht eintragen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a cooked dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un plat cuisiné"
           }
         }
       }
@@ -2440,6 +2836,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plat"
+          }
+        }
+      }
+    },
+    "Gericht suchen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht suchen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher un plat"
           }
         }
       }
@@ -2708,6 +3126,28 @@
         }
       }
     },
+    "Hit-Liste" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hit-Liste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hit list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palmarès"
+          }
+        }
+      }
+    },
     "Hände" : {
       "localizations" : {
         "de" : {
@@ -2968,6 +3408,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
+    "Keine passenden Einträge" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine passenden Einträge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching entries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune entrée correspondante"
           }
         }
       }
@@ -3434,6 +3896,28 @@
         }
       }
     },
+    "Mindestbewertung" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestbewertung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note minimale"
+          }
+        }
+      }
+    },
     "Mindestens %lld Min." : {
       "localizations" : {
         "de" : {
@@ -3540,6 +4024,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avec ces temps de cuisson, ça tient en %lld minutes"
+          }
+        }
+      }
+    },
+    "Monat" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mois"
           }
         }
       }
@@ -3694,6 +4200,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Indisponible"
+          }
+        }
+      }
+    },
+    "Nicht übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave out"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne pas reprendre"
+          }
+        }
+      }
+    },
+    "Noch keine Fotos" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Fotos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore de photos"
           }
         }
       }
@@ -3984,6 +4534,28 @@
         }
       }
     },
+    "Ohne Stoppuhr eingetragen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Stoppuhr eingetragen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entered without the stopwatch."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisi sans chronomètre."
+          }
+        }
+      }
+    },
     "Passe die Suche oder die Filter an." : {
       "localizations" : {
         "de" : {
@@ -4002,6 +4574,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modifiez la recherche ou les filtres."
+          }
+        }
+      }
+    },
+    "Passe die Suche oder die Sterne an." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die Suche oder die Sterne an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the search or the stars."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifiez la recherche ou les étoiles."
           }
         }
       }
@@ -4710,6 +5304,50 @@
         }
       }
     },
+    "Statistik" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistics"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiques"
+          }
+        }
+      }
+    },
+    "Sterne im Schnitt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sterne im Schnitt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average stars"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étoiles en moyenne"
+          }
+        }
+      }
+    },
     "Stopp" : {
       "localizations" : {
         "de" : {
@@ -4887,6 +5525,28 @@
         }
       }
     },
+    "Vergib im Eintrag Sterne, dann steht hier, was am besten ankam." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergib im Eintrag Sterne, dann steht hier, was am besten ankam."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give stars in the entries, and this shows what went down best."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donnez des étoiles dans les entrées : ici apparaît ce qui a le mieux plu."
+          }
+        }
+      }
+    },
     "Verlauf" : {
       "localizations" : {
         "de" : {
@@ -4905,6 +5565,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historique"
+          }
+        }
+      }
+    },
+    "Verschiedene Gerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verschiedene Gerichte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Different dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plats différents"
           }
         }
       }
@@ -5147,6 +5829,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lancez l’horloge en mode cuisine et enregistrez le relevé à la fin : le plat apparaît ici, avec étoiles, note et photo."
+          }
+        }
+      }
+    },
+    "Wer im Kochmodus die Uhr startet und am Ende das Protokoll sichert, findet das Gericht hier – mit Sternen, Notiz und Foto. Ohne Stoppuhr Gekochtes trägst Du mit „+“ ein." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wer im Kochmodus die Uhr startet und am Ende das Protokoll sichert, findet das Gericht hier – mit Sternen, Notiz und Foto. Ohne Stoppuhr Gekochtes trägst Du mit „+“ ein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start the clock in cook mode and keep the record at the end, and the dish appears here, with stars, a note and a photo. Add dishes cooked without the stopwatch with “+”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancez l’horloge en mode cuisine et enregistrez le relevé à la fin : le plat apparaît ici, avec étoiles, note et photo. Ajoutez avec « + » ce que vous avez cuisiné sans chronomètre."
           }
         }
       }
@@ -5701,6 +6405,28 @@
         }
       }
     },
+    "wie geplant" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "wie geplant"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "as planned"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "comme prévu"
+          }
+        }
+      }
+    },
     "Öfen: %lld" : {
       "localizations" : {
         "de" : {
@@ -5785,6 +6511,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "en retard"
+          }
+        }
+      }
+    },
+    "„Gegen den Plan“ aus %lld vollständigen Durchgängen mit der Stoppuhr." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Gegen den Plan“ aus %lld vollständigen Durchgängen mit der Stoppuhr."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Against the plan” from %lld complete stopwatch runs."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Par rapport au plan » sur %lld passages complets au chronomètre."
+          }
+        }
+      }
+    },
+    "„Gegen den Plan“ aus einem vollständigen Durchgang mit der Stoppuhr." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Gegen den Plan“ aus einem vollständigen Durchgang mit der Stoppuhr."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Against the plan” from one complete stopwatch run."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Par rapport au plan » sur un passage complet au chronomètre."
           }
         }
       }

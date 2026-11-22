@@ -198,9 +198,11 @@ struct DishPlanView: View {
                             }
                         }
                         Spacer()
-                        Text(verbatim: KitchenCookRun.clockText(run.totalSeconds))
-                            .monospacedDigit()
-                            .foregroundColor(Theme.accentText)
+                        if !run.isManualEntry {
+                            Text(verbatim: KitchenCookRun.clockText(run.totalSeconds))
+                                .monospacedDigit()
+                                .foregroundColor(Theme.accentText)
+                        }
                         Image(systemName: "chevron.right")
                             .font(.footnote)
                             .foregroundColor(Theme.subtitle)
