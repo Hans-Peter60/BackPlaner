@@ -26,6 +26,8 @@ struct DishPlanView: View {
     @State private var showingLearned = false
     @State private var savedCopyName: String?
     @State private var runLog = CookRunLog.shared
+    /// The plan as a timeline or as a list, remembered.
+    @AppStorage("settings.planAsList") private var planAsList = false
     /// How much more or less than the recipe is cooked, kept per dish.
     @State private var portionFactor: Double
 
@@ -363,11 +365,24 @@ struct DishPlanView: View {
 
     private func timelineCard(_ plan: DishPlan) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Zeitplan")
-                .font(Theme.bodyFont(16).weight(.semibold))
-                .foregroundColor(Theme.cardTitle)
-            ForEach(plan.schedule.placements.sorted { ($0.start, $0.task.id) < ($1.start, $1.task.id) }) { placement in
-                TimelineRow(placement: placement)
+            HStack {
+                Text("Zeitplan")
+                    .font(Theme.bodyFont(16).weight(.semibold))
+                    .foregroundColor(Theme.cardTitle)
+                Spacer()
+                Picker("Darstellung", selection: $planAsList) {
+                    Image(systemName: "chart.bar.xaxis").accessibilityLabel("Zeitachse").tag(false)
+                    Image(systemName: "list.bullet").accessibilityLabel("Liste").tag(true)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 110)
+            }
+            if planAsList {
+                ForEach(plan.schedule.placements.sorted { ($0.start, $0.task.id) < ($1.start, $1.task.id) }) { placement in
+                    TimelineRow(placement: placement)
+                }
+            } else {
+                PlanTimelineView(layout: KitchenTimelineLayout(schedule: plan.schedule, components: plan.dish.components))
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

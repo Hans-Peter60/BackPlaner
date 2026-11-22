@@ -222,6 +222,28 @@
         }
       }
     },
+    "%lld Min. Hände" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. Hände"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min hands-on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min de travail manuel"
+          }
+        }
+      }
+    },
     "%lld Min. Luft, %lld Min. ohne Handarbeit." : {
       "localizations" : {
         "de" : {
@@ -240,6 +262,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld min de marge, %lld min sans travail manuel."
+          }
+        }
+      }
+    },
+    "%lld Min. allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. allein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min tout seul"
           }
         }
       }
@@ -988,6 +1032,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ensuite seul : %lld min"
+          }
+        }
+      }
+    },
+    "Darstellung" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darstellung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affichage"
           }
         }
       }
@@ -2752,6 +2818,28 @@
         }
       }
     },
+    "Liste" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste"
+          }
+        }
+      }
+    },
     "Läuft von allein" : {
       "localizations" : {
         "de" : {
@@ -2924,6 +3012,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au moins %lld min"
+          }
+        }
+      }
+    },
+    "Minute %lld bis %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld bis %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld to %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld à %lld"
           }
         }
       }
@@ -3941,6 +4051,28 @@
         }
       }
     },
+    "Tippen für Details" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippen für Details"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap for details"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez pour les détails"
+          }
+        }
+      }
+    },
     "Training" : {
       "localizations" : {
         "de" : {
@@ -4293,6 +4425,28 @@
         }
       }
     },
+    "Zeitachse" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitachse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chronologie"
+          }
+        }
+      }
+    },
     "Zeitbudget" : {
       "localizations" : {
         "de" : {
@@ -4619,6 +4773,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "dans %lld min"
+          }
+        }
+      }
+    },
+    "läuft allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "läuft allein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "se fait seul"
           }
         }
       }

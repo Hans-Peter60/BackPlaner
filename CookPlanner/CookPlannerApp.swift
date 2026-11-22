@@ -10,6 +10,7 @@
 //  same project as BakePlanner. Working title; see docs/Idee-Gegen-die-Uhr.md.
 //
 
+import BakePlannerCore
 import FirebaseAppCheck
 import FirebaseCore
 import SwiftUI
@@ -42,8 +43,28 @@ struct CookPlannerApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if DEBUG
+            // Development builds draw one example's timeline on its own with
+            // the launch argument -TimelineSample <index>, for screenshots.
+            if let index = Int(UserDefaults.standard.string(forKey: "TimelineSample") ?? ""),
+               KitchenSampleDishes.all.indices.contains(index),
+               let plan = DishPlan(dish: KitchenSampleDishes.all[index], budget: CookSettings.defaultBudget,
+                                   burners: CookSettings.defaultBurners, ovens: CookSettings.defaultOvens) {
+                ScrollView {
+                    PlanTimelineView(layout: KitchenTimelineLayout(schedule: plan.schedule,
+                                                                   components: plan.dish.components),
+                                     now: UserDefaults.standard.string(forKey: "TimelineNow").flatMap(Double.init))
+                        .padding()
+                }
+                .warmBackground()
+            } else {
+                DishListView()
+                    .environment(library)
+            }
+            #else
             DishListView()
                 .environment(library)
+            #endif
         }
     }
 }
