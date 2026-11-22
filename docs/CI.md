@@ -76,4 +76,5 @@ Optional, aber empfehlenswert: Auf GitHub unter **Settings → Branches → Add 
 
 - **Firebase:** Der Simulator in Xcode Cloud hat kein registriertes App-Check-Debug-Token. Zugriffe auf Firestore schlagen dort fehl. Die Tests sind darauf ausgelegt: Die UI-Tests lassen die Rezept-Datenbank bewusst aus und arbeiten mit einem leeren Speicher im Arbeitsspeicher (`-UITesting`).
 - **Mitteilungen:** Die Abfrage „BackPlaner möchte Mitteilungen senden“ beantworten die UI-Tests selbst.
+- **Sprache und Zeitzone:** Die Simulatoren in Xcode Cloud laufen auf Englisch und in UTC. Beide Testpläne legen deshalb Sprache `de`, Region `DE` und `TZ=Europe/Berlin` fest; sonst schlagen Tests fehl, die deutsche Zahlen und Einheiten („1,2 kg“, „Stück“) oder Uhrzeiten aus Fotodaten erwarten (zuerst gesehen am 22.11.2026, Build 815).
 - **`ci_scripts`:** werden nicht gebraucht. Alle Abhängigkeiten kommen über Swift Package Manager; `Package.resolved` ist eingecheckt.
