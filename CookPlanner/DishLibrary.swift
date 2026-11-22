@@ -60,6 +60,7 @@ final class DishLibrary {
         do {
             try store.save(dish)
             reload()
+            CloudSync.shared.dishChanged(dish.id)
             return true
         } catch {
             lastError = error.localizedDescription
@@ -71,8 +72,27 @@ final class DishLibrary {
         do {
             try store.delete(id: id)
             reload()
+            CloudSync.shared.dishDeleted(id)
         } catch {
             lastError = error.localizedDescription
         }
+    }
+
+    /// A dish another device changed, kept without being sent back.
+    func applyRemote(_ dish: KitchenDish) {
+        guard self.dish(id: dish.id) != dish else { return }
+        do {
+            try store.save(dish)
+            reload()
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// A dish another device deleted.
+    func removeRemote(id: String) {
+        guard dish(id: id) != nil else { return }
+        try? store.delete(id: id)
+        reload()
     }
 }
