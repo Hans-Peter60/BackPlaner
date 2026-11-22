@@ -317,6 +317,11 @@ struct StarterFeedingLogView: View {
         } catch {
             return
         }
+        // The feeding's flour leaves the pantry, now or at its time.
+        if let feedingID = entry.id {
+            PantryLedgerService.bookFeeding(recipe: RecipeExportData(recipe: recipe, includingImage: false),
+                                            feedingID: feedingID, date: entry.date, in: viewContext)
+        }
 
         date             = Date()
         peakMinutesText  = ""
@@ -328,6 +333,9 @@ struct StarterFeedingLogView: View {
     }
 
     private func delete(at offsets: IndexSet) {
+        // A feeding still to come gives its reserved flour back; one already
+        // booked is undone in the pantry's booking list.
+        PantryLedgerService.release(planIDs: offsets.compactMap { entries[$0].id }, in: viewContext)
         for index in offsets {
             viewContext.delete(entries[index])
         }

@@ -737,7 +737,14 @@ final class AppModel {
     @discardableResult
     func addFeeding(toRecipe recipeID: String, date: Date, facts: StarterFeedingFacts) -> Bool {
         do {
-            _ = try openedFeedingStore().add(toRecipe: recipeID, date: date, facts: facts)
+            let feeding = try openedFeedingStore().add(toRecipe: recipeID, date: date, facts: facts)
+            // The feeding's flour leaves the pantry like a bake's: reserved
+            // until its time, booked at once when it is done already.
+            if let content = recipes.first(where: { $0.id == recipeID })?.content,
+               let planID = Self.pantryPlanID(forFeeding: feeding.id) {
+                reservePantry(recipe: content, planID: planID, scale: 1, planEnd: date)
+                if date <= Date() { reconcilePantry() }
+            }
             return true
         } catch {
             logger.error("could not add a feeding to recipe \(recipeID): \(error)")
@@ -759,6 +766,8 @@ final class AppModel {
     }
 
     func deleteFeeding(id: String) {
+        // A feeding still to come gives its reserved flour back.
+        if let planID = Self.pantryPlanID(forFeeding: id) { releasePantry(planIDs: [planID]) }
         do {
             try openedFeedingStore().delete(id: id)
         } catch {
@@ -1415,6 +1424,16 @@ final class AppModel {
     /// Reserves what the plan's bread uses of the available pantry, item by
     /// item, under the plan's id. The arithmetic is PantryLedger in the
     /// package, as on the iPhone (PantryLedgerService).
+    /// The id a feeding's pantry reservation goes under: feedings are kept
+    /// under row numbers, reservations under UUIDs, so the number becomes
+    /// the UUID's last part — the same for adding and deleting.
+    static func pantryPlanID(forFeeding id: String) -> UUID? {
+        guard let row = Int64(id), row >= 0 else { return nil }
+        let hex = String(row, radix: 16)
+        let padded = String(repeating: "0", count: max(0, 12 - hex.count)) + hex
+        return UUID(uuidString: "FEED0000-0000-4000-8000-" + padded)
+    }
+
     func reservePantry(recipe: RecipeExportData, planID: UUID, scale: Double, planEnd: Date) {
         do {
             let items = try openedPantryStore()
