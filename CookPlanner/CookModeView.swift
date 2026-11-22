@@ -41,6 +41,7 @@ struct CookModeView: View {
     @State private var startSeconds: [String: Int] = [:]
     @State private var runSaved = false
     @State private var confirmingEnd = false
+    @State private var showingTimeline = false
     @AppStorage(CookSettings.clockModeKey) private var clockMode = CookClockMode.challenge
 
     var body: some View {
@@ -53,6 +54,27 @@ struct CookModeView: View {
             .warmBackground()
             .navigationTitle("Kochen")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingTimeline) {
+                NavigationStack {
+                    TimelineView(.periodic(from: .now, by: 5)) { context in
+                        ScrollView {
+                            PlanTimelineView(layout: KitchenTimelineLayout(schedule: live ?? plan.schedule,
+                                                                           components: plan.dish.components),
+                                             now: startedAt == nil ? nil : Double(elapsedSeconds(at: context.date)) / 60,
+                                             finished: Set(finished.keys))
+                                .padding()
+                        }
+                    }
+                    .navigationTitle("Zeitachse")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Fertig") { showingTimeline = false }
+                        }
+                    }
+                }
+                .presentationDetents([.medium, .large])
+            }
             .onDisappear {
                 CookReminders.shared.cancelAll()
                 CookAlarms.shared.cancelAll()
@@ -76,6 +98,14 @@ struct CookModeView: View {
                     } message: {
                         Text("Das Protokoll hält fest, wann jeder Schritt erledigt war.")
                     }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingTimeline = true
+                    } label: {
+                        Image(systemName: "chart.bar.xaxis")
+                    }
+                    .accessibilityLabel("Zeitachse")
                 }
                 if startedAt != nil {
                     ToolbarItem(placement: .topBarTrailing) {
