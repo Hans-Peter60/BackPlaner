@@ -4,7 +4,7 @@
 //
 // Renders CookPlanner's app icon (1024 × 1024, no alpha) in the family
 // look of BakePlanner's: a warm orange glow fading to black, a lit hero
-// object in the middle — a cast-iron pan with a fried egg — and a tilted,
+// object in the middle — a cast-iron pan with a seared steak — and a tilted,
 // glossy badge at the lower right, here a stopwatch where BakePlanner
 // carries its calendar. Light comes from the upper left; every shape has
 // its shadow, so the icon reads as three-dimensional like the bread.
@@ -19,7 +19,7 @@ import AppKit
 import Foundation
 
 let size = 1024
-let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent()
+let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
 let target = CommandLine.arguments.count > 1
     ? URL(fileURLWithPath: CommandLine.arguments[1])
     : root.appendingPathComponent("CookPlanner/CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png")
@@ -138,67 +138,130 @@ context.addArc(center: center, radius: radius * 0.955, startAngle: .pi * 0.40, e
 context.strokePath()
 context.restoreGState()
 
-// MARK: The fried egg
+// MARK: The steak
 
-let eggCenter = CGPoint(x: center.x + s * 0.01, y: center.y - s * 0.005)
-let white = CGMutablePath()
-// A soft, uneven white: a ring of bulges around the yolk.
-let lobes: [(angle: CGFloat, reach: CGFloat)] = [
-    (0.0, 0.165), (0.9, 0.150), (1.7, 0.172), (2.6, 0.148), (3.4, 0.168), (4.3, 0.152), (5.2, 0.170),
-]
-for (index, lobe) in lobes.enumerated() {
-    let next = lobes[(index + 1) % lobes.count]
-    let point = CGPoint(x: eggCenter.x + cos(lobe.angle) * s * lobe.reach, y: eggCenter.y + sin(lobe.angle) * s * lobe.reach)
-    let nextAngle = index + 1 == lobes.count ? next.angle + .pi * 2 : next.angle
-    let middle = (lobe.angle + nextAngle) / 2
-    let control = CGPoint(x: eggCenter.x + cos(middle) * s * (max(lobe.reach, next.reach) + 0.03),
-                          y: eggCenter.y + sin(middle) * s * (max(lobe.reach, next.reach) + 0.03))
-    let nextPoint = CGPoint(x: eggCenter.x + cos(nextAngle) * s * next.reach, y: eggCenter.y + sin(nextAngle) * s * next.reach)
-    if index == 0 { white.move(to: point) }
-    white.addQuadCurve(to: nextPoint, control: control)
+let steakCenter = CGPoint(x: center.x + s * 0.005, y: center.y - s * 0.005)
+
+/// A smooth closed outline through the given points (Catmull-Rom turned into
+/// cubic Béziers), so the steak gets soft, irregular curves.
+func smoothOutline(_ points: [CGPoint]) -> CGPath {
+    let path = CGMutablePath()
+    let n = points.count
+    path.move(to: points[0])
+    for index in 0..<n {
+        let p0 = points[(index - 1 + n) % n], p1 = points[index]
+        let p2 = points[(index + 1) % n], p3 = points[(index + 2) % n]
+        let c1 = CGPoint(x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6)
+        let c2 = CGPoint(x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6)
+        path.addCurve(to: p2, control1: c1, control2: c2)
+    }
+    path.closeSubpath()
+    return path
 }
-white.closeSubpath()
+
+/// The outline of a ribeye: wider than tall, tilted a little, with a bulge
+/// at the upper left where the fat cap runs. `scale` shrinks it towards
+/// `pull`, which gives the lean meat inside the fat rim.
+func steakOutline(scale: CGFloat = 1, pull: CGPoint = .zero) -> CGPath {
+    let reaches: [CGFloat] = [0.158, 0.140, 0.132, 0.142, 0.166, 0.172, 0.158, 0.136, 0.128, 0.140]
+    let tilt: CGFloat = -0.32
+    let points = reaches.enumerated().map { index, reach -> CGPoint in
+        let angle = CGFloat(index) / CGFloat(reaches.count) * .pi * 2
+        let x = cos(angle) * reach * 1.10 * scale, y = sin(angle) * reach * 0.94 * scale
+        return CGPoint(x: steakCenter.x + s * (x * cos(tilt) - y * sin(tilt) + pull.x),
+                       y: steakCenter.y + s * (x * sin(tilt) + y * cos(tilt) + pull.y))
+    }
+    return smoothOutline(points)
+}
+
+let steak = steakOutline()
+let lean = steakOutline(scale: 0.88, pull: CGPoint(x: 0.016, y: -0.012))
+let lightFrom = CGPoint(x: steakCenter.x - s * 0.08, y: steakCenter.y + s * 0.07)
+
+// The whole piece with its shadow in the pan, coloured as seared fat.
 context.saveGState()
-context.setShadow(offset: CGSize(width: s * 0.006, height: -s * 0.010), blur: s * 0.02, color: color(0, 0, 0, 0.6))
-context.addPath(white)
-context.setFillColor(color(0.96, 0.95, 0.92))
+context.setShadow(offset: CGSize(width: s * 0.008, height: -s * 0.014), blur: s * 0.024, color: color(0, 0, 0, 0.7))
+context.addPath(steak)
+context.setFillColor(color(0.72, 0.46, 0.20))
 context.fillPath()
 context.restoreGState()
 context.saveGState()
-context.addPath(white)
+context.addPath(steak)
 context.clip()
 context.drawRadialGradient(
-    gradient([(0.0, color(1, 1, 1)), (0.7, color(0.97, 0.96, 0.93)), (1.0, color(0.86, 0.82, 0.76))]),
-    startCenter: CGPoint(x: eggCenter.x - s * 0.04, y: eggCenter.y + s * 0.05), startRadius: 0,
-    endCenter: eggCenter, endRadius: s * 0.2, options: [.drawsAfterEndLocation])
-// Crisp golden lace at the edge.
-context.addPath(white)
-context.setLineWidth(s * 0.012)
-context.setStrokeColor(color(0.85, 0.62, 0.30, 0.55))
-context.strokePath()
+    gradient([(0.0, color(0.96, 0.76, 0.44)), (0.6, color(0.80, 0.52, 0.22)), (1.0, color(0.48, 0.24, 0.08))]),
+    startCenter: lightFrom, startRadius: 0, endCenter: steakCenter, endRadius: s * 0.24, options: [.drawsAfterEndLocation])
 context.restoreGState()
 
-// The yolk: a glossy dome.
-let yolkRadius = s * 0.072
-let yolkCenter = CGPoint(x: eggCenter.x - s * 0.012, y: eggCenter.y + s * 0.012)
+// The lean meat: a deep seared crust, lighter where the light falls.
 context.saveGState()
-context.setShadow(offset: CGSize(width: s * 0.008, height: -s * 0.012), blur: s * 0.022, color: color(0.45, 0.25, 0.05, 0.6))
-context.addEllipse(in: CGRect(x: yolkCenter.x - yolkRadius, y: yolkCenter.y - yolkRadius, width: yolkRadius * 2, height: yolkRadius * 2))
-context.setFillColor(color(0.98, 0.58, 0.05))
+context.setShadow(offset: CGSize(width: -s * 0.002, height: s * 0.003), blur: s * 0.008, color: color(0.25, 0.10, 0.02, 0.6))
+context.addPath(lean)
+context.setFillColor(color(0.42, 0.18, 0.07))
 context.fillPath()
 context.restoreGState()
 context.saveGState()
-context.addEllipse(in: CGRect(x: yolkCenter.x - yolkRadius, y: yolkCenter.y - yolkRadius, width: yolkRadius * 2, height: yolkRadius * 2))
+context.addPath(lean)
 context.clip()
 context.drawRadialGradient(
-    gradient([(0.0, color(1.0, 0.86, 0.32)), (0.55, color(1.0, 0.66, 0.08)), (1.0, color(0.88, 0.42, 0.02))]),
-    startCenter: CGPoint(x: yolkCenter.x - yolkRadius * 0.35, y: yolkCenter.y + yolkRadius * 0.35), startRadius: 0,
-    endCenter: yolkCenter, endRadius: yolkRadius, options: [])
+    gradient([(0.0, color(0.78, 0.42, 0.18)), (0.45, color(0.58, 0.27, 0.10)), (1.0, color(0.26, 0.10, 0.03))]),
+    startCenter: lightFrom, startRadius: 0, endCenter: steakCenter, endRadius: s * 0.20, options: [.drawsAfterEndLocation])
+// Grill marks: dark diagonal bars with a soft, scorched edge.
+context.setLineCap(.round)
+for offset in stride(from: -0.09, through: 0.09, by: 0.09) {
+    let from = CGPoint(x: steakCenter.x + s * (offset - 0.12), y: steakCenter.y + s * 0.16)
+    let to = CGPoint(x: steakCenter.x + s * (offset + 0.12), y: steakCenter.y - s * 0.16)
+    context.setLineWidth(s * 0.040)
+    context.setStrokeColor(color(0.20, 0.07, 0.02, 0.45))
+    context.move(to: from); context.addLine(to: to); context.strokePath()
+    context.setLineWidth(s * 0.022)
+    context.setStrokeColor(color(0.09, 0.03, 0.01, 0.9))
+    context.move(to: from); context.addLine(to: to); context.strokePath()
+}
 context.restoreGState()
-context.addEllipse(in: CGRect(x: yolkCenter.x - yolkRadius * 0.55, y: yolkCenter.y + yolkRadius * 0.18,
-                              width: yolkRadius * 0.55, height: yolkRadius * 0.38))
-context.setFillColor(color(1, 1, 1, 0.75))
-context.fillPath()
+
+// Juicy gloss: a soft sheen at the upper left and a few bright glints.
+context.saveGState()
+context.addPath(steak)
+context.clip()
+context.drawRadialGradient(
+    gradient([(0.0, color(1, 0.95, 0.85, 0.40)), (1.0, color(1, 0.95, 0.85, 0))]),
+    startCenter: CGPoint(x: lightFrom.x - s * 0.02, y: lightFrom.y + s * 0.01), startRadius: 0,
+    endCenter: CGPoint(x: lightFrom.x - s * 0.02, y: lightFrom.y + s * 0.01), endRadius: s * 0.11, options: [])
+context.restoreGState()
+for glint in [(-0.115, 0.050, 0.030, 0.012), (-0.070, 0.088, 0.022, 0.009), (0.060, 0.050, 0.016, 0.007)] {
+    context.addEllipse(in: CGRect(x: steakCenter.x + s * glint.0, y: steakCenter.y + s * glint.1,
+                                  width: s * glint.2, height: s * glint.3))
+    context.setFillColor(color(1, 1, 1, 0.55))
+    context.fillPath()
+}
+
+// A sprig of rosemary across the lower right, for a touch of green.
+context.saveGState()
+context.setShadow(offset: CGSize(width: s * 0.004, height: -s * 0.007), blur: s * 0.010, color: color(0, 0, 0, 0.6))
+let stemFrom = CGPoint(x: steakCenter.x + s * 0.02, y: steakCenter.y - s * 0.115)
+let stemTo = CGPoint(x: steakCenter.x + s * 0.20, y: steakCenter.y - s * 0.035)
+context.setLineCap(.round)
+context.setLineWidth(s * 0.007)
+context.setStrokeColor(color(0.36, 0.30, 0.14))
+context.move(to: stemFrom); context.addLine(to: stemTo); context.strokePath()
+let stemAngle = atan2(stemTo.y - stemFrom.y, stemTo.x - stemFrom.x)
+for step in 0..<9 {
+    let t = 0.08 + CGFloat(step) * 0.105
+    let base = CGPoint(x: stemFrom.x + (stemTo.x - stemFrom.x) * t, y: stemFrom.y + (stemTo.y - stemFrom.y) * t)
+    for side: CGFloat in [-1, 1] {
+        context.saveGState()
+        context.translateBy(x: base.x, y: base.y)
+        context.rotate(by: stemAngle + side * 0.95)
+        let needle = CGRect(x: 0, y: -s * 0.0055, width: s * 0.040 * (1 - t * 0.35), height: s * 0.011)
+        context.addEllipse(in: needle)
+        context.clip()
+        context.drawLinearGradient(gradient([(0.0, color(0.38, 0.58, 0.28)), (1.0, color(0.12, 0.30, 0.12))]),
+                                   start: CGPoint(x: 0, y: needle.maxY), end: CGPoint(x: 0, y: needle.minY), options: [])
+        context.restoreGState()
+    }
+}
+context.restoreGState()
 
 // MARK: The badge — a stopwatch, tilted and lifted like the calendar
 

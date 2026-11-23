@@ -194,6 +194,10 @@ Wunsch Hans-Peter: Beim Schneiden oder am Herd steht man weiter weg. Der Schritt
 
 Wunsch Hans-Peter: näher an BakePlanners Symbol, mit 3D-Wirkung. `scripts/cookplanner/cookplanner-icon.swift` zeichnet jetzt Licht von links oben und Schatten für jede Form: Glut, die zu den Ecken schwarz wird; gusseiserne Pfanne mit hellem Rand, Glanzbogen, Innenwand und warm angestrahltem Boden; ein Spiegelei mit glänzendem Dotter als warmer Blickfang wie das Brot; als Plakette eine runde, gekippte Stoppuhr mit Krone, cremefarbener Lünette und orangem, glänzendem Zifferblatt (statt der flachen Karte). Weiterhin ohne Bildgenerator, 1024 × 1024 ohne Alpha.
 
+### Steak statt Spiegelei (23.11.)
+
+Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
+
 ### Einkaufsliste zusammengefasst (23.11.)
 
 Wunsch Hans-Peter: Die Zutaten stehen je Komponente getrennt – fürs Kochen richtig, fürs Einkaufen nicht. Die Einkaufsliste hat jetzt **eine Zeile je Ding**: gleiche Zutaten (`IngredientNameNormalizer.comparisonKey`, wie BakePlanners Liste und Vorrat vergleichen) werden eins, die Mengen addiert – g mit kg, ml mit l, Stück mit Stück, sonst gleiche Einheit; was sich nicht addieren lässt, steht nebeneinander („50 g + 1 EL Butter“); Zutaten ohne Menge (Salz) einmal (`KitchenShoppingList.lines`, Tests). Sortiert nach Regalen wie bei BakePlanner (`ShoppingListCategory`), darunter klein die Komponenten, die die Zutat brauchen. Ein Haken gilt für alle Zutaten der Zeile; „Fehlendes teilen“ gibt die zusammengefassten Zeilen weiter. Zutatenkarte, Editor und Kochmodus bleiben je Komponente. Nebenbei: Muskatnuss steht im Regal Gewürze statt Nüsse (gilt auch für BakePlanner). Startargument `-ShoppingSample <n>` (Debug).
