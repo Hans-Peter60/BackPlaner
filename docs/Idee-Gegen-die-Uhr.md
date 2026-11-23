@@ -172,7 +172,7 @@ Zwei Befunde aus dem Import-Benchmark: **Die Höchstwartezeit bindet nur den ers
 
 ### App-Symbol (20.11.)
 
-Name bleibt **CookPlanner** (Entscheidung 20.11.). Das Symbol folgt der Familie von BakePlanner: warmes Orange, das zu Schwarz ausläuft, ein Held in der Mitte – hier die Pfanne –, rechts unten die Plakette, hier eine Stoppuhr statt des Kalenders. Gezeichnet mit Core Graphics in `scripts/cookplanner-icon.swift` (`swift scripts/cookplanner-icon.swift` schreibt `CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png`, 1024 × 1024 ohne Alpha). BakePlanners Symbol ist ein fotorealistisches Bild aus einem Bildgenerator; wer das für CookPlanner nachzieht, ersetzt einfach die PNG-Datei. Prompt-Vorschlag dafür steht im Chat vom 20.11.: gusseiserne Pfanne von schräg oben, orange Glut-Hintergrund mit schwarzer Vignette, cremefarbene Stoppuhr-Plakette rechts unten im Stil der BakePlanner-Kalenderplakette.
+Name bleibt **CookPlanner** (Entscheidung 20.11.). Das Symbol folgt der Familie von BakePlanner: warmes Orange, das zu Schwarz ausläuft, ein Held in der Mitte – hier die Pfanne mit Spiegelei –, rechts unten die Plakette, hier eine Stoppuhr statt des Kalenders (mit Tiefe seit 23.11.). Gezeichnet mit Core Graphics in `scripts/cookplanner-icon.swift` (`swift scripts/cookplanner-icon.swift` schreibt `CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png`, 1024 × 1024 ohne Alpha). BakePlanners Symbol ist ein fotorealistisches Bild aus einem Bildgenerator; wer das für CookPlanner nachzieht, ersetzt einfach die PNG-Datei. Prompt-Vorschlag dafür steht im Chat vom 20.11.: gusseiserne Pfanne von schräg oben, orange Glut-Hintergrund mit schwarzer Vignette, cremefarbene Stoppuhr-Plakette rechts unten im Stil der BakePlanner-Kalenderplakette.
 
 ### Zutaten und Einkaufsliste (erledigt 21.11.)
 
@@ -181,6 +181,10 @@ Wunsch Hans-Peter: Einkaufsliste und die Zutaten am Kochschritt. **Modell** (#19
 ### Stoppuhr und Protokoll (erledigt 21.11.)
 
 Wunsch Hans-Peter: die Uhr umdrehen. Der Kochmodus zeigt jetzt die Stoppuhr ab 0:00 (Pausen zählen nicht), darunter „Plan N Min. · noch mm:ss“ bzw. die Zeit über dem Plan. Jedes Abhaken merkt sich die Sekunde; „Erledigt“ listet die Schritte mit ihrer Zeit. „Beenden“ fragt „Beenden und Protokoll sichern“, „Beenden ohne Protokoll“ oder „Weiterkochen“ (als Meldung, der Dialog zeigte auf dem iPhone kein Weiterkochen). Das **Protokoll** (`KitchenCookRun`, JSON-Datei `cook-runs.json` neben der Datenbank, `CookRunLog`) hält je Schritt fest: erledigt bei, gebraucht, geplant, Unterschied; ein Handschritt zählt ab dem vorigen Abhaken oder ab seiner Planminute, wenn die später lag; Töpfe und Wartezeiten ohne Abhaken enden nach Plan (Uhr-Symbol). Ein vorzeitig beendeter Durchgang sagt „Vorzeitig beendet: n von m Schritten“ statt eines Unterschieds. Auf dem Plan steht die Karte „Gekocht“ mit den letzten Durchgängen. Später: aus den Protokollen die Schätzungen des Gerichts nachstellen.
+
+### App-Symbol mit Tiefe (23.11.)
+
+Wunsch Hans-Peter: näher an BakePlanners Symbol, mit 3D-Wirkung. `scripts/cookplanner-icon.swift` zeichnet jetzt Licht von links oben und Schatten für jede Form: Glut, die zu den Ecken schwarz wird; gusseiserne Pfanne mit hellem Rand, Glanzbogen, Innenwand und warm angestrahltem Boden; ein Spiegelei mit glänzendem Dotter als warmer Blickfang wie das Brot; als Plakette eine runde, gekippte Stoppuhr mit Krone, cremefarbener Lünette und orangem, glänzendem Zifferblatt (statt der flachen Karte). Weiterhin ohne Bildgenerator, 1024 × 1024 ohne Alpha.
 
 ### Einkaufsliste zusammengefasst (23.11.)
 
