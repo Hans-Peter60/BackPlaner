@@ -38,7 +38,7 @@ cd firebase/tests && npm ci && npm test   # braucht Java
 ```
 
 Schlägt **„User manual“** fehl, wurde ein Handbuch geändert, ohne die Webseiten neu zu erzeugen:
-`python3 docs/build-manual-html.py` ausführen und das Ergebnis mit committen.
+`python3 docs/bakeplanner/build-manual-html.py` ausführen und das Ergebnis mit committen.
 
 Schlägt **„Firestore rules“** fehl, erlauben oder verbieten die Regeln in `firebase/firestore.rules` etwas anderes, als die App erwartet. Die Ausgabe nennt den Fall, etwa „user: get reported refused“. Entweder ist die Regeländerung falsch, oder die App hat sich geändert und der Test in `firebase/tests/rules.test.mjs` muss mit.
 

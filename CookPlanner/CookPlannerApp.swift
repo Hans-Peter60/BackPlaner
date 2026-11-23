@@ -7,7 +7,7 @@
 //  KitchenScheduler; this app shows its plans and runs them as a cook mode.
 //  The cook's own dishes are kept by CookPlannerStorage; the cloud import
 //  goes through Firebase (Functions, App Check, anonymous Auth) in the
-//  same project as BakePlanner. Working title; see docs/Idee-Gegen-die-Uhr.md.
+//  same project as BakePlanner. Working title; see docs/cookplanner/Idee-Gegen-die-Uhr.md.
 //
 
 import BakePlannerCore

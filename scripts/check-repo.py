@@ -215,14 +215,14 @@ def check_xcproj() -> list[str]:
 
 def check_manual() -> list[str]:
     website = "docs/website"
-    result = subprocess.run([sys.executable, str(ROOT / "docs/build-manual-html.py")],
+    result = subprocess.run([sys.executable, str(ROOT / "docs/bakeplanner/build-manual-html.py")],
                             cwd=ROOT, capture_output=True, text=True)
     if result.returncode != 0:
-        return [f"docs/build-manual-html.py failed: {result.stderr.strip()}"]
+        return [f"docs/bakeplanner/build-manual-html.py failed: {result.stderr.strip()}"]
     changed = subprocess.run(["git", "status", "--porcelain", "--", website],
                              cwd=ROOT, capture_output=True, text=True).stdout.strip()
     if changed:
-        return [f"{website} is out of date — run python3 docs/build-manual-html.py and commit:\n{changed}"]
+        return [f"{website} is out of date — run python3 docs/bakeplanner/build-manual-html.py and commit:\n{changed}"]
     return []
 
 

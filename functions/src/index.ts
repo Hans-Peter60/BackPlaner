@@ -720,7 +720,7 @@ function monthKey(timestamp: Timestamp): string {
  * The Firebase app IDs (App Check) of the apps that are exempt from the
  * monthly allowance: the Android app, which has no purchase yet — Play
  * Billing comes with the Pro switch for both platforms (see
- * docs/Pro-Einfuehrung.md) — and CookPlanner. The hourly limit applies to
+ * docs/bakeplanner/Pro-Einfuehrung.md) — and CookPlanner. The hourly limit applies to
  * them all the same.
  */
 export const appIdsWithoutMonthlyLimit = new Set([

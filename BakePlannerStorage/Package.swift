@@ -1,7 +1,7 @@
 // swift-tools-version: 6.2
 //
 // The user's own data kept in SQLite, for the Android app (see
-// docs/Android-Bestandsaufnahme.md). A package of its own so the iOS app,
+// docs/bakeplanner/Android-Bestandsaufnahme.md). A package of its own so the iOS app,
 // which keeps its data in Core Data, does not resolve or link SQLite.
 // SkipSQLPlus brings its own SQLite build: in Skip's native mode Android's
 // system SQLite cannot be reached from Swift.

@@ -5,7 +5,7 @@
 //  The manuals' pictures that need a device full of own recipes and a
 //  baking history: the recipe list showing only the local recipes
 //  ("Eigene Rezepte") and the photo cloud of the baking history. Run by
-//  scripts/manual-screenshots.sh on a simulator that holds such data; the
+//  scripts/bakeplanner/manual-screenshots.sh on a simulator that holds such data; the
 //  store run (AppStoreScreenshots) cannot take them, it clears the
 //  simulator's data first. Skips itself in a normal test run.
 //
@@ -25,7 +25,7 @@ final class ManualScreenshots: StoreUITestCase {
     override func setUpWithError() throws {
         let environment = ProcessInfo.processInfo.environment
         guard let language = environment["MANUAL_SCREENSHOT_LANGUAGE"], !language.isEmpty else {
-            throw XCTSkip("Only for scripts/manual-screenshots.sh (MANUAL_SCREENSHOT_LANGUAGE is not set).")
+            throw XCTSkip("Only for scripts/bakeplanner/manual-screenshots.sh (MANUAL_SCREENSHOT_LANGUAGE is not set).")
         }
         prepare(language: language)
         // Only the local recipes in the list: the two cloud chips off for

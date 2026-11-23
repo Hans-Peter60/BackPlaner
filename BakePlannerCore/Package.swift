@@ -1,7 +1,7 @@
 // swift-tools-version: 6.2
 //
 // The app's logic that does not depend on Apple-only frameworks, so it can
-// be built for Android later (see docs/Android-Bestandsaufnahme.md). The
+// be built for Android later (see docs/bakeplanner/Android-Bestandsaufnahme.md). The
 // app links the library; the tests run with ⌘U and with `swift test`.
 
 import PackageDescription

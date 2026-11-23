@@ -3,7 +3,7 @@
 //  BackPlanerUITests
 //
 //  Drives the app through the three scenes of the App Store previews while
-//  scripts/appstore-previews.sh records the simulator's screen. Each scene is
+//  scripts/bakeplanner/appstore-previews.sh records the simulator's screen. Each scene is
 //  a test of its own, so the script gets one movie per scene; the pauses are
 //  there for the viewer, not for the app. Cutting, captions and the export in
 //  App Store Connect's sizes are done afterwards in iMovie ("App-Vorschau").
@@ -26,7 +26,7 @@ final class AppPreview: StoreUITestCase {
     override func setUpWithError() throws {
         let environment = ProcessInfo.processInfo.environment
         guard let language = environment["PREVIEW_LANGUAGE"], !language.isEmpty else {
-            throw XCTSkip("Only for scripts/appstore-previews.sh (PREVIEW_LANGUAGE is not set).")
+            throw XCTSkip("Only for scripts/bakeplanner/appstore-previews.sh (PREVIEW_LANGUAGE is not set).")
         }
         prepare(language: language)
     }

@@ -26,7 +26,7 @@ import UIKit
 ///
 /// `-UITestingRestoreBackup <path>` reads a backup file in at launch, merging
 /// like "Sicherung wiedereinspielen" does. The App Store screenshots use it
-/// with the demo data of scripts/appstore-demo-data.py: a fresh simulator
+/// with the demo data of scripts/bakeplanner/appstore-demo-data.py: a fresh simulator
 /// then has own breads with pictures, a year of baking history, a starter
 /// diary and a pantry — what the pictures of the Pro features need. The
 /// simulator shares the Mac's file system, so the path is a Mac path.

@@ -325,7 +325,7 @@ struct SettingsView: View {
             Text(restoreMessage ?? "")
         }
         // Picks up an admins document created while the app was running (by
-        // the console or scripts/grant-admin.mjs), so the account section
+        // the console or scripts/bakeplanner/grant-admin.mjs), so the account section
         // shows "Administrator" without a restart.
         .onAppear {
             modelFB.checkAdminStatus()

@@ -6,11 +6,12 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - `BackPlaner/` – App-Target (SwiftUI, iOS 26+). `Views/` UI, `Utilities/` Logik und Dienste, `CoreData/` Modell, `DataFiles/` Firebase-Modelle (`RecipeFB*`), `Intents/` Siri/App Intents.
 - `BakePlannerCore/` – lokales Swift Package mit plattformneutraler Logik und ihren Tests (Android-Portierung, im Aufbau); die App bindet es ein, die Tests laufen im Testplan `UnitTests` mit.
 - `BackPlanerWidgets/` – Widget und Live-Aktivität. `BackPlanerShare/` – Share-Extension für den Web-Import.
-- `CookPlanner/` + `CookPlanner.xcodeproj` – zweite App „Kochen gegen die Uhr“ (Arbeitstitel, iOS, SwiftUI, Xcode-27-Projektformat `project.xcproj`), nutzt `KitchenScheduler`, `KitchenDish` und `KitchenSampleDishes` aus dem Paket; eigene Daten in `CookPlannerStorage/` (SQLite über SkipSQLPlus, `swift test` dort). Stand in `docs/Idee-Gegen-die-Uhr.md`, TestFlight und Store-Texte in `docs/CookPlanner-Store.md`. Der Katalog `CookPlanner/Localizable.xcstrings` braucht explizite `de`-Einträge. Bauen: `xcodebuild -project CookPlanner.xcodeproj -scheme CookPlanner -destination 'id=<udid>' build`.
+- `CookPlanner/` + `CookPlanner.xcodeproj` – zweite App „Kochen gegen die Uhr“ (Arbeitstitel, iOS, SwiftUI, Xcode-27-Projektformat `project.xcproj`), nutzt `KitchenScheduler`, `KitchenDish` und `KitchenSampleDishes` aus dem Paket; eigene Daten in `CookPlannerStorage/` (SQLite über SkipSQLPlus, `swift test` dort). Stand in `docs/cookplanner/Idee-Gegen-die-Uhr.md`, TestFlight und Store-Texte in `docs/cookplanner/CookPlanner-Store.md`. Der Katalog `CookPlanner/Localizable.xcstrings` braucht explizite `de`-Einträge. Bauen: `xcodebuild -project CookPlanner.xcodeproj -scheme CookPlanner -destination 'id=<udid>' build`.
 - `BackPlanerTests/` – ca. 285 Unit-Tests (`UnitTests.xctestplan`, Standard für ⌘U). `BackPlanerUITests/` – UI-Tests (`AllTests.xctestplan`).
 - `functions/` – Cloud Functions (TypeScript): KI-Rezeptimport (`analyzeRecipeImages`, `analyzeRecipeText`), Pro-Prüfung (`proVerification.ts`).
 - `firebase/` – Firestore- und Storage-Regeln, Regel-Tests im Emulator (`firebase/tests`).
-- `docs/` – Handbücher (DE/EN/FR, HTML wird mit `docs/build-manual-html.py` erzeugt), App-Store-Texte, CI-Doku (`docs/CI.md`), Android-Bestandsaufnahme, Ideen für 3.0 (`docs/Ideen-3.0.md`), Plan für Konto und Abgleich (`docs/Konto-und-Abgleich.md`), Pro-Einführung Schritt 1 – Importkontingent (`docs/Pro-Einfuehrung.md`), Idee einer zweiten App „Kochen gegen die Uhr“ mit dem Schritt-Planer `KitchenScheduler` (`docs/Idee-Gegen-die-Uhr.md`).
+- `docs/` – nach App getrennt: `docs/bakeplanner/` (Handbücher DE/EN/FR, HTML wird mit `docs/bakeplanner/build-manual-html.py` erzeugt, App-Store-Texte und -Bilder, Neuerungen, Android-Bestandsaufnahme, Ideen für 3.0 `Ideen-3.0.md`, Plan für Konto und Abgleich `Konto-und-Abgleich.md`, Pro-Einführung `Pro-Einfuehrung.md`), `docs/cookplanner/` (Idee und Stand `Idee-Gegen-die-Uhr.md`, Store-Texte, Store-Bilder); gemeinsam bleiben `docs/CI.md` und `docs/website/` (Abbild der Website, wird von Hand hochgeladen).
+- `scripts/` – gemeinsam: `check-repo.py`, `generate-package-data.py`; nur BakePlanner in `scripts/bakeplanner/` (Screenshots, Play Console, Übersetzungsprüfung, Firebase-Admin), nur CookPlanner in `scripts/cookplanner/`.
 
 ## Daten
 - **Private Daten:** Core Data mit `NSPersistentCloudKitContainer` (iCloud-Container `iCloud.de.hpm64625.BackPlaner`). Entitäten: Recipe, Component, Ingredient, Instruction, NextStep, BakeHistory, ShoppingCart, Item, StarterFeedingLog.
@@ -22,7 +23,7 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - Unit-Tests: `xcodebuild test -project BackPlaner.xcodeproj -scheme BackPlaner -testPlan UnitTests -destination 'id=<udid>'` (seit CookPlanner liegen zwei Projekte im Wurzelordner, `-project` ist Pflicht). Hängt der Test-Runner beim Start, anderen Simulator nehmen (iOS 27.x).
 - Repository-Prüfung (String-Kataloge en/fr vollständig, Paket-Texte und erzeugte Paketdaten aktuell, Projektdatei, Handbuch-HTML aktuell): `python3 scripts/check-repo.py`.
 - Functions: `cd functions && npm run lint && npm run build`. Regeln: `cd firebase/tests && npm test` (braucht Java).
-- Play Console: `python3 scripts/play-console.py status|upload <AAB>` (Dienstkonto-Schlüssel außerhalb des Repos, `docs/Android-Play-Release.md` Abschnitt 8).
+- Play Console: `python3 scripts/bakeplanner/play-console.py status|upload <AAB>` (Dienstkonto-Schlüssel außerhalb des Repos, `docs/bakeplanner/Android-Play-Release.md` Abschnitt 8).
 - Details: `docs/CI.md`. Die App selbst baut Xcode Cloud, GitHub Actions prüft den Rest.
 
 ## Konventionen
@@ -32,11 +33,11 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 - Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
 - Für Android bringt das Paket Übersetzungen und Einheiten als erzeugte Dateien mit (`BakePlannerCore/Sources/BakePlannerCore/Generated/`). Nach Änderungen an diesen Katalogeinträgen, an `unit.*`-Einträgen oder an `UnitSets.json`: `python3 scripts/generate-package-data.py` ausführen; `check-repo.py` prüft, dass die Dateien aktuell sind.
 - Neue Swift-Dateien müssen in `project.pbxproj` eingetragen sein.
-- Handbuch geändert → `python3 docs/build-manual-html.py` ausführen.
+- Handbuch geändert → `python3 docs/bakeplanner/build-manual-html.py` ausführen.
 - Logik gehört nach `Utilities/` und bekommt Unit-Tests; Rechenlogik (TA, Portionen, Zeitplan, Einheiten) nie ohne Test ändern.
 
 ## Android-Portierung (geplant)
-Stand und Plan: `docs/Android-Bestandsaufnahme.md`. Wer weiterarbeitet, liest zuerst `docs/Android-Uebergabe.md` (Bauen und Testen, Arbeitsweise, bekannte Stolpersteine, offene Schritte). Leitlinien:
+Stand und Plan: `docs/bakeplanner/Android-Bestandsaufnahme.md`. Wer weiterarbeitet, liest zuerst `docs/bakeplanner/Android-Uebergabe.md` (Bauen und Testen, Arbeitsweise, bekannte Stolpersteine, offene Schritte). Leitlinien:
 - Weg: zuerst auf iOS die Datenschicht hinter ein Repository-Protokoll mit plattformneutralen Structs legen (Skip unterstützt Core Data auf Android nicht), dann Logik in ein Swift Package, dann Skip-Probelauf.
 - Firebase bleibt das gemeinsame Backend; private Daten auf Android zunächst lokal (SQLite), Plattformwechsel über die Sicherungsdatei.
 - Arbeiten in kleinen Schritten, je Schritt ein eigener Branch; alle Unit-Tests müssen nach jedem Schritt grün sein; die iOS-App darf sich für Nutzer nicht verändern.

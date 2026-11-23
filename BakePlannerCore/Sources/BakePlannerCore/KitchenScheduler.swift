@@ -22,7 +22,7 @@
 //  long enough to need keeping warm.
 //
 //  This is the planning core for the "cook against the clock" idea
-//  (docs/Idee-Gegen-die-Uhr.md); BakePlan plans a bread's steps in their
+//  (docs/cookplanner/Idee-Gegen-die-Uhr.md); BakePlan plans a bread's steps in their
 //  recipe order and cannot reorder them, which a dish of four components
 //  needs.
 //

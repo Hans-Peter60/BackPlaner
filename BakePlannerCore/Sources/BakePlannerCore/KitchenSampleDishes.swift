@@ -5,7 +5,7 @@
 //  Three dishes from a 35-minute cooking show, broken into the steps a cook
 //  actually does, with estimated hands-on and unattended minutes and how
 //  long each result keeps. The recipes name hardly any work times, so the
-//  minutes are estimates (docs/Idee-Gegen-die-Uhr.md keeps them as tables
+//  minutes are estimates (docs/cookplanner/Idee-Gegen-die-Uhr.md keeps them as tables
 //  for correction). The ovens are preheated before the clock starts, as in
 //  the show, so no step heats one. The CookPlanner app shows these dishes
 //  until it has an import of its own; the scheduler's tests use them too.
