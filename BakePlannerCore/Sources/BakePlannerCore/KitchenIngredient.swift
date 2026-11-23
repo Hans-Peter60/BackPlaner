@@ -80,6 +80,17 @@ public enum KitchenShoppingList {
         }
     }
 
+    /// What is still to buy, one ingredient per line and nothing else — the
+    /// way Reminders makes one entry of every line, and a message reads it
+    /// as a plain list. `available` are the ids the cook already has.
+    public static func missingText(for dish: KitchenDish, available: Set<String>,
+                                   locale: Locale = AppSettings.locale) -> String {
+        groups(of: dish).flatMap(\.ingredients)
+            .filter { !available.contains($0.id) }
+            .map { $0.line(locale: locale) }
+            .joined(separator: "\n")
+    }
+
     /// The list as text: a heading per component, a dash per ingredient;
     /// `checked` ids are left out, as they are already in the basket.
     public static func text(for dish: KitchenDish, excluding checked: Set<String> = [],

@@ -2,9 +2,10 @@
 //  ShoppingListView.swift
 //  CookPlanner
 //
-//  The dish's ingredients by component, to tick off while shopping. What
-//  is ticked is kept per dish, so the list survives leaving the screen;
-//  the share button hands the open items to Notes, Reminders or a message.
+//  The dish's ingredients by component. Tick what is at home already; the
+//  rest is what to buy, and "Fehlendes teilen" hands exactly that to
+//  Reminders, Notes or a message, one ingredient per line. What is ticked
+//  is kept per dish, so the list survives leaving the screen.
 //
 
 import BakePlannerCore
@@ -19,7 +20,8 @@ struct ShoppingListView: View {
 
     private var storageKey: String { "shopping.checked." + dish.id }
     private var groups: [(component: String, ingredients: [KitchenIngredient])] { KitchenShoppingList.groups(of: dish) }
-    private var shareText: String { KitchenShoppingList.text(for: dish, excluding: checked) }
+    private var shareText: String { KitchenShoppingList.missingText(for: dish, available: checked) }
+    private var missingCount: Int { dish.ingredients.filter { !checked.contains($0.id) }.count }
 
     var body: some View {
         NavigationStack {
@@ -53,16 +55,41 @@ struct ShoppingListView: View {
                         .foregroundColor(.secondary)
                 }
             }
+            .safeAreaInset(edge: .top) {
+                if !dish.ingredients.isEmpty {
+                    Text("Hake ab, was Du schon im Haus hast. Den Rest teilst Du unten, z. B. an Erinnerungen.")
+                        .font(Theme.bodyFont(13))
+                        .foregroundColor(Theme.subtitle)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.vertical, 6)
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                if !dish.ingredients.isEmpty {
+                    ShareLink(item: shareText, subject: Text(verbatim: dish.name)) {
+                        Label(missingCount == 0 ? "Alles im Haus" : "Fehlendes teilen (\(missingCount))",
+                              systemImage: missingCount == 0 ? "checkmark.circle" : "square.and.arrow.up")
+                            .font(Theme.bodyFont(17).weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Theme.accentBottom)
+                    .disabled(missingCount == 0)
+                    .padding()
+                }
+            }
             .navigationTitle("Einkaufsliste")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Menu {
-                        Button("Alle abhaken") {
+                        Button("Alles im Haus") {
                             checked = Set(dish.ingredients.map(\.id))
                             save()
                         }
-                        Button("Zurücksetzen") {
+                        Button("Nichts im Haus") {
                             checked = []
                             save()
                         }
@@ -70,12 +97,6 @@ struct ShoppingListView: View {
                         Image(systemName: "ellipsis.circle")
                     }
                     .accessibilityLabel("Mehr")
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    ShareLink(item: shareText, subject: Text(verbatim: dish.name)) {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .accessibilityLabel("Teilen")
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Fertig") { dismiss() }
