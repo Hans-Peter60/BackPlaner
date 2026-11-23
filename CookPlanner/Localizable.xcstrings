@@ -706,6 +706,72 @@
         }
       }
     },
+    "Ablauf" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ablauf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déroulé"
+          }
+        }
+      }
+    },
+    "Ablaufplan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ablaufplan"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de cuisson"
+          }
+        }
+      }
+    },
+    "Ablaufplan als PDF" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ablaufplan als PDF"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking plan as PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de cuisson en PDF"
+          }
+        }
+      }
+    },
     "Adresse der Rezeptseite" : {
       "localizations" : {
         "de" : {
@@ -1564,6 +1630,28 @@
         }
       }
     },
+    "Dauer %lld Min., Zeiten ab Minute 0" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dauer %lld Min., Zeiten ab Minute 0"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min, times from minute 0"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée %lld min, temps depuis la minute 0"
+          }
+        }
+      }
+    },
     "Der Mittelwert (Median) der abgehakten Zeiten aus den letzten bis zu fünf Durchgängen. Bei Töpfen und Ofenschritten bleibt die Handarbeit, die Zeit allein passt sich an." : {
       "localizations" : {
         "de" : {
@@ -2312,6 +2400,28 @@
         }
       }
     },
+    "Erstellt mit CookPlanner" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstellt mit CookPlanner"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made with CookPlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créé avec CookPlanner"
+          }
+        }
+      }
+    },
     "Fehlen %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -2418,6 +2528,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prêt à la minute %lld, %lld min plus tard que prévu"
+          }
+        }
+      }
+    },
+    "Fertig um %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig um %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready at %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt à %@"
           }
         }
       }
@@ -3148,6 +3280,28 @@
         }
       }
     },
+    "Herd" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stove"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaque"
+          }
+        }
+      }
+    },
     "Herkunft" : {
       "localizations" : {
         "de" : {
@@ -3430,6 +3584,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importés"
+          }
+        }
+      }
+    },
+    "Jeder Schritt steht mit seiner Uhrzeit im Plan." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeder Schritt steht mit seiner Uhrzeit im Plan."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every step appears with its clock time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque étape figure avec son heure."
           }
         }
       }
@@ -4160,6 +4336,28 @@
         }
       }
     },
+    "Mit Startzeit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Startzeit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With a start time"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec une heure de début"
+          }
+        }
+      }
+    },
     "Mit diesen Garzeiten passt es in %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -4754,6 +4952,28 @@
         }
       }
     },
+    "Ohne Startzeit zählen die Zeiten ab Minute 0." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Startzeit zählen die Zeiten ab Minute 0."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without a start time, times count from minute 0."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans heure de début, les temps comptent depuis la minute 0."
+          }
+        }
+      }
+    },
     "Ohne Stoppuhr eingetragen." : {
       "localizations" : {
         "de" : {
@@ -4772,6 +4992,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saisi sans chronomètre."
+          }
+        }
+      }
+    },
+    "PDF teilen oder drucken" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF teilen oder drucken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share or print the PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager ou imprimer le PDF"
           }
         }
       }
@@ -5546,6 +5788,28 @@
         }
       }
     },
+    "Start %@ · fertig %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %@ · fertig %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %@ · ready %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %@ · prêt %@"
+          }
+        }
+      }
+    },
     "Statistik" : {
       "localizations" : {
         "de" : {
@@ -6163,6 +6427,28 @@
         }
       }
     },
+    "Zahl = Schritt im Ablauf" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zahl = Schritt im Ablauf"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number = step in the sequence"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro = étape du déroulé"
+          }
+        }
+      }
+    },
     "Zeit um – %@ drüber" : {
       "localizations" : {
         "de" : {
@@ -6203,6 +6489,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chronologie"
+          }
+        }
+      }
+    },
+    "Zeitachse, alle Schritte mit vollem Text und Zutaten, dazu die Zutaten je Komponente." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitachse, alle Schritte mit vollem Text und Zutaten, dazu die Zutaten je Komponente."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline, every step with its full text and ingredients, and the ingredients per component."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chronologie, chaque étape avec son texte complet et ses ingrédients, et les ingrédients par composant."
           }
         }
       }
@@ -6423,6 +6731,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingrédients et préparation tels que dans la recette. L’analyse estime les temps de travail et propose l’ordre et les dépendances ; vous vérifiez tout avant l’enregistrement."
+          }
+        }
+      }
+    },
+    "Zutaten: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zutaten: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients : %@"
           }
         }
       }

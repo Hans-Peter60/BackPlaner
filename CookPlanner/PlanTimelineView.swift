@@ -213,13 +213,15 @@ struct PlanTimelineView: View {
     }
 
     /// The components' colours, in turn.
+    /// The components' colours, in turn; the printed plan uses the same.
+    static let palette: [(red: Double, green: Double, blue: Double)] = [
+        (0.80, 0.42, 0.16), (0.24, 0.52, 0.40), (0.30, 0.44, 0.70),
+        (0.66, 0.30, 0.45), (0.55, 0.48, 0.20), (0.42, 0.36, 0.62),
+    ]
+
     static func color(for index: Int) -> Color {
-        let palette: [Color] = [
-            Color(red: 0.80, green: 0.42, blue: 0.16), Color(red: 0.24, green: 0.52, blue: 0.40),
-            Color(red: 0.30, green: 0.44, blue: 0.70), Color(red: 0.66, green: 0.30, blue: 0.45),
-            Color(red: 0.55, green: 0.48, blue: 0.20), Color(red: 0.42, green: 0.36, blue: 0.62),
-        ]
-        return palette[index % palette.count]
+        let rgb = palette[index % palette.count]
+        return Color(red: rgb.red, green: rgb.green, blue: rgb.blue)
     }
 }
 
