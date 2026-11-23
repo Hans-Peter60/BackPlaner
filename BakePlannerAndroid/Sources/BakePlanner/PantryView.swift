@@ -6,6 +6,8 @@ import SwiftUI
 /// ended plans at the bottom. Shown from the "Mehr" menu, as on the iPhone.
 struct PantryView: View {
     let model: AppModel
+    /// As a sheet it closes with "Fertig"; as the tab it has nothing to close.
+    var showsDone = true
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -37,9 +39,11 @@ struct PantryView: View {
         .navigationTitle("Vorrat")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Fertig") {
-                    dismiss()
+            if showsDone {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Fertig") {
+                        dismiss()
+                    }
                 }
             }
             ToolbarItem(placement: .primaryAction) {

@@ -6501,6 +6501,23 @@
       },
       "extractionState" : "manual"
     },
+    "Rechner" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculators"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculatrices"
+          }
+        }
+      }
+    },
     "Regelmäßig auffrischen" : {
       "extractionState" : "manual",
       "localizations" : {

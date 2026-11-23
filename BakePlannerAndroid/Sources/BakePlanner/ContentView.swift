@@ -46,6 +46,16 @@ struct ContentView: View {
             .tabItem {
                 Label("Zeitleiste", systemImage: "calendar")
             }
+
+            // A tab of its own, as on the iPhone since 23 Nov 2026: what is
+            // in the house, last so the order of the other four stays.
+            // "shippingbox" is a symbolset in Module.xcassets (Skip has none).
+            NavigationStack {
+                PantryView(model: model, showsDone: false)
+            }
+            .tabItem {
+                Label("Vorrat", systemImage: "shippingbox")
+            }
         }
         // The iPhone's look: the brown accent on every control. Nunito comes
         // from the Material theme (Main.kt) and from AppFont (Theme.swift).
@@ -124,11 +134,8 @@ struct RecipeListView: View {
     @State var exportIncludesBakeHistory = true
     @State var exportsRecipes = false
     @State var showsSettings = false
-    /// The calculator to show; kept apart from the sheet's visibility, as
-    /// the dialogs' data is.
-    @State var calculator = Calculator.doughTemperature
-    @State var showsCalculator = false
-    @State var showsPantry = false
+    /// "Mehr" → "Rechner": the page with the four calculators.
+    @State var showsCalculators = false
     @State var showsBakingDay = false
     /// The filter sheet, and the saved collection it opens for renaming.
     @State var showsFilter = false
@@ -225,25 +232,13 @@ struct RecipeListView: View {
                         exportsRecipes = true
                     }
                     .disabled(model.recipes.isEmpty)
-                    Button("Vorrat") {
-                        showsPantry = true
-                    }
                     Button("Backtag planen") {
                         showsBakingDay = true
                     }
                     .disabled(model.recipes.isEmpty)
-                    // The iPhone's three calculators from its main menu.
-                    Button("Teigtemperatur") {
-                        openCalculator(.doughTemperature)
-                    }
-                    Button("Mehl ersetzen") {
-                        openCalculator(.flourSubstitution)
-                    }
-                    Button("Anstellgut-TA") {
-                        openCalculator(.starterYield)
-                    }
-                    Button("Teigeinlage") {
-                        openCalculator(.doughWeightFromTin)
+                    // The four calculators on one page, as on the iPhone.
+                    Button("Rechner") {
+                        showsCalculators = true
                     }
                 } label: {
                     Text("Mehr")
@@ -292,14 +287,9 @@ struct RecipeListView: View {
                 SettingsView(model: model)
             }
         }
-        .appSheet(isPresented: $showsCalculator) {
+        .appSheet(isPresented: $showsCalculators) {
             NavigationStack {
-                CalculatorSheet(calculator: calculator)
-            }
-        }
-        .appSheet(isPresented: $showsPantry) {
-            NavigationStack {
-                PantryView(model: model)
+                CalculatorListView()
             }
         }
         .appSheet(isPresented: $showsBakingDay) {
@@ -404,11 +394,6 @@ struct RecipeListView: View {
                 Text(verbatim: skipped)
             }
         }
-    }
-
-    private func openCalculator(_ which: Calculator) {
-        calculator = which
-        showsCalculator = true
     }
 
     /// Takes an imported recipe from the web or photo import and opens the
