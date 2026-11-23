@@ -2,7 +2,9 @@
 //  ShoppingListView.swift
 //  CookPlanner
 //
-//  The dish's ingredients by component. Tick what is at home already; the
+//  What to buy for the dish: one line per thing — the butter of three
+//  components is one line with the amounts added up (KitchenShoppingList.
+//  lines) — by shelf, as BakePlanner sorts its list. Tick what is at home already; the
 //  rest is what to buy, and "Fehlendes teilen" hands exactly that to
 //  Reminders, Notes or a message, one ingredient per line. What is ticked
 //  is kept per dish, so the list survives leaving the screen.
@@ -19,26 +21,38 @@ struct ShoppingListView: View {
     @State private var checked: Set<String> = []
 
     private var storageKey: String { "shopping.checked." + dish.id }
-    private var groups: [(component: String, ingredients: [KitchenIngredient])] { KitchenShoppingList.groups(of: dish) }
-    private var shareText: String { KitchenShoppingList.missingText(for: dish, available: checked) }
-    private var missingCount: Int { dish.ingredients.filter { !checked.contains($0.id) }.count }
+    /// The same ingredient of several components is one line, amounts added up.
+    private var lines: [KitchenShoppingList.Line] { KitchenShoppingList.lines(of: dish) }
+    private var shelves: [ShoppingListCategory.Shelf<KitchenShoppingList.Line>] {
+        ShoppingListCategory.shelves(lines, name: \.name)
+    }
+    private var shareText: String { KitchenShoppingList.missingLines(for: dish, available: checked) }
+    private var missingCount: Int { lines.filter { !$0.ingredientIDs.allSatisfy(checked.contains) }.count }
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(groups, id: \.component) { group in
+                // One line per thing to buy, by shelf in the order of a walk
+                // through the shop; the components that use it in small print.
+                ForEach(shelves) { shelf in
                     Section {
-                        ForEach(group.ingredients) { ingredient in
+                        ForEach(shelf.items) { line in
+                            let atHome = line.ingredientIDs.allSatisfy(checked.contains)
                             Button {
-                                toggle(ingredient.id)
+                                toggle(line)
                             } label: {
                                 HStack(alignment: .firstTextBaseline, spacing: 12) {
-                                    Image(systemName: checked.contains(ingredient.id) ? "checkmark.circle.fill" : "circle")
+                                    Image(systemName: atHome ? "checkmark.circle.fill" : "circle")
                                         .foregroundColor(Theme.accentText)
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(verbatim: ingredient.line())
-                                            .strikethrough(checked.contains(ingredient.id))
-                                            .foregroundColor(checked.contains(ingredient.id) ? .secondary : .primary)
+                                        Text(verbatim: line.text())
+                                            .strikethrough(atHome)
+                                            .foregroundColor(atHome ? .secondary : .primary)
+                                        if line.components.count > 1 || dish.components.count > 1 {
+                                            Text(verbatim: line.components.joined(separator: " · "))
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                        }
                                     }
                                     Spacer()
                                 }
@@ -47,7 +61,7 @@ struct ShoppingListView: View {
                             .buttonStyle(.plain)
                         }
                     } header: {
-                        Text(verbatim: group.component.isEmpty ? String(localized: "Ohne Komponente") : group.component)
+                        Label(shelf.category.title, systemImage: shelf.category.systemImage)
                     }
                 }
                 if dish.ingredients.isEmpty {
@@ -106,8 +120,13 @@ struct ShoppingListView: View {
         }
     }
 
-    private func toggle(_ id: String) {
-        if checked.contains(id) { checked.remove(id) } else { checked.insert(id) }
+    /// A line stands for every ingredient of that name: all at home, or none.
+    private func toggle(_ line: KitchenShoppingList.Line) {
+        if line.ingredientIDs.allSatisfy(checked.contains) {
+            checked.subtract(line.ingredientIDs)
+        } else {
+            checked.formUnion(line.ingredientIDs)
+        }
         save()
     }
 

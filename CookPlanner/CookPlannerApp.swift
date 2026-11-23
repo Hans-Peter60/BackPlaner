@@ -61,7 +61,11 @@ struct CookPlannerApp: App {
             #if DEBUG
             // Development builds draw one example's timeline on its own with
             // the launch argument -TimelineSample <index>, for screenshots.
-            if let layout = UserDefaults.standard.string(forKey: "HistoryDemo").flatMap(CookHistoryLayout.init(rawValue:)) {
+            if let index = Int(UserDefaults.standard.string(forKey: "ShoppingSample") ?? ""),
+               KitchenSampleDishes.all.indices.contains(index) {
+                // -ShoppingSample <index>: an example's shopping list, for screenshots.
+                ShoppingListView(dish: KitchenSampleDishes.all[index])
+            } else if let layout = UserDefaults.standard.string(forKey: "HistoryDemo").flatMap(CookHistoryLayout.init(rawValue:)) {
                 // -HistoryDemo <layout>: the history with a few entries, for screenshots.
                 CookHistoryView()
                     .environment(library)

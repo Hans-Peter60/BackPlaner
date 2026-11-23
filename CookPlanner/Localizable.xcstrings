@@ -1190,6 +1190,28 @@
         }
       }
     },
+    "Backzutaten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backzutaten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Baking supplies"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ingrédients de pâtisserie"
+          }
+        }
+      }
+    },
     "Bearbeiten" : {
       "localizations" : {
         "de" : {
@@ -3038,6 +3060,28 @@
         }
       }
     },
+    "Gewürze & Kräuter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewürze & Kräuter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spices & herbs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
     "Gleich" : {
       "localizations" : {
         "de" : {
@@ -3852,6 +3896,28 @@
         }
       }
     },
+    "Mehl & Getreide" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehl & Getreide"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Flour & grains"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Farines & céréales"
+          }
+        }
+      }
+    },
     "Mehr" : {
       "localizations" : {
         "de" : {
@@ -3958,6 +4024,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quantité ×%@"
+          }
+        }
+      }
+    },
+    "Milchprodukte & Eier" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milchprodukte & Eier"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dairy & eggs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Produits laitiers & œufs"
           }
         }
       }
@@ -4468,6 +4556,28 @@
         }
       }
     },
+    "Nüsse, Saaten & Trockenfrüchte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nüsse, Saaten & Trockenfrüchte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nuts, seeds & dried fruit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Noix, graines & fruits secs"
+          }
+        }
+      }
+    },
     "OK" : {
       "localizations" : {
         "de" : {
@@ -4486,6 +4596,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "Obst & Gemüse" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obst & Gemüse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruit & vegetables"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruits & légumes"
           }
         }
       }
@@ -5344,6 +5476,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour que ça tienne"
+          }
+        }
+      }
+    },
+    "Sonstiges" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonstiges"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Other"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Divers"
           }
         }
       }
@@ -6533,6 +6687,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Öle, Fette & Flüssiges" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öle, Fette & Flüssiges"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Oils, fats & liquids"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Huiles, matières grasses & liquides"
           }
         }
       }
