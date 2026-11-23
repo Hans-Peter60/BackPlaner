@@ -20,6 +20,7 @@ struct DishPlanView: View {
     @State private var cooking = false
     @State private var editing = false
     @State private var shopping = false
+    @State private var printing = false
     @State private var shownRun: KitchenCookRun?
     /// The newest record when cooking began, to open the one it adds.
     @State private var runBeforeCooking: String?
@@ -108,6 +109,14 @@ struct DishPlanView: View {
                     }
                     .accessibilityLabel("Einkaufsliste")
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        printing = true
+                    } label: {
+                        Image(systemName: "printer")
+                    }
+                    .accessibilityLabel("Ablaufplan als PDF")
+                }
             }
             if isOwn {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -124,6 +133,11 @@ struct DishPlanView: View {
         }
         .sheet(isPresented: $shopping) {
             ShoppingListView(dish: cookedDish)
+        }
+        .sheet(isPresented: $printing) {
+            if let plan {
+                PlanPDFSheet(plan: plan)
+            }
         }
         .sheet(item: $shownRun) { run in
             CookRunView(runID: run.id)

@@ -61,7 +61,21 @@ struct CookPlannerApp: App {
             #if DEBUG
             // Development builds draw one example's timeline on its own with
             // the launch argument -TimelineSample <index>, for screenshots.
-            if let index = Int(UserDefaults.standard.string(forKey: "PlanSample") ?? ""),
+            if let index = Int(UserDefaults.standard.string(forKey: "PlanPDFSample") ?? ""),
+               KitchenSampleDishes.all.indices.contains(index),
+               let plan = DishPlan(dish: KitchenSampleDishes.all[index], budget: CookSettings.defaultBudget,
+                                   burners: CookSettings.defaultBurners, ovens: CookSettings.defaultOvens) {
+                // -PlanPDFSample <index> [-PlanPDFStart <minutes after midnight>]: writes the
+                // printed plan into Documents/plan.pdf, for checking the layout.
+                Text(verbatim: "plan.pdf")
+                    .onAppear {
+                        let start = Int(UserDefaults.standard.string(forKey: "PlanPDFStart") ?? "").map {
+                            Calendar.current.startOfDay(for: .now).addingTimeInterval(TimeInterval($0 * 60))
+                        }
+                        try? PlanPDFRenderer.render(plan, start: start)
+                            .write(to: URL.documentsDirectory.appendingPathComponent("plan.pdf"))
+                    }
+            } else if let index = Int(UserDefaults.standard.string(forKey: "PlanSample") ?? ""),
                KitchenSampleDishes.all.indices.contains(index) {
                 // -PlanSample <index>: an example's plan, for screenshots.
                 NavigationStack { DishPlanView(dish: KitchenSampleDishes.all[index]) }
