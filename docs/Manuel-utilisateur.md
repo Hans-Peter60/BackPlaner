@@ -1316,7 +1316,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 
 ### Interface
 
-- Les cinq onglets **Recettes**, **Listes de courses**, **Historique de cuisson**, **Timeline** et **Réserve** sont les mêmes qu’au [chapitre 4](#4-la-barre-donglets), de même que **Plus (⋯) → Calculatrices** dans la liste des recettes. Dans l’onglet Timeline, vous basculez en haut entre **Timeline** et **Liste** ; le **mode cuisson** se lance de là.
+- Les cinq onglets **Recettes**, **Listes de courses**, **Historique de cuisson**, **Timeline** et **Réserve** sont les mêmes qu’au [chapitre 4](#4-la-barre-donglets), de même que **Plus (⋯) → Calculatrices** dans la liste des recettes ; sur Android, l’onglet Listes de courses s’appelle simplement **Courses**. Dans l’onglet Timeline, vous basculez en haut entre **Timeline** et **Liste** ; le **mode cuisson** se lance de là.
 - Sur la page d’une de vos recettes, l’export en fichier s’appelle **Sauvegarder la recette** (sur l’iPhone « Exporter la recette ») ; **Partager la recette** produit le PDF, **Publier** la met dans la base. Les autres commandes — modifier, signaler, bloquer l’auteur, supprimer — se trouvent sous **Plus d’actions**.
 - **Langue :** *Réglages → Général → Langue* ouvre le réglage Android « Langue de l’application » (à partir d’Android 13). Choisissez-y l’allemand, l’anglais ou le français ; sans choix, l’app suit la langue du système. Il n’y a pas de sélecteur de langue dans l’app elle-même.
 - **Le mode sombre** suit le réglage du système ; **la taille de police** suit le réglage Android « Taille de la police ».

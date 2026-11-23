@@ -1316,7 +1316,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 
 ### Interface
 
-- The five tabs **Recipes**, **Shopping lists**, **Baking history**, **Timeline** and **Pantry** are the same as in [chapter 4](#4-the-tab-bar), and so is **More (⋯) → Calculators** in the recipe list. In the Timeline tab you switch between **Timeline** and **List** at the top; **bake mode** starts from there.
+- The five tabs **Recipes**, **Shopping lists**, **Baking history**, **Timeline** and **Pantry** are the same as in [chapter 4](#4-the-tab-bar), and so is **More (⋯) → Calculators** in the recipe list; on Android the Shopping lists tab is called **Shopping** for short. In the Timeline tab you switch between **Timeline** and **List** at the top; **bake mode** starts from there.
 - On the page of one of your own recipes the file export is called **Back up recipe** (on the iPhone "Export recipe"); **Share recipe** produces the PDF, **Publish** puts it in the database. Further commands — edit, report, block author, delete — are under **More actions**.
 - **Language:** *Settings → General → Language* opens Android's "App language" setting (Android 13 and later). Choose German, English or French there; without a choice the app follows the system language. There is no language picker inside the app.
 - **Dark mode** follows the system setting; the **font size** follows Android's "Font size" setting.
