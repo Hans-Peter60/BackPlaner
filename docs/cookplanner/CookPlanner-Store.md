@@ -4,8 +4,8 @@ Stand 23.11.2026. Der App-Eintrag in App Store Connect existiert (iOS, Name **Co
 
 ## Was im Projekt schon drin ist
 
-- `CookPlanner/Info.plist`: URL-Schema `cookplanner`, Dokumenttyp `.cookplanner`, Hintergrundmodus für CloudKit-Pushes, Zugriffstexte für Kamera und Wecker (de/en/fr in `InfoPlist.xcstrings`), `ITSAppUsesNonExemptEncryption = NO`.
-- `CookPlanner/PrivacyInfo.xcprivacy`: kein Tracking; erhobene Daten „Sonstige Nutzerinhalte“ (der Rezepttext geht zur Analyse in die Cloud) und „Nutzer-ID“ (anonyme Firebase-Anmeldung), beide nur für die App-Funktion; Required-Reason-API `UserDefaults` (CA92.1).
+- `CookPlanner/CookPlanner/Info.plist`: URL-Schema `cookplanner`, Dokumenttyp `.cookplanner`, Hintergrundmodus für CloudKit-Pushes, Zugriffstexte für Kamera und Wecker (de/en/fr in `InfoPlist.xcstrings`), `ITSAppUsesNonExemptEncryption = NO`.
+- `CookPlanner/CookPlanner/PrivacyInfo.xcprivacy`: kein Tracking; erhobene Daten „Sonstige Nutzerinhalte“ (der Rezepttext geht zur Analyse in die Cloud) und „Nutzer-ID“ (anonyme Firebase-Anmeldung), beide nur für die App-Funktion; Required-Reason-API `UserDefaults` (CA92.1).
 - iCloud-Abgleich (CloudKit, Container `iCloud.de.hpm64625.CookPlanner`; **Schema seit 23.11. in Production**), App Attest (Produktion), App Group, Live-Aktivität, Wecker (AlarmKit), Share-Extension, App-Symbol mit Tiefe (#219).
 - Version 1.0, Build 1 in den Build-Einstellungen; Xcode Cloud zählt den Build hoch, wenn im Workflow eingestellt.
 - Webseiten (Upload ins Repository `Hans-Peter60/bakeplanner` wie bei BakePlanner): `docs/website/cookplanner.html` (Hilfe) und `docs/website/cookplanner-privacy.html` (Datenschutz), je de/en/fr.
@@ -14,7 +14,7 @@ Stand 23.11.2026. Der App-Eintrag in App Store Connect existiert (iOS, Name **Co
 
 1. Projekt `CookPlanner.xcodeproj` in Xcode öffnen. Menü **Integrate → Create Workflow…** (gibt es schon eines: **Manage Workflows…**). Beim ersten Mal fragt Xcode nach dem Produkt: **CookPlanner** wählen; das Repository ist `Hans-Peter60/BackPlaner` (dasselbe wie BakePlanner, Xcode Cloud hat den Zugriff schon).
 2. Name **„TestFlight“**. **Environment:** Xcode „Latest Release“, macOS „Latest“.
-3. **Start Conditions:** „Branch Changes“ mit **`main`**; Haken bei **„Auto-cancel Builds“**. Optional unter „Files and Folders“ auf **Start** bei Änderungen in `CookPlanner/`, `CookPlannerWidgets/`, `CookPlannerShare/`, `CookPlannerStorage/`, `BakePlannerCore/` beschränken, sonst baut jeder BakePlanner-Merge auch CookPlanner.
+3. **Start Conditions:** „Branch Changes“ mit **`main`**; Haken bei **„Auto-cancel Builds“**. Optional unter „Files and Folders“ auf **Start** bei Änderungen in `CookPlanner/`, `CookPlanner/CookPlannerWidgets/`, `CookPlanner/CookPlannerShare/`, `CookPlanner/CookPlannerStorage/`, `BakePlannerCore/` beschränken, sonst baut jeder BakePlanner-Merge auch CookPlanner.
 4. **Actions:** **Archive**, Scheme **CookPlanner**, Platform iOS, Deployment Preparation **„TestFlight (Internal Testing Only)“**. Fehlt das Scheme in der Liste, in Xcode **Product → Scheme → Manage Schemes…** und bei CookPlanner **Shared** anhaken, committen.
 5. **Post-Actions:** **TestFlight Internal Testing** mit einer Gruppe (z. B. „Hans-Peter“); **Notify** per E-Mail bei Fehlern.
 6. **Save**. Der erste Lauf startet sofort; er dauert 15–25 Minuten. Danach erscheint der Build unter App Store Connect → CookPlanner → TestFlight, die interne Gruppe bekommt ihn ohne Prüfung.

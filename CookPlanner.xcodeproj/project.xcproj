@@ -16,7 +16,7 @@
       "path": "BakePlannerCore",
     }, {
       "kind": "local",
-      "path": "CookPlannerStorage",
+      "path": "CookPlanner/CookPlannerStorage",
     }, {
       "kind": "remote",
       "repository": "https://github.com/firebase/firebase-ios-sdk",
@@ -28,7 +28,7 @@
   "files": [
     {
       "kind": "folder",
-      "path": "CookPlanner",
+      "path": "CookPlanner/CookPlanner",
       "target-membership": [
         "CookPlanner",
       ],
@@ -52,7 +52,7 @@
       ],
     }, {
       "kind": "folder",
-      "path": "CookPlannerWidgets",
+      "path": "CookPlanner/CookPlannerWidgets",
       "target-membership": [
         "CookPlannerWidgetsExtension",
       ],
@@ -66,7 +66,7 @@
       ],
     }, {
       "kind": "folder",
-      "path": "CookPlannerShare",
+      "path": "CookPlanner/CookPlannerShare",
       "target-membership": [
         "CookPlannerShare",
       ],
@@ -139,13 +139,13 @@
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
-        "CODE_SIGN_ENTITLEMENTS": "CookPlanner/CookPlanner.entitlements",
+        "CODE_SIGN_ENTITLEMENTS": "CookPlanner/CookPlanner/CookPlanner.entitlements",
         "CODE_SIGN_STYLE": "Automatic",
         "CURRENT_PROJECT_VERSION": "1",
         "DEVELOPMENT_TEAM": "S3AX38VTCQ",
         "ENABLE_PREVIEWS": "YES",
         "GENERATE_INFOPLIST_FILE": "YES",
-        "INFOPLIST_FILE": "CookPlanner/Info.plist",
+        "INFOPLIST_FILE": "CookPlanner/CookPlanner/Info.plist",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.food-and-drink",
         "INFOPLIST_KEY_NSSupportsLiveActivities": "YES",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",
@@ -187,7 +187,7 @@
         "CURRENT_PROJECT_VERSION": "1",
         "DEVELOPMENT_TEAM": "S3AX38VTCQ",
         "GENERATE_INFOPLIST_FILE": "YES",
-        "INFOPLIST_FILE": "CookPlannerWidgets/Info.plist",
+        "INFOPLIST_FILE": "CookPlanner/CookPlannerWidgets/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "CookPlannerWidgets",
         "INFOPLIST_KEY_NSHumanReadableCopyright": "",
         "LD_RUNPATH_SEARCH_PATHS": [
@@ -217,12 +217,12 @@
         "resources",
       ],
       "build-settings": {
-        "CODE_SIGN_ENTITLEMENTS": "CookPlannerShare/CookPlannerShare.entitlements",
+        "CODE_SIGN_ENTITLEMENTS": "CookPlanner/CookPlannerShare/CookPlannerShare.entitlements",
         "CODE_SIGN_STYLE": "Automatic",
         "CURRENT_PROJECT_VERSION": "1",
         "DEVELOPMENT_TEAM": "S3AX38VTCQ",
         "GENERATE_INFOPLIST_FILE": "YES",
-        "INFOPLIST_FILE": "CookPlannerShare/Info.plist",
+        "INFOPLIST_FILE": "CookPlanner/CookPlannerShare/Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "CookPlannerShare",
         "INFOPLIST_KEY_NSHumanReadableCopyright": "",
         "LD_RUNPATH_SEARCH_PATHS": [
