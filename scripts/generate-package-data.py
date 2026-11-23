@@ -6,10 +6,10 @@ bundle (Android): the translations of its texts and the bundled units.
     python3 scripts/generate-package-data.py --check  # exit 1 if they are stale
 
 Sources, both in the app:
-- BackPlaner/Localizable.xcstrings: every text the package shows
+- BakePlanner/BackPlaner/Localizable.xcstrings: every text the package shows
   (String(localized: …) in its sources) and every unit name (unit.*), in
   the languages the catalog has.
-- BackPlaner/DataFiles/UnitSets.json: the units the app ships with.
+- BakePlanner/BackPlaner/DataFiles/UnitSets.json: the units the app ships with.
 
 On iOS the package reads both from the app's bundle as before; the
 generated files are only used elsewhere. check-repo.py runs --check.
@@ -23,8 +23,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CATALOG = ROOT / "BackPlaner/Localizable.xcstrings"
-UNIT_SETS = ROOT / "BackPlaner/DataFiles/UnitSets.json"
+CATALOG = ROOT / "BakePlanner/BackPlaner/Localizable.xcstrings"
+UNIT_SETS = ROOT / "BakePlanner/BackPlaner/DataFiles/UnitSets.json"
 OUTPUT = ROOT / "BakePlannerCore/Sources/BakePlannerCore/Generated"
 TRANSLATIONS = OUTPUT / "PackageTranslations.swift"
 BUNDLED_UNITS = OUTPUT / "BundledUnitSetsData.swift"
@@ -83,7 +83,7 @@ def translations_source() -> str:
             pattern = repo.catalog_key_pattern(match.group(1))
             keys.update(key for key in strings if pattern.match(key))
 
-    lines = [HEADER.format(source="BackPlaner/Localizable.xcstrings"), "",
+    lines = [HEADER.format(source="BakePlanner/BackPlaner/Localizable.xcstrings"), "",
              "/// The package's texts and unit names by catalog key and language.",
              "enum PackageTranslations {",
              "    static let table: [String: [String: String]] = ["]
@@ -106,7 +106,7 @@ def bundled_units_source() -> str:
     json.loads(text)  # fails loudly on a broken file
     assert '"""#' not in text
     return "\n".join([
-        HEADER.format(source="BackPlaner/DataFiles/UnitSets.json"), "",
+        HEADER.format(source="BakePlanner/BackPlaner/DataFiles/UnitSets.json"), "",
         "/// The units the app ships with, as UnitSets.json holds them.",
         "enum BundledUnitSetsData {",
         '    static let json = #"""',

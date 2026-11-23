@@ -8,7 +8,7 @@ Was für die erste Ausgabe der Android-App im Play Store vorbereitet ist, wie de
 |---|---|---|
 | Version | `BakePlannerAndroid/Skip.env`: `MARKETING_VERSION = 2.2`, `CURRENT_PROJECT_VERSION = 1` (Play: versionName / versionCode) | gesetzt; vor jedem weiteren Upload `CURRENT_PROJECT_VERSION` um 1 erhöhen |
 | Paketname | `de.hpm64625.bakeplanner` (`PRODUCT_BUNDLE_IDENTIFIER` in `Skip.env`) | fest, nach dem ersten Upload nicht mehr änderbar |
-| App-Icon | `Android/app/src/main/res/mipmap-*/ic_launcher*.png` (Legacy-Bild, Vordergrund, schwarzer Hintergrund), `mipmap-anydpi-v26/ic_launcher.xml` | das iPhone-Icon (`BackPlaner/Assets.xcassets/AppIcon`) als adaptives Icon: Bild auf 80 % der Fläche auf dem schwarzen Rand des Bildes; ohne Monochrom-Ebene (siehe Hinweis unten) |
+| App-Icon | `Android/app/src/main/res/mipmap-*/ic_launcher*.png` (Legacy-Bild, Vordergrund, schwarzer Hintergrund), `mipmap-anydpi-v26/ic_launcher.xml` | das iPhone-Icon (`BakePlanner/BackPlaner/Assets.xcassets/AppIcon`) als adaptives Icon: Bild auf 80 % der Fläche auf dem schwarzen Rand des Bildes; ohne Monochrom-Ebene (siehe Hinweis unten) |
 | Manifest | `Android/app/src/main/AndroidManifest.xml` | Berechtigungen `INTERNET`, `POST_NOTIFICATIONS`, `CAMERA`; `allowBackup="false"` (siehe unten); Sprachen je App über `xml/locales_config.xml` (de, en, fr); `targetSdk` 36, `minSdk` 28 (aus dem Skip-Plugin) |
 | Release-Build | `Android/app/build.gradle.kts` | signiert mit `keystore.properties`, R8 mit `proguard-rules.pro` (`-keep class bake.planner.**`), Ressourcen geschrumpft, nicht debuggbar |
 | App Check | `Android/app/src/main/kotlin/Main.kt`, `installAppCheck()` | Debug-Build: Debug-Anbieter; Release-Build: **Play Integrity** (Schritt 11f) |

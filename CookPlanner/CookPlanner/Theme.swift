@@ -2,7 +2,7 @@
 //  Theme.swift
 //  CookPlanner
 //
-//  The warm palette, fonts and card style of BakePlanner (BackPlaner/
+//  The warm palette, fonts and card style of BakePlanner (BakePlanner/BackPlaner/
 //  Utilities/Theme.swift), so the two apps read as one family. Without
 //  the bakery photo behind the gradient, and without the parts only a
 //  bread app needs.

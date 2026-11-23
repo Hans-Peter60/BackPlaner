@@ -33,9 +33,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 CATALOGS = [
-    "BackPlaner/Localizable.xcstrings",
-    "BackPlaner/InfoPlist.xcstrings",
-    "BackPlanerShare/Localizable.xcstrings",
+    "BakePlanner/BackPlaner/Localizable.xcstrings",
+    "BakePlanner/BackPlaner/InfoPlist.xcstrings",
+    "BakePlanner/BackPlanerShare/Localizable.xcstrings",
 ]
 LANGUAGES = ("en", "fr")
 OUT_MD = ROOT / "docs/bakeplanner/Uebersetzungspruefung-offen.md"
