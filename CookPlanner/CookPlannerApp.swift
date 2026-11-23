@@ -89,11 +89,11 @@ struct CookPlannerApp: App {
                 }
                 .warmBackground()
             } else {
-                DishListView()
+                RootTabView()
                     .environment(library)
             }
             #else
-            DishListView()
+            RootTabView()
                 .environment(library)
             #endif
         }
