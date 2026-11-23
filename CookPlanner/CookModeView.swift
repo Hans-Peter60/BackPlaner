@@ -13,6 +13,7 @@
 
 import BakePlannerCore
 import SwiftUI
+import UIKit
 
 struct CookModeView: View {
 
@@ -35,6 +36,9 @@ struct CookModeView: View {
     #endif
 
     @Environment(\.dismiss) private var dismiss
+    /// Wide (iPad, unfolded Duo): the device stands further away, the
+    /// current step grows further.
+    @Environment(\.horizontalSizeClass) private var sizeClass
     @State private var startedAt: Date?
     /// While paused, when the pause began; the clock stands still.
     @State private var pausedAt: Date?
@@ -91,7 +95,11 @@ struct CookModeView: View {
                 }
                 .presentationDetents([.medium, .large])
             }
+            // The phone lies on the counter while the hands are busy: the
+            // screen stays on as long as the cook mode is open.
+            .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
             .onDisappear {
+                UIApplication.shared.isIdleTimerDisabled = false
                 CookReminders.shared.cancelAll()
                 CookAlarms.shared.cancelAll()
                 CookActivityManager.shared.endAll()
@@ -373,11 +381,11 @@ struct CookModeView: View {
                         if handsNow.isEmpty {
                             if let next = upcoming.first {
                                 Text("Hände frei, in \(next.start - minute) Min. weiter")
-                                    .font(Theme.bodyFont(15))
+                                    .font(Theme.bodyFont(24).weight(.semibold))
                                     .foregroundColor(Theme.subtitle)
                             } else if doneCount == placements.count {
                                 Text("Fertig, anrichten!")
-                                    .font(Theme.bodyFont(15))
+                                    .font(Theme.bodyFont(28).weight(.semibold))
                                     .foregroundColor(Theme.good)
                             }
                         }
@@ -385,7 +393,7 @@ struct CookModeView: View {
                             let overdue = minute >= placement.start + placement.task.handsMinutes
                             stepLine(placement, ingredients: plan.dish.ingredients(for: placement.task),
                                      detail: overdue ? "überfällig" : "noch \(placement.start + placement.task.handsMinutes - minute) Min.",
-                                     emphasis: overdue) {
+                                     emphasis: overdue, large: true) {
                                 tickOff(placement.id, minute: minute)
                             }
                         }
@@ -525,50 +533,105 @@ struct CookModeView: View {
         .cardStyle()
     }
 
+    /// A step. `large` is for what is in the hands right now: read from
+    /// across the kitchen, with wet or busy hands — the name at twice the
+    /// size, the time left and the ingredients clearly, and a check mark
+    /// big enough to hit with a knuckle.
+    @ViewBuilder
     private func stepLine(_ placement: KitchenPlacement, ingredients: [KitchenIngredient] = [],
-                          detail: LocalizedStringKey, emphasis: Bool = false,
+                          detail: LocalizedStringKey, emphasis: Bool = false, large: Bool = false,
                           onDone: (() -> Void)? = nil) -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            VStack(alignment: .leading, spacing: 1) {
+        if large {
+            let wide = sizeClass == .regular
+            VStack(alignment: .leading, spacing: wide ? 12 : 8) {
                 Text(verbatim: placement.task.name)
-                    .font(Theme.bodyFont(15))
+                    .font(Theme.bodyFont(wide ? 42 : 30).weight(.semibold))
                     .foregroundColor(Theme.cardTitle)
                     .fixedSize(horizontal: false, vertical: true)
-                // What to have at hand for the step, as the recipe lists it.
                 if !ingredients.isEmpty {
-                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Image(systemName: "basket")
                             .accessibilityHidden(true)
                         Text(verbatim: ingredients.map { $0.line() }.joined(separator: " · "))
                             .fixedSize(horizontal: false, vertical: true)
                     }
-                    .font(Theme.bodyFont(13))
+                    .font(Theme.bodyFont(wide ? 26 : 20))
                     .foregroundColor(Theme.cardTitle)
-                    .padding(.vertical, 1)
                 }
-                HStack(spacing: 6) {
-                    if !placement.task.component.isEmpty {
-                        Text(verbatim: placement.task.component)
+                HStack(alignment: .center, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(detail)
+                            .font(Theme.bodyFont(wide ? 26 : 20).weight(.semibold).monospacedDigit())
+                            .foregroundColor(emphasis ? Theme.danger : Theme.accentText)
+                        HStack(spacing: 6) {
+                            if !placement.task.component.isEmpty {
+                                Text(verbatim: placement.task.component)
+                            }
+                            if let temperature = placement.task.ovenTemperature {
+                                Text("Ofen \(temperature) °C")
+                            }
+                        }
+                        .font(Theme.bodyFont(16))
+                        .foregroundColor(Theme.subtitle)
                     }
-                    if let temperature = placement.task.ovenTemperature {
-                        Text("Ofen \(temperature) °C")
+                    Spacer(minLength: 8)
+                    if let onDone {
+                        Button(action: onDone) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: wide ? 64 : 52))
+                                .foregroundColor(Theme.accentText)
+                                .frame(width: wide ? 88 : 72, height: wide ? 88 : 72)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Schritt erledigt")
                     }
                 }
-                .font(Theme.bodyFont(12))
-                .foregroundColor(Theme.subtitle)
             }
-            Spacer()
-            Text(detail)
-                .font(Theme.bodyFont(13).monospacedDigit())
-                .foregroundColor(emphasis ? Theme.danger : Theme.accentText)
-            if let onDone {
-                Button(action: onDone) {
-                    Image(systemName: "checkmark.circle")
-                        .font(.system(size: 24))
-                        .foregroundColor(Theme.accentText)
+            .padding(.vertical, 4)
+        } else {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(verbatim: placement.task.name)
+                        .font(Theme.bodyFont(15))
+                        .foregroundColor(Theme.cardTitle)
+                        .fixedSize(horizontal: false, vertical: true)
+                    // What to have at hand for the step, as the recipe lists it.
+                    if !ingredients.isEmpty {
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Image(systemName: "basket")
+                                .accessibilityHidden(true)
+                            Text(verbatim: ingredients.map { $0.line() }.joined(separator: " · "))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .font(Theme.bodyFont(13))
+                        .foregroundColor(Theme.cardTitle)
+                        .padding(.vertical, 1)
+                    }
+                    HStack(spacing: 6) {
+                        if !placement.task.component.isEmpty {
+                            Text(verbatim: placement.task.component)
+                        }
+                        if let temperature = placement.task.ovenTemperature {
+                            Text("Ofen \(temperature) °C")
+                        }
+                    }
+                    .font(Theme.bodyFont(12))
+                    .foregroundColor(Theme.subtitle)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Schritt erledigt")
+                Spacer()
+                Text(detail)
+                    .font(Theme.bodyFont(13).monospacedDigit())
+                    .foregroundColor(emphasis ? Theme.danger : Theme.accentText)
+                if let onDone {
+                    Button(action: onDone) {
+                        Image(systemName: "checkmark.circle")
+                            .font(.system(size: 24))
+                            .foregroundColor(Theme.accentText)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Schritt erledigt")
+                }
             }
         }
     }
