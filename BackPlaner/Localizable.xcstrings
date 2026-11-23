@@ -35,6 +35,50 @@
         }
       }
     },
+    "Am besten Deine Einkaufsliste in Erinnerungen: Eine Liste vom Typ „Einkaufsliste“ ordnet die Zeilen dort nach Abteilungen und lässt sich mit der Familie teilen. Erneutes Senden ergänzt und ändert, doppelt wird nichts." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am besten Deine Einkaufsliste in Erinnerungen: Eine Liste vom Typ „Einkaufsliste“ ordnet die Zeilen dort nach Abteilungen und lässt sich mit der Familie teilen. Erneutes Senden ergänzt und ändert, doppelt wird nichts."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ideally your grocery list in Reminders: a list of the type “Groceries” sorts the lines into sections and can be shared with the family. Sending again adds and changes, nothing is doubled."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idéalement votre liste de courses dans Rappels : une liste de type « Courses » range les lignes par rayon et se partage avec la famille. Un nouvel envoi complète et modifie, rien n’est dédoublé."
+          }
+        }
+      }
+    },
+    "Andere Liste wählen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Liste wählen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose another list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une autre liste"
+          }
+        }
+      }
+    },
     "Die Datei ist zu groß für eine BakePlanner-Rezeptdatei." : {
       "comment" : "Error message when a file picked for import is far larger than any backup the app writes.",
       "extractionState" : "manual",
@@ -65,6 +109,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utiliser ces temps de pousse"
+          }
+        }
+      }
+    },
+    "Eigene Liste „BakePlanner“" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eigene Liste „BakePlanner“"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Own list “BakePlanner”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste propre « BakePlanner »"
           }
         }
       }
@@ -135,6 +201,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "prévu %@ · aujourd’hui environ %@"
+          }
+        }
+      }
+    },
+    "Liste in Erinnerungen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste in Erinnerungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List in Reminders"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste dans Rappels"
+          }
+        }
+      }
+    },
+    "Liste „%@“: %lld neu, %lld geändert, %lld schon da oder erledigt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste „%@“: %lld neu, %lld geändert, %lld schon da oder erledigt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List “%@”: %lld new, %lld changed, %lld already there or done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste « %@ » : %lld nouveaux, %lld modifiés, %lld déjà présents ou faits."
+          }
+        }
+      }
+    },
+    "Wird bei Bedarf angelegt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird bei Bedarf angelegt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created when needed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créée si nécessaire."
           }
         }
       }
@@ -1224,64 +1356,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld pains planifiés. Les étapes sont sous « Prochaines étapes », les rappels sont posés."
-          }
-        }
-      }
-    },
-    "%lld Einträge in der Liste „BakePlanner“ angelegt." : {
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Eintrag in der Liste „BakePlanner“ angelegt."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Einträge in der Liste „BakePlanner“ angelegt."
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld item created in the list “BakePlanner”."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld items created in the list “BakePlanner”."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld élément créé dans la liste « BakePlanner »."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld éléments créés dans la liste « BakePlanner »."
-                }
-              }
-            }
           }
         }
       }

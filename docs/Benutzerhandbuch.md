@@ -921,7 +921,7 @@ Der Vorrat liegt wie Rezepte und Einkaufslisten in Deiner iCloud und gehört zu 
 
 *Die Einstellungen bündeln Sprache, Standardwerte und Vorgaben für die Backplanung. Weiter unten folgen die Bereiche Datenschutz & KI, Moderation und Konto.*
 
-**An Erinnerungen senden.** Der Checklisten-Knopf neben „Löschen“ (**Einkaufsliste an Erinnerungen senden**) schickt alle Einträge der Liste in die App Erinnerungen, in eine eigene Liste „BakePlanner“, die beim ersten Mal angelegt wird. Dort lässt sich die Liste mit der Familie teilen und beim Einkaufen abhaken. iOS fragt einmal um Erlaubnis für die Erinnerungen; jedes Senden legt neue Einträge an.
+**An Erinnerungen senden.** Der Checklisten-Knopf neben „Löschen“ (**Einkaufsliste an Erinnerungen senden**) schickt alle Einträge der Liste in die App Erinnerungen. Beim ersten Mal wählst Du die Liste dort – am besten Deine Einkaufsliste: Eine Liste vom Typ „Einkaufsliste“ ordnet die Zeilen nach Abteilungen und lässt sich mit der Familie teilen – oder eine eigene Liste „BakePlanner“, die dann angelegt wird. Erneutes Senden ergänzt neue Zeilen und ändert geänderte Mengen; was dort schon steht oder abgehakt ist, bleibt, doppelt wird nichts. Die Meldung danach sagt, wie viel neu, geändert oder schon da war; **Andere Liste wählen** wechselt die Liste. iOS fragt einmal um Erlaubnis für die Erinnerungen.
 
 ### Allgemein
 
