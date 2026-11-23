@@ -29,7 +29,9 @@ struct ContentView: View {
                 ShoppingListsView(model: model)
             }
             .tabItem {
-                Label("Einkaufslisten", systemImage: "cart")
+                // Short: with five tabs Material's bar broke "Einkaufslisten"
+                // after "Einkaufsliste". The screen keeps the long title.
+                Label("Einkauf", systemImage: "cart")
             }
 
             NavigationStack {

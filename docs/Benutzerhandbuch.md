@@ -1313,7 +1313,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 
 ### Oberfläche
 
-- Die fünf Tabs **Rezepte**, **Einkaufslisten**, **Backhistorie**, **Zeitleiste** und **Vorrat** sind dieselben wie in [Kapitel 4](#4-die-tab-leiste), ebenso **Mehr (⋯) → Rechner** in der Rezeptliste. Im Tab Zeitleiste schaltest Du oben zwischen **Timeline** und **Liste** um; der **Backmodus** startet von dort.
+- Die fünf Tabs **Rezepte**, **Einkaufslisten**, **Backhistorie**, **Zeitleiste** und **Vorrat** sind dieselben wie in [Kapitel 4](#4-die-tab-leiste), ebenso **Mehr (⋯) → Rechner** in der Rezeptliste; der Tab Einkaufslisten heißt auf Android kurz **Einkauf**. Im Tab Zeitleiste schaltest Du oben zwischen **Timeline** und **Liste** um; der **Backmodus** startet von dort.
 - Auf der Seite eines eigenen Rezepts heißt der Dateiexport **Rezept sichern** (auf dem iPhone „Rezept exportieren“); **Rezept teilen** erzeugt das PDF, **Veröffentlichen** stellt es in die Datenbank. Weitere Befehle – Bearbeiten, Melden, Autor blockieren, Löschen – stehen unter **Weitere Aktionen**.
 - **Sprache:** *Einstellungen → Allgemein → Sprache* öffnet Androids Einstellung „App-Sprache“ (ab Android 13). Dort wählst Du Deutsch, Englisch oder Französisch; ohne Auswahl folgt die App der Systemsprache. In der App selbst gibt es keine Sprachauswahl.
 - **Dunkelmodus** folgt der Systemeinstellung; **Schriftgröße** der Android-Einstellung „Schriftgröße“.
