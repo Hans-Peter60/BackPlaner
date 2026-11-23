@@ -33,11 +33,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOGS = [
-    "BackPlaner/Localizable.xcstrings",
-    "BackPlaner/Tabs.xcstrings",
-    "BackPlaner/InfoPlist.xcstrings",
-    "BackPlanerShare/Localizable.xcstrings",
-    "BakePlannerWatch/Localizable.xcstrings",
+    "BakePlanner/BackPlaner/Localizable.xcstrings",
+    "BakePlanner/BackPlaner/Tabs.xcstrings",
+    "BakePlanner/BackPlaner/InfoPlist.xcstrings",
+    "BakePlanner/BackPlanerShare/Localizable.xcstrings",
+    "BakePlanner/BakePlannerWatch/Localizable.xcstrings",
     "BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",
     "CookPlanner/CookPlanner/Localizable.xcstrings",
     "CookPlanner/CookPlannerWidgets/Localizable.xcstrings",
@@ -69,7 +69,7 @@ def check_catalogs() -> list[str]:
 
 
 PACKAGE_SOURCES = "BakePlannerCore/Sources"
-PACKAGE_CATALOG = "BackPlaner/Localizable.xcstrings"
+PACKAGE_CATALOG = "BakePlanner/BackPlaner/Localizable.xcstrings"
 LOCALIZED_LITERAL = re.compile(r'String\(\s*localized:\s*"((?:[^"\\]|\\.)*)"')
 FORMAT_SPECIFIER = r"%(?:\d+\$)?(?:@|lld|ld|d|lf|f)"
 

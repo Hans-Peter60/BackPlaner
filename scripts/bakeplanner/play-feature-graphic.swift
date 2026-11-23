@@ -30,8 +30,8 @@ let texts: [String: (name: String, promise: String)] = [
 
 let width = 1024, height = 500
 let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent()
-let photoURL = root.appendingPathComponent("BackPlaner/Assets.xcassets/BakeryBackdrop.imageset/bakery-backdrop.jpg")
-let iconURL = root.appendingPathComponent("BackPlaner/Assets.xcassets/AppIcon.appiconset/icon-light.png")
+let photoURL = root.appendingPathComponent("BakePlanner/BackPlaner/Assets.xcassets/BakeryBackdrop.imageset/bakery-backdrop.jpg")
+let iconURL = root.appendingPathComponent("BakePlanner/BackPlaner/Assets.xcassets/AppIcon.appiconset/icon-light.png")
 
 func fail(_ message: String) -> Never {
     FileHandle.standardError.write((message + "\n").data(using: .utf8)!)

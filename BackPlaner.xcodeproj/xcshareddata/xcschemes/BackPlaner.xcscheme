@@ -29,11 +29,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:UnitTests.xctestplan"
+            reference = "container:BakePlanner/UnitTests.xctestplan"
             default = "YES">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:AllTests.xctestplan">
+            reference = "container:BakePlanner/AllTests.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
@@ -85,7 +85,7 @@
          </CommandLineArgument>
       </CommandLineArguments>
       <StoreKitConfigurationFileReference
-         identifier = "../../BackPlaner/BackPlaner.storekit">
+         identifier = "../../BakePlanner/BackPlaner/BackPlaner.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

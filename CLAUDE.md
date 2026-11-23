@@ -3,11 +3,12 @@
 iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlanner**, Bundle-Präfix `de.hpm64625.BackPlaner`. Entwickler: Hans-Peter Müller (Einzelentwickler).
 
 ## Aufbau
-- `BackPlaner/` – App-Target (SwiftUI, iOS 26+). `Views/` UI, `Utilities/` Logik und Dienste, `CoreData/` Modell, `DataFiles/` Firebase-Modelle (`RecipeFB*`), `Intents/` Siri/App Intents.
+- `BakePlanner/` – alles, was nur zur iOS-App BakePlanner gehört: App, Widgets, Share-Extension, Watch, Tests, UI-Tests, Entitlements der Extensions und die Testpläne `UnitTests.xctestplan`/`AllTests.xctestplan`; das Projekt `BackPlaner.xcodeproj` bleibt im Wurzelordner (Xcode Cloud).
+- `BakePlanner/BackPlaner/` – App-Target (SwiftUI, iOS 26+). `Views/` UI, `Utilities/` Logik und Dienste, `CoreData/` Modell, `DataFiles/` Firebase-Modelle (`RecipeFB*`), `Intents/` Siri/App Intents.
 - `BakePlannerCore/` – lokales Swift Package mit plattformneutraler Logik und ihren Tests (Android-Portierung, im Aufbau); die App bindet es ein, die Tests laufen im Testplan `UnitTests` mit.
-- `BackPlanerWidgets/` – Widget und Live-Aktivität. `BackPlanerShare/` – Share-Extension für den Web-Import.
+- `BakePlanner/BackPlanerWidgets/` – Widget und Live-Aktivität. `BakePlanner/BackPlanerShare/` – Share-Extension für den Web-Import.
 - `CookPlanner/` (darin `CookPlanner/` App, `CookPlannerWidgets/`, `CookPlannerShare/`, `CookPlannerStorage/`) + `CookPlanner.xcodeproj` im Wurzelordner – zweite App „Kochen gegen die Uhr“ (Arbeitstitel, iOS, SwiftUI, Xcode-27-Projektformat `project.xcproj`), nutzt `KitchenScheduler`, `KitchenDish` und `KitchenSampleDishes` aus dem Paket; eigene Daten in `CookPlanner/CookPlannerStorage/` (SQLite über SkipSQLPlus, `swift test` dort). Stand in `docs/cookplanner/Idee-Gegen-die-Uhr.md`, TestFlight und Store-Texte in `docs/cookplanner/CookPlanner-Store.md`. Der Katalog `CookPlanner/CookPlanner/Localizable.xcstrings` braucht explizite `de`-Einträge. Bauen: `xcodebuild -project CookPlanner.xcodeproj -scheme CookPlanner -destination 'id=<udid>' build`.
-- `BackPlanerTests/` – ca. 285 Unit-Tests (`UnitTests.xctestplan`, Standard für ⌘U). `BackPlanerUITests/` – UI-Tests (`AllTests.xctestplan`).
+- `BakePlanner/BackPlanerTests/` – ca. 285 Unit-Tests (`UnitTests.xctestplan`, Standard für ⌘U). `BakePlanner/BackPlanerUITests/` – UI-Tests (`AllTests.xctestplan`).
 - `functions/` – Cloud Functions (TypeScript): KI-Rezeptimport (`analyzeRecipeImages`, `analyzeRecipeText`), Pro-Prüfung (`proVerification.ts`).
 - `firebase/` – Firestore- und Storage-Regeln, Regel-Tests im Emulator (`firebase/tests`).
 - `docs/` – nach App getrennt: `docs/bakeplanner/` (Handbücher DE/EN/FR, HTML wird mit `docs/bakeplanner/build-manual-html.py` erzeugt, App-Store-Texte und -Bilder, Neuerungen, Android-Bestandsaufnahme, Ideen für 3.0 `Ideen-3.0.md`, Plan für Konto und Abgleich `Konto-und-Abgleich.md`, Pro-Einführung `Pro-Einfuehrung.md`), `docs/cookplanner/` (Idee und Stand `Idee-Gegen-die-Uhr.md`, Store-Texte, Store-Bilder); gemeinsam bleiben `docs/CI.md` und `docs/website/` (Abbild der Website, wird von Hand hochgeladen).
@@ -29,8 +30,8 @@ iOS/iPadOS-App zum Planen von Brot- und Backrezepten. App-Store-Name **BakePlann
 ## Konventionen
 - Quelltext-Kommentare und Commit-Nachrichten auf Englisch; Commit-Betreff beschreibt das Ergebnis für den Nutzer (z. B. „The timeline opens first under …").
 - UI-Texte auf Deutsch als Schlüssel in `Localizable.xcstrings`; **jeder neue Text braucht en und fr**, sonst schlägt `check-repo.py` fehl.
-- Ein **neuer String-Katalog** (eigenes Target oder eigene Tabelle, z. B. `Tabs.xcstrings`, `BakePlannerWatch/Localizable.xcstrings`) braucht zusätzlich **explizite `de`-Einträge** (Wert = Schlüssel): Die Entwicklungsregion des Projekts ist `en`, ohne `de`-Einträge entsteht kein `de.lproj`, und ein deutsches Gerät fällt auf Englisch oder die zweite Systemsprache zurück.
-- Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
+- Ein **neuer String-Katalog** (eigenes Target oder eigene Tabelle, z. B. `Tabs.xcstrings`, `BakePlanner/BakePlannerWatch/Localizable.xcstrings`) braucht zusätzlich **explizite `de`-Einträge** (Wert = Schlüssel): Die Entwicklungsregion des Projekts ist `en`, ohne `de`-Einträge entsteht kein `de.lproj`, und ein deutsches Gerät fällt auf Englisch oder die zweite Systemsprache zurück.
+- Texte im Paket `BakePlannerCore` (`String(localized:…, bundle: AppSettings.localizationBundle)`) stehen im App-Katalog `BakePlanner/BackPlaner/Localizable.xcstrings` als manuelle Einträge (`extractionState: manual`), weil Xcode sie im App-Code nicht mehr findet; `check-repo.py` prüft das.
 - Für Android bringt das Paket Übersetzungen und Einheiten als erzeugte Dateien mit (`BakePlannerCore/Sources/BakePlannerCore/Generated/`). Nach Änderungen an diesen Katalogeinträgen, an `unit.*`-Einträgen oder an `UnitSets.json`: `python3 scripts/generate-package-data.py` ausführen; `check-repo.py` prüft, dass die Dateien aktuell sind.
 - Neue Swift-Dateien müssen in `project.pbxproj` eingetragen sein.
 - Handbuch geändert → `python3 docs/bakeplanner/build-manual-html.py` ausführen.

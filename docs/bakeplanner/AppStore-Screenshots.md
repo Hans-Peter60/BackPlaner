@@ -70,7 +70,7 @@ In einem normalen Testlauf (⌘U, Xcode Cloud) überspringt sich der Screenshot-
 
 ## Apple Watch
 
-Die Watch-Bilder entstehen nicht über den UI-Test, sondern direkt im Watch-Simulator mit einem festen Demo-Plan in der Watch-App: Das Startargument `-UITestingWatchDemo` lässt `PhonePlanSession` statt des iPhone-Plans fünf Schritte des „Kartoffelbrot mit Saaten“ zeigen (Texte in `BakePlannerWatch/Localizable.xcstrings`, de/en/fr), `-UITestingWatchDemoStep <n>` öffnet Schritt n (ab 0); die Uhrzeiten laufen ab dem Start („in 17 Min.“, „in 3 Std., 15 Min.“). Ohne das Argument verhält sich die App wie immer.
+Die Watch-Bilder entstehen nicht über den UI-Test, sondern direkt im Watch-Simulator mit einem festen Demo-Plan in der Watch-App: Das Startargument `-UITestingWatchDemo` lässt `PhonePlanSession` statt des iPhone-Plans fünf Schritte des „Kartoffelbrot mit Saaten“ zeigen (Texte in `BakePlanner/BakePlannerWatch/Localizable.xcstrings`, de/en/fr), `-UITestingWatchDemoStep <n>` öffnet Schritt n (ab 0); die Uhrzeiten laufen ab dem Start („in 17 Min.“, „in 3 Std., 15 Min.“). Ohne das Argument verhält sich die App wie immer.
 
 ```sh
 W=<UDID des Simulators „Apple Watch Ultra 4 (49mm)“>; BID=de.hpm64625.BackPlaner.watchkitapp
