@@ -134,6 +134,8 @@ struct ShoppingListCategoryTests {
         ("Reis",                  Category.flourAndGrain),
         ("Semmelbrösel",          Category.flourAndGrain),
         ("Butter",                Category.dairyAndEggs),
+        ("Muskatnuss",            Category.spicesAndHerbs),
+        ("Haselnüsse",            Category.nutsSeedsDriedFruit),
         ("Eier",                  Category.dairyAndEggs),
         ("Ei(M)",                 Category.dairyAndEggs),
         ("Eigelb",                Category.dairyAndEggs),
