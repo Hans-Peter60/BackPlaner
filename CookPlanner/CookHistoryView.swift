@@ -102,7 +102,10 @@ struct CookHistoryView: View {
                     }
                 }
                 .frame(maxHeight: .infinity)
+                // The warm ground of the dish list, not the system's grey.
+                .clearScrollBackground()
             }
+            .warmBackground()
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always),
                         prompt: Text("Gericht suchen"))
             .navigationTitle(Text(layout.title))

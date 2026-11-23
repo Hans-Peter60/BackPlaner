@@ -31,6 +31,9 @@ extension KitchenShoppingList {
         public let components: [String]
         /// The remark, when the line is a single ingredient that has one.
         public let note: String
+        /// Pieces added up from single ones ("1 Knoblauchzehe" three times):
+        /// the singular name needs its plural.
+        public var needsPlural = false
 
         /// "70 g", "2 EL", "50 g + 1 EL", "" without any amount.
         public func amountText(locale: Locale = AppSettings.locale) -> String {
@@ -40,9 +43,20 @@ extension KitchenShoppingList {
         /// "70 g Butter", "Salz", "1 Schalotte (klein)".
         public func text(locale: Locale = AppSettings.locale) -> String {
             let quantity = amountText(locale: locale)
-            var text = quantity.isEmpty ? name : "\(quantity) \(name)"
+            let shown = needsPlural && locale.language.languageCode == .german ? Self.germanPlural(name) : name
+            var text = quantity.isEmpty ? shown : "\(quantity) \(shown)"
             if !note.isEmpty { text += " (\(note))" }
             return text
+        }
+
+        /// The common German plurals of things counted in a kitchen:
+        /// "Zehe" → "Zehen", "Zwiebel" → "Zwiebeln", "Ei" → "Eier"; any
+        /// other ending is left as it is rather than guessed.
+        static func germanPlural(_ name: String) -> String {
+            if name == "Ei" { return "Eier" }
+            if name.hasSuffix("e") { return name + "n" }
+            if name.hasSuffix("el") { return name + "n" }
+            return name
         }
     }
 
@@ -100,10 +114,15 @@ extension KitchenShoppingList {
             for ingredient in ingredients where !ingredient.component.isEmpty && !components.contains(ingredient.component) {
                 components.append(ingredient.component)
             }
-            return Line(id: id, name: first.name,
+            // A name the recipe already gives in the plural ("2 Knoblauchzehen") wins.
+            let plural = ingredients.first { ($0.amount ?? 0) > 1 && family(of: $0.unit).key == "count" }
+            let counted = sums["count"]?.value ?? 0
+            var line = Line(id: id, name: plural?.name ?? first.name,
                         amounts: families.compactMap { sums[$0].map { Quantity(value: $0.value, unit: $0.base) } },
                         ingredientIDs: ingredients.map(\.id), components: components,
                         note: ingredients.count == 1 ? first.note : "")
+            line.needsPlural = plural == nil && counted > 1 && families == ["count"]
+            return line
         }
     }
 

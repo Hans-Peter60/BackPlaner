@@ -61,7 +61,22 @@ struct CookPlannerApp: App {
             #if DEBUG
             // Development builds draw one example's timeline on its own with
             // the launch argument -TimelineSample <index>, for screenshots.
-            if let index = Int(UserDefaults.standard.string(forKey: "ShoppingSample") ?? ""),
+            if let index = Int(UserDefaults.standard.string(forKey: "PlanSample") ?? ""),
+               KitchenSampleDishes.all.indices.contains(index) {
+                // -PlanSample <index>: an example's plan, for screenshots.
+                NavigationStack { DishPlanView(dish: KitchenSampleDishes.all[index]) }
+                    .environment(library)
+            } else if let index = Int(UserDefaults.standard.string(forKey: "CookSample") ?? ""),
+                      KitchenSampleDishes.all.indices.contains(index),
+                      let plan = DishPlan(dish: KitchenSampleDishes.all[index],
+                                          budget: UserDefaults.standard.object(forKey: CookSettings.budgetKey) as? Int
+                                              ?? Int(UserDefaults.standard.string(forKey: CookSettings.budgetKey) ?? "")
+                                              ?? CookSettings.defaultBudget,
+                                          burners: CookSettings.defaultBurners, ovens: CookSettings.defaultOvens) {
+                // -CookSample <index> -CookElapsed <seconds>: the cook mode under way, for screenshots.
+                CookModeView(plan: plan,
+                             startedSecondsAgo: TimeInterval(UserDefaults.standard.string(forKey: "CookElapsed") ?? "") ?? 600)
+            } else if let index = Int(UserDefaults.standard.string(forKey: "ShoppingSample") ?? ""),
                KitchenSampleDishes.all.indices.contains(index) {
                 // -ShoppingSample <index>: an example's shopping list, for screenshots.
                 ShoppingListView(dish: KitchenSampleDishes.all[index])
