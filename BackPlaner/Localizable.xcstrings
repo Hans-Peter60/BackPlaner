@@ -249,6 +249,28 @@
         }
       }
     },
+    "Rechner" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechner"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculators"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculatrices"
+          }
+        }
+      }
+    },
     "Wird bei Bedarf angelegt." : {
       "localizations" : {
         "de" : {

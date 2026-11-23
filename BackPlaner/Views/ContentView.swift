@@ -19,7 +19,7 @@ import CoreData
 
 /// The tabs of the root, in their order.
 enum AppTab: Hashable {
-    case recipes, shoppingLists, bakeHistory, scheduledSteps
+    case recipes, shoppingLists, bakeHistory, scheduledSteps, pantry
 }
 
 struct ContentView: View {
@@ -111,6 +111,17 @@ struct ContentView: View {
                 }
             } label: {
                 Label { Text("Zeitleiste", tableName: "Tabs") } icon: { Image(systemName: "calendar") }
+            }
+
+            // A place of its own rather than an entry in "Mehr": what is in
+            // the house is looked at as often as the lists that fill it.
+            // Last, so ⌘1–⌘4 keep their tabs. Pro; locked, it offers Pro.
+            Tab(value: .pantry) {
+                NavigationStack {
+                    ProLockedScreen(.pantry) { PantryView() }
+                }
+            } label: {
+                Label { Text("Vorrat", tableName: "Tabs") } icon: { Image(systemName: "shippingbox.fill") }
             }
         }
         // accentText, not accentBottom: the tab bar keeps the system's own
@@ -209,8 +220,11 @@ enum MenuDestination: Hashable {
     /// "Planen ab …" on a row of the recipe list under "Fertig bis": the
     /// page opens with the plan sheet; the start is in GlobalVariables.dateTimePicker.
     case planRecipe(id: String)
-    /// "Vorrat" in the "Mehr" menu: what is in the house.
+    /// What is in the house; a tab of its own since 23 Nov 2026, kept as a
+    /// destination for links into the recipe tab.
     case pantry
+    /// "Rechner" in the "Mehr" menu: the four calculators on one page.
+    case calculators
     /// "Backtag planen" in the "Mehr" menu: several breads before one finish.
     case bakingDay
 }
@@ -238,6 +252,8 @@ struct MenuDestinationView: View {
             LinkedRecipeView(recipeID: id, startsInBakingView: true)
         case .pantry:
             ProLockedScreen(.pantry) { PantryView() }
+        case .calculators:
+            CalculatorsView()
         case .bakingDay:
             ProLockedScreen(.bakingDay) { BakingDayPlannerView() }
         }
@@ -256,5 +272,31 @@ struct LinkedRecipeView: View {
             ContentUnavailableView("Rezept nicht gefunden", systemImage: "magnifyingglass",
                                    description: Text("Das Rezept gibt es nicht mehr oder es ist noch nicht auf diesem Gerät angekommen."))
         }
+    }
+}
+
+/// The calculators, used now and then: one page behind "Mehr" → "Rechner"
+/// instead of four entries in the menu.
+struct CalculatorsView: View {
+    var body: some View {
+        List {
+            NavigationLink(value: MenuDestination.doughTemperature) {
+                Label("Teigtemperatur", systemImage: "thermometer.medium")
+            }
+            .accessibilityIdentifier("calculators.doughTemperature")
+            NavigationLink(value: MenuDestination.flourSubstitution) {
+                Label("Mehl ersetzen", systemImage: "arrow.left.arrow.right.circle")
+            }
+            .accessibilityIdentifier("calculators.flourSubstitution")
+            NavigationLink(value: MenuDestination.starterYield) {
+                Label("Anstellgut-TA", systemImage: "drop.circle")
+            }
+            .accessibilityIdentifier("calculators.starterYield")
+            NavigationLink(value: MenuDestination.doughWeightFromTin) {
+                Label("Teigeinlage", systemImage: "scalemass")
+            }
+            .accessibilityIdentifier("calculators.doughWeightFromTin")
+        }
+        .navigationTitle("Rechner")
     }
 }

@@ -224,7 +224,7 @@ final class AppStoreScreenshots: StoreUITestCase {
             }
             backToRecipeList()
 
-            openScreen("pantry")
+            openTab(.pantry)
             settle(2)
             capture("06-vorrat")
             backToRecipeList()

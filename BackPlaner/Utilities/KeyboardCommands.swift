@@ -68,6 +68,9 @@ struct BakePlannerCommands: Commands {
             Button("Zeitleiste") { target?.showTab(.scheduledSteps) }
                 .keyboardShortcut("4", modifiers: .command)
                 .disabled(target == nil)
+            Button("Vorrat") { target?.showTab(.pantry) }
+                .keyboardShortcut("5", modifiers: .command)
+                .disabled(target == nil)
         }
     }
 }
