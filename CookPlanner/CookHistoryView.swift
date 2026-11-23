@@ -2,7 +2,7 @@
 //  CookHistoryView.swift
 //  CookPlanner
 //
-//  Everything cooked, the way BakePlanner keeps its baking history: four
+//  The tab "Gekocht": everything cooked, as BakePlanner keeps its baking history: four
 //  views — the list by month, a gallery of the photos, the hit list by
 //  stars, the statistics — a search by dish and a lowest star rating. The
 //  stopwatch records land here by themselves; "+" enters a dish cooked
@@ -39,7 +39,6 @@ enum CookHistoryLayout: String, CaseIterable, Identifiable {
 
 struct CookHistoryView: View {
 
-    @Environment(\.dismiss) private var dismiss
     @State private var runLog = CookRunLog.shared
     @State private var shownRun: KitchenCookRun?
     @AppStorage("history.layout") private var layout = CookHistoryLayout.list
@@ -104,11 +103,12 @@ struct CookHistoryView: View {
                 }
                 .frame(maxHeight: .infinity)
             }
-            .searchable(text: $searchText, prompt: Text("Gericht suchen"))
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: Text("Gericht suchen"))
             .navigationTitle(Text(layout.title))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: .topBarLeading) {
                     Menu {
                         Picker("Mindestbewertung", selection: $minimumRating) {
                             Text("Alle").tag(0)
@@ -130,9 +130,6 @@ struct CookHistoryView: View {
                         Image(systemName: "plus")
                     }
                     .accessibilityLabel("Hinzufügen")
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Fertig") { dismiss() }
                 }
             }
             .sheet(item: $shownRun) { run in

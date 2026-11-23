@@ -18,7 +18,9 @@ struct DishListView: View {
     @AppStorage(CookSettings.burnersKey) private var burners = CookSettings.defaultBurners
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var showsSettings = false
-    @State private var showsHistory = false
+    /// The tab bar's selection: a file or a page handed to the app brings
+    /// the dish list forward.
+    var selectedTab: Binding<CookTab>? = nil
     /// The search and the facets, as in BakePlanner's recipe list.
     @State private var searchText = ""
     @State private var filter = KitchenDishFilter()
@@ -130,7 +132,9 @@ struct DishListView: View {
                 }
                 }
             }
-            .searchable(text: $searchText, prompt: Text("Gericht, Komponente oder Zutat"))
+            // Always shown: with a tab bar iOS would hide it until the list is pulled down.
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: Text("Gericht, Komponente oder Zutat"))
             .listStyle(.plain)
             .clearScrollBackground()
             .warmBackground()
@@ -164,14 +168,6 @@ struct DishListView: View {
                     .accessibilityLabel("Hinzufügen")
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        showsHistory = true
-                    } label: {
-                        Image(systemName: "clock.arrow.circlepath")
-                    }
-                    .accessibilityLabel("Gekocht")
-                }
-                ToolbarItem(placement: .topBarLeading) {
                     Menu {
                         filterMenu
                     } label: {
@@ -188,9 +184,6 @@ struct DishListView: View {
                     }
                     .accessibilityLabel("Einstellungen")
                 }
-            }
-            .sheet(isPresented: $showsHistory) {
-                CookHistoryView()
             }
             .sheet(isPresented: $showsSettings) {
                 KitchenSettingsView()
@@ -236,6 +229,7 @@ struct DishListView: View {
             // open cookplanner://import-web, and then the analysis waits
             // for a tap.
             .onOpenURL { url in
+                selectedTab?.wrappedValue = .dishes
                 // A .cookplanner file tapped in Mail, Messages or Files.
                 if url.isFileURL {
                     showsSettings = false
@@ -249,6 +243,7 @@ struct DishListView: View {
             // address is collected when the app comes forward.
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active, let pageURL = PendingDishImport.takePending() {
+                    selectedTab?.wrappedValue = .dishes
                     beginWebImport(of: pageURL, startsAutomatically: true)
                 }
             }
