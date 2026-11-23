@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CookPlanner – Datenschutz / Privacy Policy</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  section {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  h2 { color: var(--title); font-size: 1.5rem; margin-top: 0; }
+  h3 { color: var(--title); font-size: 1.1rem; margin: 1.6rem 0 .3rem; }
+  a { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin: .8rem 0; }
+  th, td {
+    text-align: left; vertical-align: top;
+    padding: .5rem .6rem; border-bottom: 1px solid var(--bg-bottom);
+  }
+  th { color: var(--title); }
+  .note {
+    border-left: 4px solid var(--accent); padding-left: 1rem;
+    color: var(--subtitle);
+  }
+  ul { padding-left: 1.3rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>CookPlanner</h1>
+  <p class="claim">Datenschutz · Privacy Policy · Confidentialité</p>
+</header>
+
+<nav aria-label="Sprache / Language">
+  <a href="#de" lang="de">Deutsch</a>
+  <a href="#en" lang="en">English</a>
+  <a href="#fr" lang="fr">Français</a>
+  <a href="cookplanner.html">Hilfe / Help / Aide</a>
+  <a href="impressum.html">Impressum / Legal</a>
+</nav>
+
+<!-- ===================== DEUTSCH ===================== -->
+<section id="de" lang="de">
+  <h2>Datenschutzerklärung</h2>
+  <p>Stand: 23. November 2026</p>
+
+  <h3>Verantwortlich</h3>
+  <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Deutschland<br>
+  <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
+
+  <h3>Grundsatz</h3>
+  <p>CookPlanner braucht kein Benutzerkonto. Deine Gerichte, Kochprotokolle und Fotos liegen auf deinem Gerät und in
+  deiner eigenen iCloud; ich habe darauf keinen Zugriff. Die App verfolgt dich nicht, zeigt keine Werbung und enthält
+  keine Analyse- oder Absturzberichts-Bausteine. Es findet kein Tracking im Sinne des
+  App-Tracking-Transparency-Rahmens statt. Daten verlassen dein Gerät nur, wenn du einen Rezepttext ausdrücklich
+  analysieren lässt.</p>
+
+  <h3>Welche Daten wohin gehen</h3>
+  <table>
+    <tr><th>Daten</th><th>Wohin</th><th>Warum</th></tr>
+    <tr><td>Deine Gerichte mit Schritten und Zutaten, Kochprotokolle mit Sternen, Notizen und Fotos</td>
+        <td>Auf dem Gerät und in deiner iCloud (privater CloudKit-Speicher von Apple)</td>
+        <td>Abgleich zwischen deinen eigenen Geräten mit derselben Apple-ID. Ich habe darauf keinen Zugriff.</td></tr>
+    <tr><td>Rezepttext, den du analysieren lässt – eingefügt, von einer Internetseite oder von Fotos</td>
+        <td>Über eine geschützte Firebase Cloud Function (Region europe-west1) an Google Vertex AI (Gemini, Standort EU)</td>
+        <td>Zerlegen des Rezepts in Arbeitsschritte, Zeiten und Zutaten. Nur nach deinem Tippen auf „Analysieren“.</td></tr>
+    <tr><td>Fotos von Rezeptseiten (Kamera oder Mediathek)</td>
+        <td>Bleiben auf dem Gerät; der Text wird mit Apple Vision auf dem Gerät erkannt</td>
+        <td>Nur der erkannte Text kann – wie eingefügter Text – zur Analyse gehen. Die Fotos selbst werden nicht übertragen.</td></tr>
+    <tr><td>Internetseiten, die du importierst</td>
+        <td>Dein Gerät lädt die Seite direkt beim Anbieter</td>
+        <td>Der Anbieter der Seite erhält dabei wie bei jedem Seitenaufruf deine IP-Adresse.</td></tr>
+    <tr><td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis (Apple App Attest), Anfragezeit und Anfragezahl</td>
+        <td>Google Firebase (Firestore)</td>
+        <td>Absicherung der Analyse und Begrenzung auf höchstens 20 Analysen pro Stunde.</td></tr>
+    <tr><td>Einstellungen, Einkaufslisten-Haken, Portionswahl, Sammlungen, Erinnerungen, Wecker</td>
+        <td>Ausschließlich auf dem Gerät</td>
+        <td>Funktion der App.</td></tr>
+    <tr><td>Gerichte, die du teilst oder sicherst (.cookplanner-Datei)</td>
+        <td>Nur dorthin, wohin du die Datei schickst</td>
+        <td>Weitergabe und Sicherung auf deinen Wunsch.</td></tr>
+  </table>
+
+  <h3>Anonyme Kennung</h3>
+  <p>Für die Analyse meldet sich die App anonym bei Firebase an und erhält eine zufällige Kennung. Sie enthält keinen
+  Namen, keine E-Mail-Adresse und keine Gerätenummer und dient nur der Absicherung der Anfrage und der
+  Nutzungsbegrenzung.</p>
+
+  <h3>Analyse von Rezepttexten</h3>
+  <p>Der Text, den du analysieren lässt, wird verschlüsselt an die Cloud Function und von dort an Google Vertex AI
+  übertragen und dort ausschließlich verarbeitet, um daraus einen bearbeitbaren Entwurf des Gerichts zu machen.
+  CookPlanner speichert den übertragenen Text nicht. Der Entwurf wird erst gespeichert, wenn du ihn prüfst und
+  sicherst. Ohne Analyse kannst du Gerichte auch von Hand anlegen.</p>
+
+  <h3>Kamera, Mediathek, Mitteilungen und Wecker</h3>
+  <p>Die Kamera nutzt die App nur, wenn du Rezeptseiten scannst oder ein Foto deines Gerichts aufnimmst; aus der
+  Mediathek liest sie nur die Fotos, die du auswählst. Mitteilungen, Wecker und die Live-Aktivität entstehen auf dem
+  Gerät; es gibt keine Push-Werbung.</p>
+
+  <h3>Auftragsverarbeiter</h3>
+  <p>Google Ireland Limited bzw. Google LLC für Firebase (anonyme Anmeldung, Cloud Functions, Missbrauchsschutz) und
+  Google Vertex AI (Gemini) für die Analyse. Apple Inc. für iCloud, Vision, App Attest und die Mitteilungszustellung.</p>
+
+  <h3>Speicherdauer</h3>
+  <p>Daten auf dem Gerät verschwinden mit dem Löschen der App; die Kopie in deiner iCloud löschst du in den
+  iOS-Einstellungen unter <em>[dein Name] → iCloud → Speicher verwalten → CookPlanner</em>. Für die
+  Nutzungsbegrenzung speichert Firestore zur pseudonymen Kennung nur den Beginn des aktuellen Zeitfensters, den Monat
+  und die Anfragezahlen; ein abgelaufenes Zeitfenster wird bei der nächsten Analyse ersetzt.</p>
+
+  <h3>Deine Rechte</h3>
+  <p>Dir stehen die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+  Datenübertragbarkeit und Widerspruch zu. Wende dich dafür an die oben genannte Adresse. Außerdem kannst du dich bei
+  einer Datenschutz-Aufsichtsbehörde beschweren.</p>
+
+  <h3>Kinder</h3>
+  <p>Die App richtet sich nicht an Kinder und erhebt bewusst keine Daten, die eine Altersbestimmung erlauben würden.</p>
+</section>
+
+<!-- ===================== ENGLISH ===================== -->
+<section id="en" lang="en">
+  <h2>Privacy Policy</h2>
+  <p>As of 23 November 2026</p>
+
+  <h3>Controller</h3>
+  <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Germany<br>
+  <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
+
+  <h3>Principle</h3>
+  <p>CookPlanner needs no user account. Your dishes, cooking records and photos stay on your device and in your own
+  iCloud; I have no access to them. The app does not track you, shows no ads and contains no analytics or crash
+  reporting components. There is no tracking in the sense of App Tracking Transparency. Data leaves your device only
+  when you explicitly have a recipe text analysed.</p>
+
+  <h3>Which data goes where</h3>
+  <table>
+    <tr><th>Data</th><th>Where</th><th>Why</th></tr>
+    <tr><td>Your dishes with steps and ingredients, cooking records with stars, notes and photos</td>
+        <td>On the device and in your iCloud (Apple's private CloudKit storage)</td>
+        <td>Sync between your own devices with the same Apple ID. I have no access.</td></tr>
+    <tr><td>Recipe text you have analysed – pasted, from a web page or from photos</td>
+        <td>Through a protected Firebase Cloud Function (region europe-west1) to Google Vertex AI (Gemini, location EU)</td>
+        <td>Breaking the recipe into work steps, times and ingredients. Only after you tap "Analyse".</td></tr>
+    <tr><td>Photos of recipe pages (camera or library)</td>
+        <td>Stay on the device; the text is recognised on the device with Apple Vision</td>
+        <td>Only the recognised text can – like pasted text – go to the analysis. The photos themselves are not sent.</td></tr>
+    <tr><td>Web pages you import</td>
+        <td>Your device loads the page directly from its provider</td>
+        <td>As with every page view, the provider receives your IP address.</td></tr>
+    <tr><td>Pseudonymous Firebase user ID, App Check token (Apple App Attest), request time and count</td>
+        <td>Google Firebase (Firestore)</td>
+        <td>Protecting the analysis and limiting it to 20 analyses per hour.</td></tr>
+    <tr><td>Settings, shopping list ticks, portion choice, collections, reminders, alarms</td>
+        <td>Only on the device</td>
+        <td>The app's function.</td></tr>
+    <tr><td>Dishes you share or back up (.cookplanner file)</td>
+        <td>Only where you send the file</td>
+        <td>Sharing and backup at your request.</td></tr>
+  </table>
+
+  <h3>Anonymous ID</h3>
+  <p>For the analysis the app signs in anonymously with Firebase and receives a random ID. It contains no name, no
+  e-mail address and no device number and serves only to protect the request and to limit use.</p>
+
+  <h3>Analysis of recipe texts</h3>
+  <p>The text you have analysed is sent encrypted to the Cloud Function and from there to Google Vertex AI, where it
+  is processed solely to turn it into an editable draft of the dish. CookPlanner does not store the transmitted text.
+  The draft is saved only when you check and save it. You can also create dishes by hand without any analysis.</p>
+
+  <h3>Camera, library, notifications and alarms</h3>
+  <p>The app uses the camera only when you scan recipe pages or take a photo of your dish; from the library it reads
+  only the photos you select. Notifications, alarms and the Live Activity are created on the device; there is no
+  promotional push.</p>
+
+  <h3>Processors</h3>
+  <p>Google Ireland Limited or Google LLC for Firebase (anonymous sign-in, Cloud Functions, abuse protection) and
+  Google Vertex AI (Gemini) for the analysis. Apple Inc. for iCloud, Vision, App Attest and notification delivery.</p>
+
+  <h3>Retention</h3>
+  <p>Data on the device disappears when you delete the app; you delete the copy in your iCloud in the iOS settings
+  under <em>[your name] → iCloud → Manage storage → CookPlanner</em>. For the usage limit, Firestore keeps only the
+  start of the current window, the month and the request counts with the pseudonymous ID; an expired window is
+  replaced at the next analysis.</p>
+
+  <h3>Your rights</h3>
+  <p>You have the rights of access, rectification, erasure, restriction of processing, data portability and
+  objection. Contact the address above. You can also lodge a complaint with a data protection supervisory
+  authority.</p>
+
+  <h3>Children</h3>
+  <p>The app is not aimed at children and deliberately collects no data that would allow determining age.</p>
+</section>
+
+<!-- ===================== FRANÇAIS ===================== -->
+<section id="fr" lang="fr">
+  <h2>Politique de confidentialité</h2>
+  <p>Version du 23 novembre 2026</p>
+
+  <h3>Responsable</h3>
+  <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Allemagne<br>
+  <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a></p>
+
+  <h3>Principe</h3>
+  <p>CookPlanner n’a besoin d’aucun compte. Vos plats, relevés de cuisson et photos restent sur votre appareil et dans
+  votre propre iCloud ; je n’y ai pas accès. L’app ne vous suit pas, n’affiche pas de publicité et ne contient aucun
+  module d’analyse ou de rapport de plantage. Il n’y a pas de suivi au sens d’App Tracking Transparency. Des données ne
+  quittent votre appareil que si vous faites analyser expressément un texte de recette.</p>
+
+  <h3>Quelles données vont où</h3>
+  <table>
+    <tr><th>Données</th><th>Où</th><th>Pourquoi</th></tr>
+    <tr><td>Vos plats avec étapes et ingrédients, relevés de cuisson avec étoiles, notes et photos</td>
+        <td>Sur l’appareil et dans votre iCloud (stockage CloudKit privé d’Apple)</td>
+        <td>Synchronisation entre vos propres appareils avec le même identifiant Apple. Je n’y ai pas accès.</td></tr>
+    <tr><td>Texte de recette que vous faites analyser – collé, issu d’une page web ou de photos</td>
+        <td>Via une Cloud Function Firebase protégée (région europe-west1) vers Google Vertex AI (Gemini, site UE)</td>
+        <td>Découper la recette en étapes, durées et ingrédients. Seulement après avoir touché « Analyser ».</td></tr>
+    <tr><td>Photos de pages de recettes (appareil photo ou photothèque)</td>
+        <td>Restent sur l’appareil ; le texte est reconnu sur l’appareil avec Apple Vision</td>
+        <td>Seul le texte reconnu peut – comme un texte collé – partir à l’analyse. Les photos ne sont pas transmises.</td></tr>
+    <tr><td>Pages web que vous importez</td>
+        <td>Votre appareil charge la page directement chez son fournisseur</td>
+        <td>Comme à chaque consultation, le fournisseur reçoit votre adresse IP.</td></tr>
+    <tr><td>Identifiant Firebase pseudonyme, jeton App Check (Apple App Attest), heure et nombre des requêtes</td>
+        <td>Google Firebase (Firestore)</td>
+        <td>Protection de l’analyse et limite de 20 analyses par heure.</td></tr>
+    <tr><td>Réglages, coches de la liste de courses, portions, collections, rappels, alarmes</td>
+        <td>Uniquement sur l’appareil</td>
+        <td>Fonctionnement de l’app.</td></tr>
+    <tr><td>Plats que vous partagez ou sauvegardez (fichier .cookplanner)</td>
+        <td>Seulement là où vous envoyez le fichier</td>
+        <td>Partage et sauvegarde à votre demande.</td></tr>
+  </table>
+
+  <h3>Identifiant anonyme</h3>
+  <p>Pour l’analyse, l’app se connecte anonymement à Firebase et reçoit un identifiant aléatoire. Il ne contient ni
+  nom, ni adresse e-mail, ni numéro d’appareil et sert uniquement à protéger la requête et à limiter l’usage.</p>
+
+  <h3>Analyse des textes de recettes</h3>
+  <p>Le texte que vous faites analyser est transmis chiffré à la Cloud Function puis à Google Vertex AI, où il est
+  traité uniquement pour en faire un brouillon modifiable du plat. CookPlanner ne conserve pas le texte transmis. Le
+  brouillon n’est enregistré que lorsque vous le vérifiez et l’enregistrez. Vous pouvez aussi créer des plats à la main
+  sans analyse.</p>
+
+  <h3>Appareil photo, photothèque, notifications et alarmes</h3>
+  <p>L’app n’utilise l’appareil photo que lorsque vous numérisez des pages de recettes ou photographiez votre plat ;
+  dans la photothèque, elle ne lit que les photos que vous choisissez. Notifications, alarmes et activité en direct
+  sont créées sur l’appareil ; il n’y a pas de push publicitaire.</p>
+
+  <h3>Sous-traitants</h3>
+  <p>Google Ireland Limited ou Google LLC pour Firebase (connexion anonyme, Cloud Functions, protection contre les
+  abus) et Google Vertex AI (Gemini) pour l’analyse. Apple Inc. pour iCloud, Vision, App Attest et la distribution des
+  notifications.</p>
+
+  <h3>Durée de conservation</h3>
+  <p>Les données de l’appareil disparaissent avec la suppression de l’app ; la copie dans votre iCloud se supprime
+  dans les réglages iOS sous <em>[votre nom] → iCloud → Gérer le stockage → CookPlanner</em>. Pour la limite
+  d’usage, Firestore ne garde avec l’identifiant pseudonyme que le début de la période en cours, le mois et le nombre
+  de requêtes ; une période expirée est remplacée à l’analyse suivante.</p>
+
+  <h3>Vos droits</h3>
+  <p>Vous disposez des droits d’accès, de rectification, d’effacement, de limitation du traitement, de portabilité et
+  d’opposition. Écrivez à l’adresse ci-dessus. Vous pouvez aussi saisir une autorité de contrôle de la protection des
+  données.</p>
+
+  <h3>Enfants</h3>
+  <p>L’app ne s’adresse pas aux enfants et ne collecte sciemment aucune donnée permettant de déterminer l’âge.</p>
+</section>
+
+<footer>
+  <p>CookPlanner · Hans-Peter Mueller · <a href="mailto:BakePlanner@gmx.info">BakePlanner@gmx.info</a> · <a href="impressum.html">Impressum</a></p>
+</footer>
+
+</main>
+</body>
+</html>
