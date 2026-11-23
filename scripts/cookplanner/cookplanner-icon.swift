@@ -11,7 +11,7 @@
 //
 //   swift scripts/cookplanner/cookplanner-icon.swift [target.png]
 //
-// Writes CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png by
+// Writes CookPlanner/CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png by
 // default. Needs only macOS.
 //
 
@@ -22,7 +22,7 @@ let size = 1024
 let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent()
 let target = CommandLine.arguments.count > 1
     ? URL(fileURLWithPath: CommandLine.arguments[1])
-    : root.appendingPathComponent("CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png")
+    : root.appendingPathComponent("CookPlanner/CookPlanner/Assets.xcassets/AppIcon.appiconset/icon.png")
 
 func fail(_ message: String) -> Never {
     FileHandle.standardError.write((message + "\n").data(using: .utf8)!)

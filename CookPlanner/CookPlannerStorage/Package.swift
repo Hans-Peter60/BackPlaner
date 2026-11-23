@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "CookPlannerStorage", targets: ["CookPlannerStorage"]),
     ],
     dependencies: [
-        .package(path: "../BakePlannerCore"),
+        .package(path: "../../BakePlannerCore"),
         .package(url: "https://github.com/skiptools/skip-sql.git", from: "0.16.1"),
     ],
     targets: [
