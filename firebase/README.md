@@ -251,8 +251,8 @@ and it refuses app versions that query without that filter. Hence the order:
 1. **Backfill** — before any build with the filter talks to the database
    (the Xcode build on your own iPhone included):
    ```
-   node scripts/backfill-hidden.mjs --key=<serviceAccount.json>            # dry run
-   node scripts/backfill-hidden.mjs --key=<serviceAccount.json> --commit
+   node scripts/bakeplanner/backfill-hidden.mjs --key=<serviceAccount.json>            # dry run
+   node scripts/bakeplanner/backfill-hidden.mjs --key=<serviceAccount.json> --commit
    ```
 2. **Release** the app version with the filter and wait until users have
    updated. Until the rules are deployed, an older version may still publish

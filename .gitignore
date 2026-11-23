@@ -39,7 +39,7 @@ ui-debug.log
 # Wartungsskripte: der Dienstkonto-Schlüssel ist ein Vollzugriff auf das
 # Firebase-Projekt und die Backups enthalten Rezeptdaten – beides nichts
 # fürs Repository.
-scripts/*.json
+scripts/**/*.json
 scripts/node_modules/
 firebase/tests/node_modules/
 *-debug.log
@@ -51,15 +51,15 @@ Icon Backups/
 
 # Nachweise für die App-Prüfung (Aufnahmen und Screenshots eines Builds).
 # Zig Megabyte, die nach der Freigabe niemand mehr braucht – die Store-
-# Screenshots unter docs/appstore/<geraet>/ bleiben dagegen getrackt.
-docs/appstore/Build */
+# Screenshots unter docs/bakeplanner/appstore/<geraet>/ bleiben dagegen getrackt.
+docs/bakeplanner/appstore/Build */
 
-# App-Vorschau-Rohvideos (scripts/appstore-previews.sh): groß, werden in iMovie geschnitten
-docs/appstore/*/preview/
+# App-Vorschau-Rohvideos (scripts/bakeplanner/appstore-previews.sh): groß, werden in iMovie geschnitten
+docs/bakeplanner/appstore/*/preview/
 
-# Screenshots ohne Überschrift (scripts/appstore-screenshots.sh): die Fassung mit
+# Screenshots ohne Überschrift (scripts/bakeplanner/appstore-screenshots.sh): die Fassung mit
 # Überschrift daneben ist die für den Store; die rohen Bilder entstehen bei jedem Lauf neu
-docs/appstore/*/*/*/roh/
+docs/bakeplanner/appstore/*/*/*/roh/
 
 # Python
 __pycache__/

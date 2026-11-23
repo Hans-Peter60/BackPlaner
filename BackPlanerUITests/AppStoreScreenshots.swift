@@ -3,7 +3,7 @@
 //  BackPlanerUITests
 //
 //  Walks through the screens shown in the App Store and saves a screenshot of
-//  each. Run by scripts/appstore-screenshots.sh for every language and device;
+//  each. Run by scripts/bakeplanner/appstore-screenshots.sh for every language and device;
 //  in a normal test run it skips itself, since it works on the simulator's
 //  real data and needs the recipe database online.
 //
@@ -12,7 +12,7 @@
 //  the bake mode. The screens the app shares with every recipe app (the recipe
 //  list, the settings) come last or only serve the manuals (numbers from 90
 //  up, which the script keeps out of the App Store folder). The headline of
-//  each picture is in docs/appstore/captions.json, keyed by the name after
+//  each picture is in docs/bakeplanner/appstore/captions.json, keyed by the name after
 //  the number; the script sets it over the picture.
 //
 //  Settings come from the environment (xcodebuild hands TEST_RUNNER_<NAME> to
@@ -25,7 +25,7 @@
 //                            the iPhone only; they cost minutes per run, and
 //                            the French run on the folded iPhone Duo did not
 //                            finish inside its allowance with them.
-//    SCREENSHOT_DEMO_BACKUP  the demo backup of scripts/appstore-demo-data.py
+//    SCREENSHOT_DEMO_BACKUP  the demo backup of scripts/bakeplanner/appstore-demo-data.py
 //                            for this language; the app reads it at launch
 //                            (-UITestingRestoreBackup), and the pictures of
 //                            the Pro features — baking day, pantry,
@@ -51,7 +51,7 @@ final class AppStoreScreenshots: StoreUITestCase {
     override func setUpWithError() throws {
         let environment = ProcessInfo.processInfo.environment
         guard let language = environment["SCREENSHOT_LANGUAGE"], !language.isEmpty else {
-            throw XCTSkip("Only for scripts/appstore-screenshots.sh (SCREENSHOT_LANGUAGE is not set).")
+            throw XCTSkip("Only for scripts/bakeplanner/appstore-screenshots.sh (SCREENSHOT_LANGUAGE is not set).")
         }
         prepare(language: language)
         takesExtras = environment["SCREENSHOT_EXTRAS"] == "1"
