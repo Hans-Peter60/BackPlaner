@@ -29,7 +29,7 @@ let texts: [String: (name: String, promise: String)] = [
 ]
 
 let width = 1024, height = 500
-let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent()
+let root = URL(fileURLWithPath: CommandLine.arguments[0]).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
 let photoURL = root.appendingPathComponent("BakePlanner/BackPlaner/Assets.xcassets/BakeryBackdrop.imageset/bakery-backdrop.jpg")
 let iconURL = root.appendingPathComponent("BakePlanner/BackPlaner/Assets.xcassets/AppIcon.appiconset/icon-light.png")
 
