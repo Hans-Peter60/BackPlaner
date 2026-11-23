@@ -924,7 +924,7 @@ Comme les recettes et les listes de courses, la réserve est dans votre iCloud e
 
 *Les Réglages rassemblent la langue, les valeurs par défaut et les paramètres de la planification. Les sections Confidentialité et IA, Modération et Compte suivent plus bas.*
 
-**Envoyer dans Rappels.** Le bouton en forme de liste à cocher à côté de « Supprimer » (**Envoyer la liste de courses dans Rappels**) envoie tous les éléments de la liste dans l’app Rappels, dans une liste propre « BakePlanner », créée la première fois. Là, la liste peut être partagée avec la famille et cochée pendant les courses. iOS demande une fois l’autorisation pour Rappels ; chaque envoi crée de nouveaux éléments.
+**Envoyer dans Rappels.** Le bouton en forme de liste à cocher à côté de « Supprimer » (**Envoyer la liste de courses dans Rappels**) envoie tous les éléments de la liste dans l’app Rappels. La première fois, vous choisissez la liste – idéalement votre liste de courses : une liste de type « Courses » range les lignes par rayon et se partage avec la famille – ou une liste propre « BakePlanner », alors créée. Un nouvel envoi ajoute les nouvelles lignes et modifie les quantités changées ; ce qui s’y trouve déjà ou est coché reste, rien n’est dédoublé. Le message indique ensuite combien étaient nouveaux, modifiés ou déjà présents ; **Choisir une autre liste** change de liste. iOS demande une fois l’autorisation pour Rappels.
 
 ### Général
 

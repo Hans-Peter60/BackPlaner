@@ -35,9 +35,11 @@ struct ShoppingCartsView: View {
     @State private var selectedIngredient: Ingredient?
 
     // "An Erinnerungen senden": the count afterwards, or the refusal.
-    @State private var reminderCount = 0
-    @State private var showingRemindersResult = false
+    @State private var remindersResult: RemindersExport.Result?
     @State private var showingRemindersDenied = false
+    /// The Reminders lists to choose from, and the list to send once chosen.
+    @State private var reminderLists: [RemindersExport.ListChoice]?
+    @State private var cartAwaitingList: ShoppingCart?
     
     var body: some View {
         Group {
@@ -184,10 +186,23 @@ struct ShoppingCartsView: View {
                 Text("\(result.booked) Zeilen sind im Vorrat. Nicht gekaufte Zeilen bleiben auf der Liste.")
             }
         }
-        .alert("An Erinnerungen gesendet", isPresented: $showingRemindersResult) {
+        .alert("An Erinnerungen gesendet", isPresented: Binding(get: { remindersResult != nil },
+                                                               set: { if !$0 { remindersResult = nil } }),
+               presenting: remindersResult) { _ in
             Button("OK", role: .cancel) { }
-        } message: {
-            Text("\(reminderCount) Einträge in der Liste „BakePlanner“ angelegt.")
+            Button("Andere Liste wählen") { chooseReminderList(thenSend: nil) }
+        } message: { result in
+            Text("Liste „\(result.listTitle)“: \(result.added) neu, \(result.updated) geändert, \(result.unchanged) schon da oder erledigt.")
+        }
+        .sheet(item: Binding(get: { reminderLists.map(ReminderListSheetItem.init) },
+                             set: { if $0 == nil { reminderLists = nil; cartAwaitingList = nil } })) { item in
+            ReminderListPicker(lists: item.lists, chosenID: RemindersExport.chosenListID) { id in
+                RemindersExport.chosenListID = id
+                let cart = cartAwaitingList
+                reminderLists = nil
+                cartAwaitingList = nil
+                if let cart { send(cart) }
+            }
         }
         .alert("Kein Zugriff auf Erinnerungen", isPresented: $showingRemindersDenied) {
             Button("OK", role: .cancel) { }
@@ -196,14 +211,37 @@ struct ShoppingCartsView: View {
         }
     }
 
-    /// Every item of the list as an open reminder, worded as the row shows it.
+    /// The list into Reminders. The first time, the Reminders list to use
+    /// is asked for — the shopping list there, ideally — and kept.
     private func sendToReminders(_ shoppingCart: ShoppingCart) {
-        let items = shoppingCart.ingredientsArray.map(ShoppingLineText.text(for:))
-        guard !items.isEmpty else { return }
+        guard !shoppingCart.ingredientsArray.isEmpty else { return }
+        if RemindersExport.chosenListID == nil {
+            chooseReminderList(thenSend: shoppingCart)
+        } else {
+            send(shoppingCart)
+        }
+    }
+
+    private func chooseReminderList(thenSend shoppingCart: ShoppingCart?) {
         Task { @MainActor in
             do {
-                reminderCount = try await RemindersExport.send(items)
-                showingRemindersResult = true
+                let lists = try await RemindersExport.lists()
+                cartAwaitingList = shoppingCart
+                reminderLists = lists
+            } catch {
+                showingRemindersDenied = true
+            }
+        }
+    }
+
+    /// Every line, worded as the row shows it, with its id for the next send.
+    private func send(_ shoppingCart: ShoppingCart) {
+        let lines = shoppingCart.ingredientsArray.map { ingredient in
+            RemindersSync.Line(id: ingredient.id?.uuidString, title: ShoppingLineText.text(for: ingredient))
+        }
+        Task { @MainActor in
+            do {
+                remindersResult = try await RemindersExport.send(lines)
             } catch {
                 showingRemindersDenied = true
             }
@@ -392,5 +430,79 @@ struct EditShoppingCartIngredientView: View {
         }
 
         dismiss()
+    }
+}
+
+/// The sheet's item: the lists to choose from.
+private struct ReminderListSheetItem: Identifiable {
+    let lists: [RemindersExport.ListChoice]
+    var id: String { lists.map(\.id).joined() }
+}
+
+/// Which Reminders list the shopping lists go into: one of the person's
+/// lists — a list of the type "Einkaufsliste" sorts the lines into shelves
+/// there — or the app's own list "BakePlanner".
+private struct ReminderListPicker: View {
+    let lists: [RemindersExport.ListChoice]
+    let chosenID: String?
+    /// The chosen list's id; empty for the app's own list.
+    let onChoose: (String) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    ForEach(lists) { list in
+                        Button {
+                            onChoose(list.id)
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(verbatim: list.title)
+                                        .foregroundColor(.primary)
+                                    if !list.account.isEmpty {
+                                        Text(verbatim: list.account)
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                Spacer()
+                                if list.id == chosenID {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Theme.accentText)
+                                }
+                            }
+                        }
+                    }
+                } footer: {
+                    Text("Am besten Deine Einkaufsliste in Erinnerungen: Eine Liste vom Typ „Einkaufsliste“ ordnet die Zeilen dort nach Abteilungen und lässt sich mit der Familie teilen. Erneutes Senden ergänzt und ändert, doppelt wird nichts.")
+                }
+                Section {
+                    Button {
+                        onChoose("")
+                    } label: {
+                        HStack {
+                            Text("Eigene Liste „BakePlanner“")
+                                .foregroundColor(.primary)
+                            Spacer()
+                            if chosenID == "" {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(Theme.accentText)
+                            }
+                        }
+                    }
+                } footer: {
+                    Text("Wird bei Bedarf angelegt.")
+                }
+            }
+            .navigationTitle("Liste in Erinnerungen")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Abbrechen") { dismiss() }
+                }
+            }
+        }
     }
 }

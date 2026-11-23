@@ -924,7 +924,7 @@ Like recipes and shopping lists, the pantry lives in your iCloud, and it belongs
 
 *Settings bring together language, defaults, and the parameters for the baking plan. The Privacy & AI, Moderation, and Account sections follow further down.*
 
-**Send to Reminders.** The checklist button next to "Delete" (**Send shopping list to Reminders**) sends every item of the list to the Reminders app, into a list of its own called "BakePlanner", created the first time. There the list can be shared with the family and ticked off while shopping. iOS asks for permission to Reminders once; every send creates new items.
+**Send to Reminders.** The checklist button next to "Delete" (**Send shopping list to Reminders**) sends every item of the list to the Reminders app. The first time, you choose the list there – ideally your grocery list: a list of the type "Groceries" sorts the lines into sections and can be shared with the family – or a list of its own called "BakePlanner", which is then created. Sending again adds new lines and changes changed amounts; what is already there or ticked off stays, nothing is doubled. The message afterwards says how many were new, changed or already there; **Choose another list** switches the list. iOS asks for permission to Reminders once.
 
 ### General
 
