@@ -87,5 +87,13 @@ struct KitchenDishTests {
         #expect(text.hasPrefix(dish.name + "\n\nPerlhuhnbrust\n- 1 Knoblauchzehe\n"))
         #expect(text.contains("- 0,5 TL Helle Miso-Paste"))
         #expect(!text.contains("Perlhuhnbrüste"))
+
+        // What is still to buy: lines only, without the dish, headings or dashes.
+        let missing = KitchenShoppingList.missingText(for: dish, available: ["a-huhn"], locale: Locale(identifier: "de_DE"))
+        let lines = missing.components(separatedBy: "\n")
+        #expect(lines.first == "1 Knoblauchzehe")
+        #expect(lines.count == dish.ingredients.count - 1)
+        #expect(!missing.contains(dish.name) && !missing.contains("- ") && !missing.contains("Perlhuhnbrüste"))
+        #expect(KitchenShoppingList.missingText(for: dish, available: Set(dish.ingredients.map(\.id))).isEmpty)
     }
 }

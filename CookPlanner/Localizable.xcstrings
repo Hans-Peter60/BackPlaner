@@ -794,6 +794,28 @@
         }
       }
     },
+    "Alles im Haus" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles im Haus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything at home"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout est là"
+          }
+        }
+      }
+    },
     "Als Vorlage übernehmen" : {
       "localizations" : {
         "de" : {
@@ -2290,6 +2312,28 @@
         }
       }
     },
+    "Fehlendes teilen (%lld)" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehlendes teilen (%lld)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share what's missing (%lld)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager ce qui manque (%lld)"
+          }
+        }
+      }
+    },
     "Fertig" : {
       "localizations" : {
         "de" : {
@@ -3012,6 +3056,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ensuite"
+          }
+        }
+      }
+    },
+    "Hake ab, was Du schon im Haus hast. Den Rest teilst Du unten, z. B. an Erinnerungen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hake ab, was Du schon im Haus hast. Den Rest teilst Du unten, z. B. an Erinnerungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tick what you already have at home. Share the rest below, for example to Reminders."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cochez ce que vous avez déjà. Partagez le reste en bas, par exemple vers Rappels."
           }
         }
       }
@@ -4222,6 +4288,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ne pas reprendre"
+          }
+        }
+      }
+    },
+    "Nichts im Haus" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts im Haus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing at home"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à la maison"
           }
         }
       }
