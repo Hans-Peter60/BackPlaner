@@ -230,7 +230,7 @@ final class AppPreview: StoreUITestCase {
         }
 
         backToRecipeList()
-        openScreen("doughTemperature")
+        openCalculator("doughTemperature")
         pause(4)
     }
 

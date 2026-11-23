@@ -124,7 +124,7 @@ class StoreUITestCase: XCTestCase {
     /// The tabs of the app's root, with their titles in the three languages
     /// (the tab bar's buttons carry no identifier of their own).
     enum RootTab {
-        case recipes, shoppingLists, bakeHistory, scheduledSteps
+        case recipes, shoppingLists, bakeHistory, scheduledSteps, pantry
 
         var titles: [String: String] {
             switch self {
@@ -132,6 +132,7 @@ class StoreUITestCase: XCTestCase {
             case .shoppingLists:  return ["de": "Einkaufslisten", "en": "Shopping lists", "fr": "Courses"]
             case .bakeHistory:    return ["de": "Backhistorie", "en": "Baking history", "fr": "Historique"]
             case .scheduledSteps: return ["de": "Zeitleiste", "en": "Timeline", "fr": "Timeline"]
+            case .pantry:         return ["de": "Vorrat", "en": "Pantry", "fr": "Réserve"]
             }
         }
     }
@@ -182,9 +183,21 @@ class StoreUITestCase: XCTestCase {
         }
     }
 
+    /// Opens one calculator: "Mehr" → "Rechner", then its row.
+    func openCalculator(_ calculator: String) {
+        openScreen("calculators")
+        let row = app.buttons["calculators.\(calculator)"]
+        if row.waitForExistence(timeout: 10) {
+            row.tap()
+        } else {
+            attachHierarchy()
+            XCTFail("Calculator \(calculator) is missing")
+        }
+    }
+
     /// Opens a screen reached from the recipe list: "newRecipe" behind "+",
-    /// the calculators and "settings" behind "Mehr". The recipe list has to
-    /// be on screen (see `backToRecipeList`).
+    /// "calculators", "bakingDay" and "settings" behind "Mehr". The recipe
+    /// list has to be on screen (see `backToRecipeList`).
     func openScreen(_ destination: String) {
         // When the title bar is short of room (the iPad's top tab bar with
         // French titles), the toolbar folds "Mehr" and "+" into an overflow
@@ -255,7 +268,7 @@ class StoreUITestCase: XCTestCase {
         "flourSubstitution": ["Mehl ersetzen", "Replace flour", "Remplacer la farine"],
         "starterYield": ["Anstellgut-TA", "Starter TA", "TA du levain chef"],
         "bakingDay": ["Backtag planen", "Plan a baking day", "Planifier une journée de cuisson"],
-        "pantry": ["Vorrat", "Pantry", "Réserve"],
+        "calculators": ["Rechner", "Calculators", "Calculatrices"],
         "newRecipe": ["Neues Rezept anlegen", "Create new recipe", "Créer une nouvelle recette"],
     ]
 

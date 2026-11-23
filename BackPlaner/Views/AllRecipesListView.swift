@@ -503,8 +503,8 @@ struct AllRecipesListView: View {
                     }
                 }
 
-                // The calculators and the settings: used now and then, so
-                // behind one menu rather than taking a tab each. Stable
+                // Settings, backups, the baking day and the calculators:
+                // used now and then, so behind one menu. Stable
                 // identifiers for the UI tests, which would otherwise depend
                 // on the language.
                 ToolbarItem(placement: .topBarTrailing) {
@@ -544,43 +544,20 @@ struct AllRecipesListView: View {
                         }
                         .accessibilityIdentifier("menu.exportRecipes")
                         Divider()
-                        Button {
-                            pushedDestination = .pantry
-                        } label: {
-                            Label("Vorrat", systemImage: "shippingbox")
-                        }
-                        .accessibilityIdentifier("menu.pantry")
+                        // The pantry is a tab; actions stay here, the
+                        // calculators are one page.
                         Button {
                             pushedDestination = .bakingDay
                         } label: {
                             Label("Backtag planen", systemImage: "calendar.badge.clock")
                         }
                         .accessibilityIdentifier("menu.bakingDay")
-                        Divider()
                         Button {
-                            pushedDestination = .doughTemperature
+                            pushedDestination = .calculators
                         } label: {
-                            Label("Teigtemperatur", systemImage: "thermometer.medium")
+                            Label("Rechner", systemImage: "function")
                         }
-                        .accessibilityIdentifier("menu.doughTemperature")
-                        Button {
-                            pushedDestination = .flourSubstitution
-                        } label: {
-                            Label("Mehl ersetzen", systemImage: "arrow.left.arrow.right.circle")
-                        }
-                        .accessibilityIdentifier("menu.flourSubstitution")
-                        Button {
-                            pushedDestination = .starterYield
-                        } label: {
-                            Label("Anstellgut-TA", systemImage: "drop.circle")
-                        }
-                        .accessibilityIdentifier("menu.starterYield")
-                        Button {
-                            pushedDestination = .doughWeightFromTin
-                        } label: {
-                            Label("Teigeinlage", systemImage: "scalemass")
-                        }
-                        .accessibilityIdentifier("menu.doughWeightFromTin")
+                        .accessibilityIdentifier("menu.calculators")
                     } label: {
                         Label("Mehr", systemImage: "ellipsis.circle")
                     }

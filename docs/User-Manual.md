@@ -110,7 +110,7 @@ A recipe you're **not allowed to publish** — out of a book, say — stays on t
 
 ## 4. The tab bar
 
-After launch the app opens on the **Recipes** tab. Along the bottom runs the tab bar with the four areas you need every day; each tab remembers where you were when you switch to another:
+After launch the app opens on the **Recipes** tab. Along the bottom runs the tab bar with the five areas you need every day; each tab remembers where you were when you switch to another:
 
 ![BakePlanner's recipe list with the tab bar along the bottom](images/en/hauptmenue.png)
 
@@ -122,13 +122,14 @@ After launch the app opens on the **Recipes** tab. Along the bottom runs the tab
 | **Shopping lists** | All the shopping lists you've created |
 | **Baking history** | Past bakes with comments and photos — as a list, gallery, top list, photo cloud or statistics |
 | **Timeline** | Every scheduled baking step as a timeline or a list |
+| **Pantry** | What you have at home: flours, seeds, yeast with amount and shelf life (see [chapter 13](#13-shopping-list); Pro) |
 
 At the top right of the **Recipes** tab sit three buttons:
 
 | Button | Purpose |
 |--------|---------|
 | **Filter** | The minimum rating, variants and the facets (duration, day flow, leavening, flour, dough yield, equipment, baking history) for the list |
-| **More (⋯)** | The four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), the backup — **Import recipes** (read a backup file or a single exported recipe) and **Export recipes** (your own recipes as a file, all or a selection), see [chapter 14](#14-settings) — and the **Settings** (language, defaults, baking plan, account) |
+| **More (⋯)** | **Plan a baking day**, **Calculators** – one page with the four baker's calculators **Dough temperature** (the water temperature for a desired dough temperature), **Replace flour** (swap the flour type, adjust the water), **Starter TA** (use a starter of a different dough yield, adjust the water) and **Dough weight** (the dough a loaf tin or a proofing basket takes), the backup — **Import recipes** (read a backup file or a single exported recipe) and **Export recipes** (your own recipes as a file, all or a selection), see [chapter 14](#14-settings) — and the **Settings** (language, defaults, baking plan, account) |
 | **+** | **Create new recipe** — from scratch or imported from photos, a web page, or copied text |
 
 **The "Up next" bar.** As soon as a baking plan is running, a bar floats above the tab bar of the Recipes tab with the step that is coming up: the step text, the recipe name, the time, and a countdown in minutes ("in 42 min"). The recipe rows scroll underneath it, so the bar stays in view. When a step's time has come, it switches to **"Due now"** with the elapsed time ("5 min ago") for an hour — until you mark the step as done in the notification or the next step falls due. Tapping the bar switches to the "Timeline" tab. With no step ahead it stays hidden.
@@ -892,7 +893,7 @@ Tapping an ingredient opens **Change amount**: amount, unit and fraction then ap
 
 ### Pantry
 
-**More → Pantry** in the recipe list keeps what you have at home: flours, seeds, yeast – on the same shelves as the shopping list. Each item has a name, an amount in g, kg or pieces, a **best-before date** if you like, and a note. **+** adds an item; for the name the app suggests the ingredients of your recipes, so the pantry and the recipes mean the same thing ("Weizenmehl 550"). A tap on an item edits it, a swipe to the left removes it.
+The **Pantry** tab keeps what you have at home: flours, seeds, yeast – on the same shelves as the shopping list. Each item has a name, an amount in g, kg or pieces, a **best-before date** if you like, and a note. **+** adds an item; for the name the app suggests the ingredients of your recipes, so the pantry and the recipes mean the same thing ("Weizenmehl 550"). A tap on an item edits it, a swipe to the left removes it.
 
 Items that expire within the next 14 days or already have sit at the top under **Use up soon**, marked orange or red.
 
@@ -1082,7 +1083,7 @@ The line is absent for recipes without recognised flour. The image import compar
 No wheat flour 1050 in the house, but spelt flour 630? Flours are swapped **1:1 by weight**; what changes is the water, because every flour absorbs differently. Two ways:
 
 - **In the recipe:** on the recipe page, flour lines can be tapped (arrow symbol behind them). The **Replace flour** sheet shows the recognised flour, lets you pick the replacement by grain and type, and works it out: the component's water change ("+20 g" or "−20 g"), dough yield and hydration before and after. If the component has no water, the app takes its poured liquid (milk, beer); if it has none, it says so. **Create copy with substitution** writes the swap into a new variant of the recipe ("Landbrot V1", see [chapter 9](#9-editing-a-recipe)) and opens it; the original stays unchanged. Only the copy of a public recipe, which has no origin of your own, still carries the date in its name. In that copy the button reads **Apply change**: a second flour or a starter adjustment changes the copy itself, the name stays, and no further copy is created.
-- **As a calculator:** **Recipes → More (⋯) → Replace flour** for a free amount — amount, flour in the recipe, replacement flour.
+- **As a calculator:** **Recipes → More (⋯) → Calculators → Replace flour** for a free amount — amount, flour in the recipe, replacement flour.
 
 Handling advice comes with it: knead spelt less and consider a soaker or cooked soaker, acidify rye, bake emmer and einkorn in a tin, let wholegrain soak, work extra water in gradually. The water figures are rules of thumb relative to wheat 550 (spelt 630 −4 %, wholewheat +10 %, rye 1150 +12 % …) — flours vary with the mill and the harvest, the dough has the final say.
 
@@ -1091,17 +1092,17 @@ Handling advice comes with it: knead spelt less and consider a soaker or cooked 
 If a recipe asks for "100 g starter TA 150" but you keep yours at TA 210, the sums no longer add up: your softer starter brings less flour and more water. The app evens that out so that **the flour from the starter stays the same**: amount of starter = recipe amount × TA on hand ÷ TA in the recipe, here 140 g instead of 100 g, and the extra 40 g of water come off the water of the same component. Dough yield and total weight of the dough stay as the recipe meant them; with a firmer starter it works the other way round.
 
 - **In the recipe:** on the recipe page, lines with sourdough starter, sourdough or lievito madre can be tapped (drop symbol). The **Adjust starter TA** sheet shows the recognised TA — from the ingredient name or, when none is given there, from Settings, which the sheet points out. Below it you choose the TA on hand: your **starter TAs** from Settings as quick picks, next to them a stepper for any other value. The result names starter before → after, the water change, dough yield and hydration. **Create copy with adjustment** writes everything into a new variant of the recipe ("… V2") and opens it – in a copy that is already adjusted the button reads **Apply change** and changes the copy itself; the new TA then stands in the ingredient name ("Anstellgut TA 210") so the dough yield keeps reading it correctly.
-- **As a calculator:** **Recipes → More (⋯) → Starter TA** for a free amount — amount, TA in the recipe, TA on hand.
+- **As a calculator:** **Recipes → More (⋯) → Calculators → Starter TA** for a free amount — amount, TA in the recipe, TA on hand.
 
 The adjustment is not offered for lines that stand for a component of the recipe ("200 g sourdough" with a component called sourdough): its TA follows from the component itself. Poolish and biga have their TA by definition. If the component's water does not suffice, the app does not go below zero and names the missing grams. Advice comes with it: a softer starter ferments faster and milder, a firmer one slower and stronger; with a big jump in TA, convert the starter over one or two feedings first.
 
 ### Dough temperature
 
-**Recipes → More (⋯) → Dough temperature** works out, by the baker's formula, how warm the **mixing water** has to be for the dough to reach the desired temperature after kneading. You enter the dough's **target temperature**, the **room temperature**, the flour temperature (usually the room's) and, for recipes with a sourdough or preferment, its temperature. The **friction heat** is the warmth the dough picks up from kneading on top: compare the dough temperature you measure after kneading with the target and adjust the value — calibrated once, it holds for every recipe and is remembered. If the sum calls for water that would be too cold or too hot, the calculator says so.
+**Recipes → More (⋯) → Calculators → Dough temperature** works out, by the baker's formula, how warm the **mixing water** has to be for the dough to reach the desired temperature after kneading. You enter the dough's **target temperature**, the **room temperature**, the flour temperature (usually the room's) and, for recipes with a sourdough or preferment, its temperature. The **friction heat** is the warmth the dough picks up from kneading on top: compare the dough temperature you measure after kneading with the target and adjust the value — calibrated once, it holds for every recipe and is remembered. If the sum calls for water that would be too cold or too hot, the calculator says so.
 
 ### Dough weight from the tin
 
-**Recipes → More (⋯) → Dough weight** works out how much dough a tin takes and, if you like, opens a recipe scaled to that weight right away.
+**Recipes → More (⋯) → Calculators → Dough weight** works out how much dough a tin takes and, if you like, opens a recipe scaled to that weight right away.
 
 - **Loaf tin and round tin:** inside measures in centimetres (length, width, height, or diameter and height); with slanted walls take the width at half height. From that the volume and, with the **fill factor**, the dough weight: light wheat and toast about 0.35–0.40 g per ml, mixed bread 0.45, rye, wholegrain and seeds 0.50–0.55. The **dough type** sets the factor, a stepper lets you fine-tune it — after the first bake you know whether your tin takes more or less. Example: 30 × 11 × 8 cm is 2.6 l, about 1,190 g of dough for a mixed bread.
 - **Round and oval proofing baskets:** there is no formula here, only the makers' ratings by the diameter (round) or the length (oval) at the rim: 500 g at Ø 18 cm, 750 g at Ø 20 cm, 1,000 g at Ø 22 cm, 1,500 g at Ø 25 cm, 2,000 g at Ø 28 cm; oval 22, 25, 28, 32 and 35 cm. Between the sizes the app interpolates. The dough type corrects the rating: rye and wholegrain dough +20 %, airy wheat dough −10 %.
@@ -1315,7 +1316,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 
 ### Interface
 
-- The four tabs **Recipes**, **Shopping lists**, **Baking history** and **Timeline** are the same as in [chapter 4](#4-the-tab-bar). In the Timeline tab you switch between **Timeline** and **List** at the top; **bake mode** starts from there.
+- The four tabs **Recipes**, **Shopping lists**, **Baking history** and **Timeline** are the same as in [chapter 4](#4-the-tab-bar); on Android the **pantry** and the **calculators** are still reached directly through **More (⋯)** in the recipe list. In the Timeline tab you switch between **Timeline** and **List** at the top; **bake mode** starts from there.
 - On the page of one of your own recipes the file export is called **Back up recipe** (on the iPhone "Export recipe"); **Share recipe** produces the PDF, **Publish** puts it in the database. Further commands — edit, report, block author, delete — are under **More actions**.
 - **Language:** *Settings → General → Language* opens Android's "App language" setting (Android 13 and later). Choose German, English or French there; without a choice the app follows the system language. There is no language picker inside the app.
 - **Dark mode** follows the system setting; the **font size** follows Android's "Font size" setting.
@@ -1353,7 +1354,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Available: **+ → By baker's percentages** with recipe name, total flour or dough weight, components and ingredients in percent; **Next** opens the recipe editor with the grams |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels. The **baking yearbook** is still missing |
 | Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Available: **More (⋯) → Plan a baking day** with recipe selection, target time, ovens, "Work out the baking day", notes per bread (night, hands-on, oven, pantry) and "Plan all"; the rows show the notes as text without symbols |
-| Pantry (More → Pantry, package sizes on the shopping list, intake from the shopping list with the sheet "Bought", match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Available: **More (⋯) → Pantry** with items, best-before dates and suggestions from the recipes, package sizes on the shopping list, **Bought** for the whole list (button at the top) or one line (in **Change amount** → **Put into the pantry**), the pantry card on the recipe page, **Deduct pantry**, reservations by plans with the deduction at the plan's end and **Last deductions** with undo; the backup carries the pantry. Missing: reminder before expiry, collection "Use up the pantry" and filter "From the pantry", "Deduct from pantry?" after a bake without a plan |
+| Pantry (Pantry tab, package sizes on the shopping list, intake from the shopping list with the sheet "Bought", match against recipes, deduction on the shopping list, reservations by plans with the deduction at the plan's end, reminder before expiry, collection "Use up the pantry") | [chapter 13](#13-shopping-list) | Available: **More (⋯) → Pantry** with items, best-before dates and suggestions from the recipes, package sizes on the shopping list, **Bought** for the whole list (button at the top) or one line (in **Change amount** → **Put into the pantry**), the pantry card on the recipe page, **Deduct pantry**, reservations by plans with the deduction at the plan's end and **Last deductions** with undo; the backup carries the pantry. Missing: reminder before expiry, collection "Use up the pantry" and filter "From the pantry", "Deduct from pantry?" after a bake without a plan |
 | Facets, preset and own collections, "Finished by" in the recipe list | [chapter 6](#6-my-recipes) | Available: the collection chips above the list ("For tomorrow morning", "Quick bread", "Pure sourdough", "Not baked for a while", "Favourites", with a pantry also "From the pantry" and "Use up the pantry"), the facets, "Little work", "Finished by" with the start time per recipe and the own collections in the sheet **Filter …** of the rating menu (★) instead of the filter menu; own collections are saved, renamed and deleted there (or by a long press on the chip) |
 | Translation of shopping-list ingredients | [chapter 13](#13-shopping-list) | Not planned |
 

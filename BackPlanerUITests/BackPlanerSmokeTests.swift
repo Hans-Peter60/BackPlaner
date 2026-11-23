@@ -191,11 +191,12 @@ final class BackPlanerSmokeTests: XCTestCase {
 
     /// The tabs of the root, by their German titles (the tab bar's buttons
     /// carry no identifier of their own).
-    private static let rootTabs = ["Rezepte", "Einkaufslisten", "Backhistorie", "Zeitleiste"]
+    private static let rootTabs = ["Rezepte", "Einkaufslisten", "Backhistorie", "Zeitleiste", "Vorrat"]
 
     /// The entries of the recipe list's "Mehr" menu: raw values of
     /// MenuDestination, which the app uses as identifiers ("menu.<name>").
-    private static let moreDestinations = ["doughTemperature", "flourSubstitution", "starterYield", "doughWeightFromTin", "settings"]
+    /// The calculators are one page behind "Rechner" since 23 Nov 2026.
+    private static let moreDestinations = ["calculators", "settings"]
 
     private func launch() {
         // The app asks for permission to send notifications on its first start.
