@@ -2,8 +2,8 @@ import BakePlannerCore
 import Foundation
 import SwiftUI
 
-/// The three free-standing calculators of the iPhone's main menu, opened
-/// from the recipe list's "Mehr" menu: the water temperature for a target
+/// The free-standing calculators, behind "Mehr" → "Rechner" as on the
+/// iPhone: the water temperature for a target
 /// dough temperature, swapping a flour, and exchanging a starter for one of
 /// another TA. The arithmetic and the hints come from BakePlannerCore; the
 /// wording is the iPhone's.
@@ -12,6 +12,46 @@ enum Calculator: Int {
     case flourSubstitution
     case starterYield
     case doughWeightFromTin
+}
+
+/// "Mehr" → "Rechner": the four calculators on one page, as on the
+/// iPhone. Each opens pushed; "Fertig" there closes the whole sheet.
+struct CalculatorListView: View {
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        List {
+            NavigationLink {
+                CalculatorSheet(calculator: .doughTemperature)
+            } label: {
+                Text("Teigtemperatur")
+            }
+            NavigationLink {
+                CalculatorSheet(calculator: .flourSubstitution)
+            } label: {
+                Text("Mehl ersetzen")
+            }
+            NavigationLink {
+                CalculatorSheet(calculator: .starterYield)
+            } label: {
+                Text("Anstellgut-TA")
+            }
+            NavigationLink {
+                CalculatorSheet(calculator: .doughWeightFromTin)
+            } label: {
+                Text("Teigeinlage")
+            }
+        }
+        .navigationTitle("Rechner")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Fertig") {
+                    dismiss()
+                }
+            }
+        }
+    }
 }
 
 struct CalculatorSheet: View {
