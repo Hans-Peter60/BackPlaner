@@ -45,4 +45,27 @@ struct KitchenShoppingLinesTests {
         let none = KitchenShoppingList.missingLines(for: dish, available: Set(butterIDs), locale: german)
         #expect(!none.contains("Butter"))
     }
+
+    @Test("Pieces added up from single ones read in the plural, in German only")
+    func plurals() {
+        let dish = KitchenDish(id: "d", name: "Test", tasks: [], ingredients: [
+            KitchenIngredient(id: "1", name: "Knoblauchzehe", amount: 1, component: "A"),
+            KitchenIngredient(id: "2", name: "Knoblauchzehe", amount: 2, component: "B"),
+            KitchenIngredient(id: "3", name: "Zwiebel", amount: 1, component: "A"),
+            KitchenIngredient(id: "4", name: "Zwiebel", amount: 1, component: "B"),
+            KitchenIngredient(id: "5", name: "Birne", amount: 1, component: "A"),
+            KitchenIngredient(id: "6", name: "Ei", amount: 1, component: "A"),
+            KitchenIngredient(id: "7", name: "Ei", amount: 1, component: "B"),
+        ])
+        let lines = KitchenShoppingList.lines(of: dish)
+        // "Knoblauchzehe" ×2 in one ingredient is taken as the recipe's own wording.
+        #expect(lines.map { $0.text(locale: german) } == ["3 Knoblauchzehe", "2 Zwiebeln", "1 Birne", "2 Eier"])
+        #expect(lines.map { $0.text(locale: Locale(identifier: "en_US")) }[1] == "2 Zwiebel")
+        let pieces = KitchenDish(id: "e", name: "Test", tasks: [], ingredients: [
+            KitchenIngredient(id: "1", name: "Knoblauchzehe", amount: 1, component: "A"),
+            KitchenIngredient(id: "2", name: "Knoblauchzehe", amount: 1, component: "B"),
+            KitchenIngredient(id: "3", name: "Knoblauchzehe", amount: 1, component: "C"),
+        ])
+        #expect(KitchenShoppingList.lines(of: pieces).first?.text(locale: german) == "3 Knoblauchzehen")
+    }
 }

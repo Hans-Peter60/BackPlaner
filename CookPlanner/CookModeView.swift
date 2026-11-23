@@ -18,6 +18,22 @@ struct CookModeView: View {
 
     let plan: DishPlan
 
+    init(plan: DishPlan) {
+        self.plan = plan
+    }
+
+    #if DEBUG
+    /// For screenshots: the clock started `seconds` ago, the steps due by
+    /// then ticked off (-CookSample).
+    init(plan: DishPlan, startedSecondsAgo seconds: TimeInterval) {
+        self.plan = plan
+        _startedAt = State(initialValue: Date.now.addingTimeInterval(-seconds))
+        let minute = Int(seconds) / 60
+        _finished = State(initialValue: Dictionary(uniqueKeysWithValues: plan.schedule.placements
+            .filter { $0.end <= minute }.map { ($0.id, $0.end) }))
+    }
+    #endif
+
     @Environment(\.dismiss) private var dismiss
     @State private var startedAt: Date?
     /// While paused, when the pause began; the clock stands still.
