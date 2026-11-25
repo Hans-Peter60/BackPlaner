@@ -60,7 +60,9 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
    - Target Branch: **main**
    - **„Auto-cancel Builds“** einschalten, damit ein neuer Push den alten Lauf abbricht.
 
-   Die vorgeschlagene Bedingung **„Branch Changes“** lässt sich nicht entfernen, und sie braucht mindestens einen Branch, sonst bleibt **Save** gesperrt. Dort **`main`** eintragen: Dann testet Xcode Cloud zusätzlich jeden Stand von `main` nach einem Merge. Das kostet etwas mehr Rechenzeit, liegt aber weit innerhalb der enthaltenen 25 Stunden.
+   Die vorgeschlagene Bedingung **„Branch Changes“** lässt sich nicht entfernen, und sie braucht mindestens einen Branch, sonst bleibt **Save** gesperrt. Dort den Anker-Branch **`xcode-cloud-anchor`** eintragen (existiert seit dem 25.11.2026 und ändert sich nie): Dann startet Xcode Cloud nur noch bei Pull Requests. Steht dort `main`, testet Xcode Cloud zusätzlich jeden Stand von `main` nach einem Merge – denselben Code noch einmal.
+
+   Unter **Files and Folders → „Start only when these files change“** die Ordner `BakePlanner/`, `BakePlannerCore/` und `BackPlaner.xcodeproj/` eintragen; dann lösen PRs, die nur CookPlanner, Docs oder Skripte ändern, keinen Lauf aus.
 6. **Actions:** eine **„Archive“**-Aktion entfernen, falls vorhanden. **„Test“** hinzufügen:
    - Scheme: **BackPlaner**
    - Testplan: **AllTests** (Unit- und UI-Tests). Der Standard-Testplan des Schemas ist **UnitTests**, damit ⌘U auf dem Mac nur die Unit-Tests ausführt; die UI-Tests gehören in Xcode Cloud und vor ein Release.
@@ -69,6 +71,13 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
    - **„Required to pass“** einschalten
 7. **Post-Actions:** **„Notify“** hinzufügen, E-Mail bei **Failure**.
 8. **Save**. Beim nächsten Pull Request erscheint unten in der Pull-Request-Seite eine Prüfung von Xcode Cloud.
+
+### Läufe sparen: `[ci skip]`
+
+Xcode Cloud überspringt jeden Commit, dessen Nachricht `[ci skip]` enthält. Seit dem 25.11.2026 gilt deshalb:
+
+- Jeder **Merge-Commit auf `main`** trägt `[ci skip]` – der PR-Lauf hat denselben Stand gerade geprüft. Hat sich `main` zwischen PR-Lauf und Merge durch einen anderen PR bewegt, vor dem nächsten TestFlight-Build einmal den Workflow von Hand auf `main` starten.
+- In Branch-Commits eines Pull Requests **kein** `[ci skip]`: GitHub Actions kennt dasselbe Schlüsselwort und ließe dann auch die drei Repository-Prüfungen aus (gesehen am 25.11.2026, PR #229 hatte null Checks). Dass PRs ohne App-Änderung keinen Xcode-Cloud-Lauf auslösen, regelt allein der Dateifilter im Workflow (oben).
 
 Optional, aber empfehlenswert: Auf GitHub unter **Settings → Branches → Add branch ruleset** für `main` festlegen, dass die Prüfungen grün sein müssen, bevor gemergt werden kann (**„Require status checks to pass“**: die drei Jobs von „Checks“ und die Xcode-Cloud-Prüfung).
 
