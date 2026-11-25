@@ -59,6 +59,20 @@ struct DishPlanView: View {
 
     var body: some View {
         ScrollView {
+            if plan == nil {
+                ContentUnavailableView {
+                    Label("Kein Plan", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text(DishPlan.failure(dish: cookedDish, budget: budget, burners: burners, ovens: ovens) ?? "Der Plan geht nicht auf.")
+                } actions: {
+                    if isOwn {
+                        Button("Bearbeiten") { editing = true }
+                            .buttonStyle(.borderedProminent)
+                            .tint(Theme.accentBottom)
+                    }
+                }
+                .padding(.top, 40)
+            }
             if let plan {
                 VStack(alignment: .leading, spacing: 16) {
                     // The name is too long for the bar; it heads the content.
@@ -109,13 +123,15 @@ struct DishPlanView: View {
                     }
                     .accessibilityLabel("Einkaufsliste")
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        printing = true
-                    } label: {
-                        Image(systemName: "printer")
+                if plan != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            printing = true
+                        } label: {
+                            Image(systemName: "printer")
+                        }
+                        .accessibilityLabel("Ablaufplan als PDF")
                     }
-                    .accessibilityLabel("Ablaufplan als PDF")
                 }
             }
             if isOwn {

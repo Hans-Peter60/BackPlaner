@@ -30,6 +30,9 @@ struct DishEditorView: View {
         self.onSave = onSave
     }
 
+    /// What is kept: the dish with only dependencies that lead somewhere.
+    private var dishToSave: KitchenDish { dish.consistent() }
+
     private var canSave: Bool {
         !dish.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !dish.tasks.isEmpty
     }
@@ -90,7 +93,7 @@ struct DishEditorView: View {
                         }
                         .buttonStyle(.plain)
                     }
-                    .onDelete { offsets in dish.tasks.remove(atOffsets: offsets) }
+                    .onDelete { offsets in removeTasks(ids: Set(offsets.map { dish.tasks[$0].id })) }
                     .onMove { source, destination in dish.tasks.move(fromOffsets: source, toOffset: destination) }
                     Button {
                         editingStep = StepDraft(task: nil, isNew: true, component: dish.tasks.last?.component ?? "")
@@ -130,7 +133,7 @@ struct DishEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Sichern") {
-                        onSave(dish)
+                        onSave(dishToSave)
                         dismiss()
                     }
                     .disabled(!canSave)
@@ -156,13 +159,20 @@ struct DishEditorView: View {
                         dish.tasks.append(task)
                     }
                 } onDelete: {
-                    dish.tasks.removeAll { $0.id == draft.id }
+                    removeTasks(ids: [draft.id])
                 }
             }
         }
         // A swipe must not throw an imported or half-typed dish away;
         // "Abbrechen" is the way out.
         .interactiveDismissDisabled()
+    }
+
+    /// Steps leave the dish, and nothing waits for them any more: what
+    /// followed them follows what they followed. Without this a deleted
+    /// step would leave a dish that never plans and never shows.
+    private func removeTasks(ids: Set<String>) {
+        dish = dish.removingTasks(ids: ids)
     }
 
     /// An ingredient leaves the dish and every step that named it.
@@ -200,8 +210,8 @@ struct DishEditorView: View {
                     }
                 }
             }
-        } else {
-            Text("Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche.")
+        } else if let reason = DishPlan.failure(dish: dish, budget: budget, burners: burners, ovens: ovens) {
+            Text(reason)
                 .font(.footnote)
                 .foregroundColor(Theme.danger)
         }

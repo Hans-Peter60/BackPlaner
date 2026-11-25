@@ -8,6 +8,7 @@
 
 import BakePlannerCore
 import CookPlannerStorage
+import SkipSQLPlus
 import Foundation
 import Testing
 
@@ -52,5 +53,28 @@ struct SQLiteKitchenDishStoreTests {
         broken.name = ""
         #expect(throws: KitchenDishStoreError.incomplete) { try store.save(broken) }
         #expect(try store.dish(id: dish.id) == dish)
+    }
+
+    @Test("A database file of a newer schema is refused with its own error, not opened")
+    func newerSchema() throws {
+        let path = FileManager.default.temporaryDirectory
+            .appendingPathComponent("dishes-\(UUID().uuidString).sqlite").path
+        defer { try? FileManager.default.removeItem(atPath: path) }
+        let store = try SQLiteKitchenDishStore(path: path)
+        try store.save(KitchenDishStoreContract.sampleDish())
+        try store.close()
+
+        let raw = try SQLContext(path: path, flags: [.readWrite], configuration: .plus)
+        raw.userVersion = Int64(CookPlannerDatabase.schemaVersion + 5)
+        try raw.close()
+
+        #expect(throws: CookPlannerDatabaseError.newerSchema(found: CookPlannerDatabase.schemaVersion + 5,
+                                                             supported: CookPlannerDatabase.schemaVersion)) {
+            try SQLiteKitchenDishStore(path: path)
+        }
+        // The file is untouched: the version is still the newer one.
+        let check = try SQLContext(path: path, flags: [.readOnly], configuration: .plus)
+        #expect(check.userVersion == Int64(CookPlannerDatabase.schemaVersion + 5))
+        try check.close()
     }
 }

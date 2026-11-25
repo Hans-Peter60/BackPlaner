@@ -194,6 +194,17 @@ Wunsch Hans-Peter: Beim Schneiden oder am Herd steht man weiter weg. Der Schritt
 
 Wunsch Hans-Peter: näher an BakePlanners Symbol, mit 3D-Wirkung. `scripts/cookplanner/cookplanner-icon.swift` zeichnet jetzt Licht von links oben und Schatten für jede Form: Glut, die zu den Ecken schwarz wird; gusseiserne Pfanne mit hellem Rand, Glanzbogen, Innenwand und warm angestrahltem Boden; ein Spiegelei mit glänzendem Dotter als warmer Blickfang wie das Brot; als Plakette eine runde, gekippte Stoppuhr mit Krone, cremefarbener Lünette und orangem, glänzendem Zifferblatt (statt der flachen Karte). Weiterhin ohne Bildgenerator, 1024 × 1024 ohne Alpha.
 
+### Robustheit 1: Daten bleiben erhalten (25.11.)
+
+Aus einer Durchsicht der App auf Robustheit (vier Bereiche, Befunde in der PR-Beschreibung von #231). Erster Schritt, die Datensicherheit:
+
+- **Gerichte ohne Plan verschwinden nicht mehr.** Löschte man im Editor einen Schritt, auf den andere warteten, oder stand die Küche auf 0 Öfen, kam aus dem Scheduler ein Fehler, und die Liste zeichnete die Zeile gar nicht – das Gericht war weder zu bearbeiten noch zu löschen. Jetzt: `KitchenDish.removingTasks(ids:)` hängt die Kette um den gelöschten Schritt herum zusammen, `consistent()` wirft Abhängigkeiten ins Leere, doppelte Schritt-Ids und Zutatenverweise ohne Zutat weg (Editor beim Sichern, `.cookplanner`-Import über `KitchenDishRecord.dish`). Die Liste zeigt jede Zeile; ohne Plan steht der Grund darin (`DishPlan.failure`: Ofen/Platte fehlt in den Einstellungen, Schritt wartet auf einen gelöschten, Kreis), die Plan-Ansicht zeigt „Kein Plan“ mit demselben Grund und „Bearbeiten“.
+- **Kochhistorie:** `cook-runs.json` hat jetzt eine Versionsnummer (`KitchenCookRunFile`, liest auch das alte nackte Array). Lässt sich die Datei nicht lesen, wird sie nicht mehr beim nächsten Eintrag überschrieben, sondern als `cook-runs.broken-<Zeit>.json` beiseitegelegt, die Historie beginnt leer, und ein Hinweis sagt es. Eine Datei einer neueren App-Version bleibt unangetastet (nur lesen). Schreibfehler erscheinen als Hinweis statt still zu verschwinden.
+- **Datenbank aus einer neueren App:** `CookPlannerDatabase` prüft `PRAGMA user_version` vor der Migration; eine neuere Datei wirft `CookPlannerDatabaseError.newerSchema` statt in SkipSQLs Migrationsschleife zu stürzen (`currentVersion..<count` mit currentVersion > count). Die App läuft dann im Arbeitsspeicher weiter.
+- **Arbeitsspeicher-Betrieb ist sichtbar:** Öffnet sich die Datenbank nicht, steht oben in der Liste dauerhaft ein Hinweis (`DishLibrary.storageWarning`) statt eines einmaligen Alerts.
+
+Offen aus der Durchsicht, in eigenen Schritten: Kochmodus (Zustand überlebt das Beenden nicht, Haken in der Hands-Phase eines Topfschritts, Wecker-Planung), Sync (Konflikte offline, Kontowechsel), Kleinkram (Import abbrechbar, Portionen unter ¼, Temp-Dateien).
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).

@@ -64,6 +64,68 @@ public struct KitchenDish: Identifiable, Equatable, Sendable {
         KitchenDish(id: UUID().uuidString, name: name ?? self.name, source: .manual, servings: servings,
                     createdAt: now, tasks: tasks, ingredients: ingredients)
     }
+
+    /// The dish with only references that lead somewhere: a second step
+    /// with an id already taken is dropped, a step no longer waits for
+    /// itself or for a step that is not there, and names an ingredient
+    /// only if the dish has it. Edited and imported dishes pass through
+    /// here, so a deleted step cannot leave a plan that never works out
+    /// and a dish that never shows in the list.
+    public func consistent() -> KitchenDish {
+        var ids = Set<String>()
+        var unique = [KitchenTask]()
+        for task in tasks where !ids.contains(task.id) {
+            ids.insert(task.id)
+            unique.append(task)
+        }
+        let ingredientIDs = Set(ingredients.map(\.id))
+        var dish = self
+        dish.tasks = unique.map { task in
+            let after = task.after.filter { $0 != task.id && ids.contains($0) }
+            let named = task.ingredientIDs.filter(ingredientIDs.contains)
+            guard after != task.after || named != task.ingredientIDs else { return task }
+            return task.withAfter(after).withIngredientIDs(named)
+        }
+        return dish
+    }
+
+    /// The dish without the steps `ids`; what waited for them waits for
+    /// what they waited for, so the chain of a component does not break.
+    public func removingTasks(ids removed: Set<String>) -> KitchenDish {
+        let predecessors = Dictionary(uniqueKeysWithValues: tasks.map { ($0.id, $0.after) })
+        var dish = self
+        dish.tasks = tasks.filter { !removed.contains($0.id) }.map { task in
+            var after = [String]()
+            var queue = task.after
+            while !queue.isEmpty {
+                let id = queue.removeFirst()
+                if removed.contains(id) {
+                    queue.append(contentsOf: predecessors[id] ?? [])
+                } else if !after.contains(id) {
+                    after.append(id)
+                }
+            }
+            return after == task.after ? task : task.withAfter(after)
+        }
+        return dish.consistent()
+    }
+}
+
+extension KitchenTask {
+
+    /// The same step waiting for `after` instead.
+    public func withAfter(_ after: [String]) -> KitchenTask {
+        KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: unattendedMinutes,
+                    station: station, after: after, maxWait: maxWait, window: unattendedWindow,
+                    ovenTemperature: ovenTemperature, ingredientIDs: ingredientIDs)
+    }
+
+    /// The same step with `ids` as the ingredients it takes in hand.
+    public func withIngredientIDs(_ ids: [String]) -> KitchenTask {
+        KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: unattendedMinutes,
+                    station: station, after: after, maxWait: maxWait, window: unattendedWindow,
+                    ovenTemperature: ovenTemperature, ingredientIDs: ids)
+    }
 }
 
 public enum KitchenDishDefaults {

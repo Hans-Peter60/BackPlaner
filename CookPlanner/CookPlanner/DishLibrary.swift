@@ -19,6 +19,9 @@ final class DishLibrary {
     private(set) var dishes: [KitchenDish] = []
     /// The last failure of the store, for a sheet or a footnote.
     var lastError: String?
+    /// Why the dishes are not being kept on disk, shown as a banner for as
+    /// long as it is so; nil when the database file is in use.
+    private(set) var storageWarning: String?
 
     private let store: KitchenDishStore
 
@@ -35,9 +38,15 @@ final class DishLibrary {
             let store = try SQLiteKitchenDishStore(path: folder.appendingPathComponent("dishes.sqlite").path)
             return DishLibrary(store: store)
         } catch {
-            // Without a file the app still runs; the dishes just do not keep.
+            // Without a file the app still runs; the dishes just do not
+            // keep. The list says so for as long as that is the case,
+            // instead of one alert that is gone by the next save.
             let library = DishLibrary(store: InMemoryKitchenDishStore())
-            library.lastError = error.localizedDescription
+            if case CookPlannerDatabaseError.newerSchema = error {
+                library.storageWarning = String(localized: "Die Gerichte stammen von einer neueren Version von CookPlanner. Bis die App aktualisiert ist, werden Änderungen nicht gesichert.")
+            } else {
+                library.storageWarning = String(localized: "Die Datenbank der Gerichte lässt sich nicht öffnen (\(error.localizedDescription)). Änderungen gehen beim Beenden der App verloren.")
+            }
             return library
         }
     }

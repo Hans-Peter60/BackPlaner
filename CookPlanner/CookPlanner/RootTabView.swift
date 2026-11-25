@@ -18,6 +18,7 @@ enum CookTab: Hashable {
 struct RootTabView: View {
 
     @State private var tab: CookTab = .dishes
+    @State private var runLog = CookRunLog.shared
 
     var body: some View {
         TabView(selection: $tab) {
@@ -27,6 +28,13 @@ struct RootTabView: View {
             Tab("Gekocht", systemImage: "clock.arrow.circlepath", value: .cooked) {
                 CookHistoryView()
             }
+        }
+        // The record file speaks up here, whichever tab is open.
+        .alert("Kochhistorie", isPresented: Binding(get: { runLog.lastError != nil },
+                                                    set: { if !$0 { runLog.lastError = nil } })) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(runLog.lastError ?? "")
         }
     }
 }

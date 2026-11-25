@@ -101,3 +101,43 @@ public struct KitchenCookRun: Identifiable, Codable, Equatable, Sendable {
         return (seconds > 0 ? "+" : "−") + clockText(abs(seconds))
     }
 }
+
+/// The file the records are kept in: a version, then the records. The
+/// first builds wrote a bare array; that still reads. A file of a later
+/// version is refused, so an older build never writes it back without
+/// what it does not know.
+public struct KitchenCookRunFile: Codable, Equatable, Sendable {
+    public static let currentVersion = 1
+
+    public var formatVersion: Int
+    public var runs: [KitchenCookRun]
+
+    public init(runs: [KitchenCookRun]) {
+        formatVersion = Self.currentVersion
+        self.runs = runs
+    }
+
+    public func encoded() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        encoder.outputFormatting = [.sortedKeys]
+        return try encoder.encode(self)
+    }
+
+    /// The records in `data`, whichever of the two shapes it has.
+    public static func decode(_ data: Data) throws -> [KitchenCookRun] {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        if let file = try? decoder.decode(KitchenCookRunFile.self, from: data) {
+            guard file.formatVersion <= currentVersion else {
+                throw KitchenCookRunFileError.unsupportedVersion(file.formatVersion)
+            }
+            return file.runs
+        }
+        return try decoder.decode([KitchenCookRun].self, from: data)
+    }
+}
+
+public enum KitchenCookRunFileError: Error, Equatable {
+    case unsupportedVersion(Int)
+}
