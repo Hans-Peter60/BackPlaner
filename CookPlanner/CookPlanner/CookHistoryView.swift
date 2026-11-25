@@ -333,10 +333,11 @@ struct CookHistoryView: View {
 struct RunThumbnail: View {
     let run: KitchenCookRun
     let size: CGFloat
+    @State private var image: UIImage?
 
     var body: some View {
         Group {
-            if let image = CookRunLog.shared.thumbnail(of: run) {
+            if let image = image ?? CookRunLog.shared.cachedThumbnail(of: run) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
@@ -349,6 +350,7 @@ struct RunThumbnail: View {
             }
         }
         .frame(width: size, height: size)
+        .task(id: run.photoFileName) { image = await CookRunLog.shared.thumbnail(of: run) }
         .clipShape(RoundedRectangle(cornerRadius: size / 6))
         .accessibilityHidden(true)
     }

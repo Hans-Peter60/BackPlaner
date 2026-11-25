@@ -168,16 +168,31 @@ final class CookRunLog {
         return UIImage(contentsOfFile: photoFolder.appendingPathComponent(name).path)
     }
 
-    func thumbnail(of run: KitchenCookRun) -> UIImage? {
+    /// The small picture if it was made already; nil before the first
+    /// `thumbnail(of:)` — the lists show it at once and ask for the rest.
+    func cachedThumbnail(of run: KitchenCookRun) -> UIImage? {
+        run.photoFileName.flatMap { thumbnails[$0] }
+    }
+
+    /// The small picture, decoded off the main thread the first time: a
+    /// gallery of thirty photos must not stutter on its first scroll.
+    func thumbnail(of run: KitchenCookRun) async -> UIImage? {
         guard let name = run.photoFileName else { return nil }
         if let cached = thumbnails[name] { return cached }
-        // The shorter side at 160 points, so a square crop of it stays sharp.
-        guard let photo = photo(of: run), min(photo.size.width, photo.size.height) > 0 else { return nil }
-        let scale = 160 / min(photo.size.width, photo.size.height)
-        let thumbnail = photo.preparingThumbnail(of: CGSize(width: photo.size.width * scale,
-                                                            height: photo.size.height * scale))
-        thumbnails[name] = thumbnail
+        let url = photoFolder.appendingPathComponent(name)
+        let thumbnail = await Task.detached(priority: .userInitiated) { Self.makeThumbnail(at: url) }.value
+        if let thumbnail { thumbnails[name] = thumbnail }
         return thumbnail
+    }
+
+    /// The shorter side at 160 points (ImageIO reads only what is needed),
+    /// so a square crop of it stays sharp.
+    nonisolated private static func makeThumbnail(at url: URL) -> UIImage? {
+        guard let data = try? Data(contentsOf: url) else { return nil }
+        // 160 points on the shorter side at 3x: the longer side needs more
+        // pixels; 480 on the longer side is enough for a square crop of
+        // the shorter at 160 points on most photos.
+        return downsampled(data, maxPixels: 480)
     }
 
     private func removePhotoFile(_ name: String) {

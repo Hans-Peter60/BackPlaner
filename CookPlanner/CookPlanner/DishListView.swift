@@ -45,9 +45,12 @@ struct DishListView: View {
     @State private var pendingImport: KitchenDish?
     /// What reading a .cookplanner file opened from outside came to.
     @State private var fileImportReport: String?
+    /// The plans of the dishes as last computed, so a keystroke in the
+    /// search does not schedule every dish anew several times per render.
+    @State private var planCache = DishPlanCache()
 
     private func plan(for dish: KitchenDish) -> DishPlan? {
-        DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
+        planCache.plan(for: dish, budget: budget, burners: burners, ovens: ovens)
     }
 
     private var isFiltering: Bool {
@@ -454,6 +457,29 @@ private struct DishRow: View {
         }
         .cardStyle()
         .accessibilityElement(children: .combine)
+    }
+}
+
+/// Plans by dish, reused while the dish and the kitchen are unchanged.
+/// Scheduling tries several orderings per dish; the list asked for it
+/// three or four times per render and dish, on every keystroke.
+@MainActor
+final class DishPlanCache {
+    private struct Entry {
+        let dish: KitchenDish
+        let budget: Int, burners: Int, ovens: Int
+        let plan: DishPlan?
+    }
+    private var entries: [String: Entry] = [:]
+
+    func plan(for dish: KitchenDish, budget: Int, burners: Int, ovens: Int) -> DishPlan? {
+        if let entry = entries[dish.id], entry.dish == dish, entry.budget == budget,
+           entry.burners == burners, entry.ovens == ovens {
+            return entry.plan
+        }
+        let plan = DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
+        entries[dish.id] = Entry(dish: dish, budget: budget, burners: burners, ovens: ovens, plan: plan)
+        return plan
     }
 }
 

@@ -48,6 +48,7 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
         center.removePendingNotificationRequests(withIdentifiers: schedule.placements.flatMap {
             [Self.prefix + "start." + $0.id, Self.prefix + "end." + $0.id]
         })
+        var wanted: [(id: String, title: String, body: String, date: Date)] = []
         for placement in schedule.placements where !finished.contains(placement.id) {
             let task = placement.task
             let component = task.component
@@ -55,18 +56,26 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
                 let body = component.isEmpty
                     ? String(localized: "Jetzt dran")
                     : String(localized: "\(component) · jetzt dran")
-                add(id: Self.prefix + "start." + task.id, title: task.name, body: body, thread: dishName,
-                    at: clockStart.addingTimeInterval(TimeInterval(placement.start * 60)), center: center)
+                wanted.append((Self.prefix + "start." + task.id, task.name, body,
+                               clockStart.addingTimeInterval(TimeInterval(placement.start * 60))))
             }
             if task.unattendedMinutes > 0 && placement.end > minute && !ringing.contains(placement.id) {
                 let body = component.isEmpty
                     ? String(localized: "Die Zeit ist um")
                     : String(localized: "\(component) · die Zeit ist um")
-                add(id: Self.prefix + "end." + task.id, title: task.name, body: body, thread: dishName,
-                    at: clockStart.addingTimeInterval(TimeInterval(placement.end * 60)), center: center)
+                wanted.append((Self.prefix + "end." + task.id, task.name, body,
+                               clockStart.addingTimeInterval(TimeInterval(placement.end * 60))))
             }
         }
+        // iOS keeps 64 pending requests per app and drops the rest without
+        // a word. The nearest ones go first; the plan is synced again with
+        // every change, so the later ones follow as the earlier ones fire.
+        for reminder in wanted.sorted(by: { $0.date < $1.date }).prefix(Self.pendingLimit) {
+            add(id: reminder.id, title: reminder.title, body: reminder.body, thread: dishName, at: reminder.date, center: center)
+        }
     }
+
+    private static let pendingLimit = 60
 
     /// No more reminders: the clock is paused or cooking has ended, or a
     /// new run begins and the banners of the last one go.

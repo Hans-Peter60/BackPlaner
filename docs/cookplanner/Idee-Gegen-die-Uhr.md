@@ -232,6 +232,14 @@ Offen aus der Durchsicht, in eigenen Schritten: Kochmodus (Zustand überlebt das
 - Freigabe-Dateien: `TemporaryExports.folder(prefix:)` räumt die Ordner früherer Freigaben (`Plan-*`, `Export-*`) weg, bevor ein neuer angelegt wird; der PDF-Dateiname wird getrimmt.
 - Portionen: gezählte Mengen unter ½ gehen auf Viertel statt auf ½ aufzurunden – „¼ TL“ halbiert bleibt ¼ (vorher ½), ein Stück geviertelt ist ¼.
 
+### Robustheit 5: Rest (25.11.)
+
+- **Gerichteliste:** `DishPlanCache` hält den Plan je Gericht, solange Gericht und Küche gleich sind. Vorher plante die Liste jedes Gericht drei- bis viermal pro Render (Suche, Facetten, Zeile), je Plan sechs Scheduler-Varianten – bei jedem Tastendruck in der Suche.
+- **Thumbnails** der Historie werden abseits des Hauptthreads gemacht (`CookRunLog.thumbnail(of:) async`, ImageIO 480 px); `cachedThumbnail(of:)` zeigt fertige sofort, `RunThumbnail` lädt den Rest in `.task`.
+- **Erinnerungen:** höchstens 60 ausstehende, die nächsten zuerst (iOS kappt bei 64 stillschweigend); bei jeder Planänderung rücken die späteren nach.
+- **„Kochen beenden?“** bietet „Protokoll sichern“ nur an, wenn es etwas festzuhalten gibt (Haken, Flamme oder ein abgelaufener Topf); sonst „Beenden“ mit dem Hinweis, dass noch kein Schritt erledigt ist.
+- Nicht geändert: PDF-Blöcke höher als eine Seite (realistisch nur bei 30+ Komponenten oder 60-zeiligen Schritttexten), Löschung gewinnt gegen spätere Offline-Bearbeitung, gelöschte iCloud-Zone wird neu angelegt.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
