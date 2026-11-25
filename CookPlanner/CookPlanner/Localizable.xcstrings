@@ -1080,6 +1080,28 @@
         }
       }
     },
+    "Anderes iCloud-Konto" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anderes iCloud-Konto"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Different iCloud account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autre compte iCloud"
+          }
+        }
+      }
+    },
     "Angemeldet" : {
       "localizations" : {
         "de" : {
@@ -1164,6 +1186,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucun texte n’a été reconnu sur les photos."
+          }
+        }
+      }
+    },
+    "Auf diesem Gerät ist jetzt ein anderes iCloud-Konto angemeldet. Sollen die Gerichte und Protokolle, die hier gespeichert sind, in dieses Konto übertragen werden? Was dort schon liegt, kommt in jedem Fall herunter." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Gerät ist jetzt ein anderes iCloud-Konto angemeldet. Sollen die Gerichte und Protokolle, die hier gespeichert sind, in dieses Konto übertragen werden? Was dort schon liegt, kommt in jedem Fall herunter."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A different iCloud account is signed in on this device now. Should the dishes and records stored here be uploaded to it? Whatever is already there comes down either way."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un autre compte iCloud est maintenant connecté sur cet appareil. Faut-il y transférer les plats et les relevés enregistrés ici ? Ce qui s’y trouve déjà est téléchargé dans tous les cas."
           }
         }
       }
@@ -3786,6 +3830,28 @@
         }
       }
     },
+    "In das Konto übertragen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In das Konto übertragen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload to this account"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transférer vers ce compte"
+          }
+        }
+      }
+    },
     "Jeder Schritt steht mit seiner Uhrzeit im Plan." : {
       "localizations" : {
         "de" : {
@@ -5014,6 +5080,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plaques seulement"
+          }
+        }
+      }
+    },
+    "Nur hier behalten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur hier behalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep here only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garder seulement ici"
           }
         }
       }

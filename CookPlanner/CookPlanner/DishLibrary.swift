@@ -98,6 +98,20 @@ final class DishLibrary {
         }
     }
 
+    /// Dishes another device changed, in one go: one reload for all.
+    func applyRemote(_ incoming: [KitchenDish]) {
+        var changed = false
+        for dish in incoming where self.dish(id: dish.id) != dish {
+            do {
+                try store.save(dish)
+                changed = true
+            } catch {
+                lastError = error.localizedDescription
+            }
+        }
+        if changed { reload() }
+    }
+
     /// A dish another device deleted.
     func removeRemote(id: String) {
         guard dish(id: id) != nil else { return }
