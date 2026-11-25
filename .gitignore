@@ -64,7 +64,7 @@ docs/bakeplanner/appstore/*/*/*/roh/
 # Python
 __pycache__/
 
-# Android (Skip app in BakePlannerAndroid/)
+# Android (Skip app in Android/BakePlannerAndroid/)
 .gradle/
 .kotlin/
 local.properties
@@ -74,4 +74,4 @@ captures/
 
 # Libraries, not apps: their resolved versions are not kept
 BakePlannerCore/Package.resolved
-BakePlannerStorage/Package.resolved
+Android/BakePlannerStorage/Package.resolved
