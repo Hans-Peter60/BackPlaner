@@ -41,9 +41,13 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
     func sync(schedule: KitchenSchedule, finished: Set<String>, minute: Int, clockStart: Date, dishName: String,
               ringing: Set<String> = []) {
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        // Reminders of an earlier run have no business in the notification centre.
-        center.removeAllDeliveredNotifications()
+        // Only the pending ones of this plan are replaced. What was already
+        // delivered stays in the notification centre: the plan changes
+        // every minute while a hands-on step is overdue, and a banner from
+        // a moment ago must not vanish each time.
+        center.removePendingNotificationRequests(withIdentifiers: schedule.placements.flatMap {
+            [Self.prefix + "start." + $0.id, Self.prefix + "end." + $0.id]
+        })
         for placement in schedule.placements where !finished.contains(placement.id) {
             let task = placement.task
             let component = task.component
@@ -64,7 +68,8 @@ final class CookReminders: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    /// No more reminders: the clock is paused or cooking has ended.
+    /// No more reminders: the clock is paused or cooking has ended, or a
+    /// new run begins and the banners of the last one go.
     func cancelAll() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()

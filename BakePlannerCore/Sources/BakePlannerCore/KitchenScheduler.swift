@@ -203,11 +203,18 @@ public struct KitchenPlacement: Identifiable, Equatable, Sendable {
 /// cook has ticked off, with the minute each was done.
 public struct KitchenProgress: Equatable, Sendable {
     public var now: Int
+    /// The steps ticked off, with the minute each was done.
     public var finished: [String: Int]
+    /// Steps with an unattended part whose hands-on part the cook ticked
+    /// off, with the minute: the pot is on, the oven door shut. From that
+    /// minute the step runs on its own for its unattended time; it is not
+    /// done until the clock says so or the cook ticks it off.
+    public var handsDone: [String: Int]
 
-    public init(now: Int, finished: [String: Int] = [:]) {
+    public init(now: Int, finished: [String: Int] = [:], handsDone: [String: Int] = [:]) {
         self.now = max(0, now)
         self.finished = finished
+        self.handsDone = handsDone
     }
 }
 
@@ -404,8 +411,25 @@ public enum KitchenScheduler {
             fixed.append(actual)
             fixedByID[task.id] = actual
         }
+        // A pot the cook has put on is a fact as well: its hands-on part
+        // ended at the tick, its unattended time runs from there — and,
+        // with a window, goes on past its planned end until the window
+        // closes, like a pot that was never ticked.
+        for placement in previous.placements {
+            let task = placement.task
+            guard progress.finished[task.id] == nil, task.unattendedMinutes > 0,
+                  let handsDone = progress.handsDone[task.id] else { continue }
+            let start = min(placement.start, handsDone)
+            var end = handsDone + task.unattendedMinutes
+            if let window = task.unattendedWindow, end <= now {
+                end = min(max(end, now + 1), handsDone + window.upperBound)
+            }
+            let actual = KitchenPlacement(task: task, start: start, handsEnd: handsDone, end: max(end, handsDone))
+            fixed.append(actual)
+            fixedByID[task.id] = actual
+        }
         for placement in previous.placements.sorted(by: { ($0.start, $0.task.id) < ($1.start, $1.task.id) })
-        where progress.finished[placement.task.id] == nil {
+        where progress.finished[placement.task.id] == nil && fixedByID[placement.task.id] == nil {
             let task = placement.task
             var actual: KitchenPlacement?
             if placement.start < now {

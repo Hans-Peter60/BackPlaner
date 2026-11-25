@@ -4622,6 +4622,28 @@
         }
       }
     },
+    "Mitteilungen und Wecker sind aus – gesperrt bleibt das iPhone still. Einschalten unter Einstellungen → CookPlanner." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitteilungen und Wecker sind aus – gesperrt bleibt das iPhone still. Einschalten unter Einstellungen → CookPlanner."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications and alarms are off – locked, the iPhone stays silent. Turn them on under Settings → CookPlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications et alarmes sont désactivées – verrouillé, l’iPhone reste muet. À activer dans Réglages → CookPlanner."
+          }
+        }
+      }
+    },
     "Monat" : {
       "localizations" : {
         "de" : {
@@ -6074,6 +6096,28 @@
         }
       }
     },
+    "Steht, läuft von allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steht, läuft von allein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On, running on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En place, ça tourne tout seul"
+          }
+        }
+      }
+    },
     "Sterne im Schnitt" : {
       "localizations" : {
         "de" : {
@@ -7215,6 +7259,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "aussitôt"
+          }
+        }
+      }
+    },
+    "steht, läuft von allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "steht, läuft von allein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "on, running on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "en place, ça tourne tout seul"
           }
         }
       }

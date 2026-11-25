@@ -205,6 +205,16 @@ Aus einer Durchsicht der App auf Robustheit (vier Bereiche, Befunde in der PR-Be
 
 Offen aus der Durchsicht, in eigenen Schritten: Kochmodus (Zustand überlebt das Beenden nicht, Haken in der Hands-Phase eines Topfschritts, Wecker-Planung), Sync (Konflikte offline, Kontowechsel), Kleinkram (Import abbrechbar, Portionen unter ¼, Temp-Dateien).
 
+### Robustheit 2: Kochmodus (25.11.)
+
+- **Topf aufgesetzt ist nicht Topf fertig.** Bisher zeigte ein Schritt mit Hands- und Garanteil („Reis aufsetzen 2+15“) in seinen Hands-Minuten den großen Haken, und der Haken beendete den ganzen Schritt – die Garminuten verschwanden, Folgeschritte rückten vor, der Wecker fiel weg, und die gelernten Zeiten hätten `unattended = 0` vorgeschlagen. Jetzt trägt so ein Schritt in der Hands-Phase eine **Flamme** („Steht, läuft von allein“): `KitchenProgress.handsDone` merkt die Minute, `replan` setzt `handsEnd` dorthin und lässt die Garzeit von da laufen (mit Fenster bis zum Fensterende weiter, wie ein nie getickter Topf). Der Schritt wandert nach „Läuft von allein“ und wird dort abgehakt oder endet nach der Uhr. Rückgängig nimmt die Flamme zurück; sind die Hands-Minuten dann schon vorbei, gilt der Topf wie geplant als rechtzeitig aufgesetzt.
+- **Ein Kochvorgang überlebt das Beenden der App.** `CookRunState` (UserDefaults) hält Start, Pausen, jeden Haken und jede Flamme; `RootTabView` öffnet den Kochmodus beim Start wieder, wenn der letzte Lauf jünger als 6 Stunden ist und das Gericht noch da; sonst wird aufgeräumt (Wecker, Erinnerungen, Live-Aktivität), was ein abgebrochener Lauf hinterließ. Geprüft im Simulator: App beendet und neu gestartet – die Uhr läuft weiter, die Haken sind da.
+- **Wecker nacheinander:** `CookAlarms` plant und löscht in einer Warteschlange; ein Wecker steht erst in `scheduled`, wenn AlarmKit ihn angenommen hat. Vorher konnte eine Pause direkt nach einem Haken einen Wecker übrig lassen, der nach der Pause klingelt.
+- **Erinnerungen:** `sync` ersetzt nur noch die eigenen ausstehenden Mitteilungen (`cook.start.*`, `cook.end.*`); zugestellte Banner bleiben, obwohl sich der Plan bei einem überfälligen Handschritt jede Minute ändert. Die Banner des vorigen Laufs gehen beim Start weg.
+- **Berechtigungen:** Nach den Abfragen beim Start wird ab der aktuellen Minute neu geplant (vorher konnte die Signatur den Lauf ohne Wecker festhalten). Sind Mitteilungen und Wecker beide aus, sagt es eine Zeile in der Uhr-Karte.
+- **Gemessene Zeiten:** Der Start eines Handschritts richtet sich nach dem letzten Zeitpunkt, an dem die Hände frei wurden (letzter Haken eines reinen Handschritts oder letzte Flamme), nicht mehr nach Topf-Haken.
+- Live-Aktivität: `finishDate` aus Uhrstart + Plan, nicht aus `now`, damit ein Refresh ohne Änderung kein Update schickt.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).

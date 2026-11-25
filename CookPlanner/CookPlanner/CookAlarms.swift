@@ -30,8 +30,13 @@ final class CookAlarms {
     static let shared = CookAlarms()
 
     private let manager = AlarmManager.shared
-    /// The alarms set in this run: step id → alarm id and time.
+    /// The alarms set in this run: step id → alarm id and time. Only what
+    /// AlarmKit has accepted is in here.
     private var scheduled: [String: (id: UUID, date: Date)] = [:]
+    /// Scheduling and cancelling run one after the other, in the order
+    /// they were asked for: a pause right after a tick must not find the
+    /// tick's alarm still being created, to ring after the pause.
+    private var queue: Task<Void, Never>?
 
     private init() {}
 
@@ -64,22 +69,24 @@ final class CookAlarms {
     /// wall-clock date of the plan's minute 0, the start plus the pauses.
     func sync(schedule: KitchenSchedule, finished: Set<String>, minute: Int, clockStart: Date, dishName: String) {
         let wanted = alarmTasks(in: schedule, finished: finished, minute: minute)
-        for (taskID, alarm) in scheduled where !wanted.contains(taskID) {
-            try? manager.cancel(id: alarm.id)
-            scheduled[taskID] = nil
-        }
-        for placement in schedule.placements where wanted.contains(placement.id) {
-            let date = clockStart.addingTimeInterval(TimeInterval(placement.end * 60))
-            if let alarm = scheduled[placement.id] {
-                if abs(alarm.date.timeIntervalSince(date)) < 30 { continue }
+        enqueue { [self] in
+            for (taskID, alarm) in scheduled where !wanted.contains(taskID) {
                 try? manager.cancel(id: alarm.id)
+                scheduled[taskID] = nil
             }
-            guard date.timeIntervalSinceNow > 1 else { scheduled[placement.id] = nil; continue }
-            let id = UUID()
-            scheduled[placement.id] = (id, date)
-            let configuration = Self.configuration(for: placement.task, dishName: dishName, at: date)
-            Task { [manager] in
-                _ = try? await manager.schedule(id: id, configuration: configuration)
+            for placement in schedule.placements where wanted.contains(placement.id) {
+                let date = clockStart.addingTimeInterval(TimeInterval(placement.end * 60))
+                if let alarm = scheduled[placement.id] {
+                    if abs(alarm.date.timeIntervalSince(date)) < 30 { continue }
+                    try? manager.cancel(id: alarm.id)
+                    scheduled[placement.id] = nil
+                }
+                guard date.timeIntervalSinceNow > 1 else { continue }
+                let id = UUID()
+                let configuration = Self.configuration(for: placement.task, dishName: dishName, at: date)
+                if (try? await manager.schedule(id: id, configuration: configuration)) != nil {
+                    scheduled[placement.id] = (id, date)
+                }
             }
         }
     }
@@ -87,10 +94,20 @@ final class CookAlarms {
     /// No more alarms: the clock is paused or cooking has ended. Also
     /// clears those an earlier run left, should the app have been closed.
     func cancelAll() {
-        for alarm in (try? manager.alarms) ?? [] {
-            try? manager.cancel(id: alarm.id)
+        enqueue { [self] in
+            for alarm in (try? manager.alarms) ?? [] {
+                try? manager.cancel(id: alarm.id)
+            }
+            scheduled = [:]
         }
-        scheduled = [:]
+    }
+
+    private func enqueue(_ work: @escaping @MainActor () async -> Void) {
+        let previous = queue
+        queue = Task { @MainActor in
+            await previous?.value
+            await work()
+        }
     }
 
     /// A one-shot alarm: the step as title and the system stop button.

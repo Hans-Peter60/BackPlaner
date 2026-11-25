@@ -485,6 +485,49 @@ struct KitchenSchedulerTests {
         #expect(!begun.isEmpty)
     }
 
+    @Test("The hands-on part of a pot ticked off: the pot runs its time from the tick, not from the plan, and the step is not done")
+    func potPutOn() throws {
+        let tasks = [
+            task("rice", hands: 2, unattended: 15, station: .burner),
+            task("chop", hands: 5),
+            task("plate", hands: 1, after: ["rice", "chop"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        #expect(plan.placement(of: "rice")?.end == 17)
+        // Put on a minute early: the rice is done at 16 and the plating moves up.
+        let early = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 1, handsDone: ["rice": 1]))
+        let rice = try #require(early.placement(of: "rice"))
+        #expect(rice.start == 0 && rice.handsEnd == 1 && rice.end == 16)
+        #expect(early.placement(of: "plate")?.start == 16)
+        // Put on late, at minute 4: everything behind it waits.
+        let late = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 4, handsDone: ["rice": 4]))
+        #expect(late.placement(of: "rice")?.end == 19)
+        #expect(late.placement(of: "plate")?.start == 19)
+        // Continued minute by minute the pot stays where the tick put it;
+        // a later tick on the pot itself ends it there.
+        var live = early
+        for minute in 2...10 {
+            live = try KitchenScheduler.replan(tasks, previous: live, progress: KitchenProgress(now: minute, handsDone: ["rice": 1]))
+            #expect(live.placement(of: "rice")?.end == 16, "minute \(minute)")
+        }
+        let done = try KitchenScheduler.replan(tasks, previous: live,
+                                               progress: KitchenProgress(now: 12, finished: ["rice": 12], handsDone: ["rice": 1]))
+        #expect(done.placement(of: "rice")?.end == 12)
+    }
+
+    @Test("A pot with a window, put on by hand, goes on past its planned end until the window closes")
+    func potPutOnWithWindow() throws {
+        let tasks = [KitchenTask(id: "stew", name: "stew", hands: 2, unattended: 10, station: .burner, window: 8...14),
+                     task("plate", hands: 1, after: ["stew"])]
+        let plan = try KitchenScheduler.schedule(tasks)
+        let onTime = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 2, handsDone: ["stew": 2]))
+        #expect(onTime.placement(of: "stew")?.end == 12)
+        let overdue = try KitchenScheduler.replan(tasks, previous: onTime, progress: KitchenProgress(now: 13, handsDone: ["stew": 2]))
+        #expect(overdue.placement(of: "stew")?.end == 14)
+        let closed = try KitchenScheduler.replan(tasks, previous: overdue, progress: KitchenProgress(now: 20, handsDone: ["stew": 2]))
+        #expect(closed.placement(of: "stew")?.end == 16)
+    }
+
     @Test("A tick taken back: the step is in the hands again, overdue, and what had moved up waits for it")
     func tickTakenBack() throws {
         let tasks = [

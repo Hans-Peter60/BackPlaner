@@ -5,10 +5,12 @@
 //  The plan run against the clock: a countdown, what the hands do now,
 //  what comes next, what runs on its own. The cook ticks off each hands-on
 //  step; done early or late, the rest of the plan is placed afresh from
-//  that moment (KitchenScheduler.replan). Steps with an unattended part
-//  end by the clock and may be ticked off early. Reminders (CookReminders)
-//  and the Live Activity (CookActivityManager) follow the live plan, so
-//  the phone may be locked in between.
+//  that moment (KitchenScheduler.replan). A step with an unattended part is
+//  ticked twice: once when the hands are done — the pot is on — and it
+//  runs its time from there; once when it is taken off, or the clock ends
+//  it. Reminders (CookReminders) and the Live Activity (CookActivityManager)
+//  follow the live plan, so the phone may be locked in between. Every
+//  change goes to CookRunState, so a run survives the app being ended.
 //
 
 import BakePlannerCore
@@ -21,6 +23,20 @@ struct CookModeView: View {
 
     init(plan: DishPlan) {
         self.plan = plan
+    }
+
+    /// The run the last launch left under way, continued where it was.
+    init(plan: DishPlan, restoring state: CookRunState) {
+        self.plan = plan
+        _startedAt = State(initialValue: state.startedAt)
+        _pausedAt = State(initialValue: state.pausedAt)
+        _pausedSeconds = State(initialValue: state.pausedSeconds)
+        _finished = State(initialValue: state.finished)
+        _handsDone = State(initialValue: state.handsDone)
+        _tickHistory = State(initialValue: state.ticks)
+        _doneSeconds = State(initialValue: state.doneSeconds)
+        _handsDoneSeconds = State(initialValue: state.handsDoneSeconds)
+        _startSeconds = State(initialValue: state.startSeconds)
     }
 
     #if DEBUG
@@ -46,8 +62,11 @@ struct CookModeView: View {
     @State private var pausedSeconds: TimeInterval = 0
     /// The steps ticked off, with the minute each was done.
     @State private var finished: [String: Int] = [:]
+    /// Pots and oven steps whose hands-on part is done, with the minute:
+    /// they run on their own from there.
+    @State private var handsDone: [String: Int] = [:]
     /// The ticks in order, for taking the last one back.
-    @State private var tickHistory: [String] = []
+    @State private var tickHistory: [CookRunState.Tick] = []
     /// The plan as it stands: continued every minute and at every tick-off
     /// from the previous live plan, so that a step pulled forward stays
     /// where it began instead of being placed afresh each minute.
@@ -58,8 +77,12 @@ struct CookModeView: View {
     /// The stopwatch second each ticked step was done, and the second the
     /// live plan had it begin — the record kept when cooking ends.
     @State private var doneSeconds: [String: Int] = [:]
+    @State private var handsDoneSeconds: [String: Int] = [:]
     @State private var startSeconds: [String: Int] = [:]
     @State private var runSaved = false
+    /// Neither reminders nor alarms may be shown: the cook should know
+    /// before locking the phone.
+    @State private var silenced = false
     @State private var confirmingEnd = false
     @State private var showingTimeline = false
     @AppStorage(CookSettings.clockModeKey) private var clockMode = CookClockMode.challenge
@@ -149,6 +172,7 @@ struct CookModeView: View {
                                 CookAlarms.shared.cancelAll()
                                 remindersSignature = ""
                                 syncActivity(minute: elapsedSeconds(at: .now) / 60)
+                                persist()
                             } label: {
                                 Image(systemName: "pause.fill")
                             }
@@ -182,6 +206,24 @@ struct CookModeView: View {
         let minute = elapsedSeconds(at: .now) / 60
         syncReminders(minute: minute)
         syncActivity(minute: minute)
+        persist()
+    }
+
+    /// Keeps the run as it stands, so the next launch can take it up again.
+    private func persist() {
+        guard let startedAt else { return }
+        CookRunState(dishID: plan.dish.id, startedAt: startedAt, pausedAt: pausedAt, pausedSeconds: pausedSeconds,
+                     finished: finished, handsDone: handsDone, ticks: tickHistory, doneSeconds: doneSeconds,
+                     handsDoneSeconds: handsDoneSeconds, startSeconds: startSeconds).save()
+    }
+
+    /// The stopwatch second the hands were last free: the latest tick of a
+    /// hands-only step, or the latest "pot is on" tick.
+    private var lastHandsFreeSecond: Int {
+        let handsOnly = doneSeconds.filter { key, _ in
+            plan.dish.tasks.first { $0.id == key }.map { $0.handsMinutes > 0 && $0.unattendedMinutes == 0 } ?? false
+        }.values.max() ?? 0
+        return max(handsOnly, handsDoneSeconds.values.max() ?? 0)
     }
 
     /// The Live Activity for the live plan as it stands.
@@ -194,6 +236,7 @@ struct CookModeView: View {
         let current = placements
             .filter { placement in
                 placement.task.handsMinutes > 0 && placement.start <= minute && finished[placement.id] == nil
+                    && handsDone[placement.id] == nil
                     && (placement.task.unattendedMinutes == 0 || minute < placement.handsEnd)
             }
             .min { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
@@ -209,8 +252,10 @@ struct CookModeView: View {
                 || ((placement.task.unattendedMinutes > 0 || placement.task.handsMinutes == 0) && placement.end <= minute)
         }.count
         let remaining = max(0, schedule.makespan * 60 - elapsedSeconds(at: now))
+        // Whole seconds from the clock's start, so a refresh without a
+        // change finds the same state and sends no update.
         let state = CookActivityAttributes.ContentState(
-            finishDate: pausedAt == nil ? now.addingTimeInterval(TimeInterval(remaining)) : clockStart.addingTimeInterval(TimeInterval(schedule.makespan * 60)),
+            finishDate: clockStart.addingTimeInterval(TimeInterval(schedule.makespan * 60)),
             currentStep: current?.task.name,
             currentComponent: current.map { $0.task.component.isEmpty ? nil : $0.task.component } ?? nil,
             nextStep: next?.task.name,
@@ -241,13 +286,23 @@ struct CookModeView: View {
     }
 
     /// Takes the last tick back: the step is in the cook's hands again — or
-    /// on its burner — and the plan is continued without it.
+    /// on its burner — and the plan is continued without it. A "pot is on"
+    /// tick taken back leaves the pot as the plan has it: begun on time,
+    /// so once its hands-on minutes have passed it runs by the clock.
     private func undoLastTick() {
-        guard let id = tickHistory.popLast() else { return }
-        finished[id] = nil
-        doneSeconds[id] = nil
-        startSeconds[id] = nil
+        guard let tick = tickHistory.popLast() else { return }
+        switch tick.kind {
+        case .done:
+            finished[tick.id] = nil
+            doneSeconds[tick.id] = nil
+            if handsDone[tick.id] == nil { startSeconds[tick.id] = nil }
+        case .hands:
+            handsDone[tick.id] = nil
+            handsDoneSeconds[tick.id] = nil
+            startSeconds[tick.id] = nil
+        }
         replan(minute: elapsedSeconds(at: .now) / 60)
+        persist()
     }
 
     /// Continues the live plan from `minute` around what has been ticked off.
@@ -256,29 +311,43 @@ struct CookModeView: View {
         let previous = live ?? plan.schedule
         live = (try? KitchenScheduler.replan(plan.dish.tasks, kitchen: plan.schedule.kitchen, budget: plan.schedule.budget,
                                              previous: previous,
-                                             progress: KitchenProgress(now: minute, finished: finished))) ?? previous
+                                             progress: KitchenProgress(now: minute, finished: finished, handsDone: handsDone))) ?? previous
         syncReminders(minute: minute)
         syncActivity(minute: minute)
     }
 
+    /// The step is done. A hands-only step begins when the hands were last
+    /// free — at the previous hands-on tick, if that came later than the
+    /// plan's minute; the live plan only knows whole minutes.
     private func tickOff(_ id: String, minute: Int) {
         let second = elapsedSeconds(at: .now)
         let placement = (live ?? plan.schedule).placement(of: id)
-        var start = (placement?.start ?? 0) * 60
-        // A hands-on step begins when the hands were last free: at the
-        // previous hands-on tick, if that came later than the plan's
-        // minute — the live plan only knows whole minutes.
-        if (placement?.task.handsMinutes ?? 0) > 0 {
-            let handsTicks = doneSeconds.filter { key, _ in
-                (plan.dish.tasks.first { $0.id == key }?.handsMinutes ?? 0) > 0
-            }.values
-            start = max(start, handsTicks.max() ?? 0)
+        if startSeconds[id] == nil {
+            var start = (placement?.start ?? 0) * 60
+            if (placement?.task.handsMinutes ?? 0) > 0 { start = max(start, lastHandsFreeSecond) }
+            startSeconds[id] = min(second, start)
         }
         doneSeconds[id] = second
-        startSeconds[id] = min(second, start)
         finished[id] = minute
-        tickHistory.append(id)
+        tickHistory.append(.init(id: id, kind: .done))
         replan(minute: minute)
+        persist()
+    }
+
+    /// The hands are done with a pot or oven step: it runs on its own from
+    /// now, for its unattended time, and is ticked off — or ended by the
+    /// clock — later. Ticking it off here instead would have thrown its
+    /// cooking time away.
+    private func putOn(_ id: String, minute: Int) {
+        let second = elapsedSeconds(at: .now)
+        let placement = (live ?? plan.schedule).placement(of: id)
+        let start = max((placement?.start ?? 0) * 60, lastHandsFreeSecond)
+        startSeconds[id] = min(second, start)
+        handsDoneSeconds[id] = second
+        handsDone[id] = minute
+        tickHistory.append(.init(id: id, kind: .hands))
+        replan(minute: minute)
+        persist()
     }
 
     private func end(keepingRecord: Bool) {
@@ -286,6 +355,7 @@ struct CookModeView: View {
         CookAlarms.shared.cancelAll()
         CookActivityManager.shared.endAll()
         if keepingRecord { saveRun() } else { runSaved = true }
+        CookRunState.clear()
         dismiss()
     }
 
@@ -310,7 +380,7 @@ struct CookModeView: View {
             } else if (task.unattendedMinutes > 0 || task.handsMinutes == 0), placement.end <= minute {
                 steps.append(.init(taskID: task.id, name: task.name, component: task.component,
                                    plannedMinutes: task.minutes, plannedStart: planned,
-                                   startedSecond: placement.start * 60, doneSecond: placement.end * 60,
+                                   startedSecond: startSeconds[task.id] ?? placement.start * 60, doneSecond: placement.end * 60,
                                    tickedByCook: false))
             }
         }
@@ -328,6 +398,7 @@ struct CookModeView: View {
         // part — still in its hands-on minutes.
         let handsNow = placements.filter { placement in
             placement.task.handsMinutes > 0 && placement.start <= minute && finished[placement.id] == nil
+                && handsDone[placement.id] == nil
                 && (placement.task.unattendedMinutes == 0 || minute < placement.handsEnd)
         }
         let unattended = placements.filter { placement in
@@ -362,11 +433,20 @@ struct CookModeView: View {
                     }
                     Button {
                         startedAt = .now
+                        persist()
+                        // The banners of the last run go before this one's come.
+                        CookReminders.shared.cancelAll()
                         Task {
-                            _ = await CookReminders.shared.requestAuthorization()
-                            _ = await CookAlarms.shared.requestAuthorization()
-                            syncReminders(minute: 0)
-                            syncActivity(minute: 0)
+                            let reminders = await CookReminders.shared.requestAuthorization()
+                            let alarms = await CookAlarms.shared.requestAuthorization()
+                            silenced = !reminders && !alarms
+                            // The prompts may have taken a minute: the plan has
+                            // moved on and may have been scheduled without
+                            // alarms meanwhile — schedule afresh from now.
+                            remindersSignature = ""
+                            let minute = self.elapsedSeconds(at: .now) / 60
+                            syncReminders(minute: minute)
+                            syncActivity(minute: minute)
                         }
                     } label: {
                         Label("Start", systemImage: "play.fill")
@@ -391,10 +471,16 @@ struct CookModeView: View {
                         }
                         ForEach(handsNow) { placement in
                             let overdue = minute >= placement.start + placement.task.handsMinutes
+                            let pot = placement.task.unattendedMinutes > 0
                             stepLine(placement, ingredients: plan.dish.ingredients(for: placement.task),
                                      detail: overdue ? "überfällig" : "noch \(placement.start + placement.task.handsMinutes - minute) Min.",
-                                     emphasis: overdue, large: true) {
-                                tickOff(placement.id, minute: minute)
+                                     emphasis: overdue, large: true,
+                                     doneLabel: pot ? "Steht, läuft von allein" : "Schritt erledigt") {
+                                if pot {
+                                    putOn(placement.id, minute: minute)
+                                } else {
+                                    tickOff(placement.id, minute: minute)
+                                }
                             }
                         }
                     }
@@ -421,15 +507,22 @@ struct CookModeView: View {
                                 .font(Theme.bodyFont(14))
                                 .foregroundColor(Theme.subtitle)
                             // What the stopwatch said at each tick, latest first.
-                            ForEach(tickHistory.reversed(), id: \.self) { id in
-                                if let done = doneSeconds[id], let task = plan.dish.tasks.first(where: { $0.id == id }) {
+                            ForEach(Array(tickHistory.reversed().enumerated()), id: \.offset) { _, tick in
+                                let second = tick.kind == .done ? doneSeconds[tick.id] : handsDoneSeconds[tick.id]
+                                if let second, let task = plan.dish.tasks.first(where: { $0.id == tick.id }) {
                                     HStack(alignment: .firstTextBaseline) {
                                         Text(verbatim: task.name)
                                             .font(Theme.bodyFont(13))
                                             .foregroundColor(Theme.cardTitle)
                                             .lineLimit(2)
+                                        if tick.kind == .hands {
+                                            Image(systemName: "flame")
+                                                .font(Theme.bodyFont(11))
+                                                .foregroundColor(Theme.subtitle)
+                                                .accessibilityLabel("steht, läuft von allein")
+                                        }
                                         Spacer()
-                                        Text(verbatim: KitchenCookRun.clockText(done))
+                                        Text(verbatim: KitchenCookRun.clockText(second))
                                             .font(Theme.bodyFont(13).monospacedDigit())
                                             .foregroundColor(Theme.accentText)
                                     }
@@ -468,6 +561,14 @@ struct CookModeView: View {
                 Label("Pause, die Uhr steht", systemImage: "pause.circle.fill")
                     .font(Theme.bodyFont(14).weight(.semibold))
                     .foregroundColor(Theme.warning)
+            }
+            if silenced {
+                Label("Mitteilungen und Wecker sind aus – gesperrt bleibt das iPhone still. Einschalten unter Einstellungen → CookPlanner.",
+                      systemImage: "bell.slash")
+                    .font(Theme.bodyFont(13))
+                    .foregroundColor(Theme.warning)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             if clockMode == .challenge {
                 // The countdown: the time budget (or the plan, without one)
@@ -540,6 +641,7 @@ struct CookModeView: View {
     @ViewBuilder
     private func stepLine(_ placement: KitchenPlacement, ingredients: [KitchenIngredient] = [],
                           detail: LocalizedStringKey, emphasis: Bool = false, large: Bool = false,
+                          doneLabel: LocalizedStringKey = "Schritt erledigt",
                           onDone: (() -> Void)? = nil) -> some View {
         if large {
             let wide = sizeClass == .regular
@@ -577,14 +679,14 @@ struct CookModeView: View {
                     Spacer(minLength: 8)
                     if let onDone {
                         Button(action: onDone) {
-                            Image(systemName: "checkmark.circle.fill")
+                            Image(systemName: placement.task.unattendedMinutes > 0 ? "flame.circle.fill" : "checkmark.circle.fill")
                                 .font(.system(size: wide ? 64 : 52))
                                 .foregroundColor(Theme.accentText)
                                 .frame(width: wide ? 88 : 72, height: wide ? 88 : 72)
                                 .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Schritt erledigt")
+                        .accessibilityLabel(doneLabel)
                     }
                 }
             }
