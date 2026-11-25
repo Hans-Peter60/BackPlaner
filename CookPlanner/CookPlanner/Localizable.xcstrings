@@ -4996,6 +4996,28 @@
         }
       }
     },
+    "Noch ist kein Schritt erledigt; es gibt nichts festzuhalten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch ist kein Schritt erledigt; es gibt nichts festzuhalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No step is done yet; there is nothing to keep."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune étape n’est encore faite ; il n’y a rien à consigner."
+          }
+        }
+      }
+    },
     "Noch keine Fotos" : {
       "localizations" : {
         "de" : {

@@ -139,11 +139,21 @@ struct CookModeView: View {
                     // An alert, not a confirmation dialog: on the iPhone the
                     // dialog came as a popover without "Weiterkochen".
                     .alert("Kochen beenden?", isPresented: $confirmingEnd) {
-                        Button("Beenden und Protokoll sichern") { end(keepingRecord: true) }
-                        Button("Beenden ohne Protokoll", role: .destructive) { end(keepingRecord: false) }
+                        if hasRecord {
+                            Button("Beenden und Protokoll sichern") { end(keepingRecord: true) }
+                        }
+                        if hasRecord {
+                            Button("Beenden ohne Protokoll", role: .destructive) { end(keepingRecord: false) }
+                        } else {
+                            Button("Beenden", role: .destructive) { end(keepingRecord: false) }
+                        }
                         Button("Weiterkochen", role: .cancel) { }
                     } message: {
-                        Text("Das Protokoll hält fest, wann jeder Schritt erledigt war.")
+                        if hasRecord {
+                            Text("Das Protokoll hält fest, wann jeder Schritt erledigt war.")
+                        } else {
+                            Text("Noch ist kein Schritt erledigt; es gibt nichts festzuhalten.")
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -357,6 +367,17 @@ struct CookModeView: View {
         if keepingRecord { saveRun() } else { runSaved = true }
         CookRunState.clear()
         dismiss()
+    }
+
+    /// Whether a record would hold anything: a tick, a flame, or a pot
+    /// that ran its time.
+    private var hasRecord: Bool {
+        guard startedAt != nil else { return false }
+        if !doneSeconds.isEmpty || !handsDoneSeconds.isEmpty { return true }
+        let minute = elapsedSeconds(at: .now) / 60
+        return (live ?? plan.schedule).placements.contains {
+            ($0.task.unattendedMinutes > 0 || $0.task.handsMinutes == 0) && $0.end <= minute
+        }
     }
 
     /// Keeps the stopwatch record: every ticked step with its seconds, and
