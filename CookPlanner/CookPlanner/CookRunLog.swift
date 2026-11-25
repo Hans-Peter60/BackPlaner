@@ -19,6 +19,11 @@ final class CookRunLog {
     static let shared = CookRunLog()
 
     private(set) var runs: [KitchenCookRun] = []
+    /// What went wrong with the file, for an alert; nil once shown.
+    var lastError: String?
+    /// True when the file is of a later version than this build knows: it
+    /// is read as far as possible, never written.
+    private(set) var isReadOnly = false
     private let fileURL: URL
     private let photoFolder: URL
     /// Small pictures for the lists, made once per photo.
@@ -172,15 +177,32 @@ final class CookRunLog {
 
     private func load() {
         guard let data = try? Data(contentsOf: fileURL) else { return }
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        runs = (try? decoder.decode([KitchenCookRun].self, from: data)) ?? []
+        do {
+            runs = try KitchenCookRunFile.decode(data)
+        } catch KitchenCookRunFileError.unsupportedVersion {
+            // Written by a newer build; whatever it holds stays as it is.
+            isReadOnly = true
+            lastError = String(localized: "Die Kochhistorie stammt von einer neueren Version von CookPlanner. Sie bleibt unverändert, bis die App aktualisiert ist.")
+        } catch {
+            // The file is not what this app writes. Nothing is thrown away:
+            // the bytes move aside under a dated name, and the history
+            // starts over rather than being overwritten by the next record.
+            let stamp = ISO8601DateFormatter.string(from: Date(), timeZone: .current,
+                                                    formatOptions: [.withFullDate, .withTime, .withColonSeparatorInTime])
+                .replacingOccurrences(of: ":", with: "-")
+            let aside = fileURL.deletingLastPathComponent().appendingPathComponent("cook-runs.broken-\(stamp).json")
+            try? FileManager.default.moveItem(at: fileURL, to: aside)
+            runs = []
+            lastError = String(localized: "Die Kochhistorie konnte nicht gelesen werden. Die Datei liegt als Kopie „\(aside.lastPathComponent)“ im Ordner der App; die Historie beginnt leer.")
+        }
     }
 
     private func save() {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        guard let data = try? encoder.encode(runs) else { return }
-        try? data.write(to: fileURL, options: .atomic)
+        guard !isReadOnly else { return }
+        do {
+            try KitchenCookRunFile(runs: runs).encoded().write(to: fileURL, options: .atomic)
+        } catch {
+            lastError = String(localized: "Die Kochhistorie konnte nicht gesichert werden: \(error.localizedDescription)")
+        }
     }
 }

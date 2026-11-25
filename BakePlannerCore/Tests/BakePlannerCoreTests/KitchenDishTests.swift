@@ -97,3 +97,53 @@ struct KitchenDishTests {
         #expect(KitchenShoppingList.missingText(for: dish, available: Set(dish.ingredients.map(\.id))).isEmpty)
     }
 }
+
+@Suite("Dishes: consistent dependencies")
+struct KitchenDishConsistencyTests {
+
+    private func task(_ id: String, after: [String] = [], ingredients: [String] = []) -> KitchenTask {
+        KitchenTask(id: id, name: id, component: "a", hands: 5, after: after, ingredientIDs: ingredients)
+    }
+
+    @Test("A dependency on a missing step, on itself and a doubled step id are dropped; a sound dish stays as it is")
+    func consistent() {
+        let dish = KitchenDish(name: "Test", tasks: [
+            task("a", ingredients: ["salt", "gone"]),
+            task("b", after: ["a", "ghost", "b"]),
+            task("a", after: ["b"]),
+        ], ingredients: [KitchenIngredient(id: "salt", name: "Salz")])
+        let clean = dish.consistent()
+        #expect(clean.tasks.map(\.id) == ["a", "b"])
+        #expect(clean.tasks[0].ingredientIDs == ["salt"])
+        #expect(clean.tasks[1].after == ["a"])
+        #expect(clean.consistent() == clean)
+        for sample in KitchenSampleDishes.all {
+            #expect(sample.consistent() == sample)
+        }
+    }
+
+    @Test("Removing a step in the middle of a chain joins the chain around it")
+    func removing() {
+        let dish = KitchenDish(name: "Test", tasks: [
+            task("a"), task("b", after: ["a"]), task("c", after: ["b"]), task("d", after: ["c", "b"]),
+        ])
+        let without = dish.removingTasks(ids: ["b"])
+        #expect(without.tasks.map(\.id) == ["a", "c", "d"])
+        #expect(without.tasks[1].after == ["a"])
+        #expect(without.tasks[2].after == ["c", "a"])
+        #expect(throws: Never.self) { try KitchenScheduler.schedule(without.tasks, kitchen: Kitchen(), budget: 60) }
+    }
+
+    @Test("A file with a dangling dependency reads as a dish that plans")
+    func fileImport() throws {
+        let data = Data("""
+        {"formatVersion": 2, "dishes": [{"id": "x", "name": "Suppe", "source": "manual",
+          "steps": [{"id": "s1", "name": "Schneiden", "component": "", "handsMinutes": 5, "unattendedMinutes": 0, "after": ["nowhere"]},
+                    {"id": "s1", "name": "Doppelt", "component": "", "handsMinutes": 5, "unattendedMinutes": 0, "after": []}]}]}
+        """.utf8)
+        let dish = try #require(KitchenDishFile.decode(data).kitchenDishes.first)
+        #expect(dish.tasks.count == 1)
+        #expect(dish.tasks[0].after.isEmpty)
+        #expect(throws: Never.self) { try KitchenScheduler.schedule(dish.tasks, kitchen: Kitchen(), budget: 60) }
+    }
+}

@@ -58,4 +58,20 @@ struct KitchenCookRunTests {
         #expect(again.rating == 4 && again.note == "Etwas mehr Salz")
         #expect(again.hasImpression)
     }
+
+    @Test("The record file reads its own shape and the first builds' bare array; a later version is refused")
+    func file() throws {
+        let run = KitchenCookRun(dishID: "d", dishName: "Gericht", startedAt: Date(timeIntervalSince1970: 86_400),
+                                 totalSeconds: 600, plannedMinutes: 10, steps: [], totalSteps: 3)
+        let data = try KitchenCookRunFile(runs: [run]).encoded()
+        #expect(try KitchenCookRunFile.decode(data) == [run])
+
+        let legacy = JSONEncoder()
+        legacy.dateEncodingStrategy = .iso8601
+        #expect(try KitchenCookRunFile.decode(try legacy.encode([run])) == [run])
+
+        let future = Data(#"{"formatVersion": 9, "runs": []}"#.utf8)
+        #expect(throws: KitchenCookRunFileError.unsupportedVersion(9)) { try KitchenCookRunFile.decode(future) }
+        #expect(throws: (any Error).self) { try KitchenCookRunFile.decode(Data("not json".utf8)) }
+    }
 }

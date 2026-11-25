@@ -69,11 +69,13 @@ public struct KitchenDishRecord: Codable, Equatable, Sendable {
         ingredients = dish.ingredients.map(KitchenIngredientRecord.init(ingredient:))
     }
 
-    /// The dish; an unknown source reads as typed in by hand.
+    /// The dish; an unknown source reads as typed in by hand, and a
+    /// dependency the file got wrong is dropped rather than kept as a
+    /// dish that never plans.
     public var dish: KitchenDish {
         KitchenDish(id: id, name: name, source: KitchenDishSource(rawValue: source) ?? .manual,
                     servings: servings.map { max(0, $0) }, createdAt: createdAt, tasks: steps.map(\.task),
-                    ingredients: (ingredients ?? []).map(\.ingredient))
+                    ingredients: (ingredients ?? []).map(\.ingredient)).consistent()
     }
 }
 

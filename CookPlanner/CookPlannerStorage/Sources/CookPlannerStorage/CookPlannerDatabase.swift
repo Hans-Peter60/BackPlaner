@@ -11,17 +11,42 @@
 import Foundation
 import SkipSQLPlus
 
+/// Why the database cannot be opened.
+public enum CookPlannerDatabaseError: Error, Equatable, LocalizedError {
+    /// The file was written by a newer app: its schema version is beyond
+    /// what this build knows. Opening it anyway would run no migration and
+    /// could read or write columns wrongly; migrating "backwards" is not a
+    /// thing SQLite's schema version allows.
+    case newerSchema(found: Int, supported: Int)
+
+    public var errorDescription: String? {
+        switch self {
+        case .newerSchema(let found, let supported):
+            return "The dish database was written by a newer version of CookPlanner (schema \(found), this app knows \(supported))."
+        }
+    }
+}
+
 public final class CookPlannerDatabase {
 
     let context: SQLContext
 
+    /// The schema version this build writes.
+    public static var schemaVersion: Int { migrations.count }
+
     /// The database file at `path`, created when missing and brought to the
-    /// current schema; in memory only for `nil`.
+    /// current schema; in memory only for `nil`. A file of a newer schema
+    /// is refused rather than opened half-understood.
     public init(path: String?) throws {
         if let path {
             context = try SQLContext(path: path, flags: [.create, .readWrite], configuration: .plus)
         } else {
             context = SQLContext(configuration: .plus)
+        }
+        let found = Int(context.userVersion)
+        if found > Self.migrations.count {
+            try? context.close()
+            throw CookPlannerDatabaseError.newerSchema(found: found, supported: Self.migrations.count)
         }
         try context.exec(sql: "PRAGMA foreign_keys = ON")
         try context.migrate(migrations: Self.migrations)

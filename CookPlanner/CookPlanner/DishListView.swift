@@ -71,6 +71,14 @@ struct DishListView: View {
         NavigationStack {
             List {
                 Section {
+                    if let warning = library.storageWarning {
+                        Label { Text(warning) } icon: { Image(systemName: "exclamationmark.triangle.fill") }
+                            .font(Theme.bodyFont(14))
+                            .foregroundColor(Theme.danger)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
                     Text("Ein Gericht, eine Person, \(budget) Minuten")
                         .font(Theme.bodyFont(15))
                         .foregroundColor(Theme.subtitle)
@@ -377,18 +385,22 @@ struct DishListView: View {
         Toggle("Wenig Handarbeit", isOn: $filter.lowWorkOnly)
     }
 
-    @ViewBuilder
+    /// Every dish gets a row. One the scheduler cannot plan — a step
+    /// waiting for a deleted one, an oven dish in a kitchen set to no oven
+    /// — shows why, and still opens, so it can be edited or deleted.
     private func row(_ dish: KitchenDish) -> some View {
-        if let plan = plan(for: dish) {
-            NavigationLink {
-                DishPlanView(dish: dish)
-            } label: {
+        NavigationLink {
+            DishPlanView(dish: dish)
+        } label: {
+            if let plan = plan(for: dish) {
                 DishRow(plan: plan)
+            } else {
+                UnplannableDishRow(dish: dish, reason: DishPlan.failure(dish: dish, budget: budget, burners: burners, ovens: ovens))
             }
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
         }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
     }
 
     private func sectionTitle(_ title: LocalizedStringKey) -> some View {
@@ -437,6 +449,32 @@ private struct DishRow: View {
                         .foregroundColor(plan.fits ? Theme.good : Theme.danger)
                         .padding(.top, 2)
                 }
+            }
+            Spacer(minLength: 0)
+        }
+        .cardStyle()
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// A dish without a plan: its name and the reason, in the same card.
+private struct UnplannableDishRow: View {
+    let dish: KitchenDish
+    let reason: LocalizedStringKey?
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            IconBadge(systemImage: "exclamationmark.triangle")
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: dish.name)
+                    .font(Theme.bodyFont(16).weight(.semibold))
+                    .foregroundColor(Theme.cardTitle)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(reason ?? "Der Plan geht nicht auf.")
+                    .font(Theme.bodyFont(14))
+                    .foregroundColor(Theme.danger)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 2)
             }
             Spacer(minLength: 0)
         }

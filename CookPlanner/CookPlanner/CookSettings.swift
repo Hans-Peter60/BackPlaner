@@ -52,6 +52,27 @@ struct DishPlan {
 
     var fits: Bool { schedule.fits }
 
+    /// Why no plan comes out of the dish, in the cook's words; nil when
+    /// one does. The list and the plan screen show this instead of nothing.
+    static func failure(dish: KitchenDish, budget: Int, burners: Int, ovens: Int) -> LocalizedStringKey? {
+        do {
+            _ = try KitchenScheduler.schedule(dish.tasks, kitchen: Kitchen(burners: burners, ovens: ovens), budget: budget)
+            return nil
+        } catch KitchenSchedulingError.stationMissing(let station) {
+            switch station {
+            case .oven: return "Das Gericht braucht einen Ofen; in den Einstellungen steht die Küche auf 0 Öfen."
+            case .burner: return "Das Gericht braucht eine Herdplatte; in den Einstellungen steht die Küche auf 0 Platten."
+            }
+        } catch KitchenSchedulingError.unknownDependency(let task, _) {
+            let name = dish.tasks.first { $0.id == task }?.name ?? task
+            return "„\(name)“ wartet auf einen Schritt, den es nicht mehr gibt. Den Schritt bearbeiten und sichern räumt das auf."
+        } catch KitchenSchedulingError.cycle {
+            return "Die Schritte warten im Kreis aufeinander. Die Reihenfolge der Schritte prüfen."
+        } catch {
+            return "Der Plan geht nicht auf: \(error.localizedDescription)"
+        }
+    }
+
     /// "Passt in 35 Minuten" or "Fehlen 9 Minuten".
     var verdict: LocalizedStringKey {
         if schedule.fits {
@@ -83,15 +104,6 @@ extension KitchenTask {
         case .oven: return "oven"
         case nil: return nil
         }
-    }
-}
-
-extension KitchenTask {
-    /// The same step naming other ingredients.
-    func withIngredientIDs(_ ids: [String]) -> KitchenTask {
-        KitchenTask(id: id, name: name, component: component, hands: handsMinutes, unattended: unattendedMinutes,
-                    station: station, after: after, maxWait: maxWait, window: unattendedWindow,
-                    ovenTemperature: ovenTemperature, ingredientIDs: ids)
     }
 }
 

@@ -1542,6 +1542,50 @@
         }
       }
     },
+    "Das Gericht braucht eine Herdplatte; in den Einstellungen steht die Küche auf 0 Platten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Gericht braucht eine Herdplatte; in den Einstellungen steht die Küche auf 0 Platten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dish needs a burner; the kitchen in the settings has 0 burners."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plat a besoin d’un feu ; la cuisine des réglages compte 0 feu."
+          }
+        }
+      }
+    },
+    "Das Gericht braucht einen Ofen; in den Einstellungen steht die Küche auf 0 Öfen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Gericht braucht einen Ofen; in den Einstellungen steht die Küche auf 0 Öfen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dish needs an oven; the kitchen in the settings has 0 ovens."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plat a besoin d’un four ; la cuisine des réglages compte 0 four."
+          }
+        }
+      }
+    },
     "Das Protokoll hält fest, wann jeder Schritt erledigt war." : {
       "localizations" : {
         "de" : {
@@ -1674,24 +1718,46 @@
         }
       }
     },
-    "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche." : {
+    "Der Plan geht nicht auf." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Plan geht nicht auf: Ein Schritt wartet auf sich selbst, oder ein Gerät fehlt in der Küche."
+            "value" : "Der Plan geht nicht auf."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The plan does not work out: a step waits for itself, or the kitchen lacks a station."
+            "value" : "The plan does not work out."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le plan ne tient pas : une étape s’attend elle-même, ou un poste manque dans la cuisine."
+            "value" : "Le plan ne tient pas."
+          }
+        }
+      }
+    },
+    "Der Plan geht nicht auf: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Plan geht nicht auf: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan does not work out: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan ne tient pas : %@"
           }
         }
       }
@@ -1784,6 +1850,50 @@
         }
       }
     },
+    "Die Datenbank der Gerichte lässt sich nicht öffnen (%@). Änderungen gehen beim Beenden der App verloren." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datenbank der Gerichte lässt sich nicht öffnen (%@). Änderungen gehen beim Beenden der App verloren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dish database cannot be opened (%@). Changes are lost when the app quits."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La base de données des plats ne s’ouvre pas (%@). Les modifications sont perdues à la fermeture de l’app."
+          }
+        }
+      }
+    },
+    "Die Gerichte stammen von einer neueren Version von CookPlanner. Bis die App aktualisiert ist, werden Änderungen nicht gesichert." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Gerichte stammen von einer neueren Version von CookPlanner. Bis die App aktualisiert ist, werden Änderungen nicht gesichert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dishes were written by a newer version of CookPlanner. Changes are not saved until the app is updated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les plats proviennent d’une version plus récente de CookPlanner. Les modifications ne sont pas enregistrées tant que l’app n’est pas mise à jour."
+          }
+        }
+      }
+    },
     "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen." : {
       "localizations" : {
         "de" : {
@@ -1806,6 +1916,72 @@
         }
       }
     },
+    "Die Kochhistorie konnte nicht gelesen werden. Die Datei liegt als Kopie „%@“ im Ordner der App; die Historie beginnt leer." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kochhistorie konnte nicht gelesen werden. Die Datei liegt als Kopie „%@“ im Ordner der App; die Historie beginnt leer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cooking history could not be read. The file was kept as “%@” in the app’s folder; the history starts empty."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisine n’a pas pu être lu. Le fichier est conservé sous « %@ » dans le dossier de l’app ; l’historique repart à vide."
+          }
+        }
+      }
+    },
+    "Die Kochhistorie konnte nicht gesichert werden: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kochhistorie konnte nicht gesichert werden: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cooking history could not be saved: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisine n’a pas pu être enregistré : %@"
+          }
+        }
+      }
+    },
+    "Die Kochhistorie stammt von einer neueren Version von CookPlanner. Sie bleibt unverändert, bis die App aktualisiert ist." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kochhistorie stammt von einer neueren Version von CookPlanner. Sie bleibt unverändert, bis die App aktualisiert ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cooking history was written by a newer version of CookPlanner. It stays untouched until the app is updated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisine provient d’une version plus récente de CookPlanner. Il reste inchangé jusqu’à la mise à jour de l’app."
+          }
+        }
+      }
+    },
     "Die Kopie mit den gemessenen Zeiten steht unter „Meine Gerichte“." : {
       "localizations" : {
         "de" : {
@@ -1824,6 +2000,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La copie avec les temps mesurés se trouve sous « Mes plats »."
+          }
+        }
+      }
+    },
+    "Die Schritte warten im Kreis aufeinander. Die Reihenfolge der Schritte prüfen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Schritte warten im Kreis aufeinander. Die Reihenfolge der Schritte prüfen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The steps wait for one another in a circle. Check the order of the steps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les étapes s’attendent en boucle. Vérifiez l’ordre des étapes."
           }
         }
       }
@@ -3698,6 +3896,28 @@
         }
       }
     },
+    "Kein Plan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Plan"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de plan"
+          }
+        }
+      }
+    },
     "Keine passenden Einträge" : {
       "localizations" : {
         "de" : {
@@ -3870,6 +4090,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Commencer à cuisiner"
+          }
+        }
+      }
+    },
+    "Kochhistorie" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochhistorie"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking history"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique de cuisine"
           }
         }
       }
@@ -7105,6 +7347,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "en retard"
+          }
+        }
+      }
+    },
+    "„%@“ wartet auf einen Schritt, den es nicht mehr gibt. Den Schritt bearbeiten und sichern räumt das auf." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ wartet auf einen Schritt, den es nicht mehr gibt. Den Schritt bearbeiten und sichern räumt das auf."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” waits for a step that no longer exists. Editing and saving the step clears that up."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » attend une étape qui n’existe plus. Modifier et enregistrer l’étape règle cela."
           }
         }
       }
