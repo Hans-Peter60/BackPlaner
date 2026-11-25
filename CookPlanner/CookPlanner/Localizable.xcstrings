@@ -1740,6 +1740,28 @@
         }
       }
     },
+    "Der Analyse-Dienst hat die Anfrage nicht zugelassen. Bitte die App aktualisieren oder später noch einmal versuchen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Analyse-Dienst hat die Anfrage nicht zugelassen. Bitte die App aktualisieren oder später noch einmal versuchen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis service did not allow the request. Please update the app or try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le service d’analyse n’a pas accepté la demande. Mettez l’app à jour ou réessayez plus tard."
+          }
+        }
+      }
+    },
     "Der Mittelwert (Median) der abgehakten Zeiten aus den letzten bis zu fünf Durchgängen. Bei Töpfen und Ofenschritten bleibt die Handarbeit, die Zeit allein passt sich an." : {
       "localizations" : {
         "de" : {
@@ -1824,6 +1846,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le texte est envoyé à un service Google pour analyse."
+          }
+        }
+      }
+    },
+    "Die Analyse hat zu lange gedauert. Bitte noch einmal versuchen, bei langen Rezepten vielleicht in zwei Teilen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Analyse hat zu lange gedauert. Bitte noch einmal versuchen, bei langen Rezepten vielleicht in zwei Teilen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis took too long. Please try again, for long recipes perhaps in two parts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse a pris trop de temps. Réessayez, pour les longues recettes peut-être en deux parties."
           }
         }
       }
@@ -3980,6 +4024,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pas de plan"
+          }
+        }
+      }
+    },
+    "Keine Verbindung zum Analyse-Dienst. Bitte die Internetverbindung prüfen und noch einmal versuchen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Verbindung zum Analyse-Dienst. Bitte die Internetverbindung prüfen und noch einmal versuchen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No connection to the analysis service. Please check the internet connection and try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de connexion au service d’analyse. Vérifiez la connexion Internet et réessayez."
           }
         }
       }

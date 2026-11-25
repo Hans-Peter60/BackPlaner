@@ -94,7 +94,13 @@ struct DocumentScannerView: UIViewControllerRepresentable {
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFinishWith scan: VNDocumentCameraScan) {
-            let pages = (0..<scan.pageCount).map { scan.imageOfPage(at: $0) }
+            // Twenty cookbook pages at camera size would not fit in memory;
+            // the text is legible at 2000 px.
+            let pages = (0..<scan.pageCount).compactMap { index -> UIImage? in
+                let page = scan.imageOfPage(at: index)
+                guard let data = page.jpegData(compressionQuality: 0.9) else { return page }
+                return CookRunLog.downsampled(data, maxPixels: 2000) ?? page
+            }
             parent.onScanned(pages)
             parent.dismiss()
         }

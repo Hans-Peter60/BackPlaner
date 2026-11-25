@@ -224,6 +224,14 @@ Offen aus der Durchsicht, in eigenen Schritten: Kochmodus (Zustand überlebt das
 - **Stapelweise anwenden:** Ein Fetch mit vielen Datensätzen schreibt `cook-runs.json` einmal und lädt die Datenbank einmal (`DishLibrary.applyRemote([KitchenDish])`, `CookRunLog.applyRemote([(run, photo)])`), nicht je Datensatz.
 - Bewusst so gelassen: Löschung auf einem Gerät gewinnt gegen eine spätere Offline-Bearbeitung auf dem anderen; gelöschte iCloud-Daten (Zone weg) werden vom Gerät wieder hochgeladen.
 
+### Robustheit 4: Kleinkram (25.11.)
+
+- Text- und Fotoimport lassen sich abbrechen: „Abbrechen“ bleibt während der Analyse aktiv und beendet den laufenden Task (vorher bis zu 250 s modal).
+- `DishImportError` übersetzt mehr Fälle in eigene Worte: keine Verbindung (URLError, `unavailable`, Auth-Netzfehler), Zeitüberschreitung, nicht zugelassen (`unauthenticated`/`permissionDenied`/`failedPrecondition`, Auth); eine Antwort, die nicht decodiert, heißt „unvollständig“ statt dem englischen Decoder-Text.
+- Fotos für die Texterkennung werden klein gelesen (ImageIO, 2000 px): Picker-Bilder und Scanner-Seiten; zwanzig Buchseiten in Kameragröße passten nicht in den Speicher.
+- Freigabe-Dateien: `TemporaryExports.folder(prefix:)` räumt die Ordner früherer Freigaben (`Plan-*`, `Export-*`) weg, bevor ein neuer angelegt wird; der PDF-Dateiname wird getrimmt.
+- Portionen: gezählte Mengen unter ½ gehen auf Viertel statt auf ½ aufzurunden – „¼ TL“ halbiert bleibt ¼ (vorher ½), ein Stück geviertelt ist ¼.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
