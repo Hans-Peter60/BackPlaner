@@ -32,13 +32,15 @@ public enum KitchenPortions {
     ]
 
     /// `amount` scaled by `factor` and rounded the way one measures it:
-    /// counted units to halves (never below one half), grams and millilitres
-    /// to a sensible step for their size.
+    /// counted units to halves, below half a piece to quarters — a quarter
+    /// teaspoon halved stays a quarter rather than doubling to a half —,
+    /// grams and millilitres to a sensible step for their size.
     public static func scaled(_ amount: Double, unit: String, by factor: Double) -> Double {
         guard factor > 0, factor != 1 else { return amount }
         let raw = amount * factor
         if countedUnits.contains(unit.lowercased().trimmingCharacters(in: .whitespaces)) {
-            return max(0.5, (raw * 2).rounded() / 2)
+            if raw < 0.5 { return max(0.25, (raw * 4).rounded() / 4) }
+            return (raw * 2).rounded() / 2
         }
         let step: Double
         switch raw {

@@ -23,7 +23,11 @@ final class DishImportClient: @unchecked Sendable {
     /// Reads a cooking recipe into work steps.
     func analyzeText(_ text: String) async throws -> CloudDishAnalysis {
         if Auth.auth().currentUser == nil {
-            try await Auth.auth().signInAnonymously()
+            do {
+                try await Auth.auth().signInAnonymously()
+            } catch {
+                throw DishImportError.from(error)
+            }
         }
         let callable = functions.httpsCallable("analyzeDishSteps")
         callable.timeoutInterval = 250
@@ -40,7 +44,13 @@ final class DishImportClient: @unchecked Sendable {
         #if DEBUG
         Self.keepForTuning(data)
         #endif
-        return try JSONDecoder().decode(CloudDishAnalysis.self, from: data)
+        do {
+            return try JSONDecoder().decode(CloudDishAnalysis.self, from: data)
+        } catch {
+            // The answer has a shape this build does not know: its own
+            // words, not the decoder's English.
+            throw DishImportError.invalidResponse
+        }
     }
 
     #if DEBUG
@@ -62,14 +72,42 @@ enum DishImportError: LocalizedError {
     case invalidResponse
     case hourlyLimit
     case monthlyLimit
+    case offline
+    case timedOut
+    case notAllowed
     case other(String)
 
     static func from(_ error: Error) -> DishImportError {
+        if error is CancellationError { return .other("") }
         let nsError = error as NSError
-        if nsError.domain == FunctionsErrorDomain,
-           FunctionsErrorCode(rawValue: nsError.code) == .resourceExhausted {
-            let reason = (nsError.userInfo[FunctionsErrorDetailsKey] as? [String: Any])?["reason"] as? String
-            return reason == "monthly-limit" ? .monthlyLimit : .hourlyLimit
+        if nsError.domain == NSURLErrorDomain {
+            switch URLError.Code(rawValue: nsError.code) {
+            case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed, .cannotFindHost,
+                 .cannotConnectToHost, .dnsLookupFailed, .internationalRoamingOff:
+                return .offline
+            case .timedOut:
+                return .timedOut
+            default:
+                break
+            }
+        }
+        if nsError.domain == FunctionsErrorDomain {
+            switch FunctionsErrorCode(rawValue: nsError.code) {
+            case .resourceExhausted:
+                let reason = (nsError.userInfo[FunctionsErrorDetailsKey] as? [String: Any])?["reason"] as? String
+                return reason == "monthly-limit" ? .monthlyLimit : .hourlyLimit
+            case .unavailable:
+                return .offline
+            case .deadlineExceeded:
+                return .timedOut
+            case .unauthenticated, .permissionDenied, .failedPrecondition:
+                return .notAllowed
+            default:
+                break
+            }
+        }
+        if nsError.domain == AuthErrorDomain {
+            return AuthErrorCode(rawValue: nsError.code) == .networkError ? .offline : .notAllowed
         }
         return .other(error.localizedDescription)
     }
@@ -82,6 +120,12 @@ enum DishImportError: LocalizedError {
             return String(localized: "Das stündliche Analyse-Limit ist erreicht. Bitte später noch einmal.")
         case .monthlyLimit:
             return String(localized: "Die kostenlosen Importe dieses Monats sind aufgebraucht.")
+        case .offline:
+            return String(localized: "Keine Verbindung zum Analyse-Dienst. Bitte die Internetverbindung prüfen und noch einmal versuchen.")
+        case .timedOut:
+            return String(localized: "Die Analyse hat zu lange gedauert. Bitte noch einmal versuchen, bei langen Rezepten vielleicht in zwei Teilen.")
+        case .notAllowed:
+            return String(localized: "Der Analyse-Dienst hat die Anfrage nicht zugelassen. Bitte die App aktualisieren oder später noch einmal versuchen.")
         case .other(let message):
             return message
         }

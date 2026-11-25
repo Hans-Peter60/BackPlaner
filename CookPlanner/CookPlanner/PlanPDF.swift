@@ -29,8 +29,7 @@ struct PlanPDFExport: Transferable {
     }
 
     func writeFile() throws -> URL {
-        let folder = URL.temporaryDirectory.appendingPathComponent("Plan-" + UUID().uuidString, isDirectory: true)
-        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let folder = try TemporaryExports.folder(prefix: "Plan-")
         let url = folder.appendingPathComponent(PlanPDFRenderer.fileName(for: plan.dish.name)).appendingPathExtension("pdf")
         try PlanPDFRenderer.render(plan, start: start).write(to: url, options: .atomic)
         return url
@@ -48,6 +47,7 @@ enum PlanPDFRenderer {
 
     static func fileName(for title: String) -> String {
         let name = title.components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|")).joined(separator: "-")
+            .trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet(charactersIn: ".")))
         return name.isEmpty ? String(localized: "Ablaufplan") : String(name.prefix(80))
     }
 

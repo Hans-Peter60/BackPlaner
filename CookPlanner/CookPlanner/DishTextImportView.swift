@@ -17,6 +17,9 @@ struct DishTextImportView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var text = ""
     @State private var isAnalyzing = false
+    /// The analysis under way, so "Abbrechen" can stop it: the call may
+    /// take minutes when the connection is poor.
+    @State private var analysisTask: Task<Void, Never>?
     @State private var errorMessage: String?
     @State private var result: DishImportResult?
     @FocusState private var editing: Bool
@@ -49,8 +52,10 @@ struct DishTextImportView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Abbrechen") { dismiss() }
-                        .disabled(isAnalyzing)
+                    Button("Abbrechen") {
+                        analysisTask?.cancel()
+                        dismiss()
+                    }
                 }
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
@@ -74,7 +79,10 @@ struct DishTextImportView: View {
             Task {
                 var images: [UIImage] = []
                 for item in items {
-                    if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                    // Read small (ImageIO): the text is legible at 2000 px,
+                    // and four full camera photos would fill the memory.
+                    if let data = try? await item.loadTransferable(type: Data.self),
+                       let image = CookRunLog.downsampled(data, maxPixels: 2000) {
                         images.append(image)
                     }
                 }
@@ -177,15 +185,18 @@ struct DishTextImportView: View {
         editing = false
         isAnalyzing = true
         let input = text
-        Task {
+        analysisTask?.cancel()
+        analysisTask = Task {
             defer { isAnalyzing = false }
             do {
                 let analysis = try await DishImportClient.shared.analyzeText(input)
+                guard !Task.isCancelled else { return }
                 let dish = CloudDishImport.dish(from: analysis.dish, source: fromPhotos ? .photo : .text,
                                                 fallbackName: String(localized: "Gericht"))
                 result = DishImportResult(dish: dish, warnings: analysis.dish.warnings ?? [],
                                           notice: analysis.freeImports?.notice())
             } catch {
+                guard !Task.isCancelled else { return }
                 errorMessage = error.localizedDescription
             }
         }

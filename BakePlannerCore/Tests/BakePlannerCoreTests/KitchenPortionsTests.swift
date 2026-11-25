@@ -12,10 +12,19 @@ struct KitchenPortionsTests {
         #expect(KitchenPortions.factor(servings: 0, base: 4) == 1)
     }
 
+    @Test("Small counted amounts go to quarters: a quarter teaspoon halved stays a quarter, it does not double")
+    func smallCountedAmounts() {
+        #expect(KitchenPortions.scaled(0.25, unit: "TL", by: 0.5) == 0.25)
+        #expect(KitchenPortions.scaled(0.25, unit: "TL", by: 1.5) == 0.5)
+        #expect(KitchenPortions.scaled(0.5, unit: "TL", by: 0.5) == 0.25)
+        #expect(KitchenPortions.scaled(1, unit: "Prise", by: 0.5) == 0.5)
+        #expect(KitchenPortions.scaled(0.1, unit: "Stück", by: 0.5) == 0.25)
+    }
+
     @Test("Counted units go to halves, weights to a step for their size")
     func rounding() {
         #expect(KitchenPortions.scaled(1, unit: "Stück", by: 1.5) == 1.5)
-        #expect(KitchenPortions.scaled(1, unit: "", by: 0.25) == 0.5)
+        #expect(KitchenPortions.scaled(1, unit: "", by: 0.25) == 0.25)
         #expect(KitchenPortions.scaled(3, unit: "Zehen", by: 0.5) == 1.5)
         #expect(KitchenPortions.scaled(1, unit: "EL", by: 1.33) == 1.5)
         #expect(KitchenPortions.scaled(200, unit: "g", by: 1.5) == 300)

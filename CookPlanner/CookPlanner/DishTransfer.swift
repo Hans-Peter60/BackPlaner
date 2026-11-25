@@ -30,8 +30,7 @@ struct DishFileExport: Transferable {
     }
 
     func writeFile() throws -> URL {
-        let folder = URL.temporaryDirectory.appendingPathComponent("Export-" + UUID().uuidString, isDirectory: true)
-        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let folder = try TemporaryExports.folder(prefix: "Export-")
         let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: dishes))
         try KitchenDishFile(dishes: dishes).encoded().write(to: url, options: .atomic)
         return url
@@ -63,5 +62,22 @@ extension DishLibrary {
             return String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.")
         }
         return String(localized: "\(kept) Gerichte übernommen.")
+    }
+}
+
+/// Folders in tmp for files handed to the share sheet. The system empties
+/// tmp only now and then; the folders of earlier shares with the same
+/// prefix are removed before a new one is made, so they do not pile up.
+enum TemporaryExports {
+    static func folder(prefix: String) throws -> URL {
+        let tmp = URL.temporaryDirectory
+        let manager = FileManager.default
+        for old in (try? manager.contentsOfDirectory(at: tmp, includingPropertiesForKeys: nil)) ?? []
+        where old.lastPathComponent.hasPrefix(prefix) {
+            try? manager.removeItem(at: old)
+        }
+        let folder = tmp.appendingPathComponent(prefix + UUID().uuidString, isDirectory: true)
+        try manager.createDirectory(at: folder, withIntermediateDirectories: true)
+        return folder
     }
 }
