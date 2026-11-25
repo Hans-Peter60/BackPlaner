@@ -15,7 +15,7 @@ let package = Package(
         // The system document picker on Android (SwiftUI's fileImporter is not there).
         .package(url: "https://github.com/skiptools/skip-kit.git", from: "1.1.6"),
         // BakePlanner's logic and the SQLite storage, from this repository.
-        .package(path: "../BakePlannerCore"),
+        .package(path: "../../BakePlannerCore"),
         .package(path: "../BakePlannerStorage"),
         // Reading steps aloud in the bake mode (Android's TextToSpeech).
         .package(path: "../BakePlannerSpeech"),

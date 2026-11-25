@@ -8,11 +8,11 @@
         still being reviewed shows as "inProgress"/"completed" all the same —
         whether testers can already install it, only the Play Console says.
 
-    python3 scripts/bakeplanner/play-console.py upload BakePlannerAndroid/.build/export/BakePlanner-release.aab
+    python3 scripts/bakeplanner/play-console.py upload Android/BakePlannerAndroid/.build/export/BakePlanner-release.aab
         Uploads the bundle and puts it as a *draft* release on the closed
         test track "alpha" (Play's identifier for the first closed track),
         with the release notes from
-        BakePlannerAndroid/Android/fastlane/metadata/android/<locale>/changelogs/<versionCode>.txt.
+        Android/BakePlannerAndroid/Android/fastlane/metadata/android/<locale>/changelogs/<versionCode>.txt.
         In the Play Console the draft then only needs "Überprüfen" and
         "Roll-out starten".
         --track <id>     another track (see `status`; "internal", "beta",
@@ -48,7 +48,7 @@ SCOPE = "https://www.googleapis.com/auth/androidpublisher"
 KEY_FILE = pathlib.Path(os.environ.get("PLAY_SERVICE_ACCOUNT",
                                        os.path.expanduser("~/.config/bakeplanner/play-service-account.json")))
 REPO = pathlib.Path(__file__).resolve().parent.parent.parent
-METADATA = REPO / "BakePlannerAndroid/Android/fastlane/metadata/android"
+METADATA = REPO / "Android/BakePlannerAndroid/Android/fastlane/metadata/android"
 LOCALES = ["de-DE", "en-US", "fr-FR"]
 
 
