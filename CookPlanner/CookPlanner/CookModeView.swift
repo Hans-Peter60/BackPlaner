@@ -287,8 +287,8 @@ struct CookModeView: View {
 
     /// Takes the last tick back: the step is in the cook's hands again — or
     /// on its burner — and the plan is continued without it. A "pot is on"
-    /// tick taken back leaves the pot as the plan has it: begun on time,
-    /// so once its hands-on minutes have passed it runs by the clock.
+    /// tick taken back puts the pot back into the cook's hands, overdue if
+    /// its hands-on minutes have passed; it cooks again only with the tick.
     private func undoLastTick() {
         guard let tick = tickHistory.popLast() else { return }
         switch tick.kind {

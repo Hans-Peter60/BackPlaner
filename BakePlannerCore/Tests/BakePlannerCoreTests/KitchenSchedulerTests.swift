@@ -405,14 +405,16 @@ struct KitchenSchedulerTests {
             task("plate", hands: 1, after: ["stew"])
         ]
         let plan = try KitchenScheduler.schedule(tasks)
-        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 25))
+        // Put on at minute 2 as planned; at 25 it has ended by the clock.
+        let live = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 25, handsDone: ["stew": 2]))
         #expect(live.placement(of: "stew")?.end == 22)
         // The plating began at 22 as planned and is overdue, not ticked off.
         #expect(live.placement(of: "plate")?.start == 22)
         #expect(live.placement(of: "plate")?.end == 26)
         let early = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 15, finished: ["stew": 15]))
         #expect(early.placement(of: "plate")?.start == 15)
-        let plated = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 25, finished: ["plate": 24]))
+        let plated = try KitchenScheduler.replan(tasks, previous: plan,
+                                                 progress: KitchenProgress(now: 25, finished: ["plate": 24], handsDone: ["stew": 2]))
         #expect(plated.placement(of: "plate")?.end == 24)
         #expect(plated.makespan == 24)
     }
@@ -427,7 +429,7 @@ struct KitchenSchedulerTests {
         ]
         let plan = try KitchenScheduler.schedule(tasks, kitchen: Kitchen(burners: 1, ovens: 0))
         let live = try KitchenScheduler.replan(tasks, kitchen: Kitchen(burners: 1, ovens: 0), previous: plan,
-                                               progress: KitchenProgress(now: 4, finished: ["chop": 4]))
+                                               progress: KitchenProgress(now: 4, finished: ["chop": 4], handsDone: ["stew": 1]))
         #expect(live.placement(of: "fry")?.start == 20)
     }
 
@@ -513,6 +515,32 @@ struct KitchenSchedulerTests {
         let done = try KitchenScheduler.replan(tasks, previous: live,
                                                progress: KitchenProgress(now: 12, finished: ["rice": 12], handsDone: ["rice": 1]))
         #expect(done.placement(of: "rice")?.end == 12)
+    }
+
+    @Test("A pot nobody has put on is overdue, not running: its time on its own begins only with the tick")
+    func potNotPutOn() throws {
+        let tasks = [
+            task("rice", hands: 2, unattended: 15, station: .burner),
+            task("plate", hands: 1, after: ["rice"])
+        ]
+        let plan = try KitchenScheduler.schedule(tasks)
+        // Minute 5 and no tick: the hands are still on it, the rice has not begun to cook.
+        let waiting = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 5))
+        let rice = try #require(waiting.placement(of: "rice"))
+        #expect(rice.start == 0 && rice.handsEnd == 6 && rice.end == 21)
+        #expect(waiting.placement(of: "plate")?.start == 21)
+        // Put on at 5: it cooks from there, the plating follows.
+        let on = try KitchenScheduler.replan(tasks, previous: waiting, progress: KitchenProgress(now: 5, handsDone: ["rice": 5]))
+        #expect(on.placement(of: "rice")?.end == 20)
+        #expect(on.placement(of: "plate")?.start == 20)
+        // Within its hands minutes nothing is overdue yet.
+        let fresh = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 1))
+        #expect(fresh.placement(of: "rice")?.handsEnd == 2)
+        // A step without hands — resting — begins by the clock as before.
+        let resting = [task("sear", hands: 3), task("rest", hands: 0, unattended: 5, after: ["sear"]), task("plate", hands: 1, after: ["rest"])]
+        let restPlan = try KitchenScheduler.schedule(resting)
+        let rested = try KitchenScheduler.replan(resting, previous: restPlan, progress: KitchenProgress(now: 6, finished: ["sear": 3]))
+        #expect(rested.placement(of: "rest")?.end == 8)
     }
 
     @Test("A pot with a window, put on by hand, goes on past its planned end until the window closes")
@@ -609,12 +637,13 @@ struct KitchenSchedulerTests {
         ]
         let plan = try KitchenScheduler.schedule(tasks)
         #expect(plan.placement(of: "plate")?.start == 22)
-        // Minute 23, not ticked: still in the oven, the plating waits.
-        let running = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 23))
+        // In the oven at 2 as planned; minute 23, not ticked off: still in
+        // the oven, the plating waits.
+        let running = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 23, handsDone: ["skin": 2]))
         #expect(running.placement(of: "skin")?.end == 24)
         #expect(running.placement(of: "plate")?.start == 24)
         // Minute 30: the window ended at 27; the skin is done by the clock.
-        let late = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 30))
+        let late = try KitchenScheduler.replan(tasks, previous: plan, progress: KitchenProgress(now: 30, handsDone: ["skin": 2]))
         #expect(late.placement(of: "skin")?.end == 27)
         #expect(late.placement(of: "plate")?.start == 30)
         // Ticked off at 21: out early.
