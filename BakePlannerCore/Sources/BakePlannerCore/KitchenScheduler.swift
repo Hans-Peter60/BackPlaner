@@ -444,6 +444,13 @@ public enum KitchenScheduler {
                         // it is taken to need another minute, and so on.
                         let end = max(placement.start + task.handsMinutes, now + 1)
                         actual = KitchenPlacement(task: task, start: placement.start, handsEnd: end, end: end)
+                    } else if task.handsMinutes > 0 && placement.start + task.handsMinutes <= now {
+                        // A pot nobody has put on (no "hands done" tick) is
+                        // not on: its hands-on part is overdue like any
+                        // other, and its time on its own has not begun.
+                        let handsEnd = now + 1
+                        actual = KitchenPlacement(task: task, start: placement.start, handsEnd: handsEnd,
+                                                  end: handsEnd + task.unattendedMinutes)
                     } else if let window = task.unattendedWindow, placement.start + task.minutes <= now {
                         // Past its planned end without a tick, a step with a
                         // window is taken to go on, a minute at a time, until
