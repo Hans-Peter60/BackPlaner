@@ -24,6 +24,7 @@ struct RootTabView: View {
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var tab: CookTab = .dishes
     @State private var runLog = CookRunLog.shared
+    @State private var sync = CloudSync.shared
     /// A run the last launch left under way, taken up again.
     @State private var resumed: ResumedRun?
     @State private var checkedForRun = false
@@ -47,6 +48,14 @@ struct RootTabView: View {
         .onAppear(perform: resumeRunIfAny)
         .fullScreenCover(item: $resumed) { run in
             CookModeView(plan: run.plan, restoring: run.state)
+        }
+        // Another Apple ID on the device: what is here may be someone else's.
+        .alert("Anderes iCloud-Konto", isPresented: Binding(get: { sync.accountSwitchPending },
+                                                           set: { if !$0 { sync.resolveAccountSwitch(uploadLocalData: false) } })) {
+            Button("In das Konto übertragen") { sync.resolveAccountSwitch(uploadLocalData: true) }
+            Button("Nur hier behalten", role: .cancel) { sync.resolveAccountSwitch(uploadLocalData: false) }
+        } message: {
+            Text("Auf diesem Gerät ist jetzt ein anderes iCloud-Konto angemeldet. Sollen die Gerichte und Protokolle, die hier gespeichert sind, in dieses Konto übertragen werden? Was dort schon liegt, kommt in jedem Fall herunter.")
         }
         // The record file speaks up here, whichever tab is open.
         .alert("Kochhistorie", isPresented: Binding(get: { runLog.lastError != nil },

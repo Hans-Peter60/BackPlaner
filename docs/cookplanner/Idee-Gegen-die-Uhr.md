@@ -215,6 +215,15 @@ Offen aus der Durchsicht, in eigenen Schritten: Kochmodus (Zustand überlebt das
 - **Gemessene Zeiten:** Der Start eines Handschritts richtet sich nach dem letzten Zeitpunkt, an dem die Hände frei wurden (letzter Haken eines reinen Handschritts oder letzte Flamme), nicht mehr nach Topf-Haken.
 - Live-Aktivität: `finishDate` aus Uhrstart + Plan, nicht aus `now`, damit ein Refresh ohne Änderung kein Update schickt.
 
+### Robustheit 3: Sync (25.11.)
+
+- **„Später gewinnt“ gilt auch nach einem Neustart:** `localEdits` (Zeitpunkt jeder lokalen Änderung) liegt jetzt mit `deferredSaves` und `unreadable` in `sync-extras.json`. Vorher war die Liste nur im Speicher; offline bearbeitet, App beendet, online gestartet → die ältere Serverfassung hätte gewonnen.
+- **Abgewiesene Saves gehen nicht verloren:** `quotaExceeded`, `limitExceeded`, `assetFileNotFound`, `assetFileModified`, `serverRejectedRequest`, `batchRequestFailed` wirft CKSyncEngine aus der Warteschlange; sie werden gemerkt und beim Start und bei jedem `fetchNow()` (App kommt nach vorn) erneut eingereiht.
+- **Unlesbares wird nicht überschrieben:** Ein Datensatz eines neueren Dateiformats wird erst nach erfolgreichem Decodieren „gemerkt“ (Change-Tag); unlesbare Namen stehen in `unreadable`, und `record(for:)` liefert für sie nil – dieses Gerät schreibt sie nie zurück, bis es sie lesen kann.
+- **Kontowechsel fragt:** Statt die lokalen Daten (auch die vom vorigen Konto heruntergeladenen) still ins neue Apple-Konto zu laden, setzt `switchAccounts` `accountSwitchPending`; `RootTabView` fragt „In das Konto übertragen“ / „Nur hier behalten“. Herunter kommt in jedem Fall, was im neuen Konto liegt.
+- **Stapelweise anwenden:** Ein Fetch mit vielen Datensätzen schreibt `cook-runs.json` einmal und lädt die Datenbank einmal (`DishLibrary.applyRemote([KitchenDish])`, `CookRunLog.applyRemote([(run, photo)])`), nicht je Datensatz.
+- Bewusst so gelassen: Löschung auf einem Gerät gewinnt gegen eine spätere Offline-Bearbeitung auf dem anderen; gelöschte iCloud-Daten (Zone weg) werden vom Gerät wieder hochgeladen.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).

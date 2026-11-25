@@ -73,18 +73,28 @@ final class CookRunLog {
     /// A record another device added or changed, with its photo file as
     /// CloudKit handed it over; kept without being sent back.
     func applyRemote(_ run: KitchenCookRun, photoFile: URL?) {
-        let previous = self.run(id: run.id)
-        if let old = previous?.photoFileName, old != run.photoFileName { removePhotoFile(old) }
-        if let name = run.photoFileName, let photoFile {
-            try? FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
-            let target = photoFolder.appendingPathComponent(name)
-            try? FileManager.default.removeItem(at: target)
-            try? FileManager.default.copyItem(at: photoFile, to: target)
-            thumbnails[name] = nil
+        applyRemote([(run, photoFile)])
+    }
+
+    /// Records another device changed, in one go: the file is written once.
+    func applyRemote(_ incoming: [(run: KitchenCookRun, photoFile: URL?)]) {
+        var changed = false
+        for (run, photoFile) in incoming {
+            let previous = self.run(id: run.id)
+            if let old = previous?.photoFileName, old != run.photoFileName { removePhotoFile(old) }
+            if let name = run.photoFileName, let photoFile {
+                try? FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+                let target = photoFolder.appendingPathComponent(name)
+                try? FileManager.default.removeItem(at: target)
+                try? FileManager.default.copyItem(at: photoFile, to: target)
+                thumbnails[name] = nil
+            }
+            guard previous != run else { continue }
+            runs.removeAll { $0.id == run.id }
+            runs.append(run)
+            changed = true
         }
-        guard previous != run else { return }
-        runs.removeAll { $0.id == run.id }
-        runs.append(run)
+        guard changed else { return }
         runs.sort { $0.startedAt > $1.startedAt }
         save()
     }
