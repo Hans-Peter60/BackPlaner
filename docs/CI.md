@@ -77,7 +77,7 @@ Ein Xcode-Cloud-Produkt für BackPlaner ist bereits angelegt (`BackPlaner.xcodep
 Xcode Cloud überspringt jeden Commit, dessen Nachricht `[ci skip]` enthält. Seit dem 25.11.2026 gilt deshalb:
 
 - Jeder **Merge-Commit auf `main`** trägt `[ci skip]` – der PR-Lauf hat denselben Stand gerade geprüft. Hat sich `main` zwischen PR-Lauf und Merge durch einen anderen PR bewegt, vor dem nächsten TestFlight-Build einmal den Workflow von Hand auf `main` starten.
-- PRs, die die BakePlanner-App nicht berühren (nur `CookPlanner/`, `docs/`, `scripts/`, `functions/`, `firebase/`), bekommen `[ci skip]` im letzten Commit des Branches; die drei GitHub-Prüfungen laufen trotzdem.
+- In Branch-Commits eines Pull Requests **kein** `[ci skip]`: GitHub Actions kennt dasselbe Schlüsselwort und ließe dann auch die drei Repository-Prüfungen aus (gesehen am 25.11.2026, PR #229 hatte null Checks). Dass PRs ohne App-Änderung keinen Xcode-Cloud-Lauf auslösen, regelt allein der Dateifilter im Workflow (oben).
 
 Optional, aber empfehlenswert: Auf GitHub unter **Settings → Branches → Add branch ruleset** für `main` festlegen, dass die Prüfungen grün sein müssen, bevor gemergt werden kann (**„Require status checks to pass“**: die drei Jobs von „Checks“ und die Xcode-Cloud-Prüfung).
 
