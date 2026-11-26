@@ -60,6 +60,9 @@ struct CookPlannerApp: App {
         // Budget, kitchen, clock mode and the saved collections follow the
         // cook to the other devices.
         SettingsSync.shared.start()
+        // The Pro purchase and its switches; nothing is locked until the
+        // switch in Firestore says so.
+        CookPro.shared.start()
     }
 
     var body: some Scene {
@@ -101,6 +104,10 @@ struct CookPlannerApp: App {
                             }
                         }
                     }
+            } else if UserDefaults.standard.bool(forKey: "CookProPaywall") {
+                // -CookProPaywall 1: the Pro sheet on its own, for checking it
+                // and for the review screenshot of the purchase.
+                CookProPaywallView(highlighted: .menu)
             } else if UserDefaults.standard.bool(forKey: "MenuSample") {
                 // -MenuSample 1: the plan of a two-course menu from the
                 // examples (stuffed cabbage, then guinea fowl), for screenshots.
@@ -169,7 +176,11 @@ struct CookPlannerApp: App {
             #endif
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { Task { await CloudSync.shared.fetchNow() } }
+            if phase == .active {
+                Task { await CloudSync.shared.fetchNow() }
+                // A switch turned in the console reaches a running app.
+                Task { await CookProConfigStore.shared.refresh() }
+            }
         }
         .commands { CookPlannerCommands() }
     }

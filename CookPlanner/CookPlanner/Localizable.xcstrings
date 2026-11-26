@@ -2202,6 +2202,28 @@
         }
       }
     },
+    "Datenschutzerklärung" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzerklärung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
+          }
+        }
+      }
+    },
     "Datum und Titel kommen aus den Fotos. Steht der Name eines Gerichts im Titel, ist es schon gewählt; sonst wählst Du es je Foto. Ohne Gericht bleibt ein Foto draußen." : {
       "localizations" : {
         "de" : {
@@ -2268,6 +2290,50 @@
         }
       }
     },
+    "Dein Kochjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsgerichte und was die Uhr Dich gelehrt hat." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Kochjahr als PDF-Buch: die Zahlen des Jahres, jeder Monat mit seinen Fotos, die Lieblingsgerichte und was die Uhr Dich gelehrt hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your year of cooking as a PDF book: the year in figures, every month with its photos, the favourite dishes and what the clock taught you."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre année en cuisine en livre PDF : l’année en chiffres, chaque mois avec ses photos, les plats préférés et ce que l’horloge vous a appris."
+          }
+        }
+      }
+    },
+    "Den Plan mit Uhrzeiten zum Drucken oder Verschicken, für die Küche an der Wand." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den Plan mit Uhrzeiten zum Drucken oder Verschicken, für die Küche an der Wand."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan with clock times to print or send, for the kitchen wall."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan avec les heures, à imprimer ou à envoyer, pour le mur de la cuisine."
+          }
+        }
+      }
+    },
     "Der Analyse-Dienst hat die Anfrage nicht zugelassen. Bitte die App aktualisieren oder später noch einmal versuchen." : {
       "localizations" : {
         "de" : {
@@ -2286,6 +2352,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le service d’analyse n’a pas accepté la demande. Mettez l’app à jour ou réessayez plus tard."
+          }
+        }
+      }
+    },
+    "Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto. Alles, was Du zum Planen und Kochen gegen die Uhr brauchst, bleibt kostenlos: Gerichte, Plan, Kochmodus mit Wecker, Einkaufsliste, Verlauf und iCloud-Abgleich." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto. Alles, was Du zum Planen und Kochen gegen die Uhr brauchst, bleibt kostenlos: Gerichte, Plan, Kochmodus mit Wecker, Einkaufsliste, Verlauf und iCloud-Abgleich."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase applies on every device with your Apple Account. Everything you need to plan and cook against the clock stays free: dishes, plan, cook mode with alarms, shopping list, history and iCloud sync."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat vaut sur tous les appareils de votre compte Apple. Tout ce qu’il faut pour planifier et cuisiner contre la montre reste gratuit : plats, plan, mode cuisine avec alarmes, liste de courses, historique et synchronisation iCloud."
+          }
+        }
+      }
+    },
+    "Der Kauf ist im Moment nicht möglich. Bitte versuche es später noch einmal." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kauf ist im Moment nicht möglich. Bitte versuche es später noch einmal."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase is not possible right now. Please try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat n’est pas possible pour le moment. Veuillez réessayer plus tard."
+          }
+        }
+      }
+    },
+    "Der Kauf konnte nicht bestätigt werden." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kauf konnte nicht bestätigt werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase could not be confirmed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat n’a pas pu être confirmé."
+          }
+        }
+      }
+    },
+    "Der Kochmodus liest jeden Schritt samt Zutaten vor und hört auf „Erledigt“, „Steht“, „Was kommt“ oder „Wie lange“ – ohne das Display mit nassen Händen anzufassen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Kochmodus liest jeden Schritt samt Zutaten vor und hört auf „Erledigt“, „Steht“, „Was kommt“ oder „Wie lange“ – ohne das Display mit nassen Händen anzufassen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cook mode reads every step aloud with its ingredients and listens for “Done”, “It’s on”, “What’s next” or “How long” – without touching the screen with wet hands."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode cuisine lit chaque étape à voix haute avec ses ingrédients et répond à « C’est fait », « C’est parti », « Et après » ou « Combien de temps » – sans toucher l’écran les mains mouillées."
           }
         }
       }
@@ -2616,6 +2770,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le travail manuel seul prend %lld minutes. Une seule personne ne suffit pas : supprimez ou simplifiez des étapes."
+          }
+        }
+      }
+    },
+    "Die Kochhistorie als Zahlen und Diagramm: wie oft, was am meisten, wie bewertet." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kochhistorie als Zahlen und Diagramm: wie oft, was am meisten, wie bewertet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cooking history as figures and a chart: how often, what most, how rated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique en chiffres et en graphique : combien de fois, quoi le plus, quelle note."
           }
         }
       }
@@ -3038,6 +3214,28 @@
         }
       }
     },
+    "Die mit der Stoppuhr gemessenen Zeiten früherer Durchgänge ins Gericht übernehmen, damit der nächste Plan noch genauer wird." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die mit der Stoppuhr gemessenen Zeiten früherer Durchgänge ins Gericht übernehmen, damit der nächste Plan noch genauer wird."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take the stopwatch times of earlier runs into the dish, so the next plan is even closer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre dans le plat les durées chronométrées des passages précédents, pour que le prochain plan soit encore plus juste."
+          }
+        }
+      }
+    },
     "Die Öfen sind vorgeheizt, wenn die Uhr startet." : {
       "localizations" : {
         "de" : {
@@ -3104,6 +3302,28 @@
         }
       }
     },
+    "Eigene Filter-Kombinationen als Chip sichern und mit einem Tipp wieder aufrufen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eigene Filter-Kombinationen als Chip sichern und mit einem Tipp wieder aufrufen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your own filter combinations as a chip and call them up again with one tap."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer vos propres combinaisons de filtres en pastille et les rappeler d’un geste."
+          }
+        }
+      }
+    },
     "Eigene Gerichte sichern" : {
       "localizations" : {
         "de" : {
@@ -3126,24 +3346,46 @@
         }
       }
     },
-    "Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab. Die Einstellungen bleiben je Gerät." : {
+    "Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab, ebenso die Einstellungen, Portionen und Sammlungen." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab. Die Einstellungen bleiben je Gerät."
+            "value" : "Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab, ebenso die Einstellungen, Portionen und Sammlungen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your own dishes, cooking records and photos sync through iCloud between all devices with the same Apple ID. The settings stay per device."
+            "value" : "Your own dishes, cooking records and photos sync through iCloud between all devices with the same Apple ID, and so do the settings, portions and collections."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vos plats, relevés de cuisson et photos se synchronisent via iCloud entre tous les appareils avec le même identifiant Apple. Les réglages restent propres à chaque appareil."
+            "value" : "Vos plats, comptes rendus et photos se synchronisent via iCloud entre tous les appareils du même identifiant Apple, de même que les réglages, les portions et les collections."
+          }
+        }
+      }
+    },
+    "Eigene Sammlungen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eigene Sammlungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your own collections"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos propres collections"
           }
         }
       }
@@ -3346,6 +3588,28 @@
         }
       }
     },
+    "Einmal kaufen, dauerhaft nutzen. Kein Abo." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einmal kaufen, dauerhaft nutzen. Kein Abo."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy once, use for good. No subscription."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un seul achat, pour toujours. Sans abonnement."
+          }
+        }
+      }
+    },
     "Einstellungen" : {
       "localizations" : {
         "de" : {
@@ -3386,6 +3650,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer"
+          }
+        }
+      }
+    },
+    "Enthalten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enthalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Included"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclus"
           }
         }
       }
@@ -3918,6 +4204,28 @@
         }
       }
     },
+    "Freigeschaltet" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freigeschaltet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlocked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloqué"
+          }
+        }
+      }
+    },
     "Für %lld Personen" : {
       "localizations" : {
         "de" : {
@@ -3958,6 +4266,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pour la liste de courses ; dans une étape, vous choisissez ce qui y est pris en main."
+          }
+        }
+      }
+    },
+    "Für dieses Apple-Konto wurde kein Kauf gefunden." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für dieses Apple-Konto wurde kein Kauf gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No purchase was found for this Apple Account."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun achat n’a été trouvé pour ce compte Apple."
           }
         }
       }
@@ -4068,6 +4398,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Par rapport au plan"
+          }
+        }
+      }
+    },
+    "Gehört zu CookPlanner Pro" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gehört zu CookPlanner Pro"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Part of CookPlanner Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait partie de CookPlanner Pro"
+          }
+        }
+      }
+    },
+    "Gehört zu CookPlanner Pro." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gehört zu CookPlanner Pro."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Part of CookPlanner Pro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait partie de CookPlanner Pro."
           }
         }
       }
@@ -4222,6 +4596,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reprendre les temps mesurés pour %lld étapes"
+          }
+        }
+      }
+    },
+    "Gemessene Zeiten übernehmen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemessene Zeiten übernehmen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take over measured times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre les durées mesurées"
           }
         }
       }
@@ -5326,6 +5722,28 @@
         }
       }
     },
+    "Kauf nicht möglich" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kauf nicht möglich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase not possible"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achat impossible"
+          }
+        }
+      }
+    },
     "Kein Plan" : {
       "localizations" : {
         "de" : {
@@ -5634,6 +6052,28 @@
         }
       }
     },
+    "Kochstatistik" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochstatistik"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking statistics"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiques de cuisine"
+          }
+        }
+      }
+    },
     "Kochtage" : {
       "localizations" : {
         "de" : {
@@ -5718,6 +6158,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Composants"
+          }
+        }
+      }
+    },
+    "Käufe wiederherstellen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käufe wiederherstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore purchases"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer les achats"
           }
         }
       }
@@ -5964,6 +6426,50 @@
         }
       }
     },
+    "Mehr Rezeptanalysen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr Rezeptanalysen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More recipe analyses"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus d’analyses de recettes"
+          }
+        }
+      }
+    },
+    "Mehr erfahren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mehr erfahren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn more"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En savoir plus"
+          }
+        }
+      }
+    },
     "Mein Kochjahr" : {
       "localizations" : {
         "de" : {
@@ -6118,6 +6624,28 @@
         }
       }
     },
+    "Menü aus mehreren Gängen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü aus mehreren Gängen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu of several courses"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu en plusieurs plats"
+          }
+        }
+      }
+    },
     "Menü zusammenstellen" : {
       "localizations" : {
         "de" : {
@@ -6136,6 +6664,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Composer un menu"
+          }
+        }
+      }
+    },
+    "Menü, Vorlesen und Sprachbefehle, Kochjahr-Buch, Statistik und mehr – einmal kaufen, kein Abo." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü, Vorlesen und Sprachbefehle, Kochjahr-Buch, Statistik und mehr – einmal kaufen, kein Abo."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menus, read aloud and voice commands, cooking yearbook, statistics and more – buy once, no subscription."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menus, lecture à voix haute et commandes vocales, livre de l’année, statistiques et plus – un seul achat, sans abonnement."
           }
         }
       }
@@ -7086,6 +7636,28 @@
         }
       }
     },
+    "Ohne Pro gibt es eine feste Zahl Analysen über die Cloud im Monat, mit Pro keine Monatsgrenze." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Pro gibt es eine feste Zahl Analysen über die Cloud im Monat, mit Pro keine Monatsgrenze."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without Pro there is a fixed number of cloud analyses a month; with Pro there is no monthly limit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans Pro, le nombre d’analyses dans le cloud est limité chaque mois ; avec Pro, il n’y a pas de limite mensuelle."
+          }
+        }
+      }
+    },
     "Ohne Startzeit zählen die Zeiten ab Minute 0." : {
       "localizations" : {
         "de" : {
@@ -7372,6 +7944,28 @@
         }
       }
     },
+    "Plan als PDF" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan als PDF"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan as PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan en PDF"
+          }
+        }
+      }
+    },
     "Platte" : {
       "localizations" : {
         "de" : {
@@ -7434,6 +8028,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Portions non indiquées"
+          }
+        }
+      }
+    },
+    "Preis nicht verfügbar" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preis nicht verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Price not available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prix indisponible"
+          }
+        }
+      }
+    },
+    "Pro freischalten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro freischalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer Pro"
+          }
+        }
+      }
+    },
+    "Pro ist freigeschaltet" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro ist freigeschaltet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro is unlocked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro est débloqué"
           }
         }
       }
@@ -7720,6 +8380,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renommer la collection"
+          }
+        }
+      }
+    },
+    "Schließen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
           }
         }
       }
@@ -8561,6 +9243,28 @@
         }
       }
     },
+    "Vorlesen und Sprachbefehle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorlesen und Sprachbefehle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read aloud and voice commands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture à voix haute et commandes vocales"
+          }
+        }
+      }
+    },
     "Vorspeise" : {
       "localizations" : {
         "de" : {
@@ -8579,6 +9283,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrée"
+          }
+        }
+      }
+    },
+    "Vorspeise, Hauptgang und Dessert aus Deinen Gerichten als ein Plan: Der Hauptgang wird gekocht, während die Gäste die Vorspeise essen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorspeise, Hauptgang und Dessert aus Deinen Gerichten als ein Plan: Der Hauptgang wird gekocht, während die Gäste die Vorspeise essen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter, main and dessert from your dishes as one plan: the main is cooked while the guests eat the starter."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrée, plat et dessert à partir de vos plats en un seul plan : le plat principal cuit pendant que les invités mangent l’entrée."
           }
         }
       }

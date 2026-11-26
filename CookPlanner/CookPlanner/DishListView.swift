@@ -37,6 +37,8 @@ struct DishListView: View {
     @State private var importingPhotos = false
     @State private var importingWeb = false
     @State private var composingMenu = false
+    /// The Pro feature whose paywall is showing.
+    @State private var proOffer: CookProOffer?
     @State private var requests = AppRequests.shared
     @FocusState private var searchFocused: Bool
     /// A page address handed in by the share extension or a link to the app.
@@ -188,7 +190,7 @@ struct DishListView: View {
                         }
                         Divider()
                         Button {
-                            composingMenu = true
+                            withCookPro(.menu, offer: $proOffer) { composingMenu = true }
                         } label: {
                             Label("Menü zusammenstellen", systemImage: "list.number")
                         }
@@ -329,6 +331,7 @@ struct DishListView: View {
             }
             // ⌘N, ⇧⌘N, ⌘, and ⇧⌘F from the keyboard.
             .onChange(of: requests.command) { _, command in handle(command) }
+            .cookProPaywall($proOffer)
             .sheet(isPresented: $composingMenu) {
                 MenuComposerView { menu in
                     if library.save(menu) { path = [menu.id] }
@@ -347,7 +350,7 @@ struct DishListView: View {
         guard let command else { return }
         switch command {
         case .newDish: editing = KitchenDish(name: "", createdAt: .now, tasks: [])
-        case .newMenu: composingMenu = true
+        case .newMenu: withCookPro(.menu, offer: $proOffer) { composingMenu = true }
         case .settings: showsSettings = true
         case .focusSearch: searchFocused = true
         case .startCooking: return
@@ -415,8 +418,10 @@ struct DishListView: View {
             Button("Filter zurücksetzen", systemImage: "xmark.circle") { filter = KitchenDishFilter() }
             if savedCollections.collection(matching: filter) == nil {
                 Button("Sammlung sichern", systemImage: "bookmark") {
-                    collectionName = ""
-                    namingCollection = true
+                    withCookPro(.collections, offer: $proOffer) {
+                        collectionName = ""
+                        namingCollection = true
+                    }
                 }
             }
             Divider()
@@ -586,6 +591,8 @@ struct KitchenSettingsView: View {
     @State private var choosingFile = false
     @State private var importReport: String?
     @State private var sync = CloudSync.shared
+    @State private var pro = CookPro.shared
+    @State private var showingPro = false
 
     private var syncStatusText: String {
         switch sync.status {
@@ -606,6 +613,26 @@ struct KitchenSettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if pro.storeVisible {
+                    Section {
+                        Button {
+                            showingPro = true
+                        } label: {
+                            HStack {
+                                Label {
+                                    Text(verbatim: "CookPlanner Pro")
+                                } icon: {
+                                    Image(systemName: pro.hasPurchased ? "checkmark.seal.fill" : "seal")
+                                }
+                                Spacer()
+                                Text(pro.hasPurchased ? "Freigeschaltet" : "Mehr erfahren")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    } footer: {
+                        Text("Menü, Vorlesen und Sprachbefehle, Kochjahr-Buch, Statistik und mehr – einmal kaufen, kein Abo.")
+                    }
+                }
                 Section("Zeitbudget") {
                     Stepper(value: $budget, in: 10...180, step: 5) {
                         Text("\(budget) Minuten")
@@ -651,7 +678,7 @@ struct KitchenSettingsView: View {
                 } header: {
                     Text("Abgleich")
                 } footer: {
-                    Text("Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab. Die Einstellungen bleiben je Gerät.")
+                    Text("Eigene Gerichte, Kochprotokolle und Fotos gleichen sich über iCloud zwischen allen Geräten mit derselben Apple-ID ab, ebenso die Einstellungen, Portionen und Sammlungen.")
                 }
                 Section {
                     Toggle("Wecker für Topf und Ofen", isOn: $alarms)
@@ -669,6 +696,9 @@ struct KitchenSettingsView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(importReport ?? "")
+            }
+            .sheet(isPresented: $showingPro) {
+                CookProPaywallView()
             }
             .navigationTitle("Einstellungen")
             .navigationBarTitleDisplayMode(.inline)

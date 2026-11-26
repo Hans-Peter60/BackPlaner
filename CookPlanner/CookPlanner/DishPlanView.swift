@@ -18,6 +18,8 @@ struct DishPlanView: View {
     @AppStorage(CookSettings.ovensKey) private var ovens = CookSettings.defaultOvens
     @State private var dish: KitchenDish
     @State private var cooking = false
+    /// The Pro feature whose paywall is showing.
+    @State private var proOffer: CookProOffer?
     @State private var editing = false
     @State private var shopping = false
     @State private var printing = false
@@ -130,7 +132,7 @@ struct DishPlanView: View {
                 if plan != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            printing = true
+                            withCookPro(.planPDF, offer: $proOffer) { printing = true }
                         } label: {
                             Image(systemName: "printer")
                         }
@@ -154,6 +156,7 @@ struct DishPlanView: View {
         .sheet(isPresented: $shopping) {
             ShoppingListView(dish: cookedDish)
         }
+        .cookProPaywall($proOffer)
         .sheet(isPresented: $printing) {
             if let plan {
                 PlanPDFSheet(plan: plan)
@@ -226,10 +229,13 @@ struct DishPlanView: View {
             // What the records say the steps really take.
             if !learnedSuggestions.isEmpty {
                 Button {
-                    showingLearned = true
+                    withCookPro(.learnedTimes, offer: $proOffer) { showingLearned = true }
                 } label: {
-                    Label("Gemessene Zeiten für \(learnedSuggestions.count) Schritte übernehmen", systemImage: "wand.and.stars")
-                        .font(Theme.bodyFont(14).weight(.semibold))
+                    HStack(spacing: 6) {
+                        Label("Gemessene Zeiten für \(learnedSuggestions.count) Schritte übernehmen", systemImage: "wand.and.stars")
+                            .font(Theme.bodyFont(14).weight(.semibold))
+                        if !CookPro.shared.isUnlocked(.learnedTimes) { CookProBadge() }
+                    }
                 }
                 .buttonStyle(.bordered)
                 .tint(Theme.accentText)

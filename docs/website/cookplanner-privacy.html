@@ -95,8 +95,9 @@
   <p>CookPlanner braucht kein Benutzerkonto. Deine Gerichte, Kochprotokolle und Fotos liegen auf deinem Gerät und in
   deiner eigenen iCloud; ich habe darauf keinen Zugriff. Die App verfolgt dich nicht, zeigt keine Werbung und enthält
   keine Analyse- oder Absturzberichts-Bausteine. Es findet kein Tracking im Sinne des
-  App-Tracking-Transparency-Rahmens statt. Daten verlassen dein Gerät nur, wenn du einen Rezepttext ausdrücklich
-  analysieren lässt.</p>
+  App-Tracking-Transparency-Rahmens statt. An mich oder an Dienstleister gehen Daten nur, wenn du einen Rezepttext
+  ausdrücklich analysieren lässt; dazu kommt beim Start eine anonyme Anmeldung, mit der die App ihre Einstellungen
+  für CookPlanner Pro liest (siehe unten).</p>
 
   <h3>Welche Daten wohin gehen</h3>
   <table>
@@ -116,6 +117,9 @@
     <tr><td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis (Apple App Attest), Anfragezeit und Anfragezahl</td>
         <td>Google Firebase (Firestore)</td>
         <td>Absicherung der Analyse und Begrenzung auf höchstens 20 Analysen pro Stunde.</td></tr>
+    <tr><td>Abruf der Einstellungen für CookPlanner Pro (ob der Kauf angeboten wird und was er freischaltet)</td>
+        <td>Google Firebase (Firestore), mit der pseudonymen Kennung und dem App-Check-Nachweis</td>
+        <td>Beim Start und beim Zurückkehren in die App. Firestore speichert dabei nichts über dich.</td></tr>
     <tr><td>Einstellungen (Zeitbudget, Küche, Uhr-Modus, Vorlesen), Portionswahl, Sammlungen</td>
         <td>Auf dem Gerät und im iCloud-Schlüsselwertspeicher deiner Apple-ID</td>
         <td>Gleiche Einstellungen auf deinen eigenen Geräten. Ich habe darauf keinen Zugriff.</td></tr>
@@ -135,9 +139,14 @@
   </table>
 
   <h3>Anonyme Kennung</h3>
-  <p>Für die Analyse meldet sich die App anonym bei Firebase an und erhält eine zufällige Kennung. Sie enthält keinen
-  Namen, keine E-Mail-Adresse und keine Gerätenummer und dient nur der Absicherung der Anfrage und der
-  Nutzungsbegrenzung.</p>
+  <p>Beim ersten Start meldet sich die App anonym bei Firebase an und erhält eine zufällige Kennung. Sie enthält
+  keinen Namen, keine E-Mail-Adresse und keine Gerätenummer und dient nur dem Lesen der Pro-Einstellungen, der
+  Absicherung der Analyse und der Nutzungsbegrenzung.</p>
+
+  <h3>In-App-Kauf „CookPlanner Pro“</h3>
+  <p>Der Kauf läuft vollständig über den Apple App Store; Vertragspartner ist Apple. CookPlanner erhält weder deinen
+  Namen noch Zahlungsdaten, sondern nur eine von Apple signierte Transaktion mit der Produktkennung und dem Kaufdatum,
+  die auf deinem Gerät geprüft wird.</p>
 
   <h3>Analyse von Rezepttexten</h3>
   <p>Der Text, den du analysieren lässt, wird verschlüsselt an die Cloud Function und von dort an Google Vertex AI
@@ -182,8 +191,9 @@
   <h3>Principle</h3>
   <p>CookPlanner needs no user account. Your dishes, cooking records and photos stay on your device and in your own
   iCloud; I have no access to them. The app does not track you, shows no ads and contains no analytics or crash
-  reporting components. There is no tracking in the sense of App Tracking Transparency. Data leaves your device only
-  when you explicitly have a recipe text analysed.</p>
+  reporting components. There is no tracking in the sense of App Tracking Transparency. Data goes to me or to service
+  providers only when you explicitly have a recipe text analysed; in addition the app signs in anonymously at launch
+  to read its settings for CookPlanner Pro (see below).</p>
 
   <h3>Which data goes where</h3>
   <table>
@@ -203,6 +213,9 @@
     <tr><td>Pseudonymous Firebase user ID, App Check token (Apple App Attest), request time and count</td>
         <td>Google Firebase (Firestore)</td>
         <td>Protecting the analysis and limiting it to 20 analyses per hour.</td></tr>
+    <tr><td>Reading the settings for CookPlanner Pro (whether the purchase is offered and what it unlocks)</td>
+        <td>Google Firebase (Firestore), with the pseudonymous ID and the App Check token</td>
+        <td>At launch and when you return to the app. Firestore stores nothing about you in doing so.</td></tr>
     <tr><td>Settings (time budget, kitchen, clock mode, read aloud), portion choice, collections</td>
         <td>On the device and in the iCloud key-value store of your Apple ID</td>
         <td>The same settings on your own devices. I have no access to them.</td></tr>
@@ -222,8 +235,14 @@
   </table>
 
   <h3>Anonymous ID</h3>
-  <p>For the analysis the app signs in anonymously with Firebase and receives a random ID. It contains no name, no
-  e-mail address and no device number and serves only to protect the request and to limit use.</p>
+  <p>On first launch the app signs in anonymously with Firebase and receives a random ID. It contains no name, no
+  e-mail address and no device number and serves only to read the Pro settings, to protect the analysis and to
+  limit use.</p>
+
+  <h3>In-app purchase "CookPlanner Pro"</h3>
+  <p>The purchase runs entirely through Apple's App Store; your contract partner is Apple. CookPlanner receives
+  neither your name nor payment details, only a transaction signed by Apple with the product ID and the purchase
+  date, which is checked on your device.</p>
 
   <h3>Analysis of recipe texts</h3>
   <p>The text you have analysed is sent encrypted to the Cloud Function and from there to Google Vertex AI, where it
@@ -267,7 +286,8 @@
   <p>CookPlanner n’a besoin d’aucun compte. Vos plats, relevés de cuisson et photos restent sur votre appareil et dans
   votre propre iCloud ; je n’y ai pas accès. L’app ne vous suit pas, n’affiche pas de publicité et ne contient aucun
   module d’analyse ou de rapport de plantage. Il n’y a pas de suivi au sens d’App Tracking Transparency. Des données ne
-  quittent votre appareil que si vous faites analyser expressément un texte de recette.</p>
+  vont vers moi ou vers des prestataires que si vous faites analyser expressément un texte de recette ; en outre,
+  l’app se connecte anonymement au démarrage pour lire ses réglages de CookPlanner Pro (voir plus bas).</p>
 
   <h3>Quelles données vont où</h3>
   <table>
@@ -287,6 +307,9 @@
     <tr><td>Identifiant Firebase pseudonyme, jeton App Check (Apple App Attest), heure et nombre des requêtes</td>
         <td>Google Firebase (Firestore)</td>
         <td>Protection de l’analyse et limite de 20 analyses par heure.</td></tr>
+    <tr><td>Lecture des réglages de CookPlanner Pro (si l’achat est proposé et ce qu’il débloque)</td>
+        <td>Google Firebase (Firestore), avec l’identifiant pseudonyme et le jeton App Check</td>
+        <td>Au démarrage et au retour dans l’app. Firestore n’enregistre rien sur vous à cette occasion.</td></tr>
     <tr><td>Réglages (temps imparti, cuisine, mode d’horloge, lecture à voix haute), portions, collections</td>
         <td>Sur l’appareil et dans le stockage clé-valeur iCloud de votre identifiant Apple</td>
         <td>Les mêmes réglages sur vos propres appareils. Je n’y ai pas accès.</td></tr>
@@ -306,8 +329,14 @@
   </table>
 
   <h3>Identifiant anonyme</h3>
-  <p>Pour l’analyse, l’app se connecte anonymement à Firebase et reçoit un identifiant aléatoire. Il ne contient ni
-  nom, ni adresse e-mail, ni numéro d’appareil et sert uniquement à protéger la requête et à limiter l’usage.</p>
+  <p>Au premier démarrage, l’app se connecte anonymement à Firebase et reçoit un identifiant aléatoire. Il ne
+  contient ni nom, ni adresse e-mail, ni numéro d’appareil et sert uniquement à lire les réglages Pro, à protéger
+  l’analyse et à limiter l’usage.</p>
+
+  <h3>Achat intégré « CookPlanner Pro »</h3>
+  <p>L’achat passe entièrement par l’App Store d’Apple ; votre cocontractant est Apple. CookPlanner ne reçoit ni
+  votre nom ni vos données de paiement, seulement une transaction signée par Apple avec l’identifiant du produit et
+  la date d’achat, vérifiée sur votre appareil.</p>
 
   <h3>Analyse des textes de recettes</h3>
   <p>Le texte que vous faites analyser est transmis chiffré à la Cloud Function puis à Google Vertex AI, où il est

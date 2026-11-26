@@ -90,6 +90,12 @@ struct CookModeView: View {
     /// Reads each step that comes into the hands and each pot that is done
     /// aloud on its own, for the cook whose eyes are on the pan.
     @AppStorage(CookSettings.readAloudKey) private var readAloud = false
+    /// The Pro feature whose paywall is showing.
+    @State private var proOffer: CookProOffer?
+    /// Read aloud and voice commands belong to CookPlanner Pro; the stored
+    /// switch (which follows the cook through iCloud) only speaks with it.
+    private var handsFreeUnlocked: Bool { CookPro.shared.isUnlocked(.handsFree) }
+    private var readsAloud: Bool { readAloud && handsFreeUnlocked }
     @State private var speaker = StepSpeaker()
     /// Listens for "Erledigt", "Steht", "Vorlesen" and the rest.
     @State private var voice = CookVoiceListener()
@@ -605,13 +611,13 @@ struct CookModeView: View {
         // Read aloud what is new: a step come into the hands, a pot that is
         // done. Once each; the first step at the start, too.
         .onChange(of: handsNow.map(\.id), initial: true) { _, ids in
-            guard readAloud, startedAt != nil, let first = ids.first, !announcedSteps.contains(first),
+            guard readsAloud, startedAt != nil, let first = ids.first, !announcedSteps.contains(first),
                   let placement = handsNow.first(where: { $0.id == first }) else { return }
             announcedSteps.insert(first)
             speaker.speak(narrator.stepSentence(placement))
         }
         .onChange(of: endedPots.map(\.id)) { _, ids in
-            guard readAloud, startedAt != nil else { return }
+            guard readsAloud, startedAt != nil else { return }
             let fresh = ids.filter { !announcedEnds.contains($0) }
             guard !fresh.isEmpty else { return }
             announcedEnds.formUnion(fresh)
@@ -619,7 +625,7 @@ struct CookModeView: View {
             speaker.speak(names.map { String(format: spoken("%@: die Zeit ist um."), $0) }.joined(separator: " "))
         }
         .onChange(of: doneCount == placements.count && startedAt != nil) { _, done in
-            if done, readAloud { speaker.speak(spoken("Fertig, anrichten!")) }
+            if done, readsAloud { speaker.speak(spoken("Fertig, anrichten!")) }
         }
     }
 
@@ -630,32 +636,47 @@ struct CookModeView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 10) {
                 Button {
-                    readAloud.toggle()
-                    if !readAloud { speaker.stop() }
+                    withCookPro(.handsFree, offer: $proOffer) {
+                        readAloud.toggle()
+                        if !readAloud { speaker.stop() }
+                    }
                 } label: {
-                    Label("Vorlesen", systemImage: readAloud ? "speaker.wave.2.fill" : "speaker.slash")
-                        .font(Theme.bodyFont(15).weight(.semibold))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
+                    Label("Vorlesen", systemImage: readsAloud ? "speaker.wave.2.fill" : "speaker.slash")
+                    .font(Theme.bodyFont(15).weight(.semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
                 }
                 .buttonStyle(.bordered)
-                .tint(readAloud ? Theme.accentText : Theme.subtitle)
-                .accessibilityLabel(readAloud ? "Vorlesen ausschalten" : "Vorlesen einschalten")
+                .tint(readsAloud ? Theme.accentText : Theme.subtitle)
+                .overlay(alignment: .topTrailing) { proMark }
+                .accessibilityLabel(readsAloud ? "Vorlesen ausschalten" : "Vorlesen einschalten")
                 Button {
-                    toggleVoice()
+                    withCookPro(.handsFree, offer: $proOffer) { toggleVoice() }
                 } label: {
                     Label("Sprachbefehle", systemImage: voice.isActive ? "mic.fill" : "mic")
-                        .font(Theme.bodyFont(15).weight(.semibold))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
+                    .font(Theme.bodyFont(15).weight(.semibold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
                 }
                 .buttonStyle(.bordered)
                 .tint(voice.isActive ? Theme.accentText : Theme.subtitle)
+                .overlay(alignment: .topTrailing) { proMark }
                 .accessibilityLabel(voice.isActive ? "Sprachbefehle beenden" : "Sprachbefehle starten")
             }
             if voice.isActive {
                 voiceStatus
             }
+        }
+        .cookProPaywall($proOffer)
+    }
+
+    /// The "Pro" mark on the corner of a locked voice switch.
+    @ViewBuilder
+    private var proMark: some View {
+        if !handsFreeUnlocked {
+            CookProBadge()
+                .offset(x: 4, y: -8)
+                .allowsHitTesting(false)
         }
     }
 
