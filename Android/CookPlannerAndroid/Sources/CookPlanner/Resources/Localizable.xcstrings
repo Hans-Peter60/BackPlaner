@@ -1378,6 +1378,23 @@
         }
       }
     },
+    "Gericht, Komponente oder Zutat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dish, component or ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat, composant ou ingrédient"
+          }
+        }
+      }
+    },
     "Gerichte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1701,6 +1718,23 @@
         }
       }
     },
+    "Keine passenden Gerichte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun plat correspondant"
+          }
+        }
+      }
+    },
     "Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1871,6 +1905,23 @@
         }
       }
     },
+    "Lange nicht gekocht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not cooked for a while"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas cuisiné depuis longtemps"
+          }
+        }
+      }
+    },
     "Läuft von allein" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1884,6 +1935,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se fait tout seul"
+          }
+        }
+      }
+    },
+    "Lieblinge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourites"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoris"
           }
         }
       }
@@ -2245,6 +2313,23 @@
         }
       }
     },
+    "Noch nie gekocht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never cooked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jamais cuisiné"
+          }
+        }
+      }
+    },
     "Notiz, z. B. „beim nächsten Mal weniger Salz“" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2381,6 +2466,23 @@
         }
       }
     },
+    "Ohne Ofen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans four"
+          }
+        }
+      }
+    },
     "Ohne Stoppuhr eingetragen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2428,6 +2530,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tient en %lld minutes"
+          }
+        }
+      }
+    },
+    "Passt ins Budget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fits the budget"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tient dans le temps"
           }
         }
       }
@@ -2581,6 +2700,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Schnell" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapide"
           }
         }
       }
