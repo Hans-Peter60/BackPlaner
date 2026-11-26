@@ -70,6 +70,7 @@ struct DishListView: View {
     @State var searchText = ""
     @State var filter = KitchenDishFilter()
     @State var log = CookRunLog.shared
+    @State var composesMenu = false
     @Environment(\.colorScheme) var colorScheme
 
     /// Whether the dish passes the search and the facets; the facets are
@@ -97,13 +98,18 @@ struct DishListView: View {
         .toolbar {
             // Android shows two items at the top; the rest goes in the menu.
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    editing = KitchenDish(name: "", createdAt: Date(), tasks: [])
-                    showsEditor = true
+                Menu {
+                    Button(String(localized: "Neues Gericht", bundle: .module)) {
+                        editing = KitchenDish(name: "", createdAt: Date(), tasks: [])
+                        showsEditor = true
+                    }
+                    Button(String(localized: "Menü zusammenstellen", bundle: .module)) {
+                        composesMenu = true
+                    }
                 } label: {
                     Image(systemName: "plus")
                 }
-                .accessibilityLabel(Text(String(localized: "Neues Gericht", bundle: .module)))
+                .accessibilityLabel(Text(String(localized: "Hinzufügen", bundle: .module)))
             }
             ToolbarItem(placement: .primaryAction) {
                 Menu {
@@ -126,6 +132,11 @@ struct DishListView: View {
         }
         .appSheet(isPresented: $showsSettings) {
             KitchenSettingsView(library: library)
+        }
+        .appSheet(isPresented: $composesMenu) {
+            MenuComposerView(library: library) { menu in
+                library.save(menu)
+            }
         }
         .appSheet(isPresented: $showsEditor) {
             DishEditorView(library: library, dish: editing) { dish in

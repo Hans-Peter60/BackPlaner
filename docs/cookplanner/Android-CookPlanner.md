@@ -27,6 +27,7 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 - **Zurückziehen über alle Kennungen:** `pendingNotificationRequests()` bleibt auf Android leer; `CookReminders.cancel(schedule:)` zieht jede Kennung zurück, die die Schritte des Plans haben können (`cookplanner.start.<id>`, `cookplanner.end.<id>`), auch aus einem früheren Prozess.
 - **Mitteilungen prüfen:** `adb shell am broadcast -a androidx.work.diagnostics.REQUEST_DIAGNOSTICS -p de.hpm64625.cookplanner`, dann im Log `WM-DiagnosticsWrkr` – die zweite Spalte ist die Job-Nummer; `adb shell cmd jobscheduler run -f -n androidx.work.systemjobscheduler de.hpm64625.cookplanner <Nr>` löst eine sofort aus, `dumpsys notification --noredact` zeigt Titel und Text.
 - **`%@` für das Katalog-Skript:** Die Markierung `/*%@*/` gehört in die Klammern der Interpolation, `\(name /*%@*/)`; dahinter stünde sie als Text in der Zeichenkette (so zeigte die erste Fassung „Wirsing/*%@*/ · jetzt dran“).
+- **Katalog-Skript und Klammern:** Es erkennt Interpolationen mit höchstens einer Ebene innerer Klammern; `\(Int((-x).rounded()))` vorher in eine Variable ziehen.
 - Alle Stolpersteine von BakePlanner Android gelten auch hier ([Android-Uebergabe.md](../bakeplanner/Android-Uebergabe.md), Abschnitt „Android und Skip“): rund 80 bekannte SF-Symbole, `@State` nicht `private`, `@Observable` braucht `import SkipFuse`, Blätter mit `appSheet`, Sprache über `AppSettings.systemLocale`, `accessibilityLabel` mit `Text(…)`, kein `monospacedDigit()`.
 
 ## Schritte
@@ -43,7 +44,8 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 | 4d | Foto am Protokoll: „Foto aufnehmen“ (Kamera über SkipKit, Datei über `ContentFile` aus `BakePlannerMedia`, FileProvider und `file_paths.xml` wie bei BakePlanner), „Foto auswählen“ über die Dateiauswahl, „Foto entfernen“; verkleinert mit `PhotoShrinker` (von BakePlanner übernommen), im Ordner `Photos` wie auf dem iPhone, geht mit der Sicherung | erledigt 26.11., auf dem Pixel 7 geprüft |
 | 5 | Import aus Text und Webseiten über die Function `analyzeDishSteps` (skip-firebase) | offen, braucht Firebase (unten) |
 | 6 | Pro: Play Billing über eine Kotlin-Brücke, Kaufseite, Sperren mit `KitchenProAccess`, Prüfung des Kauf-Tokens in den Functions, Promo-Codes | offen, braucht Play Console (unten) |
-| 7 | Pro-Funktionen: Vorlesen (`BakePlannerSpeech`), Sprachbefehle (Android SpeechRecognizer), Plan als PDF, Kochjahr-Buch, Menü, Statistik, Sammlungen, gemessene Zeiten | offen |
+| 7a | Gemessene Zeiten übernehmen (auf dem Plan unter „Gekocht“, `KitchenTimeLearning`; ein Beispiel wird dabei ein eigenes Gericht), Kochstatistik im Tab „Gekocht“ (Umschalter Liste/Statistik, Monatsbalken selbst gezeichnet – Swift Charts gibt es auf Android nicht), Menü aus mehreren Gängen („+“ → „Menü zusammenstellen“, `KitchenMenu.combined`) | erledigt 26.11., auf dem Pixel 7 geprüft; ohne Sperre bis Schritt 6 |
+| 7b | Vorlesen (`BakePlannerSpeech`), Sprachbefehle (Android SpeechRecognizer), Plan als PDF, Kochjahr-Buch, eigene Sammlungen | offen |
 | 8 | Symbol, Nunito-Schrift, Store-Texte, Bilder, Play-Veröffentlichung | offen |
 
 Nicht auf Android (wie bei BakePlanner): iCloud-Abgleich, Live-Aktivität, Siri und Kurzbefehle, Spotlight, Wecker über AlarmKit (dafür Android-Wecker oder laute Mitteilung, in Schritt 3 zu entscheiden).

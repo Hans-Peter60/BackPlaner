@@ -14,6 +14,7 @@ struct DishPlanView: View {
     @State var showsExporter = false
     @State var cooking = false
     @State var shopping = false
+    @State var showsLearned = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -95,6 +96,14 @@ struct DishPlanView: View {
             }
         }
         .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .appSheet(isPresented: $showsLearned) {
+            if let dish = library.dish(id: dishID) {
+                LearnedTimesView(dish: dish,
+                                 suggestions: KitchenTimeLearning.suggestions(for: dish, from: CookRunLog.shared.runs(of: dishID))) { learned in
+                    library.save(learned)
+                }
+            }
+        }
         .appSheet(isPresented: $shopping) {
             if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
                 ShoppingListView(dish: plan.dish)
@@ -187,6 +196,13 @@ struct DishPlanView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(String(localized: "Gekocht", bundle: .module))
                 .font(.headline)
+            if let dish = library.dish(id: dishID),
+               !KitchenTimeLearning.suggestions(for: dish, from: CookRunLog.shared.runs(of: dishID)).isEmpty {
+                Button(String(localized: "Gemessene Zeiten übernehmen", bundle: .module)) {
+                    showsLearned = true
+                }
+                .buttonStyle(.bordered)
+            }
             ForEach(Array(CookRunLog.shared.runs(of: dishID).prefix(5)), id: \.id) { run in
                 HStack {
                     // In the app's language: Locale.current does not follow the
