@@ -21,6 +21,8 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 - Texte: nach jeder neuen `String(localized: "…", bundle: .module)` `python3 scripts/cookplanner/android-catalog.py`; fehlt eine Übersetzung im iPhone-Katalog, meldet das Skript sie, dann en/fr von Hand in den Android-Katalog schreiben und das Skript noch einmal laufen lassen.
 - **Versionen wie BakePlanner:** `Package.resolved` ist von BakePlanner Android übernommen (skip 1.9.20, skip-kit 1.1.6 …), damit beide Apps dieselben Skip-Stände nutzen. Nach `skip init` zog das Gerüst neuere Stände.
 - **Sichern ohne Rückmeldung:** `withDocumentExporter` mit `onCompletion` stürzte nach dem Speichern ab (SIGTRAP in SkipBridges `Result`-Übergabe, skip-kit 1.1.6 und 1.1.7). Die App gibt deshalb keine Rückmeldung an; Androids Dialog bestätigt selbst. Mit `contentType: .data` bleibt der Name `….cookplanner`, mit `.json` hängte Android `.json` an.
+- **Datum in der App-Sprache:** `Date.formatted()` folgt auf Android nicht der Gerätesprache (zeigte „at 5:22 PM“); immer `.formatted(… .locale(AppSettings.locale))`.
+- **Akzentfarbe in Blättern von der Wurzel:** Ein Blatt, das an der Wurzel hängt (der wieder aufgenommene Kochmodus), liegt außerhalb von `.tint`; die Ansicht setzt die Farbe selbst.
 - Alle Stolpersteine von BakePlanner Android gelten auch hier ([Android-Uebergabe.md](../bakeplanner/Android-Uebergabe.md), Abschnitt „Android und Skip“): rund 80 bekannte SF-Symbole, `@State` nicht `private`, `@Observable` braucht `import SkipFuse`, Blätter mit `appSheet`, Sprache über `AppSettings.systemLocale`, `accessibilityLabel` mit `Text(…)`, kein `monospacedDigit()`.
 
 ## Schritte
@@ -29,7 +31,8 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 |---|---|---|
 | 1 | Grundgerüst: Gerichteliste (eigene und Beispiele) mit Urteil, Plan mit Urteil, Handarbeit je Komponente und Ablauf, Einstellungen (Budget, Platten, Öfen) | erledigt 26.11., auf dem Pixel 7 geprüft |
 | 2 | Gerichte anlegen, bearbeiten, löschen, ein Beispiel „Als Vorlage übernehmen“; Editor mit Zutaten und Schritten auf eigenen Seiten (Dauer, Zeitspanne, Gerät, Ofentemperatur, „Muss bald weitergehen“, Zutaten des Schritts, „Wartet auf“); Sichern aller Gerichte und Teilen eines Gerichts als `.cookplanner`-Datei über Androids „Speichern unter“, Import über die Dateiauswahl (bestehende bleiben, wie auf dem iPhone) | erledigt 26.11., auf dem Pixel 7 geprüft |
-| 3 | Kochmodus: Challenge, Training, Entspannt; Abhaken, Topf-Haken, Rücknahme, Neuplanung, gesicherter Lauf; Mitteilungen je Schritt (eigener Android-Code wie BakePlanners `Reminders.kt`) | offen |
+| 3 | Kochmodus: Challenge, Training, Entspannt; „Erledigt“, „Steht“ für Topf und Ofen, Rückgängig, Pause, Neuplanung jede Minute und bei jedem Haken, Bildschirm bleibt an; Lauf in `cook-run.json` (nach dem Beenden der App öffnet der nächste Start ihn wieder, bis 6 Stunden); Protokoll in `cook-runs.json` (Format des iPhones), auf dem Plan unter „Gekocht“ | erledigt 26.11., auf dem Pixel 7 geprüft |
+| 3b | Mitteilungen je Schritt und für Topf und Ofen, wenn die App im Hintergrund ist (eigener Kotlin-Worker wie BakePlanners `Reminders.kt`; SkipUIs Worker zeigt keine Einblendung) | offen |
 | 4 | Verlauf mit Stoppuhr-Protokollen, Einkaufsliste, Portionen, Filter | offen |
 | 5 | Import aus Text und Webseiten über die Function `analyzeDishSteps` (skip-firebase) | offen, braucht Firebase (unten) |
 | 6 | Pro: Play Billing über eine Kotlin-Brücke, Kaufseite, Sperren mit `KitchenProAccess`, Prüfung des Kauf-Tokens in den Functions, Promo-Codes | offen, braucht Play Console (unten) |

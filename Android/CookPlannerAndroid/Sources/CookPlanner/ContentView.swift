@@ -5,6 +5,9 @@ import SwiftUI
 /// The root: the dish list in a navigation stack, in the app's language.
 struct ContentView: View {
     @State var library = CookLibrary()
+    /// A run the last launch left under way, opened again.
+    @State var resumed: CookRunState?
+    @State var showsResumed = false
     @Environment(\.locale) var locale
     @Environment(\.colorScheme) var colorScheme
 
@@ -25,6 +28,19 @@ struct ContentView: View {
             let appLocale = AppSettings.appLocale(forDevice: locale)
             AppSettings.systemLocale = { appLocale }
             library.load()
+            if let state = CookRunState.load() {
+                if state.isResumable, let dish = library.dish(id: state.dishID), library.plan(for: dish) != nil {
+                    resumed = state
+                    showsResumed = true
+                } else {
+                    CookRunState.clear()
+                }
+            }
+        }
+        .appSheet(isPresented: $showsResumed) {
+            if let state = resumed, let dish = library.dish(id: state.dishID), let plan = library.plan(for: dish) {
+                CookModeView(plan: plan, restoring: state)
+            }
         }
     }
 }

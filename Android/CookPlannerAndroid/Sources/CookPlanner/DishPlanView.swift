@@ -12,6 +12,7 @@ struct DishPlanView: View {
     @State var confirmsDeletion = false
     @State var exportURL: URL?
     @State var showsExporter = false
+    @State var cooking = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -28,7 +29,18 @@ struct DishPlanView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(Palette.title(colorScheme))
                         if let plan = library.plan(for: dish) {
+                            Button {
+                                cooking = true
+                            } label: {
+                                Label(String(localized: "Kochen starten", bundle: .module), systemImage: "play.fill")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 6)
+                            }
+                            .buttonStyle(.borderedProminent)
                             verdictCard(plan)
+                            if !CookRunLog.shared.runs(of: dishID).isEmpty {
+                                runsCard
+                            }
                             componentsCard(plan)
                             stepsCard(plan)
                         } else {
@@ -81,6 +93,11 @@ struct DishPlanView: View {
             }
         }
         .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .appSheet(isPresented: $cooking) {
+            if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
+                CookModeView(plan: plan)
+            }
+        }
         .alert(String(localized: "Gericht löschen?", bundle: .module), isPresented: $confirmsDeletion) {
             Button(String(localized: "Löschen", bundle: .module), role: .destructive) {
                 library.delete(id: dishID)
@@ -106,6 +123,28 @@ struct DishPlanView: View {
             }
             .font(.caption)
             .foregroundStyle(Palette.subtitle(colorScheme))
+        }
+        .cardStyle()
+    }
+
+    /// The times this dish was cooked on the stopwatch, newest first.
+    private var runsCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(String(localized: "Gekocht", bundle: .module))
+                .font(.headline)
+            ForEach(Array(CookRunLog.shared.runs(of: dishID).prefix(5)), id: \.id) { run in
+                HStack {
+                    // In the app's language: Locale.current does not follow the
+                    // device on Android.
+                    Text(run.startedAt.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(AppSettings.locale)))
+                        .font(.subheadline)
+                    Spacer()
+                    Text(run.relaxed == true ? String(localized: "Entspannt", bundle: .module)
+                                             : KitchenCookRun.clockText(run.totalSeconds))
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.accentText(colorScheme))
+                }
+            }
         }
         .cardStyle()
     }
