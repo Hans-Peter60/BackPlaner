@@ -1,5 +1,7 @@
 import BakePlannerCore
 import BakePlannerSpeech
+import CookPlannerMedia
+import SkipKit
 import SwiftUI
 
 /// The plan run against the clock, as on the iPhone (CookModeView.swift
@@ -34,6 +36,11 @@ struct CookModeView: View {
     @State var announcedSteps: Set<String> = []
     @State var announcedEnds: Set<String> = []
     @State var announcedDone = false
+    /// Listens for "Erledigt", "Steht", "Was kommt" and the rest.
+    @State var voice = VoiceListener()
+    @State var listening = false
+    @State var heardSeen = 0
+    @State var voiceNote = ""
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) var scenePhase
@@ -103,6 +110,7 @@ struct CookModeView: View {
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
             speaker.shutdown()
+            voice.stop()
         }
         .task {
             // The clock: a second at a time; the plan moves on each minute.
@@ -115,6 +123,7 @@ struct CookModeView: View {
                     replan(minute: minute)
                 }
                 announce(minute: minute)
+                listen(minute: minute)
                 try? await Task.sleep(for: .seconds(1))
             }
         }
@@ -192,6 +201,16 @@ struct CookModeView: View {
                             speaker.stop()
                         }
                     }
+                Toggle(String(localized: "Sprachbefehle", bundle: .module), isOn: Binding(get: { listening }, set: { on in
+                    if on { startListening() } else { stopListening() }
+                }))
+                if listening {
+                    Text(voiceNote.isEmpty
+                         ? String(localized: "Sag „Erledigt“, „Steht“, „Was kommt“, „Zutaten“ oder „Wie lange“.", bundle: .module)
+                         : voiceNote)
+                        .font(.footnote)
+                        .foregroundStyle(Palette.subtitle(colorScheme))
+                }
                 HStack(spacing: 10) {
                     Button(String(localized: "Rückgängig", bundle: .module)) { undoLastTick() }
                         .buttonStyle(.bordered)
@@ -417,6 +436,88 @@ struct CookModeView: View {
         if doneCount == schedule.placements.count, !announcedDone {
             announcedDone = true
             speaker.speak(narrator.allDone, languageCode: language)
+        }
+    }
+
+    private func startListening() {
+        Task {
+            let status = await PermissionManager.requestPermission(.RECORD_AUDIO)
+            guard status == .authorized else {
+                voiceNote = String(localized: "Ohne Mikrofon kann der Kochmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen.", bundle: .module)
+                listening = false
+                return
+            }
+            heardSeen = voice.heardCount
+            voiceNote = ""
+            listening = true
+            voice.start(languageTag: AppSettings.locale.identifier.replacingOccurrences(of: "_", with: "-"))
+        }
+    }
+
+    private func stopListening() {
+        listening = false
+        voice.stop()
+    }
+
+    /// What the listener heard since the last look, as a command; and the
+    /// microphone muted while the app talks, so its voice is no command.
+    private func listen(minute: Int) {
+        guard listening else { return }
+        voice.isMuted = speaker.isSpeaking
+        if voice.state == "unavailable" {
+            voiceNote = String(localized: "Auf diesem Gerät gibt es keine Spracherkennung.", bundle: .module)
+            return
+        }
+        guard voice.heardCount != heardSeen else { return }
+        heardSeen = voice.heardCount
+        let language = AppSettings.locale.language.languageCode?.identifier ?? "de"
+        guard let command = CookVoiceCommands.command(in: voice.lastHeard, languageCode: language) else { return }
+        handle(command, minute: minute)
+    }
+
+    private func handle(_ command: CookVoiceCommand, minute: Int) {
+        let narrator = CookNarrator(dish: plan.dish, showsClock: clockMode.showsClock, minute: minute)
+        let language = AppSettings.locale.identifier
+        let inHands = handsNow(minute: minute)
+        switch command {
+        case .done, .potOn:
+            guard let step = inHands.first else {
+                speaker.speak(narrator.followUp(handsNow: inHands, schedule: schedule, finished: finished), languageCode: language)
+                return
+            }
+            if step.task.unattendedMinutes > 0 {
+                putOn(step.id, minute: minute)
+            } else {
+                tickOff(step.id, minute: minute)
+            }
+            // The next step is read by announce(), once.
+        case .undo:
+            undoLastTick()
+        case .read:
+            if let step = inHands.first {
+                speaker.speak(narrator.stepSentence(step), languageCode: language)
+            } else {
+                speaker.speak(narrator.followUp(handsNow: inHands, schedule: schedule, finished: finished), languageCode: language)
+            }
+        case .next:
+            let upcoming = schedule.placements.filter { $0.start > minute && $0.task.handsMinutes > 0 }
+            let after = inHands.isEmpty ? [] : Array(upcoming.prefix(1))
+            speaker.speak(narrator.followUp(handsNow: after, schedule: schedule, finished: finished), languageCode: language)
+        case .ingredients:
+            if let step = inHands.first, !plan.dish.ingredients(for: step.task).isEmpty {
+                speaker.speak(KitchenSpokenText.lines(for: plan.dish.ingredients(for: step.task), locale: AppSettings.locale),
+                              languageCode: language)
+            } else {
+                speaker.speak(String(localized: "Für diesen Schritt keine Zutaten.", bundle: .module), languageCode: language)
+            }
+        case .timing:
+            speaker.speak(narrator.timing(handsNow: inHands, schedule: schedule, finished: finished), languageCode: language)
+        case .pause:
+            pause()
+        case .resume:
+            resume()
+        case .stop:
+            speaker.stop()
         }
     }
 

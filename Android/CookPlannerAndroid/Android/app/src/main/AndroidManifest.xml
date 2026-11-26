@@ -11,7 +11,17 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- A photo of the dish for its cooking record. -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Voice commands in the cook mode ("Erledigt", "Was kommt", …). -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+
+    <!-- Android 11 and later show the speech recognition service only to
+         apps that ask for it here. -->
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <application
         android:label="${PRODUCT_NAME}"
