@@ -8,6 +8,7 @@ struct CookHistoryView: View {
     let library: CookLibrary
     @State var log = CookRunLog.shared
     @State var addsEntry = false
+    @State var showsStatistics = false
     @Environment(\.colorScheme) var colorScheme
 
     /// The records by month, newest first.
@@ -39,6 +40,17 @@ struct CookHistoryView: View {
                 }
                 .padding(24)
             } else {
+                VStack(spacing: 0) {
+                Picker(String(localized: "Darstellung", bundle: .module), selection: $showsStatistics) {
+                    Text(String(localized: "Liste", bundle: .module)).tag(false)
+                    Text(String(localized: "Statistik", bundle: .module)).tag(true)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                if showsStatistics {
+                    CookStatisticsView(runs: log.runs)
+                } else {
                 List {
                     ForEach(months, id: \.id) { group in
                         Section(group.month.formatted(.dateTime.month(.wide).year().locale(AppSettings.locale))) {
@@ -53,6 +65,8 @@ struct CookHistoryView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
+                }
+                }
             }
         }
         .navigationTitle(String(localized: "Gekocht", bundle: .module))
