@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- A banner when a step is due or a pot is done (Android 13+ asks). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- A photo of the dish for its cooking record. -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
 
     <application
@@ -29,6 +31,17 @@
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+        </provider>
+        <!-- The camera writes its photo behind this provider's address
+             (SkipKit's media picker expects the authority ".fileprovider"). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
         <activity
             android:name=".MainActivity"
