@@ -54,6 +54,9 @@ struct CookPlannerApp: App {
         let library = DishLibrary.onDisk()
         _library = State(initialValue: library)
         CloudSync.shared.start(library: library, runLog: CookRunLog.shared)
+        // Budget, kitchen, clock mode and the saved collections follow the
+        // cook to the other devices.
+        SettingsSync.shared.start()
     }
 
     var body: some Scene {
