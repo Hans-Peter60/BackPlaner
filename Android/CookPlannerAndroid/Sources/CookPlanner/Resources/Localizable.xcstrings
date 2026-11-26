@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%@ braucht noch %lld Minuten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ needs %lld more minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a encore besoin de %lld minutes."
+          }
+        }
+      }
+    },
+    "%@ ist überfällig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is overdue."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ est en retard."
+          }
+        }
+      }
+    },
     "%@ servieren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -783,6 +817,23 @@
         }
       }
     },
+    "Auf diesem Gerät gibt es keine Spracherkennung." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This device has no speech recognition."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet appareil n’a pas de reconnaissance vocale."
+          }
+        }
+      }
+    },
     "aus %lld Durchgängen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1174,6 +1225,23 @@
         }
       }
     },
+    "Das war der letzte Schritt. Fertig, anrichten!" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was the last step. Done, plate up!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière étape. Fini, à table !"
+          }
+        }
+      }
+    },
     "Dauer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1238,6 +1306,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le plan ne tient pas."
+          }
+        }
+      }
+    },
+    "Der Plan ist durch." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan is through."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan est terminé."
+          }
+        }
+      }
+    },
+    "Der Plan ist in %lld Minuten fertig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan is done in %lld minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan sera terminé dans %lld minutes."
           }
         }
       }
@@ -2024,6 +2126,23 @@
         }
       }
     },
+    "Für diesen Schritt keine Zutaten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ingredients for this step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas d’ingrédients pour cette étape."
+          }
+        }
+      }
+    },
     "Gang hinzufügen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2173,6 +2292,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prévu"
+          }
+        }
+      }
+    },
+    "Gerade läuft nichts." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing is running right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien ne tourne pour l’instant."
           }
         }
       }
@@ -2360,6 +2496,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ensuite"
+          }
+        }
+      }
+    },
+    "Gleich, in %lld Minuten: %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming up in %lld minutes: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bientôt, dans %lld minutes : %@."
+          }
+        }
+      }
+    },
+    "Gleich: %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming up: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bientôt : %@."
           }
         }
       }
@@ -2700,6 +2870,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
+    "Jetzt:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenant :"
           }
         }
       }
@@ -3469,6 +3656,23 @@
         }
       }
     },
+    "Noch %lld Minuten für %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes left for %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore %lld minutes pour %@."
+          }
+        }
+      }
+    },
     "noch %lld–%lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3741,6 +3945,23 @@
         }
       }
     },
+    "Ohne Mikrofon kann der Kochmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without the microphone the cook mode cannot listen. Allow access in Settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans micro, le mode cuisine ne peut pas écouter. Autorisez l’accès dans Réglages."
+          }
+        }
+      }
+    },
     "Ohne Ofen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3996,6 +4217,23 @@
         }
       }
     },
+    "Sag „Erledigt“, „Steht“, „Was kommt“, „Zutaten“ oder „Wie lange“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say “Done”, “It’s on”, “What’s next”, “Ingredients” or “How long”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « C’est fait », « C’est parti », « Et après », « Ingrédients » ou « Combien de temps »."
+          }
+        }
+      }
+    },
     "Sammlung sichern" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4145,6 +4383,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Divers"
+          }
+        }
+      }
+    },
+    "Sprachbefehle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice commands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commandes vocales"
           }
         }
       }
