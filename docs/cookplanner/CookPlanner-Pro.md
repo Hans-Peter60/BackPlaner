@@ -53,6 +53,19 @@ Solange das Dokument fehlt, ist alles frei – so bleibt es auf Hans-Peters Ger�
 5. Firestore: Dokument `config/cookplannerMonetization` anlegen mit `storeVisible: true`, `proRequired: true`, `freeImportsPerMonth: 5`.
 6. Version 1.0 mit dem Kauf zusammen zur Prüfung einreichen; Pro-Abschnitt der Beschreibung und der Prüfhinweis zum Kauf stehen in `CookPlanner-Store.md`.
 
+## Pro verschenken (Angebotscodes)
+
+Einzelne Nutzer bekommen Pro kostenlos über Apples **Angebotscodes**, die es seit iOS 16.3 auch für Einmalkäufe gibt. Ein eingelöster Code ist ein Kauf wie jeder andere, vom App Store signiert: Die App schaltet frei, „Käufe wiederherstellen“ und die Familienfreigabe gelten, und die Functions erkennen ihn für das Analyse-Kontingent – keine eigene Liste, kein eigener Server.
+
+1. App Store Connect → CookPlanner → **In-App-Käufe** → CookPlanner Pro → **Angebotscodes** → „Angebotscode erstellen“.
+2. Preis **kostenlos**, Länder wählen, dann eine von zwei Arten:
+   - **Einmal-Codes:** eine Anzahl erzeugen, App Store Connect liefert sie als Datei; jeder Code gilt einmal und hat ein Ablaufdatum. Für einzelne Personen.
+   - **Eigener Code** (z. B. `KOCHFREUND`): ein selbst gewählter Code mit einer Höchstzahl an Einlösungen. Für eine Gruppe, etwa Testkochende.
+3. Weitergeben: den Code selbst oder den Einlöse-Link `https://apps.apple.com/redeem?ctx=offercodes&id=<Apple-ID der App>&code=<Code>`.
+4. Einlösen: in CookPlanner auf der Kaufseite **Code einlösen** (Einstellungen → CookPlanner Pro), im App Store unter Konto → „Geschenkkarte oder Code einlösen“ oder über den Link.
+
+Codes lassen sich in App Store Connect deaktivieren; ein schon eingelöster Code bleibt ein Kauf. Testen: Sandbox-Codes in App Store Connect anlegen (eigene Liste) und mit einem Sandbox-Konto in TestFlight einlösen.
+
 ## Zurücknehmen
 
 `proRequired` auf `false` – beim nächsten Öffnen der App ist alles wieder frei.
