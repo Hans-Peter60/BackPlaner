@@ -1,4 +1,5 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
 
 /// "Gekocht": every cook on the stopwatch and every one entered by hand,
@@ -123,6 +124,11 @@ struct CookRunDetailView: View {
     @State var log = CookRunLog.shared
     @State var note = ""
     @State var confirmsDeletion = false
+    @State var takesPhoto = false
+    @State var picksPhoto = false
+    @State var pickedURL: URL?
+    @State var pickedName: String?
+    @State var pickedType: String?
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
 
@@ -130,6 +136,13 @@ struct CookRunDetailView: View {
         Form {
             if let run = log.run(id: runID) {
                 Section(String(localized: "Wie war’s?", bundle: .module)) {
+                    if let data = log.photoData(of: run), let image = UIImage(data: data) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 260)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
                     HStack(spacing: 4) {
                         ForEach([1, 2, 3, 4, 5], id: \.self) { stars in
                             Button {
@@ -146,6 +159,13 @@ struct CookRunDetailView: View {
                     TextField(String(localized: "Notiz, z. B. „beim nächsten Mal weniger Salz“", bundle: .module),
                               text: $note, axis: .vertical)
                         .onSubmit { saveNote() }
+                    Button(String(localized: "Foto aufnehmen", bundle: .module)) { takesPhoto = true }
+                    Button(String(localized: "Foto auswählen", bundle: .module)) { picksPhoto = true }
+                    if run.photoFileName != nil {
+                        Button(String(localized: "Foto entfernen", bundle: .module), role: .destructive) {
+                            log.setPhoto(nil, of: runID)
+                        }
+                    }
                 }
                 if run.isManualEntry {
                     Section {
@@ -163,6 +183,22 @@ struct CookRunDetailView: View {
             }
         }
         .navigationTitle(log.run(id: runID)?.dishName ?? "")
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            log.setPhoto(data, of: runID)
+        }
+        // A photo from the gallery through the document picker: SkipKit's
+        // media picker hands Android's content:// address on, which Swift
+        // cannot read; the document picker gives a copy (BakePlanner).
+        .withDocumentPicker(isPresented: $picksPhoto, allowedContentTypes: [.image],
+                            selectedDocumentURL: $pickedURL, selectedFilename: $pickedName,
+                            selectedFileMimeType: $pickedType)
+        .onChange(of: pickedURL) { _, url in
+            guard let url else { return }
+            pickedURL = nil
+            if let raw = try? Data(contentsOf: url), let data = PhotoShrinker.pickedPhoto(raw) {
+                log.setPhoto(data, of: runID)
+            }
+        }
         .onAppear { note = log.run(id: runID)?.note ?? "" }
         .onDisappear { saveNote() }
         .alert(String(localized: "Eintrag löschen?", bundle: .module), isPresented: $confirmsDeletion) {

@@ -108,6 +108,35 @@ final class CookRunLog {
         runs.first { $0.id == id }
     }
 
+    /// The record's photo, or nil.
+    func photoData(of run: KitchenCookRun) -> Data? {
+        guard let name = run.photoFileName else { return nil }
+        return try? Data(contentsOf: photoFolder.appendingPathComponent(name))
+    }
+
+    /// Keeps `data` (a JPEG) as the record's photo, replacing an old one;
+    /// nil takes the photo away.
+    func setPhoto(_ data: Data?, of runID: String) {
+        guard var run = run(id: runID) else { return }
+        if let old = run.photoFileName {
+            try? FileManager.default.removeItem(at: photoFolder.appendingPathComponent(old))
+        }
+        if let data {
+            let name = runID + "-" + String(Int(Date().timeIntervalSince1970)) + ".jpg"
+            do {
+                try FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+                try data.write(to: photoFolder.appendingPathComponent(name), options: .atomic)
+                run.photoFileName = name
+            } catch {
+                logger.error("could not keep the photo: \(error)")
+                run.photoFileName = nil
+            }
+        } else {
+            run.photoFileName = nil
+        }
+        update(run)
+    }
+
     /// The records' photos for a backup, by file name.
     func backupPhotos() -> [String: Data] {
         var photos = [String: Data]()
@@ -166,6 +195,9 @@ final class CookRunLog {
     }
 
     func delete(id: String) {
+        if let name = run(id: id)?.photoFileName {
+            try? FileManager.default.removeItem(at: photoFolder.appendingPathComponent(name))
+        }
         runs.removeAll { $0.id == id }
         save()
     }

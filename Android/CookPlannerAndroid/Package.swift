@@ -23,6 +23,9 @@ let package = Package(
         // resolves "../../" in the generated package wrongly.
         .package(path: "../BakePlannerCore"),
         .package(path: "../CookPlannerStorage"),
+        // Reading camera photos behind content:// addresses (BakePlanner's
+        // transpiled module, shared).
+        .package(path: "../BakePlannerMedia"),
     ],
     targets: [
         .target(name: "CookPlanner", dependencies: [
@@ -30,6 +33,7 @@ let package = Package(
             .product(name: "SkipKit", package: "skip-kit"),
             .product(name: "BakePlannerCore", package: "BakePlannerCore"),
             .product(name: "CookPlannerStorage", package: "CookPlannerStorage"),
+            .product(name: "BakePlannerMedia", package: "BakePlannerMedia"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )
