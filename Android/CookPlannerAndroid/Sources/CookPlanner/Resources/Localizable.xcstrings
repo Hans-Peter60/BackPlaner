@@ -205,6 +205,23 @@
         }
       }
     },
+    "%lld Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld ingrédients"
+          }
+        }
+      }
+    },
     "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -307,6 +324,23 @@
         }
       }
     },
+    "Alles im Haus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything at home"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout est là"
+          }
+        }
+      }
+    },
     "Als Vorlage übernehmen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -337,6 +371,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Attendre tous les composants"
+          }
+        }
+      }
+    },
+    "Backzutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Baking supplies"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ingrédients de pâtisserie"
           }
         }
       }
@@ -749,6 +800,23 @@
         }
       }
     },
+    "Die Zeiten bleiben gleich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The times stay the same"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les temps restent les mêmes"
+          }
+        }
+      }
+    },
     "Ein Gericht, eine Person, %lld Minuten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -813,6 +881,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choisir l’unité"
+          }
+        }
+      }
+    },
+    "Einkaufsliste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste de courses"
           }
         }
       }
@@ -966,6 +1051,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il manque %lld minutes"
+          }
+        }
+      }
+    },
+    "Fehlendes teilen (%lld)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share what's missing (%lld)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager ce qui manque (%lld)"
           }
         }
       }
@@ -1276,6 +1378,23 @@
         }
       }
     },
+    "Gewürze & Kräuter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Spices & herbs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Épices & herbes"
+          }
+        }
+      }
+    },
     "Gleich" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1289,6 +1408,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ensuite"
+          }
+        }
+      }
+    },
+    "Hake ab, was Du schon im Haus hast. Den Rest teilst Du unten, z. B. an Erinnerungen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tick what you already have at home. Share the rest below, for example to Reminders."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cochez ce que vous avez déjà. Partagez le reste en bas, par exemple vers Rappels."
           }
         }
       }
@@ -1735,6 +1871,23 @@
         }
       }
     },
+    "Mehl & Getreide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Flour & grains"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Farines & céréales"
+          }
+        }
+      }
+    },
     "Mehr" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1799,6 +1952,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quantité et unité comme dans la recette ; sans quantité pour « sel » ou « poivre »."
+          }
+        }
+      }
+    },
+    "Menge ×%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount ×%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité ×%@"
+          }
+        }
+      }
+    },
+    "Milchprodukte & Eier" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dairy & eggs"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Produits laitiers & œufs"
           }
         }
       }
@@ -1922,6 +2109,23 @@
         }
       }
     },
+    "Nichts im Haus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing at home"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à la maison"
+          }
+        }
+      }
+    },
     "noch %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2003,6 +2207,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Note, p. ex. « moins de sel la prochaine fois »"
+          }
+        }
+      }
+    },
+    "Nüsse, Saaten & Trockenfrüchte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nuts, seeds & dried fruit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Noix, graines & fruits secs"
+          }
+        }
+      }
+    },
+    "Obst & Gemüse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruit & vegetables"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Fruits & légumes"
           }
         }
       }
@@ -2105,6 +2343,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saisi sans chronomètre."
+          }
+        }
+      }
+    },
+    "Öle, Fette & Flüssiges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Oils, fats & liquids"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Huiles, matières grasses & liquides"
           }
         }
       }
@@ -2245,6 +2500,23 @@
         }
       }
     },
+    "Rezept für %lld Personen · die Zeiten bleiben gleich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe for %lld people · the times stay the same"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette pour %lld personnes · les temps restent les mêmes"
+          }
+        }
+      }
+    },
     "Rückgängig" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2360,6 +2632,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Sonstiges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Other"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Divers"
           }
         }
       }

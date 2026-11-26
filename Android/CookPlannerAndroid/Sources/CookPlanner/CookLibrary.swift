@@ -149,9 +149,27 @@ final class CookLibrary {
         dishes.first { $0.id == id } ?? samples.first { $0.id == id }
     }
 
-    /// The plan for the current kitchen and budget, nil when none comes out.
+    /// The plan for the current kitchen and budget, nil when none comes
+    /// out; the ingredients at the portions chosen for the dish (the steps
+    /// keep their minutes).
     func plan(for dish: KitchenDish) -> DishPlan? {
-        DishPlan(dish: dish, budget: budget, burners: burners, ovens: ovens)
+        DishPlan(dish: dish.scaled(by: portionFactor(for: dish.id)), budget: budget, burners: burners, ovens: ovens)
+    }
+
+    /// Bumped when a portion factor changes, so the screens read it again.
+    private(set) var portionsRevision = 0
+
+    /// The portion factor chosen for a dish, 1 when none was chosen (the
+    /// iPhone's key, "portions.<id>").
+    func portionFactor(for dishID: String) -> Double {
+        _ = portionsRevision
+        let factor = SettingsFile.number("portions." + dishID) ?? 1
+        return factor > 0 ? factor : 1
+    }
+
+    func setPortionFactor(_ factor: Double, for dishID: String) {
+        SettingsFile.set(factor == 1 ? nil : factor, forKey: "portions." + dishID)
+        portionsRevision += 1
     }
 
     /// Why no plan comes out, in the cook's words.
