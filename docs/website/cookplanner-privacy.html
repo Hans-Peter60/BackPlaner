@@ -85,7 +85,7 @@
 <!-- ===================== DEUTSCH ===================== -->
 <section id="de" lang="de">
   <h2>Datenschutzerklärung</h2>
-  <p>Stand: 23. November 2026</p>
+  <p>Stand: 26. November 2026</p>
 
   <h3>Verantwortlich</h3>
   <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Deutschland<br>
@@ -116,9 +116,19 @@
     <tr><td>Pseudonyme Firebase-Nutzerkennung, App-Check-Nachweis (Apple App Attest), Anfragezeit und Anfragezahl</td>
         <td>Google Firebase (Firestore)</td>
         <td>Absicherung der Analyse und Begrenzung auf höchstens 20 Analysen pro Stunde.</td></tr>
-    <tr><td>Einstellungen, Einkaufslisten-Haken, Portionswahl, Sammlungen, Erinnerungen, Wecker</td>
+    <tr><td>Einstellungen (Zeitbudget, Küche, Uhr-Modus, Vorlesen), Portionswahl, Sammlungen</td>
+        <td>Auf dem Gerät und im iCloud-Schlüsselwertspeicher deiner Apple-ID</td>
+        <td>Gleiche Einstellungen auf deinen eigenen Geräten. Ich habe darauf keinen Zugriff.</td></tr>
+    <tr><td>Einkaufslisten-Haken, Erinnerungen, Wecker, der laufende Kochvorgang</td>
         <td>Ausschließlich auf dem Gerät</td>
         <td>Funktion der App.</td></tr>
+    <tr><td>Sprache, wenn du die Sprachbefehle einschaltest</td>
+        <td>Bleibt auf dem Gerät; die Spracherkennung von Apple läuft auf dem Gerät</td>
+        <td>Erkennen der Befehle im Kochmodus. Es wird nichts aufgezeichnet, gespeichert oder übertragen.</td></tr>
+    <tr><td>Namen und Bilder deiner Gerichte für Siri, Kurzbefehle und die Spotlight-Suche</td>
+        <td>Im Suchindex auf dem Gerät</td>
+        <td>Gerichte finden und per Siri starten. Was du zu Siri sagst, verarbeitet Apple nach den eigenen
+        Bestimmungen; CookPlanner erhält nur den erkannten Befehl.</td></tr>
     <tr><td>Gerichte, die du teilst oder sicherst (.cookplanner-Datei)</td>
         <td>Nur dorthin, wohin du die Datei schickst</td>
         <td>Weitergabe und Sicherung auf deinen Wunsch.</td></tr>
@@ -135,14 +145,15 @@
   CookPlanner speichert den übertragenen Text nicht. Der Entwurf wird erst gespeichert, wenn du ihn prüfst und
   sicherst. Ohne Analyse kannst du Gerichte auch von Hand anlegen.</p>
 
-  <h3>Kamera, Mediathek, Mitteilungen und Wecker</h3>
+  <h3>Kamera, Mediathek, Mikrofon, Mitteilungen und Wecker</h3>
   <p>Die Kamera nutzt die App nur, wenn du Rezeptseiten scannst oder ein Foto deines Gerichts aufnimmst; aus der
-  Mediathek liest sie nur die Fotos, die du auswählst. Mitteilungen, Wecker und die Live-Aktivität entstehen auf dem
+  Mediathek liest sie nur die Fotos, die du auswählst. Das Mikrofon ist nur offen, solange die Sprachbefehle im
+  Kochmodus eingeschaltet sind. Mitteilungen, Wecker und die Live-Aktivität entstehen auf dem
   Gerät; es gibt keine Push-Werbung.</p>
 
   <h3>Auftragsverarbeiter</h3>
   <p>Google Ireland Limited bzw. Google LLC für Firebase (anonyme Anmeldung, Cloud Functions, Missbrauchsschutz) und
-  Google Vertex AI (Gemini) für die Analyse. Apple Inc. für iCloud, Vision, App Attest und die Mitteilungszustellung.</p>
+  Google Vertex AI (Gemini) für die Analyse. Apple Inc. für iCloud, Vision, Spracherkennung und Siri, App Attest und die Mitteilungszustellung.</p>
 
   <h3>Speicherdauer</h3>
   <p>Daten auf dem Gerät verschwinden mit dem Löschen der App; die Kopie in deiner iCloud löschst du in den
@@ -162,7 +173,7 @@
 <!-- ===================== ENGLISH ===================== -->
 <section id="en" lang="en">
   <h2>Privacy Policy</h2>
-  <p>As of 23 November 2026</p>
+  <p>As of 26 November 2026</p>
 
   <h3>Controller</h3>
   <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Germany<br>
@@ -192,9 +203,19 @@
     <tr><td>Pseudonymous Firebase user ID, App Check token (Apple App Attest), request time and count</td>
         <td>Google Firebase (Firestore)</td>
         <td>Protecting the analysis and limiting it to 20 analyses per hour.</td></tr>
-    <tr><td>Settings, shopping list ticks, portion choice, collections, reminders, alarms</td>
+    <tr><td>Settings (time budget, kitchen, clock mode, read aloud), portion choice, collections</td>
+        <td>On the device and in the iCloud key-value store of your Apple ID</td>
+        <td>The same settings on your own devices. I have no access to them.</td></tr>
+    <tr><td>Shopping list ticks, reminders, alarms, the cook under way</td>
         <td>Only on the device</td>
         <td>The app's function.</td></tr>
+    <tr><td>Speech, when you turn on voice commands</td>
+        <td>Stays on the device; Apple's speech recognition runs on the device</td>
+        <td>Recognising the commands in cook mode. Nothing is recorded, stored or sent.</td></tr>
+    <tr><td>Names and pictures of your dishes for Siri, Shortcuts and Spotlight search</td>
+        <td>In the search index on the device</td>
+        <td>Finding dishes and starting them with Siri. What you say to Siri is processed by Apple under its own
+        terms; CookPlanner only receives the recognised command.</td></tr>
     <tr><td>Dishes you share or back up (.cookplanner file)</td>
         <td>Only where you send the file</td>
         <td>Sharing and backup at your request.</td></tr>
@@ -209,14 +230,14 @@
   is processed solely to turn it into an editable draft of the dish. CookPlanner does not store the transmitted text.
   The draft is saved only when you check and save it. You can also create dishes by hand without any analysis.</p>
 
-  <h3>Camera, library, notifications and alarms</h3>
+  <h3>Camera, library, microphone, notifications and alarms</h3>
   <p>The app uses the camera only when you scan recipe pages or take a photo of your dish; from the library it reads
-  only the photos you select. Notifications, alarms and the Live Activity are created on the device; there is no
+  only the photos you select. The microphone is open only while voice commands are on in cook mode. Notifications, alarms and the Live Activity are created on the device; there is no
   promotional push.</p>
 
   <h3>Processors</h3>
   <p>Google Ireland Limited or Google LLC for Firebase (anonymous sign-in, Cloud Functions, abuse protection) and
-  Google Vertex AI (Gemini) for the analysis. Apple Inc. for iCloud, Vision, App Attest and notification delivery.</p>
+  Google Vertex AI (Gemini) for the analysis. Apple Inc. for iCloud, Vision, speech recognition and Siri, App Attest and notification delivery.</p>
 
   <h3>Retention</h3>
   <p>Data on the device disappears when you delete the app; you delete the copy in your iCloud in the iOS settings
@@ -236,7 +257,7 @@
 <!-- ===================== FRANÇAIS ===================== -->
 <section id="fr" lang="fr">
   <h2>Politique de confidentialité</h2>
-  <p>Version du 23 novembre 2026</p>
+  <p>Version du 26 novembre 2026</p>
 
   <h3>Responsable</h3>
   <p>Hans-Peter Mueller<br>Fehlheimer Str. 71<br>64625 Bensheim<br>Allemagne<br>
@@ -266,9 +287,19 @@
     <tr><td>Identifiant Firebase pseudonyme, jeton App Check (Apple App Attest), heure et nombre des requêtes</td>
         <td>Google Firebase (Firestore)</td>
         <td>Protection de l’analyse et limite de 20 analyses par heure.</td></tr>
-    <tr><td>Réglages, coches de la liste de courses, portions, collections, rappels, alarmes</td>
+    <tr><td>Réglages (temps imparti, cuisine, mode d’horloge, lecture à voix haute), portions, collections</td>
+        <td>Sur l’appareil et dans le stockage clé-valeur iCloud de votre identifiant Apple</td>
+        <td>Les mêmes réglages sur vos propres appareils. Je n’y ai pas accès.</td></tr>
+    <tr><td>Coches de la liste de courses, rappels, alarmes, la cuisson en cours</td>
         <td>Uniquement sur l’appareil</td>
         <td>Fonctionnement de l’app.</td></tr>
+    <tr><td>La parole, lorsque vous activez les commandes vocales</td>
+        <td>Reste sur l’appareil ; la reconnaissance vocale d’Apple fonctionne sur l’appareil</td>
+        <td>Reconnaître les commandes en mode cuisine. Rien n’est enregistré, conservé ni transmis.</td></tr>
+    <tr><td>Noms et images de vos plats pour Siri, Raccourcis et la recherche Spotlight</td>
+        <td>Dans l’index de recherche sur l’appareil</td>
+        <td>Trouver des plats et les lancer avec Siri. Ce que vous dites à Siri est traité par Apple selon ses propres
+        conditions ; CookPlanner ne reçoit que la commande reconnue.</td></tr>
     <tr><td>Plats que vous partagez ou sauvegardez (fichier .cookplanner)</td>
         <td>Seulement là où vous envoyez le fichier</td>
         <td>Partage et sauvegarde à votre demande.</td></tr>
@@ -284,14 +315,15 @@
   brouillon n’est enregistré que lorsque vous le vérifiez et l’enregistrez. Vous pouvez aussi créer des plats à la main
   sans analyse.</p>
 
-  <h3>Appareil photo, photothèque, notifications et alarmes</h3>
+  <h3>Appareil photo, photothèque, micro, notifications et alarmes</h3>
   <p>L’app n’utilise l’appareil photo que lorsque vous numérisez des pages de recettes ou photographiez votre plat ;
-  dans la photothèque, elle ne lit que les photos que vous choisissez. Notifications, alarmes et activité en direct
+  dans la photothèque, elle ne lit que les photos que vous choisissez. Le micro n’est ouvert que tant que les
+  commandes vocales sont activées en mode cuisine. Notifications, alarmes et activité en direct
   sont créées sur l’appareil ; il n’y a pas de push publicitaire.</p>
 
   <h3>Sous-traitants</h3>
   <p>Google Ireland Limited ou Google LLC pour Firebase (connexion anonyme, Cloud Functions, protection contre les
-  abus) et Google Vertex AI (Gemini) pour l’analyse. Apple Inc. pour iCloud, Vision, App Attest et la distribution des
+  abus) et Google Vertex AI (Gemini) pour l’analyse. Apple Inc. pour iCloud, Vision, la reconnaissance vocale et Siri, App Attest et la distribution des
   notifications.</p>
 
   <h3>Durée de conservation</h3>

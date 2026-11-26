@@ -276,6 +276,10 @@ Sechster Punkt aus dem Vergleich (BakePlanners Backjahr-Buch). `KitchenYearbook`
 
 Letzter Punkt aus dem Vergleich. `KeyboardCommands.swift` wie in BakePlanner: App-Commands über einen Focused-Scene-Value (`CommandTarget` in `RootTabView`), die Bildschirme nehmen sie aus `AppRequests.command`. ⌘1 Gerichte, ⌘2 Gekocht, ⌘N Neues Gericht, ⇧⌘N Menü zusammenstellen, ⇧⌘F Gericht suchen (`searchFocused` per `@FocusState`), ⌘, Einstellungen, ⌘⏎ Kochen starten auf dem Plan. Die lange Modifier-Kette der `DishListView` ist in `listContent`/`sheets`/`events`/`alerts` zerlegt, weil der Typprüfer sonst aufgab. Auf dem iPad mit Tastatur prüfen (⌘ gedrückt halten zeigt die Liste).
 
+### Store-Texte, Hilfe, Datenschutz und Bildschirmfotos nachgezogen (26.11.)
+
+Nach dem letzten Punkt der Liste: `CookPlanner-Store.md` (Beschreibung de/en/fr um Entspannt, „Hände frei“ mit Vorlesen, Sprachbefehlen und Siri, Menü, Kochjahr-Buch, iCloud-Einstellungen, Sicherung mit Protokollen, Kurzbefehle/Spotlight/iPad-Tastatur; Neuerungen 1.0, Prüfhinweise, App-Datenschutz ohne Audio), `docs/website/cookplanner.html` (FAQ zu Modi, Sprache, Siri, Menü, Kochjahr-Buch, Tastatur) und `cookplanner-privacy.html` (Einstellungen jetzt im iCloud-Schlüsselwertspeicher statt nur auf dem Gerät, Sprache auf dem Gerät, Suchindex für Siri/Spotlight, Mikrofon). Bildschirmfotos für iPhone, iPad und Duo neu, dazu ein siebtes: der Plan eines Menüs über das Debug-Argument `-MenuSample 1` (mit `-settings.budgetMinutes 120`). Die Webseiten muss Hans-Peter noch hochladen.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
