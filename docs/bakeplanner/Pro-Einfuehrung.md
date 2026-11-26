@@ -53,6 +53,10 @@ Die Functions übernehmen den Wert innerhalb einer Minute, die App beim nächste
 - **Firestore `aiRateLimits`:** `monthCount` je Nutzer; wer oft am Limit ist, ist ein Pro-Kandidat.
 - **Vertex-AI-Kosten** in der Google-Cloud-Abrechnung des Projekts `back-planer`: vor und nach dem Einschalten vergleichen.
 
+## Pro verschenken (Angebotscodes)
+
+Seit 26.11.2026 hat die Kaufseite **Code einlösen** (Apples Einlöse-Blatt, `ProStore.redeemed`). Angebotscodes gibt es seit iOS 16.3 auch für Einmalkäufe: App Store Connect → BakePlanner → In-App-Käufe → BakePlanner Pro → **Angebotscodes**, Preis **kostenlos**, als Einmal-Codes (je Person einer) oder als eigener Code mit Höchstzahl an Einlösungen. Ein eingelöster Code ist ein vom App Store signierter Kauf: Freischaltung, Wiederherstellen, Familienfreigabe und die Prüfung in den Functions gelten unverändert. Weitergeben als Code oder als Link `https://apps.apple.com/redeem?ctx=offercodes&id=6810684679&code=<Code>`. Einzelheiten wie bei CookPlanner: [CookPlanner-Pro.md](../cookplanner/CookPlanner-Pro.md), Abschnitt „Pro verschenken“. Android hat noch keinen Kauf, dort gibt es auch keine Codes.
+
 ## Zurücknehmen
 
 `freeImportsPerMonth` auf `0` setzen – binnen einer Minute gilt kein Monatslimit mehr; `monthCount` läuft weiter, stört aber nicht.
