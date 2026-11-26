@@ -1476,6 +1476,28 @@
         }
       }
     },
+    "Ansicht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ansicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Présentation"
+          }
+        }
+      }
+    },
     "Auch mit den kürzesten Garzeiten fehlen %lld Minuten" : {
       "localizations" : {
         "de" : {

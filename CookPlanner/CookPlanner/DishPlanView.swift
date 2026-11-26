@@ -187,6 +187,12 @@ struct DishPlanView: View {
         }
         // A cover presented while the push is still animating is dropped;
         // the cook mode comes up once the plan has settled.
+        // ⌘⏎ on the plan starts cooking.
+        .onChange(of: requests.command) { _, command in
+            guard command == .startCooking, plan != nil else { return }
+            requests.command = nil
+            if !cooking { cooking = true }
+        }
         .onChange(of: requests.cookDishID, initial: true) { _, id in
             guard id == dish.id, plan != nil else { return }
             requests.cookDishID = nil

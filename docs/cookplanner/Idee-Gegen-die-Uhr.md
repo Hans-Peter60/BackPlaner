@@ -272,6 +272,10 @@ App: „+“ → **Menü zusammenstellen** (`MenuComposerView`): Name, 2–5 Gä
 
 Sechster Punkt aus dem Vergleich (BakePlanners Backjahr-Buch). `KitchenYearbook` im Paket (mit Test) summiert ein Jahr aus den `KitchenCookRun`s: Sessions, Kochtage, Gerichte, Stunden am Herd, Ø Bewertung, im Plan geblieben, entspannt gekocht, längste Session, Monate, Lieblingsgerichte (Anzahl, Sterne, Bestzeit, Plan, Foto des bestbewerteten Durchgangs), „Was die Uhr lehrte“ (erster gegen letzter vollständiger Durchgang je Gericht, ab 2 Minuten Unterschied; entspannte Läufe zählen nicht), Titelfoto. `CookYearbook.swift`: `CookYearbookDocument` (Fotos auf 900 px verkleinert), `CookYearbookRenderer` (A4 über `PlanPDFRenderer.Page`: Titel, Zahlen-Kacheln und Monatsbalken, je Monat ein Fotoraster mit Bildunterschrift, Lieblingsgerichte, Lektionen, Vorsätze-Seite mit Linien), `CookYearbookView` (Jahr, Name auf dem Titelblatt `yearbook.cookName`, Inhalt, Teilen) hinter „Gekocht“ → „+“ → **Kochjahr-Buch**. Debug: `-YearbookPDF 1` schreibt Documents/yearbook.pdf und je Seite ein PNG.
 
+### Tastaturkürzel auf dem iPad (26.11.)
+
+Letzter Punkt aus dem Vergleich. `KeyboardCommands.swift` wie in BakePlanner: App-Commands über einen Focused-Scene-Value (`CommandTarget` in `RootTabView`), die Bildschirme nehmen sie aus `AppRequests.command`. ⌘1 Gerichte, ⌘2 Gekocht, ⌘N Neues Gericht, ⇧⌘N Menü zusammenstellen, ⇧⌘F Gericht suchen (`searchFocused` per `@FocusState`), ⌘, Einstellungen, ⌘⏎ Kochen starten auf dem Plan. Die lange Modifier-Kette der `DishListView` ist in `listContent`/`sheets`/`events`/`alerts` zerlegt, weil der Typprüfer sonst aufgab. Auf dem iPad mit Tastatur prüfen (⌘ gedrückt halten zeigt die Liste).
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
