@@ -67,6 +67,10 @@ public struct KitchenCookRun: Identifiable, Codable, Equatable, Sendable {
     public var note: String?
     /// The photo of the result, a file name in the app's photo folder.
     public var photoFileName: String?
+    /// Cooked in the relaxed mode, without a clock on screen: the times are
+    /// real but not an effort, so they teach the plan nothing. Nil in
+    /// records from before the mode existed.
+    public var relaxed: Bool?
 
     public init(id: String = UUID().uuidString, dishID: String, dishName: String, startedAt: Date,
                 totalSeconds: Int, plannedMinutes: Int, steps: [Step], totalSteps: Int? = nil) {

@@ -53,4 +53,13 @@ struct KitchenTimeLearningTests {
         #expect(found.first?.hands == 2 && found.first?.runs == 5)
         #expect(KitchenTimeLearning.suggestions(for: dish, from: []).isEmpty)
     }
+
+    @Test("A run cooked in the relaxed mode, without a clock, teaches nothing")
+    func relaxedRunsDoNotCount() {
+        var slow = run([("chop", 900, true)], id: "r1")
+        slow.relaxed = true
+        #expect(KitchenTimeLearning.suggestions(for: dish, from: [slow]).isEmpty)
+        let timed = run([("chop", 900, true)], id: "r2")
+        #expect(KitchenTimeLearning.suggestions(for: dish, from: [slow, timed]).first?.hands == 15)
+    }
 }

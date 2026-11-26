@@ -30,9 +30,10 @@ public enum KitchenTimeLearning {
     /// them). Only steps the cook ticked count: a pot that ran its time
     /// teaches nothing. A step without an unattended part learns its hands
     /// minutes; one with an unattended part keeps its hands and learns the
-    /// rest — a pot taken off early, or one that needed longer.
+    /// rest — a pot taken off early, or one that needed longer. Runs cooked
+    /// in the relaxed mode, with no clock to cook against, do not count.
     public static func suggestions(for dish: KitchenDish, from runs: [KitchenCookRun]) -> [Suggestion] {
-        let latest = runs.filter { $0.dishID == dish.id }.prefix(runsConsidered)
+        let latest = runs.filter { $0.dishID == dish.id && $0.relaxed != true }.prefix(runsConsidered)
         guard !latest.isEmpty else { return [] }
         return dish.tasks.compactMap { task in
             let seconds = latest.compactMap { run in

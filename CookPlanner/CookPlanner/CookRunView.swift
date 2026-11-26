@@ -184,7 +184,11 @@ struct CookRunView: View {
                         Text(verbatim: KitchenCookRun.clockText(run.plannedMinutes * 60))
                             .monospacedDigit()
                     }
-                    if run.isComplete {
+                    if run.relaxed == true {
+                        Label("Entspannt gekocht, ohne Uhr – die Zeiten zählen nicht für die gemessenen Zeiten.", systemImage: "leaf")
+                            .font(.footnote)
+                            .foregroundColor(Theme.good)
+                    } else if run.isComplete {
                         LabeledContent("Unterschied") {
                             let difference = run.totalSeconds - run.plannedMinutes * 60
                             Text(verbatim: KitchenCookRun.differenceText(difference))
