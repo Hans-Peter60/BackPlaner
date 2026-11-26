@@ -21,6 +21,9 @@ enum CookSettings {
     static let defaultAlarms = true
     /// How the cook mode's clock runs, chosen before the start.
     static let clockModeKey = "settings.clockMode"
+    /// Whether the cook mode reads each new step and each pot that is
+    /// done aloud on its own.
+    static let readAloudKey = "settings.readAloud"
 
     /// The portion factor chosen for a dish, 1 when none was chosen.
     static func portionFactor(for dishID: String) -> Double {
@@ -109,15 +112,31 @@ extension KitchenTask {
 
 /// "Challenge": the clock counts the time budget down, like on the show,
 /// and on into the minus. "Training": a stopwatch from 0:00, to learn how
-/// long the dish really takes. Both keep the record of the steps.
+/// long the dish really takes. "Entspannt": no clock on screen at all —
+/// the steps come in their order, the pots keep their timers, nothing
+/// says overdue. All three keep the record of the steps; a relaxed run
+/// teaches the plan nothing.
 enum CookClockMode: String, CaseIterable {
     case challenge
     case training
+    case relaxed
 
     var title: LocalizedStringKey {
         switch self {
         case .challenge: return "Challenge"
         case .training: return "Training"
+        case .relaxed: return "Entspannt"
         }
     }
+
+    var explanation: LocalizedStringKey {
+        switch self {
+        case .challenge: return "Die Uhr zählt das Zeitbudget rückwärts, wie in der Sendung."
+        case .training: return "Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert."
+        case .relaxed: return "Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit."
+        }
+    }
+
+    /// Whether the screen shows the clock and the minutes left on a step.
+    var showsClock: Bool { self != .relaxed }
 }

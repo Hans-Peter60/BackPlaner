@@ -72,6 +72,54 @@
           }
         }
       }
+    },
+    "NSMicrophoneUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Kochmodus hört CookPlanner auf „Erledigt“, „Steht“, „Vorlesen“ und „Was kommt“, damit Du mit nassen Händen durch die Schritte kommst. Die Spracherkennung läuft auf dem Gerät."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In the cook mode CookPlanner listens for “done”, “it's on”, “read” and “what's next”, so you can go through the steps with wet hands. Speech is recognized on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En mode cuisine, CookPlanner écoute « terminé », « c'est parti », « lire » et « et après », pour passer les étapes les mains mouillées. La reconnaissance vocale s’effectue sur l’appareil."
+          }
+        }
+      },
+      "comment" : "Privacy - Microphone Usage Description"
+    },
+    "NSSpeechRecognitionUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CookPlanner erkennt die gesprochenen Befehle des Kochmodus auf dem Gerät."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CookPlanner recognizes the spoken commands of the cook mode on the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CookPlanner reconnaît sur l’appareil les commandes vocales du mode cuisine."
+          }
+        }
+      },
+      "comment" : "Privacy - Speech Recognition Usage Description"
     }
   },
   "version" : "1.0"

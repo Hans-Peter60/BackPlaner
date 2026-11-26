@@ -1,6 +1,50 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ braucht noch %lld Minuten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ braucht noch %lld Minuten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ needs %lld more minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a encore besoin de %lld minutes."
+          }
+        }
+      }
+    },
+    "%@ ist überfällig." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ist überfällig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is overdue."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ est en retard."
+          }
+        }
+      }
+    },
     "%@ wartet %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -130,6 +174,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ : %lld au lieu de %lld minutes"
+          }
+        }
+      }
+    },
+    "%@: die Zeit ist um." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: die Zeit ist um."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: time is up."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : le temps est écoulé."
           }
         }
       }
@@ -350,6 +416,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld minutes"
+          }
+        }
+      }
+    },
+    "%lld Minuten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Minuten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes."
           }
         }
       }
@@ -1564,6 +1652,28 @@
         }
       }
     },
+    "Dann %lld Minuten von allein." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dann %lld Minuten von allein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Then %lld minutes on its own."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puis %lld minutes tout seul."
+          }
+        }
+      }
+    },
     "Darstellung" : {
       "localizations" : {
         "de" : {
@@ -1630,6 +1740,28 @@
         }
       }
     },
+    "Das Mikrofon liefert kein Audio." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Mikrofon liefert kein Audio."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The microphone delivers no audio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le micro ne fournit aucun son."
+          }
+        }
+      }
+    },
     "Das Protokoll hält fest, wann jeder Schritt erledigt war." : {
       "localizations" : {
         "de" : {
@@ -1670,6 +1802,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La limite horaire d’analyses est atteinte. Réessayez plus tard."
+          }
+        }
+      }
+    },
+    "Das war der letzte Schritt. Fertig, anrichten!" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das war der letzte Schritt. Fertig, anrichten!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was the last step. Done, plate up!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière étape. Fini, à table !"
           }
         }
       }
@@ -1824,6 +1978,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le plan ne tient pas : %@"
+          }
+        }
+      }
+    },
+    "Der Plan ist durch." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Plan ist durch."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan is through."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan est terminé."
+          }
+        }
+      }
+    },
+    "Der Plan ist in %lld Minuten fertig." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Plan ist in %lld Minuten fertig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The plan is done in %lld minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plan sera terminé dans %lld minutes."
           }
         }
       }
@@ -2180,6 +2378,28 @@
         }
       }
     },
+    "Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Spracherkennung ist für diese Sprache auf diesem Gerät nicht verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speech recognition is not available for this language on this device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La reconnaissance vocale n’est pas disponible pour cette langue sur cet appareil."
+          }
+        }
+      }
+    },
     "Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert." : {
       "localizations" : {
         "de" : {
@@ -2198,6 +2418,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’horloge part de 0:00 : vous apprenez combien de temps le plat prend vraiment."
+          }
+        }
+      }
+    },
+    "Die Uhr läuft schon." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Uhr läuft schon."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock is already running."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’horloge tourne déjà."
           }
         }
       }
@@ -2374,6 +2616,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les fours sont préchauffés quand le chrono démarre."
+          }
+        }
+      }
+    },
+    "Dieser Schritt hat keine Zutaten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Schritt hat keine Zutaten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This step has no ingredients."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette étape n’a pas d’ingrédients."
           }
         }
       }
@@ -2664,6 +2928,94 @@
         }
       }
     },
+    "Entspannt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entspannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détendu"
+          }
+        }
+      }
+    },
+    "Entspannt gekocht, ohne Uhr – die Zeiten zählen nicht für die gemessenen Zeiten." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entspannt gekocht, ohne Uhr – die Zeiten zählen nicht für die gemessenen Zeiten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked relaxed, without a clock – these times do not count towards the measured times."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné détendu, sans horloge – ces temps ne comptent pas pour les temps mesurés."
+          }
+        }
+      }
+    },
+    "Entspannt kochen, ohne Uhr" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entspannt kochen, ohne Uhr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxed cooking, no clock"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiner détendu, sans horloge"
+          }
+        }
+      }
+    },
+    "Entspannt – ohne Uhr" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entspannt – ohne Uhr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxed – no clock"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Détendu – sans horloge"
+          }
+        }
+      }
+    },
     "Erledigt" : {
       "localizations" : {
         "de" : {
@@ -2686,6 +3038,28 @@
         }
       }
     },
+    "Erledigt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé."
+          }
+        }
+      }
+    },
     "Erstellt mit CookPlanner" : {
       "localizations" : {
         "de" : {
@@ -2704,6 +3078,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Créé avec CookPlanner"
+          }
+        }
+      }
+    },
+    "Es gibt nichts zurückzunehmen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es gibt nichts zurückzunehmen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There is nothing to take back."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’y a rien à annuler."
           }
         }
       }
@@ -3170,6 +3566,28 @@
         }
       }
     },
+    "Gehört: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gehört: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heard: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entendu : %@"
+          }
+        }
+      }
+    },
     "Gekocht" : {
       "localizations" : {
         "de" : {
@@ -3298,6 +3716,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prévu"
+          }
+        }
+      }
+    },
+    "Gerade ist nichts in der Hand." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade ist nichts in der Hand."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing is in your hands right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien en main pour l’instant."
+          }
+        }
+      }
+    },
+    "Gerade läuft nichts." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade läuft nichts."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing is running right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien ne tourne pour l’instant."
+          }
+        }
+      }
+    },
+    "Gerade steht kein Topf und kein Ofen an." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade steht kein Topf und kein Ofen an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No pot and no oven is due right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune casserole ni four à lancer pour l’instant."
           }
         }
       }
@@ -3522,6 +4006,50 @@
         }
       }
     },
+    "Gleich, in %lld Minuten: %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gleich, in %lld Minuten: %@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming up in %lld minutes: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bientôt, dans %lld minutes : %@."
+          }
+        }
+      }
+    },
+    "Gleich: %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gleich: %@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming up: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bientôt : %@."
+          }
+        }
+      }
+    },
     "Hake ab, was Du schon im Haus hast. Den Rest teilst Du unten, z. B. an Erinnerungen." : {
       "localizations" : {
         "de" : {
@@ -3742,6 +4270,28 @@
         }
       }
     },
+    "Hände frei, der Topf braucht noch" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hände frei, der Topf braucht noch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands free, the pot needs a little longer"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains libres, la casserole a encore besoin de temps"
+          }
+        }
+      }
+    },
     "Hände frei, in %lld Min. weiter" : {
       "localizations" : {
         "de" : {
@@ -3826,6 +4376,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au plus %lld min"
+          }
+        }
+      }
+    },
+    "Ich höre zu. Sage %@, %@, %@ oder %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich höre zu. Sage %@, %@, %@ oder %@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I'm listening. Say %@, %@, %@ or %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je vous écoute. Dites %@, %@, %@ ou %@."
           }
         }
       }
@@ -4006,6 +4578,28 @@
         }
       }
     },
+    "Jetzt:" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jetzt:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenant :"
+          }
+        }
+      }
+    },
     "Kein Plan" : {
       "localizations" : {
         "de" : {
@@ -4024,6 +4618,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pas de plan"
+          }
+        }
+      }
+    },
+    "Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No clock, nothing overdue: the steps come in their order; only pots and the oven keep their time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas d’horloge, rien en retard : les étapes viennent dans l’ordre, seuls les casseroles et le four gardent leur temps."
           }
         }
       }
@@ -4996,6 +5612,28 @@
         }
       }
     },
+    "Noch %lld Minuten für %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch %lld Minuten für %@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes left for %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore %lld minutes pour %@."
+          }
+        }
+      }
+    },
     "Noch ist kein Schritt erledigt; es gibt nichts festzuhalten." : {
       "localizations" : {
         "de" : {
@@ -5282,6 +5920,28 @@
         }
       }
     },
+    "Ofen %lld Grad." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ofen %lld Grad."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld degrees."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four à %lld degrés."
+          }
+        }
+      }
+    },
     "Ofen %lld °C" : {
       "localizations" : {
         "de" : {
@@ -5366,6 +6026,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sans composant"
+          }
+        }
+      }
+    },
+    "Ohne Mikrofon kann der Kochmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Mikrofon kann der Kochmodus nicht zuhören. Erlaube den Zugriff in den Einstellungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without the microphone the cook mode cannot listen. Allow access in Settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans micro, le mode cuisine ne peut pas écouter. Autorisez l’accès dans Réglages."
           }
         }
       }
@@ -5586,6 +6268,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause, le chrono est arrêté"
+          }
+        }
+      }
+    },
+    "Pause, die Uhr steht." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause, die Uhr steht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused, the clock stands still."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause, l’horloge est arrêtée."
           }
         }
       }
@@ -5850,6 +6554,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Sage „%@“, „%@“, „%@“ oder „%@“." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sage „%@“, „%@“, „%@“ oder „%@“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say “%@”, “%@”, “%@” or “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « %@ », « %@ », « %@ » ou « %@ »."
           }
         }
       }
@@ -6206,6 +6932,94 @@
         }
       }
     },
+    "Sprachbefehle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachbefehle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice commands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commandes vocales"
+          }
+        }
+      }
+    },
+    "Sprachbefehle beenden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachbefehle beenden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop voice commands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter les commandes vocales"
+          }
+        }
+      }
+    },
+    "Sprachbefehle starten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachbefehle starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start voice commands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer les commandes vocales"
+          }
+        }
+      }
+    },
+    "Spracherkennung wird vorbereitet …" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spracherkennung wird vorbereitet …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing speech recognition …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Préparation de la reconnaissance vocale…"
+          }
+        }
+      }
+    },
     "Start" : {
       "localizations" : {
         "de" : {
@@ -6290,6 +7104,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En place, ça tourne tout seul"
+          }
+        }
+      }
+    },
+    "Steht." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's on."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C'est parti."
           }
         }
       }
@@ -6559,6 +7395,72 @@
         }
       }
     },
+    "Vorlesen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorlesen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read aloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire à voix haute"
+          }
+        }
+      }
+    },
+    "Vorlesen ausschalten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorlesen ausschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn reading aloud off"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver la lecture"
+          }
+        }
+      }
+    },
+    "Vorlesen einschalten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorlesen einschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn reading aloud on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer la lecture"
+          }
+        }
+      }
+    },
     "Vorzeitig beendet: %lld von %lld Schritten erledigt." : {
       "localizations" : {
         "de" : {
@@ -6713,6 +7615,28 @@
         }
       }
     },
+    "Weiter geht's." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weiter geht's."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carrying on."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On continue."
+          }
+        }
+      }
+    },
     "Weiterkochen" : {
       "localizations" : {
         "de" : {
@@ -6725,6 +7649,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep cooking"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "Weitermachen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitermachen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carry on"
           }
         },
         "fr" : {
@@ -6819,6 +7765,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lancez l’horloge en mode cuisine et enregistrez le relevé à la fin : le plat apparaît ici, avec étoiles, note et photo. Ajoutez avec « + » ce que vous avez cuisiné sans chronomètre."
+          }
+        }
+      }
+    },
+    "Wie lange" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie lange"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How long"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de temps"
           }
         }
       }
@@ -7043,6 +8011,50 @@
         }
       }
     },
+    "Zurück" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurück"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        }
+      }
+    },
+    "Zurückgenommen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurückgenommen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taken back."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulé."
+          }
+        }
+      }
+    },
     "Zurücksetzen" : {
       "localizations" : {
         "de" : {
@@ -7259,6 +8271,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "jusqu’à %lld min"
+          }
+        }
+      }
+    },
+    "dann %lld Min. von allein" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dann %lld Min. von allein"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "then %lld min on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "puis %lld min tout seul"
           }
         }
       }
@@ -7545,6 +8579,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus d’une heure"
+          }
+        }
+      }
+    },
+    "Überfällig." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überfällig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En retard."
           }
         }
       }
