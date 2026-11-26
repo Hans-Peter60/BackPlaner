@@ -67,13 +67,32 @@ struct DishListView: View {
     @State var showsExporter = false
     @State var report = ""
     @State var showsReport = false
+    @State var searchText = ""
+    @State var filter = KitchenDishFilter()
+    @State var log = CookRunLog.shared
     @Environment(\.colorScheme) var colorScheme
+
+    /// Whether the dish passes the search and the facets; the facets are
+    /// read from its plan with the current kitchen (as on the iPhone).
+    private func passes(_ dish: KitchenDish) -> Bool {
+        guard KitchenDishFilter.matches(dish, searchText: searchText, locale: AppSettings.locale) else { return false }
+        guard filter.isActive else { return true }
+        guard let plan = library.plan(for: dish) else { return false }
+        return filter.matches(KitchenDishFacets(dish: plan.dish, schedule: plan.schedule),
+                              history: KitchenDishFilter.History(dishID: dish.id, runs: log.runs))
+    }
+
+    private var shownOwn: [KitchenDish] { library.ownDishes.filter(passes) }
+    private var shownSamples: [KitchenDish] { library.samples.filter(passes) }
 
     var body: some View {
         ZStack {
-            WarmBackground().ignoresSafeArea()
+            // Not into the safe area: the search field sits above the list,
+            // and a gradient reaching there covered it (BakePlanner's finding).
+            WarmBackground()
             list
         }
+        .searchable(text: $searchText, prompt: String(localized: "Gericht, Komponente oder Zutat", bundle: .module))
         .navigationTitle(String(localized: "Gerichte", bundle: .module))
         .toolbar {
             // Android shows two items at the top; the rest goes in the menu.
@@ -144,10 +163,36 @@ struct DishListView: View {
                 Text(String(localized: "Ein Gericht, eine Person, \(library.budget) Minuten", bundle: .module))
                     .font(.footnote)
                     .foregroundStyle(Palette.subtitle(colorScheme))
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(KitchenDishCollection.allCases, id: \.self) { collection in
+                            let isOn = filter == collection.filter
+                            Button {
+                                filter = isOn ? KitchenDishFilter() : collection.filter
+                            } label: {
+                                Text(collection.chipTitle)
+                                    .font(.footnote)
+                                    .fontWeight(isOn ? .semibold : .regular)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .foregroundStyle(isOn ? Color.white : Palette.title(colorScheme))
+                                    .background(Capsule().fill(isOn ? Palette.accent(colorScheme) : Palette.card(colorScheme)))
+                                    .overlay(Capsule().stroke(Palette.accentText(colorScheme).opacity(isOn ? 0 : 0.3), lineWidth: 1))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
             }
-            if !library.ownDishes.isEmpty {
+            if shownOwn.isEmpty && shownSamples.isEmpty {
+                Section {
+                    Text(String(localized: "Keine passenden Gerichte", bundle: .module))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            if !shownOwn.isEmpty {
                 Section(String(localized: "Meine Gerichte", bundle: .module)) {
-                    ForEach(library.ownDishes, id: \.id) { dish in
+                    ForEach(shownOwn, id: \.id) { dish in
                         NavigationLink {
                             DishPlanView(library: library, dishID: dish.id)
                         } label: {
@@ -156,14 +201,16 @@ struct DishListView: View {
                     }
                 }
             }
+            if !shownSamples.isEmpty {
             Section(String(localized: "Beispiele", bundle: .module)) {
-                ForEach(library.samples, id: \.id) { dish in
+                ForEach(shownSamples, id: \.id) { dish in
                     NavigationLink {
                         DishPlanView(library: library, dishID: dish.id)
                     } label: {
                         DishRow(library: library, dish: dish)
                     }
                 }
+            }
             }
         }
         .scrollContentBackground(.hidden)
@@ -234,6 +281,20 @@ struct KitchenSettingsView: View {
                     Button(String(localized: "Fertig", bundle: .module)) { dismiss() }
                 }
             }
+        }
+    }
+}
+
+extension KitchenDishCollection {
+    /// The chip's name, as on the iPhone.
+    var chipTitle: String {
+        switch self {
+        case .fits: String(localized: "Passt ins Budget", bundle: .module)
+        case .quick: String(localized: "Schnell", bundle: .module)
+        case .noOven: String(localized: "Ohne Ofen", bundle: .module)
+        case .favourites: String(localized: "Lieblinge", bundle: .module)
+        case .never: String(localized: "Noch nie gekocht", bundle: .module)
+        case .longAgo: String(localized: "Lange nicht gekocht", bundle: .module)
         }
     }
 }
