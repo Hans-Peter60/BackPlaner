@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%@ · die Zeit ist um" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · time is up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · le temps est écoulé"
+          }
+        }
+      }
+    },
+    "%@ · jetzt dran" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · up now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · à faire maintenant"
+          }
+        }
+      }
+    },
     "%lld Gerichte übernommen, %lld waren schon da." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -626,6 +660,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’horloge décompte le temps imparti, comme à l’émission."
+          }
+        }
+      }
+    },
+    "Die Zeit ist um" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time is up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le temps est écoulé"
           }
         }
       }
@@ -1259,6 +1310,23 @@
         }
       }
     },
+    "Jetzt dran" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À faire maintenant"
+          }
+        }
+      }
+    },
     "Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1561,6 +1629,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au moins %lld min"
+          }
+        }
+      }
+    },
+    "Mitteilungen sind aus – bei dunklem Bildschirm meldet sich CookPlanner nicht. Einschalten in den Android-Einstellungen unter Apps → CookPlanner." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are off – with the screen dark, CookPlanner stays silent. Turn them on in Android's settings under Apps → CookPlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les notifications sont désactivées – écran éteint, CookPlanner reste muet. Activez-les dans les réglages d’Android sous Applications → CookPlanner."
           }
         }
       }

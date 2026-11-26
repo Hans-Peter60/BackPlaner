@@ -7,6 +7,8 @@
 
     <!-- permissions needed for using the internet or an embedded WebKit browser -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- A banner when a step is due or a pot is done (Android 13+ asks). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
 
     <application
@@ -15,6 +17,19 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher">
+        <!-- WorkManager takes its configuration from AndroidAppMain (the
+             reminder worker in Reminders.kt), so the default startup
+             initializer has to go. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
         <activity
             android:name=".MainActivity"
             android:exported="true"
