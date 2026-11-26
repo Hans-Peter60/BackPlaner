@@ -52,6 +52,23 @@
         }
       }
     },
+    "%@: die Zeit ist um." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: time is up."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : le temps est écoulé."
+          }
+        }
+      }
+    },
     "%lld + %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -222,6 +239,23 @@
         }
       }
     },
+    "%lld Minuten." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes."
+          }
+        }
+      }
+    },
     "%lld Protokolle übernommen, %lld waren schon da." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -375,6 +409,40 @@
         }
       }
     },
+    "31 bis 45 Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "31 to 45 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "31 à 45 minutes"
+          }
+        }
+      }
+    },
+    "46 bis 60 Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "46 to 60 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "46 à 60 minutes"
+          }
+        }
+      }
+    },
     "Abbrechen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -405,6 +473,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déroulé"
+          }
+        }
+      }
+    },
+    "Alle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous"
           }
         }
       }
@@ -664,6 +749,23 @@
         }
       }
     },
+    "Bis 30 Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 30 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’à 30 minutes"
+          }
+        }
+      }
+    },
     "bis zu %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -762,6 +864,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "puis %lld min tout seul"
+          }
+        }
+      }
+    },
+    "Dann %lld Minuten von allein." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Then %lld minutes on its own."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puis %lld minutes tout seul."
           }
         }
       }
@@ -953,6 +1072,23 @@
         }
       }
     },
+    "Die gewählten Filter erscheinen als eigene Sammlung in der Leiste." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The chosen filters appear as a collection of your own in the bar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les filtres choisis apparaissent comme votre propre collection dans la barre."
+          }
+        }
+      }
+    },
     "Die Handarbeit allein dauert %lld Minuten. Eine Person reicht nicht: Schritte streichen oder vereinfachen." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1102,6 +1238,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les temps restent les mêmes"
+          }
+        }
+      }
+    },
+    "Eigene" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personnels"
+          }
+        }
+      }
+    },
+    "Eigene Sammlungen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your own collections"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos propres collections"
           }
         }
       }
@@ -1446,6 +1616,40 @@
         }
       }
     },
+    "Filter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtre"
+          }
+        }
+      }
+    },
+    "Filter zurücksetzen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset filters"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser les filtres"
+          }
+        }
+      }
+    },
     "Foto aufnehmen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1697,6 +1901,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Poste"
+          }
+        }
+      }
+    },
+    "Geräte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipment"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Équipement"
           }
         }
       }
@@ -2007,6 +2228,23 @@
         }
       }
     },
+    "Herkunft" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origine"
+          }
+        }
+      }
+    },
     "Hinweis" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2054,6 +2292,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au plus %lld min"
+          }
+        }
+      }
+    },
+    "Importiert" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imported"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importés"
           }
         }
       }
@@ -2585,6 +2840,23 @@
         }
       }
     },
+    "Mit Ofen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With oven"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec four"
+          }
+        }
+      }
+    },
     "Mitteilungen sind aus – bei dunklem Bildschirm meldet sich CookPlanner nicht. Einschalten in den Android-Einstellungen unter Apps → CookPlanner." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2823,6 +3095,23 @@
         }
       }
     },
+    "Nur Herd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stove only"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaques seulement"
+          }
+        }
+      }
+    },
     "Nüsse, Saaten & Trockenfrüchte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2874,6 +3163,23 @@
         }
       }
     },
+    "Ofen %lld Grad." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld degrees."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four à %lld degrés."
+          }
+        }
+      }
+    },
     "Ofen %lld °C" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2921,6 +3227,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sans unité"
+          }
+        }
+      }
+    },
+    "Ohne Hitze" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No heat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans cuisson"
           }
         }
       }
@@ -3180,6 +3503,23 @@
         }
       }
     },
+    "Sammlung sichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save collection"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer la collection"
+          }
+        }
+      }
+    },
     "Schnell" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3418,6 +3758,23 @@
         }
       }
     },
+    "Über eine Stunde" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over an hour"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus d’une heure"
+          }
+        }
+      }
+    },
     "überfällig" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3431,6 +3788,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "en retard"
+          }
+        }
+      }
+    },
+    "Überfällig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En retard."
           }
         }
       }
@@ -3486,6 +3860,23 @@
         }
       }
     },
+    "Verlauf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique"
+          }
+        }
+      }
+    },
     "Verschiedene Gerichte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3499,6 +3890,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plats différents"
+          }
+        }
+      }
+    },
+    "Vorlesen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read aloud"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire à voix haute"
           }
         }
       }
@@ -3635,6 +4043,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "Wenig Handarbeit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Little hands-on work"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peu de travail manuel"
           }
         }
       }

@@ -71,6 +71,8 @@ struct DishListView: View {
     @State var filter = KitchenDishFilter()
     @State var log = CookRunLog.shared
     @State var composesMenu = false
+    @State var showsFilter = false
+    @State var collections = SavedCollectionStore.shared
     @Environment(\.colorScheme) var colorScheme
 
     /// Whether the dish passes the search and the facets; the facets are
@@ -121,6 +123,9 @@ struct DishListView: View {
                     Button(String(localized: "Gerichte importieren", bundle: .module)) {
                         showsPicker = true
                     }
+                    Button(String(localized: "Filter", bundle: .module)) {
+                        showsFilter = true
+                    }
                     Button(String(localized: "Einstellungen", bundle: .module)) {
                         showsSettings = true
                     }
@@ -132,6 +137,9 @@ struct DishListView: View {
         }
         .appSheet(isPresented: $showsSettings) {
             KitchenSettingsView(library: library)
+        }
+        .appSheet(isPresented: $showsFilter) {
+            DishFilterSheet(filter: $filter)
         }
         .appSheet(isPresented: $composesMenu) {
             MenuComposerView(library: library) { menu in
@@ -182,6 +190,22 @@ struct DishListView: View {
                                 filter = isOn ? KitchenDishFilter() : collection.filter
                             } label: {
                                 Text(collection.chipTitle)
+                                    .font(.footnote)
+                                    .fontWeight(isOn ? .semibold : .regular)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .foregroundStyle(isOn ? Color.white : Palette.title(colorScheme))
+                                    .background(Capsule().fill(isOn ? Palette.accent(colorScheme) : Palette.card(colorScheme)))
+                                    .overlay(Capsule().stroke(Palette.accentText(colorScheme).opacity(isOn ? 0 : 0.3), lineWidth: 1))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        ForEach(collections.collections, id: \.id) { collection in
+                            let isOn = filter == collection.filter
+                            Button {
+                                filter = isOn ? KitchenDishFilter() : collection.filter
+                            } label: {
+                                Text(collection.name)
                                     .font(.footnote)
                                     .fontWeight(isOn ? .semibold : .regular)
                                     .padding(.horizontal, 12)
