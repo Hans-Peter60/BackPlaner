@@ -114,6 +114,49 @@ final class CookRunLog {
         return FileManager.default.fileExists(atPath: url.path) ? url : nil
     }
 
+    // MARK: Backup
+
+    /// The records' photos for a backup file, by file name: read small
+    /// (1000 px on the longer side) and re-encoded, so fifty results stay
+    /// a few megabytes rather than a hundred.
+    func backupPhotos() -> [String: Data] {
+        var photos = [String: Data]()
+        for run in runs {
+            guard let name = run.photoFileName, photos[name] == nil,
+                  let data = try? Data(contentsOf: photoFolder.appendingPathComponent(name)),
+                  let small = Self.downsampled(data, maxPixels: 1000),
+                  let jpeg = small.jpegData(compressionQuality: 0.7) else { continue }
+            photos[name] = jpeg
+        }
+        return photos
+    }
+
+    /// Takes the records of a backup that are not here yet, with their
+    /// photos; records already here stay as they are. Answers how many
+    /// came and how many were known.
+    @discardableResult
+    func importRuns(_ incoming: [KitchenCookRun], photos: [String: Data]) -> (added: Int, alreadyThere: Int) {
+        guard !isReadOnly else { return (0, incoming.count) }
+        var added = 0, known = 0
+        for run in incoming {
+            if self.run(id: run.id) != nil { known += 1; continue }
+            if let name = run.photoFileName, let data = photos[name] {
+                let target = photoFolder.appendingPathComponent(name)
+                if !FileManager.default.fileExists(atPath: target.path) {
+                    try? FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+                    try? data.write(to: target, options: .atomic)
+                }
+            }
+            runs.append(run)
+            added += 1
+        }
+        guard added > 0 else { return (0, known) }
+        runs.sort { $0.startedAt > $1.startedAt }
+        save()
+        for run in incoming where self.run(id: run.id) != nil { CloudSync.shared.runChanged(run.id) }
+        return (added, known)
+    }
+
     // MARK: Photos
 
     /// A photo read straight at a reduced size (ImageIO), so thirty camera

@@ -558,11 +558,11 @@ struct KitchenSettingsView: View {
                         .foregroundColor(.secondary)
                 }
                 Section {
-                    ShareLink(item: DishFileExport(dishes: ownDishes),
+                    ShareLink(item: DishFileExport(dishes: ownDishes, includesRecords: true),
                               preview: SharePreview(Text("Meine Gerichte"))) {
-                        Label("Eigene Gerichte sichern", systemImage: "square.and.arrow.up")
+                        Label("Gerichte und Protokolle sichern", systemImage: "square.and.arrow.up")
                     }
-                    .disabled(ownDishes.isEmpty)
+                    .disabled(ownDishes.isEmpty && CookRunLog.shared.runs.isEmpty)
                     Button {
                         choosingFile = true
                     } label: {
@@ -571,7 +571,7 @@ struct KitchenSettingsView: View {
                 } header: {
                     Text("Sicherung")
                 } footer: {
-                    Text("Die Sicherung ist eine Datei mit allen eigenen Gerichten, z. B. für iCloud Drive. Beim Importieren bleiben Gerichte, die schon da sind, unverändert. Die Kochprotokolle sind nicht enthalten.")
+                    Text("Die Sicherung ist eine Datei mit allen eigenen Gerichten, den Kochprotokollen und ihren Fotos, z. B. für iCloud Drive. Beim Importieren bleibt unverändert, was schon da ist.")
                 }
                 Section {
                     LabeledContent("iCloud") {

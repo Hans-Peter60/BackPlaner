@@ -5,22 +5,33 @@
 //  The file format for dishes: what the CookPlanner store keeps a dish as
 //  and what a backup or a shared dish is. Plain records with explicit
 //  keys, apart from the in-memory types, so the format can stay while the
-//  types move. Version 1. Never change it without raising the version;
-//  a file of a later version than the app knows is refused rather than
-//  half read.
+//  types move. Never change it without raising the version; a file of a
+//  later version than the app knows is refused rather than half read.
+//
+//  Versions: 1 dishes with steps; 2 adds the ingredients; 3 may carry the
+//  cooking records and their photos (a backup). A file without records is
+//  still written as version 2, so a shared dish opens in any build.
 //
 
 import Foundation
 
 public struct KitchenDishFile: Codable, Equatable, Sendable {
-    public static let currentVersion = 2
+    public static let currentVersion = 3
 
     public var formatVersion: Int
     public var dishes: [KitchenDishRecord]
+    /// The cooking records, in a backup; nil in a shared dish and in files
+    /// of version 1 and 2.
+    public var runs: [KitchenCookRun]?
+    /// The records' photos by file name, JPEG data; nil without photos.
+    public var photos: [String: Data]?
 
-    public init(dishes: [KitchenDish]) {
-        formatVersion = Self.currentVersion
+    public init(dishes: [KitchenDish], runs: [KitchenCookRun]? = nil, photos: [String: Data]? = nil) {
+        let carriesRecords = runs != nil || photos != nil
+        formatVersion = carriesRecords ? Self.currentVersion : 2
         self.dishes = dishes.map(KitchenDishRecord.init(dish:))
+        self.runs = runs
+        self.photos = photos
     }
 
     /// The file read; a later version than this app knows is refused.

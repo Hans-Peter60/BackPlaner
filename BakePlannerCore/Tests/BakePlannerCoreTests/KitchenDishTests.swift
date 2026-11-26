@@ -22,10 +22,29 @@ struct KitchenDishTests {
         #expect(read.kitchenDishes == [dish])
     }
 
+    @Test("A backup carries the records and their photos as version 3; without them the file stays version 2")
+    func backupWithRecords() throws {
+        let dish = KitchenSampleDishes.all[0]
+        var run = KitchenCookRun(dishID: dish.id, dishName: dish.name, startedAt: Date(timeIntervalSince1970: 86_400),
+                                 totalSeconds: 1_800, plannedMinutes: 30, steps: [], totalSteps: 5)
+        run.photoFileName = "r1.jpg"
+        run.relaxed = true
+        let photo = Data([0xFF, 0xD8, 0xFF, 0xE0, 1, 2, 3])
+        let data = try KitchenDishFile(dishes: [dish], runs: [run], photos: ["r1.jpg": photo]).encoded()
+        let read = try KitchenDishFile.decode(data)
+        #expect(read.formatVersion == 3)
+        #expect(read.kitchenDishes == [dish])
+        #expect(read.runs == [run])
+        #expect(read.photos?["r1.jpg"] == photo)
+        #expect(try KitchenDishFile.decode(try KitchenDishFile(dishes: [dish]).encoded()).formatVersion == 2)
+        let shared = try KitchenDishFile.decode(try KitchenDishFile(dishes: [dish]).encoded())
+        #expect(shared.runs == nil && shared.photos == nil)
+    }
+
     @Test("A file of a later version is refused; unknown fields and an unknown source are tolerated")
     func versions() throws {
-        let future = Data(#"{"formatVersion": 3, "dishes": []}"#.utf8)
-        #expect(throws: KitchenDishFileError.unsupportedVersion(3)) { try KitchenDishFile.decode(future) }
+        let future = Data(#"{"formatVersion": 4, "dishes": []}"#.utf8)
+        #expect(throws: KitchenDishFileError.unsupportedVersion(4)) { try KitchenDishFile.decode(future) }
         let lenient = Data("""
         {"formatVersion": 1, "colour": "red", "dishes": [{"id": "x", "name": "Suppe", "source": "fax", "servings": -2,
           "steps": [{"id": "s", "name": "Kochen", "component": "", "handsMinutes": 99999999, "unattendedMinutes": 10,
