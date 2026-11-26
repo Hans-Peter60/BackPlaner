@@ -30,6 +30,40 @@ export const appAppleId = 6810684679;
 /** The non-consumable product, as in ProStore.productID. */
 export const proProductId = "de.hpm64625.BackPlaner.pro";
 
+/**
+ * A purchase the Functions can verify: the app, its Apple ID (needed by
+ * Apple's library for Production) and the product. BakePlanner grandfathers
+ * installations from before Pro; CookPlanner starts with Pro and does not.
+ */
+export type ProProduct = {
+  bundleId: string;
+  /** undefined until the app has an Apple ID: then only Sandbox verifies. */
+  appAppleId?: number;
+  productId: string;
+  grandfathering: boolean;
+};
+
+export const bakePlannerPro: ProProduct = {
+  bundleId,
+  appAppleId,
+  productId: proProductId,
+  grandfathering: true,
+};
+
+/**
+ * CookPlanner Pro. The Apple ID is the number under App Store Connect →
+ * CookPlanner → App Information → Apple ID; until it is entered here,
+ * Production purchases are not recognised (Sandbox and TestFlight are), so
+ * it must be set before the store release — see
+ * docs/cookplanner/CookPlanner-Pro.md.
+ */
+export const cookPlannerPro: ProProduct = {
+  bundleId: "de.hpm64625.CookPlanner",
+  appAppleId: undefined,
+  productId: "de.hpm64625.CookPlanner.pro",
+  grandfathering: false,
+};
+
 /** A JWS is a few kilobytes; anything far beyond that is not one. */
 const maxJWSLength = 32_000;
 
@@ -140,16 +174,22 @@ export function loadAppleRootCertificates(): Buffer[] {
  * checks. The library ties a verifier to one environment and rejects the
  * other with INVALID_ENVIRONMENT, so the two are tried in turn.
  * @param {Buffer[]} roots Apple's root certificates.
+ * @param {ProProduct} product The app and product to verify for; without
+ * an Apple ID only Sandbox is accepted.
  * @return {ProVerifier} The verifier.
  */
 export function makeAppleVerifier(
   roots: Buffer[] = loadAppleRootCertificates(),
+  product: ProProduct = bakePlannerPro,
 ): ProVerifier {
-  const verifiers = [
-    new SignedDataVerifier(
-      roots, true, Environment.PRODUCTION, bundleId, appAppleId),
-    new SignedDataVerifier(roots, true, Environment.SANDBOX, bundleId),
-  ];
+  const verifiers: SignedDataVerifier[] = [];
+  if (product.appAppleId !== undefined) {
+    verifiers.push(new SignedDataVerifier(
+      roots, true, Environment.PRODUCTION, product.bundleId,
+      product.appAppleId));
+  }
+  verifiers.push(new SignedDataVerifier(
+    roots, true, Environment.SANDBOX, product.bundleId));
 
   const tryEach = async <T>(
     attempt: (verifier: SignedDataVerifier) => Promise<T>,
@@ -194,16 +234,21 @@ export type ProDecision = {
  */
 export async function decidePro(
   claim: ProClaim,
-  options: {verifier: ProVerifier; grandfatherBeforeBuild?: string},
+  options: {
+    verifier: ProVerifier;
+    grandfatherBeforeBuild?: string;
+    product?: ProProduct;
+  },
 ): Promise<ProDecision> {
+  const product = options.product ?? bakePlannerPro;
   if (claim.transaction) {
     try {
       const transaction = await options.verifier
         .verifyTransaction(claim.transaction);
-      if (transaction.bundleId !== bundleId) {
+      if (transaction.bundleId !== product.bundleId) {
         return {isPro: false, reason: "transaction: wrong bundle"};
       }
-      if (transaction.productId !== proProductId) {
+      if (transaction.productId !== product.productId) {
         return {isPro: false, reason: "transaction: wrong product"};
       }
       if (transaction.revocationDate !== undefined &&
@@ -217,6 +262,9 @@ export async function decidePro(
   }
 
   if (claim.appTransaction) {
+    if (!product.grandfathering) {
+      return {isPro: false, reason: "appTransaction: no grandfathering"};
+    }
     const threshold = options.grandfatherBeforeBuild;
     if (!threshold) {
       return {isPro: false, reason: "appTransaction: no grandfathering"};
@@ -224,7 +272,7 @@ export async function decidePro(
     try {
       const appTransaction = await options.verifier
         .verifyAppTransaction(claim.appTransaction);
-      if (appTransaction.bundleId !== bundleId) {
+      if (appTransaction.bundleId !== product.bundleId) {
         return {isPro: false, reason: "appTransaction: wrong bundle"};
       }
       const original = appTransaction.originalApplicationVersion;

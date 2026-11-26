@@ -21,6 +21,9 @@ struct DishTextImportView: View {
     /// take minutes when the connection is poor.
     @State private var analysisTask: Task<Void, Never>?
     @State private var errorMessage: String?
+    /// The monthly allowance is used up: the alert offers Pro.
+    @State private var limitReached = false
+    @State private var showingPro = false
     @State private var result: DishImportResult?
     @FocusState private var editing: Bool
     /// Opened from "Aus Fotos importieren": the photo section comes first.
@@ -63,10 +66,17 @@ struct DishTextImportView: View {
                 }
             }
             .alert("Import fehlgeschlagen",
-                   isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+                   isPresented: Binding(get: { errorMessage != nil },
+                                        set: { if !$0 { errorMessage = nil; limitReached = false } })) {
+                if limitReached && !CookPro.shared.hasPurchased {
+                    Button("Pro freischalten") { showingPro = true }
+                }
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(errorMessage ?? "")
+            }
+            .sheet(isPresented: $showingPro) {
+                CookProPaywallView()
             }
         }
         .interactiveDismissDisabled(isAnalyzing || isReadingPhotos)
@@ -194,10 +204,11 @@ struct DishTextImportView: View {
                 let dish = CloudDishImport.dish(from: analysis.dish, source: fromPhotos ? .photo : .text,
                                                 fallbackName: String(localized: "Gericht"))
                 result = DishImportResult(dish: dish, warnings: analysis.dish.warnings ?? [],
-                                          notice: analysis.freeImports?.notice())
+                                          notice: analysis.freeImports?.cookNotice)
             } catch {
                 guard !Task.isCancelled else { return }
                 errorMessage = error.localizedDescription
+                if case DishImportError.monthlyLimit = error { limitReached = true }
             }
         }
     }

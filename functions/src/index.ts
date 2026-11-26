@@ -4,7 +4,10 @@ import {initializeApp} from "firebase-admin/app";
 import {getFirestore, Timestamp} from "firebase-admin/firestore";
 import {GoogleGenAI} from "@google/genai";
 import {
+  ProProduct,
   ProVerifier,
+  bakePlannerPro,
+  cookPlannerPro,
   decidePro,
   hasProClaim,
   makeAppleVerifier,
@@ -620,10 +623,11 @@ function validateImages(value: unknown): RecipeImage[] {
 /** Verified Pro claims are remembered this long before being re-checked. */
 const proVerificationValidMilliseconds = 7 * 24 * 60 * 60 * 1000;
 
-let appleVerifier: ProVerifier | undefined;
+/** One verifier per product, made on first use. */
+const appleVerifiers = new Map<string, ProVerifier>();
 
 /**
- * Whether this installation has BakePlanner Pro — decided from what the
+ * Whether this installation has Pro of its app — decided from what the
  * app sends (see proVerification.ts), never from its word alone. A claim
  * that was verified recently is recognised by its hash in the user's
  * `aiRateLimits` document, so the signature check runs about once a week
@@ -631,6 +635,7 @@ let appleVerifier: ProVerifier | undefined;
  * @param {string} uid Authenticated Firebase user ID.
  * @param {unknown} data Untrusted callable payload.
  * @param {MonetizationLimits} limits The switches in force.
+ * @param {ProProduct} product The app's purchase.
  * @return {Promise<boolean>} True only for a verified purchase or a
  * verified grandfathered installation.
  */
@@ -638,6 +643,7 @@ async function resolvePro(
   uid: string,
   data: unknown,
   limits: MonetizationLimits,
+  product: ProProduct,
 ): Promise<boolean> {
   const claim = readProClaim(data);
   if (!hasProClaim(claim)) return false;
@@ -651,9 +657,14 @@ async function resolvePro(
     return true;
   }
 
-  appleVerifier ??= makeAppleVerifier();
+  let verifier = appleVerifiers.get(product.productId);
+  if (!verifier) {
+    verifier = makeAppleVerifier(undefined, product);
+    appleVerifiers.set(product.productId, verifier);
+  }
   const decision = await decidePro(claim, {
-    verifier: appleVerifier,
+    verifier,
+    product,
     grandfatherBeforeBuild: limits.grandfatherBeforeBuild,
   });
   console.info("Pro claim decided", {isPro: decision.isPro,
@@ -672,23 +683,30 @@ type MonetizationLimits = {
   grandfatherBeforeBuild?: string;
 };
 
-let cachedLimits: {value: MonetizationLimits; readAt: number} | undefined;
+/** The switches per document, each cached for a minute. */
+const cachedLimits =
+  new Map<string, {value: MonetizationLimits; readAt: number}>();
 const limitsCacheMilliseconds = 60 * 1000;
 
 /**
- * Reads the Pro switches from `config/monetization` — the same document the
- * app reads, so both switch together. Cached for a minute per instance; a
- * missing document or a failed read means "no monthly limit", as in the app.
+ * Reads the Pro switches from a configuration document —
+ * `config/monetization` for BakePlanner, `config/cookplannerMonetization`
+ * for CookPlanner, the same documents the apps read, so app and server
+ * switch together. Cached for a minute per instance; a missing document or
+ * a failed read means "no monthly limit", as in the apps.
+ * @param {string} document The document path.
  * @return {Promise<MonetizationLimits>} The limits in force.
  */
-async function readMonetizationLimits(): Promise<MonetizationLimits> {
-  if (cachedLimits &&
-      Date.now() - cachedLimits.readAt < limitsCacheMilliseconds) {
-    return cachedLimits.value;
+async function readMonetizationLimits(
+  document: string,
+): Promise<MonetizationLimits> {
+  const cached = cachedLimits.get(document);
+  if (cached && Date.now() - cached.readAt < limitsCacheMilliseconds) {
+    return cached.value;
   }
   const value: MonetizationLimits = {freeImportsPerMonth: 0};
   try {
-    const snapshot = await getFirestore().doc("config/monetization").get();
+    const snapshot = await getFirestore().doc(document).get();
     const raw = snapshot.get("freeImportsPerMonth");
     if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) {
       value.freeImportsPerMonth = Math.floor(raw);
@@ -702,7 +720,7 @@ async function readMonetizationLimits(): Promise<MonetizationLimits> {
   } catch (error) {
     console.error("Monetization config could not be read", error);
   }
-  cachedLimits = {value, readAt: Date.now()};
+  cachedLimits.set(document, {value, readAt: Date.now()});
   return value;
 }
 
@@ -720,14 +738,32 @@ function monthKey(timestamp: Timestamp): string {
  * The Firebase app IDs (App Check) of the apps that are exempt from the
  * monthly allowance: the Android app, which has no purchase yet — Play
  * Billing comes with the Pro switch for both platforms (see
- * docs/bakeplanner/Pro-Einfuehrung.md) — and CookPlanner. The hourly
- * limit applies to them all the same.
+ * docs/bakeplanner/Pro-Einfuehrung.md). The hourly limit applies to it all
+ * the same. CookPlanner has its own allowance (`monetizationFor`).
  */
 export const appIdsWithoutMonthlyLimit = new Set([
   "1:936649524074:android:b46e983de39481f7d65b13",
-  // CookPlanner (iOS): no purchase of its own yet.
-  "1:936649524074:ios:73d0fac7786ca027d65b13",
 ]);
+
+/** CookPlanner's Firebase app ID (iOS), from App Check. */
+export const cookPlannerAppId = "1:936649524074:ios:73d0fac7786ca027d65b13";
+
+/**
+ * Whose switches and whose purchase count for a caller: CookPlanner has its
+ * own document and product, everyone else is BakePlanner.
+ * @param {string | undefined} appId The caller's Firebase app ID.
+ * @return {object} The configuration document and the Pro product.
+ */
+export function monetizationFor(appId: string | undefined): {
+  document: string;
+  product: ProProduct;
+} {
+  if (appId === cookPlannerAppId) {
+    return {document: "config/cookplannerMonetization",
+      product: cookPlannerPro};
+  }
+  return {document: "config/monetization", product: bakePlannerPro};
+}
 
 /**
  * What the response tells the app about its free imports: how many it has
@@ -758,9 +794,9 @@ export function monthlyLimitFor(
 
 /**
  * Applies the per-user limits backed by Firestore: a rolling hourly limit
- * for everyone, and — once `config/monetization` sets one — a monthly
- * allowance of free imports for installations without Pro. Both live in the
- * user's `aiRateLimits` document.
+ * for everyone, and — once the app's configuration document sets one — a
+ * monthly allowance of free imports for installations without Pro. Both
+ * live in the user's `aiRateLimits` document.
  * @param {string} uid Authenticated Firebase user ID.
  * @param {unknown} data The callable payload, carrying the Pro claim.
  * @param {string | undefined} appId The caller's Firebase app ID from App
@@ -777,12 +813,13 @@ async function enforceRateLimit(
   const reference = database.collection("aiRateLimits").doc(uid);
   const now = Timestamp.now();
   const hourInMilliseconds = 60 * 60 * 1000;
-  const limits = await readMonetizationLimits();
+  const monetization = monetizationFor(appId);
+  const limits = await readMonetizationLimits(monetization.document);
   const exempt = appId !== undefined && appIdsWithoutMonthlyLimit.has(appId);
   // Pro only matters while a monthly limit is set; without one nobody
   // needs to prove anything, and no signature is checked.
   const hasPro = limits.freeImportsPerMonth > 0 && !exempt &&
-    await resolvePro(uid, data, limits);
+    await resolvePro(uid, data, limits, monetization.product);
   const monthlyLimit = monthlyLimitFor(limits.freeImportsPerMonth, hasPro,
     appId);
   const month = monthKey(now);

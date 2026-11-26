@@ -31,9 +31,13 @@ final class DishImportClient: @unchecked Sendable {
         }
         let callable = functions.httpsCallable("analyzeDishSteps")
         callable.timeoutInterval = 250
+        // The signed Pro purchase, so the function can lift the monthly
+        // allowance after checking Apple's signature itself.
+        let claim = await MainActor.run { CookPro.shared.proClaim }
+        let payload = ["text": text].merging(claim) { current, _ in current }
         let result: HTTPSCallableResult
         do {
-            result = try await callable.call(["text": text])
+            result = try await callable.call(payload)
         } catch {
             throw DishImportError.from(error)
         }
@@ -66,6 +70,24 @@ final class DishImportClient: @unchecked Sendable {
         try? pretty.write(to: folder.appendingPathComponent("\(stamp).json"))
     }
     #endif
+}
+
+extension CloudRecipeAnalysis.FreeImports {
+    /// What to tell the cook after an analysis, so the end of the monthly
+    /// allowance comes as no surprise: nothing while plenty are left, a
+    /// count for the last two, the plain fact for the last.
+    var cookNotice: String? {
+        switch remaining {
+        case 0:
+            return String(localized: "Das war die letzte kostenlose Rezeptanalyse dieses Monats. Mit CookPlanner Pro gibt es keine Monatsgrenze.")
+        case 1:
+            return String(localized: "Noch eine kostenlose Rezeptanalyse in diesem Monat.")
+        case 2:
+            return String(localized: "Noch \(remaining) kostenlose Rezeptanalysen in diesem Monat.")
+        default:
+            return nil
+        }
+    }
 }
 
 enum DishImportError: LocalizedError {
@@ -119,7 +141,7 @@ enum DishImportError: LocalizedError {
         case .hourlyLimit:
             return String(localized: "Das stündliche Analyse-Limit ist erreicht. Bitte später noch einmal.")
         case .monthlyLimit:
-            return String(localized: "Die kostenlosen Importe dieses Monats sind aufgebraucht.")
+            return String(localized: "Die kostenlosen Rezeptanalysen dieses Monats sind aufgebraucht. Von Hand anlegen geht weiter; mit CookPlanner Pro gibt es keine Monatsgrenze.")
         case .offline:
             return String(localized: "Keine Verbindung zum Analyse-Dienst. Bitte die Internetverbindung prüfen und noch einmal versuchen.")
         case .timedOut:

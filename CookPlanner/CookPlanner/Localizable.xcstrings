@@ -2202,6 +2202,28 @@
         }
       }
     },
+    "Das war die letzte kostenlose Rezeptanalyse dieses Monats. Mit CookPlanner Pro gibt es keine Monatsgrenze." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das war die letzte kostenlose Rezeptanalyse dieses Monats. Mit CookPlanner Pro gibt es keine Monatsgrenze."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was this month’s last free recipe analysis. With CookPlanner Pro there is no monthly limit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière analyse de recette gratuite de ce mois. Avec CookPlanner Pro, il n’y a pas de limite mensuelle."
+          }
+        }
+      }
+    },
     "Datenschutzerklärung" : {
       "localizations" : {
         "de" : {
@@ -3148,24 +3170,24 @@
         }
       }
     },
-    "Die kostenlosen Importe dieses Monats sind aufgebraucht." : {
+    "Die kostenlosen Rezeptanalysen dieses Monats sind aufgebraucht. Von Hand anlegen geht weiter; mit CookPlanner Pro gibt es keine Monatsgrenze." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die kostenlosen Importe dieses Monats sind aufgebraucht."
+            "value" : "Die kostenlosen Rezeptanalysen dieses Monats sind aufgebraucht. Von Hand anlegen geht weiter; mit CookPlanner Pro gibt es keine Monatsgrenze."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This month’s free imports are used up."
+            "value" : "This month’s free recipe analyses are used up. Adding dishes by hand still works; with CookPlanner Pro there is no monthly limit."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les imports gratuits de ce mois sont épuisés."
+            "value" : "Les analyses de recettes gratuites de ce mois sont épuisées. La saisie à la main reste possible ; avec CookPlanner Pro, il n’y a pas de limite mensuelle."
           }
         }
       }
@@ -7170,6 +7192,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encore %lld minutes pour %@."
+          }
+        }
+      }
+    },
+    "Noch %lld kostenlose Rezeptanalysen in diesem Monat." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch %lld kostenlose Rezeptanalysen in diesem Monat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld free recipe analyses left this month."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore %lld analyses de recettes gratuites ce mois-ci."
+          }
+        }
+      }
+    },
+    "Noch eine kostenlose Rezeptanalyse in diesem Monat." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch eine kostenlose Rezeptanalyse in diesem Monat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One free recipe analysis left this month."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore une analyse de recette gratuite ce mois-ci."
           }
         }
       }
