@@ -144,4 +144,10 @@ final class AppRequests {
     static let shared = AppRequests()
     /// The dish whose cook mode should open; cleared once it did.
     var cookDishID: String?
+
+    /// A keyboard command for the screen in front; cleared once taken.
+    enum Command: Equatable {
+        case newDish, newMenu, settings, focusSearch, startCooking
+    }
+    var command: Command?
 }

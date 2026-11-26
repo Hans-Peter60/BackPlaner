@@ -45,6 +45,14 @@ struct RootTabView: View {
                 CookHistoryView()
             }
         }
+        // The keyboard commands of this window: the tab switches here, the
+        // rest the screen in front takes from AppRequests.
+        .focusedSceneValue(\.commandTarget, CommandTarget(
+            showTab: { tab = $0 },
+            request: { command in
+                if command != .startCooking { tab = .dishes }
+                AppRequests.shared.command = command
+            }))
         .onAppear(perform: resumeRunIfAny)
         .fullScreenCover(item: $resumed) { run in
             CookModeView(plan: run.plan, restoring: run.state)

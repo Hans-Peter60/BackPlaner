@@ -37,6 +37,8 @@ struct DishListView: View {
     @State private var importingPhotos = false
     @State private var importingWeb = false
     @State private var composingMenu = false
+    @State private var requests = AppRequests.shared
+    @FocusState private var searchFocused: Bool
     /// A page address handed in by the share extension or a link to the app.
     @State private var webImportAddress: URL?
     @State private var webImportStartsAutomatically = false
@@ -76,7 +78,13 @@ struct DishListView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            List {
+            alerts(events(sheets(listContent)))
+        }
+    }
+
+    /// The list with its search and its toolbar.
+    private var listContent: some View {
+        List {
                 Section {
                     if let warning = library.storageWarning {
                         Label { Text(warning) } icon: { Image(systemName: "exclamationmark.triangle.fill") }
@@ -148,6 +156,7 @@ struct DishListView: View {
                 }
             }
             // Always shown: with a tab bar iOS would hide it until the list is pulled down.
+            .searchFocused($searchFocused)
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always),
                         prompt: Text("Gericht, Komponente oder Zutat"))
             .listStyle(.plain)
@@ -206,6 +215,11 @@ struct DishListView: View {
                     .accessibilityLabel("Einstellungen")
                 }
             }
+    }
+
+    /// The sheets the list opens: editor, imports, settings, menu.
+    private func sheets(_ view: some View) -> some View {
+        view
             .sheet(isPresented: $showsSettings) {
                 KitchenSettingsView()
             }
@@ -249,6 +263,11 @@ struct DishListView: View {
             // there did the link come from the extension — any web page can
             // open cookplanner://import-web, and then the analysis waits
             // for a tap.
+    }
+
+    /// Navigation, links from outside and the keyboard.
+    private func events(_ view: some View) -> some View {
+        view
             .navigationDestination(for: String.self) { id in
                 if let dish = library.dish(id: id) ?? KitchenSampleDishes.all.first(where: { $0.id == id }) {
                     DishPlanView(dish: dish)
@@ -282,6 +301,11 @@ struct DishListView: View {
                     beginWebImport(of: pageURL, startsAutomatically: true)
                 }
             }
+    }
+
+    /// The alerts: import reports, collections, save failures.
+    private func alerts(_ view: some View) -> some View {
+        view
             .alert("Gerichte importieren",
                    isPresented: Binding(get: { fileImportReport != nil }, set: { if !$0 { fileImportReport = nil } })) {
                 Button("OK", role: .cancel) { }
@@ -303,6 +327,8 @@ struct DishListView: View {
                 }
                 Button("Abbrechen", role: .cancel) { }
             }
+            // ⌘N, ⇧⌘N, ⌘, and ⇧⌘F from the keyboard.
+            .onChange(of: requests.command) { _, command in handle(command) }
             .sheet(isPresented: $composingMenu) {
                 MenuComposerView { menu in
                     if library.save(menu) { path = [menu.id] }
@@ -314,7 +340,19 @@ struct DishListView: View {
             } message: {
                 Text(library.lastError ?? "")
             }
+    }
+
+    /// ⌘N, ⇧⌘N, ⌘, and ⇧⌘F from the keyboard; ⌘⏎ is the plan's.
+    private func handle(_ command: AppRequests.Command?) {
+        guard let command else { return }
+        switch command {
+        case .newDish: editing = KitchenDish(name: "", createdAt: .now, tasks: [])
+        case .newMenu: composingMenu = true
+        case .settings: showsSettings = true
+        case .focusSearch: searchFocused = true
+        case .startCooking: return
         }
+        requests.command = nil
     }
 
     // MARK: Selection

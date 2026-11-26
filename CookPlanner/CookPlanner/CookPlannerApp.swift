@@ -159,5 +159,6 @@ struct CookPlannerApp: App {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await CloudSync.shared.fetchNow() } }
         }
+        .commands { CookPlannerCommands() }
     }
 }
