@@ -101,6 +101,18 @@ struct CookPlannerApp: App {
                             }
                         }
                     }
+            } else if UserDefaults.standard.bool(forKey: "MenuSample") {
+                // -MenuSample 1: the plan of a two-course menu from the
+                // examples (stuffed cabbage, then guinea fowl), for screenshots.
+                let samples = KitchenSampleDishes.all
+                let menu = KitchenMenu.combined(
+                    name: String(localized: "Menü"),
+                    courses: [KitchenMenuCourse(dish: samples[1], label: String(localized: "Vorspeise"), gapAfterMinutes: 20),
+                              KitchenMenuCourse(dish: samples[0], label: String(localized: "Hauptgang"))],
+                    id: "menu-sample"
+                ) { course in String(localized: "\(course) servieren") }
+                NavigationStack { DishPlanView(dish: menu) }
+                    .environment(library)
             } else if let index = Int(UserDefaults.standard.string(forKey: "PlanSample") ?? ""),
                KitchenSampleDishes.all.indices.contains(index) {
                 // -PlanSample <index>: an example's plan, for screenshots.
