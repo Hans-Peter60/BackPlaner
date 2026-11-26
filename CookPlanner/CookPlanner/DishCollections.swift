@@ -44,14 +44,26 @@ final class SavedDishCollectionStore {
     static let defaultsKey = "savedDishCollections"
 
     private(set) var collections: [SavedKitchenDishCollection]
+    @ObservationIgnored private var remoteObserver: NSObjectProtocol?
 
     init() {
-        if let data = UserDefaults.standard.data(forKey: Self.defaultsKey),
-           let stored = try? JSONDecoder().decode([SavedKitchenDishCollection].self, from: data) {
-            collections = stored
-        } else {
-            collections = []
-        }
+        collections = Self.stored()
+        // Another device changed the collections: they arrive through the
+        // settings mirror in the defaults and are read again here.
+        remoteObserver = NotificationCenter.default.addObserver(
+            forName: SettingsSync.didApplyRemoteChanges, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.collections = Self.stored() }
+            }
+    }
+
+    deinit {
+        if let remoteObserver { NotificationCenter.default.removeObserver(remoteObserver) }
+    }
+
+    private static func stored() -> [SavedKitchenDishCollection] {
+        guard let data = UserDefaults.standard.data(forKey: defaultsKey),
+              let stored = try? JSONDecoder().decode([SavedKitchenDishCollection].self, from: data) else { return [] }
+        return stored
     }
 
     /// Saves the filter under the name; nothing for an empty name or filter.

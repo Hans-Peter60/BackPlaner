@@ -252,6 +252,10 @@ Aus dem Vergleich mit BakePlanner (Wunsch Hans-Peter: zuerst Vorlesen und Sprach
 
 Zweiter Punkt aus dem Vergleich mit BakePlanner. `KitchenDishFile` Version 3 trägt optional `runs` (die `KitchenCookRun`-Datensätze) und `photos` (Dateiname → JPEG, beim Sichern auf 1000 px verkleinert, Qualität 0,7). Eine Datei ohne Protokolle wird weiter als Version 2 geschrieben, damit ein geteiltes Gericht in jedem Build aufgeht. Einstellungen → Sicherung: „Gerichte und Protokolle sichern“ (`DishFileExport(includesRecords: true)`, Protokolle und Fotos werden beim Schreiben auf dem Main Actor geholt); der Import übernimmt Protokolle, die noch fehlen, samt Foto (`CookRunLog.importRuns`), meldet Protokolle im Satz mit und stößt den Sync an. Das Teilen eines einzelnen Gerichts bleibt ohne Protokolle.
 
+### Einstellungen über iCloud (26.11.)
+
+Dritter Punkt aus dem Vergleich. `SettingsSync` (Kopie von BakePlanners Spiegel) hält `settings.*` (Budget, Platten, Öfen, Wecker, Uhr-Modus, Vorlesen, Plan als Liste), `portions.*` (Portionen je Gericht) und `savedDishCollections` im iCloud-Key-Value-Store; der letzte Schreiber gewinnt. Nicht gespiegelt: `cook.runState` (der laufende Kochvorgang gehört dem Gerät, das kocht), `history.layout`, Debug-Argumente. `SavedDishCollectionStore` liest sich bei `didApplyRemoteChanges` neu ein. Entitlement `com.apple.developer.ubiquity-kvstore-identifier` dazugekommen.
+
 ### Steak statt Spiegelei (23.11.)
 
 Wunsch Hans-Peter: in der Pfanne ein Steak statt des Spiegeleis. Das Skript zeichnet jetzt ein Ribeye mit angebratenem Fettrand, dunkler Kruste, drei Grillstreifen, Glanzpunkten und einem Rosmarinzweig als grünem Akzent; Pfanne, Glut und Stoppuhr bleiben. Nebenbei finden `cookplanner-icon.swift` und `play-feature-graphic.swift` den Wurzelordner wieder (seit dem Umzug nach `scripts/<app>/` eine Ebene tiefer).
