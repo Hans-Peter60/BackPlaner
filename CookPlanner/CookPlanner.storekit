@@ -1,0 +1,46 @@
+{
+  "identifier" : "3C1B7E2D-5A4F-4E6B-8D9C-2F3E4A5B6C7D",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : true,
+      "internalID" : "6B0000000001",
+      "localizations" : [
+        {
+          "description" : "Menüs aus mehreren Gängen, Vorlesen und Sprachbefehle, Kochjahr-Buch, Statistik, eigene Sammlungen, Plan als PDF und mehr Rezeptanalysen.",
+          "displayName" : "CookPlanner Pro",
+          "locale" : "de_DE"
+        },
+        {
+          "description" : "Menus of several courses, read aloud and voice commands, cooking yearbook, statistics, own collections, plan as PDF and more recipe analyses.",
+          "displayName" : "CookPlanner Pro",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Menus en plusieurs plats, lecture à voix haute et commandes vocales, livre de l’année, statistiques, collections, plan en PDF et plus d’analyses.",
+          "displayName" : "CookPlanner Pro",
+          "locale" : "fr_FR"
+        }
+      ],
+      "productID" : "de.hpm64625.CookPlanner.pro",
+      "referenceName" : "CookPlanner Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_developerTeamID" : "S3AX38VTCQ",
+    "_failTransactionsEnabled" : false,
+    "_locale" : "de_DE",
+    "_storefront" : "DEU"
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

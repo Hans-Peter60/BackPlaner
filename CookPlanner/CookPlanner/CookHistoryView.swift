@@ -42,6 +42,8 @@ struct CookHistoryView: View {
     @State private var runLog = CookRunLog.shared
     @State private var shownRun: KitchenCookRun?
     @AppStorage("history.layout") private var layout = CookHistoryLayout.list
+    /// The Pro feature whose paywall is showing.
+    @State private var proOffer: CookProOffer?
     @State private var searchText = ""
     @AppStorage("history.minimumRating") private var minimumRating = 0
     @State private var addingEntry = false
@@ -98,7 +100,7 @@ struct CookHistoryView: View {
                         case .list: list
                         case .gallery: gallery
                         case .hitList: hitList
-                        case .statistics: statistics
+                        case .statistics: CookProLockedScreen(.statistics) { statistics }
                         }
                     }
                 }
@@ -131,7 +133,9 @@ struct CookHistoryView: View {
                         Button("Gekocht eintragen", systemImage: "square.and.pencil") { addingEntry = true }
                         Button("Aus Fotos übernehmen", systemImage: "photo.stack") { importingPhotos = true }
                         Divider()
-                        Button("Kochjahr-Buch", systemImage: "book.closed") { showingYearbook = true }
+                        Button("Kochjahr-Buch", systemImage: "book.closed") {
+                            withCookPro(.yearbook, offer: $proOffer) { showingYearbook = true }
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -144,6 +148,7 @@ struct CookHistoryView: View {
             .sheet(isPresented: $addingEntry) {
                 CookEntryAddView()
             }
+            .cookProPaywall($proOffer)
             .sheet(isPresented: $showingYearbook) {
                 CookYearbookView()
             }

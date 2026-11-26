@@ -53,7 +53,7 @@ Bekanntes aus BakePlanner: Xcode Cloud hat kein App-Check-Debug-Token; die App b
 
 ## Beschreibung (≤ 4000 Zeichen)
 
-Die ersten drei Zeilen sind ohne „mehr“ sichtbar, deshalb steht die Kernbotschaft im ersten Satz. Längen: de 3207, en 2993, fr 3332 Zeichen.
+Die ersten drei Zeilen sind ohne „mehr“ sichtbar, deshalb steht die Kernbotschaft im ersten Satz. Der Abschnitt „COOKPLANNER PRO“ sagt, was frei bleibt und was der Einmalkauf freischaltet; CookPlanner erscheint erst mit dem Kauf (siehe [CookPlanner-Pro.md](CookPlanner-Pro.md)), deshalb steht er von Anfang an da. Längen: de 3633, en 3424, fr 3822 Zeichen.
 
 ### Deutsch
 
@@ -84,6 +84,9 @@ Jeder Durchgang wird mit der Stoppuhr festgehalten. Vergib Sterne, schreib eine 
 
 DEINE GERICHTE
 Suche, Sammlungen und Filter wie „Passt ins Budget“ oder „Ohne Ofen“; drei Beispiele aus einer Kochsendung sind dabei. Deine Gerichte und Einstellungen gleichen sich über iCloud zwischen iPhone und iPad ab; die Sicherung als Datei nimmt auch Protokolle und Fotos mit. Kurzbefehle, Spotlight und auf dem iPad Tastaturkürzel. Ohne Konto, ohne Werbung. Für die Analyse geht nur der Rezepttext an einen Dienst von Google; Fotos werden auf dem Gerät gelesen.
+
+COOKPLANNER PRO
+Alles zum Planen und Kochen gegen die Uhr bleibt kostenlos: Gerichte, Plan, Kochmodus mit Wecker, Einkaufsliste, Verlauf und iCloud-Abgleich. CookPlanner Pro ist ein Einmalkauf, kein Abo, und schaltet dazu frei: Menüs aus mehreren Gängen, Vorlesen und Sprachbefehle, das Kochjahr-Buch, die Kochstatistik, eigene Sammlungen, den Plan als PDF, das Übernehmen gemessener Zeiten und mehr Rezeptanalysen im Monat.
 
 CookPlanner stammt vom Entwickler von BakePlanner und nutzt denselben Planer – nur dass hier nicht rückwärts zum Brot gerechnet wird, sondern vorwärts gegen die Uhr.
 
@@ -119,6 +122,9 @@ Every run is recorded with the stopwatch. Give stars, write a note, take a photo
 YOUR DISHES
 Search, collections and filters such as "Fits the budget" or "No oven"; three examples from a TV cooking show are included. Your dishes and settings sync through iCloud between iPhone and iPad; the backup file also keeps records and photos. Shortcuts, Spotlight and keyboard shortcuts on the iPad. No account, no ads. For the analysis only the recipe text goes to a Google service; photos are read on the device.
 
+COOKPLANNER PRO
+Everything for planning and cooking against the clock stays free: dishes, plan, cook mode with alarms, shopping list, history and iCloud sync. CookPlanner Pro is a one-time purchase, not a subscription, and adds: menus of several courses, read aloud and voice commands, the cooking yearbook, cooking statistics, your own collections, the plan as a PDF, taking over measured times and more recipe analyses a month.
+
 CookPlanner comes from the developer of BakePlanner and uses the same planner – only here it does not work backwards to the bread, but forwards against the clock.
 
 ---
@@ -153,6 +159,9 @@ Chaque passage est relevé au chronomètre. Donnez des étoiles, écrivez une no
 VOS PLATS
 Recherche, collections et filtres comme « Tient dans le temps » ou « Sans four » ; trois exemples d’une émission de cuisine sont inclus. Vos plats et vos réglages se synchronisent via iCloud entre iPhone et iPad ; le fichier de sauvegarde garde aussi les comptes rendus et les photos. Raccourcis, Spotlight et raccourcis clavier sur l’iPad. Sans compte, sans publicité. Pour l’analyse, seul le texte de la recette part vers un service de Google ; les photos sont lues sur l’appareil.
 
+COOKPLANNER PRO
+Tout ce qu’il faut pour planifier et cuisiner contre la montre reste gratuit : plats, plan, mode cuisine avec alarmes, liste de courses, historique et synchronisation iCloud. CookPlanner Pro est un achat unique, sans abonnement, et ajoute : les menus en plusieurs plats, la lecture à voix haute et les commandes vocales, le livre de l’année, les statistiques, vos propres collections, le plan en PDF, la reprise des durées mesurées et plus d’analyses de recettes par mois.
+
 CookPlanner vient du développeur de BakePlanner et utilise le même planificateur – sauf qu’ici on ne calcule pas à rebours jusqu’au pain, mais en avant contre la montre.
 
 ---
@@ -171,6 +180,18 @@ CookPlanner vient du développeur de BakePlanner et utilise le même planificate
 - EN: `First version: dishes by hand, from text, photos or web pages; a plan with timeline and verdict; menus of several courses; cook mode as Challenge, Practice or Relaxed with alarms, read-aloud and voice commands; shopping list; history with photos and a cooking yearbook; Siri; iCloud sync.`
 - FR: `Première version : plats à la main, depuis un texte, des photos ou une page web ; plan avec chronologie et verdict ; menus en plusieurs plats ; mode cuisine en Défi, Entraînement ou Détendu avec alarmes, lecture à voix haute et commandes vocales ; liste de courses ; historique avec photos et livre de l’année ; Siri ; synchronisation iCloud.`
 
+## In-App-Kauf „CookPlanner Pro“
+
+Nicht verbrauchbar, Produkt-ID `de.hpm64625.CookPlanner.pro`, Referenzname `CookPlanner Pro`, Familienfreigabe an. Anzeigename ≤ 30, Beschreibung ≤ 45 Zeichen.
+
+| Sprache | Anzeigename | Beschreibung | Zeichen |
+|---|---|---|---|
+| Deutsch | `CookPlanner Pro` | `Menüs, Vorlesen, Kochjahr-Buch und mehr` | 39 |
+| English | `CookPlanner Pro` | `Menus, read aloud, yearbook and more` | 36 |
+| Français | `CookPlanner Pro` | `Menus, lecture à voix haute, livre et plus` | 42 |
+
+Prüf-Bildschirmfoto: die Kaufseite (`-CookProPaywall 1`, aus Xcode mit `CookPlanner/CookPlanner.storekit`, damit der Preis erscheint). Hinweis für die Prüfung des Kaufs: siehe den letzten Absatz der Prüfhinweise.
+
 ## Hinweise für die Prüfung
 
 ---
@@ -185,6 +206,8 @@ Menu: "+" → "Menü zusammenstellen" (Compose a menu), pick two example dishes 
 
 Import: "+" → "Aus Text importieren" (paste any recipe text), "Aus Fotos importieren" (scan a cookbook page; the text is recognised on the device) or "Aus Webseite importieren" (any recipe page). Only the recipe text is sent to our Cloud Function (Google Gemini) for structuring; the result opens in an editor and is saved only with "Sichern". The share extension does the same from Safari's share sheet.
 
+CookPlanner Pro (one-time, non-consumable "de.hpm64625.CookPlanner.pro"): Settings (slider icon) → "CookPlanner Pro" shows the purchase with "Pro freischalten" (Unlock Pro) and "Käufe wiederherstellen" (Restore purchases). Without Pro, these show the purchase sheet instead: "Menü zusammenstellen", the "Vorlesen"/"Sprachbefehle" buttons in cook mode, "Kochjahr-Buch", the statistics view of the "Gekocht" tab, saving a collection, the printer button and "Gemessene Zeiten … übernehmen" on a plan. Everything else, including the complete cook mode with alarms, is free.
+
 Shopping list: on a dish's plan, the basket button. Settings (slider icon): time budget, burners and ovens, alarms, iCloud sync status, backup.
 
 ---
@@ -194,6 +217,8 @@ Shopping list: on a dish's plan, the basket button. Settings (slider icon): time
 Aufgenommen im Simulator (iPhone 17 Pro – laut BakePlanners Erfahrung nimmt App Store Connect die Maße der *Max*-Modelle nicht an –, iPad Pro 13 Zoll und iPhone Duo aufgeklappt, alle iOS 27.3) mit Statusleiste 9:41, Zeitbudget 45 Minuten und den Debug-Startargumenten: ohne Argument die Gerichteliste, `-PlanSample 0` der Plan, `-TimelineSample 0 -TimelineNow 13.5` die Zeitachse, `-CookSample 0 -CookElapsed 790 -settings.clockMode challenge` der laufende Kochmodus, `-ShoppingSample 0` die Einkaufsliste, `-HistoryDemo statistics` die Statistik, `-MenuSample 1 -settings.budgetMinutes 120` der Plan eines Menüs aus zwei Beispielen (Wirsingrolle als Vorspeise, Perlhuhnbrust als Hauptgang; das Budget-Argument muss **vor** dem allgemeinen stehen oder es ersetzen, sonst gewinnt das spätere); dazu `-settings.budgetMinutes 45 -AppleLanguages (de) -AppleLocale de_DE`. Die aufgeklappte Duo: `hinge -d <udid> open`, dann `hinge -d <udid> orient landscape-left` (Innendisplay hochkant), App mit dem Argument starten und `xcrun simctl io <udid> screenshot --display 3` – Berührungen erreichen das Innendisplay im Simulator nicht, die Startargumente brauchen keine.
 
 ## Offen
+
+- CookPlanner Pro: In-App-Kauf anlegen und mit 1.0 einreichen, erst danach die Schalter setzen – Reihenfolge in [CookPlanner-Pro.md](CookPlanner-Pro.md).
 
 - Webseiten `cookplanner.html` und `cookplanner-privacy.html` ins Website-Repository hochladen (Hans-Peter), dann die beiden URLs oben in App Store Connect eintragen.
 - Screenshots hochladen: `docs/cookplanner/appstore/1.0/iphone-6.9/de/` (1206 × 2622), `…/ipad-13/de/` (2064 × 2752) und `…/iphone-duo-inner/de/` (2007 × 2853, iPhone Duo aufgeklappt), je sieben Bilder (Gerichte, Plan, Zeitachse, Kochen mit Vorlesen und Sprachbefehlen, Einkauf, Statistik, Menü; neu aufgenommen am 26.11.); ohne eigene Bilder für en/fr nimmt App Store Connect die deutschen. iPad bleibt unterstützt (Layout im Simulator geprüft, Hans-Peter nutzt die App auf dem iPad).
