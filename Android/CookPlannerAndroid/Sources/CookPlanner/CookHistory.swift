@@ -9,6 +9,7 @@ struct CookHistoryView: View {
     @State var log = CookRunLog.shared
     @State var addsEntry = false
     @State var showsStatistics = false
+    @State var showsYearbook = false
     @Environment(\.colorScheme) var colorScheme
 
     /// The records by month, newest first.
@@ -72,13 +73,17 @@ struct CookHistoryView: View {
         .navigationTitle(String(localized: "Gekocht", bundle: .module))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    addsEntry = true
+                Menu {
+                    Button(String(localized: "Gekocht eintragen", bundle: .module)) { addsEntry = true }
+                    Button(String(localized: "Kochjahr-Buch", bundle: .module)) { showsYearbook = true }
                 } label: {
                     Image(systemName: "plus")
                 }
-                .accessibilityLabel(Text(String(localized: "Gekocht eintragen", bundle: .module)))
+                .accessibilityLabel(Text(String(localized: "Hinzufügen", bundle: .module)))
             }
+        }
+        .appSheet(isPresented: $showsYearbook) {
+            CookYearbookSheet()
         }
         .appSheet(isPresented: $addsEntry) {
             CookEntryAddView(library: library)

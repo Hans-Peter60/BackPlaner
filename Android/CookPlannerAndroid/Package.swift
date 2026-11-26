@@ -28,6 +28,8 @@ let package = Package(
         .package(path: "../BakePlannerMedia"),
         // Reading steps aloud (Android's TextToSpeech), BakePlanner's module.
         .package(path: "../BakePlannerSpeech"),
+        // The plan and the yearbook as PDF (Android's PdfDocument).
+        .package(path: "../CookPlannerMedia"),
     ],
     targets: [
         .target(name: "CookPlanner", dependencies: [
@@ -37,6 +39,7 @@ let package = Package(
             .product(name: "CookPlannerStorage", package: "CookPlannerStorage"),
             .product(name: "BakePlannerMedia", package: "BakePlannerMedia"),
             .product(name: "BakePlannerSpeech", package: "BakePlannerSpeech"),
+            .product(name: "CookPlannerMedia", package: "CookPlannerMedia"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )

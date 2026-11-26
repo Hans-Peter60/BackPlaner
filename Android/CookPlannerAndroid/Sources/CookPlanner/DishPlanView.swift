@@ -15,6 +15,7 @@ struct DishPlanView: View {
     @State var cooking = false
     @State var shopping = false
     @State var showsLearned = false
+    @State var printing = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -60,6 +61,9 @@ struct DishPlanView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
+                    Button(String(localized: "Ablaufplan als PDF", bundle: .module)) {
+                        printing = true
+                    }
                     if isOwn {
                         Button(String(localized: "Bearbeiten", bundle: .module)) {
                             if let dish = library.dish(id: dishID) {
@@ -96,6 +100,11 @@ struct DishPlanView: View {
             }
         }
         .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .appSheet(isPresented: $printing) {
+            if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
+                PlanPDFSheet(plan: plan)
+            }
+        }
         .appSheet(isPresented: $showsLearned) {
             if let dish = library.dish(id: dishID) {
                 LearnedTimesView(dish: dish,
@@ -109,9 +118,14 @@ struct DishPlanView: View {
                 ShoppingListView(dish: plan.dish)
             }
         }
-        .appSheet(isPresented: $cooking) {
+        .appSheet(isPresented: $cooking, backDismissDisabled: true) {
             if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
-                CookModeView(plan: plan)
+                // A run of this dish still under way is taken up, not started anew.
+                if let state = CookRunState.load(), state.dishID == dishID, state.isResumable {
+                    CookModeView(plan: plan, restoring: state)
+                } else {
+                    CookModeView(plan: plan)
+                }
             }
         }
         .alert(String(localized: "Gericht löschen?", bundle: .module), isPresented: $confirmsDeletion) {

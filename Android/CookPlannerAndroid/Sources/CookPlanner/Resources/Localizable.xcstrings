@@ -69,6 +69,40 @@
         }
       }
     },
+    "%@: von %lld auf %lld Minuten – %lld Minuten schneller." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: from %lld to %lld minutes – %lld minutes faster."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : de %lld à %lld minutes – %lld minutes plus vite."
+          }
+        }
+      }
+    },
+    "%@: von %lld auf %lld Minuten – mehr Zeit gelassen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: from %lld to %lld minutes – took more time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : de %lld à %lld minutes – plus de temps pris."
+          }
+        }
+      }
+    },
     "%lld + %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -120,6 +154,40 @@
         }
       }
     },
+    "%lld Mal gekocht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked %lld times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné %lld fois"
+          }
+        }
+      }
+    },
+    "%lld Mal gekocht an %lld Tagen, %lld Gerichte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked %lld times on %lld days, %lld dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné %lld fois sur %lld jours, %lld plats"
+          }
+        }
+      }
+    },
     "%lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -133,6 +201,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "%lld Min. allein" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min tout seul"
           }
         }
       }
@@ -392,6 +477,23 @@
         }
       }
     },
+    "%lld× gekocht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cooked %lld×"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cuisiné %lld×"
+          }
+        }
+      }
+    },
     "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -473,6 +575,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Déroulé"
+          }
+        }
+      }
+    },
+    "Ablaufplan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de cuisson"
+          }
+        }
+      }
+    },
+    "Ablaufplan als PDF" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking plan as PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan de cuisson en PDF"
+          }
+        }
+      }
+    },
+    "Ablaufplan teilen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le déroulé"
           }
         }
       }
@@ -749,6 +902,23 @@
         }
       }
     },
+    "Bestzeit %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Best time %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meilleur temps %lld min"
+          }
+        }
+      }
+    },
     "Bis 30 Minuten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -902,6 +1072,23 @@
         }
       }
     },
+    "Das Buch nimmt alle Kochvorgänge des Jahres mit ihren Fotos, die Lieblingsgerichte und was die Uhr gelehrt hat." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The book takes every cooking session of the year with its photos, the favourite dishes and what the clock taught."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le livre reprend toutes les sessions de l’année avec leurs photos, les plats préférés et ce que l’horloge a appris."
+          }
+        }
+      }
+    },
     "Das Gericht braucht eine Herdplatte; in den Einstellungen steht die Küche auf 0 Platten." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -936,6 +1123,40 @@
         }
       }
     },
+    "Das Jahr in Zahlen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The year in figures"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’année en chiffres"
+          }
+        }
+      }
+    },
+    "Das PDF ließ sich nicht erstellen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The PDF could not be made."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le PDF n’a pas pu être créé."
+          }
+        }
+      }
+    },
     "Das Protokoll hält fest, wann jeder Schritt erledigt war." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -966,6 +1187,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée"
+          }
+        }
+      }
+    },
+    "Dauer %lld Min., Zeiten ab Minute 0" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min, times from minute 0"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée %lld min, temps depuis la minute 0"
           }
         }
       }
@@ -1310,6 +1548,23 @@
         }
       }
     },
+    "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A PDF in A4 – to print, bind or send."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un PDF au format A4 – à imprimer, relier ou envoyer."
+          }
+        }
+      }
+    },
     "Einheit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1446,6 +1701,23 @@
         }
       }
     },
+    "Entspannt gekocht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked relaxed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné détendu"
+          }
+        }
+      }
+    },
     "Entspannt kochen, ohne Uhr" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1510,6 +1782,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "terminé %@ · réel %@ · prévu %lld min"
+          }
+        }
+      }
+    },
+    "Erstellt mit CookPlanner" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made with CookPlanner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créé avec CookPlanner"
           }
         }
       }
@@ -2296,6 +2585,23 @@
         }
       }
     },
+    "Im Plan geblieben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Within the plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans le plan"
+          }
+        }
+      }
+    },
     "Importiert" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2326,6 +2632,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "dans %lld min"
+          }
+        }
+      }
+    },
+    "Jahr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Year"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Année"
           }
         }
       }
@@ -2517,6 +2840,57 @@
         }
       }
     },
+    "Kochjahr-Buch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année en cuisine"
+          }
+        }
+      }
+    },
+    "Kochjahr-Buch teilen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the cooking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le livre de l’année"
+          }
+        }
+      }
+    },
+    "Kochtage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours de cuisine"
+          }
+        }
+      }
+    },
     "Komponente" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2585,6 +2959,23 @@
         }
       }
     },
+    "Längste Session" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longest session"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus longue session"
+          }
+        }
+      }
+    },
     "Läuft von allein" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2615,6 +3006,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Favoris"
+          }
+        }
+      }
+    },
+    "Lieblingsgerichte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plats préférés"
           }
         }
       }
@@ -2700,6 +3108,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus"
+          }
+        }
+      }
+    },
+    "Mein Kochjahr %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My cooking year %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon année en cuisine %@"
           }
         }
       }
@@ -2857,6 +3282,23 @@
         }
       }
     },
+    "Mit Uhrzeit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With clock times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec les heures"
+          }
+        }
+      }
+    },
     "Mitteilungen sind aus – bei dunklem Bildschirm meldet sich CookPlanner nicht. Einschalten in den Android-Einstellungen unter Apps → CookPlanner." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2904,6 +3346,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Name auf dem Titelblatt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on the cover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom sur la couverture"
           }
         }
       }
@@ -3057,6 +3516,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rien cuisiné pour l’instant"
+          }
+        }
+      }
+    },
+    "Noch nichts gekocht – das Buch entsteht aus der Kochhistorie." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing cooked yet – the book comes from the cooking history."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien de cuisiné encore – le livre naît de l’historique de cuisine."
           }
         }
       }
@@ -3401,6 +3877,23 @@
         }
       }
     },
+    "Plan %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min"
+          }
+        }
+      }
+    },
     "Plan %lld Min. · noch %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3673,6 +4166,23 @@
         }
       }
     },
+    "Start %@ · fertig %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %@ · ready %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début %@ · prêt %@"
+          }
+        }
+      }
+    },
     "Statistik" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3720,6 +4230,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Étoiles en moyenne"
+          }
+        }
+      }
+    },
+    "Stunden am Herd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours at the stove"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heures aux fourneaux"
           }
         }
       }
@@ -3911,6 +4438,23 @@
         }
       }
     },
+    "Vorsätze für %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolutions for %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résolutions pour %@"
+          }
+        }
+      }
+    },
     "Vorspeise" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3975,6 +4519,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Attend"
+          }
+        }
+      }
+    },
+    "Was die Uhr lehrte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What the clock taught"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que l’horloge a appris"
           }
         }
       }
@@ -4264,6 +4825,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ingrédients de cette étape"
+          }
+        }
+      }
+    },
+    "Zutaten: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients : %@"
+          }
+        }
+      }
+    },
+    "Ø Bewertung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note moyenne"
           }
         }
       }

@@ -7,13 +7,26 @@ extension View {
     /// views, but Skip presents a sheet outside their environment: it came
     /// up in the device's language. So every sheet sets the locale again,
     /// the one ContentView handed to the package (AppSettings.locale).
-    func appSheet<Content: View>(isPresented: Binding<Bool>,
+    func appSheet<Content: View>(isPresented: Binding<Bool>, backDismissDisabled: Bool = false,
                                  @ViewBuilder content: @escaping () -> Content) -> some View {
         sheet(isPresented: isPresented) {
             content()
                 .environment(\.locale, AppSettings.locale)
                 .compactTextFields()
+                .backKeyDismissDisabled(backDismissDisabled)
         }
+    }
+
+    /// The back key does not close the sheet (the cook mode, which only
+    /// "Beenden" may end). Skip reads this on the outermost view of a
+    /// sheet's content, so appSheet puts it last; interactiveDismissDisabled
+    /// covers only the swipe there.
+    func backKeyDismissDisabled(_ disabled: Bool) -> some View {
+        #if os(Android)
+        return backDismissDisabled(disabled)
+        #else
+        return self
+        #endif
     }
 
     /// Text fields as high as their text, not Material's 56 dp minimum:
