@@ -1,0 +1,12 @@
+{
+  "de": {
+    "gerichte": "Ein Gericht, eine Person, eine feste Zeit|CookPlanner sagt vorher, ob sie reicht",
+    "plan": "Passt es ins Zeitbudget?|Das Urteil, bevor Du den Herd anmachst",
+    "zeitachse": "Jede Komponente in ihrer Spalte|Handarbeit und Wartezeit auf einen Blick",
+    "kochen": "Gegen die Uhr kochen|Was jetzt dran ist, was gleich kommt",
+    "einkauf": "Einkaufsliste nach Abteilungen|Aus allen Komponenten zusammengefasst",
+    "gekocht": "Dein Kochjahr in Zahlen|Wie oft, was am meisten, wie bewertet",
+    "menue": "Ein Menü aus mehreren Gängen|Der Hauptgang kocht, während die Gäste essen"
+  },
+  "pro": ["gekocht", "menue"]
+}
