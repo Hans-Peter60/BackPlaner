@@ -442,6 +442,50 @@
         }
       }
     },
+    "%lld Protokolle übernommen, %lld waren schon da." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Protokolle übernommen, %lld waren schon da."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld records imported, %lld were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld relevés importés, %lld étaient déjà là."
+          }
+        }
+      }
+    },
+    "%lld Protokolle übernommen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Protokolle übernommen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld records imported."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld relevés importés."
+          }
+        }
+      }
+    },
     "%lld Schritte, %lld Komponenten" : {
       "localizations" : {
         "de" : {
@@ -922,6 +966,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les %lld plats étaient déjà là."
+          }
+        }
+      }
+    },
+    "Alle %lld Protokolle waren schon da." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle %lld Protokolle waren schon da."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All %lld records were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les %lld relevés étaient déjà là."
           }
         }
       }
@@ -2352,6 +2418,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La page est chargée sur cet appareil ; seul le texte de la recette est envoyé à un service de Google pour l’analyse."
+          }
+        }
+      }
+    },
+    "Die Sicherung ist eine Datei mit allen eigenen Gerichten, den Kochprotokollen und ihren Fotos, z. B. für iCloud Drive. Beim Importieren bleibt unverändert, was schon da ist." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Sicherung ist eine Datei mit allen eigenen Gerichten, den Kochprotokollen und ihren Fotos, z. B. für iCloud Drive. Beim Importieren bleibt unverändert, was schon da ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The backup is one file with all your own dishes, the cooking records and their photos, e.g. for iCloud Drive. Importing leaves what is already there unchanged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sauvegarde est un fichier avec tous vos plats, les relevés de cuisine et leurs photos, p. ex. pour iCloud Drive. L’import laisse inchangé ce qui existe déjà."
           }
         }
       }
@@ -3914,6 +4002,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importer des plats"
+          }
+        }
+      }
+    },
+    "Gerichte und Protokolle sichern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerichte und Protokolle sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up dishes and records"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder plats et relevés"
           }
         }
       }

@@ -19,20 +19,31 @@ extension UTType {
     static let cookPlannerDishes = UTType(exportedAs: "de.hpm64625.CookPlanner.dishes")
 }
 
-/// The dishes to hand to the share sheet, written when it asks.
+/// The dishes to hand to the share sheet, written when it asks. A backup
+/// (`includesRecords`) carries the cooking records and their photos too.
 struct DishFileExport: Transferable {
     let dishes: [KitchenDish]
+    var includesRecords = false
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .cookPlannerDishes) { export in
-            SentTransferredFile(try export.writeFile())
+            SentTransferredFile(try await export.writeFile())
         }
     }
 
-    func writeFile() throws -> URL {
+    /// Written when the share sheet asks, off the main actor; the records
+    /// and photos are fetched from the log on it.
+    func writeFile() async throws -> URL {
         let folder = try TemporaryExports.folder(prefix: "Export-")
         let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: dishes))
-        try KitchenDishFile(dishes: dishes).encoded().write(to: url, options: .atomic)
+        let file: KitchenDishFile
+        if includesRecords {
+            let (runs, photos) = await MainActor.run { (CookRunLog.shared.runs, CookRunLog.shared.backupPhotos()) }
+            file = KitchenDishFile(dishes: dishes, runs: runs, photos: photos)
+        } else {
+            file = KitchenDishFile(dishes: dishes)
+        }
+        try file.encoded().write(to: url, options: .atomic)
         return url
     }
 }
@@ -55,13 +66,26 @@ extension DishLibrary {
         let result = KitchenDishTransfer.merge(file.kitchenDishes, into: dishes)
         var kept = 0
         for dish in result.added where save(dish) { kept += 1 }
+        var sentence: String
         if kept == 0 && result.alreadyThere > 0 {
-            return String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.")
+            sentence = String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.")
+        } else if result.alreadyThere > 0 {
+            sentence = String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.")
+        } else {
+            sentence = String(localized: "\(kept) Gerichte übernommen.")
         }
-        if result.alreadyThere > 0 {
-            return String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.")
+        // A backup brings the cooking records and their photos along.
+        if let runs = file.runs, !runs.isEmpty {
+            let records = CookRunLog.shared.importRuns(runs, photos: file.photos ?? [:])
+            if records.added == 0 {
+                sentence += " " + String(localized: "Alle \(records.alreadyThere) Protokolle waren schon da.")
+            } else if records.alreadyThere > 0 {
+                sentence += " " + String(localized: "\(records.added) Protokolle übernommen, \(records.alreadyThere) waren schon da.")
+            } else {
+                sentence += " " + String(localized: "\(records.added) Protokolle übernommen.")
+            }
         }
-        return String(localized: "\(kept) Gerichte übernommen.")
+        return sentence
     }
 }
 
