@@ -81,13 +81,18 @@ final class CookLibrary {
     /// The file of `dishes` in the cache folder, for the system's "save
     /// as"; nil when it cannot be written. The format is the iPhone's
     /// (KitchenDishFile), so the file moves dishes between the platforms.
-    func exportFile(of dishes: [KitchenDish]) -> URL? {
+    func exportFile(of dishes: [KitchenDish], includesRecords: Bool = false) -> URL? {
         do {
-            let data = try KitchenDishFile(dishes: dishes).encoded()
+            let file = includesRecords
+                ? KitchenDishFile(dishes: dishes, runs: CookRunLog.shared.runs, photos: CookRunLog.shared.backupPhotos())
+                : KitchenDishFile(dishes: dishes)
+            let data = try file.encoded()
             let folder = URL.cachesDirectory.appendingPathComponent("exports", isDirectory: true)
             try? FileManager.default.removeItem(at: folder)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: dishes))
+            // A backup is named by its date ("CookPlanner 2026-11-26"), even
+            // with one dish; a shared dish by its name.
+            let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: includesRecords ? [] : dishes))
             try data.write(to: url)
             return url
         } catch {
@@ -110,12 +115,26 @@ final class CookLibrary {
         let result = KitchenDishTransfer.merge(file.kitchenDishes, into: dishes)
         var kept = 0
         for dish in result.added where save(dish) { kept += 1 }
+        var sentence: String
         if kept == 0 && result.alreadyThere > 0 {
-            return String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.", bundle: .module)
+            sentence = String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.", bundle: .module)
         } else if result.alreadyThere > 0 {
-            return String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.", bundle: .module)
+            sentence = String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.", bundle: .module)
+        } else {
+            sentence = String(localized: "\(kept) Gerichte übernommen.", bundle: .module)
         }
-        return String(localized: "\(kept) Gerichte übernommen.", bundle: .module)
+        // A backup brings the cooking records and their photos along.
+        if let runs = file.runs, !runs.isEmpty {
+            let records = CookRunLog.shared.importRuns(runs, photos: file.photos ?? [:])
+            if records.added == 0 {
+                sentence += " " + String(localized: "Alle \(records.alreadyThere) Protokolle waren schon da.", bundle: .module)
+            } else if records.alreadyThere > 0 {
+                sentence += " " + String(localized: "\(records.added) Protokolle übernommen, \(records.alreadyThere) waren schon da.", bundle: .module)
+            } else {
+                sentence += " " + String(localized: "\(records.added) Protokolle übernommen.", bundle: .module)
+            }
+        }
+        return sentence
     }
 
     /// The cook's own dishes, newest first.
