@@ -23,8 +23,12 @@ struct CookModeView: View {
     @State var clockMode = CookClockMode.stored
     @State var confirmsEnd = false
     @State var runSaved = false
+    /// Notifications are not allowed: the cook should know before the
+    /// phone goes dark.
+    @State var silenced = false
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.scenePhase) var scenePhase
 
     init(plan: DishPlan, restoring state: CookRunState? = nil) {
         self.plan = plan
@@ -149,6 +153,11 @@ struct CookModeView: View {
                     startedAt = Date()
                     now = Date()
                     persist()
+                    CookReminders.cancel(schedule: schedule)
+                    Task {
+                        silenced = !(await CookReminders.requestAuthorization())
+                        syncReminders(minute: elapsedSeconds / 60)
+                    }
                 } label: {
                     Label(String(localized: "Start", bundle: .module), systemImage: "play.fill")
                         .frame(maxWidth: .infinity)
@@ -290,6 +299,11 @@ struct CookModeView: View {
                     .foregroundStyle(Palette.good(colorScheme))
                     .padding(.vertical, 8)
             }
+            if silenced {
+                Text(String(localized: "Mitteilungen sind aus – bei dunklem Bildschirm meldet sich CookPlanner nicht. Einschalten in den Android-Einstellungen unter Apps → CookPlanner.", bundle: .module))
+                    .font(.footnote)
+                    .foregroundStyle(Palette.danger(colorScheme))
+            }
             if pausedAt != nil {
                 Text(String(localized: "Pause, die Uhr steht", bundle: .module))
                     .fontWeight(.semibold)
@@ -306,7 +320,7 @@ struct CookModeView: View {
                         .font(.footnote)
                         .foregroundStyle(Palette.subtitle(colorScheme))
                 } else {
-                    Text(String(localized: "Zeit um – \(KitchenCookRun.clockText(-left))/*%@*/ drüber", bundle: .module))
+                    Text(String(localized: "Zeit um – \(KitchenCookRun.clockText(-left) /*%@*/) drüber", bundle: .module))
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .foregroundStyle(Palette.danger(colorScheme))
@@ -316,7 +330,7 @@ struct CookModeView: View {
                     .font(.system(size: 56, weight: .bold))
                     .foregroundStyle(Palette.title(colorScheme))
                 if remaining > 0 {
-                    Text(String(localized: "Plan \(schedule.makespan) Min. · noch \(KitchenCookRun.clockText(remaining))/*%@*/", bundle: .module))
+                    Text(String(localized: "Plan \(schedule.makespan) Min. · noch \(KitchenCookRun.clockText(remaining) /*%@*/)", bundle: .module))
                         .font(.footnote)
                         .foregroundStyle(Palette.subtitle(colorScheme))
                 }
@@ -363,11 +377,24 @@ struct CookModeView: View {
         live = (try? KitchenScheduler.replan(plan.dish.tasks, kitchen: plan.schedule.kitchen, budget: plan.schedule.budget,
                                              previous: previous,
                                              progress: KitchenProgress(now: minute, finished: finished, handsDone: handsDone))) ?? previous
+        syncReminders(minute: minute)
+    }
+
+    /// The banners for the live plan as it stands, while the clock runs.
+    /// Not in the background: Android keeps the app running there, and a
+    /// step left unticked would push the next one's banner along every
+    /// minute, so it never came. As on the iPhone, where the app sleeps,
+    /// the banners stay at the times they had when the phone went dark.
+    private func syncReminders(minute: Int) {
+        guard let startedAt, pausedAt == nil, scenePhase == .active else { return }
+        CookReminders.sync(schedule: schedule, finished: finished, handsDone: handsDone, minute: minute,
+                           clockStart: startedAt.addingTimeInterval(pausedSeconds))
     }
 
     private func pause() {
         guard startedAt != nil, pausedAt == nil else { return }
         pausedAt = Date()
+        CookReminders.cancel(schedule: schedule)
         persist()
     }
 
@@ -376,6 +403,7 @@ struct CookModeView: View {
         pausedSeconds += Date().timeIntervalSince(pausedAt)
         self.pausedAt = nil
         now = Date()
+        syncReminders(minute: elapsedSeconds / 60)
         persist()
     }
 
@@ -443,6 +471,7 @@ struct CookModeView: View {
 
     private func end(keepingRecord: Bool) {
         if keepingRecord { saveRun() }
+        CookReminders.cancel(schedule: schedule)
         CookRunState.clear()
         dismiss()
     }

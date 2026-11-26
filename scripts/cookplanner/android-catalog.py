@@ -3,8 +3,11 @@
 
 Every `String(localized: "…", bundle: .module)` in
 Android/CookPlannerAndroid/Sources/CookPlanner/*.swift becomes an entry,
-interpolations written as %lld (the Android app interpolates only whole
-numbers) or, with a `/*%@*/` marker right after the interpolation, %@.
+interpolations written as %lld (the Android app interpolates mostly whole
+numbers) or, with a `/*%@*/` comment inside the interpolation's
+parentheses — `\(name /*%@*/)` — as %@ for a String. (Inside the
+parentheses Swift reads the marker as a comment; after them it would be
+part of the text.)
 The English and French come from the iPhone's catalog
 (CookPlanner/CookPlanner/Localizable.xcstrings); a text the iPhone does not
 have keeps what the Android catalog already says, so new texts are
@@ -30,7 +33,7 @@ IOS_CATALOG = ROOT / "CookPlanner/CookPlanner/Localizable.xcstrings"
 LANGUAGES = ("en", "fr")
 
 LITERAL = re.compile(r'String\(localized: "((?:[^"\\]|\\.)*)"')
-INTERPOLATION = re.compile(r'\\\((?:[^()]|\([^()]*\))*\)(/\*%@\*/)?')
+INTERPOLATION = re.compile(r'\\\(((?:[^()]|\([^()]*\))*)\)')
 
 
 def keys_in_sources() -> set[str]:
@@ -38,7 +41,7 @@ def keys_in_sources() -> set[str]:
     for path in sorted(SOURCES.glob("*.swift")):
         for match in LITERAL.finditer(path.read_text(encoding="utf-8")):
             literal = match.group(1)
-            key = INTERPOLATION.sub(lambda m: "%@" if m.group(1) else "%lld", literal)
+            key = INTERPOLATION.sub(lambda m: "%@" if "/*%@*/" in m.group(1) else "%lld", literal)
             keys.add(key.replace('\\"', '"').replace("\\n", "\n"))
     return keys
 

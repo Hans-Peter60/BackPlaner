@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.core.app.ActivityCompat
+import androidx.work.Configuration
 
 internal val logger: SkipLogger = SkipLogger(subsystem = "cook.planner", category = "CookPlanner")
 
@@ -33,9 +34,17 @@ private typealias AppRootView = CookPlannerRootView
 private typealias AppDelegate = CookPlannerAppDelegate
 
 /// AndroidAppMain is the `android.app.Application` entry point, and must match `application android:name` in the AndroidMainfest.xml file.
-open class AndroidAppMain: Application {
+open class AndroidAppMain: Application, Configuration.Provider {
     constructor() {
     }
+
+    /// WorkManager starts with the app's reminder worker in place of
+    /// SkipUI's (see Reminders.kt); the default initializer is removed in
+    /// AndroidManifest.xml so that this configuration is used.
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(ReminderWorkerFactory())
+            .build()
 
     override fun onCreate() {
         super.onCreate()
