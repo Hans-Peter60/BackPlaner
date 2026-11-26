@@ -114,8 +114,9 @@ struct CookStatisticsView: View {
                             .lineLimit(2)
                         Spacer()
                         // The count keeps its room; a long name wrapped it to "1" and "×".
+                        // (Skip has no layoutPriority.)
                         Text(String(localized: "\(dish.count)×", bundle: .module))
-                            .layoutPriority(1)
+                            .frame(minWidth: 40, alignment: .trailing)
                     }
                 }
             }
