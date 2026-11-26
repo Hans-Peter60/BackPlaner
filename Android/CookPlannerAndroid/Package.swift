@@ -26,6 +26,8 @@ let package = Package(
         // Reading camera photos behind content:// addresses (BakePlanner's
         // transpiled module, shared).
         .package(path: "../BakePlannerMedia"),
+        // Reading steps aloud (Android's TextToSpeech), BakePlanner's module.
+        .package(path: "../BakePlannerSpeech"),
     ],
     targets: [
         .target(name: "CookPlanner", dependencies: [
@@ -34,6 +36,7 @@ let package = Package(
             .product(name: "BakePlannerCore", package: "BakePlannerCore"),
             .product(name: "CookPlannerStorage", package: "CookPlannerStorage"),
             .product(name: "BakePlannerMedia", package: "BakePlannerMedia"),
+            .product(name: "BakePlannerSpeech", package: "BakePlannerSpeech"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )

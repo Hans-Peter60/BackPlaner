@@ -1,4 +1,5 @@
 import BakePlannerCore
+import BakePlannerSpeech
 import SwiftUI
 
 /// The plan run against the clock, as on the iPhone (CookModeView.swift
@@ -26,6 +27,13 @@ struct CookModeView: View {
     /// Notifications are not allowed: the cook should know before the
     /// phone goes dark.
     @State var silenced = false
+    /// Reads each step that comes into the hands, and each pot that is
+    /// done, aloud (the iPhone's switch, same key).
+    @State var readAloud = SettingsFile.flag("settings.readAloud", default: false)
+    @State var speaker = StepSpeaker()
+    @State var announcedSteps: Set<String> = []
+    @State var announcedEnds: Set<String> = []
+    @State var announcedDone = false
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) var scenePhase
@@ -88,7 +96,10 @@ struct CookModeView: View {
         .tint(Palette.accent(colorScheme))
         // The phone lies on the counter while the hands are busy.
         .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
-        .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
+        .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
+            speaker.shutdown()
+        }
         .task {
             // The clock: a second at a time; the plan moves on each minute.
             var lastMinute = -1
@@ -99,6 +110,7 @@ struct CookModeView: View {
                     lastMinute = minute
                     replan(minute: minute)
                 }
+                announce(minute: minute)
                 try? await Task.sleep(for: .seconds(1))
             }
         }
@@ -165,6 +177,17 @@ struct CookModeView: View {
                 }
                 .buttonStyle(.borderedProminent)
             } else {
+                Toggle(String(localized: "Vorlesen", bundle: .module), isOn: $readAloud)
+                    .onChange(of: readAloud) { _, on in
+                        SettingsFile.set(on, forKey: "settings.readAloud")
+                        if on {
+                            // What is in the hands now is read at once.
+                            announcedSteps = []
+                            announce(minute: elapsedSeconds / 60)
+                        } else {
+                            speaker.stop()
+                        }
+                    }
                 HStack(spacing: 10) {
                     Button(String(localized: "Rückgängig", bundle: .module)) { undoLastTick() }
                         .buttonStyle(.bordered)
@@ -359,6 +382,38 @@ struct CookModeView: View {
             content()
         }
         .cardStyle()
+    }
+
+    // MARK: Voice
+
+    /// Reads what is new aloud, once each: a step come into the hands, a
+    /// pot that has run its time, the end.
+    private func announce(minute: Int) {
+        guard readAloud, startedAt != nil, pausedAt == nil else { return }
+        let narrator = CookNarrator(dish: plan.dish, showsClock: clockMode.showsClock, minute: minute)
+        let language = AppSettings.locale.identifier
+        if let step = handsNow(minute: minute).first, !announcedSteps.contains(step.id) {
+            announcedSteps.insert(step.id)
+            speaker.speak(narrator.stepSentence(step), languageCode: language)
+            return
+        }
+        let ended = schedule.placements.filter { placement in
+            placement.task.unattendedMinutes > 0 && placement.end <= minute && finished[placement.id] == nil
+                && !announcedEnds.contains(placement.id)
+        }
+        if !ended.isEmpty {
+            for placement in ended { announcedEnds.insert(placement.id) }
+            speaker.speak(ended.map { narrator.potDone($0.task.name) }.joined(separator: " "), languageCode: language)
+            return
+        }
+        let doneCount = schedule.placements.filter { placement in
+            finished[placement.id] != nil
+                || ((placement.task.unattendedMinutes > 0 || placement.task.handsMinutes == 0) && placement.end <= minute)
+        }.count
+        if doneCount == schedule.placements.count, !announcedDone {
+            announcedDone = true
+            speaker.speak(narrator.allDone, languageCode: language)
+        }
     }
 
     // MARK: Actions

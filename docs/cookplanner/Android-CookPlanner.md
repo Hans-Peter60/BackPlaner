@@ -45,7 +45,9 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 | 5 | Import aus Text und Webseiten über die Function `analyzeDishSteps` (skip-firebase) | offen, braucht Firebase (unten) |
 | 6 | Pro: Play Billing über eine Kotlin-Brücke, Kaufseite, Sperren mit `KitchenProAccess`, Prüfung des Kauf-Tokens in den Functions, Promo-Codes | offen, braucht Play Console (unten) |
 | 7a | Gemessene Zeiten übernehmen (auf dem Plan unter „Gekocht“, `KitchenTimeLearning`; ein Beispiel wird dabei ein eigenes Gericht), Kochstatistik im Tab „Gekocht“ (Umschalter Liste/Statistik, Monatsbalken selbst gezeichnet – Swift Charts gibt es auf Android nicht), Menü aus mehreren Gängen („+“ → „Menü zusammenstellen“, `KitchenMenu.combined`) | erledigt 26.11., auf dem Pixel 7 geprüft; ohne Sperre bis Schritt 6 |
-| 7b | Vorlesen (`BakePlannerSpeech`), Sprachbefehle (Android SpeechRecognizer), Plan als PDF, Kochjahr-Buch, eigene Sammlungen | offen |
+| 7b | Vorlesen im Kochmodus (Schalter, `settings.readAloud`; neuer Schritt mit Zutaten, Ofen und Minuten, fertiger Topf, „Fertig, anrichten!“; BakePlanners `StepSpeaker` mit Androids TextToSpeech); Filterblatt (Dauer, Geräte, Herkunft, Verlauf, Budget, wenig Handarbeit – Skips Menüs zeigen keine Auswahlfelder) und eigene Sammlungen als Chips (`savedDishCollections` in der Einstellungsdatei) | erledigt 26.11., auf dem Pixel 7 geprüft (die Stimme selbst nicht gehört: TTS gebunden, deutsche Stimme geladen) |
+| 7c | Plan als PDF, Kochjahr-Buch (eigenes übersetztes Modul `CookPlannerMedia` mit Androids PdfDocument) | offen |
+| 7d | Sprachbefehle (Androids SpeechRecognizer) | offen |
 | 8 | Symbol, Nunito-Schrift, Store-Texte, Bilder, Play-Veröffentlichung | offen |
 
 Nicht auf Android (wie bei BakePlanner): iCloud-Abgleich, Live-Aktivität, Siri und Kurzbefehle, Spotlight, Wecker über AlarmKit (dafür Android-Wecker oder laute Mitteilung, in Schritt 3 zu entscheiden).
