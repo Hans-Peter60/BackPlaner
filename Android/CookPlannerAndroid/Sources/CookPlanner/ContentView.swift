@@ -44,7 +44,7 @@ struct ContentView: View {
                 }
             }
         }
-        .appSheet(isPresented: $showsResumed) {
+        .appSheet(isPresented: $showsResumed, backDismissDisabled: true) {
             if let state = resumed, let dish = library.dish(id: state.dishID), let plan = library.plan(for: dish) {
                 CookModeView(plan: plan, restoring: state)
             }

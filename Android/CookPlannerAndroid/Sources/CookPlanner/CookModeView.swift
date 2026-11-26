@@ -91,6 +91,10 @@ struct CookModeView: View {
                      : String(localized: "Noch ist kein Schritt erledigt; es gibt nichts festzuhalten.", bundle: .module))
             }
         }
+        // Only "Beenden" ends a run: Android's back gesture closed the sheet
+        // and left the run going unseen, its banners still coming (as on the
+        // iPhone, where the cook mode cannot be swiped away).
+        .interactiveDismissDisabled()
         // A sheet opened from the root (a resumed run) sits outside the
         // root's tint.
         .tint(Palette.accent(colorScheme))
