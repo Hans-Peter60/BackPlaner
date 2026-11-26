@@ -72,6 +72,7 @@ Die iOS-App benutzt die Speicher-Protokolle noch kaum: ihre Views arbeiten weite
   - `@State` darf nicht `private` sein.
   - Dateien mit `@Observable` brauchen `import SkipFuse`.
   - Die Android-App verwendet die Swift-6-Sprachversion, die Pakete die Swift-5-Sprachversion.
+- **Speichern unter ohne Rückmeldung (gefunden 26.11.2026):** SkipKits `withDocumentExporter` mit `onCompletion` stürzte direkt nach dem Speichern ab (SIGTRAP in SkipBridge bei der Übergabe des `Result`, skip-kit 1.1.6 und 1.1.7; „Rezepte exportieren“ in 2.4 (8) betroffen). `RecipeFileExporter` gibt deshalb keine Rückmeldung mehr an; Androids Dialog bestätigt selbst, der Hinweis bleibt für eine Datei, die gar nicht geschrieben werden konnte.
 - **Dateiauswahl:** `fileImporter` ist in Skip auf Android nur ein Platzhalter. Stattdessen `withDocumentPicker` aus **SkipKit**. Auf iOS muss man den Zugriff selbst holen (`startAccessingSecurityScopedResource`), auf Android liefert der Picker eine Kopie.
 - **Dialoge:** Android schließt einen `.alert` vor der Aktion des Knopfes. Die Sichtbarkeit (`isPresented`) gehört deshalb nicht an dieselben Daten, die die Aktion braucht. Sonst sind sie beim Ausführen schon weg, siehe Löschen in `ContentView`.
 - **Leiste oben:** Android zeigt nur zwei Einträge mit `placement: .primaryAction` und lässt weitere ohne Meldung weg. Mehr Aktionen gehören in ein `Menu`.
