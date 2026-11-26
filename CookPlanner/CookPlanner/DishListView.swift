@@ -36,6 +36,7 @@ struct DishListView: View {
     @State private var importing = false
     @State private var importingPhotos = false
     @State private var importingWeb = false
+    @State private var composingMenu = false
     /// A page address handed in by the share extension or a link to the app.
     @State private var webImportAddress: URL?
     @State private var webImportStartsAutomatically = false
@@ -176,6 +177,12 @@ struct DishListView: View {
                         } label: {
                             Label("Aus Webseite importieren", systemImage: "globe")
                         }
+                        Divider()
+                        Button {
+                            composingMenu = true
+                        } label: {
+                            Label("Menü zusammenstellen", systemImage: "list.number")
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -295,6 +302,11 @@ struct DishListView: View {
                     if let renaming { savedCollections.rename(renaming.id, to: collectionName) }
                 }
                 Button("Abbrechen", role: .cancel) { }
+            }
+            .sheet(isPresented: $composingMenu) {
+                MenuComposerView { menu in
+                    if library.save(menu) { path = [menu.id] }
+                }
             }
             .alert("Speichern fehlgeschlagen",
                    isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {

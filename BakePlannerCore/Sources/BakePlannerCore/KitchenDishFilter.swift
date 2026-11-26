@@ -78,7 +78,7 @@ public struct KitchenDishFacets: Equatable, Sendable {
         handsShare = schedule.makespan > 0 ? min(1, Double(schedule.handsMinutes) / Double(schedule.makespan)) : 0
         switch dish.source {
         case .sample: origin = .example
-        case .manual: origin = .own
+        case .manual, .menu: origin = .own
         case .text, .photo, .web: origin = .imported
         }
     }

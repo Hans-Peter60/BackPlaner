@@ -67,6 +67,28 @@
         }
       }
     },
+    "%@ servieren" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ servieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servir %@"
+          }
+        }
+      }
+    },
     "%@ wartet %lld Minuten" : {
       "localizations" : {
         "de" : {
@@ -376,6 +398,28 @@
         }
       }
     },
+    "%lld Min. bis zum nächsten Gang" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min. bis zum nächsten Gang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min until the next course"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min avant le service suivant"
+          }
+        }
+      }
+    },
     "%lld Min. langsamer" : {
       "localizations" : {
         "de" : {
@@ -530,6 +574,28 @@
         }
       }
     },
+    "%lld Schritte, %lld Zutaten, Plan %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Schritte, %lld Zutaten, Plan %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld steps, %lld ingredients, plan %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étapes, %lld ingrédients, plan %lld min"
+          }
+        }
+      }
+    },
     "%lld Sterne" : {
       "localizations" : {
         "de" : {
@@ -636,6 +702,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter %lld"
+          }
+        }
+      }
+    },
+    "%lld. Gang" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld. Gang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Course %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld^e service"
           }
         }
       }
@@ -2158,6 +2246,28 @@
         }
       }
     },
+    "Dessert" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessert"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessert"
+          }
+        }
+      }
+    },
     "Die Analyse hat zu lange gedauert. Bitte noch einmal versuchen, bei langen Rezepten vielleicht in zwei Teilen." : {
       "localizations" : {
         "de" : {
@@ -2286,6 +2396,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les plats proviennent d’une version plus récente de CookPlanner. Les modifications ne sont pas enregistrées tant que l’app n’est pas mise à jour."
+          }
+        }
+      }
+    },
+    "Die Gänge werden zu einem Plan: Die Vorspeise kommt so viele Minuten vor dem Hauptgang auf den Tisch, wie Du angibst, und der Hauptgang wird gekocht, während die Gäste essen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Gänge werden zu einem Plan: Die Vorspeise kommt so viele Minuten vor dem Hauptgang auf den Tisch, wie Du angibst, und der Hauptgang wird gekocht, während die Gäste essen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The courses become one plan: the starter is on the table as many minutes before the main as you say, and the main is cooked while the guests eat."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les services deviennent un seul plan : l’entrée arrive sur la table autant de minutes avant le plat que vous l’indiquez, et le plat se cuisine pendant que les invités mangent."
           }
         }
       }
@@ -3632,6 +3764,28 @@
         }
       }
     },
+    "Gang hinzufügen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gang hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a course"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un service"
+          }
+        }
+      }
+    },
     "Gebraucht" : {
       "localizations" : {
         "de" : {
@@ -4332,6 +4486,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Travail manuel par composant"
+          }
+        }
+      }
+    },
+    "Hauptgang" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hauptgang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Main course"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat principal"
           }
         }
       }
@@ -5458,6 +5634,50 @@
         }
       }
     },
+    "Menü" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        }
+      }
+    },
+    "Menü zusammenstellen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü zusammenstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compose a menu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composer un menu"
+          }
+        }
+      }
+    },
     "Milchprodukte & Eier" : {
       "localizations" : {
         "de" : {
@@ -5718,6 +5938,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Name des Menüs" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name des Menüs"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name of the menu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom du menu"
           }
         }
       }
@@ -7769,6 +8011,28 @@
         }
       }
     },
+    "Vorspeise" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorspeise"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrée"
+          }
+        }
+      }
+    },
     "Vorzeitig beendet: %lld von %lld Schritten erledigt." : {
       "localizations" : {
         "de" : {
@@ -8209,6 +8473,28 @@
         }
       }
     },
+    "Wähle für jeden Gang ein Gericht." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle für jeden Gang ein Gericht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a dish for every course."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez un plat pour chaque service."
+          }
+        }
+      }
+    },
     "Zahl = Schritt im Ablauf" : {
       "localizations" : {
         "de" : {
@@ -8425,6 +8711,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réinitialiser"
+          }
+        }
+      }
+    },
+    "Zusammen mit dem nächsten Gang" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zusammen mit dem nächsten Gang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Together with the next course"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec le service suivant"
           }
         }
       }
