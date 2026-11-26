@@ -191,6 +191,20 @@ final class CookProStore {
         }
     }
 
+    /// Takes the transaction of a redeemed offer code. Codes are how a cook
+    /// gets Pro for free: Hans-Peter creates them in App Store Connect
+    /// (In-App Purchases → CookPlanner Pro → Offer Codes, "free") and hands
+    /// them out; a redeemed code is a purchase like any other, signed by
+    /// the App Store, so the Functions accept it too.
+    ///
+    /// The redemption sheet of iOS 26 reports only success; the transaction
+    /// itself arrives through `Transaction.updates`, which `start()` follows,
+    /// so the entitlements are read again here.
+    func redeemed(_ result: Result<Void, any Error>) async throws {
+        try result.get()
+        await refreshPurchases()
+    }
+
     /// "Käufe wiederherstellen", which every store has to offer.
     func restore() async throws {
         try await AppStore.sync()

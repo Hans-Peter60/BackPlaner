@@ -1938,6 +1938,28 @@
         }
       }
     },
+    "Code einlösen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code einlösen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeem code"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser un code"
+          }
+        }
+      }
+    },
     "Danach allein: %lld Min." : {
       "localizations" : {
         "de" : {

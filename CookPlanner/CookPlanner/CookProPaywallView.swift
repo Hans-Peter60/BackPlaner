@@ -64,6 +64,7 @@ struct CookProPaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var errorMessage: String?
     @State private var isRestoring = false
+    @State private var redeeming = false
 
     private var features: [KitchenProFeature] {
         guard let highlighted else { return KitchenProFeature.allCases }
@@ -156,6 +157,12 @@ struct CookProPaywallView: View {
                             Task { await restore() }
                         }
                         .disabled(isRestoring || store.isPurchasing)
+
+                        // A code from Hans-Peter unlocks Pro for free.
+                        Button("Code einlösen") {
+                            redeeming = true
+                        }
+                        .disabled(isRestoring || store.isPurchasing)
                     }
                 } footer: {
                     VStack(alignment: .leading, spacing: 6) {
@@ -178,6 +185,16 @@ struct CookProPaywallView: View {
                     ProgressView()
                         .padding(24)
                         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .offerCodeRedemption(isPresented: $redeeming) { result in
+                Task {
+                    do {
+                        try await CookProStore.shared.redeemed(result)
+                        if CookProStore.shared.hasPurchased { dismiss() }
+                    } catch {
+                        errorMessage = error.localizedDescription
+                    }
                 }
             }
             .alert("Kauf nicht möglich", isPresented: Binding(
