@@ -244,6 +244,50 @@
         }
       }
     },
+    "%@: von %lld auf %lld Minuten – %lld Minuten schneller." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: von %lld auf %lld Minuten – %lld Minuten schneller."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: from %lld to %lld minutes – %lld minutes faster."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : de %lld à %lld minutes – %lld minutes plus vite."
+          }
+        }
+      }
+    },
+    "%@: von %lld auf %lld Minuten – mehr Zeit gelassen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: von %lld auf %lld Minuten – mehr Zeit gelassen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: from %lld to %lld minutes – took more time."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : de %lld à %lld minutes – plus de temps pris."
+          }
+        }
+      }
+    },
     "%lld + %lld Min." : {
       "localizations" : {
         "de" : {
@@ -306,6 +350,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld plats ajoutés."
+          }
+        }
+      }
+    },
+    "%lld Mal gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Mal gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked %lld times"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné %lld fois"
+          }
+        }
+      }
+    },
+    "%lld Mal gekocht an %lld Tagen, %lld Gerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Mal gekocht an %lld Tagen, %lld Gerichte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked %lld times on %lld days, %lld dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné %lld fois sur %lld jours, %lld plats"
           }
         }
       }
@@ -1696,6 +1784,28 @@
         }
       }
     },
+    "Bestzeit %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestzeit %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Best time %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meilleur temps %lld min"
+          }
+        }
+      }
+    },
     "Bis 30 Minuten" : {
       "localizations" : {
         "de" : {
@@ -1872,6 +1982,28 @@
         }
       }
     },
+    "Das Buch nimmt alle Kochvorgänge des Jahres mit ihren Fotos, die Lieblingsgerichte und was die Uhr gelehrt hat." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Buch nimmt alle Kochvorgänge des Jahres mit ihren Fotos, die Lieblingsgerichte und was die Uhr gelehrt hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The book takes every cooking session of the year with its photos, the favourite dishes and what the clock taught."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le livre reprend toutes les sessions de l’année avec leurs photos, les plats préférés et ce que l’horloge a appris."
+          }
+        }
+      }
+    },
     "Das Gericht braucht eine Herdplatte; in den Einstellungen steht die Küche auf 0 Platten." : {
       "localizations" : {
         "de" : {
@@ -1934,6 +2066,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le plat de la session en cours n’existe plus."
+          }
+        }
+      }
+    },
+    "Das Jahr in Zahlen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Jahr in Zahlen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The year in figures"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’année en chiffres"
           }
         }
       }
@@ -3060,6 +3214,28 @@
         }
       }
     },
+    "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein PDF im A4-Format – zum Drucken, Binden oder Verschicken."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A PDF in A4 – to print, bind or send."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un PDF au format A4 – à imprimer, relier ou envoyer."
+          }
+        }
+      }
+    },
     "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
       "localizations" : {
         "de" : {
@@ -3210,6 +3386,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Détendu"
+          }
+        }
+      }
+    },
+    "Entspannt gekocht" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entspannt gekocht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked relaxed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné détendu"
           }
         }
       }
@@ -3936,6 +4134,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajouter un plat cuisiné"
+          }
+        }
+      }
+    },
+    "Gekocht je Monat" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gekocht je Monat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooked per month"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuisiné par mois"
           }
         }
       }
@@ -4820,6 +5040,28 @@
         }
       }
     },
+    "Im Plan geblieben" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Plan geblieben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Within the plan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans le plan"
+          }
+        }
+      }
+    },
     "Import fehlgeschlagen" : {
       "localizations" : {
         "de" : {
@@ -4882,6 +5124,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Transférer vers ce compte"
+          }
+        }
+      }
+    },
+    "Inhalt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhalt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contents"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenu"
+          }
+        }
+      }
+    },
+    "Jahr" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Year"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Année"
           }
         }
       }
@@ -5282,6 +5568,72 @@
         }
       }
     },
+    "Kochjahr-Buch" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochjahr-Buch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre de l’année en cuisine"
+          }
+        }
+      }
+    },
+    "Kochjahr-Buch teilen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochjahr-Buch teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share the cooking yearbook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager le livre de l’année"
+          }
+        }
+      }
+    },
+    "Kochtage" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kochtage"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours de cuisine"
+          }
+        }
+      }
+    },
     "Komponente" : {
       "localizations" : {
         "de" : {
@@ -5414,6 +5766,28 @@
         }
       }
     },
+    "Lieblingsgerichte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieblingsgerichte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favourite dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plats préférés"
+          }
+        }
+      }
+    },
     "Liegt höchstens %lld Min." : {
       "localizations" : {
         "de" : {
@@ -5454,6 +5828,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liste"
+          }
+        }
+      }
+    },
+    "Längste Session" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Längste Session"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longest session"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus longue session"
           }
         }
       }
@@ -5542,6 +5938,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plus"
+          }
+        }
+      }
+    },
+    "Mein Kochjahr" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mein Kochjahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My cooking year"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon année en cuisine"
+          }
+        }
+      }
+    },
+    "Mein Kochjahr %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mein Kochjahr %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My cooking year %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon année en cuisine %@"
           }
         }
       }
@@ -5942,6 +6382,28 @@
         }
       }
     },
+    "Name auf dem Titelblatt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name auf dem Titelblatt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on the cover"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom sur la couverture"
+          }
+        }
+      }
+    },
     "Name des Menüs" : {
       "localizations" : {
         "de" : {
@@ -6224,6 +6686,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rien cuisiné pour l’instant"
+          }
+        }
+      }
+    },
+    "Noch nichts gekocht – das Buch entsteht aus der Kochhistorie." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nichts gekocht – das Buch entsteht aus der Kochhistorie."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing cooked yet – the book comes from the cooking history."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien de cuisiné encore – le livre naît de l’historique de cuisine."
           }
         }
       }
@@ -6818,6 +7302,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plan"
+          }
+        }
+      }
+    },
+    "Plan %lld Min." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld Min."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan %lld min"
           }
         }
       }
@@ -7725,6 +8231,28 @@
       },
       "extractionState" : "manual"
     },
+    "Stunden am Herd" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stunden am Herd"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours at the stove"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heures aux fourneaux"
+          }
+        }
+      }
+    },
     "Teilen" : {
       "localizations" : {
         "de" : {
@@ -8033,6 +8561,28 @@
         }
       }
     },
+    "Vorsätze für %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorsätze für %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolutions for %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résolutions pour %@"
+          }
+        }
+      }
+    },
     "Vorzeitig beendet: %lld von %lld Schritten erledigt." : {
       "localizations" : {
         "de" : {
@@ -8095,6 +8645,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Attend"
+          }
+        }
+      }
+    },
+    "Was die Uhr lehrte" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was die Uhr lehrte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What the clock taught"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que l’horloge a appris"
           }
         }
       }
@@ -8957,6 +9529,28 @@
         }
       }
     },
+    "entspannt" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "entspannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "relaxed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "détendu"
+          }
+        }
+      }
+    },
     "erledigt %@ · gebraucht %@ · geplant %lld Min." : {
       "localizations" : {
         "de" : {
@@ -9261,6 +9855,28 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
+    "Ø Bewertung" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø Bewertung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ø rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note moyenne"
           }
         }
       }
