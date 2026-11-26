@@ -114,6 +114,15 @@ final class CookRunLog {
         return FileManager.default.fileExists(atPath: url.path) ? url : nil
     }
 
+    /// A small picture of the dish's latest result, for Spotlight; nil
+    /// without a photo.
+    func spotlightThumbnail(forDish dishID: String) -> Data? {
+        guard let name = runs.first(where: { $0.dishID == dishID && $0.photoFileName != nil })?.photoFileName,
+              let data = try? Data(contentsOf: photoFolder.appendingPathComponent(name)),
+              let small = Self.downsampled(data, maxPixels: 120) else { return nil }
+        return small.jpegData(compressionQuality: 0.7)
+    }
+
     // MARK: Backup
 
     /// The records' photos for a backup file, by file name: read small

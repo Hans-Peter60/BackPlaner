@@ -53,6 +53,8 @@ struct CookPlannerApp: App {
         UNUserNotificationCenter.current().delegate = CookReminders.shared
         let library = DishLibrary.onDisk()
         _library = State(initialValue: library)
+        DishLibrary.current = library
+        DishSpotlightIndexer.shared.schedulePass()
         CloudSync.shared.start(library: library, runLog: CookRunLog.shared)
         // Budget, kitchen, clock mode and the saved collections follow the
         // cook to the other devices.

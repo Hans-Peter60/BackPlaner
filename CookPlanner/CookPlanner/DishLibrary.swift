@@ -24,6 +24,9 @@ final class DishLibrary {
     private(set) var storageWarning: String?
 
     private let store: KitchenDishStore
+    /// The library the app runs on, for the App Intents and the Spotlight
+    /// index, which have no view to get it from.
+    static weak var current: DishLibrary?
 
     init(store: KitchenDishStore) {
         self.store = store
@@ -54,6 +57,7 @@ final class DishLibrary {
     func reload() {
         do {
             dishes = try store.dishes()
+            if Self.current === self { DishSpotlightIndexer.shared.schedulePass() }
         } catch {
             lastError = error.localizedDescription
         }

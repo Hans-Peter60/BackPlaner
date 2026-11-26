@@ -37,6 +37,7 @@ struct CookModeView: View {
         _doneSeconds = State(initialValue: state.doneSeconds)
         _handsDoneSeconds = State(initialValue: state.handsDoneSeconds)
         _startSeconds = State(initialValue: state.startSeconds)
+        _revision = State(initialValue: state.revision ?? 0)
     }
 
     #if DEBUG
@@ -95,6 +96,8 @@ struct CookModeView: View {
     /// What was read aloud already, so a step is announced once.
     @State private var announcedSteps: Set<String> = []
     @State private var announcedEnds: Set<String> = []
+    /// The saved state's revision this view wrote or adopted last.
+    @State private var revision = 0
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.locale) private var locale
 
@@ -157,6 +160,7 @@ struct CookModeView: View {
             // session would hold the phone's audio.
             .onChange(of: scenePhase) { _, phase in
                 if phase != .active, voice.isActive { stopVoice() }
+                if phase == .active { adoptExternalChanges() }
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -258,9 +262,10 @@ struct CookModeView: View {
     /// Keeps the run as it stands, so the next launch can take it up again.
     private func persist() {
         guard let startedAt else { return }
+        revision += 1
         CookRunState(dishID: plan.dish.id, startedAt: startedAt, pausedAt: pausedAt, pausedSeconds: pausedSeconds,
                      finished: finished, handsDone: handsDone, ticks: tickHistory, doneSeconds: doneSeconds,
-                     handsDoneSeconds: handsDoneSeconds, startSeconds: startSeconds).save()
+                     handsDoneSeconds: handsDoneSeconds, startSeconds: startSeconds, revision: revision).save()
     }
 
     /// The stopwatch second the hands were last free: the latest tick of a
@@ -455,7 +460,8 @@ struct CookModeView: View {
         let placements = live.placements
         // In the hands: begun, not ticked off, and — with an unattended
         // part — still in its hands-on minutes.
-        let handsNow = handsNowPlacements(minute: minute)
+        let narrator = narrator(minute: minute)
+        let handsNow = narrator.handsNow
         let unattended = placements.filter { placement in
             placement.task.unattendedMinutes > 0 && placement.handsEnd <= minute && minute < placement.end
                 && finished[placement.id] == nil
@@ -602,7 +608,7 @@ struct CookModeView: View {
             guard readAloud, startedAt != nil, let first = ids.first, !announcedSteps.contains(first),
                   let placement = handsNow.first(where: { $0.id == first }) else { return }
             announcedSteps.insert(first)
-            speaker.speak(spokenStep(placement, minute: minute))
+            speaker.speak(narrator.stepSentence(placement))
         }
         .onChange(of: endedPots.map(\.id)) { _, ids in
             guard readAloud, startedAt != nil else { return }
@@ -725,40 +731,19 @@ struct CookModeView: View {
         speaker.managesAudioSession = true
     }
 
-    /// The steps in the hands right now, as the screen shows them. Relaxed:
-    /// nobody waits for the plan's minute — once the hands are free, the
-    /// next step whose ingredients are ready comes forward; only a pot
-    /// still cooking holds its followers back.
-    private func handsNowPlacements(minute: Int) -> [KitchenPlacement] {
-        let placements = (live ?? plan.schedule).placements
-        let inHands = placements.filter { placement in
-            placement.task.handsMinutes > 0 && placement.start <= minute && finished[placement.id] == nil
-                && handsDone[placement.id] == nil
-                && (placement.task.unattendedMinutes == 0 || minute < placement.handsEnd)
-        }
-        if !inHands.isEmpty || clockMode != .relaxed || startedAt == nil { return inHands }
-        let upcoming = placements.filter { $0.start > minute }.sorted { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
-        return upcoming.first { candidate in
-            candidate.task.handsMinutes > 0 && candidate.task.after.allSatisfy { id in
-                finished[id] != nil || placements.contains { $0.id == id && $0.task.handsMinutes == 0 && $0.end <= minute }
-                    || placements.contains { $0.id == id && $0.task.unattendedMinutes > 0 && $0.end <= minute }
-            }
-        }.map { [$0] } ?? []
-    }
-
     /// Carries out a spoken command on what is in the hands right now.
     private func handle(_ command: CookVoiceCommand) {
         let minute = elapsedSeconds(at: .now) / 60
-        let current = handsNowPlacements(minute: minute)
+        let current = narrator(minute: minute).handsNow
         switch command {
         case .done:
             guard let step = current.first else { speaker.speak(spoken("Gerade ist nichts in der Hand.")); return }
             if step.task.unattendedMinutes > 0 {
                 putOn(step.id, minute: minute)
-                speaker.speak(spoken("Steht.") + " " + followUp(after: step.id))
+                speaker.speak(spoken("Steht.") + " " + narrator(minute: minute).followUp(after: step.id))
             } else {
                 tickOff(step.id, minute: minute)
-                speaker.speak(spoken("Erledigt.") + " " + followUp(after: step.id))
+                speaker.speak(spoken("Erledigt.") + " " + narrator(minute: minute).followUp(after: step.id))
             }
         case .potOn:
             guard let pot = current.first(where: { $0.task.unattendedMinutes > 0 }) else {
@@ -766,33 +751,29 @@ struct CookModeView: View {
                 return
             }
             putOn(pot.id, minute: minute)
-            speaker.speak(spoken("Steht.") + " " + followUp(after: pot.id))
+            speaker.speak(spoken("Steht.") + " " + narrator(minute: minute).followUp(after: pot.id))
         case .undo:
             guard !tickHistory.isEmpty else { speaker.speak(spoken("Es gibt nichts zurückzunehmen.")); return }
             undoLastTick()
             speaker.speak(spoken("Zurückgenommen."))
         case .read:
-            if let step = current.first {
-                speaker.speak(spokenStep(step, minute: minute))
-            } else {
-                speaker.speak(spoken("Gerade ist nichts in der Hand.") + " " + followUp(after: nil))
-            }
+            speaker.speak(narrator(minute: minute).now())
         case .next:
-            speaker.speak(followUp(after: current.first?.id, always: true))
+            speaker.speak(narrator(minute: minute).followUp(after: current.first?.id, always: true))
         case .ingredients:
             guard let step = current.first else { speaker.speak(spoken("Gerade ist nichts in der Hand.")); return }
             let ingredients = plan.dish.ingredients(for: step.task)
             speaker.speak(ingredients.isEmpty ? spoken("Dieser Schritt hat keine Zutaten.")
                                               : KitchenSpokenText.lines(for: ingredients, locale: locale) + ".")
         case .timing:
-            speaker.speak(spokenTiming(current: current.first, minute: minute))
+            speaker.speak(narrator(minute: minute).timing())
         case .pause:
             pause()
             speaker.speak(spoken("Pause, die Uhr steht."))
         case .resume:
             if pausedAt != nil {
                 resume()
-                speaker.speak(spoken("Weiter geht's.") + " " + followUp(after: nil))
+                speaker.speak(spoken("Weiter geht's.") + " " + narrator(minute: minute).followUp(after: nil))
             } else {
                 speaker.speak(spoken("Die Uhr läuft schon."))
             }
@@ -801,75 +782,33 @@ struct CookModeView: View {
         }
     }
 
-    /// What comes after `id`: the next step in the hands, read aloud — or
-    /// what the hands wait for. Empty when nothing follows and `always` is
-    /// off, so a confirmation stays short.
-    private func followUp(after id: String?, always: Bool = false) -> String {
-        let minute = elapsedSeconds(at: .now) / 60
-        let current = handsNowPlacements(minute: minute).filter { $0.id != id }
-        if let next = current.first {
-            return spoken("Jetzt:") + " " + spokenStep(next, minute: minute)
-        }
-        let placements = (live ?? plan.schedule).placements
-        let upcoming = placements.filter { $0.start > minute && $0.task.handsMinutes > 0 && $0.id != id }
-            .sorted { ($0.start, $0.task.id) < ($1.start, $1.task.id) }
-        if let next = upcoming.first {
-            let wait = next.start - minute
-            return clockMode.showsClock
-                ? String(format: spoken("Gleich, in %lld Minuten: %@."), Int64(wait), next.task.name)
-                : String(format: spoken("Gleich: %@."), next.task.name)
-        }
-        let running = placements.filter { $0.task.unattendedMinutes > 0 && $0.handsEnd <= minute && minute < $0.end && finished[$0.id] == nil }
-        if let pot = running.min(by: { $0.end < $1.end }) {
-            return String(format: spoken("%@ braucht noch %lld Minuten."), pot.task.name, Int64(pot.end - minute))
-        }
-        return always ? spoken("Das war der letzte Schritt. Fertig, anrichten!") : ""
-    }
-
-    /// A step for the ear: name, component, ingredients, and how long.
-    private func spokenStep(_ placement: KitchenPlacement, minute: Int) -> String {
-        let task = placement.task
-        var parts = [String]()
-        parts.append(task.component.isEmpty ? task.name + "." : task.component + ": " + task.name + ".")
-        let ingredients = plan.dish.ingredients(for: task)
-        if !ingredients.isEmpty {
-            parts.append(KitchenSpokenText.lines(for: ingredients, locale: locale) + ".")
-        }
-        if let temperature = task.ovenTemperature {
-            parts.append(String(format: spoken("Ofen %lld Grad."), Int64(temperature)))
-        }
-        if clockMode.showsClock && task.handsMinutes > 0 {
-            let left = placement.start + task.handsMinutes - minute
-            parts.append(left > 0 ? String(format: spoken("%lld Minuten."), Int64(left)) : spoken("Überfällig."))
-        }
-        if task.unattendedMinutes > 0 {
-            parts.append(String(format: spoken("Dann %lld Minuten von allein."), Int64(task.unattendedMinutes)))
-        }
-        return parts.joined(separator: " ")
-    }
-
-    private func spokenTiming(current: KitchenPlacement?, minute: Int) -> String {
-        var parts = [String]()
-        if let current, clockMode.showsClock {
-            let left = current.start + current.task.handsMinutes - minute
-            parts.append(left > 0 ? String(format: spoken("Noch %lld Minuten für %@."), Int64(left), current.task.name)
-                                  : String(format: spoken("%@ ist überfällig."), current.task.name))
-        }
-        let placements = (live ?? plan.schedule).placements
-        for pot in placements where pot.task.unattendedMinutes > 0 && pot.handsEnd <= minute && minute < pot.end && finished[pot.id] == nil {
-            parts.append(String(format: spoken("%@ braucht noch %lld Minuten."), pot.task.name, Int64(pot.end - minute)))
-        }
-        if clockMode.showsClock {
-            let remaining = (live ?? plan.schedule).makespan - minute
-            parts.append(remaining > 0 ? String(format: spoken("Der Plan ist in %lld Minuten fertig."), Int64(remaining))
-                                       : spoken("Der Plan ist durch."))
-        }
-        return parts.isEmpty ? spoken("Gerade läuft nichts.") : parts.joined(separator: " ")
-    }
-
     /// A sentence the app says, in the app's language.
     private func spoken(_ key: String.LocalizationValue) -> String {
         String(localized: key)
+    }
+
+    /// The sentences for `minute`, from the live plan and the ticks.
+    private func narrator(minute: Int) -> CookNarrator {
+        CookNarrator(plan: plan, schedule: live ?? plan.schedule, finished: finished, handsDone: handsDone,
+                     showsClock: clockMode.showsClock, locale: locale, minute: minute)
+    }
+
+    /// Ticks made elsewhere — by Siri while the phone was locked — arrive
+    /// through the saved state when the cook mode comes back.
+    private func adoptExternalChanges() {
+        guard startedAt != nil, let saved = CookRunState.load(), saved.dishID == plan.dish.id,
+              (saved.revision ?? 0) > revision else { return }
+        revision = saved.revision ?? 0
+        finished = saved.finished
+        handsDone = saved.handsDone
+        tickHistory = saved.ticks
+        doneSeconds = saved.doneSeconds
+        handsDoneSeconds = saved.handsDoneSeconds
+        startSeconds = saved.startSeconds
+        pausedAt = saved.pausedAt
+        pausedSeconds = saved.pausedSeconds
+        remindersSignature = ""
+        replan(minute: elapsedSeconds(at: .now) / 60)
     }
 
     /// "noch 4 Min." — or, for a step with a window, "noch 2–7 Min." and,
