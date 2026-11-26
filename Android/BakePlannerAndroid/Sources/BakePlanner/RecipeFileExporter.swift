@@ -34,13 +34,12 @@ struct RecipeFileExporter: ViewModifier {
                     showsExporter = true
                 }
             }
-            .withDocumentExporter(isPresented: $showsExporter, contentType: .json, documentURL: fileURL) { result in
-                switch result {
-                case .success: outcome = .saved
-                case .failure: outcome = .failed
-                }
-                showsOutcome = true
-            }
+            // No completion: handing SkipKit's Result back from Kotlin to
+            // Swift crashed the app right after saving (SIGTRAP in
+            // SkipBridge, skip-kit 1.1.6, found 26.11.2026 on the Pixel 7).
+            // The system's "save as" confirms the file itself; the alert
+            // stays for a file that could not be written at all.
+            .withDocumentExporter(isPresented: $showsExporter, contentType: .json, documentURL: fileURL)
             .alert(outcome == .saved ? LocalizedStringKey("Gesichert") : LocalizedStringKey("Sichern fehlgeschlagen"),
                    isPresented: $showsOutcome) {
                 Button {
