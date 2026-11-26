@@ -12,8 +12,15 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        NavigationStack {
-            DishListView(library: library)
+        TabView {
+            NavigationStack {
+                DishListView(library: library)
+            }
+            .tabItem { Label(String(localized: "Gerichte", bundle: .module), systemImage: "list.bullet") }
+            NavigationStack {
+                CookHistoryView(library: library)
+            }
+            .tabItem { Label(String(localized: "Gekocht", bundle: .module), systemImage: "checkmark.circle") }
         }
         .tint(Palette.accent(colorScheme))
         // Skip looks every text up in the environment's locale; the
@@ -81,11 +88,11 @@ struct DishListView: View {
             }
             ToolbarItem(placement: .primaryAction) {
                 Menu {
-                    Button(String(localized: "Gerichte sichern", bundle: .module)) {
-                        exportURL = library.exportFile(of: library.ownDishes)
+                    Button(String(localized: "Gerichte und Protokolle sichern", bundle: .module)) {
+                        exportURL = library.exportFile(of: library.ownDishes, includesRecords: true)
                         if exportURL != nil { showsExporter = true }
                     }
-                    .disabled(library.ownDishes.isEmpty)
+                    .disabled(library.ownDishes.isEmpty && CookRunLog.shared.runs.isEmpty)
                     Button(String(localized: "Gerichte importieren", bundle: .module)) {
                         showsPicker = true
                     }

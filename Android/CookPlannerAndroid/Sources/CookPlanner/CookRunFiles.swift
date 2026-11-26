@@ -99,6 +99,51 @@ final class CookRunLog {
         URL.applicationSupportDirectory.appendingPathComponent("cook-runs.json")
     }
 
+    /// The photos of the records, by file name, as on the iPhone ("Photos").
+    var photoFolder: URL {
+        URL.applicationSupportDirectory.appendingPathComponent("Photos", isDirectory: true)
+    }
+
+    func run(id: String) -> KitchenCookRun? {
+        runs.first { $0.id == id }
+    }
+
+    /// The records' photos for a backup, by file name.
+    func backupPhotos() -> [String: Data] {
+        var photos = [String: Data]()
+        for run in runs {
+            guard let name = run.photoFileName, photos[name] == nil,
+                  let data = try? Data(contentsOf: photoFolder.appendingPathComponent(name)) else { continue }
+            photos[name] = data
+        }
+        return photos
+    }
+
+    /// Records from a backup: those not here yet, with their photos.
+    func importRuns(_ incoming: [KitchenCookRun], photos: [String: Data]) -> (added: Int, alreadyThere: Int) {
+        var added = 0
+        var known = 0
+        for run in incoming {
+            if self.run(id: run.id) != nil {
+                known += 1
+                continue
+            }
+            if let name = run.photoFileName, let data = photos[name] {
+                let target = photoFolder.appendingPathComponent(name)
+                if !FileManager.default.fileExists(atPath: target.path) {
+                    try? FileManager.default.createDirectory(at: photoFolder, withIntermediateDirectories: true)
+                    try? data.write(to: target, options: .atomic)
+                }
+            }
+            runs.append(run)
+            added += 1
+        }
+        guard added > 0 else { return (0, known) }
+        runs.sort { $0.startedAt > $1.startedAt }
+        save()
+        return (added, known)
+    }
+
     init() {
         if let data = try? Data(contentsOf: url), let decoded = try? KitchenCookRunFile.decode(data) {
             runs = decoded.sorted { $0.startedAt > $1.startedAt }
