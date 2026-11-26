@@ -13,6 +13,7 @@ struct DishPlanView: View {
     @State var exportURL: URL?
     @State var showsExporter = false
     @State var cooking = false
+    @State var shopping = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -38,6 +39,7 @@ struct DishPlanView: View {
                             }
                             .buttonStyle(.borderedProminent)
                             verdictCard(plan)
+                            ingredientsCard(plan)
                             if !CookRunLog.shared.runs(of: dishID).isEmpty {
                                 runsCard
                             }
@@ -93,6 +95,11 @@ struct DishPlanView: View {
             }
         }
         .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .appSheet(isPresented: $shopping) {
+            if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
+                ShoppingListView(dish: plan.dish)
+            }
+        }
         .appSheet(isPresented: $cooking) {
             if let dish = library.dish(id: dishID), let plan = library.plan(for: dish) {
                 CookModeView(plan: plan)
@@ -125,6 +132,54 @@ struct DishPlanView: View {
             .foregroundStyle(Palette.subtitle(colorScheme))
         }
         .cardStyle()
+    }
+
+    /// How many ingredients, for how many, and the shopping list.
+    @ViewBuilder
+    private func ingredientsCard(_ plan: DishPlan) -> some View {
+        if !plan.dish.ingredients.isEmpty {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(String(localized: "\(plan.dish.ingredients.count) Zutaten", bundle: .module))
+                    .font(.headline)
+                portionsControl(base: library.dish(id: dishID)?.servings)
+                Button(String(localized: "Einkaufsliste", bundle: .module)) {
+                    shopping = true
+                }
+                .buttonStyle(.bordered)
+            }
+            .cardStyle()
+        }
+    }
+
+    /// For how many: persons when the recipe says, otherwise a factor.
+    /// Only the amounts change; the steps keep their minutes.
+    @ViewBuilder
+    private func portionsControl(base: Int?) -> some View {
+        let factor = library.portionFactor(for: dishID)
+        if let base, base > 0 {
+            let persons = max(1, Int((Double(base) * factor).rounded()))
+            Stepper(String(localized: "Für \(persons) Personen", bundle: .module),
+                    value: Binding(get: { persons },
+                                   set: { library.setPortionFactor(KitchenPortions.factor(servings: $0, base: base), for: dishID) }),
+                    in: 1...24)
+            if persons != base {
+                Text(String(localized: "Rezept für \(base) Personen · die Zeiten bleiben gleich", bundle: .module))
+                    .font(.caption)
+                    .foregroundStyle(Palette.subtitle(colorScheme))
+            }
+        } else {
+            let factors = KitchenPortions.factors
+            let index = factors.firstIndex(where: { abs($0 - factor) < 0.001 }) ?? 1
+            let shown = IngredientDraft.text(for: factors[index])
+            Stepper(String(localized: "Menge ×\(shown /*%@*/)", bundle: .module),
+                    value: Binding(get: { index }, set: { library.setPortionFactor(factors[$0], for: dishID) }),
+                    in: 0...(factors.count - 1))
+            if factors[index] != 1 {
+                Text(String(localized: "Die Zeiten bleiben gleich", bundle: .module))
+                    .font(.caption)
+                    .foregroundStyle(Palette.subtitle(colorScheme))
+            }
+        }
     }
 
     /// The times this dish was cooked on the stopwatch, newest first.
