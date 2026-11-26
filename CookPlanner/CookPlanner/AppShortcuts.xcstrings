@@ -1,0 +1,139 @@
+{
+  "sourceLanguage" : "de",
+  "version" : "1.0",
+  "strings" : {
+    "Was steht in ${applicationName} an" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Was steht in ${applicationName} an",
+              "Nächster Schritt in ${applicationName}",
+              "${applicationName} was kommt jetzt"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "What's up in ${applicationName}",
+              "Next step in ${applicationName}",
+              "${applicationName} what's next"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Qu'est-ce qui est en cours dans ${applicationName}",
+              "Étape suivante dans ${applicationName}",
+              "${applicationName} et après"
+            ]
+          }
+        }
+      }
+    },
+    "Schritt erledigt in ${applicationName}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Schritt erledigt in ${applicationName}",
+              "${applicationName} erledigt",
+              "${applicationName} steht"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Step done in ${applicationName}",
+              "${applicationName} done",
+              "${applicationName} it's on"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Étape terminée dans ${applicationName}",
+              "${applicationName} terminé",
+              "${applicationName} c'est parti"
+            ]
+          }
+        }
+      }
+    },
+    "Wie lange noch in ${applicationName}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Wie lange noch in ${applicationName}",
+              "${applicationName} wie lange noch"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "How long in ${applicationName}",
+              "${applicationName} how much longer"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Combien de temps dans ${applicationName}",
+              "${applicationName} combien de temps encore"
+            ]
+          }
+        }
+      }
+    },
+    "Koche ${dish} mit ${applicationName}" : {
+      "localizations" : {
+        "de" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Koche ${dish} mit ${applicationName}",
+              "${dish} in ${applicationName} kochen",
+              "Kochen starten in ${applicationName}"
+            ]
+          }
+        },
+        "en" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Cook ${dish} with ${applicationName}",
+              "Cook ${dish} in ${applicationName}",
+              "Start cooking in ${applicationName}"
+            ]
+          }
+        },
+        "fr" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Cuisiner ${dish} avec ${applicationName}",
+              "Cuisiner ${dish} dans ${applicationName}",
+              "Commencer à cuisiner dans ${applicationName}"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

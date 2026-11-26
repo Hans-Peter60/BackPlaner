@@ -35,6 +35,9 @@ struct CookRunState: Codable, Equatable {
     var doneSeconds: [String: Int]
     var handsDoneSeconds: [String: Int]
     var startSeconds: [String: Int]
+    /// Counts up with every change, so the cook mode notices a tick made
+    /// elsewhere — by Siri while the phone was locked — when it comes back.
+    var revision: Int?
 
     private static let key = "cook.runState"
     /// A run older than this is not taken up again: the meal is long over.

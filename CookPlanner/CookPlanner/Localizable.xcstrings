@@ -1,6 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
     "%@ braucht noch %lld Minuten." : {
       "localizations" : {
         "de" : {
@@ -1802,6 +1824,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le plat a besoin d’un four ; la cuisine des réglages compte 0 four."
+          }
+        }
+      }
+    },
+    "Das Gericht des laufenden Kochvorgangs gibt es nicht mehr." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Gericht des laufenden Kochvorgangs gibt es nicht mehr."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dish of the run under way no longer exists."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le plat de la session en cours n’existe plus."
           }
         }
       }
@@ -3830,6 +3874,28 @@
         }
       }
     },
+    "Gerade kochst Du nichts in CookPlanner." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerade kochst Du nichts in CookPlanner."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not cooking anything in CookPlanner right now."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous ne cuisinez rien dans CookPlanner pour l’instant."
+          }
+        }
+      }
+    },
     "Gerade läuft nichts." : {
       "localizations" : {
         "de" : {
@@ -3896,6 +3962,28 @@
         }
       }
     },
+    "Gericht nicht gefunden" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht nicht gefunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dish not found"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat introuvable"
+          }
+        }
+      }
+    },
     "Gericht suchen" : {
       "localizations" : {
         "de" : {
@@ -3936,6 +4024,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager le plat"
+          }
+        }
+      }
+    },
+    "Gericht öffnen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gericht öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir le plat"
           }
         }
       }
@@ -4178,6 +4288,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cochez ce que vous avez déjà. Partagez le reste en bas, par exemple vers Rappels."
+          }
+        }
+      }
+    },
+    "Hakt den Schritt in der Hand ab; einen Topf oder den Ofen setzt es auf, seine Zeit läuft dann." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hakt den Schritt in der Hand ab; einen Topf oder den Ofen setzt es auf, seine Zeit läuft dann."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ticks off the step in your hands; a pot or the oven is put on, its time runs from then."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coche l’étape en cours ; une casserole ou le four est lancé, son temps court ensuite."
           }
         }
       }
@@ -5014,6 +5146,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choisir le composant"
+          }
+        }
+      }
+    },
+    "Komponenten" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komponenten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Components"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composants"
           }
         }
       }
@@ -6690,6 +6844,50 @@
         }
       }
     },
+    "Sagt, welcher Schritt gerade in der Hand ist, und was als Nächstes kommt." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sagt, welcher Schritt gerade in der Hand ist, und was als Nächstes kommt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Says which step is in your hands right now, and what comes next."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit quelle étape est en cours et ce qui vient ensuite."
+          }
+        }
+      }
+    },
+    "Sagt, wie lange der Schritt in der Hand, die Töpfe und der ganze Plan noch brauchen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sagt, wie lange der Schritt in der Hand, die Töpfe und der ganze Plan noch brauchen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Says how long the step in your hands, the pots and the whole plan still need."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit combien de temps il reste pour l’étape en cours, les casseroles et tout le plan."
+          }
+        }
+      }
+    },
     "Sammlung löschen" : {
       "localizations" : {
         "de" : {
@@ -7659,6 +7857,28 @@
         }
       }
     },
+    "Was steht an" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was steht an"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qu'est-ce qui est en cours"
+          }
+        }
+      }
+    },
     "Was zu tun ist" : {
       "localizations" : {
         "de" : {
@@ -7897,6 +8117,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Combien de temps"
+          }
+        }
+      }
+    },
+    "Wie lange noch" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie lange noch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How long"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien de temps encore"
           }
         }
       }
@@ -8645,6 +8887,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Öffnet ein Gericht in CookPlanner und startet den Kochmodus." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnet ein Gericht in CookPlanner und startet den Kochmodus."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens a dish in CookPlanner and starts the cook mode."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre un plat dans CookPlanner et lance le mode cuisine."
+          }
+        }
+      }
+    },
+    "Öffnet ein Gericht in CookPlanner." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnet ein Gericht in CookPlanner."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens a dish in CookPlanner."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre un plat dans CookPlanner."
           }
         }
       }

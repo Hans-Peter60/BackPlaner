@@ -45,6 +45,9 @@ struct DishListView: View {
     @State private var pendingImport: KitchenDish?
     /// What reading a .cookplanner file opened from outside came to.
     @State private var fileImportReport: String?
+    /// The dishes open on top of the list, by id — so Spotlight and Siri
+    /// can open one.
+    @State private var path: [String] = []
     /// The plans of the dishes as last computed, so a keystroke in the
     /// search does not schedule every dish anew several times per render.
     @State private var planCache = DishPlanCache()
@@ -71,7 +74,7 @@ struct DishListView: View {
     private var shownExamples: [KitchenDish] { KitchenSampleDishes.all.filter(passes) }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 Section {
                     if let warning = library.storageWarning {
@@ -239,12 +242,26 @@ struct DishListView: View {
             // there did the link come from the extension — any web page can
             // open cookplanner://import-web, and then the analysis waits
             // for a tap.
+            .navigationDestination(for: String.self) { id in
+                if let dish = library.dish(id: id) ?? KitchenSampleDishes.all.first(where: { $0.id == id }) {
+                    DishPlanView(dish: dish)
+                } else {
+                    ContentUnavailableView("Gericht nicht gefunden", systemImage: "fork.knife")
+                }
+            }
             .onOpenURL { url in
                 selectedTab?.wrappedValue = .dishes
                 // A .cookplanner file tapped in Mail, Messages or Files.
                 if url.isFileURL {
                     showsSettings = false
                     fileImportReport = library.importDishes(at: url)
+                    return
+                }
+                // Spotlight or Siri: a dish, perhaps straight into the cook mode.
+                if let link = DishDeepLink.parse(url) {
+                    showsSettings = false
+                    AppRequests.shared.cookDishID = link.startsCooking ? link.dishID : nil
+                    path = [link.dishID]
                     return
                 }
                 guard let pageURL = PendingDishImport.url(fromDeepLink: url) else { return }
@@ -392,9 +409,7 @@ struct DishListView: View {
     /// waiting for a deleted one, an oven dish in a kitchen set to no oven
     /// — shows why, and still opens, so it can be edited or deleted.
     private func row(_ dish: KitchenDish) -> some View {
-        NavigationLink {
-            DishPlanView(dish: dish)
-        } label: {
+        NavigationLink(value: dish.id) {
             if let plan = plan(for: dish) {
                 DishRow(plan: plan)
             } else {

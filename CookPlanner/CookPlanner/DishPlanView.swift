@@ -32,6 +32,10 @@ struct DishPlanView: View {
     /// How much more or less than the recipe is cooked, kept per dish.
     @State private var portionFactor: Double
 
+    /// Siri's "Kochen starten" and the link behind it: the cook mode comes
+    /// up on its own.
+    @State private var requests = AppRequests.shared
+
     init(dish: KitchenDish) {
         _dish = State(initialValue: dish)
         _portionFactor = State(initialValue: CookSettings.portionFactor(for: dish.id))
@@ -180,6 +184,16 @@ struct DishPlanView: View {
         }
         .onChange(of: cooking) { _, isCooking in
             if isCooking { runBeforeCooking = runLog.runs(of: dish.id).first?.id }
+        }
+        // A cover presented while the push is still animating is dropped;
+        // the cook mode comes up once the plan has settled.
+        .onChange(of: requests.cookDishID, initial: true) { _, id in
+            guard id == dish.id, plan != nil else { return }
+            requests.cookDishID = nil
+            Task {
+                try? await Task.sleep(for: .milliseconds(600))
+                if !cooking { cooking = true }
+            }
         }
         // A record kept at the end opens at once, for the stars and a photo.
         .fullScreenCover(isPresented: $cooking, onDismiss: {

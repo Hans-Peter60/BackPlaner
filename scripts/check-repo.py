@@ -40,6 +40,7 @@ CATALOGS = [
     "BakePlanner/BakePlannerWatch/Localizable.xcstrings",
     "Android/BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",
     "CookPlanner/CookPlanner/Localizable.xcstrings",
+    "CookPlanner/CookPlanner/AppShortcuts.xcstrings",
     "CookPlanner/CookPlannerWidgets/Localizable.xcstrings",
     "CookPlanner/CookPlannerShare/Localizable.xcstrings",
 ]
