@@ -36,6 +36,21 @@
                 <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
             </array>
         </dict>
+        <!-- The signed CookPlanner Pro purchase travels with a cloud
+             analysis, so the function can lift the monthly allowance; it
+             keeps a hash of it for a week, linked to the anonymous uid. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypePurchaseHistory</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
     </array>
     <key>NSPrivacyAccessedAPITypes</key>
     <array>

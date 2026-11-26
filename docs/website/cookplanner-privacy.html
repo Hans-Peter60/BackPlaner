@@ -120,6 +120,11 @@
     <tr><td>Abruf der Einstellungen für CookPlanner Pro (ob der Kauf angeboten wird und was er freischaltet)</td>
         <td>Google Firebase (Firestore), mit der pseudonymen Kennung und dem App-Check-Nachweis</td>
         <td>Beim Start und beim Zurückkehren in die App. Firestore speichert dabei nichts über dich.</td></tr>
+    <tr><td>Kaufbeleg von CookPlanner Pro (vom App Store signierte Transaktion)</td>
+        <td>Bei einer Rezeptanalyse zusätzlich an die Firebase Cloud Function, die eine Prüfsumme davon sieben Tage
+        speichert</td>
+        <td>Die Monatsgrenze für Analysen entfällt mit Pro. Der Beleg enthält Kennung und Datum des Kaufs, aber keinen
+        Namen und keine Zahlungsdaten.</td></tr>
     <tr><td>Einstellungen (Zeitbudget, Küche, Uhr-Modus, Vorlesen), Portionswahl, Sammlungen</td>
         <td>Auf dem Gerät und im iCloud-Schlüsselwertspeicher deiner Apple-ID</td>
         <td>Gleiche Einstellungen auf deinen eigenen Geräten. Ich habe darauf keinen Zugriff.</td></tr>
@@ -146,7 +151,10 @@
   <h3>In-App-Kauf „CookPlanner Pro“</h3>
   <p>Der Kauf läuft vollständig über den Apple App Store; Vertragspartner ist Apple. CookPlanner erhält weder deinen
   Namen noch Zahlungsdaten, sondern nur eine von Apple signierte Transaktion mit der Produktkennung und dem Kaufdatum,
-  die auf deinem Gerät geprüft wird.</p>
+  die auf deinem Gerät geprüft wird. Bei einer Rezeptanalyse schickt die App diesen Beleg mit; die Cloud Function
+  prüft seine Signatur gegen Apples Zertifikate und merkt sich zur pseudonymen Kennung sieben Tage lang eine
+  SHA-256-Prüfsumme, damit er nicht bei jeder Anfrage neu geprüft werden muss. Der Beleg selbst wird nicht
+  gespeichert.</p>
 
   <h3>Analyse von Rezepttexten</h3>
   <p>Der Text, den du analysieren lässt, wird verschlüsselt an die Cloud Function und von dort an Google Vertex AI
@@ -216,6 +224,11 @@
     <tr><td>Reading the settings for CookPlanner Pro (whether the purchase is offered and what it unlocks)</td>
         <td>Google Firebase (Firestore), with the pseudonymous ID and the App Check token</td>
         <td>At launch and when you return to the app. Firestore stores nothing about you in doing so.</td></tr>
+    <tr><td>Receipt of CookPlanner Pro (transaction signed by the App Store)</td>
+        <td>With a recipe analysis, also to the Firebase Cloud Function, which keeps a checksum of it for seven
+        days</td>
+        <td>Pro lifts the monthly limit on analyses. The receipt holds the ID and date of the purchase, but no name
+        and no payment details.</td></tr>
     <tr><td>Settings (time budget, kitchen, clock mode, read aloud), portion choice, collections</td>
         <td>On the device and in the iCloud key-value store of your Apple ID</td>
         <td>The same settings on your own devices. I have no access to them.</td></tr>
@@ -242,7 +255,9 @@
   <h3>In-app purchase "CookPlanner Pro"</h3>
   <p>The purchase runs entirely through Apple's App Store; your contract partner is Apple. CookPlanner receives
   neither your name nor payment details, only a transaction signed by Apple with the product ID and the purchase
-  date, which is checked on your device.</p>
+  date, which is checked on your device. With a recipe analysis the app sends this receipt along; the Cloud Function
+  checks its signature against Apple's certificates and keeps a SHA-256 checksum with the pseudonymous ID for seven
+  days, so it need not be checked on every request. The receipt itself is not stored.</p>
 
   <h3>Analysis of recipe texts</h3>
   <p>The text you have analysed is sent encrypted to the Cloud Function and from there to Google Vertex AI, where it
@@ -310,6 +325,11 @@
     <tr><td>Lecture des réglages de CookPlanner Pro (si l’achat est proposé et ce qu’il débloque)</td>
         <td>Google Firebase (Firestore), avec l’identifiant pseudonyme et le jeton App Check</td>
         <td>Au démarrage et au retour dans l’app. Firestore n’enregistre rien sur vous à cette occasion.</td></tr>
+    <tr><td>Reçu de CookPlanner Pro (transaction signée par l’App Store)</td>
+        <td>Lors d’une analyse de recette, aussi vers la Cloud Function Firebase, qui en garde une somme de contrôle
+        sept jours</td>
+        <td>Pro lève la limite mensuelle des analyses. Le reçu contient l’identifiant et la date de l’achat, mais ni
+        nom ni données de paiement.</td></tr>
     <tr><td>Réglages (temps imparti, cuisine, mode d’horloge, lecture à voix haute), portions, collections</td>
         <td>Sur l’appareil et dans le stockage clé-valeur iCloud de votre identifiant Apple</td>
         <td>Les mêmes réglages sur vos propres appareils. Je n’y ai pas accès.</td></tr>
@@ -336,7 +356,10 @@
   <h3>Achat intégré « CookPlanner Pro »</h3>
   <p>L’achat passe entièrement par l’App Store d’Apple ; votre cocontractant est Apple. CookPlanner ne reçoit ni
   votre nom ni vos données de paiement, seulement une transaction signée par Apple avec l’identifiant du produit et
-  la date d’achat, vérifiée sur votre appareil.</p>
+  la date d’achat, vérifiée sur votre appareil. Lors d’une analyse de recette, l’app joint ce reçu ; la Cloud
+  Function vérifie sa signature avec les certificats d’Apple et garde avec l’identifiant pseudonyme une somme de
+  contrôle SHA-256 pendant sept jours, pour ne pas le revérifier à chaque requête. Le reçu lui-même n’est pas
+  conservé.</p>
 
   <h3>Analyse des textes de recettes</h3>
   <p>Le texte que vous faites analyser est transmis chiffré à la Cloud Function puis à Google Vertex AI, où il est

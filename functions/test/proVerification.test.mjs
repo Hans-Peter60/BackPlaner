@@ -9,6 +9,7 @@ import {test} from "node:test";
 import assert from "node:assert/strict";
 import {
   compareBuilds,
+  cookPlannerPro,
   decidePro,
   hasProClaim,
   proClaimHash,
@@ -162,4 +163,40 @@ test("the purchase is checked before the app transaction", async () => {
 test("an empty claim is not Pro", async () => {
   const decision = await decidePro({}, {verifier: stubVerifier()});
   assert.deepEqual(decision, {isPro: false, reason: "no claim"});
+});
+
+const cookPurchase = {
+  bundleId: "de.hpm64625.CookPlanner",
+  productId: "de.hpm64625.CookPlanner.pro",
+  type: "Non-Consumable",
+};
+
+test("CookPlanner's purchase is Pro for CookPlanner, not for BakePlanner", async () => {
+  const cook = await decidePro({transaction: jws("tx")}, {
+    verifier: stubVerifier({transaction: cookPurchase}),
+    product: cookPlannerPro,
+  });
+  assert.deepEqual(cook, {isPro: true, reason: "purchase"});
+
+  const asBake = await decidePro({transaction: jws("tx")}, {
+    verifier: stubVerifier({transaction: cookPurchase}),
+  });
+  assert.equal(asBake.isPro, false);
+
+  const bakeAsCook = await decidePro({transaction: jws("tx")}, {
+    verifier: stubVerifier({transaction: validPurchase}),
+    product: cookPlannerPro,
+  });
+  assert.equal(bakeAsCook.isPro, false);
+});
+
+test("CookPlanner grandfathers nobody, whatever the threshold", async () => {
+  const decision = await decidePro({appTransaction: jws("app")}, {
+    verifier: stubVerifier({appTransaction: {
+      bundleId: "de.hpm64625.CookPlanner", originalApplicationVersion: "1"}}),
+    grandfatherBeforeBuild: "999",
+    product: cookPlannerPro,
+  });
+  assert.deepEqual(decision,
+    {isPro: false, reason: "appTransaction: no grandfathering"});
 });

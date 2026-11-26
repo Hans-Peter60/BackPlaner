@@ -21,6 +21,9 @@ struct DishWebImportView: View {
     @State private var isAnalyzing = false
     @State private var progress: LocalizedStringKey = "Seite wird geladen …"
     @State private var errorMessage: String?
+    /// The monthly allowance is used up: the alert offers Pro.
+    @State private var limitReached = false
+    @State private var showingPro = false
     @State private var result: DishImportResult?
     @State private var analysisTask: Task<Void, Never>?
     @FocusState private var editing: Bool
@@ -67,10 +70,17 @@ struct DishWebImportView: View {
                 }
             }
             .alert("Import fehlgeschlagen",
-                   isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+                   isPresented: Binding(get: { errorMessage != nil },
+                                        set: { if !$0 { errorMessage = nil; limitReached = false } })) {
+                if limitReached && !CookPro.shared.hasPurchased {
+                    Button("Pro freischalten") { showingPro = true }
+                }
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(errorMessage ?? "")
+            }
+            .sheet(isPresented: $showingPro) {
+                CookProPaywallView()
             }
             .task {
                 if startsAutomatically && normalizedURL != nil && !isAnalyzing && result == nil {
@@ -142,11 +152,12 @@ struct DishWebImportView: View {
                 let dish = CloudDishImport.dish(from: analysis.dish, source: .web,
                                                 fallbackName: page.title.isEmpty ? String(localized: "Gericht") : page.title)
                 result = DishImportResult(dish: dish, warnings: analysis.dish.warnings ?? [],
-                                          notice: analysis.freeImports?.notice())
+                                          notice: analysis.freeImports?.cookNotice)
             } catch is CancellationError {
                 return
             } catch {
                 errorMessage = error.localizedDescription
+                if case DishImportError.monthlyLimit = error { limitReached = true }
             }
         }
     }

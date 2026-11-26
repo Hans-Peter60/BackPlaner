@@ -15,7 +15,7 @@ Frei bleibt alles, was man zum Planen und Kochen gegen die Uhr braucht: Gerichte
 | Eigene Sammlungen | `.collections` | „Sammlung sichern“ im Filtermenü; Suche, Filter und die fünf festen Chips bleiben frei |
 | Plan als PDF | `.planPDF` | Drucker-Knopf auf dem Plan (`DishPlanView`) |
 | Gemessene Zeiten übernehmen | `.learnedTimes` | Knopf auf dem Plan; das Messen bleibt frei |
-| Mehr Rezeptanalysen | – | Monatskontingent in den Functions, siehe unten |
+| Mehr Rezeptanalysen | – | Monatskontingent in der Function `analyzeDishSteps`, siehe unten |
 
 ## Wie es gebaut ist
 
@@ -24,6 +24,13 @@ Frei bleibt alles, was man zum Planen und Kochen gegen die Uhr braucht: Gerichte
 - **Einstellungen:** Abschnitt „CookPlanner Pro“ ganz oben, sobald der Laden sichtbar ist.
 - **Ohne Dokument oder offline:** alles frei (fail open, wie BakePlanner). Die Firestore-Regeln erlauben angemeldeten Apps das Lesen von `config/*` schon – keine Regeländerung nötig.
 - **Zum Ausprobieren (nur Debug-Builds):** `-CookProRequired 1` (sperrt, Firestore überschreibt es nicht), `-CookProStoreVisible 1`, `-CookProPurchased 1|0`, `-CookProPaywall 1` (Kaufseite allein, für das Prüf-Bildschirmfoto). Echte Käufe aus Xcode: `CookPlanner/CookPlanner.storekit` unter **Product → Scheme → Edit Scheme… → Run → Options → StoreKit Configuration** wählen.
+
+## Kontingent für die Rezeptanalysen
+
+- **Functions:** `monetizationFor(appId)` in `functions/src/index.ts` ordnet CookPlanners Firebase-App-ID (`cookPlannerAppId`) dem Dokument `config/cookplannerMonetization` und dem Produkt `cookPlannerPro` zu (`functions/src/proVerification.ts`, ohne Großvaterregel); CookPlanner steht nicht mehr in `appIdsWithoutMonthlyLimit`. Gezählt wird wie bei BakePlanner in `aiRateLimits/{uid}` (CookPlanner hat eine eigene anonyme Kennung), das Stundenlimit (20) gilt immer. Tests: `cd functions && npm test`.
+- **Apple-ID fehlt noch:** `cookPlannerPro.appAppleId` ist `undefined`, bis CookPlanner in App Store Connect eine Apple-ID hat (App-Informationen → Apple-ID). Bis dahin werden nur Sandbox- und TestFlight-Käufe erkannt. **Vor dem Store-Start eintragen und deployen**, sonst zählt ein echter Kauf nicht gegen die Grenze.
+- **App:** `DishImportClient` schickt `CookPro.proClaim` (die signierte Transaktion) mit; die Antwort `freeImports` wird nach der Analyse als Hinweis gezeigt („Noch 2 …“, „Noch eine …“, „Das war die letzte …“, `cookNotice`), die erreichte Grenze als Meldung mit **Pro freischalten**.
+- **Deploy:** `cd functions && npm run deploy` – nur nach Rückfrage (CLAUDE.md). Unbedenklich, solange `freeImportsPerMonth` fehlt: dann gilt für CookPlanner keine Monatsgrenze, wie bisher.
 
 ## Schalter: Firestore `config/cookplannerMonetization`
 
@@ -42,8 +49,9 @@ Solange das Dokument fehlt, ist alles frei – so bleibt es auf Hans-Peters Ger�
 1. Gewerbe und Steuernummer, dann App Store Connect → **Vereinbarungen, Steuern und Bankverbindung**: Vertrag für bezahlte Apps (gilt für beide Apps).
 2. App Store Connect → CookPlanner → **In-App-Käufe**: „Nicht verbrauchbar“, Referenzname `CookPlanner Pro`, Produkt-ID `de.hpm64625.CookPlanner.pro`, Preis, Familienfreigabe an, Texte aus `CookPlanner-Store.md` (Abschnitt „In-App-Kauf“), Prüf-Bildschirmfoto der Kaufseite (`-CookProPaywall 1` mit StoreKit-Konfiguration, damit der Preis erscheint).
 3. In TestFlight mit einem Sandbox-Konto kaufen und wiederherstellen.
-4. Firestore: Dokument `config/cookplannerMonetization` anlegen mit `storeVisible: true`, `proRequired: true`, `freeImportsPerMonth: 5` (Kontingent erst, wenn die Functions mit der CookPlanner-Prüfung deployt sind).
-5. Version 1.0 mit dem Kauf zusammen zur Prüfung einreichen; Pro-Abschnitt der Beschreibung und der Prüfhinweis zum Kauf stehen in `CookPlanner-Store.md`.
+4. Apple-ID von CookPlanner in `functions/src/proVerification.ts` (`cookPlannerPro.appAppleId`) eintragen, Functions deployen.
+5. Firestore: Dokument `config/cookplannerMonetization` anlegen mit `storeVisible: true`, `proRequired: true`, `freeImportsPerMonth: 5`.
+6. Version 1.0 mit dem Kauf zusammen zur Prüfung einreichen; Pro-Abschnitt der Beschreibung und der Prüfhinweis zum Kauf stehen in `CookPlanner-Store.md`.
 
 ## Zurücknehmen
 
