@@ -13,6 +13,7 @@
 import BakePlannerCore
 import FirebaseAppCheck
 import FirebaseCore
+import PDFKit
 import SwiftUI
 import UIKit
 import UserNotifications
@@ -79,6 +80,26 @@ struct CookPlannerApp: App {
                         }
                         try? PlanPDFRenderer.render(plan, start: start)
                             .write(to: URL.documentsDirectory.appendingPathComponent("plan.pdf"))
+                    }
+            } else if UserDefaults.standard.bool(forKey: "YearbookPDF") {
+                // -YearbookPDF: the yearbook of the newest year from the records
+                // on this device into Documents/yearbook.pdf, plus a PNG per page,
+                // for checking the layout.
+                Text(verbatim: "yearbook.pdf")
+                    .onAppear {
+                        let runs = CookRunLog.shared.runs
+                        guard let year = KitchenYearbook.years(of: runs).first else { return }
+                        let document = CookYearbookDocument.load(year: year, cookName: "Hans-Peter")
+                        let data = CookYearbookRenderer.render(document)
+                        let folder = URL.documentsDirectory
+                        try? data.write(to: folder.appendingPathComponent("yearbook.pdf"))
+                        if let pdf = PDFDocument(data: data) {
+                            for index in 0..<pdf.pageCount {
+                                guard let page = pdf.page(at: index) else { continue }
+                                let image = page.thumbnail(of: CGSize(width: 1190, height: 1684), for: .mediaBox)
+                                try? image.pngData()?.write(to: folder.appendingPathComponent("yearbook-\(index + 1).png"))
+                            }
+                        }
                     }
             } else if let index = Int(UserDefaults.standard.string(forKey: "PlanSample") ?? ""),
                KitchenSampleDishes.all.indices.contains(index) {

@@ -45,6 +45,7 @@ struct CookHistoryView: View {
     @State private var searchText = ""
     @AppStorage("history.minimumRating") private var minimumRating = 0
     @State private var addingEntry = false
+    @State private var showingYearbook = false
     @State private var importingPhotos = false
 
     /// The records the search and the stars leave, newest first.
@@ -129,6 +130,8 @@ struct CookHistoryView: View {
                     Menu {
                         Button("Gekocht eintragen", systemImage: "square.and.pencil") { addingEntry = true }
                         Button("Aus Fotos übernehmen", systemImage: "photo.stack") { importingPhotos = true }
+                        Divider()
+                        Button("Kochjahr-Buch", systemImage: "book.closed") { showingYearbook = true }
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -140,6 +143,9 @@ struct CookHistoryView: View {
             }
             .sheet(isPresented: $addingEntry) {
                 CookEntryAddView()
+            }
+            .sheet(isPresented: $showingYearbook) {
+                CookYearbookView()
             }
             .sheet(isPresented: $importingPhotos) {
                 CookPhotoImportView()
