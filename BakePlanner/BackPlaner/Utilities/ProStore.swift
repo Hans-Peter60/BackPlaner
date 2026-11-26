@@ -154,6 +154,18 @@ final class ProStore {
         }
     }
 
+    /// Takes the result of a redeemed offer code. Codes are how someone gets
+    /// Pro for free: Hans-Peter creates them in App Store Connect (In-App
+    /// Purchases → BakePlanner Pro → Offer Codes, "free") and hands them
+    /// out. A redeemed code is a purchase like any other, signed by the App
+    /// Store, so the Functions accept it too. The sheet of iOS 26 reports
+    /// only success; the transaction arrives through `Transaction.updates`,
+    /// which `start()` follows, so the entitlements are read again here.
+    func redeemed(_ result: Result<Void, any Error>) async throws {
+        try result.get()
+        await refreshPurchases()
+    }
+
     /// Asks the App Store for the purchases of this Apple Account — the
     /// "Käufe wiederherstellen" button every store has to offer.
     func restore() async throws {

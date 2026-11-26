@@ -79,6 +79,28 @@
         }
       }
     },
+    "Code einlösen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code einlösen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeem code"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser un code"
+          }
+        }
+      }
+    },
     "Die Datei ist zu groß für eine BakePlanner-Rezeptdatei." : {
       "comment" : "Error message when a file picked for import is far larger than any backup the app writes.",
       "extractionState" : "manual",

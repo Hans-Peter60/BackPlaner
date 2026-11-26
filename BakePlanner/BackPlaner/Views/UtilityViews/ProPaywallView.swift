@@ -23,6 +23,7 @@ struct ProPaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var errorMessage: String?
     @State private var isRestoring = false
+    @State private var redeeming = false
 
     private var features: [ProFeature] {
         guard let highlighted else { return ProFeature.allCases }
@@ -107,6 +108,13 @@ struct ProPaywallView: View {
                             Task { await restore() }
                         }
                         .disabled(isRestoring || store.isPurchasing)
+
+                        // A code from Hans-Peter unlocks Pro for free.
+                        Button("Code einlösen") {
+                            redeeming = true
+                        }
+                        .disabled(isRestoring || store.isPurchasing)
+                        .accessibilityIdentifier("paywall.redeemCode")
                     }
                 } footer: {
                     VStack(alignment: .leading, spacing: 6) {
@@ -131,6 +139,16 @@ struct ProPaywallView: View {
                     ProgressView()
                         .padding(24)
                         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .offerCodeRedemption(isPresented: $redeeming) { result in
+                Task {
+                    do {
+                        try await ProStore.shared.redeemed(result)
+                        if ProStore.shared.hasPurchased { dismiss() }
+                    } catch {
+                        errorMessage = error.localizedDescription
+                    }
                 }
             }
             .alert("Kauf nicht möglich", isPresented: Binding(
