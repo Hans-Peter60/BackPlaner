@@ -22,6 +22,8 @@ public enum KitchenDishSource: String, Equatable, Hashable, Sendable, CaseIterab
     case photo
     /// Read from a web page.
     case web
+    /// Several dishes combined into one plan (KitchenMenu).
+    case menu
 }
 
 /// A dish as a set of work steps.
