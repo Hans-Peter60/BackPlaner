@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "%lld Gerichte übernommen, %lld waren schon da." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dishes added, %lld were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld plats ajoutés, %lld étaient déjà là."
+          }
+        }
+      }
+    },
+    "%lld Gerichte übernommen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dishes added."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld plats ajoutés."
+          }
+        }
+      }
+    },
     "%lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -69,6 +103,40 @@
         }
       }
     },
+    "0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 minutes for turning after searing, 3 for rested meat, 10 for a sauce kept warm."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 minute pour retourner après la saisie, 3 pour une viande reposée, 10 pour une sauce tenue au chaud."
+          }
+        }
+      }
+    },
+    "Abbrechen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
     "Ablauf" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -86,6 +154,91 @@
         }
       }
     },
+    "Alle %lld Gerichte waren schon da." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All %lld dishes were already there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les %lld plats étaient déjà là."
+          }
+        }
+      }
+    },
+    "allein %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "alone %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seul %lld min"
+          }
+        }
+      }
+    },
+    "Als Vorlage übernehmen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use as a template"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser comme modèle"
+          }
+        }
+      }
+    },
+    "Auf alle Komponenten warten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wait for every component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendre tous les composants"
+          }
+        }
+      }
+    },
+    "Bearbeiten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier"
+          }
+        }
+      }
+    },
     "Beispiele" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -99,6 +252,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exemples"
+          }
+        }
+      }
+    },
+    "Danach allein: %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Then on its own: %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite seul : %lld min"
           }
         }
       }
@@ -137,6 +307,23 @@
         }
       }
     },
+    "Dauer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée"
+          }
+        }
+      }
+    },
     "Der Plan geht nicht auf." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -150,6 +337,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le plan ne tient pas."
+          }
+        }
+      }
+    },
+    "Die Datei ist keine CookPlanner-Datei oder beschädigt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file is not a CookPlanner file or is damaged."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier n’est pas un fichier CookPlanner ou il est endommagé."
+          }
+        }
+      }
+    },
+    "Die Datei stammt aus einer neueren Version von CookPlanner. Bitte die App aktualisieren." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file comes from a newer version of CookPlanner. Please update the app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier provient d’une version plus récente de CookPlanner. Veuillez mettre l’app à jour."
           }
         }
       }
@@ -239,6 +460,57 @@
         }
       }
     },
+    "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new step follows its component’s previous step until you change the choice. Plating waits for the last step of every component."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle étape suit l’étape précédente de son composant jusqu’à ce que vous changiez le choix. Le dressage attend la dernière étape de chaque composant."
+          }
+        }
+      }
+    },
+    "Einheit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unité"
+          }
+        }
+      }
+    },
+    "Einheit wählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir l’unité"
+          }
+        }
+      }
+    },
     "Einstellungen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -290,6 +562,108 @@
         }
       }
     },
+    "Für %lld Personen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serves %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour %lld personnes"
+          }
+        }
+      }
+    },
+    "Für die Einkaufsliste; im Schritt wählst Du, was dort in die Hand genommen wird." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For the shopping list; in a step you choose what is taken in hand there."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour la liste de courses ; dans une étape, vous choisissez ce qui y est pris en main."
+          }
+        }
+      }
+    },
+    "Gerät" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poste"
+          }
+        }
+      }
+    },
+    "Gericht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plat"
+          }
+        }
+      }
+    },
+    "Gericht löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le plat"
+          }
+        }
+      }
+    },
+    "Gericht löschen?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete dish?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le plat ?"
+          }
+        }
+      }
+    },
     "Gerichte" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -303,6 +677,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plats"
+          }
+        }
+      }
+    },
+    "Gerichte importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer des plats"
+          }
+        }
+      }
+    },
+    "Gerichte sichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up dishes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegarder les plats"
           }
         }
       }
@@ -341,6 +749,40 @@
         }
       }
     },
+    "Hände: %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands: %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains : %lld min"
+          }
+        }
+      }
+    },
+    "Hände: Minuten, in denen der Koch gebunden ist. Danach allein: kochen, backen, ruhen ohne Koch." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands: minutes the cook is tied up. Then on its own: cooking, baking, resting without the cook."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains : minutes où le cuisinier est occupé. Ensuite seul : cuisson, four, repos sans cuisinier."
+          }
+        }
+      }
+    },
     "Herd" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -354,6 +796,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plaque"
+          }
+        }
+      }
+    },
+    "Hinweis" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remarque"
+          }
+        }
+      }
+    },
+    "Höchstens %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At most %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au plus %lld min"
+          }
+        }
+      }
+    },
+    "Jeder Schritt wartet nur auf die Schritte, die bei ihm angegeben sind; ohne Angabe kann er sofort beginnen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A step waits only for the steps named on it; without any it can start right away."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une étape n’attend que les étapes indiquées pour elle ; sans indication, elle peut commencer tout de suite."
+          }
+        }
+      }
+    },
+    "Keins" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun"
           }
         }
       }
@@ -392,6 +902,40 @@
         }
       }
     },
+    "Komponente" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composant"
+          }
+        }
+      }
+    },
+    "Komponente wählen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose component"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir le composant"
+          }
+        }
+      }
+    },
     "Küche" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -405,6 +949,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuisine"
+          }
+        }
+      }
+    },
+    "Liegt höchstens %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waits at most %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attend au plus %lld min"
+          }
+        }
+      }
+    },
+    "Löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        }
+      }
+    },
+    "Mehr" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus"
           }
         }
       }
@@ -426,6 +1021,142 @@
         }
       }
     },
+    "Menge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité"
+          }
+        }
+      }
+    },
+    "Menge und Einheit wie im Rezept; ohne Menge für „Salz“ oder „Pfeffer“." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount and unit as in the recipe; no amount for “salt” or “pepper”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantité et unité comme dans la recette ; sans quantité pour « sel » ou « poivre »."
+          }
+        }
+      }
+    },
+    "Mindestens %lld Min." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Au moins %lld min"
+          }
+        }
+      }
+    },
+    "Muss bald weitergehen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Must go on soon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doit continuer bientôt"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom"
+          }
+        }
+      }
+    },
+    "Neue Zutat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvel ingrédient"
+          }
+        }
+      }
+    },
+    "Neuer Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle étape"
+          }
+        }
+      }
+    },
+    "Neues Gericht" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau plat"
+          }
+        }
+      }
+    },
     "Ofen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -443,6 +1174,23 @@
         }
       }
     },
+    "Ofen %lld °C" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven %lld °C"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Four %lld °C"
+          }
+        }
+      }
+    },
     "Öfen: %lld" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -456,6 +1204,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Ohne Einheit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No unit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans unité"
           }
         }
       }
@@ -511,6 +1276,23 @@
         }
       }
     },
+    "Platte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burner"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feu"
+          }
+        }
+      }
+    },
     "Platten: %lld" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -528,6 +1310,176 @@
         }
       }
     },
+    "Portionen nicht angegeben" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Servings not given"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portions non indiquées"
+          }
+        }
+      }
+    },
+    "Schritt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étape"
+          }
+        }
+      }
+    },
+    "Schritt hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une étape"
+          }
+        }
+      }
+    },
+    "Schritt löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer l’étape"
+          }
+        }
+      }
+    },
+    "Schritte" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étapes"
+          }
+        }
+      }
+    },
+    "Sichern" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
+          }
+        }
+      }
+    },
+    "Teilen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager"
+          }
+        }
+      }
+    },
+    "Wartet auf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waits for"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attend"
+          }
+        }
+      }
+    },
+    "Was in diesem Schritt in die Hand genommen wird; im Kochmodus steht es unter dem Schritt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is taken in hand in this step; cook mode shows it under the step."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui est pris en main dans cette étape ; le mode cuisine l’affiche sous l’étape."
+          }
+        }
+      }
+    },
+    "Was zu tun ist" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What to do"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qu’il faut faire"
+          }
+        }
+      }
+    },
     "Zeitbudget" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -541,6 +1493,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temps imparti"
+          }
+        }
+      }
+    },
+    "Zeitspanne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time span"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fourchette"
+          }
+        }
+      }
+    },
+    "Zutat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédient"
+          }
+        }
+      }
+    },
+    "Zutat hinzufügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un ingrédient"
+          }
+        }
+      }
+    },
+    "Zutat löschen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete ingredient"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer l’ingrédient"
+          }
+        }
+      }
+    },
+    "Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients"
+          }
+        }
+      }
+    },
+    "Zutaten dieses Schritts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients of this step"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrédients de cette étape"
           }
         }
       }

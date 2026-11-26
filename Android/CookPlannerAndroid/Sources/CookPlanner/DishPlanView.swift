@@ -1,4 +1,5 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
 
 /// A dish's plan: the verdict with its reason and figures, the components
@@ -6,7 +7,15 @@ import SwiftUI
 struct DishPlanView: View {
     let library: CookLibrary
     let dishID: String
+    @State var editing = KitchenDish(name: "", tasks: [])
+    @State var showsEditor = false
+    @State var confirmsDeletion = false
+    @State var exportURL: URL?
+    @State var showsExporter = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
+
+    private var isOwn: Bool { library.ownDishes.contains { $0.id == dishID } }
 
     var body: some View {
         ZStack {
@@ -33,6 +42,52 @@ struct DishPlanView: View {
             }
         }
         .navigationTitle(String(localized: "Plan", bundle: .module))
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    if isOwn {
+                        Button(String(localized: "Bearbeiten", bundle: .module)) {
+                            if let dish = library.dish(id: dishID) {
+                                editing = dish
+                                showsEditor = true
+                            }
+                        }
+                        Button(String(localized: "Teilen", bundle: .module)) {
+                            if let dish = library.dish(id: dishID) {
+                                exportURL = library.exportFile(of: [dish])
+                                if exportURL != nil { showsExporter = true }
+                            }
+                        }
+                        Button(String(localized: "Gericht löschen", bundle: .module), role: .destructive) {
+                            confirmsDeletion = true
+                        }
+                    } else {
+                        Button(String(localized: "Als Vorlage übernehmen", bundle: .module)) {
+                            if let dish = library.dish(id: dishID) {
+                                editing = library.template(from: dish)
+                                showsEditor = true
+                            }
+                        }
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+                .accessibilityLabel(Text(String(localized: "Mehr", bundle: .module)))
+            }
+        }
+        .appSheet(isPresented: $showsEditor) {
+            DishEditorView(library: library, dish: editing) { dish in
+                library.save(dish)
+            }
+        }
+        .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .alert(String(localized: "Gericht löschen?", bundle: .module), isPresented: $confirmsDeletion) {
+            Button(String(localized: "Löschen", bundle: .module), role: .destructive) {
+                library.delete(id: dishID)
+                dismiss()
+            }
+            Button(String(localized: "Abbrechen", bundle: .module), role: .cancel) {}
+        }
     }
 
     private func verdictCard(_ plan: DishPlan) -> some View {
