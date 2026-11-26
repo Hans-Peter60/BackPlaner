@@ -40,6 +40,7 @@ CATALOGS = [
     "BakePlanner/BakePlannerWatch/Localizable.xcstrings",
     "Android/BakePlannerAndroid/Sources/BakePlanner/Resources/Localizable.xcstrings",
     "CookPlanner/CookPlanner/Localizable.xcstrings",
+    "Android/CookPlannerAndroid/Sources/CookPlanner/Resources/Localizable.xcstrings",
     "CookPlanner/CookPlanner/AppShortcuts.xcstrings",
     "CookPlanner/CookPlannerWidgets/Localizable.xcstrings",
     "CookPlanner/CookPlannerShare/Localizable.xcstrings",
@@ -214,6 +215,13 @@ def check_xcproj() -> list[str]:
     return findings
 
 
+def check_cookplanner_android_catalog() -> list[str]:
+    """The Android CookPlanner catalog matches its sources (scripts/cookplanner/android-catalog.py)."""
+    result = subprocess.run([sys.executable, str(ROOT / "scripts/cookplanner/android-catalog.py"), "--check"],
+                            cwd=ROOT, capture_output=True, text=True)
+    return [line for line in result.stdout.splitlines() if line.strip()]
+
+
 def check_manual() -> list[str]:
     website = "docs/website"
     result = subprocess.run([sys.executable, str(ROOT / "docs/bakeplanner/build-manual-html.py")],
@@ -234,6 +242,7 @@ def main() -> int:
         ("Package data", check_package_data),
         ("Xcode project", check_project),
         ("CookPlanner project", check_xcproj),
+        ("CookPlanner Android catalog", check_cookplanner_android_catalog),
         ("User manual", check_manual),
     ]
     failed = False
