@@ -19,6 +19,8 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 - Schneller Compiler-Check: `cd Android/CookPlannerAndroid && skip android build` (Swift für Android, wenige Sekunden). Nach dem Verschieben von Paketen vorher `swift package reset`.
 - APK für das Pixel: `zsh -lc 'ANDROID_HOME=$HOME/Library/Android/sdk skip export --release --no-ios --arch aarch64 -d .build/export'` (gut sechs Minuten), dann `~/Library/Android/sdk/platform-tools/adb install -r .build/export/CookPlanner-release.apk` und `adb shell am start -n de.hpm64625.cookplanner/cook.planner.MainActivity`. Ohne `Android/app/keystore.properties` signiert Gradle mit dem Debug-Schlüssel – für den Store kommt ein eigener Upload-Schlüssel (siehe unten).
 - Texte: nach jeder neuen `String(localized: "…", bundle: .module)` `python3 scripts/cookplanner/android-catalog.py`; fehlt eine Übersetzung im iPhone-Katalog, meldet das Skript sie, dann en/fr von Hand in den Android-Katalog schreiben und das Skript noch einmal laufen lassen.
+- **Versionen wie BakePlanner:** `Package.resolved` ist von BakePlanner Android übernommen (skip 1.9.20, skip-kit 1.1.6 …), damit beide Apps dieselben Skip-Stände nutzen. Nach `skip init` zog das Gerüst neuere Stände.
+- **Sichern ohne Rückmeldung:** `withDocumentExporter` mit `onCompletion` stürzte nach dem Speichern ab (SIGTRAP in SkipBridges `Result`-Übergabe, skip-kit 1.1.6 und 1.1.7). Die App gibt deshalb keine Rückmeldung an; Androids Dialog bestätigt selbst. Mit `contentType: .data` bleibt der Name `….cookplanner`, mit `.json` hängte Android `.json` an.
 - Alle Stolpersteine von BakePlanner Android gelten auch hier ([Android-Uebergabe.md](../bakeplanner/Android-Uebergabe.md), Abschnitt „Android und Skip“): rund 80 bekannte SF-Symbole, `@State` nicht `private`, `@Observable` braucht `import SkipFuse`, Blätter mit `appSheet`, Sprache über `AppSettings.systemLocale`, `accessibilityLabel` mit `Text(…)`, kein `monospacedDigit()`.
 
 ## Schritte
@@ -26,7 +28,7 @@ Stand 26.11.2026. Entscheidung Hans-Peter: CookPlanner kommt auch auf Android, u
 | Schritt | Inhalt | Stand |
 |---|---|---|
 | 1 | Grundgerüst: Gerichteliste (eigene und Beispiele) mit Urteil, Plan mit Urteil, Handarbeit je Komponente und Ablauf, Einstellungen (Budget, Platten, Öfen) | erledigt 26.11., auf dem Pixel 7 geprüft |
-| 2 | Gerichte anlegen, bearbeiten, löschen; Sicherung und Import als `.cookplanner`-Datei (die Brücke zum iPhone, iCloud gibt es auf Android nicht) | offen |
+| 2 | Gerichte anlegen, bearbeiten, löschen, ein Beispiel „Als Vorlage übernehmen“; Editor mit Zutaten und Schritten auf eigenen Seiten (Dauer, Zeitspanne, Gerät, Ofentemperatur, „Muss bald weitergehen“, Zutaten des Schritts, „Wartet auf“); Sichern aller Gerichte und Teilen eines Gerichts als `.cookplanner`-Datei über Androids „Speichern unter“, Import über die Dateiauswahl (bestehende bleiben, wie auf dem iPhone) | erledigt 26.11., auf dem Pixel 7 geprüft |
 | 3 | Kochmodus: Challenge, Training, Entspannt; Abhaken, Topf-Haken, Rücknahme, Neuplanung, gesicherter Lauf; Mitteilungen je Schritt (eigener Android-Code wie BakePlanners `Reminders.kt`) | offen |
 | 4 | Verlauf mit Stoppuhr-Protokollen, Einkaufsliste, Portionen, Filter | offen |
 | 5 | Import aus Text und Webseiten über die Function `analyzeDishSteps` (skip-firebase) | offen, braucht Firebase (unten) |

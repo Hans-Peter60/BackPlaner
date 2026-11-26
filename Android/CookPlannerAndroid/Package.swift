@@ -16,6 +16,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/skiptools/skip.git", from: "1.9.20"),
         .package(url: "https://github.com/skiptools/skip-fuse-ui.git", from: "1.0.0"),
+        // The system's file picker and "save as" (SwiftUI's fileImporter is
+        // a placeholder on Android).
+        .package(url: "https://github.com/skiptools/skip-kit.git", from: "1.1.6"),
         // Symlinks next to this folder, as for BakePlanner: Skip's export
         // resolves "../../" in the generated package wrongly.
         .package(path: "../BakePlannerCore"),
@@ -24,6 +27,7 @@ let package = Package(
     targets: [
         .target(name: "CookPlanner", dependencies: [
             .product(name: "SkipFuseUI", package: "skip-fuse-ui"),
+            .product(name: "SkipKit", package: "skip-kit"),
             .product(name: "BakePlannerCore", package: "BakePlannerCore"),
             .product(name: "CookPlannerStorage", package: "CookPlannerStorage"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),

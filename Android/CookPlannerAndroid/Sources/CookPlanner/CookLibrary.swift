@@ -45,6 +45,79 @@ final class CookLibrary {
         }
     }
 
+    /// Keeps a dish; false (with `lastError`) when the database refuses.
+    @discardableResult
+    func save(_ dish: KitchenDish) -> Bool {
+        do {
+            var own = dish
+            if own.source == .sample { own.source = .manual }
+            try store?.save(own)
+            dishes = try store?.dishes() ?? dishes
+            return true
+        } catch {
+            lastError = error.localizedDescription
+            return false
+        }
+    }
+
+    func delete(id: String) {
+        do {
+            try store?.delete(id: id)
+            dishes = try store?.dishes() ?? dishes
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// A copy of an example (or any dish) to change as one's own.
+    func template(from dish: KitchenDish) -> KitchenDish {
+        var copy = dish
+        copy.id = UUID().uuidString
+        copy.source = .manual
+        copy.createdAt = Date()
+        return copy
+    }
+
+    /// The file of `dishes` in the cache folder, for the system's "save
+    /// as"; nil when it cannot be written. The format is the iPhone's
+    /// (KitchenDishFile), so the file moves dishes between the platforms.
+    func exportFile(of dishes: [KitchenDish]) -> URL? {
+        do {
+            let data = try KitchenDishFile(dishes: dishes).encoded()
+            let folder = URL.cachesDirectory.appendingPathComponent("exports", isDirectory: true)
+            try? FileManager.default.removeItem(at: folder)
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: dishes))
+            try data.write(to: url)
+            return url
+        } catch {
+            logger.error("could not write the dish file: \(error)")
+            return nil
+        }
+    }
+
+    /// Reads a .cookplanner file and keeps the dishes that are new; the
+    /// sentence the alert shows. What is there already stays as it is.
+    func importFile(at url: URL) -> String {
+        let file: KitchenDishFile
+        do {
+            file = try KitchenDishFile.decode(try Data(contentsOf: url))
+        } catch KitchenDishFileError.unsupportedVersion {
+            return String(localized: "Die Datei stammt aus einer neueren Version von CookPlanner. Bitte die App aktualisieren.", bundle: .module)
+        } catch {
+            return String(localized: "Die Datei ist keine CookPlanner-Datei oder beschädigt.", bundle: .module)
+        }
+        let result = KitchenDishTransfer.merge(file.kitchenDishes, into: dishes)
+        var kept = 0
+        for dish in result.added where save(dish) { kept += 1 }
+        if kept == 0 && result.alreadyThere > 0 {
+            return String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.", bundle: .module)
+        } else if result.alreadyThere > 0 {
+            return String(localized: "\(kept) Gerichte übernommen, \(result.alreadyThere) waren schon da.", bundle: .module)
+        }
+        return String(localized: "\(kept) Gerichte übernommen.", bundle: .module)
+    }
+
     /// The cook's own dishes, newest first.
     var ownDishes: [KitchenDish] {
         dishes.filter { $0.source != .sample }

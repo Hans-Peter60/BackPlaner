@@ -1,4 +1,5 @@
 import BakePlannerCore
+import SkipKit
 import SwiftUI
 
 /// The root: the dish list in a navigation stack, in the app's language.
@@ -32,6 +33,17 @@ struct ContentView: View {
 struct DishListView: View {
     let library: CookLibrary
     @State var showsSettings = false
+    /// The dish in the editor; kept apart from the sheet's visibility.
+    @State var editing = KitchenDish(name: "", tasks: [])
+    @State var showsEditor = false
+    @State var showsPicker = false
+    @State var pickedURL: URL?
+    @State var pickedName: String?
+    @State var pickedType: String?
+    @State var exportURL: URL?
+    @State var showsExporter = false
+    @State var report = ""
+    @State var showsReport = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -41,17 +53,65 @@ struct DishListView: View {
         }
         .navigationTitle(String(localized: "Gerichte", bundle: .module))
         .toolbar {
+            // Android shows two items at the top; the rest goes in the menu.
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    showsSettings = true
+                    editing = KitchenDish(name: "", createdAt: Date(), tasks: [])
+                    showsEditor = true
                 } label: {
-                    Image(systemName: "gearshape")
+                    Image(systemName: "plus")
                 }
-                .accessibilityLabel(Text(String(localized: "Einstellungen", bundle: .module)))
+                .accessibilityLabel(Text(String(localized: "Neues Gericht", bundle: .module)))
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button(String(localized: "Gerichte sichern", bundle: .module)) {
+                        exportURL = library.exportFile(of: library.ownDishes)
+                        if exportURL != nil { showsExporter = true }
+                    }
+                    .disabled(library.ownDishes.isEmpty)
+                    Button(String(localized: "Gerichte importieren", bundle: .module)) {
+                        showsPicker = true
+                    }
+                    Button(String(localized: "Einstellungen", bundle: .module)) {
+                        showsSettings = true
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+                .accessibilityLabel(Text(String(localized: "Mehr", bundle: .module)))
             }
         }
         .appSheet(isPresented: $showsSettings) {
             KitchenSettingsView(library: library)
+        }
+        .appSheet(isPresented: $showsEditor) {
+            DishEditorView(library: library, dish: editing) { dish in
+                library.save(dish)
+            }
+        }
+        .withDocumentPicker(isPresented: $showsPicker,
+                            allowedContentTypes: [.json, .data],
+                            selectedDocumentURL: $pickedURL,
+                            selectedFilename: $pickedName,
+                            selectedFileMimeType: $pickedType)
+        .onChange(of: pickedURL) { _, url in
+            guard let url else { return }
+            pickedURL = nil
+            report = library.importFile(at: url)
+            showsReport = true
+        }
+        // No completion: handing SkipKit's Result back from Kotlin to Swift
+        // crashed the app (SIGTRAP in SkipBridge's Pair bridging, skip-kit
+        // 1.1.6/1.1.7, 26.11.2026). The system's "save as" confirms itself.
+        .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        .alert(String(localized: "Gerichte", bundle: .module), isPresented: $showsReport) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text(report)
         }
     }
 
