@@ -1,4 +1,6 @@
 import BakePlannerCore
+import CookPlannerMedia
+import SkipKit
 import Foundation
 import SwiftUI
 #if os(Android)
@@ -99,11 +101,14 @@ enum DishImportClient {
     }
 }
 
-/// A recipe from pasted text or from a web page, read into work steps by
-/// the cloud AI and handed to the editor for the cook to check (the
-/// iPhone's DishTextImportView and DishWebImportView in one sheet).
+/// A recipe from pasted text, from photos or from a web page, read into
+/// work steps by the cloud AI and handed to the editor for the cook to
+/// check (the iPhone's DishTextImportView and DishWebImportView in one
+/// sheet). Photos are read on the phone (TextReader, ML Kit); their text
+/// lands in the field, where the cook checks it before the analysis.
 struct DishImportView: View {
     let fromWeb: Bool
+    var fromPhotos = false
     let onImported: (KitchenDish) -> Void
     @State var text = ""
     @State var address = ""
@@ -112,6 +117,13 @@ struct DishImportView: View {
     @State var result: KitchenDish?
     @State var warnings: [String] = []
     @State var notice: String?
+    @State var takesPhoto = false
+    @State var picksPhoto = false
+    @State var pickedURL: URL?
+    @State var pickedName: String?
+    @State var pickedType: String?
+    @State var isReading = false
+    @State var reader = TextReader()
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
 
@@ -147,6 +159,23 @@ struct DishImportView: View {
                         }
                     }
                 } else {
+                    if fromPhotos {
+                        Section {
+                            if isReading {
+                                HStack(spacing: 10) {
+                                    ProgressView()
+                                    Text(String(localized: "Text wird erkannt …", bundle: .module))
+                                }
+                            } else {
+                                Button(String(localized: "Foto aufnehmen", bundle: .module)) { takesPhoto = true }
+                                Button(String(localized: "Foto auswählen", bundle: .module)) { picksPhoto = true }
+                            }
+                        } header: {
+                            Text(String(localized: "Fotos", bundle: .module))
+                        } footer: {
+                            Text(String(localized: "Ein Kochbuch oder ein Zettel: Der Text wird auf dem Telefon erkannt und erscheint im Feld, wo Du ihn prüfen kannst. Mehrere Seiten nacheinander aufnehmen. Die Fotos verlassen das Gerät nicht.", bundle: .module))
+                        }
+                    }
                     Section {
                         if fromWeb {
                             TextField(String(localized: "Adresse der Rezeptseite", bundle: .module), text: $address)
@@ -180,7 +209,8 @@ struct DishImportView: View {
                 }
             }
             .navigationTitle(fromWeb ? String(localized: "Aus Webseite importieren", bundle: .module)
-                                     : String(localized: "Aus Text importieren", bundle: .module))
+                             : fromPhotos ? String(localized: "Aus Fotos importieren", bundle: .module)
+                             : String(localized: "Aus Text importieren", bundle: .module))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "Abbrechen", bundle: .module)) { dismiss() }
@@ -188,6 +218,50 @@ struct DishImportView: View {
             }
         }
         .tint(Palette.accent(colorScheme))
+        .cameraPicker(isPresented: $takesPhoto) { data in
+            readText(on: data)
+        }
+        .withDocumentPicker(isPresented: $picksPhoto, allowedContentTypes: [.image],
+                            selectedDocumentURL: $pickedURL, selectedFilename: $pickedName,
+                            selectedFileMimeType: $pickedType)
+        .onChange(of: pickedURL) { _, url in
+            guard let url else { return }
+            pickedURL = nil
+            if let raw = try? Data(contentsOf: url), let data = PhotoShrinker.pickedPhoto(raw) {
+                readText(on: data)
+            }
+        }
+    }
+
+    /// Reads the photo's text on the phone and adds it to the field, a
+    /// blank line after what is there already.
+    private func readText(on data: Data) {
+        let file = URL.temporaryDirectory.appendingPathComponent("import-\(UUID().uuidString).jpg")
+        do {
+            try data.write(to: file)
+        } catch {
+            failure = error.localizedDescription
+            return
+        }
+        failure = nil
+        isReading = true
+        reader.read(path: file.path)
+        Task {
+            // The reader answers by its state; a page takes a second or two.
+            for _ in 0..<120 {
+                try? await Task.sleep(nanoseconds: 250_000_000)
+                if reader.state != "reading" { break }
+            }
+            isReading = false
+            try? FileManager.default.removeItem(at: file)
+            let found = reader.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if reader.state == "done" && !found.isEmpty {
+                let current = text.trimmingCharacters(in: .whitespacesAndNewlines)
+                text = current.isEmpty ? found : current + "\n\n" + found
+            } else {
+                failure = String(localized: "Auf den Fotos wurde kein Text erkannt.", bundle: .module)
+            }
+        }
     }
 
     /// The address as typed, as an https address.
@@ -203,7 +277,7 @@ struct DishImportView: View {
             do {
                 var input = text
                 var fallback = String(localized: "Gericht", bundle: .module)
-                var source = KitchenDishSource.text
+                var source = fromPhotos ? KitchenDishSource.photo : KitchenDishSource.text
                 if fromWeb, let url = normalizedURL {
                     let page = try await RecipeWebPageLoader.load(url)
                     input = page.analysisText
