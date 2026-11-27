@@ -75,6 +75,15 @@ public enum HelpLinks {
         URL(string: "\(site)cookplanner-privacy.html#\(languageCode)")!
     }
 
+    /// The manual of CookPlanner's iPhone and iPad app.
+    public static var cookPlannerManual: URL {
+        cookPlannerManual(for: languageCode)
+    }
+
+    public static func cookPlannerManual(for languageCode: String) -> URL {
+        URL(string: "\(site)cookplanner-manual-\(languageCode).html")!
+    }
+
     /// The manual of CookPlanner's Android app.
     public static var cookPlannerAndroidManual: URL {
         cookPlannerAndroidManual(for: languageCode)

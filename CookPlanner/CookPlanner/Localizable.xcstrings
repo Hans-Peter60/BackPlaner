@@ -1806,6 +1806,28 @@
         }
       }
     },
+    "Benutzerhandbuch" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benutzerhandbuch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User manual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuel de l’utilisateur"
+          }
+        }
+      }
+    },
     "Bestzeit %lld Min." : {
       "localizations" : {
         "de" : {
@@ -2961,7 +2983,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The steps open in the editor; nothing is saved until “Sichern”."
+            "value" : "The steps open in the editor; nothing is saved until “Save”."
           }
         },
         "fr" : {

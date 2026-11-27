@@ -690,6 +690,9 @@ struct KitchenSettingsView: View {
                 // they open in Safari, as in BakePlanner. Privacy policy and
                 // legal notice have to be reachable from inside the app.
                 Section {
+                    Link(destination: HelpLinks.cookPlannerManual) {
+                        Label("Benutzerhandbuch", systemImage: "book")
+                    }
                     Link(destination: HelpLinks.cookPlannerSupport) {
                         Label("Hilfe und Kontakt", systemImage: "questionmark.circle")
                     }
