@@ -52,6 +52,23 @@
         }
       }
     },
+    "%@ wartet %lld Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ waits %lld minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ attend %lld minutes"
+          }
+        }
+      }
+    },
     "%@ · die Zeit ist um" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -82,6 +99,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ · à faire maintenant"
+          }
+        }
+      }
+    },
+    "%@: %lld statt %lld Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %lld instead of %lld minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ : %lld au lieu de %lld minutes"
           }
         }
       }
@@ -847,6 +881,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Analyser"
+          }
+        }
+      }
+    },
+    "Auch mit den kürzesten Garzeiten fehlen %lld Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Even with the shortest cooking times %lld minutes are missing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Même avec les temps de cuisson les plus courts, il manque %lld minutes"
           }
         }
       }
@@ -3775,6 +3826,23 @@
         }
       }
     },
+    "Mit diesen Garzeiten passt es in %lld Minuten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With these cooking times it fits in %lld minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec ces temps de cuisson, ça tient en %lld minutes"
+          }
+        }
+      }
+    },
     "Mit Ofen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4761,6 +4829,23 @@
         }
       }
     },
+    "So passt es" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How it fits"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ça tienne"
+          }
+        }
+      }
+    },
     "Sonstiges" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5165,6 +5250,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choisissez un plat pour chaque service."
+          }
+        }
+      }
+    },
+    "Warm halten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep warm"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenir au chaud"
           }
         }
       }
